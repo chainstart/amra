@@ -1,0 +1,84 @@
+- problem_id: triangle-dissection-19
+  title: Triangle Dissection into 19 Congruent Triangles
+  source: Erdős Problems
+  statement: Determine whether an equilateral triangle can be dissected into 19 congruent
+    triangles.
+  domain: geometry
+  tags:
+  - geometry
+  - finite_case
+  - computational_search
+  - formalization_candidate
+  open_problem: true
+  formalized: 'no'
+  notes: The local triangle-dissection project identifies n=19 as the main historically
+    significant target after the n=7 and n=11 impossibility results.
+  references:
+  - https://www.erdosproblems.com/634
+  - /home/biostar/work/formal-math/erdos-634-triangle/README.md
+  hypotheses:
+  - A viable route starts by formalizing known impossibility lemmas before any search
+    for n=19.
+  recommended_strategy:
+  - Recover Tutte and Beeson arguments as reusable lemmas.
+  - Represent admissible dissection constraints as finite certificates.
+  - Treat any search output as a Lean-checkable certificate rather than a raw script
+    result.
+  metadata:
+    bank_name: triangle_dissection_track
+    statement_quality: curated
+    local_project_dir: /home/biostar/work/formal-math/erdos-634-triangle
+    local_readme_path: /home/biostar/work/formal-math/erdos-634-triangle/README.md
+- problem_id: triangle-dissection-13
+  title: Triangle Dissection into 13 Congruent Triangles
+  source: Erdős Problems
+  statement: Determine whether an equilateral triangle can be dissected into 13 congruent
+    triangles.
+  domain: geometry
+  tags:
+  - geometry
+  - finite_case
+  - computational_search
+  open_problem: true
+  formalized: 'no'
+  notes: The local notes list n=13 as another open finite case that may be easier
+    than the historically famous n=19 target.
+  references:
+  - https://www.erdosproblems.com/634
+  - /home/biostar/work/formal-math/erdos-634-triangle/README.md
+  hypotheses:
+  - A finite search with strong structural constraints may be more realistic than
+    a general proof attack.
+  recommended_strategy:
+  - Reuse the same constraint language and certificate pipeline as the n=19 case.
+  metadata:
+    bank_name: triangle_dissection_track
+    statement_quality: curated
+    local_project_dir: /home/biostar/work/formal-math/erdos-634-triangle
+    local_readme_path: /home/biostar/work/formal-math/erdos-634-triangle/README.md
+- problem_id: triangle-dissection-17
+  title: Triangle Dissection into 17 Congruent Triangles
+  source: Erdős Problems
+  statement: Determine whether an equilateral triangle can be dissected into 17 congruent
+    triangles.
+  domain: geometry
+  tags:
+  - geometry
+  - finite_case
+  - computational_search
+  open_problem: true
+  formalized: 'no'
+  notes: Another finite target adjacent to n=19. Useful for benchmarking the finite-certificate
+    pipeline.
+  references:
+  - https://www.erdosproblems.com/634
+  - /home/biostar/work/formal-math/erdos-634-triangle/README.md
+  hypotheses:
+  - The same combinatorial encoding used for n=19 should be portable to n=17.
+  recommended_strategy:
+  - Treat n=17 as a companion finite-case benchmark for the triangle-dissection track.
+  metadata:
+    bank_name: triangle_dissection_track
+    statement_quality: curated
+    local_project_dir: /home/biostar/work/formal-math/erdos-634-triangle
+    local_readme_path: /home/biostar/work/formal-math/erdos-634-triangle/README.md

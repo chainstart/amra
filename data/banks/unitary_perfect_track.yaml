@@ -1,0 +1,59 @@
+- problem_id: erdos-1052
+  title: Finite Number of Unitary Perfect Numbers
+  source: Erdős Problems
+  statement: Determine whether there are only finitely many unitary perfect numbers.
+  domain: number_theory
+  tags:
+  - divisors
+  - multiplicative_functions
+  - computational_search
+  - formalization_candidate
+  open_problem: true
+  formalized: partial
+  notes: Local formal-math work already covers unitary and bi-unitary divisor theory,
+    which makes this track one of the strongest near-term candidates.
+  references:
+  - https://www.erdosproblems.com/1052
+  - https://oeis.org/A034898
+  - /home/biostar/work/formal-math/erdos-1052-unitary-perfect/README.md
+  - /home/biostar/work/formal-math/unitary-biunitary-perfect-lean4/README.md
+  hypotheses:
+  - The best first milestone is to consolidate existing unitary-divisor lemmas and
+    the nonexistence of odd unitary perfect numbers.
+  recommended_strategy:
+  - Audit local unitary and bi-unitary formalization assets first.
+  - Separate theorem reuse from any new search over candidate numbers.
+  - Turn every structural theorem into a Lean-verified reusable lemma before attacking
+    finiteness.
+  metadata:
+    bank_name: unitary_perfect_track
+    statement_quality: curated
+    local_project_dir: /home/biostar/work/formal-math/erdos-1052-unitary-perfect
+    local_readme_path: /home/biostar/work/formal-math/erdos-1052-unitary-perfect/README.md
+- problem_id: odd-unitary-perfect-exclusion
+  title: No Odd Unitary Perfect Numbers
+  source: Classical Number Theory
+  statement: Prove that no odd unitary perfect numbers exist.
+  domain: number_theory
+  tags:
+  - divisors
+  - multiplicative_functions
+  - starter_theorem
+  - formalization_candidate
+  open_problem: false
+  formalized: 'yes'
+  notes: 'Closed theorem already supported by the local unitary-perfect projects.
+    Useful as a foundation theorem for the full Erdős #1052 track.'
+  references:
+  - /home/biostar/work/formal-math/unitary-biunitary-perfect-lean4/README.md
+  - /home/biostar/work/formal-math/unitary-perfect-lean4/README.md
+  hypotheses:
+  - This theorem should be treated as a reusable base lemma, not as a publication
+    target by itself.
+  recommended_strategy:
+  - Use this theorem to validate the divisor-sum formalization stack.
+  metadata:
+    bank_name: unitary_perfect_track
+    statement_quality: curated
+    local_project_dir: /home/biostar/work/formal-math/erdos-1052-unitary-perfect
+    local_readme_path: /home/biostar/work/formal-math/erdos-1052-unitary-perfect/README.md

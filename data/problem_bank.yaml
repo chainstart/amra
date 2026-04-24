@@ -1,0 +1,89 @@
+- problem_id: erdos-1052
+  title: Finite Number of Unitary Perfect Numbers
+  source: Erdős Problems
+  statement: Determine whether there are only finitely many unitary perfect numbers.
+  domain: number_theory
+  tags:
+    - divisors
+    - multiplicative_functions
+    - computational_search
+    - formalization_candidate
+  open_problem: true
+  formalized: partial
+  notes: Wall proved a large gap in the known sequence; a productive workflow needs both theorem formalization and counterexample or structure search.
+  references:
+    - https://www.erdosproblems.com/1052
+    - https://oeis.org/A034898
+  hypotheses:
+    - The first milestone is formalizing known lemmas rather than claiming a new theorem.
+  recommended_strategy:
+    - Formalize divisor-sum infrastructure in Lean.
+    - Encode the known gap theorem and supporting lemmas.
+    - Explore bounded searches only when justified by theory.
+
+- problem_id: amicable-odd-odd
+  title: Odd-Odd Amicable Pair Conjecture
+  source: Classical Number Theory
+  statement: Determine whether there exists an amicable pair in which both numbers are odd.
+  domain: number_theory
+  tags:
+    - amicable_numbers
+    - parity
+    - conjecture
+    - formalization_candidate
+  open_problem: true
+  formalized: 'no'
+  notes: This is well suited to a claim-registry-first workflow because partial progress can be framed as parity lemmas and exclusion results.
+  references:
+    - https://en.wikipedia.org/wiki/Amicable_numbers
+    - https://oeis.org/A063990
+  hypotheses:
+    - A useful first deliverable is a formalized library for proper divisor sums and amicable pairs.
+  recommended_strategy:
+    - Rebuild known definitions and verified examples in Lean.
+    - Prove structural constraints on parity and coprimality.
+    - Search for finite exclusion regions before any general claim.
+
+- problem_id: amicable-prime-exclusion
+  title: Prime Numbers Are Not Amicable
+  source: Classical Number Theory
+  statement: Prove that no prime number is amicable.
+  domain: number_theory
+  tags:
+    - amicable_numbers
+    - primes
+    - starter_theorem
+    - formalization_candidate
+  open_problem: false
+  formalized: partial
+  notes: This is a good starter theorem for the math pipeline because it needs a real Lean definition chain and a short structural proof.
+  references:
+    - https://en.wikipedia.org/wiki/Amicable_numbers
+    - https://oeis.org/A063990
+  hypotheses:
+    - The proof should pass through the proper divisor sum of a prime.
+  recommended_strategy:
+    - Define proper divisor sum and amicable pairs in Lean.
+    - Prove the proper divisor sum of a prime is 1.
+    - Use that fact to exclude primes from any amicable pair.
+
+- problem_id: triangle-dissection-19
+  title: Triangle Dissection into 19 Congruent Triangles
+  source: Erdős Problems
+  statement: Determine whether a triangle can be dissected into 19 congruent triangles.
+  domain: geometry
+  tags:
+    - geometry
+    - finite_case
+    - computational_search
+    - formalization_candidate
+  open_problem: true
+  formalized: 'no'
+  notes: This problem is a good example of a mixed computational and formal workflow, but the Lean layer should start with the combinatorial constraints, not the full geometry search.
+  references:
+    - https://www.erdosproblems.com/634
+  hypotheses:
+    - The first useful milestone is a formal statement of known necessary conditions.
+  recommended_strategy:
+    - Separate finite search tasks from theorem formalization.
+    - Formalize known impossibility lemmas and admissible decomposition constraints.

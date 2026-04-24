@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+build/
+dist/
+*.egg-info/
+.lake/
+.DS_Store
+.codex
+*:Zone.Identifier
+projects/
+artifacts/

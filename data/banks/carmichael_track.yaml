@@ -1,0 +1,54 @@
+- problem_id: infinitely-many-carmichael
+  title: Infinitely Many Carmichael Numbers
+  source: Classical Number Theory
+  statement: Determine whether there are infinitely many Carmichael numbers.
+  domain: number_theory
+  tags:
+  - carmichael_numbers
+  - infinitude
+  - formalization_candidate
+  open_problem: false
+  formalized: partial
+  notes: Mathematically solved, but the local track treats it as a statement-only
+    north star while focusing on formalizing Korselt's criterion and small examples.
+  references:
+  - https://oeis.org/A002997
+  - /home/biostar/work/formal-math/carmichael-numbers/README.md
+  hypotheses:
+  - This should be treated as a long-horizon statement; the practical value lies in
+    formalizing the surrounding infrastructure.
+  recommended_strategy:
+  - Formalize Korselt's criterion first.
+  - Prove small structural theorems before attempting any statement-level discussion
+    of infinitude.
+  metadata:
+    bank_name: carmichael_track
+    statement_quality: curated
+    local_project_dir: /home/biostar/work/formal-math/carmichael-numbers
+    local_readme_path: /home/biostar/work/formal-math/carmichael-numbers/README.md
+    bank_mode: mixed_foundation
+- problem_id: korselt-criterion
+  title: Korselt's Criterion for Carmichael Numbers
+  source: Classical Number Theory
+  statement: Prove that a positive integer n is Carmichael iff n is composite, squarefree,
+    and p - 1 divides n - 1 for every prime p dividing n.
+  domain: number_theory
+  tags:
+  - carmichael_numbers
+  - starter_theorem
+  - formalization_candidate
+  open_problem: false
+  formalized: partial
+  notes: Foundation theorem from the local Carmichael project.
+  references:
+  - /home/biostar/work/formal-math/carmichael-numbers/README.md
+  hypotheses:
+  - This theorem is a high-value infrastructure result for any Carmichael-number track.
+  recommended_strategy:
+  - Use it as a reusable theorem in the Carmichael library.
+  metadata:
+    bank_name: carmichael_track
+    statement_quality: curated
+    local_project_dir: /home/biostar/work/formal-math/carmichael-numbers
+    local_readme_path: /home/biostar/work/formal-math/carmichael-numbers/README.md
+    bank_mode: mixed_foundation

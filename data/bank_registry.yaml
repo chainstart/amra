@@ -1,0 +1,95 @@
+- name: curated_starters
+  path: /home/biostar/work/ara-math/data/problem_bank.yaml
+  description: Small curated starter bank bundled with ara-math.
+  category: bundled
+  problem_count: 4
+  provenance: /home/biostar/work/ara-math/data/problem_bank.yaml
+  focus_tags:
+  - starter_theorem
+  - formalization_candidate
+  synced_at: '2026-04-21T13:26:18+00:00'
+- name: erdos_open_637
+  path: /home/biostar/work/ara-math/data/banks/erdos_open_637.yaml
+  description: All open Erdős problems imported from the local formal-math metadata
+    snapshot.
+  category: erdos_catalog
+  problem_count: 637
+  provenance: /home/biostar/work/formal-math/docs/open_problems.yaml
+  focus_tags:
+  - number theory
+  - graph theory
+  - geometry
+  - ramsey theory
+  synced_at: '2026-04-21T13:26:19+00:00'
+- name: erdos_full_1120
+  path: /home/biostar/work/ara-math/data/banks/erdos_full_1120.yaml
+  description: Full Erdős problem catalog with open and non-open entries from the
+    local metadata snapshot.
+  category: erdos_catalog
+  problem_count: 1120
+  provenance: /home/biostar/work/formal-math/docs/problems.yaml
+  focus_tags:
+  - number theory
+  - graph theory
+  - geometry
+  - ramsey theory
+  synced_at: '2026-04-21T13:26:20+00:00'
+- name: amicable_track
+  path: /home/biostar/work/ara-math/data/banks/amicable_track.yaml
+  description: Open and foundational amicable-number problems drawn from the local
+    formal-math workspace.
+  category: local_topic
+  problem_count: 4
+  provenance: /home/biostar/work/formal-math/amicable-numbers
+  focus_tags:
+  - amicable_numbers
+  - parity
+  - coprimality
+  - infinitude
+  synced_at: '2026-04-21T13:26:20+00:00'
+- name: triangle_dissection_track
+  path: /home/biostar/work/ara-math/data/banks/triangle_dissection_track.yaml
+  description: 'Finite-case triangle-dissection targets centered on the Erdős #634
+    family.'
+  category: local_topic
+  problem_count: 3
+  provenance: /home/biostar/work/formal-math/erdos-634-triangle
+  focus_tags:
+  - geometry
+  - finite_case
+  - computational_search
+  synced_at: '2026-04-21T13:26:20+00:00'
+- name: weird_numbers_track
+  path: /home/biostar/work/ara-math/data/banks/weird_numbers_track.yaml
+  description: 'Weird-number conjectures and search-oriented targets from the local
+    Erdős #825 project.'
+  category: local_topic
+  problem_count: 1
+  provenance: /home/biostar/work/formal-math/erdos-825-weird
+  focus_tags:
+  - weird_numbers
+  - counterexample_search
+  - computational_search
+  synced_at: '2026-04-21T13:26:20+00:00'
+- name: unitary_perfect_track
+  path: /home/biostar/work/ara-math/data/banks/unitary_perfect_track.yaml
+  description: 'Unitary-perfect-number research track combining Erdős #1052 with local
+    foundation theorems.'
+  category: local_topic
+  problem_count: 2
+  provenance: /home/biostar/work/formal-math/erdos-1052-unitary-perfect
+  focus_tags:
+  - divisors
+  - multiplicative_functions
+  - formalization_candidate
+  synced_at: '2026-04-21T13:26:20+00:00'
+- name: carmichael_track
+  path: /home/biostar/work/ara-math/data/banks/carmichael_track.yaml
+  description: Carmichael-number formalization and long-horizon statement bank.
+  category: local_topic
+  problem_count: 2
+  provenance: /home/biostar/work/formal-math/carmichael-numbers
+  focus_tags:
+  - carmichael_numbers
+  - starter_theorem
+  synced_at: '2026-04-21T13:26:20+00:00'

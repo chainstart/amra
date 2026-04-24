@@ -1,0 +1,120 @@
+- problem_id: amicable-odd-odd
+  title: Odd-Odd Amicable Pair Conjecture
+  source: Classical Number Theory
+  statement: Determine whether there exists an amicable pair in which both numbers
+    are odd.
+  domain: number_theory
+  tags:
+  - amicable_numbers
+  - parity
+  - conjecture
+  - formalization_candidate
+  open_problem: true
+  formalized: 'no'
+  notes: Open problem highlighted in the local amicable-numbers project. Partial progress
+    should focus on parity, divisor-sum, and coprimality constraints.
+  references:
+  - https://en.wikipedia.org/wiki/Amicable_numbers
+  - https://oeis.org/A063990
+  - /home/biostar/work/formal-math/amicable-numbers/README.md
+  hypotheses:
+  - A reusable divisor-sum formalization is a prerequisite for any credible attack
+    on the conjecture.
+  - Parity constraints and bounded searches should be packaged as reusable lemmas
+    rather than ad hoc experiments.
+  recommended_strategy:
+  - Recover the exact historical statement and known impossibility regions.
+  - Formalize divisor-sum and amicable-pair infrastructure in Lean.
+  - Combine parity lemmas with bounded search certificates before attempting any global
+    claim.
+  metadata:
+    bank_name: amicable_track
+    statement_quality: curated
+    local_project_dir: /home/biostar/work/formal-math/amicable-numbers
+    local_readme_path: /home/biostar/work/formal-math/amicable-numbers/README.md
+- problem_id: amicable-infinite-pairs
+  title: Infinitely Many Amicable Pairs Conjecture
+  source: Classical Number Theory
+  statement: Determine whether there are infinitely many amicable pairs.
+  domain: number_theory
+  tags:
+  - amicable_numbers
+  - infinitude
+  - conjecture
+  open_problem: true
+  formalized: 'no'
+  notes: This is a long-range open question. The practical route is to formalize known
+    construction families and extract reusable generation lemmas.
+  references:
+  - https://en.wikipedia.org/wiki/Amicable_numbers
+  - https://oeis.org/A063990
+  - /home/biostar/work/formal-math/amicable-numbers/README.md
+  hypotheses:
+  - Known constructive families should be formalized before searching for new infinite
+    families.
+  recommended_strategy:
+  - Audit historical construction rules such as Thabit-style families.
+  - Formalize the generation rules and their verified instances.
+  - Separate theorem-formalization progress from any new infinitude claims.
+  metadata:
+    bank_name: amicable_track
+    statement_quality: curated
+    local_project_dir: /home/biostar/work/formal-math/amicable-numbers
+    local_readme_path: /home/biostar/work/formal-math/amicable-numbers/README.md
+- problem_id: amicable-coprime-pairs
+  title: No Coprime Amicable Pairs Conjecture
+  source: Classical Number Theory
+  statement: Determine whether there exists an amicable pair whose two members are
+    coprime.
+  domain: number_theory
+  tags:
+  - amicable_numbers
+  - coprimality
+  - conjecture
+  - formalization_candidate
+  open_problem: true
+  formalized: 'no'
+  notes: The local amicable-numbers notes list this as a natural open conjecture alongside
+    the odd-odd case.
+  references:
+  - https://en.wikipedia.org/wiki/Amicable_numbers
+  - https://oeis.org/A063990
+  - /home/biostar/work/formal-math/amicable-numbers/README.md
+  hypotheses:
+  - Coprimality constraints can likely be phrased using divisor-sum multiplicativity
+    and gcd lemmas.
+  recommended_strategy:
+  - Formalize coprimality lemmas for divisor sums.
+  - Search for finite exclusions and structural contradictions.
+  - Record every partial obstruction in the project idea ledger for reuse.
+  metadata:
+    bank_name: amicable_track
+    statement_quality: curated
+    local_project_dir: /home/biostar/work/formal-math/amicable-numbers
+    local_readme_path: /home/biostar/work/formal-math/amicable-numbers/README.md
+- problem_id: amicable-prime-exclusion
+  title: Prime Numbers Are Not Amicable
+  source: Classical Number Theory
+  statement: Prove that no prime number is amicable.
+  domain: number_theory
+  tags:
+  - amicable_numbers
+  - primes
+  - starter_theorem
+  - formalization_candidate
+  open_problem: false
+  formalized: 'yes'
+  notes: Starter theorem for building the amicable-number formalization stack.
+  references:
+  - https://en.wikipedia.org/wiki/Amicable_numbers
+  - https://oeis.org/A063990
+  - /home/biostar/work/formal-math/amicable-numbers/README.md
+  hypotheses:
+  - The proof should pass through the proper divisor sum of a prime.
+  recommended_strategy:
+  - Use this theorem as a smoke test for the amicable-number Lean library.
+  metadata:
+    bank_name: amicable_track
+    statement_quality: curated
+    local_project_dir: /home/biostar/work/formal-math/amicable-numbers
+    local_readme_path: /home/biostar/work/formal-math/amicable-numbers/README.md
