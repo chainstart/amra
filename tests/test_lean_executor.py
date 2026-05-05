@@ -114,6 +114,14 @@ def test_build_reports_missing_lake(tmp_path: Path, monkeypatch) -> None:
     assert "lake" in report.summary
 
 
+def test_lean_executor_default_process_cap_allows_worker_threads(monkeypatch) -> None:
+    monkeypatch.delenv("ARA_MATH_LEAN_MAX_PROCESSES", raising=False)
+
+    executor = LeanExecutor()
+
+    assert executor.max_processes >= 4096
+
+
 def test_build_blocks_when_manifest_cannot_be_reused(tmp_path: Path, monkeypatch) -> None:
     project_dir = tmp_path / "project"
     formal_dir = project_dir / "formal" / "MathProject"
@@ -442,6 +450,35 @@ def test_stage_plan_blocks_unsafe_source_only_companion_modules(tmp_path: Path) 
     assert plan["blocked_sources"][0]["source_audit"]["counts"]["sorry"] == 1
 
 
+def test_stage_plan_skips_unaligned_unsafe_companion_modules(tmp_path: Path) -> None:
+    project_dir = tmp_path / "project"
+    (project_dir / "idea").mkdir(parents=True)
+    (project_dir / "proof").mkdir(parents=True)
+    asset_root = tmp_path / "companion"
+    (asset_root / "lean").mkdir(parents=True)
+    (asset_root / "lean" / "GotoBound.lean").write_text(
+        "import Mathlib\n\naxiom unsafe_bridge : True\n\ntheorem upn_finite_goto : True := by\n  sorry\n",
+        encoding="utf-8",
+    )
+    (project_dir / "idea" / "proof_path_assessment.json").write_text(
+        '{"local_assets": [{"kind": "local_project_dir", "path": "' + str(asset_root) + '"}]}',
+        encoding="utf-8",
+    )
+    (project_dir / "proof" / "porting_candidates.json").write_text(
+        '{"candidates": [{"name": "upn_finite_goto", "source_path": "'
+        + str(asset_root / "lean" / "GotoBound.lean")
+        + '", "import_ready": false, "aligned_with_target": false}]}',
+        encoding="utf-8",
+    )
+
+    executor = LeanExecutor(cache_search_roots=[tmp_path], allow_cold_cache=True)
+    plan = executor._discover_source_stage_plan(project_dir)
+
+    assert plan["status"] == "not_needed"
+    assert plan["compile_order"] == []
+    assert plan["blocked_sources"] == []
+
+
 def test_discover_local_asset_search_entries_includes_source_roots(tmp_path: Path) -> None:
     project_dir = tmp_path / "project"
     (project_dir / "idea").mkdir(parents=True)
@@ -458,3 +495,76 @@ def test_discover_local_asset_search_entries_includes_source_roots(tmp_path: Pat
 
     assert str(asset_root / "lean") in entries
     assert str(asset_root) in entries
+
+
+def test_discover_local_asset_search_entries_includes_seeded_asset_paths(tmp_path: Path) -> None:
+    project_dir = tmp_path / "project"
+    (project_dir / "idea").mkdir(parents=True)
+    (project_dir / "artifacts").mkdir(parents=True)
+    primary_asset = tmp_path / "formal-math" / "erdos-1052-unitary-perfect"
+    secondary_asset = tmp_path / "formal-math" / "unitary-perfect-lean4" / "mathlib-contrib"
+    (primary_asset / "lean").mkdir(parents=True)
+    (secondary_asset / ".lake" / "build" / "lib" / "lean" / "Mathlib" / "NumberTheory" / "UnitaryPerfect").mkdir(
+        parents=True
+    )
+    (project_dir / "idea" / "proof_path_assessment.json").write_text(
+        '{"local_assets": [{"kind": "local_project_dir", "path": "' + str(primary_asset) + '"}]}',
+        encoding="utf-8",
+    )
+    (project_dir / "artifacts" / "formal_preparation.json").write_text(
+        '{"seed_asset_paths": ["' + str(primary_asset) + '", "' + str(secondary_asset) + '"]}',
+        encoding="utf-8",
+    )
+
+    executor = LeanExecutor(cache_search_roots=[tmp_path])
+    entries = executor.discover_local_asset_search_entries(project_dir)
+
+    assert str(primary_asset / "lean") in entries
+    assert str(secondary_asset / ".lake" / "build" / "lib" / "lean") in entries
+
+
+def test_discover_accessible_premise_support_collects_compiled_and_staged_modules(tmp_path: Path) -> None:
+    project_dir = tmp_path / "project"
+    formal_dir = project_dir / "formal" / "MathProject"
+    formal_dir.mkdir(parents=True)
+    (project_dir / "idea").mkdir(parents=True)
+    (project_dir / "proof").mkdir(parents=True)
+    (formal_dir / "Basic.lean").write_text("theorem local_basic : True := by\n  trivial\n", encoding="utf-8")
+    (formal_dir / "MainClaim.lean").write_text(
+        "\n".join(
+            [
+                "import MathProject.Basic",
+                "import Companion.Helper",
+                "",
+                "theorem local_main : True := by",
+                "  trivial",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    asset_root = tmp_path / "companion"
+    (asset_root / ".lake" / "build" / "lib" / "lean" / "Companion").mkdir(parents=True)
+    (asset_root / ".lake" / "build" / "lib" / "lean" / "Companion" / "Helper.olean").write_text("", encoding="utf-8")
+    source_path = asset_root / "lean" / "UnitaryPerfect" / "GotoBound.lean"
+    source_path.parent.mkdir(parents=True)
+    source_path.write_text("theorem gotoBound : True := by\n  trivial\n", encoding="utf-8")
+    (project_dir / "idea" / "proof_path_assessment.json").write_text(
+        '{"local_assets": [{"kind": "local_project_dir", "path": "' + str(asset_root) + '"}]}',
+        encoding="utf-8",
+    )
+    (project_dir / "proof" / "porting_candidates.json").write_text(
+        '{"candidates": [{"name": "gotoBound", "source_path": "'
+        + str(source_path)
+        + '", "import_ready": false, "import_hint": "UnitaryPerfect.GotoBound"}]}',
+        encoding="utf-8",
+    )
+
+    executor = LeanExecutor(cache_search_roots=[tmp_path])
+    support = executor.discover_accessible_premise_support(project_dir)
+
+    assert "Companion.Helper" in support["project_imports"]
+    assert "Companion.Helper" in support["compiled_modules"]
+    assert support["stage_plan"]["status"] == "ready"
+    assert "UnitaryPerfect.GotoBound" in support["stage_plan"]["modules"]

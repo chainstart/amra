@@ -51,9 +51,18 @@ class MathReviewer:
         registry = read_json(project_dir / "proof" / "claim_registry.json", default={"claims": []})
         build_report = read_json(project_dir / "artifacts" / "lean_build_report.json", default={})
         formal_preparation = read_json(project_dir / "artifacts" / "formal_preparation.json", default={})
+        main_claim_seed = formal_preparation.get("main_claim_seed", {}) if isinstance(formal_preparation, dict) else {}
         proof_path_assessment = read_json(project_dir / "idea" / "proof_path_assessment.json", default={})
         idea_ledger = read_json(project_dir / "idea" / "math_idea_ledger.json", default={})
         literature_evidence = read_json(project_dir / "idea" / "literature_evidence.json", default={})
+        checkpoint_contract = read_json(project_dir / "proof" / "checkpoint_contract.json", default={})
+        proof_system_benchmark = read_json(project_dir / "proof" / "proof_system_benchmark.json", default={})
+        verifier_feedback = read_json(project_dir / "proof" / "verifier_feedback.json", default={})
+        proof_search_agenda = read_json(project_dir / "proof" / "proof_search_agenda.json", default={})
+        premise_retrieval = read_json(project_dir / "proof" / "premise_retrieval.json", default={})
+        accessible_premise_graph = read_json(project_dir / "proof" / "accessible_premise_graph.json", default={})
+        evaluator_plan = read_json(project_dir / "proof" / "evaluator_plan.json", default={})
+        evaluator_report = read_json(project_dir / "proof" / "evaluator_report.json", default={})
         assessment = self.assessor.assess(project_dir)
         manuscript_report = read_json(project_dir / "artifacts" / "manuscript_report.json", default={})
         manuscript_path = Path(manuscript_report.get("manuscript_path", project_dir / "writing" / assessment["document_name"]))
@@ -119,6 +128,26 @@ class MathReviewer:
             warnings.append("No structured literature evidence has been recorded yet.")
         if manifest["problem"]["open_problem"] and int(literature_evidence.get("source_attribution_count", 0) or 0) == 0:
             warnings.append("Open-problem work should carry literature source attribution before publication claims are considered.")
+        if manifest["problem"]["open_problem"] and not checkpoint_contract.get("checkpoint_statement"):
+            warnings.append("No explicit checkpoint contract is recorded yet for this open problem.")
+        elif manifest["problem"]["open_problem"] and checkpoint_contract.get("variant_risks"):
+            warnings.append("The checkpoint contract still records variant/alignment risks that need human confirmation.")
+        if manifest["problem"]["open_problem"] and not proof_system_benchmark:
+            warnings.append("No proof-system benchmark is available yet; the project is not explicitly aligned with a standard prover architecture.")
+        if manifest["problem"]["open_problem"] and not proof_search_agenda:
+            warnings.append("No proof-search agenda is available yet; the next branch is still implicit instead of frontier-ranked.")
+        if proof_search_agenda and not verifier_feedback:
+            warnings.append("A proof-search agenda exists, but verifier feedback memory has not been written yet.")
+        if manifest["problem"]["open_problem"] and not premise_retrieval:
+            warnings.append("No premise-retrieval report is available yet; theorem import attempts may be under-grounded.")
+        if manifest["problem"]["open_problem"] and not accessible_premise_graph:
+            warnings.append("No accessible-premise graph is available yet; local theorem availability is still implicit.")
+        if manifest["problem"]["open_problem"] and evaluator_plan.get("search_friendly") and not evaluator_plan.get("ready_to_run", False):
+            warnings.append("This project looks evaluator-friendly, but the evaluator plan is not ready to run yet.")
+        if manifest["problem"]["open_problem"] and evaluator_plan.get("ready_to_run", False) and not evaluator_report:
+            warnings.append("The evaluator is ready to run, but no evaluator report has been recorded yet.")
+        elif evaluator_report and evaluator_report.get("status") in {"failed", "timeout", "blocked"}:
+            warnings.append(f"Latest evaluator run status is `{evaluator_report.get('status')}` and needs review before trusting the search branch.")
         if not build_report:
             blockers.append("Lean build verification has not been run.")
         elif build_report.get("status") != "passed":
@@ -140,6 +169,11 @@ class MathReviewer:
             blockers.append("The Lean workspace contains `axiom` declarations.")
         if admit_count > 0:
             blockers.append("The Lean workspace contains `admit` placeholders.")
+        if main_claim_seed and str(main_claim_seed.get("trust_level", "")) not in {"", "trusted"}:
+            blockers.append(
+                "The current main claim is discharged only through an external companion theorem whose source audit is "
+                f"`{main_claim_seed.get('trust_level')}`."
+            )
         required_sections = {
             "research_report": ["## Summary", "## Exact Statement", "## Formalization Status"],
             "formalization_note": ["## Abstract", "## Statement", "## Verification Status"],
@@ -191,6 +225,18 @@ class MathReviewer:
                 "reference_count": context_audit["reference_count"],
                 "literature_evidence_count": evidence_total,
                 "literature_source_attribution_count": int(literature_evidence.get("source_attribution_count", 0) or 0),
+                "has_checkpoint_contract": bool(checkpoint_contract.get("checkpoint_statement")),
+                "checkpoint_variant_risk_count": len(checkpoint_contract.get("variant_risks", [])),
+                "proof_system_search_policy": (proof_system_benchmark.get("execution_policy") or {}).get("search_policy", ""),
+                "agenda_execution_mode": proof_search_agenda.get("execution_mode", ""),
+                "agenda_frontier_count": len(proof_search_agenda.get("frontier", [])),
+                "verifier_feedback_attempt_count": int(verifier_feedback.get("attempt_count", 0) or 0),
+                "premise_retrieval_count": len(premise_retrieval.get("local_lean_premises", []))
+                + len(premise_retrieval.get("literature_premises", [])),
+                "accessible_premise_count": len(accessible_premise_graph.get("accessible_premises", [])),
+                "evaluator_mode": evaluator_plan.get("evaluator_mode", ""),
+                "evaluator_ready_to_run": bool(evaluator_plan.get("ready_to_run", False)),
+                "evaluator_status": evaluator_report.get("status", ""),
                 "lean_status": build_report.get("status", "not_run"),
                 "sorry_count": build_report.get("sorry_count", 0),
                 "placeholder_count": placeholder_count,

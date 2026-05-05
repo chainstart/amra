@@ -16,7 +16,7 @@
   references:
   - https://en.wikipedia.org/wiki/Amicable_numbers
   - https://oeis.org/A063990
-  - /home/biostar/work/formal-math/amicable-numbers/README.md
+  - /home/biostar/work/projects/formal-math/amicable-numbers/README.md
   hypotheses:
   - A reusable divisor-sum formalization is a prerequisite for any credible attack
     on the conjecture.
@@ -30,8 +30,8 @@
   metadata:
     bank_name: amicable_track
     statement_quality: curated
-    local_project_dir: /home/biostar/work/formal-math/amicable-numbers
-    local_readme_path: /home/biostar/work/formal-math/amicable-numbers/README.md
+    local_project_dir: /home/biostar/work/projects/formal-math/amicable-numbers
+    local_readme_path: /home/biostar/work/projects/formal-math/amicable-numbers/README.md
 - problem_id: amicable-infinite-pairs
   title: Infinitely Many Amicable Pairs Conjecture
   source: Classical Number Theory
@@ -48,7 +48,7 @@
   references:
   - https://en.wikipedia.org/wiki/Amicable_numbers
   - https://oeis.org/A063990
-  - /home/biostar/work/formal-math/amicable-numbers/README.md
+  - /home/biostar/work/projects/formal-math/amicable-numbers/README.md
   hypotheses:
   - Known constructive families should be formalized before searching for new infinite
     families.
@@ -59,8 +59,8 @@
   metadata:
     bank_name: amicable_track
     statement_quality: curated
-    local_project_dir: /home/biostar/work/formal-math/amicable-numbers
-    local_readme_path: /home/biostar/work/formal-math/amicable-numbers/README.md
+    local_project_dir: /home/biostar/work/projects/formal-math/amicable-numbers
+    local_readme_path: /home/biostar/work/projects/formal-math/amicable-numbers/README.md
 - problem_id: amicable-coprime-pairs
   title: No Coprime Amicable Pairs Conjecture
   source: Classical Number Theory
@@ -79,7 +79,7 @@
   references:
   - https://en.wikipedia.org/wiki/Amicable_numbers
   - https://oeis.org/A063990
-  - /home/biostar/work/formal-math/amicable-numbers/README.md
+  - /home/biostar/work/projects/formal-math/amicable-numbers/README.md
   hypotheses:
   - Coprimality constraints can likely be phrased using divisor-sum multiplicativity
     and gcd lemmas.
@@ -90,8 +90,8 @@
   metadata:
     bank_name: amicable_track
     statement_quality: curated
-    local_project_dir: /home/biostar/work/formal-math/amicable-numbers
-    local_readme_path: /home/biostar/work/formal-math/amicable-numbers/README.md
+    local_project_dir: /home/biostar/work/projects/formal-math/amicable-numbers
+    local_readme_path: /home/biostar/work/projects/formal-math/amicable-numbers/README.md
 - problem_id: amicable-prime-exclusion
   title: Prime Numbers Are Not Amicable
   source: Classical Number Theory
@@ -108,7 +108,7 @@
   references:
   - https://en.wikipedia.org/wiki/Amicable_numbers
   - https://oeis.org/A063990
-  - /home/biostar/work/formal-math/amicable-numbers/README.md
+  - /home/biostar/work/projects/formal-math/amicable-numbers/README.md
   hypotheses:
   - The proof should pass through the proper divisor sum of a prime.
   recommended_strategy:
@@ -116,5 +116,5 @@
   metadata:
     bank_name: amicable_track
     statement_quality: curated
-    local_project_dir: /home/biostar/work/formal-math/amicable-numbers
-    local_readme_path: /home/biostar/work/formal-math/amicable-numbers/README.md
+    local_project_dir: /home/biostar/work/projects/formal-math/amicable-numbers
+    local_readme_path: /home/biostar/work/projects/formal-math/amicable-numbers/README.md

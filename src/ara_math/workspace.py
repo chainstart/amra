@@ -338,7 +338,17 @@ def create_project_workspace(
             "search_contract": "",
             "assumptions": [],
             "outputs": [],
+            "command": [],
+            "working_directory": "",
+            "timeout_sec": 0,
+            "auto_run_allowed": False,
+            "expected_output_paths": [],
+            "last_run_status": "",
         },
+    )
+    write_text(
+        project_dir / "proof" / "current_focus.md",
+        "# Current Focus\n\n- No proof-search agenda has been generated yet.\n",
     )
     write_text(
         project_dir / "writing" / "manuscript.md",

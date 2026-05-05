@@ -4,12 +4,18 @@ import math
 from pathlib import Path
 from typing import Any
 
+from ara_math.ara_library import AraLibraryManager
 from ara_math.convergence import ConvergencePlanner
 from ara_math.context import set_exact_statement
+from ara_math.closure import ClosureProverRunner
+from ara_math.evaluator import EvaluatorRunner
 from ara_math.formalization import FormalizationPreparer
 from ara_math.lean import LeanExecutor
 from ara_math.literature import LiteratureHarvester
+from ara_math.math_attack import MathAttackRunner
+from ara_math.math_scout import MathScoutRunner
 from ara_math.planning import MathPlanner
+from ara_math.proof_system import ProofSystemPlanner
 from ara_math.proof_search import ProofSearchRunner
 from ara_math.problem_bank import DEFAULT_BANK_PATH, get_problem, resolve_bank_path
 from ara_math.review import MathReviewer
@@ -45,10 +51,16 @@ class MathResearchOrchestrator:
         self.formal_math_root = formal_math_root or (self.repo_root.parent / "formal-math")
         self.allow_network = allow_network
         self.planner = MathPlanner()
+        self.proof_system_planner = ProofSystemPlanner()
         self.formalization_preparer = FormalizationPreparer()
         self.lean_executor = LeanExecutor()
         self.literature_harvester = LiteratureHarvester(formal_math_root=self.formal_math_root)
+        self.ara_library_manager = AraLibraryManager(repo_root=self.repo_root)
+        self.math_attack_runner = MathAttackRunner(repo_root=self.repo_root)
+        self.math_scout_runner = MathScoutRunner(repo_root=self.repo_root)
         self.proof_search_runner = ProofSearchRunner(repo_root=self.repo_root)
+        self.closure_prover_runner = ClosureProverRunner(repo_root=self.repo_root)
+        self.evaluator_runner = EvaluatorRunner()
         self.writer = MathWriter()
         self.reviewer = MathReviewer()
         self.convergence_planner = ConvergencePlanner()
@@ -141,6 +153,13 @@ class MathResearchOrchestrator:
             route_candidates=route_candidates,
             mathematical_blockers=mathematical_blockers,
         )
+        checkpoint_contract = self.planner.build_checkpoint_contract(
+            problem=problem,
+            theorem_inventory=theorem_inventory,
+            route_candidates=route_candidates,
+            route_scaffold=route_scaffold,
+        )
+        checkpoint_contract_markdown = self.planner.render_checkpoint_contract_markdown(contract=checkpoint_contract)
         write_json(project_dir / "proof" / "theorem_inventory.json", theorem_inventory)
         write_json(project_dir / "proof" / "theorem_graph.json", theorem_graph)
         write_json(project_dir / "proof" / "proof_path_frameworks.json", proof_path_frameworks)
@@ -148,7 +167,9 @@ class MathResearchOrchestrator:
         write_json(project_dir / "proof" / "proof_route_scaffold.json", route_scaffold)
         write_json(project_dir / "proof" / "route_discovery_brief.json", route_discovery_brief)
         write_json(project_dir / "proof" / "mathematical_blockers.json", mathematical_blockers)
+        write_json(project_dir / "proof" / "checkpoint_contract.json", checkpoint_contract)
         (project_dir / "proof" / "selected_route.md").write_text(selected_route_markdown, encoding="utf-8")
+        (project_dir / "proof" / "checkpoint_contract.md").write_text(checkpoint_contract_markdown, encoding="utf-8")
         return {
             "intake": intake,
             "literature": literature,
@@ -159,6 +180,7 @@ class MathResearchOrchestrator:
             "route_scaffold": route_scaffold,
             "route_discovery_brief": route_discovery_brief,
             "mathematical_blockers": mathematical_blockers,
+            "checkpoint_contract": checkpoint_contract,
         }
 
     def create_project(self, *, problem_id: str, name: str | None = None) -> Path:
@@ -186,9 +208,13 @@ class MathResearchOrchestrator:
         intake = route_artifacts["intake"]
         literature = route_artifacts["literature"]
         theorem_inventory = route_artifacts["theorem_inventory"]
+        theorem_graph = route_artifacts["theorem_graph"]
         proof_path_frameworks = route_artifacts["proof_path_frameworks"]
         route_candidates = route_artifacts["route_candidates"]
+        route_scaffold = route_artifacts["route_scaffold"]
+        route_discovery_brief = route_artifacts["route_discovery_brief"]
         mathematical_blockers = route_artifacts["mathematical_blockers"]
+        checkpoint_contract = route_artifacts["checkpoint_contract"]
         plan = self.planner.build_plan(
             project_name=str(manifest["project_name"]),
             problem=problem,
@@ -205,6 +231,21 @@ class MathResearchOrchestrator:
                 "generated_at": plan.generated_at,
                 "claims": [claim.to_dict() for claim in plan.claims],
             },
+        )
+        benchmark_report = self.proof_system_planner.build_benchmark_report(
+            manifest=manifest,
+            proof_path_assessment=intake["proof_path_assessment"],
+            theorem_inventory=theorem_inventory,
+            theorem_graph=theorem_graph,
+            proof_path_frameworks=proof_path_frameworks,
+            route_scaffold=route_scaffold,
+            route_discovery_brief=route_discovery_brief,
+            checkpoint_contract=checkpoint_contract,
+        )
+        write_json(project_dir / "proof" / "proof_system_benchmark.json", benchmark_report)
+        (project_dir / "proof" / "proof_system_benchmark.md").write_text(
+            self.proof_system_planner.render_benchmark_markdown(report=benchmark_report),
+            encoding="utf-8",
         )
         update_pipeline_status(
             project_dir,
@@ -375,8 +416,164 @@ class MathResearchOrchestrator:
         )
         return report.to_dict()
 
+    def init_ara_library(self) -> dict[str, Any]:
+        return self.ara_library_manager.ensure_library()
+
+    def list_ara_library(self) -> dict[str, Any]:
+        return self.ara_library_manager.inventory()
+
+    def add_ara_library_module(
+        self,
+        *,
+        module_name: str,
+        imports: list[str] | None = None,
+        title: str = "",
+        domain: str = "",
+        status: str = "candidate",
+        tags: list[str] | None = None,
+        description: str = "",
+    ) -> dict[str, Any]:
+        return self.ara_library_manager.add_module(
+            module_name=module_name,
+            imports=imports,
+            title=title,
+            domain=domain,
+            status=status,
+            tags=tags,
+            description=description,
+        )
+
+    def promote_to_ara_library(
+        self,
+        *,
+        source_file: Path,
+        module_name: str,
+        declarations: list[str],
+        imports: list[str] | None = None,
+        title: str = "",
+        domain: str = "",
+        status: str = "candidate",
+        tags: list[str] | None = None,
+        description: str = "",
+        source_project: Path | None = None,
+    ) -> dict[str, Any]:
+        return self.ara_library_manager.promote_declarations(
+            source_file=source_file,
+            module_name=module_name,
+            declarations=declarations,
+            imports=imports,
+            title=title,
+            domain=domain,
+            status=status,
+            tags=tags,
+            description=description,
+            source_project=source_project,
+        )
+
+    def build_ara_library(self, *, timeout_sec: int | None = None, allow_cold_cache: bool = False) -> dict[str, Any]:
+        return self.ara_library_manager.build(timeout_sec=timeout_sec, allow_cold_cache=allow_cold_cache)
+
     def write_manuscript(self, project_dir: Path) -> dict[str, Any]:
         return self.writer.write_manuscript(project_dir)
+
+    def run_evaluator(self, project_dir: Path, *, timeout_sec: int | None = None, auto: bool = False) -> dict[str, Any]:
+        support = self.proof_search_runner._prepare_support_artifacts(project_dir=project_dir, orchestrator=self)
+        report = self.evaluator_runner.run(
+            project_dir,
+            evaluator_plan=support["evaluator_plan"],
+            counterexample_contract=support["counterexample_contract"],
+            timeout_sec=timeout_sec,
+            auto=auto,
+        )
+        update_pipeline_status(
+            project_dir,
+            stage="evaluator",
+            status=report["status"],
+            details={
+                "mode": report.get("mode", ""),
+                "evaluator_mode": report.get("evaluator_mode", ""),
+                "command_source": report.get("command_source", ""),
+            },
+        )
+        record_event(
+            project_dir,
+            stage="evaluator",
+            event="evaluator_completed",
+            details={
+                "status": report.get("status", ""),
+                "mode": report.get("mode", ""),
+                "command_source": report.get("command_source", ""),
+            },
+        )
+        return report
+
+    def run_math_attack(
+        self,
+        project_dir: Path,
+        *,
+        target: str = "",
+        context_paths: list[Path] | None = None,
+        evidence_command: list[str] | None = None,
+        evidence_cwd: Path | None = None,
+        evidence_timeout_sec: int = 120,
+        backend: str = "codex",
+        iterations: int = 3,
+        time_budget_sec: int = 900,
+        iteration_timeout_sec: int = 180,
+        sleep_seconds: int = 0,
+        sleep_mode: str = "adaptive",
+        min_sleep_seconds: int | None = None,
+        max_sleep_seconds: int | None = None,
+        sleep_jitter_seconds: int | None = None,
+        launch_spacing_seconds: int | None = None,
+        run_name: str | None = None,
+        enable_search: bool = False,
+        dry_run: bool = False,
+    ) -> dict[str, Any]:
+        report = self.math_attack_runner.run(
+            project_dir=project_dir,
+            target=target,
+            context_paths=context_paths,
+            evidence_command=evidence_command,
+            evidence_cwd=evidence_cwd,
+            evidence_timeout_sec=evidence_timeout_sec,
+            backend=backend,
+            iterations=iterations,
+            time_budget_sec=time_budget_sec,
+            iteration_timeout_sec=iteration_timeout_sec,
+            sleep_seconds=sleep_seconds,
+            sleep_mode=sleep_mode,
+            min_sleep_seconds=min_sleep_seconds,
+            max_sleep_seconds=max_sleep_seconds,
+            sleep_jitter_seconds=sleep_jitter_seconds,
+            launch_spacing_seconds=launch_spacing_seconds,
+            run_name=run_name,
+            enable_search=enable_search,
+            dry_run=dry_run,
+        )
+        update_pipeline_status(
+            project_dir,
+            stage="math_attack",
+            status=report["status"],
+            details={
+                "backend": backend,
+                "iterations_completed": report.get("iterations_completed", 0),
+                "run_dir": report.get("run_dir", ""),
+                "target": report.get("target", ""),
+            },
+        )
+        record_event(
+            project_dir,
+            stage="math_attack",
+            event="math_attack_completed",
+            details={
+                "status": report["status"],
+                "backend": backend,
+                "iterations_completed": report.get("iterations_completed", 0),
+                "run_dir": report.get("run_dir", ""),
+            },
+        )
+        return report
 
     def review_project(self, project_dir: Path) -> dict[str, Any]:
         report = self.reviewer.review(project_dir)
@@ -388,6 +585,30 @@ class MathResearchOrchestrator:
 
     def plan_convergence(self, project_dir: Path) -> dict[str, Any]:
         return self.convergence_planner.plan(project_dir)
+
+    def plan_proof_system(self, project_dir: Path) -> dict[str, Any]:
+        payload = self.proof_search_runner.plan_execution(project_dir=project_dir, orchestrator=self)
+        update_pipeline_status(
+            project_dir,
+            stage="proof_system",
+            status="planned",
+            details={
+                "search_policy": payload["proof_search_agenda"].get("search_policy", ""),
+                "execution_mode": payload["proof_search_agenda"].get("execution_mode", ""),
+                "selected_agenda_item_id": payload["proof_search_agenda"].get("selected_item_id", ""),
+            },
+        )
+        record_event(
+            project_dir,
+            stage="proof_system",
+            event="proof_system_planned",
+            details={
+                "search_policy": payload["proof_search_agenda"].get("search_policy", ""),
+                "execution_mode": payload["proof_search_agenda"].get("execution_mode", ""),
+                "selected_agenda_item_id": payload["proof_search_agenda"].get("selected_item_id", ""),
+            },
+        )
+        return payload
 
     def run_proof_search(
         self,
@@ -429,6 +650,56 @@ class MathResearchOrchestrator:
                 "backend": backend,
                 "attempts_completed": payload.get("attempts_completed", 0),
                 "focus_mode": focus_mode,
+            },
+        )
+        return payload
+
+    def run_closure_prover(
+        self,
+        project_dir: Path,
+        *,
+        target_theorem: str | None,
+        target_file: Path | None = None,
+        backend: str = "codex",
+        max_attempts: int = 3,
+        max_runtime_sec: int = 900,
+        attempt_timeout_sec: int = 180,
+        build_timeout_sec: int = 90,
+        max_stalled_attempts: int = 2,
+        rollback_failed_attempts: bool = False,
+    ) -> dict[str, Any]:
+        payload = self.closure_prover_runner.run(
+            project_dir=project_dir,
+            orchestrator=self,
+            target_theorem=target_theorem,
+            target_file=target_file,
+            backend=backend,
+            max_attempts=max_attempts,
+            max_runtime_sec=max_runtime_sec,
+            attempt_timeout_sec=attempt_timeout_sec,
+            build_timeout_sec=build_timeout_sec,
+            max_stalled_attempts=max_stalled_attempts,
+            rollback_failed_attempts=rollback_failed_attempts,
+        )
+        update_pipeline_status(
+            project_dir,
+            stage="closure_prover",
+            status=payload["status"],
+            details={
+                "backend": backend,
+                "target_theorem": target_theorem or "",
+                "attempts_completed": payload.get("attempts_completed", 0),
+            },
+        )
+        record_event(
+            project_dir,
+            stage="closure_prover",
+            event="closure_prover_completed",
+            details={
+                "status": payload["status"],
+                "backend": backend,
+                "target_theorem": target_theorem or "",
+                "attempts_completed": payload.get("attempts_completed", 0),
             },
         )
         return payload
@@ -618,6 +889,9 @@ class MathResearchOrchestrator:
                 backend_name = str(profile.get("backend", "codex")).strip() or "codex"
                 if backend != "auto":
                     backend_name = backend
+                focus_mode = str(profile.get("focus_mode", convergence_plan.get("recommended_focus_mode", "default"))).strip()
+                if not focus_mode:
+                    focus_mode = "default"
 
                 attempts = max(1, int(math.ceil(float(profile.get("attempts", 1) or 1) * max(attempt_multiplier, 0.1))))
                 time_budget_sec = max(
@@ -649,6 +923,7 @@ class MathResearchOrchestrator:
                     max_runtime_sec=time_budget_sec,
                     attempt_timeout_sec=attempt_timeout_sec,
                     build_timeout_sec=build_timeout_sec,
+                    focus_mode=focus_mode,
                 )
                 round_entries.append(
                     {
@@ -662,6 +937,7 @@ class MathResearchOrchestrator:
                             "time_budget_sec": time_budget_sec,
                             "attempt_timeout_sec": attempt_timeout_sec,
                             "build_timeout_sec": build_timeout_sec,
+                            "focus_mode": focus_mode,
                             "model": runner.backend_model,
                             "reasoning_effort": runner.backend_reasoning_effort,
                             "backend_max_cpu_seconds": runner.backend_max_cpu_seconds,
@@ -748,6 +1024,36 @@ class MathResearchOrchestrator:
             build_timeout_sec=build_timeout_sec,
             create_missing=create_missing,
             allow_backend_without_seed=allow_backend_without_seed,
+        )
+
+    def run_math_scout(
+        self,
+        *,
+        scout_report_path: Path | None = None,
+        backend: str = "codex",
+        problem_limit: int | None = None,
+        start_index: int = 0,
+        time_budget_sec: int = 3600,
+        timeout_per_problem_sec: int = 300,
+        output_path: Path | None = None,
+        run_name: str | None = None,
+        enable_search: bool = False,
+        selection_mode: str = "ranked",
+        exclude_problem_ids: list[str] | None = None,
+    ) -> dict[str, Any]:
+        return self.math_scout_runner.run(
+            bank_path=self.bank_path,
+            scout_report_path=scout_report_path,
+            backend=backend,
+            problem_limit=problem_limit,
+            start_index=start_index,
+            time_budget_sec=time_budget_sec,
+            timeout_per_problem_sec=timeout_per_problem_sec,
+            output_path=output_path,
+            run_name=run_name,
+            enable_search=enable_search,
+            selection_mode=selection_mode,
+            exclude_problem_ids=exclude_problem_ids,
         )
 
     def run_pipeline(self, project_dir: Path, timeout_sec: int | None = None) -> dict[str, Any]:

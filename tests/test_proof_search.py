@@ -1,4 +1,5 @@
 import json
+import sys
 from pathlib import Path
 from subprocess import CompletedProcess
 
@@ -102,9 +103,12 @@ def test_run_proof_search_converges_on_clean_project(tmp_path: Path, monkeypatch
 
     status_payload = json.loads((project_dir / "proof" / "proof_search_status.json").read_text(encoding="utf-8"))
     attempts_log = (project_dir / "proof" / "proof_search_attempts.jsonl").read_text(encoding="utf-8")
+    attempt_report = json.loads((project_dir / "proof" / "attempts" / "attempt_01" / "attempt_report.json").read_text(encoding="utf-8"))
 
     assert result["status"] == "converged"
     assert status_payload["status"] == "converged"
+    assert attempt_report["selected_agenda_item_id"]
+    assert attempt_report["search_policy"] == "best_first_frontier"
     assert '"outcome": "converged"' in attempts_log
 
 
@@ -693,6 +697,432 @@ def test_run_proof_search_paper_first_mode_records_focus_mode(tmp_path: Path, mo
     assert status_payload["focus_mode"] == "paper_first"
     assert search_context["focus_mode"] == "paper_first"
     assert attempt_report["focus_mode"] == "paper_first"
+
+
+def test_run_proof_search_prompt_and_context_include_strategy_guidance(tmp_path: Path, monkeypatch) -> None:
+    bank_path = tmp_path / "problem_bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="strategy-guidance",
+                title="Strategy Guidance Problem",
+                source="test",
+                statement="Find a literature-backed route before claiming the open problem is solved.",
+                domain="number_theory",
+                tags=["computational_search"],
+                open_problem=True,
+                references=["https://example.com/ref1", "https://example.com/ref2"],
+            )
+        ],
+        bank_path,
+    )
+    orchestrator = MathResearchOrchestrator(
+        repo_root=_repo_root(),
+        projects_root=tmp_path / "projects",
+        bank_path=bank_path,
+    )
+    project_dir = orchestrator.create_project(problem_id="strategy-guidance", name="strategy-guidance-20260425")
+    monkeypatch.setattr(
+        orchestrator.proof_search_runner,
+        "_wait_for_headroom",
+        lambda: {"status": "ready", "snapshot": {}, "blockers": [], "thresholds": {}},
+    )
+    monkeypatch.setattr(orchestrator.lean_executor, "resolve_binary", lambda name: "/usr/bin/lake")
+    monkeypatch.setattr(
+        orchestrator.lean_executor,
+        "prepare_package_cache",
+        lambda formal_dir: {"status": "linked", "selected_source": str(tmp_path / "cache"), "build_ready": True},
+    )
+    monkeypatch.setattr(orchestrator.lean_executor, "package_cache_state", lambda formal_dir: "ready")
+    monkeypatch.setattr(
+        orchestrator.lean_executor,
+        "run_command",
+        lambda command, cwd, timeout: CompletedProcess(command, 0, stdout="ok\n", stderr=""),
+    )
+
+    result = orchestrator.run_proof_search(
+        project_dir,
+        backend="none",
+        max_attempts=1,
+        max_runtime_sec=60,
+        attempt_timeout_sec=5,
+        build_timeout_sec=1,
+    )
+
+    prompt_text = (
+        project_dir / "proof" / "attempts" / "attempt_01" / "prompt.txt"
+    ).read_text(encoding="utf-8")
+    search_context = json.loads((project_dir / "proof" / "proof_search_context.json").read_text(encoding="utf-8"))
+    strategy = json.loads((project_dir / "artifacts" / "open_problem_strategy.json").read_text(encoding="utf-8"))
+    retrieval = json.loads((project_dir / "proof" / "premise_retrieval.json").read_text(encoding="utf-8"))
+    accessible_graph = json.loads((project_dir / "proof" / "accessible_premise_graph.json").read_text(encoding="utf-8"))
+    evaluator_plan = json.loads((project_dir / "proof" / "evaluator_plan.json").read_text(encoding="utf-8"))
+    proof_system_benchmark = json.loads((project_dir / "proof" / "proof_system_benchmark.json").read_text(encoding="utf-8"))
+    verifier_feedback = json.loads((project_dir / "proof" / "verifier_feedback.json").read_text(encoding="utf-8"))
+    agenda = json.loads((project_dir / "proof" / "proof_search_agenda.json").read_text(encoding="utf-8"))
+
+    assert result["status"] == "exhausted"
+    assert "Case-study-guided strategy:" in prompt_text
+    assert "Proof-system benchmark:" in prompt_text
+    assert "Verifier feedback memory:" in prompt_text
+    assert "Search agenda:" in prompt_text
+    assert "Variant check:" in prompt_text
+    assert "adversarial self-review" in prompt_text.lower()
+    assert "Retrieval-augmented premise suggestions:" in prompt_text
+    assert "Accessible premise graph:" in prompt_text
+    assert "Evaluator plan:" in prompt_text
+    assert search_context["strategy_profile_id"]
+    assert strategy["strategy_profile_id"]
+    assert search_context["strategy_required_check_count"] >= 4
+    assert "checkpoint_contract_ready" in search_context
+    assert search_context["retrieved_local_premise_count"] >= 0
+    assert "accessible_premise_count" in search_context
+    assert "evaluator_mode" in search_context
+    assert search_context["search_policy"] == "best_first_frontier"
+    assert search_context["selected_agenda_item_id"]
+    assert retrieval["query_token_count"] >= 1
+    assert "project_modules" in accessible_graph
+    assert evaluator_plan["search_friendly"] is True
+    assert evaluator_plan["evaluator_mode"] != "theorem_import_only"
+    assert proof_system_benchmark["execution_policy"]["search_policy"] == "best_first_frontier"
+    assert verifier_feedback["recommended_mode"]
+    assert agenda["selected_item_id"]
+
+
+def test_run_proof_search_honors_manual_focus_override(tmp_path: Path, monkeypatch) -> None:
+    bank_path = tmp_path / "problem_bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="manual-focus",
+                title="Manual Focus Problem",
+                source="test",
+                statement="Close the formal proof boundary for a narrowed theorem.",
+                domain="number_theory",
+                open_problem=True,
+                references=["https://example.com/ref1", "https://example.com/ref2"],
+            )
+        ],
+        bank_path,
+    )
+    orchestrator = MathResearchOrchestrator(
+        repo_root=_repo_root(),
+        projects_root=tmp_path / "projects",
+        bank_path=bank_path,
+    )
+    project_dir = orchestrator.create_project(problem_id="manual-focus", name="manual-focus-20260430")
+    write_json(
+        project_dir / "proof" / "proof_search_focus_override.json",
+        {
+            "enabled": True,
+            "reason": "The automatic agenda is stale; focus on formal closure instead.",
+            "selected_item": {
+                "item_id": "axiom-cleanup",
+                "kind": "formal_closure",
+                "label": "Axiom cleanup",
+                "target_statement": "Replace project-local axioms with imported theorems or explicit assumptions.",
+                "target_files": [
+                    "formal/MathProject/GeneratedClaims.lean",
+                    "formal/MathProject/MainClaim.lean",
+                    "proof/proof_gap_notes.md",
+                ],
+                "exit_criteria": [
+                    "List every remaining axiom and classify it as imported, conditional, or blocked.",
+                ],
+            },
+        },
+    )
+    monkeypatch.setattr(
+        orchestrator.proof_search_runner,
+        "_wait_for_headroom",
+        lambda: {"status": "ready", "snapshot": {}, "blockers": [], "thresholds": {}},
+    )
+    monkeypatch.setattr(orchestrator.lean_executor, "resolve_binary", lambda name: "/usr/bin/lake")
+    monkeypatch.setattr(
+        orchestrator.lean_executor,
+        "prepare_package_cache",
+        lambda formal_dir: {"status": "linked", "selected_source": str(tmp_path / "cache"), "build_ready": True},
+    )
+    monkeypatch.setattr(orchestrator.lean_executor, "package_cache_state", lambda formal_dir: "ready")
+    monkeypatch.setattr(
+        orchestrator.lean_executor,
+        "run_command",
+        lambda command, cwd, timeout: CompletedProcess(command, 0, stdout="ok\n", stderr=""),
+    )
+
+    orchestrator.run_proof_search(
+        project_dir,
+        backend="none",
+        max_attempts=1,
+        max_runtime_sec=60,
+        attempt_timeout_sec=5,
+        build_timeout_sec=1,
+    )
+
+    agenda = json.loads((project_dir / "proof" / "proof_search_agenda.json").read_text(encoding="utf-8"))
+    current_focus = (project_dir / "proof" / "current_focus.md").read_text(encoding="utf-8")
+    prompt = (project_dir / "proof" / "attempts" / "attempt_01" / "prompt.txt").read_text(encoding="utf-8")
+    attempt_report = json.loads(
+        (project_dir / "proof" / "attempts" / "attempt_01" / "attempt_report.json").read_text(encoding="utf-8")
+    )
+
+    assert agenda["selected_item_id"] == "axiom-cleanup"
+    assert agenda["selected_item"]["kind"] == "formal_closure"
+    assert agenda["manual_focus_override"]["path"] == "proof/proof_search_focus_override.json"
+    assert "Axiom cleanup" in current_focus
+    assert "Manual Focus Override" in current_focus
+    assert "Axiom cleanup" in prompt
+    assert attempt_report["selected_agenda_item_id"] == "axiom-cleanup"
+
+
+def test_run_proof_search_accessibility_artifact_uses_lean_support(tmp_path: Path, monkeypatch) -> None:
+    bank_path = tmp_path / "problem_bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="access-support",
+                title="Accessibility Support Problem",
+                source="test",
+                statement="Accessibility support target.",
+                domain="number_theory",
+                open_problem=False,
+                references=["https://example.com/ref1", "https://example.com/ref2"],
+            )
+        ],
+        bank_path,
+    )
+    orchestrator = MathResearchOrchestrator(
+        repo_root=_repo_root(),
+        projects_root=tmp_path / "projects",
+        bank_path=bank_path,
+    )
+    project_dir = orchestrator.create_project(problem_id="access-support", name="access-support-20260425")
+    orchestrator.set_project_statement(project_dir, "A bounded accessibility-support statement.", source="manual")
+    orchestrator.plan_project(project_dir)
+    orchestrator.prepare_formal(project_dir)
+    _write_clean_formal_sources(project_dir, "access_support")
+
+    monkeypatch.setattr(
+        orchestrator.proof_search_runner,
+        "_scan_lean_inventory",
+        lambda asset_paths, limit=80: [
+            {
+                "kind": "theorem",
+                "name": "helper_bound",
+                "statement": "True",
+                "path": str(tmp_path / "assets" / "Companion" / "Helper.lean"),
+                "line": 1,
+                "source_root": str(tmp_path / "assets"),
+            }
+        ],
+    )
+    monkeypatch.setattr(
+        orchestrator.proof_search_runner,
+        "_select_theorem_hints",
+        lambda inventory, recovered_statement, evidence, limit=8: inventory,
+    )
+    monkeypatch.setattr(
+        orchestrator.lean_executor,
+        "discover_accessible_premise_support",
+        lambda project_path: {
+            "project_modules": ["MathProject.Basic", "MathProject.GeneratedClaims", "MathProject.MainClaim"],
+            "project_imports": [],
+            "compiled_modules": ["Companion.Helper"],
+            "compiled_suffixes": {"Helper": ["Companion.Helper"]},
+            "stage_plan": {
+                "status": "ready",
+                "modules": {"UnitaryPerfect.GotoBound": {"kind": "copy"}},
+                "unresolved_imports": [],
+                "blocked_sources": [],
+            },
+        },
+    )
+    monkeypatch.setattr(orchestrator.lean_executor, "resolve_binary", lambda name: "/usr/bin/lake")
+    monkeypatch.setattr(
+        orchestrator.lean_executor,
+        "prepare_package_cache",
+        lambda formal_dir: {"status": "linked", "selected_source": str(tmp_path / "cache"), "build_ready": True},
+    )
+    monkeypatch.setattr(orchestrator.lean_executor, "package_cache_state", lambda formal_dir: "ready")
+    monkeypatch.setattr(
+        orchestrator.lean_executor,
+        "run_command",
+        lambda command, cwd, timeout: CompletedProcess(command, 0, stdout="ok\n", stderr=""),
+    )
+
+    result = orchestrator.run_proof_search(
+        project_dir,
+        backend="none",
+        max_attempts=1,
+        max_runtime_sec=60,
+        attempt_timeout_sec=5,
+        build_timeout_sec=1,
+    )
+
+    accessible_graph = json.loads((project_dir / "proof" / "accessible_premise_graph.json").read_text(encoding="utf-8"))
+    search_context = json.loads((project_dir / "proof" / "proof_search_context.json").read_text(encoding="utf-8"))
+    prompt_text = (project_dir / "proof" / "attempts" / "attempt_01" / "prompt.txt").read_text(encoding="utf-8")
+
+    assert result["status"] == "converged"
+    assert accessible_graph["support_summary"]["compiled_module_count"] == 1
+    assert accessible_graph["support_summary"]["staged_module_count"] == 1
+    assert search_context["compiled_premise_count"] == 1
+    assert search_context["staged_premise_count"] == 1
+    assert accessible_graph["accessible_premises"][0]["access_reason"] == "compiled_module"
+    assert "Support summary:" in prompt_text
+
+
+def test_run_evaluator_executes_contract_command_and_writes_report(tmp_path: Path) -> None:
+    bank_path = tmp_path / "problem_bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="evaluator-manual",
+                title="Evaluator Manual Problem",
+                source="test",
+                statement="A finite computational-search checkpoint.",
+                domain="number_theory",
+                tags=["computational_search"],
+                open_problem=True,
+                references=["https://example.com/ref1", "https://example.com/ref2"],
+            )
+        ],
+        bank_path,
+    )
+    orchestrator = MathResearchOrchestrator(
+        repo_root=_repo_root(),
+        projects_root=tmp_path / "projects",
+        bank_path=bank_path,
+    )
+    project_dir = orchestrator.create_project(problem_id="evaluator-manual", name="evaluator-manual-20260425")
+    orchestrator.set_project_statement(project_dir, "Search odd n <= N for a bounded witness.", source="manual")
+    orchestrator.plan_project(project_dir)
+    orchestrator.prepare_formal(project_dir)
+
+    script_path = project_dir / "search_bound.py"
+    script_path.write_text(
+        "\n".join(
+            [
+                "from pathlib import Path",
+                'output = Path("proof") / "evaluator-output.json"',
+                'output.write_text("{\\"status\\": \\"ok\\"}\\n", encoding="utf-8")',
+                'print("bounded search complete")',
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    contract = json.loads((project_dir / "proof" / "counterexample_search_contract.json").read_text(encoding="utf-8"))
+    contract.update(
+        {
+            "status": "ready",
+            "search_contract": "Check every odd n <= 25 against the current bounded witness predicate.",
+            "command": [sys.executable, str(script_path)],
+            "working_directory": "",
+            "timeout_sec": 20,
+            "auto_run_allowed": True,
+            "expected_output_paths": ["proof/evaluator-output.json"],
+        }
+    )
+    write_json(project_dir / "proof" / "counterexample_search_contract.json", contract)
+
+    report = orchestrator.run_evaluator(project_dir, timeout_sec=20)
+    refreshed_contract = json.loads((project_dir / "proof" / "counterexample_search_contract.json").read_text(encoding="utf-8"))
+
+    assert report["status"] == "completed"
+    assert report["command_source"] == "contract_command"
+    assert report["expected_outputs"][0]["exists"] is True
+    assert refreshed_contract["last_run_status"] == "completed"
+    assert json.loads((project_dir / "proof" / "evaluator_report.json").read_text(encoding="utf-8"))["status"] == "completed"
+
+
+def test_run_proof_search_auto_runs_evaluator_when_allowed(tmp_path: Path, monkeypatch) -> None:
+    bank_path = tmp_path / "problem_bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="evaluator-auto",
+                title="Evaluator Auto Problem",
+                source="test",
+                statement="A finite computational-search checkpoint.",
+                domain="number_theory",
+                tags=["computational_search"],
+                open_problem=False,
+                references=["https://example.com/ref1", "https://example.com/ref2"],
+            )
+        ],
+        bank_path,
+    )
+    orchestrator = MathResearchOrchestrator(
+        repo_root=_repo_root(),
+        projects_root=tmp_path / "projects",
+        bank_path=bank_path,
+    )
+    project_dir = orchestrator.create_project(problem_id="evaluator-auto", name="evaluator-auto-20260425")
+    orchestrator.set_project_statement(project_dir, "Search odd n <= N for a bounded witness.", source="manual")
+    orchestrator.plan_project(project_dir)
+    orchestrator.prepare_formal(project_dir)
+    _write_clean_formal_sources(project_dir, "evaluator_auto")
+
+    script_path = project_dir / "auto_search.py"
+    script_path.write_text(
+        "\n".join(
+            [
+                "from pathlib import Path",
+                'output = Path("proof") / "auto-evaluator-output.json"',
+                'output.write_text("{\\"status\\": \\"ok\\"}\\n", encoding="utf-8")',
+                'print("auto evaluator complete")',
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    contract = json.loads((project_dir / "proof" / "counterexample_search_contract.json").read_text(encoding="utf-8"))
+    contract.update(
+        {
+            "status": "ready",
+            "search_contract": "Check every odd n <= 25 against the current bounded witness predicate.",
+            "command": [sys.executable, str(script_path)],
+            "working_directory": "",
+            "timeout_sec": 20,
+            "auto_run_allowed": True,
+            "expected_output_paths": ["proof/auto-evaluator-output.json"],
+        }
+    )
+    write_json(project_dir / "proof" / "counterexample_search_contract.json", contract)
+
+    monkeypatch.setattr(orchestrator.lean_executor, "resolve_binary", lambda name: "/usr/bin/lake")
+    monkeypatch.setattr(
+        orchestrator.lean_executor,
+        "prepare_package_cache",
+        lambda formal_dir: {"status": "linked", "selected_source": str(tmp_path / "cache"), "build_ready": True},
+    )
+    monkeypatch.setattr(orchestrator.lean_executor, "package_cache_state", lambda formal_dir: "ready")
+    monkeypatch.setattr(
+        orchestrator.lean_executor,
+        "run_command",
+        lambda command, cwd, timeout: CompletedProcess(command, 0, stdout="ok\n", stderr=""),
+    )
+
+    result = orchestrator.run_proof_search(
+        project_dir,
+        backend="none",
+        max_attempts=1,
+        max_runtime_sec=60,
+        attempt_timeout_sec=5,
+        build_timeout_sec=1,
+    )
+
+    search_context = json.loads((project_dir / "proof" / "proof_search_context.json").read_text(encoding="utf-8"))
+    attempt_report = json.loads((project_dir / "proof" / "attempts" / "attempt_01" / "attempt_report.json").read_text(encoding="utf-8"))
+    prompt_text = (project_dir / "proof" / "attempts" / "attempt_01" / "prompt.txt").read_text(encoding="utf-8")
+    evaluator_report = json.loads((project_dir / "proof" / "evaluator_report.json").read_text(encoding="utf-8"))
+
+    assert result["status"] == "converged"
+    assert evaluator_report["status"] == "completed"
+    assert search_context["evaluator_report_status"] == "completed"
+    assert attempt_report["evaluator_report_status"] == "completed"
+    assert "Evaluator report:" in prompt_text
 
 
 def test_invoke_backend_writes_artifact_on_failure(tmp_path: Path, monkeypatch) -> None:

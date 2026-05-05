@@ -245,6 +245,116 @@ def test_review_accepts_literature_recovered_statement_for_open_problem(tmp_path
     assert any("literature-recovered exact statement" in warning.lower() for warning in report["warnings"])
 
 
+def test_review_blocks_untrusted_external_main_claim_dependency(tmp_path: Path) -> None:
+    bank_path = tmp_path / "problem_bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="unsafe-import-problem",
+                title="Unsafe Import Problem",
+                source="test",
+                statement="Determine whether there are finitely many unitary perfect numbers.",
+                domain="number_theory",
+                tags=["unitary_perfect"],
+                open_problem=False,
+                references=["/tmp/local-note.md", "/tmp/second-note.md"],
+            )
+        ],
+        bank_path,
+    )
+    orchestrator = MathResearchOrchestrator(
+        repo_root=_repo_root(),
+        projects_root=tmp_path / "projects",
+        bank_path=bank_path,
+    )
+    project_dir = orchestrator.create_project(problem_id="unsafe-import-problem", name="unsafe-import-problem-20260425")
+    orchestrator.set_project_statement(project_dir, "Determine whether there are finitely many unitary perfect numbers.", source="manual test")
+
+    (project_dir / "proof").mkdir(exist_ok=True)
+    (project_dir / "idea").mkdir(exist_ok=True)
+    (project_dir / "formal" / "MathProject").mkdir(parents=True, exist_ok=True)
+    (project_dir / "writing").mkdir(exist_ok=True)
+    (project_dir / "artifacts").mkdir(exist_ok=True)
+
+    (project_dir / "proof" / "proof_plan.json").write_text('{"tasks":[{"task_id":"t1"}]}\n', encoding="utf-8")
+    (project_dir / "proof" / "claim_registry.json").write_text(json.dumps({"claims": []}) + "\n", encoding="utf-8")
+    (project_dir / "idea" / "proof_path_assessment.json").write_text(
+        json.dumps({"status": "generated", "readiness_tier": "promising"}) + "\n",
+        encoding="utf-8",
+    )
+    (project_dir / "idea" / "math_idea_ledger.json").write_text(
+        json.dumps({"themes": ["unsafe import staging"]}) + "\n",
+        encoding="utf-8",
+    )
+    (project_dir / "idea" / "literature_evidence.json").write_text(
+        json.dumps({"counts": {"known_results": 1}, "source_attribution_count": 2}) + "\n",
+        encoding="utf-8",
+    )
+    (project_dir / "artifacts" / "formal_preparation.json").write_text(
+        json.dumps({"seed_family": "unitary_perfect", "main_claim_seed": {"name": "unitary_perfect_finite", "trust_level": "unsafe"}})
+        + "\n",
+        encoding="utf-8",
+    )
+    (project_dir / "artifacts" / "lean_build_report.json").write_text(
+        json.dumps({"status": "passed", "sorry_count": 0, "summary": "Imported external theorem builds cleanly."}) + "\n",
+        encoding="utf-8",
+    )
+    manuscript_path = project_dir / "writing" / "research_report.md"
+    manuscript_path.write_text(
+        "\n".join(
+            [
+                "# Unsafe Import Problem",
+                "",
+                "## Summary",
+                "",
+                "Imported theorem report.",
+                "",
+                "## Exact Statement",
+                "",
+                "Determine whether there are finitely many unitary perfect numbers.",
+                "",
+                "## Formalization Status",
+                "",
+                "- Lean build status: `passed`",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (project_dir / "artifacts" / "manuscript_report.json").write_text(
+        json.dumps({"manuscript_path": str(manuscript_path)}) + "\n",
+        encoding="utf-8",
+    )
+    (project_dir / "formal" / "MathProject" / "Basic.lean").write_text("theorem clean_basic : True := by\n  trivial\n", encoding="utf-8")
+    (project_dir / "formal" / "MathProject" / "GeneratedClaims.lean").write_text(
+        "theorem clean_generated : True := by\n  trivial\n",
+        encoding="utf-8",
+    )
+    (project_dir / "formal" / "MathProject" / "MainClaim.lean").write_text(
+        "\n".join(
+            [
+                "import MathProject.GeneratedClaims",
+                "import Mathlib.NumberTheory.UnitaryPerfect.Finiteness",
+                "",
+                "namespace MathProject",
+                "",
+                "theorem imported_main : Set.Finite {n : ℕ | True} := by",
+                "  exact UnitaryPerfect.unitary_perfect_finite",
+                "",
+                "end MathProject",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    reviewer = MathReviewer()
+    report = reviewer.review(project_dir)
+
+    assert report["status"] == "blocked"
+    assert any("external companion theorem" in blocker.lower() and "`unsafe`" in blocker for blocker in report["blockers"])
+
+
 def test_review_does_not_treat_benchmark_shell_as_converged_open_problem(tmp_path: Path) -> None:
     bank_path = tmp_path / "problem_bank.yaml"
     save_problem_bank(

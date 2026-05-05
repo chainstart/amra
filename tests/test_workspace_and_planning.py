@@ -47,6 +47,11 @@ def test_create_project_and_generate_plan(tmp_path: Path) -> None:
     assert (project_dir / "proof" / "route_discovery_brief.json").exists()
     assert (project_dir / "proof" / "mathematical_blockers.json").exists()
     assert (project_dir / "proof" / "selected_route.md").exists()
+    assert (project_dir / "proof" / "checkpoint_contract.json").exists()
+    assert (project_dir / "proof" / "checkpoint_contract.md").exists()
+    assert (project_dir / "proof" / "proof_system_benchmark.json").exists()
+    assert (project_dir / "proof" / "proof_system_benchmark.md").exists()
+    assert (project_dir / "proof" / "current_focus.md").exists()
     assert (project_dir / "idea" / "exact_statement.md").exists()
     assert (project_dir / "idea" / "proof_path_assessment.json").exists()
     assert (project_dir / "idea" / "math_idea_ledger.json").exists()
@@ -103,6 +108,8 @@ def test_plan_project_builds_theorem_inventory_and_route_scaffold(tmp_path: Path
     route_scaffold = json.loads((project_dir / "proof" / "proof_route_scaffold.json").read_text(encoding="utf-8"))
     route_discovery = json.loads((project_dir / "proof" / "route_discovery_brief.json").read_text(encoding="utf-8"))
     mathematical_blockers = json.loads((project_dir / "proof" / "mathematical_blockers.json").read_text(encoding="utf-8"))
+    checkpoint_contract = json.loads((project_dir / "proof" / "checkpoint_contract.json").read_text(encoding="utf-8"))
+    proof_system_benchmark = json.loads((project_dir / "proof" / "proof_system_benchmark.json").read_text(encoding="utf-8"))
     selected_route = (project_dir / "proof" / "selected_route.md").read_text(encoding="utf-8")
 
     assert theorem_inventory["entry_count"] >= 1
@@ -119,6 +126,11 @@ def test_plan_project_builds_theorem_inventory_and_route_scaffold(tmp_path: Path
     assert route_discovery["route_candidates"]
     assert route_discovery["anti_patterns"]
     assert mathematical_blockers["blocker_count"] >= 1
+    assert checkpoint_contract["selected_route_id"] == route_candidates["selected_route_id"]
+    assert checkpoint_contract["dependency_chain"]
+    assert checkpoint_contract["definition_alignment_questions"]
+    assert proof_system_benchmark["execution_policy"]["search_policy"] == "best_first_frontier"
+    assert proof_system_benchmark["capabilities"]
     assert "## Mathematical Objective" in selected_route
     assert any(task["task_type"] == "proof_route_scaffold" for task in plan["tasks"])
     assert any(task["task_type"] == "theorem_graph_construction" for task in plan["tasks"])
@@ -172,7 +184,6 @@ def test_prepare_formal_and_review_report_blocked_on_placeholders(tmp_path: Path
     assert "## Literature Evidence" in manuscript_text
     assert review["status"] == "blocked"
     assert any("Lean build status is `needs_attention`" in blocker for blocker in review["blockers"])
-    assert any("exact mathematical statement" in blocker for blocker in review["blockers"])
     assert any("No structured literature evidence" in warning for warning in review["warnings"])
 
 
@@ -419,6 +430,7 @@ def test_prepare_formal_seeds_unitary_family_from_companion_build_root(tmp_path:
     asset_root = tmp_path / "formal-math" / "erdos-1052-unitary-perfect"
     (asset_root / ".lake" / "build" / "lib" / "lean").mkdir(parents=True)
     (asset_root / "lean").mkdir(parents=True)
+    (asset_root / "UnitaryPerfect").mkdir(parents=True)
     (asset_root / "lean" / "GotoBound.lean").write_text(
         "\n".join(
             [
@@ -428,6 +440,23 @@ def test_prepare_formal_seeds_unitary_family_from_companion_build_root(tmp_path:
                 "  sorry",
                 "",
                 "end Goto",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    (asset_root / "UnitaryPerfect" / "UnitaryPerfect.lean").write_text(
+        "\n".join(
+            [
+                "namespace Nat",
+                "",
+                "def UnitaryPerfect (n : ℕ) : Prop := Even n",
+                "",
+                "theorem no_odd_unitary_perfect {n : ℕ} (hodd : Odd n) (hgt1 : n > 1) : ¬UnitaryPerfect n := by",
+                "  intro h",
+                "  exact (Nat.not_even_iff_odd.mpr hodd) h",
+                "",
+                "end Nat",
                 "",
             ]
         ),
@@ -457,6 +486,277 @@ def test_prepare_formal_seeds_unitary_family_from_companion_build_root(tmp_path:
     assert "Even n" in generated_text
     assert "Set.Finite" in main_text
     assert any(candidate["name"] == "upn_finite_goto" for candidate in porting_candidates["candidates"])
+    odd_candidate = next(candidate for candidate in porting_candidates["candidates"] if candidate["name"] == "no_odd_unitary_perfect")
+    assert odd_candidate["candidate_role"] == "odd_exclusion"
+    assert odd_candidate["aligned_with_target"] is False
+    assert odd_candidate["usable_for_main_claim"] is False
+
+
+def test_prepare_formal_rewrites_stale_main_claim_when_target_statement_changes(tmp_path: Path) -> None:
+    bank_path = tmp_path / "problem_bank.yaml"
+    target_statement = "Determine whether there are only finitely many unitary perfect numbers."
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="erdos-1052",
+                title="Finite Number of Unitary Perfect Numbers",
+                source="test",
+                statement=target_statement,
+                domain="number_theory",
+                tags=["unitary_perfect"],
+            )
+        ],
+        bank_path,
+    )
+    asset_root = tmp_path / "formal-math" / "erdos-1052-unitary-perfect"
+    (asset_root / ".lake" / "build" / "lib" / "lean").mkdir(parents=True)
+    (asset_root / "lean").mkdir(parents=True)
+    (asset_root / "UnitaryPerfect").mkdir(parents=True)
+    (asset_root / "lean" / "GotoBound.lean").write_text(
+        "\n".join(
+            [
+                "namespace Goto",
+                "",
+                "theorem upn_finite_goto : Set.Finite {N : ℕ | Nat.UnitaryPerfect N} := by",
+                "  sorry",
+                "",
+                "end Goto",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    (asset_root / "UnitaryPerfect" / "UnitaryPerfect.lean").write_text(
+        "\n".join(
+            [
+                "namespace Nat",
+                "",
+                "def UnitaryPerfect (n : ℕ) : Prop := Even n",
+                "",
+                "theorem no_odd_unitary_perfect {n : ℕ} (hodd : Odd n) (hgt1 : n > 1) : ¬UnitaryPerfect n := by",
+                "  intro h",
+                "  exact (Nat.not_even_iff_odd.mpr hodd) h",
+                "",
+                "end Nat",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    orchestrator = MathResearchOrchestrator(
+        repo_root=_repo_root(),
+        projects_root=tmp_path / "projects",
+        bank_path=bank_path,
+    )
+    project_dir = orchestrator.create_project(problem_id="erdos-1052", name="erdos-1052-20260425")
+    orchestrator.plan_project(project_dir)
+    proof_path = json.loads((project_dir / "idea" / "proof_path_assessment.json").read_text(encoding="utf-8"))
+    proof_path["local_assets"] = [{"kind": "local_project_dir", "path": str(asset_root)}]
+    (project_dir / "idea" / "proof_path_assessment.json").write_text(json.dumps(proof_path, indent=2), encoding="utf-8")
+    (project_dir / "formal" / "MathProject" / "MainClaim.lean").write_text(
+        "\n".join(
+            [
+                "import MathProject.GeneratedClaims",
+                "",
+                "namespace MathProject",
+                "",
+                "def mainTargetStatement : String :=",
+                '  "d 是 n 的一元因子，当且仅当 d | n 且 gcd(d, n/d) = 1"',
+                "",
+                "theorem stale_manual_main : True := by",
+                "  trivial",
+                "",
+                "end MathProject",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    report = orchestrator.prepare_formal(project_dir)
+    main_text = (project_dir / "formal" / "MathProject" / "MainClaim.lean").read_text(encoding="utf-8")
+
+    assert str(project_dir / "formal" / "MathProject" / "MainClaim.lean") not in report["preserved_files"]
+    assert target_statement in main_text
+    assert "d 是 n 的一元因子" not in main_text
+
+
+def test_prepare_formal_seeds_unitary_foundation_main_theorem_from_companion_import(tmp_path: Path) -> None:
+    bank_path = tmp_path / "problem_bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="odd-unitary-perfect-exclusion",
+                title="No Odd Unitary Perfect Numbers",
+                source="test",
+                statement="Prove that no odd unitary perfect numbers exist.",
+                domain="number_theory",
+                tags=["unitary_perfect"],
+                open_problem=False,
+            )
+        ],
+        bank_path,
+    )
+    asset_root = tmp_path / "formal-math" / "erdos-1052-unitary-perfect"
+    (asset_root / ".lake" / "build" / "lib" / "lean").mkdir(parents=True)
+    (asset_root / "UnitaryPerfect").mkdir(parents=True)
+    (asset_root / ".lake" / "build" / "lib" / "lean" / "UnitaryPerfect").mkdir(parents=True, exist_ok=True)
+    (asset_root / ".lake" / "build" / "lib" / "lean" / "UnitaryPerfect" / "UnitaryPerfect.olean").write_text(
+        "",
+        encoding="utf-8",
+    )
+    (asset_root / "UnitaryPerfect" / "UnitaryPerfect.lean").write_text(
+        "\n".join(
+            [
+                "namespace Nat",
+                "",
+                "def UnitaryPerfect (n : ℕ) : Prop := Even n",
+                "",
+                "theorem no_odd_unitary_perfect {n : ℕ} (hodd : Odd n) (hgt1 : n > 1) : ¬UnitaryPerfect n := by",
+                "  intro h",
+                "  exact (Nat.not_even_iff_odd.mpr hodd) h",
+                "",
+                "theorem UnitaryPerfect.even {n : ℕ} (h : UnitaryPerfect n) : Even n := by",
+                "  exact h",
+                "",
+                "end Nat",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    orchestrator = MathResearchOrchestrator(
+        repo_root=_repo_root(),
+        projects_root=tmp_path / "projects",
+        bank_path=bank_path,
+    )
+    project_dir = orchestrator.create_project(
+        problem_id="odd-unitary-perfect-exclusion",
+        name="odd-unitary-perfect-exclusion-20260425",
+    )
+    orchestrator.plan_project(project_dir)
+    proof_path = json.loads((project_dir / "idea" / "proof_path_assessment.json").read_text(encoding="utf-8"))
+    proof_path["local_assets"] = [{"kind": "local_project_dir", "path": str(asset_root)}]
+    (project_dir / "idea" / "proof_path_assessment.json").write_text(json.dumps(proof_path, indent=2), encoding="utf-8")
+
+    report = orchestrator.prepare_formal(project_dir)
+    main_text = (project_dir / "formal" / "MathProject" / "MainClaim.lean").read_text(encoding="utf-8")
+    porting_candidates = json.loads((project_dir / "proof" / "porting_candidates.json").read_text(encoding="utf-8"))
+
+    assert report["seed_family"] == "unitary_perfect"
+    assert "MathProject.noOddUnitaryPerfect" in main_text
+    assert "Prove that no odd unitary perfect numbers exist." in main_text
+    assert "There are finitely many unitary perfect numbers" not in main_text
+    assert "ARA_MATH_PLACEHOLDER" not in main_text
+    assert "sorry" not in main_text
+    odd_candidate = next(candidate for candidate in porting_candidates["candidates"] if candidate["name"] == "no_odd_unitary_perfect")
+    assert odd_candidate["aligned_with_target"] is True
+    assert odd_candidate["usable_for_main_claim"] is True
+
+
+def test_prepare_formal_can_seed_provisional_unitary_finiteness_from_compiled_mathlib_asset(tmp_path: Path) -> None:
+    bank_path = tmp_path / "problem_bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="erdos-1052",
+                title="Finite Number of Unitary Perfect Numbers",
+                source="test",
+                statement="Determine whether there are only finitely many unitary perfect numbers.",
+                domain="number_theory",
+                tags=["unitary_perfect"],
+            )
+        ],
+        bank_path,
+    )
+    trusted_root = tmp_path / "formal-math" / "erdos-1052-unitary-perfect"
+    (trusted_root / ".lake" / "build" / "lib" / "lean" / "UnitaryPerfect").mkdir(parents=True, exist_ok=True)
+    (trusted_root / "UnitaryPerfect").mkdir(parents=True)
+    (trusted_root / ".lake" / "build" / "lib" / "lean" / "UnitaryPerfect" / "UnitaryPerfect.olean").write_text(
+        "",
+        encoding="utf-8",
+    )
+    (trusted_root / "UnitaryPerfect" / "UnitaryPerfect.lean").write_text(
+        "\n".join(
+            [
+                "namespace Nat",
+                "",
+                "def UnitaryPerfect (n : ℕ) : Prop := Even n",
+                "",
+                "theorem no_odd_unitary_perfect {n : ℕ} (hodd : Odd n) (hgt1 : n > 1) : ¬UnitaryPerfect n := by",
+                "  intro h",
+                "  exact (Nat.not_even_iff_odd.mpr hodd) h",
+                "",
+                "theorem UnitaryPerfect.even {n : ℕ} (h : UnitaryPerfect n) : Even n := by",
+                "  exact h",
+                "",
+                "end Nat",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    mathlib_root = tmp_path / "formal-math" / "unitary-perfect-lean4" / "mathlib-contrib"
+    (mathlib_root / ".lake" / "build" / "lib" / "lean" / "Mathlib" / "NumberTheory" / "UnitaryPerfect").mkdir(
+        parents=True, exist_ok=True
+    )
+    (mathlib_root / "Mathlib" / "NumberTheory" / "UnitaryPerfect").mkdir(parents=True)
+    (mathlib_root / ".lake" / "build" / "lib" / "lean" / "Mathlib" / "NumberTheory" / "UnitaryPerfect" / "Finiteness.olean").write_text(
+        "",
+        encoding="utf-8",
+    )
+    (mathlib_root / "Mathlib" / "NumberTheory" / "UnitaryPerfect" / "Finiteness.lean").write_text(
+        "\n".join(
+            [
+                "namespace UnitaryPerfect",
+                "",
+                "axiom exists_bound_on_power_of_two :",
+                "  ∃ A : ℕ, ∀ m, Nat.UnitaryPerfect m → m ≤ A",
+                "",
+                "theorem unitary_perfect_finite :",
+                "    Set.Finite {m : ℕ | Nat.UnitaryPerfect m} := by",
+                "  classical",
+                "  simpa using Set.toFinite {m : ℕ | m ≤ Classical.choose exists_bound_on_power_of_two}",
+                "",
+                "end UnitaryPerfect",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    orchestrator = MathResearchOrchestrator(
+        repo_root=_repo_root(),
+        projects_root=tmp_path / "projects",
+        bank_path=bank_path,
+    )
+    project_dir = orchestrator.create_project(problem_id="erdos-1052", name="erdos-1052-20260425b")
+    orchestrator.plan_project(project_dir)
+    proof_path = json.loads((project_dir / "idea" / "proof_path_assessment.json").read_text(encoding="utf-8"))
+    proof_path["local_assets"] = [{"kind": "local_project_dir", "path": str(trusted_root)}]
+    (project_dir / "idea" / "proof_path_assessment.json").write_text(json.dumps(proof_path, indent=2), encoding="utf-8")
+
+    report = orchestrator.prepare_formal(project_dir)
+    basic_text = (project_dir / "formal" / "MathProject" / "Basic.lean").read_text(encoding="utf-8")
+    main_text = (project_dir / "formal" / "MathProject" / "MainClaim.lean").read_text(encoding="utf-8")
+    porting_candidates = json.loads((project_dir / "proof" / "porting_candidates.json").read_text(encoding="utf-8"))
+
+    finite_candidate = next(candidate for candidate in porting_candidates["candidates"] if candidate["name"] == "unitary_perfect_finite")
+    assert finite_candidate["import_hint"] == "Mathlib.NumberTheory.UnitaryPerfect.Finiteness"
+    assert finite_candidate["import_ready"] is True
+    assert finite_candidate["aligned_with_target"] is True
+    assert finite_candidate["trust_level"] == "unsafe"
+    assert report["main_claim_seed"]["name"] == "unitary_perfect_finite"
+    assert report["main_claim_seed"]["trust_level"] == "unsafe"
+    assert "import Mathlib.NumberTheory.UnitaryPerfect" in basic_text
+    assert "import UnitaryPerfect.UnitaryPerfect" not in basic_text
+    assert "import Mathlib.NumberTheory.UnitaryPerfect.Finiteness" in main_text
+    assert "exact UnitaryPerfect.unitary_perfect_finite" in main_text
+    assert "Companion trust level: unsafe" in main_text
+    assert "ARA_MATH_PLACEHOLDER" not in main_text
+    assert "sorry" not in main_text
 
 
 def test_prepare_formal_seeds_prime_gap_spectrum_family(tmp_path: Path) -> None:

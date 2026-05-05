@@ -38,7 +38,10 @@ class LeanExecutor:
         self.max_cpu_seconds = (
             max_cpu_seconds if max_cpu_seconds is not None else env_int("ARA_MATH_LEAN_MAX_CPU_SECONDS", max(timeout_sec + 30, 900))
         )
-        self.max_processes = max_processes if max_processes is not None else env_int("ARA_MATH_LEAN_MAX_PROCESSES", 256)
+        # Lean/lake can create many worker threads, and RLIMIT_NPROC is counted
+        # against the whole Unix user. A low cap can fail before Lean starts on
+        # otherwise idle WSL machines that already have background services.
+        self.max_processes = max_processes if max_processes is not None else env_int("ARA_MATH_LEAN_MAX_PROCESSES", 4096)
         self.niceness = niceness if niceness is not None else env_int("ARA_MATH_LEAN_NICENESS", 10)
         self.allow_cold_cache = allow_cold_cache if allow_cold_cache is not None else env_bool("ARA_MATH_ALLOW_COLD_CACHE", False)
         self.min_available_memory_mb = env_int("ARA_MATH_MIN_AVAILABLE_MEMORY_MB", max(4096, self.max_memory_mb // 2))
@@ -321,6 +324,31 @@ class LeanExecutor:
                 suffix_map.setdefault(suffix, set()).add(module_name)
         return exact, {key: sorted(value) for key, value in suffix_map.items()}
 
+    def _project_imports_ara_library(self, project_dir: Path) -> bool:
+        formal_dir = project_dir / "formal"
+        if not formal_dir.exists():
+            return False
+        for lean_file in formal_dir.rglob("*.lean"):
+            if ".lake" in lean_file.parts or lean_file.name == "lakefile.lean":
+                continue
+            for imported in self._parse_imports(lean_file):
+                if imported == "AraLibrary" or imported.startswith("AraLibrary."):
+                    return True
+        return False
+
+    def ara_library_search_entries(self, project_dir: Path | None = None) -> list[str]:
+        repo_root_override = os.environ.get("ARA_MATH_REPO_ROOT", "").strip()
+        repo_root = Path(repo_root_override).expanduser() if repo_root_override else Path(__file__).resolve().parents[2]
+        formal_dir = repo_root / "ara_library" / "formal"
+        if not formal_dir.exists():
+            return []
+        if project_dir is not None and not self._project_imports_ara_library(project_dir):
+            return []
+        candidates = [formal_dir / ".lake" / "build" / "lib" / "lean"]
+        if project_dir is not None:
+            candidates.append(formal_dir)
+        return [str(candidate) for candidate in candidates if candidate.exists()]
+
     def _discover_source_stage_plan(self, project_dir: Path) -> dict[str, Any]:
         candidates_payload = read_json(project_dir / "proof" / "porting_candidates.json", default={})
         porting_candidates = candidates_payload.get("candidates", [])
@@ -328,6 +356,13 @@ class LeanExecutor:
         for candidate in porting_candidates:
             source_path = Path(str(candidate.get("source_path", "")).strip())
             if candidate.get("import_ready") or not source_path.exists():
+                continue
+            aligned_with_target = candidate.get("aligned_with_target")
+            if aligned_with_target is None:
+                aligned_with_target = candidate.get("usable_for_main_claim")
+            if aligned_with_target is None:
+                aligned_with_target = True
+            if not aligned_with_target:
                 continue
             target_sources.append(source_path)
 
@@ -339,6 +374,7 @@ class LeanExecutor:
                 "compile_order": [],
                 "modules": {},
                 "unresolved_imports": [],
+                "blocked_sources": [],
             }
 
         source_module_map: dict[str, Path] = {}
@@ -548,12 +584,25 @@ class LeanExecutor:
 
     def discover_local_asset_search_entries(self, project_dir: Path) -> list[str]:
         proof_path = read_json(project_dir / "idea" / "proof_path_assessment.json", default={})
+        formal_preparation = read_json(project_dir / "artifacts" / "formal_preparation.json", default={})
         entries: list[str] = []
         seen: set[str] = set()
+        for raw_entry in self.ara_library_search_entries(project_dir):
+            if raw_entry not in seen:
+                seen.add(raw_entry)
+                entries.append(raw_entry)
+        raw_candidates: list[str] = []
         for asset in proof_path.get("local_assets", []):
             raw_path = str(asset.get("path", "")).strip()
             if not raw_path:
                 continue
+            raw_candidates.append(raw_path)
+        for raw_path in formal_preparation.get("seed_asset_paths", []):
+            raw_path = str(raw_path).strip()
+            if not raw_path:
+                continue
+            raw_candidates.append(raw_path)
+        for raw_path in raw_candidates:
             path = Path(raw_path)
             if not path.exists():
                 continue
@@ -589,6 +638,28 @@ class LeanExecutor:
             relative = lean_file.relative_to(formal_dir).with_suffix("")
             modules.append(".".join(relative.parts))
         return modules
+
+    def discover_accessible_premise_support(self, project_dir: Path) -> dict[str, Any]:
+        formal_dir = project_dir / "formal"
+        project_modules = self.discover_project_modules(formal_dir) if formal_dir.exists() else []
+        project_imports: set[str] = set()
+        if formal_dir.exists():
+            for lean_file in sorted(formal_dir.rglob("*.lean")):
+                if ".lake" in lean_file.parts or lean_file.name == "lakefile.lean":
+                    continue
+                project_imports.update(self._parse_imports(lean_file))
+        local_asset_entries = self.discover_local_asset_search_entries(project_dir)
+        compiled_modules, compiled_suffixes = self._compiled_module_index(local_asset_entries)
+        stage_plan = self._discover_source_stage_plan(project_dir)
+        return {
+            "generated_at": utc_now_iso(),
+            "project_modules": project_modules,
+            "project_imports": sorted(project_imports),
+            "local_asset_search_entries": local_asset_entries,
+            "compiled_modules": sorted(compiled_modules),
+            "compiled_suffixes": compiled_suffixes,
+            "stage_plan": stage_plan,
+        }
 
     def lean_search_path_entries(
         self,

@@ -45,6 +45,21 @@ class FormalizationPreparer:
             return False
         return "ARA_MATH_PLACEHOLDER" not in text and "sorry" not in text
 
+    def _main_claim_matches_target(self, path: Path, target_statement: str) -> bool:
+        if not path.exists() or not target_statement.strip():
+            return True
+        text = read_text(path)
+        if "mainTargetStatement" not in text:
+            return True
+        match = re.search(
+            r'def\s+mainTargetStatement\s*:\s*String\s*:=\s*"((?:[^"\\]|\\.)*)"',
+            text,
+            re.S,
+        )
+        if not match:
+            return True
+        return match.group(1).strip() == _escape_string(target_statement).strip()
+
     def _is_builtin_basic_template(self, path: Path, manifest: dict[str, Any]) -> bool:
         if not path.exists():
             return False
@@ -70,11 +85,45 @@ class FormalizationPreparer:
             raw_path = str(metadata.get(key, "")).strip()
             if raw_path:
                 candidates.append(Path(raw_path))
+        if project_dir.parent.name == "projects":
+            candidates.append(project_dir.parent.parent / "ara_library" / "formal")
         deduped: list[Path] = []
         seen: set[str] = set()
         for path in candidates:
             if not path.exists():
                 continue
+            try:
+                resolved = str(path.resolve())
+            except OSError:
+                resolved = str(path)
+            if resolved in seen:
+                continue
+            seen.add(resolved)
+            deduped.append(path)
+        return deduped
+
+    def _expand_unitary_perfect_asset_paths(self, asset_paths: list[Path]) -> list[Path]:
+        candidates = list(asset_paths)
+        formal_math_roots: list[Path] = []
+        for asset_path in asset_paths:
+            root = asset_path if asset_path.is_dir() else asset_path.parent
+            for parent in (root, *root.parents):
+                if parent.name == "formal-math":
+                    formal_math_roots.append(parent)
+                    break
+        for formal_root in formal_math_roots:
+            for relative in (
+                "erdos-1052-unitary-perfect",
+                "unitary-biunitary-perfect-lean4",
+                "unitary-perfect-lean4",
+                "unitary-perfect-lean4/mathlib-contrib",
+            ):
+                candidate = formal_root / relative
+                if candidate.exists():
+                    candidates.append(candidate)
+        deduped: list[Path] = []
+        seen: set[str] = set()
+        for path in candidates:
             try:
                 resolved = str(path.resolve())
             except OSError:
@@ -138,7 +187,7 @@ class FormalizationPreparer:
 
     def _source_module_is_compiled(self, source_path: Path) -> bool:
         parts = source_path.parts
-        for marker in ("lean", "UnitaryPerfect", "WeirdNumbers", "TriangleDissection"):
+        for marker in ("lean", "Mathlib", "UnitaryPerfect", "WeirdNumbers", "TriangleDissection"):
             if marker not in parts:
                 continue
             index = parts.index(marker)
@@ -152,7 +201,7 @@ class FormalizationPreparer:
 
     def _source_import_hint(self, source_path: Path) -> str:
         parts = source_path.parts
-        for marker in ("lean", "UnitaryPerfect", "WeirdNumbers", "TriangleDissection"):
+        for marker in ("lean", "Mathlib", "UnitaryPerfect", "WeirdNumbers", "TriangleDissection"):
             if marker not in parts:
                 continue
             index = parts.index(marker)
@@ -162,6 +211,80 @@ class FormalizationPreparer:
                 relative = Path(*parts[index:]).with_suffix("")
             return ".".join(relative.parts)
         return source_path.stem
+
+    def _unitary_perfect_target_kind(self, statement: str) -> str:
+        lowered = statement.lower().strip()
+        if not lowered:
+            return "generic"
+        if "no odd unitary perfect" in lowered or "不存在奇" in statement:
+            return "odd_exclusion"
+        if (
+            "finitely many unitary perfect" in lowered
+            or "only finitely many unitary perfect" in lowered
+            or ("unitary perfect" in lowered and "finitely many" in lowered)
+            or ("一元完全数" in statement and "有限" in statement)
+        ):
+            return "finiteness"
+        return "generic"
+
+    def _unitary_perfect_candidate_role(self, *, name: str, signature: str) -> str:
+        haystack = f"{name} {signature}".lower()
+        if "no_odd_unitary_perfect" in haystack:
+            return "odd_exclusion"
+        if "unitary_perfect_finite" in haystack or "upn_finite_goto" in haystack or "finite" in haystack:
+            return "finiteness"
+        return "supporting_theorem"
+
+    def _candidate_aligned_with_target(self, *, family: str, candidate_role: str, target_statement: str) -> bool:
+        if family != "unitary_perfect":
+            return True
+        target_kind = self._unitary_perfect_target_kind(target_statement)
+        if target_kind == "odd_exclusion":
+            return candidate_role == "odd_exclusion"
+        if target_kind == "finiteness":
+            return candidate_role == "finiteness"
+        return candidate_role != "supporting_theorem"
+
+    def _unitary_perfect_candidate_reference(self, candidate: dict[str, Any]) -> str:
+        name = str(candidate.get("name", "")).strip()
+        if name == "no_odd_unitary_perfect":
+            return "Nat.no_odd_unitary_perfect"
+        if name == "unitary_perfect_finite":
+            return "UnitaryPerfect.unitary_perfect_finite"
+        if name == "upn_finite_goto":
+            return "Goto.upn_finite_goto"
+        return ""
+
+    def _select_unitary_perfect_main_claim_candidate(
+        self,
+        *,
+        porting_candidates: list[dict[str, Any]],
+        target_statement: str,
+    ) -> dict[str, Any] | None:
+        target_kind = self._unitary_perfect_target_kind(target_statement)
+        if target_kind == "odd_exclusion":
+            return None
+        eligible = [
+            candidate
+            for candidate in porting_candidates
+            if candidate.get("aligned_with_target")
+            and candidate.get("import_ready")
+            and self._unitary_perfect_candidate_reference(candidate)
+        ]
+        if not eligible:
+            return None
+        name_priority = {
+            "unitary_perfect_finite": 0,
+            "upn_finite_goto": 1,
+        }
+        eligible.sort(
+            key=lambda candidate: (
+                0 if candidate.get("trust_level") == "trusted" else 1,
+                name_priority.get(str(candidate.get("name", "")), 99),
+                str(candidate.get("source_path", "")),
+            )
+        )
+        return eligible[0]
 
     def _extract_weird_seed_block(self, source_path: Path) -> list[str]:
         lines = read_text(source_path).splitlines()
@@ -184,6 +307,40 @@ class FormalizationPreparer:
             block.pop()
         return block
 
+    def _unitary_perfect_mathlib_basic_lines(self, *, project_name: str, target_statement: str) -> list[str]:
+        return [
+            "import Mathlib",
+            "import Mathlib.NumberTheory.UnitaryPerfect",
+            "",
+            "/-!",
+            "Seeded unitary-perfect interface imported from a Mathlib-style companion module.",
+            "-/",
+            "",
+            "namespace MathProject",
+            "",
+            "/-- Alias for the companion project's unitary-perfect predicate. -/",
+            "abbrev IsUnitaryPerfect : ℕ → Prop := Nat.UnitaryPerfect",
+            "",
+            "/-- Re-export the odd-case exclusion already proven in the companion module. -/",
+            "theorem noOddUnitaryPerfect {n : ℕ} (hodd : Odd n) (hgt1 : n > 1) :",
+            "    ¬ IsUnitaryPerfect n := by",
+            "  exact Nat.no_odd_unitary_perfect hodd hgt1",
+            "",
+            "/-- Re-export the parity consequence already available in the companion module. -/",
+            "theorem unitaryPerfect_even {n : ℕ} (h : IsUnitaryPerfect n) : Even n := by",
+            "  exact Nat.UnitaryPerfect.even h",
+            "",
+            f'def projectName : String := "{_escape_string(project_name)}"',
+            "",
+            f'def targetStatement : String := "{_escape_string(target_statement)}"',
+            "",
+            "theorem sanity_check : 1 + 1 = (2 : Nat) := by",
+            "  decide",
+            "",
+            "end MathProject",
+            "",
+        ]
+
     def _build_seed_profile(
         self,
         *,
@@ -194,6 +351,8 @@ class FormalizationPreparer:
     ) -> dict[str, Any]:
         asset_paths = self._load_local_asset_paths(project_dir, manifest)
         family = self._detect_problem_family(manifest, exact_statement=exact_statement)
+        if family == "unitary_perfect":
+            asset_paths = self._expand_unitary_perfect_asset_paths(asset_paths)
         project_name = manifest["project_name"]
         target_statement = exact_statement or manifest["problem"]["statement"]
         profile: dict[str, Any] = {
@@ -202,6 +361,7 @@ class FormalizationPreparer:
             "basic_lines": None,
             "claim_renderers": {},
             "main_claim_renderer": None,
+            "main_claim_imports": [],
             "notes": [],
         }
 
@@ -282,6 +442,7 @@ class FormalizationPreparer:
             if companion_project is not None:
                 companion_module = "UnitaryPerfect.UnitaryPerfect"
                 companion_path = companion_project / ".lake" / "build" / "lib" / "lean"
+                target_kind = self._unitary_perfect_target_kind(target_statement)
                 profile["basic_lines"] = [
                     "import Mathlib",
                     f"import {companion_module}",
@@ -339,18 +500,20 @@ class FormalizationPreparer:
                             "",
                         ]
                     if claim["claim_id"].endswith(":main"):
-                        profile["main_claim_renderer"] = [
-                            "/--",
-                            f"ARA_MATH_PLACEHOLDER claim_id={claim['claim_id']}",
-                            f"Title: {claim['title']}",
-                            f"Natural-language statement: {claim['statement']}",
-                            "Target shape mirrors the finiteness theorem hinted by local Goto-bound assets.",
-                            "-/",
-                            f"theorem {theorem_name} :",
-                            "  Set.Finite {n : ℕ | MathProject.IsUnitaryPerfect n} := by",
-                            "  sorry",
-                            "",
-                        ]
+                        if target_kind == "odd_exclusion":
+                            profile["main_claim_renderer"] = [
+                                "/--",
+                                f"Title: {claim['title']}",
+                                f"Natural-language statement: {target_statement}",
+                                "This main claim is discharged directly from the trusted companion theorem.",
+                                "-/",
+                                f"theorem {theorem_name} {{n : ℕ}} (hodd : Odd n) (hgt1 : n > 1) :",
+                                "    ¬ MathProject.IsUnitaryPerfect n := by",
+                                "  exact MathProject.noOddUnitaryPerfect hodd hgt1",
+                                "",
+                            ]
+                        else:
+                            profile["main_claim_renderer"] = None
                 return profile
 
         if family == "triangle_dissection":
@@ -765,6 +928,8 @@ class FormalizationPreparer:
 
     def _build_porting_candidates(self, *, seed_profile: dict[str, Any], project_dir: Path) -> list[dict[str, Any]]:
         family = seed_profile.get("family", "generic")
+        manifest = load_project_manifest(project_dir)
+        target_statement = read_exact_statement(project_dir).strip() or str(manifest.get("problem", {}).get("statement", "")).strip()
         asset_paths = [Path(path) for path in seed_profile.get("asset_paths", [])]
         candidates: list[dict[str, Any]] = []
 
@@ -777,11 +942,17 @@ class FormalizationPreparer:
             excerpt: str,
             import_ready: bool,
             import_hint: str,
+            candidate_role: str,
             trusted_next_step: str,
             unsafe_next_step: str,
         ) -> dict[str, Any]:
             source_audit = audit_lean_source_file(source_path)
             trusted = source_audit["trust_level"] == "trusted"
+            aligned_with_target = self._candidate_aligned_with_target(
+                family=family,
+                candidate_role=candidate_role,
+                target_statement=target_statement,
+            )
             return {
                 "name": name,
                 "kind": kind,
@@ -790,9 +961,11 @@ class FormalizationPreparer:
                 "source_excerpt": excerpt,
                 "import_ready": import_ready,
                 "import_hint": import_hint,
+                "candidate_role": candidate_role,
+                "aligned_with_target": aligned_with_target,
                 "source_audit": source_audit,
                 "trust_level": source_audit["trust_level"],
-                "usable_for_main_claim": bool(import_ready and trusted),
+                "usable_for_main_claim": bool(import_ready and trusted and aligned_with_target),
                 "recommended_next_step": trusted_next_step if trusted else unsafe_next_step,
             }
 
@@ -802,6 +975,9 @@ class FormalizationPreparer:
                 ("lean/UnitaryPerfect.lean", "no_odd_unitary_perfect", "theorem"),
                 ("lean/UnitaryPerfect.lean", "unitary_perfect_finite", "theorem"),
                 ("UnitaryPerfect/UnitaryPerfect.lean", "no_odd_unitary_perfect", "theorem"),
+                ("Mathlib/NumberTheory/GotoBound.lean", "upn_finite_goto", "theorem"),
+                ("Mathlib/NumberTheory/UnitaryPerfect/Finiteness.lean", "unitary_perfect_finite", "theorem"),
+                ("Mathlib/NumberTheory/UnitaryPerfect.lean", "no_odd_unitary_perfect", "theorem"),
             ]
             for relative_path, name, kind in source_specs:
                 source_path = self._find_asset_file(asset_paths, relative_path)
@@ -810,6 +986,7 @@ class FormalizationPreparer:
                 signature, excerpt = self._extract_named_snippet(source_path, name)
                 if not signature:
                     continue
+                candidate_role = self._unitary_perfect_candidate_role(name=name, signature=signature)
                 candidates.append(
                     build_candidate(
                         name=name,
@@ -819,6 +996,7 @@ class FormalizationPreparer:
                         excerpt=excerpt,
                         import_ready=self._source_module_is_compiled(source_path),
                         import_hint=self._source_import_hint(source_path),
+                        candidate_role=candidate_role,
                         trusted_next_step=(
                             "Port the exact theorem statement or make the source theorem importable from the local companion project."
                         ),
@@ -844,6 +1022,7 @@ class FormalizationPreparer:
                             excerpt=excerpt,
                             import_ready=False,
                             import_hint=self._source_import_hint(source_path),
+                            candidate_role="supporting_theorem",
                             trusted_next_step=(
                                 "Translate this source statement into a local lemma ladder or explicit proof-gap note before attacking the main conjecture."
                             ),
@@ -876,6 +1055,7 @@ class FormalizationPreparer:
                             excerpt=excerpt,
                             import_ready=self._source_module_is_compiled(source_path),
                             import_hint=self._source_import_hint(source_path),
+                            candidate_role="supporting_theorem",
                             trusted_next_step=(
                                 "Stage this local triangle-dissection result into the project before attempting the open classification theorem."
                             ),
@@ -892,8 +1072,8 @@ class FormalizationPreparer:
         plan = read_json(project_dir / "proof" / "proof_plan.json", default={})
         registry = read_json(project_dir / "proof" / "claim_registry.json", default={"claims": []})
         claims = registry.get("claims", [])
-        exact_statement = read_exact_statement(project_dir).strip()
         context_audit = build_context_audit(project_dir)
+        exact_statement = read_exact_statement(project_dir).strip() if context_audit.get("has_exact_statement", False) else ""
         seed_profile = self._build_seed_profile(
             project_dir=project_dir,
             manifest=manifest,
@@ -909,9 +1089,28 @@ class FormalizationPreparer:
         counterexample_path = project_dir / "proof" / "counterexample_search_contract.json"
         porting_candidates_path = project_dir / "proof" / "porting_candidates.json"
         proof_gap_notes_path = project_dir / "proof" / "proof_gap_notes.md"
+        existing_counterexample_contract = read_json(counterexample_path, default={})
         theorem_inventory = read_json(project_dir / "proof" / "theorem_inventory.json", default={})
         route_scaffold = read_json(project_dir / "proof" / "proof_route_scaffold.json", default={})
         preserved_files: list[str] = []
+        target_statement = exact_statement or manifest["problem"]["statement"]
+        selected_main_claim_seed: dict[str, Any] | None = None
+        main_claim_imports = ["import MathProject.GeneratedClaims"]
+        selected_unitary_main_candidate = None
+        if seed_profile.get("family") == "unitary_perfect":
+            selected_unitary_main_candidate = self._select_unitary_perfect_main_claim_candidate(
+                porting_candidates=porting_candidates,
+                target_statement=target_statement,
+            )
+            selected_import_hint = str(selected_unitary_main_candidate.get("import_hint", "")).strip() if selected_unitary_main_candidate else ""
+            if selected_import_hint.startswith("Mathlib."):
+                seed_profile["basic_lines"] = self._unitary_perfect_mathlib_basic_lines(
+                    project_name=manifest["project_name"],
+                    target_statement=target_statement,
+                )
+                seed_profile.setdefault("notes", []).append(
+                    f"Switched the unitary-perfect base interface to the Mathlib-style module stack for `{selected_import_hint}`."
+                )
 
         generated_claims_lines = [
             "import MathProject.Basic",
@@ -925,7 +1124,7 @@ class FormalizationPreparer:
             "",
         ]
         main_claim_lines = [
-            "import MathProject.GeneratedClaims",
+            *main_claim_imports,
             "",
             "namespace MathProject",
             "",
@@ -933,7 +1132,7 @@ class FormalizationPreparer:
             f"Main target for project `{manifest['project_name']}`.",
             "-/",
             "def mainTargetStatement : String :=",
-            f'  "{_escape_string(exact_statement or manifest["problem"]["statement"])}"',
+            f'  "{_escape_string(target_statement)}"',
             "",
         ]
 
@@ -952,6 +1151,52 @@ class FormalizationPreparer:
                 rendered = None
                 if claim["claim_id"].endswith(":main"):
                     rendered = seed_profile.get("main_claim_renderer")
+                    if rendered is None and selected_unitary_main_candidate is not None:
+                        import_hint = str(selected_unitary_main_candidate.get("import_hint", "")).strip()
+                        if import_hint and f"import {import_hint}" not in main_claim_lines:
+                            main_claim_lines.insert(1, f"import {import_hint}")
+                        theorem_ref = self._unitary_perfect_candidate_reference(selected_unitary_main_candidate)
+                        selected_main_claim_seed = {
+                            "source": "porting_candidate",
+                            "name": selected_unitary_main_candidate.get("name", ""),
+                            "import_hint": import_hint,
+                            "theorem_reference": theorem_ref,
+                            "trust_level": selected_unitary_main_candidate.get("trust_level", ""),
+                            "source_path": selected_unitary_main_candidate.get("source_path", ""),
+                            "aligned_with_target": bool(selected_unitary_main_candidate.get("aligned_with_target")),
+                        }
+                        rendered = [
+                            "/--",
+                            f"Title: {claim['title']}",
+                            f"Natural-language statement: {target_statement}",
+                            "This main claim is discharged by importing a compiled companion theorem.",
+                            f"Companion theorem: {theorem_ref}",
+                            f"Companion trust level: {selected_unitary_main_candidate.get('trust_level', '')}",
+                            "-/",
+                            f"theorem {theorem_name} :",
+                            "  Set.Finite {n : ℕ | MathProject.IsUnitaryPerfect n} := by",
+                            f"  exact {theorem_ref}",
+                            "",
+                        ]
+                    elif rendered is not None:
+                        selected_main_claim_seed = {
+                            "source": "seed_profile",
+                            "trust_level": "trusted",
+                            "aligned_with_target": True,
+                        }
+                    elif seed_profile.get("family") == "unitary_perfect" and self._unitary_perfect_target_kind(target_statement) == "finiteness":
+                        rendered = [
+                            "/--",
+                            f"ARA_MATH_PLACEHOLDER claim_id={claim['claim_id']}",
+                            f"Title: {claim['title']}",
+                            f"Natural-language statement: {target_statement}",
+                            "Target shape mirrors the finiteness theorem hinted by local Goto-bound assets.",
+                            "-/",
+                            f"theorem {theorem_name} :",
+                            "  Set.Finite {n : ℕ | MathProject.IsUnitaryPerfect n} := by",
+                            "  sorry",
+                            "",
+                        ]
                 else:
                     rendered = seed_profile.get("claim_renderers", {}).get(claim["claim_id"])
                 if rendered:
@@ -1017,7 +1262,7 @@ class FormalizationPreparer:
             preserved_files.append(str(generated_claims_path))
         else:
             write_text(generated_claims_path, "\n".join(generated_claims_lines))
-        if self._is_clean_manual_file(main_claim_path):
+        if self._is_clean_manual_file(main_claim_path) and self._main_claim_matches_target(main_claim_path, target_statement):
             preserved_files.append(str(main_claim_path))
         else:
             write_text(main_claim_path, "\n".join(main_claim_lines))
@@ -1032,16 +1277,42 @@ class FormalizationPreparer:
                 ]
             ),
         )
+        existing_search_contract = str(existing_counterexample_contract.get("search_contract", "")).strip()
+        existing_status = str(existing_counterexample_contract.get("status", "")).strip()
+        existing_command = existing_counterexample_contract.get("command", [])
+        if isinstance(existing_command, list):
+            preserved_command = [str(item) for item in existing_command]
+        elif str(existing_command).strip():
+            preserved_command = [str(existing_command).strip()]
+        else:
+            preserved_command = []
+        existing_last_command = existing_counterexample_contract.get("last_command", [])
+        if isinstance(existing_last_command, list):
+            preserved_last_command = [str(item) for item in existing_last_command]
+        elif str(existing_last_command).strip():
+            preserved_last_command = [str(existing_last_command).strip()]
+        else:
+            preserved_last_command = []
         write_json(
             counterexample_path,
             {
                 "generated_at": utc_now_iso(),
-                "status": "planned",
+                "status": existing_status or "planned",
                 "problem_id": manifest["problem"]["problem_id"],
-                "search_contract": "Specify the exact finite search assumptions before running any computational search.",
-                "assumptions": [],
-                "outputs": [],
-                "linked_claims": computational_claims,
+                "search_contract": existing_search_contract
+                or "Specify the exact finite search assumptions before running any computational search.",
+                "assumptions": list(existing_counterexample_contract.get("assumptions", [])),
+                "outputs": list(existing_counterexample_contract.get("outputs", [])),
+                "command": preserved_command,
+                "working_directory": str(existing_counterexample_contract.get("working_directory", "")).strip(),
+                "timeout_sec": int(existing_counterexample_contract.get("timeout_sec", 0) or 0),
+                "auto_run_allowed": bool(existing_counterexample_contract.get("auto_run_allowed", False)),
+                "expected_output_paths": list(existing_counterexample_contract.get("expected_output_paths", [])),
+                "last_run_status": str(existing_counterexample_contract.get("last_run_status", "")).strip(),
+                "last_run_at": str(existing_counterexample_contract.get("last_run_at", "")).strip(),
+                "last_run_mode": str(existing_counterexample_contract.get("last_run_mode", "")).strip(),
+                "last_command": preserved_last_command,
+                "linked_claims": computational_claims or list(existing_counterexample_contract.get("linked_claims", [])),
             },
         )
         write_json(
@@ -1113,6 +1384,7 @@ class FormalizationPreparer:
             "lean_claim_count": lean_claim_count,
             "placeholder_claim_count": placeholder_claim_count,
             "computational_claim_ids": computational_claims,
+            "main_claim_seed": selected_main_claim_seed,
             "generated_files": [
                 str(basic_path),
                 str(root_import_path),

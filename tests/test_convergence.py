@@ -65,9 +65,14 @@ def test_plan_convergence_identifies_unitary_perfect_external_requirements(tmp_p
 
     plan = orchestrator.plan_convergence(project_dir)
     requirements = json.loads((project_dir / "artifacts" / "external_requirements.json").read_text(encoding="utf-8"))
+    strategy = json.loads((project_dir / "artifacts" / "open_problem_strategy.json").read_text(encoding="utf-8"))
 
     assert plan["phase"] == "unblock_verifier"
     assert plan["ready_for_long_run"] is False
+    assert plan["recommended_run_profile"]["focus_mode"] == "paper_first"
+    assert plan["strategy_profile_id"] == strategy["strategy_profile_id"]
+    assert strategy["recommended_focus_mode"] == "paper_first"
+    assert any("variant check" in item.lower() for item in strategy["required_checks"])
     titles = {item["title"] for item in requirements["requirements"]}
     assert any("Goto" in title for title in titles)
     assert any("Wall" in title for title in titles)
@@ -178,6 +183,7 @@ def test_run_convergence_campaign_prioritizes_ready_checkpoint_projects(tmp_path
                 "time_budget_sec": 100,
                 "attempt_timeout_sec": 40,
                 "build_timeout_sec": 20,
+                "focus_mode": "paper_first",
                 "reasoning_effort": "high",
                 "allow_network": True,
             },
@@ -192,6 +198,7 @@ def test_run_convergence_campaign_prioritizes_ready_checkpoint_projects(tmp_path
                 "time_budget_sec": 60,
                 "attempt_timeout_sec": 20,
                 "build_timeout_sec": 20,
+                "focus_mode": "route_discovery",
                 "reasoning_effort": "medium",
                 "allow_network": False,
             },
@@ -224,6 +231,7 @@ def test_run_convergence_campaign_prioritizes_ready_checkpoint_projects(tmp_path
         max_runtime_sec: int,
         attempt_timeout_sec: int,
         build_timeout_sec: int,
+        focus_mode: str,
     ) -> dict[str, object]:
         calls.append(
             {
@@ -233,6 +241,7 @@ def test_run_convergence_campaign_prioritizes_ready_checkpoint_projects(tmp_path
                 "max_runtime_sec": max_runtime_sec,
                 "attempt_timeout_sec": attempt_timeout_sec,
                 "build_timeout_sec": build_timeout_sec,
+                "focus_mode": focus_mode,
             }
         )
         return {"status": "checkpoint", "attempts_completed": max_attempts}
@@ -256,6 +265,7 @@ def test_run_convergence_campaign_prioritizes_ready_checkpoint_projects(tmp_path
     assert calls[0]["max_runtime_sec"] == 200
     assert calls[0]["attempt_timeout_sec"] == 80
     assert calls[0]["build_timeout_sec"] == 40
+    assert calls[0]["focus_mode"] == "paper_first"
     assert payload["entries"][0]["rounds_requested"] == 1
     assert payload["entries"][0]["rounds_completed"] == 1
 
@@ -327,6 +337,7 @@ def test_run_convergence_campaign_can_continue_across_checkpoint_rounds(tmp_path
         max_runtime_sec: int,
         attempt_timeout_sec: int,
         build_timeout_sec: int,
+        focus_mode: str,
     ) -> dict[str, object]:
         index = len(calls)
         calls.append(
@@ -337,6 +348,7 @@ def test_run_convergence_campaign_can_continue_across_checkpoint_rounds(tmp_path
                 "max_runtime_sec": max_runtime_sec,
                 "attempt_timeout_sec": attempt_timeout_sec,
                 "build_timeout_sec": build_timeout_sec,
+                "focus_mode": focus_mode,
             }
         )
         result = run_results[index]

@@ -7,7 +7,11 @@ import time
 from pathlib import Path
 from typing import Any
 
+from ara_math.accessibility import AccessiblePremiseGraphPlanner
+from ara_math.evaluator import EvaluatorPlanner
+from ara_math.proof_system import ProofSearchAgendaPlanner, ProofSystemPlanner
 from ara_math.problem_bank import load_problem_bank
+from ara_math.retrieval import PremiseRetriever
 from ara_math.runtime import env_float, env_int, env_str, run_guarded_command, wait_for_system_headroom
 from ara_math.workspace import append_jsonl, load_project_manifest, read_json, read_text, utc_now_iso, write_json, write_text
 
@@ -25,6 +29,11 @@ def _slugify(value: str) -> str:
 class ProofSearchRunner:
     def __init__(self, *, repo_root: Path) -> None:
         self.repo_root = repo_root
+        self.premise_retriever = PremiseRetriever()
+        self.accessibility_planner = AccessiblePremiseGraphPlanner()
+        self.evaluator_planner = EvaluatorPlanner()
+        self.proof_system_planner = ProofSystemPlanner()
+        self.agenda_planner = ProofSearchAgendaPlanner()
         self.backend_max_memory_mb = env_int("ARA_MATH_BACKEND_MAX_MEMORY_MB", 6144)
         self.backend_max_cpu_seconds = env_int("ARA_MATH_BACKEND_MAX_CPU_SECONDS", 240)
         self.backend_max_processes = env_int("ARA_MATH_BACKEND_MAX_PROCESSES", 256)
@@ -44,6 +53,84 @@ class ProofSearchRunner:
 
     def _status_path(self, project_dir: Path) -> Path:
         return self._proof_search_root(project_dir) / "proof_search_status.json"
+
+    def _focus_override_path(self, project_dir: Path) -> Path:
+        return self._proof_search_root(project_dir) / "proof_search_focus_override.json"
+
+    def _manual_focus_item(self, override_payload: dict[str, Any]) -> dict[str, Any] | None:
+        if override_payload.get("enabled", True) is False:
+            return None
+
+        raw_item = override_payload.get("selected_item")
+        item = dict(raw_item) if isinstance(raw_item, dict) else {}
+        target_files_raw = item.get("target_files", override_payload.get("target_files", []))
+        target_files = [str(path).strip() for path in target_files_raw if str(path).strip()]
+        exit_criteria_raw = item.get("exit_criteria", override_payload.get("exit_criteria", []))
+        exit_criteria = [str(entry).strip() for entry in exit_criteria_raw if str(entry).strip()]
+        target_statement = str(
+            item.get("target_statement", override_payload.get("target_statement", ""))
+        ).strip()
+
+        if not target_statement or not target_files:
+            return None
+
+        item_id = str(item.get("item_id", override_payload.get("item_id", "manual-focus"))).strip()
+        if not item_id:
+            item_id = "manual-focus"
+
+        return {
+            "item_id": item_id,
+            "kind": str(item.get("kind", override_payload.get("kind", "manual_focus"))).strip() or "manual_focus",
+            "label": str(item.get("label", override_payload.get("label", "Manual focus override"))).strip()
+            or "Manual focus override",
+            "target_statement": target_statement,
+            "target_files": target_files,
+            "rationale": str(item.get("rationale", override_payload.get("rationale", ""))).strip(),
+            "decomposition_level": str(
+                item.get("decomposition_level", override_payload.get("decomposition_level", "manual"))
+            ).strip()
+            or "manual",
+            "support_score": int(item.get("support_score", override_payload.get("support_score", 0)) or 0),
+            "priority_score": int(item.get("priority_score", override_payload.get("priority_score", 10_000)) or 0),
+            "exit_criteria": exit_criteria or ["Complete the manually selected proof-search target."],
+        }
+
+    def _apply_focus_override(self, *, project_dir: Path, agenda: dict[str, Any]) -> dict[str, Any]:
+        override_path = self._focus_override_path(project_dir)
+        override_payload = read_json(override_path, default={})
+        if not isinstance(override_payload, dict) or not override_payload:
+            return agenda
+
+        item = self._manual_focus_item(override_payload)
+        if item is None:
+            return agenda
+
+        existing_frontier = [
+            frontier_item
+            for frontier_item in agenda.get("frontier", [])
+            if frontier_item.get("item_id") != item["item_id"]
+        ]
+        execution_mode = str(override_payload.get("execution_mode", "")).strip() or "manual_focus"
+        search_policy = str(override_payload.get("search_policy", "")).strip() or str(
+            agenda.get("search_policy", "best_first_frontier")
+        )
+        overridden = {
+            **agenda,
+            "search_policy": search_policy,
+            "execution_mode": execution_mode,
+            "selected_item_id": item["item_id"],
+            "selected_item": item,
+            "frontier": [item, *existing_frontier],
+            "manual_focus_override": {
+                "path": str(override_path.relative_to(project_dir)),
+                "reason": str(override_payload.get("reason", "")).strip(),
+                "notes": [str(note).strip() for note in override_payload.get("notes", []) if str(note).strip()],
+            },
+        }
+        overridden["transposition_keys"] = [
+            frontier_item.get("item_id", "") for frontier_item in overridden.get("frontier", [])[:8]
+        ]
+        return overridden
 
     def _existing_attempt_reports(self, project_dir: Path) -> list[tuple[int, dict[str, Any]]]:
         indexed_dirs: list[tuple[int, Path]] = []
@@ -98,6 +185,9 @@ class ProofSearchRunner:
             path = Path(raw_path)
             if path.exists():
                 candidates.append(path)
+        ara_library_formal = self.repo_root / "ara_library" / "formal"
+        if ara_library_formal.exists():
+            candidates.append(ara_library_formal)
         deduped: list[Path] = []
         seen: set[str] = set()
         for path in candidates:
@@ -228,6 +318,192 @@ class ProofSearchRunner:
                     break
         return obligations
 
+    def _prepare_support_artifacts(
+        self,
+        *,
+        project_dir: Path,
+        orchestrator: Any,
+    ) -> dict[str, Any]:
+        project_dir = project_dir.resolve()
+        manifest = load_project_manifest(project_dir)
+        recovered_statement = str(read_json(project_dir / "idea" / "statement_recovery.json", default={}).get("statement", "")).strip()
+        proof_path = read_json(project_dir / "idea" / "proof_path_assessment.json", default={})
+        literature_evidence = read_json(project_dir / "idea" / "literature_evidence.json", default={})
+        paper_inventory = read_json(project_dir / "idea" / "paper_inventory.json", default={})
+        literature_theorem_inventory = read_json(project_dir / "proof" / "theorem_inventory.json", default={})
+        proof_path_frameworks = read_json(project_dir / "proof" / "proof_path_frameworks.json", default={})
+        route_scaffold = read_json(project_dir / "proof" / "proof_route_scaffold.json", default={})
+        route_discovery_brief = read_json(project_dir / "proof" / "route_discovery_brief.json", default={})
+        porting_candidates = read_json(project_dir / "proof" / "porting_candidates.json", default={}).get("candidates", [])
+        asset_paths = self._find_local_asset_paths(project_dir)
+        existing_formal = read_json(project_dir / "artifacts" / "formal_preparation.json", default={})
+        needs_formal_refresh = not (project_dir / "artifacts" / "formal_preparation.json").exists()
+        needs_formal_refresh = needs_formal_refresh or not (project_dir / "proof" / "asset_seed_report.json").exists()
+        needs_formal_refresh = needs_formal_refresh or bool(recovered_statement) != bool(
+            (existing_formal.get("context_audit") or {}).get("has_exact_statement", False)
+        )
+        needs_formal_refresh = needs_formal_refresh or len(asset_paths) > len(existing_formal.get("seed_asset_paths", []))
+        if needs_formal_refresh:
+            orchestrator.prepare_formal(project_dir)
+            porting_candidates = read_json(project_dir / "proof" / "porting_candidates.json", default={}).get("candidates", [])
+            existing_formal = read_json(project_dir / "artifacts" / "formal_preparation.json", default={})
+
+        theorem_inventory = self._scan_lean_inventory(asset_paths)
+        script_inventory = self._scan_script_inventory(asset_paths)
+        theorem_hints = self._select_theorem_hints(
+            theorem_inventory,
+            recovered_statement=recovered_statement,
+            evidence=literature_evidence,
+        )
+        convergence_plan = orchestrator.plan_convergence(project_dir)
+        convergence_external = read_json(project_dir / "artifacts" / "external_requirements.json", default={})
+        open_problem_strategy = read_json(project_dir / "artifacts" / "open_problem_strategy.json", default={})
+        checkpoint_contract = read_json(project_dir / "proof" / "checkpoint_contract.json", default={})
+        counterexample_contract = read_json(project_dir / "proof" / "counterexample_search_contract.json", default={})
+        latest_next_obligation = self._extract_latest_next_obligation(project_dir)
+        premise_retrieval = self.premise_retriever.build_report(
+            recovered_statement=recovered_statement,
+            checkpoint_contract=checkpoint_contract,
+            route_scaffold=route_scaffold,
+            theorem_hints=theorem_hints,
+            literature_theorem_inventory=literature_theorem_inventory,
+            porting_candidates=porting_candidates,
+            latest_next_obligation=latest_next_obligation,
+        )
+        accessible_support = orchestrator.lean_executor.discover_accessible_premise_support(project_dir)
+        accessible_premise_graph = self.accessibility_planner.build_report(
+            project_dir=project_dir,
+            theorem_hints=theorem_hints,
+            porting_candidates=porting_candidates,
+            accessible_support=accessible_support,
+        )
+        evaluator_plan = self.evaluator_planner.build_plan(
+            manifest=manifest,
+            seed_family=str(existing_formal.get("seed_family", "generic")).strip() or "generic",
+            route_scaffold=route_scaffold,
+            checkpoint_contract=checkpoint_contract,
+            script_inventory=script_inventory,
+            counterexample_contract=counterexample_contract,
+        )
+        write_json(project_dir / "proof" / "premise_retrieval.json", premise_retrieval)
+        write_json(project_dir / "proof" / "accessible_premise_graph.json", accessible_premise_graph)
+        write_json(project_dir / "proof" / "evaluator_plan.json", evaluator_plan)
+        evaluator_report = read_json(project_dir / "proof" / "evaluator_report.json", default={})
+
+        return {
+            "manifest": manifest,
+            "recovered_statement": recovered_statement,
+            "proof_path": proof_path,
+            "literature_evidence": literature_evidence,
+            "paper_inventory": paper_inventory,
+            "literature_theorem_inventory": literature_theorem_inventory,
+            "proof_path_frameworks": proof_path_frameworks,
+            "route_scaffold": route_scaffold,
+            "route_discovery_brief": route_discovery_brief,
+            "porting_candidates": porting_candidates,
+            "asset_paths": asset_paths,
+            "existing_formal": existing_formal,
+            "theorem_inventory": theorem_inventory,
+            "script_inventory": script_inventory,
+            "theorem_hints": theorem_hints,
+            "convergence_plan": convergence_plan,
+            "convergence_external": convergence_external,
+            "open_problem_strategy": open_problem_strategy,
+            "checkpoint_contract": checkpoint_contract,
+            "counterexample_contract": counterexample_contract,
+            "latest_next_obligation": latest_next_obligation,
+            "premise_retrieval": premise_retrieval,
+            "accessible_support": accessible_support,
+            "accessible_premise_graph": accessible_premise_graph,
+            "evaluator_plan": evaluator_plan,
+            "evaluator_report": evaluator_report,
+        }
+
+    def _historical_attempt_payloads(self, project_dir: Path) -> list[dict[str, Any]]:
+        return [payload for _, payload in self._existing_attempt_reports(project_dir)]
+
+    def _build_execution_artifacts(
+        self,
+        *,
+        project_dir: Path,
+        support: dict[str, Any],
+        previous_attempts: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        project_dir = project_dir.resolve()
+        previous_attempts = previous_attempts if previous_attempts is not None else self._historical_attempt_payloads(project_dir)
+        manifest = support["manifest"]
+        theorem_graph = read_json(project_dir / "proof" / "theorem_graph.json", default={})
+        review_report = read_json(project_dir / "artifacts" / "review_report.json", default={})
+        build_report = read_json(project_dir / "artifacts" / "lean_build_report.json", default={})
+        benchmark_report = self.proof_system_planner.build_benchmark_report(
+            manifest=manifest,
+            proof_path_assessment=support["proof_path"],
+            theorem_inventory=support["literature_theorem_inventory"],
+            theorem_graph=theorem_graph,
+            proof_path_frameworks=support["proof_path_frameworks"],
+            route_scaffold=support["route_scaffold"],
+            route_discovery_brief=support["route_discovery_brief"],
+            checkpoint_contract=support["checkpoint_contract"],
+        )
+        feedback = self.agenda_planner.build_feedback(
+            previous_attempts=previous_attempts,
+            build_report=build_report,
+            review_report=review_report,
+            evaluator_report=support["evaluator_report"],
+        )
+        agenda = self.agenda_planner.build_agenda(
+            manifest=manifest,
+            recovered_statement=support["recovered_statement"],
+            route_scaffold=support["route_scaffold"],
+            route_discovery_brief=support["route_discovery_brief"],
+            checkpoint_contract=support["checkpoint_contract"],
+            theorem_hints=support["theorem_hints"],
+            porting_candidates=support["porting_candidates"],
+            premise_retrieval=support["premise_retrieval"],
+            accessible_premise_graph=support["accessible_premise_graph"],
+            evaluator_plan=support["evaluator_plan"],
+            evaluator_report=support["evaluator_report"],
+            feedback=feedback,
+            benchmark_report=benchmark_report,
+        )
+        agenda = self._apply_focus_override(project_dir=project_dir, agenda=agenda)
+        current_focus_text = self.agenda_planner.render_current_focus_markdown(
+            benchmark_report=benchmark_report,
+            feedback=feedback,
+            agenda=agenda,
+        )
+        write_json(project_dir / "proof" / "proof_system_benchmark.json", benchmark_report)
+        write_text(
+            project_dir / "proof" / "proof_system_benchmark.md",
+            self.proof_system_planner.render_benchmark_markdown(report=benchmark_report),
+        )
+        write_json(project_dir / "proof" / "verifier_feedback.json", feedback)
+        write_json(project_dir / "proof" / "proof_search_agenda.json", agenda)
+        write_text(project_dir / "proof" / "current_focus.md", current_focus_text)
+        return {
+            "proof_system_benchmark": benchmark_report,
+            "verifier_feedback": feedback,
+            "proof_search_agenda": agenda,
+            "current_focus_text": current_focus_text,
+        }
+
+    def plan_execution(
+        self,
+        *,
+        project_dir: Path,
+        orchestrator: Any,
+    ) -> dict[str, Any]:
+        support = self._prepare_support_artifacts(project_dir=project_dir, orchestrator=orchestrator)
+        execution = self._build_execution_artifacts(project_dir=project_dir, support=support)
+        return {
+            "generated_at": utc_now_iso(),
+            "project_name": support["manifest"]["project_name"],
+            "problem_id": support["manifest"]["problem"]["problem_id"],
+            "proof_system_benchmark": execution["proof_system_benchmark"],
+            "verifier_feedback": execution["verifier_feedback"],
+            "proof_search_agenda": execution["proof_search_agenda"],
+        }
+
     def _build_prompt(
         self,
         *,
@@ -248,6 +524,14 @@ class ProofSearchRunner:
         seed_family: str,
         placeholder_claim_count: int | None,
         convergence_plan: dict[str, Any] | None,
+        open_problem_strategy: dict[str, Any] | None,
+        premise_retrieval: dict[str, Any] | None,
+        accessible_premise_graph: dict[str, Any] | None,
+        evaluator_plan: dict[str, Any] | None,
+        evaluator_report: dict[str, Any] | None,
+        proof_system_benchmark: dict[str, Any] | None,
+        verifier_feedback: dict[str, Any] | None,
+        proof_search_agenda: dict[str, Any] | None,
     ) -> str:
         project_root = project_dir.resolve()
         formal_dir = project_dir / "formal"
@@ -323,6 +607,72 @@ class ProofSearchRunner:
                     "",
                 ]
             )
+        if open_problem_strategy:
+            lines.extend(
+                [
+                    "Case-study-guided strategy:",
+                    f"- Strategy profile: {open_problem_strategy.get('strategy_profile_id', '')}",
+                    f"- Recommended focus mode: {open_problem_strategy.get('recommended_focus_mode', '')}",
+                ]
+            )
+            for item in open_problem_strategy.get("principles", [])[:4]:
+                lines.append(f"- Principle: {item}")
+            for item in open_problem_strategy.get("required_checks", [])[:5]:
+                lines.append(f"- Required check: {item}")
+            for item in open_problem_strategy.get("next_moves", [])[:4]:
+                lines.append(f"- Next move: {item}")
+            for item in open_problem_strategy.get("failure_modes", [])[:4]:
+                lines.append(f"- Failure mode to guard against: {item}")
+            if focus_mode == "default" and open_problem_strategy.get("recommended_focus_mode") not in {"", "default"}:
+                lines.append(
+                    f"- Even in `default`, prefer the `{open_problem_strategy.get('recommended_focus_mode')}` discipline unless a direct checkpoint import is obviously ready."
+                )
+            lines.extend(["",])
+        if proof_system_benchmark:
+            execution_policy = proof_system_benchmark.get("execution_policy", {})
+            lines.extend(
+                [
+                    "Proof-system benchmark:",
+                    f"- Search policy: {execution_policy.get('search_policy', '')}",
+                    f"- Whole-theorem first: {'yes' if execution_policy.get('whole_theorem_first') else 'no'}",
+                    f"- Theorem scope: {execution_policy.get('theorem_scope', '')}",
+                    f"- Decomposition fallback: {execution_policy.get('decomposition_fallback', '')}",
+                ]
+            )
+            for item in proof_system_benchmark.get("recommended_adjustments", [])[:4]:
+                lines.append(f"- System adjustment: {item}")
+            lines.extend(["",])
+        if verifier_feedback:
+            outcome_counts = verifier_feedback.get("outcome_counts", {})
+            lines.extend(
+                [
+                    "Verifier feedback memory:",
+                    f"- Attempts recorded: {verifier_feedback.get('attempt_count', 0)}",
+                    f"- Outcome counts: converged={outcome_counts.get('converged', 0)}, checkpoint={outcome_counts.get('checkpoint', 0)}, stalled={outcome_counts.get('stalled', 0)}",
+                    f"- Recommended mode: {verifier_feedback.get('recommended_mode', '')}",
+                    f"- Recommendation: {verifier_feedback.get('recommendation', '')}",
+                    "",
+                ]
+            )
+        if proof_search_agenda:
+            selected_item = proof_search_agenda.get("selected_item", {})
+            lines.extend(
+                [
+                    "Search agenda:",
+                    f"- Search policy: {proof_search_agenda.get('search_policy', '')}",
+                    f"- Execution mode: {proof_search_agenda.get('execution_mode', '')}",
+                    f"- Selected item: {selected_item.get('item_id', '')} / {selected_item.get('kind', '')}",
+                    f"- Selected label: {selected_item.get('label', '')}",
+                    f"- Selected target: {selected_item.get('target_statement', '')}",
+                ]
+            )
+            for item in selected_item.get("target_files", [])[:3]:
+                lines.append(f"- Agenda target file: {item}")
+            for item in proof_search_agenda.get("frontier", [])[:4]:
+                lines.append(
+                    f"- Frontier item: {item.get('item_id', '')} [{item.get('kind', '')}] score={item.get('priority_score', 0)}"
+                )
+            lines.extend(["",])
         if latest_next_obligation:
             lines.extend(
                 [
@@ -466,6 +816,84 @@ class ProofSearchRunner:
                 lines.append(f"- {item['name']}: {item['statement']} ({item['path']}:{item['line']})")
         else:
             lines.append("- none")
+        if premise_retrieval:
+            lines.extend(["", "Retrieval-augmented premise suggestions:"])
+            for item in premise_retrieval.get("local_lean_premises", [])[:5]:
+                lines.append(f"- Local premise: {item.get('name', '')}: {item.get('statement', '')}")
+            for item in premise_retrieval.get("literature_premises", [])[:4]:
+                lines.append(f"- Literature premise: [{item.get('role', '')}] {item.get('statement', '')}")
+            for item in premise_retrieval.get("porting_candidates", [])[:3]:
+                lines.append(f"- Porting candidate: {item.get('name', '')}: {item.get('signature', '')}")
+            for item in premise_retrieval.get("edit_targets", [])[:3]:
+                lines.append(f"- Retrieval-ranked edit target: {item.get('target', '')}")
+        if accessible_premise_graph:
+            lines.extend(["", "Accessible premise graph:"])
+            accessible_items = accessible_premise_graph.get("accessible_premises", [])[:5]
+            import_items = accessible_premise_graph.get("import_candidates", [])[:4]
+            support_summary = accessible_premise_graph.get("support_summary", {})
+            if support_summary:
+                lines.append(
+                    "- Support summary: "
+                    f"imports={support_summary.get('project_import_count', 0)}, "
+                    f"compiled={support_summary.get('compiled_module_count', 0)}, "
+                    f"staged={support_summary.get('staged_module_count', 0)}, "
+                    f"stage_status={support_summary.get('stage_plan_status', 'unknown')}"
+                )
+            if accessible_items:
+                for item in accessible_items:
+                    lines.append(
+                        f"- Accessible premise: {item.get('name', '')}: {item.get('statement', '')} "
+                        f"[via {item.get('access_reason', 'unknown')}]"
+                    )
+            else:
+                lines.append("- Accessible premise: none recorded yet.")
+            if import_items:
+                for item in import_items:
+                    lines.append(
+                        f"- Import candidate: {item.get('import_hint', '') or item.get('name', '')} "
+                        f"[ready={'yes' if item.get('import_ready') else 'no'}, "
+                        f"imported={'yes' if item.get('already_imported') else 'no'}, "
+                        f"staged={'yes' if item.get('staged') else 'no'}]"
+                    )
+            else:
+                lines.append("- Import candidate: none recorded yet.")
+        if evaluator_plan:
+            lines.extend(
+                [
+                    "",
+                    "Evaluator plan:",
+                    f"- Evaluator mode: {evaluator_plan.get('evaluator_mode', '')}",
+                    f"- Execution kind: {evaluator_plan.get('execution_kind', '')}",
+                    f"- Search-friendly family: {'yes' if evaluator_plan.get('search_friendly') else 'no'}",
+                    f"- Ready to run: {'yes' if evaluator_plan.get('ready_to_run') else 'no'}",
+                    f"- Auto-run allowed: {'yes' if evaluator_plan.get('auto_run_allowed') else 'no'}",
+                ]
+            )
+            for item in evaluator_plan.get("recommended_workflow", [])[:4]:
+                lines.append(f"- Evaluator workflow: {item}")
+            for item in evaluator_plan.get("next_actions", [])[:4]:
+                lines.append(f"- Evaluator next action: {item}")
+            script_items = evaluator_plan.get("candidate_scripts", [])[:4]
+            if script_items:
+                for item in script_items:
+                    lines.append(f"- Evaluator script: {item.get('name', '')} ({item.get('path', '')})")
+            else:
+                lines.append("- Evaluator script: none recorded yet.")
+        if evaluator_report:
+            lines.extend(
+                [
+                    "",
+                    "Evaluator report:",
+                    f"- Status: {evaluator_report.get('status', '')}",
+                    f"- Command source: {evaluator_report.get('command_source', '')}",
+                    f"- Last mode: {evaluator_report.get('mode', '')}",
+                ]
+            )
+            for item in evaluator_report.get("expected_outputs", [])[:4]:
+                lines.append(
+                    f"- Evaluator output: {item.get('path', '')} "
+                    f"[exists={'yes' if item.get('exists') else 'no'}]"
+                )
         lines.extend(["", "Local script hints:"])
         if script_inventory:
             for item in script_inventory[:6]:
@@ -518,6 +946,7 @@ class ProofSearchRunner:
                 f"4. If you changed Lean files, run `cd {self.repo_root} && python3 run.py --json build-lean --project {project_root}` to validate the current state.",
                 "5. If no route survives, update `proof/proof_gap_notes.md` with a blocked-route assessment and stop rather than polishing local shell code.",
                 "6. End with a concise summary of which route you advanced or rejected and what external theorem, paper, or modeling bridge is still required.",
+                "7. Before concluding, perform an adversarial self-review covering statement alignment, easier-variant drift, and the likeliest failure point.",
             ]
         )
         if focus_mode == "paper_first":
@@ -669,7 +1098,6 @@ class ProofSearchRunner:
         focus_mode: str = "default",
     ) -> dict[str, Any]:
         project_dir = project_dir.resolve()
-        manifest = load_project_manifest(project_dir)
         attempts_root = self._attempts_root(project_dir)
         attempts_root.mkdir(parents=True, exist_ok=True)
 
@@ -698,36 +1126,43 @@ class ProofSearchRunner:
         if needs_refresh:
             orchestrator.plan_project(project_dir)
 
-        recovered_statement = str(read_json(project_dir / "idea" / "statement_recovery.json", default={}).get("statement", "")).strip()
-        proof_path = read_json(project_dir / "idea" / "proof_path_assessment.json", default={})
-        literature_evidence = read_json(project_dir / "idea" / "literature_evidence.json", default={})
-        paper_inventory = read_json(project_dir / "idea" / "paper_inventory.json", default={})
-        literature_theorem_inventory = read_json(project_dir / "proof" / "theorem_inventory.json", default={})
-        proof_path_frameworks = read_json(project_dir / "proof" / "proof_path_frameworks.json", default={})
-        route_scaffold = read_json(project_dir / "proof" / "proof_route_scaffold.json", default={})
-        route_discovery_brief = read_json(project_dir / "proof" / "route_discovery_brief.json", default={})
-        porting_candidates = read_json(project_dir / "proof" / "porting_candidates.json", default={}).get("candidates", [])
-        asset_paths = self._find_local_asset_paths(project_dir)
-        existing_formal = read_json(project_dir / "artifacts" / "formal_preparation.json", default={})
-        needs_formal_refresh = not (project_dir / "artifacts" / "formal_preparation.json").exists()
-        needs_formal_refresh = needs_formal_refresh or not (project_dir / "proof" / "asset_seed_report.json").exists()
-        needs_formal_refresh = needs_formal_refresh or bool(recovered_statement) != bool(
-            (existing_formal.get("context_audit") or {}).get("has_exact_statement", False)
-        )
-        needs_formal_refresh = needs_formal_refresh or len(asset_paths) > len(existing_formal.get("seed_asset_paths", []))
-        if needs_formal_refresh:
-            orchestrator.prepare_formal(project_dir)
-            porting_candidates = read_json(project_dir / "proof" / "porting_candidates.json", default={}).get("candidates", [])
+        support = self._prepare_support_artifacts(project_dir=project_dir, orchestrator=orchestrator)
+        manifest = support["manifest"]
+        recovered_statement = support["recovered_statement"]
+        proof_path = support["proof_path"]
+        literature_evidence = support["literature_evidence"]
+        paper_inventory = support["paper_inventory"]
+        literature_theorem_inventory = support["literature_theorem_inventory"]
+        proof_path_frameworks = support["proof_path_frameworks"]
+        route_scaffold = support["route_scaffold"]
+        route_discovery_brief = support["route_discovery_brief"]
+        porting_candidates = support["porting_candidates"]
+        asset_paths = support["asset_paths"]
+        existing_formal = support["existing_formal"]
+        theorem_inventory = support["theorem_inventory"]
+        script_inventory = support["script_inventory"]
+        theorem_hints = support["theorem_hints"]
+        convergence_plan = support["convergence_plan"]
+        convergence_external = support["convergence_external"]
+        open_problem_strategy = support["open_problem_strategy"]
+        checkpoint_contract = support["checkpoint_contract"]
+        premise_retrieval = support["premise_retrieval"]
+        accessible_premise_graph = support["accessible_premise_graph"]
+        evaluator_plan = support["evaluator_plan"]
+        evaluator_report = support["evaluator_report"]
 
-        theorem_inventory = self._scan_lean_inventory(asset_paths)
-        script_inventory = self._scan_script_inventory(asset_paths)
-        theorem_hints = self._select_theorem_hints(
-            theorem_inventory,
-            recovered_statement=recovered_statement,
-            evidence=literature_evidence,
-        )
-        convergence_plan = orchestrator.plan_convergence(project_dir)
-        convergence_external = read_json(project_dir / "artifacts" / "external_requirements.json", default={})
+        if evaluator_plan.get("ready_to_run") and evaluator_plan.get("auto_run_allowed"):
+            evaluator_report = orchestrator.run_evaluator(
+                project_dir,
+                timeout_sec=max(30, min(attempt_timeout_sec, 180)),
+                auto=True,
+            )
+        support["evaluator_report"] = evaluator_report
+        execution_artifacts = self._build_execution_artifacts(project_dir=project_dir, support=support)
+        proof_system_benchmark = execution_artifacts["proof_system_benchmark"]
+        verifier_feedback = execution_artifacts["verifier_feedback"]
+        proof_search_agenda = execution_artifacts["proof_search_agenda"]
+
         convergence_prompt_payload = {
             **convergence_plan,
             "external_requirements": convergence_external.get("requirements", []),
@@ -754,6 +1189,27 @@ class ProofSearchRunner:
             "script_inventory": script_inventory[:10],
             "convergence_phase": convergence_plan.get("phase", ""),
             "convergence_ready_for_long_run": convergence_plan.get("ready_for_long_run", False),
+            "strategy_profile_id": str(open_problem_strategy.get("strategy_profile_id", "")).strip(),
+            "recommended_focus_mode": str(open_problem_strategy.get("recommended_focus_mode", "default")).strip()
+            or "default",
+            "strategy_required_check_count": len(open_problem_strategy.get("required_checks", [])),
+            "checkpoint_contract_ready": bool(checkpoint_contract.get("checkpoint_statement")),
+            "retrieved_local_premise_count": len(premise_retrieval.get("local_lean_premises", [])),
+            "retrieved_literature_premise_count": len(premise_retrieval.get("literature_premises", [])),
+            "accessible_premise_count": len(accessible_premise_graph.get("accessible_premises", [])),
+            "import_candidate_count": len(accessible_premise_graph.get("import_candidates", [])),
+            "compiled_premise_count": len(accessible_premise_graph.get("compiled_modules", [])),
+            "staged_premise_count": len(accessible_premise_graph.get("staged_modules", [])),
+            "evaluator_mode": str(evaluator_plan.get("evaluator_mode", "")),
+            "evaluator_ready_to_run": bool(evaluator_plan.get("ready_to_run", False)),
+            "evaluator_report_status": str(evaluator_report.get("status", "")),
+            "evaluator_output_count": len(evaluator_report.get("expected_outputs", [])),
+            "search_policy": str(proof_search_agenda.get("search_policy", "")),
+            "execution_mode": str(proof_search_agenda.get("execution_mode", "")),
+            "selected_agenda_item_id": str(proof_search_agenda.get("selected_item_id", "")),
+            "selected_agenda_item_kind": str((proof_search_agenda.get("selected_item") or {}).get("kind", "")),
+            "frontier_item_count": len(proof_search_agenda.get("frontier", [])),
+            "verifier_feedback_mode": str(verifier_feedback.get("recommended_mode", "")),
         }
         write_json(project_dir / "proof" / "proof_search_context.json", context_payload)
 
@@ -806,6 +1262,10 @@ class ProofSearchRunner:
             attempt_dir.mkdir(parents=True, exist_ok=True)
             prompt_path = attempt_dir / "prompt.txt"
             output_path = attempt_dir / "backend_last_message.txt"
+            execution_artifacts = self._build_execution_artifacts(project_dir=project_dir, support=support)
+            proof_system_benchmark = execution_artifacts["proof_system_benchmark"]
+            verifier_feedback = execution_artifacts["verifier_feedback"]
+            proof_search_agenda = execution_artifacts["proof_search_agenda"]
             route_snapshot = self._route_discovery_snapshot(project_dir) if focus_mode in {"route_discovery", "paper_first"} else {}
             prompt = self._build_prompt(
                 project_dir=project_dir,
@@ -825,6 +1285,14 @@ class ProofSearchRunner:
                 seed_family=seed_family,
                 placeholder_claim_count=placeholder_claim_count,
                 convergence_plan=convergence_prompt_payload,
+                open_problem_strategy=open_problem_strategy,
+                premise_retrieval=premise_retrieval,
+                accessible_premise_graph=accessible_premise_graph,
+                evaluator_plan=evaluator_plan,
+                evaluator_report=evaluator_report,
+                proof_system_benchmark=proof_system_benchmark,
+                verifier_feedback=verifier_feedback,
+                proof_search_agenda=proof_search_agenda,
             )
             write_text(prompt_path, prompt)
             backend_report = self._invoke_backend(
@@ -874,6 +1342,16 @@ class ProofSearchRunner:
                 "script_inventory": script_inventory[:8],
                 "convergence_phase": convergence_plan.get("phase", ""),
                 "ready_for_long_run": convergence_plan.get("ready_for_long_run", False),
+                "accessible_premise_count": len(accessible_premise_graph.get("accessible_premises", [])),
+                "evaluator_mode": evaluator_plan.get("evaluator_mode", ""),
+                "evaluator_ready_to_run": evaluator_plan.get("ready_to_run", False),
+                "evaluator_report_status": evaluator_report.get("status", ""),
+                "search_policy": proof_search_agenda.get("search_policy", ""),
+                "execution_mode": proof_search_agenda.get("execution_mode", ""),
+                "selected_agenda_item_id": proof_search_agenda.get("selected_item_id", ""),
+                "selected_agenda_item_kind": (proof_search_agenda.get("selected_item") or {}).get("kind", ""),
+                "selected_agenda_item_label": (proof_search_agenda.get("selected_item") or {}).get("label", ""),
+                "verifier_feedback_mode": verifier_feedback.get("recommended_mode", ""),
             }
             attempt_payload["outcome"] = (
                 "converged"
@@ -885,6 +1363,7 @@ class ProofSearchRunner:
             write_json(attempt_dir / "attempt_report.json", attempt_payload)
             append_jsonl(project_dir / "proof" / "proof_search_attempts.jsonl", attempt_payload)
             previous_attempt = attempt_payload
+            self._build_execution_artifacts(project_dir=project_dir, support=support)
 
             if attempt_payload["outcome"] == "converged":
                 final_report = {

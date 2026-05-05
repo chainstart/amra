@@ -66,7 +66,7 @@ ara-math/
 ## Quick Start
 
 ```bash
-cd /home/biostar/work/ara-math
+cd /home/biostar/work/projects/ara-math
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
@@ -94,7 +94,7 @@ Generate the registry and topic banks from the local `formal-math` workspace:
 
 ```bash
 python3 run.py sync-local-banks \
-  --formal-math-root /home/biostar/work/formal-math
+  --formal-math-root /home/biostar/work/projects/formal-math
 ```
 
 Scout a large bank such as the imported Erdős open catalog:
@@ -102,23 +102,23 @@ Scout a large bank such as the imported Erdős open catalog:
 ```bash
 python3 run.py scout-bank \
   --bank-name erdos_open_637 \
-  --formal-math-root /home/biostar/work/formal-math \
+  --formal-math-root /home/biostar/work/projects/formal-math \
   --top-k 12 \
-  --output /home/biostar/work/ara-math/artifacts/erdos_open_scouting.json
+  --output /home/biostar/work/projects/ara-math/artifacts/erdos_open_scouting.json
 ```
 
 Harvest local or remote reference material for a project before planning:
 
 ```bash
 python3 run.py harvest-literature \
-  --project /home/biostar/work/ara-math/projects/erdos-1052-shortlist-20260421
+  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-shortlist-20260421
 ```
 
 Enable remote URL fetching when you want the system to inspect web references directly:
 
 ```bash
 python3 run.py harvest-literature \
-  --project /home/biostar/work/ara-math/projects/erdos-1052-shortlist-20260421 \
+  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-shortlist-20260421 \
   --bank-name unitary_perfect_track \
   --allow-network
 ```
@@ -139,7 +139,7 @@ Supply the exact mathematical statement before serious proof work:
 
 ```bash
 python3 run.py set-statement \
-  --project /home/biostar/work/ara-math/projects/erdos-1052-20260421 \
+  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421 \
   --statement-file /path/to/exact_statement.md \
   --source "manual curation"
 ```
@@ -148,7 +148,7 @@ Override the deliverable type when human judgment should take precedence over th
 
 ```bash
 python3 run.py set-deliverable \
-  --project /home/biostar/work/ara-math/projects/erdos-1052-20260421 \
+  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421 \
   --mode research_report \
   --reason "This result is useful, but it does not justify a paper workflow."
 ```
@@ -156,19 +156,19 @@ python3 run.py set-deliverable \
 Generate a proof plan:
 
 ```bash
-python3 run.py plan --project /home/biostar/work/ara-math/projects/erdos-1052-20260421
+python3 run.py plan --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
 ```
 
 Generate Lean claim stubs and formalization artifacts:
 
 ```bash
-python3 run.py prepare-formal --project /home/biostar/work/ara-math/projects/erdos-1052-20260421
+python3 run.py prepare-formal --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
 ```
 
 Run the Lean build and audit:
 
 ```bash
-python3 run.py build-lean --project /home/biostar/work/ara-math/projects/erdos-1052-20260421
+python3 run.py build-lean --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
 ```
 
 `ara-math` now runs Lean in guarded mode by default:
@@ -180,7 +180,7 @@ If you intentionally want a cold-cache build, opt in explicitly:
 
 ```bash
 python3 run.py build-lean \
-  --project /home/biostar/work/ara-math/projects/erdos-1052-20260421 \
+  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421 \
   --allow-cold-cache
 ```
 
@@ -202,20 +202,39 @@ The default guardrails can be tuned with environment variables:
 Generate a manuscript blueprint:
 
 ```bash
-python3 run.py write-manuscript --project /home/biostar/work/ara-math/projects/erdos-1052-20260421
+python3 run.py write-manuscript --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
 ```
 
 Run the math-specific review gate:
 
 ```bash
-python3 run.py review-project --project /home/biostar/work/ara-math/projects/erdos-1052-20260421
+python3 run.py review-project --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
 ```
 
 Run the current end-to-end MVP pipeline:
 
 ```bash
-python3 run.py run --project /home/biostar/work/ara-math/projects/erdos-1052-20260421
+python3 run.py run --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
 ```
+
+Run a math-only single-target attack loop before Lean formalization:
+
+```bash
+python3 run.py run-math-attack \
+  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-shortlist-20260421 \
+  --target "Attack the branch 3 does not divide N for Erdős #1052" \
+  --context-file /home/biostar/work/projects/formal-math/docs/erdos_1052_math_proof_program_2026-04-26.md \
+  --context-file /home/biostar/work/projects/formal-math/docs/erdos_1052_branch3_lemma_pack_2026-04-26.md \
+  --evidence-command "python3 /home/biostar/work/projects/formal-math/erdos-1052-unitary-perfect/src/branch3_closure.py --limit 60" \
+  --evidence-cwd /home/biostar/work/projects/formal-math/erdos-1052-unitary-perfect \
+  --iterations 8 \
+  --time-budget 28800 \
+  --iteration-timeout 420 \
+  --model gpt-5.4 \
+  --reasoning-effort high
+```
+
+This stage writes `proof/math_attack/...` artifacts inside the `ara-math` project while allowing specialized local scripts from `formal-math` to serve as evidence providers. Use it when the current blocker is mathematical route discovery rather than Lean proof repair.
 
 ## Project Outputs
 
@@ -233,6 +252,8 @@ Each project stores explicit artifacts:
 - `idea/deliverable_override.json`: human override for `auto | research_report | formalization_note | paper_candidate`
 - `proof/proof_plan.json`: task DAG for definitions, lemmas, main claim, and computational obligations
 - `proof/claim_registry.json`: machine-readable claim inventory and current status
+- `proof/math_attack_status.json`: latest math-only single-target attack loop status
+- `proof/math_attack/*/journal.md`: iteration journal for route discovery, obstruction searches, and local evidence feedback
 - `formal/MathProject/*.lean`: generated Lean workspace and proof stubs
 - `artifacts/lean_build_report.json`: structured build diagnostics and `sorry` count
 - `writing/manuscript.md`: manuscript blueprint tied to the current claims and build state
@@ -247,14 +268,14 @@ The bundled `data/problem_bank.yaml` is small and curated. For larger local inve
 
 ```bash
 python3 run.py import-erdos-bank \
-  --source /home/biostar/work/formal-math/docs/open_problems.yaml \
-  --output /home/biostar/work/ara-math/data/erdos_problem_bank.yaml
+  --source /home/biostar/work/projects/formal-math/docs/open_problems.yaml \
+  --output /home/biostar/work/projects/ara-math/data/erdos_problem_bank.yaml
 ```
 
 Then point project creation at the imported bank:
 
 ```bash
-python3 run.py new-project --bank /home/biostar/work/ara-math/data/erdos_problem_bank.yaml --problem 1052
+python3 run.py new-project --bank /home/biostar/work/projects/ara-math/data/erdos_problem_bank.yaml --problem 1052
 ```
 
 After `sync-local-banks`, the registry includes:

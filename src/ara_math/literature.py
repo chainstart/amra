@@ -498,6 +498,54 @@ class LiteratureHarvester:
             return True
         return any(token in lowered for token in self.PLACEHOLDER_STATEMENT_TOKENS)
 
+    def _looks_like_definition_statement(self, statement: str) -> bool:
+        lowered = statement.strip().lower()
+        if not lowered:
+            return False
+        if any(token in lowered for token in (" iff ", " if and only if ", " when and only when ", " is defined as ")):
+            return True
+        if "当且仅当" in statement or "定义为" in statement or "称为" in statement:
+            return True
+        if "unitary divisor" in lowered and "gcd" in lowered:
+            return True
+        return False
+
+    def _candidate_target_bonus(self, *, problem: ProblemRecord, family: str, statement: str) -> int:
+        lowered = statement.lower().strip()
+        bonus = 0
+        if self._looks_like_definition_statement(statement):
+            bonus -= 8 if problem.open_problem else 4
+        if problem.open_problem and any(
+            cue in lowered
+            for cue in (
+                "determine whether",
+                "for which values",
+                "does every",
+                "does there exist",
+                "finitely many",
+                "only finitely many",
+                "find all",
+                "找出所有",
+                "是否只有有限",
+            )
+        ):
+            bonus += 3
+        if family == "unitary_perfect":
+            if "finitely many unitary perfect" in lowered or "only finitely many unitary perfect" in lowered:
+                bonus += 8
+            elif "unitary perfect" in lowered and "finitely many" in lowered:
+                bonus += 6
+            if "no odd unitary perfect" in lowered:
+                bonus += 3
+            if "unitary divisor" in lowered and "gcd" in lowered:
+                bonus -= 10
+        if family == "triangle_dissection":
+            if "for which values of n" in lowered or ("triangle" in lowered and "congruent" in lowered):
+                bonus += 6
+            if "找出所有" in statement and "三角形" in statement:
+                bonus += 6
+        return bonus
+
     def _clean_query_text(self, text: str) -> str:
         normalized = re.sub(r"[_*`#|]+", " ", text)
         normalized = re.sub(r"https?://\S+", " ", normalized)
@@ -1389,6 +1437,7 @@ class LiteratureHarvester:
         problem_number = self._erdos_problem_number(problem) if self._is_erdos_problem(problem) else ""
         source_descriptor = f"{source} {title}"
         source_numbers = {match.group(1) for match in self.ERDOS_SOURCE_PATTERN.finditer(source_descriptor)}
+        source_problem_mismatch = bool(problem_number and source_numbers and problem_number not in source_numbers)
         candidate_strings: list[str] = []
         for candidate in candidate_statements:
             statement = str(candidate.get("statement", "")).strip()
@@ -1419,6 +1468,8 @@ class LiteratureHarvester:
             lower = line.lower()
             if problem_number:
                 referenced_numbers = {match.group(1) for match in self.ERDOS_REFERENCE_PATTERN.finditer(line)}
+                if source_problem_mismatch and problem_number not in referenced_numbers and problem_number not in active_numbers:
+                    continue
                 if referenced_numbers and problem_number not in referenced_numbers:
                     continue
                 if active_numbers and problem_number not in active_numbers:
@@ -1498,6 +1549,11 @@ class LiteratureHarvester:
     def _select_candidate(self, problem: ProblemRecord, snapshots: list[dict[str, Any]]) -> dict[str, Any]:
         title_tokens = [token.lower() for token in re.findall(r"[A-Za-z0-9]+", problem.title) if len(token) >= 4]
         problem_number = self._erdos_problem_number(problem) if self._is_erdos_problem(problem) else ""
+        family = self._infer_problem_family(
+            problem,
+            recovered_statement=problem.statement,
+            evidence={"known_results": [], "proof_ingredients": [], "modern_tools": [], "open_gaps": []},
+        )
         ranked: list[dict[str, Any]] = []
         seen: set[str] = set()
         for snapshot in snapshots:
@@ -1512,9 +1568,12 @@ class LiteratureHarvester:
                 score = int(candidate["score"])
                 statement_lower = statement.lower()
                 context_numbers = {str(number) for number in candidate.get("context_numbers", []) if str(number).strip()}
+                if problem_number and source_numbers and problem_number not in source_numbers and problem_number not in context_numbers:
+                    continue
                 for token in title_tokens:
                     if token in statement_lower:
                         score += 1
+                score += self._candidate_target_bonus(problem=problem, family=family, statement=statement)
                 if problem.open_problem:
                     if any(
                         cue in statement_lower
@@ -1659,6 +1718,13 @@ class LiteratureHarvester:
         current_context = read_json(project_dir / "idea" / "problem_context.json", default={})
         current_source = str(current_context.get("exact_statement_source", "")).strip()
         auto_managed_statement = current_source.startswith("literature recovery from ")
+        problem_statement = str(problem.statement).strip()
+        if not exact_statement_before and problem_statement and not self._is_placeholder_statement(problem_statement):
+            set_exact_statement(project_dir, problem_statement, source="problem bank")
+            exact_statement_before = True
+            current_statement = problem_statement
+            current_source = "problem bank"
+            auto_managed_statement = False
         recovered_status = "not_found"
         applied_statement = ""
         if best_candidate and (

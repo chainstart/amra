@@ -157,8 +157,18 @@ def test_scout_problem_bank_prefers_local_assets_and_search_friendly_tags(tmp_pa
     assert report["top_candidates"][0]["local_literature_signal"]["statement_recoverable"] is True
     assert report["top_candidates"][0]["local_literature_signal"]["snapshot_count"] == 2
     assert report["top_candidates"][0]["local_literature_signal"]["evidence_signals"]
+    assert report["top_candidates"][0]["investment_class"] in {
+        "certificate_pipeline",
+        "formalization_project",
+        "proof_route_scout",
+    }
+    assert report["top_candidates"][0]["blocker_class"]
+    assert report["top_candidates"][0]["recommended_next_action"]
+    assert report["top_candidates"][0]["shallow_reasoning"]
+    assert report["screening_summary"]["investment_class_counts"]
     saved = json.loads((tmp_path / "scout.json").read_text(encoding="utf-8"))
     assert saved["global_idea_themes"]
+    assert saved["screening_summary"]["blocker_class_counts"]
 
 
 def test_scout_problem_bank_uses_local_erdos_doc_signals_for_related_candidates(tmp_path: Path) -> None:

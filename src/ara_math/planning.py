@@ -856,6 +856,126 @@ class MathPlanner:
         lines.append("")
         return "\n".join(lines)
 
+    def _checkpoint_variant_risks(self, *, target_statement: str, checkpoint_statement: str, theorem_chain: list[dict[str, Any]]) -> list[str]:
+        if not checkpoint_statement:
+            return ["No explicit checkpoint theorem is selected yet."]
+        target = target_statement.lower()
+        checkpoint = checkpoint_statement.lower()
+        risks: list[str] = []
+        cue_pairs = (
+            ("finitely many", "finiteness"),
+            ("infinitely many", "infinitude"),
+            ("for every", "universal quantifier"),
+            ("for all", "universal quantifier"),
+            ("there exists", "existential claim"),
+            ("odd", "odd-case hypothesis"),
+            ("even", "even-case hypothesis"),
+            ("unitary perfect", "problem family"),
+            ("triangle", "geometry family"),
+            ("prime gap", "prime-gap terminology"),
+        )
+        for cue, label in cue_pairs:
+            if cue in target and cue not in checkpoint:
+                risks.append(f"The checkpoint statement may omit a target-level {label} cue: `{cue}`.")
+        if len(theorem_chain) > 1:
+            risks.append("The checkpoint theorem is only one node in a longer theorem chain; verify the missing bridge back to the main target.")
+        deduped: list[str] = []
+        seen: set[str] = set()
+        for risk in risks:
+            if risk in seen:
+                continue
+            seen.add(risk)
+            deduped.append(risk)
+        return deduped[:6]
+
+    def build_checkpoint_contract(
+        self,
+        *,
+        problem: ProblemRecord,
+        theorem_inventory: dict[str, Any],
+        route_candidates: dict[str, Any],
+        route_scaffold: dict[str, Any],
+    ) -> dict[str, Any]:
+        target_statement = str(theorem_inventory.get("target_statement", problem.statement)).strip()
+        selected_route_id = str(route_candidates.get("selected_route_id", "")).strip()
+        candidates = list(route_candidates.get("candidates", []))
+        selected = next(
+            (candidate for candidate in candidates if candidate.get("route_id") == selected_route_id),
+            candidates[0] if candidates else {},
+        ) or {}
+        theorem_chain = list(selected.get("theorem_chain", []))
+        checkpoint_entry = theorem_chain[0] if theorem_chain else {}
+        checkpoint_statement = str(checkpoint_entry.get("statement", "")).strip()
+        checkpoint_source = str(checkpoint_entry.get("source", "")).strip()
+        variant_risks = self._checkpoint_variant_risks(
+            target_statement=target_statement,
+            checkpoint_statement=checkpoint_statement,
+            theorem_chain=theorem_chain,
+        )
+        alignment_questions = [
+            "Which hypotheses from the cited checkpoint theorem are still implicit or missing in project-local notation?",
+            "Which theorem bridge turns this checkpoint into progress on the original open target?",
+            "Does the checkpoint theorem keep the same quantifier range and object class as the cited source?",
+        ]
+        if checkpoint_source:
+            alignment_questions.append("Can the cited source statement be copied into project notes verbatim before Lean encoding?")
+        return {
+            "generated_at": utc_now_iso(),
+            "problem_id": problem.problem_id,
+            "target_statement": target_statement,
+            "selected_route_id": selected.get("route_id", ""),
+            "selected_route_title": selected.get("title", ""),
+            "checkpoint_inventory_id": checkpoint_entry.get("inventory_id", ""),
+            "checkpoint_role": checkpoint_entry.get("role", ""),
+            "checkpoint_statement": checkpoint_statement,
+            "checkpoint_source": checkpoint_source,
+            "dependency_chain": [str(item.get("statement", "")).strip() for item in theorem_chain if str(item.get("statement", "")).strip()],
+            "first_edit_targets": list(route_scaffold.get("first_edit_targets", [])),
+            "next_formal_obligations": list(route_scaffold.get("next_formal_obligations", [])),
+            "variant_risks": variant_risks,
+            "definition_alignment_questions": alignment_questions,
+            "import_ready": bool(selected.get("ready_for_formalization", False) and checkpoint_statement and checkpoint_source),
+        }
+
+    def render_checkpoint_contract_markdown(self, *, contract: dict[str, Any]) -> str:
+        lines = [
+            "# Checkpoint Contract",
+            "",
+            f"- Selected route: {contract.get('selected_route_id', '')} / {contract.get('selected_route_title', '')}",
+            f"- Target statement: {contract.get('target_statement', '')}",
+            f"- Checkpoint role: {contract.get('checkpoint_role', '')}",
+            f"- Checkpoint statement: {contract.get('checkpoint_statement', '')}",
+            f"- Source: {contract.get('checkpoint_source', '') or 'not recorded'}",
+            f"- Import ready: {'yes' if contract.get('import_ready') else 'not yet'}",
+            "",
+            "## Dependency Chain",
+            "",
+        ]
+        chain = contract.get("dependency_chain", [])
+        if chain:
+            for item in chain:
+                lines.append(f"- {item}")
+        else:
+            lines.append("- No dependency chain recorded yet.")
+        lines.extend(["", "## Definition Alignment Questions", ""])
+        for item in contract.get("definition_alignment_questions", []):
+            lines.append(f"- {item}")
+        lines.extend(["", "## Variant Risks", ""])
+        risks = contract.get("variant_risks", [])
+        if risks:
+            for item in risks:
+                lines.append(f"- {item}")
+        else:
+            lines.append("- None recorded.")
+        lines.extend(["", "## First Edit Targets", ""])
+        for item in contract.get("first_edit_targets", []):
+            lines.append(f"- {item}")
+        lines.extend(["", "## Next Formal Obligations", ""])
+        for item in contract.get("next_formal_obligations", []):
+            lines.append(f"- {item}")
+        lines.append("")
+        return "\n".join(lines)
+
     def build_route_scaffold(
         self,
         *,

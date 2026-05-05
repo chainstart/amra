@@ -3,11 +3,15 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+from ara_math.strategy import OpenProblemStrategyPlanner
 from ara_math.context import build_context_audit
 from ara_math.workspace import load_project_manifest, read_json, read_text, record_event, update_pipeline_status, utc_now_iso, write_json
 
 
 class ConvergencePlanner:
+    def __init__(self) -> None:
+        self.strategy_planner = OpenProblemStrategyPlanner()
+
     def _has_local_source_match(self, sources: list[str], fragment: str) -> bool:
         lowered = fragment.lower()
         return any(lowered in source.lower() for source in sources)
@@ -415,6 +419,12 @@ class ConvergencePlanner:
         formal_preparation = read_json(project_dir / "artifacts" / "formal_preparation.json", default={})
         literature_evidence = read_json(project_dir / "idea" / "literature_evidence.json", default={})
         proof_path = read_json(project_dir / "idea" / "proof_path_assessment.json", default={})
+        theorem_inventory = read_json(project_dir / "proof" / "theorem_inventory.json", default={})
+        route_discovery_brief = read_json(project_dir / "proof" / "route_discovery_brief.json", default={})
+        checkpoint_contract = read_json(project_dir / "proof" / "checkpoint_contract.json", default={})
+        proof_system_benchmark = read_json(project_dir / "proof" / "proof_system_benchmark.json", default={})
+        proof_search_agenda = read_json(project_dir / "proof" / "proof_search_agenda.json", default={})
+        verifier_feedback = read_json(project_dir / "proof" / "verifier_feedback.json", default={})
         porting_candidates = read_json(project_dir / "proof" / "porting_candidates.json", default={}).get("candidates", [])
         proof_gap_notes = read_text(project_dir / "proof" / "proof_gap_notes.md")
         main_claim_text = read_text(project_dir / "formal" / "MathProject" / "MainClaim.lean")
@@ -462,6 +472,31 @@ class ConvergencePlanner:
 
         if review_status == "blocked" and review_report.get("blockers"):
             blockers.extend(str(item) for item in review_report.get("blockers", [])[:3])
+        if bool(manifest.get("problem", {}).get("open_problem", False)) and not checkpoint_contract.get("checkpoint_statement"):
+            blockers.append("No explicit checkpoint contract has been synthesized for this open problem yet.")
+
+        strategy_report = self.strategy_planner.analyze(
+            project_dir=project_dir,
+            manifest=manifest,
+            context_audit=context_audit,
+            review_report=review_report,
+            build_report=build_report,
+            proof_path=proof_path,
+            literature_evidence=literature_evidence,
+            theorem_inventory=theorem_inventory,
+            route_discovery_brief=route_discovery_brief,
+        )
+        notes.append(f"Strategy profile: {strategy_report['strategy_profile_id']}.")
+        notes.extend(f"Strategy lesson: {item}" for item in strategy_report.get("highlighted_lessons", [])[:2])
+        if proof_system_benchmark:
+            execution_policy = proof_system_benchmark.get("execution_policy", {})
+            notes.append(f"Proof-system policy: {execution_policy.get('search_policy', '')}.")
+        if proof_search_agenda:
+            notes.append(
+                f"Agenda mode: {proof_search_agenda.get('execution_mode', '')} on {proof_search_agenda.get('selected_item_id', '')}."
+            )
+        if verifier_feedback.get("attempt_count", 0):
+            notes.append(f"Verifier feedback tracks {verifier_feedback.get('attempt_count', 0)} past attempt(s).")
 
         current_milestone = self._extract_milestone(
             seed_family=seed_family,
@@ -480,6 +515,9 @@ class ConvergencePlanner:
             notes.append("Proof-gap notes already record checkpoint-level progress for this project.")
 
         run_profile = self._default_run_profile(seed_family=seed_family, review_status=review_status, build_status=build_status)
+        run_profile["focus_mode"] = str(strategy_report.get("recommended_focus_mode", "default")).strip() or "default"
+        run_profile["search_policy"] = str((proof_system_benchmark.get("execution_policy") or {}).get("search_policy", "best_first_frontier"))
+        run_profile["execution_mode"] = str(proof_search_agenda.get("execution_mode", ""))
         if phase == "statement_recovery_required":
             run_profile = {
                 "backend": "none",
@@ -489,6 +527,7 @@ class ConvergencePlanner:
                 "build_timeout_sec": 0,
                 "reasoning_effort": "medium",
                 "allow_network": True,
+                "focus_mode": "paper_first",
             }
         elif phase == "unblock_verifier":
             run_profile["attempts"] = 1
@@ -498,6 +537,9 @@ class ConvergencePlanner:
         readiness_for_long_run = (
             phase not in {"statement_recovery_required", "human_audit"}
             and build_status != "blocked"
+            and (not bool(manifest.get("problem", {}).get("open_problem", False)) or bool(proof_system_benchmark))
+            and bool((strategy_report.get("gates") or {}).get("route_ready", True))
+            and (not bool(manifest.get("problem", {}).get("open_problem", False)) or bool(checkpoint_contract.get("checkpoint_statement")))
             and not any(req.get("status") == "manual_setup_required" for req in external_requirements)
         )
 
@@ -515,6 +557,8 @@ class ConvergencePlanner:
             "notes": notes,
             "ready_for_long_run": readiness_for_long_run,
             "recommended_run_profile": run_profile,
+            "strategy_profile_id": strategy_report["strategy_profile_id"],
+            "recommended_focus_mode": strategy_report["recommended_focus_mode"],
             "stop_conditions": stop_conditions,
             "external_requirement_count": len(external_requirements),
         }
@@ -527,6 +571,7 @@ class ConvergencePlanner:
         }
         write_json(project_dir / "artifacts" / "convergence_plan.json", payload)
         write_json(project_dir / "artifacts" / "external_requirements.json", external_payload)
+        write_json(project_dir / "artifacts" / "open_problem_strategy.json", strategy_report)
         update_pipeline_status(
             project_dir,
             stage="convergence",
@@ -534,6 +579,7 @@ class ConvergencePlanner:
             details={
                 "ready_for_long_run": readiness_for_long_run,
                 "external_requirement_count": len(external_requirements),
+                "strategy_profile_id": strategy_report["strategy_profile_id"],
             },
         )
         record_event(
@@ -544,6 +590,7 @@ class ConvergencePlanner:
                 "phase": phase,
                 "ready_for_long_run": readiness_for_long_run,
                 "external_requirement_count": len(external_requirements),
+                "strategy_profile_id": strategy_report["strategy_profile_id"],
             },
         )
         return payload

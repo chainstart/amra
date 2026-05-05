@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shlex
 from pathlib import Path
 from typing import Any
 
@@ -20,6 +21,7 @@ from ara_math.workspace import today_utc
 
 
 DELIVERABLE_MODES = ("auto", "research_report", "formalization_note", "paper_candidate")
+ARA_LIBRARY_STATUSES = ("candidate", "trusted", "upstream_candidate", "deprecated")
 
 
 def _repo_root() -> Path:
@@ -82,6 +84,23 @@ def _apply_proof_search_runtime_overrides(orchestrator: MathResearchOrchestrator
             setattr(runner, attr, value)
 
 
+def _apply_closure_runtime_overrides(orchestrator: MathResearchOrchestrator, args: argparse.Namespace) -> None:
+    runner = orchestrator.closure_prover_runner
+    overrides = {
+        "backend_model": getattr(args, "model", None),
+        "backend_reasoning_effort": getattr(args, "reasoning_effort", None),
+        "backend_max_memory_mb": getattr(args, "backend_max_memory_mb", None),
+        "backend_max_cpu_seconds": getattr(args, "backend_max_cpu_seconds", None),
+        "backend_max_processes": getattr(args, "backend_max_processes", None),
+        "min_available_memory_mb": getattr(args, "min_available_memory_mb", None),
+        "max_load_per_cpu": getattr(args, "max_load_per_cpu", None),
+        "wait_max_seconds": getattr(args, "system_wait_seconds", None),
+    }
+    for attr, value in overrides.items():
+        if value is not None:
+            setattr(runner, attr, value)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="ARA Math CLI")
     parser.add_argument("--json", action="store_true", help="Print JSON output.")
@@ -112,6 +131,44 @@ def build_parser() -> argparse.ArgumentParser:
     sync_banks.add_argument("--formal-math-root", type=Path, required=True)
     sync_banks.add_argument("--data-root", type=Path, default=None)
     sync_banks.add_argument("--registry-output", type=Path, default=None)
+
+    init_ara_library = subparsers.add_parser(
+        "init-ara-library",
+        help="Create the reusable local Lean library for mathlib gaps and staged contributions.",
+    )
+
+    add_ara_library = subparsers.add_parser(
+        "add-ara-library-module",
+        help="Create or register a reusable ARA Lean library module.",
+    )
+    add_ara_library.add_argument("--module-name", required=True, help="Lean module name, e.g. AraLibrary.NumberTheory.Carmichael.")
+    add_ara_library.add_argument("--import", dest="imports", action="append", default=[], help="Lean import to add to the module.")
+    add_ara_library.add_argument("--title", default="")
+    add_ara_library.add_argument("--domain", default="")
+    add_ara_library.add_argument("--status", choices=ARA_LIBRARY_STATUSES, default="candidate")
+    add_ara_library.add_argument("--tag", dest="tags", action="append", default=[])
+    add_ara_library.add_argument("--description", default="")
+
+    promote_ara_library = subparsers.add_parser(
+        "promote-to-ara-library",
+        help="Promote selected Lean declarations from a project file into the reusable ARA library.",
+    )
+    promote_ara_library.add_argument("--source-file", type=Path, required=True)
+    promote_ara_library.add_argument("--source-project", type=Path, default=None)
+    promote_ara_library.add_argument("--module-name", required=True, help="Lean module name, e.g. AraLibrary.NumberTheory.Carmichael.")
+    promote_ara_library.add_argument("--declaration", dest="declarations", action="append", required=True)
+    promote_ara_library.add_argument("--import", dest="imports", action="append", default=[], help="Lean import to add to the module.")
+    promote_ara_library.add_argument("--title", default="")
+    promote_ara_library.add_argument("--domain", default="")
+    promote_ara_library.add_argument("--status", choices=ARA_LIBRARY_STATUSES, default="candidate")
+    promote_ara_library.add_argument("--tag", dest="tags", action="append", default=[])
+    promote_ara_library.add_argument("--description", default="")
+
+    list_ara_library = subparsers.add_parser("list-ara-library", help="List reusable ARA Lean library modules.")
+
+    build_ara_library = subparsers.add_parser("build-ara-library", help="Build the reusable ARA Lean library.")
+    build_ara_library.add_argument("--timeout", type=int, default=600)
+    build_ara_library.add_argument("--allow-cold-cache", action="store_true")
 
     new_project = subparsers.add_parser("new-project", help="Create a new math research project.")
     new_project.add_argument("--problem", required=True, help="Problem id from the selected bank.")
@@ -154,6 +211,60 @@ def build_parser() -> argparse.ArgumentParser:
     convergence = subparsers.add_parser("plan-convergence", help="Generate a convergence plan and external requirement report.")
     convergence.add_argument("--project", type=Path, required=True)
 
+    proof_system = subparsers.add_parser(
+        "plan-proof-system",
+        help="Generate proof-system benchmark, verifier-feedback, and best-first search agenda artifacts.",
+    )
+    proof_system.add_argument("--project", type=Path, required=True)
+
+    run_evaluator = subparsers.add_parser(
+        "run-evaluator",
+        help="Run a bounded evaluator command or local search script for a project.",
+    )
+    run_evaluator.add_argument("--project", type=Path, required=True)
+    run_evaluator.add_argument("--timeout", type=int, default=None)
+    run_evaluator.add_argument("--auto", action="store_true", help="Honor evaluator auto-run gating instead of forcing a manual run.")
+
+    math_attack = subparsers.add_parser(
+        "run-math-attack",
+        help="Run a math-only single-target attack loop before Lean formalization.",
+    )
+    math_attack.add_argument("--project", type=Path, required=True)
+    math_attack.add_argument("--target", default="", help="Specific theorem, branch, or obstruction to attack.")
+    math_attack.add_argument("--context-file", type=Path, action="append", default=[])
+    math_attack.add_argument(
+        "--evidence-command",
+        default="",
+        help="Optional local evidence command, parsed with shell-like quoting but run without a shell.",
+    )
+    math_attack.add_argument("--evidence-cwd", type=Path, default=None)
+    math_attack.add_argument("--evidence-timeout", type=int, default=120)
+    math_attack.add_argument("--backend", choices=("codex", "none"), default="codex")
+    math_attack.add_argument("--iterations", type=int, default=3)
+    math_attack.add_argument("--time-budget", type=int, default=900)
+    math_attack.add_argument("--iteration-timeout", type=int, default=180)
+    math_attack.add_argument("--sleep-seconds", type=int, default=0)
+    math_attack.add_argument(
+        "--sleep-mode",
+        choices=("adaptive", "fixed", "none"),
+        default="adaptive",
+        help="Pacing between iterations. Adaptive treats --sleep-seconds as a cap and backs off on rate/usage failures.",
+    )
+    math_attack.add_argument("--min-sleep-seconds", type=int, default=None)
+    math_attack.add_argument("--max-sleep-seconds", type=int, default=None)
+    math_attack.add_argument("--sleep-jitter-seconds", type=int, default=None)
+    math_attack.add_argument(
+        "--launch-spacing-seconds",
+        type=int,
+        default=None,
+        help="Optional cross-process minimum spacing between backend launches.",
+    )
+    math_attack.add_argument("--run-name", default=None)
+    math_attack.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    math_attack.add_argument("--dry-run", action="store_true", help="Build artifacts and prompts without invoking the backend.")
+    math_attack.add_argument("--model", default=None, help="Override the math-attack backend model.")
+    math_attack.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+
     harvest = subparsers.add_parser("harvest-literature", help="Collect local and remote reference snapshots for a project.")
     harvest.add_argument("--project", type=Path, required=True)
     harvest.add_argument("--bank", type=Path, default=DEFAULT_BANK_PATH)
@@ -182,6 +293,30 @@ def build_parser() -> argparse.ArgumentParser:
     proof_search.add_argument("--allow-cold-cache", action="store_true")
     proof_search.add_argument("--allow-network", action="store_true")
     _add_proof_search_runtime_args(proof_search)
+
+    closure_prover = subparsers.add_parser(
+        "run-closure-prover",
+        help="Run a strict Lean-verified closure loop for one target theorem.",
+    )
+    closure_prover.add_argument("--project", type=Path, required=True)
+    closure_prover.add_argument("--target-theorem", required=False, default=None)
+    closure_prover.add_argument("--target-file", type=Path, default=None)
+    closure_prover.add_argument("--backend", choices=("codex", "none"), default="codex")
+    closure_prover.add_argument("--attempts", type=int, default=3)
+    closure_prover.add_argument("--time-budget", type=int, default=900)
+    closure_prover.add_argument("--attempt-timeout", type=int, default=180)
+    closure_prover.add_argument("--build-timeout", type=int, default=90)
+    closure_prover.add_argument("--max-stalled-attempts", type=int, default=2)
+    closure_prover.add_argument("--rollback-failed-attempts", action="store_true")
+    closure_prover.add_argument("--allow-cold-cache", action="store_true")
+    closure_prover.add_argument("--model", default=None, help="Override the closure backend model.")
+    closure_prover.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+    closure_prover.add_argument("--backend-max-memory-mb", type=int, default=None)
+    closure_prover.add_argument("--backend-max-cpu-seconds", type=int, default=None)
+    closure_prover.add_argument("--backend-max-processes", type=int, default=None)
+    closure_prover.add_argument("--min-available-memory-mb", type=int, default=None)
+    closure_prover.add_argument("--max-load-per-cpu", type=float, default=None)
+    closure_prover.add_argument("--system-wait-seconds", type=int, default=None)
 
     campaign = subparsers.add_parser(
         "run-open-campaign",
@@ -238,6 +373,26 @@ def build_parser() -> argparse.ArgumentParser:
     light_sweep.add_argument("--allow-network", action="store_true")
     light_sweep.add_argument("--allow-cold-cache", action="store_true")
     _add_proof_search_runtime_args(light_sweep)
+
+    math_scout = subparsers.add_parser(
+        "run-math-scout",
+        help="Run active shallow mathematical proof probes across a problem bank.",
+    )
+    math_scout.add_argument("--bank", type=Path, default=DEFAULT_BANK_PATH)
+    math_scout.add_argument("--bank-name")
+    math_scout.add_argument("--scout-report", type=Path, default=None)
+    math_scout.add_argument("--backend", choices=("codex", "none"), default="codex")
+    math_scout.add_argument("--problem-limit", type=int, default=None)
+    math_scout.add_argument("--start-index", type=int, default=0)
+    math_scout.add_argument("--time-budget", type=int, default=3600)
+    math_scout.add_argument("--timeout-per-problem", type=int, default=300)
+    math_scout.add_argument("--output", type=Path, default=None)
+    math_scout.add_argument("--run-name", default=None)
+    math_scout.add_argument("--selection-mode", choices=("ranked", "domain_balanced"), default="ranked")
+    math_scout.add_argument("--exclude-problem", action="append", default=[])
+    math_scout.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    math_scout.add_argument("--model", default=None, help="Override the math-scout backend model.")
+    math_scout.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
 
     write = subparsers.add_parser("write-manuscript", help="Generate a manuscript blueprint for a project.")
     write.add_argument("--project", type=Path, required=True)
@@ -299,6 +454,56 @@ def main(argv: list[str] | None = None) -> int:
             registry_output=args.registry_output,
         )
         _print(payload, args.json)
+        return 0
+
+    if args.command == "init-ara-library":
+        orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
+        _print(orchestrator.init_ara_library(), args.json)
+        return 0
+
+    if args.command == "add-ara-library-module":
+        orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
+        _print(
+            orchestrator.add_ara_library_module(
+                module_name=args.module_name,
+                imports=args.imports,
+                title=args.title,
+                domain=args.domain,
+                status=args.status,
+                tags=args.tags,
+                description=args.description,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "promote-to-ara-library":
+        orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
+        _print(
+            orchestrator.promote_to_ara_library(
+                source_file=args.source_file,
+                source_project=args.source_project,
+                module_name=args.module_name,
+                declarations=args.declarations,
+                imports=args.imports,
+                title=args.title,
+                domain=args.domain,
+                status=args.status,
+                tags=args.tags,
+                description=args.description,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "list-ara-library":
+        orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
+        _print(orchestrator.list_ara_library(), args.json)
+        return 0
+
+    if args.command == "build-ara-library":
+        orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
+        _print(orchestrator.build_ara_library(timeout_sec=args.timeout, allow_cold_cache=args.allow_cold_cache), args.json)
         return 0
 
     if args.command == "new-project":
@@ -368,6 +573,49 @@ def main(argv: list[str] | None = None) -> int:
         _print(orchestrator.plan_convergence(args.project), args.json)
         return 0
 
+    if args.command == "plan-proof-system":
+        orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
+        _print(orchestrator.plan_proof_system(args.project), args.json)
+        return 0
+
+    if args.command == "run-evaluator":
+        orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
+        _print(orchestrator.run_evaluator(args.project, timeout_sec=args.timeout, auto=args.auto), args.json)
+        return 0
+
+    if args.command == "run-math-attack":
+        orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
+        if args.model is not None:
+            orchestrator.math_attack_runner.backend_model = args.model
+        if args.reasoning_effort is not None:
+            orchestrator.math_attack_runner.backend_reasoning_effort = args.reasoning_effort
+        evidence_command = shlex.split(args.evidence_command) if args.evidence_command.strip() else []
+        _print(
+            orchestrator.run_math_attack(
+                args.project,
+                target=args.target,
+                context_paths=args.context_file,
+                evidence_command=evidence_command,
+                evidence_cwd=args.evidence_cwd,
+                evidence_timeout_sec=args.evidence_timeout,
+                backend=args.backend,
+                iterations=args.iterations,
+                time_budget_sec=args.time_budget,
+                iteration_timeout_sec=args.iteration_timeout,
+                sleep_seconds=args.sleep_seconds,
+                sleep_mode=args.sleep_mode,
+                min_sleep_seconds=args.min_sleep_seconds,
+                max_sleep_seconds=args.max_sleep_seconds,
+                sleep_jitter_seconds=args.sleep_jitter_seconds,
+                launch_spacing_seconds=args.launch_spacing_seconds,
+                run_name=args.run_name,
+                enable_search=args.search,
+                dry_run=args.dry_run,
+            ),
+            args.json,
+        )
+        return 0
+
     if args.command == "build-lean":
         orchestrator = MathResearchOrchestrator(
             repo_root=_repo_root(),
@@ -396,6 +644,32 @@ def main(argv: list[str] | None = None) -> int:
                 attempt_timeout_sec=args.attempt_timeout,
                 build_timeout_sec=args.build_timeout,
                 focus_mode=args.focus_mode,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "run-closure-prover":
+        orchestrator = MathResearchOrchestrator(
+            repo_root=_repo_root(),
+            bank_path=_selected_bank_path(args),
+            bank_name=getattr(args, "bank_name", None),
+        )
+        orchestrator.lean_executor.allow_cold_cache = args.allow_cold_cache
+        orchestrator.closure_prover_runner.lean_executor.allow_cold_cache = args.allow_cold_cache
+        _apply_closure_runtime_overrides(orchestrator, args)
+        _print(
+            orchestrator.run_closure_prover(
+                args.project,
+                target_theorem=args.target_theorem,
+                target_file=args.target_file,
+                backend=args.backend,
+                max_attempts=args.attempts,
+                max_runtime_sec=args.time_budget,
+                attempt_timeout_sec=args.attempt_timeout,
+                build_timeout_sec=args.build_timeout,
+                max_stalled_attempts=args.max_stalled_attempts,
+                rollback_failed_attempts=args.rollback_failed_attempts,
             ),
             args.json,
         )
@@ -472,6 +746,34 @@ def main(argv: list[str] | None = None) -> int:
                 build_timeout_sec=args.build_timeout,
                 create_missing=not args.no_create_missing,
                 allow_backend_without_seed=args.allow_backend_without_seed,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "run-math-scout":
+        orchestrator = MathResearchOrchestrator(
+            repo_root=_repo_root(),
+            bank_path=_selected_bank_path(args),
+            bank_name=getattr(args, "bank_name", None),
+        )
+        if args.model is not None:
+            orchestrator.math_scout_runner.backend_model = args.model
+        if args.reasoning_effort is not None:
+            orchestrator.math_scout_runner.backend_reasoning_effort = args.reasoning_effort
+        _print(
+            orchestrator.run_math_scout(
+                scout_report_path=args.scout_report,
+                backend=args.backend,
+                problem_limit=args.problem_limit,
+                start_index=args.start_index,
+                time_budget_sec=args.time_budget,
+                timeout_per_problem_sec=args.timeout_per_problem,
+                output_path=args.output,
+                run_name=args.run_name,
+                enable_search=args.search,
+                selection_mode=args.selection_mode,
+                exclude_problem_ids=args.exclude_problem,
             ),
             args.json,
         )

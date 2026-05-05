@@ -437,6 +437,105 @@ def _assess_erdos_focus_signal(
     }
 
 
+def _infer_blocker_class(
+    problem: ProblemRecord,
+    *,
+    blockers: list[str],
+    local_assets: list[dict[str, str]],
+    local_literature_signal: dict[str, Any],
+) -> str:
+    tags = {tag.strip().lower() for tag in problem.tags}
+    evidence_signals = set(local_literature_signal.get("evidence_signals", []))
+    if _problem_statement_is_placeholder(problem) and not local_literature_signal["statement_recoverable"]:
+        return "statement_recovery"
+    if not local_assets and len(problem.references) < 2:
+        return "source_or_provenance"
+    if tags & {"finite_case", "computational_search"} or problem.domain == "geometry":
+        return "certificate_or_evaluator"
+    if problem.formalized in {"yes", "partial"} or local_assets or "formalization_asset" in evidence_signals:
+        return "formalization_infrastructure"
+    if blockers:
+        return "route_discovery"
+    return "proof_route_selection"
+
+
+def _infer_investment_class(
+    problem: ProblemRecord,
+    *,
+    score: int,
+    readiness_tier: str,
+    blocker_class: str,
+    blockers: list[str],
+    local_assets: list[dict[str, str]],
+) -> str:
+    tags = {tag.strip().lower() for tag in problem.tags}
+    if blocker_class == "statement_recovery":
+        return "source_recovery"
+    if blocker_class == "certificate_or_evaluator":
+        return "certificate_pipeline"
+    if problem.formalized in {"yes", "partial"} or local_assets:
+        return "formalization_project"
+    if blocker_class == "source_or_provenance":
+        return "source_recovery"
+    if score < 4 and len(blockers) >= 2:
+        return "freeze_or_defer"
+    if readiness_tier == "promising" or tags & ERDOS_ATTACK_SURFACE_TAGS:
+        return "proof_route_scout"
+    return "light_triage"
+
+
+def _recommended_next_action(investment_class: str, blocker_class: str) -> str:
+    if investment_class == "formalization_project":
+        return "Audit local assets and choose one no-sorry checkpoint theorem before another broad proof search."
+    if investment_class == "certificate_pipeline":
+        return "Define a fail-closed certificate schema and checker obligations before optimizing individual cases."
+    if investment_class == "source_recovery":
+        return "Recover the exact statement, primary source, and accepted theorem dependencies before proof attack."
+    if investment_class == "proof_route_scout":
+        return "Run a paper-first route discovery pass and promote only if it yields a narrow first theorem."
+    if investment_class == "freeze_or_defer":
+        return "Freeze until new literature, assets, or a sharper reduction changes the readiness profile."
+    if blocker_class == "route_discovery":
+        return "Search for known reductions and split the problem into one verifiable checkpoint."
+    return "Keep as a shallow triage candidate and avoid long formalization work for now."
+
+
+def _shallow_reasoning_summary(
+    problem: ProblemRecord,
+    *,
+    score: int,
+    readiness_tier: str,
+    blocker_class: str,
+    investment_class: str,
+    local_assets: list[dict[str, str]],
+    local_literature_signal: dict[str, Any],
+    erdos_focus_signal: dict[str, Any],
+    blockers: list[str],
+    opportunities: list[str],
+) -> list[str]:
+    summary = [
+        f"Score {score} puts this candidate in `{readiness_tier}` with investment class `{investment_class}`.",
+        f"Current bottleneck is `{blocker_class}`.",
+    ]
+    if local_assets:
+        summary.append(f"{len(local_assets)} local asset(s) are available for immediate audit.")
+    elif problem.references:
+        summary.append(f"The bank records {len(problem.references)} reference(s), but no local asset was found.")
+    else:
+        summary.append("No local asset or reference base is present yet.")
+    if local_literature_signal["statement_recoverable"]:
+        summary.append("A candidate exact statement is recoverable from local literature snapshots.")
+    if erdos_focus_signal.get("doc_count"):
+        summary.append(
+            f"Existing notes mention this Erdős problem in {erdos_focus_signal['doc_count']} markdown file(s)."
+        )
+    if opportunities:
+        summary.append("Strongest positive signal: " + opportunities[0])
+    if blockers:
+        summary.append("Main risk: " + blockers[0])
+    return _dedupe(summary[:6])
+
+
 def assess_problem_readiness(problem: ProblemRecord, *, formal_math_root: Path | None = None) -> dict[str, Any]:
     if formal_math_root is None:
         formal_math_root = _default_formal_math_root()
@@ -562,6 +661,33 @@ def assess_problem_readiness(problem: ProblemRecord, *, formal_math_root: Path |
         readiness_tier = "needs_statement_recovery"
     else:
         readiness_tier = "exploratory"
+    blocker_class = _infer_blocker_class(
+        problem,
+        blockers=blockers,
+        local_assets=local_assets,
+        local_literature_signal=local_literature_signal,
+    )
+    investment_class = _infer_investment_class(
+        problem,
+        score=score,
+        readiness_tier=readiness_tier,
+        blocker_class=blocker_class,
+        blockers=blockers,
+        local_assets=local_assets,
+    )
+    recommended_next_action = _recommended_next_action(investment_class, blocker_class)
+    shallow_reasoning = _shallow_reasoning_summary(
+        problem,
+        score=score,
+        readiness_tier=readiness_tier,
+        blocker_class=blocker_class,
+        investment_class=investment_class,
+        local_assets=local_assets,
+        local_literature_signal=local_literature_signal,
+        erdos_focus_signal=erdos_focus_signal,
+        blockers=blockers,
+        opportunities=opportunities,
+    )
 
     return {
         "problem_id": problem.problem_id,
@@ -573,6 +699,10 @@ def assess_problem_readiness(problem: ProblemRecord, *, formal_math_root: Path |
         "tags": problem.tags,
         "score": score,
         "readiness_tier": readiness_tier,
+        "investment_class": investment_class,
+        "blocker_class": blocker_class,
+        "recommended_next_action": recommended_next_action,
+        "shallow_reasoning": shallow_reasoning,
         "historical_foundations": historical,
         "modern_toolkit": modern_tools,
         "local_assets": local_assets,
@@ -611,11 +741,21 @@ def scout_problem_bank(
     theme_counter = Counter()
     for candidate in shortlist or top_candidates:
         theme_counter.update(candidate["idea_seeds"])
+    readiness_counter = Counter(candidate["readiness_tier"] for candidate in assessments)
+    investment_counter = Counter(candidate["investment_class"] for candidate in assessments)
+    blocker_counter = Counter(candidate["blocker_class"] for candidate in assessments)
+    domain_counter = Counter(candidate["domain"] for candidate in assessments)
     report = {
         "generated_at": utc_now_iso(),
         "bank_path": str(Path(bank_path)),
         "candidate_count": len(assessments),
         "top_k": top_k,
+        "screening_summary": {
+            "readiness_tier_counts": dict(readiness_counter.most_common()),
+            "investment_class_counts": dict(investment_counter.most_common()),
+            "blocker_class_counts": dict(blocker_counter.most_common()),
+            "domain_counts": dict(domain_counter.most_common()),
+        },
         "shortlist_candidates": [
             {
                 "rank": index + 1,

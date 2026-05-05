@@ -88,6 +88,133 @@ def test_harvest_literature_recovers_find_statement_and_skips_foreign_problem_li
     assert not any("#86" in item["statement"] for item in proof_ingredients)
 
 
+def test_extract_evidence_items_skips_cross_problem_source_lines() -> None:
+    harvester = LiteratureHarvester()
+    problem = ProblemRecord(
+        problem_id="1052",
+        title="Erdős Problem #1052",
+        source="Erdős Problems",
+        statement="Detailed statement should be imported from the full problem source before theorem work begins.",
+        domain="number_theory",
+        open_problem=True,
+        metadata={"source_catalog": "erdosproblems"},
+    )
+
+    items = harvester._extract_evidence_items(
+        "网站标记为未知，但文献暗示可能已被证明不可行",
+        problem=problem,
+        source="/tmp/problem_634_research.md",
+        title="problem_634_research.md",
+        candidate_statements=[],
+    )
+
+    assert items == []
+
+
+def test_harvest_literature_prefers_open_target_over_definition_for_unitary_perfect(tmp_path: Path) -> None:
+    definition_doc = tmp_path / "problem_1052_research.md"
+    definition_doc.write_text(
+        "\n".join(
+            [
+                "# Problem 1052",
+                "",
+                "1. **Definition**: d is a unitary divisor of n iff d | n and gcd(d, n/d) = 1.",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    theorem_doc = tmp_path / "README.md"
+    theorem_doc.write_text(
+        "\n".join(
+            [
+                "# Unitary Perfect Numbers",
+                "",
+                "1. **Finiteness**: There are finitely many unitary perfect numbers (via Goto's bound).",
+                "2. **Parity**: No odd unitary perfect numbers exist.",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    bank_path = tmp_path / "problem_bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="1052",
+                title="Erdős Problem #1052",
+                source="Erdős Problems",
+                statement="Detailed statement should be imported from the full problem source before theorem work begins.",
+                domain="number_theory",
+                tags=["number theory"],
+                open_problem=True,
+                references=[str(definition_doc), str(theorem_doc)],
+                metadata={"source_catalog": "erdosproblems", "comments": "unitary perfect numbers"},
+            )
+        ],
+        bank_path,
+    )
+    orchestrator = MathResearchOrchestrator(
+        repo_root=_repo_root(),
+        projects_root=tmp_path / "projects",
+        bank_path=bank_path,
+    )
+
+    project_dir = orchestrator.create_project(problem_id="1052", name="erdos-1052-20260425")
+    report = orchestrator.harvest_literature(project_dir)
+
+    assert report["recovered_statement"]["status"] == "recovered"
+    assert "finitely many unitary perfect numbers" in report["recovered_statement"]["statement"].lower()
+    assert "unitary divisor" not in report["recovered_statement"]["statement"].lower()
+
+
+def test_harvest_literature_keeps_non_placeholder_bank_statement(tmp_path: Path) -> None:
+    source_doc = tmp_path / "README.md"
+    source_doc.write_text(
+        "\n".join(
+            [
+                "# Local Notes",
+                "",
+                "1. **Finiteness**: There are finitely many unitary perfect numbers (via Goto's bound).",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    bank_path = tmp_path / "problem_bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="odd-unitary-perfect-exclusion",
+                title="No Odd Unitary Perfect Numbers",
+                source="test",
+                statement="Prove that no odd unitary perfect numbers exist.",
+                domain="number_theory",
+                tags=["unitary_perfect"],
+                open_problem=False,
+                references=[str(source_doc)],
+            )
+        ],
+        bank_path,
+    )
+    orchestrator = MathResearchOrchestrator(
+        repo_root=_repo_root(),
+        projects_root=tmp_path / "projects",
+        bank_path=bank_path,
+    )
+
+    project_dir = orchestrator.create_project(
+        problem_id="odd-unitary-perfect-exclusion",
+        name="odd-unitary-perfect-exclusion-20260425",
+    )
+    report = orchestrator.harvest_literature(project_dir)
+    exact_statement = (project_dir / "idea" / "exact_statement.md").read_text(encoding="utf-8").strip()
+
+    assert exact_statement == "Prove that no odd unitary perfect numbers exist."
+    assert report["recovered_statement"]["status"] == "candidate_found_existing_statement_kept"
+    assert "finitely many unitary perfect numbers" in report["recovered_statement"]["statement"].lower()
+
+
 def test_harvest_literature_recovers_statement_from_local_markdown(tmp_path: Path) -> None:
     source_doc = tmp_path / "triangle_notes.md"
     source_doc.write_text(

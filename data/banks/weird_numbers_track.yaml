@@ -16,7 +16,7 @@
   references:
   - https://www.erdosproblems.com/825
   - https://oeis.org/A006037
-  - /home/biostar/work/formal-math/erdos-825-weird/README.md
+  - /home/biostar/work/projects/formal-math/erdos-825-weird/README.md
   hypotheses:
   - A bounded counterexample search can generate strong negative evidence quickly.
   - Formalizing the abundant/semiperfect/weird hierarchy should produce reusable number-theoretic
@@ -29,5 +29,5 @@
   metadata:
     bank_name: weird_numbers_track
     statement_quality: curated
-    local_project_dir: /home/biostar/work/formal-math/erdos-825-weird
-    local_readme_path: /home/biostar/work/formal-math/erdos-825-weird/README.md
+    local_project_dir: /home/biostar/work/projects/formal-math/erdos-825-weird
+    local_readme_path: /home/biostar/work/projects/formal-math/erdos-825-weird/README.md

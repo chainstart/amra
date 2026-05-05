@@ -1,0 +1,159 @@
+{
+  "generated_at": "2026-05-01T13:12:04+00:00",
+  "library_root": "/home/biostar/work/projects/ara-math/ara_library",
+  "modules": [
+    {
+      "module_name": "AraLibrary.Geometry.TriangleDissection.Shell",
+      "path": "formal/AraLibrary/Geometry/TriangleDissection/Shell.lean",
+      "title": "Triangle-dissection shell infrastructure",
+      "domain": "geometry",
+      "status": "trusted",
+      "tags": [
+        "triangle_dissection",
+        "geometry",
+        "shell",
+        "placement",
+        "mathlib_gap"
+      ],
+      "description": "Cleaned reusable carrier structures and elementary shape/placement lemmas extracted from the ARA triangle-dissection campaigns. This is infrastructure, not a completed open-problem theorem.",
+      "source_project": "projects/634-campaign-20260421",
+      "source_files": [
+        "projects/634-campaign-20260421/formal/MathProject/Basic.lean"
+      ],
+      "promoted_declarations": [
+        "TriangleDissectionShell.EquilateralTriangle",
+        "TriangleDissectionShell.TriangleDissection",
+        "TriangleDissectionShell.IsPossible",
+        "TriangleDissectionShell.PaperTriangleShape",
+        "TriangleDissectionShell.PlacedPaperTriangle",
+        "TriangleDissectionShell.PlacedPaperTriangleRegion"
+      ],
+      "missing_declarations": [],
+      "build_status": "passed",
+      "build_verified_at": "2026-05-01T13:11:57+00:00",
+      "build_report": "build_report.json",
+      "trust_note": "Independent ara_library Lean build passed with sorry_count=0 and no diagnostics. The module is trusted as reusable infrastructure only.",
+      "created_at": "2026-05-01T13:12:04+00:00",
+      "updated_at": "2026-05-01T13:12:04+00:00"
+    },
+    {
+      "module_name": "AraLibrary.NumberTheory.Amicable",
+      "path": "formal/AraLibrary/NumberTheory/Amicable.lean",
+      "title": "Elementary amicable-number definitions and prime exclusion",
+      "domain": "number_theory",
+      "status": "trusted",
+      "tags": [
+        "amicable",
+        "proper_divisors",
+        "number_theory",
+        "mathlib_gap"
+      ],
+      "description": "Reusable proper-divisor-sum and amicable-number definitions, including the verified theorem that prime numbers are not amicable.",
+      "source_project": "projects/amicable-prime-exclusion-demo-20260421-01",
+      "source_files": [
+        "projects/amicable-prime-exclusion-demo-20260421-01/formal/MathProject/Basic.lean",
+        "projects/amicable-prime-exclusion-demo-20260421-01/formal/MathProject/MainClaim.lean"
+      ],
+      "promoted_declarations": [
+        "Amicable.properDivisorSum",
+        "Amicable.IsAmicablePair",
+        "Amicable.IsAmicable",
+        "Amicable.properDivisorSum_zero",
+        "Amicable.properDivisorSum_one",
+        "Amicable.properDivisorSum_prime",
+        "Amicable.IsAmicablePair.symm",
+        "Amicable.IsAmicablePair.one_lt_left",
+        "Amicable.IsAmicablePair.one_lt_right",
+        "Amicable.not_isAmicable_one",
+        "Amicable.not_isAmicable_prime"
+      ],
+      "missing_declarations": [],
+      "build_status": "passed",
+      "build_verified_at": "2026-05-01T13:11:57+00:00",
+      "build_report": "build_report.json",
+      "trust_note": "Independent ara_library Lean build passed with sorry_count=0 and no diagnostics.",
+      "created_at": "2026-05-01T13:12:04+00:00",
+      "updated_at": "2026-05-01T13:12:04+00:00"
+    },
+    {
+      "module_name": "AraLibrary.NumberTheory.Korselt",
+      "path": "formal/AraLibrary/NumberTheory/Korselt.lean",
+      "title": "Korselt criterion and Carmichael-number bridges",
+      "domain": "number_theory",
+      "status": "trusted",
+      "tags": [
+        "carmichael",
+        "korselt",
+        "number_theory",
+        "mathlib_gap"
+      ],
+      "description": "Reusable formalization extracted from the completed Korselt criterion campaign. Packages the Fermat-style Carmichael predicate, the Carmichael-function divisibility bridge, squarefreeness extraction, and the classical Korselt criterion.",
+      "source_project": "projects/korselt-criterion-campaign-20260430",
+      "source_files": [
+        "projects/korselt-criterion-campaign-20260430/formal/MathProject/GeneratedClaims.lean",
+        "projects/korselt-criterion-campaign-20260430/formal/MathProject/MainClaim.lean"
+      ],
+      "promoted_declarations": [
+        "IsCarmichaelNumber",
+        "CarmichaelDividesSubOne",
+        "PrimeSubOneDividesSubOne",
+        "korselt_criterion_lemmas",
+        "prime_subone_of_squarefree_carmichael_divides",
+        "carmichael_divides_of_squarefree_prime_subone",
+        "carmichael_divides_subone_iff_prime_subone_of_squarefree",
+        "carmichael_divides_subone_of_isCarmichaelNumber",
+        "squarefree_of_carmichael_divides_subone",
+        "squarefree_of_isCarmichaelNumber",
+        "isCarmichaelNumber_of_nonprime_carmichael_divides_subone",
+        "isCarmichaelNumber_of_squarefree_prime_subone",
+        "korselt_criterion_squarefree_lambda_bridge",
+        "carmichael_predicate_implies_lambda_bridge",
+        "korselt_criterion_main",
+        "korselt_criterion_classical"
+      ],
+      "missing_declarations": [],
+      "build_status": "passed",
+      "build_verified_at": "2026-05-01T12:43:28+00:00",
+      "build_report": "build_report.json",
+      "trust_note": "Independent ara_library Lean build passed with sorry_count=0 and no diagnostics.",
+      "created_at": "2026-05-01T12:43:44+00:00",
+      "updated_at": "2026-05-01T12:43:44+00:00"
+    },
+    {
+      "module_name": "AraLibrary.NumberTheory.PrimeTwoPowers",
+      "path": "formal/AraLibrary/NumberTheory/PrimeTwoPowers.lean",
+      "title": "Prime plus two powers of two shell",
+      "domain": "number_theory",
+      "status": "trusted",
+      "tags": [
+        "prime",
+        "powers_of_two",
+        "erdos_9",
+        "exceptional_set",
+        "mathlib_gap"
+      ],
+      "description": "Reusable shell for numbers representable as p + 2^k + 2^l, with a verified lower-bound obstruction and small exceptional-set consequences.",
+      "source_project": "projects/erdos-9-sweep-20260421",
+      "source_files": [
+        "projects/erdos-9-sweep-20260421/formal/MathProject/Basic.lean",
+        "projects/erdos-9-sweep-20260421/formal/MathProject/GeneratedClaims.lean",
+        "projects/erdos-9-sweep-20260421/formal/MathProject/MainClaim.lean"
+      ],
+      "promoted_declarations": [
+        "PrimeTwoPowers.RepresentableByPrimeAndTwoPowers",
+        "PrimeTwoPowers.ExceptionalOddSet",
+        "PrimeTwoPowers.representable_lower_bound",
+        "PrimeTwoPowers.not_representable_one",
+        "PrimeTwoPowers.one_mem_exceptionalOddSet",
+        "PrimeTwoPowers.odd_lt_four_mem_exceptionalOddSet"
+      ],
+      "missing_declarations": [],
+      "build_status": "passed",
+      "build_verified_at": "2026-05-01T13:11:57+00:00",
+      "build_report": "build_report.json",
+      "trust_note": "Independent ara_library Lean build passed with sorry_count=0 and no diagnostics.",
+      "created_at": "2026-05-01T13:12:04+00:00",
+      "updated_at": "2026-05-01T13:12:04+00:00"
+    }
+  ]
+}
