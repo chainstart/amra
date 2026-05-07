@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from ara_math.banking import sync_local_problem_banks
+from ara_math.campaign_loop import CampaignLoopRunner
 from ara_math.orchestrator import MathResearchOrchestrator
 from ara_math.problem_bank import (
     DEFAULT_BANK_PATH,
@@ -16,6 +17,8 @@ from ara_math.problem_bank import (
     refresh_erdos_problem_bank,
     resolve_bank_path,
 )
+from ara_math.lean_formalizer import LeanFormalizerRunner, collect_proof_lab_context_paths
+from ara_math.proof_lab import AIProofLabRunner
 from ara_math.scouting import scout_problem_bank
 from ara_math.workspace import today_utc
 
@@ -264,6 +267,98 @@ def build_parser() -> argparse.ArgumentParser:
     math_attack.add_argument("--dry-run", action="store_true", help="Build artifacts and prompts without invoking the backend.")
     math_attack.add_argument("--model", default=None, help="Override the math-attack backend model.")
     math_attack.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+
+    proof_lab = subparsers.add_parser(
+        "run-ai-proof-lab",
+        help="Run the standalone clean-room proof-lab experiment without mutating an ARA project workflow.",
+    )
+    statement_group = proof_lab.add_mutually_exclusive_group(required=True)
+    statement_group.add_argument("--statement", default=None)
+    statement_group.add_argument("--statement-file", type=Path, default=None)
+    proof_lab.add_argument("--context-file", type=Path, action="append", default=[])
+    proof_lab.add_argument("--backend", choices=("codex", "none"), default="codex")
+    proof_lab.add_argument("--attempts", type=int, default=4)
+    proof_lab.add_argument("--audits", type=int, default=2)
+    proof_lab.add_argument("--time-budget", type=int, default=3600)
+    proof_lab.add_argument("--attempt-timeout", type=int, default=600)
+    proof_lab.add_argument("--audit-timeout", type=int, default=300)
+    proof_lab.add_argument("--source-first", action="store_true", help="Run a source/Lean asset grounding pass before proof attempts.")
+    proof_lab.add_argument("--grounding-timeout", type=int, default=300)
+    proof_lab.add_argument("--output-root", type=Path, default=None)
+    proof_lab.add_argument("--run-name", default=None)
+    proof_lab.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    proof_lab.add_argument("--model", default=None, help="Override the proof-lab backend model.")
+    proof_lab.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+
+    lean_formalizer = subparsers.add_parser(
+        "run-lean-formalizer",
+        help="Run the proof-lab downstream Lean write/verify loop on a Lean workspace.",
+    )
+    lean_formalizer.add_argument("--workspace", type=Path, required=True, help="Lean project root containing lakefile.lean.")
+    statement_group = lean_formalizer.add_mutually_exclusive_group(required=False)
+    statement_group.add_argument("--statement", default=None)
+    statement_group.add_argument("--statement-file", type=Path, default=None)
+    lean_formalizer.add_argument("--target-theorem", default=None)
+    lean_formalizer.add_argument("--target-file", type=Path, default=None)
+    lean_formalizer.add_argument("--context-file", type=Path, action="append", default=[])
+    lean_formalizer.add_argument(
+        "--upstream-proof-lab-run",
+        type=Path,
+        action="append",
+        default=[],
+        help="Proof-lab run directory; high-signal attempt/audit artifacts are added as context.",
+    )
+    lean_formalizer.add_argument("--backend", choices=("codex", "none"), default="codex")
+    lean_formalizer.add_argument("--attempts", type=int, default=8)
+    lean_formalizer.add_argument("--time-budget", type=int, default=3600)
+    lean_formalizer.add_argument("--attempt-timeout", type=int, default=900)
+    lean_formalizer.add_argument("--build-timeout", type=int, default=300)
+    lean_formalizer.add_argument("--build-command", default="lake build")
+    lean_formalizer.add_argument("--output-root", type=Path, default=None)
+    lean_formalizer.add_argument("--run-name", default=None)
+    lean_formalizer.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    lean_formalizer.add_argument("--model", default=None, help="Override the formalizer backend model.")
+    lean_formalizer.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+    lean_formalizer.add_argument(
+        "--max-stalled-attempts",
+        type=int,
+        default=0,
+        help="Optional early stop after this many non-improving attempts. 0 disables stall stopping.",
+    )
+    lean_formalizer.add_argument("--rollback-failed-attempts", action="store_true")
+
+    campaign_loop = subparsers.add_parser(
+        "run-campaign-loop",
+        help="Run a self-iterating proof campaign loop that alternates proof-lab route discovery and Lean verification.",
+    )
+    campaign_statement_group = campaign_loop.add_mutually_exclusive_group(required=True)
+    campaign_statement_group.add_argument("--statement", default=None)
+    campaign_statement_group.add_argument("--statement-file", type=Path, default=None)
+    campaign_loop.add_argument("--context-file", type=Path, action="append", default=[])
+    campaign_loop.add_argument("--workspace", type=Path, default=None)
+    campaign_loop.add_argument("--final-target-theorem", default="")
+    campaign_loop.add_argument("--initial-target-theorem", default="")
+    campaign_loop.add_argument("--target-file", type=Path, default=None)
+    campaign_loop.add_argument("--build-command", default="lake build")
+    campaign_loop.add_argument("--backend", choices=("codex", "none"), default="codex")
+    campaign_loop.add_argument("--mode", choices=("auto", "hybrid", "proof-lab", "lean-formalizer"), default="auto")
+    campaign_loop.add_argument("--rounds", type=int, default=4)
+    campaign_loop.add_argument("--time-budget", type=int, default=3600)
+    campaign_loop.add_argument("--proof-attempts", type=int, default=4)
+    campaign_loop.add_argument("--proof-audits", type=int, default=2)
+    campaign_loop.add_argument("--proof-attempt-timeout", type=int, default=600)
+    campaign_loop.add_argument("--proof-audit-timeout", type=int, default=300)
+    campaign_loop.add_argument("--proof-grounding-timeout", type=int, default=300)
+    campaign_loop.add_argument("--formalizer-attempts", type=int, default=8)
+    campaign_loop.add_argument("--formalizer-attempt-timeout", type=int, default=900)
+    campaign_loop.add_argument("--formalizer-build-timeout", type=int, default=300)
+    campaign_loop.add_argument("--source-first", action="store_true")
+    campaign_loop.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    campaign_loop.add_argument("--output-root", type=Path, default=None)
+    campaign_loop.add_argument("--run-name", default=None)
+    campaign_loop.add_argument("--model", default=None, help="Override proof-lab and formalizer backend model.")
+    campaign_loop.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+    campaign_loop.add_argument("--max-stalled-rounds", type=int, default=0)
 
     harvest = subparsers.add_parser("harvest-literature", help="Collect local and remote reference snapshots for a project.")
     harvest.add_argument("--project", type=Path, required=True)
@@ -611,6 +706,112 @@ def main(argv: list[str] | None = None) -> int:
                 run_name=args.run_name,
                 enable_search=args.search,
                 dry_run=args.dry_run,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "run-ai-proof-lab":
+        runner = AIProofLabRunner(repo_root=_repo_root())
+        if args.model is not None:
+            runner.backend_model = args.model
+        if args.reasoning_effort is not None:
+            runner.backend_reasoning_effort = args.reasoning_effort
+        statement = args.statement if args.statement is not None else args.statement_file.read_text(encoding="utf-8")
+        _print(
+            runner.run(
+                statement=statement,
+                context_paths=args.context_file,
+                backend=args.backend,
+                attempts=args.attempts,
+                audits=args.audits,
+                time_budget_sec=args.time_budget,
+                attempt_timeout_sec=args.attempt_timeout,
+                audit_timeout_sec=args.audit_timeout,
+                source_first=args.source_first,
+                grounding_timeout_sec=args.grounding_timeout,
+                output_root=args.output_root,
+                run_name=args.run_name,
+                enable_search=args.search,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "run-lean-formalizer":
+        runner = LeanFormalizerRunner(repo_root=_repo_root())
+        if args.model is not None:
+            runner.backend_model = args.model
+        if args.reasoning_effort is not None:
+            runner.backend_reasoning_effort = args.reasoning_effort
+        context_paths = list(args.context_file)
+        for proof_lab_run in args.upstream_proof_lab_run:
+            context_paths.extend(collect_proof_lab_context_paths(proof_lab_run))
+        if args.statement is not None:
+            statement = args.statement
+        elif args.statement_file is not None:
+            statement = args.statement_file.read_text(encoding="utf-8")
+        else:
+            statement = ""
+        max_stalled_attempts = args.max_stalled_attempts if args.max_stalled_attempts > 0 else None
+        _print(
+            runner.run(
+                workspace=args.workspace,
+                statement=statement,
+                context_paths=context_paths,
+                target_theorem=args.target_theorem,
+                target_file=args.target_file,
+                build_command=shlex.split(args.build_command),
+                backend=args.backend,
+                attempts=args.attempts,
+                time_budget_sec=args.time_budget,
+                attempt_timeout_sec=args.attempt_timeout,
+                build_timeout_sec=args.build_timeout,
+                output_root=args.output_root,
+                run_name=args.run_name,
+                enable_search=args.search,
+                max_stalled_attempts=max_stalled_attempts,
+                rollback_failed_attempts=args.rollback_failed_attempts,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "run-campaign-loop":
+        runner = CampaignLoopRunner(repo_root=_repo_root())
+        if args.model is not None:
+            runner.proof_lab_runner.backend_model = args.model
+            runner.lean_formalizer_runner.backend_model = args.model
+        if args.reasoning_effort is not None:
+            runner.proof_lab_runner.backend_reasoning_effort = args.reasoning_effort
+            runner.lean_formalizer_runner.backend_reasoning_effort = args.reasoning_effort
+        statement = args.statement if args.statement is not None else args.statement_file.read_text(encoding="utf-8")
+        _print(
+            runner.run(
+                statement=statement,
+                context_paths=args.context_file,
+                workspace=args.workspace,
+                final_target_theorem=args.final_target_theorem,
+                initial_target_theorem=args.initial_target_theorem,
+                target_file=args.target_file,
+                build_command=shlex.split(args.build_command),
+                backend=args.backend,
+                mode=args.mode,
+                rounds=args.rounds,
+                time_budget_sec=args.time_budget,
+                proof_attempts=args.proof_attempts,
+                proof_audits=args.proof_audits,
+                proof_attempt_timeout_sec=args.proof_attempt_timeout,
+                proof_audit_timeout_sec=args.proof_audit_timeout,
+                proof_grounding_timeout_sec=args.proof_grounding_timeout,
+                formalizer_attempts=args.formalizer_attempts,
+                formalizer_attempt_timeout_sec=args.formalizer_attempt_timeout,
+                formalizer_build_timeout_sec=args.formalizer_build_timeout,
+                source_first=args.source_first,
+                enable_search=args.search,
+                output_root=args.output_root,
+                run_name=args.run_name,
+                max_stalled_rounds=args.max_stalled_rounds,
             ),
             args.json,
         )

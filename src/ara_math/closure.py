@@ -113,7 +113,7 @@ class ClosureProverRunner:
         else:
             candidates = [path for path in sorted(formal_dir.rglob("*.lean")) if ".lake" not in path.parts]
 
-        pattern = re.compile(rf"^\s*(theorem|lemma)\s+{re.escape(theorem)}(?:\s|:|\(|\{{|\[)")
+        pattern = re.compile(rf"^\s*(theorem|lemma)\s+{re.escape(theorem)}(?:\s|:|\(|\{{|\[|$)")
         for path in candidates:
             try:
                 lines = path.read_text(encoding="utf-8").splitlines()

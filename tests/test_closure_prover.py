@@ -100,6 +100,38 @@ def test_closure_prover_verifies_clean_target(tmp_path: Path, monkeypatch) -> No
     assert json.loads(status_path.read_text(encoding="utf-8"))["status"] == "verified"
 
 
+def test_closure_prover_accepts_multiline_target_declaration(tmp_path: Path, monkeypatch) -> None:
+    orchestrator, project_dir = _make_project(tmp_path, problem_id="closure-multiline")
+    _write_main_claim(
+        project_dir,
+        "\n".join(
+            [
+                "import MathProject.GeneratedClaims",
+                "",
+                "namespace MathProject",
+                "",
+                "theorem closure_multiline_main",
+                "    : True := by",
+                "  trivial",
+                "",
+                "end MathProject",
+                "",
+            ]
+        ),
+    )
+    monkeypatch.setattr(orchestrator, "build_lean", lambda project_dir, timeout_sec=None: _passed_build(project_dir))
+
+    result = orchestrator.run_closure_prover(
+        project_dir,
+        target_theorem="closure_multiline_main",
+        backend="none",
+        max_attempts=0,
+    )
+
+    assert result["status"] == "verified"
+    assert result["best_audit"]["target"]["line"] == 5
+
+
 def test_closure_prover_requires_explicit_target(tmp_path: Path, monkeypatch) -> None:
     orchestrator, project_dir = _make_project(tmp_path, problem_id="closure-needs-target")
     _write_main_claim(
