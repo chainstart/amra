@@ -1466,6 +1466,8 @@ def render_project_dashboard(
     roles = read_json(paths.root / "specialist_roles.json", default={}) or {}
     evaluation = read_json(paths.root / "evaluation_report.json", default={}) or {}
     specialist_runs = list((paths.root / "specialists").glob("*/runs/*/result.json"))
+    specialist_memory = list((paths.root / "specialists").glob("*/conversation_state.json"))
+    source_audit = read_json(paths.root / "source_audit" / "report.json", default={}) or {}
 
     blocker = _top_blocker(state, ledger)
     lines = [
@@ -1545,6 +1547,19 @@ def render_project_dashboard(
         lines.extend(["", "## Specialist Roles", "", f"- Role contracts: {len(roles.get('roles', []))}"])
     if specialist_runs:
         lines.extend(["", "## Specialist Runs", "", f"- Persisted runs: {len(specialist_runs)}"])
+    if specialist_memory:
+        lines.append(f"- Specialist memory files: {len(specialist_memory)}")
+    if source_audit:
+        lines.extend(
+            [
+                "",
+                "## Source Audit Loop",
+                "",
+                f"- Loop id: `{source_audit.get('loop_id', '-')}`",
+                f"- Executed rounds: `{source_audit.get('executed_rounds', 0)}`",
+                f"- Max confidence: `{source_audit.get('confidence', {}).get('max_confidence', 0)}`",
+            ]
+        )
     if evaluation:
         score = evaluation.get("score", {}) if isinstance(evaluation.get("score"), dict) else {}
         lines.extend(

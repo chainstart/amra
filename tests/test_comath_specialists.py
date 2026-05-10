@@ -9,6 +9,7 @@ from ara_math.comath_specialists import (
     CodexCliSpecialistProvider,
     FakeSpecialistProvider,
     build_specialist_prompt_bundle,
+    load_specialist_memory,
     run_specialist,
     run_specialist_loop,
 )
@@ -40,6 +41,33 @@ def test_fake_specialist_run_persists_prompt_output_and_workstream_state(tmp_pat
     assert source_ws["metadata"]["latest_specialist_run"]["role_id"] == "source_auditor"
     assert any(node["node_id"].startswith("specialist:source_auditor:source-round-1") for node in graph["nodes"])
     assert "## Specialist Runs" in dashboard
+
+
+def test_specialist_memory_is_injected_into_next_prompt(tmp_path: Path) -> None:
+    project_dir = tmp_path / "specialist-memory-project"
+    refine_intake_project(project_dir, goal="Prove a memory-aware theorem.", project_name="Specialist Memory")
+
+    run_specialist(
+        project_dir,
+        role_id="theory_builder",
+        workstream_id="theory-building-memory",
+        backend="fake",
+        run_name="memory-round-1",
+    )
+    second = run_specialist(
+        project_dir,
+        role_id="theory_builder",
+        workstream_id="theory-building-memory",
+        backend="fake",
+        run_name="memory-round-2",
+    )
+    memory = load_specialist_memory(project_dir, "theory_builder")
+    prompt = Path(second["prompt_path"]).read_text(encoding="utf-8")
+
+    assert memory["run_count"] == 2
+    assert "memory-round-1" in memory["memory_summary"]
+    assert "Previous specialist memory" in prompt
+    assert "memory-round-1" in prompt
 
 
 def test_specialist_loop_runs_selected_fake_roles(tmp_path: Path) -> None:

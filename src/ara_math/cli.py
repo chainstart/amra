@@ -8,6 +8,7 @@ from typing import Any
 
 from ara_math.banking import sync_local_problem_banks
 from ara_math.campaign_loop import CampaignLoopRunner
+from ara_math.comath_benchmarks import run_local_benchmark_suite
 from ara_math.comath_capabilities import (
     create_computation_certificate,
     install_specialist_role_contracts,
@@ -16,6 +17,7 @@ from ara_math.comath_capabilities import (
     update_theory_memory,
     verify_computation_certificate,
 )
+from ara_math.comath_source_audit import run_source_audit_loop
 from ara_math.comath_specialists import run_specialist, run_specialist_loop
 from ara_math.coordinator import (
     add_workstream as comath_add_workstream,
@@ -281,6 +283,7 @@ def build_parser() -> argparse.ArgumentParser:
     run_specialist_cmd.add_argument("--search", action="store_true")
     run_specialist_cmd.add_argument("--run-name", default=None)
     run_specialist_cmd.add_argument("--context-file", type=Path, action="append", default=[])
+    run_specialist_cmd.add_argument("--no-resume-memory", action="store_true")
 
     run_specialist_loop_cmd = subparsers.add_parser(
         "run-comath-specialist-loop",
@@ -302,6 +305,30 @@ def build_parser() -> argparse.ArgumentParser:
     run_specialist_loop_cmd.add_argument("--max-parallel-specialists", type=int, default=1)
     run_specialist_loop_cmd.add_argument("--run-name", default=None)
     run_specialist_loop_cmd.add_argument("--task", default="")
+    run_specialist_loop_cmd.add_argument("--no-resume-memory", action="store_true")
+
+    source_audit_loop_cmd = subparsers.add_parser(
+        "run-comath-source-audit-loop",
+        help="Run an automatic query-planned CoMath source-auditor loop.",
+    )
+    source_audit_loop_cmd.add_argument("--project", type=Path, required=True)
+    source_audit_loop_cmd.add_argument("--rounds", type=int, default=3)
+    source_audit_loop_cmd.add_argument("--backend", choices=("fake", "codex"), default="codex")
+    source_audit_loop_cmd.add_argument("--model", default="")
+    source_audit_loop_cmd.add_argument("--reasoning-effort", default="")
+    source_audit_loop_cmd.add_argument("--timeout", type=int, default=900)
+    source_audit_loop_cmd.add_argument("--no-search", action="store_true")
+    source_audit_loop_cmd.add_argument("--max-parallel-rounds", type=int, default=1)
+    source_audit_loop_cmd.add_argument("--run-name", default=None)
+    source_audit_loop_cmd.add_argument("--workstream", "--workstream-id", dest="workstream_id", default="source-literature-audit")
+    source_audit_loop_cmd.add_argument("--seed-term", action="append", default=[])
+
+    benchmark_cmd = subparsers.add_parser(
+        "run-comath-benchmarks",
+        help="Run the local CoMath regression benchmark suite with fake providers.",
+    )
+    benchmark_cmd.add_argument("--output-root", type=Path, required=True)
+    benchmark_cmd.add_argument("--suite-name", default="comath-local-smoke")
 
     add_comath_workstream = subparsers.add_parser(
         "add-workstream",
@@ -917,6 +944,7 @@ def main(argv: list[str] | None = None) -> int:
             allow_search=args.search,
             run_name=args.run_name,
             context_files=args.context_file,
+            resume_memory=not args.no_resume_memory,
         )
         _print(payload, args.json)
         return 0
@@ -934,7 +962,30 @@ def main(argv: list[str] | None = None) -> int:
             max_parallel_specialists=args.max_parallel_specialists,
             run_name=args.run_name,
             task=args.task,
+            resume_memory=not args.no_resume_memory,
         )
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "run-comath-source-audit-loop":
+        payload = run_source_audit_loop(
+            args.project,
+            rounds=args.rounds,
+            backend=args.backend,
+            model=args.model,
+            reasoning_effort=args.reasoning_effort,
+            timeout_seconds=args.timeout,
+            allow_search=not args.no_search,
+            max_parallel_rounds=args.max_parallel_rounds,
+            run_name=args.run_name,
+            workstream_id=args.workstream_id,
+            seed_terms=args.seed_term,
+        )
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "run-comath-benchmarks":
+        payload = run_local_benchmark_suite(args.output_root, suite_name=args.suite_name)
         _print(payload, args.json)
         return 0
 

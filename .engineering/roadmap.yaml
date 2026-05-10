@@ -513,6 +513,68 @@
           "generated_at": "2026-05-10T13:15:00Z"
         }
       ]
+    },
+    {
+      "id": "comath-research-workbench-hardening",
+      "title": "CoMath Research Workbench Hardening",
+      "status": "completed",
+      "objective": "Close the next gaps to the public AI Co-Mathematician architecture: specialist long-term memory, autonomous source-audit loop, and local benchmark regression harness.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T14:05:00Z",
+      "tasks": [
+        {
+          "id": "comath-research-workbench-hardening-impl",
+          "title": "Implement specialist memory, source audit loop, and local benchmarks",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/comath_specialists.py",
+            "src/ara_math/comath_source_audit.py",
+            "src/ara_math/comath_benchmarks.py",
+            "src/ara_math/comath_capabilities.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/cli.py",
+            "tests/test_comath_specialists.py",
+            "tests/test_comath_workbench_hardening.py",
+            "artifacts/design/ai_comath_migration_plan_20260510.md"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 10800,
+              "prompt": "Implement the next CoMath hardening phase: persistent specialist memory/resume, automatic source auditor query/audit loop, and local benchmark harness. Tests must use fake providers and must not invoke real Codex calls."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing hardening tests with minimal scoped changes while preserving Codex specialist orchestration behavior."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath workbench hardening tests",
+              "command": "python3 -m pytest tests/test_comath_workbench_hardening.py tests/test_comath_specialists.py tests/test_comath_capabilities.py -q",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Full test suite",
+              "command": "python3 -m pytest -q",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T14:05:00Z"
+        }
+      ]
     }
   ],
   "continuation": {
@@ -1086,6 +1148,67 @@
             ],
             "generated_by": "engineering-harness-continuation",
             "generated_at": "2026-05-10T13:15:00Z"
+          }
+        ]
+      },
+      {
+        "id": "comath-research-workbench-hardening",
+        "title": "CoMath Research Workbench Hardening",
+        "status": "completed",
+        "objective": "Close the next gaps to the public AI Co-Mathematician architecture: specialist long-term memory, autonomous source-audit loop, and local benchmark regression harness.",
+        "generated_at": "2026-05-10T14:05:00Z",
+        "tasks": [
+          {
+            "id": "comath-research-workbench-hardening-impl",
+            "title": "Implement specialist memory, source audit loop, and local benchmarks",
+            "status": "passed",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/ara_math/comath_specialists.py",
+              "src/ara_math/comath_source_audit.py",
+              "src/ara_math/comath_benchmarks.py",
+              "src/ara_math/comath_capabilities.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/cli.py",
+              "tests/test_comath_specialists.py",
+              "tests/test_comath_workbench_hardening.py",
+              "artifacts/design/ai_comath_migration_plan_20260510.md"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 10800,
+                "prompt": "Implement the next CoMath hardening phase: persistent specialist memory/resume, automatic source auditor query/audit loop, and local benchmark harness. Tests must use fake providers and must not invoke real Codex calls."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3600,
+                "prompt": "Fix failing hardening tests with minimal scoped changes while preserving Codex specialist orchestration behavior."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath workbench hardening tests",
+                "command": "python3 -m pytest tests/test_comath_workbench_hardening.py tests/test_comath_specialists.py tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              },
+              {
+                "name": "Full test suite",
+                "command": "python3 -m pytest -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ],
+            "generated_by": "engineering-harness-continuation",
+            "generated_at": "2026-05-10T14:05:00Z"
           }
         ]
       }

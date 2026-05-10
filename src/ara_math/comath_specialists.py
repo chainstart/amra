@@ -102,6 +102,79 @@ def parse_specialist_output(text: str) -> dict[str, Any]:
     return {"status": status, "fields": fields, "blockers": blockers}
 
 
+def specialist_memory_path(project_dir: Path, role_id: str) -> Path:
+    return comath_paths(project_dir).root / "specialists" / role_id / "conversation_state.json"
+
+
+def load_specialist_memory(project_dir: Path, role_id: str) -> dict[str, Any]:
+    payload = read_json(specialist_memory_path(project_dir, role_id), default={}) or {}
+    return {
+        "role_id": role_id,
+        "updated_at": str(payload.get("updated_at", "")),
+        "run_count": int(payload.get("run_count", 0) or 0),
+        "memory_summary": str(payload.get("memory_summary", "")),
+        "latest_output_path": str(payload.get("latest_output_path", "")),
+        "runs": list(payload.get("runs", [])),
+    }
+
+
+def save_specialist_memory(project_dir: Path, role_id: str, memory: dict[str, Any]) -> None:
+    write_json(specialist_memory_path(project_dir, role_id), memory)
+
+
+def _memory_prompt_lines(memory: dict[str, Any]) -> list[str]:
+    if not memory.get("run_count"):
+        return ["No previous specialist memory for this role."]
+    lines = [
+        f"- Previous runs: `{memory.get('run_count', 0)}`",
+        f"- Latest output: `{memory.get('latest_output_path') or '-'}`",
+    ]
+    summary = str(memory.get("memory_summary", "")).strip()
+    if summary:
+        lines.extend(["", summary])
+    return lines
+
+
+def _update_specialist_memory(
+    project_dir: Path,
+    *,
+    bundle: SpecialistPromptBundle,
+    provider_result: SpecialistProviderResult,
+    parsed: dict[str, Any],
+) -> dict[str, Any]:
+    memory = load_specialist_memory(project_dir, bundle.role_id)
+    fields = parsed.get("fields", {}) if isinstance(parsed.get("fields"), dict) else {}
+    summary = str(fields.get("summary", "")).strip() or "No summary field was provided."
+    blockers = [str(item) for item in parsed.get("blockers", [])]
+    run_entry = {
+        "run_id": bundle.run_id,
+        "workstream_id": bundle.workstream_id,
+        "provider": provider_result.provider,
+        "status": provider_result.status,
+        "output_path": provider_result.output_path,
+        "summary": summary,
+        "blockers": blockers,
+        "generated_at": utc_now_iso(),
+    }
+    runs = [*memory.get("runs", []), run_entry][-20:]
+    summary_lines = []
+    for item in runs[-5:]:
+        blocker_text = ", ".join(item.get("blockers", [])) or "none"
+        summary_lines.append(
+            f"- `{item.get('run_id')}` status `{item.get('status')}`: {item.get('summary')} Blockers: {blocker_text}."
+        )
+    updated = {
+        "role_id": bundle.role_id,
+        "updated_at": utc_now_iso(),
+        "run_count": int(memory.get("run_count", 0) or 0) + 1,
+        "latest_output_path": provider_result.output_path,
+        "memory_summary": "\n".join(summary_lines),
+        "runs": runs,
+    }
+    save_specialist_memory(project_dir, bundle.role_id, updated)
+    return updated
+
+
 @dataclass(frozen=True, slots=True)
 class SpecialistPromptBundle:
     project_dir: Path
@@ -180,6 +253,8 @@ class FakeSpecialistProvider:
                     f"Role: {bundle.role_id}",
                     f"Workstream: {bundle.workstream_id}",
                     "Summary: Fake specialist provider produced a deterministic test artifact.",
+                    "Claims: Fake provider inspected the requested workstream claim.",
+                    "Evidence: Fake provider used the persisted CoMath context manifest.",
                     f"Blockers: {blockers}",
                     "Next actions: Route through review gate before promotion.",
                     "",
@@ -329,6 +404,7 @@ def _find_workstream_for_role(state: Any, role_id: str) -> WorkstreamRecord | No
 def _build_context_manifest(
     project_dir: Path,
     *,
+    role_id: str = "",
     workstream: WorkstreamRecord | None,
     extra_context_files: list[Path],
     max_chars_each: int,
@@ -344,6 +420,8 @@ def _build_context_manifest(
         paths.root / "intake_plan.json",
         paths.root / "specialist_roles.json",
     ]
+    if role_id:
+        base_files.append(specialist_memory_path(project_dir, role_id))
     if workstream is not None:
         base_files.extend(
             [
@@ -373,6 +451,7 @@ def _render_prompt(
     workstream: WorkstreamRecord | None,
     task: str,
     context_manifest_path: Path,
+    memory: dict[str, Any],
 ) -> str:
     workstream_lines = ["No workstream is attached; operate as a project-level specialist."]
     if workstream is not None:
@@ -413,6 +492,9 @@ def _render_prompt(
             "Context manifest:",
             f"- `{context_manifest_path}`",
             "",
+            "Previous specialist memory:",
+            *_memory_prompt_lines(memory),
+            "",
             "Task:",
             task.strip() or "Perform the role contract for the attached workstream and produce a review-ready artifact.",
             "",
@@ -437,6 +519,7 @@ def build_specialist_prompt_bundle(
     run_name: str | None = None,
     context_files: list[Path] | None = None,
     max_context_chars_each: int = 20000,
+    resume_memory: bool = True,
 ) -> SpecialistPromptBundle:
     project_dir = Path(project_dir)
     with _project_specialist_lock(project_dir):
@@ -450,8 +533,16 @@ def build_specialist_prompt_bundle(
     paths = comath_paths(project_dir)
     run_dir = paths.root / "specialists" / role["role_id"] / "runs" / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
+    memory = load_specialist_memory(project_dir, role["role_id"]) if resume_memory else {
+        "role_id": role["role_id"],
+        "run_count": 0,
+        "memory_summary": "",
+        "latest_output_path": "",
+        "runs": [],
+    }
     context_manifest = _build_context_manifest(
         project_dir,
+        role_id=role["role_id"] if resume_memory else "",
         workstream=workstream,
         extra_context_files=context_files or [],
         max_chars_each=max_context_chars_each,
@@ -466,6 +557,7 @@ def build_specialist_prompt_bundle(
         workstream=workstream,
         task=task,
         context_manifest_path=context_manifest_path,
+        memory=memory,
     )
     write_text(prompt_path, prompt)
     return SpecialistPromptBundle(
@@ -478,7 +570,7 @@ def build_specialist_prompt_bundle(
         output_path=output_path,
         context_manifest_path=context_manifest_path,
         context_paths=[str(item["path"]) for item in context_manifest["files"]],
-        metadata={"role": role, "task": task},
+        metadata={"role": role, "task": task, "resume_memory": resume_memory, "memory_path": str(specialist_memory_path(project_dir, role["role_id"]))},
     )
 
 
@@ -536,6 +628,12 @@ def persist_specialist_run(
             )
             artifact_ids.append(node_id)
         save_artifact_graph(paths.artifact_graph, graph)
+        memory = _update_specialist_memory(
+            project_dir,
+            bundle=bundle,
+            provider_result=provider_result,
+            parsed=parsed,
+        )
 
         state = load_project_state(project_dir)
         workstream = state.get_workstream(bundle.workstream_id) if bundle.workstream_id else None
@@ -553,6 +651,8 @@ def persist_specialist_run(
                 "blockers": parsed["blockers"],
                 "artifact_ids": artifact_ids,
                 "artifact_paths": [str(path) for path in artifact_paths],
+                "memory_path": str(specialist_memory_path(project_dir, bundle.role_id)),
+                "memory_run_count": memory["run_count"],
                 "generated_at": utc_now_iso(),
             }
             runs = list(workstream.metadata.get("specialist_runs", []))
@@ -612,6 +712,7 @@ def run_specialist(
     allow_search: bool = False,
     run_name: str | None = None,
     context_files: list[Path] | None = None,
+    resume_memory: bool = True,
 ) -> dict[str, Any]:
     bundle = build_specialist_prompt_bundle(
         project_dir,
@@ -620,6 +721,7 @@ def run_specialist(
         task=task,
         run_name=run_name,
         context_files=context_files,
+        resume_memory=resume_memory,
     )
     selected_provider = provider or provider_from_backend(
         backend,
@@ -682,6 +784,7 @@ def run_specialist_loop(
     max_parallel_specialists: int = 1,
     run_name: str | None = None,
     task: str = "",
+    resume_memory: bool = True,
 ) -> dict[str, Any]:
     project_dir = Path(project_dir)
     initialize_comath_project(project_dir)
@@ -709,6 +812,7 @@ def run_specialist_loop(
                     timeout_seconds=timeout_seconds,
                     allow_search=allow_search,
                     run_name=f"{loop_id}-{role_id}",
+                    resume_memory=resume_memory,
                 ): (role_id, workstream_id)
                 for role_id, workstream_id in selected
             }

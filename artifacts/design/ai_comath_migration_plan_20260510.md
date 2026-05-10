@@ -77,7 +77,8 @@ review-gate behavior behind; otherwise it is not considered implemented.
 5. Literature/source autonomy. Partially implemented.
    - Add iterative query plans, source inventory, theorem statement extraction, assumption matching, and citation confidence scoring.
    - Convert unresolved source assumptions into named uncertainty items automatically.
-   - Current baseline has source workstreams and source-debt gates; the remaining gap is iterative autonomous query planning and confidence scoring.
+   - Current baseline has source workstreams, source-debt gates, automatic query-plan generation, source-auditor specialist rounds, source inventory, and citation-confidence reports.
+   - Remaining gap: stronger primary-source retrieval, theorem statement extraction, and assumption matching against source text.
 
 6. Theory-building memory. Implemented local baseline.
    - Add conjecture graph, reusable lemma inventory, failed-hypothesis suppression, and novelty notes.
@@ -99,14 +100,16 @@ review-gate behavior behind; otherwise it is not considered implemented.
    - Preserve local deterministic paths for tests and offline use.
    - Local baseline now uses the existing Codex CLI ChatGPT login as a provider, plus a fake provider for tests.
    - Each specialist run persists prompt, context manifest, output, result JSON, artifact graph nodes, and workstream state.
+   - Each specialist also maintains `conversation_state.json`, which is injected into later prompts for app-level resume/memory.
 
 10. Interactive research workbench. Pending by design.
     - Build a local UI only after the contracts above are stable.
     - UI must expose progressive disclosure: top-level blocker first, then workstream state, artifacts, reviews, and failed routes.
 
 11. Benchmark-grade evaluation. Pending independent evaluation.
-    - Add benchmark fixtures for source-debt control, theorem-proving safety, reproducibility, and scheduler behavior.
-    - Do not claim FrontierMath-style performance without an independent benchmark run and comparable model budget.
+   - Add benchmark fixtures for source-debt control, theorem-proving safety, reproducibility, and scheduler behavior.
+   - Do not claim FrontierMath-style performance without an independent benchmark run and comparable model budget.
+   - Local regression benchmark baseline now covers specialist memory/resume, source-audit loop persistence, and capability evaluation.
 
 ## End-to-End Implementation Recipe
 
@@ -120,7 +123,9 @@ these stages in order for a target project:
 5. `update-theory-memory`: record conjectures, reusable lemmas, failed hypotheses, novelty notes, and new directions; failed hypotheses must suppress duplicate reruns unless changed.
 6. `review-workstream` / review gate: block approval for source debt, theorem debt, statement drift, Lean placeholders, missing original-theorem dependency paths, or unverified computation certificates.
 7. `run-comath-evaluation`: write a capability report for the project against the public paper modules.
-8. Only after all relevant checks are implemented/partial with no missing local capability should a project proceed to final assembly.
+8. `run-comath-source-audit-loop`: generate source queries, run source-auditor rounds, persist source inventory and citation-confidence reports.
+9. `run-comath-benchmarks`: run fake-provider local regressions for memory/resume, source-audit loop, and capability evaluation.
+10. Only after all relevant checks are implemented/partial with no missing local capability should a project proceed to final assembly.
 
 For Codex-backed specialists, use the existing ChatGPT login rather than an
 OpenAI API key:
@@ -137,6 +142,12 @@ ara-math run-comath-specialist-loop \
   --backend codex \
   --max-specialists 3 \
   --max-parallel-specialists 2
+
+ara-math run-comath-source-audit-loop \
+  --project projects/<project> \
+  --backend codex \
+  --rounds 3 \
+  --max-parallel-rounds 2
 ```
 
 If `--model` is omitted, `codex exec` uses `~/.codex/config.toml`; on this
@@ -333,9 +344,12 @@ Implemented locally:
 - Theory-building memory for conjectures, lemmas, failed hypotheses, novelty notes, and new directions.
 - Local capability evaluation harness.
 - Codex CLI specialist orchestration over the existing ChatGPT login, with fake-provider tests.
+- Specialist app-level memory/resume through `conversation_state.json`.
+- Automatic source-auditor query loop with source inventory and citation-confidence output.
+- Local fake-provider regression benchmark suite.
 
 Still pending:
 
-- Autonomous iterative literature/source audit loops with query planning and confidence scoring.
+- Stronger primary-source retrieval, theorem statement extraction, and assumption matching in the source-auditor loop.
 - Interactive UI beyond the durable Markdown/file-backed dashboard.
 - Independent benchmark-grade evaluation and any claim comparable to Google FrontierMath results.

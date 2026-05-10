@@ -47,6 +47,8 @@ REQUIRED_PAPER_CAPABILITIES = (
     "parallel_workstreams",
     "specialist_agents",
     "llm_specialist_orchestration",
+    "specialist_memory_resume",
+    "source_audit_loop",
     "uncertainty_tracking",
     "failed_hypothesis_memory",
     "native_mathematical_artifacts",
@@ -57,6 +59,7 @@ REQUIRED_PAPER_CAPABILITIES = (
     "review_gates",
     "progressive_disclosure",
     "evaluation_harness",
+    "local_benchmark_harness",
 )
 
 
@@ -882,7 +885,10 @@ def run_comath_evaluation(project_dir: Path) -> dict[str, Any]:
     computation_dir = paths.root / "computation"
     loop_dir = paths.root / "loop_runs"
     specialist_runs = list((paths.root / "specialists").glob("*/runs/*/result.json"))
+    specialist_memory = list((paths.root / "specialists").glob("*/conversation_state.json"))
     specialist_loop_reports = list((paths.root / "specialist_loops").glob("*/report.json"))
+    source_audit_report = paths.root / "source_audit" / "report.json"
+    benchmark_reports = list((paths.root / "benchmarks").glob("*/benchmark_report.json"))
     checks: list[CapabilityCheck] = []
 
     def add_check(capability: str, evidence: list[str], missing: list[str]) -> None:
@@ -917,6 +923,11 @@ def run_comath_evaluation(project_dir: Path) -> dict[str, Any]:
         ["No Codex/fake specialist run has been persisted under comath/specialists/."] if not specialist_runs else [],
     )
     add_check(
+        "specialist_memory_resume",
+        [str(path) for path in specialist_memory[:5]] or ["specialist conversation memory support is available"],
+        ["No specialist conversation_state.json has been persisted."] if not specialist_memory else [],
+    )
+    add_check(
         "uncertainty_tracking",
         [str(paths.uncertainty_ledger), f"open_items={len(ledger.open_items())}"],
         [] if paths.uncertainty_ledger.exists() else ["Missing uncertainty ledger."],
@@ -935,6 +946,11 @@ def run_comath_evaluation(project_dir: Path) -> dict[str, Any]:
         "literature_search",
         [workstream.workstream_id for workstream in state.workstreams if workstream.kind == WorkstreamKind.SOURCE],
         [] if any(workstream.kind == WorkstreamKind.SOURCE for workstream in state.workstreams) else ["No source/literature workstream."],
+    )
+    add_check(
+        "source_audit_loop",
+        [str(source_audit_report)] if source_audit_report.exists() else ["run_source_audit_loop is available"],
+        [] if source_audit_report.exists() else ["No source audit loop report has been persisted for this project."],
     )
     verified_certs = [
         node.node_id
@@ -975,6 +991,11 @@ def run_comath_evaluation(project_dir: Path) -> dict[str, Any]:
         "evaluation_harness",
         ["run_comath_evaluation"],
         [],
+    )
+    add_check(
+        "local_benchmark_harness",
+        [str(path) for path in benchmark_reports[:3]] or ["run_local_benchmark_suite is available"],
+        [] if benchmark_reports else ["No project-local benchmark report is attached."],
     )
 
     implemented = sum(1 for check in checks if check.status == "implemented")

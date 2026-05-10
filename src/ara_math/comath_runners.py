@@ -724,6 +724,7 @@ class LlmSpecialistWorkstreamExecutor:
             allow_search=bool(options.get("allow_search", options.get("search", context.workstream.metadata.get("allow_search", False)))),
             run_name=options.get("run_name"),
             context_files=_as_path_list(options.get("context_files") or options.get("context_paths")),
+            resume_memory=bool(options.get("resume_memory", context.workstream.metadata.get("resume_memory", True))),
         )
         provider_status = str(payload.get("provider", {}).get("status", "completed")).strip().lower() or "completed"
         parsed = payload.get("result", {}).get("parsed_output", {})
