@@ -292,6 +292,9 @@ def build_parser() -> argparse.ArgumentParser:
     run_comath_loop.add_argument("--attempts", type=int, default=1)
     run_comath_loop.add_argument("--run-name", default=None)
     run_comath_loop.add_argument("--freeze-stalled-after", type=int, default=2)
+    run_comath_loop.add_argument("--max-parallel-workstreams", type=int, default=1)
+    run_comath_loop.add_argument("--max-concurrent-llm-calls", type=int, default=1)
+    run_comath_loop.add_argument("--max-concurrent-lean-builds", type=int, default=1)
     run_comath_loop.add_argument("--allow-network", action="store_true")
     run_comath_loop.add_argument("--search", action="store_true")
 
@@ -841,6 +844,9 @@ def main(argv: list[str] | None = None) -> int:
             repo_root=_repo_root(),
             freeze_stalled_after=args.freeze_stalled_after,
             run_name=args.run_name,
+            max_parallel_workstreams=args.max_parallel_workstreams,
+            max_concurrent_llm_calls=args.max_concurrent_llm_calls,
+            max_concurrent_lean_builds=args.max_concurrent_lean_builds,
         )
         _print(payload, args.json)
         return 0

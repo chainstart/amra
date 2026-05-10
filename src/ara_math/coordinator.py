@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import time
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -782,6 +784,112 @@ def _loop_report_dir(project_dir: Path, run_name: str | None) -> tuple[str, Path
     return loop_id, comath_paths(project_dir).root / "loop_runs" / loop_id
 
 
+def _workstream_write_key(workstream: WorkstreamRecord) -> str:
+    metadata = workstream.metadata
+    target_file = metadata.get("target_file") or metadata.get("write_target") or metadata.get("lean_target_file")
+    workspace = metadata.get("workspace")
+    if target_file:
+        return str(Path(str(workspace or "")).joinpath(str(target_file))).strip()
+    if workstream.kind == WorkstreamKind.LEAN and workspace:
+        return str(workspace)
+    return ""
+
+
+def _needs_llm_slot(workstream: WorkstreamRecord, options: dict[str, Any]) -> bool:
+    backend = str(options.get("backend", workstream.metadata.get("backend", ""))).strip().lower()
+    return backend in {"codex", "openai", "llm"}
+
+
+def _needs_lean_slot(workstream: WorkstreamRecord, executor_name: str | None) -> bool:
+    raw_executor = str(executor_name or workstream.metadata.get("executor") or workstream.metadata.get("runner") or "")
+    normalized = raw_executor.strip().lower().replace("-", "_")
+    return workstream.kind == WorkstreamKind.LEAN or normalized in {"lean", "lean_formalization", "lean_formalizer", "closure", "closure_prover"}
+
+
+def _select_parallel_batch(
+    candidates: list[WorkstreamRecord],
+    *,
+    capacity: int,
+) -> tuple[list[WorkstreamRecord], list[dict[str, Any]]]:
+    selected: list[WorkstreamRecord] = []
+    active_write_keys: set[str] = set()
+    decisions: list[dict[str, Any]] = []
+    for workstream in candidates:
+        write_key = _workstream_write_key(workstream)
+        if len(selected) >= capacity:
+            decisions.append(
+                {
+                    "workstream_id": workstream.workstream_id,
+                    "decision": "queued_capacity",
+                    "write_key": write_key,
+                }
+            )
+            continue
+        if write_key and write_key in active_write_keys:
+            decisions.append(
+                {
+                    "workstream_id": workstream.workstream_id,
+                    "decision": "queued_same_write_target",
+                    "write_key": write_key,
+                }
+            )
+            continue
+        selected.append(workstream)
+        if write_key:
+            active_write_keys.add(write_key)
+        decisions.append(
+            {
+                "workstream_id": workstream.workstream_id,
+                "decision": "selected",
+                "write_key": write_key,
+            }
+        )
+    return selected, decisions
+
+
+def _execute_workstream_with_resources(
+    project_dir: Path,
+    workstream: WorkstreamRecord,
+    *,
+    executor: Any | None,
+    executor_name: str | None,
+    options: dict[str, Any],
+    repo_root: Path | None,
+    llm_semaphore: threading.Semaphore,
+    lean_semaphore: threading.Semaphore,
+) -> dict[str, Any]:
+    needs_llm = _needs_llm_slot(workstream, options)
+    needs_lean = _needs_lean_slot(workstream, executor_name)
+    acquired_llm = False
+    acquired_lean = False
+    try:
+        if needs_llm:
+            llm_semaphore.acquire()
+            acquired_llm = True
+        if needs_lean:
+            lean_semaphore.acquire()
+            acquired_lean = True
+        result = execute_workstream(
+            project_dir,
+            workstream.workstream_id,
+            executor=executor,
+            executor_name=executor_name,
+            options=options,
+            repo_root=repo_root,
+        )
+        result["resource_slots"] = {
+            "llm": needs_llm,
+            "lean": needs_lean,
+            "write_key": _workstream_write_key(workstream),
+        }
+        return result
+    finally:
+        if acquired_lean:
+            lean_semaphore.release()
+        if acquired_llm:
+            llm_semaphore.release()
+
+
 def run_comath_loop(
     project_dir: Path,
     *,
@@ -794,6 +902,9 @@ def run_comath_loop(
     repo_root: Path | None = None,
     freeze_stalled_after: int = 2,
     run_name: str | None = None,
+    max_parallel_workstreams: int = 1,
+    max_concurrent_llm_calls: int = 1,
+    max_concurrent_lean_builds: int = 1,
 ) -> dict[str, Any]:
     project_dir = Path(project_dir)
     initialize_comath_project(project_dir)
@@ -803,7 +914,11 @@ def run_comath_loop(
     deadline = time.monotonic() + max(0, time_budget_seconds)
     executed: list[dict[str, Any]] = []
     frozen: list[dict[str, Any]] = []
+    resource_decisions: list[dict[str, Any]] = []
     stop_reason = "max_workstreams_reached"
+    parallel_limit = max(1, max_parallel_workstreams)
+    llm_semaphore = threading.Semaphore(max(1, max_concurrent_llm_calls))
+    lean_semaphore = threading.Semaphore(max(1, max_concurrent_lean_builds))
 
     state = load_project_state(project_dir)
     state.status = ProjectStatus.WORKSTREAMS_RUNNING
@@ -816,22 +931,52 @@ def run_comath_loop(
         if time_budget_seconds > 0 and time.monotonic() >= deadline:
             stop_reason = "time_budget_exhausted"
             break
-        candidates = select_next_workstreams(project_dir, limit=1)
+        capacity = min(parallel_limit, max_workstreams - len(executed))
+        candidates = select_next_workstreams(project_dir)
         if not candidates:
             stop_reason = "no_ready_workstreams"
             break
-        workstream = candidates[0]
-        options = dict(executor_options or {})
-        options.update((per_workstream_options or {}).get(workstream.workstream_id, {}))
-        result = execute_workstream(
-            project_dir,
-            workstream.workstream_id,
-            executor=executor,
-            executor_name=executor_name,
-            options=options,
-            repo_root=repo_root,
-        )
-        executed.append(result)
+        batch, decisions = _select_parallel_batch(candidates, capacity=capacity)
+        resource_decisions.extend(decisions)
+        if not batch:
+            stop_reason = "no_parallel_safe_workstreams"
+            break
+        if len(batch) == 1:
+            workstream = batch[0]
+            options = dict(executor_options or {})
+            options.update((per_workstream_options or {}).get(workstream.workstream_id, {}))
+            result = _execute_workstream_with_resources(
+                project_dir,
+                workstream,
+                executor=executor,
+                executor_name=executor_name,
+                options=options,
+                repo_root=repo_root,
+                llm_semaphore=llm_semaphore,
+                lean_semaphore=lean_semaphore,
+            )
+            executed.append(result)
+        else:
+            with ThreadPoolExecutor(max_workers=len(batch)) as pool:
+                futures = {}
+                for workstream in batch:
+                    options = dict(executor_options or {})
+                    options.update((per_workstream_options or {}).get(workstream.workstream_id, {}))
+                    futures[
+                        pool.submit(
+                            _execute_workstream_with_resources,
+                            project_dir,
+                            workstream,
+                            executor=executor,
+                            executor_name=executor_name,
+                            options=options,
+                            repo_root=repo_root,
+                            llm_semaphore=llm_semaphore,
+                            lean_semaphore=lean_semaphore,
+                        )
+                    ] = workstream.workstream_id
+                for future in as_completed(futures):
+                    executed.append(future.result())
         render_project_dashboard(project_dir)
 
     if len(executed) >= max_workstreams:
@@ -857,11 +1002,17 @@ def run_comath_loop(
         "completed_at": utc_now_iso(),
         "max_workstreams": max_workstreams,
         "time_budget_seconds": time_budget_seconds,
+        "parallelism": {
+            "max_parallel_workstreams": parallel_limit,
+            "max_concurrent_llm_calls": max(1, max_concurrent_llm_calls),
+            "max_concurrent_lean_builds": max(1, max_concurrent_lean_builds),
+        },
         "stop_reason": stop_reason,
         "executed_count": len(executed),
         "frozen_count": len(frozen),
         "executed": executed,
         "frozen": frozen,
+        "resource_decisions": resource_decisions,
         "state": state.to_dict(),
         "dashboard_path": str(comath_paths(project_dir).dashboard),
     }
@@ -875,6 +1026,7 @@ def run_comath_loop(
                 f"- Stop reason: `{stop_reason}`",
                 f"- Executed workstreams: `{len(executed)}`",
                 f"- Frozen workstreams: `{len(frozen)}`",
+                f"- Max parallel workstreams: `{parallel_limit}`",
                 f"- Dashboard: `{comath_paths(project_dir).dashboard}`",
                 "",
             ]
@@ -889,6 +1041,7 @@ def run_comath_loop(
             "stop_reason": stop_reason,
             "executed_count": len(executed),
             "frozen_count": len(frozen),
+            "max_parallel_workstreams": parallel_limit,
             "report_path": str(report_dir / "report.json"),
         },
     )
@@ -1536,6 +1689,9 @@ class CoMathCoordinator:
         repo_root: Path | None = None,
         freeze_stalled_after: int = 2,
         run_name: str | None = None,
+        max_parallel_workstreams: int = 1,
+        max_concurrent_llm_calls: int = 1,
+        max_concurrent_lean_builds: int = 1,
     ) -> dict[str, Any]:
         return run_comath_loop(
             self.project_dir,
@@ -1548,6 +1704,9 @@ class CoMathCoordinator:
             repo_root=repo_root,
             freeze_stalled_after=freeze_stalled_after,
             run_name=run_name,
+            max_parallel_workstreams=max_parallel_workstreams,
+            max_concurrent_llm_calls=max_concurrent_llm_calls,
+            max_concurrent_lean_builds=max_concurrent_lean_builds,
         )
 
     def bootstrap_ces75_erdos866(self, *, repo_root: Path | None = None) -> dict[str, Any]:

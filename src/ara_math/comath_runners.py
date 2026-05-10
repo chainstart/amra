@@ -3,6 +3,7 @@ from __future__ import annotations
 import inspect
 import json
 import shlex
+import threading
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Protocol
@@ -32,6 +33,19 @@ SUCCESS_STATUSES = {
     "existing_cold",
     "not_needed",
 }
+
+_PROJECT_WRITE_LOCKS: dict[str, threading.RLock] = {}
+_PROJECT_WRITE_LOCKS_GUARD = threading.Lock()
+
+
+def _project_write_lock(project_dir: Path) -> threading.RLock:
+    key = str(Path(project_dir).resolve())
+    with _PROJECT_WRITE_LOCKS_GUARD:
+        lock = _PROJECT_WRITE_LOCKS.get(key)
+        if lock is None:
+            lock = threading.RLock()
+            _PROJECT_WRITE_LOCKS[key] = lock
+        return lock
 
 
 def _jsonable(value: Any) -> Any:
@@ -695,20 +709,21 @@ def get_workstream_executor(
 
 
 def mark_workstream_running(project_dir: Path, workstream_id: str, *, executor_name: str, options: dict[str, Any]) -> WorkstreamRecord:
-    state = load_project_state(project_dir)
-    workstream = state.get_workstream(workstream_id)
-    if workstream is None:
-        raise KeyError(f"Unknown workstream: {workstream_id}")
-    workstream.mark_status(WorkstreamStatus.RUNNING)
-    workstream.metadata["active_runner"] = {
-        "executor": executor_name,
-        "started_at": utc_now_iso(),
-        "options": _safe_options(options),
-    }
-    state.upsert_workstream(workstream)
-    save_project_state(project_dir, state)
-    write_json(comath_paths(project_dir).workstream_dir(workstream_id) / "status.json", workstream.to_dict())
-    return workstream
+    with _project_write_lock(project_dir):
+        state = load_project_state(project_dir)
+        workstream = state.get_workstream(workstream_id)
+        if workstream is None:
+            raise KeyError(f"Unknown workstream: {workstream_id}")
+        workstream.mark_status(WorkstreamStatus.RUNNING)
+        workstream.metadata["active_runner"] = {
+            "executor": executor_name,
+            "started_at": utc_now_iso(),
+            "options": _safe_options(options),
+        }
+        state.upsert_workstream(workstream)
+        save_project_state(project_dir, state)
+        write_json(comath_paths(project_dir).workstream_dir(workstream_id) / "status.json", workstream.to_dict())
+        return workstream
 
 
 def _artifact_node_id(workstream_id: str, executor: str, path: str, existing_ids: set[str]) -> str:
@@ -723,91 +738,92 @@ def _artifact_node_id(workstream_id: str, executor: str, path: str, existing_ids
 
 
 def persist_workstream_execution_result(project_dir: Path, result: WorkstreamExecutionResult) -> WorkstreamRecord:
-    paths = comath_paths(project_dir)
-    state = load_project_state(project_dir)
-    workstream = state.get_workstream(result.workstream_id)
-    if workstream is None:
-        raise KeyError(f"Unknown workstream: {result.workstream_id}")
+    with _project_write_lock(project_dir):
+        paths = comath_paths(project_dir)
+        state = load_project_state(project_dir)
+        workstream = state.get_workstream(result.workstream_id)
+        if workstream is None:
+            raise KeyError(f"Unknown workstream: {result.workstream_id}")
 
-    graph = load_artifact_graph(paths.artifact_graph)
-    existing_node_ids = {node.node_id for node in graph.nodes}
-    artifact_ids: list[str] = []
-    for artifact_path in result.artifact_paths:
-        node_id = _artifact_node_id(result.workstream_id, result.executor, artifact_path, existing_node_ids)
-        graph.record_file(
-            node_id=node_id,
-            path=artifact_path,
-            label=Path(artifact_path).name,
-            workstream_id=result.workstream_id,
-            metadata={"executor": result.executor, "run_dir": result.run_dir},
+        graph = load_artifact_graph(paths.artifact_graph)
+        existing_node_ids = {node.node_id for node in graph.nodes}
+        artifact_ids: list[str] = []
+        for artifact_path in result.artifact_paths:
+            node_id = _artifact_node_id(result.workstream_id, result.executor, artifact_path, existing_node_ids)
+            graph.record_file(
+                node_id=node_id,
+                path=artifact_path,
+                label=Path(artifact_path).name,
+                workstream_id=result.workstream_id,
+                metadata={"executor": result.executor, "run_dir": result.run_dir},
+            )
+            artifact_ids.append(node_id)
+        if artifact_ids:
+            save_artifact_graph(paths.artifact_graph, graph)
+
+        workstream.status = result.workstream_status
+        workstream.updated_at = utc_now_iso()
+        workstream.run_dirs = _unique([*workstream.run_dirs, result.run_dir] if result.run_dir else list(workstream.run_dirs))
+        workstream.artifact_paths = _unique([*workstream.artifact_paths, *result.artifact_paths])
+        workstream.artifact_ids = _unique([*workstream.artifact_ids, *artifact_ids])
+        blocker_prefix = f"{RUNNER_BLOCKER_PREFIX}{result.executor}] "
+        workstream.blockers = [blocker for blocker in workstream.blockers if not blocker.startswith(blocker_prefix)]
+        workstream.blockers.extend(f"{blocker_prefix}{blocker}" for blocker in result.blockers)
+        run_entry = result.to_dict()
+        run_entry["artifact_ids"] = artifact_ids
+        runs = list(workstream.metadata.get("runner_runs", []))
+        runs.append(run_entry)
+        workstream.metadata["runner_runs"] = runs
+        workstream.metadata["latest_runner"] = run_entry
+        workstream.metadata["latest_run_dir"] = result.run_dir
+        workstream.metadata["latest_executor"] = result.executor
+        workstream.metadata.pop("active_runner", None)
+
+        state.upsert_workstream(workstream)
+        save_project_state(project_dir, state)
+
+        workstream_dir = paths.workstream_dir(result.workstream_id)
+        write_json(workstream_dir / "status.json", workstream.to_dict())
+        append_jsonl(workstream_dir / "run_history.jsonl", run_entry)
+        write_json(
+            workstream_dir / "artifacts" / "index.json",
+            {
+                "generated_at": utc_now_iso(),
+                "workstream_id": result.workstream_id,
+                "artifact_ids": workstream.artifact_ids,
+                "artifact_paths": workstream.artifact_paths,
+                "run_dirs": workstream.run_dirs,
+            },
         )
-        artifact_ids.append(node_id)
-    if artifact_ids:
-        save_artifact_graph(paths.artifact_graph, graph)
-
-    workstream.status = result.workstream_status
-    workstream.updated_at = utc_now_iso()
-    workstream.run_dirs = _unique([*workstream.run_dirs, result.run_dir] if result.run_dir else list(workstream.run_dirs))
-    workstream.artifact_paths = _unique([*workstream.artifact_paths, *result.artifact_paths])
-    workstream.artifact_ids = _unique([*workstream.artifact_ids, *artifact_ids])
-    blocker_prefix = f"{RUNNER_BLOCKER_PREFIX}{result.executor}] "
-    workstream.blockers = [blocker for blocker in workstream.blockers if not blocker.startswith(blocker_prefix)]
-    workstream.blockers.extend(f"{blocker_prefix}{blocker}" for blocker in result.blockers)
-    run_entry = result.to_dict()
-    run_entry["artifact_ids"] = artifact_ids
-    runs = list(workstream.metadata.get("runner_runs", []))
-    runs.append(run_entry)
-    workstream.metadata["runner_runs"] = runs
-    workstream.metadata["latest_runner"] = run_entry
-    workstream.metadata["latest_run_dir"] = result.run_dir
-    workstream.metadata["latest_executor"] = result.executor
-    workstream.metadata.pop("active_runner", None)
-
-    state.upsert_workstream(workstream)
-    save_project_state(project_dir, state)
-
-    workstream_dir = paths.workstream_dir(result.workstream_id)
-    write_json(workstream_dir / "status.json", workstream.to_dict())
-    append_jsonl(workstream_dir / "run_history.jsonl", run_entry)
-    write_json(
-        workstream_dir / "artifacts" / "index.json",
-        {
-            "generated_at": utc_now_iso(),
-            "workstream_id": result.workstream_id,
-            "artifact_ids": workstream.artifact_ids,
-            "artifact_paths": workstream.artifact_paths,
-            "run_dirs": workstream.run_dirs,
-        },
-    )
-    blocker_lines = [f"- {blocker}" for blocker in workstream.blockers] or ["- No blockers recorded."]
-    write_text(workstream_dir / "blockers.md", "# Blockers\n\n" + "\n".join(blocker_lines) + "\n")
-    append_jsonl(
-        paths.messages,
-        {
-            "ts": utc_now_iso(),
-            "type": "workstream_runner_completed",
-            "workstream_id": result.workstream_id,
-            "executor": result.executor,
-            "status": result.status,
-            "workstream_status": result.workstream_status.value,
-            "run_dir": result.run_dir,
-            "artifact_count": len(result.artifact_paths),
-            "blocker_count": len(result.blockers),
-        },
-    )
-    record_event(
-        project_dir,
-        stage="comath",
-        event="workstream_runner_completed",
-        details={
-            "workstream_id": result.workstream_id,
-            "executor": result.executor,
-            "status": result.status,
-            "workstream_status": result.workstream_status.value,
-        },
-    )
-    render_project_dashboard(project_dir)
-    return workstream
+        blocker_lines = [f"- {blocker}" for blocker in workstream.blockers] or ["- No blockers recorded."]
+        write_text(workstream_dir / "blockers.md", "# Blockers\n\n" + "\n".join(blocker_lines) + "\n")
+        append_jsonl(
+            paths.messages,
+            {
+                "ts": utc_now_iso(),
+                "type": "workstream_runner_completed",
+                "workstream_id": result.workstream_id,
+                "executor": result.executor,
+                "status": result.status,
+                "workstream_status": result.workstream_status.value,
+                "run_dir": result.run_dir,
+                "artifact_count": len(result.artifact_paths),
+                "blocker_count": len(result.blockers),
+            },
+        )
+        record_event(
+            project_dir,
+            stage="comath",
+            event="workstream_runner_completed",
+            details={
+                "workstream_id": result.workstream_id,
+                "executor": result.executor,
+                "status": result.status,
+                "workstream_status": result.workstream_status.value,
+            },
+        )
+        render_project_dashboard(project_dir)
+        return workstream
 
 
 def execute_workstream(
@@ -821,10 +837,12 @@ def execute_workstream(
     **kwargs: Any,
 ) -> dict[str, Any]:
     project_dir = Path(project_dir)
-    initialize_comath_project(project_dir)
+    with _project_write_lock(project_dir):
+        initialize_comath_project(project_dir)
     merged_options = {**(options or {}), **kwargs}
-    state = load_project_state(project_dir)
-    workstream = state.get_workstream(workstream_id)
+    with _project_write_lock(project_dir):
+        state = load_project_state(project_dir)
+        workstream = state.get_workstream(workstream_id)
     if workstream is None:
         raise KeyError(f"Unknown workstream: {workstream_id}")
 
@@ -837,8 +855,9 @@ def execute_workstream(
     selected_name = executor_name or getattr(selected_executor, "executor_name", "workstream_runner")
     mark_workstream_running(project_dir, workstream_id, executor_name=selected_name, options=merged_options)
 
-    state = load_project_state(project_dir)
-    running_workstream = state.get_workstream(workstream_id)
+    with _project_write_lock(project_dir):
+        state = load_project_state(project_dir)
+        running_workstream = state.get_workstream(workstream_id)
     if running_workstream is None:
         raise KeyError(f"Unknown workstream after running mark: {workstream_id}")
     context = WorkstreamExecutionContext(

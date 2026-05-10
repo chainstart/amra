@@ -342,6 +342,57 @@
       "status": "completed",
       "generated_by": "engineering-harness-continuation",
       "generated_at": "2026-05-10T08:24:26Z"
+    },
+    {
+      "id": "comath-parallel-execution",
+      "title": "CoMath Parallel Execution",
+      "status": "completed",
+      "objective": "Add bounded worker-pool execution for independent CoMath workstreams while serializing Lean write targets and recording resource decisions.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T09:00:00Z",
+      "tasks": [
+        {
+          "id": "comath-parallel-execution-impl",
+          "title": "Implement bounded parallel workstream execution",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/coordinator.py",
+            "src/ara_math/comath_runners.py",
+            "src/ara_math/cli.py",
+            "tests/test_comath_parallel.py",
+            "tests/test_comath_scheduler.py",
+            "tests/test_comath_cli.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement Phase 5 parallel execution from artifacts/design/ai_comath_migration_plan_20260510.md. Add bounded worker pools for independent workstreams, separate LLM/Lean concurrency limits, same-Lean-target serialization, and loop report resource decisions. Keep tests deterministic with fake executors; do not launch long external campaigns."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3000,
+              "prompt": "Fix failing parallel execution tests with minimal scoped changes. Preserve existing scheduler behavior and CLI compatibility."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath parallel execution tests",
+              "command": "python3 -m pytest tests/test_comath_parallel.py tests/test_comath_scheduler.py tests/test_comath_cli.py -q",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ]
+        }
+      ]
     }
   ],
   "continuation": {
@@ -640,6 +691,90 @@
           }
         ],
         "status": "completed"
+      },
+      {
+        "id": "comath-parallel-execution",
+        "title": "CoMath Parallel Execution",
+        "status": "completed",
+        "objective": "Add bounded worker-pool execution for independent CoMath workstreams while serializing Lean write targets and recording resource decisions.",
+        "tasks": [
+          {
+            "id": "comath-parallel-execution-impl",
+            "title": "Implement bounded parallel workstream execution",
+            "status": "passed",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/ara_math/coordinator.py",
+              "src/ara_math/comath_runners.py",
+              "src/ara_math/cli.py",
+              "tests/test_comath_parallel.py",
+              "tests/test_comath_scheduler.py",
+              "tests/test_comath_cli.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Implement Phase 5 parallel execution from artifacts/design/ai_comath_migration_plan_20260510.md. Add bounded worker pools for independent workstreams, separate LLM/Lean concurrency limits, same-Lean-target serialization, and loop report resource decisions. Keep tests deterministic with fake executors; do not launch long external campaigns."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3000,
+                "prompt": "Fix failing parallel execution tests with minimal scoped changes. Preserve existing scheduler behavior and CLI compatibility."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath parallel execution tests",
+                "command": "python3 -m pytest tests/test_comath_parallel.py tests/test_comath_scheduler.py tests/test_comath_cli.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comath-intake-refinement",
+        "title": "CoMath Intake Refinement",
+        "status": "planned",
+        "objective": "Add deterministic project intake and goal/workstream decomposition before optional LLM refinement.",
+        "tasks": []
+      },
+      {
+        "id": "comath-computation-repro",
+        "title": "CoMath Computation Reproducibility",
+        "status": "planned",
+        "objective": "Add reproducible computation manifests, certificate hashes, and rerun verification gates.",
+        "tasks": []
+      },
+      {
+        "id": "comath-specialist-roles",
+        "title": "CoMath Specialist Roles",
+        "status": "planned",
+        "objective": "Promote ideation, source audit, computation, Lean, review, and theory-building roles into explicit contracts.",
+        "tasks": []
+      },
+      {
+        "id": "comath-theory-memory",
+        "title": "CoMath Theory Memory",
+        "status": "planned",
+        "objective": "Add conjecture graph, reusable lemma inventory, novelty notes, and failed-hypothesis suppression.",
+        "tasks": []
+      },
+      {
+        "id": "comath-evaluation-harness",
+        "title": "CoMath Evaluation Harness",
+        "status": "planned",
+        "objective": "Add local benchmark/evaluation suites for scheduling, source-debt control, Lean promotion safety, and reproducibility.",
+        "tasks": []
       }
     ]
   },
