@@ -14,6 +14,7 @@ from ara_math.coordinator import (
     init_comath_project as comath_init_project,
     project_dashboard as comath_project_dashboard,
     review_workstream_placeholder,
+    run_comath_loop as comath_run_loop,
 )
 from ara_math.orchestrator import MathResearchOrchestrator
 from ara_math.problem_bank import (
@@ -276,6 +277,22 @@ def build_parser() -> argparse.ArgumentParser:
         help="Render and print the local CoMath project dashboard.",
     )
     project_dashboard_cmd.add_argument("--project", type=Path, required=True)
+
+    run_comath_loop = subparsers.add_parser(
+        "run-comath-loop",
+        help="Run a bounded local CoMath scheduler loop over ready workstreams.",
+    )
+    run_comath_loop.add_argument("--project", type=Path, required=True)
+    run_comath_loop.add_argument("--max-workstreams", type=int, default=1)
+    run_comath_loop.add_argument("--time-budget", type=int, default=300)
+    run_comath_loop.add_argument("--workstream-time-budget", type=int, default=300)
+    run_comath_loop.add_argument("--backend", choices=("none", "codex"), default="none")
+    run_comath_loop.add_argument("--executor", default=None, help="Optional executor override for all selected workstreams.")
+    run_comath_loop.add_argument("--attempts", type=int, default=1)
+    run_comath_loop.add_argument("--run-name", default=None)
+    run_comath_loop.add_argument("--freeze-stalled-after", type=int, default=2)
+    run_comath_loop.add_argument("--allow-network", action="store_true")
+    run_comath_loop.add_argument("--search", action="store_true")
 
     plan = subparsers.add_parser("plan", help="Generate a proof plan for a project.")
     plan.add_argument("--project", type=Path, required=True)
@@ -795,6 +812,26 @@ def main(argv: list[str] | None = None) -> int:
             )
         else:
             _print(dashboard, args.json)
+        return 0
+
+    if args.command == "run-comath-loop":
+        payload = comath_run_loop(
+            args.project,
+            max_workstreams=args.max_workstreams,
+            time_budget_seconds=args.time_budget,
+            executor_name=args.executor,
+            executor_options={
+                "backend": args.backend,
+                "attempts": args.attempts,
+                "time_budget": args.workstream_time_budget,
+                "allow_network": args.allow_network,
+                "search": args.search,
+            },
+            repo_root=_repo_root(),
+            freeze_stalled_after=args.freeze_stalled_after,
+            run_name=args.run_name,
+        )
+        _print(payload, args.json)
         return 0
 
     if args.command == "plan":

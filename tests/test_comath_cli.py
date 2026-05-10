@@ -147,3 +147,56 @@ def test_add_workstream_cli_can_derive_stable_id(tmp_path: Path, capsys) -> None
     assert exit_code == 0
     assert payload["workstream"]["workstream_id"] == "source-source-certify-the-central-theorem"
     assert (project_dir / "comath" / "workstreams" / "source-source-certify-the-central-theorem").is_dir()
+
+
+def test_run_comath_loop_cli_executes_bounded_local_scheduler(tmp_path: Path, capsys) -> None:
+    project_dir = tmp_path / "projects" / "cli-loop"
+    (project_dir / "idea").mkdir(parents=True)
+    write_json(
+        project_dir / "idea" / "literature_evidence.json",
+        {
+            "source_attribution_count": 1,
+            "counts": {"known_results": 1, "proof_ingredients": 0, "modern_tools": 0, "open_gaps": 0},
+        },
+    )
+
+    add_exit = main(
+        [
+            "--json",
+            "add-workstream",
+            "--project",
+            str(project_dir),
+            "--workstream-id",
+            "source-main",
+            "--kind",
+            "source",
+            "--goal",
+            "Check source grounding.",
+        ]
+    )
+    capsys.readouterr()
+    assert add_exit == 0
+
+    loop_exit = main(
+        [
+            "--json",
+            "run-comath-loop",
+            "--project",
+            str(project_dir),
+            "--max-workstreams",
+            "1",
+            "--time-budget",
+            "30",
+            "--run-name",
+            "cli-loop",
+        ]
+    )
+    payload = json.loads(capsys.readouterr().out)
+    state = json.loads((project_dir / "comath" / "project_state.json").read_text(encoding="utf-8"))
+
+    assert loop_exit == 0
+    assert payload["executed_count"] == 1
+    assert payload["stop_reason"] == "max_workstreams_reached"
+    assert payload["executed"][0]["workstream_id"] == "source-main"
+    assert state["status"] == "review_gate"
+    assert (project_dir / "comath" / "loop_runs" / "cli-loop" / "report.json").exists()

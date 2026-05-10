@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -35,6 +36,7 @@ from ara_math.workstreams import (
     ReviewDecision,
     ReviewKind,
     ReviewRecord,
+    WorkstreamKind,
     WorkstreamRecord,
     WorkstreamStatus,
     utc_now_iso,
@@ -541,22 +543,343 @@ def select_next_workstreams(
     project_dir: Path,
     *,
     limit: int | None = None,
+    include_revision: bool = True,
 ) -> list[WorkstreamRecord]:
     state = load_project_state(project_dir)
+    paths = comath_paths(Path(project_dir))
+    ledger = load_uncertainty_ledger(paths.uncertainty_ledger)
     closed_or_ready = {
         item.workstream_id
         for item in state.workstreams
         if item.status in {WorkstreamStatus.APPROVED, WorkstreamStatus.NEEDS_REVIEW}
     }
+    eligible_statuses = {WorkstreamStatus.PLANNED}
+    if include_revision:
+        eligible_statuses.add(WorkstreamStatus.REVISION)
     candidates = [
         item
         for item in state.workstreams
-        if item.status == WorkstreamStatus.PLANNED and all(dep in closed_or_ready for dep in item.dependencies)
+        if item.status in eligible_statuses and all(dep in closed_or_ready for dep in item.dependencies)
     ]
-    candidates.sort(key=lambda item: item.workstream_id)
+    candidates.sort(key=lambda item: _workstream_schedule_key(item, ledger))
     if limit is None:
         return candidates
     return candidates[:limit]
+
+
+_BOTTLENECK_KIND_ORDER = {
+    WorkstreamKind.SOURCE: 0,
+    WorkstreamKind.LEAN: 1,
+    WorkstreamKind.PROOF: 2,
+    WorkstreamKind.COMPUTE: 3,
+    WorkstreamKind.REVIEW: 4,
+}
+
+_UNCERTAINTY_KIND_TO_WORKSTREAM = {
+    "source_debt": WorkstreamKind.SOURCE,
+    "statement_drift": WorkstreamKind.SOURCE,
+    "theorem_debt": WorkstreamKind.PROOF,
+    "unresolved_assumption": WorkstreamKind.PROOF,
+    "computation_debt": WorkstreamKind.COMPUTE,
+    "stalled_workstream": WorkstreamKind.REVIEW,
+}
+
+
+def _active_bottleneck_kind(ledger: UncertaintyLedger) -> WorkstreamKind | None:
+    blockers = ledger.blocking_items()
+    if not blockers:
+        return None
+    severity_rank = {"critical": 0, "high": 1, "medium": 2, "low": 3}
+    blockers.sort(key=lambda item: (severity_rank.get(item.severity.lower(), 4), item.created_at, item.item_id))
+    return _UNCERTAINTY_KIND_TO_WORKSTREAM.get(blockers[0].kind.value)
+
+
+def _workstream_schedule_key(workstream: WorkstreamRecord, ledger: UncertaintyLedger) -> tuple[int, int, int, str, str]:
+    bottleneck_kind = _active_bottleneck_kind(ledger)
+    bottleneck_rank = 0 if bottleneck_kind is not None and workstream.kind == bottleneck_kind else 1
+    status_rank = 0 if workstream.status == WorkstreamStatus.REVISION else 1
+    kind_rank = _BOTTLENECK_KIND_ORDER.get(workstream.kind, 99)
+    return (bottleneck_rank, status_rank, kind_rank, workstream.created_at, workstream.workstream_id)
+
+
+def _normalized_blockers(values: list[Any]) -> tuple[str, ...]:
+    normalized: list[str] = []
+    for value in values:
+        text = str(value).strip()
+        if not text:
+            continue
+        if "] " in text and text.startswith("["):
+            text = text.split("] ", 1)[1].strip()
+        normalized.append(text)
+    return tuple(sorted(set(normalized)))
+
+
+def _run_blocker_signature(run: dict[str, Any]) -> tuple[str, ...]:
+    blockers = run.get("blockers", [])
+    if not isinstance(blockers, list):
+        blockers = [blockers]
+    return _normalized_blockers(blockers)
+
+
+def _consecutive_stalled_run_count(workstream: WorkstreamRecord) -> int:
+    runs = workstream.metadata.get("runner_runs", [])
+    if not isinstance(runs, list) or not runs:
+        return 0
+    latest = runs[-1] if isinstance(runs[-1], dict) else {}
+    latest_signature = _run_blocker_signature(latest)
+    if not latest_signature:
+        return 0
+    count = 0
+    for raw_run in reversed(runs):
+        run = raw_run if isinstance(raw_run, dict) else {}
+        status = str(run.get("workstream_status") or run.get("status") or "").strip().lower()
+        if status not in {"revision", "escalated", "failed", "blocked"} and not run.get("blockers"):
+            break
+        if _run_blocker_signature(run) != latest_signature:
+            break
+        count += 1
+    return count
+
+
+def should_freeze_workstream(workstream: WorkstreamRecord, *, stalled_run_threshold: int = 2) -> bool:
+    if stalled_run_threshold <= 0:
+        return False
+    if workstream.status != WorkstreamStatus.REVISION:
+        return False
+    return _consecutive_stalled_run_count(workstream) >= stalled_run_threshold
+
+
+def freeze_workstream(
+    project_dir: Path,
+    workstream_id: str,
+    *,
+    reason: str,
+    loop_id: str = "",
+) -> dict[str, Any]:
+    project_dir = Path(project_dir)
+    paths = comath_paths(project_dir)
+    state = load_project_state(project_dir)
+    workstream = state.get_workstream(workstream_id)
+    if workstream is None:
+        raise KeyError(f"Unknown workstream: {workstream_id}")
+
+    freeze_dir = paths.workstream_dir(workstream_id) / "freeze_package"
+    freeze_dir.mkdir(parents=True, exist_ok=True)
+    package = {
+        "generated_at": utc_now_iso(),
+        "loop_id": loop_id,
+        "workstream_id": workstream_id,
+        "reason": reason,
+        "goal": workstream.goal,
+        "status_before_freeze": workstream.status.value,
+        "blockers": list(workstream.blockers),
+        "run_dirs": list(workstream.run_dirs),
+        "artifact_paths": list(workstream.artifact_paths),
+        "latest_runner": workstream.metadata.get("latest_runner", {}),
+        "stalled_run_count": _consecutive_stalled_run_count(workstream),
+    }
+    write_json(freeze_dir / "freeze.json", package)
+    write_text(
+        freeze_dir / "summary.md",
+        "\n".join(
+            [
+                f"# Freeze Package: {workstream_id}",
+                "",
+                f"- Reason: {reason}",
+                f"- Previous status: `{workstream.status.value}`",
+                f"- Stalled run count: `{package['stalled_run_count']}`",
+                "",
+                "## Blockers",
+                "",
+                *([f"- {blocker}" for blocker in workstream.blockers] or ["- No blockers recorded."]),
+                "",
+            ]
+        ),
+    )
+
+    workstream.mark_status(WorkstreamStatus.FROZEN, blocker=f"[scheduler] Frozen: {reason}")
+    workstream.metadata["freeze_package"] = {
+        "path": str(freeze_dir),
+        "reason": reason,
+        "loop_id": loop_id,
+        "generated_at": package["generated_at"],
+    }
+    state.upsert_workstream(workstream)
+    if all(item.status in {WorkstreamStatus.APPROVED, WorkstreamStatus.NEEDS_REVIEW, WorkstreamStatus.FROZEN} for item in state.workstreams):
+        state.status = ProjectStatus.FROZEN
+    state.updated_at = utc_now_iso()
+    save_project_state(project_dir, state)
+    write_json(paths.workstream_dir(workstream_id) / "status.json", workstream.to_dict())
+
+    ledger = load_uncertainty_ledger(paths.uncertainty_ledger)
+    route = ledger.add_failed_route(
+        route_id=f"{workstream_id}-frozen-{slugify(package['generated_at'])}",
+        summary=workstream.goal,
+        failure_reason=reason,
+        owner_workstream_id=workstream_id,
+        metadata={"loop_id": loop_id, "freeze_package": str(freeze_dir)},
+    )
+    save_uncertainty_ledger(paths.uncertainty_ledger, ledger)
+    append_failed_route_jsonl(paths.failed_routes, route)
+    append_jsonl(
+        paths.messages,
+        {
+            "ts": utc_now_iso(),
+            "type": "workstream_frozen",
+            "workstream_id": workstream_id,
+            "reason": reason,
+            "loop_id": loop_id,
+            "freeze_package": str(freeze_dir),
+        },
+    )
+    record_event(
+        project_dir,
+        stage="comath",
+        event="workstream_frozen",
+        details={"workstream_id": workstream_id, "reason": reason, "loop_id": loop_id},
+    )
+    render_project_dashboard(project_dir, ledger=ledger)
+    return {"workstream": workstream.to_dict(), "freeze_package": package, "freeze_dir": str(freeze_dir)}
+
+
+def _freeze_stalled_workstreams(
+    project_dir: Path,
+    *,
+    loop_id: str,
+    stalled_run_threshold: int,
+) -> list[dict[str, Any]]:
+    state = load_project_state(project_dir)
+    frozen: list[dict[str, Any]] = []
+    for workstream in list(state.workstreams):
+        if should_freeze_workstream(workstream, stalled_run_threshold=stalled_run_threshold):
+            frozen.append(
+                freeze_workstream(
+                    project_dir,
+                    workstream.workstream_id,
+                    reason=f"Repeated non-decreasing blockers across {stalled_run_threshold} scheduler runs.",
+                    loop_id=loop_id,
+                )
+            )
+    return frozen
+
+
+def _loop_report_dir(project_dir: Path, run_name: str | None) -> tuple[str, Path]:
+    loop_id = slugify(run_name or f"loop-{utc_now_iso()}")
+    return loop_id, comath_paths(project_dir).root / "loop_runs" / loop_id
+
+
+def run_comath_loop(
+    project_dir: Path,
+    *,
+    max_workstreams: int = 1,
+    time_budget_seconds: int = 300,
+    executor: Any | None = None,
+    executor_name: str | None = None,
+    executor_options: dict[str, Any] | None = None,
+    per_workstream_options: dict[str, dict[str, Any]] | None = None,
+    repo_root: Path | None = None,
+    freeze_stalled_after: int = 2,
+    run_name: str | None = None,
+) -> dict[str, Any]:
+    project_dir = Path(project_dir)
+    initialize_comath_project(project_dir)
+    loop_id, report_dir = _loop_report_dir(project_dir, run_name)
+    report_dir.mkdir(parents=True, exist_ok=True)
+    started_at = utc_now_iso()
+    deadline = time.monotonic() + max(0, time_budget_seconds)
+    executed: list[dict[str, Any]] = []
+    frozen: list[dict[str, Any]] = []
+    stop_reason = "max_workstreams_reached"
+
+    state = load_project_state(project_dir)
+    state.status = ProjectStatus.WORKSTREAMS_RUNNING
+    state.updated_at = utc_now_iso()
+    save_project_state(project_dir, state)
+    render_project_dashboard(project_dir)
+
+    while len(executed) < max_workstreams:
+        frozen.extend(_freeze_stalled_workstreams(project_dir, loop_id=loop_id, stalled_run_threshold=freeze_stalled_after))
+        if time_budget_seconds > 0 and time.monotonic() >= deadline:
+            stop_reason = "time_budget_exhausted"
+            break
+        candidates = select_next_workstreams(project_dir, limit=1)
+        if not candidates:
+            stop_reason = "no_ready_workstreams"
+            break
+        workstream = candidates[0]
+        options = dict(executor_options or {})
+        options.update((per_workstream_options or {}).get(workstream.workstream_id, {}))
+        result = execute_workstream(
+            project_dir,
+            workstream.workstream_id,
+            executor=executor,
+            executor_name=executor_name,
+            options=options,
+            repo_root=repo_root,
+        )
+        executed.append(result)
+        render_project_dashboard(project_dir)
+
+    if len(executed) >= max_workstreams:
+        stop_reason = "max_workstreams_reached"
+
+    state = load_project_state(project_dir)
+    open_candidates = select_next_workstreams(project_dir)
+    if open_candidates:
+        state.status = ProjectStatus.WORKSTREAMS_RUNNING
+    elif state.workstreams and all(item.status == WorkstreamStatus.FROZEN for item in state.workstreams):
+        state.status = ProjectStatus.FROZEN
+    elif any(item.status == WorkstreamStatus.NEEDS_REVIEW for item in state.workstreams):
+        state.status = ProjectStatus.REVIEW_GATE
+    elif any(item.status == WorkstreamStatus.APPROVED for item in state.workstreams):
+        state.status = ProjectStatus.PARTIAL
+    state.updated_at = utc_now_iso()
+    save_project_state(project_dir, state)
+
+    report = {
+        "project_dir": str(project_dir),
+        "loop_id": loop_id,
+        "started_at": started_at,
+        "completed_at": utc_now_iso(),
+        "max_workstreams": max_workstreams,
+        "time_budget_seconds": time_budget_seconds,
+        "stop_reason": stop_reason,
+        "executed_count": len(executed),
+        "frozen_count": len(frozen),
+        "executed": executed,
+        "frozen": frozen,
+        "state": state.to_dict(),
+        "dashboard_path": str(comath_paths(project_dir).dashboard),
+    }
+    write_json(report_dir / "report.json", report)
+    write_text(
+        report_dir / "summary.md",
+        "\n".join(
+            [
+                f"# CoMath Loop Run: {loop_id}",
+                "",
+                f"- Stop reason: `{stop_reason}`",
+                f"- Executed workstreams: `{len(executed)}`",
+                f"- Frozen workstreams: `{len(frozen)}`",
+                f"- Dashboard: `{comath_paths(project_dir).dashboard}`",
+                "",
+            ]
+        ),
+    )
+    append_jsonl(
+        comath_paths(project_dir).messages,
+        {
+            "ts": utc_now_iso(),
+            "type": "comath_loop_completed",
+            "loop_id": loop_id,
+            "stop_reason": stop_reason,
+            "executed_count": len(executed),
+            "frozen_count": len(frozen),
+            "report_path": str(report_dir / "report.json"),
+        },
+    )
+    render_project_dashboard(project_dir)
+    return report
 
 
 def execute_workstream(
@@ -853,6 +1176,32 @@ class CoMathCoordinator:
 
     def select_next_workstreams(self, *, limit: int | None = None) -> list[WorkstreamRecord]:
         return select_next_workstreams(self.project_dir, limit=limit)
+
+    def run_loop(
+        self,
+        *,
+        max_workstreams: int = 1,
+        time_budget_seconds: int = 300,
+        executor: Any | None = None,
+        executor_name: str | None = None,
+        executor_options: dict[str, Any] | None = None,
+        per_workstream_options: dict[str, dict[str, Any]] | None = None,
+        repo_root: Path | None = None,
+        freeze_stalled_after: int = 2,
+        run_name: str | None = None,
+    ) -> dict[str, Any]:
+        return run_comath_loop(
+            self.project_dir,
+            max_workstreams=max_workstreams,
+            time_budget_seconds=time_budget_seconds,
+            executor=executor,
+            executor_name=executor_name,
+            executor_options=executor_options,
+            per_workstream_options=per_workstream_options,
+            repo_root=repo_root,
+            freeze_stalled_after=freeze_stalled_after,
+            run_name=run_name,
+        )
 
     def execute_workstream(
         self,
