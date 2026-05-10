@@ -10,6 +10,7 @@ from ara_math.banking import sync_local_problem_banks
 from ara_math.campaign_loop import CampaignLoopRunner
 from ara_math.coordinator import (
     add_workstream as comath_add_workstream,
+    bootstrap_ces75_erdos866_workstreams,
     comath_paths,
     init_comath_project as comath_init_project,
     project_dashboard as comath_project_dashboard,
@@ -293,6 +294,16 @@ def build_parser() -> argparse.ArgumentParser:
     run_comath_loop.add_argument("--freeze-stalled-after", type=int, default=2)
     run_comath_loop.add_argument("--allow-network", action="store_true")
     run_comath_loop.add_argument("--search", action="store_true")
+
+    bootstrap_ces75 = subparsers.add_parser(
+        "bootstrap-ces75-comath",
+        help="Initialize the active CES75/Erdos866 project with CoMath workstream templates.",
+    )
+    bootstrap_ces75.add_argument(
+        "--project",
+        type=Path,
+        default=_projects_root() / "erdos-866-ai-continuation-20260505",
+    )
 
     plan = subparsers.add_parser("plan", help="Generate a proof plan for a project.")
     plan.add_argument("--project", type=Path, required=True)
@@ -831,6 +842,11 @@ def main(argv: list[str] | None = None) -> int:
             freeze_stalled_after=args.freeze_stalled_after,
             run_name=args.run_name,
         )
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "bootstrap-ces75-comath":
+        payload = bootstrap_ces75_erdos866_workstreams(args.project, repo_root=_repo_root())
         _print(payload, args.json)
         return 0
 

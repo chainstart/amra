@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from ara_math.artifact_graph import ArtifactGraph, load_artifact_graph, save_artifact_graph
+from ara_math.artifact_graph import ArtifactGraph, DependencyRelation, load_artifact_graph, save_artifact_graph
 from ara_math.review_gate import (
     DEFAULT_REVIEW_KINDS,
     ReviewGateReport,
@@ -20,6 +20,8 @@ from ara_math.uncertainty import (
     load_failed_routes_jsonl,
     load_uncertainty_ledger,
     save_uncertainty_ledger,
+    SourceDebtStatus,
+    UncertaintyKind,
 )
 from ara_math.workspace import (
     append_jsonl,
@@ -31,6 +33,9 @@ from ara_math.workspace import (
     write_text,
 )
 from ara_math.workstreams import (
+    ClaimRecord,
+    ClaimStatus,
+    DependencyStatus,
     ProjectState,
     ProjectStatus,
     ReviewDecision,
@@ -585,21 +590,30 @@ _UNCERTAINTY_KIND_TO_WORKSTREAM = {
 }
 
 
-def _active_bottleneck_kind(ledger: UncertaintyLedger) -> WorkstreamKind | None:
+def _active_bottleneck_item(ledger: UncertaintyLedger) -> UncertaintyItem | None:
     blockers = ledger.blocking_items()
     if not blockers:
         return None
     severity_rank = {"critical": 0, "high": 1, "medium": 2, "low": 3}
     blockers.sort(key=lambda item: (severity_rank.get(item.severity.lower(), 4), item.created_at, item.item_id))
-    return _UNCERTAINTY_KIND_TO_WORKSTREAM.get(blockers[0].kind.value)
+    return blockers[0]
 
 
-def _workstream_schedule_key(workstream: WorkstreamRecord, ledger: UncertaintyLedger) -> tuple[int, int, int, str, str]:
+def _active_bottleneck_kind(ledger: UncertaintyLedger) -> WorkstreamKind | None:
+    blocker = _active_bottleneck_item(ledger)
+    if blocker is None:
+        return None
+    return _UNCERTAINTY_KIND_TO_WORKSTREAM.get(blocker.kind.value)
+
+
+def _workstream_schedule_key(workstream: WorkstreamRecord, ledger: UncertaintyLedger) -> tuple[int, int, int, int, str, str]:
+    bottleneck = _active_bottleneck_item(ledger)
     bottleneck_kind = _active_bottleneck_kind(ledger)
+    owner_rank = 0 if bottleneck is not None and bottleneck.owner_workstream_id == workstream.workstream_id else 1
     bottleneck_rank = 0 if bottleneck_kind is not None and workstream.kind == bottleneck_kind else 1
     status_rank = 0 if workstream.status == WorkstreamStatus.REVISION else 1
     kind_rank = _BOTTLENECK_KIND_ORDER.get(workstream.kind, 99)
-    return (bottleneck_rank, status_rank, kind_rank, workstream.created_at, workstream.workstream_id)
+    return (owner_rank, bottleneck_rank, status_rank, kind_rank, workstream.created_at, workstream.workstream_id)
 
 
 def _normalized_blockers(values: list[Any]) -> tuple[str, ...]:
@@ -922,6 +936,330 @@ def execute_next_workstreams(
     )
 
 
+CES75_ERDOS866_PROJECT = "erdos-866-ai-continuation-20260505"
+CES75_DENSE_BLOCKER_ID = "source-dense-central-block-source-debt"
+
+
+def _repo_root() -> Path:
+    return Path(__file__).resolve().parents[2]
+
+
+def _default_ces75_project_dir(repo_root: Path | None = None) -> Path:
+    root = repo_root or _repo_root()
+    return root / "projects" / CES75_ERDOS866_PROJECT
+
+
+def _upsert_claim_record(state: ProjectState, claim: ClaimRecord) -> None:
+    for index, existing in enumerate(state.claims):
+        if existing.claim_id == claim.claim_id:
+            if not claim.created_at:
+                claim.created_at = existing.created_at
+            state.claims[index] = claim
+            state.updated_at = utc_now_iso()
+            return
+    state.add_claim(claim)
+
+
+def _write_workstream_template(paths: CoMathPaths, workstream: WorkstreamRecord, detail_lines: list[str]) -> None:
+    workstream_dir = paths.workstream_dir(workstream.workstream_id)
+    report_path = workstream_dir / "report.md"
+    if report_path.exists() and "Bootstrap Template" not in report_path.read_text(encoding="utf-8"):
+        return
+    write_text(
+        report_path,
+        "\n".join(
+            [
+                f"# Bootstrap Template: {workstream.workstream_id}",
+                "",
+                f"- Kind: `{workstream.kind.value}`",
+                f"- Goal: {workstream.goal}",
+                "",
+                "## Initial Focus",
+                "",
+                *detail_lines,
+                "",
+            ]
+        ),
+    )
+
+
+def bootstrap_ces75_erdos866_workstreams(
+    project_dir: Path | None = None,
+    *,
+    repo_root: Path | None = None,
+) -> dict[str, Any]:
+    """Initialize the active CES75/Erdos866 project with safe CoMath workstreams.
+
+    This function intentionally writes only under the project's `comath/`
+    directory and leaves the existing Lean workspace untouched.
+    """
+
+    repo_root = repo_root or _repo_root()
+    project_dir = Path(project_dir) if project_dir is not None else _default_ces75_project_dir(repo_root)
+    original_goal = (
+        "Close Erdos 866 through the CES75 Theorem 4 six-witness source route, "
+        "with dense central block source debt explicit."
+    )
+    initialize_comath_project(project_dir, project_name="CES75 / Erdos 866 CoMath", original_goal=original_goal)
+    paths = comath_paths(project_dir)
+
+    context_paths = [
+        str(repo_root / "artifacts" / "design" / "ai_comath_migration_plan_20260510.md"),
+        str(repo_root / "artifacts" / "literature" / "ces75" / "theorem4_formalization_plan_20260510.md"),
+        str(repo_root / "artifacts" / "literature" / "ces75" / "theorem4_source_corrections_20260510.md"),
+        str(project_dir / "formal" / "MathProject" / "MainClaim.lean"),
+    ]
+    workstreams = [
+        WorkstreamRecord(
+            workstream_id="source-dense-central-block",
+            kind=WorkstreamKind.SOURCE,
+            goal="Prove or source-certify the dense central block theorem from the CES75 hypotheses.",
+            claim_ids=["dense-central-block-source"],
+            blockers=["Dense central block source theorem is not source-certified."],
+            metadata={
+                "executor": "source_literature",
+                "bottleneck": "source_debt",
+                "context_paths": context_paths,
+                "source_target": "CES75 central even count and dyadic subinterval extraction",
+            },
+        ),
+        WorkstreamRecord(
+            workstream_id="lean-current-final-window",
+            kind=WorkstreamKind.LEAN,
+            goal="Preserve and clean the existing final-window, dyadic, and six-witness Lean chain.",
+            claim_ids=["lean-final-window-chain"],
+            blockers=["Lean chain must remain aligned with the unapproved CES75 source theorem."],
+            metadata={
+                "executor": "lean_formalization",
+                "workspace": str(project_dir / "formal"),
+                "target_file": "MathProject/MainClaim.lean",
+                "target_theorem": "erdos866_g6_sqrt_order_of_CES75_theorem4_integer_source",
+                "context_paths": context_paths,
+            },
+        ),
+        WorkstreamRecord(
+            workstream_id="source-audit-ces75-theorem4",
+            kind=WorkstreamKind.SOURCE,
+            goal="Align CES75 Theorem 4 source text, corrected OCR, and the Lean source statement exactly.",
+            claim_ids=["ces75-theorem4-source-alignment"],
+            blockers=["CES75 Theorem 4 source text and Lean statement alignment is pending."],
+            metadata={
+                "executor": "source_literature",
+                "bottleneck": "source_alignment",
+                "context_paths": context_paths,
+                "source_target": "Choi--Erdos--Szemeredi Theorem 4, pp. 41-42",
+            },
+        ),
+        WorkstreamRecord(
+            workstream_id="global-review",
+            kind=WorkstreamKind.REVIEW,
+            goal="Verify that the dependency graph closes the original Erdos 866 statement without hiding source debt.",
+            dependencies=[
+                "source-dense-central-block",
+                "lean-current-final-window",
+                "source-audit-ces75-theorem4",
+            ],
+            claim_ids=["global-erdos866-closure"],
+            blockers=["Global closure is blocked until source and Lean workstreams are approved."],
+            metadata={"reviewers": ["logic", "source", "lean", "global"], "context_paths": context_paths},
+        ),
+    ]
+    for workstream in workstreams:
+        add_workstream(project_dir, workstream)
+
+    state = load_project_state(project_dir)
+    state.top_blocker_id = CES75_DENSE_BLOCKER_ID
+    state.metadata["bootstrap_template"] = {
+        "name": "ces75_erdos866",
+        "generated_at": utc_now_iso(),
+        "source": "artifacts/design/ai_comath_migration_plan_20260510.md",
+    }
+    for claim in [
+        ClaimRecord(
+            claim_id="dense-central-block-source",
+            title="Dense central block source theorem",
+            statement="CES75 source route must prove or cite the central even count and dense dyadic subinterval block.",
+            status=ClaimStatus.HYPOTHESIS,
+            owner_workstream_id="source-dense-central-block",
+            source_status="external_theorem_needed",
+        ),
+        ClaimRecord(
+            claim_id="lean-final-window-chain",
+            title="Current final-window Lean chain",
+            statement="Existing final-window, dyadic, and six-witness Lean chain in MathProject/MainClaim.lean.",
+            status=ClaimStatus.LEAN_STUBBED,
+            owner_workstream_id="lean-current-final-window",
+            source_status="source_formalization_needed",
+        ),
+        ClaimRecord(
+            claim_id="ces75-theorem4-source-alignment",
+            title="CES75 Theorem 4 source alignment",
+            statement="Theorem 4 source text, corrected OCR, and Lean source statement must match.",
+            status=ClaimStatus.HYPOTHESIS,
+            owner_workstream_id="source-audit-ces75-theorem4",
+            source_status="source_formalization_needed",
+        ),
+        ClaimRecord(
+            claim_id="global-erdos866-closure",
+            title="Global Erdos 866 closure",
+            statement="The dependency graph closes the original Erdos 866 statement without stronger hidden assumptions.",
+            status=ClaimStatus.ROUTE_CANDIDATE,
+            owner_workstream_id="global-review",
+            dependency_ids=[
+                "dense-central-block-source",
+                "lean-final-window-chain",
+                "ces75-theorem4-source-alignment",
+            ],
+        ),
+    ]:
+        _upsert_claim_record(state, claim)
+    save_project_state(project_dir, state)
+
+    graph = load_artifact_graph(paths.artifact_graph)
+    graph.record_claim(
+        claim_id="dense-central-block-source",
+        title="Dense central block source theorem",
+        statement="Source-certify the central even count and dyadic subinterval extraction used by CES75.",
+        status=ClaimStatus.HYPOTHESIS,
+        workstream_id="source-dense-central-block",
+        metadata={"source_debt_status": SourceDebtStatus.EXTERNAL_THEOREM_NEEDED.value},
+    )
+    graph.record_claim(
+        claim_id="lean-final-window-chain",
+        title="Current final-window Lean chain",
+        statement="Preserve the already engineered final-window/dyadic/six-witness Lean chain.",
+        status=ClaimStatus.LEAN_STUBBED,
+        workstream_id="lean-current-final-window",
+    )
+    graph.record_claim(
+        claim_id="ces75-theorem4-source-alignment",
+        title="CES75 Theorem 4 source alignment",
+        statement="Align source text, OCR corrections, and Lean statement exactly.",
+        status=ClaimStatus.HYPOTHESIS,
+        workstream_id="source-audit-ces75-theorem4",
+    )
+    graph.record_claim(
+        claim_id="global-erdos866-closure",
+        title="Global Erdos 866 closure",
+        statement="Close the original theorem through approved source and Lean dependencies.",
+        status=ClaimStatus.ROUTE_CANDIDATE,
+        workstream_id="global-review",
+    )
+    graph.record_lean_declaration(
+        node_id="lean-final-window-mainclaim",
+        lean_name="erdos866_g6_sqrt_order_of_CES75_theorem4_integer_source",
+        path=str(project_dir / "formal" / "MathProject" / "MainClaim.lean"),
+        claim_id="lean-final-window-chain",
+        workstream_id="lean-current-final-window",
+        metadata={"do_not_mutate": True},
+    )
+    graph.record_source(
+        node_id="ces75-theorem4-formalization-plan",
+        label="CES75 Theorem 4 formalization plan",
+        path=str(repo_root / "artifacts" / "literature" / "ces75" / "theorem4_formalization_plan_20260510.md"),
+        metadata={"workstream_id": "source-audit-ces75-theorem4"},
+    )
+    graph.record_source(
+        node_id="ces75-theorem4-source-corrections",
+        label="CES75 Theorem 4 source corrections",
+        path=str(repo_root / "artifacts" / "literature" / "ces75" / "theorem4_source_corrections_20260510.md"),
+        metadata={"workstream_id": "source-audit-ces75-theorem4"},
+    )
+    for source_id, target_id, status, rationale in [
+        ("dense-central-block-source", "original-theorem", DependencyStatus.PENDING, "Key source blocker for Erdos 866 closure."),
+        ("lean-final-window-chain", "dense-central-block-source", DependencyStatus.PENDING, "Lean chain must not hide dense-block source debt."),
+        ("ces75-theorem4-source-alignment", "dense-central-block-source", DependencyStatus.PENDING, "Theorem 4 alignment controls the dense block source claim."),
+        ("global-erdos866-closure", "lean-final-window-chain", DependencyStatus.PENDING, "Global review needs Lean chain status."),
+        ("global-erdos866-closure", "ces75-theorem4-source-alignment", DependencyStatus.PENDING, "Global review needs source statement alignment."),
+        ("global-erdos866-closure", "original-theorem", DependencyStatus.PENDING, "Global closure must connect to original theorem."),
+    ]:
+        graph.add_edge(
+            source_id=source_id,
+            target_id=target_id,
+            relation=DependencyRelation.DEPENDS_ON,
+            status=status,
+            rationale=rationale,
+        )
+    save_artifact_graph(paths.artifact_graph, graph)
+
+    ledger = load_uncertainty_ledger(paths.uncertainty_ledger)
+    ledger.upsert_item(
+        UncertaintyItem(
+            item_id=CES75_DENSE_BLOCKER_ID,
+            kind=UncertaintyKind.SOURCE_DEBT,
+            title="Dense central block theorem is the current source-level blocker",
+            description=(
+                "The CES75 route needs the central even count and dense dyadic subinterval "
+                "source theorem proved or source-certified before the Lean chain can be promoted."
+            ),
+            owner_workstream_id="source-dense-central-block",
+            claim_id="dense-central-block-source",
+            source_debt_status=SourceDebtStatus.EXTERNAL_THEOREM_NEEDED,
+            severity="critical",
+            metadata={"dashboard_priority": True},
+        )
+    )
+    ledger.upsert_item(
+        UncertaintyItem(
+            item_id="ces75-theorem4-source-audit",
+            kind=UncertaintyKind.SOURCE_DEBT,
+            title="CES75 Theorem 4 source text must be aligned with the Lean statement",
+            description="Corrected OCR and page-image interpretation must match the Lean source statement exactly.",
+            owner_workstream_id="source-audit-ces75-theorem4",
+            claim_id="ces75-theorem4-source-alignment",
+            source_debt_status=SourceDebtStatus.SOURCE_FORMALIZATION_NEEDED,
+            severity="high",
+        )
+    )
+    save_uncertainty_ledger(paths.uncertainty_ledger, ledger)
+
+    templates = {
+        "source-dense-central-block": [
+            "- Certify the central even count line and dyadic subinterval extraction.",
+            "- Decide whether the current Lean dense interval theorem is a source theorem, a formalization target, or a stronger local substitute.",
+        ],
+        "lean-current-final-window": [
+            "- Treat `formal/MathProject/MainClaim.lean` as preserved state.",
+            "- Do not rewrite the Lean proof file during bootstrap.",
+        ],
+        "source-audit-ces75-theorem4": [
+            "- Compare CES75 Theorem 4 source text, source corrections, and Lean statement names.",
+            "- Record any hidden strengthening before review.",
+        ],
+        "global-review": [
+            "- Check that every dependency path reaches `original-theorem` through approved source and Lean workstreams.",
+            "- Reject closure if dense central block source debt remains open.",
+        ],
+    }
+    state = load_project_state(project_dir)
+    for workstream in state.workstreams:
+        if workstream.workstream_id in templates:
+            _write_workstream_template(paths, workstream, templates[workstream.workstream_id])
+
+    render_project_dashboard(project_dir, ledger=ledger)
+    append_jsonl(
+        paths.messages,
+        {
+            "ts": utc_now_iso(),
+            "type": "ces75_erdos866_bootstrap",
+            "workstream_ids": [workstream.workstream_id for workstream in workstreams],
+            "top_blocker_id": CES75_DENSE_BLOCKER_ID,
+        },
+    )
+    record_event(
+        project_dir,
+        stage="comath",
+        event="ces75_erdos866_bootstrap",
+        details={"top_blocker_id": CES75_DENSE_BLOCKER_ID},
+    )
+    return {
+        "project_dir": str(project_dir),
+        "dashboard_path": str(paths.dashboard),
+        "top_blocker_id": CES75_DENSE_BLOCKER_ID,
+        "workstreams": [workstream.to_dict() for workstream in load_project_state(project_dir).workstreams],
+    }
+
+
 def _md_cell(value: Any) -> str:
     text = str(value).replace("\n", " ").strip()
     text = text.replace("|", "\\|")
@@ -1070,7 +1408,16 @@ def render_project_dashboard(
                 + " |"
             )
 
-    lines.extend(["", "## Phase 1 Notes", "", "- LLM workstream execution and review-gate enforcement are not integrated yet.", ""])
+    lines.extend(
+        [
+            "",
+            "## CoMath Notes",
+            "",
+            "- Local runner wrappers, scheduler state, and review-gate records are persisted under `comath/`.",
+            "- External LLM execution is only used when a selected runner is explicitly configured to use it.",
+            "",
+        ]
+    )
     dashboard = "\n".join(lines)
     if write:
         write_text(paths.dashboard, dashboard)
@@ -1202,6 +1549,9 @@ class CoMathCoordinator:
             freeze_stalled_after=freeze_stalled_after,
             run_name=run_name,
         )
+
+    def bootstrap_ces75_erdos866(self, *, repo_root: Path | None = None) -> dict[str, Any]:
+        return bootstrap_ces75_erdos866_workstreams(self.project_dir, repo_root=repo_root)
 
     def execute_workstream(
         self,

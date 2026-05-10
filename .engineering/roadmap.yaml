@@ -334,12 +334,12 @@
               "timeout_seconds": 600
             }
           ],
-          "status": "pending",
+          "status": "passed",
           "generated_by": "engineering-harness-continuation",
           "generated_at": "2026-05-10T08:24:26Z"
         }
       ],
-      "status": "planned",
+      "status": "completed",
       "generated_by": "engineering-harness-continuation",
       "generated_at": "2026-05-10T08:24:26Z"
     }
@@ -392,9 +392,11 @@
                 "required": true,
                 "timeout_seconds": 600
               }
-            ]
+            ],
+            "status": "passed"
           }
-        ]
+        ],
+        "status": "completed"
       },
       {
         "id": "comath-cli",
@@ -437,9 +439,11 @@
                 "required": true,
                 "timeout_seconds": 600
               }
-            ]
+            ],
+            "status": "passed"
           }
-        ]
+        ],
+        "status": "completed"
       },
       {
         "id": "comath-review-gate",
@@ -483,9 +487,11 @@
                 "required": true,
                 "timeout_seconds": 600
               }
-            ]
+            ],
+            "status": "passed"
           }
-        ]
+        ],
+        "status": "completed"
       },
       {
         "id": "comath-runner-wrappers",
@@ -530,9 +536,11 @@
                 "required": true,
                 "timeout_seconds": 900
               }
-            ]
+            ],
+            "status": "passed"
           }
-        ]
+        ],
+        "status": "completed"
       },
       {
         "id": "comath-scheduler-loop",
@@ -577,11 +585,12 @@
                 "timeout_seconds": 900
               }
             ],
-            "status": "pending",
+            "status": "passed",
             "generated_by": "engineering-harness-continuation",
             "generated_at": "2026-05-10T08:19:26Z"
           }
-        ]
+        ],
+        "status": "completed"
       },
       {
         "id": "comath-ces75-template",
@@ -625,11 +634,12 @@
                 "timeout_seconds": 600
               }
             ],
-            "status": "pending",
+            "status": "passed",
             "generated_by": "engineering-harness-continuation",
             "generated_at": "2026-05-10T08:24:26Z"
           }
-        ]
+        ],
+        "status": "completed"
       }
     ]
   },

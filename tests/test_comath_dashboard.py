@@ -47,7 +47,7 @@ def test_dashboard_renders_project_status_workstreams_and_blockers(tmp_path: Pat
     assert "Prove every toy integer is balanced." in dashboard
     assert "`source-gap` (source_debt; source debt: `external_theorem_needed`)" in dashboard
     assert "| source-main | source | planned | Source-certify the dense central block theorem. | 1 |" in dashboard
-    assert "LLM workstream execution and review-gate enforcement are not integrated yet" in dashboard
+    assert "Local runner wrappers, scheduler state, and review-gate records are persisted" in dashboard
     assert (project_dir / "comath" / "project_dashboard.md").read_text(encoding="utf-8") == dashboard
 
 
