@@ -8,6 +8,14 @@ from typing import Any
 
 from ara_math.banking import sync_local_problem_banks
 from ara_math.campaign_loop import CampaignLoopRunner
+from ara_math.comath_capabilities import (
+    create_computation_certificate,
+    install_specialist_role_contracts,
+    refine_intake_project,
+    run_comath_evaluation,
+    update_theory_memory,
+    verify_computation_certificate,
+)
 from ara_math.coordinator import (
     add_workstream as comath_add_workstream,
     bootstrap_ces75_erdos866_workstreams,
@@ -235,6 +243,24 @@ def build_parser() -> argparse.ArgumentParser:
     init_comath.add_argument("--project-name", default=None)
     init_comath.add_argument("--original-goal", "--goal", dest="original_goal", default=None)
 
+    intake_comath = subparsers.add_parser(
+        "intake-comath-project",
+        help="Refine a loose mathematical goal into CoMath workstreams, claims, uncertainty items, and specialist roles.",
+    )
+    intake_comath.add_argument("--project", type=Path, required=True)
+    intake_comath.add_argument("--project-name", default=None)
+    goal_group = intake_comath.add_mutually_exclusive_group(required=False)
+    goal_group.add_argument("--goal", default="")
+    goal_group.add_argument("--goal-file", type=Path, default=None)
+    intake_comath.add_argument("--domain", default="")
+    intake_comath.add_argument("--context-file", type=Path, action="append", default=[])
+
+    install_specialists = subparsers.add_parser(
+        "install-comath-specialists",
+        help="Write local CoMath specialist role contracts for the project.",
+    )
+    install_specialists.add_argument("--project", type=Path, required=True)
+
     add_comath_workstream = subparsers.add_parser(
         "add-workstream",
         help="Add or update a local CoMath workstream record.",
@@ -307,6 +333,52 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=_projects_root() / "erdos-866-ai-continuation-20260505",
     )
+
+    record_compute = subparsers.add_parser(
+        "record-computation-certificate",
+        help="Run or record a reproducible CoMath computation manifest and certificate.",
+    )
+    record_compute.add_argument("--project", type=Path, required=True)
+    record_compute.add_argument("--workstream", "--workstream-id", dest="workstream_id", required=True)
+    record_compute.add_argument(
+        "--command",
+        dest="compute_command",
+        required=True,
+        help="Command string parsed with shell-like quoting but run without a shell.",
+    )
+    record_compute.add_argument("--cwd", type=Path, default=None)
+    record_compute.add_argument("--input", dest="input_paths", type=Path, action="append", default=[])
+    record_compute.add_argument("--output", dest="output_paths", type=Path, action="append", default=[])
+    record_compute.add_argument("--seed", default="")
+    record_compute.add_argument("--timeout", type=int, default=120)
+    record_compute.add_argument("--no-run", action="store_true")
+
+    verify_compute = subparsers.add_parser(
+        "verify-computation-certificate",
+        help="Verify a previously recorded CoMath computation manifest.",
+    )
+    verify_compute.add_argument("--project", type=Path, required=True)
+    verify_compute.add_argument("--manifest", type=Path, required=True)
+    verify_compute.add_argument("--rerun", action="store_true")
+    verify_compute.add_argument("--timeout", type=int, default=None)
+
+    theory_memory = subparsers.add_parser(
+        "update-theory-memory",
+        help="Record CoMath theory-building memory: conjectures, reusable lemmas, failed hypotheses, and new directions.",
+    )
+    theory_memory.add_argument("--project", type=Path, required=True)
+    theory_memory.add_argument("--conjecture", default="")
+    theory_memory.add_argument("--lemma", default="")
+    theory_memory.add_argument("--failed-hypothesis", default="")
+    theory_memory.add_argument("--novelty-note", default="")
+    theory_memory.add_argument("--new-direction", default="")
+    theory_memory.add_argument("--owner-workstream", default="theory-building-memory")
+
+    comath_eval = subparsers.add_parser(
+        "run-comath-evaluation",
+        help="Evaluate a CoMath project against the public AI Co-Mathematician architecture capabilities.",
+    )
+    comath_eval.add_argument("--project", type=Path, required=True)
 
     plan = subparsers.add_parser("plan", help="Generate a proof plan for a project.")
     plan.add_argument("--project", type=Path, required=True)
@@ -773,6 +845,23 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
+    if args.command == "intake-comath-project":
+        goal = args.goal_file.read_text(encoding="utf-8").strip() if args.goal_file else args.goal
+        payload = refine_intake_project(
+            args.project,
+            goal=goal,
+            project_name=args.project_name,
+            domain=args.domain,
+            context_files=args.context_file,
+        )
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "install-comath-specialists":
+        payload = install_specialist_role_contracts(args.project)
+        _print(payload, args.json)
+        return 0
+
     if args.command == "add-workstream":
         goal = args.goal if args.goal is not None else args.goal_file.read_text(encoding="utf-8").strip()
         workstream_id = args.workstream_id or _default_workstream_id(args.kind, goal)
@@ -853,6 +942,49 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "bootstrap-ces75-comath":
         payload = bootstrap_ces75_erdos866_workstreams(args.project, repo_root=_repo_root())
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "record-computation-certificate":
+        payload = create_computation_certificate(
+            args.project,
+            workstream_id=args.workstream_id,
+            command=shlex.split(args.compute_command),
+            cwd=args.cwd,
+            input_paths=args.input_paths,
+            output_paths=args.output_paths,
+            seed=args.seed,
+            timeout_seconds=args.timeout,
+            run=not args.no_run,
+        )
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "verify-computation-certificate":
+        payload = verify_computation_certificate(
+            args.project,
+            manifest_path=args.manifest,
+            rerun=args.rerun,
+            timeout_seconds=args.timeout,
+        )
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "update-theory-memory":
+        payload = update_theory_memory(
+            args.project,
+            conjecture=args.conjecture,
+            lemma=args.lemma,
+            failed_hypothesis=args.failed_hypothesis,
+            novelty_note=args.novelty_note,
+            new_direction=args.new_direction,
+            owner_workstream_id=args.owner_workstream,
+        )
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "run-comath-evaluation":
+        payload = run_comath_evaluation(args.project)
         _print(payload, args.json)
         return 0
 

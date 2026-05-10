@@ -45,7 +45,11 @@ Status after the local Phase 5 follow-up:
 
 ## Completion Backlog
 
-The next work should close these gaps in order:
+The completion plan is intentionally broader than the current codebase. It is
+the checklist that should be followed to get as close as possible to the public
+AI Co-Mathematician architecture while staying honest about the limits of a
+local open implementation. Each phase must leave durable files, tests, and
+review-gate behavior behind; otherwise it is not considered implemented.
 
 1. Parallel execution and resource guards. Completed baseline.
    - Add bounded worker pools for independent workstreams.
@@ -53,33 +57,72 @@ The next work should close these gaps in order:
    - Serialize workstreams targeting the same Lean file or workspace write set.
    - Persist a loop manifest showing queued/running/completed workstreams and resource decisions.
 
-2. Intent refinement and project decomposition.
+2. Intent refinement and project decomposition. Implemented local baseline.
    - Add an intake command that turns a loose mathematical goal into a project state, original theorem claim, initial uncertainty items, and candidate workstreams.
+   - Persist `comath/intake_plan.json` and `comath/intake_plan.md`.
+   - Record refined goal, assumptions, context files, generated claims, and generated workstream ids.
    - Keep this local/deterministic first, with optional LLM refinement later.
 
-3. Specialist workstream roles.
+3. Specialist workstream roles. Implemented local baseline.
    - Promote ideation, source audit, computational exploration, Lean repair, global review, and theory-building into explicit role records.
    - Give each role input contracts, output artifact contracts, and review requirements.
+   - Persist `comath/specialist_roles.json` and surface role count in the dashboard.
 
-4. Computational exploration workstream.
+4. Computational exploration workstream. Implemented local baseline.
    - Add reproducible command manifests, seeds, input hashes, output certificate hashes, and rerun verification.
    - Block approval when a computation certificate cannot be reproduced.
+   - Persist manifests and certificates under `comath/computation/<workstream>/`.
+   - Record verified certificates in the artifact graph as `computation_certificate` nodes.
 
-5. Literature/source autonomy.
+5. Literature/source autonomy. Partially implemented.
    - Add iterative query plans, source inventory, theorem statement extraction, assumption matching, and citation confidence scoring.
    - Convert unresolved source assumptions into named uncertainty items automatically.
+   - Current baseline has source workstreams and source-debt gates; the remaining gap is iterative autonomous query planning and confidence scoring.
 
-6. Theory-building memory.
+6. Theory-building memory. Implemented local baseline.
    - Add conjecture graph, reusable lemma inventory, failed-hypothesis suppression, and novelty notes.
    - Surface "new direction" candidates separately from proof-route candidates.
+   - Persist `comath/theory_memory.json` and `comath/theory_memory.md`.
 
-7. Interactive/progressive UI.
+7. Interactive/progressive UI. File-backed baseline implemented; interactive UI pending.
    - Keep Markdown files as the durable substrate.
    - Add a browsable local dashboard only after the file-backed contracts stabilize.
 
-8. Evaluation harness.
+8. Evaluation harness. Implemented local baseline.
    - Add small local benchmark suites for scheduling, source-debt control, Lean-promotion safety, and reproducibility.
    - Do not make Google-level benchmark claims without independent evaluation.
+   - Persist `comath/evaluation_report.json` and `comath/evaluation_report.md`.
+
+9. External model orchestration. Pending by design.
+   - Add pluggable LLM providers for the project coordinator and specialist roles.
+   - Require every LLM-backed specialist to write native artifacts and uncertainty updates, not just chat transcripts.
+   - Preserve local deterministic paths for tests and offline use.
+
+10. Interactive research workbench. Pending by design.
+    - Build a local UI only after the contracts above are stable.
+    - UI must expose progressive disclosure: top-level blocker first, then workstream state, artifacts, reviews, and failed routes.
+
+11. Benchmark-grade evaluation. Pending independent evaluation.
+    - Add benchmark fixtures for source-debt control, theorem-proving safety, reproducibility, and scheduler behavior.
+    - Do not claim FrontierMath-style performance without an independent benchmark run and comparable model budget.
+
+## End-to-End Implementation Recipe
+
+To reproduce the public paper's architecture pattern in this repository, run
+these stages in order for a target project:
+
+1. `init-comath-project`: create state, dashboard, artifact graph, uncertainty ledger, failed-route log, and workstream directories.
+2. `intake-comath-project`: refine the user goal, write `intake_plan`, create proof/source/compute/Lean/theory/global-review workstreams, seed source and computation uncertainty, and install specialist role contracts.
+3. `run-comath-loop`: execute ready workstreams with bounded parallelism, LLM/Lean resource limits, same-file serialization, and durable loop reports.
+4. `record-computation-certificate` or the `computation_repro` workstream executor: attach command, seed, input hashes, output hashes, stdout hash, certificate hash, and rerun verification.
+5. `update-theory-memory`: record conjectures, reusable lemmas, failed hypotheses, novelty notes, and new directions; failed hypotheses must suppress duplicate reruns unless changed.
+6. `review-workstream` / review gate: block approval for source debt, theorem debt, statement drift, Lean placeholders, missing original-theorem dependency paths, or unverified computation certificates.
+7. `run-comath-evaluation`: write a capability report for the project against the public paper modules.
+8. Only after all relevant checks are implemented/partial with no missing local capability should a project proceed to final assembly.
+
+This recipe gives local architecture parity, not Google-internal parity. The
+remaining irreducible gaps are proprietary model quality, Google-specific
+interactive workbench behavior, and externally verified benchmark performance.
 
 ## Current ARA Mapping
 
@@ -260,12 +303,15 @@ Implemented locally:
 - Phase 4 scheduler loop.
 - Phase 5 parallel execution/resource guards.
 - Phase 6 CES75/Erdos866 bootstrap template.
+- Intent refinement and automatic deterministic workstream decomposition.
+- First-class specialist role contracts.
+- Reproducible computation manifests, certificates, and verification reports.
+- Theory-building memory for conjectures, lemmas, failed hypotheses, novelty notes, and new directions.
+- Local capability evaluation harness.
 
 Still pending:
 
-- Intent refinement and automatic workstream decomposition.
-- First-class specialist role contracts beyond runner wrappers.
-- Reproducible computational exploration.
-- Autonomous literature/source audit loops.
-- Theory-building memory.
-- Interactive UI and benchmark evaluation.
+- Autonomous iterative literature/source audit loops with query planning and confidence scoring.
+- External LLM-backed project coordinator/specialists beyond the local deterministic contracts.
+- Interactive UI beyond the durable Markdown/file-backed dashboard.
+- Independent benchmark-grade evaluation and any claim comparable to Google FrontierMath results.

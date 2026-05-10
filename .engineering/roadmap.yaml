@@ -393,6 +393,66 @@
           ]
         }
       ]
+    },
+    {
+      "id": "comath-paper-capability-baseline",
+      "title": "CoMath Public Paper Capability Baseline",
+      "status": "completed",
+      "objective": "Close the local architecture gaps against arXiv:2605.06651: intake refinement, role contracts, computation reproducibility, theory memory, and capability evaluation, while not claiming Google internal model parity.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T10:45:00Z",
+      "tasks": [
+        {
+          "id": "comath-paper-capability-baseline-impl",
+          "title": "Implement public-paper capability baseline",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/comath_capabilities.py",
+            "src/ara_math/comath_runners.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/cli.py",
+            "tests/test_comath_capabilities.py",
+            "tests/test_comath_cli.py",
+            "artifacts/design/ai_comath_migration_plan_20260510.md"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 10800,
+              "prompt": "Implement the remaining local AI Co-Mathematician public-paper capability baseline: deterministic intent refinement and workstream decomposition; specialist role contracts; reproducible computation manifests/certificates/rerun verification; theory-building memory; and a local capability evaluation report. Keep claims scoped to architecture parity, not Google internal model or benchmark parity."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing CoMath capability baseline tests with minimal scoped changes and preserve previous CoMath scheduler/review behavior."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath capability baseline tests",
+              "command": "python3 -m pytest tests/test_comath_capabilities.py tests/test_comath_parallel.py tests/test_comath_scheduler.py tests/test_comath_cli.py -q",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Full test suite",
+              "command": "python3 -m pytest -q",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T10:45:00Z"
+        }
+      ]
     }
   ],
   "continuation": {
@@ -744,37 +804,171 @@
       {
         "id": "comath-intake-refinement",
         "title": "CoMath Intake Refinement",
-        "status": "planned",
+        "status": "completed",
         "objective": "Add deterministic project intake and goal/workstream decomposition before optional LLM refinement.",
-        "tasks": []
+        "tasks": [
+          {
+            "id": "comath-intake-refinement-covered-by-paper-capability-baseline",
+            "title": "Covered by public-paper capability baseline",
+            "status": "passed",
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "notes": "Deterministic intent refinement and automatic workstream decomposition are covered by comath-paper-capability-baseline."
+          }
+        ]
       },
       {
         "id": "comath-computation-repro",
         "title": "CoMath Computation Reproducibility",
-        "status": "planned",
+        "status": "completed",
         "objective": "Add reproducible computation manifests, certificate hashes, and rerun verification gates.",
-        "tasks": []
+        "tasks": [
+          {
+            "id": "comath-computation-repro-covered-by-paper-capability-baseline",
+            "title": "Covered by public-paper capability baseline",
+            "status": "passed",
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "notes": "Reproducible computation manifests, certificates, and verification are covered by comath-paper-capability-baseline."
+          }
+        ]
       },
       {
         "id": "comath-specialist-roles",
         "title": "CoMath Specialist Roles",
-        "status": "planned",
+        "status": "completed",
         "objective": "Promote ideation, source audit, computation, Lean, review, and theory-building roles into explicit contracts.",
-        "tasks": []
+        "tasks": [
+          {
+            "id": "comath-specialist-roles-covered-by-paper-capability-baseline",
+            "title": "Covered by public-paper capability baseline",
+            "status": "passed",
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "notes": "Specialist role contracts are covered by comath-paper-capability-baseline."
+          }
+        ]
       },
       {
         "id": "comath-theory-memory",
         "title": "CoMath Theory Memory",
-        "status": "planned",
+        "status": "completed",
         "objective": "Add conjecture graph, reusable lemma inventory, novelty notes, and failed-hypothesis suppression.",
-        "tasks": []
+        "tasks": [
+          {
+            "id": "comath-theory-memory-covered-by-paper-capability-baseline",
+            "title": "Covered by public-paper capability baseline",
+            "status": "passed",
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "notes": "Theory-building memory is covered by comath-paper-capability-baseline."
+          }
+        ]
       },
       {
         "id": "comath-evaluation-harness",
         "title": "CoMath Evaluation Harness",
-        "status": "planned",
+        "status": "completed",
         "objective": "Add local benchmark/evaluation suites for scheduling, source-debt control, Lean promotion safety, and reproducibility.",
-        "tasks": []
+        "tasks": [
+          {
+            "id": "comath-evaluation-harness-covered-by-paper-capability-baseline",
+            "title": "Covered by public-paper capability baseline",
+            "status": "passed",
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "notes": "Local capability evaluation is covered by comath-paper-capability-baseline."
+          }
+        ]
+      },
+      {
+        "id": "comath-paper-capability-baseline",
+        "title": "CoMath Public Paper Capability Baseline",
+        "status": "completed",
+        "objective": "Close the local architecture gaps against arXiv:2605.06651: intake refinement, role contracts, computation reproducibility, theory memory, and capability evaluation, while not claiming Google internal model parity.",
+        "generated_at": "2026-05-10T10:45:00Z",
+        "tasks": [
+          {
+            "id": "comath-paper-capability-baseline-impl",
+            "title": "Implement public-paper capability baseline",
+            "status": "passed",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/ara_math/comath_capabilities.py",
+              "src/ara_math/comath_runners.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/cli.py",
+              "tests/test_comath_capabilities.py",
+              "tests/test_comath_cli.py",
+              "artifacts/design/ai_comath_migration_plan_20260510.md"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 10800,
+                "prompt": "Implement the remaining local AI Co-Mathematician public-paper capability baseline: deterministic intent refinement and workstream decomposition; specialist role contracts; reproducible computation manifests/certificates/rerun verification; theory-building memory; and a local capability evaluation report. Keep claims scoped to architecture parity, not Google internal model or benchmark parity."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3600,
+                "prompt": "Fix failing CoMath capability baseline tests with minimal scoped changes and preserve previous CoMath scheduler/review behavior."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py tests/test_comath_parallel.py tests/test_comath_scheduler.py tests/test_comath_cli.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              },
+              {
+                "name": "Full test suite",
+                "command": "python3 -m pytest -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ],
+            "generated_by": "engineering-harness-continuation",
+            "generated_at": "2026-05-10T10:45:00Z"
+          }
+        ]
       }
     ]
   },

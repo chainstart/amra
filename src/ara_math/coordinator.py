@@ -1462,6 +1462,9 @@ def render_project_dashboard(
             state = load_project_state(project_dir)
     graph = graph or load_artifact_graph(paths.artifact_graph)
     ledger = ledger or load_uncertainty_ledger(paths.uncertainty_ledger)
+    intake = read_json(paths.root / "intake_plan.json", default={}) or {}
+    roles = read_json(paths.root / "specialist_roles.json", default={}) or {}
+    evaluation = read_json(paths.root / "evaluation_report.json", default={}) or {}
 
     blocker = _top_blocker(state, ledger)
     lines = [
@@ -1477,9 +1480,18 @@ def render_project_dashboard(
         "",
         state.original_goal.strip() or "No original goal recorded.",
         "",
-        "## Current Original-Theorem Blocker",
-        "",
     ]
+    if intake:
+        lines.extend(
+            [
+                "## Refined Goal",
+                "",
+                str(intake.get("refined_goal") or state.metadata.get("intake", {}).get("refined_goal") or "").strip()
+                or "No refined goal recorded.",
+                "",
+            ]
+        )
+    lines.extend(["## Current Original-Theorem Blocker", ""])
     if blocker is None:
         lines.append("- No open CoMath blockers recorded.")
     else:
@@ -1528,6 +1540,20 @@ def render_project_dashboard(
             f"- Failed routes: {len(ledger.failed_routes)}",
         ]
     )
+    if roles:
+        lines.extend(["", "## Specialist Roles", "", f"- Role contracts: {len(roles.get('roles', []))}"])
+    if evaluation:
+        score = evaluation.get("score", {}) if isinstance(evaluation.get("score"), dict) else {}
+        lines.extend(
+            [
+                "",
+                "## Capability Evaluation",
+                "",
+                f"- Implemented: `{score.get('implemented', 0)}`",
+                f"- Partial: `{score.get('partial', 0)}`",
+                f"- Missing: `{score.get('missing', 0)}`",
+            ]
+        )
     open_items = ledger.open_items()
     if open_items:
         lines.extend(["", "| Item | Kind | Status | Owner | Title |", "| --- | --- | --- | --- | --- |"])

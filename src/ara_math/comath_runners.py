@@ -630,6 +630,68 @@ class SourceLiteratureWorkstreamExecutor:
         )
 
 
+class ComputationReproWorkstreamExecutor:
+    executor_name = "computation_repro"
+
+    def execute(self, context: WorkstreamExecutionContext) -> WorkstreamExecutionResult:
+        from ara_math.comath_capabilities import create_computation_certificate, verify_computation_certificate
+
+        started_at = utc_now_iso()
+        options = context.options
+        manifest_path = options.get("manifest_path") or context.workstream.metadata.get("manifest_path")
+        payload: dict[str, Any]
+        if manifest_path:
+            payload = verify_computation_certificate(
+                context.project_dir,
+                manifest_path=Path(manifest_path),
+                rerun=bool(options.get("rerun", context.workstream.metadata.get("rerun", False))),
+                timeout_seconds=options.get("timeout_seconds", options.get("timeout")),
+            )
+            verified = bool(payload.get("report", {}).get("verified"))
+            status = "verified" if verified else "blocked"
+        else:
+            command = options.get("command") or context.workstream.metadata.get("command")
+            if isinstance(command, str):
+                command = shlex.split(command)
+            if not command:
+                return WorkstreamExecutionResult(
+                    workstream_id=context.workstream.workstream_id,
+                    executor=self.executor_name,
+                    status="blocked",
+                    workstream_status=WorkstreamStatus.REVISION,
+                    blockers=["No computation command or manifest_path was supplied."],
+                    payload={"status": "blocked"},
+                    started_at=started_at,
+                    metadata={"options": _safe_options(options)},
+                )
+            payload = create_computation_certificate(
+                context.project_dir,
+                workstream_id=context.workstream.workstream_id,
+                command=[str(item) for item in command],
+                cwd=Path(options.get("cwd") or context.workstream.metadata.get("cwd") or context.project_dir),
+                input_paths=_as_path_list(options.get("input_paths") or context.workstream.metadata.get("input_paths")),
+                output_paths=_as_path_list(options.get("output_paths") or context.workstream.metadata.get("output_paths")),
+                seed=str(options.get("seed", context.workstream.metadata.get("seed", ""))),
+                timeout_seconds=int(options.get("timeout_seconds", options.get("timeout", 120))),
+                run=bool(options.get("run", True)),
+            )
+            verified = bool(payload.get("certificate", {}).get("verified"))
+            status = "verified" if verified else "blocked"
+        artifact_paths = _collect_artifact_paths(payload, project_dir=context.project_dir)
+        blockers = [] if status == "verified" else ["Computation certificate is not verified."]
+        return WorkstreamExecutionResult(
+            workstream_id=context.workstream.workstream_id,
+            executor=self.executor_name,
+            status=status,
+            workstream_status=_workstream_status_for(status, blockers),
+            artifact_paths=artifact_paths,
+            blockers=blockers,
+            payload=payload,
+            started_at=started_at,
+            metadata={"options": _safe_options(options)},
+        )
+
+
 def _callable_executor(name: str, func: Callable[[WorkstreamExecutionContext], Any]) -> WorkstreamExecutor:
     class CallableWorkstreamExecutor:
         executor_name = name
@@ -677,7 +739,7 @@ def get_workstream_executor(
         elif workstream.kind == WorkstreamKind.SOURCE:
             normalized = "source_literature"
         elif workstream.kind == WorkstreamKind.COMPUTE:
-            normalized = "closure"
+            normalized = "computation_repro"
         else:
             normalized = "proof_strategy"
     aliases = {
@@ -695,6 +757,12 @@ def get_workstream_executor(
         "literature": "source_literature",
         "source_checks": "source_literature",
         "source_check": "source_literature",
+        "compute": "computation_repro",
+        "computation": "computation_repro",
+        "repro": "computation_repro",
+        "reproducibility": "computation_repro",
+        "computation_certificate": "computation_repro",
+        "computation_reproducibility": "computation_repro",
     }
     normalized = aliases.get(normalized, normalized)
     if normalized == "proof_strategy":
@@ -705,6 +773,8 @@ def get_workstream_executor(
         return ClosureWorkstreamExecutor(repo_root=repo_root)
     if normalized == "source_literature":
         return SourceLiteratureWorkstreamExecutor(repo_root=repo_root)
+    if normalized == "computation_repro":
+        return ComputationReproWorkstreamExecutor()
     raise ValueError(f"Unsupported CoMath workstream executor: {raw_name or normalized}")
 
 
