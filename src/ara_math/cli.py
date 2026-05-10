@@ -8,6 +8,13 @@ from typing import Any
 
 from ara_math.banking import sync_local_problem_banks
 from ara_math.campaign_loop import CampaignLoopRunner
+from ara_math.coordinator import (
+    add_workstream as comath_add_workstream,
+    comath_paths,
+    init_comath_project as comath_init_project,
+    project_dashboard as comath_project_dashboard,
+    review_workstream_placeholder,
+)
 from ara_math.orchestrator import MathResearchOrchestrator
 from ara_math.problem_bank import (
     DEFAULT_BANK_PATH,
@@ -20,11 +27,21 @@ from ara_math.problem_bank import (
 from ara_math.lean_formalizer import LeanFormalizerRunner, collect_proof_lab_context_paths
 from ara_math.proof_lab import AIProofLabRunner
 from ara_math.scouting import scout_problem_bank
-from ara_math.workspace import today_utc
+from ara_math.workstreams import (
+    ReviewDecision,
+    ReviewKind,
+    WorkstreamKind,
+    WorkstreamRecord,
+    WorkstreamStatus,
+)
+from ara_math.workspace import slugify, today_utc
 
 
 DELIVERABLE_MODES = ("auto", "research_report", "formalization_note", "paper_candidate")
 ARA_LIBRARY_STATUSES = ("candidate", "trusted", "upstream_candidate", "deprecated")
+WORKSTREAM_KINDS = tuple(item.value for item in WorkstreamKind)
+WORKSTREAM_STATUSES = tuple(item.value for item in WorkstreamStatus)
+REVIEW_DECISIONS = tuple(item.value for item in ReviewDecision)
 
 
 def _repo_root() -> Path:
@@ -43,6 +60,21 @@ def _print(payload: Any, as_json: bool) -> None:
         print(payload)
         return
     print(json.dumps(payload, indent=2, ensure_ascii=False))
+
+
+def _split_csv(values: list[str] | None) -> list[str]:
+    parts: list[str] = []
+    for value in values or []:
+        for item in value.split(","):
+            item = item.strip()
+            if item:
+                parts.append(item)
+    return parts
+
+
+def _default_workstream_id(kind: str, goal: str) -> str:
+    goal_slug = slugify(goal)[:48].strip("-") or "workstream"
+    return f"{kind}-{goal_slug}"
 
 
 def _selected_bank_path(args: argparse.Namespace) -> Path:
@@ -193,6 +225,58 @@ def build_parser() -> argparse.ArgumentParser:
     set_deliverable.add_argument("--mode", choices=DELIVERABLE_MODES, required=True)
     set_deliverable.add_argument("--reason", default="")
 
+    init_comath = subparsers.add_parser(
+        "init-comath-project",
+        help="Create local CoMath state and dashboard files for an existing ARA project.",
+    )
+    init_comath.add_argument("--project", type=Path, required=True)
+    init_comath.add_argument("--project-name", default=None)
+    init_comath.add_argument("--original-goal", "--goal", dest="original_goal", default=None)
+
+    add_comath_workstream = subparsers.add_parser(
+        "add-workstream",
+        help="Add or update a local CoMath workstream record.",
+    )
+    add_comath_workstream.add_argument("--project", type=Path, required=True)
+    add_comath_workstream.add_argument("--workstream-id", "--workstream", dest="workstream_id", default=None)
+    add_comath_workstream.add_argument("--kind", choices=WORKSTREAM_KINDS, required=True)
+    goal_group = add_comath_workstream.add_mutually_exclusive_group(required=True)
+    goal_group.add_argument("--goal", default=None)
+    goal_group.add_argument("--goal-file", type=Path, default=None)
+    add_comath_workstream.add_argument("--status", choices=WORKSTREAM_STATUSES, default=WorkstreamStatus.PLANNED.value)
+    add_comath_workstream.add_argument("--owner", default="")
+    add_comath_workstream.add_argument("--dependency", dest="dependencies", action="append", default=[])
+    add_comath_workstream.add_argument("--claim-id", dest="claim_ids", action="append", default=[])
+    add_comath_workstream.add_argument("--artifact-id", dest="artifact_ids", action="append", default=[])
+    add_comath_workstream.add_argument("--blocker", dest="blockers", action="append", default=[])
+
+    review_comath_workstream = subparsers.add_parser(
+        "review-workstream",
+        help="Create state-only placeholder review records for a CoMath workstream.",
+    )
+    review_comath_workstream.add_argument("--project", type=Path, required=True)
+    review_comath_workstream.add_argument("--workstream", "--workstream-id", dest="workstream_id", required=True)
+    review_comath_workstream.add_argument(
+        "--reviewers",
+        action="append",
+        default=[],
+        help="Comma-separated reviewer kinds, e.g. logic,source,lean.",
+    )
+    review_comath_workstream.add_argument("--reviewer", default="local-state")
+    review_comath_workstream.add_argument("--decision", choices=REVIEW_DECISIONS, default=ReviewDecision.PENDING.value)
+    review_comath_workstream.add_argument("--notes", default="")
+    review_comath_workstream.add_argument(
+        "--state-only",
+        action="store_true",
+        help="Accepted for clarity; this placeholder command is always state-only.",
+    )
+
+    project_dashboard_cmd = subparsers.add_parser(
+        "project-dashboard",
+        help="Render and print the local CoMath project dashboard.",
+    )
+    project_dashboard_cmd.add_argument("--project", type=Path, required=True)
+
     plan = subparsers.add_parser("plan", help="Generate a proof plan for a project.")
     plan.add_argument("--project", type=Path, required=True)
     plan.add_argument("--bank", type=Path, default=DEFAULT_BANK_PATH)
@@ -338,6 +422,12 @@ def build_parser() -> argparse.ArgumentParser:
     campaign_loop.add_argument("--workspace", type=Path, default=None)
     campaign_loop.add_argument("--final-target-theorem", default="")
     campaign_loop.add_argument("--initial-target-theorem", default="")
+    campaign_loop.add_argument(
+        "--completed-target-theorem",
+        action="append",
+        default=[],
+        help="Theorem name to treat as already verified when selecting later loop targets. Repeatable.",
+    )
     campaign_loop.add_argument("--target-file", type=Path, default=None)
     campaign_loop.add_argument("--build-command", default="lake build")
     campaign_loop.add_argument("--backend", choices=("codex", "none"), default="codex")
@@ -359,6 +449,12 @@ def build_parser() -> argparse.ArgumentParser:
     campaign_loop.add_argument("--model", default=None, help="Override proof-lab and formalizer backend model.")
     campaign_loop.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
     campaign_loop.add_argument("--max-stalled-rounds", type=int, default=0)
+    campaign_loop.add_argument(
+        "--round-time-budget",
+        type=int,
+        default=0,
+        help="Optional per-round wall-clock cap in seconds. 0 uses dynamic scheduling.",
+    )
 
     harvest = subparsers.add_parser("harvest-literature", help="Collect local and remote reference snapshots for a project.")
     harvest.add_argument("--project", type=Path, required=True)
@@ -628,6 +724,79 @@ def main(argv: list[str] | None = None) -> int:
         _print(orchestrator.set_project_deliverable(args.project, mode=args.mode, reason=args.reason), args.json)
         return 0
 
+    if args.command == "init-comath-project":
+        state = comath_init_project(
+            args.project,
+            project_name=args.project_name,
+            original_goal=args.original_goal,
+        )
+        paths = comath_paths(args.project)
+        _print(
+            {
+                "project_dir": str(args.project),
+                "state_path": str(paths.project_state),
+                "dashboard_path": str(paths.dashboard),
+                "state": state.to_dict(),
+            },
+            args.json,
+        )
+        return 0
+
+    if args.command == "add-workstream":
+        goal = args.goal if args.goal is not None else args.goal_file.read_text(encoding="utf-8").strip()
+        workstream_id = args.workstream_id or _default_workstream_id(args.kind, goal)
+        workstream = WorkstreamRecord(
+            workstream_id=workstream_id,
+            kind=WorkstreamKind.coerce(args.kind),
+            goal=goal,
+            status=WorkstreamStatus.coerce(args.status),
+            owner=args.owner,
+            dependencies=args.dependencies,
+            claim_ids=args.claim_ids,
+            artifact_ids=args.artifact_ids,
+            blockers=args.blockers,
+        )
+        saved = comath_add_workstream(args.project, workstream)
+        paths = comath_paths(args.project)
+        _print(
+            {
+                "project_dir": str(args.project),
+                "workstream_dir": str(paths.workstream_dir(saved.workstream_id)),
+                "dashboard_path": str(paths.dashboard),
+                "workstream": saved.to_dict(),
+            },
+            args.json,
+        )
+        return 0
+
+    if args.command == "review-workstream":
+        reviewers = _split_csv(args.reviewers) or [ReviewKind.LOGIC.value]
+        payload = review_workstream_placeholder(
+            args.project,
+            args.workstream_id,
+            reviewers=reviewers,
+            decision=args.decision,
+            reviewer=args.reviewer,
+            notes=args.notes,
+        )
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "project-dashboard":
+        dashboard = comath_project_dashboard(args.project)
+        if args.json:
+            _print(
+                {
+                    "project_dir": str(args.project),
+                    "dashboard_path": str(comath_paths(args.project).dashboard),
+                    "dashboard": dashboard,
+                },
+                args.json,
+            )
+        else:
+            _print(dashboard, args.json)
+        return 0
+
     if args.command == "plan":
         orchestrator = MathResearchOrchestrator(
             repo_root=_repo_root(),
@@ -793,6 +962,7 @@ def main(argv: list[str] | None = None) -> int:
                 workspace=args.workspace,
                 final_target_theorem=args.final_target_theorem,
                 initial_target_theorem=args.initial_target_theorem,
+                completed_target_theorems=args.completed_target_theorem,
                 target_file=args.target_file,
                 build_command=shlex.split(args.build_command),
                 backend=args.backend,
@@ -812,6 +982,7 @@ def main(argv: list[str] | None = None) -> int:
                 output_root=args.output_root,
                 run_name=args.run_name,
                 max_stalled_rounds=args.max_stalled_rounds,
+                round_time_budget_sec=args.round_time_budget,
             ),
             args.json,
         )

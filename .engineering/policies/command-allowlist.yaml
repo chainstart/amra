@@ -2,7 +2,9 @@
   "allowed_prefixes": [
     "python3 ",
     "pytest ",
-    "bash scripts/"
+    "bash scripts/",
+    "lake ",
+    "lean "
   ],
   "blocked_patterns": [
     "rm -rf /",

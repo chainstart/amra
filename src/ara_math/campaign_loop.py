@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 import shlex
 import time
@@ -11,26 +12,198 @@ from ara_math.proof_lab import AIProofLabRunner
 from ara_math.workspace import read_text, slugify, utc_now_iso, write_json, write_text
 
 
-TARGET_DECL_PATTERN = re.compile(r"\b(?:theorem|lemma)\s+([A-Za-z_][A-Za-z0-9_'.]*)")
+LEAN_DECL_PATTERN = re.compile(
+    r"(?m)^\s*(?:noncomputable\s+)?(?:theorem|lemma)\s+"
+    r"([A-Za-z_][A-Za-z0-9_'.]*|«[^»]+»)(?=\s|:|\(|\{|\[|$)"
+)
+LEAN_FENCE_PATTERN = re.compile(r"```(?:lean|lean4)?\s*\n(.*?)```", re.IGNORECASE | re.DOTALL)
+BACKTICK_NAME_PATTERN = re.compile(r"`([A-Za-z_][A-Za-z0-9_'.]*)`")
+
+LEAN_KEYWORDS_AND_STOPWORDS = {
+    "a",
+    "an",
+    "and",
+    "as",
+    "by",
+    "def",
+    "do",
+    "else",
+    "end",
+    "example",
+    "for",
+    "from",
+    "have",
+    "if",
+    "in",
+    "is",
+    "lemma",
+    "let",
+    "match",
+    "namespace",
+    "of",
+    "on",
+    "or",
+    "proof",
+    "route",
+    "show",
+    "structure",
+    "the",
+    "then",
+    "theorem",
+    "to",
+    "using",
+    "via",
+    "where",
+    "with",
+}
+
+TARGET_FIELD_PRIORITY: tuple[tuple[str, str], ...] = (
+    ("open_continuation_target", "first_decl"),
+    ("recommended_attack_target", "backtick_then_first_decl"),
+    ("formalization_consequence", "last_backtick"),
+    ("formalization_target", "last_decl"),
+    ("failure_mode", "last_decl"),
+)
 
 
-def extract_first_theorem_name(text: str) -> str:
+def _strip_escaped_identifier(name: str) -> str:
+    stripped = name.strip()
+    if stripped.startswith("«") and stripped.endswith("»"):
+        return stripped[1:-1].strip()
+    return stripped
+
+
+def _is_valid_target_name(name: str, excluded_names: set[str] | None = None) -> bool:
+    normalized = _strip_escaped_identifier(name)
+    if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_'.]*", normalized):
+        return False
+    if normalized.lower() in LEAN_KEYWORDS_AND_STOPWORDS:
+        return False
+    if excluded_names and normalized in excluded_names:
+        return False
+    return True
+
+
+def _valid_target_names(names: list[str], excluded_names: set[str] | None = None) -> list[str]:
+    valid: list[str] = []
+    for name in names:
+        normalized = _strip_escaped_identifier(name)
+        if _is_valid_target_name(normalized, excluded_names=excluded_names):
+            valid.append(normalized)
+    return valid
+
+
+def _decl_names_from_text(text: str, excluded_names: set[str] | None = None) -> list[str]:
+    return _valid_target_names([match.group(1) for match in LEAN_DECL_PATTERN.finditer(text)], excluded_names)
+
+
+def _decl_names_from_lean_fences(text: str, excluded_names: set[str] | None = None) -> list[str]:
+    names: list[str] = []
+    for match in LEAN_FENCE_PATTERN.finditer(text):
+        names.extend(_decl_names_from_text(match.group(1), excluded_names=excluded_names))
+    return names
+
+
+def _backtick_names_from_text(text: str, excluded_names: set[str] | None = None) -> list[str]:
+    return _valid_target_names([match.group(1) for match in BACKTICK_NAME_PATTERN.finditer(text)], excluded_names)
+
+
+def _choose_from_field(text: str, *, policy: str, excluded_names: set[str] | None = None) -> str:
+    if not text.strip():
+        return ""
+    decl_names = _decl_names_from_lean_fences(text, excluded_names=excluded_names) or _decl_names_from_text(
+        text, excluded_names=excluded_names
+    )
+    backtick_names = _backtick_names_from_text(text, excluded_names=excluded_names)
+    if policy == "last_decl":
+        return decl_names[-1] if decl_names else (backtick_names[-1] if backtick_names else "")
+    if policy == "last_backtick":
+        return backtick_names[-1] if backtick_names else (decl_names[-1] if decl_names else "")
+    if policy == "backtick_then_first_decl":
+        return backtick_names[0] if backtick_names else (decl_names[0] if decl_names else "")
+    return decl_names[0] if decl_names else (backtick_names[0] if backtick_names else "")
+
+
+def extract_first_theorem_name(text: str, *, excluded_names: set[str] | None = None) -> str:
     """Return the first Lean theorem/lemma name mentioned in a text blob."""
 
-    match = TARGET_DECL_PATTERN.search(text)
-    return match.group(1) if match else ""
+    # Prefer actual Lean declarations.  Natural-language phrases such as
+    # "the theorem is ..." must not become formalization targets.
+    names = _decl_names_from_lean_fences(text, excluded_names=excluded_names)
+    if names:
+        return names[0]
+    names = _decl_names_from_text(text, excluded_names=excluded_names)
+    return names[0] if names else ""
 
 
-def extract_formalization_target_from_run(run_dir: Path) -> str:
+def _read_json_file(path: Path) -> dict[str, Any]:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def _extract_from_parsed_fields(fields: dict[str, Any], *, excluded_names: set[str] | None = None) -> str:
+    for key, policy in TARGET_FIELD_PRIORITY:
+        target = _choose_from_field(str(fields.get(key) or ""), policy=policy, excluded_names=excluded_names)
+        if target:
+            return target
+    return ""
+
+
+def _extract_from_proof_lab_payload(payload: dict[str, Any], *, excluded_names: set[str] | None = None) -> str:
+    grounding = payload.get("grounding") or {}
+    target = _extract_from_parsed_fields(dict(grounding.get("parsed_fields") or {}), excluded_names=excluded_names)
+    if target:
+        return target
+
+    attempts_by_number: dict[Any, dict[str, Any]] = {
+        attempt.get("attempt"): attempt for attempt in list(payload.get("attempts") or [])
+    }
+    for audit in list(payload.get("audits") or []):
+        parsed = dict(audit.get("parsed_fields") or {})
+        status = str(parsed.get("audit_status") or "").lower()
+        recommendation = str(parsed.get("recommendation") or "").lower()
+        if "passes_initial_audit" not in status and recommendation != "formalize":
+            continue
+        target = _extract_from_parsed_fields(parsed, excluded_names=excluded_names)
+        if target:
+            return target
+        attempt = attempts_by_number.get(audit.get("attempt")) or {}
+        target = _extract_from_parsed_fields(dict(attempt.get("parsed_fields") or {}), excluded_names=excluded_names)
+        if target:
+            return target
+
+    for cluster in list(payload.get("clusters") or []):
+        attempt = attempts_by_number.get(cluster.get("representative_attempt")) or {}
+        target = _extract_from_parsed_fields(dict(attempt.get("parsed_fields") or {}), excluded_names=excluded_names)
+        if target:
+            return target
+
+    for attempt in list(payload.get("attempts") or []):
+        target = _extract_from_parsed_fields(dict(attempt.get("parsed_fields") or {}), excluded_names=excluded_names)
+        if target:
+            return target
+    return ""
+
+
+def extract_formalization_target_from_run(run_dir: Path, *, excluded_names: set[str] | None = None) -> str:
     """Find a likely Lean target theorem from a proof-lab run.
 
-    This intentionally uses a simple source-order heuristic.  Proof-lab outputs
-    are free-form Markdown, so the loop treats this as a stage suggestion, not
-    a trusted theorem statement.
+    Prefer proof-lab's structured fields over free-form Markdown.  Fallback
+    parsing only accepts real Lean declaration lines, preventing prose such as
+    "the theorem is ..." from producing bogus targets like `is` or `in`.
     """
 
+    for name in ("report.json", "state.json"):
+        payload = _read_json_file(run_dir / name)
+        if payload:
+            target = _extract_from_proof_lab_payload(payload, excluded_names=excluded_names)
+            if target:
+                return target
+
     candidates: list[Path] = []
-    for subdir in ("audits", "attempts"):
+    for subdir in ("grounding", "audits", "attempts"):
         directory = run_dir / subdir
         if directory.exists():
             candidates.extend(sorted(directory.glob("*_output.md"), reverse=True))
@@ -38,7 +211,7 @@ def extract_formalization_target_from_run(run_dir: Path) -> str:
     for path in candidates:
         if not path.exists():
             continue
-        name = extract_first_theorem_name(read_text(path))
+        name = extract_first_theorem_name(read_text(path), excluded_names=excluded_names)
         if name:
             return name
     return ""
@@ -101,11 +274,13 @@ class CampaignLoopRunner:
         stage: str,
         current_target_theorem: str,
         final_target_theorem: str,
+        completed_target_theorems: set[str],
         history: str,
     ) -> str:
         target_lines = [
             f"- Current stage theorem: `{current_target_theorem or '<none yet>'}`",
             f"- Final theorem: `{final_target_theorem or '<not fixed; derive theorem-level targets>'}`",
+            f"- Already verified/excluded stage theorems: `{', '.join(sorted(completed_target_theorems)) or '<none yet>'}`",
         ]
         if stage == "proof_lab":
             stage_directive = [
@@ -142,6 +317,7 @@ class CampaignLoopRunner:
                 "- Re-state the current first blocker before doing local work.",
                 "- Prefer theorem-level progress over local simplification.",
                 "- Freeze or demote routes that repeatedly fail the global audit.",
+                "- Do not select any already verified stage theorem as the next target.",
                 "- End with a concrete next-stage target.",
                 "",
                 "## Stage Directive",
@@ -170,7 +346,7 @@ class CampaignLoopRunner:
             return "lean_formalizer" if workspace and current_target_theorem else "proof_lab"
         if mode == "hybrid":
             if not previous_entry:
-                return "proof_lab"
+                return "lean_formalizer" if workspace and current_target_theorem else "proof_lab"
             if previous_entry.get("stage") == "lean_formalizer" and previous_entry.get("status") != "verified":
                 return "lean_formalizer" if workspace and current_target_theorem else "proof_lab"
             if workspace and current_target_theorem:
@@ -190,6 +366,23 @@ class CampaignLoopRunner:
         ):
             return "lean_formalizer"
         return "proof_lab"
+
+    def _stage_time_budget(
+        self,
+        *,
+        stage: str,
+        remaining_seconds: int,
+        rounds_left: int,
+        round_time_budget_sec: int,
+    ) -> int:
+        if remaining_seconds <= 0:
+            return 0
+        if round_time_budget_sec > 0:
+            return min(remaining_seconds, round_time_budget_sec)
+        fair_slice = max(1, remaining_seconds // max(1, rounds_left))
+        if stage == "lean_formalizer":
+            return min(remaining_seconds, max(fair_slice, 900), 2400)
+        return min(remaining_seconds, max(fair_slice, 600), 1800)
 
     def _loop_context_paths(self, base_context_paths: list[Path], round_entries: list[dict[str, Any]]) -> list[Path]:
         paths = list(base_context_paths)
@@ -266,6 +459,8 @@ class CampaignLoopRunner:
         output_root: Path | None = None,
         run_name: str | None = None,
         max_stalled_rounds: int = 0,
+        round_time_budget_sec: int = 0,
+        completed_target_theorems: list[str] | None = None,
     ) -> dict[str, Any]:
         if not statement.strip():
             raise ValueError("Campaign loop statement must not be empty.")
@@ -282,6 +477,9 @@ class CampaignLoopRunner:
         deadline = started + max(1, time_budget_sec)
         round_entries: list[dict[str, Any]] = []
         current_target_theorem = initial_target_theorem.strip() or final_target_theorem.strip()
+        completed_target_theorem_set: set[str] = {
+            theorem.strip() for theorem in (completed_target_theorems or []) if theorem.strip()
+        }
         stop_reason = "rounds_exhausted"
         stalled_rounds = 0
 
@@ -291,6 +489,7 @@ class CampaignLoopRunner:
                 stop_reason = "time_budget_exhausted"
                 break
             round_number = offset + 1
+            rounds_left = max(1, rounds - offset)
             previous = round_entries[-1] if round_entries else None
             stage = self._choose_stage(
                 mode=mode,
@@ -309,11 +508,18 @@ class CampaignLoopRunner:
                 stage=stage,
                 current_target_theorem=current_target_theorem,
                 final_target_theorem=final_target_theorem.strip(),
+                completed_target_theorems=completed_target_theorem_set,
                 history=history,
             )
             stage_goal_path = round_dir / "stage_goal.md"
             write_text(stage_goal_path, stage_goal)
             context_for_round = self._loop_context_paths(list(context_paths or []), round_entries)
+            child_time_budget = self._stage_time_budget(
+                stage=stage,
+                remaining_seconds=remaining,
+                rounds_left=rounds_left,
+                round_time_budget_sec=round_time_budget_sec,
+            )
 
             if stage == "lean_formalizer" and workspace and current_target_theorem:
                 child = self.lean_formalizer_runner.run(
@@ -325,7 +531,7 @@ class CampaignLoopRunner:
                     build_command=build_command or ["lake", "build"],
                     backend=backend,
                     attempts=formalizer_attempts,
-                    time_budget_sec=min(max(1, remaining), max(1, time_budget_sec // max(1, rounds))),
+                    time_budget_sec=max(1, child_time_budget),
                     attempt_timeout_sec=formalizer_attempt_timeout_sec,
                     build_timeout_sec=formalizer_build_timeout_sec,
                     output_root=run_dir / "lean_formalizer",
@@ -350,6 +556,7 @@ class CampaignLoopRunner:
                     write_json(round_dir / "decision.json", entry)
                     break
                 if entry["verified"]:
+                    completed_target_theorem_set.add(current_target_theorem)
                     current_target_theorem = ""
             else:
                 child = self.proof_lab_runner.run(
@@ -358,7 +565,7 @@ class CampaignLoopRunner:
                     backend=backend,
                     attempts=proof_attempts,
                     audits=proof_audits,
-                    time_budget_sec=min(max(1, remaining), max(1, time_budget_sec // max(1, rounds))),
+                    time_budget_sec=max(1, child_time_budget),
                     attempt_timeout_sec=proof_attempt_timeout_sec,
                     audit_timeout_sec=proof_audit_timeout_sec,
                     source_first=source_first or round_number == 1,
@@ -367,7 +574,10 @@ class CampaignLoopRunner:
                     run_name=f"round-{round_number:03d}",
                     enable_search=enable_search,
                 )
-                suggested_target = extract_formalization_target_from_run(Path(str(child.get("run_dir"))))
+                suggested_target = extract_formalization_target_from_run(
+                    Path(str(child.get("run_dir"))),
+                    excluded_names=completed_target_theorem_set,
+                )
                 if suggested_target and not current_target_theorem:
                     current_target_theorem = suggested_target
                 entry = {
@@ -413,6 +623,7 @@ class CampaignLoopRunner:
             "target_file": str(target_file or ""),
             "current_target_theorem": current_target_theorem,
             "final_target_theorem": final_target_theorem.strip(),
+            "completed_target_theorems": sorted(completed_target_theorem_set),
             "rounds_requested": rounds,
             "rounds_completed": len(round_entries),
             "elapsed_seconds": round(time.monotonic() - started, 3),

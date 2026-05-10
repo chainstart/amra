@@ -26,8 +26,504 @@
         }
       ],
       "title": "Project Baseline"
+    },
+    {
+      "id": "comath-state-dashboard",
+      "title": "CoMath State And Dashboard",
+      "status": "planned",
+      "objective": "Add durable Co-Mathematician project/workstream/claim state models, artifact graph, uncertainty ledger, and a Markdown dashboard without invoking external LLM backends.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T07:00:23Z",
+      "tasks": [
+        {
+          "id": "comath-state-dashboard-impl",
+          "title": "Implement CoMath state models and dashboard",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/workstreams.py",
+            "src/ara_math/artifact_graph.py",
+            "src/ara_math/uncertainty.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/workspace.py",
+            "tests/test_comath_state.py",
+            "tests/test_comath_dashboard.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 5400,
+              "prompt": "Read artifacts/design/ai_comath_migration_plan_20260510.md. Implement Phase 1 only: durable CoMath dataclasses/enums, artifact graph helpers, uncertainty ledger helpers, and dashboard rendering for an existing ARA project. Do not integrate LLM calls yet. Keep APIs small and testable. Preserve existing user changes."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 2400,
+              "prompt": "Fix the failing CoMath state/dashboard acceptance tests with minimal scoped changes. Do not broaden scope beyond the task files."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath state tests",
+              "command": "python3 -m pytest tests/test_comath_state.py tests/test_comath_dashboard.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T07:00:23Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-cli",
+      "title": "CoMath CLI",
+      "status": "planned",
+      "objective": "Expose the state/dashboard layer through stable CLI commands.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T07:14:19Z",
+      "tasks": [
+        {
+          "id": "comath-cli-impl",
+          "title": "Add CoMath CLI commands",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/cli.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/workstreams.py",
+            "tests/test_comath_cli.py",
+            "tests/test_comath_state.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 5400,
+              "prompt": "Implement CLI commands for init-comath-project, add-workstream, review-workstream placeholder/state-only mode, and project-dashboard. Reuse the Phase 1 modules. Commands must be deterministic and local; no external LLM calls. Preserve existing CLI behavior and tests."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 2400,
+              "prompt": "Fix failing CoMath CLI tests while keeping the CLI surface backward-compatible."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath CLI tests",
+              "command": "python3 -m pytest tests/test_comath_cli.py tests/test_comath_state.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T07:14:19Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-review-gate",
+      "title": "CoMath Review Gate",
+      "status": "planned",
+      "objective": "Add multi-reviewer approval logic so workstreams with source debt, Lean placeholders, or statement drift cannot be approved.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T07:21:53Z",
+      "tasks": [
+        {
+          "id": "comath-review-gate-impl",
+          "title": "Implement review-gated workstream completion",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/review_gate.py",
+            "src/ara_math/workstreams.py",
+            "src/ara_math/artifact_graph.py",
+            "src/ara_math/uncertainty.py",
+            "src/ara_math/coordinator.py",
+            "tests/test_comath_review_gate.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 5400,
+              "prompt": "Implement Phase 3 review gates from the design doc. Add logic/source/lean/computation/global review decisions. A workstream must not approve if it has source debt, theorem debt, sorry/admit/axiom findings, statement drift, or no dependency path to the original theorem. Keep the implementation local and unit-testable."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 2400,
+              "prompt": "Fix failing review gate tests with minimal changes."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath review gate tests",
+              "command": "python3 -m pytest tests/test_comath_review_gate.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T07:21:53Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-runner-wrappers",
+      "title": "CoMath Runner Wrappers",
+      "status": "planned",
+      "objective": "Wrap existing proof_lab, lean_formalizer, closure, and literature capabilities as workstream executors that persist artifacts and blockers.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T07:31:23Z",
+      "tasks": [
+        {
+          "id": "comath-runner-wrappers-impl",
+          "title": "Wrap existing runners as workstream executors",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/comath_runners.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/workstreams.py",
+            "src/ara_math/proof_lab.py",
+            "src/ara_math/lean_formalizer.py",
+            "src/ara_math/literature.py",
+            "tests/test_comath_runners.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement Phase 2 runner wrappers. Do not rewrite proof_lab or lean_formalizer internals unless a tiny adapter hook is necessary. Add workstream executor abstractions for proof strategy, Lean formalization, closure, and source/literature checks. Persist run directories, status, blockers, and artifact paths into the CoMath workstream state."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3000,
+              "prompt": "Fix failing runner wrapper tests. Prefer adapter-level changes over modifying existing runner behavior."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath runner wrapper tests",
+              "command": "python3 -m pytest tests/test_comath_runners.py -q",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T07:31:23Z"
+        }
+      ]
     }
   ],
+  "continuation": {
+    "enabled": true,
+    "goal": "Implement the AI Co-Mathematician-style coordination layer described in artifacts/design/ai_comath_migration_plan_20260510.md.",
+    "blueprint": "artifacts/design/ai_comath_migration_plan_20260510.md",
+    "stages": [
+      {
+        "id": "comath-state-dashboard",
+        "title": "CoMath State And Dashboard",
+        "objective": "Add durable Co-Mathematician project/workstream/claim state models, artifact graph, uncertainty ledger, and a Markdown dashboard without invoking external LLM backends.",
+        "tasks": [
+          {
+            "id": "comath-state-dashboard-impl",
+            "title": "Implement CoMath state models and dashboard",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/workstreams.py",
+              "src/ara_math/artifact_graph.py",
+              "src/ara_math/uncertainty.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/workspace.py",
+              "tests/test_comath_state.py",
+              "tests/test_comath_dashboard.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 5400,
+                "prompt": "Read artifacts/design/ai_comath_migration_plan_20260510.md. Implement Phase 1 only: durable CoMath dataclasses/enums, artifact graph helpers, uncertainty ledger helpers, and dashboard rendering for an existing ARA project. Do not integrate LLM calls yet. Keep APIs small and testable. Preserve existing user changes."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 2400,
+                "prompt": "Fix the failing CoMath state/dashboard acceptance tests with minimal scoped changes. Do not broaden scope beyond the task files."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath state tests",
+                "command": "python3 -m pytest tests/test_comath_state.py tests/test_comath_dashboard.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comath-cli",
+        "title": "CoMath CLI",
+        "objective": "Expose the state/dashboard layer through stable CLI commands.",
+        "tasks": [
+          {
+            "id": "comath-cli-impl",
+            "title": "Add CoMath CLI commands",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/cli.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/workstreams.py",
+              "tests/test_comath_cli.py",
+              "tests/test_comath_state.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 5400,
+                "prompt": "Implement CLI commands for init-comath-project, add-workstream, review-workstream placeholder/state-only mode, and project-dashboard. Reuse the Phase 1 modules. Commands must be deterministic and local; no external LLM calls. Preserve existing CLI behavior and tests."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 2400,
+                "prompt": "Fix failing CoMath CLI tests while keeping the CLI surface backward-compatible."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath CLI tests",
+                "command": "python3 -m pytest tests/test_comath_cli.py tests/test_comath_state.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comath-review-gate",
+        "title": "CoMath Review Gate",
+        "objective": "Add multi-reviewer approval logic so workstreams with source debt, Lean placeholders, or statement drift cannot be approved.",
+        "tasks": [
+          {
+            "id": "comath-review-gate-impl",
+            "title": "Implement review-gated workstream completion",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/review_gate.py",
+              "src/ara_math/workstreams.py",
+              "src/ara_math/artifact_graph.py",
+              "src/ara_math/uncertainty.py",
+              "src/ara_math/coordinator.py",
+              "tests/test_comath_review_gate.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 5400,
+                "prompt": "Implement Phase 3 review gates from the design doc. Add logic/source/lean/computation/global review decisions. A workstream must not approve if it has source debt, theorem debt, sorry/admit/axiom findings, statement drift, or no dependency path to the original theorem. Keep the implementation local and unit-testable."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 2400,
+                "prompt": "Fix failing review gate tests with minimal changes."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath review gate tests",
+                "command": "python3 -m pytest tests/test_comath_review_gate.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comath-runner-wrappers",
+        "title": "CoMath Runner Wrappers",
+        "objective": "Wrap existing proof_lab, lean_formalizer, closure, and literature capabilities as workstream executors that persist artifacts and blockers.",
+        "tasks": [
+          {
+            "id": "comath-runner-wrappers-impl",
+            "title": "Wrap existing runners as workstream executors",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/comath_runners.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/workstreams.py",
+              "src/ara_math/proof_lab.py",
+              "src/ara_math/lean_formalizer.py",
+              "src/ara_math/literature.py",
+              "tests/test_comath_runners.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Implement Phase 2 runner wrappers. Do not rewrite proof_lab or lean_formalizer internals unless a tiny adapter hook is necessary. Add workstream executor abstractions for proof strategy, Lean formalization, closure, and source/literature checks. Persist run directories, status, blockers, and artifact paths into the CoMath workstream state."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3000,
+                "prompt": "Fix failing runner wrapper tests. Prefer adapter-level changes over modifying existing runner behavior."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath runner wrapper tests",
+                "command": "python3 -m pytest tests/test_comath_runners.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comath-scheduler-loop",
+        "title": "CoMath Scheduler Loop",
+        "objective": "Implement dependency-aware project coordination and a bounded local loop that chooses the next workstream based on source debt, Lean debt, proof gap, computation gap, and repeated stalls.",
+        "tasks": [
+          {
+            "id": "comath-scheduler-loop-impl",
+            "title": "Implement coordinator scheduling loop",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/coordinator.py",
+              "src/ara_math/comath_runners.py",
+              "src/ara_math/workstreams.py",
+              "src/ara_math/cli.py",
+              "tests/test_comath_scheduler.py",
+              "tests/test_comath_cli.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Implement Phase 4 coordinator scheduling and a run-comath-loop CLI command. The loop must be bounded by time/workstream limits, dependency-aware, and able to freeze stalled branches with a freeze package. It must update dashboard/status after each workstream. Do not start external long proof campaigns in tests."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3000,
+                "prompt": "Fix failing scheduler/CLI tests with minimal scoped changes."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath scheduler tests",
+                "command": "python3 -m pytest tests/test_comath_scheduler.py tests/test_comath_cli.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comath-ces75-template",
+        "title": "CoMath CES75 Template",
+        "objective": "Apply the new layer to the active CES75/Erdos866 project by generating source-debt, Lean-chain, source-audit, and global-review workstream templates without mutating the Lean proof file.",
+        "tasks": [
+          {
+            "id": "comath-ces75-template-impl",
+            "title": "Add CES75/Erdos866 workstream bootstrap template",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/coordinator.py",
+              "src/ara_math/workstreams.py",
+              "src/ara_math/cli.py",
+              "projects/erdos-866-ai-continuation-20260505/comath/**",
+              "tests/test_comath_ces75_template.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 5400,
+                "prompt": "Implement Phase 6 bootstrap support for the active CES75/Erdos866 project. Create a safe command or helper that initializes four workstreams: source-dense-central-block, lean-current-final-window, source-audit-ces75-theorem4, and global-review. Do not edit the Lean proof file. The dashboard must identify dense central block source debt as the key blocker."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 2400,
+                "prompt": "Fix failing CES75 bootstrap tests. Do not mutate project-owned Lean proof files."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath CES75 template tests",
+                "command": "python3 -m pytest tests/test_comath_ces75_template.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "profile": "python-agent",
   "project": "ara-math",
   "report_dir": ".engineering/reports/tasks",
