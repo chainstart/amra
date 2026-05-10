@@ -46,6 +46,7 @@ REQUIRED_PAPER_CAPABILITIES = (
     "asynchronous_stateful_workspace",
     "parallel_workstreams",
     "specialist_agents",
+    "llm_specialist_orchestration",
     "uncertainty_tracking",
     "failed_hypothesis_memory",
     "native_mathematical_artifacts",
@@ -880,6 +881,8 @@ def run_comath_evaluation(project_dir: Path) -> dict[str, Any]:
     theory_path = paths.root / "theory_memory.json"
     computation_dir = paths.root / "computation"
     loop_dir = paths.root / "loop_runs"
+    specialist_runs = list((paths.root / "specialists").glob("*/runs/*/result.json"))
+    specialist_loop_reports = list((paths.root / "specialist_loops").glob("*/report.json"))
     checks: list[CapabilityCheck] = []
 
     def add_check(capability: str, evidence: list[str], missing: list[str]) -> None:
@@ -907,6 +910,11 @@ def run_comath_evaluation(project_dir: Path) -> dict[str, Any]:
         "specialist_agents",
         [str(roles_path)] if required_roles <= role_ids else [],
         sorted(required_roles - role_ids),
+    )
+    add_check(
+        "llm_specialist_orchestration",
+        [str(path) for path in specialist_runs[:5]] + [str(path) for path in specialist_loop_reports[:3]],
+        ["No Codex/fake specialist run has been persisted under comath/specialists/."] if not specialist_runs else [],
     )
     add_check(
         "uncertainty_tracking",

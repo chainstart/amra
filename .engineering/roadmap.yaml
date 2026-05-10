@@ -453,6 +453,66 @@
           "generated_at": "2026-05-10T10:45:00Z"
         }
       ]
+    },
+    {
+      "id": "comath-codex-specialist-orchestration",
+      "title": "CoMath Codex Specialist Orchestration",
+      "status": "completed",
+      "objective": "Use the existing Codex CLI ChatGPT login as a programmable backend for multiple GPT-5.5 specialist instances, with durable prompts, outputs, workstream state, and testable fake-provider isolation.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T13:15:00Z",
+      "tasks": [
+        {
+          "id": "comath-codex-specialist-orchestration-impl",
+          "title": "Implement Codex ChatGPT specialist orchestration",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/comath_specialists.py",
+            "src/ara_math/comath_runners.py",
+            "src/ara_math/comath_capabilities.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/cli.py",
+            "tests/test_comath_specialists.py",
+            "artifacts/design/ai_comath_migration_plan_20260510.md"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 10800,
+              "prompt": "Implement multi-specialist orchestration over the existing Codex CLI ChatGPT login. Add provider abstraction, fake provider tests, Codex CLI provider, persistent prompts/outputs, loop report, workstream executor, and CLI commands. Unit tests must not call the real Codex service."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing specialist orchestration tests while preserving existing CoMath behavior and keeping real Codex calls out of tests."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath specialist orchestration tests",
+              "command": "python3 -m pytest tests/test_comath_specialists.py tests/test_comath_capabilities.py tests/test_comath_runners.py tests/test_comath_cli.py -q",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Full test suite",
+              "command": "python3 -m pytest -q",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T13:15:00Z"
+        }
+      ]
     }
   ],
   "continuation": {
@@ -967,6 +1027,65 @@
             ],
             "generated_by": "engineering-harness-continuation",
             "generated_at": "2026-05-10T10:45:00Z"
+          }
+        ]
+      },
+      {
+        "id": "comath-codex-specialist-orchestration",
+        "title": "CoMath Codex Specialist Orchestration",
+        "status": "completed",
+        "objective": "Use the existing Codex CLI ChatGPT login as a programmable backend for multiple GPT-5.5 specialist instances, with durable prompts, outputs, workstream state, and testable fake-provider isolation.",
+        "generated_at": "2026-05-10T13:15:00Z",
+        "tasks": [
+          {
+            "id": "comath-codex-specialist-orchestration-impl",
+            "title": "Implement Codex ChatGPT specialist orchestration",
+            "status": "passed",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/ara_math/comath_specialists.py",
+              "src/ara_math/comath_runners.py",
+              "src/ara_math/comath_capabilities.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/cli.py",
+              "tests/test_comath_specialists.py",
+              "artifacts/design/ai_comath_migration_plan_20260510.md"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 10800,
+                "prompt": "Implement multi-specialist orchestration over the existing Codex CLI ChatGPT login. Add provider abstraction, fake provider tests, Codex CLI provider, persistent prompts/outputs, loop report, workstream executor, and CLI commands. Unit tests must not call the real Codex service."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3600,
+                "prompt": "Fix failing specialist orchestration tests while preserving existing CoMath behavior and keeping real Codex calls out of tests."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath specialist orchestration tests",
+                "command": "python3 -m pytest tests/test_comath_specialists.py tests/test_comath_capabilities.py tests/test_comath_runners.py tests/test_comath_cli.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              },
+              {
+                "name": "Full test suite",
+                "command": "python3 -m pytest -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ],
+            "generated_by": "engineering-harness-continuation",
+            "generated_at": "2026-05-10T13:15:00Z"
           }
         ]
       }

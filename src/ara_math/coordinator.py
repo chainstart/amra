@@ -1465,6 +1465,7 @@ def render_project_dashboard(
     intake = read_json(paths.root / "intake_plan.json", default={}) or {}
     roles = read_json(paths.root / "specialist_roles.json", default={}) or {}
     evaluation = read_json(paths.root / "evaluation_report.json", default={}) or {}
+    specialist_runs = list((paths.root / "specialists").glob("*/runs/*/result.json"))
 
     blocker = _top_blocker(state, ledger)
     lines = [
@@ -1542,6 +1543,8 @@ def render_project_dashboard(
     )
     if roles:
         lines.extend(["", "## Specialist Roles", "", f"- Role contracts: {len(roles.get('roles', []))}"])
+    if specialist_runs:
+        lines.extend(["", "## Specialist Runs", "", f"- Persisted runs: {len(specialist_runs)}"])
     if evaluation:
         score = evaluation.get("score", {}) if isinstance(evaluation.get("score"), dict) else {}
         lines.extend(

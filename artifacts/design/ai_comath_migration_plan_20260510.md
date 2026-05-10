@@ -93,10 +93,12 @@ review-gate behavior behind; otherwise it is not considered implemented.
    - Do not make Google-level benchmark claims without independent evaluation.
    - Persist `comath/evaluation_report.json` and `comath/evaluation_report.md`.
 
-9. External model orchestration. Pending by design.
+9. External model orchestration. Implemented local Codex CLI baseline.
    - Add pluggable LLM providers for the project coordinator and specialist roles.
    - Require every LLM-backed specialist to write native artifacts and uncertainty updates, not just chat transcripts.
    - Preserve local deterministic paths for tests and offline use.
+   - Local baseline now uses the existing Codex CLI ChatGPT login as a provider, plus a fake provider for tests.
+   - Each specialist run persists prompt, context manifest, output, result JSON, artifact graph nodes, and workstream state.
 
 10. Interactive research workbench. Pending by design.
     - Build a local UI only after the contracts above are stable.
@@ -119,6 +121,28 @@ these stages in order for a target project:
 6. `review-workstream` / review gate: block approval for source debt, theorem debt, statement drift, Lean placeholders, missing original-theorem dependency paths, or unverified computation certificates.
 7. `run-comath-evaluation`: write a capability report for the project against the public paper modules.
 8. Only after all relevant checks are implemented/partial with no missing local capability should a project proceed to final assembly.
+
+For Codex-backed specialists, use the existing ChatGPT login rather than an
+OpenAI API key:
+
+```bash
+ara-math run-comath-specialist \
+  --project projects/<project> \
+  --role source_auditor \
+  --workstream source-literature-audit \
+  --backend codex
+
+ara-math run-comath-specialist-loop \
+  --project projects/<project> \
+  --backend codex \
+  --max-specialists 3 \
+  --max-parallel-specialists 2
+```
+
+If `--model` is omitted, `codex exec` uses `~/.codex/config.toml`; on this
+machine that currently selects `gpt-5.5` with `xhigh` reasoning effort. Tests
+must continue to use `--backend fake` or a fake provider so CI never consumes
+real model quota.
 
 This recipe gives local architecture parity, not Google-internal parity. The
 remaining irreducible gaps are proprietary model quality, Google-specific
@@ -308,10 +332,10 @@ Implemented locally:
 - Reproducible computation manifests, certificates, and verification reports.
 - Theory-building memory for conjectures, lemmas, failed hypotheses, novelty notes, and new directions.
 - Local capability evaluation harness.
+- Codex CLI specialist orchestration over the existing ChatGPT login, with fake-provider tests.
 
 Still pending:
 
 - Autonomous iterative literature/source audit loops with query planning and confidence scoring.
-- External LLM-backed project coordinator/specialists beyond the local deterministic contracts.
 - Interactive UI beyond the durable Markdown/file-backed dashboard.
 - Independent benchmark-grade evaluation and any claim comparable to Google FrontierMath results.

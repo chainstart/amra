@@ -16,6 +16,7 @@ from ara_math.comath_capabilities import (
     update_theory_memory,
     verify_computation_certificate,
 )
+from ara_math.comath_specialists import run_specialist, run_specialist_loop
 from ara_math.coordinator import (
     add_workstream as comath_add_workstream,
     bootstrap_ces75_erdos866_workstreams,
@@ -260,6 +261,47 @@ def build_parser() -> argparse.ArgumentParser:
         help="Write local CoMath specialist role contracts for the project.",
     )
     install_specialists.add_argument("--project", type=Path, required=True)
+
+    run_specialist_cmd = subparsers.add_parser(
+        "run-comath-specialist",
+        help="Run one CoMath specialist through fake or Codex CLI ChatGPT backend.",
+    )
+    run_specialist_cmd.add_argument("--project", type=Path, required=True)
+    run_specialist_cmd.add_argument("--role", "--role-id", dest="role_id", required=True)
+    run_specialist_cmd.add_argument("--workstream", "--workstream-id", dest="workstream_id", default="")
+    run_specialist_cmd.add_argument("--task", default="")
+    run_specialist_cmd.add_argument("--backend", choices=("fake", "codex"), default="codex")
+    run_specialist_cmd.add_argument("--model", default="", help="Override Codex model; empty uses ~/.codex/config.toml.")
+    run_specialist_cmd.add_argument(
+        "--reasoning-effort",
+        default="",
+        help="Override Codex reasoning effort; empty uses ~/.codex/config.toml.",
+    )
+    run_specialist_cmd.add_argument("--timeout", type=int, default=900)
+    run_specialist_cmd.add_argument("--search", action="store_true")
+    run_specialist_cmd.add_argument("--run-name", default=None)
+    run_specialist_cmd.add_argument("--context-file", type=Path, action="append", default=[])
+
+    run_specialist_loop_cmd = subparsers.add_parser(
+        "run-comath-specialist-loop",
+        help="Run a bounded loop over ready CoMath specialist roles.",
+    )
+    run_specialist_loop_cmd.add_argument("--project", type=Path, required=True)
+    run_specialist_loop_cmd.add_argument(
+        "--roles",
+        action="append",
+        default=[],
+        help="Comma-separated role ids. If omitted, ready workstreams with role_id metadata are selected.",
+    )
+    run_specialist_loop_cmd.add_argument("--backend", choices=("fake", "codex"), default="codex")
+    run_specialist_loop_cmd.add_argument("--model", default="", help="Override Codex model; empty uses ~/.codex/config.toml.")
+    run_specialist_loop_cmd.add_argument("--reasoning-effort", default="")
+    run_specialist_loop_cmd.add_argument("--timeout", type=int, default=900)
+    run_specialist_loop_cmd.add_argument("--search", action="store_true")
+    run_specialist_loop_cmd.add_argument("--max-specialists", type=int, default=3)
+    run_specialist_loop_cmd.add_argument("--max-parallel-specialists", type=int, default=1)
+    run_specialist_loop_cmd.add_argument("--run-name", default=None)
+    run_specialist_loop_cmd.add_argument("--task", default="")
 
     add_comath_workstream = subparsers.add_parser(
         "add-workstream",
@@ -859,6 +901,40 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "install-comath-specialists":
         payload = install_specialist_role_contracts(args.project)
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "run-comath-specialist":
+        payload = run_specialist(
+            args.project,
+            role_id=args.role_id,
+            workstream_id=args.workstream_id,
+            task=args.task,
+            backend=args.backend,
+            model=args.model,
+            reasoning_effort=args.reasoning_effort,
+            timeout_seconds=args.timeout,
+            allow_search=args.search,
+            run_name=args.run_name,
+            context_files=args.context_file,
+        )
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "run-comath-specialist-loop":
+        payload = run_specialist_loop(
+            args.project,
+            roles=_split_csv(args.roles),
+            backend=args.backend,
+            model=args.model,
+            reasoning_effort=args.reasoning_effort,
+            timeout_seconds=args.timeout,
+            allow_search=args.search,
+            max_specialists=args.max_specialists,
+            max_parallel_specialists=args.max_parallel_specialists,
+            run_name=args.run_name,
+            task=args.task,
+        )
         _print(payload, args.json)
         return 0
 

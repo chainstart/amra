@@ -9,6 +9,7 @@ from ara_math.comath_capabilities import (
     update_theory_memory,
     verify_computation_certificate,
 )
+from ara_math.comath_specialists import run_specialist
 from ara_math.coordinator import comath_paths, initialize_comath_project
 from ara_math.workstreams import WorkstreamKind, WorkstreamStatus
 
@@ -112,6 +113,13 @@ def test_theory_memory_and_evaluation_cover_public_paper_capabilities(tmp_path: 
         novelty_note="The interval decomposition suggests a separate lemma inventory.",
         new_direction="Try a source-first dense interval theorem.",
     )
+    run_specialist(
+        project_dir,
+        role_id="theory_builder",
+        workstream_id="theory-building-memory",
+        backend="fake",
+        run_name="eval-theory-specialist",
+    )
     evaluation = run_comath_evaluation(project_dir)
     statuses = {item["capability"]: item["status"] for item in evaluation["report"]["checks"]}
 
@@ -120,6 +128,7 @@ def test_theory_memory_and_evaluation_cover_public_paper_capabilities(tmp_path: 
     assert len(memory["memory"]["failed_hypotheses"]) == 1
     assert statuses["intent_refinement"] == "implemented"
     assert statuses["specialist_agents"] == "implemented"
+    assert statuses["llm_specialist_orchestration"] == "implemented"
     assert statuses["computational_exploration"] == "implemented"
     assert statuses["theory_building"] == "implemented"
     assert statuses["review_gates"] == "partial"
@@ -172,14 +181,34 @@ def test_comath_capability_cli_smoke(tmp_path: Path, capsys) -> None:
     )
     theory_payload = json.loads(capsys.readouterr().out)
 
+    specialist_exit = main(
+        [
+            "--json",
+            "run-comath-specialist",
+            "--project",
+            str(project_dir),
+            "--role",
+            "source_auditor",
+            "--workstream",
+            "source-literature-audit",
+            "--backend",
+            "fake",
+            "--run-name",
+            "cli-source-specialist",
+        ]
+    )
+    specialist_payload = json.loads(capsys.readouterr().out)
+
     eval_exit = main(["--json", "run-comath-evaluation", "--project", str(project_dir)])
     eval_payload = json.loads(capsys.readouterr().out)
 
     assert intake_exit == 0
     assert compute_exit == 0
     assert theory_exit == 0
+    assert specialist_exit == 0
     assert eval_exit == 0
     assert "source-literature-audit" in intake_payload["intake_plan"]["workstream_ids"]
     assert compute_payload["certificate"]["verified"] is True
     assert theory_payload["memory"]["new_direction_candidates"]
+    assert specialist_payload["provider"]["provider"] == "fake"
     assert eval_payload["report"]["score"]["missing"] == 0

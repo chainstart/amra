@@ -692,6 +692,57 @@ class ComputationReproWorkstreamExecutor:
         )
 
 
+class LlmSpecialistWorkstreamExecutor:
+    executor_name = "llm_specialist"
+
+    def execute(self, context: WorkstreamExecutionContext) -> WorkstreamExecutionResult:
+        from ara_math.comath_specialists import run_specialist
+
+        started_at = utc_now_iso()
+        options = context.options
+        role_id = str(options.get("role_id") or context.workstream.metadata.get("role_id") or context.workstream.owner).strip()
+        if not role_id:
+            return WorkstreamExecutionResult(
+                workstream_id=context.workstream.workstream_id,
+                executor=self.executor_name,
+                status="blocked",
+                workstream_status=WorkstreamStatus.REVISION,
+                blockers=["No specialist role_id is configured for this workstream."],
+                payload={"status": "blocked"},
+                started_at=started_at,
+                metadata={"options": _safe_options(options)},
+            )
+        payload = run_specialist(
+            context.project_dir,
+            role_id=role_id,
+            workstream_id=context.workstream.workstream_id,
+            task=str(options.get("task") or context.workstream.metadata.get("specialist_task") or context.workstream.goal),
+            backend=str(options.get("specialist_backend") or options.get("backend") or context.workstream.metadata.get("specialist_backend") or "codex"),
+            model=str(options.get("model") or context.workstream.metadata.get("model") or ""),
+            reasoning_effort=str(options.get("reasoning_effort") or context.workstream.metadata.get("reasoning_effort") or ""),
+            timeout_seconds=int(options.get("timeout_seconds", options.get("timeout", context.workstream.metadata.get("timeout_seconds", 900)))),
+            allow_search=bool(options.get("allow_search", options.get("search", context.workstream.metadata.get("allow_search", False)))),
+            run_name=options.get("run_name"),
+            context_files=_as_path_list(options.get("context_files") or options.get("context_paths")),
+        )
+        provider_status = str(payload.get("provider", {}).get("status", "completed")).strip().lower() or "completed"
+        parsed = payload.get("result", {}).get("parsed_output", {})
+        blockers = [str(item) for item in parsed.get("blockers", [])] if isinstance(parsed, dict) else []
+        artifact_paths = _collect_artifact_paths(payload, project_dir=context.project_dir)
+        return WorkstreamExecutionResult(
+            workstream_id=context.workstream.workstream_id,
+            executor=self.executor_name,
+            status=provider_status,
+            workstream_status=_workstream_status_for(provider_status, blockers),
+            run_dir=str(payload.get("run_dir", "")),
+            artifact_paths=artifact_paths,
+            blockers=blockers,
+            payload=payload,
+            started_at=started_at,
+            metadata={"options": _safe_options(options), "role_id": role_id},
+        )
+
+
 def _callable_executor(name: str, func: Callable[[WorkstreamExecutionContext], Any]) -> WorkstreamExecutor:
     class CallableWorkstreamExecutor:
         executor_name = name
@@ -763,6 +814,11 @@ def get_workstream_executor(
         "reproducibility": "computation_repro",
         "computation_certificate": "computation_repro",
         "computation_reproducibility": "computation_repro",
+        "specialist": "llm_specialist",
+        "llm": "llm_specialist",
+        "llm_specialist": "llm_specialist",
+        "codex_specialist": "llm_specialist",
+        "chatgpt_specialist": "llm_specialist",
     }
     normalized = aliases.get(normalized, normalized)
     if normalized == "proof_strategy":
@@ -775,6 +831,8 @@ def get_workstream_executor(
         return SourceLiteratureWorkstreamExecutor(repo_root=repo_root)
     if normalized == "computation_repro":
         return ComputationReproWorkstreamExecutor()
+    if normalized == "llm_specialist":
+        return LlmSpecialistWorkstreamExecutor()
     raise ValueError(f"Unsupported CoMath workstream executor: {raw_name or normalized}")
 
 
