@@ -259,13 +259,15 @@ class MathScoutRunner:
             command.extend(["-m", self.backend_model])
         if self.backend_reasoning_effort:
             command.extend(["-c", f'model_reasoning_effort="{self.backend_reasoning_effort}"'])
-        command.extend(["exec", "-C", str(run_dir), "--output-last-message", str(output_path), prompt])
+        resolved_run_dir = run_dir.resolve()
+        resolved_output_path = output_path.resolve()
+        command.extend(["exec", "-C", str(resolved_run_dir), "--output-last-message", str(resolved_output_path), prompt])
 
         started = time.monotonic()
         try:
             completed = run_guarded_command(
                 command,
-                cwd=run_dir,
+                cwd=resolved_run_dir,
                 timeout=timeout_sec,
                 memory_mb=self.backend_max_memory_mb,
                 cpu_seconds=min(self.backend_max_cpu_seconds, max(timeout_sec + 10, timeout_sec)),

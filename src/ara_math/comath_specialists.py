@@ -322,12 +322,14 @@ class CodexCliSpecialistProvider:
             command.extend(["-m", self.model])
         if self.reasoning_effort:
             command.extend(["-c", f'model_reasoning_effort="{self.reasoning_effort}"'])
-        command.extend(["exec", "-C", str(bundle.run_dir), "--output-last-message", str(bundle.output_path), prompt])
+        run_dir = bundle.run_dir.resolve()
+        output_path = bundle.output_path.resolve()
+        command.extend(["exec", "-C", str(run_dir), "--output-last-message", str(output_path), prompt])
         try:
             runner = self.command_runner or run_guarded_command
             completed = runner(
                 command,
-                cwd=bundle.run_dir,
+                cwd=run_dir,
                 timeout=self.timeout_seconds,
                 memory_mb=self.memory_mb,
                 cpu_seconds=min(self.cpu_seconds, max(self.timeout_seconds + 10, self.timeout_seconds)),

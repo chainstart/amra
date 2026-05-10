@@ -8,7 +8,7 @@ from typing import Any
 
 from ara_math.banking import sync_local_problem_banks
 from ara_math.campaign_loop import CampaignLoopRunner
-from ara_math.comath_benchmarks import run_local_benchmark_suite
+from ara_math.comath_benchmarks import run_local_benchmark_suite, run_minimal_real_math_benchmark
 from ara_math.comath_capabilities import (
     create_computation_certificate,
     install_specialist_role_contracts,
@@ -329,6 +329,17 @@ def build_parser() -> argparse.ArgumentParser:
     )
     benchmark_cmd.add_argument("--output-root", type=Path, required=True)
     benchmark_cmd.add_argument("--suite-name", default="comath-local-smoke")
+
+    real_benchmark_cmd = subparsers.add_parser(
+        "run-comath-minimal-real-benchmark",
+        help="Run a tiny real math benchmark through a specialist backend.",
+    )
+    real_benchmark_cmd.add_argument("--output-root", type=Path, required=True)
+    real_benchmark_cmd.add_argument("--suite-name", default="minimal-math-real")
+    real_benchmark_cmd.add_argument("--backend", choices=("fake", "codex"), default="codex")
+    real_benchmark_cmd.add_argument("--model", default="")
+    real_benchmark_cmd.add_argument("--reasoning-effort", default="medium")
+    real_benchmark_cmd.add_argument("--timeout", type=int, default=300)
 
     add_comath_workstream = subparsers.add_parser(
         "add-workstream",
@@ -986,6 +997,18 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "run-comath-benchmarks":
         payload = run_local_benchmark_suite(args.output_root, suite_name=args.suite_name)
+        _print(payload, args.json)
+        return 0
+
+    if args.command == "run-comath-minimal-real-benchmark":
+        payload = run_minimal_real_math_benchmark(
+            args.output_root,
+            suite_name=args.suite_name,
+            backend=args.backend,
+            model=args.model,
+            reasoning_effort=args.reasoning_effort,
+            timeout_seconds=args.timeout,
+        )
         _print(payload, args.json)
         return 0
 

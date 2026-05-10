@@ -28,6 +28,56 @@ class BenchmarkResult:
         }
 
 
+@dataclass(frozen=True, slots=True)
+class MinimalMathProblem:
+    problem_id: str
+    title: str
+    statement: str
+    expected_term_groups: tuple[tuple[str, ...], ...]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "problem_id": self.problem_id,
+            "title": self.title,
+            "statement": self.statement,
+            "expected_term_groups": [list(group) for group in self.expected_term_groups],
+        }
+
+
+MINIMAL_REAL_MATH_PROBLEMS: tuple[MinimalMathProblem, ...] = (
+    MinimalMathProblem(
+        problem_id="sqrt2-irrational",
+        title="Irrationality of sqrt(2)",
+        statement="Prove that sqrt(2) is irrational.",
+        expected_term_groups=(
+            ("irrational",),
+            ("contradiction", "contradict"),
+            ("even",),
+        ),
+    ),
+    MinimalMathProblem(
+        problem_id="sum-odd-squares",
+        title="Sum of Odd Numbers",
+        statement="Prove that 1 + 3 + ... + (2n - 1) = n^2 for every positive integer n.",
+        expected_term_groups=(
+            ("induction", "inductive"),
+            ("n^2", "square"),
+            ("odd", "2n - 1", "2n+1"),
+        ),
+    ),
+    MinimalMathProblem(
+        problem_id="infinitely-many-primes",
+        title="Infinitely Many Primes",
+        statement="Prove that there are infinitely many prime numbers.",
+        expected_term_groups=(
+            ("prime", "primes"),
+            ("euclid", "product"),
+            ("contradiction", "divides", "remainder"),
+        ),
+    ),
+)
+
+
 def _run_case(benchmark_id: str, func: Callable[[], dict[str, Any]]) -> BenchmarkResult:
     try:
         details = func()
@@ -38,6 +88,105 @@ def _run_case(benchmark_id: str, func: Callable[[], dict[str, Any]]) -> Benchmar
             error=f"{type(exc).__name__}: {exc}\n{traceback.format_exc()}",
         )
     return BenchmarkResult(benchmark_id=benchmark_id, status="passed", details=details)
+
+
+def _matched_term_groups(text: str, groups: tuple[tuple[str, ...], ...]) -> tuple[list[list[str]], list[list[str]]]:
+    normalized = text.lower()
+    matched: list[list[str]] = []
+    missing: list[list[str]] = []
+    for group in groups:
+        terms = [term.lower() for term in group]
+        if any(term in normalized for term in terms):
+            matched.append(list(group))
+        else:
+            missing.append(list(group))
+    return matched, missing
+
+
+def _benchmark_minimal_math_problem(
+    project_root: Path,
+    problem: MinimalMathProblem,
+    *,
+    backend: str,
+    model: str,
+    reasoning_effort: str,
+    timeout_seconds: int,
+) -> BenchmarkResult:
+    project_dir = project_root / problem.problem_id
+    refine_intake_project(
+        project_dir,
+        goal=f"Minimal real math benchmark. {problem.statement}",
+        project_name=problem.title,
+    )
+    statement_path = project_dir / "problem_statement.md"
+    write_text(
+        statement_path,
+        "\n".join(
+            [
+                f"# {problem.title}",
+                "",
+                problem.statement,
+                "",
+                "Benchmark scope: produce an informal but complete elementary proof. "
+                "Lean and literature evidence are not required for this benchmark.",
+                "",
+            ]
+        ),
+    )
+    payload = run_specialist(
+        project_dir,
+        role_id="ideation_specialist",
+        workstream_id="ideation-route-discovery",
+        backend=backend,
+        model=model,
+        reasoning_effort=reasoning_effort,
+        timeout_seconds=timeout_seconds,
+        allow_search=False,
+        run_name=f"{problem.problem_id}-minimal-real-proof",
+        task=(
+            "Solve this minimal benchmark problem. Give a complete elementary proof route and a concise proof. "
+            "This benchmark does not require Lean formalization or literature search; "
+            "mark those as not applicable, not blockers.\n\n"
+            f"Problem: {problem.statement}"
+        ),
+        context_files=[statement_path],
+        resume_memory=False,
+    )
+    output_path = Path(payload["output_path"])
+    output = output_path.read_text(encoding="utf-8") if output_path.exists() else ""
+    parsed_output = payload.get("result", {}).get("parsed_output", {})
+    parsed_fields = parsed_output.get("fields", {})
+    required_fields = {"summary", "claims", "evidence", "blockers", "next_actions"}
+    missing_fields = sorted(required_fields - set(parsed_fields))
+    matched_groups, missing_groups = _matched_term_groups(output, problem.expected_term_groups)
+    provider_status = str(payload.get("provider", {}).get("status", ""))
+    passed = provider_status == "completed" and not missing_fields and not missing_groups
+    return BenchmarkResult(
+        benchmark_id=problem.problem_id,
+        status="passed" if passed else "failed",
+        details={
+            "project_dir": str(project_dir),
+            "statement": problem.statement,
+            "provider_status": provider_status,
+            "parsed_status": parsed_output.get("status", ""),
+            "prompt_path": payload.get("prompt_path", ""),
+            "output_path": payload.get("output_path", ""),
+            "result_path": str(
+                project_dir
+                / "comath"
+                / "specialists"
+                / "ideation_specialist"
+                / "runs"
+                / payload["run_id"]
+                / "result.json"
+            ),
+            "has_required_fields": not missing_fields,
+            "missing_fields": missing_fields,
+            "matched_term_groups": matched_groups,
+            "missing_term_groups": missing_groups,
+            "output_chars": len(output),
+        },
+    )
 
 
 def _benchmark_specialist_memory(project_root: Path) -> dict[str, Any]:
@@ -161,6 +310,80 @@ def run_local_benchmark_suite(
                 "| Benchmark | Status |",
                 "| --- | --- |",
                 *[f"| {item.benchmark_id} | {item.status} |" for item in benchmarks],
+                "",
+            ]
+        ),
+    )
+    return report
+
+
+def run_minimal_real_math_benchmark(
+    output_root: Path,
+    *,
+    suite_name: str = "minimal-math-real",
+    backend: str = "codex",
+    model: str = "",
+    reasoning_effort: str = "medium",
+    timeout_seconds: int = 300,
+) -> dict[str, Any]:
+    output_root = Path(output_root)
+    suite_id = slugify(suite_name)
+    suite_dir = output_root / suite_id
+    project_root = suite_dir / "projects"
+    project_root.mkdir(parents=True, exist_ok=True)
+    write_json(
+        suite_dir / "problem_set.json",
+        {"problems": [problem.to_dict() for problem in MINIMAL_REAL_MATH_PROBLEMS]},
+    )
+    benchmarks = [
+        _benchmark_minimal_math_problem(
+            project_root,
+            problem,
+            backend=backend,
+            model=model,
+            reasoning_effort=reasoning_effort,
+            timeout_seconds=timeout_seconds,
+        )
+        for problem in MINIMAL_REAL_MATH_PROBLEMS
+    ]
+    passed = sum(1 for item in benchmarks if item.status == "passed")
+    report = {
+        "suite_id": suite_id,
+        "generated_at": utc_now_iso(),
+        "output_root": str(output_root),
+        "suite_dir": str(suite_dir),
+        "backend": backend,
+        "model": model or "codex_config_default",
+        "reasoning_effort": reasoning_effort or "codex_config_default",
+        "timeout_seconds": timeout_seconds,
+        "problem_set_path": str(suite_dir / "problem_set.json"),
+        "status": "passed" if passed == len(benchmarks) else "failed",
+        "passed": passed,
+        "total": len(benchmarks),
+        "benchmarks": [item.to_dict() for item in benchmarks],
+    }
+    write_json(suite_dir / "benchmark_report.json", report)
+    write_text(
+        suite_dir / "benchmark_report.md",
+        "\n".join(
+            [
+                f"# Minimal Real Math Benchmark: {suite_id}",
+                "",
+                f"- Status: `{report['status']}`",
+                f"- Backend: `{backend}`",
+                f"- Model: `{report['model']}`",
+                f"- Reasoning effort: `{report['reasoning_effort']}`",
+                f"- Passed: `{passed}/{len(benchmarks)}`",
+                "",
+                "| Problem | Status | Provider | Output |",
+                "| --- | --- | --- | --- |",
+                *[
+                    (
+                        f"| {item.benchmark_id} | {item.status} | "
+                        f"{item.details.get('provider_status', '')} | {item.details.get('output_path', '')} |"
+                    )
+                    for item in benchmarks
+                ],
                 "",
             ]
         ),

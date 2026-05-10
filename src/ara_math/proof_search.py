@@ -994,11 +994,13 @@ class ProofSearchRunner:
             }
 
         if backend == "codex":
+            resolved_repo_root = self.repo_root.resolve()
+            resolved_output_path = output_path.resolve()
             command = [
                 backend_bin,
                 "exec",
                 "-C",
-                str(self.repo_root),
+                str(resolved_repo_root),
                 "--full-auto",
             ]
             if self.backend_model:
@@ -1007,9 +1009,9 @@ class ProofSearchRunner:
                 command.extend(["-c", f'model_reasoning_effort="{self.backend_reasoning_effort}"'])
             command.extend(
                 [
-                "--output-last-message",
-                str(output_path),
-                prompt,
+                    "--output-last-message",
+                    str(resolved_output_path),
+                    prompt,
                 ]
             )
         else:
@@ -1026,7 +1028,7 @@ class ProofSearchRunner:
         try:
             completed = run_guarded_command(
                 command,
-                cwd=self.repo_root,
+                cwd=resolved_repo_root,
                 timeout=timeout_sec,
                 memory_mb=self.backend_max_memory_mb,
                 cpu_seconds=min(self.backend_max_cpu_seconds, max(timeout_sec + 10, timeout_sec)),

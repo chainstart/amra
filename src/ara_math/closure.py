@@ -312,18 +312,20 @@ class ClosureProverRunner:
             output_path.write_text(f"Backend `{backend}` is not implemented.\n", encoding="utf-8")
             return {"backend": backend, "status": "unsupported", "returncode": None, "elapsed_seconds": 0.0, "command": []}
 
-        command = [backend_bin, "exec", "-C", str(self.repo_root), "--full-auto"]
+        resolved_repo_root = self.repo_root.resolve()
+        resolved_output_path = output_path.resolve()
+        command = [backend_bin, "exec", "-C", str(resolved_repo_root), "--full-auto"]
         if self.backend_model:
             command.extend(["-m", self.backend_model])
         if self.backend_reasoning_effort:
             command.extend(["-c", f'model_reasoning_effort="{self.backend_reasoning_effort}"'])
-        command.extend(["--output-last-message", str(output_path), prompt])
+        command.extend(["--output-last-message", str(resolved_output_path), prompt])
 
         started = time.monotonic()
         try:
             completed = run_guarded_command(
                 command,
-                cwd=self.repo_root,
+                cwd=resolved_repo_root,
                 timeout=timeout_sec,
                 memory_mb=self.backend_max_memory_mb,
                 cpu_seconds=min(self.backend_max_cpu_seconds, max(timeout_sec + 10, timeout_sec)),

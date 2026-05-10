@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from ara_math.cli import main
-from ara_math.comath_benchmarks import run_local_benchmark_suite
+from ara_math.comath_benchmarks import run_local_benchmark_suite, run_minimal_real_math_benchmark
 from ara_math.comath_capabilities import refine_intake_project, run_comath_evaluation
 from ara_math.comath_source_audit import build_source_query_plan, run_source_audit_loop
 from ara_math.coordinator import comath_paths
@@ -56,6 +56,21 @@ def test_local_benchmark_suite_runs_all_fake_regressions(tmp_path: Path) -> None
     assert report["status"] == "passed"
     assert report["passed"] == report["total"] == 3
     assert (tmp_path / "benchmarks" / "hardening-smoke" / "benchmark_report.json").exists()
+
+
+def test_minimal_real_math_benchmark_persists_problem_set_with_fake_backend(tmp_path: Path) -> None:
+    report = run_minimal_real_math_benchmark(
+        tmp_path / "real-benchmarks",
+        suite_name="tiny-real-suite",
+        backend="fake",
+        timeout_seconds=30,
+    )
+
+    assert report["total"] == 3
+    assert report["backend"] == "fake"
+    assert report["status"] == "failed"
+    assert (tmp_path / "real-benchmarks" / "tiny-real-suite" / "problem_set.json").exists()
+    assert all(item["details"]["output_path"] for item in report["benchmarks"])
 
 
 def test_hardening_cli_smoke(tmp_path: Path, capsys) -> None:
