@@ -20,6 +20,7 @@ from ara_math.coordinator import (
     save_project_state,
     select_next_workstreams,
 )
+from ara_math.obligation_refiner import materialize_obligations_from_specialist_run
 from ara_math.runtime import env_int, env_str, run_guarded_command
 from ara_math.uncertainty import UncertaintyItem, UncertaintyKind, load_uncertainty_ledger, save_uncertainty_ledger
 from ara_math.workspace import append_jsonl, read_json, read_text, slugify, write_json, write_text
@@ -696,6 +697,18 @@ def persist_specialist_run(
                 "run_dir": str(bundle.run_dir),
             },
         )
+        obligation_refinement = {"created": [], "updated": [], "candidates": []}
+        if provider_result.status in SUCCESS_PROVIDER_STATUSES:
+            obligation_refinement = materialize_obligations_from_specialist_run(
+                project_dir,
+                parsed_output=parsed,
+                source_role_id=bundle.role_id,
+                source_run_id=bundle.run_id,
+                source_workstream_id=bundle.workstream_id,
+                output_path=provider_result.output_path,
+            )
+        result_payload["obligation_refinement"] = obligation_refinement
+        write_json(bundle.run_dir / "result.json", result_payload)
         render_project_dashboard(project_dir)
     return result_payload
 

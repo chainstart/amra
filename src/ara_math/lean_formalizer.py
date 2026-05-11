@@ -39,6 +39,10 @@ class LeanFormalizerRunner:
             "ARA_LEAN_FORMALIZER_REASONING_EFFORT",
             env_str("ARA_MATH_BACKEND_REASONING_EFFORT", "high"),
         )
+        forbidden_header_patterns = env_str("ARA_LEAN_FORMALIZER_FORBIDDEN_TARGET_HEADER_PATTERNS", "")
+        self.forbidden_target_header_patterns = [
+            item.strip() for item in forbidden_header_patterns.split(",") if item.strip()
+        ]
         self.min_available_memory_mb = env_int("ARA_MATH_MIN_AVAILABLE_MEMORY_MB", 2048)
         self.max_load_per_cpu = env_float("ARA_MATH_MAX_LOAD_PER_CPU", 1.5)
         self.wait_max_seconds = env_int("ARA_MATH_SYSTEM_WAIT_SECONDS", 30)
@@ -135,6 +139,25 @@ class LeanFormalizerRunner:
                     }
         return {"found": False, "reason": "target_declaration_not_found", "name": theorem}
 
+    def _target_header_text(self, target: dict[str, Any]) -> str:
+        if not target.get("found"):
+            return ""
+        path = Path(str(target.get("path") or ""))
+        line_number = int(target.get("line") or 0)
+        if not path.exists() or line_number <= 0:
+            return ""
+        lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()
+        start = max(0, line_number - 1)
+        header_lines: list[str] = []
+        for line in lines[start : start + 40]:
+            header_lines.append(line)
+            stripped = line.strip()
+            if ":= by" in stripped or stripped.endswith(":= by"):
+                break
+            if " := " in stripped or stripped.endswith(" :="):
+                break
+        return "\n".join(header_lines)
+
     def _run_build(self, *, workspace: Path, build_command: list[str], timeout_sec: int) -> dict[str, Any]:
         started = time.monotonic()
         if not build_command:
@@ -223,6 +246,15 @@ class LeanFormalizerRunner:
             blockers.append(f"Lean workspace still contains {admit_count} `admit` placeholder(s).")
         if placeholder_count:
             blockers.append(f"Lean workspace still contains {placeholder_count} ARA placeholder marker(s).")
+        target_header = self._target_header_text(target)
+        forbidden_header_hits = [
+            pattern for pattern in self.forbidden_target_header_patterns if pattern in target_header
+        ]
+        for pattern in forbidden_header_hits:
+            blockers.append(
+                "Target theorem header contains forbidden assumption pattern "
+                f"`{pattern}`."
+            )
 
         defect_score = (
             (0 if build_status == "passed" else 1_000_000)
@@ -232,6 +264,7 @@ class LeanFormalizerRunner:
             + constant_count * 50_000
             + admit_count * 50_000
             + placeholder_count * 10_000
+            + len(forbidden_header_hits) * 50_000
             + len(diagnostics)
         )
         return {
@@ -251,6 +284,9 @@ class LeanFormalizerRunner:
                 "admit": admit_count,
                 "placeholder": placeholder_count,
             },
+            "target_header": target_header,
+            "forbidden_target_header_patterns": self.forbidden_target_header_patterns,
+            "forbidden_target_header_hits": forbidden_header_hits,
             "defect_score": defect_score,
             "verified": not blockers,
             "blockers": blockers,

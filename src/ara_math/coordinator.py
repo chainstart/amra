@@ -608,14 +608,30 @@ def _active_bottleneck_kind(ledger: UncertaintyLedger) -> WorkstreamKind | None:
     return _UNCERTAINTY_KIND_TO_WORKSTREAM.get(blocker.kind.value)
 
 
-def _workstream_schedule_key(workstream: WorkstreamRecord, ledger: UncertaintyLedger) -> tuple[int, int, int, int, str, str]:
+def _workstream_scheduler_priority(workstream: WorkstreamRecord) -> int:
+    try:
+        return int(workstream.metadata.get("scheduler_priority", 50) or 50)
+    except (TypeError, ValueError):
+        return 50
+
+
+def _workstream_schedule_key(workstream: WorkstreamRecord, ledger: UncertaintyLedger) -> tuple[int, int, int, int, int, str, str]:
     bottleneck = _active_bottleneck_item(ledger)
     bottleneck_kind = _active_bottleneck_kind(ledger)
     owner_rank = 0 if bottleneck is not None and bottleneck.owner_workstream_id == workstream.workstream_id else 1
     bottleneck_rank = 0 if bottleneck_kind is not None and workstream.kind == bottleneck_kind else 1
     status_rank = 0 if workstream.status == WorkstreamStatus.REVISION else 1
+    scheduler_priority = _workstream_scheduler_priority(workstream)
     kind_rank = _BOTTLENECK_KIND_ORDER.get(workstream.kind, 99)
-    return (owner_rank, bottleneck_rank, status_rank, kind_rank, workstream.created_at, workstream.workstream_id)
+    return (
+        owner_rank,
+        bottleneck_rank,
+        status_rank,
+        scheduler_priority,
+        kind_rank,
+        workstream.created_at,
+        workstream.workstream_id,
+    )
 
 
 def _normalized_blockers(values: list[Any]) -> tuple[str, ...]:

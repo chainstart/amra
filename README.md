@@ -27,6 +27,7 @@ This repository currently implements:
 - a Lean workspace template
 - a Lean build executor with `sorry` auditing
 - an autonomous proof-search / proof-repair loop with per-attempt state and optional `codex exec` backend
+- CoMath specialist orchestration that turns review blockers and next actions into prioritized proof obligations
 - batch open-problem campaigning over scout shortlists with timeout-based handoff to the next problem
 - manuscript blueprint generation
 - deliverable assessment that routes projects into `research_report`, `formalization_note`, or `paper_candidate`
@@ -254,6 +255,7 @@ Each project stores explicit artifacts:
 - `proof/claim_registry.json`: machine-readable claim inventory and current status
 - `proof/math_attack_status.json`: latest math-only single-target attack loop status
 - `proof/math_attack/*/journal.md`: iteration journal for route discovery, obstruction searches, and local evidence feedback
+- `comath/workstreams/*`: specialist workstreams, including generated proof obligations with acceptance criteria
 - `formal/MathProject/*.lean`: generated Lean workspace and proof stubs
 - `artifacts/lean_build_report.json`: structured build diagnostics and `sorry` count
 - `writing/manuscript.md`: manuscript blueprint tied to the current claims and build state
