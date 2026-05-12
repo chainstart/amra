@@ -28,6 +28,7 @@ from ara_math.coordinator import (
     review_workstream_placeholder,
     run_comath_loop as comath_run_loop,
 )
+from ara_math.goal_campaign import GoalDrivenCampaignRunner, write_goal_manifest_template
 from ara_math.orchestrator import MathResearchOrchestrator
 from ara_math.problem_bank import (
     DEFAULT_BANK_PATH,
@@ -638,6 +639,52 @@ def build_parser() -> argparse.ArgumentParser:
         default=0,
         help="Optional per-round wall-clock cap in seconds. 0 uses dynamic scheduling.",
     )
+
+    init_goal_campaign = subparsers.add_parser(
+        "init-goal-campaign",
+        help="Write a root-goal manifest for a goal-driven proof campaign.",
+    )
+    init_goal_campaign.add_argument("--output", type=Path, required=True)
+    root_statement_group = init_goal_campaign.add_mutually_exclusive_group(required=True)
+    root_statement_group.add_argument("--root-statement", default=None)
+    root_statement_group.add_argument("--root-statement-file", type=Path, default=None)
+    init_goal_campaign.add_argument("--root-target-theorem", default="")
+    init_goal_campaign.add_argument("--root-target-file", default="")
+    init_goal_campaign.add_argument("--workspace", default="")
+    init_goal_campaign.add_argument("--build-command", default="lake build")
+
+    goal_campaign = subparsers.add_parser(
+        "run-goal-campaign",
+        help="Run a root-goal driven campaign over dependent subgoals.",
+    )
+    goal_campaign.add_argument("--manifest", type=Path, required=True)
+    goal_campaign.add_argument("--context-file", type=Path, action="append", default=[])
+    goal_campaign.add_argument("--workspace", type=Path, default=None)
+    goal_campaign.add_argument("--build-command", default=None)
+    goal_campaign.add_argument("--backend", choices=("codex", "none"), default="codex")
+    goal_campaign.add_argument("--mode", choices=("auto", "hybrid", "proof-lab", "lean-formalizer"), default="hybrid")
+    goal_campaign.add_argument("--rounds", type=int, default=12)
+    goal_campaign.add_argument("--time-budget", type=int, default=7200)
+    goal_campaign.add_argument("--child-rounds", type=int, default=2)
+    goal_campaign.add_argument("--child-time-budget", type=int, default=1800)
+    goal_campaign.add_argument("--child-attempts", type=int, default=6)
+    goal_campaign.add_argument("--child-attempt-timeout", type=int, default=900)
+    goal_campaign.add_argument("--child-build-timeout", type=int, default=300)
+    goal_campaign.add_argument("--gap-review-time-budget", type=int, default=600)
+    goal_campaign.add_argument("--gap-review-attempt-timeout", type=int, default=300)
+    goal_campaign.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    goal_campaign.add_argument("--output-root", type=Path, default=None)
+    goal_campaign.add_argument("--run-name", default=None)
+    goal_campaign.add_argument("--model", default=None, help="Override proof-lab and formalizer backend model.")
+    goal_campaign.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+    goal_campaign.add_argument(
+        "--max-goal-runs",
+        type=int,
+        default=0,
+        help="Optional retry cap per goal. 0 leaves retries bounded only by campaign rounds/time.",
+    )
+    goal_campaign.add_argument("--no-write-back-manifest", action="store_true")
+    goal_campaign.add_argument("--no-dynamic-goals", action="store_true")
 
     harvest = subparsers.add_parser("harvest-literature", help="Collect local and remote reference snapshots for a project.")
     harvest.add_argument("--project", type=Path, required=True)
@@ -1324,6 +1371,61 @@ def main(argv: list[str] | None = None) -> int:
                 run_name=args.run_name,
                 max_stalled_rounds=args.max_stalled_rounds,
                 round_time_budget_sec=args.round_time_budget,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "init-goal-campaign":
+        root_statement = (
+            args.root_statement
+            if args.root_statement is not None
+            else args.root_statement_file.read_text(encoding="utf-8")
+        )
+        payload = write_goal_manifest_template(
+            args.output,
+            root_statement=root_statement,
+            root_target_theorem=args.root_target_theorem,
+            root_target_file=args.root_target_file,
+            workspace=args.workspace,
+            build_command=shlex.split(args.build_command),
+        )
+        _print({"manifest_path": str(args.output), "manifest": payload}, args.json)
+        return 0
+
+    if args.command == "run-goal-campaign":
+        runner = GoalDrivenCampaignRunner(repo_root=_repo_root())
+        if args.model is not None:
+            runner.campaign_runner.proof_lab_runner.backend_model = args.model
+            runner.campaign_runner.lean_formalizer_runner.backend_model = args.model
+            runner.proof_lab_runner.backend_model = args.model
+        if args.reasoning_effort is not None:
+            runner.campaign_runner.proof_lab_runner.backend_reasoning_effort = args.reasoning_effort
+            runner.campaign_runner.lean_formalizer_runner.backend_reasoning_effort = args.reasoning_effort
+            runner.proof_lab_runner.backend_reasoning_effort = args.reasoning_effort
+        _print(
+            runner.run(
+                manifest_path=args.manifest,
+                workspace=args.workspace,
+                build_command=shlex.split(args.build_command) if args.build_command else None,
+                context_paths=args.context_file,
+                backend=args.backend,
+                mode=args.mode,
+                rounds=args.rounds,
+                time_budget_sec=args.time_budget,
+                child_rounds=args.child_rounds,
+                child_time_budget_sec=args.child_time_budget,
+                child_attempts=args.child_attempts,
+                child_attempt_timeout_sec=args.child_attempt_timeout,
+                child_build_timeout_sec=args.child_build_timeout,
+                gap_review_time_budget_sec=args.gap_review_time_budget,
+                gap_review_attempt_timeout_sec=args.gap_review_attempt_timeout,
+                enable_search=args.search,
+                output_root=args.output_root,
+                run_name=args.run_name,
+                max_goal_runs=args.max_goal_runs,
+                write_back_manifest=not args.no_write_back_manifest,
+                dynamic_goal_creation=not args.no_dynamic_goals,
             ),
             args.json,
         )

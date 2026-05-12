@@ -1,8 +1,10 @@
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Analysis.SpecialFunctions.Log.Deriv
+import Mathlib.Analysis.SpecialFunctions.Sqrt
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 import Mathlib.Analysis.Calculus.Deriv.Mul
 import Mathlib.Analysis.Calculus.Deriv.Pow
+import Mathlib.Analysis.Convex.Deriv
 import Mathlib.MeasureTheory.Integral.IntervalIntegral.FundThmCalculus
 import Mathlib.MeasureTheory.Integral.IntervalAverage
 
@@ -960,6 +962,46 @@ def frontierRightTailTrace (C : ℝ) : ℝ :=
 def frontierRightTailTraceDeriv (C : ℝ) : ℝ :=
   3 * C ^ 2 + 3 * frontierEpsilon ^ 2 + 2
 
+def frontierLeftTrace (C : ℝ) : ℝ :=
+  C ^ 3 + 3 * C * frontierEpsilon ^ 2 + 2 * frontierEpsilon ^ 3 +
+    frontierKL * Real.exp (C / frontierEpsilon)
+
+def frontierLeftTraceDeriv (C : ℝ) : ℝ :=
+  3 * C ^ 2 + 3 * frontierEpsilon ^ 2 +
+    frontierKL / frontierEpsilon * Real.exp (C / frontierEpsilon)
+
+def frontierLeftTraceSecond (C : ℝ) : ℝ :=
+  6 * C + frontierKL / frontierEpsilon ^ 2 * Real.exp (C / frontierEpsilon)
+
+def frontierLeftTraceThird (C : ℝ) : ℝ :=
+  6 + frontierKL / frontierEpsilon ^ 3 * Real.exp (C / frontierEpsilon)
+
+def frontierMiddleTrace (C : ℝ) : ℝ :=
+  frontierLeftTrace frontierCStar +
+    frontierLeftTraceDeriv frontierCStar * (C - frontierCStar) +
+      (3 * frontierCStar + 6 * frontierEpsilon) * (C - frontierCStar) ^ 2
+
+def frontierMiddleTraceDeriv (C : ℝ) : ℝ :=
+  frontierLeftTraceDeriv frontierCStar +
+    2 * (3 * frontierCStar + 6 * frontierEpsilon) * (C - frontierCStar)
+
+def frontierMiddlePiece (x1 x2 : ℝ) : ℝ :=
+  let r := frontierRadius frontierEpsilon x1 x2
+  let C := frontierCPlus frontierEpsilon x1 x2
+  frontierMiddleTrace C - r * frontierMiddleTraceDeriv C
+
+def frontierMiddleTraceSecond (_C : ℝ) : ℝ :=
+  2 * (3 * frontierCStar + 6 * frontierEpsilon)
+
+def frontierMiddleTraceThird (_C : ℝ) : ℝ :=
+  0
+
+def frontierRightTailTraceSecond (C : ℝ) : ℝ :=
+  6 * C
+
+def frontierRightTailTraceThird (_C : ℝ) : ℝ :=
+  6
+
 def frontierRightTailPiece (x1 x2 : ℝ) : ℝ :=
   let r := frontierRadius frontierEpsilon x1 x2
   let C := frontierCPlus frontierEpsilon x1 x2
@@ -969,9 +1011,20 @@ def frontierMajorant (x1 x2 : ℝ) : ℝ :=
   if frontierCPlus frontierEpsilon x1 x2 ≤ frontierCStar then
     frontierLeftPiece x1 x2
   else if frontierCPlus frontierEpsilon x1 x2 ≤ frontierCStar + 2 * frontierEpsilon then
-    frontierCupPiece x1 x2
+    frontierMiddlePiece x1 x2
   else
     frontierRightTailPiece x1 x2
+
+def frontierMiddleBranchDomain (x1 x2 : ℝ) : Prop :=
+  frontierCStar < frontierCPlus frontierEpsilon x1 x2 ∧
+    frontierCPlus frontierEpsilon x1 x2 ≤ frontierCStar + 2 * frontierEpsilon
+
+def frontierLeftBranchDomain (x1 x2 : ℝ) : Prop :=
+  frontierCPlus frontierEpsilon x1 x2 < frontierCStar
+
+def frontierRightBranchDomain (x1 x2 : ℝ) : Prop :=
+  frontierCStar + 2 * frontierEpsilon <
+    frontierCPlus frontierEpsilon x1 x2
 
 theorem frontierEpsilon_pos : 0 < frontierEpsilon := by
   rw [frontierEpsilon]
@@ -986,6 +1039,1020 @@ theorem frontierEpsilon_sq : frontierEpsilon ^ 2 = (1 / 12 : ℝ) := by
   have hs : (Real.sqrt 3) ^ 2 = (3 : ℝ) := Real.sq_sqrt hs_nonneg
   rw [div_pow, hs]
   norm_num
+
+theorem frontierLeftPiece_trace_form (x1 x2 : ℝ) :
+    frontierLeftPiece x1 x2 =
+      frontierLeftTrace (frontierCPlus frontierEpsilon x1 x2) -
+        frontierRadius frontierEpsilon x1 x2 *
+          frontierLeftTraceDeriv (frontierCPlus frontierEpsilon x1 x2) := by
+  rw [frontierLeftPiece, frontierLeftTrace, frontierLeftTraceDeriv]
+  field_simp [frontierEpsilon_ne_zero]
+  ring
+
+theorem frontierMiddlePiece_trace_form (x1 x2 : ℝ) :
+    frontierMiddlePiece x1 x2 =
+      frontierMiddleTrace (frontierCPlus frontierEpsilon x1 x2) -
+        frontierRadius frontierEpsilon x1 x2 *
+          frontierMiddleTraceDeriv (frontierCPlus frontierEpsilon x1 x2) := by
+  rfl
+
+theorem frontierRightTailPiece_trace_form (x1 x2 : ℝ) :
+    frontierRightTailPiece x1 x2 =
+      frontierRightTailTrace (frontierCPlus frontierEpsilon x1 x2) -
+        frontierRadius frontierEpsilon x1 x2 *
+          frontierRightTailTraceDeriv (frontierCPlus frontierEpsilon x1 x2) := by
+  rfl
+
+theorem frontierLeftTrace_hasDerivAt (C : ℝ) :
+    HasDerivAt frontierLeftTrace (frontierLeftTraceDeriv C) C := by
+  unfold frontierLeftTrace frontierLeftTraceDeriv
+  have hdiv :
+      HasDerivAt (fun x : ℝ => x / frontierEpsilon) (1 / frontierEpsilon) C := by
+    simpa [div_eq_mul_inv] using
+      (hasDerivAt_id' C).mul_const frontierEpsilon⁻¹
+  have hexp :
+      HasDerivAt (fun x : ℝ => Real.exp (x / frontierEpsilon))
+        (Real.exp (C / frontierEpsilon) * (1 / frontierEpsilon)) C := by
+    simpa only [one_div] using
+      (Real.hasDerivAt_exp (C / frontierEpsilon)).comp C hdiv
+  have hkl :
+      HasDerivAt
+        (fun x : ℝ => frontierKL * Real.exp (x / frontierEpsilon))
+        (frontierKL * (Real.exp (C / frontierEpsilon) *
+          (1 / frontierEpsilon))) C := by
+    exact hexp.const_mul frontierKL
+  convert
+      (((hasDerivAt_id' C).pow 3).add
+        ((hasDerivAt_id' C).const_mul (3 * frontierEpsilon ^ 2))).add
+          (hasDerivAt_const C (2 * frontierEpsilon ^ 3)) |>.add hkl using 1
+  · funext x
+    simp
+    ring_nf
+  · ring
+
+theorem frontierLeftTraceDeriv_hasDerivAt (C : ℝ) :
+    HasDerivAt frontierLeftTraceDeriv (frontierLeftTraceSecond C) C := by
+  unfold frontierLeftTraceDeriv frontierLeftTraceSecond
+  have hdiv :
+      HasDerivAt (fun x : ℝ => x / frontierEpsilon) (1 / frontierEpsilon) C := by
+    simpa [div_eq_mul_inv] using
+      (hasDerivAt_id' C).mul_const frontierEpsilon⁻¹
+  have hexp :
+      HasDerivAt (fun x : ℝ => Real.exp (x / frontierEpsilon))
+        (Real.exp (C / frontierEpsilon) * (1 / frontierEpsilon)) C := by
+    simpa only [one_div] using
+      (Real.hasDerivAt_exp (C / frontierEpsilon)).comp C hdiv
+  have hkl :
+      HasDerivAt
+        (fun x : ℝ =>
+          frontierKL / frontierEpsilon * Real.exp (x / frontierEpsilon))
+        ((frontierKL / frontierEpsilon) *
+          (Real.exp (C / frontierEpsilon) * (1 / frontierEpsilon))) C := by
+    exact hexp.const_mul (frontierKL / frontierEpsilon)
+  convert
+      (((hasDerivAt_id' C).pow 2).const_mul 3).add
+        (hasDerivAt_const C (3 * frontierEpsilon ^ 2)) |>.add hkl using 1
+  field_simp [frontierEpsilon_ne_zero]
+  ring
+
+theorem frontierLeftTraceSecond_hasDerivAt (C : ℝ) :
+    HasDerivAt frontierLeftTraceSecond (frontierLeftTraceThird C) C := by
+  unfold frontierLeftTraceSecond frontierLeftTraceThird
+  have hdiv :
+      HasDerivAt (fun x : ℝ => x / frontierEpsilon) (1 / frontierEpsilon) C := by
+    simpa [div_eq_mul_inv] using
+      (hasDerivAt_id' C).mul_const frontierEpsilon⁻¹
+  have hexp :
+      HasDerivAt (fun x : ℝ => Real.exp (x / frontierEpsilon))
+        (Real.exp (C / frontierEpsilon) * (1 / frontierEpsilon)) C := by
+    simpa only [one_div] using
+      (Real.hasDerivAt_exp (C / frontierEpsilon)).comp C hdiv
+  have hkl :
+      HasDerivAt
+        (fun x : ℝ =>
+          frontierKL / frontierEpsilon ^ 2 * Real.exp (x / frontierEpsilon))
+        ((frontierKL / frontierEpsilon ^ 2) *
+          (Real.exp (C / frontierEpsilon) * (1 / frontierEpsilon))) C := by
+    exact hexp.const_mul (frontierKL / frontierEpsilon ^ 2)
+  convert ((hasDerivAt_id' C).const_mul 6).add hkl using 1
+  field_simp [frontierEpsilon_ne_zero]
+
+theorem frontierRightTailTrace_hasDerivAt (C : ℝ) :
+    HasDerivAt frontierRightTailTrace (frontierRightTailTraceDeriv C) C := by
+  unfold frontierRightTailTrace frontierRightTailTraceDeriv
+  convert
+      (((((hasDerivAt_id' C).pow 3).add
+        ((hasDerivAt_id' C).const_mul (3 * frontierEpsilon ^ 2))).add
+          (hasDerivAt_const C (2 * frontierEpsilon ^ 3))).add
+            ((hasDerivAt_id' C).const_mul 2)).sub
+              (hasDerivAt_const C (2 * frontierA)) using 1
+  · funext x
+    simp
+    ring
+  · ring
+
+theorem frontierRightTailTraceDeriv_hasDerivAt (C : ℝ) :
+    HasDerivAt frontierRightTailTraceDeriv (frontierRightTailTraceSecond C) C := by
+  unfold frontierRightTailTraceDeriv frontierRightTailTraceSecond
+  convert
+      (((hasDerivAt_id' C).pow 2).const_mul 3).add
+        (hasDerivAt_const C (3 * frontierEpsilon ^ 2)) |>.add
+          (hasDerivAt_const C 2) using 1
+  ring_nf
+
+theorem frontierRightTailTraceSecond_hasDerivAt (C : ℝ) :
+    HasDerivAt frontierRightTailTraceSecond (frontierRightTailTraceThird C) C := by
+  unfold frontierRightTailTraceSecond frontierRightTailTraceThird
+  convert (hasDerivAt_id' C).const_mul 6 using 1
+  ring_nf
+
+theorem frontierMiddleTrace_hasDerivAt (C : ℝ) :
+    HasDerivAt frontierMiddleTrace (frontierMiddleTraceDeriv C) C := by
+  unfold frontierMiddleTrace frontierMiddleTraceDeriv
+  have hlin : HasDerivAt (fun x : ℝ => x - frontierCStar) 1 C := by
+    exact (hasDerivAt_id' C).sub_const frontierCStar
+  have hterm1 :
+      HasDerivAt
+        (fun x : ℝ => frontierLeftTraceDeriv frontierCStar *
+          (x - frontierCStar))
+        (frontierLeftTraceDeriv frontierCStar) C := by
+    convert hlin.const_mul (frontierLeftTraceDeriv frontierCStar) using 1
+    ring
+  have hterm2 :
+      HasDerivAt
+        (fun x : ℝ => (3 * frontierCStar + 6 * frontierEpsilon) *
+          (x - frontierCStar) ^ 2)
+        ((3 * frontierCStar + 6 * frontierEpsilon) *
+          (2 * (C - frontierCStar))) C := by
+    convert (hlin.pow 2).const_mul (3 * frontierCStar + 6 * frontierEpsilon)
+      using 1
+    ring
+  convert
+      ((hasDerivAt_const C (frontierLeftTrace frontierCStar)).add hterm1).add
+        hterm2 using 1
+  ring
+
+theorem frontierMiddleTraceDeriv_hasDerivAt (C : ℝ) :
+    HasDerivAt frontierMiddleTraceDeriv (frontierMiddleTraceSecond C) C := by
+  unfold frontierMiddleTraceDeriv frontierMiddleTraceSecond
+  have hlin : HasDerivAt (fun x : ℝ => x - frontierCStar) 1 C := by
+    exact (hasDerivAt_id' C).sub_const frontierCStar
+  have hterm :
+      HasDerivAt
+        (fun x : ℝ => 2 * (3 * frontierCStar + 6 * frontierEpsilon) *
+          (x - frontierCStar))
+        (2 * (3 * frontierCStar + 6 * frontierEpsilon)) C := by
+    convert hlin.const_mul (2 * (3 * frontierCStar + 6 * frontierEpsilon))
+      using 1
+    ring
+  convert
+      (hasDerivAt_const C (frontierLeftTraceDeriv frontierCStar)).add hterm
+      using 1
+  ring
+
+theorem frontierMiddleTraceSecond_hasDerivAt (C : ℝ) :
+    HasDerivAt frontierMiddleTraceSecond (frontierMiddleTraceThird C) C := by
+  unfold frontierMiddleTraceSecond frontierMiddleTraceThird
+  simpa using hasDerivAt_const C (2 * (3 * frontierCStar + 6 * frontierEpsilon))
+
+theorem frontierRadius_nonneg (eps x1 x2 : ℝ) :
+    0 ≤ frontierRadius eps x1 x2 := by
+  rw [frontierRadius]
+  exact Real.sqrt_nonneg _
+
+theorem frontierRadius_arg_hasDerivAt_along
+    (eps x1 x2 u v t : ℝ) :
+    HasDerivAt
+      (fun s : ℝ => eps ^ 2 + (x1 + s * u) ^ 2 - (x2 + s * v))
+      (2 * (x1 + t * u) * u - v) t := by
+  have hlin1 : HasDerivAt (fun s : ℝ => x1 + s * u) u t := by
+    simpa only [Pi.add_apply, zero_add, one_mul] using
+      (hasDerivAt_const t x1).add ((hasDerivAt_id' t).mul_const u)
+  have hlin2 : HasDerivAt (fun s : ℝ => x2 + s * v) v t := by
+    simpa only [Pi.add_apply, zero_add, one_mul] using
+      (hasDerivAt_const t x2).add ((hasDerivAt_id' t).mul_const v)
+  have hmain :=
+    ((hasDerivAt_const t (eps ^ 2)).add (hlin1.pow 2)).sub hlin2
+  convert hmain using 1
+  ring
+
+theorem frontierRadius_hasDerivAt_along_of_pos
+    {eps x1 x2 u v t : ℝ}
+    (hr : 0 < frontierRadius eps (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ => frontierRadius eps (x1 + s * u) (x2 + s * v))
+      ((2 * (x1 + t * u) * u - v) /
+        (2 * frontierRadius eps (x1 + t * u) (x2 + t * v))) t := by
+  have harg_ne :
+      eps ^ 2 + (x1 + t * u) ^ 2 - (x2 + t * v) ≠ 0 := by
+    intro hzero
+    have hr0 : frontierRadius eps (x1 + t * u) (x2 + t * v) = 0 := by
+      rw [frontierRadius, hzero, Real.sqrt_zero]
+    linarith
+  have harg := frontierRadius_arg_hasDerivAt_along eps x1 x2 u v t
+  have harg_ne_at :
+      eps ^ 2 + (x1 + t * u) ^ 2 - (x2 + t * v) ≠ 0 := by
+    simpa using harg_ne
+  simpa [frontierRadius] using harg.sqrt harg_ne_at
+
+theorem frontierCPlus_hasDerivAt_along_of_radius_pos
+    {eps x1 x2 u v t : ℝ}
+    (hr : 0 < frontierRadius eps (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ => frontierCPlus eps (x1 + s * u) (x2 + s * v))
+      (u + (2 * (x1 + t * u) * u - v) /
+        (2 * frontierRadius eps (x1 + t * u) (x2 + t * v))) t := by
+  have hx1 : HasDerivAt (fun s : ℝ => x1 + s * u) u t := by
+    simpa only [Pi.add_apply, zero_add, one_mul] using
+      (hasDerivAt_const t x1).add ((hasDerivAt_id' t).mul_const u)
+  have hradius :=
+    frontierRadius_hasDerivAt_along_of_pos (eps := eps) (x1 := x1) (x2 := x2)
+      (u := u) (v := v) (t := t) hr
+  simpa [frontierCPlus] using hx1.add hradius
+
+theorem frontierTraceBranch_hasDerivAt_along_of_radius_pos
+    {trace traceDeriv traceSecond : ℝ → ℝ}
+    {eps x1 x2 u v t : ℝ}
+    (hr : 0 < frontierRadius eps (x1 + t * u) (x2 + t * v))
+    (htrace :
+      HasDerivAt trace
+        (traceDeriv (frontierCPlus eps (x1 + t * u) (x2 + t * v)))
+        (frontierCPlus eps (x1 + t * u) (x2 + t * v)))
+    (htraceDeriv :
+      HasDerivAt traceDeriv
+        (traceSecond (frontierCPlus eps (x1 + t * u) (x2 + t * v)))
+        (frontierCPlus eps (x1 + t * u) (x2 + t * v))) :
+    HasDerivAt
+      (fun s : ℝ =>
+        trace (frontierCPlus eps (x1 + s * u) (x2 + s * v)) -
+          frontierRadius eps (x1 + s * u) (x2 + s * v) *
+            traceDeriv (frontierCPlus eps (x1 + s * u) (x2 + s * v)))
+      (u * traceDeriv (frontierCPlus eps (x1 + t * u) (x2 + t * v)) -
+        frontierRadius eps (x1 + t * u) (x2 + t * v) *
+          traceSecond (frontierCPlus eps (x1 + t * u) (x2 + t * v)) *
+            (u + (2 * (x1 + t * u) * u - v) /
+              (2 * frontierRadius eps (x1 + t * u) (x2 + t * v)))) t := by
+  let r : ℝ := frontierRadius eps (x1 + t * u) (x2 + t * v)
+  let C : ℝ := frontierCPlus eps (x1 + t * u) (x2 + t * v)
+  let rdot : ℝ := (2 * (x1 + t * u) * u - v) / (2 * r)
+  let Cdot : ℝ := u + rdot
+  have hradius :
+      HasDerivAt
+        (fun s : ℝ => frontierRadius eps (x1 + s * u) (x2 + s * v))
+        rdot t := by
+    simpa [r, rdot] using
+      frontierRadius_hasDerivAt_along_of_pos
+        (eps := eps) (x1 := x1) (x2 := x2) (u := u) (v := v) (t := t) hr
+  have hC :
+      HasDerivAt
+        (fun s : ℝ => frontierCPlus eps (x1 + s * u) (x2 + s * v))
+        Cdot t := by
+    simpa [r, rdot, Cdot] using
+      frontierCPlus_hasDerivAt_along_of_radius_pos
+        (eps := eps) (x1 := x1) (x2 := x2) (u := u) (v := v) (t := t) hr
+  have htrace_comp :
+      HasDerivAt
+        (fun s : ℝ =>
+          trace (frontierCPlus eps (x1 + s * u) (x2 + s * v)))
+        (traceDeriv C * Cdot) t := by
+    simpa [C] using htrace.comp t hC
+  have htraceDeriv_comp :
+      HasDerivAt
+        (fun s : ℝ =>
+          traceDeriv (frontierCPlus eps (x1 + s * u) (x2 + s * v)))
+        (traceSecond C * Cdot) t := by
+    simpa [C] using htraceDeriv.comp t hC
+  convert htrace_comp.sub (hradius.mul htraceDeriv_comp) using 1;
+    simp [r, C, rdot, Cdot]
+  ring
+
+theorem frontierLeftPiece_hasDerivAt_along_of_radius_pos
+    {x1 x2 u v t : ℝ}
+    (hr :
+      0 < frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ => frontierLeftPiece (x1 + s * u) (x2 + s * v))
+      (u * frontierLeftTraceDeriv
+          (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) -
+        frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v) *
+          frontierLeftTraceSecond
+            (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) *
+            (u + (2 * (x1 + t * u) * u - v) /
+              (2 * frontierRadius frontierEpsilon
+                (x1 + t * u) (x2 + t * v)))) t := by
+  convert
+    frontierTraceBranch_hasDerivAt_along_of_radius_pos
+      (trace := frontierLeftTrace) (traceDeriv := frontierLeftTraceDeriv)
+      (traceSecond := frontierLeftTraceSecond)
+      (eps := frontierEpsilon) (x1 := x1) (x2 := x2)
+      (u := u) (v := v) (t := t) hr
+      (frontierLeftTrace_hasDerivAt
+        (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)))
+      (frontierLeftTraceDeriv_hasDerivAt
+        (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v))) using 1
+  ext s
+  rw [frontierLeftPiece_trace_form]
+
+theorem frontierRightTailPiece_hasDerivAt_along_of_radius_pos
+    {x1 x2 u v t : ℝ}
+    (hr :
+      0 < frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ => frontierRightTailPiece (x1 + s * u) (x2 + s * v))
+      (u * frontierRightTailTraceDeriv
+          (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) -
+        frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v) *
+          frontierRightTailTraceSecond
+            (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) *
+            (u + (2 * (x1 + t * u) * u - v) /
+              (2 * frontierRadius frontierEpsilon
+                (x1 + t * u) (x2 + t * v)))) t := by
+  convert
+    frontierTraceBranch_hasDerivAt_along_of_radius_pos
+      (trace := frontierRightTailTrace)
+      (traceDeriv := frontierRightTailTraceDeriv)
+      (traceSecond := frontierRightTailTraceSecond)
+      (eps := frontierEpsilon) (x1 := x1) (x2 := x2)
+      (u := u) (v := v) (t := t) hr
+      (frontierRightTailTrace_hasDerivAt
+        (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)))
+      (frontierRightTailTraceDeriv_hasDerivAt
+        (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v))) using 1
+
+theorem frontierMiddlePiece_hasDerivAt_along_of_radius_pos
+    {x1 x2 u v t : ℝ}
+    (hr :
+      0 < frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ => frontierMiddlePiece (x1 + s * u) (x2 + s * v))
+      (u * frontierMiddleTraceDeriv
+          (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) -
+        frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v) *
+          frontierMiddleTraceSecond
+            (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) *
+            (u + (2 * (x1 + t * u) * u - v) /
+              (2 * frontierRadius frontierEpsilon
+                (x1 + t * u) (x2 + t * v)))) t := by
+  convert
+    frontierTraceBranch_hasDerivAt_along_of_radius_pos
+      (trace := frontierMiddleTrace)
+      (traceDeriv := frontierMiddleTraceDeriv)
+      (traceSecond := frontierMiddleTraceSecond)
+      (eps := frontierEpsilon) (x1 := x1) (x2 := x2)
+      (u := u) (v := v) (t := t) hr
+      (frontierMiddleTrace_hasDerivAt
+        (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)))
+      (frontierMiddleTraceDeriv_hasDerivAt
+        (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v))) using 1
+
+theorem frontierLeftPiece_hasDerivAt_along_rankOne_of_radius_pos
+    {x1 x2 u v t : ℝ}
+    (hr :
+      0 < frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ => frontierLeftPiece (x1 + s * u) (x2 + s * v))
+      (u * frontierLeftTraceDeriv
+          (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) -
+        (((2 * frontierCPlus frontierEpsilon
+            (x1 + t * u) (x2 + t * v)) * u - v) / 2) *
+          frontierLeftTraceSecond
+            (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v))) t := by
+  have hder :=
+    frontierLeftPiece_hasDerivAt_along_of_radius_pos
+      (x1 := x1) (x2 := x2) (u := u) (v := v) (t := t) hr
+  have hr_ne :
+      frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v) ≠ 0 :=
+    ne_of_gt hr
+  have hmul :
+      frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v) *
+          (u + (2 * (x1 + t * u) * u - v) /
+            (2 * frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v))) =
+        (((2 * frontierCPlus frontierEpsilon
+          (x1 + t * u) (x2 + t * v)) * u - v) / 2) := by
+    rw [frontierCPlus]
+    field_simp [hr_ne]
+    ring
+  convert hder using 1
+  rw [← hmul]
+  ring
+
+theorem frontierRightTailPiece_hasDerivAt_along_rankOne_of_radius_pos
+    {x1 x2 u v t : ℝ}
+    (hr :
+      0 < frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ => frontierRightTailPiece (x1 + s * u) (x2 + s * v))
+      (u * frontierRightTailTraceDeriv
+          (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) -
+        (((2 * frontierCPlus frontierEpsilon
+            (x1 + t * u) (x2 + t * v)) * u - v) / 2) *
+          frontierRightTailTraceSecond
+            (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v))) t := by
+  have hder :=
+    frontierRightTailPiece_hasDerivAt_along_of_radius_pos
+      (x1 := x1) (x2 := x2) (u := u) (v := v) (t := t) hr
+  have hr_ne :
+      frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v) ≠ 0 :=
+    ne_of_gt hr
+  have hmul :
+      frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v) *
+          (u + (2 * (x1 + t * u) * u - v) /
+            (2 * frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v))) =
+        (((2 * frontierCPlus frontierEpsilon
+          (x1 + t * u) (x2 + t * v)) * u - v) / 2) := by
+    rw [frontierCPlus]
+    field_simp [hr_ne]
+    ring
+  convert hder using 1
+  rw [← hmul]
+  ring
+
+theorem frontierMiddlePiece_hasDerivAt_along_rankOne_of_radius_pos
+    {x1 x2 u v t : ℝ}
+    (hr :
+      0 < frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ => frontierMiddlePiece (x1 + s * u) (x2 + s * v))
+      (u * frontierMiddleTraceDeriv
+          (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) -
+        (((2 * frontierCPlus frontierEpsilon
+            (x1 + t * u) (x2 + t * v)) * u - v) / 2) *
+          frontierMiddleTraceSecond
+            (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v))) t := by
+  have hder :=
+    frontierMiddlePiece_hasDerivAt_along_of_radius_pos
+      (x1 := x1) (x2 := x2) (u := u) (v := v) (t := t) hr
+  have hr_ne :
+      frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v) ≠ 0 :=
+    ne_of_gt hr
+  have hmul :
+      frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v) *
+          (u + (2 * (x1 + t * u) * u - v) /
+            (2 * frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v))) =
+        (((2 * frontierCPlus frontierEpsilon
+          (x1 + t * u) (x2 + t * v)) * u - v) / 2) := by
+    rw [frontierCPlus]
+    field_simp [hr_ne]
+    ring
+  convert hder using 1
+  rw [← hmul]
+  ring
+
+theorem frontierCPlus_hasDerivAt_along_rankOne_of_radius_pos
+    {eps x1 x2 u v t : ℝ}
+    (hr : 0 < frontierRadius eps (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ => frontierCPlus eps (x1 + s * u) (x2 + s * v))
+      (((2 * frontierCPlus eps (x1 + t * u) (x2 + t * v)) * u - v) /
+        (2 * frontierRadius eps (x1 + t * u) (x2 + t * v))) t := by
+  have hC :=
+    frontierCPlus_hasDerivAt_along_of_radius_pos
+      (eps := eps) (x1 := x1) (x2 := x2) (u := u) (v := v) (t := t) hr
+  convert hC using 1
+  field_simp [ne_of_gt hr]
+  rw [frontierCPlus]
+  ring
+
+theorem frontierTraceBranch_rankOne_slope_hasDerivAt_along_of_radius_pos
+    {traceDeriv traceSecond traceThird : ℝ → ℝ}
+    {eps x1 x2 u v t : ℝ}
+    (hr : 0 < frontierRadius eps (x1 + t * u) (x2 + t * v))
+    (htraceDeriv :
+      HasDerivAt traceDeriv
+        (traceSecond (frontierCPlus eps (x1 + t * u) (x2 + t * v)))
+        (frontierCPlus eps (x1 + t * u) (x2 + t * v)))
+    (htraceSecond :
+      HasDerivAt traceSecond
+        (traceThird (frontierCPlus eps (x1 + t * u) (x2 + t * v)))
+        (frontierCPlus eps (x1 + t * u) (x2 + t * v))) :
+    HasDerivAt
+      (fun s : ℝ =>
+        u * traceDeriv (frontierCPlus eps (x1 + s * u) (x2 + s * v)) -
+          (((2 * frontierCPlus eps (x1 + s * u) (x2 + s * v)) * u - v) / 2) *
+            traceSecond (frontierCPlus eps (x1 + s * u) (x2 + s * v)))
+      ((-(frontierCPlus eps (x1 + t * u) (x2 + t * v) ^ 2 *
+              traceThird (frontierCPlus eps (x1 + t * u) (x2 + t * v)) /
+                frontierRadius eps (x1 + t * u) (x2 + t * v))) * u ^ 2 +
+        2 * (frontierCPlus eps (x1 + t * u) (x2 + t * v) *
+              traceThird (frontierCPlus eps (x1 + t * u) (x2 + t * v)) /
+                (2 * frontierRadius eps (x1 + t * u) (x2 + t * v))) * u * v +
+          (-(traceThird (frontierCPlus eps (x1 + t * u) (x2 + t * v)) /
+              (4 * frontierRadius eps (x1 + t * u) (x2 + t * v)))) * v ^ 2) t := by
+  let C : ℝ := frontierCPlus eps (x1 + t * u) (x2 + t * v)
+  let r : ℝ := frontierRadius eps (x1 + t * u) (x2 + t * v)
+  let Cdot : ℝ := ((2 * C) * u - v) / (2 * r)
+  let A : ℝ := ((2 * C) * u - v) / 2
+  have hr_ne : r ≠ 0 := ne_of_gt (by simpa [r] using hr)
+  have hC :
+      HasDerivAt
+        (fun s : ℝ => frontierCPlus eps (x1 + s * u) (x2 + s * v))
+        Cdot t := by
+    simpa [C, r, Cdot] using
+      frontierCPlus_hasDerivAt_along_rankOne_of_radius_pos
+        (eps := eps) (x1 := x1) (x2 := x2) (u := u) (v := v) (t := t) hr
+  have htraceDeriv_comp :
+      HasDerivAt
+        (fun s : ℝ => traceDeriv (frontierCPlus eps (x1 + s * u) (x2 + s * v)))
+        (traceSecond C * Cdot) t := by
+    simpa [C] using htraceDeriv.comp t hC
+  have htraceSecond_comp :
+      HasDerivAt
+        (fun s : ℝ => traceSecond (frontierCPlus eps (x1 + s * u) (x2 + s * v)))
+        (traceThird C * Cdot) t := by
+    simpa [C] using htraceSecond.comp t hC
+  have hA :
+      HasDerivAt
+        (fun s : ℝ =>
+          (((2 * frontierCPlus eps (x1 + s * u) (x2 + s * v)) * u - v) / 2))
+        (u * Cdot) t := by
+    convert (((hC.const_mul (2 * u)).sub (hasDerivAt_const t v)).const_mul
+      ((1 / 2 : ℝ))) using 1
+    · ext s
+      simp [Pi.sub_apply]
+      ring
+    · ring
+  have hslope :=
+    (htraceDeriv_comp.const_mul u).sub (hA.mul htraceSecond_comp)
+  convert hslope using 1
+  dsimp [C, r, Cdot, A] at *
+  field_simp [hr_ne]
+  ring
+
+theorem frontierLeftPiece_rankOne_slope_hasDerivAt_along_of_radius_pos
+    {x1 x2 u v t : ℝ}
+    (hr :
+      0 < frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ =>
+        u * frontierLeftTraceDeriv
+          (frontierCPlus frontierEpsilon (x1 + s * u) (x2 + s * v)) -
+          (((2 * frontierCPlus frontierEpsilon
+              (x1 + s * u) (x2 + s * v)) * u - v) / 2) *
+            frontierLeftTraceSecond
+              (frontierCPlus frontierEpsilon (x1 + s * u) (x2 + s * v)))
+      ((-(frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v) ^ 2 *
+              frontierLeftTraceThird
+                (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) /
+                frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v))) * u ^ 2 +
+        2 * (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v) *
+              frontierLeftTraceThird
+                (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) /
+                (2 * frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v))) *
+            u * v +
+          (-(frontierLeftTraceThird
+                (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) /
+              (4 * frontierRadius frontierEpsilon
+                (x1 + t * u) (x2 + t * v)))) * v ^ 2) t := by
+  exact frontierTraceBranch_rankOne_slope_hasDerivAt_along_of_radius_pos
+    (traceDeriv := frontierLeftTraceDeriv)
+    (traceSecond := frontierLeftTraceSecond)
+    (traceThird := frontierLeftTraceThird)
+    (eps := frontierEpsilon) (x1 := x1) (x2 := x2)
+    (u := u) (v := v) (t := t) hr
+    (frontierLeftTraceDeriv_hasDerivAt
+      (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)))
+    (frontierLeftTraceSecond_hasDerivAt
+      (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)))
+
+theorem frontierRightTailPiece_rankOne_slope_hasDerivAt_along_of_radius_pos
+    {x1 x2 u v t : ℝ}
+    (hr :
+      0 < frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ =>
+        u * frontierRightTailTraceDeriv
+          (frontierCPlus frontierEpsilon (x1 + s * u) (x2 + s * v)) -
+          (((2 * frontierCPlus frontierEpsilon
+              (x1 + s * u) (x2 + s * v)) * u - v) / 2) *
+            frontierRightTailTraceSecond
+              (frontierCPlus frontierEpsilon (x1 + s * u) (x2 + s * v)))
+      ((-(frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v) ^ 2 *
+              frontierRightTailTraceThird
+                (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) /
+                frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v))) * u ^ 2 +
+        2 * (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v) *
+              frontierRightTailTraceThird
+                (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) /
+                (2 * frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v))) *
+            u * v +
+          (-(frontierRightTailTraceThird
+                (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) /
+              (4 * frontierRadius frontierEpsilon
+                (x1 + t * u) (x2 + t * v)))) * v ^ 2) t := by
+  exact frontierTraceBranch_rankOne_slope_hasDerivAt_along_of_radius_pos
+    (traceDeriv := frontierRightTailTraceDeriv)
+    (traceSecond := frontierRightTailTraceSecond)
+    (traceThird := frontierRightTailTraceThird)
+    (eps := frontierEpsilon) (x1 := x1) (x2 := x2)
+    (u := u) (v := v) (t := t) hr
+    (frontierRightTailTraceDeriv_hasDerivAt
+      (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)))
+    (frontierRightTailTraceSecond_hasDerivAt
+      (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)))
+
+theorem frontierMiddlePiece_rankOne_slope_hasDerivAt_along_of_radius_pos
+    {x1 x2 u v t : ℝ}
+    (hr :
+      0 < frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v)) :
+    HasDerivAt
+      (fun s : ℝ =>
+        u * frontierMiddleTraceDeriv
+          (frontierCPlus frontierEpsilon (x1 + s * u) (x2 + s * v)) -
+          (((2 * frontierCPlus frontierEpsilon
+              (x1 + s * u) (x2 + s * v)) * u - v) / 2) *
+            frontierMiddleTraceSecond
+              (frontierCPlus frontierEpsilon (x1 + s * u) (x2 + s * v)))
+      ((-(frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v) ^ 2 *
+              frontierMiddleTraceThird
+                (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) /
+                frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v))) * u ^ 2 +
+        2 * (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v) *
+              frontierMiddleTraceThird
+                (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) /
+                (2 * frontierRadius frontierEpsilon (x1 + t * u) (x2 + t * v))) *
+            u * v +
+          (-(frontierMiddleTraceThird
+                (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)) /
+              (4 * frontierRadius frontierEpsilon
+                (x1 + t * u) (x2 + t * v)))) * v ^ 2) t := by
+  exact frontierTraceBranch_rankOne_slope_hasDerivAt_along_of_radius_pos
+    (traceDeriv := frontierMiddleTraceDeriv)
+    (traceSecond := frontierMiddleTraceSecond)
+    (traceThird := frontierMiddleTraceThird)
+    (eps := frontierEpsilon) (x1 := x1) (x2 := x2)
+    (u := u) (v := v) (t := t) hr
+    (frontierMiddleTraceDeriv_hasDerivAt
+      (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)))
+    (frontierMiddleTraceSecond_hasDerivAt
+      (frontierCPlus frontierEpsilon (x1 + t * u) (x2 + t * v)))
+
+theorem frontierRadius_sq_of_omega
+    {x1 x2 : ℝ} (hΩ : frontierOmega frontierEpsilon x1 x2) :
+    frontierRadius frontierEpsilon x1 x2 ^ 2 =
+      frontierEpsilon ^ 2 + x1 ^ 2 - x2 := by
+  have harg_nonneg :
+      0 ≤ frontierEpsilon ^ 2 + x1 ^ 2 - x2 := by
+    nlinarith [hΩ.2]
+  rw [frontierRadius]
+  exact Real.sq_sqrt harg_nonneg
+
+theorem frontierRadius_le_epsilon_of_omega
+    {x1 x2 : ℝ} (hΩ : frontierOmega frontierEpsilon x1 x2) :
+    frontierRadius frontierEpsilon x1 x2 ≤ frontierEpsilon := by
+  have harg_le :
+      frontierEpsilon ^ 2 + x1 ^ 2 - x2 ≤ frontierEpsilon ^ 2 := by
+    linarith [hΩ.1]
+  have hsqrt_le :
+      Real.sqrt (frontierEpsilon ^ 2 + x1 ^ 2 - x2) ≤
+        Real.sqrt (frontierEpsilon ^ 2) :=
+    Real.sqrt_le_sqrt harg_le
+  rw [Real.sqrt_sq_eq_abs, abs_of_pos frontierEpsilon_pos] at hsqrt_le
+  simpa [frontierRadius] using hsqrt_le
+
+theorem frontierCPlus_sub_x1_nonneg_of_omega
+    {x1 x2 : ℝ} (_hΩ : frontierOmega frontierEpsilon x1 x2) :
+    0 ≤ frontierCPlus frontierEpsilon x1 x2 - x1 := by
+  have hr : 0 ≤ frontierRadius frontierEpsilon x1 x2 :=
+    frontierRadius_nonneg frontierEpsilon x1 x2
+  rw [frontierCPlus]
+  linarith
+
+theorem frontierCPlus_sub_x1_le_epsilon_of_omega
+    {x1 x2 : ℝ} (hΩ : frontierOmega frontierEpsilon x1 x2) :
+    frontierCPlus frontierEpsilon x1 x2 - x1 ≤ frontierEpsilon := by
+  have hr : frontierRadius frontierEpsilon x1 x2 ≤ frontierEpsilon :=
+    frontierRadius_le_epsilon_of_omega hΩ
+  rw [frontierCPlus]
+  linarith
+
+theorem frontierCPlus_lower_x1_of_omega
+    {x1 x2 : ℝ} (hΩ : frontierOmega frontierEpsilon x1 x2) :
+    x1 ≤ frontierCPlus frontierEpsilon x1 x2 := by
+  have h := frontierCPlus_sub_x1_nonneg_of_omega hΩ
+  linarith
+
+theorem frontierCPlus_upper_x1_add_epsilon_of_omega
+    {x1 x2 : ℝ} (hΩ : frontierOmega frontierEpsilon x1 x2) :
+    frontierCPlus frontierEpsilon x1 x2 ≤ x1 + frontierEpsilon := by
+  have h := frontierCPlus_sub_x1_le_epsilon_of_omega hΩ
+  linarith
+
+theorem frontierRadius_upper_boundary (x1 : ℝ) :
+    frontierRadius frontierEpsilon x1 (x1 ^ 2 + frontierEpsilon ^ 2) = 0 := by
+  rw [frontierRadius]
+  have harg : frontierEpsilon ^ 2 + x1 ^ 2 -
+      (x1 ^ 2 + frontierEpsilon ^ 2) = 0 := by
+    ring
+  rw [harg, Real.sqrt_zero]
+
+theorem frontierCPlus_upper_boundary (x1 : ℝ) :
+    frontierCPlus frontierEpsilon x1 (x1 ^ 2 + frontierEpsilon ^ 2) = x1 := by
+  rw [frontierCPlus, frontierRadius_upper_boundary]
+  ring
+
+theorem frontierRadius_eq_zero_iff_upper_boundary_of_omega
+    {x1 x2 : ℝ} (hΩ : frontierOmega frontierEpsilon x1 x2) :
+    frontierRadius frontierEpsilon x1 x2 = 0 ↔
+      x2 = x1 ^ 2 + frontierEpsilon ^ 2 := by
+  constructor
+  · intro hr
+    have hsq := frontierRadius_sq_of_omega hΩ
+    rw [hr] at hsq
+    linarith
+  · intro hx
+    rw [hx, frontierRadius_upper_boundary]
+
+theorem frontierRadius_pos_iff_upper_strict_of_omega
+    {x1 x2 : ℝ} (hΩ : frontierOmega frontierEpsilon x1 x2) :
+    0 < frontierRadius frontierEpsilon x1 x2 ↔
+      x2 < x1 ^ 2 + frontierEpsilon ^ 2 := by
+  constructor
+  · intro hr
+    have hne : x2 ≠ x1 ^ 2 + frontierEpsilon ^ 2 := by
+      intro hx
+      have hr0 :
+          frontierRadius frontierEpsilon x1 x2 = 0 :=
+        (frontierRadius_eq_zero_iff_upper_boundary_of_omega hΩ).2 hx
+      linarith
+    exact lt_of_le_of_ne hΩ.2 hne
+  · intro hupper
+    rw [frontierRadius]
+    exact Real.sqrt_pos_of_pos (by linarith)
+
+theorem frontierCPlus_eq_x1_of_radius_eq_zero
+    {eps x1 x2 : ℝ} (hr : frontierRadius eps x1 x2 = 0) :
+    frontierCPlus eps x1 x2 = x1 := by
+  rw [frontierCPlus, hr]
+  ring
+
+theorem frontierLeftPiece_upper_boundary (x1 : ℝ) :
+    frontierLeftPiece x1 (x1 ^ 2 + frontierEpsilon ^ 2) =
+      frontierLeftTrace x1 := by
+  rw [frontierLeftPiece, frontierLeftTrace, frontierCPlus_upper_boundary,
+    frontierRadius_upper_boundary]
+  field_simp [frontierEpsilon_ne_zero]
+  ring
+
+theorem frontierMiddlePiece_upper_boundary (x1 : ℝ) :
+    frontierMiddlePiece x1 (x1 ^ 2 + frontierEpsilon ^ 2) =
+      frontierMiddleTrace x1 := by
+  rw [frontierMiddlePiece, frontierCPlus_upper_boundary,
+    frontierRadius_upper_boundary]
+  ring
+
+theorem frontierRightTailPiece_upper_boundary (x1 : ℝ) :
+    frontierRightTailPiece x1 (x1 ^ 2 + frontierEpsilon ^ 2) =
+      frontierRightTailTrace x1 := by
+  rw [frontierRightTailPiece, frontierCPlus_upper_boundary,
+    frontierRadius_upper_boundary]
+  ring
+
+theorem frontierMajorant_upper_boundary_left_eq
+    (x1 : ℝ) (hleft : x1 ≤ frontierCStar) :
+    frontierMajorant x1 (x1 ^ 2 + frontierEpsilon ^ 2) =
+      frontierLeftTrace x1 := by
+  rw [frontierMajorant, frontierCPlus_upper_boundary, if_pos hleft,
+    frontierLeftPiece_upper_boundary]
+
+theorem frontierMajorant_upper_boundary_middle_eq
+    (x1 : ℝ) (hleft : frontierCStar < x1)
+    (hright : x1 ≤ frontierCStar + 2 * frontierEpsilon) :
+    frontierMajorant x1 (x1 ^ 2 + frontierEpsilon ^ 2) =
+      frontierMiddleTrace x1 := by
+  rw [frontierMajorant, frontierCPlus_upper_boundary,
+    if_neg (not_le.mpr hleft), if_pos hright,
+    frontierMiddlePiece_upper_boundary]
+
+theorem frontierMajorant_upper_boundary_right_eq
+    (x1 : ℝ) (hright : frontierCStar + 2 * frontierEpsilon < x1) :
+    frontierMajorant x1 (x1 ^ 2 + frontierEpsilon ^ 2) =
+      frontierRightTailTrace x1 := by
+  have hnotLeft : ¬ x1 ≤ frontierCStar := by
+    linarith [frontierEpsilon_pos]
+  have hnotMiddle : ¬ x1 ≤ frontierCStar + 2 * frontierEpsilon :=
+    not_le.mpr hright
+  rw [frontierMajorant, frontierCPlus_upper_boundary, if_neg hnotLeft,
+    if_neg hnotMiddle, frontierRightTailPiece_upper_boundary]
+
+theorem frontierMajorant_leftBranch_radius_zero_upper_boundary
+    {x1 x2 : ℝ} (hΩ : frontierOmega frontierEpsilon x1 x2)
+    (hleft : frontierCPlus frontierEpsilon x1 x2 < frontierCStar)
+    (hr : frontierRadius frontierEpsilon x1 x2 = 0) :
+    x2 = x1 ^ 2 + frontierEpsilon ^ 2 ∧
+      x1 < frontierCStar ∧
+        frontierMajorant x1 x2 = frontierLeftTrace x1 := by
+  have hx2 :
+      x2 = x1 ^ 2 + frontierEpsilon ^ 2 :=
+    (frontierRadius_eq_zero_iff_upper_boundary_of_omega hΩ).1 hr
+  have hC :
+      frontierCPlus frontierEpsilon x1 x2 = x1 :=
+    frontierCPlus_eq_x1_of_radius_eq_zero hr
+  have hx1 : x1 < frontierCStar := by
+    rwa [hC] at hleft
+  refine ⟨hx2, hx1, ?_⟩
+  rw [hx2]
+  exact frontierMajorant_upper_boundary_left_eq x1 (le_of_lt hx1)
+
+theorem frontierMajorant_rightBranch_radius_zero_upper_boundary
+    {x1 x2 : ℝ} (hΩ : frontierOmega frontierEpsilon x1 x2)
+    (hright :
+      frontierCStar + 2 * frontierEpsilon <
+        frontierCPlus frontierEpsilon x1 x2)
+    (hr : frontierRadius frontierEpsilon x1 x2 = 0) :
+    x2 = x1 ^ 2 + frontierEpsilon ^ 2 ∧
+      frontierCStar + 2 * frontierEpsilon < x1 ∧
+        frontierMajorant x1 x2 = frontierRightTailTrace x1 := by
+  have hx2 :
+      x2 = x1 ^ 2 + frontierEpsilon ^ 2 :=
+    (frontierRadius_eq_zero_iff_upper_boundary_of_omega hΩ).1 hr
+  have hC :
+      frontierCPlus frontierEpsilon x1 x2 = x1 :=
+    frontierCPlus_eq_x1_of_radius_eq_zero hr
+  have hx1 : frontierCStar + 2 * frontierEpsilon < x1 := by
+    rwa [hC] at hright
+  refine ⟨hx2, hx1, ?_⟩
+  rw [hx2]
+  exact frontierMajorant_upper_boundary_right_eq x1 hx1
+
+theorem frontierOmega_upper_boundary (x1 : ℝ) :
+    frontierOmega frontierEpsilon x1 (x1 ^ 2 + frontierEpsilon ^ 2) := by
+  rw [frontierOmega]
+  constructor
+  · nlinarith [sq_nonneg frontierEpsilon]
+  · rfl
+
+theorem frontier_upperBoundary_mix_omega_eq_of_theta_mem
+    {y z θ : ℝ} (hθ0 : 0 < θ) (hθ1 : θ < 1)
+    (hmixΩ :
+      frontierOmega frontierEpsilon
+        (θ * y + (1 - θ) * z)
+        (θ * (y ^ 2 + frontierEpsilon ^ 2) +
+          (1 - θ) * (z ^ 2 + frontierEpsilon ^ 2))) :
+    y = z := by
+  have hupper := hmixΩ.2
+  have hdiff :
+      θ * (1 - θ) * (y - z) ^ 2 ≤ 0 := by
+    nlinarith
+  have hcoef_pos : 0 < θ * (1 - θ) := by
+    nlinarith
+  have hsq_nonpos : (y - z) ^ 2 ≤ 0 := by
+    nlinarith
+  have hsq_zero : (y - z) ^ 2 = 0 :=
+    le_antisymm hsq_nonpos (sq_nonneg _)
+  nlinarith
+
+theorem frontierMajorant_upperBoundary_leftBranch_jensen
+    {y z θ : ℝ} (_hy : y ≤ frontierCStar) (hz : z ≤ frontierCStar)
+    (hmixΩ :
+      frontierOmega frontierEpsilon
+        (θ * y + (1 - θ) * z)
+        (θ * (y ^ 2 + frontierEpsilon ^ 2) +
+          (1 - θ) * (z ^ 2 + frontierEpsilon ^ 2)))
+    (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
+    frontierMajorant
+        (θ * y + (1 - θ) * z)
+        (θ * (y ^ 2 + frontierEpsilon ^ 2) +
+          (1 - θ) * (z ^ 2 + frontierEpsilon ^ 2)) ≥
+      θ * frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) +
+        (1 - θ) * frontierMajorant z (z ^ 2 + frontierEpsilon ^ 2) := by
+  by_cases hθ_left : θ = 0
+  · subst θ
+    simp
+  · by_cases hθ_right : θ = 1
+    · subst θ
+      simp
+    · have hθ0' : 0 < θ := lt_of_le_of_ne hθ0 (Ne.symm hθ_left)
+      have hθ1' : θ < 1 := lt_of_le_of_ne hθ1 hθ_right
+      have hyz : y = z :=
+        frontier_upperBoundary_mix_omega_eq_of_theta_mem hθ0' hθ1' hmixΩ
+      subst z
+      rw [show θ * y + (1 - θ) * y = y by ring,
+        show θ * (y ^ 2 + frontierEpsilon ^ 2) +
+            (1 - θ) * (y ^ 2 + frontierEpsilon ^ 2) =
+              y ^ 2 + frontierEpsilon ^ 2 by ring,
+        show θ * frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) +
+            (1 - θ) * frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) =
+              frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) by ring]
+
+theorem frontierMajorant_upperBoundary_rightBranch_jensen
+    {y z θ : ℝ}
+    (_hy : frontierCStar + 2 * frontierEpsilon < y)
+    (hz : frontierCStar + 2 * frontierEpsilon < z)
+    (hmixΩ :
+      frontierOmega frontierEpsilon
+        (θ * y + (1 - θ) * z)
+        (θ * (y ^ 2 + frontierEpsilon ^ 2) +
+          (1 - θ) * (z ^ 2 + frontierEpsilon ^ 2)))
+    (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
+    frontierMajorant
+        (θ * y + (1 - θ) * z)
+        (θ * (y ^ 2 + frontierEpsilon ^ 2) +
+          (1 - θ) * (z ^ 2 + frontierEpsilon ^ 2)) ≥
+      θ * frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) +
+        (1 - θ) * frontierMajorant z (z ^ 2 + frontierEpsilon ^ 2) := by
+  by_cases hθ_left : θ = 0
+  · subst θ
+    simp
+  · by_cases hθ_right : θ = 1
+    · subst θ
+      simp
+    · have hθ0' : 0 < θ := lt_of_le_of_ne hθ0 (Ne.symm hθ_left)
+      have hθ1' : θ < 1 := lt_of_le_of_ne hθ1 hθ_right
+      have hyz : y = z :=
+        frontier_upperBoundary_mix_omega_eq_of_theta_mem hθ0' hθ1' hmixΩ
+      subst z
+      rw [show θ * y + (1 - θ) * y = y by ring,
+        show θ * (y ^ 2 + frontierEpsilon ^ 2) +
+            (1 - θ) * (y ^ 2 + frontierEpsilon ^ 2) =
+              y ^ 2 + frontierEpsilon ^ 2 by ring,
+        show θ * frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) +
+            (1 - θ) * frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) =
+              frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) by ring]
+
+theorem frontierMajorant_upperBoundary_jensen
+    {y z θ : ℝ}
+    (hmixΩ :
+      frontierOmega frontierEpsilon
+        (θ * y + (1 - θ) * z)
+        (θ * (y ^ 2 + frontierEpsilon ^ 2) +
+          (1 - θ) * (z ^ 2 + frontierEpsilon ^ 2)))
+    (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
+    frontierMajorant
+        (θ * y + (1 - θ) * z)
+        (θ * (y ^ 2 + frontierEpsilon ^ 2) +
+          (1 - θ) * (z ^ 2 + frontierEpsilon ^ 2)) ≥
+      θ * frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) +
+        (1 - θ) * frontierMajorant z (z ^ 2 + frontierEpsilon ^ 2) := by
+  by_cases hθ_left : θ = 0
+  · subst θ
+    simp
+  · by_cases hθ_right : θ = 1
+    · subst θ
+      simp
+    · have hθ0' : 0 < θ := lt_of_le_of_ne hθ0 (Ne.symm hθ_left)
+      have hθ1' : θ < 1 := lt_of_le_of_ne hθ1 hθ_right
+      have hyz : y = z :=
+        frontier_upperBoundary_mix_omega_eq_of_theta_mem hθ0' hθ1' hmixΩ
+      subst z
+      rw [show θ * y + (1 - θ) * y = y by ring,
+        show θ * (y ^ 2 + frontierEpsilon ^ 2) +
+            (1 - θ) * (y ^ 2 + frontierEpsilon ^ 2) =
+              y ^ 2 + frontierEpsilon ^ 2 by ring,
+        show θ * frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) +
+            (1 - θ) * frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) =
+              frontierMajorant y (y ^ 2 + frontierEpsilon ^ 2) by ring]
+
+theorem frontier_two_epsilon_cubed :
+    2 * frontierEpsilon ^ 3 = frontierEpsilon / 6 := by
+  calc
+    2 * frontierEpsilon ^ 3 = 2 * frontierEpsilon * frontierEpsilon ^ 2 := by ring
+    _ = 2 * frontierEpsilon * (1 / 12 : ℝ) := by rw [frontierEpsilon_sq]
+    _ = frontierEpsilon / 6 := by ring
+
+theorem frontierEpsilon_cube :
+    frontierEpsilon ^ 3 = frontierEpsilon / 12 := by
+  calc
+    frontierEpsilon ^ 3 = frontierEpsilon * frontierEpsilon ^ 2 := by ring
+    _ = frontierEpsilon * (1 / 12 : ℝ) := by rw [frontierEpsilon_sq]
+    _ = frontierEpsilon / 12 := by ring
+
+theorem frontierEpsilon_fourth :
+    frontierEpsilon ^ 4 = (1 / 144 : ℝ) := by
+  calc
+    frontierEpsilon ^ 4 = frontierEpsilon ^ 2 * frontierEpsilon ^ 2 := by ring
+    _ = (1 / 12 : ℝ) * (1 / 12 : ℝ) := by rw [frontierEpsilon_sq]
+    _ = (1 / 144 : ℝ) := by norm_num
+
+theorem frontierEpsilon_fifth :
+    frontierEpsilon ^ 5 = frontierEpsilon / 144 := by
+  calc
+    frontierEpsilon ^ 5 = frontierEpsilon * frontierEpsilon ^ 4 := by ring
+    _ = frontierEpsilon * (1 / 144 : ℝ) := by rw [frontierEpsilon_fourth]
+    _ = frontierEpsilon / 144 := by ring
+
+theorem frontierEpsilon_sixth :
+    frontierEpsilon ^ 6 = (1 / 1728 : ℝ) := by
+  calc
+    frontierEpsilon ^ 6 = frontierEpsilon ^ 2 * frontierEpsilon ^ 4 := by ring
+    _ = (1 / 12 : ℝ) * (1 / 144 : ℝ) := by
+      rw [frontierEpsilon_sq, frontierEpsilon_fourth]
+    _ = (1 / 1728 : ℝ) := by norm_num
+
+theorem frontierEpsilon_seventh :
+    frontierEpsilon ^ 7 = frontierEpsilon / 1728 := by
+  calc
+    frontierEpsilon ^ 7 = frontierEpsilon * frontierEpsilon ^ 6 := by ring
+    _ = frontierEpsilon * (1 / 1728 : ℝ) := by rw [frontierEpsilon_sixth]
+    _ = frontierEpsilon / 1728 := by ring
+
+theorem frontierEpsilon_ninth :
+    frontierEpsilon ^ 9 = frontierEpsilon / 20736 := by
+  calc
+    frontierEpsilon ^ 9 = frontierEpsilon * frontierEpsilon ^ 8 := by ring
+    _ = frontierEpsilon * (frontierEpsilon ^ 4 * frontierEpsilon ^ 4) := by ring
+    _ = frontierEpsilon * ((1 / 144 : ℝ) * (1 / 144 : ℝ)) := by
+      rw [frontierEpsilon_fourth]
+    _ = frontierEpsilon / 20736 := by ring
 
 theorem frontierCStar_eq :
     frontierCStar = 10 + Real.sqrt 3 / 36 := by
@@ -1015,6 +2082,1600 @@ theorem frontierKL_eq_public_weight :
       (Real.sqrt 3 / 6) * Real.exp (-(20 * Real.sqrt 3 + (1 / 6 : ℝ))) := by
   rw [frontierKL, frontierCStar_div_epsilon, frontierEpsilon]
 
+theorem frontierKL_pos : 0 < frontierKL := by
+  rw [frontierKL]
+  exact mul_pos frontierEpsilon_pos (Real.exp_pos _)
+
+theorem frontierKL_mul_exp_CStar_div :
+    frontierKL * Real.exp (frontierCStar / frontierEpsilon) =
+      frontierEpsilon := by
+  rw [frontierKL]
+  calc
+    frontierEpsilon * Real.exp (-(frontierCStar / frontierEpsilon)) *
+        Real.exp (frontierCStar / frontierEpsilon) =
+        frontierEpsilon *
+          (Real.exp (-(frontierCStar / frontierEpsilon)) *
+            Real.exp (frontierCStar / frontierEpsilon)) := by
+      ring
+    _ = frontierEpsilon *
+          Real.exp (-(frontierCStar / frontierEpsilon) +
+            frontierCStar / frontierEpsilon) := by
+      rw [Real.exp_add]
+    _ = frontierEpsilon := by
+      rw [show -(frontierCStar / frontierEpsilon) +
+          frontierCStar / frontierEpsilon = 0 by ring]
+      rw [Real.exp_zero]
+      ring
+
+theorem frontierKL_div_epsilon_mul_exp_CStar_div :
+    frontierKL / frontierEpsilon * Real.exp (frontierCStar / frontierEpsilon) =
+      1 := by
+  calc
+    frontierKL / frontierEpsilon * Real.exp (frontierCStar / frontierEpsilon) =
+        (frontierKL * Real.exp (frontierCStar / frontierEpsilon)) /
+          frontierEpsilon := by
+      ring
+    _ = frontierEpsilon / frontierEpsilon := by
+      rw [frontierKL_mul_exp_CStar_div]
+    _ = 1 := by
+      exact div_self frontierEpsilon_ne_zero
+
+theorem frontierKL_div_epsilon_sq_mul_exp_CStar_div :
+    frontierKL / frontierEpsilon ^ 2 *
+        Real.exp (frontierCStar / frontierEpsilon) =
+      12 * frontierEpsilon := by
+  calc
+    frontierKL / frontierEpsilon ^ 2 *
+        Real.exp (frontierCStar / frontierEpsilon) =
+        (frontierKL * Real.exp (frontierCStar / frontierEpsilon)) /
+          frontierEpsilon ^ 2 := by
+      ring
+    _ = frontierEpsilon / frontierEpsilon ^ 2 := by
+      rw [frontierKL_mul_exp_CStar_div]
+    _ = 12 * frontierEpsilon := by
+      field_simp [frontierEpsilon_ne_zero]
+      rw [frontierEpsilon_sq]
+      ring
+
+theorem frontierLeftTraceThird_nonneg (C : ℝ) :
+    0 ≤ frontierLeftTraceThird C := by
+  rw [frontierLeftTraceThird]
+  have hcoef : 0 ≤ frontierKL / frontierEpsilon ^ 3 := by
+    exact div_nonneg (le_of_lt frontierKL_pos)
+      (pow_nonneg (le_of_lt frontierEpsilon_pos) 3)
+  have hexp : 0 ≤ Real.exp (C / frontierEpsilon) := le_of_lt (Real.exp_pos _)
+  nlinarith [mul_nonneg hcoef hexp]
+
+theorem frontierMiddleTraceThird_eq_zero (C : ℝ) :
+    frontierMiddleTraceThird C = 0 := by
+  rfl
+
+theorem frontierMiddleTraceThird_nonneg (C : ℝ) :
+    0 ≤ frontierMiddleTraceThird C := by
+  rw [frontierMiddleTraceThird_eq_zero]
+
+theorem frontierMiddlePiece_affine_formula_of_omega
+    {x1 x2 : ℝ} (hΩ : frontierOmega frontierEpsilon x1 x2) :
+    frontierMiddlePiece x1 x2 =
+      frontierLeftTrace frontierCStar +
+        frontierLeftTraceDeriv frontierCStar * (x1 - frontierCStar) +
+          (3 * frontierCStar + 6 * frontierEpsilon) *
+            (x2 - 2 * frontierCStar * x1 + frontierCStar ^ 2 -
+              frontierEpsilon ^ 2) := by
+  rcases hΩ with ⟨_hlower, hupper⟩
+  have harg_nonneg :
+      0 ≤ frontierEpsilon ^ 2 + x1 ^ 2 - x2 := by
+    linarith
+  rw [frontierMiddlePiece, frontierMiddleTrace, frontierMiddleTraceDeriv,
+    frontierCPlus, frontierRadius]
+  set r : ℝ := Real.sqrt (frontierEpsilon ^ 2 + x1 ^ 2 - x2)
+  have hr2 : r ^ 2 = frontierEpsilon ^ 2 + x1 ^ 2 - x2 := by
+    dsimp [r]
+    exact Real.sq_sqrt harg_nonneg
+  calc
+    frontierLeftTrace frontierCStar +
+            frontierLeftTraceDeriv frontierCStar * (x1 + r - frontierCStar) +
+          (3 * frontierCStar + 6 * frontierEpsilon) *
+              (x1 + r - frontierCStar) ^ 2 -
+        r *
+          (frontierLeftTraceDeriv frontierCStar +
+            2 * (3 * frontierCStar + 6 * frontierEpsilon) *
+              (x1 + r - frontierCStar)) =
+        frontierLeftTrace frontierCStar +
+          frontierLeftTraceDeriv frontierCStar * (x1 - frontierCStar) +
+            (3 * frontierCStar + 6 * frontierEpsilon) *
+              ((x1 - frontierCStar) ^ 2 - r ^ 2) := by
+      ring
+    _ =
+      frontierLeftTrace frontierCStar +
+        frontierLeftTraceDeriv frontierCStar * (x1 - frontierCStar) +
+          (3 * frontierCStar + 6 * frontierEpsilon) *
+            (x2 - 2 * frontierCStar * x1 + frontierCStar ^ 2 -
+              frontierEpsilon ^ 2) := by
+      rw [hr2]
+      ring
+
+theorem frontierMiddlePiece_affine_combo_of_omega
+    {y1 y2 z1 z2 θ : ℝ}
+    (hyΩ : frontierOmega frontierEpsilon y1 y2)
+    (hzΩ : frontierOmega frontierEpsilon z1 z2)
+    (hmixΩ :
+      frontierOmega frontierEpsilon
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2)) :
+    frontierMiddlePiece
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2) =
+      θ * frontierMiddlePiece y1 y2 +
+        (1 - θ) * frontierMiddlePiece z1 z2 := by
+  rw [frontierMiddlePiece_affine_formula_of_omega hmixΩ,
+    frontierMiddlePiece_affine_formula_of_omega hyΩ,
+    frontierMiddlePiece_affine_formula_of_omega hzΩ]
+  ring
+
+theorem frontierMajorant_eq_middlePiece_of_CPlus
+    {x1 x2 : ℝ}
+    (hleft : frontierCStar < frontierCPlus frontierEpsilon x1 x2)
+    (hright :
+      frontierCPlus frontierEpsilon x1 x2 ≤
+        frontierCStar + 2 * frontierEpsilon) :
+    frontierMajorant x1 x2 = frontierMiddlePiece x1 x2 := by
+  rw [frontierMajorant]
+  exact if_neg (not_le.mpr hleft) ▸ if_pos hright
+
+theorem frontierMajorant_eq_leftPiece_of_CPlus
+    {x1 x2 : ℝ}
+    (hleft : frontierCPlus frontierEpsilon x1 x2 ≤ frontierCStar) :
+    frontierMajorant x1 x2 = frontierLeftPiece x1 x2 := by
+  rw [frontierMajorant]
+  exact if_pos hleft
+
+theorem frontierMajorant_eq_leftPiece_of_leftBranchDomain
+    {x1 x2 : ℝ} (hD : frontierLeftBranchDomain x1 x2) :
+    frontierMajorant x1 x2 = frontierLeftPiece x1 x2 := by
+  exact frontierMajorant_eq_leftPiece_of_CPlus (le_of_lt hD)
+
+theorem frontierMajorant_eq_rightTailPiece_of_CPlus
+    {x1 x2 : ℝ}
+    (hright :
+      frontierCStar + 2 * frontierEpsilon <
+        frontierCPlus frontierEpsilon x1 x2) :
+    frontierMajorant x1 x2 = frontierRightTailPiece x1 x2 := by
+  rw [frontierMajorant]
+  have hnotLeft :
+      ¬ frontierCPlus frontierEpsilon x1 x2 ≤ frontierCStar := by
+    linarith [frontierEpsilon_pos]
+  have hnotMiddle :
+      ¬ frontierCPlus frontierEpsilon x1 x2 ≤
+        frontierCStar + 2 * frontierEpsilon :=
+    not_le.mpr hright
+  rw [if_neg hnotLeft, if_neg hnotMiddle]
+
+theorem frontierMajorant_eq_rightTailPiece_of_rightBranchDomain
+    {x1 x2 : ℝ} (hD : frontierRightBranchDomain x1 x2) :
+    frontierMajorant x1 x2 = frontierRightTailPiece x1 x2 := by
+  exact frontierMajorant_eq_rightTailPiece_of_CPlus hD
+
+theorem frontierMajorant_middleBranch_jensen_eq
+    {y1 y2 z1 z2 θ : ℝ}
+    (hyΩ : frontierOmega frontierEpsilon y1 y2)
+    (hzΩ : frontierOmega frontierEpsilon z1 z2)
+    (hmixΩ :
+      frontierOmega frontierEpsilon
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2))
+    (hy_left : frontierCStar < frontierCPlus frontierEpsilon y1 y2)
+    (hy_right :
+      frontierCPlus frontierEpsilon y1 y2 ≤
+        frontierCStar + 2 * frontierEpsilon)
+    (hz_left : frontierCStar < frontierCPlus frontierEpsilon z1 z2)
+    (hz_right :
+      frontierCPlus frontierEpsilon z1 z2 ≤
+        frontierCStar + 2 * frontierEpsilon)
+    (hmix_left :
+      frontierCStar <
+        frontierCPlus frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2))
+    (hmix_right :
+      frontierCPlus frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) ≤
+        frontierCStar + 2 * frontierEpsilon) :
+    frontierMajorant
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2) =
+      θ * frontierMajorant y1 y2 +
+        (1 - θ) * frontierMajorant z1 z2 := by
+  rw [frontierMajorant_eq_middlePiece_of_CPlus hmix_left hmix_right,
+    frontierMajorant_eq_middlePiece_of_CPlus hy_left hy_right,
+    frontierMajorant_eq_middlePiece_of_CPlus hz_left hz_right,
+    frontierMiddlePiece_affine_combo_of_omega hyΩ hzΩ hmixΩ]
+
+theorem frontierMajorant_middleBranch_jensen_concave
+    {y1 y2 z1 z2 θ : ℝ}
+    (hyΩ : frontierOmega frontierEpsilon y1 y2)
+    (hzΩ : frontierOmega frontierEpsilon z1 z2)
+    (hmixΩ :
+      frontierOmega frontierEpsilon
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2))
+    (hy_left : frontierCStar < frontierCPlus frontierEpsilon y1 y2)
+    (hy_right :
+      frontierCPlus frontierEpsilon y1 y2 ≤
+        frontierCStar + 2 * frontierEpsilon)
+    (hz_left : frontierCStar < frontierCPlus frontierEpsilon z1 z2)
+    (hz_right :
+      frontierCPlus frontierEpsilon z1 z2 ≤
+        frontierCStar + 2 * frontierEpsilon)
+    (hmix_left :
+      frontierCStar <
+        frontierCPlus frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2))
+    (hmix_right :
+      frontierCPlus frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) ≤
+        frontierCStar + 2 * frontierEpsilon) :
+    frontierMajorant
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2) ≥
+      θ * frontierMajorant y1 y2 +
+        (1 - θ) * frontierMajorant z1 z2 := by
+  rw [frontierMajorant_middleBranch_jensen_eq hyΩ hzΩ hmixΩ
+    hy_left hy_right hz_left hz_right hmix_left hmix_right]
+
+theorem frontierMajorant_middleBranchDomain_jensen_concave
+    {y1 y2 z1 z2 θ : ℝ}
+    (hyΩ : frontierOmega frontierEpsilon y1 y2)
+    (hzΩ : frontierOmega frontierEpsilon z1 z2)
+    (hmixΩ :
+      frontierOmega frontierEpsilon
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2))
+    (hyD : frontierMiddleBranchDomain y1 y2)
+    (hzD : frontierMiddleBranchDomain z1 z2)
+    (hmixD :
+      frontierMiddleBranchDomain
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2)) :
+    frontierMajorant
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2) ≥
+      θ * frontierMajorant y1 y2 +
+        (1 - θ) * frontierMajorant z1 z2 := by
+  exact frontierMajorant_middleBranch_jensen_concave hyΩ hzΩ hmixΩ
+    hyD.1 hyD.2 hzD.1 hzD.2 hmixD.1 hmixD.2
+
+theorem frontierMajorant_middleBranch_localConcavity_witness
+    {x1 x2 δ : ℝ} (hδ : 0 < δ)
+    (hbranch :
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMiddleBranchDomain y1 y2 ∧
+            frontierMiddleBranchDomain z1 z2 ∧
+            frontierMiddleBranchDomain
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2)) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2 := by
+  refine ⟨δ, hδ, ?_⟩
+  intro y1 y2 z1 z2 θ hy1 hy2 hz1 hz2 hyΩ hzΩ hmixΩ hθ0 hθ1
+  rcases hbranch y1 y2 z1 z2 θ hy1 hy2 hz1 hz2 hyΩ hzΩ hmixΩ hθ0 hθ1 with
+    ⟨⟨hy_left, hy_right⟩, ⟨⟨hz_left, hz_right⟩, ⟨hmix_left, hmix_right⟩⟩⟩
+  exact frontierMajorant_middleBranch_jensen_concave hyΩ hzΩ hmixΩ
+    hy_left hy_right hz_left hz_right hmix_left hmix_right
+
+theorem frontierCPlus_continuous (eps : ℝ) :
+    Continuous (fun p : ℝ × ℝ => frontierCPlus eps p.1 p.2) := by
+  unfold frontierCPlus frontierRadius
+  continuity
+
+theorem frontierRadius_continuous (eps : ℝ) :
+    Continuous (fun p : ℝ × ℝ => frontierRadius eps p.1 p.2) := by
+  unfold frontierRadius
+  continuity
+
+theorem frontier_pair_dist_lt_of_abs
+    {x1 x2 y1 y2 δ : ℝ}
+    (hy1 : |y1 - x1| < δ) (hy2 : |y2 - x2| < δ) :
+    dist (y1, y2) (x1, x2) < δ := by
+  rw [show dist (y1, y2) (x1, x2) =
+      max (dist y1 x1) (dist y2 x2) by rfl]
+  rw [Real.dist_eq, Real.dist_eq]
+  exact max_lt hy1 hy2
+
+theorem frontier_convex_coord_abs_lt
+    {x y z θ δ : ℝ}
+    (hy : |y - x| < δ) (hz : |z - x| < δ)
+    (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
+    |(θ * y + (1 - θ) * z) - x| < δ := by
+  have hrewrite :
+      θ * y + (1 - θ) * z - x =
+        θ * (y - x) + (1 - θ) * (z - x) := by
+    ring
+  rw [hrewrite]
+  have htri :
+      |θ * (y - x) + (1 - θ) * (z - x)| ≤
+        |θ * (y - x)| + |(1 - θ) * (z - x)| :=
+    abs_add_le _ _
+  have hθ_nonneg : 0 ≤ 1 - θ := by
+    linarith
+  have habs :
+      |θ * (y - x)| + |(1 - θ) * (z - x)| =
+        θ * |y - x| + (1 - θ) * |z - x| := by
+    rw [abs_mul, abs_mul, abs_of_nonneg hθ0, abs_of_nonneg hθ_nonneg]
+  rw [habs] at htri
+  by_cases hθzero : θ = 0
+  · subst θ
+    simpa using hz
+  · have hθpos : 0 < θ := lt_of_le_of_ne hθ0 (Ne.symm hθzero)
+    by_cases hθone : θ = 1
+    · subst θ
+      simpa using hy
+    · have hθlt : θ < 1 := lt_of_le_of_ne hθ1 hθone
+      have honepos : 0 < 1 - θ := by
+        linarith
+      have hyw : θ * |y - x| < θ * δ :=
+        mul_lt_mul_of_pos_left hy hθpos
+      have hzw : (1 - θ) * |z - x| < (1 - θ) * δ :=
+        mul_lt_mul_of_pos_left hz honepos
+      have hsum : θ * |y - x| + (1 - θ) * |z - x| < δ := by
+        calc
+          θ * |y - x| + (1 - θ) * |z - x| <
+              θ * δ + (1 - θ) * δ := add_lt_add hyw hzw
+          _ = δ := by ring
+      exact lt_of_le_of_lt htri hsum
+
+theorem frontierMajorant_leftGlue_piece_neighborhood
+    {x1 x2 : ℝ}
+    (hC : frontierCPlus frontierEpsilon x1 x2 = frontierCStar) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+          frontierCPlus frontierEpsilon y1 y2 <
+              frontierCStar + 2 * frontierEpsilon ∧
+            frontierMajorant y1 y2 =
+              if frontierCPlus frontierEpsilon y1 y2 ≤ frontierCStar then
+                frontierLeftPiece y1 y2
+              else
+                frontierMiddlePiece y1 y2 := by
+  let F : ℝ × ℝ → ℝ := fun p ↦ frontierCPlus frontierEpsilon p.1 p.2
+  let η : ℝ := frontierEpsilon
+  have hη_pos : 0 < η := by
+    dsimp [η]
+    exact frontierEpsilon_pos
+  have hcont : ContinuousAt F (x1, x2) := by
+    exact (frontierCPlus_continuous frontierEpsilon).continuousAt
+  rw [Metric.continuousAt_iff] at hcont
+  rcases hcont η hη_pos with ⟨δ, hδ_pos, hδ⟩
+  refine ⟨δ, hδ_pos, ?_⟩
+  intro y1 y2 hy1 hy2
+  have hdist := hδ (frontier_pair_dist_lt_of_abs hy1 hy2)
+  have hCabs :
+      |F (y1, y2) - frontierCStar| < frontierEpsilon := by
+    simpa [Real.dist_eq, F, η, hC] using hdist
+  have hbounds := abs_lt.mp hCabs
+  have hbelowRight :
+      frontierCPlus frontierEpsilon y1 y2 <
+        frontierCStar + 2 * frontierEpsilon := by
+    dsimp [F] at hbounds
+    linarith [frontierEpsilon_pos]
+  refine ⟨hbelowRight, ?_⟩
+  by_cases hleft : frontierCPlus frontierEpsilon y1 y2 ≤ frontierCStar
+  · rw [frontierMajorant_eq_leftPiece_of_CPlus hleft, if_pos hleft]
+  · have hleft_strict :
+        frontierCStar < frontierCPlus frontierEpsilon y1 y2 :=
+      not_le.mp hleft
+    rw [frontierMajorant_eq_middlePiece_of_CPlus hleft_strict
+        (le_of_lt hbelowRight), if_neg hleft]
+
+theorem frontierMajorant_rightGlue_piece_neighborhood
+    {x1 x2 : ℝ}
+    (hC :
+      frontierCPlus frontierEpsilon x1 x2 =
+        frontierCStar + 2 * frontierEpsilon) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+          frontierCStar < frontierCPlus frontierEpsilon y1 y2 ∧
+            frontierMajorant y1 y2 =
+              if frontierCPlus frontierEpsilon y1 y2 ≤
+                  frontierCStar + 2 * frontierEpsilon then
+                frontierMiddlePiece y1 y2
+              else
+                frontierRightTailPiece y1 y2 := by
+  let F : ℝ × ℝ → ℝ := fun p ↦ frontierCPlus frontierEpsilon p.1 p.2
+  let U : ℝ := frontierCStar + 2 * frontierEpsilon
+  let η : ℝ := frontierEpsilon
+  have hη_pos : 0 < η := by
+    dsimp [η]
+    exact frontierEpsilon_pos
+  have hcont : ContinuousAt F (x1, x2) := by
+    exact (frontierCPlus_continuous frontierEpsilon).continuousAt
+  rw [Metric.continuousAt_iff] at hcont
+  rcases hcont η hη_pos with ⟨δ, hδ_pos, hδ⟩
+  refine ⟨δ, hδ_pos, ?_⟩
+  intro y1 y2 hy1 hy2
+  have hdist := hδ (frontier_pair_dist_lt_of_abs hy1 hy2)
+  have hCabs :
+      |F (y1, y2) - U| < frontierEpsilon := by
+    simpa [Real.dist_eq, F, U, η, hC] using hdist
+  have hbounds := abs_lt.mp hCabs
+  have haboveLeft :
+      frontierCStar < frontierCPlus frontierEpsilon y1 y2 := by
+    dsimp [F, U] at hbounds
+    linarith [frontierEpsilon_pos]
+  refine ⟨haboveLeft, ?_⟩
+  by_cases hmiddle :
+      frontierCPlus frontierEpsilon y1 y2 ≤
+        frontierCStar + 2 * frontierEpsilon
+  · rw [frontierMajorant_eq_middlePiece_of_CPlus haboveLeft hmiddle,
+      if_pos hmiddle]
+  · have hright :
+        frontierCStar + 2 * frontierEpsilon <
+          frontierCPlus frontierEpsilon y1 y2 :=
+      not_le.mp hmiddle
+    rw [frontierMajorant_eq_rightTailPiece_of_CPlus hright, if_neg hmiddle]
+
+theorem frontierMajorant_leftBranchInterior_piece_neighborhood
+    {x1 x2 : ℝ}
+    (hleft : frontierCPlus frontierEpsilon x1 x2 < frontierCStar) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        0 ≤ θ → θ ≤ 1 →
+          frontierLeftBranchDomain y1 y2 ∧
+            frontierMajorant y1 y2 = frontierLeftPiece y1 y2 ∧
+          frontierLeftBranchDomain z1 z2 ∧
+            frontierMajorant z1 z2 = frontierLeftPiece z1 z2 ∧
+          frontierLeftBranchDomain
+            (θ * y1 + (1 - θ) * z1)
+            (θ * y2 + (1 - θ) * z2) ∧
+            frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) =
+                frontierLeftPiece
+                  (θ * y1 + (1 - θ) * z1)
+                  (θ * y2 + (1 - θ) * z2) := by
+  let F : ℝ × ℝ → ℝ := fun p ↦ frontierCPlus frontierEpsilon p.1 p.2
+  let Cx : ℝ := F (x1, x2)
+  let η : ℝ := (frontierCStar - Cx) / 2
+  have hη_pos : 0 < η := by
+    dsimp [η, Cx, F]
+    linarith
+  have hcont : ContinuousAt F (x1, x2) := by
+    exact (frontierCPlus_continuous frontierEpsilon).continuousAt
+  rw [Metric.continuousAt_iff] at hcont
+  rcases hcont η hη_pos with ⟨δ, hδ_pos, hδ⟩
+  refine ⟨δ, hδ_pos, ?_⟩
+  intro y1 y2 z1 z2 θ hy1 hy2 hz1 hz2 hθ0 hθ1
+  have stable :
+      ∀ p : ℝ × ℝ, dist p (x1, x2) < δ →
+        frontierLeftBranchDomain p.1 p.2 := by
+    intro p hp
+    have hpCdist := hδ hp
+    have hpCabs : |F p - Cx| < η := by
+      simpa [Real.dist_eq, Cx] using hpCdist
+    have hp_bounds := abs_lt.mp hpCabs
+    dsimp [frontierLeftBranchDomain, F, Cx, η] at *
+    linarith
+  have hyD : frontierLeftBranchDomain y1 y2 :=
+    stable (y1, y2) (frontier_pair_dist_lt_of_abs hy1 hy2)
+  have hzD : frontierLeftBranchDomain z1 z2 :=
+    stable (z1, z2) (frontier_pair_dist_lt_of_abs hz1 hz2)
+  have hmix1 :
+      |(θ * y1 + (1 - θ) * z1) - x1| < δ :=
+    frontier_convex_coord_abs_lt hy1 hz1 hθ0 hθ1
+  have hmix2 :
+      |(θ * y2 + (1 - θ) * z2) - x2| < δ :=
+    frontier_convex_coord_abs_lt hy2 hz2 hθ0 hθ1
+  have hmixD :
+      frontierLeftBranchDomain
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2) :=
+    stable
+      ((θ * y1 + (1 - θ) * z1),
+        (θ * y2 + (1 - θ) * z2))
+      (frontier_pair_dist_lt_of_abs hmix1 hmix2)
+  exact ⟨hyD, frontierMajorant_eq_leftPiece_of_leftBranchDomain hyD,
+    hzD, frontierMajorant_eq_leftPiece_of_leftBranchDomain hzD,
+    hmixD, frontierMajorant_eq_leftPiece_of_leftBranchDomain hmixD⟩
+
+theorem frontierMajorant_rightBranchInterior_piece_neighborhood
+    {x1 x2 : ℝ}
+    (hright :
+      frontierCStar + 2 * frontierEpsilon <
+        frontierCPlus frontierEpsilon x1 x2) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        0 ≤ θ → θ ≤ 1 →
+          frontierRightBranchDomain y1 y2 ∧
+            frontierMajorant y1 y2 = frontierRightTailPiece y1 y2 ∧
+          frontierRightBranchDomain z1 z2 ∧
+            frontierMajorant z1 z2 = frontierRightTailPiece z1 z2 ∧
+          frontierRightBranchDomain
+            (θ * y1 + (1 - θ) * z1)
+            (θ * y2 + (1 - θ) * z2) ∧
+            frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) =
+                frontierRightTailPiece
+                  (θ * y1 + (1 - θ) * z1)
+                  (θ * y2 + (1 - θ) * z2) := by
+  let F : ℝ × ℝ → ℝ := fun p ↦ frontierCPlus frontierEpsilon p.1 p.2
+  let Cx : ℝ := F (x1, x2)
+  let U : ℝ := frontierCStar + 2 * frontierEpsilon
+  let η : ℝ := (Cx - U) / 2
+  have hη_pos : 0 < η := by
+    dsimp [η, U, Cx, F]
+    linarith
+  have hcont : ContinuousAt F (x1, x2) := by
+    exact (frontierCPlus_continuous frontierEpsilon).continuousAt
+  rw [Metric.continuousAt_iff] at hcont
+  rcases hcont η hη_pos with ⟨δ, hδ_pos, hδ⟩
+  refine ⟨δ, hδ_pos, ?_⟩
+  intro y1 y2 z1 z2 θ hy1 hy2 hz1 hz2 hθ0 hθ1
+  have stable :
+      ∀ p : ℝ × ℝ, dist p (x1, x2) < δ →
+        frontierRightBranchDomain p.1 p.2 := by
+    intro p hp
+    have hpCdist := hδ hp
+    have hpCabs : |F p - Cx| < η := by
+      simpa [Real.dist_eq, Cx] using hpCdist
+    have hp_bounds := abs_lt.mp hpCabs
+    dsimp [frontierRightBranchDomain, F, Cx, U, η] at *
+    linarith
+  have hyD : frontierRightBranchDomain y1 y2 :=
+    stable (y1, y2) (frontier_pair_dist_lt_of_abs hy1 hy2)
+  have hzD : frontierRightBranchDomain z1 z2 :=
+    stable (z1, z2) (frontier_pair_dist_lt_of_abs hz1 hz2)
+  have hmix1 :
+      |(θ * y1 + (1 - θ) * z1) - x1| < δ :=
+    frontier_convex_coord_abs_lt hy1 hz1 hθ0 hθ1
+  have hmix2 :
+      |(θ * y2 + (1 - θ) * z2) - x2| < δ :=
+    frontier_convex_coord_abs_lt hy2 hz2 hθ0 hθ1
+  have hmixD :
+      frontierRightBranchDomain
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2) :=
+    stable
+      ((θ * y1 + (1 - θ) * z1),
+        (θ * y2 + (1 - θ) * z2))
+      (frontier_pair_dist_lt_of_abs hmix1 hmix2)
+  exact ⟨hyD, frontierMajorant_eq_rightTailPiece_of_rightBranchDomain hyD,
+    hzD, frontierMajorant_eq_rightTailPiece_of_rightBranchDomain hzD,
+    hmixD, frontierMajorant_eq_rightTailPiece_of_rightBranchDomain hmixD⟩
+
+theorem frontierMajorant_middleBranchInterior_localConcavity
+    {x1 x2 : ℝ} (_hxΩ : frontierOmega frontierEpsilon x1 x2)
+    (hleft : frontierCStar < frontierCPlus frontierEpsilon x1 x2)
+    (hright :
+      frontierCPlus frontierEpsilon x1 x2 <
+        frontierCStar + 2 * frontierEpsilon) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2 := by
+  let F : ℝ × ℝ → ℝ := fun p ↦ frontierCPlus frontierEpsilon p.1 p.2
+  let Cx : ℝ := F (x1, x2)
+  let U : ℝ := frontierCStar + 2 * frontierEpsilon
+  let η : ℝ := min (Cx - frontierCStar) (U - Cx) / 2
+  have hη_pos : 0 < η := by
+    have hgap_left : 0 < Cx - frontierCStar := by
+      dsimp [Cx, F]
+      linarith
+    have hgap_right : 0 < U - Cx := by
+      dsimp [U, Cx, F]
+      linarith
+    dsimp [η]
+    exact half_pos (lt_min hgap_left hgap_right)
+  have hη_left : η ≤ Cx - frontierCStar := by
+    dsimp [η]
+    have hmin : min (Cx - frontierCStar) (U - Cx) ≤
+        Cx - frontierCStar :=
+      min_le_left _ _
+    linarith
+  have hη_right : η ≤ U - Cx := by
+    dsimp [η]
+    have hmin : min (Cx - frontierCStar) (U - Cx) ≤ U - Cx :=
+      min_le_right _ _
+    linarith
+  have hcont : ContinuousAt F (x1, x2) := by
+    exact (frontierCPlus_continuous frontierEpsilon).continuousAt
+  rw [Metric.continuousAt_iff] at hcont
+  rcases hcont η hη_pos with ⟨δ, hδ_pos, hδ⟩
+  refine frontierMajorant_middleBranch_localConcavity_witness hδ_pos ?_
+  intro y1 y2 z1 z2 θ hy1 hy2 hz1 hz2 hyΩ hzΩ hmixΩ hθ0 hθ1
+  have stable :
+      ∀ p : ℝ × ℝ, dist p (x1, x2) < δ →
+        frontierMiddleBranchDomain p.1 p.2 := by
+    intro p hp
+    have hpCdist := hδ hp
+    have hpCabs : |F p - Cx| < η := by
+      simpa [Real.dist_eq, Cx] using hpCdist
+    have hp_bounds := abs_lt.mp hpCabs
+    constructor
+    · dsimp [frontierMiddleBranchDomain, F, Cx] at *
+      linarith
+    · dsimp [frontierMiddleBranchDomain, F, Cx, U] at *
+      linarith
+  have hyD : frontierMiddleBranchDomain y1 y2 :=
+    stable (y1, y2) (frontier_pair_dist_lt_of_abs hy1 hy2)
+  have hzD : frontierMiddleBranchDomain z1 z2 :=
+    stable (z1, z2) (frontier_pair_dist_lt_of_abs hz1 hz2)
+  have hmix1 :
+      |(θ * y1 + (1 - θ) * z1) - x1| < δ :=
+    frontier_convex_coord_abs_lt hy1 hz1 hθ0 hθ1
+  have hmix2 :
+      |(θ * y2 + (1 - θ) * z2) - x2| < δ :=
+    frontier_convex_coord_abs_lt hy2 hz2 hθ0 hθ1
+  have hmixD :
+      frontierMiddleBranchDomain
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2) :=
+    stable
+      ((θ * y1 + (1 - θ) * z1),
+        (θ * y2 + (1 - θ) * z2))
+      (frontier_pair_dist_lt_of_abs hmix1 hmix2)
+  exact ⟨hyD, hzD, hmixD⟩
+
+theorem frontierRightTailTraceThird_nonneg (C : ℝ) :
+    0 ≤ frontierRightTailTraceThird C := by
+  rw [frontierRightTailTraceThird]
+  norm_num
+
+theorem frontierLeft_middle_trace_value_glue :
+    frontierMiddleTrace frontierCStar = frontierLeftTrace frontierCStar := by
+  rw [frontierMiddleTrace]
+  ring
+
+theorem frontierLeft_middle_trace_deriv_glue :
+    frontierMiddleTraceDeriv frontierCStar =
+      frontierLeftTraceDeriv frontierCStar := by
+  rw [frontierMiddleTraceDeriv]
+  ring
+
+theorem frontierLeft_middle_trace_second_glue :
+    frontierMiddleTraceSecond frontierCStar =
+      frontierLeftTraceSecond frontierCStar := by
+  rw [frontierMiddleTraceSecond, frontierLeftTraceSecond,
+    frontierKL_div_epsilon_sq_mul_exp_CStar_div]
+  ring
+
+theorem frontierMiddle_right_trace_value_glue :
+    frontierMiddleTrace (frontierCStar + 2 * frontierEpsilon) =
+      frontierRightTailTrace (frontierCStar + 2 * frontierEpsilon) := by
+  rw [frontierMiddleTrace, frontierRightTailTrace,
+    frontierLeftTrace, frontierLeftTraceDeriv,
+    frontierKL_mul_exp_CStar_div,
+    frontierKL_div_epsilon_mul_exp_CStar_div]
+  rw [frontierCStar, frontierA]
+  ring_nf
+  rw [frontierEpsilon_ninth, frontierEpsilon_seventh, frontierEpsilon_sixth,
+    frontierEpsilon_fifth, frontierEpsilon_fourth, frontierEpsilon_cube,
+    frontierEpsilon_sq]
+  ring
+
+theorem frontierMiddle_right_trace_deriv_glue :
+    frontierMiddleTraceDeriv (frontierCStar + 2 * frontierEpsilon) =
+      frontierRightTailTraceDeriv (frontierCStar + 2 * frontierEpsilon) := by
+  rw [frontierMiddleTraceDeriv, frontierRightTailTraceDeriv,
+    frontierLeftTraceDeriv,
+    frontierKL_div_epsilon_mul_exp_CStar_div]
+  nlinarith [frontierEpsilon_sq]
+
+theorem frontierMiddle_right_trace_second_glue :
+    frontierMiddleTraceSecond (frontierCStar + 2 * frontierEpsilon) =
+      frontierRightTailTraceSecond (frontierCStar + 2 * frontierEpsilon) := by
+  rw [frontierMiddleTraceSecond, frontierRightTailTraceSecond]
+  ring
+
+theorem frontierLeft_middle_traceBranchValue_glue (r : ℝ) :
+    frontierMiddleTrace frontierCStar -
+        r * frontierMiddleTraceDeriv frontierCStar =
+      frontierLeftTrace frontierCStar -
+        r * frontierLeftTraceDeriv frontierCStar := by
+  rw [frontierLeft_middle_trace_value_glue,
+    frontierLeft_middle_trace_deriv_glue]
+
+theorem frontierLeft_middle_rankOneSlope_glue (u v : ℝ) :
+    u * frontierMiddleTraceDeriv frontierCStar -
+        (((2 * frontierCStar) * u - v) / 2) *
+          frontierMiddleTraceSecond frontierCStar =
+      u * frontierLeftTraceDeriv frontierCStar -
+        (((2 * frontierCStar) * u - v) / 2) *
+          frontierLeftTraceSecond frontierCStar := by
+  rw [frontierLeft_middle_trace_deriv_glue,
+    frontierLeft_middle_trace_second_glue]
+
+theorem frontierMiddle_right_traceBranchValue_glue (r : ℝ) :
+    frontierMiddleTrace (frontierCStar + 2 * frontierEpsilon) -
+        r * frontierMiddleTraceDeriv (frontierCStar + 2 * frontierEpsilon) =
+      frontierRightTailTrace (frontierCStar + 2 * frontierEpsilon) -
+        r * frontierRightTailTraceDeriv
+          (frontierCStar + 2 * frontierEpsilon) := by
+  rw [frontierMiddle_right_trace_value_glue,
+    frontierMiddle_right_trace_deriv_glue]
+
+theorem frontierMiddle_right_rankOneSlope_glue (u v : ℝ) :
+    u * frontierMiddleTraceDeriv (frontierCStar + 2 * frontierEpsilon) -
+        (((2 * (frontierCStar + 2 * frontierEpsilon)) * u - v) / 2) *
+          frontierMiddleTraceSecond (frontierCStar + 2 * frontierEpsilon) =
+      u * frontierRightTailTraceDeriv (frontierCStar + 2 * frontierEpsilon) -
+        (((2 * (frontierCStar + 2 * frontierEpsilon)) * u - v) / 2) *
+          frontierRightTailTraceSecond
+            (frontierCStar + 2 * frontierEpsilon) := by
+  rw [frontierMiddle_right_trace_deriv_glue,
+    frontierMiddle_right_trace_second_glue]
+
+theorem frontierLeft_middle_rankOneSlope_glue_of_CPlus_eq_leftBoundary
+    {x1 x2 u v : ℝ}
+    (hC : frontierCPlus frontierEpsilon x1 x2 = frontierCStar) :
+    u * frontierMiddleTraceDeriv (frontierCPlus frontierEpsilon x1 x2) -
+        (((2 * frontierCPlus frontierEpsilon x1 x2) * u - v) / 2) *
+          frontierMiddleTraceSecond (frontierCPlus frontierEpsilon x1 x2) =
+      u * frontierLeftTraceDeriv (frontierCPlus frontierEpsilon x1 x2) -
+        (((2 * frontierCPlus frontierEpsilon x1 x2) * u - v) / 2) *
+          frontierLeftTraceSecond (frontierCPlus frontierEpsilon x1 x2) := by
+  rw [hC]
+  exact frontierLeft_middle_rankOneSlope_glue u v
+
+theorem frontierMiddle_right_rankOneSlope_glue_of_CPlus_eq_rightBoundary
+    {x1 x2 u v : ℝ}
+    (hC :
+      frontierCPlus frontierEpsilon x1 x2 =
+        frontierCStar + 2 * frontierEpsilon) :
+    u * frontierMiddleTraceDeriv (frontierCPlus frontierEpsilon x1 x2) -
+        (((2 * frontierCPlus frontierEpsilon x1 x2) * u - v) / 2) *
+          frontierMiddleTraceSecond (frontierCPlus frontierEpsilon x1 x2) =
+      u * frontierRightTailTraceDeriv (frontierCPlus frontierEpsilon x1 x2) -
+        (((2 * frontierCPlus frontierEpsilon x1 x2) * u - v) / 2) *
+          frontierRightTailTraceSecond (frontierCPlus frontierEpsilon x1 x2) := by
+  rw [hC]
+  exact frontierMiddle_right_rankOneSlope_glue u v
+
+theorem frontierLeftPiece_eq_middlePiece_of_CPlus_eq_leftBoundary
+    {x1 x2 : ℝ}
+    (hC : frontierCPlus frontierEpsilon x1 x2 = frontierCStar) :
+    frontierLeftPiece x1 x2 = frontierMiddlePiece x1 x2 := by
+  rw [frontierLeftPiece_trace_form, frontierMiddlePiece_trace_form, hC,
+    frontierLeft_middle_trace_value_glue,
+    frontierLeft_middle_trace_deriv_glue]
+
+theorem frontierMajorant_eq_middlePiece_of_CPlus_eq_leftBoundary
+    {x1 x2 : ℝ}
+    (hC : frontierCPlus frontierEpsilon x1 x2 = frontierCStar) :
+    frontierMajorant x1 x2 = frontierMiddlePiece x1 x2 := by
+  rw [frontierMajorant_eq_leftPiece_of_CPlus (by rw [hC]),
+    frontierLeftPiece_eq_middlePiece_of_CPlus_eq_leftBoundary hC]
+
+theorem frontierMiddlePiece_eq_rightTailPiece_of_CPlus_eq_rightBoundary
+    {x1 x2 : ℝ}
+    (hC :
+      frontierCPlus frontierEpsilon x1 x2 =
+        frontierCStar + 2 * frontierEpsilon) :
+    frontierMiddlePiece x1 x2 = frontierRightTailPiece x1 x2 := by
+  rw [frontierMiddlePiece_trace_form, frontierRightTailPiece_trace_form, hC,
+    frontierMiddle_right_trace_value_glue,
+    frontierMiddle_right_trace_deriv_glue]
+
+theorem frontierMajorant_eq_rightTailPiece_of_CPlus_eq_rightBoundary
+    {x1 x2 : ℝ}
+    (hC :
+      frontierCPlus frontierEpsilon x1 x2 =
+        frontierCStar + 2 * frontierEpsilon) :
+    frontierMajorant x1 x2 = frontierRightTailPiece x1 x2 := by
+  rw [frontierMajorant_eq_middlePiece_of_CPlus
+      (by rw [hC]; linarith [frontierEpsilon_pos]) (by rw [hC]),
+    frontierMiddlePiece_eq_rightTailPiece_of_CPlus_eq_rightBoundary hC]
+
+theorem frontier_trace_rankOne_quadratic_identity
+    (third r C u v : ℝ) :
+    (-(C ^ 2 * third / r)) * u ^ 2 +
+        2 * (C * third / (2 * r)) * u * v +
+          (-(third / (4 * r))) * v ^ 2 =
+      -(third / (4 * r)) * ((2 * C) * u - v) ^ 2 := by
+  ring
+
+theorem frontier_trace_rankOne_quadratic_nonpos
+    {third r C u v : ℝ} (hthird : 0 ≤ third) (hr : 0 < r) :
+    -(third / (4 * r)) * ((2 * C) * u - v) ^ 2 ≤ 0 := by
+  have hden : 0 < 4 * r := by nlinarith
+  have hcoef : 0 ≤ third / (4 * r) :=
+    div_nonneg hthird (le_of_lt hden)
+  have hsq : 0 ≤ ((2 * C) * u - v) ^ 2 := sq_nonneg _
+  nlinarith [mul_nonneg hcoef hsq]
+
+theorem frontier_trace_rankOne_hessianQuadratic_nonpos
+    {third r C u v : ℝ} (hthird : 0 ≤ third) (hr : 0 < r) :
+    (-(C ^ 2 * third / r)) * u ^ 2 +
+        2 * (C * third / (2 * r)) * u * v +
+          (-(third / (4 * r))) * v ^ 2 ≤ 0 := by
+  rw [frontier_trace_rankOne_quadratic_identity]
+  exact frontier_trace_rankOne_quadratic_nonpos hthird hr
+
+theorem frontierLeftTrace_rankOne_hessianQuadratic_nonpos
+    {r C u v : ℝ} (hr : 0 < r) :
+    (-(C ^ 2 * frontierLeftTraceThird C / r)) * u ^ 2 +
+        2 * (C * frontierLeftTraceThird C / (2 * r)) * u * v +
+          (-(frontierLeftTraceThird C / (4 * r))) * v ^ 2 ≤ 0 := by
+  exact frontier_trace_rankOne_hessianQuadratic_nonpos
+    (frontierLeftTraceThird_nonneg C) hr
+
+theorem frontierMiddleTrace_rankOne_hessianQuadratic_zero
+    (r C u v : ℝ) :
+    (-(C ^ 2 * frontierMiddleTraceThird C / r)) * u ^ 2 +
+        2 * (C * frontierMiddleTraceThird C / (2 * r)) * u * v +
+          (-(frontierMiddleTraceThird C / (4 * r))) * v ^ 2 = 0 := by
+  rw [frontierMiddleTraceThird_eq_zero]
+  ring
+
+theorem frontierMiddleTrace_rankOne_hessianQuadratic_nonpos
+    {r C u v : ℝ} :
+    (-(C ^ 2 * frontierMiddleTraceThird C / r)) * u ^ 2 +
+        2 * (C * frontierMiddleTraceThird C / (2 * r)) * u * v +
+          (-(frontierMiddleTraceThird C / (4 * r))) * v ^ 2 ≤ 0 := by
+  rw [frontierMiddleTrace_rankOne_hessianQuadratic_zero]
+
+theorem frontierRightTailTrace_rankOne_hessianQuadratic_nonpos
+    {r C u v : ℝ} (hr : 0 < r) :
+    (-(C ^ 2 * frontierRightTailTraceThird C / r)) * u ^ 2 +
+        2 * (C * frontierRightTailTraceThird C / (2 * r)) * u * v +
+          (-(frontierRightTailTraceThird C / (4 * r))) * v ^ 2 ≤ 0 := by
+  exact frontier_trace_rankOne_hessianQuadratic_nonpos
+    (frontierRightTailTraceThird_nonneg C) hr
+
+theorem frontier_segment_jensen_of_hasDerivWithinAt2_nonpos
+    {f f' f'' : ℝ → ℝ}
+    (hf : ContinuousOn f (Set.Icc (0 : ℝ) 1))
+    (hf' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f (f' t) (Set.Ioo (0 : ℝ) 1) t)
+    (hf'' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f' (f'' t) (Set.Ioo (0 : ℝ) 1) t)
+    (hf''_nonpos : ∀ t ∈ Set.Ioo (0 : ℝ) 1, f'' t ≤ 0)
+    {θ : ℝ} (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
+    f θ ≥ θ * f 1 + (1 - θ) * f 0 := by
+  have hconc : ConcaveOn ℝ (Set.Icc (0 : ℝ) 1) f := by
+    refine concaveOn_of_hasDerivWithinAt2_nonpos
+      (D := Set.Icc (0 : ℝ) 1) (f := f) (f' := f') (f'' := f'')
+      (convex_Icc (0 : ℝ) 1) hf ?_ ?_ ?_
+    · intro t ht
+      simpa [interior_Icc] using
+        (hf' t (by simpa [interior_Icc] using ht))
+    · intro t ht
+      simpa [interior_Icc] using
+        (hf'' t (by simpa [interior_Icc] using ht))
+    · intro t ht
+      rw [interior_Icc] at ht
+      exact hf''_nonpos t ht
+  have hθ_nonneg : 0 ≤ 1 - θ := by linarith
+  have hmain :=
+    hconc.2 (x := (1 : ℝ)) (y := (0 : ℝ))
+      (by norm_num : (1 : ℝ) ∈ Set.Icc (0 : ℝ) 1)
+      (by norm_num : (0 : ℝ) ∈ Set.Icc (0 : ℝ) 1)
+      hθ0 hθ_nonneg (by ring : θ + (1 - θ) = (1 : ℝ))
+  simpa [sub_eq_add_neg, mul_comm, mul_left_comm, mul_assoc] using hmain
+
+theorem frontier_branchSegment_jensen_of_rankOne_secondDerivative
+    {f f' : ℝ → ℝ} {third r C u v θ : ℝ}
+    (hf : ContinuousOn f (Set.Icc (0 : ℝ) 1))
+    (hf' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f (f' t) (Set.Ioo (0 : ℝ) 1) t)
+    (hf'' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f'
+          ((-(C ^ 2 * third / r)) * u ^ 2 +
+            2 * (C * third / (2 * r)) * u * v +
+              (-(third / (4 * r))) * v ^ 2)
+          (Set.Ioo (0 : ℝ) 1) t)
+    (hthird : 0 ≤ third) (hr : 0 < r)
+    (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
+    f θ ≥ θ * f 1 + (1 - θ) * f 0 := by
+  refine frontier_segment_jensen_of_hasDerivWithinAt2_nonpos
+    hf hf' hf'' ?_ hθ0 hθ1
+  intro t _ht
+  exact frontier_trace_rankOne_hessianQuadratic_nonpos hthird hr
+
+theorem frontierLeftTrace_branchSegment_jensen_of_rankOne_secondDerivative
+    {f f' : ℝ → ℝ} {r C u v θ : ℝ}
+    (hf : ContinuousOn f (Set.Icc (0 : ℝ) 1))
+    (hf' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f (f' t) (Set.Ioo (0 : ℝ) 1) t)
+    (hf'' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f'
+          ((-(C ^ 2 * frontierLeftTraceThird C / r)) * u ^ 2 +
+            2 * (C * frontierLeftTraceThird C / (2 * r)) * u * v +
+              (-(frontierLeftTraceThird C / (4 * r))) * v ^ 2)
+          (Set.Ioo (0 : ℝ) 1) t)
+    (hr : 0 < r)
+    (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
+    f θ ≥ θ * f 1 + (1 - θ) * f 0 := by
+  exact frontier_branchSegment_jensen_of_rankOne_secondDerivative
+    hf hf' hf'' (frontierLeftTraceThird_nonneg C) hr hθ0 hθ1
+
+theorem frontierRightTailTrace_branchSegment_jensen_of_rankOne_secondDerivative
+    {f f' : ℝ → ℝ} {r C u v θ : ℝ}
+    (hf : ContinuousOn f (Set.Icc (0 : ℝ) 1))
+    (hf' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f (f' t) (Set.Ioo (0 : ℝ) 1) t)
+    (hf'' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f'
+          ((-(C ^ 2 * frontierRightTailTraceThird C / r)) * u ^ 2 +
+            2 * (C * frontierRightTailTraceThird C / (2 * r)) * u * v +
+              (-(frontierRightTailTraceThird C / (4 * r))) * v ^ 2)
+          (Set.Ioo (0 : ℝ) 1) t)
+    (hr : 0 < r)
+    (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
+    f θ ≥ θ * f 1 + (1 - θ) * f 0 := by
+  exact frontier_branchSegment_jensen_of_rankOne_secondDerivative
+    hf hf' hf'' (frontierRightTailTraceThird_nonneg C) hr hθ0 hθ1
+
+theorem frontierLeftPiece_jensen_of_rankOne_radius_pos
+    {y1 y2 z1 z2 θ : ℝ}
+    (hr :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        0 < frontierRadius frontierEpsilon
+          (z1 + t * (y1 - z1)) (z2 + t * (y2 - z2)))
+    (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
+    frontierLeftPiece
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2) ≥
+      θ * frontierLeftPiece y1 y2 +
+        (1 - θ) * frontierLeftPiece z1 z2 := by
+  let u : ℝ := y1 - z1
+  let v : ℝ := y2 - z2
+  let C : ℝ → ℝ := fun t ↦
+    frontierCPlus frontierEpsilon (z1 + t * u) (z2 + t * v)
+  let r : ℝ → ℝ := fun t ↦
+    frontierRadius frontierEpsilon (z1 + t * u) (z2 + t * v)
+  let f : ℝ → ℝ := fun t ↦ frontierLeftPiece (z1 + t * u) (z2 + t * v)
+  let f' : ℝ → ℝ := fun t ↦
+    u * frontierLeftTraceDeriv (C t) -
+      (((2 * C t) * u - v) / 2) * frontierLeftTraceSecond (C t)
+  let f'' : ℝ → ℝ := fun t ↦
+    (-(C t ^ 2 * frontierLeftTraceThird (C t) / r t)) * u ^ 2 +
+      2 * (C t * frontierLeftTraceThird (C t) / (2 * r t)) * u * v +
+        (-(frontierLeftTraceThird (C t) / (4 * r t))) * v ^ 2
+  have hf : ContinuousOn f (Set.Icc (0 : ℝ) 1) := by
+    have hf_eq :
+        f = fun t ↦ frontierLeftTrace (C t) - r t * frontierLeftTraceDeriv (C t) := by
+      funext t
+      dsimp [f, C, r]
+      rw [frontierLeftPiece_trace_form]
+    have hC : Continuous C := by
+      dsimp [C]
+      have hpair :
+          Continuous (fun t : ℝ => (z1 + t * u, z2 + t * v)) := by
+        continuity
+      simpa [Function.comp_def] using
+        (frontierCPlus_continuous frontierEpsilon).comp hpair
+    have hrcont : Continuous r := by
+      dsimp [r, frontierRadius]
+      continuity
+    have htrace : Continuous (fun t ↦ frontierLeftTrace (C t)) := by
+      unfold frontierLeftTrace
+      continuity
+    have htraceDeriv : Continuous (fun t ↦ frontierLeftTraceDeriv (C t)) := by
+      unfold frontierLeftTraceDeriv
+      continuity
+    rw [hf_eq]
+    exact (htrace.sub (hrcont.mul htraceDeriv)).continuousOn
+  have hf' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f (f' t) (Set.Ioo (0 : ℝ) 1) t := by
+    intro t ht
+    have hder :=
+      frontierLeftPiece_hasDerivAt_along_rankOne_of_radius_pos
+        (x1 := z1) (x2 := z2) (u := u) (v := v) (t := t)
+        (by simpa [u, v, r] using hr t ht)
+    exact hder.hasDerivWithinAt
+  have hf'' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f' (f'' t) (Set.Ioo (0 : ℝ) 1) t := by
+    intro t ht
+    have hder :=
+      frontierLeftPiece_rankOne_slope_hasDerivAt_along_of_radius_pos
+        (x1 := z1) (x2 := z2) (u := u) (v := v) (t := t)
+        (by simpa [u, v, r] using hr t ht)
+    exact hder.hasDerivWithinAt
+  have hf''_nonpos :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1, f'' t ≤ 0 := by
+    intro t ht
+    exact frontierLeftTrace_rankOne_hessianQuadratic_nonpos
+      (r := r t) (C := C t) (u := u) (v := v)
+      (by simpa [u, v, r] using hr t ht)
+  have hj :=
+    frontier_segment_jensen_of_hasDerivWithinAt2_nonpos
+      hf hf' hf'' hf''_nonpos hθ0 hθ1
+  convert hj using 1 <;> dsimp [f, u, v] <;> ring_nf
+
+theorem frontierRightTailPiece_jensen_of_rankOne_radius_pos
+    {y1 y2 z1 z2 θ : ℝ}
+    (hr :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        0 < frontierRadius frontierEpsilon
+          (z1 + t * (y1 - z1)) (z2 + t * (y2 - z2)))
+    (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
+    frontierRightTailPiece
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2) ≥
+      θ * frontierRightTailPiece y1 y2 +
+        (1 - θ) * frontierRightTailPiece z1 z2 := by
+  let u : ℝ := y1 - z1
+  let v : ℝ := y2 - z2
+  let C : ℝ → ℝ := fun t ↦
+    frontierCPlus frontierEpsilon (z1 + t * u) (z2 + t * v)
+  let r : ℝ → ℝ := fun t ↦
+    frontierRadius frontierEpsilon (z1 + t * u) (z2 + t * v)
+  let f : ℝ → ℝ := fun t ↦ frontierRightTailPiece (z1 + t * u) (z2 + t * v)
+  let f' : ℝ → ℝ := fun t ↦
+    u * frontierRightTailTraceDeriv (C t) -
+      (((2 * C t) * u - v) / 2) * frontierRightTailTraceSecond (C t)
+  let f'' : ℝ → ℝ := fun t ↦
+    (-(C t ^ 2 * frontierRightTailTraceThird (C t) / r t)) * u ^ 2 +
+      2 * (C t * frontierRightTailTraceThird (C t) / (2 * r t)) * u * v +
+        (-(frontierRightTailTraceThird (C t) / (4 * r t))) * v ^ 2
+  have hf : ContinuousOn f (Set.Icc (0 : ℝ) 1) := by
+    have hf_eq :
+        f = fun t ↦
+          frontierRightTailTrace (C t) - r t * frontierRightTailTraceDeriv (C t) := by
+      funext t
+      dsimp [f, C, r]
+      rw [frontierRightTailPiece_trace_form]
+    have hC : Continuous C := by
+      dsimp [C]
+      have hpair :
+          Continuous (fun t : ℝ => (z1 + t * u, z2 + t * v)) := by
+        continuity
+      simpa [Function.comp_def] using
+        (frontierCPlus_continuous frontierEpsilon).comp hpair
+    have hrcont : Continuous r := by
+      dsimp [r, frontierRadius]
+      continuity
+    have htrace : Continuous (fun t ↦ frontierRightTailTrace (C t)) := by
+      unfold frontierRightTailTrace
+      continuity
+    have htraceDeriv : Continuous (fun t ↦ frontierRightTailTraceDeriv (C t)) := by
+      unfold frontierRightTailTraceDeriv
+      continuity
+    rw [hf_eq]
+    exact (htrace.sub (hrcont.mul htraceDeriv)).continuousOn
+  have hf' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f (f' t) (Set.Ioo (0 : ℝ) 1) t := by
+    intro t ht
+    have hder :=
+      frontierRightTailPiece_hasDerivAt_along_rankOne_of_radius_pos
+        (x1 := z1) (x2 := z2) (u := u) (v := v) (t := t)
+        (by simpa [u, v, r] using hr t ht)
+    exact hder.hasDerivWithinAt
+  have hf'' :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        HasDerivWithinAt f' (f'' t) (Set.Ioo (0 : ℝ) 1) t := by
+    intro t ht
+    have hder :=
+      frontierRightTailPiece_rankOne_slope_hasDerivAt_along_of_radius_pos
+        (x1 := z1) (x2 := z2) (u := u) (v := v) (t := t)
+        (by simpa [u, v, r] using hr t ht)
+    exact hder.hasDerivWithinAt
+  have hf''_nonpos :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1, f'' t ≤ 0 := by
+    intro t ht
+    exact frontierRightTailTrace_rankOne_hessianQuadratic_nonpos
+      (r := r t) (C := C t) (u := u) (v := v)
+      (by simpa [u, v, r] using hr t ht)
+  have hj :=
+    frontier_segment_jensen_of_hasDerivWithinAt2_nonpos
+      hf hf' hf'' hf''_nonpos hθ0 hθ1
+  convert hj using 1 <;> dsimp [f, u, v] <;> ring_nf
+
+theorem frontierMajorant_leftBranchInterior_localConcavity_of_radius_pos
+    {x1 x2 : ℝ} (_hxΩ : frontierOmega frontierEpsilon x1 x2)
+    (hleft : frontierCPlus frontierEpsilon x1 x2 < frontierCStar)
+    (hrx : 0 < frontierRadius frontierEpsilon x1 x2) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2 := by
+  rcases frontierMajorant_leftBranchInterior_piece_neighborhood hleft with
+    ⟨δB, hδB_pos, hbranch⟩
+  let R : ℝ × ℝ → ℝ := fun p ↦ frontierRadius frontierEpsilon p.1 p.2
+  let rx : ℝ := R (x1, x2)
+  let η : ℝ := rx / 2
+  have hη_pos : 0 < η := by
+    dsimp [η, rx, R]
+    linarith
+  have hcont : ContinuousAt R (x1, x2) := by
+    exact (frontierRadius_continuous frontierEpsilon).continuousAt
+  rw [Metric.continuousAt_iff] at hcont
+  rcases hcont η hη_pos with ⟨δR, hδR_pos, hδR⟩
+  let δ : ℝ := min δB δR
+  have hδ_pos : 0 < δ := lt_min hδB_pos hδR_pos
+  refine ⟨δ, hδ_pos, ?_⟩
+  intro y1 y2 z1 z2 θ hy1 hy2 hz1 hz2 _hyΩ _hzΩ _hmixΩ hθ0 hθ1
+  have hy1B : |y1 - x1| < δB := lt_of_lt_of_le hy1 (min_le_left δB δR)
+  have hy2B : |y2 - x2| < δB := lt_of_lt_of_le hy2 (min_le_left δB δR)
+  have hz1B : |z1 - x1| < δB := lt_of_lt_of_le hz1 (min_le_left δB δR)
+  have hz2B : |z2 - x2| < δB := lt_of_lt_of_le hz2 (min_le_left δB δR)
+  rcases hbranch y1 y2 z1 z2 θ hy1B hy2B hz1B hz2B hθ0 hθ1 with
+    ⟨_hyD, hyEq, _hzD, hzEq, _hmixD, hmixEq⟩
+  have hy1R : |y1 - x1| < δR := lt_of_lt_of_le hy1 (min_le_right δB δR)
+  have hy2R : |y2 - x2| < δR := lt_of_lt_of_le hy2 (min_le_right δB δR)
+  have hz1R : |z1 - x1| < δR := lt_of_lt_of_le hz1 (min_le_right δB δR)
+  have hz2R : |z2 - x2| < δR := lt_of_lt_of_le hz2 (min_le_right δB δR)
+  have radius_stable :
+      ∀ p : ℝ × ℝ, dist p (x1, x2) < δR → 0 < R p := by
+    intro p hp
+    have hpdist := hδR hp
+    have hpabs : |R p - rx| < η := by
+      simpa [Real.dist_eq, rx] using hpdist
+    have hp_bounds := abs_lt.mp hpabs
+    dsimp [η, rx, R] at hp_bounds
+    linarith
+  have hrseg :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        0 < frontierRadius frontierEpsilon
+          (z1 + t * (y1 - z1)) (z2 + t * (y2 - z2)) := by
+    intro t ht
+    have ht0 : 0 ≤ t := le_of_lt ht.1
+    have ht1 : t ≤ 1 := le_of_lt ht.2
+    have hcoord1 :
+        |(z1 + t * (y1 - z1)) - x1| < δR := by
+      convert frontier_convex_coord_abs_lt hy1R hz1R ht0 ht1 using 1
+      ring_nf
+    have hcoord2 :
+        |(z2 + t * (y2 - z2)) - x2| < δR := by
+      convert frontier_convex_coord_abs_lt hy2R hz2R ht0 ht1 using 1
+      ring_nf
+    exact radius_stable
+      ((z1 + t * (y1 - z1)), (z2 + t * (y2 - z2)))
+      (frontier_pair_dist_lt_of_abs hcoord1 hcoord2)
+  have hj :=
+    frontierLeftPiece_jensen_of_rankOne_radius_pos
+      (y1 := y1) (y2 := y2) (z1 := z1) (z2 := z2) (θ := θ)
+      hrseg hθ0 hθ1
+  rw [hmixEq, hyEq, hzEq]
+  exact hj
+
+theorem frontierMajorant_rightBranchInterior_localConcavity_of_radius_pos
+    {x1 x2 : ℝ} (_hxΩ : frontierOmega frontierEpsilon x1 x2)
+    (hright :
+      frontierCStar + 2 * frontierEpsilon <
+        frontierCPlus frontierEpsilon x1 x2)
+    (hrx : 0 < frontierRadius frontierEpsilon x1 x2) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2 := by
+  rcases frontierMajorant_rightBranchInterior_piece_neighborhood hright with
+    ⟨δB, hδB_pos, hbranch⟩
+  let R : ℝ × ℝ → ℝ := fun p ↦ frontierRadius frontierEpsilon p.1 p.2
+  let rx : ℝ := R (x1, x2)
+  let η : ℝ := rx / 2
+  have hη_pos : 0 < η := by
+    dsimp [η, rx, R]
+    linarith
+  have hcont : ContinuousAt R (x1, x2) := by
+    exact (frontierRadius_continuous frontierEpsilon).continuousAt
+  rw [Metric.continuousAt_iff] at hcont
+  rcases hcont η hη_pos with ⟨δR, hδR_pos, hδR⟩
+  let δ : ℝ := min δB δR
+  have hδ_pos : 0 < δ := lt_min hδB_pos hδR_pos
+  refine ⟨δ, hδ_pos, ?_⟩
+  intro y1 y2 z1 z2 θ hy1 hy2 hz1 hz2 _hyΩ _hzΩ _hmixΩ hθ0 hθ1
+  have hy1B : |y1 - x1| < δB := lt_of_lt_of_le hy1 (min_le_left δB δR)
+  have hy2B : |y2 - x2| < δB := lt_of_lt_of_le hy2 (min_le_left δB δR)
+  have hz1B : |z1 - x1| < δB := lt_of_lt_of_le hz1 (min_le_left δB δR)
+  have hz2B : |z2 - x2| < δB := lt_of_lt_of_le hz2 (min_le_left δB δR)
+  rcases hbranch y1 y2 z1 z2 θ hy1B hy2B hz1B hz2B hθ0 hθ1 with
+    ⟨_hyD, hyEq, _hzD, hzEq, _hmixD, hmixEq⟩
+  have hy1R : |y1 - x1| < δR := lt_of_lt_of_le hy1 (min_le_right δB δR)
+  have hy2R : |y2 - x2| < δR := lt_of_lt_of_le hy2 (min_le_right δB δR)
+  have hz1R : |z1 - x1| < δR := lt_of_lt_of_le hz1 (min_le_right δB δR)
+  have hz2R : |z2 - x2| < δR := lt_of_lt_of_le hz2 (min_le_right δB δR)
+  have radius_stable :
+      ∀ p : ℝ × ℝ, dist p (x1, x2) < δR → 0 < R p := by
+    intro p hp
+    have hpdist := hδR hp
+    have hpabs : |R p - rx| < η := by
+      simpa [Real.dist_eq, rx] using hpdist
+    have hp_bounds := abs_lt.mp hpabs
+    dsimp [η, rx, R] at hp_bounds
+    linarith
+  have hrseg :
+      ∀ t ∈ Set.Ioo (0 : ℝ) 1,
+        0 < frontierRadius frontierEpsilon
+          (z1 + t * (y1 - z1)) (z2 + t * (y2 - z2)) := by
+    intro t ht
+    have ht0 : 0 ≤ t := le_of_lt ht.1
+    have ht1 : t ≤ 1 := le_of_lt ht.2
+    have hcoord1 :
+        |(z1 + t * (y1 - z1)) - x1| < δR := by
+      convert frontier_convex_coord_abs_lt hy1R hz1R ht0 ht1 using 1
+      ring_nf
+    have hcoord2 :
+        |(z2 + t * (y2 - z2)) - x2| < δR := by
+      convert frontier_convex_coord_abs_lt hy2R hz2R ht0 ht1 using 1
+      ring_nf
+    exact radius_stable
+      ((z1 + t * (y1 - z1)), (z2 + t * (y2 - z2)))
+      (frontier_pair_dist_lt_of_abs hcoord1 hcoord2)
+  have hj :=
+    frontierRightTailPiece_jensen_of_rankOne_radius_pos
+      (y1 := y1) (y2 := y2) (z1 := z1) (z2 := z2) (θ := θ)
+      hrseg hθ0 hθ1
+  rw [hmixEq, hyEq, hzEq]
+  exact hj
+
+theorem frontierMajorant_leftBranchInterior_localConcavity_of_upper_strict
+    {x1 x2 : ℝ} (hxΩ : frontierOmega frontierEpsilon x1 x2)
+    (hleft : frontierCPlus frontierEpsilon x1 x2 < frontierCStar)
+    (hupper : x2 < x1 ^ 2 + frontierEpsilon ^ 2) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2 := by
+  exact frontierMajorant_leftBranchInterior_localConcavity_of_radius_pos
+    hxΩ hleft ((frontierRadius_pos_iff_upper_strict_of_omega hxΩ).2 hupper)
+
+theorem frontierMajorant_rightBranchInterior_localConcavity_of_upper_strict
+    {x1 x2 : ℝ} (hxΩ : frontierOmega frontierEpsilon x1 x2)
+    (hright :
+      frontierCStar + 2 * frontierEpsilon <
+        frontierCPlus frontierEpsilon x1 x2)
+    (hupper : x2 < x1 ^ 2 + frontierEpsilon ^ 2) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2 := by
+  exact frontierMajorant_rightBranchInterior_localConcavity_of_radius_pos
+    hxΩ hright ((frontierRadius_pos_iff_upper_strict_of_omega hxΩ).2 hupper)
+
+theorem frontierMajorant_leftBranchInterior_localConcavity
+    {x1 x2 : ℝ} (hxΩ : frontierOmega frontierEpsilon x1 x2)
+    (hleft : frontierCPlus frontierEpsilon x1 x2 < frontierCStar)
+    (hupper : x2 < x1 ^ 2 + frontierEpsilon ^ 2) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2 := by
+  exact frontierMajorant_leftBranchInterior_localConcavity_of_upper_strict
+    hxΩ hleft hupper
+
+theorem frontierMajorant_rightBranchInterior_localConcavity
+    {x1 x2 : ℝ} (hxΩ : frontierOmega frontierEpsilon x1 x2)
+    (hright :
+      frontierCStar + 2 * frontierEpsilon <
+        frontierCPlus frontierEpsilon x1 x2)
+    (hupper : x2 < x1 ^ 2 + frontierEpsilon ^ 2) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2 := by
+  exact frontierMajorant_rightBranchInterior_localConcavity_of_upper_strict
+    hxΩ hright hupper
+
+theorem frontierMajorant_strictUpper_nonBoundary_localConcavity
+    {x1 x2 : ℝ} (hxΩ : frontierOmega frontierEpsilon x1 x2)
+    (hupper : x2 < x1 ^ 2 + frontierEpsilon ^ 2)
+    (hleftBoundary :
+      frontierCPlus frontierEpsilon x1 x2 ≠ frontierCStar)
+    (hrightBoundary :
+      frontierCPlus frontierEpsilon x1 x2 ≠
+        frontierCStar + 2 * frontierEpsilon) :
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2 := by
+  by_cases hleft : frontierCPlus frontierEpsilon x1 x2 ≤ frontierCStar
+  · have hleft_strict :
+      frontierCPlus frontierEpsilon x1 x2 < frontierCStar :=
+      lt_of_le_of_ne hleft hleftBoundary
+    exact frontierMajorant_leftBranchInterior_localConcavity
+      hxΩ hleft_strict hupper
+  · have hleft_strict :
+      frontierCStar < frontierCPlus frontierEpsilon x1 x2 :=
+      not_le.mp hleft
+    by_cases hmiddle :
+        frontierCPlus frontierEpsilon x1 x2 ≤
+          frontierCStar + 2 * frontierEpsilon
+    · have hright_strict :
+        frontierCPlus frontierEpsilon x1 x2 <
+          frontierCStar + 2 * frontierEpsilon :=
+        lt_of_le_of_ne hmiddle hrightBoundary
+      exact frontierMajorant_middleBranchInterior_localConcavity
+        hxΩ hleft_strict hright_strict
+    · have hright_strict :
+        frontierCStar + 2 * frontierEpsilon <
+          frontierCPlus frontierEpsilon x1 x2 :=
+        not_le.mp hmiddle
+      exact frontierMajorant_rightBranchInterior_localConcavity
+        hxΩ hright_strict hupper
+
+theorem frontierMajorant_leftBranchInterior_localConcavity_or_upperBoundary
+    {x1 x2 : ℝ} (hxΩ : frontierOmega frontierEpsilon x1 x2)
+    (hleft : frontierCPlus frontierEpsilon x1 x2 < frontierCStar) :
+    (∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2) ∨
+      x2 = x1 ^ 2 + frontierEpsilon ^ 2 ∧
+        x1 < frontierCStar ∧
+          frontierMajorant x1 x2 = frontierLeftTrace x1 := by
+  by_cases hupper : x2 < x1 ^ 2 + frontierEpsilon ^ 2
+  · left
+    exact frontierMajorant_leftBranchInterior_localConcavity hxΩ hleft hupper
+  · right
+    have hx2 : x2 = x1 ^ 2 + frontierEpsilon ^ 2 := by
+      linarith [hxΩ.2]
+    have hr : frontierRadius frontierEpsilon x1 x2 = 0 := by
+      rw [hx2, frontierRadius_upper_boundary]
+    exact frontierMajorant_leftBranch_radius_zero_upper_boundary hxΩ hleft hr
+
+theorem frontierMajorant_rightBranchInterior_localConcavity_or_upperBoundary
+    {x1 x2 : ℝ} (hxΩ : frontierOmega frontierEpsilon x1 x2)
+    (hright :
+      frontierCStar + 2 * frontierEpsilon <
+        frontierCPlus frontierEpsilon x1 x2) :
+    (∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2) ∨
+      x2 = x1 ^ 2 + frontierEpsilon ^ 2 ∧
+        frontierCStar + 2 * frontierEpsilon < x1 ∧
+          frontierMajorant x1 x2 = frontierRightTailTrace x1 := by
+  by_cases hupper : x2 < x1 ^ 2 + frontierEpsilon ^ 2
+  · left
+    exact frontierMajorant_rightBranchInterior_localConcavity hxΩ hright hupper
+  · right
+    have hx2 : x2 = x1 ^ 2 + frontierEpsilon ^ 2 := by
+      linarith [hxΩ.2]
+    have hr : frontierRadius frontierEpsilon x1 x2 = 0 := by
+      rw [hx2, frontierRadius_upper_boundary]
+    exact frontierMajorant_rightBranch_radius_zero_upper_boundary hxΩ hright hr
+
+def frontierMajorantLocallyConcaveOnStrip : Prop :=
+  ∀ x1 x2 : ℝ, frontierOmega frontierEpsilon x1 x2 →
+    ∃ δ : ℝ, 0 < δ ∧
+      ∀ y1 y2 z1 z2 θ : ℝ,
+        |y1 - x1| < δ → |y2 - x2| < δ →
+        |z1 - x1| < δ → |z2 - x2| < δ →
+        frontierOmega frontierEpsilon y1 y2 →
+        frontierOmega frontierEpsilon z1 z2 →
+        frontierOmega frontierEpsilon
+          (θ * y1 + (1 - θ) * z1)
+          (θ * y2 + (1 - θ) * z2) →
+        0 ≤ θ → θ ≤ 1 →
+          frontierMajorant
+              (θ * y1 + (1 - θ) * z1)
+              (θ * y2 + (1 - θ) * z2) ≥
+            θ * frontierMajorant y1 y2 +
+              (1 - θ) * frontierMajorant z1 z2
+
+def frontierMajorantLocalConcavityAt (x1 x2 : ℝ) : Prop :=
+  ∃ δ : ℝ, 0 < δ ∧
+    ∀ y1 y2 z1 z2 θ : ℝ,
+      |y1 - x1| < δ → |y2 - x2| < δ →
+      |z1 - x1| < δ → |z2 - x2| < δ →
+      frontierOmega frontierEpsilon y1 y2 →
+      frontierOmega frontierEpsilon z1 z2 →
+      frontierOmega frontierEpsilon
+        (θ * y1 + (1 - θ) * z1)
+        (θ * y2 + (1 - θ) * z2) →
+      0 ≤ θ → θ ≤ 1 →
+        frontierMajorant
+            (θ * y1 + (1 - θ) * z1)
+            (θ * y2 + (1 - θ) * z2) ≥
+          θ * frontierMajorant y1 y2 +
+            (1 - θ) * frontierMajorant z1 z2
+
+theorem frontierMajorant_locallyConcave_reduction_to_boundary_cases
+    (hupperBoundary :
+      ∀ x1 : ℝ,
+        frontierMajorantLocalConcavityAt x1
+          (x1 ^ 2 + frontierEpsilon ^ 2))
+    (hleftGlue :
+      ∀ {x1 x2 : ℝ}, frontierOmega frontierEpsilon x1 x2 →
+        x2 < x1 ^ 2 + frontierEpsilon ^ 2 →
+        frontierCPlus frontierEpsilon x1 x2 = frontierCStar →
+          frontierMajorantLocalConcavityAt x1 x2)
+    (hrightGlue :
+      ∀ {x1 x2 : ℝ}, frontierOmega frontierEpsilon x1 x2 →
+        x2 < x1 ^ 2 + frontierEpsilon ^ 2 →
+        frontierCPlus frontierEpsilon x1 x2 =
+          frontierCStar + 2 * frontierEpsilon →
+          frontierMajorantLocalConcavityAt x1 x2) :
+    frontierMajorantLocallyConcaveOnStrip := by
+  intro x1 x2 hxΩ
+  by_cases hupper : x2 < x1 ^ 2 + frontierEpsilon ^ 2
+  · by_cases hleftBoundary :
+      frontierCPlus frontierEpsilon x1 x2 = frontierCStar
+    · exact hleftGlue hxΩ hupper hleftBoundary
+    · by_cases hrightBoundary :
+        frontierCPlus frontierEpsilon x1 x2 =
+          frontierCStar + 2 * frontierEpsilon
+      · exact hrightGlue hxΩ hupper hrightBoundary
+      · exact frontierMajorant_strictUpper_nonBoundary_localConcavity
+          hxΩ hupper hleftBoundary hrightBoundary
+  · have hx2 : x2 = x1 ^ 2 + frontierEpsilon ^ 2 := by
+      linarith [hxΩ.2]
+    rw [hx2]
+    exact hupperBoundary x1
+
+def frontierMajorantTraceConcavityCertificate : Prop :=
+  (∀ C : ℝ, 0 ≤ frontierLeftTraceThird C) ∧
+    (∀ C : ℝ, frontierMiddleTraceThird C = 0) ∧
+    (∀ C : ℝ, 0 ≤ frontierRightTailTraceThird C) ∧
+    frontierMiddleTrace frontierCStar = frontierLeftTrace frontierCStar ∧
+    frontierMiddleTraceDeriv frontierCStar =
+      frontierLeftTraceDeriv frontierCStar ∧
+    frontierMiddleTraceSecond frontierCStar =
+      frontierLeftTraceSecond frontierCStar ∧
+    frontierMiddleTrace (frontierCStar + 2 * frontierEpsilon) =
+      frontierRightTailTrace (frontierCStar + 2 * frontierEpsilon) ∧
+    frontierMiddleTraceDeriv (frontierCStar + 2 * frontierEpsilon) =
+      frontierRightTailTraceDeriv (frontierCStar + 2 * frontierEpsilon) ∧
+    frontierMiddleTraceSecond (frontierCStar + 2 * frontierEpsilon) =
+      frontierRightTailTraceSecond (frontierCStar + 2 * frontierEpsilon) ∧
+    ∀ third r C u v : ℝ, 0 ≤ third → 0 < r →
+      -(third / (4 * r)) * ((2 * C) * u - v) ^ 2 ≤ 0
+
+theorem frontierMajorant_traceConcavityCertificate :
+    frontierMajorantTraceConcavityCertificate := by
+  refine ⟨frontierLeftTraceThird_nonneg, frontierMiddleTraceThird_eq_zero,
+    frontierRightTailTraceThird_nonneg,
+    frontierLeft_middle_trace_value_glue,
+    frontierLeft_middle_trace_deriv_glue,
+    frontierLeft_middle_trace_second_glue,
+    frontierMiddle_right_trace_value_glue,
+    frontierMiddle_right_trace_deriv_glue,
+    frontierMiddle_right_trace_second_glue, ?_⟩
+  intro third r C u v hthird hr
+  exact frontier_trace_rankOne_quadratic_nonpos hthird hr
+
 theorem frontierCupAlpha_lt_beta :
     frontierCupAlpha < frontierCupBeta := by
   rw [frontierCupAlpha, frontierCupBeta]
@@ -1024,27 +3685,6 @@ theorem frontierCupBeta_sub_alpha :
     frontierCupBeta - frontierCupAlpha = 2 * frontierEpsilon := by
   rw [frontierCupAlpha, frontierCupBeta]
   ring
-
-theorem frontier_two_epsilon_cubed :
-    2 * frontierEpsilon ^ 3 = frontierEpsilon / 6 := by
-  calc
-    2 * frontierEpsilon ^ 3 = 2 * frontierEpsilon * frontierEpsilon ^ 2 := by ring
-    _ = 2 * frontierEpsilon * (1 / 12 : ℝ) := by rw [frontierEpsilon_sq]
-    _ = frontierEpsilon / 6 := by ring
-
-theorem frontierEpsilon_cube :
-    frontierEpsilon ^ 3 = frontierEpsilon / 12 := by
-  calc
-    frontierEpsilon ^ 3 = frontierEpsilon * frontierEpsilon ^ 2 := by ring
-    _ = frontierEpsilon * (1 / 12 : ℝ) := by rw [frontierEpsilon_sq]
-    _ = frontierEpsilon / 12 := by ring
-
-theorem frontierEpsilon_fourth :
-    frontierEpsilon ^ 4 = (1 / 144 : ℝ) := by
-  calc
-    frontierEpsilon ^ 4 = frontierEpsilon ^ 2 * frontierEpsilon ^ 2 := by ring
-    _ = (1 / 12 : ℝ) * (1 / 12 : ℝ) := by rw [frontierEpsilon_sq]
-    _ = (1 / 144 : ℝ) := by norm_num
 
 theorem frontierCupAlpha_le_A :
     frontierCupAlpha ≤ frontierA := by
@@ -1210,24 +3850,179 @@ theorem frontierCupPiece_lower_boundary_dominates
       positivity
     linarith
 
-theorem frontierMajorant_cup_boundary_eq
+theorem frontierMiddlePiece_lower_boundary_left_residual
+    (t : ℝ) (htA : t ≤ frontierA) :
+    frontierMiddlePiece t (t ^ 2) - frontierPhi t =
+      (t + frontierEpsilon - frontierCStar) ^ 2 *
+        (9 * frontierEpsilon - (t + frontierEpsilon - frontierCStar)) := by
+  rw [frontierPhi_left_of_le t htA]
+  rw [frontierMiddlePiece, frontierCPlus_lower_boundary,
+    frontierRadius_lower_boundary, frontierMiddleTrace, frontierMiddleTraceDeriv,
+    frontierLeftTrace, frontierLeftTraceDeriv,
+    frontierKL_mul_exp_CStar_div,
+    frontierKL_div_epsilon_mul_exp_CStar_div]
+  rw [frontierCStar, frontierA]
+  ring_nf
+  rw [frontierEpsilon_ninth, frontierEpsilon_seventh, frontierEpsilon_sixth,
+    frontierEpsilon_fifth, frontierEpsilon_fourth, frontierEpsilon_cube,
+    frontierEpsilon_sq]
+  ring
+
+theorem frontierMiddlePiece_lower_boundary_right_residual
+    (t : ℝ) (htA : frontierA ≤ t) :
+    frontierMiddlePiece t (t ^ 2) - frontierPhi t =
+      (2 * frontierEpsilon - (t + frontierEpsilon - frontierCStar)) *
+        ((t + frontierEpsilon - frontierCStar) ^ 2 -
+          7 * frontierEpsilon * (t + frontierEpsilon - frontierCStar) +
+          (5 / 6 : ℝ)) := by
+  rw [frontierPhi_right_of_ge t htA]
+  rw [frontierMiddlePiece, frontierCPlus_lower_boundary,
+    frontierRadius_lower_boundary, frontierMiddleTrace, frontierMiddleTraceDeriv,
+    frontierLeftTrace, frontierLeftTraceDeriv,
+    frontierKL_mul_exp_CStar_div,
+    frontierKL_div_epsilon_mul_exp_CStar_div]
+  rw [frontierCStar, frontierA]
+  ring_nf
+  rw [frontierEpsilon_ninth, frontierEpsilon_seventh, frontierEpsilon_sixth,
+    frontierEpsilon_fifth, frontierEpsilon_fourth, frontierEpsilon_cube,
+    frontierEpsilon_sq]
+  ring
+
+theorem frontierMiddlePiece_lower_boundary_left_residual_nonneg
+    (t : ℝ) (hleft : frontierCStar < t + frontierEpsilon)
+    (hright : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon)
+    (htA : t ≤ frontierA) :
+    0 ≤ frontierMiddlePiece t (t ^ 2) - frontierPhi t := by
+  set u : ℝ := t + frontierEpsilon - frontierCStar
+  have hu_nonneg : 0 ≤ u := by
+    dsimp [u]
+    linarith
+  have hu_le : u ≤ 2 * frontierEpsilon := by
+    dsimp [u]
+    linarith
+  have hfactor : 0 ≤ 9 * frontierEpsilon - u := by
+    linarith [hu_le, frontierEpsilon_pos]
+  rw [frontierMiddlePiece_lower_boundary_left_residual t htA]
+  rw [← show u = t + frontierEpsilon - frontierCStar by rfl]
+  exact mul_nonneg (sq_nonneg u) hfactor
+
+theorem frontierMiddlePiece_lower_boundary_right_residual_nonneg
+    (t : ℝ) (hright : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon)
+    (htA : frontierA ≤ t) :
+    0 ≤ frontierMiddlePiece t (t ^ 2) - frontierPhi t := by
+  set u : ℝ := t + frontierEpsilon - frontierCStar
+  have hu_le : u ≤ 2 * frontierEpsilon := by
+    dsimp [u]
+    linarith
+  have htwo_nonneg : 0 ≤ 2 * frontierEpsilon - u := by
+    linarith
+  have hq_nonneg :
+      0 ≤ u ^ 2 - 7 * frontierEpsilon * u + (5 / 6 : ℝ) := by
+    have hq_ge :
+        (2 * frontierEpsilon) ^ 2 -
+            7 * frontierEpsilon * (2 * frontierEpsilon) + (5 / 6 : ℝ) ≤
+          u ^ 2 - 7 * frontierEpsilon * u + (5 / 6 : ℝ) := by
+      have hslope_nonpos : u + 2 * frontierEpsilon - 7 * frontierEpsilon ≤ 0 := by
+        linarith [hu_le, frontierEpsilon_pos]
+      have hdiff_nonneg : 0 ≤ 2 * frontierEpsilon - u := by
+        linarith
+      nlinarith [mul_nonpos_of_nonneg_of_nonpos hdiff_nonneg hslope_nonpos]
+    have hq_at_right :
+        (2 * frontierEpsilon) ^ 2 -
+            7 * frontierEpsilon * (2 * frontierEpsilon) + (5 / 6 : ℝ) = 0 := by
+      ring_nf
+      rw [frontierEpsilon_sq]
+      norm_num
+    linarith
+  rw [frontierMiddlePiece_lower_boundary_right_residual t htA]
+  rw [← show u = t + frontierEpsilon - frontierCStar by rfl]
+  exact mul_nonneg htwo_nonneg hq_nonneg
+
+theorem frontierMiddlePiece_lower_boundary_dominates
     (t : ℝ) (hleft : frontierCStar < t + frontierEpsilon)
     (hright : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon) :
-    frontierMajorant t (t ^ 2) = frontierCupPiece t (t ^ 2) := by
+    frontierPhi t ≤ frontierMiddlePiece t (t ^ 2) := by
+  by_cases htA : t ≤ frontierA
+  · have hres_nonneg :
+        0 ≤ frontierMiddlePiece t (t ^ 2) - frontierPhi t :=
+      frontierMiddlePiece_lower_boundary_left_residual_nonneg t hleft hright htA
+    linarith
+  · have htA' : frontierA ≤ t := le_of_not_ge htA
+    have hres_nonneg :
+        0 ≤ frontierMiddlePiece t (t ^ 2) - frontierPhi t :=
+      frontierMiddlePiece_lower_boundary_right_residual_nonneg t hright htA'
+    linarith
+
+theorem frontierMiddlePiece_lower_boundary_residual_certificate
+    (t : ℝ) (hleft : frontierCStar < t + frontierEpsilon)
+    (hright : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon) :
+    (t ≤ frontierA →
+        frontierMiddlePiece t (t ^ 2) - frontierPhi t =
+          (t + frontierEpsilon - frontierCStar) ^ 2 *
+            (9 * frontierEpsilon - (t + frontierEpsilon - frontierCStar))) ∧
+      (frontierA ≤ t →
+        frontierMiddlePiece t (t ^ 2) - frontierPhi t =
+          (2 * frontierEpsilon - (t + frontierEpsilon - frontierCStar)) *
+            ((t + frontierEpsilon - frontierCStar) ^ 2 -
+              7 * frontierEpsilon * (t + frontierEpsilon - frontierCStar) +
+              (5 / 6 : ℝ))) ∧
+      0 ≤ frontierMiddlePiece t (t ^ 2) - frontierPhi t := by
+  refine ⟨frontierMiddlePiece_lower_boundary_left_residual t,
+    frontierMiddlePiece_lower_boundary_right_residual t, ?_⟩
+  have hdom := frontierMiddlePiece_lower_boundary_dominates t hleft hright
+  linarith
+
+theorem frontierMajorant_middle_boundary_eq
+    (t : ℝ) (hleft : frontierCStar < t + frontierEpsilon)
+    (hright : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon) :
+    frontierMajorant t (t ^ 2) = frontierMiddlePiece t (t ^ 2) := by
   rw [frontierMajorant, frontierCPlus_lower_boundary]
   have hnotLeft : ¬ t + frontierEpsilon ≤ frontierCStar := not_le.mpr hleft
   rw [if_neg hnotLeft, if_pos hright]
 
-theorem frontierMajorant_cup_boundary_dominates
+theorem frontierMajorant_middle_boundary_dominates
     (t : ℝ) (hleft : frontierCStar < t + frontierEpsilon)
     (hright : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon) :
     frontierPhi t ≤ frontierMajorant t (t ^ 2) := by
-  rw [frontierMajorant_cup_boundary_eq t hleft hright]
-  apply frontierCupPiece_lower_boundary_dominates
-  · rw [frontierCupAlpha]
-    linarith
-  · rw [frontierCupBeta]
-    linarith
+  rw [frontierMajorant_middle_boundary_eq t hleft hright]
+  exact frontierMiddlePiece_lower_boundary_dominates t hleft hright
+
+theorem frontierMajorant_middle_boundary_residual_certificate
+    (t : ℝ) (hleft : frontierCStar < t + frontierEpsilon)
+    (hright : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon) :
+    (t ≤ frontierA →
+        frontierMajorant t (t ^ 2) - frontierPhi t =
+          (t + frontierEpsilon - frontierCStar) ^ 2 *
+            (9 * frontierEpsilon - (t + frontierEpsilon - frontierCStar))) ∧
+      (frontierA ≤ t →
+        frontierMajorant t (t ^ 2) - frontierPhi t =
+          (2 * frontierEpsilon - (t + frontierEpsilon - frontierCStar)) *
+            ((t + frontierEpsilon - frontierCStar) ^ 2 -
+              7 * frontierEpsilon * (t + frontierEpsilon - frontierCStar) +
+              (5 / 6 : ℝ))) ∧
+      0 ≤ frontierMajorant t (t ^ 2) - frontierPhi t := by
+  rw [frontierMajorant_middle_boundary_eq t hleft hright]
+  exact frontierMiddlePiece_lower_boundary_residual_certificate t hleft hright
+
+theorem frontierMajorant_middle_boundary_residual_certificate_u
+    (t u : ℝ) (hu : u = t + frontierEpsilon - frontierCStar)
+    (hleft : frontierCStar < t + frontierEpsilon)
+    (hright : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon) :
+    (t ≤ frontierA →
+        frontierMajorant t (t ^ 2) - frontierPhi t =
+          u ^ 2 * (9 * frontierEpsilon - u)) ∧
+      (frontierA ≤ t →
+        frontierMajorant t (t ^ 2) - frontierPhi t =
+          (2 * frontierEpsilon - u) *
+            (u ^ 2 - 7 * frontierEpsilon * u + (5 / 6 : ℝ))) ∧
+      0 ≤ frontierMajorant t (t ^ 2) - frontierPhi t := by
+  rcases frontierMajorant_middle_boundary_residual_certificate t hleft hright with
+    ⟨hleft_res, hright_res, hnonneg⟩
+  refine ⟨?_, ?_, hnonneg⟩
+  · intro htA
+    rw [hleft_res htA, hu]
+  · intro htA
+    rw [hright_res htA, hu]
 
 theorem frontierRightTailPiece_boundary (t : ℝ) (ht : frontierA ≤ t) :
     frontierRightTailPiece t (t ^ 2) = frontierPhi t := by
@@ -1259,7 +4054,7 @@ theorem frontierMajorant_boundaryDominates (t : ℝ) :
   · exact frontierMajorant_left_boundary_dominates t hleft
   · have hleft' : frontierCStar < t + frontierEpsilon := not_le.mp hleft
     by_cases hmiddle : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon
-    · exact frontierMajorant_cup_boundary_dominates t hleft' hmiddle
+    · exact frontierMajorant_middle_boundary_dominates t hleft' hmiddle
     · have hright : frontierCStar + 2 * frontierEpsilon < t + frontierEpsilon :=
         not_le.mp hmiddle
       have htA : frontierA ≤ t := by

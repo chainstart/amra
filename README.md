@@ -27,6 +27,7 @@ This repository currently implements:
 - a Lean workspace template
 - a Lean build executor with `sorry` auditing
 - an autonomous proof-search / proof-repair loop with per-attempt state and optional `codex exec` backend
+- a root-goal driven campaign loop that schedules dependent proof subgoals before returning to the original theorem
 - CoMath specialist orchestration that turns review blockers and next actions into prioritized proof obligations
 - batch open-problem campaigning over scout shortlists with timeout-based handoff to the next problem
 - manuscript blueprint generation
@@ -51,6 +52,7 @@ ara-math/
 │   ├── cli.py
 │   ├── context.py
 │   ├── formalization.py
+│   ├── goal_campaign.py
 │   ├── lean.py
 │   ├── models.py
 │   ├── orchestrator.py
@@ -171,6 +173,31 @@ Run the Lean build and audit:
 ```bash
 python3 run.py build-lean --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
 ```
+
+Run a root-goal driven proof campaign from a manifest:
+
+```bash
+python3 run.py init-goal-campaign \
+  --output /tmp/goal_manifest.json \
+  --root-statement-file /path/to/root_statement.md \
+  --root-target-theorem original_theorem \
+  --root-target-file MathProject/MainClaim.lean \
+  --workspace /path/to/lean/workspace
+
+python3 run.py run-goal-campaign \
+  --manifest /tmp/goal_manifest.json \
+  --workspace /path/to/lean/workspace \
+  --backend codex \
+  --rounds 20 \
+  --time-budget 7200 \
+  --search
+```
+
+The goal manifest is the durable state for this loop. Add subgoals under
+`goals` with `id`, `statement`, `target_theorem`, `target_file`,
+`dependencies`, and `priority`; the runner proves ready subgoals first, records
+root-gap reviews after each phase, and only accepts completion when the root
+Lean target verifies.
 
 `ara-math` now runs Lean in guarded mode by default:
 - it refuses cold-cache builds that would bootstrap `mathlib` from scratch
