@@ -378,6 +378,7 @@ class GoalDrivenCampaignRunner:
                 run_name="proof-lab",
                 enable_search=enable_search,
             )
+            review_fields = self._latest_audit_fields(child)
             suggested_target = extract_formalization_target_from_run(
                 Path(str(child.get("run_dir"))),
                 excluded_names=self._all_known_target_theorems(manifest),
@@ -388,16 +389,85 @@ class GoalDrivenCampaignRunner:
                     "stop_reason": child.get("stop_reason"),
                     "proof_lab_run_dir": child.get("run_dir"),
                     "summary_path": child.get("summary_path"),
+                    "audit_status": review_fields.get("audit_status", ""),
+                    "recommendation": review_fields.get("recommendation", ""),
+                    "first_fatal_gap": review_fields.get("first_fatal_gap", ""),
+                    "needed_repair": review_fields.get("needed_repair", ""),
                     "suggested_target_theorem": suggested_target,
                 }
             )
+            self._apply_review_route_decision(
+                latest_goal=latest_goal,
+                recommendation=str(review_fields.get("recommendation", "")),
+                audit_status=str(review_fields.get("audit_status", "")),
+                first_fatal_gap=str(review_fields.get("first_fatal_gap", "")),
+            )
             if dynamic_goal_creation and suggested_target:
-                created = self._create_dynamic_goal(manifest, suggested_target=suggested_target, root=root)
+                replacement = self._is_route_switch_recommendation(
+                    recommendation=str(review_fields.get("recommendation", "")),
+                    audit_status=str(review_fields.get("audit_status", "")),
+                    first_fatal_gap=str(review_fields.get("first_fatal_gap", "")),
+                )
+                created = self._create_dynamic_goal(
+                    manifest,
+                    suggested_target=suggested_target,
+                    root=root,
+                    latest_goal=latest_goal,
+                    replacement=replacement,
+                )
                 review["created_goal_id"] = created["id"]
 
         write_json(review_dir / "review.json", review)
         manifest.setdefault("gap_reviews", []).append(review)
         return review
+
+    def _latest_audit_fields(self, proof_lab_report: dict[str, Any]) -> dict[str, str]:
+        audits = list(proof_lab_report.get("audits") or [])
+        if not audits:
+            return {}
+        fields = dict((audits[-1] or {}).get("parsed_fields") or {})
+        return {str(key): str(value).strip() for key, value in fields.items()}
+
+    def _is_route_switch_recommendation(
+        self,
+        *,
+        recommendation: str,
+        audit_status: str,
+        first_fatal_gap: str,
+    ) -> bool:
+        recommendation = recommendation.strip().lower()
+        audit_status = audit_status.strip().lower()
+        first_fatal_gap = first_fatal_gap.strip().lower()
+        return (
+            recommendation in {"freeze", "switch_route"}
+            or audit_status in {"fatal_gap", "counterexample_suspected", "statement_mismatch"}
+            and any(marker in first_fatal_gap for marker in ("false", "contradict", "counterexample"))
+        )
+
+    def _apply_review_route_decision(
+        self,
+        *,
+        latest_goal: dict[str, Any] | None,
+        recommendation: str,
+        audit_status: str,
+        first_fatal_gap: str,
+    ) -> None:
+        if latest_goal is None:
+            return
+        if not self._is_route_switch_recommendation(
+            recommendation=recommendation,
+            audit_status=audit_status,
+            first_fatal_gap=first_fatal_gap,
+        ):
+            return
+        if latest_goal.get("status") == "verified":
+            return
+        latest_goal["status"] = "skipped"
+        latest_goal["skip_reason"] = (
+            f"Root-gap review recommended `{recommendation or audit_status}`: "
+            f"{first_fatal_gap}"
+        ).strip()
+        latest_goal["updated_at"] = utc_now_iso()
 
     def _create_dynamic_goal(
         self,
@@ -405,6 +475,8 @@ class GoalDrivenCampaignRunner:
         *,
         suggested_target: str,
         root: dict[str, Any],
+        latest_goal: dict[str, Any] | None = None,
+        replacement: bool = False,
     ) -> dict[str, Any]:
         base_id = _clean_id(suggested_target, "dynamic_goal")
         existing_ids = {str(goal.get("id")) for goal in list(manifest.get("goals") or [])}
@@ -430,9 +502,14 @@ class GoalDrivenCampaignRunner:
             "dependencies": verified_non_root,
             "context_files": [],
             "status": "pending",
-            "priority": 500 + len(list(manifest.get("goals") or [])),
+            "priority": (
+                max(1, int((latest_goal or {}).get("priority") or 100) - 1)
+                if replacement
+                else 500 + len(list(manifest.get("goals") or []))
+            ),
             "created_by": "root_gap_review",
             "created_at": utc_now_iso(),
+            "replaces_goal_id": str((latest_goal or {}).get("id") or "") if replacement else "",
             "run_history": [],
         }
         manifest.setdefault("goals", []).append(goal)
