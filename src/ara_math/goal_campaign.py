@@ -321,6 +321,9 @@ class GoalDrivenCampaignRunner:
                 f"- Latest goal: `{(latest_goal or {}).get('id', '<none>')}`",
                 f"- Latest status: `{(latest_goal or {}).get('status', '<none>')}`",
                 f"- Latest child stop reason: `{(latest_report or {}).get('stop_reason', '')}`",
+                f"- Latest child current target: `{(latest_report or {}).get('current_target_theorem', '')}`",
+                f"- Latest child needs global reassessment: `{(latest_report or {}).get('needs_global_reassessment', False)}`",
+                f"- Latest child suggested next targets: `{', '.join(str(item) for item in list((latest_report or {}).get('suggested_next_targets') or [])) or '<none>'}`",
                 "",
                 "## Verified Goals",
                 "",
@@ -341,6 +344,7 @@ class GoalDrivenCampaignRunner:
                 "Required output:",
                 "- State whether the root theorem is now closed.",
                 "- If not closed, identify the first missing theorem-level obligation.",
+                "- If the latest child requested global reassessment, decide whether to create a smaller dependency goal before retrying it.",
                 "- If a new Lean target is needed, provide it as a Lean theorem/lemma declaration or in a `Formalization target:` field.",
                 "",
             ]
@@ -661,6 +665,8 @@ class GoalDrivenCampaignRunner:
                 "status": child_report.get("status"),
                 "stop_reason": child_report.get("stop_reason"),
                 "target_theorem": _goal_target(selected),
+                "child_current_target_theorem": child_report.get("current_target_theorem", ""),
+                "needs_global_reassessment": bool(child_report.get("needs_global_reassessment")),
             }
             selected.setdefault("run_history", []).append(run_record)
             latest_goal = selected
@@ -673,6 +679,8 @@ class GoalDrivenCampaignRunner:
                 "child_run_dir": child_report.get("run_dir"),
                 "child_status": child_report.get("status"),
                 "child_stop_reason": child_report.get("stop_reason"),
+                "child_current_target_theorem": child_report.get("current_target_theorem", ""),
+                "needs_global_reassessment": bool(child_report.get("needs_global_reassessment")),
             }
             write_json(round_dir / "decision.json", entry)
             round_entries.append(entry)

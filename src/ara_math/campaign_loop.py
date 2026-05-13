@@ -247,19 +247,31 @@ class CampaignLoopRunner:
         snippets: list[str] = []
         for entry in round_entries[-6:]:
             summary_path = Path(str(entry.get("summary_path") or ""))
-            if not summary_path.exists():
-                continue
-            text = read_text(summary_path)
-            snippets.append(
-                "\n".join(
-                    [
-                        f"## Prior Round {entry.get('round')} ({entry.get('stage')})",
-                        "",
-                        text[-4000:].strip(),
-                        "",
-                    ]
+            if summary_path.exists():
+                text = read_text(summary_path)
+                snippets.append(
+                    "\n".join(
+                        [
+                            f"## Prior Round {entry.get('round')} ({entry.get('stage')})",
+                            "",
+                            text[-4000:].strip(),
+                            "",
+                        ]
+                    )
                 )
-            )
+            assessment_path_text = str(entry.get("global_assessment_path") or "").strip()
+            assessment_path = Path(assessment_path_text) if assessment_path_text else None
+            if assessment_path is not None and assessment_path.exists():
+                snippets.append(
+                    "\n".join(
+                        [
+                            f"## Prior Round {entry.get('round')} Global Assessment",
+                            "",
+                            read_text(assessment_path)[-4000:].strip(),
+                            "",
+                        ]
+                    )
+                )
         history = "\n".join(snippets).strip()
         if len(history) > max_chars:
             history = history[-max_chars:]
@@ -340,6 +352,12 @@ class CampaignLoopRunner:
         current_target_theorem: str,
         previous_entry: dict[str, Any] | None,
     ) -> str:
+        if (
+            mode in {"auto", "hybrid"}
+            and previous_entry
+            and previous_entry.get("needs_global_reassessment")
+        ):
+            return "proof_lab"
         if mode == "proof-lab":
             return "proof_lab"
         if mode == "lean-formalizer":
@@ -367,6 +385,90 @@ class CampaignLoopRunner:
             return "lean_formalizer"
         return "proof_lab"
 
+    def _formalizer_child_needs_global_reassessment(self, child: dict[str, Any]) -> bool:
+        if bool(child.get("needs_global_reassessment")):
+            return True
+        if child.get("status") == "verified":
+            return False
+        attempts = list(child.get("attempts") or [])
+        if not attempts:
+            return False
+        no_defect_progress = all(int(entry.get("progress_delta") or 0) <= 0 for entry in attempts)
+        best = dict(child.get("best_audit") or {})
+        target_missing = any(
+            "Target theorem" in str(blocker) and "not found" in str(blocker)
+            for blocker in list(best.get("blockers") or [])
+        )
+        return no_defect_progress and target_missing
+
+    def _write_global_assessment(
+        self,
+        *,
+        path: Path,
+        statement: str,
+        current_target_theorem: str,
+        final_target_theorem: str,
+        child: dict[str, Any],
+    ) -> None:
+        best = dict(child.get("best_audit") or {})
+        blockers = list(best.get("blockers") or [])
+        suggested_next_targets = list(child.get("suggested_next_targets") or [])
+        attempts = list(child.get("attempts") or [])
+        lines = [
+            "# ARA Global Reassessment Trigger",
+            "",
+            "The Lean formalizer made no strict-audit progress on the current stage target.",
+            "Before continuing, the campaign supervisor must reassess the proof decomposition and choose the next theorem-level blocker.",
+            "",
+            "## Main Objective",
+            "",
+            statement.strip(),
+            "",
+            "## Current Targets",
+            "",
+            f"- Current stage theorem: `{current_target_theorem or '<none>'}`",
+            f"- Final theorem: `{final_target_theorem or '<not fixed>'}`",
+            f"- Formalizer status: `{child.get('status')}`",
+            f"- Formalizer stop reason: `{child.get('stop_reason')}`",
+            f"- Attempts completed: {child.get('attempts_completed')}",
+            f"- Needs reassessment: {child.get('needs_global_reassessment')}",
+            "",
+            "## Strict-Audit Blockers",
+            "",
+        ]
+        lines.extend(f"- {item}" for item in blockers) if blockers else lines.append("- none")
+        lines.extend(["", "## Backend Next-Target Signals", ""])
+        lines.extend(f"- {item}" for item in suggested_next_targets) if suggested_next_targets else lines.append("- none")
+        lines.extend(["", "## Attempt Score Trace", ""])
+        if attempts:
+            for entry in attempts[-8:]:
+                lines.append(
+                    "- Attempt {iteration}: progress_delta={progress_delta}, "
+                    "build={build_status}, verified={verified}".format(
+                        iteration=entry.get("iteration"),
+                        progress_delta=entry.get("progress_delta"),
+                        build_status=entry.get("build_status"),
+                        verified=entry.get("verified"),
+                    )
+                )
+        else:
+            lines.append("- none")
+        lines.extend(
+            [
+                "",
+                "## Required Global Decision",
+                "",
+                "- Decide whether the current stage theorem is still the right immediate target.",
+                "- If it is too broad, replace it with the first smaller theorem that directly plugs into the final proof chain.",
+                "- The replacement must be a theorem-level target, not another loose local lemma.",
+                "- Provide the replacement as a Lean declaration in a `Formalization target:` or `open_continuation_target` field.",
+                "- Explain how the replacement theorem will be used to close the prior stage theorem.",
+                "- Freeze or demote routes that only add build-clean local lemmas without changing the main target state.",
+                "",
+            ]
+        )
+        write_text(path, "\n".join(lines))
+
     def _stage_time_budget(
         self,
         *,
@@ -390,6 +492,10 @@ class CampaignLoopRunner:
             run_dir = Path(str(entry.get("run_dir") or ""))
             if not run_dir.exists():
                 continue
+            assessment_path_text = str(entry.get("global_assessment_path") or "").strip()
+            assessment_path = Path(assessment_path_text) if assessment_path_text else None
+            if assessment_path is not None and assessment_path.exists():
+                paths.append(assessment_path)
             if entry.get("stage") == "proof_lab":
                 paths.extend(collect_proof_lab_context_paths(run_dir))
             else:
@@ -425,9 +531,18 @@ class CampaignLoopRunner:
         if not rounds:
             lines.append("- none")
         for entry in rounds:
+            suffix = ""
+            if entry.get("needs_global_reassessment"):
+                suffix = " [global reassessment requested]"
+            elif entry.get("target_replaced"):
+                suffix = (
+                    f" [retargeted from `{entry.get('previous_target_theorem')}` "
+                    f"to `{entry.get('target_theorem')}`]"
+                )
             lines.append(
                 f"- Round {entry.get('round')}: {entry.get('stage')} -> "
                 f"{entry.get('status')} ({entry.get('stop_reason') or entry.get('next_action') or ''})"
+                f"{suffix}"
             )
         lines.extend(["", "## Next Action", "", str(payload.get("next_action") or ""), ""])
         write_text(path, "\n".join(lines))
@@ -539,6 +654,18 @@ class CampaignLoopRunner:
                     enable_search=enable_search,
                     max_stalled_attempts=None,
                 )
+                needs_global_reassessment = self._formalizer_child_needs_global_reassessment(child)
+                global_assessment_path = ""
+                if needs_global_reassessment:
+                    assessment_path = round_dir / "global_assessment.md"
+                    self._write_global_assessment(
+                        path=assessment_path,
+                        statement=statement,
+                        current_target_theorem=current_target_theorem,
+                        final_target_theorem=final_target_theorem.strip(),
+                        child=child,
+                    )
+                    global_assessment_path = str(assessment_path)
                 entry = {
                     "round": round_number,
                     "stage": stage,
@@ -549,6 +676,9 @@ class CampaignLoopRunner:
                     "target_theorem": current_target_theorem,
                     "next_action": child.get("next_action"),
                     "verified": bool((child.get("best_audit") or {}).get("verified")),
+                    "needs_global_reassessment": needs_global_reassessment,
+                    "global_assessment_path": global_assessment_path,
+                    "suggested_next_targets": list(child.get("suggested_next_targets") or []),
                 }
                 if entry["verified"] and final_target_theorem.strip() and current_target_theorem == final_target_theorem.strip():
                     round_entries.append(entry)
@@ -578,8 +708,12 @@ class CampaignLoopRunner:
                     Path(str(child.get("run_dir"))),
                     excluded_names=completed_target_theorem_set,
                 )
-                if suggested_target and not current_target_theorem:
+                replacing_after_reassessment = bool(previous and previous.get("needs_global_reassessment"))
+                previous_target_theorem = current_target_theorem
+                target_replaced = False
+                if suggested_target and (not current_target_theorem or replacing_after_reassessment):
                     current_target_theorem = suggested_target
+                    target_replaced = suggested_target != previous_target_theorem
                 entry = {
                     "round": round_number,
                     "stage": "proof_lab",
@@ -589,8 +723,12 @@ class CampaignLoopRunner:
                     "summary_path": child.get("summary_path"),
                     "suggested_target_theorem": suggested_target,
                     "target_theorem": current_target_theorem,
+                    "previous_target_theorem": previous_target_theorem,
+                    "target_replaced": target_replaced,
+                    "reassessment_of_round": previous.get("round") if replacing_after_reassessment and previous else None,
                     "next_action": child.get("next_action"),
                     "verified": False,
+                    "needs_global_reassessment": False,
                 }
 
             write_json(round_dir / "decision.json", entry)
@@ -609,8 +747,22 @@ class CampaignLoopRunner:
         next_action = (
             "Final target theorem is Lean-verified."
             if status == "verified"
-            else "Continue the campaign loop from the latest round summary and current target theorem."
+            else (
+                "Continue with proof-lab global reassessment before the next Lean formalizer round."
+                if round_entries and round_entries[-1].get("needs_global_reassessment")
+                else "Continue the campaign loop from the latest round summary and current target theorem."
+            )
         )
+        global_reassessments = [
+            {
+                "round": entry.get("round"),
+                "target_theorem": entry.get("target_theorem"),
+                "path": entry.get("global_assessment_path"),
+                "suggested_next_targets": list(entry.get("suggested_next_targets") or []),
+            }
+            for entry in round_entries
+            if entry.get("needs_global_reassessment")
+        ]
         payload = {
             "generated_at": utc_now_iso(),
             "status": status,
@@ -628,6 +780,8 @@ class CampaignLoopRunner:
             "rounds_completed": len(round_entries),
             "elapsed_seconds": round(time.monotonic() - started, 3),
             "rounds": round_entries,
+            "global_reassessments": global_reassessments,
+            "needs_global_reassessment": bool(round_entries and round_entries[-1].get("needs_global_reassessment")),
             "summary_path": str(run_dir / "summary.md"),
             "next_action": next_action,
         }

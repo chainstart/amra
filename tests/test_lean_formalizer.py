@@ -162,6 +162,43 @@ def test_lean_formalizer_can_stop_on_explicit_stall_guard(tmp_path: Path) -> Non
     assert report["attempts_completed"] == 1
 
 
+def test_lean_formalizer_reports_global_reassessment_after_no_progress(tmp_path: Path) -> None:
+    workspace = _write_workspace(
+        tmp_path,
+        "\n".join(
+            [
+                "namespace MathProject",
+                "",
+                "theorem unrelated_helper : True := by",
+                "  trivial",
+                "",
+                "end MathProject",
+                "",
+            ]
+        ),
+    )
+    runner = LeanFormalizerRunner(repo_root=tmp_path)
+
+    report = runner.run(
+        workspace=workspace,
+        statement="Prove missing_target.",
+        target_theorem="missing_target",
+        target_file=Path("MathProject/MainClaim.lean"),
+        build_command=_pass_command(),
+        backend="none",
+        attempts=2,
+        output_root=tmp_path / "runs",
+        run_name="missing-target",
+    )
+
+    assert report["status"] == "partial"
+    assert report["needs_global_reassessment"] is True
+    assert report["suggested_next_targets"] == ["rerun with backend=codex"]
+    summary = Path(report["summary_path"]).read_text(encoding="utf-8")
+    assert "Global Reassessment" in summary
+    assert "Run a global reassessment" in report["next_action"]
+
+
 def test_collect_proof_lab_context_paths_prefers_high_signal_outputs(tmp_path: Path) -> None:
     run_dir = tmp_path / "proof_lab_run"
     (run_dir / "grounding").mkdir(parents=True)

@@ -145,6 +145,53 @@ def test_campaign_loop_hybrid_starts_with_formalizer_when_target_is_known(tmp_pa
     )
 
 
+def test_campaign_loop_global_reassessment_after_formalizer_stall(tmp_path: Path) -> None:
+    workspace = _write_workspace(
+        tmp_path,
+        "\n".join(
+            [
+                "namespace MathProject",
+                "",
+                "theorem existing_helper : True := by",
+                "  trivial",
+                "",
+                "end MathProject",
+                "",
+            ]
+        ),
+    )
+    runner = CampaignLoopRunner(repo_root=tmp_path)
+
+    report = runner.run(
+        statement="Prove the root theorem, but split it if the current stage is too broad.",
+        workspace=workspace,
+        final_target_theorem="missing_final",
+        initial_target_theorem="missing_final",
+        target_file=Path("MathProject/MainClaim.lean"),
+        build_command=["python3", "-c", "print('mock build passed')"],
+        backend="none",
+        mode="hybrid",
+        rounds=2,
+        time_budget_sec=120,
+        formalizer_attempts=1,
+        output_root=tmp_path / "loops",
+        run_name="reassess-loop",
+    )
+
+    assert report["status"] == "partial"
+    assert [round_entry["stage"] for round_entry in report["rounds"]] == [
+        "lean_formalizer",
+        "proof_lab",
+    ]
+    assert report["rounds"][0]["needs_global_reassessment"] is True
+    assessment_path = Path(report["rounds"][0]["global_assessment_path"])
+    assert assessment_path.exists()
+    assessment = assessment_path.read_text(encoding="utf-8")
+    assert "Required Global Decision" in assessment
+    second_goal = Path(report["run_dir"]) / "rounds" / "round_002" / "stage_goal.md"
+    assert "Prior Round 1 Global Assessment" in second_goal.read_text(encoding="utf-8")
+
+
 def test_campaign_loop_proof_lab_only_backend_none(tmp_path: Path) -> None:
     runner = CampaignLoopRunner(repo_root=tmp_path)
 

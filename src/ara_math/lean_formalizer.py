@@ -26,6 +26,13 @@ class LeanFormalizerRunner:
 
     AXIOM_PATTERN = re.compile(r"^\s*axiom\b", re.MULTILINE)
     CONSTANT_PATTERN = re.compile(r"^\s*(constant|opaque)\b", re.MULTILINE)
+    RESPONSE_LABELS = (
+        "Iteration status",
+        "Files changed",
+        "Verifier command",
+        "Remaining blocker",
+        "Next target",
+    )
 
     def __init__(self, *, repo_root: Path) -> None:
         self.repo_root = repo_root
@@ -211,6 +218,58 @@ class LeanFormalizerRunner:
                 text = self.lean_executor.strip_lean_comments(text)
             total += len(pattern.findall(text))
         return total
+
+    def _response_label_section(self, text: str, label: str, *, max_chars: int = 2000) -> str:
+        """Extract a labeled section from the backend's required final response."""
+
+        wanted = label.strip().lower()
+        known_labels = {item.lower() for item in self.RESPONSE_LABELS}
+        lines = text.splitlines()
+        for index, line in enumerate(lines):
+            match = re.match(r"^\s*([A-Za-z ]+):\s*(.*)$", line)
+            if not match or match.group(1).strip().lower() != wanted:
+                continue
+            section = [match.group(2).strip()]
+            for next_line in lines[index + 1 :]:
+                next_match = re.match(r"^\s*([A-Za-z ]+):\s*(.*)$", next_line)
+                if next_match and next_match.group(1).strip().lower() in known_labels:
+                    break
+                section.append(next_line.rstrip())
+            extracted = "\n".join(section).strip()
+            if len(extracted) > max_chars:
+                extracted = extracted[:max_chars].rstrip() + "\n[truncated]"
+            return extracted
+        return ""
+
+    def _dedupe_texts(self, values: list[str]) -> list[str]:
+        seen: set[str] = set()
+        deduped: list[str] = []
+        for value in values:
+            cleaned = re.sub(r"\s+", " ", value).strip()
+            if not cleaned or cleaned in seen:
+                continue
+            seen.add(cleaned)
+            deduped.append(value.strip())
+        return deduped
+
+    def _needs_global_reassessment(
+        self,
+        *,
+        status: str,
+        attempt_entries: list[dict[str, Any]],
+        best_audit: dict[str, Any],
+    ) -> bool:
+        if status == "verified" or not attempt_entries:
+            return False
+        no_defect_progress = all(int(entry.get("progress_delta") or 0) <= 0 for entry in attempt_entries)
+        target_missing = any(
+            "Target theorem" in str(blocker) and "not found" in str(blocker)
+            for blocker in list(best_audit.get("blockers") or [])
+        )
+        repeated_backend_guidance = any(
+            str(entry.get("suggested_next_target") or "").strip() for entry in attempt_entries
+        )
+        return no_defect_progress and (target_missing or repeated_backend_guidance)
 
     def _audit(
         self,
@@ -497,6 +556,7 @@ class LeanFormalizerRunner:
 
     def _write_summary(self, *, path: Path, payload: dict[str, Any]) -> None:
         best = payload.get("best_audit") or {}
+        suggested_next_targets = list(payload.get("suggested_next_targets") or [])
         lines = [
             "# ARA Lean Formalizer Report",
             "",
@@ -520,6 +580,14 @@ class LeanFormalizerRunner:
         blockers = best.get("blockers") or []
         if blockers:
             lines.extend(f"- {item}" for item in blockers)
+        else:
+            lines.append("- none")
+        lines.extend(["", "## Global Reassessment", ""])
+        lines.append(f"- Needed: {payload.get('needs_global_reassessment')}")
+        lines.append(f"- Reason: {payload.get('global_reassessment_reason') or '<none>'}")
+        lines.extend(["", "## Suggested Next Targets", ""])
+        if suggested_next_targets:
+            lines.extend(f"- {item}" for item in suggested_next_targets)
         else:
             lines.append("- none")
         lines.extend(["", "## Next Action", "", str(payload.get("next_action") or ""), ""])
@@ -630,6 +698,7 @@ class LeanFormalizerRunner:
                     enable_search=enable_search,
                 )
                 previous_message = read_text(output_path)
+                suggested_next_target = self._response_label_section(previous_message, "Next target")
                 after_build = self._run_build(
                     workspace=workspace,
                     build_command=build_command,
@@ -681,6 +750,7 @@ class LeanFormalizerRunner:
                     "build_status": after_audit["build_status"],
                     "blockers": after_audit["blockers"],
                     "counts": after_audit["counts"],
+                    "suggested_next_target": suggested_next_target,
                     "prompt_path": str(prompt_path),
                     "backend_last_message_path": str(output_path),
                     "system_headroom": headroom,
@@ -703,7 +773,34 @@ class LeanFormalizerRunner:
         status = "verified" if best_audit.get("verified") else ("partial" if attempt_entries else "blocked")
         if stop_reason == "verified_initially":
             status = "verified"
-        next_action = "Target theorem is Lean-verified." if status == "verified" else "Continue Lean implementation from the best audit blockers."
+        suggested_next_targets = self._dedupe_texts(
+            [
+                str(entry.get("suggested_next_target") or "")
+                for entry in attempt_entries
+                if str(entry.get("suggested_next_target") or "").strip()
+            ]
+        )
+        needs_global_reassessment = self._needs_global_reassessment(
+            status=status,
+            attempt_entries=attempt_entries,
+            best_audit=best_audit,
+        )
+        global_reassessment_reason = ""
+        if needs_global_reassessment:
+            global_reassessment_reason = (
+                "All completed attempts produced no strict-audit score improvement; "
+                "a campaign-level supervisor should reassess the proof decomposition "
+                "and choose a smaller theorem-level stage target before continuing."
+            )
+        next_action = (
+            "Target theorem is Lean-verified."
+            if status == "verified"
+            else (
+                "Run a global reassessment to choose or confirm a smaller theorem-level target."
+                if needs_global_reassessment
+                else "Continue Lean implementation from the best audit blockers."
+            )
+        )
         payload = {
             "generated_at": utc_now_iso(),
             "status": status,
@@ -722,6 +819,9 @@ class LeanFormalizerRunner:
             "initial_audit": initial_audit,
             "best_audit": best_audit,
             "attempts": attempt_entries,
+            "suggested_next_targets": suggested_next_targets,
+            "needs_global_reassessment": needs_global_reassessment,
+            "global_reassessment_reason": global_reassessment_reason,
             "summary_path": str(run_dir / "summary.md"),
             "next_action": next_action,
         }
