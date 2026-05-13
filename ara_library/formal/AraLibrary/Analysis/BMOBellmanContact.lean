@@ -3318,6 +3318,310 @@ theorem frontierBoundaryMajorantResidualBudget_middleBranchBellmanSplit
       hyΩ hzΩ hmixΩ hyD hzD hmixD
   nlinarith
 
+theorem frontierBoundaryMajorantResidualBudget_concatFeasibleBellmanSplit
+    {leftMean leftSecond rightMean rightSecond θ : ℝ}
+    {leftResidual rightResidual leftObjective rightObjective : ℝ}
+    (hleft :
+      leftResidual ≤
+        frontierMajorant leftMean leftSecond - leftObjective)
+    (hright :
+      rightResidual ≤
+        frontierMajorant rightMean rightSecond - rightObjective)
+    (hleftΩ : frontierOmega frontierEpsilon leftMean leftSecond)
+    (hrightΩ : frontierOmega frontierEpsilon rightMean rightSecond)
+    (hconcatΩ :
+      frontierOmega frontierEpsilon
+        (θ * leftMean + (1 - θ) * rightMean)
+        (θ * leftSecond + (1 - θ) * rightSecond))
+    (hleftD : frontierMiddleBranchDomain leftMean leftSecond)
+    (hrightD : frontierMiddleBranchDomain rightMean rightSecond)
+    (hconcatD :
+      frontierMiddleBranchDomain
+        (θ * leftMean + (1 - θ) * rightMean)
+        (θ * leftSecond + (1 - θ) * rightSecond))
+    (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1) :
+    θ * leftResidual + (1 - θ) * rightResidual ≤
+      frontierMajorant
+          (θ * leftMean + (1 - θ) * rightMean)
+          (θ * leftSecond + (1 - θ) * rightSecond) -
+        (θ * leftObjective + (1 - θ) * rightObjective) := by
+  have hleft_scaled :
+      θ * leftResidual ≤
+        θ * (frontierMajorant leftMean leftSecond - leftObjective) :=
+    mul_le_mul_of_nonneg_left hleft hθ0
+  have hright_scaled :
+      (1 - θ) * rightResidual ≤
+        (1 - θ) *
+          (frontierMajorant rightMean rightSecond - rightObjective) :=
+    mul_le_mul_of_nonneg_left hright (sub_nonneg.mpr hθ1)
+  have hsplit :
+      θ * (frontierMajorant leftMean leftSecond - leftObjective) +
+          (1 - θ) *
+            (frontierMajorant rightMean rightSecond - rightObjective) ≤
+        frontierMajorant
+            (θ * leftMean + (1 - θ) * rightMean)
+            (θ * leftSecond + (1 - θ) * rightSecond) -
+          (θ * leftObjective + (1 - θ) * rightObjective) := by
+    have hbellman :
+        frontierMajorant
+            (θ * leftMean + (1 - θ) * rightMean)
+            (θ * leftSecond + (1 - θ) * rightSecond) ≥
+          θ * frontierMajorant leftMean leftSecond +
+            (1 - θ) * frontierMajorant rightMean rightSecond :=
+      frontierMajorant_middleBranchDomain_jensen_concave
+        hleftΩ hrightΩ hconcatΩ hleftD hrightD hconcatD
+    nlinarith
+  nlinarith
+
+theorem frontierBoundaryMajorantResidualBudget_concatFeasibleBellmanSplit_center
+    {leftMean leftSecond rightMean rightSecond θ : ℝ}
+    {leftResidual rightResidual leftObjective rightObjective : ℝ}
+    (hleft :
+      leftResidual ≤
+        frontierMajorant leftMean leftSecond - leftObjective)
+    (hright :
+      rightResidual ≤
+        frontierMajorant rightMean rightSecond - rightObjective)
+    (hleftΩ : frontierOmega frontierEpsilon leftMean leftSecond)
+    (hrightΩ : frontierOmega frontierEpsilon rightMean rightSecond)
+    (hconcatΩ :
+      frontierOmega frontierEpsilon
+        (θ * leftMean + (1 - θ) * rightMean)
+        (θ * leftSecond + (1 - θ) * rightSecond))
+    (hleftD : frontierMiddleBranchDomain leftMean leftSecond)
+    (hrightD : frontierMiddleBranchDomain rightMean rightSecond)
+    (hconcatD :
+      frontierMiddleBranchDomain
+        (θ * leftMean + (1 - θ) * rightMean)
+        (θ * leftSecond + (1 - θ) * rightSecond))
+    (hθ0 : 0 ≤ θ) (hθ1 : θ ≤ 1)
+    (hcenter_mean : θ * leftMean + (1 - θ) * rightMean = 0)
+    (hcenter_second :
+      θ * leftSecond + (1 - θ) * rightSecond = (1 / 12 : ℝ)) :
+    θ * leftResidual + (1 - θ) * rightResidual ≤
+      frontierMajorant 0 (1 / 12 : ℝ) -
+        (θ * leftObjective + (1 - θ) * rightObjective) := by
+  have hconcat :=
+    frontierBoundaryMajorantResidualBudget_concatFeasibleBellmanSplit
+      hleft hright hleftΩ hrightΩ hconcatΩ hleftD hrightD hconcatD
+      hθ0 hθ1
+  rw [hcenter_mean, hcenter_second] at hconcat
+  exact hconcat
+
+theorem frontierBoundaryMajorantResidualBudget_adjacentIntervalFeasibleBellmanSplit
+    {leftLength rightLength totalLength : ℝ}
+    {leftMean leftSecond rightMean rightSecond : ℝ}
+    {leftResidual rightResidual leftObjective rightObjective : ℝ}
+    (hleft :
+      leftResidual ≤
+        frontierMajorant leftMean leftSecond - leftObjective)
+    (hright :
+      rightResidual ≤
+        frontierMajorant rightMean rightSecond - rightObjective)
+    (hleftΩ : frontierOmega frontierEpsilon leftMean leftSecond)
+    (hrightΩ : frontierOmega frontierEpsilon rightMean rightSecond)
+    (hconcatΩ :
+      frontierOmega frontierEpsilon
+        ((leftLength / totalLength) * leftMean +
+          (rightLength / totalLength) * rightMean)
+        ((leftLength / totalLength) * leftSecond +
+          (rightLength / totalLength) * rightSecond))
+    (hleftD : frontierMiddleBranchDomain leftMean leftSecond)
+    (hrightD : frontierMiddleBranchDomain rightMean rightSecond)
+    (hconcatD :
+      frontierMiddleBranchDomain
+        ((leftLength / totalLength) * leftMean +
+          (rightLength / totalLength) * rightMean)
+        ((leftLength / totalLength) * leftSecond +
+          (rightLength / totalLength) * rightSecond))
+    (hleftLength_nonneg : 0 ≤ leftLength)
+    (hrightLength_nonneg : 0 ≤ rightLength)
+    (htotal : totalLength = leftLength + rightLength)
+    (htotal_pos : 0 < totalLength) :
+    (leftLength / totalLength) * leftResidual +
+        (rightLength / totalLength) * rightResidual ≤
+      frontierMajorant
+          ((leftLength / totalLength) * leftMean +
+            (rightLength / totalLength) * rightMean)
+          ((leftLength / totalLength) * leftSecond +
+            (rightLength / totalLength) * rightSecond) -
+        ((leftLength / totalLength) * leftObjective +
+          (rightLength / totalLength) * rightObjective) := by
+  have hrightWeight :
+      1 - leftLength / totalLength = rightLength / totalLength := by
+    field_simp [ne_of_gt htotal_pos]
+    linarith
+  have hθ0 : 0 ≤ leftLength / totalLength :=
+    div_nonneg hleftLength_nonneg (le_of_lt htotal_pos)
+  have hleft_le_total : leftLength ≤ totalLength := by
+    linarith
+  have hθ1 : leftLength / totalLength ≤ 1 :=
+    (div_le_one htotal_pos).mpr hleft_le_total
+  have hconcatΩ' :
+      frontierOmega frontierEpsilon
+        ((leftLength / totalLength) * leftMean +
+          (1 - leftLength / totalLength) * rightMean)
+        ((leftLength / totalLength) * leftSecond +
+          (1 - leftLength / totalLength) * rightSecond) := by
+    simpa [hrightWeight] using hconcatΩ
+  have hconcatD' :
+      frontierMiddleBranchDomain
+        ((leftLength / totalLength) * leftMean +
+          (1 - leftLength / totalLength) * rightMean)
+        ((leftLength / totalLength) * leftSecond +
+          (1 - leftLength / totalLength) * rightSecond) := by
+    simpa [hrightWeight] using hconcatD
+  have hsplit :=
+    frontierBoundaryMajorantResidualBudget_concatFeasibleBellmanSplit
+      (θ := leftLength / totalLength)
+      hleft hright hleftΩ hrightΩ hconcatΩ' hleftD hrightD hconcatD'
+      hθ0 hθ1
+  simpa [hrightWeight] using hsplit
+
+theorem frontierBoundaryMajorantResidualBudget_adjacentIntervalFeasibleBellmanSplit_center
+    {leftLength rightLength totalLength : ℝ}
+    {leftMean leftSecond rightMean rightSecond : ℝ}
+    {leftResidual rightResidual leftObjective rightObjective : ℝ}
+    (hleft :
+      leftResidual ≤
+        frontierMajorant leftMean leftSecond - leftObjective)
+    (hright :
+      rightResidual ≤
+        frontierMajorant rightMean rightSecond - rightObjective)
+    (hleftΩ : frontierOmega frontierEpsilon leftMean leftSecond)
+    (hrightΩ : frontierOmega frontierEpsilon rightMean rightSecond)
+    (hconcatΩ :
+      frontierOmega frontierEpsilon
+        ((leftLength / totalLength) * leftMean +
+          (rightLength / totalLength) * rightMean)
+        ((leftLength / totalLength) * leftSecond +
+          (rightLength / totalLength) * rightSecond))
+    (hleftD : frontierMiddleBranchDomain leftMean leftSecond)
+    (hrightD : frontierMiddleBranchDomain rightMean rightSecond)
+    (hconcatD :
+      frontierMiddleBranchDomain
+        ((leftLength / totalLength) * leftMean +
+          (rightLength / totalLength) * rightMean)
+        ((leftLength / totalLength) * leftSecond +
+          (rightLength / totalLength) * rightSecond))
+    (hleftLength_nonneg : 0 ≤ leftLength)
+    (hrightLength_nonneg : 0 ≤ rightLength)
+    (htotal : totalLength = leftLength + rightLength)
+    (htotal_pos : 0 < totalLength)
+    (hcenter_mean :
+      (leftLength / totalLength) * leftMean +
+          (rightLength / totalLength) * rightMean =
+        0)
+    (hcenter_second :
+      (leftLength / totalLength) * leftSecond +
+          (rightLength / totalLength) * rightSecond =
+        (1 / 12 : ℝ)) :
+    (leftLength / totalLength) * leftResidual +
+        (rightLength / totalLength) * rightResidual ≤
+      frontierMajorant 0 (1 / 12 : ℝ) -
+        ((leftLength / totalLength) * leftObjective +
+          (rightLength / totalLength) * rightObjective) := by
+  have hsplit :=
+    frontierBoundaryMajorantResidualBudget_adjacentIntervalFeasibleBellmanSplit
+      hleft hright hleftΩ hrightΩ hconcatΩ hleftD hrightD hconcatD
+      hleftLength_nonneg hrightLength_nonneg htotal htotal_pos
+  rw [hcenter_mean, hcenter_second] at hsplit
+  exact hsplit
+
+theorem frontierMajorant_adjacentSubintervalBellmanSplit
+    {leftLength rightLength totalLength : ℝ}
+    {leftMean leftSecond rightMean rightSecond : ℝ}
+    (hleftΩ : frontierOmega frontierEpsilon leftMean leftSecond)
+    (hrightΩ : frontierOmega frontierEpsilon rightMean rightSecond)
+    (hconcatΩ :
+      frontierOmega frontierEpsilon
+        ((leftLength / totalLength) * leftMean +
+          (rightLength / totalLength) * rightMean)
+        ((leftLength / totalLength) * leftSecond +
+          (rightLength / totalLength) * rightSecond))
+    (hleftD : frontierMiddleBranchDomain leftMean leftSecond)
+    (hrightD : frontierMiddleBranchDomain rightMean rightSecond)
+    (hconcatD :
+      frontierMiddleBranchDomain
+        ((leftLength / totalLength) * leftMean +
+          (rightLength / totalLength) * rightMean)
+        ((leftLength / totalLength) * leftSecond +
+          (rightLength / totalLength) * rightSecond))
+    (hleftLength_nonneg : 0 ≤ leftLength)
+    (hrightLength_nonneg : 0 ≤ rightLength)
+    (htotal : totalLength = leftLength + rightLength)
+    (htotal_pos : 0 < totalLength) :
+    (leftLength / totalLength) * frontierMajorant leftMean leftSecond +
+        (rightLength / totalLength) * frontierMajorant rightMean rightSecond ≤
+      frontierMajorant
+        ((leftLength / totalLength) * leftMean +
+          (rightLength / totalLength) * rightMean)
+        ((leftLength / totalLength) * leftSecond +
+          (rightLength / totalLength) * rightSecond) := by
+  have hleft :
+      frontierMajorant leftMean leftSecond ≤
+        frontierMajorant leftMean leftSecond - (0 : ℝ) := by
+    simp
+  have hright :
+      frontierMajorant rightMean rightSecond ≤
+        frontierMajorant rightMean rightSecond - (0 : ℝ) := by
+    simp
+  have hsplit :=
+    frontierBoundaryMajorantResidualBudget_adjacentIntervalFeasibleBellmanSplit
+      (leftResidual := frontierMajorant leftMean leftSecond)
+      (rightResidual := frontierMajorant rightMean rightSecond)
+      (leftObjective := 0)
+      (rightObjective := 0)
+      hleft hright hleftΩ hrightΩ hconcatΩ hleftD hrightD hconcatD
+      hleftLength_nonneg hrightLength_nonneg htotal htotal_pos
+  simpa using hsplit
+
+theorem frontierMajorant_adjacentSubintervalBellmanSplit_of_centeredAdmissible
+    (g : ℝ → ℝ) (hg : frontierBMOCenteredFunctionAdmissible g)
+    {leftLength rightLength totalLength : ℝ}
+    {leftMean leftSecond rightMean rightSecond : ℝ}
+    (hleftΩ : frontierOmega frontierEpsilon leftMean leftSecond)
+    (hrightΩ : frontierOmega frontierEpsilon rightMean rightSecond)
+    (hleftD : frontierMiddleBranchDomain leftMean leftSecond)
+    (hrightD : frontierMiddleBranchDomain rightMean rightSecond)
+    (hconcatD :
+      frontierMiddleBranchDomain
+        ((leftLength / totalLength) * leftMean +
+          (rightLength / totalLength) * rightMean)
+        ((leftLength / totalLength) * leftSecond +
+          (rightLength / totalLength) * rightSecond))
+    (hleftLength_nonneg : 0 ≤ leftLength)
+    (hrightLength_nonneg : 0 ≤ rightLength)
+    (htotal : totalLength = leftLength + rightLength)
+    (htotal_pos : 0 < totalLength)
+    (hconcatMean :
+      (leftLength / totalLength) * leftMean +
+          (rightLength / totalLength) * rightMean =
+        frontierBMOOriginalMeanIntegral g)
+    (hconcatSecond :
+      (leftLength / totalLength) * leftSecond +
+          (rightLength / totalLength) * rightSecond =
+        frontierBMOOriginalSecondMomentIntegral g) :
+    (leftLength / totalLength) * frontierMajorant leftMean leftSecond +
+        (rightLength / totalLength) *
+          frontierMajorant rightMean rightSecond ≤
+      frontierMajorant 0 (1 / 12 : ℝ) := by
+  have hconcatΩ :
+      frontierOmega frontierEpsilon
+        ((leftLength / totalLength) * leftMean +
+          (rightLength / totalLength) * rightMean)
+        ((leftLength / totalLength) * leftSecond +
+          (rightLength / totalLength) * rightSecond) := by
+    simpa [hconcatMean, hconcatSecond] using
+      frontierBMOCenteredAdmissible_moments_mem_omega g hg
+  have hsplit :=
+    frontierMajorant_adjacentSubintervalBellmanSplit
+      hleftΩ hrightΩ hconcatΩ hleftD hrightD hconcatD
+      hleftLength_nonneg hrightLength_nonneg htotal htotal_pos
+  rcases hg with
+    ⟨_hg, _hg2, _hphi, hmean, hsecondMoment, _hvariance⟩
+  simpa [hconcatMean, hconcatSecond, hmean, hsecondMoment] using hsplit
+
 theorem frontierBoundaryMajorantResidualBudget_finiteBellmanInduction_dyadicCombine
     {leftMean leftSecond rightMean rightSecond : ℝ}
     {leftResidual rightResidual leftObjective rightObjective : ℝ}
@@ -3408,6 +3712,108 @@ theorem frontierBoundaryMajorantResidualBudget_finiteBellmanInduction_dyadicComb
       hleft hright hleftΩ hrightΩ hmixΩ hleftD hrightD hmixD
   rw [hcenter_mean, hcenter_second] at hcombine
   exact hcombine
+
+theorem frontierBoundaryMajorantResidualBudget_finiteBellmanInduction_dyadicFourCombine
+    {aMean aSecond bMean bSecond cMean cSecond dMean dSecond : ℝ}
+    {aResidual bResidual cResidual dResidual : ℝ}
+    {aObjective bObjective cObjective dObjective : ℝ}
+    (ha :
+      aResidual ≤
+        frontierMajorant aMean aSecond - aObjective)
+    (hb :
+      bResidual ≤
+        frontierMajorant bMean bSecond - bObjective)
+    (hc :
+      cResidual ≤
+        frontierMajorant cMean cSecond - cObjective)
+    (hd :
+      dResidual ≤
+        frontierMajorant dMean dSecond - dObjective)
+    (haΩ : frontierOmega frontierEpsilon aMean aSecond)
+    (hbΩ : frontierOmega frontierEpsilon bMean bSecond)
+    (hcΩ : frontierOmega frontierEpsilon cMean cSecond)
+    (hdΩ : frontierOmega frontierEpsilon dMean dSecond)
+    (habΩ :
+      frontierOmega frontierEpsilon
+        ((1 / 2 : ℝ) * aMean + (1 - (1 / 2 : ℝ)) * bMean)
+        ((1 / 2 : ℝ) * aSecond + (1 - (1 / 2 : ℝ)) * bSecond))
+    (hcdΩ :
+      frontierOmega frontierEpsilon
+        ((1 / 2 : ℝ) * cMean + (1 - (1 / 2 : ℝ)) * dMean)
+        ((1 / 2 : ℝ) * cSecond + (1 - (1 / 2 : ℝ)) * dSecond))
+    (hfinalΩ :
+      frontierOmega frontierEpsilon
+        ((1 / 2 : ℝ) *
+            ((1 / 2 : ℝ) * aMean + (1 - (1 / 2 : ℝ)) * bMean) +
+          (1 - (1 / 2 : ℝ)) *
+            ((1 / 2 : ℝ) * cMean + (1 - (1 / 2 : ℝ)) * dMean))
+        ((1 / 2 : ℝ) *
+            ((1 / 2 : ℝ) * aSecond + (1 - (1 / 2 : ℝ)) * bSecond) +
+          (1 - (1 / 2 : ℝ)) *
+            ((1 / 2 : ℝ) * cSecond + (1 - (1 / 2 : ℝ)) * dSecond)))
+    (haD : frontierMiddleBranchDomain aMean aSecond)
+    (hbD : frontierMiddleBranchDomain bMean bSecond)
+    (hcD : frontierMiddleBranchDomain cMean cSecond)
+    (hdD : frontierMiddleBranchDomain dMean dSecond)
+    (habD :
+      frontierMiddleBranchDomain
+        ((1 / 2 : ℝ) * aMean + (1 - (1 / 2 : ℝ)) * bMean)
+        ((1 / 2 : ℝ) * aSecond + (1 - (1 / 2 : ℝ)) * bSecond))
+    (hcdD :
+      frontierMiddleBranchDomain
+        ((1 / 2 : ℝ) * cMean + (1 - (1 / 2 : ℝ)) * dMean)
+        ((1 / 2 : ℝ) * cSecond + (1 - (1 / 2 : ℝ)) * dSecond))
+    (hfinalD :
+      frontierMiddleBranchDomain
+        ((1 / 2 : ℝ) *
+            ((1 / 2 : ℝ) * aMean + (1 - (1 / 2 : ℝ)) * bMean) +
+          (1 - (1 / 2 : ℝ)) *
+            ((1 / 2 : ℝ) * cMean + (1 - (1 / 2 : ℝ)) * dMean))
+        ((1 / 2 : ℝ) *
+            ((1 / 2 : ℝ) * aSecond + (1 - (1 / 2 : ℝ)) * bSecond) +
+          (1 - (1 / 2 : ℝ)) *
+            ((1 / 2 : ℝ) * cSecond + (1 - (1 / 2 : ℝ)) * dSecond))) :
+    (1 / 4 : ℝ) * aResidual +
+        (1 / 4 : ℝ) * bResidual +
+        (1 / 4 : ℝ) * cResidual +
+        (1 / 4 : ℝ) * dResidual ≤
+      frontierMajorant
+          ((1 / 2 : ℝ) *
+              ((1 / 2 : ℝ) * aMean + (1 - (1 / 2 : ℝ)) * bMean) +
+            (1 - (1 / 2 : ℝ)) *
+              ((1 / 2 : ℝ) * cMean + (1 - (1 / 2 : ℝ)) * dMean))
+          ((1 / 2 : ℝ) *
+              ((1 / 2 : ℝ) * aSecond + (1 - (1 / 2 : ℝ)) * bSecond) +
+            (1 - (1 / 2 : ℝ)) *
+              ((1 / 2 : ℝ) * cSecond + (1 - (1 / 2 : ℝ)) * dSecond)) -
+        ((1 / 4 : ℝ) * aObjective +
+          (1 / 4 : ℝ) * bObjective +
+          (1 / 4 : ℝ) * cObjective +
+          (1 / 4 : ℝ) * dObjective) := by
+  have hab :
+      (1 / 2 : ℝ) * aResidual +
+          (1 - (1 / 2 : ℝ)) * bResidual ≤
+        frontierMajorant
+            ((1 / 2 : ℝ) * aMean + (1 - (1 / 2 : ℝ)) * bMean)
+            ((1 / 2 : ℝ) * aSecond + (1 - (1 / 2 : ℝ)) * bSecond) -
+          ((1 / 2 : ℝ) * aObjective +
+            (1 - (1 / 2 : ℝ)) * bObjective) :=
+    frontierBoundaryMajorantResidualBudget_finiteBellmanInduction_dyadicCombine
+      ha hb haΩ hbΩ habΩ haD hbD habD
+  have hcd :
+      (1 / 2 : ℝ) * cResidual +
+          (1 - (1 / 2 : ℝ)) * dResidual ≤
+        frontierMajorant
+            ((1 / 2 : ℝ) * cMean + (1 - (1 / 2 : ℝ)) * dMean)
+            ((1 / 2 : ℝ) * cSecond + (1 - (1 / 2 : ℝ)) * dSecond) -
+          ((1 / 2 : ℝ) * cObjective +
+            (1 - (1 / 2 : ℝ)) * dObjective) :=
+    frontierBoundaryMajorantResidualBudget_finiteBellmanInduction_dyadicCombine
+      hc hd hcΩ hdΩ hcdΩ hcD hdD hcdD
+  have hfinal :=
+    frontierBoundaryMajorantResidualBudget_finiteBellmanInduction_dyadicCombine
+      hab hcd habΩ hcdΩ hfinalΩ habD hcdD hfinalD
+  convert hfinal using 1 <;> ring
 
 theorem frontierBoundaryMajorantResidualBudget_finiteBellmanInduction_dyadicFourCombine_center
     {aMean aSecond bMean bSecond cMean cSecond dMean dSecond : ℝ}
@@ -3606,6 +4012,31 @@ theorem frontierBMOCenteredBoundaryMajorantResidualBudget_lowerBoundaryDyadicSte
         · rfl
         · nlinarith [sq_nonneg frontierEpsilon])
       hmixΩ hyD hzD hmixD hmix_mean hmix_second
+
+theorem frontierBMOCenteredBoundaryMajorantIntegralCenterBound_lowerBoundaryDyadicStep
+    {y z : ℝ}
+    (hmixΩ :
+      frontierOmega frontierEpsilon
+        ((1 / 2 : ℝ) * y + (1 - (1 / 2 : ℝ)) * z)
+        ((1 / 2 : ℝ) * y ^ 2 + (1 - (1 / 2 : ℝ)) * z ^ 2))
+    (hyD : frontierMiddleBranchDomain y (y ^ 2))
+    (hzD : frontierMiddleBranchDomain z (z ^ 2))
+    (hmixD :
+      frontierMiddleBranchDomain
+        ((1 / 2 : ℝ) * y + (1 - (1 / 2 : ℝ)) * z)
+        ((1 / 2 : ℝ) * y ^ 2 + (1 - (1 / 2 : ℝ)) * z ^ 2))
+    (hmix_mean :
+      (1 / 2 : ℝ) * y + (1 - (1 / 2 : ℝ)) * z = 0)
+    (hmix_second :
+      (1 / 2 : ℝ) * y ^ 2 + (1 - (1 / 2 : ℝ)) * z ^ 2 =
+        (1 / 12 : ℝ)) :
+    (1 / 2 : ℝ) * frontierMajorant y (y ^ 2) +
+        (1 - (1 / 2 : ℝ)) * frontierMajorant z (z ^ 2) ≤
+      frontierMajorant 0 (1 / 12 : ℝ) := by
+  have hbudget :=
+    frontierBMOCenteredBoundaryMajorantResidualBudget_lowerBoundaryDyadicStep
+      hmixΩ hyD hzD hmixD hmix_mean hmix_second
+  nlinarith
 
 theorem frontierBoundaryMajorantResidualBudget_middleBranchDyadicFourPointBellmanSplit
     {a1 a2 b1 b2 c1 c2 d1 d2 : ℝ}
@@ -3895,6 +4326,71 @@ theorem frontierBMOCenteredBoundaryMajorantResidualBudget_lowerBoundaryDyadicFou
         · nlinarith [sq_nonneg frontierEpsilon])
       habΩ hcdΩ hfinalΩ
       haD hbD hcD hdD habD hcdD hfinalD hcenter_mean hcenter_second
+
+theorem frontierBMOCenteredBoundaryMajorantIntegralCenterBound_lowerBoundaryDyadicFourPointCenter
+    {a b c d : ℝ}
+    (habΩ :
+      frontierOmega frontierEpsilon
+        ((1 / 2 : ℝ) * a + (1 - (1 / 2 : ℝ)) * b)
+        ((1 / 2 : ℝ) * a ^ 2 + (1 - (1 / 2 : ℝ)) * b ^ 2))
+    (hcdΩ :
+      frontierOmega frontierEpsilon
+        ((1 / 2 : ℝ) * c + (1 - (1 / 2 : ℝ)) * d)
+        ((1 / 2 : ℝ) * c ^ 2 + (1 - (1 / 2 : ℝ)) * d ^ 2))
+    (hfinalΩ :
+      frontierOmega frontierEpsilon
+        ((1 / 2 : ℝ) *
+            ((1 / 2 : ℝ) * a + (1 - (1 / 2 : ℝ)) * b) +
+          (1 - (1 / 2 : ℝ)) *
+            ((1 / 2 : ℝ) * c + (1 - (1 / 2 : ℝ)) * d))
+        ((1 / 2 : ℝ) *
+            ((1 / 2 : ℝ) * a ^ 2 + (1 - (1 / 2 : ℝ)) * b ^ 2) +
+          (1 - (1 / 2 : ℝ)) *
+            ((1 / 2 : ℝ) * c ^ 2 + (1 - (1 / 2 : ℝ)) * d ^ 2)))
+    (haD : frontierMiddleBranchDomain a (a ^ 2))
+    (hbD : frontierMiddleBranchDomain b (b ^ 2))
+    (hcD : frontierMiddleBranchDomain c (c ^ 2))
+    (hdD : frontierMiddleBranchDomain d (d ^ 2))
+    (habD :
+      frontierMiddleBranchDomain
+        ((1 / 2 : ℝ) * a + (1 - (1 / 2 : ℝ)) * b)
+        ((1 / 2 : ℝ) * a ^ 2 + (1 - (1 / 2 : ℝ)) * b ^ 2))
+    (hcdD :
+      frontierMiddleBranchDomain
+        ((1 / 2 : ℝ) * c + (1 - (1 / 2 : ℝ)) * d)
+        ((1 / 2 : ℝ) * c ^ 2 + (1 - (1 / 2 : ℝ)) * d ^ 2))
+    (hfinalD :
+      frontierMiddleBranchDomain
+        ((1 / 2 : ℝ) *
+            ((1 / 2 : ℝ) * a + (1 - (1 / 2 : ℝ)) * b) +
+          (1 - (1 / 2 : ℝ)) *
+            ((1 / 2 : ℝ) * c + (1 - (1 / 2 : ℝ)) * d))
+        ((1 / 2 : ℝ) *
+            ((1 / 2 : ℝ) * a ^ 2 + (1 - (1 / 2 : ℝ)) * b ^ 2) +
+          (1 - (1 / 2 : ℝ)) *
+            ((1 / 2 : ℝ) * c ^ 2 + (1 - (1 / 2 : ℝ)) * d ^ 2)))
+    (hcenter_mean :
+      (1 / 2 : ℝ) *
+          ((1 / 2 : ℝ) * a + (1 - (1 / 2 : ℝ)) * b) +
+        (1 - (1 / 2 : ℝ)) *
+          ((1 / 2 : ℝ) * c + (1 - (1 / 2 : ℝ)) * d) =
+        0)
+    (hcenter_second :
+      (1 / 2 : ℝ) *
+          ((1 / 2 : ℝ) * a ^ 2 + (1 - (1 / 2 : ℝ)) * b ^ 2) +
+        (1 - (1 / 2 : ℝ)) *
+          ((1 / 2 : ℝ) * c ^ 2 + (1 - (1 / 2 : ℝ)) * d ^ 2) =
+        (1 / 12 : ℝ)) :
+    (1 / 4 : ℝ) * frontierMajorant a (a ^ 2) +
+        (1 / 4 : ℝ) * frontierMajorant b (b ^ 2) +
+        (1 / 4 : ℝ) * frontierMajorant c (c ^ 2) +
+        (1 / 4 : ℝ) * frontierMajorant d (d ^ 2) ≤
+      frontierMajorant 0 (1 / 12 : ℝ) := by
+  have hbudget :=
+    frontierBMOCenteredBoundaryMajorantResidualBudget_lowerBoundaryDyadicFourPointCenter
+      habΩ hcdΩ hfinalΩ haD hbD hcD hdD habD hcdD hfinalD
+      hcenter_mean hcenter_second
+  nlinarith
 
 theorem frontierMajorant_middleBranch_localConcavity_witness
     {x1 x2 δ : ℝ} (hδ : 0 < δ)
@@ -9582,6 +10078,21 @@ theorem frontierMajorant_stoppedLogCupOptimizer_boundary_eq_phi_on_unit
       rw [frontierCupAlpha] at hx_le
       linarith
 
+def frontierStoppedLogCupEnvelope (t : ℝ) : ℝ :=
+  frontierPhi (frontierStoppedLogCupOptimizer t)
+
+def frontierStoppedLogCupBoundaryMajorantTrace (t : ℝ) : ℝ :=
+  frontierMajorant (frontierStoppedLogCupOptimizer t)
+    ((frontierStoppedLogCupOptimizer t) ^ 2)
+
+theorem frontierStoppedLogCupEnvelope_boundaryMajorantTrace_upper
+    {t : ℝ} (ht0 : 0 ≤ t) (ht1 : t ≤ 1) :
+    frontierStoppedLogCupEnvelope t ≤
+      frontierStoppedLogCupBoundaryMajorantTrace t := by
+  exact le_of_eq
+    (frontierMajorant_stoppedLogCupOptimizer_boundary_eq_phi_on_unit
+      ht0 ht1).symm
+
 theorem frontierStoppedLogCupOptimizer_boundaryMajorantIntegral :
     (∫ t in (0 : ℝ)..1,
       frontierMajorant (frontierStoppedLogCupOptimizer t)
@@ -9616,6 +10127,12 @@ theorem frontierStoppedLogCupOptimizer_boundaryMajorantIntegral_le_center :
         ((frontierStoppedLogCupOptimizer t) ^ 2)) ≤
       frontierMajorant 0 (1 / 12 : ℝ) := by
   exact le_of_eq frontierStoppedLogCupOptimizer_boundaryMajorantIntegral_eq_center
+
+theorem frontierStoppedLogCupBoundaryMajorantIntegral_upper :
+    (∫ t in (0 : ℝ)..1, frontierStoppedLogCupBoundaryMajorantTrace t) ≤
+      frontierMajorant 0 (1 / 12 : ℝ) := by
+  simpa [frontierStoppedLogCupBoundaryMajorantTrace] using
+    frontierStoppedLogCupOptimizer_boundaryMajorantIntegral_le_center
 
 theorem frontierStoppedLogCupOptimizer_boundaryMajorantGapIntegral :
     (∫ t in (0 : ℝ)..1,
@@ -10615,6 +11132,13 @@ theorem frontierBMOCenteredBoundaryMajorantResidualBudgetObligation_of_integralC
     frontierBMOCenteredBoundaryMajorantResidualBudgetObligation_iff_integralCenterBound.mpr
       hbound
 
+theorem frontierBMOCenteredBoundaryMajorantResidualBudgetObligation_unconditional_of_integralCenterBound
+    (hbound : frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation) :
+    frontierBMOCenteredBoundaryMajorantResidualBudgetObligation := by
+  exact
+    frontierBMOCenteredBoundaryMajorantResidualBudgetObligation_of_integralCenterBound
+      hbound
+
 theorem frontierBMOCenteredBoundaryMajorantResidualBudgetObligation_iff_jensenInequality :
     frontierBMOCenteredBoundaryMajorantResidualBudgetObligation ↔
       frontierBMOCenteredBoundaryMajorantJensenInequalityObligation := by
@@ -10654,6 +11178,13 @@ theorem frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_uncondi
     frontierBMOCenteredBoundaryMajorantResidualBudgetObligation →
       frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation := by
   exact frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_of_residualBudget
+
+theorem frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_unconditional_of_residualBudget
+    (hbudget : frontierBMOCenteredBoundaryMajorantResidualBudgetObligation) :
+    frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation := by
+  exact
+    frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_of_residualBudget
+      hbudget
 
 theorem frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_unconditional_blocker_residualBudget :
     frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation ↔
@@ -10982,6 +11513,23 @@ theorem frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_next_ro
     ⟨frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_of_residualBudget,
       frontierBoundaryMajorantQuadraticCenterSupportObligation_false⟩
 
+theorem frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_unconditional_route :
+    (frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation ↔
+      frontierBMOCenteredBoundaryMajorantResidualBudgetObligation) ∧
+      ¬ frontierBoundaryMajorantQuadraticCenterSupportObligation := by
+  exact
+    ⟨frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_unconditional_exact_blocker,
+      frontierBoundaryMajorantQuadraticCenterSupportObligation_false⟩
+
+theorem frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_unconditional_open_continuation_target :
+    (frontierBMOCenteredBoundaryMajorantResidualBudgetObligation →
+      frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation) ∧
+      (frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation →
+        frontierBMOCenteredBoundaryMajorantResidualBudgetObligation) := by
+  exact
+    ⟨frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_of_residualBudget,
+      frontierBMOCenteredBoundaryMajorantResidualBudgetObligation_of_integralCenterBound⟩
+
 theorem frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_unconditional_reduction_to_centerBound :
     frontierBMOCenteredBoundaryMajorantCenterBoundObligation →
       frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation := by
@@ -10991,6 +11539,35 @@ theorem frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_unconditio
     frontierBMOCenteredBoundaryMajorantGapCompensationObligation →
       frontierBMOCenteredBoundaryMajorantJensenInequalityObligation := by
   exact frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_of_gapCompensation
+
+theorem frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_unconditional_exact_blocker :
+    frontierBMOCenteredBoundaryMajorantJensenInequalityObligation ↔
+      frontierBMOCenteredBoundaryMajorantResidualBudgetObligation := by
+  exact
+    frontierBMOCenteredBoundaryMajorantResidualBudgetObligation_iff_jensenInequality.symm
+
+theorem frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_unconditional_reduction_to_residualBudget :
+    frontierBMOCenteredBoundaryMajorantResidualBudgetObligation →
+      frontierBMOCenteredBoundaryMajorantJensenInequalityObligation := by
+  exact frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_of_residualBudget
+
+theorem frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_unconditional_open_continuation_target :
+    (frontierBMOCenteredBoundaryMajorantResidualBudgetObligation →
+      frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) ∧
+      (frontierBMOCenteredBoundaryMajorantJensenInequalityObligation →
+        frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation) := by
+  exact
+    ⟨frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_of_residualBudget,
+      frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_of_jensenInequality⟩
+
+theorem frontierBMOCenteredBoundaryMajorantResidualBudgetObligation_unconditional_open_continuation_target :
+    (frontierBMOCenteredBoundaryMajorantResidualBudgetObligation ↔
+      frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) ∧
+      (frontierBMOCenteredBoundaryMajorantResidualBudgetObligation →
+        frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation) := by
+  exact
+    ⟨frontierBMOCenteredBoundaryMajorantResidualBudgetObligation_iff_jensenInequality,
+      frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_of_residualBudget⟩
 
 theorem frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation_of_gap_center_bound
     (hgap :
