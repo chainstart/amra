@@ -898,6 +898,22 @@ theorem frontierBMOOriginalActualUpperBound_of_centered_upper
   exact frontierBMOOriginalActualUpperBound_of_centered_set_shift
     frontier_original_centered_objectiveSet_shift hupper
 
+theorem frontierBMOCenteredActualUpperBound_of_original_actual_upper
+    (hupper : frontierBMOOriginalActualUpperBound) :
+    frontierBMOCenteredActualUpperBound := by
+  intro y hy
+  have hy_original :
+      y - (1985 / 2 : ℝ) ∈ frontierBMOOriginalFunctionObjectiveSet := by
+    rw [frontier_original_centered_objectiveSet_shift]
+    exact ⟨y, hy, rfl⟩
+  have hy_bound := hupper (y - (1985 / 2 : ℝ)) hy_original
+  rw [frontierBMOOriginalSupremumValue] at hy_bound
+  linarith
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_reduction_to_originalActualUpperBound :
+    frontierBMOOriginalActualUpperBound → frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_original_actual_upper
+
 def frontierOmega (eps x1 x2 : ℝ) : Prop :=
   x1 ^ 2 ≤ x2 ∧ x2 ≤ x1 ^ 2 + eps ^ 2
 
@@ -1074,6 +1090,23 @@ theorem frontierEpsilon_sq : frontierEpsilon ^ 2 = (1 / 12 : ℝ) := by
   have hs : (Real.sqrt 3) ^ 2 = (3 : ℝ) := Real.sq_sqrt hs_nonneg
   rw [div_pow, hs]
   norm_num
+
+theorem frontierEpsilon_lt_one : frontierEpsilon < 1 := by
+  nlinarith [frontierEpsilon_pos, frontierEpsilon_sq]
+
+theorem frontierOmega_center_moments :
+    frontierOmega frontierEpsilon 0 (1 / 12 : ℝ) := by
+  rw [frontierOmega, frontierEpsilon_sq]
+  constructor <;> norm_num
+
+theorem frontierBMOCenteredAdmissible_moments_mem_omega
+    (g : ℝ → ℝ) (hg : frontierBMOCenteredFunctionAdmissible g) :
+    frontierOmega frontierEpsilon
+      (frontierBMOOriginalMeanIntegral g)
+      (frontierBMOOriginalSecondMomentIntegral g) := by
+  rcases hg with ⟨_hg, _hg2, _hphi, hmean, hsecondMoment, _hvariance⟩
+  rw [hmean, hsecondMoment]
+  exact frontierOmega_center_moments
 
 theorem frontierLeftPiece_trace_form (x1 x2 : ℝ) :
     frontierLeftPiece x1 x2 =
@@ -5155,6 +5188,17 @@ theorem frontierMajorant_left_boundary_eq
   rw [frontierMajorant, frontierCPlus_lower_boundary]
   rw [if_pos ht, frontierLeftPiece_lower_boundary]
 
+theorem frontierMajorant_left_boundary_eq_phi
+    (t : ℝ) (ht : t + frontierEpsilon ≤ frontierCStar) :
+    frontierMajorant t (t ^ 2) = frontierPhi t := by
+  rw [frontierMajorant_left_boundary_eq t ht]
+  have htA : t ≤ frontierA := by
+    linarith [ht, frontierCStar_sub_epsilon_lt_A]
+  rw [frontierPhi]
+  have hnonpos : t - frontierA ≤ 0 := by linarith
+  rw [max_eq_right hnonpos]
+  ring
+
 theorem frontierRightTailTrace_boundary_sub (t : ℝ) :
     frontierRightTailTrace (t + frontierEpsilon) -
         frontierEpsilon * frontierRightTailTraceDeriv (t + frontierEpsilon) =
@@ -5174,6 +5218,30 @@ theorem frontierPhi_left_of_le (t : ℝ) (ht : t ≤ frontierA) :
   have hnonpos : t - frontierA ≤ 0 := by linarith
   rw [max_eq_right hnonpos]
   ring
+
+theorem frontierPhi_abs_le_cubic_linear (t : ℝ) :
+    |frontierPhi t| ≤ |t| ^ 3 + 2 * |t| := by
+  by_cases htA : frontierA ≤ t
+  · rw [frontierPhi_right_of_ge t htA]
+    have ht_nonneg : 0 ≤ t := by
+      rw [frontierA] at htA
+      linarith
+    have htail_nonneg : 0 ≤ 2 * (t - frontierA) := by
+      exact mul_nonneg (by norm_num) (sub_nonneg.mpr htA)
+    have hphi_nonneg : 0 ≤ t ^ 3 + 2 * (t - frontierA) := by
+      exact add_nonneg (pow_nonneg ht_nonneg 3) htail_nonneg
+    rw [abs_of_nonneg hphi_nonneg, abs_of_nonneg ht_nonneg]
+    rw [frontierA]
+    linarith
+  · have htA' : t ≤ frontierA := le_of_not_ge htA
+    rw [frontierPhi_left_of_le t htA']
+    rw [abs_pow]
+    have hnonneg : 0 ≤ 2 * |t| := by positivity
+    linarith
+
+theorem frontierPhi_le_cubic_linear (t : ℝ) :
+    frontierPhi t ≤ |t| ^ 3 + 2 * |t| := by
+  exact le_trans (le_abs_self (frontierPhi t)) (frontierPhi_abs_le_cubic_linear t)
 
 theorem frontierMajorant_left_boundary_dominates
     (t : ℝ) (ht : t + frontierEpsilon ≤ frontierCStar) :
@@ -5453,6 +5521,99 @@ theorem frontierRightTailPiece_boundary (t : ℝ) (ht : frontierA ≤ t) :
     frontierRadius_lower_boundary, frontierRightTailTrace_boundary_sub,
     frontierPhi_right_of_ge t ht]
 
+theorem frontierPhi_continuous : Continuous frontierPhi := by
+  unfold frontierPhi
+  fun_prop
+
+theorem frontierLeftPiece_lower_boundary_continuous :
+    Continuous (fun t : ℝ ↦ frontierLeftPiece t (t ^ 2)) := by
+  unfold frontierLeftPiece frontierCPlus frontierRadius
+  fun_prop
+
+theorem frontierMiddlePiece_lower_boundary_continuous :
+    Continuous (fun t : ℝ ↦ frontierMiddlePiece t (t ^ 2)) := by
+  unfold frontierMiddlePiece frontierCPlus frontierRadius frontierMiddleTrace
+    frontierMiddleTraceDeriv frontierLeftTrace frontierLeftTraceDeriv
+  fun_prop
+
+theorem frontierRightTailPiece_lower_boundary_continuous :
+    Continuous (fun t : ℝ ↦ frontierRightTailPiece t (t ^ 2)) := by
+  unfold frontierRightTailPiece frontierCPlus frontierRadius
+    frontierRightTailTrace frontierRightTailTraceDeriv
+  fun_prop
+
+theorem frontierLeftPiece_eq_middlePiece_lower_boundary_glue
+    (t : ℝ) (ht : t + frontierEpsilon = frontierCStar) :
+    frontierLeftPiece t (t ^ 2) = frontierMiddlePiece t (t ^ 2) := by
+  have htA : t ≤ frontierA := by
+    linarith [frontierCStar_sub_epsilon_lt_A, ht]
+  have hleft : frontierLeftPiece t (t ^ 2) = frontierPhi t := by
+    rw [frontierLeftPiece_lower_boundary, frontierPhi_left_of_le t htA]
+  have hmiddle_gap :
+      frontierMiddlePiece t (t ^ 2) - frontierPhi t = 0 := by
+    rw [frontierMiddlePiece_lower_boundary_left_residual t htA]
+    have hu : t + frontierEpsilon - frontierCStar = 0 := by
+      linarith
+    rw [hu]
+    ring
+  linarith
+
+theorem frontierMiddlePiece_eq_rightTailPiece_lower_boundary_glue
+    (t : ℝ) (ht : t + frontierEpsilon = frontierCStar + 2 * frontierEpsilon) :
+    frontierMiddlePiece t (t ^ 2) = frontierRightTailPiece t (t ^ 2) := by
+  have htA : frontierA ≤ t := by
+    have hAβ := frontierA_le_CupBeta
+    rw [frontierCupBeta] at hAβ
+    linarith [hAβ, ht]
+  have hright : frontierRightTailPiece t (t ^ 2) = frontierPhi t :=
+    frontierRightTailPiece_boundary t htA
+  have hmiddle_gap :
+      frontierMiddlePiece t (t ^ 2) - frontierPhi t = 0 := by
+    rw [frontierMiddlePiece_lower_boundary_right_residual t htA]
+    have hu : t + frontierEpsilon - frontierCStar = 2 * frontierEpsilon := by
+      linarith
+    rw [hu]
+    ring_nf
+  linarith
+
+theorem frontierMajorant_lower_boundary_continuous :
+    Continuous (fun t : ℝ ↦ frontierMajorant t (t ^ 2)) := by
+  unfold frontierMajorant
+  have hCfun :
+      Continuous (fun t : ℝ ↦ frontierCPlus frontierEpsilon t (t ^ 2)) := by
+    have hpair : Continuous (fun t : ℝ ↦ (t, t ^ 2)) := by
+      continuity
+    simpa [Function.comp_def] using
+      (frontierCPlus_continuous frontierEpsilon).comp hpair
+  apply Continuous.if
+  · intro t ht
+    have hCeq : frontierCPlus frontierEpsilon t (t ^ 2) = frontierCStar :=
+      frontier_le_subset_eq hCfun continuous_const ht
+    have hteq : t + frontierEpsilon = frontierCStar := by
+      rwa [frontierCPlus_lower_boundary] at hCeq
+    rw [if_pos]
+    · exact frontierLeftPiece_eq_middlePiece_lower_boundary_glue t hteq
+    · rw [frontierCPlus_lower_boundary]
+      linarith [frontierEpsilon_pos]
+  · exact frontierLeftPiece_lower_boundary_continuous
+  · apply Continuous.if
+    · intro t ht
+      have hCeq :
+          frontierCPlus frontierEpsilon t (t ^ 2) =
+            frontierCStar + 2 * frontierEpsilon :=
+        frontier_le_subset_eq hCfun continuous_const ht
+      have hteq :
+          t + frontierEpsilon = frontierCStar + 2 * frontierEpsilon := by
+        rwa [frontierCPlus_lower_boundary] at hCeq
+      exact frontierMiddlePiece_eq_rightTailPiece_lower_boundary_glue t hteq
+    · exact frontierMiddlePiece_lower_boundary_continuous
+    · exact frontierRightTailPiece_lower_boundary_continuous
+
+theorem frontierMajorant_boundary_gap_continuous :
+    Continuous
+      (fun t : ℝ ↦ frontierMajorant t (t ^ 2) - frontierPhi t) :=
+  frontierMajorant_lower_boundary_continuous.sub frontierPhi_continuous
+
 theorem frontierMajorant_right_boundary_eq
     (t : ℝ) (htC : frontierCStar + 2 * frontierEpsilon < t + frontierEpsilon)
     (htA : frontierA ≤ t) :
@@ -5465,11 +5626,78 @@ theorem frontierMajorant_right_boundary_eq
     exact not_le.mpr htC
   rw [if_neg hnotLeft, if_neg hnotMiddle, frontierRightTailPiece_boundary t htA]
 
+theorem frontierMajorant_right_boundary_eq_phi
+    (t : ℝ) (htC : frontierCStar + 2 * frontierEpsilon < t + frontierEpsilon) :
+    frontierMajorant t (t ^ 2) = frontierPhi t := by
+  have htA : frontierA ≤ t := by
+    have hAβ := frontierA_le_CupBeta
+    rw [frontierCupBeta] at hAβ
+    linarith [hAβ, htC]
+  exact frontierMajorant_right_boundary_eq t htC htA
+
 theorem frontierMajorant_right_boundary_dominates
     (t : ℝ) (htC : frontierCStar + 2 * frontierEpsilon < t + frontierEpsilon)
     (htA : frontierA ≤ t) :
     frontierPhi t ≤ frontierMajorant t (t ^ 2) := by
   rw [frontierMajorant_right_boundary_eq t htC htA]
+
+theorem frontierMajorant_boundary_eq_phi_or_middle
+    (t : ℝ) :
+    frontierMajorant t (t ^ 2) = frontierPhi t ∨
+      (frontierCStar < t + frontierEpsilon ∧
+        t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon ∧
+        frontierMajorant t (t ^ 2) = frontierMiddlePiece t (t ^ 2)) := by
+  by_cases hleft : t + frontierEpsilon ≤ frontierCStar
+  · exact Or.inl (frontierMajorant_left_boundary_eq_phi t hleft)
+  · have hleft' : frontierCStar < t + frontierEpsilon := not_le.mp hleft
+    by_cases hmiddle : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon
+    · exact Or.inr
+        ⟨hleft', hmiddle, frontierMajorant_middle_boundary_eq t hleft' hmiddle⟩
+    · exact Or.inl
+        (frontierMajorant_right_boundary_eq_phi t (not_le.mp hmiddle))
+
+theorem frontierMajorant_boundary_eq_phi_of_not_middle
+    (t : ℝ)
+    (hnotMiddle :
+      ¬ (frontierCStar < t + frontierEpsilon ∧
+        t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon)) :
+    frontierMajorant t (t ^ 2) = frontierPhi t := by
+  rcases frontierMajorant_boundary_eq_phi_or_middle t with hphi | hmiddle
+  · exact hphi
+  · exact False.elim (hnotMiddle ⟨hmiddle.1, hmiddle.2.1⟩)
+
+theorem frontierMajorant_boundary_middle_t_bounds
+    (t : ℝ)
+    (hleft : frontierCStar < t + frontierEpsilon)
+    (hright : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon) :
+    frontierCStar - frontierEpsilon < t ∧
+      t ≤ frontierCStar + frontierEpsilon := by
+  constructor <;> linarith
+
+theorem frontierMajorant_boundary_middle_t_bounds_A
+    (t : ℝ)
+    (hleft : frontierCStar < t + frontierEpsilon)
+    (hright : t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon) :
+    frontierA - 1 < t ∧ t ≤ frontierA + 1 := by
+  rcases frontierMajorant_boundary_middle_t_bounds t hleft hright with
+    ⟨ht_lower, ht_upper⟩
+  constructor
+  · unfold frontierCStar frontierA at ht_lower
+    unfold frontierA
+    nlinarith [frontierEpsilon_pos, frontierEpsilon_sq, frontierEpsilon_lt_one]
+  · unfold frontierCStar frontierA at ht_upper
+    unfold frontierA
+    nlinarith [frontierEpsilon_pos, frontierEpsilon_sq, frontierEpsilon_lt_one]
+
+theorem frontierMajorant_boundary_eq_phi_of_left_or_right
+    (t : ℝ)
+    (h :
+      t + frontierEpsilon ≤ frontierCStar ∨
+        frontierCStar + 2 * frontierEpsilon < t + frontierEpsilon) :
+    frontierMajorant t (t ^ 2) = frontierPhi t := by
+  rcases h with hleft | hright
+  · exact frontierMajorant_left_boundary_eq_phi t hleft
+  · exact frontierMajorant_right_boundary_eq_phi t hright
 
 theorem frontierMajorant_boundaryDominates (t : ℝ) :
     frontierPhi t ≤ frontierMajorant t (t ^ 2) := by
@@ -5497,6 +5725,152 @@ theorem frontierMajorant_boundary_gap_nonneg (t : ℝ) :
     0 ≤ frontierMajorant t (t ^ 2) - frontierPhi t := by
   have hdom := frontierMajorant_boundaryDominates t
   linarith
+
+theorem frontierMajorant_boundary_gap_eq_zero_or_middle_nonneg
+    (t : ℝ) :
+    frontierMajorant t (t ^ 2) - frontierPhi t = 0 ∨
+      (frontierCStar < t + frontierEpsilon ∧
+        t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon ∧
+        0 ≤ frontierMajorant t (t ^ 2) - frontierPhi t) := by
+  rcases frontierMajorant_boundary_eq_phi_or_middle t with hphi | hmiddle
+  · left
+    rw [hphi]
+    ring
+  · right
+    exact ⟨hmiddle.1, hmiddle.2.1, frontierMajorant_boundary_gap_nonneg t⟩
+
+theorem frontierMajorant_boundary_gap_eq_zero_of_not_middle
+    (t : ℝ)
+    (hnotMiddle :
+      ¬ (frontierCStar < t + frontierEpsilon ∧
+        t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon)) :
+    frontierMajorant t (t ^ 2) - frontierPhi t = 0 := by
+  rw [frontierMajorant_boundary_eq_phi_of_not_middle t hnotMiddle]
+  ring
+
+theorem frontierMajorant_boundary_gap_nonzero_middle
+    (t : ℝ)
+    (hgap : frontierMajorant t (t ^ 2) - frontierPhi t ≠ 0) :
+    frontierCStar < t + frontierEpsilon ∧
+      t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon := by
+  by_contra hnot
+  exact hgap (frontierMajorant_boundary_gap_eq_zero_of_not_middle t hnot)
+
+theorem frontierMajorant_boundary_gap_nonzero_t_bounds
+    (t : ℝ)
+    (hgap : frontierMajorant t (t ^ 2) - frontierPhi t ≠ 0) :
+    frontierCStar - frontierEpsilon < t ∧
+      t ≤ frontierCStar + frontierEpsilon := by
+  rcases frontierMajorant_boundary_gap_nonzero_middle t hgap with
+    ⟨hleft, hright⟩
+  exact frontierMajorant_boundary_middle_t_bounds t hleft hright
+
+theorem frontierMajorant_boundary_gap_nonzero_t_bounds_A
+    (t : ℝ)
+    (hgap : frontierMajorant t (t ^ 2) - frontierPhi t ≠ 0) :
+    frontierA - 1 < t ∧ t ≤ frontierA + 1 := by
+  rcases frontierMajorant_boundary_gap_nonzero_middle t hgap with
+    ⟨hleft, hright⟩
+  exact frontierMajorant_boundary_middle_t_bounds_A t hleft hright
+
+theorem frontierMajorant_boundary_gap_eq_zero_of_le_A_sub_one
+    (t : ℝ) (ht : t ≤ frontierA - 1) :
+    frontierMajorant t (t ^ 2) - frontierPhi t = 0 := by
+  apply frontierMajorant_boundary_gap_eq_zero_of_not_middle
+  intro hmiddle
+  rcases hmiddle with ⟨hleft, hright⟩
+  rcases frontierMajorant_boundary_middle_t_bounds_A t hleft hright with
+    ⟨ht_lower, _ht_upper⟩
+  linarith
+
+theorem frontierMajorant_boundary_gap_eq_zero_of_le_CStar_sub_epsilon
+    (t : ℝ) (ht : t ≤ frontierCStar - frontierEpsilon) :
+    frontierMajorant t (t ^ 2) - frontierPhi t = 0 := by
+  apply frontierMajorant_boundary_gap_eq_zero_of_not_middle
+  intro hmiddle
+  rcases hmiddle with ⟨hleft, hright⟩
+  rcases frontierMajorant_boundary_middle_t_bounds t hleft hright with
+    ⟨ht_lower, _ht_upper⟩
+  linarith
+
+theorem frontierMajorant_boundary_gap_eq_zero_of_A_add_one_lt
+    (t : ℝ) (ht : frontierA + 1 < t) :
+    frontierMajorant t (t ^ 2) - frontierPhi t = 0 := by
+  apply frontierMajorant_boundary_gap_eq_zero_of_not_middle
+  intro hmiddle
+  rcases hmiddle with ⟨hleft, hright⟩
+  rcases frontierMajorant_boundary_middle_t_bounds_A t hleft hright with
+    ⟨_ht_lower, ht_upper⟩
+  linarith
+
+theorem frontierMajorant_boundary_gap_eq_zero_of_CStar_add_epsilon_lt
+    (t : ℝ) (ht : frontierCStar + frontierEpsilon < t) :
+    frontierMajorant t (t ^ 2) - frontierPhi t = 0 := by
+  apply frontierMajorant_boundary_gap_eq_zero_of_not_middle
+  intro hmiddle
+  rcases hmiddle with ⟨hleft, hright⟩
+  rcases frontierMajorant_boundary_middle_t_bounds t hleft hright with
+    ⟨_ht_lower, ht_upper⟩
+  linarith
+
+theorem frontierMajorant_boundary_gap_le_const (t : ℝ) :
+    frontierMajorant t (t ^ 2) - frontierPhi t ≤ 100 := by
+  rcases frontierMajorant_boundary_eq_phi_or_middle t with hphi | hmiddle
+  · rw [hphi]
+    norm_num
+  · rcases hmiddle with ⟨hleft, hright, hmajorant⟩
+    set u : ℝ := t + frontierEpsilon - frontierCStar
+    have hu_eq : u = t + frontierEpsilon - frontierCStar := rfl
+    have hu_nonneg : 0 ≤ u := by
+      dsimp [u]
+      linarith
+    have hu_le : u ≤ 2 * frontierEpsilon := by
+      dsimp [u]
+      linarith
+    have hcert :=
+      frontierMajorant_middle_boundary_residual_certificate_u
+        t u hu_eq hleft hright
+    by_cases htA : t ≤ frontierA
+    · rw [hcert.1 htA]
+      have hfactor_nonneg : 0 ≤ 9 * frontierEpsilon - u := by
+        linarith [hu_le, frontierEpsilon_pos]
+      nlinarith [frontierEpsilon_pos, frontierEpsilon_lt_one,
+        hu_nonneg, hu_le, hfactor_nonneg]
+    · have htA' : frontierA ≤ t := le_of_not_ge htA
+      rw [hcert.2.1 htA']
+      have hfactor_nonneg : 0 ≤ 2 * frontierEpsilon - u := by
+        linarith
+      have hq_nonneg :
+          0 ≤ u ^ 2 - 7 * frontierEpsilon * u + (5 / 6 : ℝ) := by
+        have hq_ge :
+            (2 * frontierEpsilon) ^ 2 -
+                7 * frontierEpsilon * (2 * frontierEpsilon) + (5 / 6 : ℝ) ≤
+              u ^ 2 - 7 * frontierEpsilon * u + (5 / 6 : ℝ) := by
+          have hslope_nonpos :
+              u + 2 * frontierEpsilon - 7 * frontierEpsilon ≤ 0 := by
+            linarith [hu_le, frontierEpsilon_pos]
+          have hdiff_nonneg : 0 ≤ 2 * frontierEpsilon - u := by
+            linarith
+          nlinarith [mul_nonpos_of_nonneg_of_nonpos hdiff_nonneg
+            hslope_nonpos]
+        have hq_at_right :
+            (2 * frontierEpsilon) ^ 2 -
+                7 * frontierEpsilon * (2 * frontierEpsilon) +
+                  (5 / 6 : ℝ) = 0 := by
+          ring_nf
+          rw [frontierEpsilon_sq]
+          norm_num
+        linarith
+      nlinarith [frontierEpsilon_pos, frontierEpsilon_lt_one,
+        hu_nonneg, hu_le, hfactor_nonneg, hq_nonneg]
+
+theorem frontierMajorant_boundary_gap_abs_le_const (t : ℝ) :
+    |frontierMajorant t (t ^ 2) - frontierPhi t| ≤ 100 := by
+  have hnonneg : 0 ≤ frontierMajorant t (t ^ 2) - frontierPhi t :=
+    frontierMajorant_boundary_gap_nonneg t
+  have hle : frontierMajorant t (t ^ 2) - frontierPhi t ≤ 100 :=
+    frontierMajorant_boundary_gap_le_const t
+  exact abs_le.mpr ⟨by linarith, hle⟩
 
 theorem frontier_bmo_public_sample_original_unconditional_boundary_support :
     (∀ t : ℝ, frontierOmega frontierEpsilon t (t ^ 2)) ∧
@@ -8098,6 +8472,10 @@ theorem frontierStoppedLogCupObjective_mem_centered_objectiveSet :
   exact frontierStoppedLogCupObjective_mem_centered_objectiveSet_of_intervalVariance
     frontierStoppedLogCupOptimizer_intervalVariance_obligation
 
+theorem frontierStoppedLogCupObjective_mem_centered_objectiveSet_unconditional :
+    frontierStoppedLogCupObjective ∈ frontierBMOCenteredFunctionObjectiveSet := by
+  exact frontierStoppedLogCupObjective_mem_centered_objectiveSet
+
 theorem frontierStoppedLogCupObjective_eq_contact_ratio_form :
     frontierStoppedLogCupObjective =
       2 * frontierEpsilon ^ 3 +
@@ -8194,6 +8572,24 @@ theorem frontier_bmo_public_sample_original_unconditional_from_centered_sSup
   rw [frontier_bmo_public_sample_original_unconditional_sSup_bridge hupper hlower]
   exact frontierBMOCenteredFunctionSupremum_eq_publicAnswer_of_actual_bounds hupper hlower
 
+theorem frontierBMOCenteredActualUpperBound_iff_direct_integral_bound :
+    frontierBMOCenteredActualUpperBound ↔
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        frontierBMOCenteredObjectiveIntegral g ≤ frontierBMOPublicAnswer := by
+  constructor
+  · intro hupper g hg
+    exact hupper (frontierBMOCenteredObjectiveIntegral g) ⟨g, hg, rfl⟩
+  · intro hbound y hy
+    rcases hy with ⟨g, hg, rfl⟩
+    exact hbound g hg
+
+theorem frontierBMOCenteredActualUpperBound_of_direct_integral_bound
+    (hbound :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        frontierBMOCenteredObjectiveIntegral g ≤ frontierBMOPublicAnswer) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_iff_direct_integral_bound.mpr hbound
+
 theorem frontierBMOCenteredActualUpperBound_of_majorant_integral_bound
     (hmajorization :
       ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
@@ -8232,6 +8628,881 @@ theorem frontierBMOOriginalActualUpperBound_of_centered_majorant_integral_bound
     frontierBMOOriginalActualUpperBound := by
   exact frontierBMOOriginalActualUpperBound_of_centered_upper
     (frontierBMOCenteredActualUpperBound_of_majorant_integral_bound hmajorization)
+
+def frontierBMOCenteredBellmanMajorizationObligation : Prop :=
+  ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    frontierBMOCenteredObjectiveIntegral g ≤ frontierMajorant 0 (1 / 12 : ℝ)
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_iff_objectiveIntegral_bound :
+    frontierBMOCenteredBellmanMajorizationObligation ↔
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        frontierBMOCenteredObjectiveIntegral g ≤
+          frontierMajorant 0 (1 / 12 : ℝ) := by
+  rfl
+
+def frontierUnboundedNonsmoothBellmanUpperObligation : Prop :=
+  ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    frontierBMOCenteredObjectiveIntegral g ≤
+      frontierMajorant 0 (frontierEpsilon ^ 2)
+
+theorem frontierUnboundedNonsmoothBellmanUpperObligation_iff_centeredBellmanMajorization :
+    frontierUnboundedNonsmoothBellmanUpperObligation ↔
+      frontierBMOCenteredBellmanMajorizationObligation := by
+  constructor
+  · intro hupper g hg
+    rw [← frontierEpsilon_sq]
+    exact hupper g hg
+  · intro hmajorization g hg
+    rw [frontierEpsilon_sq]
+    exact hmajorization g hg
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_of_unboundedNonsmoothBellmanUpper
+    (hupper : frontierUnboundedNonsmoothBellmanUpperObligation) :
+    frontierBMOCenteredBellmanMajorizationObligation := by
+  exact
+    frontierUnboundedNonsmoothBellmanUpperObligation_iff_centeredBellmanMajorization.mp
+      hupper
+
+def frontierBMOCenteredBoundaryMajorantIntegralObligation : Prop :=
+  (∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    IntervalIntegrable
+      (fun t : ℝ ↦ frontierMajorant (g t) ((g t) ^ 2)) volume
+        (0 : ℝ) 1) ∧
+  (∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+      frontierMajorant 0 (1 / 12 : ℝ))
+
+def frontierBMOCenteredBoundaryMajorantJensenObligation : Prop :=
+  (∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    IntervalIntegrable
+      (fun t : ℝ ↦ frontierMajorant (g t) ((g t) ^ 2)) volume
+        (0 : ℝ) 1) ∧
+  (∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+      frontierMajorant
+        (frontierBMOOriginalMeanIntegral g)
+        (frontierBMOOriginalSecondMomentIntegral g))
+
+def frontierBMOCenteredBoundaryMajorantJensenInequalityObligation : Prop :=
+  ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+      frontierMajorant
+        (frontierBMOOriginalMeanIntegral g)
+        (frontierBMOOriginalSecondMomentIntegral g)
+
+def frontierBMOCenteredBoundaryMajorantIntegrabilityObligation : Prop :=
+  ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    IntervalIntegrable
+      (fun t : ℝ ↦ frontierMajorant (g t) ((g t) ^ 2)) volume
+        (0 : ℝ) 1
+
+def frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation : Prop :=
+  ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    IntervalIntegrable
+      (fun t : ℝ ↦
+        frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) volume
+        (0 : ℝ) 1
+
+def frontierBMOCenteredBoundaryMajorantGapCompensationObligation : Prop :=
+  ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    frontierBMOCenteredObjectiveIntegral g +
+        (∫ t in (0 : ℝ)..1,
+          frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) ≤
+      frontierMajorant
+        (frontierBMOOriginalMeanIntegral g)
+        (frontierBMOOriginalSecondMomentIntegral g)
+
+def frontierBMOCenteredBoundaryMajorantCenterBoundObligation : Prop :=
+  ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    frontierBMOCenteredObjectiveIntegral g +
+        (∫ t in (0 : ℝ)..1,
+          frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) ≤
+      frontierMajorant 0 (1 / 12 : ℝ)
+
+def frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation : Prop :=
+  ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+    (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+      frontierMajorant 0 (1 / 12 : ℝ)
+
+theorem frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation_unconditional :
+    frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation := by
+  intro g hg
+  rcases hg with ⟨hg, _hg2, _hphi, _hmean, _hsecondMoment, _hvariance⟩
+  refine IntervalIntegrable.mono_fun'
+    (intervalIntegrable_const (c := (100 : ℝ))) ?_ ?_
+  · simpa [Set.uIoc_of_le (by norm_num : (0 : ℝ) ≤ 1)] using
+      frontierMajorant_boundary_gap_continuous.comp_aestronglyMeasurable
+        hg.aestronglyMeasurable
+  · filter_upwards with t
+    rw [Real.norm_eq_abs]
+    exact frontierMajorant_boundary_gap_abs_le_const (g t)
+
+theorem frontierBMOCenteredBoundaryMajorantIntegrabilityObligation_of_gap
+    (hgap : frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation) :
+    frontierBMOCenteredBoundaryMajorantIntegrabilityObligation := by
+  intro g hg
+  have hg_adm : frontierBMOCenteredFunctionAdmissible g := hg
+  rcases hg with
+    ⟨_hg, _hg2, hphi, _hmean, _hsecondMoment, _hvariance⟩
+  have hsum :
+      IntervalIntegrable
+        (fun t : ℝ ↦
+          frontierPhi (g t) +
+            (frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)))
+          volume (0 : ℝ) 1 :=
+    hphi.add (hgap g hg_adm)
+  convert hsum using 1
+  ext t
+  ring
+
+theorem frontierBMOCenteredBoundaryMajorantIntegrabilityObligation_unconditional :
+    frontierBMOCenteredBoundaryMajorantIntegrabilityObligation := by
+  exact frontierBMOCenteredBoundaryMajorantIntegrabilityObligation_of_gap
+    frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation_unconditional
+
+theorem frontierBMOCenteredBoundaryMajorantIntegral_eq_objective_add_gap
+    (g : ℝ → ℝ) (hg : frontierBMOCenteredFunctionAdmissible g) :
+    (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) =
+      frontierBMOCenteredObjectiveIntegral g +
+        (∫ t in (0 : ℝ)..1,
+          frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) := by
+  rcases hg with
+    ⟨_hg, _hg2, hphi, _hmean, _hsecondMoment, _hvariance⟩
+  rw [frontierBMOCenteredObjectiveIntegral]
+  calc
+    (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) =
+        ∫ t in (0 : ℝ)..1,
+          frontierPhi (g t) +
+            (frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) := by
+      apply intervalIntegral.integral_congr
+      intro t _ht
+      ring
+    _ = (∫ t in (0 : ℝ)..1, frontierPhi (g t)) +
+        (∫ t in (0 : ℝ)..1,
+          frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) := by
+      exact intervalIntegral.integral_add hphi
+        (frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation_unconditional
+          g ⟨_hg, _hg2, hphi, _hmean, _hsecondMoment, _hvariance⟩)
+
+theorem frontierBMOCenteredBoundaryMajorantGapIntegral_le_const
+    (g : ℝ → ℝ) (hg : frontierBMOCenteredFunctionAdmissible g) :
+    (∫ t in (0 : ℝ)..1,
+      frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) ≤ 100 := by
+  have hgap :
+      IntervalIntegrable
+        (fun t : ℝ ↦
+          frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t))
+        volume (0 : ℝ) 1 :=
+    frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation_unconditional
+      g hg
+  have hconst :
+      IntervalIntegrable (fun _ : ℝ ↦ (100 : ℝ)) volume (0 : ℝ) 1 :=
+    intervalIntegrable_const
+  have hmono :
+      (∫ t in (0 : ℝ)..1,
+        frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) ≤
+        ∫ _t in (0 : ℝ)..1, (100 : ℝ) :=
+    intervalIntegral.integral_mono (by norm_num) hgap hconst
+      (fun t ↦ frontierMajorant_boundary_gap_le_const (g t))
+  rw [intervalIntegral.integral_const] at hmono
+  norm_num at hmono
+  exact hmono
+
+theorem frontierBMOCenteredBoundaryMajorantIntegral_le_objective_add_const
+    (g : ℝ → ℝ) (hg : frontierBMOCenteredFunctionAdmissible g) :
+    (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+      frontierBMOCenteredObjectiveIntegral g + 100 := by
+  rw [frontierBMOCenteredBoundaryMajorantIntegral_eq_objective_add_gap g hg]
+  linarith [frontierBMOCenteredBoundaryMajorantGapIntegral_le_const g hg]
+
+theorem frontierBMOCenteredBoundaryMajorantGapIntegral_nonneg
+    (g : ℝ → ℝ) (_hg : frontierBMOCenteredFunctionAdmissible g) :
+    0 ≤
+      (∫ t in (0 : ℝ)..1,
+        frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) := by
+  exact intervalIntegral.integral_nonneg (by norm_num)
+    (fun t _ht ↦ frontierMajorant_boundary_gap_nonneg (g t))
+
+theorem frontierBMOCenteredBoundaryMajorantGapIntegral_eq_zero_of_not_middle
+    (g : ℝ → ℝ)
+    (hnotMiddle :
+      ∀ t : ℝ,
+        ¬ (frontierCStar < g t + frontierEpsilon ∧
+          g t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon)) :
+    (∫ t in (0 : ℝ)..1,
+      frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) = 0 := by
+  calc
+    (∫ t in (0 : ℝ)..1,
+      frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) =
+        ∫ _t in (0 : ℝ)..1, (0 : ℝ) := by
+          apply intervalIntegral.integral_congr
+          intro t _ht
+          exact frontierMajorant_boundary_gap_eq_zero_of_not_middle
+            (g t) (hnotMiddle t)
+    _ = 0 := by simp
+
+theorem frontierBMOCenteredBoundaryMajorantGapIntegral_eq_zero_of_ae_not_middle
+    (g : ℝ → ℝ)
+    (hnotMiddle :
+      ∀ᵐ t ∂volume,
+        ¬ (frontierCStar < g t + frontierEpsilon ∧
+          g t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon)) :
+    (∫ t in (0 : ℝ)..1,
+      frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) = 0 := by
+  calc
+    (∫ t in (0 : ℝ)..1,
+      frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) =
+        ∫ _t in (0 : ℝ)..1, (0 : ℝ) := by
+          apply intervalIntegral.integral_congr_ae
+          filter_upwards [hnotMiddle] with t ht_not_middle _ht
+          exact frontierMajorant_boundary_gap_eq_zero_of_not_middle
+            (g t) ht_not_middle
+    _ = 0 := by simp
+
+theorem frontierBMOCenteredBoundaryMajorantGapCompensationObligation_of_gapless_objective_bound
+    (hobjective :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        frontierBMOCenteredObjectiveIntegral g ≤
+          frontierMajorant
+            (frontierBMOOriginalMeanIntegral g)
+            (frontierBMOOriginalSecondMomentIntegral g))
+    (hgapless :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        ∀ t : ℝ,
+          ¬ (frontierCStar < g t + frontierEpsilon ∧
+            g t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon)) :
+    frontierBMOCenteredBoundaryMajorantGapCompensationObligation := by
+  intro g hg
+  rw [frontierBMOCenteredBoundaryMajorantGapIntegral_eq_zero_of_not_middle
+    g (hgapless g hg)]
+  simpa using hobjective g hg
+
+theorem frontierBMOCenteredBoundaryMajorantGapCompensationObligation_of_ae_gapless_objective_bound
+    (hobjective :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        frontierBMOCenteredObjectiveIntegral g ≤
+          frontierMajorant
+            (frontierBMOOriginalMeanIntegral g)
+            (frontierBMOOriginalSecondMomentIntegral g))
+    (hgapless :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        ∀ᵐ t ∂volume,
+          ¬ (frontierCStar < g t + frontierEpsilon ∧
+            g t + frontierEpsilon ≤ frontierCStar + 2 * frontierEpsilon)) :
+    frontierBMOCenteredBoundaryMajorantGapCompensationObligation := by
+  intro g hg
+  rw [frontierBMOCenteredBoundaryMajorantGapIntegral_eq_zero_of_ae_not_middle
+    g (hgapless g hg)]
+  simpa using hobjective g hg
+
+theorem frontierBMOCenteredBoundaryMajorantCenterBoundObligation_of_gap_split
+    (η : ℝ)
+    (hobjective :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        frontierBMOCenteredObjectiveIntegral g ≤
+          frontierMajorant 0 (1 / 12 : ℝ) - η)
+    (hgap :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1,
+          frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) ≤ η) :
+    frontierBMOCenteredBoundaryMajorantCenterBoundObligation := by
+  intro g hg
+  linarith [hobjective g hg, hgap g hg]
+
+theorem frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_of_gapCompensation
+    (hgapBound : frontierBMOCenteredBoundaryMajorantGapCompensationObligation) :
+    frontierBMOCenteredBoundaryMajorantJensenInequalityObligation := by
+  intro g hg
+  rw [frontierBMOCenteredBoundaryMajorantIntegral_eq_objective_add_gap g hg]
+  exact hgapBound g hg
+
+theorem frontierBMOCenteredBoundaryMajorantGapCompensationObligation_of_jensenInequality
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOCenteredBoundaryMajorantGapCompensationObligation := by
+  intro g hg
+  rw [← frontierBMOCenteredBoundaryMajorantIntegral_eq_objective_add_gap g hg]
+  exact hjensen g hg
+
+theorem frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_iff_gapCompensation :
+    frontierBMOCenteredBoundaryMajorantJensenInequalityObligation ↔
+      frontierBMOCenteredBoundaryMajorantGapCompensationObligation := by
+  constructor
+  · exact frontierBMOCenteredBoundaryMajorantGapCompensationObligation_of_jensenInequality
+  · exact frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_of_gapCompensation
+
+theorem frontierBMOCenteredBoundaryMajorantGapCompensationObligation_iff_center_bound :
+    frontierBMOCenteredBoundaryMajorantGapCompensationObligation ↔
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        frontierBMOCenteredObjectiveIntegral g +
+            (∫ t in (0 : ℝ)..1,
+              frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) ≤
+          frontierMajorant 0 (1 / 12 : ℝ) := by
+  constructor
+  · intro hgap g hg
+    have hmoments :
+        frontierMajorant
+            (frontierBMOOriginalMeanIntegral g)
+            (frontierBMOOriginalSecondMomentIntegral g) =
+          frontierMajorant 0 (1 / 12 : ℝ) := by
+      rcases hg with
+        ⟨_hg, _hg2, _hphi, hmean, hsecondMoment, _hvariance⟩
+      rw [hmean, hsecondMoment]
+    exact le_trans (hgap g hg) (le_of_eq hmoments)
+  · intro hgap g hg
+    have hmoments :
+        frontierMajorant
+            (frontierBMOOriginalMeanIntegral g)
+            (frontierBMOOriginalSecondMomentIntegral g) =
+          frontierMajorant 0 (1 / 12 : ℝ) := by
+      rcases hg with
+        ⟨_hg, _hg2, _hphi, hmean, hsecondMoment, _hvariance⟩
+      rw [hmean, hsecondMoment]
+    rw [hmoments]
+    exact hgap g hg
+
+theorem frontierBMOCenteredBoundaryMajorantGapCompensationObligation_iff_centerBoundObligation :
+    frontierBMOCenteredBoundaryMajorantGapCompensationObligation ↔
+      frontierBMOCenteredBoundaryMajorantCenterBoundObligation := by
+  exact frontierBMOCenteredBoundaryMajorantGapCompensationObligation_iff_center_bound
+
+theorem frontierBMOCenteredBoundaryMajorantCenterBoundObligation_iff_gapCompensation :
+    frontierBMOCenteredBoundaryMajorantCenterBoundObligation ↔
+      frontierBMOCenteredBoundaryMajorantGapCompensationObligation := by
+  exact frontierBMOCenteredBoundaryMajorantGapCompensationObligation_iff_centerBoundObligation.symm
+
+theorem frontierBMOCenteredBoundaryMajorantCenterBoundObligation_iff_boundaryMajorantIntegral_bound :
+    frontierBMOCenteredBoundaryMajorantCenterBoundObligation ↔
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+          frontierMajorant 0 (1 / 12 : ℝ) := by
+  constructor
+  · intro hcenter g hg
+    rw [frontierBMOCenteredBoundaryMajorantIntegral_eq_objective_add_gap g hg]
+    exact hcenter g hg
+  · intro hbound g hg
+    rw [← frontierBMOCenteredBoundaryMajorantIntegral_eq_objective_add_gap g hg]
+    exact hbound g hg
+
+theorem frontierBMOCenteredBoundaryMajorantCenterBoundObligation_iff_integralCenterBoundObligation :
+    frontierBMOCenteredBoundaryMajorantCenterBoundObligation ↔
+      frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation := by
+  exact frontierBMOCenteredBoundaryMajorantCenterBoundObligation_iff_boundaryMajorantIntegral_bound
+
+theorem frontierBMOCenteredBoundaryMajorantIntegral_bound_of_centerBoundObligation
+    (hcenter : frontierBMOCenteredBoundaryMajorantCenterBoundObligation) :
+    ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+      (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+        frontierMajorant 0 (1 / 12 : ℝ) := by
+  exact
+    frontierBMOCenteredBoundaryMajorantCenterBoundObligation_iff_boundaryMajorantIntegral_bound.mp
+      hcenter
+
+theorem frontierBMOCenteredBoundaryMajorantCenterBoundObligation_of_boundaryMajorantIntegral_bound
+    (hbound :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+          frontierMajorant 0 (1 / 12 : ℝ)) :
+    frontierBMOCenteredBoundaryMajorantCenterBoundObligation := by
+  exact
+    frontierBMOCenteredBoundaryMajorantCenterBoundObligation_iff_boundaryMajorantIntegral_bound.mpr
+      hbound
+
+theorem frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation_of_majorant
+    (hmajorant : frontierBMOCenteredBoundaryMajorantIntegrabilityObligation) :
+    frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation := by
+  intro g hg
+  have hg_adm : frontierBMOCenteredFunctionAdmissible g := hg
+  rcases hg with
+    ⟨_hg, _hg2, hphi, _hmean, _hsecondMoment, _hvariance⟩
+  exact (hmajorant g hg_adm).sub hphi
+
+theorem frontierBMOCenteredBoundaryMajorantIntegrabilityObligation_iff_gap :
+    frontierBMOCenteredBoundaryMajorantIntegrabilityObligation ↔
+      frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation := by
+  constructor
+  · exact frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation_of_majorant
+  · exact frontierBMOCenteredBoundaryMajorantIntegrabilityObligation_of_gap
+
+theorem frontierBMOCenteredBoundaryMajorantJensenObligation_of_gap_and_jensen
+    (hgap : frontierBMOCenteredBoundaryMajorantGapIntegrabilityObligation)
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOCenteredBoundaryMajorantJensenObligation := by
+  exact ⟨frontierBMOCenteredBoundaryMajorantIntegrabilityObligation_of_gap hgap,
+    hjensen⟩
+
+theorem frontierBMOCenteredAdmissible_moments_majorant_eq_publicAnswer
+    (g : ℝ → ℝ) (hg : frontierBMOCenteredFunctionAdmissible g) :
+    frontierMajorant
+        (frontierBMOOriginalMeanIntegral g)
+        (frontierBMOOriginalSecondMomentIntegral g) =
+      frontierBMOPublicAnswer := by
+  rw [← frontierMajorant_center_eq_publicAnswer]
+  rcases hg with ⟨_hg, _hg2, _hphi, hmean, hsecondMoment, _hvariance⟩
+  rw [hmean, hsecondMoment]
+
+theorem frontierBMOCenteredBoundaryMajorantJensenObligation_of_components
+    (hmajorantIntegrable :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        IntervalIntegrable
+          (fun t : ℝ ↦ frontierMajorant (g t) ((g t) ^ 2)) volume
+            (0 : ℝ) 1)
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOCenteredBoundaryMajorantJensenObligation := by
+  exact ⟨hmajorantIntegrable, hjensen⟩
+
+theorem frontierBMOCenteredBoundaryMajorantJensenObligation_iff_components :
+    frontierBMOCenteredBoundaryMajorantJensenObligation ↔
+      frontierBMOCenteredBoundaryMajorantIntegrabilityObligation ∧
+        frontierBMOCenteredBoundaryMajorantJensenInequalityObligation := by
+  constructor
+  · intro h
+    exact h
+  · intro h
+    exact h
+
+theorem frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_iff_center_bound :
+    frontierBMOCenteredBoundaryMajorantJensenInequalityObligation ↔
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+          frontierMajorant 0 (1 / 12 : ℝ) := by
+  constructor
+  · intro hjensen g hg
+    have hg_adm : frontierBMOCenteredFunctionAdmissible g := hg
+    rcases hg with
+      ⟨_hg, _hg2, _hphi, hmean, hsecondMoment, _hvariance⟩
+    have hmoments :
+        frontierMajorant
+            (frontierBMOOriginalMeanIntegral g)
+            (frontierBMOOriginalSecondMomentIntegral g) =
+          frontierMajorant 0 (1 / 12 : ℝ) := by
+      rw [hmean, hsecondMoment]
+    exact le_trans (hjensen g hg_adm) (le_of_eq hmoments)
+  · intro hbound g hg
+    have hg_adm : frontierBMOCenteredFunctionAdmissible g := hg
+    rcases hg with
+      ⟨_hg, _hg2, _hphi, hmean, hsecondMoment, _hvariance⟩
+    have hmoments :
+        frontierMajorant
+            (frontierBMOOriginalMeanIntegral g)
+            (frontierBMOOriginalSecondMomentIntegral g) =
+          frontierMajorant 0 (1 / 12 : ℝ) := by
+      rw [hmean, hsecondMoment]
+    rw [hmoments]
+    exact hbound g hg_adm
+
+theorem frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_of_center_bound
+    (hbound :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+          frontierMajorant 0 (1 / 12 : ℝ)) :
+    frontierBMOCenteredBoundaryMajorantJensenInequalityObligation := by
+  exact
+    frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_iff_center_bound.mpr
+      hbound
+
+theorem frontierBMOCenteredBoundaryMajorant_center_bound_of_jensenInequalityObligation
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+      (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+        frontierMajorant 0 (1 / 12 : ℝ) := by
+  exact
+    frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_iff_center_bound.mp
+      hjensen
+
+theorem frontierBMOCenteredBoundaryMajorantIntegralObligation_iff_jensen_components :
+    frontierBMOCenteredBoundaryMajorantIntegralObligation ↔
+      frontierBMOCenteredBoundaryMajorantIntegrabilityObligation ∧
+        frontierBMOCenteredBoundaryMajorantJensenInequalityObligation := by
+  constructor
+  · intro hboundary
+    rcases hboundary with ⟨hintegrable, hbound⟩
+    exact ⟨hintegrable,
+      frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_iff_center_bound.mpr
+        hbound⟩
+  · intro h
+    rcases h with ⟨hintegrable, hjensen⟩
+    exact ⟨hintegrable,
+      frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_iff_center_bound.mp
+        hjensen⟩
+
+theorem frontierBMOCenteredBoundaryMajorantIntegralObligation_iff_jensenInequality :
+    frontierBMOCenteredBoundaryMajorantIntegralObligation ↔
+      frontierBMOCenteredBoundaryMajorantJensenInequalityObligation := by
+  constructor
+  · intro hboundary
+    exact
+      (frontierBMOCenteredBoundaryMajorantIntegralObligation_iff_jensen_components.mp
+        hboundary).2
+  · intro hjensen
+    exact
+      frontierBMOCenteredBoundaryMajorantIntegralObligation_iff_jensen_components.mpr
+        ⟨frontierBMOCenteredBoundaryMajorantIntegrabilityObligation_unconditional,
+          hjensen⟩
+
+theorem frontierBMOCenteredBoundaryMajorantJensenObligation_iff_integralObligation :
+    frontierBMOCenteredBoundaryMajorantJensenObligation ↔
+      frontierBMOCenteredBoundaryMajorantIntegralObligation := by
+  constructor
+  · intro hjensen
+    rcases hjensen with ⟨hintegrable, hjensen_bound⟩
+    refine ⟨hintegrable, ?_⟩
+    intro g hg
+    have hmoments :
+        frontierMajorant
+            (frontierBMOOriginalMeanIntegral g)
+            (frontierBMOOriginalSecondMomentIntegral g) =
+          frontierMajorant 0 (1 / 12 : ℝ) := by
+      exact (frontierBMOCenteredAdmissible_moments_majorant_eq_publicAnswer g hg).trans
+        frontierMajorant_center_eq_publicAnswer.symm
+    exact le_trans (hjensen_bound g hg)
+      (le_of_eq hmoments)
+  · intro hboundary
+    rcases hboundary with ⟨hintegrable, hbound⟩
+    refine ⟨hintegrable, ?_⟩
+    intro g hg
+    have hmoments :
+        frontierMajorant 0 (1 / 12 : ℝ) =
+          frontierMajorant
+            (frontierBMOOriginalMeanIntegral g)
+            (frontierBMOOriginalSecondMomentIntegral g) := by
+      exact frontierMajorant_center_eq_publicAnswer.trans
+        (frontierBMOCenteredAdmissible_moments_majorant_eq_publicAnswer g hg).symm
+    exact le_trans (hbound g hg) (le_of_eq hmoments)
+
+theorem frontierBMOCenteredBoundaryMajorantIntegralObligation_of_jensen
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenObligation) :
+    frontierBMOCenteredBoundaryMajorantIntegralObligation := by
+  rcases hjensen with ⟨hmajorantIntegrable, hmajorantJensen⟩
+  refine ⟨hmajorantIntegrable, ?_⟩
+  intro g hg
+  have hcenter :=
+    frontierBMOCenteredAdmissible_moments_majorant_eq_publicAnswer g hg
+  rw [frontierMajorant_center_eq_publicAnswer]
+  exact le_trans (hmajorantJensen g hg) (le_of_eq hcenter)
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantIntegral
+    (hboundary : frontierBMOCenteredBoundaryMajorantIntegralObligation) :
+    frontierBMOCenteredBellmanMajorizationObligation := by
+  intro g hg
+  rcases hboundary with ⟨hmajorantIntegrable, hmajorantBound⟩
+  exact le_trans
+    (frontierBMOCenteredObjectiveIntegral_le_boundaryMajorantIntegral
+      g hg.2.2.1 (hmajorantIntegrable g hg))
+    (hmajorantBound g hg)
+
+theorem frontierBMOCenteredActualUpperBound_of_centeredBellmanMajorization
+    (hmajorization : frontierBMOCenteredBellmanMajorizationObligation) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_majorant_integral_bound hmajorization
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantJensen
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenObligation) :
+    frontierBMOCenteredBellmanMajorizationObligation := by
+  exact frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantIntegral
+    (frontierBMOCenteredBoundaryMajorantIntegralObligation_of_jensen hjensen)
+
+theorem frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensen
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenObligation) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_centeredBellmanMajorization
+    (frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantJensen
+      hjensen)
+
+theorem frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensen_components
+    (hmajorantIntegrable :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        IntervalIntegrable
+          (fun t : ℝ ↦ frontierMajorant (g t) ((g t) ^ 2)) volume
+            (0 : ℝ) 1)
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensen
+    (frontierBMOCenteredBoundaryMajorantJensenObligation_of_components
+      hmajorantIntegrable hjensen)
+
+theorem frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensenObligations
+    (hintegrable : frontierBMOCenteredBoundaryMajorantIntegrabilityObligation)
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensen_components
+    hintegrable hjensen
+
+theorem frontierBMOOriginalActualUpperBound_of_centeredBellmanMajorization
+    (hmajorization : frontierBMOCenteredBellmanMajorizationObligation) :
+    frontierBMOOriginalActualUpperBound := by
+  exact frontierBMOOriginalActualUpperBound_of_centered_upper
+    (frontierBMOCenteredActualUpperBound_of_centeredBellmanMajorization hmajorization)
+
+theorem frontierBMOCenteredActualUpperBound_of_unboundedNonsmoothBellmanUpper
+    (hupper : frontierUnboundedNonsmoothBellmanUpperObligation) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_centeredBellmanMajorization
+    (frontierBMOCenteredBellmanMajorizationObligation_of_unboundedNonsmoothBellmanUpper
+      hupper)
+
+theorem frontierBMOOriginalActualUpperBound_of_unboundedNonsmoothBellmanUpper
+    (hupper : frontierUnboundedNonsmoothBellmanUpperObligation) :
+    frontierBMOOriginalActualUpperBound := by
+  exact frontierBMOOriginalActualUpperBound_of_centered_upper
+    (frontierBMOCenteredActualUpperBound_of_unboundedNonsmoothBellmanUpper
+      hupper)
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_of_actualUpper
+    (hupper : frontierBMOCenteredActualUpperBound) :
+    frontierBMOCenteredBellmanMajorizationObligation := by
+  intro g hg
+  rw [frontierMajorant_center_eq_publicAnswer]
+  exact hupper (frontierBMOCenteredObjectiveIntegral g) ⟨g, hg, rfl⟩
+
+theorem frontierBMOCenteredActualUpperBound_iff_centeredBellmanMajorization :
+    frontierBMOCenteredActualUpperBound ↔
+      frontierBMOCenteredBellmanMajorizationObligation := by
+  constructor
+  · exact frontierBMOCenteredBellmanMajorizationObligation_of_actualUpper
+  · exact frontierBMOCenteredActualUpperBound_of_centeredBellmanMajorization
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_iff_actualUpper :
+    frontierBMOCenteredBellmanMajorizationObligation ↔
+      frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_iff_centeredBellmanMajorization.symm
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_reduction :
+    frontierBMOCenteredBellmanMajorizationObligation →
+      frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_centeredBellmanMajorization
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_blocker :
+    frontierBMOCenteredActualUpperBound ↔
+      frontierBMOCenteredBellmanMajorizationObligation := by
+  exact frontierBMOCenteredActualUpperBound_iff_centeredBellmanMajorization
+
+theorem frontierBMOCenteredActualUpperBound_iff_unboundedNonsmoothBellmanUpper :
+    frontierBMOCenteredActualUpperBound ↔
+      frontierUnboundedNonsmoothBellmanUpperObligation := by
+  constructor
+  · intro hupper
+    exact
+      frontierUnboundedNonsmoothBellmanUpperObligation_iff_centeredBellmanMajorization.mpr
+        (frontierBMOCenteredBellmanMajorizationObligation_of_actualUpper hupper)
+  · intro hupper
+    exact frontierBMOCenteredActualUpperBound_of_unboundedNonsmoothBellmanUpper
+      hupper
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_blocker_unboundedNonsmoothBellmanUpper :
+    frontierBMOCenteredActualUpperBound ↔
+      frontierUnboundedNonsmoothBellmanUpperObligation := by
+  exact frontierBMOCenteredActualUpperBound_iff_unboundedNonsmoothBellmanUpper
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_reduction_to_boundaryMajorantJensenObligations
+    (hintegrable : frontierBMOCenteredBoundaryMajorantIntegrabilityObligation)
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensenObligations
+    hintegrable hjensen
+
+theorem frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensenInequality
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensenObligations
+    frontierBMOCenteredBoundaryMajorantIntegrabilityObligation_unconditional
+    hjensen
+
+theorem frontierBMOCenteredActualUpperBound_of_boundaryMajorantGapCompensation
+    (hgapBound : frontierBMOCenteredBoundaryMajorantGapCompensationObligation) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensenInequality
+    (frontierBMOCenteredBoundaryMajorantJensenInequalityObligation_of_gapCompensation
+      hgapBound)
+
+theorem frontierBMOCenteredActualUpperBound_of_boundaryMajorantCenterBound
+    (hcenterBound : frontierBMOCenteredBoundaryMajorantCenterBoundObligation) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantGapCompensation
+    (frontierBMOCenteredBoundaryMajorantCenterBoundObligation_iff_gapCompensation.mp
+      hcenterBound)
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantCenterBound
+    (hcenterBound : frontierBMOCenteredBoundaryMajorantCenterBoundObligation) :
+    frontierBMOCenteredBellmanMajorizationObligation := by
+  intro g hg
+  have hgap_nonneg :=
+    frontierBMOCenteredBoundaryMajorantGapIntegral_nonneg g hg
+  have hcenter := hcenterBound g hg
+  linarith
+
+theorem frontierBMOCenteredActualUpperBound_of_boundaryMajorantGapSplit
+    (η : ℝ)
+    (hobjective :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        frontierBMOCenteredObjectiveIntegral g ≤
+          frontierMajorant 0 (1 / 12 : ℝ) - η)
+    (hgap :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1,
+          frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) ≤ η) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantCenterBound
+    (frontierBMOCenteredBoundaryMajorantCenterBoundObligation_of_gap_split
+      η hobjective hgap)
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantGapCompensation :
+    frontierBMOCenteredBoundaryMajorantGapCompensationObligation →
+      frontierBMOCenteredBellmanMajorizationObligation := by
+  intro hgapBound
+  exact frontierBMOCenteredBellmanMajorizationObligation_of_actualUpper
+    (frontierBMOCenteredActualUpperBound_of_boundaryMajorantGapCompensation
+      hgapBound)
+
+theorem frontierBMOCenteredActualUpperBound_blocker_boundaryMajorantGapCompensation :
+    frontierBMOCenteredBoundaryMajorantGapCompensationObligation →
+      frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantGapCompensation
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantJensenInequality_direct
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOCenteredBellmanMajorizationObligation := by
+  intro g hg
+  have hmajorantIntegrable :
+      IntervalIntegrable
+        (fun t : ℝ ↦ frontierMajorant (g t) ((g t) ^ 2)) volume
+          (0 : ℝ) 1 :=
+    frontierBMOCenteredBoundaryMajorantIntegrabilityObligation_unconditional g hg
+  exact le_trans
+    (frontierBMOCenteredObjectiveIntegral_le_boundaryMajorantIntegral
+      g hg.2.2.1 hmajorantIntegrable)
+    (frontierBMOCenteredBoundaryMajorant_center_bound_of_jensenInequalityObligation
+      hjensen g hg)
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantJensenInequality
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOCenteredBellmanMajorizationObligation := by
+  exact
+    frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantJensenInequality_direct
+      hjensen
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_unconditional_reduction_to_boundaryMajorantJensenInequality :
+    frontierBMOCenteredBoundaryMajorantJensenInequalityObligation →
+      frontierBMOCenteredBellmanMajorizationObligation := by
+  exact frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantJensenInequality
+
+theorem frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensenInequality_unconditional
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensenInequality
+    hjensen
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_reduction_to_boundaryMajorantJensenInequality :
+    frontierBMOCenteredBoundaryMajorantJensenInequalityObligation →
+      frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensenInequality
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_of_boundaryMajorantJensenCenterBound
+    (hjensen :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+          frontierMajorant
+            (frontierBMOOriginalMeanIntegral g)
+            (frontierBMOOriginalSecondMomentIntegral g)) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensenInequality
+    hjensen
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_reduction_to_boundaryMajorantGapCompensation :
+    frontierBMOCenteredBoundaryMajorantGapCompensationObligation →
+      frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantGapCompensation
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_reduction_to_gap_center_bound :
+    (∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+      frontierBMOCenteredObjectiveIntegral g +
+          (∫ t in (0 : ℝ)..1,
+            frontierMajorant (g t) ((g t) ^ 2) - frontierPhi (g t)) ≤
+        frontierMajorant 0 (1 / 12 : ℝ)) →
+      frontierBMOCenteredActualUpperBound := by
+  intro hgap
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantGapCompensation
+    (frontierBMOCenteredBoundaryMajorantGapCompensationObligation_iff_center_bound.mpr
+      hgap)
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_reduction_to_boundaryMajorantCenterBound :
+    frontierBMOCenteredBoundaryMajorantCenterBoundObligation →
+      frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantCenterBound
+
+theorem frontierBMOCenteredActualUpperBound_of_boundaryMajorantIntegralCenterBound
+    (hbound :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+          frontierMajorant 0 (1 / 12 : ℝ)) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantCenterBound
+    (frontierBMOCenteredBoundaryMajorantCenterBoundObligation_of_boundaryMajorantIntegral_bound
+      hbound)
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_reduction_to_boundaryMajorantIntegralCenterBound :
+    (∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+      (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+        frontierMajorant 0 (1 / 12 : ℝ)) →
+      frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantIntegralCenterBound
+
+theorem frontierBMOCenteredActualUpperBound_of_boundaryMajorantIntegralObligation
+    (hboundary : frontierBMOCenteredBoundaryMajorantIntegralObligation) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_centeredBellmanMajorization
+    (frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantIntegral
+      hboundary)
+
+theorem frontierBMOCenteredActualUpperBound_unconditional_reduction_to_boundaryMajorantIntegralObligation :
+    frontierBMOCenteredBoundaryMajorantIntegralObligation →
+      frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantIntegralObligation
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantIntegralComponents
+    (hmajorantIntegrable :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        IntervalIntegrable
+          (fun t : ℝ ↦ frontierMajorant (g t) ((g t) ^ 2)) volume
+            (0 : ℝ) 1)
+    (hmajorantBound :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+          frontierMajorant 0 (1 / 12 : ℝ)) :
+    frontierBMOCenteredBellmanMajorizationObligation := by
+  exact frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantIntegral
+    ⟨hmajorantIntegrable, hmajorantBound⟩
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantIntegralCenterBound
+    (hmajorantBound :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+          frontierMajorant 0 (1 / 12 : ℝ)) :
+    frontierBMOCenteredBellmanMajorizationObligation := by
+  exact frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantIntegralComponents
+    frontierBMOCenteredBoundaryMajorantIntegrabilityObligation_unconditional
+    hmajorantBound
+
+theorem frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantIntegralCenterBoundObligation
+    (hmajorantBound :
+      frontierBMOCenteredBoundaryMajorantIntegralCenterBoundObligation) :
+    frontierBMOCenteredBellmanMajorizationObligation := by
+  exact
+    frontierBMOCenteredBellmanMajorizationObligation_of_boundaryMajorantIntegralCenterBound
+      hmajorantBound
+
+theorem frontierBMOCenteredActualUpperBound_of_boundaryMajorantIntegralComponents
+    (hmajorantIntegrable :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        IntervalIntegrable
+          (fun t : ℝ ↦ frontierMajorant (g t) ((g t) ^ 2)) volume
+            (0 : ℝ) 1)
+    (hmajorantBound :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+          frontierMajorant 0 (1 / 12 : ℝ)) :
+    frontierBMOCenteredActualUpperBound := by
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantIntegralObligation
+    ⟨hmajorantIntegrable, hmajorantBound⟩
 
 theorem frontierStoppedLogCupObjective_mem_centered_objectiveSet_of_optimizer
     (g : ℝ → ℝ)
@@ -8307,6 +9578,75 @@ theorem frontier_bmo_public_sample_original_unconditional_reduction_to_actual_ob
   intro hupper hlower
   exact frontier_bmo_public_sample_original_unconditional_from_centered_obligations
     hupper hlower
+
+theorem frontier_bmo_public_sample_original_unconditional_of_centered_upper
+    (hupper : frontierBMOCenteredActualUpperBound) :
+    frontierBMOOriginalFunctionBenchmarkValue = frontierBMOPublicAnswer := by
+  exact frontier_bmo_public_sample_original_unconditional_from_centered_obligations
+    hupper frontierStoppedLogCupObjective_mem_centered_objectiveSet
+
+theorem frontier_bmo_public_sample_original_unconditional_of_centered_majorant_integral_bound
+    (hmajorization :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        frontierBMOCenteredObjectiveIntegral g ≤ frontierMajorant 0 (1 / 12 : ℝ)) :
+    frontierBMOOriginalFunctionBenchmarkValue = frontierBMOPublicAnswer := by
+  exact frontier_bmo_public_sample_original_unconditional_of_centered_upper
+    (frontierBMOCenteredActualUpperBound_of_majorant_integral_bound hmajorization)
+
+theorem frontier_bmo_public_sample_original_unconditional_of_centeredBellmanMajorization
+    (hmajorization : frontierBMOCenteredBellmanMajorizationObligation) :
+    frontierBMOOriginalFunctionBenchmarkValue = frontierBMOPublicAnswer := by
+  exact frontier_bmo_public_sample_original_unconditional_of_centered_upper
+    (frontierBMOCenteredActualUpperBound_of_centeredBellmanMajorization hmajorization)
+
+theorem frontier_bmo_public_sample_original_unconditional_of_unboundedNonsmoothBellmanUpper
+    (hupper : frontierUnboundedNonsmoothBellmanUpperObligation) :
+    frontierBMOOriginalFunctionBenchmarkValue = frontierBMOPublicAnswer := by
+  exact frontier_bmo_public_sample_original_unconditional_of_centered_upper
+    (frontierBMOCenteredActualUpperBound_of_unboundedNonsmoothBellmanUpper
+      hupper)
+
+theorem frontierBMOOriginalActualUpperBound_of_boundaryMajorantJensenInequality
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOOriginalActualUpperBound := by
+  exact frontierBMOOriginalActualUpperBound_of_centered_upper
+    (frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensenInequality
+      hjensen)
+
+theorem frontier_bmo_public_sample_original_unconditional_of_boundaryMajorantJensenInequality
+    (hjensen : frontierBMOCenteredBoundaryMajorantJensenInequalityObligation) :
+    frontierBMOOriginalFunctionBenchmarkValue = frontierBMOPublicAnswer := by
+  exact frontier_bmo_public_sample_original_unconditional_of_centered_upper
+    (frontierBMOCenteredActualUpperBound_of_boundaryMajorantJensenInequality
+      hjensen)
+
+theorem frontierBMOCenteredActualUpperBound_reduction_to_boundaryMajorantIntegral_bound :
+    (∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+      IntervalIntegrable
+        (fun t : ℝ ↦ frontierMajorant (g t) ((g t) ^ 2)) volume
+          (0 : ℝ) 1) →
+    (∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+      (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+        frontierMajorant 0 (1 / 12 : ℝ)) →
+    frontierBMOCenteredActualUpperBound := by
+  intro hmajorantIntegrable hmajorantBound
+  exact frontierBMOCenteredActualUpperBound_of_boundaryMajorantIntegral_bound
+    hmajorantIntegrable hmajorantBound
+
+theorem frontier_bmo_public_sample_original_unconditional_of_boundaryMajorantIntegral_bound
+    (hmajorantIntegrable :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        IntervalIntegrable
+          (fun t : ℝ ↦ frontierMajorant (g t) ((g t) ^ 2)) volume
+            (0 : ℝ) 1)
+    (hmajorantBound :
+      ∀ g : ℝ → ℝ, frontierBMOCenteredFunctionAdmissible g →
+        (∫ t in (0 : ℝ)..1, frontierMajorant (g t) ((g t) ^ 2)) ≤
+          frontierMajorant 0 (1 / 12 : ℝ)) :
+    frontierBMOOriginalFunctionBenchmarkValue = frontierBMOPublicAnswer := by
+  exact frontier_bmo_public_sample_original_unconditional_of_centered_upper
+    (frontierBMOCenteredActualUpperBound_of_boundaryMajorantIntegral_bound
+      hmajorantIntegrable hmajorantBound)
 
 theorem frontier_bmo_public_sample_original_unconditional_missing_lower_obligation :
     frontierStoppedLogCupObjective = frontierBMOPublicAnswer ∧
