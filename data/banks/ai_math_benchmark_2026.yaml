@@ -1,0 +1,531 @@
+- problem_id: ai-imo-2024-p1-alphaproof
+  title: IMO 2024 Problem 1, AlphaProof-Reproducibility Target
+  source: Google DeepMind AlphaProof / IMO 2024
+  statement: Reconstruct the formal Lean theorem and proof route for IMO 2024 Problem 1, one of the non-geometry problems solved by AlphaProof after expert Lean formalization.
+  domain: olympiad
+  tags:
+  - ai_math_benchmark
+  - alphaproof
+  - imo_2024
+  - lean
+  - formal_proof
+  - tier_1_reproduce_public_result
+  open_problem: false
+  formalized: yes_external
+  notes: >
+    AlphaProof solved IMO 2024 P1 in Lean as part of the 4/6 silver-medal
+    result. Use this as a controlled reproduction target: ara-math must not
+    assume the final proof script, but may use public statements after the
+    benchmark attempt is declared.
+  references:
+  - https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/
+  - https://www.nature.com/articles/s41586-025-09833-y
+  hypotheses:
+  - Human experts manually formalized the IMO 2024 non-geometry problem statements in Lean for the AlphaProof evaluation.
+  recommended_strategy:
+  - First recover the official IMO natural-language statement and a Lean theorem header.
+  - Build a dependency graph of needed mathlib facts before proof search.
+  - Treat success as a no-sorry Lean proof of the theorem header in a fresh local workspace.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_1_reproduce_public_formal_result
+    known_ai_systems:
+    - AlphaProof
+    proof_mode: Lean proof search after expert formalization
+    expected_ara_output:
+    - Lean theorem header
+    - passing Lean proof
+    - source-independent proof log
+
+- problem_id: ai-imo-2024-p2-alphaproof
+  title: IMO 2024 Problem 2, AlphaProof-Reproducibility Target
+  source: Google DeepMind AlphaProof / IMO 2024
+  statement: Reconstruct the formal Lean theorem and proof route for IMO 2024 Problem 2, the number-theory problem solved by AlphaProof.
+  domain: number_theory
+  tags:
+  - ai_math_benchmark
+  - alphaproof
+  - imo_2024
+  - number_theory
+  - lean
+  - formal_proof
+  open_problem: false
+  formalized: yes_external
+  notes: This case tests whether ara-math can do competition-level number theory once the statement is formalized, without relying on a vendor proof trace.
+  references:
+  - https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/
+  - https://www.nature.com/articles/s41586-025-09833-y
+  hypotheses:
+  - Official statement recovery and theorem-header formalization are part of the benchmark.
+  recommended_strategy:
+  - Separate statement formalization from proof search.
+  - Run small lemma discovery around divisibility and modular arithmetic.
+  - Audit any generated theorem for hidden answer leakage from the formalized statement.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_1_reproduce_public_formal_result
+    known_ai_systems:
+    - AlphaProof
+    proof_mode: Lean proof search
+
+- problem_id: ai-imo-2024-p4-alphageometry2
+  title: IMO 2024 Problem 4, AlphaGeometry2 Geometry Target
+  source: Google DeepMind AlphaGeometry2 / IMO 2024
+  statement: Reconstruct the geometry theorem and proof route for IMO 2024 Problem 4, which AlphaGeometry2 solved after formalization.
+  domain: geometry
+  tags:
+  - ai_math_benchmark
+  - alphageometry2
+  - imo_2024
+  - geometry
+  - formal_geometry
+  - tier_2_specialized_geometry
+  open_problem: false
+  formalized: yes_external
+  notes: This is a specialized-geometry benchmark rather than a general Lean benchmark; ara-math should expose whether it lacks a geometry engine comparable to AlphaGeometry2.
+  references:
+  - https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/
+  - https://arxiv.org/abs/2502.03544
+  hypotheses:
+  - A faithful geometry formalization language or a Lean geometry encoding is required.
+  recommended_strategy:
+  - Treat as a capability-gap benchmark unless a geometry prover is integrated.
+  - Record failure modes separately from general Lean failures.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_2_specialized_geometry
+    known_ai_systems:
+    - AlphaGeometry2
+    proof_mode: symbolic geometry solver plus formal language
+
+- problem_id: ai-imo-2024-p6-alphaproof
+  title: IMO 2024 Problem 6, AlphaProof Hard Algebra Target
+  source: Google DeepMind AlphaProof / IMO 2024
+  statement: Reconstruct the formal Lean theorem and proof route for IMO 2024 Problem 6, the hardest IMO 2024 problem solved by AlphaProof.
+  domain: algebra
+  tags:
+  - ai_math_benchmark
+  - alphaproof
+  - imo_2024
+  - algebra
+  - lean
+  - formal_proof
+  - hard_olympiad
+  open_problem: false
+  formalized: yes_external
+  notes: >
+    AlphaProof reports solving IMO 2024 P6 as part of the live IMO evaluation.
+    This is the hardest competition-style AlphaProof reproduction case in the
+    suite and should be run only after easier statement-recovery and Lean-repair
+    cases are passing.
+  references:
+  - https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/
+  - https://www.nature.com/articles/s41586-025-09833-y
+  - https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/imo-2024-solutions/index.html
+  hypotheses:
+  - Human experts manually formalized the problem statement before AlphaProof proof search.
+  recommended_strategy:
+  - Recover the official statement and theorem header before proof search.
+  - Require a proof route and dependency graph before launching a long Lean run.
+  - Compare ara-math's route to public AlphaProof material only after the independence pass.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_1_reproduce_public_formal_result
+    known_ai_systems:
+    - AlphaProof
+    proof_mode: Lean proof search after expert formalization
+    expected_ara_output:
+    - Lean theorem header
+    - passing Lean proof
+    - hard-case failure analysis if proof search does not close
+
+- problem_id: ai-firstproof-04-free-convolution
+  title: FirstProof Problem 4, Finite Free Convolution Inequality
+  source: First Proof / OpenAI proof attempts
+  statement: For monic real-rooted degree-n polynomials, analyze the finite free additive convolution and prove or disprove the reciprocal Phi inequality from FirstProof Problem 4.
+  domain: algebraic_combinatorics
+  tags:
+  - ai_math_benchmark
+  - firstproof
+  - openai
+  - research_level
+  - natural_language_proof
+  - formalization_candidate
+  open_problem: false
+  formalized: no
+  notes: OpenAI reported this as one of the FirstProof attempts likely to be correct after expert feedback. It is valuable because the problem is research-level but self-contained enough to attempt source-first formalization.
+  references:
+  - https://1stproof.org/first-batch.html
+  - https://arxiv.org/abs/2602.05192
+  - https://openai.com/index/first-proof-submissions/
+  hypotheses:
+  - The benchmark should use the official FirstProof statement as the source of truth.
+  - Public solutions must be withheld during an independence run.
+  recommended_strategy:
+  - Ask ara-math for a theorem statement and a proof plan before any Lean work.
+  - Identify whether mathlib contains the needed real-rooted polynomial and finite convolution infrastructure.
+  - If Lean formalization is infeasible, record the exact missing library layer.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_2_research_level_informal_to_formal
+    known_ai_systems:
+    - OpenAI internal reasoning model
+    proof_mode: expert-reviewed natural-language proof attempt
+
+- problem_id: ai-firstproof-06-light-subset
+  title: FirstProof Problem 6, Light Subset in Graph Laplacian
+  source: First Proof / OpenAI and Aletheia evaluations
+  statement: For a finite graph and epsilon in [0,1], prove or disprove the existence of a large vertex subset whose induced-edge Laplacian is bounded by epsilon times the full Laplacian.
+  domain: spectral_graph_theory
+  tags:
+  - ai_math_benchmark
+  - firstproof
+  - spectral_graph_theory
+  - openai
+  - aletheia
+  - formalization_candidate
+  open_problem: false
+  formalized: no
+  notes: OpenAI listed Problem 6 among its likely-correct FirstProof attempts. This is a strong ara-math target because it is research-level but closer to finite linear algebra than deep analytic infrastructure.
+  references:
+  - https://1stproof.org/first-batch.html
+  - https://arxiv.org/abs/2602.05192
+  - https://openai.com/index/first-proof-submissions/
+  hypotheses:
+  - Use the official FirstProof statement for constants and quantifiers.
+  recommended_strategy:
+  - Formalize finite graphs, induced-edge Laplacians, and PSD order first.
+  - Attempt an informal proof independently, then convert only stable lemmas to Lean.
+  - Compare against released FirstProof commentary only after an initial ara-math run.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_2_research_level_informal_to_formal
+    known_ai_systems:
+    - OpenAI internal reasoning model
+    - Aletheia context baseline
+    proof_mode: natural-language proof with possible Lean formalization
+
+- problem_id: ai-firstproof-10-aletheia
+  title: FirstProof Problem 10, Aletheia-Solved Research Target
+  source: Google DeepMind Aletheia / First Proof
+  statement: Reproduce a full proof and formalization plan for FirstProof Problem 10, one of the problems Aletheia reports solving autonomously by majority expert assessment.
+  domain: research_mathematics
+  tags:
+  - ai_math_benchmark
+  - firstproof
+  - aletheia
+  - gemini_deep_think
+  - research_level
+  - natural_language_proof
+  open_problem: false
+  formalized: no
+  notes: Aletheia reports autonomous solutions for FirstProof Problems 2, 5, 7, 8, 9, and 10. This entry keeps one high-end target in the local suite without copying the long official statement.
+  references:
+  - https://arxiv.org/abs/2602.21201
+  - https://github.com/google-deepmind/superhuman/tree/main/aletheia
+  - https://1stproof.org/first-batch.html
+  hypotheses:
+  - The exact problem statement must be pulled from the FirstProof paper before a run.
+  - Public Aletheia transcripts are forbidden during the first independence attempt.
+  recommended_strategy:
+  - Run as a pure proof-discovery benchmark before any Lean formalization attempt.
+  - Require source citations and a human-auditable dependency chain.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_3_research_agent_baseline
+    known_ai_systems:
+    - Aletheia
+    proof_mode: autonomous natural-language research proof with expert assessment
+
+- problem_id: ai-seed-prover-imo-2025-formal-suite
+  title: IMO 2025 Formal Suite, Seed-Prover 1.5 Reproduction Target
+  source: ByteDance Seed-Prover 1.5 / IMO 2025
+  statement: Reproduce one formal Lean proof from the first five IMO 2025 problems reported solved by Seed-Prover 1.5 after human expert translation into formal statements.
+  domain: olympiad
+  tags:
+  - ai_math_benchmark
+  - seed_prover
+  - imo_2025
+  - lean
+  - formal_proof
+  - theorem_proving_model
+  open_problem: false
+  formalized: yes_external
+  notes: ByteDance reports Seed-Prover 1.5 generated complete compilable Lean proofs for the first five IMO 2025 problems within 16.5 hours; the repository notes human formalization of contest statements.
+  references:
+  - https://seed.bytedance.com/en/blog/seed-prover-1-5-advanced-mathematical-reasoning-through-a-novel-agentic-architecture
+  - https://arxiv.org/abs/2512.17260
+  - https://github.com/ByteDance-Seed/Seed-Prover
+  hypotheses:
+  - Use one problem at a time; require a fixed Lean theorem header before proof search.
+  recommended_strategy:
+  - Benchmark ara-math against a formal-statement-to-proof task, not natural-language autoformalization.
+  - Measure pass rate under a fixed time budget and record Lean diagnostics.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_1_reproduce_public_formal_result
+    known_ai_systems:
+    - Seed-Prover 1.5
+    proof_mode: formal Lean proof generation with verifier feedback
+
+- problem_id: ai-erdos-728-factorial-divisibility
+  title: "Erdős Problem #728, Factorial Divisibility Construction"
+  source: Erdős Problems / GPT-5.2 Pro / Aristotle
+  statement: >
+    Prove the intended affirmative construction for Erdős #728: infinitely many
+    factorial divisibility examples with a+b-n growing logarithmically while a
+    and b remain proportional to n under the intended nontrivial constraints.
+  domain: number_theory
+  tags:
+  - ai_math_benchmark
+  - erdos_problem
+  - gpt
+  - aristotle
+  - lean
+  - factorials
+  open_problem: false
+  formalized: yes_external
+  notes: >
+    The writeup describes GPT-5.2 Pro plus Aristotle producing a Lean proof,
+    operated by Kevin Barreto. The Erdős page marks #728 as PROVED (LEAN),
+    while also noting ambiguity in the original statement.
+  references:
+  - https://www.erdosproblems.com/728
+  - https://arxiv.org/abs/2601.07421
+  - https://github.com/teorth/erdosproblems/wiki/AI-contributions-to-Erd%C5%91s-problems
+  hypotheses:
+  - Use the precise formalized version, not the ambiguous original wording.
+  recommended_strategy:
+  - First formalize Legendre valuations and factorial divisibility lemmas.
+  - Treat the construction and parameter quantifiers as the primary source of difficulty.
+  - Compare against the public Lean proof only after ara-math produces an independent attempt.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_1_reproduce_ai_lean_result
+    known_ai_systems:
+    - GPT-5.2 Pro
+    - Aristotle
+    proof_mode: AI-generated proof formalized in Lean
+
+- problem_id: ai-erdos-650-distinct-multiples
+  title: "Erdős Problem #650, Matching Integers to Distinct Multiples"
+  source: Erdős Problems / ChatGPT / Aristotle
+  statement: Determine the sharp value of the function f(m) governing how many distinct multiples of a set of m integers must occur in every interval of length 2N.
+  domain: number_theory
+  tags:
+  - ai_math_benchmark
+  - erdos_problem
+  - chatgpt
+  - aristotle
+  - lean
+  - combinatorial_number_theory
+  open_problem: false
+  formalized: partial_external
+  notes: The arXiv paper reports a ChatGPT-proposed strategy and a detailed argument made rigorous and Lean-verified by Aristotle; the Erdős page states the sharp formula now known.
+  references:
+  - https://www.erdosproblems.com/650
+  - https://arxiv.org/abs/2603.28636
+  hypotheses:
+  - The benchmark should split upper and lower bounds; full sharp equality may be too broad for one run.
+  recommended_strategy:
+  - Start with the upper bound f(m) <= ceil(2 sqrt m).
+  - Formalize finite matching/counting lemmas before asymptotic statements.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_2_ai_assisted_open_problem
+    known_ai_systems:
+    - ChatGPT
+    - Aristotle
+    proof_mode: AI strategy, Lean-verified formal proof, human-written exposition
+
+- problem_id: ai-erdos-1026-weighted-erdos-szekeres
+  title: "Erdős Problem #1026, Weighted Erdős-Szekeres Monotone Subsequence"
+  source: Erdős Problems / Aristotle
+  statement: Prove the weighted Erdős-Szekeres consequence that a positive sequence of length k^2 and total mass 1 has a monotone subsequence with sum at least 1/k.
+  domain: combinatorics
+  tags:
+  - ai_math_benchmark
+  - erdos_problem
+  - aristotle
+  - lean
+  - erdos_szekeres
+  - formalization_candidate
+  open_problem: false
+  formalized: partial_external
+  notes: The Erdős page says an Aristotle-formalized proof and an alternative human proof establish the sharpened constant c=1 for the clarified formulation.
+  references:
+  - https://www.erdosproblems.com/1026
+  - https://github.com/teorth/erdosproblems/wiki/AI-contributions-to-Erd%C5%91s-problems
+  hypotheses:
+  - Use the clarified weighted formulation rather than the ambiguous original statement.
+  recommended_strategy:
+  - Formalize finite sequences, monotone subsequences, and weighted pigeonhole/partition lemmas.
+  - This should be one of the first ara-math open-problem reproduction tests because the core theorem is finite combinatorics.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_1_reproduce_ai_lean_result
+    known_ai_systems:
+    - Aristotle
+    proof_mode: Lean formalization of clarified finite combinatorics theorem
+
+- problem_id: ai-erdos-347-complete-subsequence-density
+  title: "Erdős Problem #347, Complete Cofinite Subsequence Density"
+  source: Erdős Problems / Aristotle / Claude / Codex / GPT
+  statement: Construct an integer sequence with ratio tending to 2 such that the finite-subset-sum set of every cofinite subsequence has asymptotic density 1.
+  domain: number_theory
+  tags:
+  - ai_math_benchmark
+  - erdos_problem
+  - aristotle
+  - claude
+  - codex
+  - gpt
+  - lean
+  - complete_sequences
+  open_problem: false
+  formalized: yes_external
+  notes: The Erdős page marks the problem PROVED (LEAN); the AI contributions wiki lists a multi-person, multi-tool workflow using Aristotle, Claude Opus, Codex, and GPT.
+  references:
+  - https://www.erdosproblems.com/347
+  - https://github.com/teorth/erdosproblems/wiki/AI-contributions-to-Erd%C5%91s-problems
+  hypotheses:
+  - Use a precise density and cofinite-subsequence formalization.
+  recommended_strategy:
+  - Split construction, ratio limit, cofinite stability, and density proof into separate claims.
+  - Compare ara-math behavior against the multi-agent human-in-the-loop pattern.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_2_multi_agent_open_problem
+    known_ai_systems:
+    - Aristotle
+    - Claude Opus
+    - Codex
+    - GPT
+    proof_mode: human-AI collaboration with Lean verification
+
+- problem_id: ai-erdos-1196-primitive-sets
+  title: "Erdős Problem #1196, Primitive Set Reciprocal Log Bound"
+  source: Erdős Problems / GPT-5.4 Pro
+  statement: Prove the asymptotic upper bound near 1 for sums of 1/(a log a) over primitive integer sets restricted to large elements.
+  domain: number_theory
+  tags:
+  - ai_math_benchmark
+  - erdos_problem
+  - gpt
+  - primitive_sets
+  - analytic_number_theory
+  - lean
+  open_problem: false
+  formalized: yes_external
+  notes: The Erdős page marks the problem PROVED (LEAN) and attributes a solution to GPT-5.4 Pro prompted by Price; it is substantially harder than the finite-combinatorics entries.
+  references:
+  - https://www.erdosproblems.com/1196
+  - https://github.com/teorth/erdosproblems/wiki/AI-contributions-to-Erd%C5%91s-problems
+  hypotheses:
+  - Requires analytic number theory infrastructure and careful asymptotic formalization.
+  recommended_strategy:
+  - Use as a stretch benchmark after ara-math succeeds on finite Erdős entries.
+  - Record missing analytic infrastructure explicitly.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_3_stretch_ai_open_problem
+    known_ai_systems:
+    - GPT-5.4 Pro
+    proof_mode: AI-assisted proof with external Lean formalization signal
+
+- problem_id: ai-gauss-strong-pnt
+  title: Strong Prime Number Theorem Formalization
+  source: Math Inc. Gauss
+  statement: Reproduce a meaningful slice of the Gauss-assisted Lean formalization of the strong Prime Number Theorem, including one missing complex-analysis infrastructure theorem.
+  domain: analytic_number_theory
+  tags:
+  - ai_math_benchmark
+  - gauss
+  - math_inc
+  - autoformalization
+  - lean
+  - strong_pnt
+  - formalization_marathon
+  open_problem: false
+  formalized: yes_external
+  notes: Math Inc. reports that Gauss completed a roughly 25k-line Lean development with over 1k theorems/definitions in three weeks using human scaffolding and massive parallel Lean environments. The full project is too large for one ara-math run; use slices.
+  references:
+  - https://www.math.inc/gauss
+  - https://github.com/math-inc/strongpnt
+  - https://math-inc.github.io/strongpnt/
+  hypotheses:
+  - Benchmark should select one named theorem from the public StrongPNT repository rather than the whole project.
+  recommended_strategy:
+  - Clone or vendor only the theorem statement and local dependencies needed for a slice.
+  - Measure ara-math on theorem-statement recovery, dependency discovery, and Lean closure separately.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_4_large_scale_formalization_slice
+    known_ai_systems:
+    - Gauss
+    proof_mode: human-scaffolded agentic Lean autoformalization
+
+- problem_id: ai-gauss-sphere-packing-slice
+  title: Sphere Packing Formalization Slice, Dimensions 8 and 24
+  source: Math Inc. Gauss / Sphere Packing in Lean
+  statement: Reproduce a selected theorem slice from the Lean formalization of Viazovska's dimension-8 sphere packing theorem or the Leech lattice dimension-24 extension.
+  domain: discrete_geometry
+  tags:
+  - ai_math_benchmark
+  - gauss
+  - sphere_packing
+  - lean
+  - fields_medal_result
+  - formalization_marathon
+  open_problem: false
+  formalized: yes_external
+  notes: Math Inc. reports Gauss completed the remaining dimension-8 formalization in five days and then produced the dimension-24 case in two weeks, growing the development to roughly 200k lines.
+  references:
+  - https://www.math.inc/sphere-packing
+  - https://actu.epfl.ch/news/prof-viazovska-s-proofs-of-sphere-packing-formaliz/
+  hypotheses:
+  - Full reproduction is unrealistic for ara-math today; select one isolated lemma with public dependencies.
+  recommended_strategy:
+  - Use as a stress test for blueprint-to-Lean formalization, not as an initial proof-discovery task.
+  - Require explicit dependency closure and build-time budget reporting.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_4_large_scale_formalization_slice
+    known_ai_systems:
+    - Gauss
+    proof_mode: AI-assisted large Lean formalization with human maintainers
+
+- problem_id: ai-vml-equilibrium-formalization
+  title: Vlasov-Maxwell-Landau Equilibrium Semi-Autonomous Formalization
+  source: AI-assisted mathematical physics formalization
+  statement: Reproduce a tractable lemma slice from the Vlasov-Maxwell-Landau equilibrium formalization workflow that used Gemini DeepThink, Claude Code, Aristotle, and Lean.
+  domain: mathematical_physics
+  tags:
+  - ai_math_benchmark
+  - gemini
+  - claude_code
+  - aristotle
+  - lean
+  - mathematical_physics
+  - formalization_candidate
+  open_problem: false
+  formalized: yes_external
+  notes: >
+    The arXiv abstract describes a full AI-assisted loop: Gemini DeepThink
+    generated the proof, Claude Code translated natural-language prompts into
+    Lean, Aristotle closed 111 lemmas, and Lean verified the result.
+  references:
+  - https://arxiv.org/abs/2603.15929
+  hypotheses:
+  - The benchmark should use a small exported lemma rather than the full physics theorem.
+  recommended_strategy:
+  - Evaluate whether ara-math can coordinate proof generation, Lean translation, and lemma repair without human steering.
+  - Keep tool-use transcripts for autonomy scoring.
+  metadata:
+    benchmark_suite: ai_math_2026
+    benchmark_tier: tier_3_human_ai_workflow_reproduction
+    known_ai_systems:
+    - Gemini DeepThink
+    - Claude Code
+    - Aristotle
+    proof_mode: semi-autonomous AI-to-Lean workflow

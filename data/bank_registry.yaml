@@ -93,3 +93,20 @@
   - carmichael_numbers
   - starter_theorem
   synced_at: '2026-04-21T13:26:20+00:00'
+- name: ai_math_benchmark_2026
+  path: /home/biostar/work/projects/ara-math/data/banks/ai_math_benchmark_2026.yaml
+  description: Curated 2025-2026 AI mathematics benchmark cases from AlphaProof,
+    AlphaGeometry2, Gemini/Aletheia, Aristotle, Gauss, GPT, Claude Code, and
+    public Lean-formalized Erdős problem workflows.
+  category: ai_math_benchmark
+  problem_count: 16
+  provenance: Public AI mathematics announcements, papers, repositories, FirstProof,
+    and Erdős Problems pages surveyed on 2026-05-14.
+  focus_tags:
+  - ai_math_benchmark
+  - lean
+  - formalization_candidate
+  - erdos_problem
+  - firstproof
+  - autoformalization
+  synced_at: '2026-05-14T00:00:00+08:00'

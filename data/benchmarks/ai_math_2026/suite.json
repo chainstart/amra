@@ -1,0 +1,56 @@
+{
+  "suite_id": "ai_math_2026",
+  "generated_at": "2026-05-14T00:00:00+08:00",
+  "problem_bank": "data/banks/ai_math_benchmark_2026.yaml",
+  "registry_name": "ai_math_benchmark_2026",
+  "purpose": "Evaluate whether ara-math can independently reproduce AI-assisted mathematics results as verified proofs or auditable proof plans.",
+  "independence_policy": {
+    "first_pass_allowed": [
+      "public problem statement",
+      "bibliographic metadata",
+      "local mathlib and Lean documentation",
+      "ara-math generated notes"
+    ],
+    "first_pass_forbidden": [
+      "released Lean proof scripts",
+      "author solution PDFs",
+      "Aletheia raw transcripts",
+      "Gauss-generated source files",
+      "Aristotle final proof outputs"
+    ],
+    "second_pass": "After a failed first pass, allow source-assisted proof reconstruction and compare route choices."
+  },
+  "success_contract": {
+    "formal_success": [
+      "target theorem exists",
+      "lake build passes",
+      "no sorry/admit/axiom/constant/opaque/placeholders",
+      "proof log identifies all nontrivial external facts"
+    ],
+    "partial_success": [
+      "valid Lean theorem header",
+      "verified nontrivial lemma that is on the dependency path",
+      "explicit blocker with missing library theorem or false route diagnosis"
+    ],
+    "failure_modes_to_record": [
+      "false intermediate theorem",
+      "only wrapper reductions added",
+      "statement formalization drift",
+      "missing mathlib infrastructure",
+      "timeout without verified progress"
+    ]
+  },
+  "recommended_initial_cases": [
+    "ai-erdos-1026-weighted-erdos-szekeres",
+    "ai-erdos-728-factorial-divisibility",
+    "ai-firstproof-06-light-subset",
+    "ai-seed-prover-imo-2025-formal-suite"
+  ],
+  "stretch_cases": [
+    "ai-imo-2024-p6-alphaproof",
+    "ai-erdos-1196-primitive-sets",
+    "ai-gauss-strong-pnt",
+    "ai-gauss-sphere-packing-slice",
+    "ai-vml-equilibrium-formalization"
+  ]
+}
