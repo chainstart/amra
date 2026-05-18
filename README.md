@@ -1,13 +1,13 @@
 # ARA Math
 
-`ara-math` is a separate mathematics research automation system focused on:
+`AMRA` is a separate mathematics research automation system focused on:
 
 - problem selection from structured math problem banks
 - proof planning via claim and lemma decomposition
 - Lean 4 project bootstrapping and build diagnostics
 - workspace-first research execution with explicit artifacts
 
-It is intentionally separate from the ML-oriented `auto-research-agent` repository. The long-term goal is to share only small infrastructure pieces such as status logging and project viewers, not to force math workflows into the ML pipeline.
+It is intentionally separate from the ML-oriented `ara` repository. The long-term goal is to share only small infrastructure pieces such as status logging and project viewers, not to force math workflows into the ML pipeline.
 
 ## Initial Version
 
@@ -45,7 +45,7 @@ It does **not** yet implement:
 ## Repository Layout
 
 ```text
-ara-math/
+amra/
 ├── data/
 │   └── problem_bank.yaml
 ├── src/ara_math/
@@ -69,7 +69,7 @@ ara-math/
 ## Quick Start
 
 ```bash
-cd /home/biostar/work/projects/ara-math
+cd /home/biostar/work/projects/amra
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
@@ -107,21 +107,21 @@ python3 run.py scout-bank \
   --bank-name erdos_open_637 \
   --formal-math-root /home/biostar/work/projects/formal-math \
   --top-k 12 \
-  --output /home/biostar/work/projects/ara-math/artifacts/erdos_open_scouting.json
+  --output /home/biostar/work/projects/amra/artifacts/erdos_open_scouting.json
 ```
 
 Harvest local or remote reference material for a project before planning:
 
 ```bash
 python3 run.py harvest-literature \
-  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-shortlist-20260421
+  --project /home/biostar/work/projects/amra/projects/erdos-1052-shortlist-20260421
 ```
 
 Enable remote URL fetching when you want the system to inspect web references directly:
 
 ```bash
 python3 run.py harvest-literature \
-  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-shortlist-20260421 \
+  --project /home/biostar/work/projects/amra/projects/erdos-1052-shortlist-20260421 \
   --bank-name unitary_perfect_track \
   --allow-network
 ```
@@ -142,7 +142,7 @@ Supply the exact mathematical statement before serious proof work:
 
 ```bash
 python3 run.py set-statement \
-  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421 \
+  --project /home/biostar/work/projects/amra/projects/erdos-1052-20260421 \
   --statement-file /path/to/exact_statement.md \
   --source "manual curation"
 ```
@@ -151,7 +151,7 @@ Override the deliverable type when human judgment should take precedence over th
 
 ```bash
 python3 run.py set-deliverable \
-  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421 \
+  --project /home/biostar/work/projects/amra/projects/erdos-1052-20260421 \
   --mode research_report \
   --reason "This result is useful, but it does not justify a paper workflow."
 ```
@@ -159,19 +159,19 @@ python3 run.py set-deliverable \
 Generate a proof plan:
 
 ```bash
-python3 run.py plan --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
+python3 run.py plan --project /home/biostar/work/projects/amra/projects/erdos-1052-20260421
 ```
 
 Generate Lean claim stubs and formalization artifacts:
 
 ```bash
-python3 run.py prepare-formal --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
+python3 run.py prepare-formal --project /home/biostar/work/projects/amra/projects/erdos-1052-20260421
 ```
 
 Run the Lean build and audit:
 
 ```bash
-python3 run.py build-lean --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
+python3 run.py build-lean --project /home/biostar/work/projects/amra/projects/erdos-1052-20260421
 ```
 
 Run a root-goal driven proof campaign from a manifest:
@@ -199,7 +199,7 @@ The goal manifest is the durable state for this loop. Add subgoals under
 root-gap reviews after each phase, and only accepts completion when the root
 Lean target verifies.
 
-`ara-math` now runs Lean in guarded mode by default:
+`AMRA` now runs Lean in guarded mode by default:
 - it refuses cold-cache builds that would bootstrap `mathlib` from scratch
 - it lowers process priority and applies CPU / memory / process-count limits
 - it checks current system headroom before launching Lean or proof-search attempts
@@ -208,7 +208,7 @@ If you intentionally want a cold-cache build, opt in explicitly:
 
 ```bash
 python3 run.py build-lean \
-  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421 \
+  --project /home/biostar/work/projects/amra/projects/erdos-1052-20260421 \
   --allow-cold-cache
 ```
 
@@ -230,26 +230,26 @@ The default guardrails can be tuned with environment variables:
 Generate a manuscript blueprint:
 
 ```bash
-python3 run.py write-manuscript --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
+python3 run.py write-manuscript --project /home/biostar/work/projects/amra/projects/erdos-1052-20260421
 ```
 
 Run the math-specific review gate:
 
 ```bash
-python3 run.py review-project --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
+python3 run.py review-project --project /home/biostar/work/projects/amra/projects/erdos-1052-20260421
 ```
 
 Run the current end-to-end MVP pipeline:
 
 ```bash
-python3 run.py run --project /home/biostar/work/projects/ara-math/projects/erdos-1052-20260421
+python3 run.py run --project /home/biostar/work/projects/amra/projects/erdos-1052-20260421
 ```
 
 Run a math-only single-target attack loop before Lean formalization:
 
 ```bash
 python3 run.py run-math-attack \
-  --project /home/biostar/work/projects/ara-math/projects/erdos-1052-shortlist-20260421 \
+  --project /home/biostar/work/projects/amra/projects/erdos-1052-shortlist-20260421 \
   --target "Attack the branch 3 does not divide N for Erdős #1052" \
   --context-file /home/biostar/work/projects/formal-math/docs/erdos_1052_math_proof_program_2026-04-26.md \
   --context-file /home/biostar/work/projects/formal-math/docs/erdos_1052_branch3_lemma_pack_2026-04-26.md \
@@ -262,7 +262,7 @@ python3 run.py run-math-attack \
   --reasoning-effort high
 ```
 
-This stage writes `proof/math_attack/...` artifacts inside the `ara-math` project while allowing specialized local scripts from `formal-math` to serve as evidence providers. Use it when the current blocker is mathematical route discovery rather than Lean proof repair.
+This stage writes `proof/math_attack/...` artifacts inside the `AMRA` project while allowing specialized local scripts from `formal-math` to serve as evidence providers. Use it when the current blocker is mathematical route discovery rather than Lean proof repair.
 
 ## Project Outputs
 
@@ -298,13 +298,13 @@ The bundled `data/problem_bank.yaml` is small and curated. For larger local inve
 ```bash
 python3 run.py import-erdos-bank \
   --source /home/biostar/work/projects/formal-math/docs/open_problems.yaml \
-  --output /home/biostar/work/projects/ara-math/data/erdos_problem_bank.yaml
+  --output /home/biostar/work/projects/amra/data/erdos_problem_bank.yaml
 ```
 
 Then point project creation at the imported bank:
 
 ```bash
-python3 run.py new-project --bank /home/biostar/work/projects/ara-math/data/erdos_problem_bank.yaml --problem 1052
+python3 run.py new-project --bank /home/biostar/work/projects/amra/data/erdos_problem_bank.yaml --problem 1052
 ```
 
 After `sync-local-banks`, the registry includes:
@@ -321,7 +321,7 @@ After `sync-local-banks`, the registry includes:
 
 - Projects are file-system workspaces, not database rows.
 - Claims and tasks are explicit JSON artifacts.
-- Large catalogs should be scouted before project creation so ara-math attacks shortlisted problems rather than random open statements.
+- Large catalogs should be scouted before project creation so AMRA attacks shortlisted problems rather than random open statements.
 - A serious proof attempt starts with historical proof ingredients and modern tool synthesis, not with immediate Lean theorem stubs.
 - Local READMEs and optional remote URL snapshots are harvested before planning so placeholder statements can be replaced with exact targets when possible.
 - Lean verification is a first-class stage, not a final afterthought.

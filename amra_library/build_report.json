@@ -5,9 +5,9 @@
     "build",
     "+AmraLibrary:olean"
   ],
-  "workdir": "/home/biostar/work/projects/ara-math/amra_library/formal",
-  "generated_at": "2026-05-18T13:04:26+00:00",
-  "build_seconds": 0.754,
+  "workdir": "/home/biostar/work/projects/amra/amra_library/formal",
+  "generated_at": "2026-05-18T23:31:26+00:00",
+  "build_seconds": 1.588,
   "returncode": 0,
   "sorry_count": 0,
   "diagnostics": [],
@@ -18,16 +18,16 @@
     "lean": "/home/biostar/.elan/bin/lean"
   },
   "reuse_report": {
-    "target_packages_dir": "/home/biostar/work/projects/ara-math/amra_library/formal/.lake/packages",
+    "target_packages_dir": "/home/biostar/work/projects/amra/amra_library/formal/.lake/packages",
     "target_toolchain": "leanprover/lean4:v4.26.0",
     "status": "existing",
-    "selected_source": "/home/biostar/work/projects/ara-math/amra_library/formal/.lake/packages",
+    "selected_source": "/home/biostar/work/projects/amra/amra_library/formal/.lake/packages",
     "candidate_count": 0,
     "build_ready": true,
     "manifest": {
-      "target_manifest_path": "/home/biostar/work/projects/ara-math/amra_library/formal/lake-manifest.json",
+      "target_manifest_path": "/home/biostar/work/projects/amra/amra_library/formal/lake-manifest.json",
       "status": "existing",
-      "selected_source": "/home/biostar/work/projects/ara-math/amra_library/formal/lake-manifest.json",
+      "selected_source": "/home/biostar/work/projects/amra/amra_library/formal/lake-manifest.json",
       "candidate_count": 0
     },
     "local_asset_search_entries": []
@@ -45,14 +45,14 @@
   "system_guard": {
     "status": "ready",
     "snapshot": {
-      "captured_at": 1779109465,
+      "captured_at": 1779147085,
       "cpu_count": 8,
-      "load1": 0.92,
-      "load5": 1.011,
-      "load15": 1.15,
-      "load_per_cpu": 0.115,
+      "load1": 0.729,
+      "load5": 0.71,
+      "load15": 0.68,
+      "load_per_cpu": 0.091,
       "mem_total_mb": 32098.2,
-      "mem_available_mb": 30373.5
+      "mem_available_mb": 30333.0
     },
     "blockers": [],
     "thresholds": {

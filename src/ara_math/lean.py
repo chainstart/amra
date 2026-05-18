@@ -965,7 +965,7 @@ class LeanExecutor:
                 reuse_report=reuse_payload,
                 resource_policy=resource_policy,
                 system_guard=system_guard,
-                summary="Cold-cache Lean builds are disabled by default in ara-math guarded mode.",
+                summary="Cold-cache Lean builds are disabled by default in AMRA guarded mode.",
                 diagnostics=diagnostics,
             )
 

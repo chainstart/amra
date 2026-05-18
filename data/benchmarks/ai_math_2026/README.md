@@ -2,7 +2,7 @@
 
 Generated: 2026-05-14
 
-This benchmark suite collects public 2025-2026 AI mathematics cases that are useful for testing whether `ara-math` can independently discover, prove, and formalize known results.
+This benchmark suite collects public 2025-2026 AI mathematics cases that are useful for testing whether `AMRA` can independently discover, prove, and formalize known results.
 
 The source problem bank is:
 
@@ -10,7 +10,7 @@ The source problem bank is:
 
 ## Benchmark Tiers
 
-| Tier | Meaning | Expected ara-math outcome |
+| Tier | Meaning | Expected AMRA outcome |
 | --- | --- | --- |
 | `tier_1_reproduce_public_formal_result` | Publicly reported Lean/formal proof exists. | Recover a theorem header and produce a fresh no-sorry Lean proof without looking at proof scripts during the independence run. |
 | `tier_2_research_level_informal_to_formal` | Research-level statement with expert-reviewed or AI-assisted informal proof evidence. | Produce an auditable proof plan, dependency graph, and at least one verified formal slice. |
@@ -46,7 +46,7 @@ Start with these entries:
 3. `ai-firstproof-06-light-subset`
 4. `ai-seed-prover-imo-2025-formal-suite`
 
-Avoid starting with `ai-gauss-strong-pnt` or `ai-gauss-sphere-packing-slice`; those are scale tests, not current ara-math capability tests.
+Avoid starting with `ai-gauss-strong-pnt` or `ai-gauss-sphere-packing-slice`; those are scale tests, not current AMRA capability tests.
 
 ## Local Commands
 
@@ -119,9 +119,9 @@ This means the current frontier is not "one model solves arbitrary math." It is 
 - Claude Code / GPT / Aristotle workflows: the Vlasov-Maxwell-Landau equilibrium formalization is a documented example where Gemini produced a proof plan, Claude Code translated and organized Lean code, Aristotle closed many lemmas, and Lean verified the final project.
 - Erdős AI contribution tracking: many 2025-2026 entries now list GPT, Claude, Gemini, Aristotle, AlphaEvolve, Aletheia, or other systems, but outcomes range from full Lean solutions to partial results and incorrect proofs; benchmark labels must preserve that distinction.
 
-### Practical Conclusion for ara-math
+### Practical Conclusion for AMRA
 
-`ara-math` should be evaluated as an orchestration and proof-engineering system, not as a standalone genius prover. The benchmark should measure:
+`AMRA` should be evaluated as an orchestration and proof-engineering system, not as a standalone genius prover. The benchmark should measure:
 
 - statement recovery,
 - theorem-header formalization,

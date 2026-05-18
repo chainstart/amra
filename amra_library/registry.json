@@ -2,6 +2,6 @@
   "modules": [],
   "schema_version": "amra.library_registry.v1",
   "generated_at": "2026-05-18T12:59:09+00:00",
-  "library_root": "/home/biostar/work/projects/ara-math/amra_library",
+  "library_root": "/home/biostar/work/projects/amra/amra_library",
   "module_prefix": "AmraLibrary"
 }

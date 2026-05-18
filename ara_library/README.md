@@ -1,9 +1,9 @@
-# ARA Local Math Library
+# Legacy ARA Local Math Library
 
 This directory stores reusable Lean modules for mathematics that is not yet
 available in upstream mathlib, or that needs to be staged before a future
-mathlib PR. ARA projects automatically add this library to their Lean search
-path during guarded verification.
+mathlib PR. AMRA keeps this directory as a legacy compatibility library while
+new reusable modules are promoted to `amra_library` / `AmraLibrary`.
 
 Code promoted here should be reusable, source-attributed, and free of `sorry`,
 `axiom`, `constant`, `opaque`, `admit`, and placeholder markers before it is

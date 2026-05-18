@@ -700,12 +700,12 @@ class LiteratureHarvester:
         return any(token in lowered for token in self.PDF_LINK_TOKENS)
 
     def _download_binary(self, url: str) -> tuple[bytes, str]:
-        request = Request(url, headers={"User-Agent": "ara-math/0.1"})
+        request = Request(url, headers={"User-Agent": "amra/0.2"})
         with urlopen(request, timeout=20) as response:
             return response.read(), response.headers.get("Content-Type", "")
 
     def _fetch_remote_payload(self, url: str) -> dict[str, Any]:
-        request = Request(url, headers={"User-Agent": "ara-math/0.1"})
+        request = Request(url, headers={"User-Agent": "amra/0.2"})
         with urlopen(request, timeout=15) as response:
             raw = response.read()
             content_type = response.headers.get("Content-Type", "")
@@ -738,7 +738,7 @@ class LiteratureHarvester:
 
     def _search_openalex(self, query: str, *, max_results: int = 5) -> list[dict[str, Any]]:
         url = "https://api.openalex.org/works?" + urlencode({"search": query, "per-page": max_results})
-        request = Request(url, headers={"User-Agent": "ara-math/0.1"})
+        request = Request(url, headers={"User-Agent": "amra/0.2"})
         try:
             with urlopen(request, timeout=20) as response:
                 payload = response.read().decode("utf-8", errors="ignore")
@@ -798,7 +798,7 @@ class LiteratureHarvester:
         url = "https://export.arxiv.org/api/query?" + urlencode(
             {"search_query": search_query, "start": 0, "max_results": max_results}
         )
-        request = Request(url, headers={"User-Agent": "ara-math/0.1"})
+        request = Request(url, headers={"User-Agent": "amra/0.2"})
         try:
             with urlopen(request, timeout=20) as response:
                 payload = response.read().decode("utf-8", errors="ignore")

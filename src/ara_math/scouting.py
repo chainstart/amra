@@ -565,16 +565,16 @@ def assess_problem_readiness(problem: ProblemRecord, *, formal_math_root: Path |
     if not local_assets and len(problem.references) < 2:
         blockers.append("There are not enough local assets or references yet to justify a serious proof attack.")
     if problem.domain not in {"number_theory", "geometry", "graph_theory"}:
-        blockers.append(f"The current ara-math track is weakest in `{problem.domain}`, so readiness is lower.")
+        blockers.append(f"The current AMRA track is weakest in `{problem.domain}`, so readiness is lower.")
     if "finite_case" in problem.tags or "computational_search" in problem.tags:
-        opportunities.append("This problem has a finite-search or bounded-search angle that ara-math can exploit early.")
+        opportunities.append("This problem has a finite-search or bounded-search angle that AMRA can exploit early.")
     if problem.formalized in {"yes", "partial"}:
         opportunities.append("Some formalization groundwork already exists, reducing the cost of the Lean stage.")
     if local_assets:
         opportunities.append("Local formal-math assets can seed the literature and theorem-inventory audit.")
     if erdos_focus_signal["related_banks"]:
         opportunities.append(
-            "A related ara-math topic bank already exists for this Erdős family, so infrastructure can be reused."
+            "A related AMRA topic bank already exists for this Erdős family, so infrastructure can be reused."
         )
     if erdos_focus_signal["doc_count"]:
         opportunities.append("Local research notes already discuss this Erdős problem, reducing triage uncertainty.")

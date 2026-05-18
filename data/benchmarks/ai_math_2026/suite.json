@@ -3,13 +3,13 @@
   "generated_at": "2026-05-14T00:00:00+08:00",
   "problem_bank": "data/banks/ai_math_benchmark_2026.yaml",
   "registry_name": "ai_math_benchmark_2026",
-  "purpose": "Evaluate whether ara-math can independently reproduce AI-assisted mathematics results as verified proofs or auditable proof plans.",
+  "purpose": "Evaluate whether AMRA can independently reproduce AI-assisted mathematics results as verified proofs or auditable proof plans.",
   "independence_policy": {
     "first_pass_allowed": [
       "public problem statement",
       "bibliographic metadata",
       "local mathlib and Lean documentation",
-      "ara-math generated notes"
+      "AMRA generated notes"
     ],
     "first_pass_forbidden": [
       "released Lean proof scripts",

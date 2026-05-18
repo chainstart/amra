@@ -369,7 +369,7 @@ def sync_local_problem_banks(
         {
             "name": "curated_starters",
             "path": str(DEFAULT_BANK_PATH),
-            "description": "Small curated starter bank bundled with ara-math.",
+            "description": "Small curated starter bank bundled with AMRA.",
             "category": "bundled",
             "problem_count": len(load_problem_bank(DEFAULT_BANK_PATH)),
             "provenance": str(DEFAULT_BANK_PATH),

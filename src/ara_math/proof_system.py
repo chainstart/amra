@@ -61,7 +61,7 @@ REFERENCE_SYSTEMS: tuple[dict[str, Any], ...] = (
 
 
 class ProofSystemPlanner:
-    """Benchmark ara-math against standard prover architectures and derive an execution policy."""
+    """Benchmark AMRA against standard prover architectures and derive an execution policy."""
 
     def build_benchmark_report(
         self,

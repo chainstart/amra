@@ -14,7 +14,7 @@
   formalized: yes_external
   notes: >
     AlphaProof solved IMO 2024 P1 in Lean as part of the 4/6 silver-medal
-    result. Use this as a controlled reproduction target: ara-math must not
+    result. Use this as a controlled reproduction target: AMRA must not
     assume the final proof script, but may use public statements after the
     benchmark attempt is declared.
   references:
@@ -51,7 +51,7 @@
   - formal_proof
   open_problem: false
   formalized: yes_external
-  notes: This case tests whether ara-math can do competition-level number theory once the statement is formalized, without relying on a vendor proof trace.
+  notes: This case tests whether AMRA can do competition-level number theory once the statement is formalized, without relying on a vendor proof trace.
   references:
   - https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/
   - https://www.nature.com/articles/s41586-025-09833-y
@@ -82,7 +82,7 @@
   - tier_2_specialized_geometry
   open_problem: false
   formalized: yes_external
-  notes: This is a specialized-geometry benchmark rather than a general Lean benchmark; ara-math should expose whether it lacks a geometry engine comparable to AlphaGeometry2.
+  notes: This is a specialized-geometry benchmark rather than a general Lean benchmark; AMRA should expose whether it lacks a geometry engine comparable to AlphaGeometry2.
   references:
   - https://deepmind.google/blog/ai-solves-imo-problems-at-silver-medal-level/
   - https://arxiv.org/abs/2502.03544
@@ -127,7 +127,7 @@
   recommended_strategy:
   - Recover the official statement and theorem header before proof search.
   - Require a proof route and dependency graph before launching a long Lean run.
-  - Compare ara-math's route to public AlphaProof material only after the independence pass.
+  - Compare AMRA's route to public AlphaProof material only after the independence pass.
   metadata:
     benchmark_suite: ai_math_2026
     benchmark_tier: tier_1_reproduce_public_formal_result
@@ -162,7 +162,7 @@
   - The benchmark should use the official FirstProof statement as the source of truth.
   - Public solutions must be withheld during an independence run.
   recommended_strategy:
-  - Ask ara-math for a theorem statement and a proof plan before any Lean work.
+  - Ask AMRA for a theorem statement and a proof plan before any Lean work.
   - Identify whether mathlib contains the needed real-rooted polynomial and finite convolution infrastructure.
   - If Lean formalization is infeasible, record the exact missing library layer.
   metadata:
@@ -186,7 +186,7 @@
   - formalization_candidate
   open_problem: false
   formalized: no
-  notes: OpenAI listed Problem 6 among its likely-correct FirstProof attempts. This is a strong ara-math target because it is research-level but closer to finite linear algebra than deep analytic infrastructure.
+  notes: OpenAI listed Problem 6 among its likely-correct FirstProof attempts. This is a strong AMRA target because it is research-level but closer to finite linear algebra than deep analytic infrastructure.
   references:
   - https://1stproof.org/first-batch.html
   - https://arxiv.org/abs/2602.05192
@@ -196,7 +196,7 @@
   recommended_strategy:
   - Formalize finite graphs, induced-edge Laplacians, and PSD order first.
   - Attempt an informal proof independently, then convert only stable lemmas to Lean.
-  - Compare against released FirstProof commentary only after an initial ara-math run.
+  - Compare against released FirstProof commentary only after an initial AMRA run.
   metadata:
     benchmark_suite: ai_math_2026
     benchmark_tier: tier_2_research_level_informal_to_formal
@@ -259,7 +259,7 @@
   hypotheses:
   - Use one problem at a time; require a fixed Lean theorem header before proof search.
   recommended_strategy:
-  - Benchmark ara-math against a formal-statement-to-proof task, not natural-language autoformalization.
+  - Benchmark AMRA against a formal-statement-to-proof task, not natural-language autoformalization.
   - Measure pass rate under a fixed time budget and record Lean diagnostics.
   metadata:
     benchmark_suite: ai_math_2026
@@ -298,7 +298,7 @@
   recommended_strategy:
   - First formalize Legendre valuations and factorial divisibility lemmas.
   - Treat the construction and parameter quantifiers as the primary source of difficulty.
-  - Compare against the public Lean proof only after ara-math produces an independent attempt.
+  - Compare against the public Lean proof only after AMRA produces an independent attempt.
   metadata:
     benchmark_suite: ai_math_2026
     benchmark_tier: tier_1_reproduce_ai_lean_result
@@ -360,7 +360,7 @@
   - Use the clarified weighted formulation rather than the ambiguous original statement.
   recommended_strategy:
   - Formalize finite sequences, monotone subsequences, and weighted pigeonhole/partition lemmas.
-  - This should be one of the first ara-math open-problem reproduction tests because the core theorem is finite combinatorics.
+  - This should be one of the first AMRA open-problem reproduction tests because the core theorem is finite combinatorics.
   metadata:
     benchmark_suite: ai_math_2026
     benchmark_tier: tier_1_reproduce_ai_lean_result
@@ -392,7 +392,7 @@
   - Use a precise density and cofinite-subsequence formalization.
   recommended_strategy:
   - Split construction, ratio limit, cofinite stability, and density proof into separate claims.
-  - Compare ara-math behavior against the multi-agent human-in-the-loop pattern.
+  - Compare AMRA behavior against the multi-agent human-in-the-loop pattern.
   metadata:
     benchmark_suite: ai_math_2026
     benchmark_tier: tier_2_multi_agent_open_problem
@@ -424,7 +424,7 @@
   hypotheses:
   - Requires analytic number theory infrastructure and careful asymptotic formalization.
   recommended_strategy:
-  - Use as a stretch benchmark after ara-math succeeds on finite Erdős entries.
+  - Use as a stretch benchmark after AMRA succeeds on finite Erdős entries.
   - Record missing analytic infrastructure explicitly.
   metadata:
     benchmark_suite: ai_math_2026
@@ -448,7 +448,7 @@
   - formalization_marathon
   open_problem: false
   formalized: yes_external
-  notes: Math Inc. reports that Gauss completed a roughly 25k-line Lean development with over 1k theorems/definitions in three weeks using human scaffolding and massive parallel Lean environments. The full project is too large for one ara-math run; use slices.
+  notes: Math Inc. reports that Gauss completed a roughly 25k-line Lean development with over 1k theorems/definitions in three weeks using human scaffolding and massive parallel Lean environments. The full project is too large for one AMRA run; use slices.
   references:
   - https://www.math.inc/gauss
   - https://github.com/math-inc/strongpnt
@@ -457,7 +457,7 @@
   - Benchmark should select one named theorem from the public StrongPNT repository rather than the whole project.
   recommended_strategy:
   - Clone or vendor only the theorem statement and local dependencies needed for a slice.
-  - Measure ara-math on theorem-statement recovery, dependency discovery, and Lean closure separately.
+  - Measure AMRA on theorem-statement recovery, dependency discovery, and Lean closure separately.
   metadata:
     benchmark_suite: ai_math_2026
     benchmark_tier: tier_4_large_scale_formalization_slice
@@ -484,7 +484,7 @@
   - https://www.math.inc/sphere-packing
   - https://actu.epfl.ch/news/prof-viazovska-s-proofs-of-sphere-packing-formaliz/
   hypotheses:
-  - Full reproduction is unrealistic for ara-math today; select one isolated lemma with public dependencies.
+  - Full reproduction is unrealistic for AMRA today; select one isolated lemma with public dependencies.
   recommended_strategy:
   - Use as a stress test for blueprint-to-Lean formalization, not as an initial proof-discovery task.
   - Require explicit dependency closure and build-time budget reporting.
@@ -519,7 +519,7 @@
   hypotheses:
   - The benchmark should use a small exported lemma rather than the full physics theorem.
   recommended_strategy:
-  - Evaluate whether ara-math can coordinate proof generation, Lean translation, and lemma repair without human steering.
+  - Evaluate whether AMRA can coordinate proof generation, Lean translation, and lemma repair without human steering.
   - Keep tool-use transcripts for autonomy scoring.
   metadata:
     benchmark_suite: ai_math_2026

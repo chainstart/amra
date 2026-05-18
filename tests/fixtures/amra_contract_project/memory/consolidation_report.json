@@ -8,20 +8,20 @@
   "claims": [
     "main"
   ],
-  "evidence_index": "/home/biostar/work/projects/ara-math/tests/fixtures/amra_contract_project/memory/evidence_index.json",
+  "evidence_index": "/home/biostar/work/projects/amra/tests/fixtures/amra_contract_project/memory/evidence_index.json",
   "failed_route_fingerprints": [],
   "failed_route_update_count": 0,
   "generated_at": "2026-05-18T15:11:52+00:00",
   "indexes": {
-    "claim_index": "/home/biostar/work/projects/ara-math/artifacts/global_memory/claim_index.json",
-    "difficulty_history": "/home/biostar/work/projects/ara-math/artifacts/global_memory/difficulty_history.jsonl",
-    "failed_route_index": "/home/biostar/work/projects/ara-math/artifacts/global_memory/failed_route_index.json",
-    "problem_index": "/home/biostar/work/projects/ara-math/artifacts/global_memory/problem_index.json",
-    "theorem_asset_index": "/home/biostar/work/projects/ara-math/artifacts/global_memory/theorem_asset_index.json"
+    "claim_index": "/home/biostar/work/projects/amra/artifacts/global_memory/claim_index.json",
+    "difficulty_history": "/home/biostar/work/projects/amra/artifacts/global_memory/difficulty_history.jsonl",
+    "failed_route_index": "/home/biostar/work/projects/amra/artifacts/global_memory/failed_route_index.json",
+    "problem_index": "/home/biostar/work/projects/amra/artifacts/global_memory/problem_index.json",
+    "theorem_asset_index": "/home/biostar/work/projects/amra/artifacts/global_memory/theorem_asset_index.json"
   },
   "problem_id": "amra-contract-fixture",
-  "project_dir": "/home/biostar/work/projects/ara-math/tests/fixtures/amra_contract_project",
-  "resume_pack": "/home/biostar/work/projects/ara-math/tests/fixtures/amra_contract_project/resume_pack.md",
+  "project_dir": "/home/biostar/work/projects/amra/tests/fixtures/amra_contract_project",
+  "resume_pack": "/home/biostar/work/projects/amra/tests/fixtures/amra_contract_project/resume_pack.md",
   "route_update_count": 0,
   "routes": [],
   "schema_version": "amra.memory_consolidation.v1",

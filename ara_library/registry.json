@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-05-01T13:12:04+00:00",
-  "library_root": "/home/biostar/work/projects/ara-math/ara_library",
+  "library_root": "/home/biostar/work/projects/amra/ara_library",
   "modules": [
     {
       "module_name": "AraLibrary.Geometry.TriangleDissection.Shell",

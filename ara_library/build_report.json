@@ -2,13 +2,13 @@
   "status": "passed",
   "command": [
     "direct-lean-verify",
-    "/home/biostar/.elan/bin/lean /home/biostar/work/projects/ara-math/ara_library/formal/AraLibrary/Geometry/TriangleDissection/Shell.lean -o /home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean/AraLibrary/Geometry/TriangleDissection/Shell.olean -i /home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean/AraLibrary/Geometry/TriangleDissection/Shell.ilean",
-    "/home/biostar/.elan/bin/lean /home/biostar/work/projects/ara-math/ara_library/formal/AraLibrary/NumberTheory/Amicable.lean -o /home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/Amicable.olean -i /home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/Amicable.ilean",
-    "/home/biostar/.elan/bin/lean /home/biostar/work/projects/ara-math/ara_library/formal/AraLibrary/NumberTheory/Korselt.lean -o /home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/Korselt.olean -i /home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/Korselt.ilean",
-    "/home/biostar/.elan/bin/lean /home/biostar/work/projects/ara-math/ara_library/formal/AraLibrary/NumberTheory/PrimeTwoPowers.lean -o /home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/PrimeTwoPowers.olean -i /home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/PrimeTwoPowers.ilean",
-    "/home/biostar/.elan/bin/lean /home/biostar/work/projects/ara-math/ara_library/formal/AraLibrary.lean -o /home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean/AraLibrary.olean -i /home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean/AraLibrary.ilean"
+    "/home/biostar/.elan/bin/lean /home/biostar/work/projects/amra/ara_library/formal/AraLibrary/Geometry/TriangleDissection/Shell.lean -o /home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean/AraLibrary/Geometry/TriangleDissection/Shell.olean -i /home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean/AraLibrary/Geometry/TriangleDissection/Shell.ilean",
+    "/home/biostar/.elan/bin/lean /home/biostar/work/projects/amra/ara_library/formal/AraLibrary/NumberTheory/Amicable.lean -o /home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/Amicable.olean -i /home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/Amicable.ilean",
+    "/home/biostar/.elan/bin/lean /home/biostar/work/projects/amra/ara_library/formal/AraLibrary/NumberTheory/Korselt.lean -o /home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/Korselt.olean -i /home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/Korselt.ilean",
+    "/home/biostar/.elan/bin/lean /home/biostar/work/projects/amra/ara_library/formal/AraLibrary/NumberTheory/PrimeTwoPowers.lean -o /home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/PrimeTwoPowers.olean -i /home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean/AraLibrary/NumberTheory/PrimeTwoPowers.ilean",
+    "/home/biostar/.elan/bin/lean /home/biostar/work/projects/amra/ara_library/formal/AraLibrary.lean -o /home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean/AraLibrary.olean -i /home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean/AraLibrary.ilean"
   ],
-  "workdir": "/home/biostar/work/projects/ara-math/ara_library/formal",
+  "workdir": "/home/biostar/work/projects/amra/ara_library/formal",
   "generated_at": "2026-05-01T13:11:57+00:00",
   "build_seconds": 50.779,
   "returncode": 0,
@@ -21,21 +21,21 @@
     "lean": "/home/biostar/.elan/bin/lean"
   },
   "reuse_report": {
-    "target_packages_dir": "/home/biostar/work/projects/ara-math/ara_library/formal/.lake/packages",
+    "target_packages_dir": "/home/biostar/work/projects/amra/ara_library/formal/.lake/packages",
     "target_toolchain": "leanprover/lean4:v4.26.0",
     "status": "existing",
-    "selected_source": "/home/biostar/work/projects/ara-math/ara_library/formal/.lake/packages",
+    "selected_source": "/home/biostar/work/projects/amra/ara_library/formal/.lake/packages",
     "candidate_count": 0,
     "build_ready": true,
     "manifest": {
-      "target_manifest_path": "/home/biostar/work/projects/ara-math/ara_library/formal/lake-manifest.json",
+      "target_manifest_path": "/home/biostar/work/projects/amra/ara_library/formal/lake-manifest.json",
       "status": "not_found",
       "selected_source": "",
       "candidate_count": 0
     },
     "local_asset_search_entries": [
-      "/home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean",
-      "/home/biostar/work/projects/ara-math/ara_library/formal"
+      "/home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean",
+      "/home/biostar/work/projects/amra/ara_library/formal"
     ],
     "staging": {
       "status": "not_needed",
@@ -61,8 +61,8 @@
     "olean_only": true,
     "direct_lean_verify": true,
     "local_asset_search_entries": [
-      "/home/biostar/work/projects/ara-math/ara_library/formal/.lake/build/lib/lean",
-      "/home/biostar/work/projects/ara-math/ara_library/formal"
+      "/home/biostar/work/projects/amra/ara_library/formal/.lake/build/lib/lean",
+      "/home/biostar/work/projects/amra/ara_library/formal"
     ]
   },
   "system_guard": {

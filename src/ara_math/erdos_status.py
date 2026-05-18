@@ -11,7 +11,7 @@ from ara_math.models import ProblemRecord
 from ara_math.workspace import utc_now_iso
 
 
-USER_AGENT = "ara-math/0.1"
+USER_AGENT = "amra/0.2"
 ARXIV_ATOM_NS = {"atom": "http://www.w3.org/2005/Atom"}
 
 SCRIPT_STYLE_PATTERN = re.compile(r"<(script|style)\b.*?</\1>", re.IGNORECASE | re.DOTALL)

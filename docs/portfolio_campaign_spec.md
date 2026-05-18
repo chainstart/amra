@@ -23,7 +23,7 @@ This spec defines the architecture, data model, agent roles, scheduling policy, 
 
 The project name is AMRA.
 
-During this refactor, the old `ara-math` naming must be fully replaced by AMRA naming across code, docs, CLI, tests, artifacts, and local library packaging.
+During this refactor, the old `amra` naming must be fully replaced by AMRA naming across code, docs, CLI, tests, artifacts, and local library packaging.
 
 Canonical names:
 
@@ -39,7 +39,7 @@ Canonical names:
 
 Required rename map:
 
-- `ara-math` -> `amra`.
+- `amra` -> `amra`.
 - `ara_math` -> `amra`.
 - `ARA Math` -> `AMRA`.
 - `ara_library` -> `amra_library`.
