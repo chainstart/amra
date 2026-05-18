@@ -1,0 +1,7 @@
+{
+  "schema_version": "amra.problem_state.v1",
+  "problem_id": "amra-contract-fixture",
+  "state": "active_attack",
+  "reason": "Fixture keeps one verified Lean declaration and one unresolved route."
+}
+

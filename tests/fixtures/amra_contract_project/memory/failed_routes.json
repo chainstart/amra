@@ -1,0 +1,22 @@
+{
+  "schema_version": "amra.failed_routes.v1",
+  "updated_at": "2026-05-18T00:00:00+00:00",
+  "failed_routes": [
+    {
+      "route_id": "route-with-gap",
+      "problem_id": "amra-contract-fixture",
+      "status": "failed",
+      "failure_mode": "proof_gap",
+      "failure_class": "logical",
+      "failed_assertion": "The normalization lemma needed by the sketch has not been proved in Lean.",
+      "approach": "Use the sketch as a guide after the missing lemma exists.",
+      "resume_condition": "Resume only after a Lean statement for the normalization lemma is available.",
+      "evidence": [],
+      "evidence_paths": [
+        "proof/sketches/main.md"
+      ],
+      "fingerprint": "fixture-proof-gap"
+    }
+  ]
+}
+

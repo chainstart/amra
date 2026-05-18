@@ -568,3 +568,45 @@ def test_discover_accessible_premise_support_collects_compiled_and_staged_module
     assert "Companion.Helper" in support["compiled_modules"]
     assert support["stage_plan"]["status"] == "ready"
     assert "UnitaryPerfect.GotoBound" in support["stage_plan"]["modules"]
+
+
+def test_lean_executor_discovers_amra_library_search_entries(tmp_path: Path, monkeypatch) -> None:
+    project_dir = tmp_path / "projects" / "demo"
+    (project_dir / "idea").mkdir(parents=True)
+    (project_dir / "artifacts").mkdir(parents=True)
+    (project_dir / "formal" / "MathProject").mkdir(parents=True)
+    (project_dir / "formal" / "MathProject" / "MainClaim.lean").write_text(
+        "import AmraLibrary\n\n",
+        encoding="utf-8",
+    )
+    formal_dir = tmp_path / "amra_library" / "formal"
+    build_dir = formal_dir / ".lake" / "build" / "lib" / "lean"
+    build_dir.mkdir(parents=True)
+    (formal_dir / "AmraLibrary").mkdir(parents=True)
+    monkeypatch.setenv("AMRA_REPO_ROOT", str(tmp_path))
+
+    entries = LeanExecutor().discover_local_asset_search_entries(project_dir)
+
+    assert str(build_dir) in entries
+    assert str(formal_dir) in entries
+
+
+def test_lean_executor_keeps_legacy_ara_library_search_entries(tmp_path: Path, monkeypatch) -> None:
+    project_dir = tmp_path / "projects" / "demo"
+    (project_dir / "idea").mkdir(parents=True)
+    (project_dir / "artifacts").mkdir(parents=True)
+    (project_dir / "formal" / "MathProject").mkdir(parents=True)
+    (project_dir / "formal" / "MathProject" / "MainClaim.lean").write_text(
+        "import AraLibrary\n\n",
+        encoding="utf-8",
+    )
+    formal_dir = tmp_path / "ara_library" / "formal"
+    build_dir = formal_dir / ".lake" / "build" / "lib" / "lean"
+    build_dir.mkdir(parents=True)
+    (formal_dir / "AraLibrary").mkdir(parents=True)
+    monkeypatch.setenv("ARA_MATH_REPO_ROOT", str(tmp_path))
+
+    entries = LeanExecutor().discover_local_asset_search_entries(project_dir)
+
+    assert str(build_dir) in entries
+    assert str(formal_dir) in entries

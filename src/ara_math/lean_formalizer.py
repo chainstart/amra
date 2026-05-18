@@ -8,7 +8,9 @@ import time
 from pathlib import Path
 from typing import Any
 
+from amra.portfolio_scheduler import PortfolioAttackScheduler, calculate_progress_velocity
 from ara_math.lean import LeanExecutor
+from ara_math.lean_contract import compare_lean_declaration_headers, extract_lean_declaration_header
 from ara_math.runtime import env_float, env_int, env_str, run_guarded_command, wait_for_system_headroom
 from ara_math.workspace import read_text, slugify, utc_now_iso, write_json, write_text
 
@@ -99,6 +101,34 @@ class LeanFormalizerRunner:
         if target_file.is_absolute():
             return target_file
         return workspace / target_file
+
+    def _isolated_workspace(
+        self,
+        *,
+        workspace: Path,
+        problem_id: str,
+        run_id: str,
+        project_dir: Path | None,
+    ) -> dict[str, Any]:
+        scheduler = PortfolioAttackScheduler(repo_root=self.repo_root)
+        if project_dir is not None:
+            project = project_dir.expanduser().resolve()
+        elif problem_id.strip() and workspace.parent.name != slugify(problem_id):
+            project = self.repo_root / "projects" / slugify(problem_id)
+        else:
+            project = workspace.parent
+        reservation = scheduler.reserve_formal_workspace(
+            project_dir=project,
+            problem_id=problem_id or project.name,
+            run_id=run_id,
+            canonical_workspace=workspace,
+        )
+        return {
+            "scheduler": scheduler,
+            "reservation": reservation,
+            "workspace": reservation.isolated_workspace,
+            "canonical_workspace": workspace,
+        }
 
     def _workspace_snapshot(self, workspace: Path) -> dict[str, str]:
         snapshot: dict[str, str] = {}
@@ -278,6 +308,7 @@ class LeanFormalizerRunner:
         build_report: dict[str, Any],
         target_theorem: str | None,
         target_file: Path | None,
+        expected_target_header: str | None = None,
     ) -> dict[str, Any]:
         target = self._target_declaration(workspace, target_theorem=target_theorem, target_file=target_file)
         sorry_count = self.lean_executor.count_sorries(workspace)
@@ -314,6 +345,26 @@ class LeanFormalizerRunner:
                 "Target theorem header contains forbidden assumption pattern "
                 f"`{pattern}`."
             )
+        target_statement_match: dict[str, Any] = {"required": bool(expected_target_header), "matched": None}
+        if expected_target_header:
+            if target_header:
+                target_statement_match = {
+                    "required": True,
+                    **compare_lean_declaration_headers(
+                        actual_header=target_header,
+                        expected_header=expected_target_header,
+                        target_theorem=target_theorem,
+                    ),
+                }
+                if not target_statement_match.get("matched"):
+                    blockers.append("Target theorem header does not match the expected source Lean declaration.")
+            else:
+                target_statement_match = {
+                    "required": True,
+                    "matched": False,
+                    "expected_normalized": "",
+                    "actual_normalized": "",
+                }
 
         defect_score = (
             (0 if build_status == "passed" else 1_000_000)
@@ -324,6 +375,7 @@ class LeanFormalizerRunner:
             + admit_count * 50_000
             + placeholder_count * 10_000
             + len(forbidden_header_hits) * 50_000
+            + (0 if not expected_target_header or target_statement_match.get("matched") else 100_000)
             + len(diagnostics)
         )
         return {
@@ -344,6 +396,8 @@ class LeanFormalizerRunner:
                 "placeholder": placeholder_count,
             },
             "target_header": target_header,
+            "expected_target_header": expected_target_header or "",
+            "target_statement_match": target_statement_match,
             "forbidden_target_header_patterns": self.forbidden_target_header_patterns,
             "forbidden_target_header_hits": forbidden_header_hits,
             "defect_score": defect_score,
@@ -366,6 +420,7 @@ class LeanFormalizerRunner:
         before_audit: dict[str, Any],
         before_build: dict[str, Any],
         previous_backend_message: str,
+        expected_target_header: str | None = None,
     ) -> str:
         target_path = self._resolve_target_file(workspace, target_file)
         target_file_text = ""
@@ -402,6 +457,11 @@ class LeanFormalizerRunner:
                 "Target theorem:",
                 f"- `{target_theorem or '<unspecified>'}`",
                 f"- Target file: `{target_file or '<search all Lean files>'}`",
+                "- Expected source declaration: "
+                + ("must match exactly up to whitespace" if expected_target_header else "<not supplied>"),
+                "```lean",
+                expected_target_header.strip() if expected_target_header else "<none>",
+                "```",
                 "",
                 "Mathematical/proof-lab upstream context:",
                 f"- Read `{context_bundle_path}` before editing.",
@@ -573,6 +633,7 @@ class LeanFormalizerRunner:
             f"- Build status: {best.get('build_status')}",
             f"- Defect score: {best.get('defect_score')}",
             f"- Counts: {best.get('counts')}",
+            f"- Source declaration match: {(best.get('target_statement_match') or {}).get('matched')}",
             "",
             "## Blockers",
             "",
@@ -590,6 +651,16 @@ class LeanFormalizerRunner:
             lines.extend(f"- {item}" for item in suggested_next_targets)
         else:
             lines.append("- none")
+        velocity = payload.get("progress_velocity") or {}
+        lines.extend(
+            [
+                "",
+                "## Progress Velocity",
+                "",
+                f"- Positive delta per hour: {velocity.get('progress_delta_per_hour', 0.0)}",
+                f"- Attempts per hour: {velocity.get('attempts_per_hour', 0.0)}",
+            ]
+        )
         lines.extend(["", "## Next Action", "", str(payload.get("next_action") or ""), ""])
         write_text(path, "\n".join(lines))
 
@@ -612,13 +683,42 @@ class LeanFormalizerRunner:
         enable_search: bool = False,
         max_stalled_attempts: int | None = None,
         rollback_failed_attempts: bool = False,
+        expected_target_header: str | None = None,
+        project_dir: Path | None = None,
+        problem_id: str = "",
+        workspace_run_id: str | None = None,
+        use_isolated_workspace: bool = False,
+        merge_to_canonical: bool = False,
+        review_status: str = "",
+        library_module: str = "",
     ) -> dict[str, Any]:
         workspace = workspace.expanduser().resolve()
         if not workspace.exists():
             raise FileNotFoundError(f"Lean workspace does not exist: {workspace}")
+        canonical_workspace = workspace
+        effective_run_name = run_name or f"lean-formalizer-{utc_now_iso()}"
+        workspace_reservation = None
+        scheduler: PortfolioAttackScheduler | None = None
+        if use_isolated_workspace:
+            isolation = self._isolated_workspace(
+                workspace=canonical_workspace,
+                problem_id=problem_id or canonical_workspace.parent.name,
+                run_id=workspace_run_id or effective_run_name,
+                project_dir=project_dir,
+            )
+            workspace = isolation["workspace"]
+            workspace_reservation = isolation["reservation"]
+            scheduler = isolation["scheduler"]
+        source_contract = extract_lean_declaration_header(statement, target_theorem)
+        if source_contract is None:
+            source_contract = extract_lean_declaration_header(statement)
+        if source_contract and not expected_target_header:
+            expected_target_header = str(source_contract.get("header") or "").strip() or None
+        if source_contract and not target_theorem:
+            target_theorem = str(source_contract.get("name") or "").strip() or None
         build_command = build_command or ["lake", "build"]
         output_root = output_root or (self.repo_root / "artifacts" / "lean_formalizer")
-        run_dir = self._new_run_dir(output_root=output_root, run_name=run_name)
+        run_dir = self._new_run_dir(output_root=output_root, run_name=effective_run_name)
         attempts_dir = run_dir / "attempts"
         attempts_dir.mkdir(parents=True, exist_ok=True)
 
@@ -636,6 +736,7 @@ class LeanFormalizerRunner:
             build_report=initial_build,
             target_theorem=target_theorem,
             target_file=target_file,
+            expected_target_header=expected_target_header,
         )
         initial_audit = current_audit
         current_build = initial_build
@@ -687,6 +788,7 @@ class LeanFormalizerRunner:
                         before_audit=current_audit,
                         before_build=current_build,
                         previous_backend_message=previous_message,
+                        expected_target_header=expected_target_header,
                     ),
                 )
                 backend_report = self._invoke_backend(
@@ -709,6 +811,7 @@ class LeanFormalizerRunner:
                     build_report=after_build,
                     target_theorem=target_theorem,
                     target_file=target_file,
+                    expected_target_header=expected_target_header,
                 )
                 progress_delta = int(current_audit["defect_score"]) - int(after_audit["defect_score"])
                 rollback_applied = False
@@ -725,6 +828,7 @@ class LeanFormalizerRunner:
                         build_report=after_build,
                         target_theorem=target_theorem,
                         target_file=target_file,
+                        expected_target_header=expected_target_header,
                     )
                     progress_delta = int(current_audit["defect_score"]) - int(after_audit["defect_score"])
 
@@ -807,11 +911,15 @@ class LeanFormalizerRunner:
             "stop_reason": stop_reason,
             "backend": backend,
             "workspace": str(workspace),
+            "workspace_isolated": bool(workspace_reservation),
+            "canonical_workspace": str(canonical_workspace),
+            "isolated_workspace": str(workspace) if workspace_reservation is not None else "",
             "run_dir": str(run_dir),
             "statement_path": str(statement_path),
             "context_bundle_path": str(context_bundle_path),
             "target_theorem": target_theorem or "",
             "target_file": str(target_file or ""),
+            "expected_target_header": expected_target_header or "",
             "build_command": build_command,
             "attempts_requested": attempts,
             "attempts_completed": len(attempt_entries),
@@ -824,7 +932,26 @@ class LeanFormalizerRunner:
             "global_reassessment_reason": global_reassessment_reason,
             "summary_path": str(run_dir / "summary.md"),
             "next_action": next_action,
+            "progress_velocity": calculate_progress_velocity(
+                elapsed_seconds=round(time.monotonic() - started, 3),
+                attempts_completed=len(attempt_entries),
+                progress_deltas=[entry.get("progress_delta", 0) for entry in attempt_entries],
+                verified_target_count=1 if status == "verified" and target_theorem else 0,
+                target_count=1 if target_theorem else 0,
+            ),
         }
+        if workspace_reservation is not None:
+            payload["workspace_reservation"] = workspace_reservation.as_payload(repo_root=self.repo_root)
+        if workspace_reservation is not None and scheduler is not None and merge_to_canonical:
+            payload["formal_workspace_merge"] = scheduler.merge_reviewed_formal_workspace(
+                project_dir=workspace_reservation.project_dir,
+                run_id=workspace_reservation.run_id,
+                status=status,
+                review_status=review_status,
+                library_module=library_module,
+            )
+        elif workspace_reservation is not None:
+            payload["formal_workspace_merge"] = {"merged": False, "reason": "merge_not_requested"}
         write_json(run_dir / "report.json", payload)
         self._write_summary(path=run_dir / "summary.md", payload=payload)
         write_json(run_dir / "state.json", payload)

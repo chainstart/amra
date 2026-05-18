@@ -88,6 +88,44 @@ def test_math_scout_backend_none_writes_report(tmp_path: Path) -> None:
     assert saved["entries"][0]["artifacts"]["probe_output"].endswith("probe_output.md")
 
 
+def test_math_scout_backend_exception_still_writes_probe_artifact(tmp_path: Path) -> None:
+    class FailingScoutRunner(MathScoutRunner):
+        def _invoke_backend(self, **_kwargs):  # type: ignore[no-untyped-def]
+            raise RuntimeError("backend exploded")
+
+    bank_path = tmp_path / "bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="probe",
+                title="Probe Problem",
+                source="test",
+                statement="Prove that every object has property P.",
+                domain="number_theory",
+                open_problem=True,
+                references=["https://example.com/probe"],
+            )
+        ],
+        bank_path,
+    )
+    output_path = tmp_path / "math_scout_report.json"
+
+    payload = FailingScoutRunner(repo_root=tmp_path).run(
+        bank_path=bank_path,
+        backend="none",
+        problem_limit=1,
+        output_path=output_path,
+        run_name="test-failure",
+    )
+
+    entry = payload["entries"][0]
+    probe_output = Path(entry["artifacts"]["probe_output"])
+    assert entry["backend_report"]["status"] == "error"
+    assert entry["parsed_probe"]["recommendation"] == "unknown"
+    assert probe_output.exists()
+    assert "RuntimeError" in probe_output.read_text(encoding="utf-8")
+
+
 def test_domain_balanced_selection_interleaves_domains_and_excludes(tmp_path: Path) -> None:
     runner = MathScoutRunner(repo_root=tmp_path)
     rows = [

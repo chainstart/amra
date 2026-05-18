@@ -7,6 +7,7 @@ import time
 from pathlib import Path
 from typing import Any
 
+from amra.portfolio_scheduler import calculate_progress_velocity
 from ara_math.lean_formalizer import LeanFormalizerRunner, collect_proof_lab_context_paths
 from ara_math.proof_lab import AIProofLabRunner
 from ara_math.workspace import read_text, slugify, utc_now_iso, write_json, write_text
@@ -544,6 +545,16 @@ class CampaignLoopRunner:
                 f"{entry.get('status')} ({entry.get('stop_reason') or entry.get('next_action') or ''})"
                 f"{suffix}"
             )
+        velocity = payload.get("progress_velocity") or {}
+        lines.extend(
+            [
+                "",
+                "## Progress Velocity",
+                "",
+                f"- Positive delta per hour: {velocity.get('progress_delta_per_hour', 0.0)}",
+                f"- Attempts per hour: {velocity.get('attempts_per_hour', 0.0)}",
+            ]
+        )
         lines.extend(["", "## Next Action", "", str(payload.get("next_action") or ""), ""])
         write_text(path, "\n".join(lines))
 
@@ -679,6 +690,8 @@ class CampaignLoopRunner:
                     "needs_global_reassessment": needs_global_reassessment,
                     "global_assessment_path": global_assessment_path,
                     "suggested_next_targets": list(child.get("suggested_next_targets") or []),
+                    "attempts_completed": child.get("attempts_completed"),
+                    "progress_velocity": child.get("progress_velocity") or {},
                 }
                 if entry["verified"] and final_target_theorem.strip() and current_target_theorem == final_target_theorem.strip():
                     round_entries.append(entry)
@@ -729,6 +742,8 @@ class CampaignLoopRunner:
                     "next_action": child.get("next_action"),
                     "verified": False,
                     "needs_global_reassessment": False,
+                    "attempts_completed": child.get("attempts_completed"),
+                    "progress_velocity": child.get("progress_velocity") or {},
                 }
 
             write_json(round_dir / "decision.json", entry)
@@ -763,6 +778,14 @@ class CampaignLoopRunner:
             for entry in round_entries
             if entry.get("needs_global_reassessment")
         ]
+        child_velocities = [dict(entry.get("progress_velocity") or {}) for entry in round_entries]
+        progress_velocity = calculate_progress_velocity(
+            elapsed_seconds=round(time.monotonic() - started, 3),
+            attempts_completed=sum(int(item.get("attempts_completed") or 0) for item in child_velocities),
+            progress_deltas=[item.get("net_progress_delta", 0) for item in child_velocities],
+            verified_target_count=len(completed_target_theorem_set),
+            target_count=1 if final_target_theorem.strip() else len(completed_target_theorem_set),
+        )
         payload = {
             "generated_at": utc_now_iso(),
             "status": status,
@@ -782,6 +805,7 @@ class CampaignLoopRunner:
             "rounds": round_entries,
             "global_reassessments": global_reassessments,
             "needs_global_reassessment": bool(round_entries and round_entries[-1].get("needs_global_reassessment")),
+            "progress_velocity": progress_velocity,
             "summary_path": str(run_dir / "summary.md"),
             "next_action": next_action,
         }

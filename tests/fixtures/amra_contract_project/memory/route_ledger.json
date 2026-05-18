@@ -1,0 +1,15 @@
+{
+  "schema_version": "amra.route_ledger.v1",
+  "updated_at": "2026-05-18T00:00:00+00:00",
+  "routes": [
+    {
+      "route_id": "route-with-gap",
+      "problem_id": "amra-contract-fixture",
+      "target_claim": "sketch-claim",
+      "status": "blocked",
+      "core_idea": "Reduce the claim to reflexivity after a missing normalization lemma.",
+      "blocker": "Missing normalization lemma."
+    }
+  ]
+}
+

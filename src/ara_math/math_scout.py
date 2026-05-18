@@ -315,12 +315,13 @@ class MathScoutRunner:
         timeout_per_problem_sec: int = 300,
         output_path: Path | None = None,
         run_name: str | None = None,
+        run_dir: Path | None = None,
         enable_search: bool = False,
         selection_mode: str = "ranked",
         exclude_problem_ids: list[str] | None = None,
     ) -> dict[str, Any]:
         run_slug = slugify(run_name or f"math-scout-{utc_now_iso()}")
-        run_dir = self.repo_root / "artifacts" / "math_scout" / run_slug
+        run_dir = Path(run_dir) if run_dir is not None else self.repo_root / "artifacts" / "math_scout" / run_slug
         problem_root = run_dir / "problems"
         problem_root.mkdir(parents=True, exist_ok=True)
         output = output_path or (run_dir / "report.json")
@@ -348,11 +349,15 @@ class MathScoutRunner:
             problem: ProblemRecord = row["problem"]
             if problem.problem_id in processed_ids:
                 continue
-            headroom = wait_for_system_headroom(
-                min_available_memory_mb=self.min_available_memory_mb,
-                max_load_per_cpu=1.5,
-                max_wait_seconds=self.wait_max_seconds,
-                poll_seconds=self.wait_poll_seconds,
+            headroom = (
+                {"status": "ready", "skipped": True, "reason": "backend_none"}
+                if backend == "none"
+                else wait_for_system_headroom(
+                    min_available_memory_mb=self.min_available_memory_mb,
+                    max_load_per_cpu=1.5,
+                    max_wait_seconds=self.wait_max_seconds,
+                    poll_seconds=self.wait_poll_seconds,
+                )
             )
             if headroom["status"] != "ready":
                 stop_reason = "system_guard_blocked"
@@ -365,14 +370,26 @@ class MathScoutRunner:
             prompt_path = problem_dir / "prompt.txt"
             output_md = problem_dir / "probe_output.md"
             write_text(prompt_path, prompt)
-            backend_report = self._invoke_backend(
-                backend=backend,
-                run_dir=problem_dir,
-                prompt=prompt,
-                output_path=output_md,
-                timeout_sec=max(30, timeout_per_problem_sec),
-                enable_search=enable_search,
-            )
+            try:
+                backend_report = self._invoke_backend(
+                    backend=backend,
+                    run_dir=problem_dir,
+                    prompt=prompt,
+                    output_path=output_md,
+                    timeout_sec=max(1, timeout_per_problem_sec),
+                    enable_search=enable_search,
+                )
+            except Exception as exc:
+                if not output_md.exists():
+                    write_text(output_md, f"Scout backend raised {type(exc).__name__}: {exc}\n")
+                backend_report = {
+                    "status": "error",
+                    "backend": backend,
+                    "returncode": None,
+                    "elapsed_seconds": round(time.monotonic() - started, 3),
+                    "error_type": type(exc).__name__,
+                    "error": str(exc),
+                }
             probe_text = read_text(output_md)
             parsed_probe = _parse_probe_output(probe_text)
             entry = {
@@ -397,6 +414,7 @@ class MathScoutRunner:
             write_json(
                 output,
                 {
+                    "schema_version": "ara_math.math_scout_report.v1",
                     "generated_at": utc_now_iso(),
                     "status": "running",
                     "bank_path": str(bank_path),
@@ -417,6 +435,7 @@ class MathScoutRunner:
 
         ranked = sorted(entries, key=self._rank_key)
         payload = {
+            "schema_version": "ara_math.math_scout_report.v1",
             "generated_at": utc_now_iso(),
             "status": "completed" if stop_reason == "completed" else "partial",
             "bank_path": str(bank_path),

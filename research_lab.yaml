@@ -1,0 +1,131 @@
+lab_id: amra
+system_name: AMRA
+full_name: Automated Mathematical Research Agents
+domain: mathematics
+
+legacy:
+  repo_names:
+    - ara-math
+  lab_ids:
+    - ara_math
+
+entrypoints:
+  agent_cli:
+    - python3 -m amra
+    - amra
+    - python3 run.py
+    - python3 -m ara_math
+    - ara-math
+    - ara_math
+  direct_tools:
+    - python3 -m amra list-problems
+    - python3 -m amra run-portfolio-campaign
+    - python3 -m amra evaluate-problem
+    - python3 -m amra harvest-library-candidates
+    - python3 -m amra write-portfolio-report
+    - python3 -m amra export-amra-result-bundle
+    - python3 -m amra run-known-problem-smoke
+    - python3 run.py list-problems
+    - python3 run.py build-lean
+
+commands:
+  allow_prefixes:
+    - python3 -m amra
+    - amra
+    - python3 run.py
+    - python3 -m ara_math
+    - ara-math
+    - ara_math
+    - lake build
+    - lean
+  deny_patterns:
+    - rm -rf
+    - git reset --hard
+    - curl | sh
+    - wget | sh
+
+environment:
+  required: []
+  optional:
+    - OPENAI_API_KEY
+    - ANTHROPIC_API_KEY
+
+artifacts:
+  include:
+    - projects/*/artifact_manifest.json
+    - projects/*/proof_attempt_ledger.jsonl
+    - projects/*/lean_build_report.json
+    - projects/*/verified_declarations.json
+    - projects/*/natural_language_proof_sketches.json
+    - projects/*/limitations.md
+    - projects/*/writing_brief.md
+    - projects/*/final_report.md
+    - amra_result_bundle/**
+  exclude:
+    - .venv/**
+    - .lake/**
+
+bundles:
+  produced:
+    - proof_bundle
+    - amra_result_bundle
+
+interfaces:
+  canonical_package: amra
+  canonical_cli:
+    - python3 -m amra
+    - amra
+  compatibility_cli:
+    - python3 -m ara_math
+    - ara-math
+    - ara_math
+  deprecated_compatibility_cli:
+    - python3 -m ara_math
+    - ara-math
+    - ara_math
+  portfolio_commands:
+    - run-portfolio-campaign
+    - evaluate-problem
+    - harvest-library-candidates
+    - summarize-portfolio-memory
+    - write-portfolio-report
+    - export-amra-result-bundle
+    - run-known-problem-smoke
+  smoke_commands:
+    known_problem:
+      command: python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out amra_known_problem_bundle --json
+      output_bundle: amra_result_bundle
+      deterministic: true
+      llm_calls: 0
+  bundle_commands:
+    amra_result_bundle:
+      export: export-amra-result-bundle
+      default_output: amra_result_bundle
+  bundle_schema:
+    amra_result_bundle:
+      schema_version: amra.result_bundle.v1
+      command: python3 -m amra export-amra-result-bundle
+      required_files:
+        - theorem_statement.md
+        - problem_metadata.json
+        - proof_summary.md
+        - natural_language_proof_sketches.json
+        - lean_build_report.json
+        - verified_declarations.json
+        - unresolved_blockers.md
+        - limitations.md
+        - artifact_manifest.json
+        - writing_brief.md
+      optional_files:
+        - proof_attempt_ledger.jsonl
+        - lean/**
+      verification_boundary:
+        natural_language_proof_sketches_are_not_lean_verified: true
+        verified_declarations_require_lean_status: true
+        only_lean_verified_claim_source: verified_declarations.json
+        natural_language_proof_sketches_source: natural_language_proof_sketches.json
+
+safety:
+  max_wall_time_minutes: 240
+  network_policy: optional_for_literature
+  destructive_commands: false

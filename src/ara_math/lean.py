@@ -324,7 +324,7 @@ class LeanExecutor:
                 suffix_map.setdefault(suffix, set()).add(module_name)
         return exact, {key: sorted(value) for key, value in suffix_map.items()}
 
-    def _project_imports_ara_library(self, project_dir: Path) -> bool:
+    def _project_imports_library(self, project_dir: Path, module_prefixes: tuple[str, ...]) -> bool:
         formal_dir = project_dir / "formal"
         if not formal_dir.exists():
             return False
@@ -332,22 +332,64 @@ class LeanExecutor:
             if ".lake" in lean_file.parts or lean_file.name == "lakefile.lean":
                 continue
             for imported in self._parse_imports(lean_file):
-                if imported == "AraLibrary" or imported.startswith("AraLibrary."):
+                if any(imported == prefix or imported.startswith(f"{prefix}.") for prefix in module_prefixes):
                     return True
         return False
 
-    def ara_library_search_entries(self, project_dir: Path | None = None) -> list[str]:
-        repo_root_override = os.environ.get("ARA_MATH_REPO_ROOT", "").strip()
-        repo_root = Path(repo_root_override).expanduser() if repo_root_override else Path(__file__).resolve().parents[2]
-        formal_dir = repo_root / "ara_library" / "formal"
+    def _repo_root_for_local_library(self) -> Path:
+        repo_root_override = os.environ.get("AMRA_REPO_ROOT", "").strip() or os.environ.get("ARA_MATH_REPO_ROOT", "").strip()
+        return Path(repo_root_override).expanduser() if repo_root_override else Path(__file__).resolve().parents[2]
+
+    def _library_search_entries(
+        self,
+        *,
+        library_root_name: str,
+        module_prefixes: tuple[str, ...],
+        project_dir: Path | None = None,
+    ) -> list[str]:
+        repo_root = self._repo_root_for_local_library()
+        formal_dir = repo_root / library_root_name / "formal"
         if not formal_dir.exists():
             return []
-        if project_dir is not None and not self._project_imports_ara_library(project_dir):
+        if project_dir is not None and not self._project_imports_library(project_dir, module_prefixes):
             return []
         candidates = [formal_dir / ".lake" / "build" / "lib" / "lean"]
         if project_dir is not None:
             candidates.append(formal_dir)
         return [str(candidate) for candidate in candidates if candidate.exists()]
+
+    def amra_library_search_entries(self, project_dir: Path | None = None) -> list[str]:
+        return self._library_search_entries(
+            library_root_name="amra_library",
+            module_prefixes=("AmraLibrary",),
+            project_dir=project_dir,
+        )
+
+    def legacy_ara_library_search_entries(self, project_dir: Path | None = None) -> list[str]:
+        return self._library_search_entries(
+            library_root_name="ara_library",
+            module_prefixes=("AraLibrary",),
+            project_dir=project_dir,
+        )
+
+    def ara_library_search_entries(self, project_dir: Path | None = None) -> list[str]:
+        """Return canonical AMRA and deprecated ARA library search entries.
+
+        The method name is retained for migration compatibility with older
+        callers, but the canonical local library is `amra_library` with Lean
+        module prefix `AmraLibrary`.
+        """
+        entries: list[str] = []
+        seen: set[str] = set()
+        for raw_entry in [
+            *self.amra_library_search_entries(project_dir),
+            *self.legacy_ara_library_search_entries(project_dir),
+        ]:
+            if raw_entry in seen:
+                continue
+            seen.add(raw_entry)
+            entries.append(raw_entry)
+        return entries
 
     def _discover_source_stage_plan(self, project_dir: Path) -> dict[str, Any]:
         candidates_payload = read_json(project_dir / "proof" / "porting_candidates.json", default={})

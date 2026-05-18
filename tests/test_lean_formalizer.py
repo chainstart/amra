@@ -218,3 +218,52 @@ def test_collect_proof_lab_context_paths_prefers_high_signal_outputs(tmp_path: P
     assert "source_grounding_output.md" in names
     assert "attempt_001_output.md" in names
     assert "audit_attempt_001_output.md" in names
+
+
+def test_lean_formalizer_uses_isolated_workspace_and_reports_velocity(tmp_path: Path) -> None:
+    project = tmp_path / "projects" / "formal-problem"
+    workspace = project / "formal"
+    (workspace / "MathProject").mkdir(parents=True)
+    (workspace / "lakefile.lean").write_text("import Lake\nopen Lake DSL\npackage MathProject\n", encoding="utf-8")
+    (workspace / "MathProject" / "MainClaim.lean").write_text(
+        "\n".join(
+            [
+                "namespace MathProject",
+                "",
+                "theorem h5upper_log : True := by",
+                "  trivial",
+                "",
+                "end MathProject",
+                "",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    runner = LeanFormalizerRunner(repo_root=tmp_path)
+
+    report = runner.run(
+        workspace=workspace,
+        statement="Prove h5upper_log.",
+        target_theorem="h5upper_log",
+        target_file=Path("MathProject/MainClaim.lean"),
+        build_command=_pass_command(),
+        backend="none",
+        attempts=1,
+        output_root=tmp_path / "runs",
+        run_name="isolated-formalizer",
+        project_dir=project,
+        problem_id="formal-problem",
+        workspace_run_id="run-a",
+        use_isolated_workspace=True,
+        merge_to_canonical=True,
+        review_status="approved",
+    )
+
+    assert report["status"] == "verified"
+    assert report["workspace_isolated"] is True
+    assert Path(report["workspace"]) == project / "workspaces" / "run-a" / "formal"
+    assert report["canonical_workspace"] == str(workspace.resolve())
+    assert report["formal_workspace_merge"]["merged"] is True
+    assert report["progress_velocity"]["schema_version"] == "amra.progress_velocity.v1"
+    summary = Path(report["summary_path"]).read_text(encoding="utf-8")
+    assert "Progress Velocity" in summary

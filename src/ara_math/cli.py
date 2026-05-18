@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shlex
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -29,6 +31,7 @@ from ara_math.coordinator import (
     run_comath_loop as comath_run_loop,
 )
 from ara_math.goal_campaign import GoalDrivenCampaignRunner, write_goal_manifest_template
+from ara_math.focused_attack import FocusedLeanAttackAgent, load_expected_target_headers
 from ara_math.orchestrator import MathResearchOrchestrator
 from ara_math.problem_bank import (
     DEFAULT_BANK_PATH,
@@ -39,6 +42,7 @@ from ara_math.problem_bank import (
     resolve_bank_path,
 )
 from ara_math.lean_formalizer import LeanFormalizerRunner, collect_proof_lab_context_paths
+from ara_math.pure_agents import LeanFromNaturalProofAgent, NaturalLanguageTheoremProverAgent, UnifiedProofAgentLoop
 from ara_math.proof_lab import AIProofLabRunner
 from ara_math.scouting import scout_problem_bank
 from ara_math.workstreams import (
@@ -49,6 +53,11 @@ from ara_math.workstreams import (
     WorkstreamStatus,
 )
 from ara_math.workspace import slugify, today_utc
+from amra.amra_library import AmraLibraryManager
+from amra.portfolio_campaign import PortfolioCampaignRunner
+from amra.portfolio_reports import write_portfolio_final_report
+from amra.known_problem_smoke import run_known_problem_smoke
+from amra.result_bundle import export_amra_result_bundle
 
 
 DELIVERABLE_MODES = ("auto", "research_report", "formalization_note", "paper_candidate")
@@ -59,6 +68,9 @@ REVIEW_DECISIONS = tuple(item.value for item in ReviewDecision)
 
 
 def _repo_root() -> Path:
+    override = os.environ.get("AMRA_REPO_ROOT")
+    if override:
+        return Path(override).resolve()
     return Path(__file__).resolve().parents[2]
 
 
@@ -97,6 +109,13 @@ def _selected_bank_path(args: argparse.Namespace) -> Path:
     if bank_name:
         return resolve_bank_path(bank_name=bank_name)
     return resolve_bank_path(bank_name=bank_name, bank_path=bank_path)
+
+
+def _legacy_library_module_name(module_name: str) -> str:
+    """Map AMRA-facing module names to the legacy library manager during migration."""
+    if module_name == "AmraLibrary" or module_name.startswith("AmraLibrary."):
+        return "AraLibrary" + module_name[len("AmraLibrary") :]
+    return module_name
 
 
 def _add_proof_search_runtime_args(parser: argparse.ArgumentParser) -> None:
@@ -151,7 +170,14 @@ def _apply_closure_runtime_overrides(orchestrator: MathResearchOrchestrator, arg
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="ARA Math CLI")
+    parser = argparse.ArgumentParser(
+        description="AMRA CLI",
+        epilog=(
+            "Compatibility: legacy entrypoints 'python3 -m ara_math', "
+            "'ara-math', and 'ara_math' are deprecated aliases; use "
+            "'python3 -m amra' or 'amra' for new automation."
+        ),
+    )
     parser.add_argument("--json", action="store_true", help="Print JSON output.")
 
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -183,12 +209,17 @@ def build_parser() -> argparse.ArgumentParser:
 
     init_ara_library = subparsers.add_parser(
         "init-ara-library",
-        help="Create the reusable local Lean library for mathlib gaps and staged contributions.",
+        help="Deprecated alias for init-amra-library.",
+    )
+
+    init_amra_library = subparsers.add_parser(
+        "init-amra-library",
+        help="Create the reusable local AMRA Lean library for mathlib gaps and staged contributions.",
     )
 
     add_ara_library = subparsers.add_parser(
         "add-ara-library-module",
-        help="Create or register a reusable ARA Lean library module.",
+        help="Deprecated alias for add-amra-library-module.",
     )
     add_ara_library.add_argument("--module-name", required=True, help="Lean module name, e.g. AraLibrary.NumberTheory.Carmichael.")
     add_ara_library.add_argument("--import", dest="imports", action="append", default=[], help="Lean import to add to the module.")
@@ -198,9 +229,21 @@ def build_parser() -> argparse.ArgumentParser:
     add_ara_library.add_argument("--tag", dest="tags", action="append", default=[])
     add_ara_library.add_argument("--description", default="")
 
+    add_amra_library = subparsers.add_parser(
+        "add-amra-library-module",
+        help="Create or register a reusable AMRA Lean library module.",
+    )
+    add_amra_library.add_argument("--module-name", required=True, help="Lean module name, e.g. AmraLibrary.NumberTheory.Carmichael.")
+    add_amra_library.add_argument("--import", dest="imports", action="append", default=[], help="Lean import to add to the module.")
+    add_amra_library.add_argument("--title", default="")
+    add_amra_library.add_argument("--domain", default="")
+    add_amra_library.add_argument("--status", choices=ARA_LIBRARY_STATUSES, default="candidate")
+    add_amra_library.add_argument("--tag", dest="tags", action="append", default=[])
+    add_amra_library.add_argument("--description", default="")
+
     promote_ara_library = subparsers.add_parser(
         "promote-to-ara-library",
-        help="Promote selected Lean declarations from a project file into the reusable ARA library.",
+        help="Deprecated alias for promote-to-amra-library.",
     )
     promote_ara_library.add_argument("--source-file", type=Path, required=True)
     promote_ara_library.add_argument("--source-project", type=Path, default=None)
@@ -213,11 +256,95 @@ def build_parser() -> argparse.ArgumentParser:
     promote_ara_library.add_argument("--tag", dest="tags", action="append", default=[])
     promote_ara_library.add_argument("--description", default="")
 
-    list_ara_library = subparsers.add_parser("list-ara-library", help="List reusable ARA Lean library modules.")
+    promote_amra_library = subparsers.add_parser(
+        "promote-to-amra-library",
+        help="Promote selected Lean declarations from a project file into the reusable AMRA library.",
+    )
+    promote_amra_library.add_argument("--source-file", type=Path, required=True)
+    promote_amra_library.add_argument("--source-project", type=Path, default=None)
+    promote_amra_library.add_argument("--module-name", required=True, help="Lean module name, e.g. AmraLibrary.NumberTheory.Carmichael.")
+    promote_amra_library.add_argument("--declaration", dest="declarations", action="append", required=True)
+    promote_amra_library.add_argument("--import", dest="imports", action="append", default=[], help="Lean import to add to the module.")
+    promote_amra_library.add_argument("--title", default="")
+    promote_amra_library.add_argument("--domain", default="")
+    promote_amra_library.add_argument("--status", choices=ARA_LIBRARY_STATUSES, default="candidate")
+    promote_amra_library.add_argument("--tag", dest="tags", action="append", default=[])
+    promote_amra_library.add_argument("--description", default="")
 
-    build_ara_library = subparsers.add_parser("build-ara-library", help="Build the reusable ARA Lean library.")
+    list_ara_library = subparsers.add_parser("list-ara-library", help="Deprecated alias for list-amra-library.")
+    list_amra_library = subparsers.add_parser("list-amra-library", help="List reusable AMRA Lean library modules.")
+
+    build_ara_library = subparsers.add_parser("build-ara-library", help="Deprecated alias for build-amra-library.")
     build_ara_library.add_argument("--timeout", type=int, default=600)
     build_ara_library.add_argument("--allow-cold-cache", action="store_true")
+
+    build_amra_library = subparsers.add_parser("build-amra-library", help="Build the reusable AMRA Lean library.")
+    build_amra_library.add_argument("--timeout", type=int, default=600)
+    build_amra_library.add_argument("--allow-cold-cache", action="store_true")
+
+    portfolio_campaign = subparsers.add_parser(
+        "run-portfolio-campaign",
+        help="Create an AMRA portfolio campaign scaffold over a problem bank.",
+    )
+    portfolio_campaign.add_argument("--bank", type=Path, required=True)
+    portfolio_campaign.add_argument("--run-name", required=True)
+    portfolio_campaign.add_argument("--scout-limit", type=int, default=6)
+    portfolio_campaign.add_argument("--scout-timeout", type=int, default=600)
+    portfolio_campaign.add_argument(
+        "--scout-backend",
+        choices=("codex", "none"),
+        default="none",
+        help="Backend for active portfolio scouting probes. Defaults to local artifact generation without an LLM.",
+    )
+    portfolio_campaign.add_argument("--promote-top", type=int, default=2)
+    portfolio_campaign.add_argument("--attack-budget", type=int, default=0)
+
+    evaluate_problem = subparsers.add_parser(
+        "evaluate-problem",
+        help="Run the independent read-only AMRA difficulty evaluator for one problem project.",
+    )
+    evaluate_problem.add_argument("--project", type=Path, required=True)
+    evaluate_problem.add_argument("--run-name", required=True)
+
+    harvest_library_candidates = subparsers.add_parser(
+        "harvest-library-candidates",
+        help="Inspect verified declarations and write AMRA library harvest candidates.",
+    )
+    harvest_library_candidates.add_argument("--project", type=Path, required=True)
+    harvest_library_candidates.add_argument("--module", required=True)
+
+    summarize_portfolio_memory = subparsers.add_parser(
+        "summarize-portfolio-memory",
+        help="Summarize AMRA portfolio/global memory indexes.",
+    )
+    summarize_portfolio_memory.add_argument("--campaign", type=Path, default=None)
+
+    write_portfolio_report = subparsers.add_parser(
+        "write-portfolio-report",
+        help="Write a final AMRA portfolio campaign report explaining promoted, parked, and frozen targets.",
+    )
+    write_portfolio_report.add_argument("--campaign", type=Path, required=True)
+    write_portfolio_report.add_argument("--output", type=Path, default=None)
+
+    export_result_bundle = subparsers.add_parser(
+        "export-amra-result-bundle",
+        help="Export an ARA-consumable AMRA result bundle for one project.",
+    )
+    export_result_bundle.add_argument("--project", type=Path, required=True)
+    export_result_bundle.add_argument("--output", type=Path, default=None)
+    export_result_bundle.add_argument(
+        "--no-consolidate",
+        action="store_true",
+        help="Skip the pre-export AMRA memory consolidation pass.",
+    )
+
+    known_problem_smoke = subparsers.add_parser(
+        "run-known-problem-smoke",
+        help="Run a bounded deterministic known-problem proof/formalization smoke and export an AMRA bundle.",
+    )
+    known_problem_smoke.add_argument("--problem", required=True, help="Known-problem fixture id, e.g. imo_2025_p1.")
+    known_problem_smoke.add_argument("--max-seconds", type=int, default=60)
+    known_problem_smoke.add_argument("--out", type=Path, required=True, help="Output directory for the AMRA result bundle.")
 
     new_project = subparsers.add_parser("new-project", help="Create a new math research project.")
     new_project.add_argument("--problem", required=True, help="Problem id from the selected bank.")
@@ -558,6 +685,130 @@ def build_parser() -> argparse.ArgumentParser:
     proof_lab.add_argument("--model", default=None, help="Override the proof-lab backend model.")
     proof_lab.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
 
+    pure_theorem_agent = subparsers.add_parser(
+        "run-pure-theorem-agent",
+        help="Run a Codex-episode theorem prover in natural mathematical language.",
+    )
+    statement_group = pure_theorem_agent.add_mutually_exclusive_group(required=True)
+    statement_group.add_argument("--statement", default=None)
+    statement_group.add_argument("--statement-file", type=Path, default=None)
+    pure_theorem_agent.add_argument("--workspace", type=Path, default=None)
+    pure_theorem_agent.add_argument("--context-file", type=Path, action="append", default=[])
+    pure_theorem_agent.add_argument("--backend", choices=("codex", "none"), default="codex")
+    pure_theorem_agent.add_argument("--max-steps", type=int, default=16, help="Maximum host-supervised Codex episodes.")
+    pure_theorem_agent.add_argument("--time-budget", type=int, default=3600)
+    pure_theorem_agent.add_argument("--step-timeout", type=int, default=300, help="Timeout per Codex episode.")
+    pure_theorem_agent.add_argument("--command-timeout", type=int, default=120, help="Reserved for compatibility.")
+    pure_theorem_agent.add_argument("--output-root", type=Path, default=None)
+    pure_theorem_agent.add_argument("--run-name", default=None)
+    pure_theorem_agent.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    pure_theorem_agent.add_argument("--model", default=None, help="Override the decision backend model.")
+    pure_theorem_agent.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+
+    pure_proof_agent = subparsers.add_parser(
+        "run-pure-proof-agent",
+        help="Run the unified proof-development loop with shared natural-language, computation, and Lean tools.",
+    )
+    statement_group = pure_proof_agent.add_mutually_exclusive_group(required=True)
+    statement_group.add_argument("--statement", default=None)
+    statement_group.add_argument("--statement-file", type=Path, default=None)
+    pure_proof_agent.add_argument("--workspace", type=Path, default=None, help="Optional Lean project root.")
+    pure_proof_agent.add_argument("--context-file", type=Path, action="append", default=[])
+    pure_proof_agent.add_argument("--target-theorem", default="")
+    pure_proof_agent.add_argument("--build-command", default="lake build")
+    pure_proof_agent.add_argument("--backend", choices=("codex", "none"), default="codex")
+    pure_proof_agent.add_argument("--max-steps", type=int, default=20, help="Maximum host-supervised Codex episodes.")
+    pure_proof_agent.add_argument("--time-budget", type=int, default=3600)
+    pure_proof_agent.add_argument("--step-timeout", type=int, default=300, help="Timeout per Codex episode.")
+    pure_proof_agent.add_argument("--command-timeout", type=int, default=300, help="Host verifier timeout.")
+    pure_proof_agent.add_argument("--output-root", type=Path, default=None)
+    pure_proof_agent.add_argument("--run-name", default=None)
+    pure_proof_agent.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    pure_proof_agent.add_argument("--model", default=None, help="Override the decision backend model.")
+    pure_proof_agent.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+
+    pure_lean_agent = subparsers.add_parser(
+        "run-pure-lean-agent",
+        help="Run a Codex-episode Lean formalizer from a natural-language proof package.",
+    )
+    pure_lean_agent.add_argument("--workspace", type=Path, required=True, help="Lean project root containing lakefile.lean.")
+    proof_package_group = pure_lean_agent.add_mutually_exclusive_group(required=True)
+    proof_package_group.add_argument("--proof-package", default=None)
+    proof_package_group.add_argument("--proof-package-file", type=Path, default=None)
+    statement_group = pure_lean_agent.add_mutually_exclusive_group(required=False)
+    statement_group.add_argument("--statement", default=None)
+    statement_group.add_argument("--statement-file", type=Path, default=None)
+    pure_lean_agent.add_argument("--build-command", default="lake build")
+    pure_lean_agent.add_argument("--backend", choices=("codex", "none"), default="codex")
+    pure_lean_agent.add_argument("--max-steps", type=int, default=20, help="Maximum host-supervised Codex episodes.")
+    pure_lean_agent.add_argument("--time-budget", type=int, default=3600)
+    pure_lean_agent.add_argument("--step-timeout", type=int, default=300, help="Timeout per Codex episode.")
+    pure_lean_agent.add_argument("--command-timeout", type=int, default=300, help="Host verifier timeout.")
+    pure_lean_agent.add_argument("--output-root", type=Path, default=None)
+    pure_lean_agent.add_argument("--run-name", default=None)
+    pure_lean_agent.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    pure_lean_agent.add_argument("--model", default=None, help="Override the decision backend model.")
+    pure_lean_agent.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+
+    focused_lean_attack = subparsers.add_parser(
+        "run-focused-lean-attack",
+        help="Run a host-enforced Lean attack on exact required declarations.",
+    )
+    focused_lean_attack.add_argument("--workspace", type=Path, required=True, help="Lean project root containing lakefile.lean.")
+    focused_lean_attack.add_argument(
+        "--attack-target",
+        action="append",
+        required=True,
+        default=[],
+        help="Required Lean theorem/lemma declaration name. Repeat for multi-target focused attacks.",
+    )
+    statement_group = focused_lean_attack.add_mutually_exclusive_group(required=False)
+    statement_group.add_argument("--statement", default=None)
+    statement_group.add_argument("--statement-file", type=Path, default=None)
+    focused_lean_attack.add_argument("--context-file", type=Path, action="append", default=[])
+    focused_lean_attack.add_argument(
+        "--expected-target-header-file",
+        type=Path,
+        action="append",
+        default=[],
+        help="File containing a Lean theorem/lemma header that must match one attack target. Repeatable.",
+    )
+    focused_lean_attack.add_argument(
+        "--allowed-file",
+        type=Path,
+        action="append",
+        default=[],
+        help="Lean file that may be changed, relative to the workspace unless absolute. Repeatable.",
+    )
+    focused_lean_attack.add_argument(
+        "--allowed-helper-declaration",
+        action="append",
+        default=[],
+        help="New helper theorem/lemma exempt from wrapper audits. Repeatable.",
+    )
+    focused_lean_attack.add_argument(
+        "--forbid-new-conditional-wrapper",
+        action="store_true",
+        help="Flag new non-target theorem/lemma headers containing implication arrows unless explicitly allowed.",
+    )
+    focused_lean_attack.add_argument(
+        "--forbid-new-declaration-regex",
+        action="append",
+        default=[],
+        help="Regex for new theorem/lemma names that must not be introduced. Repeatable.",
+    )
+    focused_lean_attack.add_argument("--build-command", default="lake build")
+    focused_lean_attack.add_argument("--backend", choices=("codex", "none"), default="codex")
+    focused_lean_attack.add_argument("--max-steps", type=int, default=20, help="Maximum host-supervised Codex episodes.")
+    focused_lean_attack.add_argument("--time-budget", type=int, default=3600)
+    focused_lean_attack.add_argument("--step-timeout", type=int, default=300, help="Timeout per Codex episode.")
+    focused_lean_attack.add_argument("--command-timeout", type=int, default=300, help="Host verifier timeout.")
+    focused_lean_attack.add_argument("--output-root", type=Path, default=None)
+    focused_lean_attack.add_argument("--run-name", default=None)
+    focused_lean_attack.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    focused_lean_attack.add_argument("--model", default=None, help="Override the decision backend model.")
+    focused_lean_attack.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+
     lean_formalizer = subparsers.add_parser(
         "run-lean-formalizer",
         help="Run the proof-lab downstream Lean write/verify loop on a Lean workspace.",
@@ -568,6 +819,12 @@ def build_parser() -> argparse.ArgumentParser:
     statement_group.add_argument("--statement-file", type=Path, default=None)
     lean_formalizer.add_argument("--target-theorem", default=None)
     lean_formalizer.add_argument("--target-file", type=Path, default=None)
+    lean_formalizer.add_argument(
+        "--expected-target-header-file",
+        type=Path,
+        default=None,
+        help="Lean theorem/lemma header that the target declaration must match up to whitespace.",
+    )
     lean_formalizer.add_argument("--context-file", type=Path, action="append", default=[])
     lean_formalizer.add_argument(
         "--upstream-proof-lab-run",
@@ -843,7 +1100,11 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
-    args = parser.parse_args(argv)
+    normalized_argv = list(sys.argv[1:] if argv is None else argv)
+    if "--json" in normalized_argv:
+        normalized_argv = [item for item in normalized_argv if item != "--json"]
+        normalized_argv.insert(0, "--json")
+    args = parser.parse_args(normalized_argv)
 
     if args.command == "list-banks":
         _print(load_bank_registry(args.registry), args.json)
@@ -877,16 +1138,56 @@ def main(argv: list[str] | None = None) -> int:
         _print(payload, args.json)
         return 0
 
+    if args.command == "init-amra-library":
+        manager = AmraLibraryManager(repo_root=_repo_root())
+        _print(manager.ensure_library(), args.json)
+        return 0
+
     if args.command == "init-ara-library":
         orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
         _print(orchestrator.init_ara_library(), args.json)
+        return 0
+
+    if args.command == "add-amra-library-module":
+        manager = AmraLibraryManager(repo_root=_repo_root())
+        _print(
+            manager.add_module(
+                module_name=args.module_name,
+                imports=args.imports,
+                title=args.title,
+                domain=args.domain,
+                status=args.status,
+                tags=args.tags,
+                description=args.description,
+            ),
+            args.json,
+        )
         return 0
 
     if args.command == "add-ara-library-module":
         orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
         _print(
             orchestrator.add_ara_library_module(
+                module_name=_legacy_library_module_name(args.module_name),
+                imports=args.imports,
+                title=args.title,
+                domain=args.domain,
+                status=args.status,
+                tags=args.tags,
+                description=args.description,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "promote-to-amra-library":
+        manager = AmraLibraryManager(repo_root=_repo_root())
+        _print(
+            manager.promote_declarations(
+                source_file=args.source_file,
+                source_project=args.source_project,
                 module_name=args.module_name,
+                declarations=args.declarations,
                 imports=args.imports,
                 title=args.title,
                 domain=args.domain,
@@ -904,7 +1205,7 @@ def main(argv: list[str] | None = None) -> int:
             orchestrator.promote_to_ara_library(
                 source_file=args.source_file,
                 source_project=args.source_project,
-                module_name=args.module_name,
+                module_name=_legacy_library_module_name(args.module_name),
                 declarations=args.declarations,
                 imports=args.imports,
                 title=args.title,
@@ -917,14 +1218,89 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
+    if args.command == "list-amra-library":
+        manager = AmraLibraryManager(repo_root=_repo_root())
+        _print(manager.inventory(), args.json)
+        return 0
+
     if args.command == "list-ara-library":
         orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
         _print(orchestrator.list_ara_library(), args.json)
         return 0
 
+    if args.command == "build-amra-library":
+        manager = AmraLibraryManager(repo_root=_repo_root())
+        _print(manager.build(timeout_sec=args.timeout, allow_cold_cache=args.allow_cold_cache), args.json)
+        return 0
+
     if args.command == "build-ara-library":
         orchestrator = MathResearchOrchestrator(repo_root=_repo_root())
         _print(orchestrator.build_ara_library(timeout_sec=args.timeout, allow_cold_cache=args.allow_cold_cache), args.json)
+        return 0
+
+    if args.command == "run-portfolio-campaign":
+        runner = PortfolioCampaignRunner(repo_root=_repo_root())
+        payload = runner.run_portfolio_campaign(
+            bank=args.bank,
+            run_name=args.run_name,
+            scout_limit=args.scout_limit,
+            scout_timeout=args.scout_timeout,
+            scout_backend=args.scout_backend,
+            promote_top=args.promote_top,
+            attack_budget=args.attack_budget,
+        )
+        report = write_portfolio_final_report(_repo_root() / str(payload["campaign_dir"]), repo_root=_repo_root())
+        _print({**payload, "final_report": report["final_report"]}, args.json)
+        return 0
+
+    if args.command == "evaluate-problem":
+        runner = PortfolioCampaignRunner(repo_root=_repo_root())
+        _print(runner.evaluate_problem(project=args.project, run_name=args.run_name), args.json)
+        return 0
+
+    if args.command == "harvest-library-candidates":
+        runner = PortfolioCampaignRunner(repo_root=_repo_root())
+        _print(runner.harvest_library_candidates(project=args.project, module=args.module), args.json)
+        return 0
+
+    if args.command == "summarize-portfolio-memory":
+        runner = PortfolioCampaignRunner(repo_root=_repo_root())
+        _print(runner.summarize_portfolio_memory(campaign=args.campaign), args.json)
+        return 0
+
+    if args.command == "write-portfolio-report":
+        _print(
+            write_portfolio_final_report(
+                args.campaign,
+                output_path=args.output,
+                repo_root=_repo_root(),
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "export-amra-result-bundle":
+        _print(
+            export_amra_result_bundle(
+                project=args.project,
+                output_dir=args.output,
+                repo_root=_repo_root(),
+                consolidate=not args.no_consolidate,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "run-known-problem-smoke":
+        _print(
+            run_known_problem_smoke(
+                problem_id=args.problem,
+                max_seconds=args.max_seconds,
+                output_dir=args.out,
+                repo_root=_repo_root(),
+            ),
+            args.json,
+        )
         return 0
 
     if args.command == "new-project":
@@ -1295,6 +1671,124 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
+    if args.command == "run-pure-theorem-agent":
+        runner = NaturalLanguageTheoremProverAgent(repo_root=_repo_root())
+        statement = args.statement if args.statement is not None else args.statement_file.read_text(encoding="utf-8")
+        _print(
+            runner.run(
+                statement=statement,
+                workspace=args.workspace,
+                context_paths=args.context_file,
+                backend=args.backend,
+                max_steps=args.max_steps,
+                time_budget_sec=args.time_budget,
+                step_timeout_sec=args.step_timeout,
+                command_timeout_sec=args.command_timeout,
+                output_root=args.output_root,
+                run_name=args.run_name,
+                enable_search=args.search,
+                model=args.model,
+                reasoning_effort=args.reasoning_effort,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "run-pure-proof-agent":
+        runner = UnifiedProofAgentLoop(repo_root=_repo_root())
+        statement = args.statement if args.statement is not None else args.statement_file.read_text(encoding="utf-8")
+        _print(
+            runner.run(
+                statement=statement,
+                workspace=args.workspace,
+                context_paths=args.context_file,
+                build_command=shlex.split(args.build_command),
+                target_name=args.target_theorem,
+                backend=args.backend,
+                max_steps=args.max_steps,
+                time_budget_sec=args.time_budget,
+                step_timeout_sec=args.step_timeout,
+                command_timeout_sec=args.command_timeout,
+                output_root=args.output_root,
+                run_name=args.run_name,
+                enable_search=args.search,
+                model=args.model,
+                reasoning_effort=args.reasoning_effort,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "run-pure-lean-agent":
+        runner = LeanFromNaturalProofAgent(repo_root=_repo_root())
+        proof_package = (
+            args.proof_package
+            if args.proof_package is not None
+            else args.proof_package_file.read_text(encoding="utf-8")
+        )
+        if args.statement is not None:
+            statement = args.statement
+        elif args.statement_file is not None:
+            statement = args.statement_file.read_text(encoding="utf-8")
+        else:
+            statement = ""
+        _print(
+            runner.run(
+                workspace=args.workspace,
+                proof_package=proof_package,
+                statement=statement,
+                build_command=shlex.split(args.build_command),
+                backend=args.backend,
+                max_steps=args.max_steps,
+                time_budget_sec=args.time_budget,
+                step_timeout_sec=args.step_timeout,
+                command_timeout_sec=args.command_timeout,
+                output_root=args.output_root,
+                run_name=args.run_name,
+                enable_search=args.search,
+                model=args.model,
+                reasoning_effort=args.reasoning_effort,
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command == "run-focused-lean-attack":
+        runner = FocusedLeanAttackAgent(repo_root=_repo_root())
+        if args.statement is not None:
+            statement = args.statement
+        elif args.statement_file is not None:
+            statement = args.statement_file.read_text(encoding="utf-8")
+        else:
+            statement = ""
+        expected_headers = load_expected_target_headers(args.expected_target_header_file, args.attack_target)
+        _print(
+            runner.run(
+                workspace=args.workspace,
+                attack_targets=args.attack_target,
+                statement=statement,
+                context_paths=args.context_file,
+                allowed_files=args.allowed_file,
+                allowed_helper_declarations=args.allowed_helper_declaration,
+                expected_target_headers=expected_headers,
+                forbidden_new_declaration_regexes=args.forbid_new_declaration_regex,
+                forbid_new_conditional_wrappers=args.forbid_new_conditional_wrapper,
+                build_command=shlex.split(args.build_command),
+                backend=args.backend,
+                max_steps=args.max_steps,
+                time_budget_sec=args.time_budget,
+                step_timeout_sec=args.step_timeout,
+                command_timeout_sec=args.command_timeout,
+                output_root=args.output_root,
+                run_name=args.run_name,
+                enable_search=args.search,
+                model=args.model,
+                reasoning_effort=args.reasoning_effort,
+            ),
+            args.json,
+        )
+        return 0
+
     if args.command == "run-lean-formalizer":
         runner = LeanFormalizerRunner(repo_root=_repo_root())
         if args.model is not None:
@@ -1310,6 +1804,11 @@ def main(argv: list[str] | None = None) -> int:
             statement = args.statement_file.read_text(encoding="utf-8")
         else:
             statement = ""
+        expected_target_header = (
+            args.expected_target_header_file.read_text(encoding="utf-8")
+            if args.expected_target_header_file is not None
+            else None
+        )
         max_stalled_attempts = args.max_stalled_attempts if args.max_stalled_attempts > 0 else None
         _print(
             runner.run(
@@ -1329,6 +1828,7 @@ def main(argv: list[str] | None = None) -> int:
                 enable_search=args.search,
                 max_stalled_attempts=max_stalled_attempts,
                 rollback_failed_attempts=args.rollback_failed_attempts,
+                expected_target_header=expected_target_header,
             ),
             args.json,
         )

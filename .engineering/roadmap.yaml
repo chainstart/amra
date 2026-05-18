@@ -575,6 +575,495 @@
           "generated_at": "2026-05-10T14:05:00Z"
         }
       ]
+    },
+    {
+      "id": "amra-portfolio-campaign-refactor",
+      "title": "AMRA Portfolio Campaign Refactor",
+      "status": "active",
+      "objective": "Implement the AMRA portfolio campaign system from docs/portfolio_campaign_spec.md: canonical AMRA interfaces, durable portfolio memory, broad scouting, independent evaluation, attack scheduling, memory consolidation, library harvesting, dashboard reports, and AMRA result bundles.",
+      "generated_by": "codex-amra-framework-bootstrap",
+      "generated_at": "2026-05-18T08:00:00Z",
+      "tasks": [
+        {
+          "id": "amra-legacy-module-disposition",
+          "title": "Classify legacy ara_math modules before migration",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 1,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "docs/amra_legacy_module_disposition.zh.md",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml",
+            "tests/test_amra_interfaces.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex validates AMRA legacy module disposition",
+              "executor": "codex",
+              "timeout_seconds": 2400,
+              "prompt": "Implement task package 0 from docs/amra_engineering_harness_development_plan.zh.md. Validate and refine docs/amra_legacy_module_disposition.zh.md so every src/ara_math/*.py file has an explicit disposition. Do not delete or move legacy modules in this task. Update roadmap references if needed."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Legacy module disposition covers every ara_math Python file",
+              "command": "python3 - <<'PY'\nfrom pathlib import Path\ndoc = Path('docs/amra_legacy_module_disposition.zh.md').read_text(encoding='utf-8')\nmissing = [p.name for p in sorted(Path('src/ara_math').glob('*.py')) if f'`{p.name}`' not in doc]\nif missing:\n    raise SystemExit(f'missing module disposition entries: {missing}')\nprint('covered', len(list(Path('src/ara_math').glob('*.py'))))\nPY",
+              "required": true,
+              "timeout_seconds": 60
+            },
+            {
+              "name": "AMRA interface tests still pass",
+              "command": "python3 -m pytest -q tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 300
+            }
+          ]
+        },
+        {
+          "id": "amra-rename-hardening",
+          "title": "Harden canonical AMRA package and CLI interfaces",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/**",
+            "amra/**",
+            "ara_math/**",
+            "src/ara_math/__init__.py",
+            "src/ara_math/cli.py",
+            "pyproject.toml",
+            "run.py",
+            "research_lab.yaml",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex hardens AMRA interfaces",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Implement task package 1 from docs/amra_engineering_harness_development_plan.zh.md. Harden the canonical AMRA package and CLI interface while preserving legacy ara_math and ara-math compatibility. Keep changes scoped to package/CLI metadata, research_lab.yaml, and focused tests. Do not remove src/ara_math yet."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA interface tests",
+              "command": "python3 -m pytest -q tests/test_amra_interfaces.py tests/test_cli_flow.py",
+              "required": true,
+              "timeout_seconds": 600
+            },
+            {
+              "name": "AMRA CLI smoke",
+              "command": "python3 -m amra --help >/tmp/amra_help.txt && python3 -m amra list-problems --bank data/problem_bank.yaml --json >/tmp/amra_problem_list.json && python3 -m ara_math list-problems --bank data/problem_bank.yaml --json >/tmp/ara_math_problem_list.json",
+              "required": true,
+              "timeout_seconds": 120
+            }
+          ]
+        },
+        {
+          "id": "amra-portfolio-data-layer",
+          "title": "Implement durable AMRA portfolio data layer",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_memory.py",
+            "src/amra/portfolio_campaign.py",
+            "tests/test_portfolio_memory.py",
+            "tests/test_portfolio_campaign.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA portfolio data layer",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 2 from docs/amra_engineering_harness_development_plan.zh.md. Extend the AMRA portfolio scaffold into a complete durable data layer: append-only problem lifecycle, claim ledger, route ledger, failed route ledger, global index merge, and resume pack generation. Keep tests deterministic and local."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Portfolio data tests",
+              "command": "python3 -m pytest -q tests/test_portfolio_memory.py tests/test_portfolio_campaign.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ]
+        },
+        {
+          "id": "amra-broad-scouting-integration",
+          "title": "Connect portfolio campaigns to broad scouting",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_campaign.py",
+            "src/ara_math/math_scout.py",
+            "src/ara_math/cli.py",
+            "tests/test_portfolio_scouting.py",
+            "tests/test_math_scout.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex integrates AMRA broad scouting",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 3 from docs/amra_engineering_harness_development_plan.zh.md. Connect run-portfolio-campaign to short-budget MathScoutRunner probes with deterministic fake-runner tests. Scout failures and timeouts must still write valid artifacts."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Portfolio scouting tests",
+              "command": "python3 -m pytest -q tests/test_portfolio_scouting.py tests/test_math_scout.py",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Portfolio campaign smoke",
+              "command": "python3 -m amra run-portfolio-campaign --bank data/problem_bank.yaml --run-name harness-smoke --scout-limit 3 --promote-top 1 --scout-timeout 60 --json >/tmp/amra_portfolio_campaign.json",
+              "required": true,
+              "timeout_seconds": 180
+            }
+          ]
+        },
+        {
+          "id": "amra-independent-evaluator",
+          "title": "Add independent portfolio evaluator",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_evaluator.py",
+            "src/amra/portfolio_campaign.py",
+            "src/ara_math/cli.py",
+            "tests/test_portfolio_evaluator.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA independent evaluator",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 4 from docs/amra_engineering_harness_development_plan.zh.md. Add a read-only independent evaluator over durable proof, Lean, claim, route, and failed-route artifacts. It must produce amra.difficulty_evaluation.v1 and support promote/continue/park/freeze/source_recover/counterexample_review recommendations."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Portfolio evaluator tests",
+              "command": "python3 -m pytest -q tests/test_portfolio_evaluator.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ]
+        },
+        {
+          "id": "amra-pure-agent-runner-migration",
+          "title": "Promote pure agent runners into canonical AMRA agents",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/pure_agents.py",
+            "src/ara_math/agent_tools.py",
+            "src/ara_math/proof_state.py",
+            "src/ara_math/focused_attack.py",
+            "src/amra/agents/**",
+            "src/amra/proof/**",
+            "tests/test_pure_agents.py",
+            "tests/test_focused_attack.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            "docs/amra_legacy_module_disposition.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex migrates AMRA pure agent runners",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 4.5 from docs/amra_engineering_harness_development_plan.zh.md. Promote pure_agents.py into canonical AMRA proof agent runner modules under src/amra/agents and src/amra/proof while preserving legacy ara_math imports and behavior. Do not delete legacy files. Keep existing durable run artifacts, prompt/output/report behavior, and focused attack integration."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Pure agent runner tests",
+              "command": "python3 -m pytest -q tests/test_pure_agents.py tests/test_focused_attack.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Canonical and legacy pure agent imports agree",
+              "command": "python3 - <<'PY'\nfrom amra.agents.proof import UnifiedProofAgentLoop\nfrom amra.agents.lean import LeanFromNaturalProofAgent\nfrom ara_math.pure_agents import UnifiedProofAgentLoop as LegacyUnifiedProofAgentLoop\nassert UnifiedProofAgentLoop is LegacyUnifiedProofAgentLoop\nassert LeanFromNaturalProofAgent is not None\nPY",
+              "required": true,
+              "timeout_seconds": 60
+            }
+          ]
+        },
+        {
+          "id": "amra-attack-scheduling-locks",
+          "title": "Implement attack scheduling, locks, and isolated workspaces",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_scheduler.py",
+            "src/amra/portfolio_campaign.py",
+            "src/ara_math/campaign_loop.py",
+            "src/ara_math/focused_attack.py",
+            "src/ara_math/lean_formalizer.py",
+            "tests/test_portfolio_scheduler.py",
+            "tests/test_focused_attack.py",
+            "tests/test_lean_formalizer.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA attack scheduler",
+              "executor": "codex",
+              "timeout_seconds": 10800,
+              "prompt": "Implement task package 5 from docs/amra_engineering_harness_development_plan.zh.md. Add promoted-target scheduling, lock files, isolated formal workspaces, and progress velocity metrics. Do not allow two workers to write the same canonical Lean workspace or library module."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Portfolio scheduler tests",
+              "command": "python3 -m pytest -q tests/test_portfolio_scheduler.py tests/test_focused_attack.py tests/test_lean_formalizer.py",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ]
+        },
+        {
+          "id": "amra-memory-consolidation",
+          "title": "Implement AMRA memory consolidation and failed-route retrieval",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_memory.py",
+            "src/amra/portfolio_campaign.py",
+            "src/ara_math/proof_state.py",
+            "tests/test_portfolio_memory_consolidation.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA memory consolidation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 6 from docs/amra_engineering_harness_development_plan.zh.md. Automatically consolidate proof outputs, Lean reports, review notes, claims, routes, failed routes, and global indexes. Include a P6-style failed-route regression fixture."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Portfolio memory consolidation tests",
+              "command": "python3 -m pytest -q tests/test_portfolio_memory_consolidation.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ]
+        },
+        {
+          "id": "amra-library-harvesting",
+          "title": "Implement canonical AMRA library harvesting",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/amra_library.py",
+            "src/amra/portfolio_campaign.py",
+            "src/ara_math/ara_library.py",
+            "src/ara_math/lean.py",
+            "src/ara_math/cli.py",
+            "amra_library/**",
+            "tests/test_amra_library.py",
+            "tests/test_lean_executor.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA library harvesting",
+              "executor": "codex",
+              "timeout_seconds": 10800,
+              "prompt": "Implement task package 7 from docs/amra_engineering_harness_development_plan.zh.md. Add canonical amra_library / AmraLibrary support with legacy ara_library / AraLibrary migration shims. Harvest only Lean-verified declarations with no sorry/admit/axiom/opaque/placeholders."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA library tests",
+              "command": "python3 -m pytest -q tests/test_amra_library.py tests/test_lean_executor.py",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "AMRA library CLI smoke",
+              "command": "python3 -m amra init-amra-library --json >/tmp/amra_library_init.json && python3 -m amra build-amra-library --timeout 120 --json >/tmp/amra_library_build.json",
+              "required": false,
+              "timeout_seconds": 240
+            }
+          ]
+        },
+        {
+          "id": "amra-dashboard-result-bundle",
+          "title": "Add AMRA portfolio reports and result bundle export",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_reports.py",
+            "src/amra/result_bundle.py",
+            "src/ara_math/cli.py",
+            "research_lab.yaml",
+            "tests/test_amra_result_bundle.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA reports and result bundles",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 8 from docs/amra_engineering_harness_development_plan.zh.md. Add portfolio final reports and amra_result_bundle export for ARA consumption. The bundle must distinguish natural-language proof sketches from Lean-verified declarations."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA result bundle tests",
+              "command": "python3 -m pytest -q tests/test_amra_result_bundle.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amra-initial-spec-completion",
+      "title": "AMRA Initial Spec Completion",
+      "status": "active",
+      "objective": "Finish the AMRA-side result bundle and known-problem proof smoke required by the initial ARA ecosystem spec.",
+      "tasks": [
+        {
+          "id": "amra-ara-result-bundle-contract-hardening",
+          "title": "Harden AMRA result bundle contract for ARA consumption",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "file_scope": [
+            "**",
+            "src/amra/**",
+            "src/ara_math/cli.py",
+            "research_lab.yaml",
+            "tests/fixtures/**",
+            "tests/test_amra_result_bundle_contract.py",
+            "tests/test_amra_result_bundle.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "codex hardens AMRA ARA result bundle contract",
+              "executor": "codex",
+              "prompt": "Implement task package 10 from /home/biostar/work/projects/auto-research-agent/docs/initial_spec_remaining_harness_packages.zh.md. Build on the existing AMRA result bundle exporter and harden the ARA-facing contract: proof sketches, Lean build reports, verified declarations, unresolved blockers, artifact manifest, limitations, and writing brief must be separated so ARA cannot treat a sketch as Lean-verified. Add deterministic fixtures and focused tests. Preserve existing AMRA CLI compatibility aliases.",
+              "timeout_seconds": 2400,
+              "no_progress_timeout_seconds": 480,
+              "requested_capabilities": [
+                "agent"
+              ]
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA contract fixture exports bundle",
+              "command": "python3 -m amra export-amra-result-bundle --project tests/fixtures/amra_contract_project --output /tmp/amra_contract_bundle >/tmp/amra_contract_export.json",
+              "required": true,
+              "timeout_seconds": 240
+            },
+            {
+              "name": "AMRA result bundle contract tests pass",
+              "command": "python3 -m pytest -q tests/test_amra_result_bundle_contract.py tests/test_amra_result_bundle.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 420
+            }
+          ]
+        },
+        {
+          "id": "amra-known-problem-proof-smoke",
+          "title": "Run bounded known-problem proof and formalization smoke for ARA bundle export",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "file_scope": [
+            "**",
+            "src/amra/**",
+            "src/ara_math/cli.py",
+            "tests/fixtures/**",
+            "tests/test_amra_known_problem_smoke.py",
+            "tests/test_amra_result_bundle.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "codex implements AMRA known problem smoke",
+              "executor": "codex",
+              "prompt": "Implement task package 11 from /home/biostar/work/projects/auto-research-agent/docs/initial_spec_remaining_harness_packages.zh.md. Add a bounded known-problem proof/formalization smoke path that can run on a deterministic fixture problem, emit proof_attempt_ledger, Lean report, verified/blocked status, and export an AMRA result bundle for ARA consumption. Do not require solving an open problem or running long LLM calls.",
+              "timeout_seconds": 2400,
+              "no_progress_timeout_seconds": 480,
+              "requested_capabilities": [
+                "agent"
+              ]
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA known problem smoke emits bundle",
+              "command": "python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_known_problem_bundle --json >/tmp/amra_known_problem_smoke.json",
+              "required": true,
+              "timeout_seconds": 180
+            },
+            {
+              "name": "AMRA known problem smoke tests pass",
+              "command": "python3 -m pytest -q tests/test_amra_known_problem_smoke.py tests/test_amra_result_bundle.py",
+              "required": true,
+              "timeout_seconds": 420
+            }
+          ]
+        }
+      ]
     }
   ],
   "continuation": {

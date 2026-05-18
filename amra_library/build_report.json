@@ -1,0 +1,64 @@
+{
+  "status": "passed",
+  "command": [
+    "/home/biostar/.elan/bin/lake",
+    "build",
+    "+AmraLibrary:olean"
+  ],
+  "workdir": "/home/biostar/work/projects/ara-math/amra_library/formal",
+  "generated_at": "2026-05-18T13:04:26+00:00",
+  "build_seconds": 0.754,
+  "returncode": 0,
+  "sorry_count": 0,
+  "diagnostics": [],
+  "stdout_tail": "Build completed successfully (2 jobs).\n",
+  "stderr_tail": "",
+  "toolchain": {
+    "lake": "/home/biostar/.elan/bin/lake",
+    "lean": "/home/biostar/.elan/bin/lean"
+  },
+  "reuse_report": {
+    "target_packages_dir": "/home/biostar/work/projects/ara-math/amra_library/formal/.lake/packages",
+    "target_toolchain": "leanprover/lean4:v4.26.0",
+    "status": "existing",
+    "selected_source": "/home/biostar/work/projects/ara-math/amra_library/formal/.lake/packages",
+    "candidate_count": 0,
+    "build_ready": true,
+    "manifest": {
+      "target_manifest_path": "/home/biostar/work/projects/ara-math/amra_library/formal/lake-manifest.json",
+      "status": "existing",
+      "selected_source": "/home/biostar/work/projects/ara-math/amra_library/formal/lake-manifest.json",
+      "candidate_count": 0
+    },
+    "local_asset_search_entries": []
+  },
+  "resource_policy": {
+    "memory_mb": 12288,
+    "cpu_seconds": 130,
+    "max_processes": 4096,
+    "niceness": 10,
+    "allow_cold_cache": false,
+    "olean_only": true,
+    "direct_lean_verify": false,
+    "local_asset_search_entries": []
+  },
+  "system_guard": {
+    "status": "ready",
+    "snapshot": {
+      "captured_at": 1779109465,
+      "cpu_count": 8,
+      "load1": 0.92,
+      "load5": 1.011,
+      "load15": 1.15,
+      "load_per_cpu": 0.115,
+      "mem_total_mb": 32098.2,
+      "mem_available_mb": 30373.5
+    },
+    "blockers": [],
+    "thresholds": {
+      "min_available_memory_mb": 6144,
+      "max_load_per_cpu": 1.5
+    }
+  },
+  "summary": "Lean build passed with no detected `sorry` placeholders."
+}

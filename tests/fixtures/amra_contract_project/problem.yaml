@@ -1,0 +1,7 @@
+problem_id: amra-contract-fixture
+title: AMRA contract fixture theorem
+statement: Prove that every object in the singleton fixture set is equal to itself.
+source: deterministic unit fixture
+references:
+  - https://example.test/amra-contract-fixture
+

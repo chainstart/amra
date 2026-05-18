@@ -1,0 +1,20 @@
+{
+  "evidence": [
+    {
+      "owner_id": "main",
+      "owner_type": "claim",
+      "path": "tests/fixtures/amra_contract_project/proof/sketches/main.md",
+      "problem_id": "amra-contract-fixture",
+      "type": "proof_output"
+    },
+    {
+      "owner_id": "fixture-proof-gap",
+      "owner_type": "failed_route",
+      "path": "proof/sketches/main.md",
+      "problem_id": "amra-contract-fixture",
+      "type": "proof_gap"
+    }
+  ],
+  "schema_version": "amra.evidence_index.v1",
+  "updated_at": "2026-05-18T15:11:52+00:00"
+}

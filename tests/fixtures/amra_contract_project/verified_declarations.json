@@ -1,0 +1,45 @@
+{
+  "declarations": [
+    {
+      "full_name": "ContractFixture.sketch_claim",
+      "kind": "theorem",
+      "lean_name": "ContractFixture.sketch_claim",
+      "name": "sketch_claim",
+      "relative_path": "ContractFixture.lean",
+      "statement": "This declaration is intentionally not Lean verified.",
+      "status": "sketch"
+    },
+    {
+      "full_name": "ContractFixture.verified_identity",
+      "kind": "theorem",
+      "lean_name": "ContractFixture.verified_identity",
+      "name": "verified_identity",
+      "relative_path": "ContractFixture.lean",
+      "statement": "theorem verified_identity (x : Nat) : x = x",
+      "status": "lean_verified"
+    },
+    {
+      "full_name": "ContractFixture.sketch_claim",
+      "kind": "theorem",
+      "lean_name": "ContractFixture.sketch_claim",
+      "name": "sketch_claim",
+      "problem_id": "amra-contract-fixture",
+      "relative_path": "ContractFixture.lean",
+      "statement": "This declaration is intentionally not Lean verified.",
+      "status": "lean_verified"
+    },
+    {
+      "full_name": "ContractFixture.verified_identity",
+      "kind": "theorem",
+      "lean_name": "ContractFixture.verified_identity",
+      "name": "verified_identity",
+      "problem_id": "amra-contract-fixture",
+      "relative_path": "ContractFixture.lean",
+      "statement": "theorem verified_identity (x : Nat) : x = x",
+      "status": "lean_verified"
+    }
+  ],
+  "problem_id": "amra-contract-fixture",
+  "schema_version": "amra.verified_declarations.v1",
+  "updated_at": "2026-05-18T15:11:52+00:00"
+}

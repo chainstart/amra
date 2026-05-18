@@ -3,9 +3,9 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ara-math"
-version = "0.1.0"
-description = "Mathematics research automation system with Lean formalization"
+name = "amra"
+version = "0.2.0"
+description = "Automated Mathematical Research Agents with Lean formalization"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -13,7 +13,9 @@ dependencies = [
 ]
 
 [project.scripts]
+amra = "amra.cli:main"
 ara-math = "ara_math.cli:main"
+ara_math = "ara_math.cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
