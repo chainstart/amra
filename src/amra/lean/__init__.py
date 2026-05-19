@@ -28,7 +28,7 @@ __all__ = [
 
 def __getattr__(name: str) -> Any:
     if name == "LeanExecutor":
-        from ara_math.lean import LeanExecutor
+        from amra.lean.executor import LeanExecutor
 
         return LeanExecutor
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
