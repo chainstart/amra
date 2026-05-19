@@ -1233,7 +1233,7 @@
     {
       "id": "amra-next-development-targets",
       "title": "AMRA Next Development Targets",
-      "status": "planned",
+      "status": "active",
       "objective": "Implement the next development targets from the portfolio campaign spec: finish canonical package migration, converge legacy shims, consolidate duplicate proof/agent/formalization layers, and extend the portfolio campaign loop toward trusted source ranking, domain executors, and a nontrivial closed-theorem benchmark.",
       "generated_by": "engineering-harness-continuation",
       "generated_at": "2026-05-19T03:22:34Z",
@@ -1241,7 +1241,7 @@
         {
           "id": "amra-canonical-core-migration",
           "title": "Move stable core modules into canonical AMRA packages",
-          "status": "pending",
+          "status": "failed",
           "max_attempts": 2,
           "max_task_iterations": 3,
           "manual_approval_required": false,
@@ -1262,7 +1262,11 @@
             "tests/test_workspace_and_planning.py",
             "tests/test_lean_executor.py",
             "docs/portfolio_campaign_spec.md",
-            "docs/portfolio_campaign_spec.zh.md"
+            "docs/portfolio_campaign_spec.zh.md",
+            ".engineering/spec_tasks.yaml",
+            "docs/amra_implementation_status.zh.md",
+            "docs/decisions/2026-05-19-spec-governance.zh.md",
+            "docs/repository_relationships_architecture.zh.md"
           ],
           "implementation": [
             {
@@ -1301,7 +1305,7 @@
         {
           "id": "amra-legacy-shim-convergence",
           "title": "Convert migrated legacy modules into explicit compatibility shims",
-          "status": "pending",
+          "status": "passed",
           "max_attempts": 2,
           "max_task_iterations": 2,
           "manual_approval_required": false,
@@ -1352,7 +1356,7 @@
         {
           "id": "amra-proof-loop-consolidation",
           "title": "Add canonical proof loop adapters and routing contracts",
-          "status": "pending",
+          "status": "passed",
           "max_attempts": 2,
           "max_task_iterations": 2,
           "manual_approval_required": false,
@@ -1400,7 +1404,7 @@
         {
           "id": "amra-agent-tool-normalization",
           "title": "Normalize agent and tool ownership under AMRA",
-          "status": "pending",
+          "status": "passed",
           "max_attempts": 2,
           "max_task_iterations": 2,
           "manual_approval_required": false,
@@ -1446,7 +1450,7 @@
         {
           "id": "amra-formalization-layer-consolidation",
           "title": "Consolidate Lean formalization and audit layers",
-          "status": "pending",
+          "status": "passed",
           "max_attempts": 2,
           "max_task_iterations": 2,
           "manual_approval_required": false,
@@ -1494,7 +1498,7 @@
         {
           "id": "amra-portfolio-active-execution-loop",
           "title": "Add bounded active execution to portfolio campaigns",
-          "status": "pending",
+          "status": "passed",
           "max_attempts": 2,
           "max_task_iterations": 3,
           "manual_approval_required": false,
@@ -1545,7 +1549,7 @@
         {
           "id": "amra-source-quality-ranking",
           "title": "Add trusted source quality ranking and audit artifacts",
-          "status": "pending",
+          "status": "passed",
           "max_attempts": 2,
           "max_task_iterations": 2,
           "manual_approval_required": false,
@@ -1589,7 +1593,7 @@
         {
           "id": "amra-domain-search-executors",
           "title": "Add deterministic domain-specific search executor interfaces",
-          "status": "pending",
+          "status": "passed",
           "max_attempts": 2,
           "max_task_iterations": 2,
           "manual_approval_required": false,
@@ -1632,7 +1636,7 @@
         {
           "id": "amra-nontrivial-closed-theorem-benchmark",
           "title": "Add a nontrivial closed-theorem end-to-end benchmark",
-          "status": "pending",
+          "status": "passed",
           "max_attempts": 2,
           "max_task_iterations": 2,
           "manual_approval_required": false,
@@ -2325,7 +2329,7 @@
       {
         "id": "amra-next-development-targets",
         "title": "AMRA Next Development Targets",
-        "status": "planned",
+        "status": "active",
         "objective": "Implement the next development targets from the portfolio campaign spec: finish canonical package migration, converge legacy shims, consolidate duplicate proof/agent/formalization layers, and extend the portfolio campaign loop toward trusted source ranking, domain executors, and a nontrivial closed-theorem benchmark.",
         "spec_refs": [
           "docs/portfolio_campaign_spec.zh.md#16.2",
@@ -2335,7 +2339,7 @@
           {
             "id": "amra-canonical-core-migration",
             "title": "Move stable core modules into canonical AMRA packages",
-            "status": "pending",
+            "status": "failed",
             "max_attempts": 2,
             "max_task_iterations": 3,
             "manual_approval_required": false,
@@ -2356,7 +2360,11 @@
               "tests/test_workspace_and_planning.py",
               "tests/test_lean_executor.py",
               "docs/portfolio_campaign_spec.md",
-              "docs/portfolio_campaign_spec.zh.md"
+              "docs/portfolio_campaign_spec.zh.md",
+              ".engineering/spec_tasks.yaml",
+              "docs/amra_implementation_status.zh.md",
+              "docs/decisions/2026-05-19-spec-governance.zh.md",
+              "docs/repository_relationships_architecture.zh.md"
             ],
             "implementation": [
               {
@@ -2392,7 +2400,7 @@
           {
             "id": "amra-legacy-shim-convergence",
             "title": "Convert migrated legacy modules into explicit compatibility shims",
-            "status": "pending",
+            "status": "passed",
             "max_attempts": 2,
             "max_task_iterations": 2,
             "manual_approval_required": false,
@@ -2440,7 +2448,7 @@
           {
             "id": "amra-proof-loop-consolidation",
             "title": "Add canonical proof loop adapters and routing contracts",
-            "status": "pending",
+            "status": "passed",
             "max_attempts": 2,
             "max_task_iterations": 2,
             "manual_approval_required": false,
@@ -2485,7 +2493,7 @@
           {
             "id": "amra-agent-tool-normalization",
             "title": "Normalize agent and tool ownership under AMRA",
-            "status": "pending",
+            "status": "passed",
             "max_attempts": 2,
             "max_task_iterations": 2,
             "manual_approval_required": false,
@@ -2528,7 +2536,7 @@
           {
             "id": "amra-formalization-layer-consolidation",
             "title": "Consolidate Lean formalization and audit layers",
-            "status": "pending",
+            "status": "passed",
             "max_attempts": 2,
             "max_task_iterations": 2,
             "manual_approval_required": false,
@@ -2573,7 +2581,7 @@
           {
             "id": "amra-portfolio-active-execution-loop",
             "title": "Add bounded active execution to portfolio campaigns",
-            "status": "pending",
+            "status": "passed",
             "max_attempts": 2,
             "max_task_iterations": 3,
             "manual_approval_required": false,
@@ -2621,7 +2629,7 @@
           {
             "id": "amra-source-quality-ranking",
             "title": "Add trusted source quality ranking and audit artifacts",
-            "status": "pending",
+            "status": "passed",
             "max_attempts": 2,
             "max_task_iterations": 2,
             "manual_approval_required": false,
@@ -2662,7 +2670,7 @@
           {
             "id": "amra-domain-search-executors",
             "title": "Add deterministic domain-specific search executor interfaces",
-            "status": "pending",
+            "status": "passed",
             "max_attempts": 2,
             "max_task_iterations": 2,
             "manual_approval_required": false,
@@ -2702,7 +2710,7 @@
           {
             "id": "amra-nontrivial-closed-theorem-benchmark",
             "title": "Add a nontrivial closed-theorem end-to-end benchmark",
-            "status": "pending",
+            "status": "passed",
             "max_attempts": 2,
             "max_task_iterations": 2,
             "manual_approval_required": false,
