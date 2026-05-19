@@ -12,6 +12,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
 
+from amra.agents.env import agent_environment
+
+
 def utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
@@ -245,8 +248,7 @@ class CodexEpisodeLoopAgent:
                 timeout=max(1, timeout_sec),
                 env={
                     **os.environ,
-                    "ARA_PURE_AGENT_RUN_DIR": str(self.run_dir),
-                    "ARA_PURE_AGENT_WORKSPACE": str(self.workspace),
+                    **agent_environment(run_dir=self.run_dir, workspace=self.workspace),
                 },
             )
         except subprocess.TimeoutExpired as exc:

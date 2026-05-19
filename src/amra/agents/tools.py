@@ -7,6 +7,14 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from amra.agents.env import (
+    AMRA_AGENT_RUN_DIR_ENV,
+    AMRA_AGENT_WORKSPACE_ENV,
+    LEGACY_AGENT_RUN_DIR_ENV,
+    LEGACY_AGENT_WORKSPACE_ENV,
+    agent_environment,
+)
+
 
 @dataclass(frozen=True)
 class ToolSpec:
@@ -35,14 +43,16 @@ class ToolRegistry:
 
     def _default_tools(self) -> list[ToolSpec]:
         build_command = " ".join(self.build_command)
+        run_dir = f"${AMRA_AGENT_RUN_DIR_ENV}"
+        workspace = f"${AMRA_AGENT_WORKSPACE_ENV}"
         return [
             ToolSpec(
                 name="lean_quick_check",
                 purpose="Check a small Lean definition, theorem statement, or local lemma before committing to a route.",
                 when_to_use="Use during proof exploration whenever a definition, boundary case, or lemma shape might fail in Lean.",
                 command_templates=[
-                    "mkdir -p \"$ARA_PURE_AGENT_RUN_DIR/lean_probes\"",
-                    "cd \"$ARA_PURE_AGENT_WORKSPACE\" && lake env lean \"$ARA_PURE_AGENT_RUN_DIR/lean_probes/<probe>.lean\"",
+                    f"mkdir -p \"{run_dir}/lean_probes\"",
+                    f"cd \"{workspace}\" && lake env lean \"{run_dir}/lean_probes/<probe>.lean\"",
                 ],
                 artifact_contract=(
                     "Store every probe as lean_probes/<probe>.lean and append the command result to lean_probe_log.md."
@@ -56,7 +66,7 @@ class ToolRegistry:
                 name="lean_build",
                 purpose="Run the verifier on the current Lean workspace.",
                 when_to_use="Use after editing Lean files or before claiming a formal checkpoint.",
-                command_templates=[f"cd \"$ARA_PURE_AGENT_WORKSPACE\" && {build_command}"],
+                command_templates=[f"cd \"{workspace}\" && {build_command}"],
                 artifact_contract="Record build command, exit status, and relevant diagnostics in lean_probe_log.md or proof_notes.md.",
                 notes=[
                     "Final verification still comes from the host observer.",
@@ -81,8 +91,8 @@ class ToolRegistry:
                 purpose="Run finite searches, sanity checks, symbolic computations, or small counterexample probes.",
                 when_to_use="Use for combinatorics, inequalities, recurrences, graph checks, and example generation.",
                 command_templates=[
-                    "mkdir -p \"$ARA_PURE_AGENT_RUN_DIR/experiments\"",
-                    "python3 \"$ARA_PURE_AGENT_RUN_DIR/experiments/<experiment>.py\"",
+                    f"mkdir -p \"{run_dir}/experiments\"",
+                    f"python3 \"{run_dir}/experiments/<experiment>.py\"",
                 ],
                 artifact_contract=(
                     "Store scripts under experiments/ and append JSONL-style summaries to experiments.jsonl."
@@ -123,7 +133,7 @@ class ToolRegistry:
                 purpose="Retrieve previous blockers, failed routes, partial lemmas, and formalization handoffs.",
                 when_to_use="Use before restarting a route or when a host observation mentions a blocker.",
                 command_templates=[
-                    "rg -n \"<keyword>\" \"$ARA_PURE_AGENT_RUN_DIR\" artifacts projects",
+                    f"rg -n \"<keyword>\" \"{run_dir}\" artifacts projects",
                     "find artifacts -name 'blocker.md' -o -name 'partial_lemmas.md' -o -name 'failed_routes.md'",
                 ],
                 artifact_contract="Cite reused memory paths in proof_notes.md and update blockers.md if the same blocker remains.",
@@ -136,6 +146,12 @@ class ToolRegistry:
     def to_dict(self) -> dict[str, Any]:
         return {
             "build_command": self.build_command,
+            "environment_variables": {
+                "run_dir": AMRA_AGENT_RUN_DIR_ENV,
+                "workspace": AMRA_AGENT_WORKSPACE_ENV,
+                "legacy_run_dir": LEGACY_AGENT_RUN_DIR_ENV,
+                "legacy_workspace": LEGACY_AGENT_WORKSPACE_ENV,
+            },
             "tools": [asdict(tool) for tool in self.tools],
         }
 
@@ -145,6 +161,7 @@ class ToolRegistry:
             [
                 "The agent decides which tool to use and executes commands directly inside its Codex episode.",
                 "Every nontrivial tool call should leave a durable artifact in the run directory.",
+                f"The canonical runtime variables are `${AMRA_AGENT_RUN_DIR_ENV}` and `${AMRA_AGENT_WORKSPACE_ENV}`; legacy ARA aliases remain available for old prompts.",
                 "",
             ]
         )
@@ -192,6 +209,12 @@ class ToolRegistry:
             "python_modules": python_modules,
             "workspace": workspace_payload,
             "registry_tool_count": len(self.tools),
+            "environment_variables": {
+                "run_dir": AMRA_AGENT_RUN_DIR_ENV,
+                "workspace": AMRA_AGENT_WORKSPACE_ENV,
+                "legacy_run_dir": LEGACY_AGENT_RUN_DIR_ENV,
+                "legacy_workspace": LEGACY_AGENT_WORKSPACE_ENV,
+            },
         }
 
     def write_artifacts(self, run_dir: Path, *, workspace: Path | None = None) -> dict[str, Any]:
@@ -206,4 +229,12 @@ class ToolRegistry:
         return snapshot
 
 
-__all__ = ["ToolSpec", "ToolRegistry"]
+__all__ = [
+    "AMRA_AGENT_RUN_DIR_ENV",
+    "AMRA_AGENT_WORKSPACE_ENV",
+    "LEGACY_AGENT_RUN_DIR_ENV",
+    "LEGACY_AGENT_WORKSPACE_ENV",
+    "ToolSpec",
+    "ToolRegistry",
+    "agent_environment",
+]
