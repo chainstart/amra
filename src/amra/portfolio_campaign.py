@@ -12,6 +12,7 @@ from amra.problem_banks.registry import load_problem_bank
 
 from amra.amra_library import AmraLibraryManager
 from amra.portfolio_evaluator import PortfolioEvaluator
+from amra.source_quality import SOURCE_QUALITY_RECOVERY_THRESHOLD, source_quality_for_problem_record
 from amra.portfolio_memory import (
     append_jsonl,
     append_state_transition,
@@ -160,12 +161,15 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
     scout_feasibility = float(parsed_probe.get("feasibility_score", 0.0) or 0.0)
     proof_attempt_status = str(parsed_probe.get("proof_attempt_status", "failed"))
     scout_primary_blocker = str(parsed_probe.get("primary_blocker", "unknown"))
-    source_quality_score = 2.0 + min(len(references), 3) + (1.0 if exact_statement else 0.0)
+    source_quality_audit = source_quality_for_problem_record(problem)
+    source_quality_score = float(source_quality_audit.get("score", 0.0) or 0.0)
     feasibility_score = 4.0
     if exact_statement:
         feasibility_score += 2.0
     if metadata.get("statement_quality") == "placeholder":
         feasibility_score -= 1.5
+    if source_quality_score < SOURCE_QUALITY_RECOVERY_THRESHOLD:
+        feasibility_score -= 0.75
     if "geometry" in tags or "combinatorics" in tags:
         feasibility_score += 0.5
     formalization_score = 4.0 + (1.5 if getattr(problem, "formalized", "") == "yes" else 0.0)
@@ -174,6 +178,11 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
     reusable_asset_score = 2.0 + (1.0 if any(tag in {"number theory", "combinatorics"} for tag in tags) else 0.0)
     risk_score = 4.0 if not exact_statement else 2.0
     risk_flags = [] if exact_statement else ["needs_source"]
+    if source_quality_score < SOURCE_QUALITY_RECOVERY_THRESHOLD:
+        risk_score += 0.75
+        risk_flags.append("low_source_quality")
+    if source_quality_audit.get("source_debt"):
+        risk_flags.append("source_debt")
     if scout_status == "timeout":
         risk_score += 1.0
         risk_flags.append("scout_timeout")
@@ -207,7 +216,13 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
         - expected_hours
         + active_scout_delta
     )
-    passive_recommendation = "promote" if priority >= 20 and exact_statement else "source_recover" if not exact_statement else "park"
+    passive_recommendation = (
+        "promote"
+        if priority >= 20 and exact_statement and source_quality_score >= SOURCE_QUALITY_RECOVERY_THRESHOLD
+        else "source_recover"
+        if not exact_statement or source_quality_score < SOURCE_QUALITY_RECOVERY_THRESHOLD
+        else "park"
+    )
     recommendation = passive_recommendation
     if scout_active:
         if scout_recommendation == "promote" and exact_statement:
@@ -227,6 +242,7 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
         primary_blocker = "scout_failure"
     elif scout_active and scout_primary_blocker != "unknown":
         primary_blocker = scout_primary_blocker
+    risk_flags = list(dict.fromkeys(risk_flags))
     return {
         "problem_id": getattr(problem, "problem_id", ""),
         "title": getattr(problem, "title", ""),
@@ -245,8 +261,15 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
         "recommendation": recommendation,
         "source_quality": {
             "score": round(source_quality_score, 2),
+            "tier": str(source_quality_audit.get("tier", "")),
             "reference_count": len(references),
             "statement_quality": "exact" if exact_statement else "placeholder",
+            "trusted_source_count": int(source_quality_audit.get("trusted_source_count", 0) or 0),
+            "usable_source_count": int(source_quality_audit.get("usable_source_count", 0) or 0),
+            "statement_provenance": source_quality_audit.get("statement_provenance", {}),
+            "trust_reasons": list(source_quality_audit.get("trust_reasons", []))[:8],
+            "source_debt": list(source_quality_audit.get("source_debt", []))[:8],
+            "top_sources": list(source_quality_audit.get("top_sources", []))[:4],
         },
         "shallow_proof_signal": {
             "score": round(scout_feasibility, 2),

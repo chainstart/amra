@@ -13,6 +13,7 @@ from urllib.error import URLError
 from urllib.parse import urlencode, urljoin, urlparse
 from urllib.request import Request, urlopen
 
+from amra.source_quality import build_source_quality_audit, score_source_record
 from ara_math.context import has_exact_statement, read_exact_statement, set_exact_statement
 from ara_math.models import ProblemRecord
 from ara_math.workspace import (
@@ -1499,6 +1500,11 @@ class LiteratureHarvester:
         return items
 
     def _synthesize_evidence(self, snapshots: list[dict[str, Any]]) -> dict[str, Any]:
+        quality_by_source = {
+            str(snapshot.get("source", "")): snapshot.get("source_quality", {})
+            for snapshot in snapshots
+            if str(snapshot.get("source", "")).strip()
+        }
         raw_items: list[dict[str, Any]] = []
         for snapshot in snapshots:
             raw_items.extend(snapshot.get("evidence_items", []))
@@ -1509,6 +1515,14 @@ class LiteratureHarvester:
             kind = str(item.get("kind", "")).strip()
             if not statement or not kind:
                 continue
+            quality = quality_by_source.get(str(item.get("source", "")), {})
+            if isinstance(quality, dict) and "score" in quality:
+                item = {
+                    **item,
+                    "source_quality_score": quality.get("score", 0.0),
+                    "source_quality_tier": quality.get("tier", ""),
+                    "source_trust_reasons": quality.get("trust_reasons", [])[:6],
+                }
             key = (kind, statement.lower())
             current = deduped.get(key)
             if current is None or int(item.get("score", 0)) > int(current.get("score", 0)):
@@ -1558,6 +1572,8 @@ class LiteratureHarvester:
         seen: set[str] = set()
         for snapshot in snapshots:
             snapshot_kind = str(snapshot.get("kind", "")).strip()
+            source_quality = snapshot.get("source_quality", {}) if isinstance(snapshot.get("source_quality"), dict) else {}
+            source_quality_score = float(source_quality.get("score", 0.0) or 0.0)
             source_descriptor = f"{snapshot.get('source', '')} {snapshot.get('title', '')}"
             source_numbers = {match.group(1) for match in self.ERDOS_SOURCE_PATTERN.finditer(source_descriptor)}
             for candidate in snapshot.get("candidate_statements", []):
@@ -1608,9 +1624,12 @@ class LiteratureHarvester:
                         "title": snapshot["title"],
                         "context_numbers": sorted(context_numbers),
                         "kind": snapshot_kind,
+                        "source_quality_score": round(source_quality_score, 2),
+                        "source_quality_tier": str(source_quality.get("tier", "")),
+                        "source_trust_reasons": list(source_quality.get("trust_reasons", []))[:6],
                     }
                 )
-        ranked.sort(key=lambda item: (-item["score"], len(item["statement"])))
+        ranked.sort(key=lambda item: (-item["score"], -float(item.get("source_quality_score", 0.0)), len(item["statement"])))
         if ranked:
             return ranked[0]
         return {}
@@ -1640,6 +1659,7 @@ class LiteratureHarvester:
                 "source": raw_snapshot["source"],
                 "kind": entry["kind"],
                 "source_type": raw_snapshot["source_type"],
+                "status": raw_snapshot["status"],
                 "title": raw_snapshot["title"],
                 "excerpt": text[:800],
                 "links": raw_snapshot.get("links", []),
@@ -1656,6 +1676,7 @@ class LiteratureHarvester:
                 cache_path = cache_dir / f"{index:02d}-{slugify(raw_snapshot['title']) or 'source'}.txt"
                 write_text(cache_path, text + "\n")
                 snapshot["cache_path"] = str(cache_path)
+            snapshot["source_quality"] = score_source_record(snapshot, metadata=problem.metadata or {})
             snapshots.append(snapshot)
 
         best_candidate = self._select_candidate(problem, snapshots)
@@ -1741,6 +1762,33 @@ class LiteratureHarvester:
         elif best_candidate:
             recovered_status = "candidate_found_existing_statement_kept"
 
+        recovered_statement = {
+            "status": recovered_status,
+            "statement": applied_statement or str(best_candidate.get("statement", "")),
+            "source": str(best_candidate.get("source", "")),
+            "score": int(best_candidate.get("score", 0)),
+            "source_quality_score": float(best_candidate.get("source_quality_score", 0.0) or 0.0),
+            "source_quality_tier": str(best_candidate.get("source_quality_tier", "")),
+            "source_trust_reasons": list(best_candidate.get("source_trust_reasons", []))[:6],
+        }
+        final_statement = applied_statement or current_statement or problem_statement
+        final_statement_source = (
+            f"literature recovery from {best_candidate['source']}"
+            if applied_statement and best_candidate
+            else current_source
+        )
+        source_quality_audit = build_source_quality_audit(
+            problem_id=problem.problem_id,
+            statement=final_statement,
+            statement_source=final_statement_source,
+            source=problem.source,
+            references=problem.references,
+            metadata=problem.metadata or {},
+            snapshots=snapshots,
+            skipped_sources=skipped_sources,
+            recovery=recovered_statement,
+        )
+
         report = {
             "generated_at": utc_now_iso(),
             "project_name": manifest["project_name"],
@@ -1756,12 +1804,8 @@ class LiteratureHarvester:
                 "manual_followup_count": int(paper_inventory.get("manual_followup_count", 0)),
                 "theorem_snippet_count": int(paper_inventory.get("theorem_snippet_count", 0)),
             },
-            "recovered_statement": {
-                "status": recovered_status,
-                "statement": applied_statement or str(best_candidate.get("statement", "")),
-                "source": str(best_candidate.get("source", "")),
-                "score": int(best_candidate.get("score", 0)),
-            },
+            "source_quality": source_quality_audit,
+            "recovered_statement": recovered_statement,
             "evidence": evidence,
             "snapshots": snapshots,
             "skipped_sources": skipped_sources,
@@ -1776,6 +1820,7 @@ class LiteratureHarvester:
             f"- Paper candidates tracked: `{int(paper_inventory.get('candidate_count', 0))}`",
             f"- Downloaded/open local papers: `{int(paper_inventory.get('downloaded_pdf_count', 0))}`",
             f"- Theorem snippets extracted from papers: `{int(paper_inventory.get('theorem_snippet_count', 0))}`",
+            f"- Source quality: `{source_quality_audit['score']}` ({source_quality_audit['tier']})",
             "",
             "## Statement Recovery",
             "",
@@ -1786,6 +1831,7 @@ class LiteratureHarvester:
                 [
                     f"- Status: `{recovered_statement['status']}`",
                     f"- Source: {recovered_statement['source']}",
+                    f"- Source quality: `{recovered_statement['source_quality_score']}` ({recovered_statement['source_quality_tier'] or 'unscored'})",
                     f"- Candidate: {recovered_statement['statement']}",
                     "",
                 ]
@@ -1827,6 +1873,7 @@ class LiteratureHarvester:
                     "",
                     f"- Source: {snapshot['source']}",
                     f"- Kind: `{snapshot['kind']}`",
+                    f"- Source quality: `{snapshot['source_quality']['score']}` ({snapshot['source_quality']['tier']})",
                     f"- Candidate statements found: `{len(snapshot['candidate_statements'])}`",
                     "",
                 ]
@@ -1868,6 +1915,7 @@ class LiteratureHarvester:
         write_json(project_dir / "idea" / "reference_snapshots.json", report)
         write_json(paper_inventory_path, paper_inventory)
         write_json(self._paper_theorem_inventory_path(project_dir), paper_theorem_inventory)
+        write_json(project_dir / "idea" / "source_quality_audit.json", source_quality_audit)
         write_json(project_dir / "idea" / "statement_recovery.json", report["recovered_statement"])
         write_json(project_dir / "idea" / "literature_evidence.json", evidence)
         write_text(project_dir / "idea" / "literature_digest.md", "\n".join(digest_lines) + "\n")

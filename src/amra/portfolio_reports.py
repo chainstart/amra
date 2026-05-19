@@ -53,6 +53,7 @@ def _reason(item: dict[str, Any], disposition: str) -> str:
     exact = bool(item.get("has_exact_statement", False))
     priority = item.get("priority", "unknown")
     shallow = item.get("shallow_proof_signal") if isinstance(item.get("shallow_proof_signal"), dict) else {}
+    source_quality = item.get("source_quality") if isinstance(item.get("source_quality"), dict) else {}
     proof_status = str(shallow.get("proof_attempt_status") or "unknown")
     next_investment = str(shallow.get("next_investment") or "").strip()
 
@@ -79,6 +80,13 @@ def _reason(item: dict[str, Any], disposition: str) -> str:
         details.append("risk flags " + ", ".join(f"`{flag}`" for flag in risk_flags))
     if proof_status != "unknown":
         details.append(f"proof signal `{proof_status}`")
+    if source_quality:
+        details.append(
+            f"source quality `{source_quality.get('score', 'unknown')}` ({source_quality.get('tier', 'unknown')})"
+        )
+        source_debt = [str(value) for value in source_quality.get("source_debt", []) or [] if str(value).strip()]
+        if source_debt:
+            details.append("source debt " + ", ".join(f"`{value}`" for value in source_debt[:3]))
     if next_investment:
         details.append(f"next investment: {next_investment}")
     if not details:
@@ -111,6 +119,9 @@ def build_portfolio_final_report(campaign_dir: Path, *, repo_root: Path | None =
                 "primary_blocker": str(item.get("primary_blocker") or ""),
                 "risk_flags": [str(flag) for flag in item.get("risk_flags", []) or []],
                 "has_exact_statement": bool(item.get("has_exact_statement", False)),
+                "source_quality": item.get("source_quality", {}),
+                "source_quality_score": (item.get("source_quality") or {}).get("score") if isinstance(item.get("source_quality"), dict) else item.get("source_quality_score"),
+                "source_debt": (item.get("source_quality") or {}).get("source_debt", []) if isinstance(item.get("source_quality"), dict) else [],
                 "reason": _reason(item, disposition),
             }
         )
@@ -167,6 +178,11 @@ def render_portfolio_final_report(campaign_dir: Path, *, repo_root: Path | None 
             lines.append(f"- Primary blocker: `{item['primary_blocker']}`")
         if item["risk_flags"]:
             lines.append("- Risk flags: " + ", ".join(f"`{flag}`" for flag in item["risk_flags"]))
+        if item.get("source_quality"):
+            quality = item["source_quality"]
+            lines.append(f"- Source quality: `{quality.get('score', 'unknown')}` ({quality.get('tier', 'unknown')})")
+            if quality.get("source_debt"):
+                lines.append("- Source debt: " + ", ".join(f"`{flag}`" for flag in quality.get("source_debt", [])[:6]))
         lines.append("")
 
     lines.extend(

@@ -41,6 +41,7 @@ def build_context_audit(project_dir: Path) -> dict:
     context = read_json(project_dir / "idea" / "problem_context.json", default={})
     references = read_json(project_dir / "idea" / "references.json", default={"references": []})
     snapshots = read_json(project_dir / "idea" / "reference_snapshots.json", default={})
+    source_quality = read_json(project_dir / "idea" / "source_quality_audit.json", default={})
     recovery = read_json(project_dir / "idea" / "statement_recovery.json", default={})
     evidence = read_json(project_dir / "idea" / "literature_evidence.json", default={})
     statement = read_exact_statement(project_dir)
@@ -52,6 +53,9 @@ def build_context_audit(project_dir: Path) -> dict:
         "statement_length": len(statement.strip()),
         "reference_count": len(references.get("references", [])),
         "literature_snapshot_count": int(snapshots.get("snapshot_count", 0) or 0),
+        "source_quality_score": float(source_quality.get("score", 0.0) or 0.0),
+        "source_quality_tier": source_quality.get("tier", ""),
+        "source_debt": source_quality.get("source_debt", []),
         "literature_evidence_count": sum(int(value) for value in (evidence.get("counts") or {}).values()),
         "exact_statement_status": context.get("exact_statement_status", "unknown"),
         "exact_statement_source": context.get("exact_statement_source", ""),

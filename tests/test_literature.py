@@ -258,12 +258,16 @@ def test_harvest_literature_recovers_statement_from_local_markdown(tmp_path: Pat
 
     exact_statement = (project_dir / "idea" / "exact_statement.md").read_text(encoding="utf-8")
     recovery = json.loads((project_dir / "idea" / "statement_recovery.json").read_text(encoding="utf-8"))
+    source_quality = json.loads((project_dir / "idea" / "source_quality_audit.json").read_text(encoding="utf-8"))
 
     assert report["snapshot_count"] == 1
     assert report["recovered_statement"]["status"] == "recovered"
     assert "equilateral triangle be dissected" in exact_statement
     assert "ARA_MATH_PLACEHOLDER_EXACT_STATEMENT" not in exact_statement
     assert recovery["status"] == "recovered"
+    assert source_quality["tier"] in {"trusted", "usable"}
+    assert source_quality["statement_provenance"]["source"].endswith("triangle_notes.md")
+    assert report["snapshots"][0]["source_quality"]["trust_reasons"]
 
 
 def test_plan_project_runs_local_literature_harvest(tmp_path: Path) -> None:

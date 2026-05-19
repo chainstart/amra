@@ -239,6 +239,32 @@ def create_project_workspace(
         },
     )
     write_json(
+        project_dir / "idea" / "source_quality_audit.json",
+        {
+            "schema_version": "amra.source_quality.v1",
+            "problem_id": problem.problem_id,
+            "score": 0.0,
+            "tier": "source_debt",
+            "trusted_source_count": 0,
+            "usable_source_count": 0,
+            "source_count": 0,
+            "skipped_source_count": 0,
+            "local_snapshot_count": 0,
+            "remote_without_snapshot_count": 0,
+            "statement_provenance": {
+                "has_exact_statement": False,
+                "source": "",
+                "recovery_status": "not_run",
+                "recovered_statement": "",
+                "candidate_score": 0,
+            },
+            "trust_reasons": [],
+            "source_debt": ["source_quality_not_run"],
+            "top_sources": [],
+            "skipped_sources": [],
+        },
+    )
+    write_json(
         project_dir / "idea" / "literature_evidence.json",
         {
             "counts": {

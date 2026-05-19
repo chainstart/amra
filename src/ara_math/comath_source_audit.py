@@ -4,6 +4,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
+from amra.source_quality import SOURCE_QUALITY_SCHEMA_VERSION, score_source_record
 from ara_math.artifact_graph import load_artifact_graph, save_artifact_graph
 from ara_math.comath_capabilities import refine_intake_project
 from ara_math.comath_specialists import SpecialistProvider, run_specialist
@@ -176,22 +177,37 @@ def run_source_audit_loop(
             results.append({"query": query, **result})
     results.sort(key=lambda item: item["query"]["round"])
 
+    inventory_items: list[dict[str, Any]] = []
+    for item in results:
+        inventory_item = {
+            "round": item["query"]["round"],
+            "query": item["query"]["query"],
+            "output_path": item["output_path"],
+            "provider": item["provider"]["provider"],
+            "provider_status": item["provider"]["status"],
+            "parsed_fields": item["result"]["parsed_output"]["fields"],
+            "blockers": item["result"]["parsed_output"]["blockers"],
+        }
+        inventory_item["source_quality"] = score_source_record(
+            {
+                "source": str(item["output_path"]),
+                "kind": "source_audit_round",
+                "status": "ok" if item["provider"]["status"] == "completed" else str(item["provider"]["status"]),
+                "source_type": "local_path",
+                "evidence_items": [
+                    value
+                    for value in inventory_item["parsed_fields"].values()
+                    if str(value).strip() and str(value).strip().lower() not in {"none", "n/a"}
+                ],
+            }
+        )
+        inventory_items.append(inventory_item)
+
     inventory = {
         "generated_at": utc_now_iso(),
         "loop_id": loop_id,
         "workstream_id": workstream_id,
-        "items": [
-            {
-                "round": item["query"]["round"],
-                "query": item["query"]["query"],
-                "output_path": item["output_path"],
-                "provider": item["provider"]["provider"],
-                "provider_status": item["provider"]["status"],
-                "parsed_fields": item["result"]["parsed_output"]["fields"],
-                "blockers": item["result"]["parsed_output"]["blockers"],
-            }
-            for item in results
-        ],
+        "items": inventory_items,
     }
     confidence_items = [
         {
@@ -209,6 +225,37 @@ def run_source_audit_loop(
         "items": confidence_items,
         "max_confidence": max((item["confidence"] for item in confidence_items), default=0.0),
     }
+    quality_ranked = sorted(
+        [item["source_quality"] for item in inventory_items],
+        key=lambda quality: (-float(quality.get("score", 0.0)), str(quality.get("source", ""))),
+    )
+    source_quality = {
+        "schema_version": SOURCE_QUALITY_SCHEMA_VERSION,
+        "generated_at": utc_now_iso(),
+        "loop_id": loop_id,
+        "workstream_id": workstream_id,
+        "score": float(quality_ranked[0].get("score", 0.0)) if quality_ranked else 0.0,
+        "tier": str(quality_ranked[0].get("tier", "source_debt")) if quality_ranked else "source_debt",
+        "trusted_source_count": sum(1 for item in quality_ranked if item.get("tier") == "trusted"),
+        "usable_source_count": sum(1 for item in quality_ranked if item.get("tier") in {"trusted", "usable"}),
+        "source_count": len(quality_ranked),
+        "source_debt": (
+            ["citation_confidence_below_threshold"]
+            if confidence["max_confidence"] < confidence["threshold"]
+            else []
+        ),
+        "trust_reasons": sorted({reason for item in quality_ranked for reason in item.get("trust_reasons", [])}),
+        "top_sources": [
+            {
+                "source": item.get("source", ""),
+                "score": item.get("score", 0.0),
+                "tier": item.get("tier", "source_debt"),
+                "trust_reasons": item.get("trust_reasons", [])[:6],
+                "source_debt": item.get("source_debt", [])[:6],
+            }
+            for item in quality_ranked[:8]
+        ],
+    }
     report = {
         "project_dir": str(project_dir),
         "loop_id": loop_id,
@@ -216,14 +263,17 @@ def run_source_audit_loop(
         "query_plan_path": str(source_dir / "query_plan.json"),
         "source_inventory_path": str(source_dir / "source_inventory.json"),
         "citation_confidence_path": str(source_dir / "citation_confidence.json"),
+        "source_quality_audit_path": str(source_dir / "source_quality_audit.json"),
         "executed_rounds": len(results),
         "backend": backend,
         "allow_search": allow_search,
         "confidence": confidence,
+        "source_quality": source_quality,
         "results": results,
     }
     write_json(source_dir / "source_inventory.json", inventory)
     write_json(source_dir / "citation_confidence.json", confidence)
+    write_json(source_dir / "source_quality_audit.json", source_quality)
     write_json(source_dir / "report.json", report)
     write_text(
         source_dir / "report.md",
@@ -233,6 +283,7 @@ def run_source_audit_loop(
                 "",
                 f"- Executed rounds: `{len(results)}`",
                 f"- Max confidence: `{confidence['max_confidence']}`",
+                f"- Source quality: `{source_quality['score']}` ({source_quality['tier']})",
                 f"- Backend: `{backend}`",
                 "",
             ]
@@ -241,7 +292,7 @@ def run_source_audit_loop(
 
     paths = comath_paths(project_dir)
     graph = load_artifact_graph(paths.artifact_graph)
-    for filename in ("query_plan.json", "source_inventory.json", "citation_confidence.json", "report.json"):
+    for filename in ("query_plan.json", "source_inventory.json", "citation_confidence.json", "source_quality_audit.json", "report.json"):
         graph.record_file(
             node_id=f"source-audit:{loop_id}:{filename}",
             path=str(source_dir / filename),

@@ -8,6 +8,7 @@ from typing import Any
 
 import yaml
 
+from amra.source_quality import SOURCE_QUALITY_RECOVERY_THRESHOLD, build_source_quality_audit
 from amra.portfolio_memory import (
     load_claim_ledger,
     load_failed_routes,
@@ -223,6 +224,10 @@ class PortfolioEvaluator:
             risk_flags.append("missing_exact_statement")
         if not source["has_source_provenance"]:
             risk_flags.append("missing_source_provenance")
+        if source["source_quality_score"] < SOURCE_QUALITY_RECOVERY_THRESHOLD:
+            risk_flags.append("low_source_quality")
+        if source["source_debt"]:
+            risk_flags.append("source_debt")
         if source_gap_from_routes:
             risk_flags.append("source_gap")
         if counterexample["suspected"]:
@@ -400,18 +405,58 @@ class PortfolioEvaluator:
         references: list[str] = []
         statement_quality = ""
         known_source = False
+        metadata_payloads: list[dict[str, Any]] = []
         for payload in payloads:
             statement = statement or str(payload.get("statement") or payload.get("exact_statement") or "")
             source = source or str(payload.get("source") or payload.get("provenance") or "")
             references.extend(_string_list(payload.get("references") or payload.get("source_references")))
             metadata = payload.get("metadata") if isinstance(payload.get("metadata"), dict) else {}
+            if metadata:
+                metadata_payloads.append(metadata)
             statement_quality = statement_quality or str(metadata.get("statement_quality") or payload.get("statement_quality") or "")
             known_source = known_source or bool(payload.get("known_theorem") or metadata.get("known_theorem"))
+        exact_statement_path = project / "idea" / "exact_statement.md"
+        if exact_statement_path.exists():
+            idea_statement = exact_statement_path.read_text(encoding="utf-8", errors="ignore").strip()
+            if idea_statement and not any(marker in idea_statement.lower() for marker in PLACEHOLDER_STATEMENT_MARKERS):
+                statement = idea_statement
+                statement_quality = "exact"
+                artifact_paths.append(_relative(exact_statement_path, self.repo_root))
         lowered_statement = statement.lower()
         has_exact_statement = bool(statement.strip()) and not any(marker in lowered_statement for marker in PLACEHOLDER_STATEMENT_MARKERS)
         if statement_quality.lower() in {"placeholder", "unknown", "needs_source"}:
             has_exact_statement = False
         has_source_provenance = bool(source.strip() or references or known_source)
+        metadata = metadata_payloads[0] if metadata_payloads else {}
+        source_quality_path = project / "idea" / "source_quality_audit.json"
+        persisted_source_quality = read_json(source_quality_path, default={}) if source_quality_path.exists() else {}
+        snapshots_payload = read_json(project / "idea" / "reference_snapshots.json", default={})
+        snapshots = snapshots_payload.get("snapshots", []) if isinstance(snapshots_payload, dict) else []
+        skipped_sources = snapshots_payload.get("skipped_sources", []) if isinstance(snapshots_payload, dict) else []
+        recovery = read_json(project / "idea" / "statement_recovery.json", default={})
+        has_source_provenance = has_source_provenance or bool(
+            isinstance(recovery, dict) and str(recovery.get("source", "")).strip()
+        )
+        if (
+            isinstance(persisted_source_quality, dict)
+            and persisted_source_quality.get("schema_version") == "amra.source_quality.v1"
+            and float(persisted_source_quality.get("score", 0.0) or 0.0) > 0
+        ):
+            source_quality = persisted_source_quality
+        else:
+            source_quality = build_source_quality_audit(
+                problem_id=self._problem_id(project),
+                statement=statement,
+                source=source,
+                references=references,
+                metadata=metadata,
+                snapshots=snapshots if isinstance(snapshots, list) else [],
+                skipped_sources=skipped_sources if isinstance(skipped_sources, list) else [],
+                recovery=recovery if isinstance(recovery, dict) else {},
+            )
+        source_debt = _string_list(source_quality.get("source_debt"))
+        if source_quality_path.exists():
+            artifact_paths.append(_relative(source_quality_path, self.repo_root))
         return {
             "has_manifest": bool(payloads),
             "has_exact_statement": has_exact_statement,
@@ -420,6 +465,15 @@ class PortfolioEvaluator:
             "source": source,
             "reference_count": len(_dedupe(references)),
             "known_source": known_source,
+            "source_quality_score": float(source_quality.get("score", 0.0) or 0.0),
+            "source_quality_tier": str(source_quality.get("tier", "")),
+            "trusted_source_count": int(source_quality.get("trusted_source_count", 0) or 0),
+            "usable_source_count": int(source_quality.get("usable_source_count", 0) or 0),
+            "source_debt": source_debt,
+            "trust_reasons": _string_list(source_quality.get("trust_reasons"))[:12],
+            "statement_provenance": source_quality.get("statement_provenance", {}),
+            "top_sources": source_quality.get("top_sources", [])[:8],
+            "source_quality_artifact": _relative(source_quality_path, self.repo_root) if source_quality_path.exists() else "",
             "artifact_paths": artifact_paths,
         }
 
@@ -730,6 +784,7 @@ class PortfolioEvaluator:
         score = 3.0
         score += 1.4 if source["has_exact_statement"] else -2.0
         score += 0.8 if source["has_source_provenance"] else -0.8
+        score += (float(source.get("source_quality_score", 0.0)) - 5.0) * 0.2
         score += proof_confidence * 2.3
         score += formalization_score * 0.25
         score += min(1.0, 0.35 * route_promising_count)
@@ -740,6 +795,8 @@ class PortfolioEvaluator:
         score -= min(2.0, 0.45 * repeated_failures)
         if "lean_statement_mismatch" in risk_flags:
             score -= 1.5
+        if "low_source_quality" in risk_flags:
+            score -= 0.8
         if counterexample["suspected"]:
             score -= 3.5 if counterexample["strong"] else 2.5
         return _clamp(score)
@@ -775,6 +832,7 @@ class PortfolioEvaluator:
             confidence += 0.08
         if source["has_source_provenance"]:
             confidence += 0.05
+        confidence += min(0.08, float(source.get("source_quality_score", 0.0)) * 0.008)
         confidence += min(0.12, artifact_count * 0.01)
         if counterexample["suspected"]:
             confidence += 0.08
@@ -802,7 +860,12 @@ class PortfolioEvaluator:
             return "freeze", ["strong_or_confirmed_counterexample_blocks_the_current_statement_or_route"]
         if counterexample["suspected"]:
             return "counterexample_review", ["counterexample_suspected_route_cannot_receive_long_budget_by_default"]
-        if not source["has_exact_statement"] or not source["has_source_provenance"] or source_gap_from_routes:
+        if (
+            not source["has_exact_statement"]
+            or not source["has_source_provenance"]
+            or source_gap_from_routes
+            or float(source.get("source_quality_score", 0.0)) < SOURCE_QUALITY_RECOVERY_THRESHOLD
+        ):
             return "source_recover", ["exact_statement_or_source_provenance_is_missing"]
         if verified_claim_count or lean_verified:
             return "promote", ["lean_verified_or_claim_verified_artifact_is_available"]
@@ -831,7 +894,9 @@ class PortfolioEvaluator:
             "counterexample_candidate",
             "missing_exact_statement",
             "missing_source_provenance",
+            "low_source_quality",
             "source_gap",
+            "source_debt",
             "lean_statement_mismatch",
             "lean_build_failed",
             "lean_placeholders",
