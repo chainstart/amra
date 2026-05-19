@@ -39,7 +39,6 @@ TEMPORARY_AMRA_LEGACY_IMPORTS = {
     Path("src/amra/cli.py"): {"ara_math.cli"},
     Path("src/amra/core/artifact_graph.py"): {"ara_math.workstreams"},
     Path("src/amra/core/workspace.py"): {"ara_math.coordinator"},
-    Path("src/amra/lean/executor.py"): {"ara_math.lean"},
     Path("src/amra/math_scout.py"): {"ara_math.math_scout"},
     Path("src/amra/portfolio_campaign.py"): {"ara_math.math_scout"},
     Path("src/amra/problem_banks/registry.py"): {"ara_math.erdos_status"},
