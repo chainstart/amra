@@ -93,6 +93,42 @@ def test_amra_package_exposes_legacy_modules() -> None:
     assert math_scout.MathScoutRunner is not None
 
 
+def test_src_amra_package_does_not_tunnel_into_ara_math(tmp_path: Path) -> None:
+    repo_root = Path(__file__).resolve().parents[1]
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(repo_root / "src")
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "\n".join(
+                [
+                    "import importlib.util, json, amra",
+                    "spec = importlib.util.find_spec('amra.math_scout')",
+                    "import amra.math_scout as math_scout",
+                    "print(json.dumps({",
+                    "    'legacy_path_tunnel': any(path.endswith('/src/ara_math') for path in amra.__path__),",
+                    "    'math_scout_origin': spec.origin,",
+                    "    'runner': math_scout.MathScoutRunner.__name__,",
+                    "}))",
+                ]
+            ),
+        ],
+        cwd=tmp_path,
+        env=env,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    payload = json.loads(result.stdout)
+
+    assert payload["legacy_path_tunnel"] is False
+    assert Path(payload["math_scout_origin"]) == repo_root / "src" / "amra" / "math_scout.py"
+    assert payload["runner"] == "MathScoutRunner"
+
+
 def test_canonical_core_imports_and_legacy_shims_share_modules() -> None:
     module_pairs = {
         "ara_math.models": "amra.core.models",
