@@ -4,64 +4,17 @@ import ast
 import importlib
 from pathlib import Path
 
+from amra.legacy_migration import (
+    TEMPORARY_AMRA_LEGACY_IMPORTS,
+    collect_amra_legacy_imports,
+    collect_legacy_import_targets,
+    migrated_shim_files,
+    module_alias_shims,
+)
+
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DOC_PATH = REPO_ROOT / "docs" / "amra_legacy_module_disposition.zh.md"
-
-MODULE_ALIAS_SHIMS = {
-    "ara_math.cli": "amra.cli",
-    "ara_math.models": "amra.core.models",
-    "ara_math.workspace": "amra.core.workspace",
-    "ara_math.runtime": "amra.infra.runtime",
-    "ara_math.context": "amra.core.context",
-    "ara_math.erdos_status": "amra.problem_banks.erdos",
-    "ara_math.problem_bank": "amra.problem_banks.registry",
-    "ara_math.artifact_graph": "amra.core.artifact_graph",
-    "ara_math.focused_attack": "amra.proof.focused_attack",
-    "ara_math.lean_audit": "amra.lean.audit",
-    "ara_math.lean_contract": "amra.lean.contract",
-    "ara_math.agent_tools": "amra.agents.tools",
-    "ara_math.math_scout": "amra.math_scout",
-}
-
-MIGRATED_SHIM_FILES = {
-    Path("src/ara_math/cli.py"): "amra.cli",
-    Path("src/ara_math/models.py"): "amra.core.models",
-    Path("src/ara_math/workspace.py"): "amra.core.workspace",
-    Path("src/ara_math/runtime.py"): "amra.infra.runtime",
-    Path("src/ara_math/context.py"): "amra.core.context",
-    Path("src/ara_math/erdos_status.py"): "amra.problem_banks.erdos",
-    Path("src/ara_math/problem_bank.py"): "amra.problem_banks.registry",
-    Path("src/ara_math/artifact_graph.py"): "amra.core.artifact_graph",
-    Path("src/ara_math/focused_attack.py"): "amra.proof.focused_attack",
-    Path("src/ara_math/lean_audit.py"): "amra.lean.audit",
-    Path("src/ara_math/lean_contract.py"): "amra.lean.contract",
-    Path("src/ara_math/agent_tools.py"): "amra.agents.tools",
-    Path("src/ara_math/math_scout.py"): "amra.math_scout",
-    Path("src/ara_math/ara_library.py"): "amra.amra_library",
-    Path("src/ara_math/proof_state.py"): "amra.proof.state",
-    Path("src/ara_math/pure_agents.py"): "amra.agents",
-}
-
-TEMPORARY_AMRA_LEGACY_IMPORTS = {
-    Path("src/amra/cli.py"): {
-        "ara_math.banking",
-        "ara_math.campaign_loop",
-        "ara_math.comath_benchmarks",
-        "ara_math.comath_capabilities",
-        "ara_math.comath_source_audit",
-        "ara_math.comath_specialists",
-        "ara_math.coordinator",
-        "ara_math.goal_campaign",
-        "ara_math.orchestrator",
-        "ara_math.proof_lab",
-        "ara_math.scouting",
-        "ara_math.workstreams",
-    },
-    Path("src/amra/core/artifact_graph.py"): {"ara_math.workstreams"},
-    Path("src/amra/core/workspace.py"): {"ara_math.coordinator"},
-    Path("src/amra/math_scout.py"): {"ara_math.scouting"},
-}
 
 
 def _absolute_import_targets(path: Path) -> set[str]:
@@ -80,35 +33,14 @@ def _absolute_import_targets(path: Path) -> set[str]:
     return targets
 
 
-def _legacy_import_targets(path: Path) -> set[str]:
-    tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
-    targets: set[str] = set()
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Import):
-            targets.update(
-                alias.name
-                for alias in node.names
-                if alias.name == "ara_math" or alias.name.startswith("ara_math.")
-            )
-        elif isinstance(node, ast.ImportFrom) and node.level == 0 and node.module:
-            if node.module == "ara_math":
-                targets.update(
-                    "ara_math.*" if alias.name == "*" else f"ara_math.{alias.name}"
-                    for alias in node.names
-                )
-            elif node.module.startswith("ara_math."):
-                targets.add(node.module)
-    return targets
-
-
 def test_migrated_legacy_shim_sources_are_deprecated_canonical_imports() -> None:
-    for relative_path, canonical_module in MIGRATED_SHIM_FILES.items():
+    for relative_path, canonical_module in migrated_shim_files().items():
         path = REPO_ROOT / relative_path
         source = path.read_text(encoding="utf-8")
         imports = _absolute_import_targets(path)
 
         assert "Deprecated" in source or "deprecated" in source
-        assert not _legacy_import_targets(path), f"{relative_path} still imports ara_math"
+        assert not collect_legacy_import_targets(path), f"{relative_path} still imports ara_math"
         assert any(
             imported == canonical_module or imported.startswith(f"{canonical_module}.")
             for imported in imports
@@ -116,7 +48,7 @@ def test_migrated_legacy_shim_sources_are_deprecated_canonical_imports() -> None
 
 
 def test_module_alias_shims_share_canonical_module_identity() -> None:
-    for legacy_name, canonical_name in MODULE_ALIAS_SHIMS.items():
+    for legacy_name, canonical_name in module_alias_shims().items():
         assert importlib.import_module(legacy_name) is importlib.import_module(canonical_name)
 
 
@@ -147,11 +79,7 @@ def test_reexport_shim_symbols_are_canonical() -> None:
 
 
 def test_src_amra_legacy_imports_are_documented_temporary_exceptions() -> None:
-    observed = {
-        path.relative_to(REPO_ROOT): legacy_imports
-        for path in sorted((REPO_ROOT / "src" / "amra").rglob("*.py"))
-        if (legacy_imports := _legacy_import_targets(path))
-    }
+    observed = collect_amra_legacy_imports(REPO_ROOT)
 
     assert observed == TEMPORARY_AMRA_LEGACY_IMPORTS
 
@@ -160,7 +88,7 @@ def test_src_amra_legacy_imports_are_documented_temporary_exceptions() -> None:
         f"{relative_path}:{legacy_import}"
         for relative_path, legacy_imports in TEMPORARY_AMRA_LEGACY_IMPORTS.items()
         for legacy_import in sorted(legacy_imports)
-        if f"`{relative_path.as_posix()}`" not in disposition_doc
+        if f"`{relative_path}`" not in disposition_doc
         or f"`{legacy_import}`" not in disposition_doc
     ]
     assert not missing_docs

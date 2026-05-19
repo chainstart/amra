@@ -6,7 +6,7 @@
 
 范围：`src/ara_math/*.py`
 
-校验结果：处置表覆盖当前 51 个 `src/ara_math/*.py` 文件；每个文件都有一条表格记录和至少一个第 2 节定义的处置标签。本任务不删除、移动或改写 legacy 模块。
+校验结果：处置表覆盖当前 51 个 `src/ara_math/*.py` 文件；每个文件都有一条表格记录和至少一个第 2 节定义的处置标签。机器可读清单位于 `src/amra/legacy_migration.py`，并由 `tests/test_amra_legacy_migration_map.py` 校验。本任务不删除、移动或改写 legacy 模块。
 
 ## 1. 结论
 
@@ -176,10 +176,20 @@ AMRA 重构要做的是模块处置，而不是目录级清空：
 - ARA 通过 `research_lab.yaml` 仍能发现 AMRA；
 - harness validation 通过。
 
-## 6. Section 16.2 临时反向依赖例外
+## 6. AMRA-CANONICAL-INVENTORY-001 机器清单
+
+`src/amra/legacy_migration.py` 是 canonical migration 的机器可读源：
+
+- `LEGACY_MODULE_INVENTORY` 覆盖全部 51 个 `src/ara_math/*.py` 文件。
+- 每条记录声明 `implementation_status`（`active_implementation` 或 `shim`）、`cleanup_status`（`delete_later` 或 `retain_compatibility`）、处置标签、canonical target 和被阻塞的后续迁移任务。
+- 当前清单中 30 个文件仍是 `active_implementation`，后续任务完成后应降级为 shim 或删除候选；21 个文件已经是 deprecated compatibility shim 或入口兼容层。
+- `TEMPORARY_AMRA_LEGACY_IMPORTS` 是唯一允许 `src/amra` 反向依赖 `ara_math` 的声明位置。
+- `collect_amra_legacy_imports()` 和 `undeclared_amra_legacy_imports()` 提供 deterministic AST import audit，不扫描字符串，因此不会把 schema 名称或文档文字误判为依赖。
+
+## 7. Section 16.2 临时反向依赖例外
 
 `src/amra` 原则上不能新增对 `ara_math` 的依赖。下面例外只用于尚未迁移完成的模块，必须由
-`tests/test_amra_legacy_shims.py` 的 import audit 固定；新增例外需要先更新本节并说明迁移归宿。
+`tests/test_amra_legacy_migration_map.py` 和 `tests/test_amra_legacy_shims.py` 的 import audit 固定；新增例外需要先更新本节和 `src/amra/legacy_migration.py`，并说明迁移归宿。
 
 - `src/amra/cli.py` -> `ara_math.banking`、`ara_math.campaign_loop`、`ara_math.comath_benchmarks`、`ara_math.comath_capabilities`、`ara_math.comath_source_audit`、`ara_math.comath_specialists`、`ara_math.coordinator`、`ara_math.goal_campaign`、`ara_math.orchestrator`、`ara_math.proof_lab`、`ara_math.scouting`、`ara_math.workstreams`：canonical CLI 聚合层已迁入 `amra.cli`，但这些命令处理器尚未拆到 canonical 子模块；`ara_math.cli` 只保留 deprecated shim。
 - `src/amra/math_scout.py` -> `ara_math.scouting`：active scout runner 已迁入 canonical 模块，但 deterministic readiness helper 仍在 legacy scouting 模块，后续与 portfolio scout 合并。
@@ -187,14 +197,15 @@ AMRA 重构要做的是模块处置，而不是目录级清空：
 - `src/amra/core/workspace.py` -> `ara_math.coordinator`：legacy project initialization/dashboard helper 仍由 coordinator 提供。
 
 当前已经迁移并降级为 deprecated shim 的 legacy 模块包括：
-`src/ara_math/models.py`、`src/ara_math/workspace.py`、`src/ara_math/runtime.py`、
-`src/ara_math/context.py`、`src/ara_math/problem_bank.py`、`src/ara_math/artifact_graph.py`、
-`src/ara_math/lean_audit.py`、`src/ara_math/lean_contract.py`、`src/ara_math/agent_tools.py`、
-`src/ara_math/ara_library.py`、`src/ara_math/proof_state.py`、`src/ara_math/pure_agents.py`、
-`src/ara_math/cli.py`、`src/ara_math/focused_attack.py`、`src/ara_math/math_scout.py`、
-`src/ara_math/erdos_status.py`。
+`src/ara_math/__init__.py`、`src/ara_math/__main__.py`、`src/ara_math/agent_tools.py`、
+`src/ara_math/ara_library.py`、`src/ara_math/artifact_graph.py`、`src/ara_math/cli.py`、
+`src/ara_math/context.py`、`src/ara_math/erdos_status.py`、`src/ara_math/focused_attack.py`、
+`src/ara_math/formalization.py`、`src/ara_math/lean.py`、`src/ara_math/lean_audit.py`、
+`src/ara_math/lean_contract.py`、`src/ara_math/lean_formalizer.py`、`src/ara_math/math_scout.py`、
+`src/ara_math/models.py`、`src/ara_math/problem_bank.py`、`src/ara_math/proof_state.py`、
+`src/ara_math/pure_agents.py`、`src/ara_math/runtime.py`、`src/ara_math/workspace.py`。
 
-## 7. 立即需要加入 roadmap 的任务
+## 8. 立即需要加入 roadmap 的任务
 
 新增一个前置任务：`amra-legacy-module-disposition`
 

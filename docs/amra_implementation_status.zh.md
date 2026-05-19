@@ -27,7 +27,7 @@
 | `REQ-AMRA-LEAN-001` | `partial` | Lean executor/audit/contract、形式化产物；`amra-formalization-layer-consolidation`、`amra-known-problem-proof-smoke`、`amra-nontrivial-closed-theorem-benchmark` 已 passed | 自然语言证明到 Lean faithful modeling 仍有较大差距，更难目标上的 formalization 稳定性不足 | 强化 NL/Lean 交替 proof loop 和 faithful modeling |
 | `REQ-AMRA-LIBRARY-001` | `partial` | AMRA library manager、library harvesting 计划；`amra-library-harvesting`、`amra-dashboard-result-bundle` 已 passed | verified lemma 打包、curator gate 和复用策略仍不足 | 增加 library curator gate 与 verified-only promotion 规则 |
 | `REQ-AMRA-ARA-001` | `completed` | AMRA result bundle、`artifact_manifest.json`、`handoff_notes.md`、known-problem smoke；`amra-ara-result-bundle-contract-hardening`、`amra-known-problem-proof-smoke`、`amra-dashboard-result-bundle` 已 passed | 跨仓库 public ARA consumer smoke 需在 ARA 任务 scope 内单独补充 | ARA 消费侧按 bundle consume order 读取 AMRA 产物 |
-| `REQ-AMRA-CANONICAL-MIGRATION-001` | `pending` | `docs/amra_canonical_migration_spec.zh.md` 已定义目标和任务包 | `src/ara_math` 仍有 51 个旧模块；大量 proof/orchestration/source/review/evaluation 活实现尚未迁入 `src/amra` | 执行 `AMRA-CANONICAL-INVENTORY-001` 到 `AMRA-LEGACY-SHIM-CLEANUP-001` |
+| `REQ-AMRA-CANONICAL-MIGRATION-001` | `partial` | `docs/amra_canonical_migration_spec.zh.md` 已定义目标和任务包；`src/amra/legacy_migration.py` 已覆盖 51 个 legacy 文件并提供 import audit | `src/ara_math` 仍有 30 个 active implementation；proof/orchestration/source/review/evaluation 活实现尚未全部迁入 `src/amra` | 继续执行 `AMRA-ORCHESTRATION-MIGRATION-001` 到 `AMRA-LEGACY-SHIM-CLEANUP-001` |
 
 ## 2026-05-20 Canonical Migration 目标
 
@@ -39,6 +39,12 @@
 - `python3 -m ara_math`、`ara-math`、`ara_math` 只转发；
 - `src/amra` 不再依赖 `ara_math` 未声明例外；
 - proof search、proof lab、CoMath orchestration、source recovery、review gate、portfolio scheduler、Lean formalizer、result bundle 均有 canonical AMRA 模块入口。
+
+## 2026-05-20 AMRA-CANONICAL-INVENTORY-001 同步说明
+
+- 新增 `src/amra/legacy_migration.py` 作为 canonical migration 的机器清单和 AST import audit 源。
+- 清单覆盖全部 51 个 `src/ara_math/*.py` 文件：30 个标记为 `active_implementation` / `delete_later`，21 个标记为 `shim` / `retain_compatibility`。
+- `tests/test_amra_legacy_migration_map.py` 固定清单覆盖、文档处置表一致性、JSON 可读性和 `src/amra` 反向依赖例外表。
 
 ## 2026-05-19 同步说明
 
