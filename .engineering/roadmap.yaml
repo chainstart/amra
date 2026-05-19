@@ -1760,6 +1760,206 @@
           "e2e": []
         }
       ]
+    },
+    {
+      "id": "amra-remaining-spec-completion",
+      "title": "AMRA Remaining Spec Completion",
+      "status": "active",
+      "objective": "Drain the remaining AMRA dynamic spec tasks: canonical naming cleanup, portfolio campaign closure, and stronger NL/Lean faithful modeling.",
+      "tasks": [
+        {
+          "id": "AMRA-NAMING-001",
+          "title": "Complete canonical AMRA migration and legacy shim convergence",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/**",
+            "src/ara_math/**",
+            "tests/**",
+            "docs/**",
+            "README.md",
+            "pyproject.toml",
+            ".engineering/spec_tasks.yaml",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "codex completes AMRA canonical naming cleanup",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "no_progress_timeout_seconds": 1200,
+              "requested_capabilities": [
+                "agent"
+              ],
+              "prompt": "Implement AMRA dynamic spec task AMRA-NAMING-001. Continue retiring remaining src/ara_math compatibility surfaces by moving active implementations behind canonical amra.* modules where practical, making legacy files thin deprecated shims, and adding import/CLI audit coverage. Preserve python3 -m amra and deprecated ara_math compatibility. Do not remove behavior without tests and do not run live model calls."
+            }
+          ],
+          "repair": [
+            {
+              "name": "codex repairs AMRA canonical naming cleanup",
+              "executor": "codex",
+              "timeout_seconds": 3000,
+              "no_progress_timeout_seconds": 900,
+              "requested_capabilities": [
+                "agent"
+              ],
+              "prompt": "Repair AMRA-NAMING-001 using failing acceptance evidence. Preserve legacy compatibility and keep changes scoped to naming, canonical imports, shims, tests, docs, and spec tracking."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA canonical import tests pass",
+              "command": "python3 -m pytest -q tests/test_amra_interfaces.py tests/test_problem_bank.py tests/test_workspace_and_planning.py tests/test_lean_executor.py",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "AMRA CLI works",
+              "command": "python3 -m amra --help >/tmp/amra_cli_help.txt && python3 -m ara_math --help >/tmp/ara_math_cli_help.txt",
+              "required": true,
+              "timeout_seconds": 180
+            },
+            {
+              "name": "AMRA dynamic spec audit passes",
+              "command": "python3 -c \"import sys; sys.path.insert(0, '/home/biostar/work/projects/engineering-harness/src'); from engineering_harness.cli import main; raise SystemExit(main(['spec-sync', 'audit', '--project-root', '.', '--json']))\" >/tmp/amra_spec_sync_audit.json",
+              "required": true,
+              "timeout_seconds": 120
+            }
+          ],
+          "e2e": []
+        },
+        {
+          "id": "AMRA-PORTFOLIO-001",
+          "title": "Finish portfolio scouting, evaluation, scheduling, and memory consolidation",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/**",
+            "src/ara_math/**",
+            "tests/**",
+            "docs/**",
+            "data/**",
+            "artifacts/portfolio_campaigns/**",
+            ".engineering/spec_tasks.yaml",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "codex completes AMRA portfolio campaign loop",
+              "executor": "codex",
+              "timeout_seconds": 9000,
+              "no_progress_timeout_seconds": 1500,
+              "requested_capabilities": [
+                "agent"
+              ],
+              "prompt": "Implement AMRA dynamic spec task AMRA-PORTFOLIO-001. Wire completed scouting, evaluator, memory, source ranking, domain executor, and active-execution slices into one end-to-end portfolio campaign loop with stronger difficulty scoring, abandon/park policy, resume-pack governance, and durable memory consolidation. Keep tests deterministic and local; no live Codex/model calls or long proof campaigns."
+            }
+          ],
+          "repair": [
+            {
+              "name": "codex repairs AMRA portfolio campaign loop",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "no_progress_timeout_seconds": 900,
+              "requested_capabilities": [
+                "agent"
+              ],
+              "prompt": "Repair AMRA-PORTFOLIO-001 using failing acceptance evidence. Keep changes scoped to portfolio campaign, scheduler, memory, reports, tests, docs, fixtures, and spec tracking."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA portfolio tests pass",
+              "command": "python3 -m pytest -q tests/test_portfolio_campaign.py tests/test_portfolio_scheduler.py tests/test_portfolio_memory.py tests/test_amra_portfolio_execution.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "AMRA portfolio CLI smoke runs",
+              "command": "python3 -m amra run-portfolio-campaign --bank data/problem_bank.yaml --run-name harness-final-portfolio-smoke --scout-limit 3 --promote-top 1 --scout-timeout 30 --json >/tmp/amra_portfolio_smoke.json",
+              "required": true,
+              "timeout_seconds": 420
+            },
+            {
+              "name": "AMRA dynamic spec audit passes",
+              "command": "python3 -c \"import sys; sys.path.insert(0, '/home/biostar/work/projects/engineering-harness/src'); from engineering_harness.cli import main; raise SystemExit(main(['spec-sync', 'audit', '--project-root', '.', '--json']))\" >/tmp/amra_spec_sync_audit.json",
+              "required": true,
+              "timeout_seconds": 120
+            }
+          ],
+          "e2e": []
+        },
+        {
+          "id": "AMRA-LEAN-001",
+          "title": "Strengthen NL/Lean alternating proof loop and faithful modeling",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/**",
+            "src/ara_math/**",
+            "tests/**",
+            "docs/**",
+            "data/**",
+            "projects/**",
+            ".engineering/spec_tasks.yaml",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "codex strengthens AMRA NL Lean faithful modeling",
+              "executor": "codex",
+              "timeout_seconds": 9000,
+              "no_progress_timeout_seconds": 1500,
+              "requested_capabilities": [
+                "agent"
+              ],
+              "prompt": "Implement AMRA dynamic spec task AMRA-LEAN-001. Strengthen the alternating natural-language/Lean proof loop and faithful modeling checks so AMRA distinguishes informal claims, Lean-verified declarations, blocked formalization gaps, and model mismatch. Add deterministic regression coverage around harder closed targets or known blockers, without live LLM calls or long Lean campaigns."
+            }
+          ],
+          "repair": [
+            {
+              "name": "codex repairs AMRA NL Lean faithful modeling",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "no_progress_timeout_seconds": 900,
+              "requested_capabilities": [
+                "agent"
+              ],
+              "prompt": "Repair AMRA-LEAN-001 using failing acceptance evidence. Keep changes scoped to proof/formalization loop, Lean audit/contract, result bundle boundaries, tests, docs, fixtures, and spec tracking."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA proof and formalization tests pass",
+              "command": "python3 -m pytest -q tests/test_amra_known_problem_smoke.py tests/test_amra_nontrivial_benchmark.py tests/test_lean_formalizer.py tests/test_focused_attack.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "AMRA known problem smoke emits bundle",
+              "command": "python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_lean_known_bundle --json >/tmp/amra_lean_known.json",
+              "required": true,
+              "timeout_seconds": 300
+            },
+            {
+              "name": "AMRA dynamic spec audit passes",
+              "command": "python3 -c \"import sys; sys.path.insert(0, '/home/biostar/work/projects/engineering-harness/src'); from engineering_harness.cli import main; raise SystemExit(main(['spec-sync', 'audit', '--project-root', '.', '--json']))\" >/tmp/amra_spec_sync_audit.json",
+              "required": true,
+              "timeout_seconds": 120
+            }
+          ],
+          "e2e": []
+        }
+      ]
     }
   ],
   "continuation": {
