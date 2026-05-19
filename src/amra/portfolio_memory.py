@@ -19,6 +19,7 @@ PROBLEM_STATES = {
     "library_candidate",
     "library_harvested",
     "parked",
+    "abandoned",
     "frozen",
     "counterexample_suspected",
     "needs_source",

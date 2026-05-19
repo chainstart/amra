@@ -24,6 +24,7 @@ RECOMMENDATIONS = (
     "promote",
     "continue",
     "park",
+    "abandon",
     "freeze",
     "source_recover",
     "counterexample_review",
@@ -316,9 +317,12 @@ class PortfolioEvaluator:
             routes=routes,
             failed_routes=failed_routes,
         )
-        long_budget_allowed = recommendation not in {"freeze", "source_recover", "counterexample_review"} and not counterexample[
-            "suspected"
-        ]
+        long_budget_allowed = recommendation not in {
+            "abandon",
+            "freeze",
+            "source_recover",
+            "counterexample_review",
+        } and not counterexample["suspected"]
 
         payload = {
             "schema_version": DIFFICULTY_SCHEMA_VERSION,
@@ -874,6 +878,8 @@ class PortfolioEvaluator:
         if feasibility_score >= 7.0 and proof_confidence >= 0.6 and formalization_confidence >= 0.35:
             return "promote", ["feasibility_score_exceeds_promotion_threshold_without_severe_risk"]
         if no_progress or (repeated_failures >= 3 and feasibility_score < 6.0) or feasibility_score < 4.5:
+            if state == "parked" and repeated_failures >= 5 and no_progress:
+                return "abandon", ["parked_target_has_exhausted_repeated_routes_without_new_progress"]
             return "park", ["low_progress_or_low_feasibility_under_current_artifacts"]
         if state in {"active_attack", "promising", "formalization_ready"} or route_promising_count or proof_confidence >= 0.35:
             return "continue", ["some_route_or_progress_signal_exists_but_promotion_threshold_is_not_met"]
@@ -904,6 +910,8 @@ class PortfolioEvaluator:
             "no_measurable_progress",
             "missing_mathlib_api",
         ]
+        if recommendation == "abandon":
+            priority.extend(["low_progress_or_low_feasibility", "abandon"])
         for flag in priority:
             if flag in risk_flags:
                 return flag

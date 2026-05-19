@@ -143,6 +143,31 @@ def test_partial_active_route_continues_but_repeated_stall_parks(tmp_path: Path)
     assert "repeated_failed_routes" in parked_report["risk_flags"]
 
 
+def test_parked_target_with_exhausted_routes_is_abandoned(tmp_path: Path) -> None:
+    project = _init_project(tmp_path, "abandon-route", state="parked")
+    for index in range(5):
+        record_failed_route(
+            project,
+            {
+                "route_id": f"blocked-{index}",
+                "failure_mode": "proof_gap",
+                "failed_assertion": f"missing independent lemma {index}",
+            },
+        )
+    attempt_dir = project / "runs" / "stall" / "attempts" / "attempt_001"
+    attempt_dir.mkdir(parents=True, exist_ok=True)
+    (attempt_dir / "attempt_report.json").write_text(
+        json.dumps({"progress_delta": 0.0, "verified": False}) + "\n",
+        encoding="utf-8",
+    )
+
+    report = PortfolioEvaluator(repo_root=tmp_path).evaluate_project(project=project, run_name="eval")
+
+    assert report["recommendation"] == "abandon"
+    assert report["long_budget_allowed"] is False
+    assert "abandon" in report["allowed_recommendations"]
+
+
 def test_campaign_runner_and_cli_write_independent_difficulty_report(tmp_path: Path, monkeypatch) -> None:
     project = _init_project(tmp_path, "cli-eval", state="active_attack")
     record_failed_route(project, {"route_id": "route-main", "failure_mode": "counterexample_candidate"})

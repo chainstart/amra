@@ -1834,7 +1834,7 @@
         {
           "id": "AMRA-PORTFOLIO-001",
           "title": "Finish portfolio scouting, evaluation, scheduling, and memory consolidation",
-          "status": "pending",
+          "status": "completed",
           "max_attempts": 2,
           "max_task_iterations": 3,
           "manual_approval_required": false,

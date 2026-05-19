@@ -21,7 +21,7 @@
 | `REQ-AMRA-GOV-001` | `completed` | 本文档、`.engineering/spec_tasks.yaml`、决策记录 | 需要随每轮证明系统开发持续更新 | 接入 harness spec-sync |
 | `REQ-AMRA-NAMING-001` | `partial` | canonical `amra` package、legacy shim、接口测试；`amra-legacy-shim-convergence` 已 passed | `amra-canonical-core-migration` 因 file-scope 触碰状态/文档文件而失败，`src/ara_math` cleanup 尚未全部完成 | 仅在声明的 file_scope 内重跑 canonical migration，并继续收敛 legacy shim |
 | `REQ-AMRA-MANIFEST-001` | `completed` | `research_lab.yaml`、AMRA CLI、ARA-facing contract | 随 ARA bundle contract 演进 | 保持 manifest smoke |
-| `REQ-AMRA-PORTFOLIO-001` | `partial` | portfolio scaffold、scheduler/memory 模块；`amra-broad-scouting-integration`、`amra-independent-evaluator`、`amra-memory-consolidation`、`amra-portfolio-active-execution-loop`、`amra-source-quality-ranking`、`amra-domain-search-executors` 已 passed | 多题目资源调度、难度评估、abandon policy、resume-pack 治理仍未形成完整端到端闭环 | 把已完成组件接成一个完整 portfolio campaign e2e loop |
+| `REQ-AMRA-PORTFOLIO-001` | `completed` | portfolio scaffold、scheduler/memory 模块；`amra-broad-scouting-integration`、`amra-independent-evaluator`、`amra-memory-consolidation`、`amra-portfolio-active-execution-loop`、`amra-source-quality-ranking`、`amra-domain-search-executors` 已 passed；本轮补齐 campaign ranking 的 difficulty/budget gate、abandon/park policy、resume-pack governance 与 active execution memory consolidation | 生产级长证明 campaign 仍依赖后续 Lean/proof-loop 能力，不在本地 deterministic smoke 内运行 | 保持 portfolio regression 与 CLI smoke，转入 AMRA-LEAN-001 强化 NL/Lean 证明闭环 |
 | `REQ-AMRA-PROOF-001` | `partial` | pure/focused proof agents、problem banks、proof attempt 记录；`amra-proof-loop-consolidation`、`amra-agent-tool-normalization`、`amra-nontrivial-closed-theorem-benchmark` 已 passed | 纯证明能力仍不稳定，难题容易长时间拉扯，容易题筛选与 abandon policy 仍需增强 | 强化 scouting、优先级评估与 bounded proof loop 稳定性 |
 | `REQ-AMRA-LEAN-001` | `partial` | Lean executor/audit/contract、形式化产物；`amra-formalization-layer-consolidation`、`amra-known-problem-proof-smoke`、`amra-nontrivial-closed-theorem-benchmark` 已 passed | 自然语言证明到 Lean faithful modeling 仍有较大差距，更难目标上的 formalization 稳定性不足 | 强化 NL/Lean 交替 proof loop 和 faithful modeling |
 | `REQ-AMRA-LIBRARY-001` | `partial` | AMRA library manager、library harvesting 计划；`amra-library-harvesting`、`amra-dashboard-result-bundle` 已 passed | verified lemma 打包、curator gate 和复用策略仍不足 | 增加 library curator gate 与 verified-only promotion 规则 |
@@ -33,6 +33,7 @@
 - 这次已将 `.engineering/roadmap.yaml` 的该里程碑和对应任务状态同步到 manifest 实际结果，不再停留在统一的 `pending/planned`。
 - 当前 AMRA 的主要矛盾不是“没做”，而是“已有较多实现，但 canonical migration 最后一段和跨仓库生产级闭环仍未收口”。
 - `AMRA-ARA-001` 已补齐本仓库内的 ARA-facing bundle handoff：deterministic known-problem smoke 输出 `artifact_manifest.json`、`lean_build_report.json`、`verified_declarations.json`、`natural_language_proof_sketches.json`、`unresolved_blockers.md`、`limitations.md`、`writing_brief.md` 和 `handoff_notes.md`，并在 manifest 中声明 verification boundaries、Lean status、file checksums 和 ARA consume order。
+- `AMRA-PORTFOLIO-001` 已补齐本仓库内的 portfolio campaign e2e loop：broad scout、source quality、domain executor signal、difficulty ranking、budget gate、abandon/park policy、isolated active execution、resume pack 与 global memory consolidation 都有 deterministic local regression。
 
 ## 维护流程
 

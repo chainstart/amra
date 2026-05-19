@@ -54,6 +54,54 @@ def test_portfolio_campaign_writes_durable_resume_pack(tmp_path: Path) -> None:
     assert "## Parked Or Source Recovery Queue" in resume_pack
 
 
+def test_portfolio_campaign_records_budget_gate_and_abandon_policy(tmp_path: Path) -> None:
+    bank_path = tmp_path / "bank.yaml"
+    save_problem_bank(
+        [
+            ProblemRecord(
+                problem_id="exact-promote",
+                title="Exact Promote",
+                source="unit",
+                statement="Prove that every integer n satisfies n = n.",
+                domain="number_theory",
+                tags=["number theory"],
+                references=["https://example.test/exact"],
+            ),
+            ProblemRecord(
+                problem_id="no-source-abandon",
+                title="No Source Abandon",
+                source="",
+                statement="Detailed statement should be imported from the full problem source before theorem work begins.",
+                domain="general",
+                tags=[],
+                metadata={"statement_quality": "placeholder"},
+            ),
+        ],
+        bank_path,
+    )
+    runner = PortfolioCampaignRunner(repo_root=tmp_path)
+
+    result = runner.run_portfolio_campaign(
+        bank=bank_path,
+        run_name="policy unit",
+        scout_limit=2,
+        promote_top=1,
+        attack_budget=0,
+    )
+
+    campaign_dir = tmp_path / result["campaign_dir"]
+    ranking = json.loads((campaign_dir / "ranking.json").read_text(encoding="utf-8"))["ranking"]
+    by_problem = {item["problem_id"]: item for item in ranking}
+    resume_pack = (campaign_dir / "resume_pack.md").read_text(encoding="utf-8")
+
+    assert by_problem["exact-promote"]["budget_gate"]["long_budget_allowed"] is True
+    assert by_problem["exact-promote"]["decision_policy"]["resume_pack_required_before_retry"] is True
+    assert by_problem["no-source-abandon"]["recommendation"] == "abandon"
+    assert by_problem["no-source-abandon"]["decision_policy"]["abandonment_eligible"] is True
+    assert by_problem["no-source-abandon"]["long_budget_allowed"] is False
+    assert "Do not spend attack budget on abandoned or source-recovery targets" in resume_pack
+
+
 def test_initialize_problem_project_writes_memory_resume_and_indexes(tmp_path: Path) -> None:
     runner = PortfolioCampaignRunner(repo_root=tmp_path)
     project = tmp_path / "projects" / "problem-init"

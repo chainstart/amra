@@ -52,6 +52,8 @@ def _normalize_active_outcome(payload: dict[str, Any]) -> str:
         return "library_candidate"
     if bool(payload.get("verified")) or token in {"verified", "lean_verified", "passed", "success", "succeeded"}:
         return "verified"
+    if token in {"abandon", "abandoned", "unrecoverable"}:
+        return "abandoned"
     if token in {"failed", "failure", "error", "timeout", "cancelled", "canceled", "aborted"}:
         return "failed"
     if token in {"parked", "park", "blocked", "partial", "skipped", "no_progress", "stalled", "exhausted"}:
@@ -65,6 +67,7 @@ def _state_for_active_outcome(outcome: str) -> str:
         "failed": "failed",
         "library_candidate": "library_candidate",
         "parked": "parked",
+        "abandoned": "abandoned",
     }.get(outcome, "parked")
 
 
@@ -165,6 +168,8 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
     source_quality_audit = source_quality_for_problem_record(problem)
     domain_executor_signal = compact_executor_signal(problem)
     source_quality_score = float(source_quality_audit.get("score", 0.0) or 0.0)
+    executor_count = int(domain_executor_signal.get("executor_count", 0) or 0)
+    domain_executor_bonus = min(1.0, 0.35 * executor_count) if domain_executor_signal.get("available") else 0.0
     feasibility_score = 4.0
     if exact_statement:
         feasibility_score += 2.0
@@ -177,7 +182,11 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
     formalization_score = 4.0 + (1.5 if getattr(problem, "formalized", "") == "yes" else 0.0)
     if scout_active and scout_recommendation == "formalize_known":
         formalization_score += 1.0
-    reusable_asset_score = 2.0 + (1.0 if any(tag in {"number theory", "combinatorics"} for tag in tags) else 0.0)
+    reusable_asset_score = (
+        2.0
+        + (1.0 if any(tag in {"number theory", "combinatorics"} for tag in tags) else 0.0)
+        + domain_executor_bonus
+    )
     risk_score = 4.0 if not exact_statement else 2.0
     risk_flags = [] if exact_statement else ["needs_source"]
     if source_quality_score < SOURCE_QUALITY_RECOVERY_THRESHOLD:
@@ -214,17 +223,26 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
         + 2.0 * formalization_score
         + 1.5 * reusable_asset_score
         + source_quality_score
+        + domain_executor_bonus
         - 2.0 * risk_score
         - expected_hours
         + active_scout_delta
     )
-    passive_recommendation = (
-        "promote"
-        if priority >= 20 and exact_statement and source_quality_score >= SOURCE_QUALITY_RECOVERY_THRESHOLD
-        else "source_recover"
-        if not exact_statement or source_quality_score < SOURCE_QUALITY_RECOVERY_THRESHOLD
-        else "park"
+    abandonment_eligible = (
+        not exact_statement
+        and source_quality_score < 2.0
+        and not source_quality_audit.get("usable_source_count")
+        and not domain_executor_signal.get("available")
+        and scout_status in {"not_processed", "skipped", "unavailable", "unsupported", "failed", "error"}
     )
+    if priority >= 20 and exact_statement and source_quality_score >= SOURCE_QUALITY_RECOVERY_THRESHOLD:
+        passive_recommendation = "promote"
+    elif abandonment_eligible:
+        passive_recommendation = "abandon"
+    elif not exact_statement or source_quality_score < SOURCE_QUALITY_RECOVERY_THRESHOLD:
+        passive_recommendation = "source_recover"
+    else:
+        passive_recommendation = "park"
     recommendation = passive_recommendation
     if scout_active:
         if scout_recommendation == "promote" and exact_statement:
@@ -237,6 +255,8 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
             recommendation = "park"
         elif scout_recommendation == "freeze":
             recommendation = "freeze"
+    if abandonment_eligible and scout_recommendation in {"unknown", "freeze", "defer_source"}:
+        recommendation = "abandon"
     primary_blocker = "needs_source" if not exact_statement else ""
     if exact_statement and scout_status == "timeout":
         primary_blocker = "scout_timeout"
@@ -245,6 +265,19 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
     elif scout_active and scout_primary_blocker != "unknown":
         primary_blocker = scout_primary_blocker
     risk_flags = list(dict.fromkeys(risk_flags))
+    recommendation_reasons = []
+    if recommendation == "promote":
+        recommendation_reasons.append("high_priority_exact_statement_with_usable_sources")
+    elif recommendation == "source_recover":
+        recommendation_reasons.append("exact_statement_or_source_quality_must_improve_before_attack_budget")
+    elif recommendation == "abandon":
+        recommendation_reasons.append("unrecoverable_placeholder_without_usable_source_or_executor_signal")
+    elif recommendation == "freeze":
+        recommendation_reasons.append("scout_or_evaluator_signal_requires_freeze_before_more_budget")
+    else:
+        recommendation_reasons.append("insufficient_evidence_for_promotion_under_current_budget")
+    long_budget_allowed = recommendation in {"promote", "formalize_known"}
+    budget_gate_reason = "allowed_for_promoted_exact_statement" if long_budget_allowed else (primary_blocker or recommendation)
     return {
         "problem_id": getattr(problem, "problem_id", ""),
         "title": getattr(problem, "title", ""),
@@ -258,9 +291,24 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
         "risk_score": round(risk_score, 2),
         "expected_hours_to_result": round(expected_hours, 2),
         "priority": round(priority, 2),
+        "difficulty_score": round(max(0.0, min(10.0, 10.0 - feasibility_score + risk_score / 3.0)), 2),
         "primary_blocker": primary_blocker,
         "risk_flags": risk_flags,
         "recommendation": recommendation,
+        "recommendation_reasons": recommendation_reasons,
+        "long_budget_allowed": long_budget_allowed,
+        "budget_gate": {
+            "long_budget_allowed": long_budget_allowed,
+            "reason": budget_gate_reason,
+            "attack_budget_policy": "promoted_targets_only",
+        },
+        "decision_policy": {
+            "schema_version": "amra.portfolio_decision_policy.v1",
+            "abandonment_eligible": abandonment_eligible,
+            "park_if_not_promoted": recommendation not in {"promote", "formalize_known", "abandon", "freeze"},
+            "resume_pack_required_before_retry": True,
+            "source_recovery_threshold": SOURCE_QUALITY_RECOVERY_THRESHOLD,
+        },
         "source_quality": {
             "score": round(source_quality_score, 2),
             "tier": str(source_quality_audit.get("tier", "")),
@@ -717,13 +765,17 @@ class PortfolioCampaignRunner:
             report["summary"] = f"Portfolio active execution outcome `{outcome}` for `{problem_id}`."
         if "transition_reason" not in report:
             report["transition_reason"] = report["summary"]
-        if outcome == "failed" and not report.get("failed_routes"):
+        if outcome in {"failed", "abandoned"} and not report.get("failed_routes"):
             report["failed_routes"] = [
                 {
                     "route_id": report["route_id"],
-                    "failure_mode": "proof_gap",
+                    "failure_mode": "resource_timeout" if outcome == "abandoned" else "proof_gap",
                     "failed_assertion": str(report.get("stop_reason") or report.get("summary") or "Bounded attempt did not verify."),
-                    "resume_condition": "Resume only with a materially new route, corrected statement, or smaller Lean target.",
+                    "resume_condition": (
+                        "Do not resume unless new source evidence or a materially different executor-backed route exists."
+                        if outcome == "abandoned"
+                        else "Resume only with a materially new route, corrected statement, or smaller Lean target."
+                    ),
                 }
             ]
         write_json(run_dir / "report.json", report)
@@ -1001,6 +1053,10 @@ class PortfolioCampaignRunner:
             lines.append(
                 f"- `{item['problem_id']}` priority={item['priority']} recommendation={item['recommendation']} blocker={item['primary_blocker'] or 'none'}"
             )
+            if item.get("recommendation") == "abandon":
+                lines.append("  - Resume only if authoritative source evidence or a materially new bounded executor route appears.")
+            elif item.get("budget_gate"):
+                lines.append(f"  - Budget gate: {item['budget_gate'].get('reason') or 'not recorded'}")
         lines.extend(
             [
                 "",
@@ -1008,6 +1064,7 @@ class PortfolioCampaignRunner:
                 "",
                 "- Promote queued problems into isolated problem projects before long proof attempts.",
                 "- Check each problem project's `resume_pack.md` before repeating a proof route.",
+                "- Do not spend attack budget on abandoned or source-recovery targets until their recorded resume condition is met.",
             ]
         )
         (campaign_dir / "resume_pack.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
