@@ -24,6 +24,26 @@ AMRA 已完成第一步框架重构：
 
 本阶段不做一次性物理大改名。`src/ara_math` 仍保留为兼容实现层，后续阶段逐步把新实现迁移到 `src/amra`。
 
+## 1.1 2026-05-20 Canonical Migration Extension
+
+新增执行 spec：`docs/amra_canonical_migration_spec.zh.md`。
+
+本轮后续开发目标从“保留 `src/ara_math` 作为兼容实现层”升级为：
+
+- `src/amra` 承载完整活实现；
+- `src/ara_math` 只保留 deprecated compatibility shim；
+- `src/amra` 不再新增对 `ara_math` 的反向依赖；
+- 数学定理搜索、题目评估、proof route 规划、proof attack、Lean 形式化、review gate、library promotion、portfolio campaign、result bundle 输出全部在 canonical AMRA 模块中可用。
+
+对应 harness 任务包：
+
+1. `AMRA-CANONICAL-INVENTORY-001`
+2. `AMRA-ORCHESTRATION-MIGRATION-001`
+3. `AMRA-PROOF-RUNNERS-MIGRATION-001`
+4. `AMRA-SOURCES-EVALUATION-MIGRATION-001`
+5. `AMRA-CANONICAL-CLI-ORCHESTRATOR-001`
+6. `AMRA-LEGACY-SHIM-CLEANUP-001`
+
 ## 2. 执行原则
 
 - AMRA 是数学证明系统，不 import ARA 的论文流水线。

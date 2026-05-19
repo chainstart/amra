@@ -1,7 +1,7 @@
 {
   "kind": "amra.spec_tasks.v1",
   "project": "amra",
-  "updated_at": "2026-05-19T14:43:00Z",
+  "updated_at": "2026-05-19T22:39:24Z",
   "source_spec": "docs/portfolio_campaign_spec.zh.md",
   "status_doc": "docs/amra_implementation_status.zh.md",
   "decision_log_dir": "docs/decisions",
@@ -45,6 +45,13 @@
       "id": "REQ-AMRA-ARA-001",
       "title": "ARA-facing result bundle",
       "status": "completed"
+    },
+    {
+      "id": "REQ-AMRA-CANONICAL-MIGRATION-001",
+      "title": "Full canonical AMRA theorem-search stack and ara_math legacy shim cleanup",
+      "status": "pending",
+      "source_spec": "docs/amra_canonical_migration_spec.zh.md",
+      "notes": "Move active theorem search, orchestration, proof attack, Lean formalization, review/evaluation, source recovery, library promotion, and result bundle implementation into src/amra; keep src/ara_math only as deprecated compatibility shims."
     }
   ],
   "tasks": [
@@ -293,6 +300,146 @@
       "updated_at": "2026-05-19T14:00:45Z",
       "last_note": "Recorded automatically after a completed harness task.",
       "last_phase": "drive"
+    },
+    {
+      "id": "AMRA-CANONICAL-INVENTORY-001",
+      "title": "Create canonical migration inventory and import audit",
+      "status": "pending",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-CANONICAL-MIGRATION-001",
+        "REQ-AMRA-PROOF-001",
+        "REQ-AMRA-LEAN-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_interfaces.py tests/test_amra_legacy_migration_map.py",
+          "required": true
+        },
+        {
+          "command": "python3 -m amra --help >/tmp/amra_canonical_inventory_help.txt",
+          "required": true
+        }
+      ],
+      "notes": "Add a machine-readable migration map for every src/ara_math module, define active/shim/delete-later status, and add audit coverage for undeclared ara_math imports from src/amra.",
+      "source_spec": "docs/amra_canonical_migration_spec.zh.md"
+    },
+    {
+      "id": "AMRA-ORCHESTRATION-MIGRATION-001",
+      "title": "Migrate CoMath orchestration and review state into canonical AMRA modules",
+      "status": "pending",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-CANONICAL-MIGRATION-001",
+        "REQ-AMRA-PROOF-001",
+        "REQ-AMRA-LEAN-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_orchestration_state.py tests/test_comath_state.py tests/test_comath_scheduler.py tests/test_comath_review_gate.py",
+          "required": true
+        }
+      ],
+      "notes": "Move workstreams, coordinator, uncertainty, artifact graph integration, scheduler-facing state, and review gates behind amra.orchestration/amra.review/amra.scheduler while preserving legacy imports.",
+      "source_spec": "docs/amra_canonical_migration_spec.zh.md"
+    },
+    {
+      "id": "AMRA-PROOF-RUNNERS-MIGRATION-001",
+      "title": "Migrate proof search, proof lab, closure, and attack runners into amra.proof",
+      "status": "pending",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-CANONICAL-MIGRATION-001",
+        "REQ-AMRA-PROOF-001",
+        "REQ-AMRA-LEAN-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_proof_runners.py tests/test_proof_lab.py tests/test_proof_search.py tests/test_closure_prover.py tests/test_math_attack.py tests/test_pure_agents.py",
+          "required": true
+        }
+      ],
+      "notes": "Move proof_lab, proof_search, closure, math_attack, campaign/goal loops, retrieval/planning/proof-system APIs into canonical amra.proof/amra.agents modules with durable run directories.",
+      "source_spec": "docs/amra_canonical_migration_spec.zh.md"
+    },
+    {
+      "id": "AMRA-SOURCES-EVALUATION-MIGRATION-001",
+      "title": "Migrate source recovery, evaluator, specialist, and scouting layers",
+      "status": "pending",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-CANONICAL-MIGRATION-001",
+        "REQ-AMRA-PROOF-001",
+        "REQ-AMRA-LEAN-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_sources_evaluation.py tests/test_literature.py tests/test_portfolio_evaluator.py tests/test_math_scout.py tests/test_amra_source_quality.py",
+          "required": true
+        }
+      ],
+      "notes": "Move literature/source audit, specialist contracts, evaluator policy, obligation refinement, strategy/scouting/convergence/banking into canonical amra.sources/amra.evaluation/amra.scheduler/portfolio modules.",
+      "source_spec": "docs/amra_canonical_migration_spec.zh.md"
+    },
+    {
+      "id": "AMRA-CANONICAL-CLI-ORCHESTRATOR-001",
+      "title": "Make canonical AMRA CLI and orchestrator use only canonical modules",
+      "status": "pending",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-CANONICAL-MIGRATION-001",
+        "REQ-AMRA-PROOF-001",
+        "REQ-AMRA-LEAN-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_canonical_cli.py tests/test_cli_flow.py tests/test_amra_known_problem_smoke.py tests/test_amra_result_bundle.py",
+          "required": true
+        },
+        {
+          "command": "python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_canonical_cli_bundle --json >/tmp/amra_canonical_cli_bundle.json",
+          "required": true
+        },
+        {
+          "command": "python3 -m ara_math run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_legacy_cli_bundle --json >/tmp/amra_legacy_cli_bundle.json",
+          "required": true
+        }
+      ],
+      "notes": "Route canonical CLI/orchestrator paths through src/amra only; legacy CLI remains deprecated forwarding layer.",
+      "source_spec": "docs/amra_canonical_migration_spec.zh.md"
+    },
+    {
+      "id": "AMRA-LEGACY-SHIM-CLEANUP-001",
+      "title": "Reduce src/ara_math to deprecated compatibility shims",
+      "status": "pending",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-CANONICAL-MIGRATION-001",
+        "REQ-AMRA-PROOF-001",
+        "REQ-AMRA-LEAN-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_legacy_shims.py tests/test_amra_interfaces.py tests/test_amra_proof_runners.py tests/test_amra_orchestration_state.py",
+          "required": true
+        },
+        {
+          "command": "python3 -m pytest -q tests/test_portfolio_campaign.py tests/test_amra_portfolio_execution.py tests/test_amra_known_problem_smoke.py",
+          "required": true
+        },
+        {
+          "command": "python3 - <<'PY'\nfrom pathlib import Path\ntext = \"\\n\".join(p.read_text(encoding=\"utf-8\", errors=\"ignore\") for p in Path(\"src/amra\").rglob(\"*.py\"))\nforbidden = [line for line in text.splitlines() if \"import ara_math\" in line or \"from ara_math\" in line]\nallowed = [line for line in forbidden if \"LEGACY\" in line or \"compat\" in line.lower()]\nif len(forbidden) != len(allowed):\n    raise SystemExit(\"undeclared ara_math imports remain in src/amra: \" + repr(forbidden[:10]))\nprint(\"canonical import audit passed\")\nPY",
+          "required": true
+        }
+      ],
+      "notes": "Finish cleanup so legacy modules contain only shims/forwarders or explicit deprecated compatibility errors, with active implementations in src/amra.",
+      "source_spec": "docs/amra_canonical_migration_spec.zh.md"
     }
   ]
 }
