@@ -1,7 +1,7 @@
 {
   "kind": "amra.spec_tasks.v1",
   "project": "amra",
-  "updated_at": "2026-05-19T14:35:31Z",
+  "updated_at": "2026-05-19T14:43:00Z",
   "source_spec": "docs/portfolio_campaign_spec.zh.md",
   "status_doc": "docs/amra_implementation_status.zh.md",
   "decision_log_dir": "docs/decisions",
@@ -179,7 +179,7 @@
     {
       "id": "AMRA-LEAN-001",
       "title": "Strengthen NL/Lean alternating proof loop and faithful modeling",
-      "status": "partial",
+      "status": "completed",
       "requirement_ids": [
         "REQ-AMRA-PROOF-001",
         "REQ-AMRA-LEAN-001",
@@ -201,9 +201,38 @@
         {
           "kind": "record",
           "path": ".engineering/reports/tasks/20260519T044816Z-amra-nontrivial-closed-theorem-benchmark.md"
+        },
+        {
+          "kind": "test",
+          "value": "python3 -m pytest -q tests/test_amra_known_problem_smoke.py tests/test_amra_nontrivial_benchmark.py tests/test_lean_formalizer.py tests/test_focused_attack.py"
+        },
+        {
+          "kind": "test",
+          "value": "python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_lean_known_bundle --json >/tmp/amra_lean_known.json"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260519T143531Z-AMRA-LEAN-001.md",
+          "recorded_at": "2026-05-19T14:43:00Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260519T143531Z-AMRA-LEAN-001.json",
+          "recorded_at": "2026-05-19T14:43:00Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-19T14:43:00Z",
+          "actor": "engineering-harness:auto"
         }
       ],
-      "next_action": "Close the gap between claim-backed natural-language proofs and faithful Lean modeling on harder targets, not just bounded smoke or benchmark problems."
+      "next_action": "Maintain deterministic proof-loop regressions that distinguish informal sketches, Lean-verified declarations, blocked formalization gaps, and model mismatch.",
+      "updated_at": "2026-05-19T14:43:00Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive"
     },
     {
       "id": "AMRA-ARA-001",

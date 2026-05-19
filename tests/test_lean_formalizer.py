@@ -87,6 +87,44 @@ def test_lean_formalizer_accepts_multiline_target_declaration(tmp_path: Path) ->
     assert report["best_audit"]["target"]["line"] == 3
 
 
+def test_lean_formalizer_classifies_statement_drift_as_model_mismatch(tmp_path: Path) -> None:
+    workspace = _write_workspace(
+        tmp_path,
+        "\n".join(
+            [
+                "namespace MathProject",
+                "",
+                "theorem h5upper_log : False := by",
+                "  trivial",
+                "",
+                "end MathProject",
+                "",
+            ]
+        ),
+    )
+    runner = LeanFormalizerRunner(repo_root=tmp_path)
+
+    report = runner.run(
+        workspace=workspace,
+        statement="theorem h5upper_log : True := by\n  trivial",
+        target_theorem="h5upper_log",
+        target_file=Path("MathProject/MainClaim.lean"),
+        build_command=_pass_command(),
+        backend="none",
+        attempts=0,
+        output_root=tmp_path / "runs",
+        run_name="statement-drift",
+    )
+
+    audit = report["best_audit"]
+    assert report["status"] == "blocked"
+    assert audit["failure_mode"] == "model_mismatch"
+    assert audit["proof_loop_state"] == "model_mismatch"
+    assert audit["faithful_modeling_status"] == "model_mismatch"
+    assert audit["target_statement_match"]["matched"] is False
+    assert "Target theorem header does not match" in "\n".join(audit["blockers"])
+
+
 def test_lean_formalizer_runs_backend_iterations_when_unverified(tmp_path: Path) -> None:
     workspace = _write_workspace(
         tmp_path,

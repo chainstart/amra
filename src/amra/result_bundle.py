@@ -8,6 +8,7 @@ from typing import Any
 
 import yaml
 
+from amra.lean.contract import compare_lean_declaration_headers
 from amra.portfolio_memory import (
     consolidate_project_memory,
     load_claim_ledger,
@@ -26,6 +27,7 @@ PROBLEM_METADATA_SCHEMA_VERSION = "amra.problem_metadata.v1"
 PROOF_SKETCHES_SCHEMA_VERSION = "amra.natural_language_proof_sketches.v1"
 LIMITATIONS_SCHEMA_VERSION = "amra.result_bundle_limitations.v1"
 HANDOFF_NOTES_SCHEMA_VERSION = "amra.ara_handoff_notes.v1"
+PROOF_LOOP_STATE_SCHEMA_VERSION = "amra.proof_loop_state.v1"
 VERIFIED_DECLARATION_STATUSES = {"lean_verified", "verified", "passed", "trusted"}
 NATURAL_LANGUAGE_TRUST_LEVEL = "natural_language_proof_sketch"
 
@@ -499,6 +501,158 @@ def _lean_status_payload(
     return payload
 
 
+def _expected_formal_statement(metadata: dict[str, Any]) -> str:
+    problem_yaml = metadata.get("problem_yaml") if isinstance(metadata.get("problem_yaml"), dict) else {}
+    direct = str(problem_yaml.get("formal_statement") or "").strip()
+    if direct:
+        return direct
+    problem_metadata = problem_yaml.get("metadata") if isinstance(problem_yaml.get("metadata"), dict) else {}
+    return str(problem_metadata.get("formal_statement") or "").strip()
+
+
+def _formalizer_model_mismatch_checks(build_report: dict[str, Any]) -> list[dict[str, Any]]:
+    checks: list[dict[str, Any]] = []
+    audits = []
+    best_audit = build_report.get("best_audit")
+    if isinstance(best_audit, dict):
+        audits.append(best_audit)
+    initial_audit = build_report.get("initial_audit")
+    if isinstance(initial_audit, dict):
+        audits.append(initial_audit)
+    for audit in audits:
+        match = audit.get("target_statement_match")
+        if not isinstance(match, dict) or not match.get("required"):
+            continue
+        matched = bool(match.get("matched"))
+        checks.append(
+            {
+                "kind": "formalizer_target_header",
+                "status": "matched" if matched else "model_mismatch",
+                "target_theorem": str(audit.get("target_theorem") or build_report.get("target_theorem") or ""),
+                "expected_normalized": str(match.get("expected_normalized") or ""),
+                "actual_normalized": str(match.get("actual_normalized") or ""),
+                "matched": matched,
+            }
+        )
+    return checks
+
+
+def _declaration_modeling_checks(
+    *,
+    metadata: dict[str, Any],
+    verified_declarations: list[dict[str, Any]],
+    build_report: dict[str, Any],
+) -> list[dict[str, Any]]:
+    checks = _formalizer_model_mismatch_checks(build_report)
+    expected_statement = _expected_formal_statement(metadata)
+    if not expected_statement:
+        return checks
+    if not verified_declarations:
+        checks.append(
+            {
+                "kind": "formal_statement_to_verified_declaration",
+                "status": "blocked_formalization_gap",
+                "expected": expected_statement,
+                "actual": "",
+                "matched": False,
+                "reason": "No Lean-verified declaration is available to compare with the recorded formal statement.",
+            }
+        )
+        return checks
+    matched_any = False
+    for declaration in verified_declarations:
+        actual_statement = str(declaration.get("statement") or "").strip()
+        if not actual_statement:
+            checks.append(
+                {
+                    "kind": "formal_statement_to_verified_declaration",
+                    "status": "blocked_formalization_gap",
+                    "declaration": declaration.get("full_name") or declaration.get("name") or "",
+                    "expected": expected_statement,
+                    "actual": "",
+                    "matched": False,
+                    "reason": "Verified declaration is missing a recorded Lean statement header.",
+                }
+            )
+            continue
+        comparison = compare_lean_declaration_headers(
+            actual_header=actual_statement,
+            expected_header=expected_statement,
+            target_theorem=str(declaration.get("name") or declaration.get("full_name") or ""),
+        )
+        matched = bool(comparison.get("matched"))
+        matched_any = matched_any or matched
+        checks.append(
+            {
+                "kind": "formal_statement_to_verified_declaration",
+                "status": "matched" if matched else "model_mismatch",
+                "declaration": declaration.get("full_name") or declaration.get("name") or "",
+                "expected_normalized": comparison.get("expected_normalized", ""),
+                "actual_normalized": comparison.get("actual_normalized", ""),
+                "matched": matched,
+            }
+        )
+    if matched_any:
+        return [check for check in checks if check.get("kind") != "formal_statement_to_verified_declaration" or check.get("matched")]
+    return checks
+
+
+def _proof_loop_state_payload(
+    *,
+    metadata: dict[str, Any],
+    verified_declarations: list[dict[str, Any]],
+    natural_language_sketches: list[dict[str, Any]],
+    blockers: list[str],
+    lean_status: dict[str, Any],
+    build_report: dict[str, Any],
+) -> dict[str, Any]:
+    modeling_checks = _declaration_modeling_checks(
+        metadata=metadata,
+        verified_declarations=verified_declarations,
+        build_report=build_report,
+    )
+    mismatch_checks = [check for check in modeling_checks if check.get("status") == "model_mismatch"]
+    blocked_checks = [check for check in modeling_checks if check.get("status") == "blocked_formalization_gap"]
+    if mismatch_checks:
+        faithful_status = "model_mismatch"
+    elif blocked_checks or blockers:
+        faithful_status = "blocked_formalization_gap"
+    elif verified_declarations:
+        faithful_status = "faithfully_modeled"
+    elif natural_language_sketches:
+        faithful_status = "informal_only"
+    else:
+        faithful_status = "no_proof_artifacts"
+    return {
+        "schema_version": PROOF_LOOP_STATE_SCHEMA_VERSION,
+        "informal_claims": {
+            "source": "natural_language_proof_sketches.json",
+            "count": len(natural_language_sketches),
+            "status": "present" if natural_language_sketches else "absent",
+        },
+        "lean_verified_declarations": {
+            "source": LEAN_VERIFIED_DECLARATION_SOURCE,
+            "count": len(verified_declarations),
+            "status": "present" if verified_declarations else "absent",
+        },
+        "blocked_formalization_gaps": {
+            "source": "unresolved_blockers.md",
+            "count": len(blockers) + len(blocked_checks),
+            "status": "present" if blockers or blocked_checks else "absent",
+        },
+        "model_mismatch": {
+            "count": len(mismatch_checks),
+            "status": "present" if mismatch_checks else "absent",
+            "checks": mismatch_checks,
+        },
+        "faithful_modeling": {
+            "status": faithful_status,
+            "checks": modeling_checks,
+        },
+        "lean_status": lean_status,
+    }
+
+
 def _verification_boundaries_payload(
     *,
     verified_declarations: list[dict[str, Any]],
@@ -506,6 +660,7 @@ def _verification_boundaries_payload(
     blockers: list[str],
     limitations: list[str],
     lean_status: dict[str, Any],
+    proof_loop_state: dict[str, Any],
 ) -> dict[str, Any]:
     return {
         "formal_claims": {
@@ -528,6 +683,7 @@ def _verification_boundaries_payload(
             "source": "limitations.md",
             "count": len(limitations),
         },
+        "proof_loop_state": proof_loop_state,
     }
 
 
@@ -731,6 +887,7 @@ def _artifact_manifest(
     blockers: list[str],
     limitations: list[str],
     lean_status: dict[str, Any],
+    proof_loop_state: dict[str, Any],
     files: list[str],
 ) -> dict[str, Any]:
     source_artifacts = []
@@ -775,7 +932,10 @@ def _artifact_manifest(
             blockers=blockers,
             limitations=limitations,
             lean_status=lean_status,
+            proof_loop_state=proof_loop_state,
         ),
+        "proof_loop_state": proof_loop_state,
+        "faithful_modeling": proof_loop_state["faithful_modeling"],
         "lean_status": lean_status,
         "ara_handoff": {
             "consumer": "ARA",
@@ -893,6 +1053,14 @@ def export_amra_result_bundle(
         build_report=build_report,
         verified_declarations=verified_declarations,
     )
+    proof_loop_state = _proof_loop_state_payload(
+        metadata=metadata,
+        verified_declarations=verified_declarations,
+        natural_language_sketches=natural_language_sketches,
+        blockers=blockers,
+        lean_status=lean_status,
+        build_report=build_report,
+    )
 
     (output_dir / "theorem_statement.md").write_text(_render_theorem_statement(metadata), encoding="utf-8")
     write_json(output_dir / "problem_metadata.json", _problem_metadata_payload(metadata))
@@ -958,6 +1126,7 @@ def export_amra_result_bundle(
         blockers=blockers,
         limitations=limitations,
         lean_status=lean_status,
+        proof_loop_state=proof_loop_state,
         files=files + ["artifact_manifest.json"],
     )
     write_json(output_dir / "artifact_manifest.json", manifest)
@@ -986,6 +1155,7 @@ __all__ = [
     "PROOF_SKETCHES_SCHEMA_VERSION",
     "LIMITATIONS_SCHEMA_VERSION",
     "HANDOFF_NOTES_SCHEMA_VERSION",
+    "PROOF_LOOP_STATE_SCHEMA_VERSION",
     "VERIFIED_DECLARATION_STATUSES",
     "REQUIRED_BUNDLE_FILES",
     "export_amra_result_bundle",

@@ -304,6 +304,18 @@ class LeanFormalizerRunner:
         )
         return no_defect_progress and (target_missing or repeated_backend_guidance)
 
+    def _audit_failure_mode(self, blockers: list[str], target_statement_match: dict[str, Any]) -> str:
+        if target_statement_match.get("required") and target_statement_match.get("matched") is False:
+            return "model_mismatch"
+        text = "\n".join(blockers).lower()
+        if "target theorem" in text and "not found" in text:
+            return "blocked_formalization_gap"
+        if any(marker in text for marker in ("sorry", "admit", "placeholder", "build status")):
+            return "blocked_formalization_gap"
+        if any(marker in text for marker in ("axiom", "constant", "opaque", "forbidden assumption")):
+            return "untrusted_formalization"
+        return "" if not blockers else "blocked_formalization_gap"
+
     def _audit(
         self,
         *,
@@ -381,6 +393,14 @@ class LeanFormalizerRunner:
             + (0 if not expected_target_header or target_statement_match.get("matched") else 100_000)
             + len(diagnostics)
         )
+        failure_mode = self._audit_failure_mode(blockers, target_statement_match)
+        proof_loop_state = (
+            "lean_verified_declaration"
+            if not blockers
+            else "model_mismatch"
+            if failure_mode == "model_mismatch"
+            else "blocked_formalization_gap"
+        )
         return {
             "generated_at": utc_now_iso(),
             "workspace": str(workspace),
@@ -405,6 +425,15 @@ class LeanFormalizerRunner:
             "forbidden_target_header_hits": forbidden_header_hits,
             "defect_score": defect_score,
             "verified": not blockers,
+            "failure_mode": failure_mode,
+            "proof_loop_state": proof_loop_state,
+            "faithful_modeling_status": (
+                "faithfully_modeled"
+                if not blockers
+                else "model_mismatch"
+                if failure_mode == "model_mismatch"
+                else "blocked_formalization_gap"
+            ),
             "blockers": blockers,
         }
 
@@ -637,6 +666,8 @@ class LeanFormalizerRunner:
             f"- Defect score: {best.get('defect_score')}",
             f"- Counts: {best.get('counts')}",
             f"- Source declaration match: {(best.get('target_statement_match') or {}).get('matched')}",
+            f"- Failure mode: {best.get('failure_mode') or '<none>'}",
+            f"- Proof loop state: {best.get('proof_loop_state') or '<none>'}",
             "",
             "## Blockers",
             "",

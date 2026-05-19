@@ -36,10 +36,13 @@ def test_known_problem_smoke_exports_ara_consumable_bundle(tmp_path: Path) -> No
     assert manifest["known_problem_smoke"]["problem_id"] == "imo_2025_p1"
     assert manifest["known_problem_smoke"]["status"] == result["status"]
     assert manifest["known_problem_smoke"]["llm_calls"] == 0
+    assert manifest["known_problem_smoke"]["proof_loop_state"]["informal_claims"] == 1
     assert manifest["verification_policy"]["only_lean_verified_claim_source"] == "verified_declarations.json"
     assert manifest["verification_boundaries"]["lean_status"]["source"] == "lean_build_report.json"
     assert manifest["verification_boundaries"]["natural_language_proof_artifacts"]["source"] == "natural_language_proof_sketches.json"
     assert manifest["lean_status"]["verified_declaration_source"] == "verified_declarations.json"
+    assert manifest["proof_loop_state"]["informal_claims"]["count"] == 1
+    assert manifest["proof_loop_state"]["model_mismatch"]["status"] == "absent"
     assert manifest["ara_handoff"]["consumer"] == "ARA"
     assert manifest["ara_handoff"]["handoff_notes"] == "handoff_notes.md"
     assert "proof_attempt_ledger.jsonl" in {item["path"] for item in manifest["files"]}
@@ -51,6 +54,10 @@ def test_known_problem_smoke_exports_ara_consumable_bundle(tmp_path: Path) -> No
 
     assert len(ledger) == 2
     assert [entry["phase"] for entry in ledger] == ["natural_language_proof", "lean_formalization"]
+    assert [entry["proof_loop_state"] for entry in ledger] == [
+        "informal_claim",
+        "lean_verified_declaration" if result["status"] == "verified" else "blocked_formalization_gap",
+    ]
     assert all(entry["backend"] == "deterministic_fixture" for entry in ledger)
     assert all(entry["llm_calls"] == 0 for entry in ledger)
 

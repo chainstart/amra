@@ -368,6 +368,8 @@ def _ledger_records(
             "problem_id": fixture.problem_id,
             "phase": "natural_language_proof",
             "status": "route_supported",
+            "proof_loop_state": "informal_claim",
+            "verification_boundary": "natural_language_only",
             "backend": "deterministic_fixture",
             "llm_calls": 0,
             "started_at": started_at,
@@ -382,6 +384,11 @@ def _ledger_records(
             "problem_id": fixture.problem_id,
             "phase": "lean_formalization",
             "status": "lean_verified" if status == "verified" else "blocked",
+            "proof_loop_state": "lean_verified_declaration" if status == "verified" else "blocked_formalization_gap",
+            "verification_boundary": (
+                "verified_declarations.json" if status == "verified" else "unresolved_blockers.md"
+            ),
+            "faithful_modeling_status": "faithfully_modeled" if status == "verified" else "blocked_formalization_gap",
             "backend": "deterministic_fixture",
             "llm_calls": 0,
             "started_at": started_at,
@@ -464,6 +471,13 @@ def run_known_problem_smoke(
         "bundle_proof_attempt_ledger": str(output_dir / "proof_attempt_ledger.jsonl"),
         "lean_build_report": str(output_dir / "lean_build_report.json"),
         "verified_declarations": [fixture.full_lean_name] if status == "verified" else [],
+        "proof_loop_state": {
+            "informal_claims": 1,
+            "lean_verified_declarations": 1 if status == "verified" else 0,
+            "blocked_formalization_gaps": 0 if status == "verified" else 1,
+            "model_mismatch": 0,
+            "faithful_modeling_status": "faithfully_modeled" if status == "verified" else "blocked_formalization_gap",
+        },
         "blockers": [] if status == "verified" else build_report.get("diagnostics", []),
         "bundle": bundle,
     }
@@ -478,6 +492,7 @@ def run_known_problem_smoke(
             "proof_attempt_ledger": "proof_attempt_ledger.jsonl",
             "lean_build_report": "lean_build_report.json",
             "llm_calls": 0,
+            "proof_loop_state": smoke_report["proof_loop_state"],
         }
         report_path = output_dir / "known_problem_smoke_report.json"
         report_record = {

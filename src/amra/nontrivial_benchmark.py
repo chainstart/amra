@@ -185,6 +185,7 @@ def _ledger_records(
             "problem_id": case.problem_id,
             "phase": "problem_selection",
             "status": "selected",
+            "proof_loop_state": "benchmark_target_selected",
             "backend": "deterministic_benchmark",
             "llm_calls": 0,
             "started_at": started_at,
@@ -198,6 +199,8 @@ def _ledger_records(
             "problem_id": case.problem_id,
             "phase": "natural_language_proof",
             "status": "route_supported",
+            "proof_loop_state": "informal_claim",
+            "verification_boundary": "natural_language_only",
             "backend": "deterministic_benchmark",
             "llm_calls": 0,
             "started_at": started_at,
@@ -212,6 +215,11 @@ def _ledger_records(
             "problem_id": case.problem_id,
             "phase": "lean_formalization",
             "status": "lean_verified" if status == "verified" else "blocked",
+            "proof_loop_state": "lean_verified_declaration" if status == "verified" else "blocked_formalization_gap",
+            "verification_boundary": (
+                "verified_declarations.json" if status == "verified" else "unresolved_blockers.md"
+            ),
+            "faithful_modeling_status": "faithfully_modeled" if status == "verified" else "blocked_formalization_gap",
             "backend": "deterministic_benchmark",
             "llm_calls": 0,
             "started_at": started_at,
@@ -468,6 +476,7 @@ def _update_manifest(
         "library_harvest_candidates": "library_harvest_candidates.json",
         "benchmark_review_gate": "benchmark_review_gate.json",
         "llm_calls": 0,
+        "proof_loop_state": benchmark_report.get("proof_loop_state", {}),
     }
     existing_paths = {item.get("path") for item in manifest.get("files", []) if isinstance(item, dict)}
     for record in [
@@ -582,6 +591,13 @@ def run_nontrivial_closed_theorem_benchmark(
         "lean_file": str(lean_file),
         "lean_build_report": str(output_dir / "lean_build_report.json"),
         "verified_declarations": verified_declarations,
+        "proof_loop_state": {
+            "informal_claims": 1,
+            "lean_verified_declarations": len(verified_declarations),
+            "blocked_formalization_gaps": 0 if status == "verified" else 1,
+            "model_mismatch": 0,
+            "faithful_modeling_status": "faithfully_modeled" if status == "verified" else "blocked_formalization_gap",
+        },
         "library_harvest_candidates": str(output_dir / "library_harvest_candidates.json"),
         "library_candidate_count": library_report.get("candidate_count", 0),
         "review_gate": review_gate,

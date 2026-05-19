@@ -1898,7 +1898,7 @@
         {
           "id": "AMRA-LEAN-001",
           "title": "Strengthen NL/Lean alternating proof loop and faithful modeling",
-          "status": "pending",
+          "status": "completed",
           "max_attempts": 2,
           "max_task_iterations": 3,
           "manual_approval_required": false,

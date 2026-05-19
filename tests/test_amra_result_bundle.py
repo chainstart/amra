@@ -27,6 +27,8 @@ def _result_project(tmp_path: Path) -> Path:
                 "source: unit-test-source",
                 "references:",
                 "  - https://example.test/identity",
+                "metadata:",
+                "  formal_statement: \"theorem identity_self (n : Nat) : n = n\"",
                 "",
             ]
         ),
@@ -72,6 +74,7 @@ def _result_project(tmp_path: Path) -> Path:
                     "lean_name": "identity_self",
                     "status": "lean_verified",
                     "relative_path": "MathProject/Main.lean",
+                    "statement": "theorem identity_self (n : Nat) : n = n",
                 },
                 {
                     "name": "sketched_only",
@@ -104,6 +107,10 @@ def test_amra_result_bundle_separates_sketches_from_verified_declarations(tmp_pa
     assert manifest["verification_policy"]["natural_language_proof_sketches_are_not_lean_verified"] is True
     assert manifest["verification_boundaries"]["formal_claims"]["source"] == "verified_declarations.json"
     assert manifest["lean_status"]["status"] == "passed"
+    assert manifest["proof_loop_state"]["informal_claims"]["count"] >= 1
+    assert manifest["proof_loop_state"]["lean_verified_declarations"]["count"] == 1
+    assert manifest["proof_loop_state"]["blocked_formalization_gaps"]["status"] == "absent"
+    assert manifest["faithful_modeling"]["status"] == "faithfully_modeled"
     assert manifest["ara_handoff"]["handoff_notes"] == "handoff_notes.md"
     assert manifest["natural_language_proof_sketches"][0]["lean_verified"] is False
     assert (bundle_dir / "proof_attempt_ledger.jsonl").exists()
@@ -113,6 +120,34 @@ def test_amra_result_bundle_separates_sketches_from_verified_declarations(tmp_pa
     assert "Natural-language proof sketches are research evidence only" in proof_summary
     assert "`MathProject.identity_self` status=`lean_verified`" in proof_summary
     assert "Read `lean_build_report.json` and `verified_declarations.json` before citing any formal claim" in handoff_notes
+
+
+def test_amra_result_bundle_flags_verified_declaration_model_mismatch(tmp_path: Path) -> None:
+    project = _result_project(tmp_path)
+    _write_json(
+        project / "verified_declarations.json",
+        {
+            "schema_version": "amra.verified_declarations.v1",
+            "declarations": [
+                {
+                    "name": "identity_self",
+                    "full_name": "MathProject.identity_self",
+                    "lean_name": "identity_self",
+                    "status": "lean_verified",
+                    "relative_path": "MathProject/Main.lean",
+                    "statement": "theorem identity_self (n : Nat) : n = 0",
+                }
+            ],
+        },
+    )
+
+    export_amra_result_bundle(project=project, output_dir=tmp_path / "bundle", repo_root=tmp_path)
+
+    manifest = json.loads((tmp_path / "bundle" / "artifact_manifest.json").read_text(encoding="utf-8"))
+
+    assert manifest["proof_loop_state"]["model_mismatch"]["status"] == "present"
+    assert manifest["faithful_modeling"]["status"] == "model_mismatch"
+    assert manifest["faithful_modeling"]["checks"][0]["status"] == "model_mismatch"
 
 
 def test_amra_result_bundle_accepts_formalizer_report_contract(tmp_path: Path) -> None:

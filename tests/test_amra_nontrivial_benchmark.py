@@ -41,7 +41,10 @@ def test_nontrivial_closed_theorem_benchmark_exports_bundle_and_candidate_report
 
     assert manifest["nontrivial_closed_theorem_benchmark"]["problem_id"] == DEFAULT_NONTRIVIAL_BENCHMARK_CASE
     assert manifest["nontrivial_closed_theorem_benchmark"]["status"] == result["status"]
+    assert manifest["nontrivial_closed_theorem_benchmark"]["proof_loop_state"]["informal_claims"] == 1
     assert manifest["verification_policy"]["only_lean_verified_claim_source"] == "verified_declarations.json"
+    assert manifest["proof_loop_state"]["informal_claims"]["status"] == "present"
+    assert manifest["proof_loop_state"]["model_mismatch"]["status"] == "absent"
     assert {
         "proof_attempt_ledger.jsonl",
         "library_harvest_candidates.json",
@@ -55,6 +58,8 @@ def test_nontrivial_closed_theorem_benchmark_exports_bundle_and_candidate_report
         "lean_formalization",
         "library_candidate_detection",
     ]
+    assert ledger[1]["proof_loop_state"] == "informal_claim"
+    assert ledger[2]["proof_loop_state"] in {"lean_verified_declaration", "blocked_formalization_gap"}
     assert all(entry["backend"] == "deterministic_benchmark" for entry in ledger)
     assert all(entry["llm_calls"] == 0 for entry in ledger)
 

@@ -72,6 +72,34 @@ def test_focused_attack_backend_none_reports_missing_target(tmp_path: Path) -> N
     assert contract["attack_targets"] == ["missing_target"]
 
 
+def test_focused_attack_classifies_header_drift_as_model_mismatch(tmp_path: Path) -> None:
+    workspace = _write_workspace(
+        tmp_path,
+        "namespace MathProject\n\n"
+        "theorem t : False := by\n"
+        "  trivial\n\n"
+        "end MathProject\n",
+    )
+    agent = FocusedLeanAttackAgent(repo_root=tmp_path)
+
+    report = agent.run(
+        workspace=workspace,
+        attack_targets=["t"],
+        expected_target_headers={"t": "theorem t : True"},
+        build_command=[sys.executable, "-c", "print('ok')"],
+        backend="none",
+        output_root=tmp_path / "runs",
+        run_name="model-mismatch",
+    )
+
+    observation = report["final_observation"]
+    assert report["status"] == "blocked"
+    assert observation["header_mismatches"] == ["t"]
+    assert observation["proof_loop_state"] == "model_mismatch"
+    assert observation["failure_mode"] == "model_mismatch"
+    assert observation["faithful_modeling_status"] == "model_mismatch"
+
+
 def test_focused_attack_flags_disallowed_lean_file_changes(tmp_path: Path, monkeypatch) -> None:
     workspace = _write_workspace(tmp_path, "namespace MathProject\n\nend MathProject\n")
     agent = FocusedLeanAttackAgent(repo_root=tmp_path)

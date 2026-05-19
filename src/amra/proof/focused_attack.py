@@ -584,6 +584,18 @@ Before spending significant time, leave a durable note in the run directory that
             status = "blocked"
         elif status == "verified":
             status = "partial"
+        if header_mismatches and build_report["status"] == "passed" and forbidden_total == 0 and not missing_targets:
+            proof_loop_state = "model_mismatch"
+            faithful_modeling_status = "model_mismatch"
+            failure_mode = "model_mismatch"
+        elif contract_satisfied:
+            proof_loop_state = "lean_verified_declaration"
+            faithful_modeling_status = "faithfully_modeled"
+            failure_mode = ""
+        else:
+            proof_loop_state = "blocked_formalization_gap"
+            faithful_modeling_status = "blocked_formalization_gap"
+            failure_mode = "blocked_formalization_gap"
 
         terminal = status in self.TERMINAL_STATUSES
         return {
@@ -594,6 +606,9 @@ Before spending significant time, leave a durable note in the run directory that
             "stop_reason": f"{status}_reported" if terminal else "",
             "backend_status": backend_status,
             "contract_satisfied": contract_satisfied,
+            "proof_loop_state": proof_loop_state,
+            "failure_mode": failure_mode,
+            "faithful_modeling_status": faithful_modeling_status,
             "build": build_report,
             "counts": counts,
             "attack_targets": contract.attack_targets,
