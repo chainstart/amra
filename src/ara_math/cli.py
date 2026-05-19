@@ -284,6 +284,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     portfolio_campaign = subparsers.add_parser(
         "run-portfolio-campaign",
+        aliases=["portfolio-campaign"],
         help="Create an AMRA portfolio campaign scaffold over a problem bank.",
     )
     portfolio_campaign.add_argument("--bank", type=Path, required=True)
@@ -297,7 +298,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Backend for active portfolio scouting probes. Defaults to local artifact generation without an LLM.",
     )
     portfolio_campaign.add_argument("--promote-top", type=int, default=2)
-    portfolio_campaign.add_argument("--attack-budget", type=int, default=0)
+    portfolio_campaign.add_argument(
+        "--attack-budget",
+        type=int,
+        default=0,
+        help="Optional bounded active execution budget in seconds for promoted targets. Default 0 only plans assignments.",
+    )
 
     evaluate_problem = subparsers.add_parser(
         "evaluate-problem",
@@ -1238,7 +1244,7 @@ def main(argv: list[str] | None = None) -> int:
         _print(orchestrator.build_ara_library(timeout_sec=args.timeout, allow_cold_cache=args.allow_cold_cache), args.json)
         return 0
 
-    if args.command == "run-portfolio-campaign":
+    if args.command in {"run-portfolio-campaign", "portfolio-campaign"}:
         runner = PortfolioCampaignRunner(repo_root=_repo_root())
         payload = runner.run_portfolio_campaign(
             bank=args.bank,

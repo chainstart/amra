@@ -15,6 +15,8 @@ PROBLEM_STATES = {
     "active_attack",
     "formalization_ready",
     "verified",
+    "failed",
+    "library_candidate",
     "library_harvested",
     "parked",
     "frozen",

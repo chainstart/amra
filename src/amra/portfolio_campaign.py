@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import shutil
+import time
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -26,6 +27,89 @@ from amra.portfolio_scheduler import PortfolioAttackScheduler
 
 
 DEFAULT_CAMPAIGN_ROOT = Path("artifacts") / "portfolio_campaigns"
+ACTIVE_EXECUTION_SCHEMA_VERSION = "amra.portfolio_active_execution.v1"
+ACTIVE_ATTEMPT_SCHEMA_VERSION = "amra.portfolio_active_attempt.v1"
+
+
+def _resolve_under_root(raw_path: Any, root: Path) -> Path:
+    path = Path(str(raw_path))
+    if path.is_absolute():
+        return path
+    return root / path
+
+
+def _normalize_active_outcome(payload: dict[str, Any]) -> str:
+    raw = str(payload.get("outcome") or payload.get("state") or payload.get("status") or "").strip()
+    token = raw.lower().replace("-", "_").replace(" ", "_")
+    if bool(payload.get("library_candidate")) or token in {
+        "library_candidate",
+        "library",
+        "reusable_candidate",
+        "harvest_candidate",
+    }:
+        return "library_candidate"
+    if bool(payload.get("verified")) or token in {"verified", "lean_verified", "passed", "success", "succeeded"}:
+        return "verified"
+    if token in {"failed", "failure", "error", "timeout", "cancelled", "canceled", "aborted"}:
+        return "failed"
+    if token in {"parked", "park", "blocked", "partial", "skipped", "no_progress", "stalled", "exhausted"}:
+        return "parked"
+    return "parked"
+
+
+def _state_for_active_outcome(outcome: str) -> str:
+    return {
+        "verified": "verified",
+        "failed": "failed",
+        "library_candidate": "library_candidate",
+        "parked": "parked",
+    }.get(outcome, "parked")
+
+
+class DeterministicPortfolioAttackRunner:
+    """Local no-model execution runner for bounded portfolio attempts.
+
+    The default runner intentionally does not call Codex or launch search. It
+    records a durable, budgeted attempt in the isolated workspace and parks the
+    target for a configured proof/formalization backend or a fake test runner.
+    """
+
+    def __init__(self, *, repo_root: Path) -> None:
+        self.repo_root = repo_root
+
+    def run(
+        self,
+        *,
+        assignment: dict[str, Any],
+        problem: Any,
+        project_dir: Path,
+        problem_dir: Path,
+        campaign_dir: Path,
+        budget_seconds: int,
+        run_id: str,
+    ) -> dict[str, Any]:
+        del problem, problem_dir, campaign_dir
+        workspace = _resolve_under_root(assignment.get("isolated_workspace", project_dir / "formal"), self.repo_root)
+        workspace.mkdir(parents=True, exist_ok=True)
+        attempt_manifest = workspace / "portfolio_attempt.json"
+        payload = {
+            "schema_version": ACTIVE_ATTEMPT_SCHEMA_VERSION,
+            "generated_at": utc_now_iso(),
+            "problem_id": str(assignment.get("problem_id") or ""),
+            "run_id": run_id,
+            "status": "parked",
+            "outcome": "parked",
+            "budget_seconds": max(0, int(budget_seconds)),
+            "workspace": _relative(workspace, self.repo_root),
+            "workspace_policy": "isolated",
+            "backend": "none",
+            "attempts_requested": 1,
+            "attempts_completed": 1,
+            "parking_reason": "No active proof/formalization runner was configured for this portfolio campaign.",
+            "next_action": "Resume with an explicit deterministic runner or a reviewed Lean formalization route.",
+        }
+        write_json(attempt_manifest, payload)
+        return {**payload, "attempt_manifest": _relative(attempt_manifest, self.repo_root)}
 
 
 def _has_exact_statement(problem: Any) -> bool:
@@ -186,12 +270,16 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
 class PortfolioCampaignRunner:
     repo_root: Path
     math_scout_runner: Any | None = None
+    attack_runner: Any | None = None
 
     def campaign_root(self) -> Path:
         return self.repo_root / DEFAULT_CAMPAIGN_ROOT
 
     def _get_math_scout_runner(self) -> Any:
         return self.math_scout_runner or MathScoutRunner(repo_root=self.repo_root)
+
+    def _get_attack_runner(self) -> Any:
+        return self.attack_runner or DeterministicPortfolioAttackRunner(repo_root=self.repo_root)
 
     def run_portfolio_campaign(
         self,
@@ -271,7 +359,8 @@ class PortfolioCampaignRunner:
             "generated_at": generated_at,
             "evaluations": ranking,
         }
-        active_assignments = PortfolioAttackScheduler(repo_root=self.repo_root).build_active_assignments(
+        scheduler = PortfolioAttackScheduler(repo_root=self.repo_root)
+        active_assignments = scheduler.build_active_assignments(
             campaign_dir=campaign_dir,
             promotion_queue=promotion_queue,
             attack_budget_seconds=attack_budget,
@@ -302,6 +391,30 @@ class PortfolioCampaignRunner:
         write_json(campaign_dir / "promotion_queue.json", {"schema_version": "amra.promotion_queue.v1", "items": promotion_queue})
         write_json(campaign_dir / "parked_queue.json", {"schema_version": "amra.parked_queue.v1", "items": parked_queue})
         write_json(campaign_dir / "active_assignments.json", active_assignments)
+        active_execution = self._run_active_execution_if_budgeted(
+            campaign_dir=campaign_dir,
+            problems_dir=problems_dir,
+            campaign_id=campaign_id,
+            active_assignments=active_assignments,
+            promotion_queue=promotion_queue,
+            problems_by_id={str(getattr(problem, "problem_id", "")): problem for problem in problems},
+            attack_budget=attack_budget,
+        )
+        if active_execution:
+            state = {
+                **state,
+                "updated_at": utc_now_iso(),
+                "status": "active_execution_completed",
+                "active_execution": _relative(campaign_dir / "active_execution_report.json", self.repo_root),
+                "active_execution_counts": active_execution["outcome_counts"],
+                "verified_count": active_execution["outcome_counts"].get("verified", 0),
+                "failed_count": active_execution["outcome_counts"].get("failed", 0),
+                "library_candidate_count": active_execution["outcome_counts"].get("library_candidate", 0),
+                "active_parked_count": active_execution["outcome_counts"].get("parked", 0),
+            }
+            write_json(campaign_dir / "campaign_state.json", state)
+            write_json(campaign_dir / "active_assignments.json", active_assignments)
+            write_json(campaign_dir / "promotion_queue.json", {"schema_version": "amra.promotion_queue.v1", "items": promotion_queue})
         self._write_campaign_resume_pack(
             campaign_dir,
             manifest=manifest,
@@ -321,6 +434,298 @@ class PortfolioCampaignRunner:
             "promoted_count": len(promotion_queue),
             "parked_count": len(parked_queue),
         }
+
+    def _run_active_execution_if_budgeted(
+        self,
+        *,
+        campaign_dir: Path,
+        problems_dir: Path,
+        campaign_id: str,
+        active_assignments: dict[str, Any],
+        promotion_queue: list[dict[str, Any]],
+        problems_by_id: dict[str, Any],
+        attack_budget: int,
+    ) -> dict[str, Any] | None:
+        budget_seconds = max(0, int(attack_budget))
+        assignments = [item for item in active_assignments.get("assignments", []) if isinstance(item, dict)]
+        if budget_seconds <= 0:
+            append_jsonl(
+                campaign_dir / "campaign_log.jsonl",
+                {
+                    "event": "active_execution_skipped",
+                    "at": utc_now_iso(),
+                    "campaign_id": campaign_id,
+                    "reason": "attack_budget_not_provided",
+                },
+            )
+            return None
+        started = time.monotonic()
+        results: list[dict[str, Any]] = []
+        outcome_counts = {"verified": 0, "failed": 0, "parked": 0, "library_candidate": 0}
+        promotion_by_problem = {
+            str(item.get("problem_id", "")).strip(): item for item in promotion_queue if str(item.get("problem_id", "")).strip()
+        }
+
+        append_jsonl(
+            campaign_dir / "campaign_log.jsonl",
+            {
+                "event": "active_execution_started",
+                "at": utc_now_iso(),
+                "campaign_id": campaign_id,
+                "assignment_count": len(assignments),
+                "attack_budget_seconds": budget_seconds,
+            },
+        )
+        for assignment in assignments:
+            summary = self._run_single_active_assignment(
+                campaign_dir=campaign_dir,
+                problems_dir=problems_dir,
+                assignment=assignment,
+                problem=problems_by_id.get(str(assignment.get("problem_id", "")).strip()),
+                attack_budget=budget_seconds,
+            )
+            outcome = str(summary.get("outcome") or "parked")
+            outcome_counts[outcome] = outcome_counts.get(outcome, 0) + 1
+            results.append(summary)
+            promotion_item = promotion_by_problem.get(str(summary.get("problem_id") or ""))
+            if promotion_item is not None:
+                promotion_item["active_execution"] = {
+                    "outcome": outcome,
+                    "state": summary.get("state"),
+                    "status": summary.get("status"),
+                    "run_id": summary.get("run_id"),
+                    "report": summary.get("report"),
+                    "project": summary.get("project"),
+                }
+
+        payload = {
+            "schema_version": ACTIVE_EXECUTION_SCHEMA_VERSION,
+            "generated_at": utc_now_iso(),
+            "campaign_id": campaign_id,
+            "status": "completed",
+            "attack_budget_seconds": budget_seconds,
+            "elapsed_seconds": round(time.monotonic() - started, 3),
+            "assignment_count": len(assignments),
+            "outcome_counts": outcome_counts,
+            "execution_policy": {
+                "requires_explicit_attack_budget": True,
+                "workspace_policy": "isolated",
+                "runner": type(self._get_attack_runner()).__name__,
+                "live_model_calls": False,
+            },
+            "results": results,
+        }
+        write_json(campaign_dir / "active_execution_report.json", payload)
+        append_jsonl(
+            campaign_dir / "campaign_log.jsonl",
+            {
+                "event": "active_execution_completed",
+                "at": payload["generated_at"],
+                "campaign_id": campaign_id,
+                "outcome_counts": outcome_counts,
+            },
+        )
+        return payload
+
+    def _run_single_active_assignment(
+        self,
+        *,
+        campaign_dir: Path,
+        problems_dir: Path,
+        assignment: dict[str, Any],
+        problem: Any,
+        attack_budget: int,
+    ) -> dict[str, Any]:
+        problem_id = str(assignment.get("problem_id", "")).strip()
+        run_id = str(assignment.get("run_id") or slugify(f"{problem_id}-active")).strip()
+        project_dir = _resolve_under_root(assignment.get("project_dir", campaign_dir / "projects" / slugify(problem_id)), self.repo_root)
+        problem_dir = problems_dir / problem_id
+        budget_seconds = max(0, int(assignment.get("budget_seconds") or attack_budget))
+        assignment["status"] = "running"
+        assignment["started_at"] = utc_now_iso()
+
+        self.initialize_problem_project(project=project_dir, problem_id=problem_id, state="active_attack")
+        run_dir = project_dir / "runs" / run_id
+        run_dir.mkdir(parents=True, exist_ok=True)
+        attempt_started = time.monotonic()
+        try:
+            raw_report = self._get_attack_runner().run(
+                assignment=assignment,
+                problem=problem,
+                project_dir=project_dir,
+                problem_dir=problem_dir,
+                campaign_dir=campaign_dir,
+                budget_seconds=budget_seconds,
+                run_id=run_id,
+            )
+            if not isinstance(raw_report, dict):
+                raise TypeError(f"Active runner returned {type(raw_report).__name__}, expected dict.")
+        except Exception as exc:
+            raw_report = {
+                "schema_version": ACTIVE_ATTEMPT_SCHEMA_VERSION,
+                "generated_at": utc_now_iso(),
+                "problem_id": problem_id,
+                "run_id": run_id,
+                "status": "failed",
+                "outcome": "failed",
+                "stop_reason": "active_runner_exception",
+                "error": {"type": type(exc).__name__, "message": str(exc)},
+                "failed_routes": [
+                    {
+                        "route_id": f"portfolio-active:{run_id}",
+                        "failure_mode": "resource_timeout",
+                        "failed_assertion": f"Active runner failed before producing a bounded attempt: {type(exc).__name__}.",
+                        "resume_condition": "Rerun after fixing the runner or reducing the attack scope.",
+                    }
+                ],
+            }
+        elapsed_seconds = round(time.monotonic() - attempt_started, 3)
+        outcome = _normalize_active_outcome(raw_report)
+        state = _state_for_active_outcome(outcome)
+        report = self._write_active_attempt_report(
+            project_dir=project_dir,
+            run_dir=run_dir,
+            assignment=assignment,
+            raw_report=raw_report,
+            outcome=outcome,
+            state=state,
+            elapsed_seconds=elapsed_seconds,
+            budget_seconds=budget_seconds,
+        )
+        if outcome == "library_candidate":
+            self._write_library_candidate_review(project_dir=project_dir, run_id=run_id, report=report)
+        consolidation = consolidate_project_memory(project_dir, repo_root=self.repo_root, problem_id=problem_id)
+        evidence = [_relative(run_dir / "report.json", self.repo_root)]
+        if consolidation.get("artifact_count"):
+            evidence.append(_relative(project_dir / "memory" / "consolidation_report.json", self.repo_root))
+        transition = append_state_transition(
+            project_dir,
+            problem_id=problem_id,
+            state=state,
+            reason=str(report.get("transition_reason") or report.get("summary") or f"active execution outcome: {outcome}"),
+            evidence=evidence,
+        )
+        resume_pack = write_resume_pack(project_dir, problem_id=problem_id)
+        indexes = update_global_memory(self.repo_root, project_dir=project_dir, problem_id=problem_id)
+
+        assignment.update(
+            {
+                "status": outcome,
+                "outcome": outcome,
+                "state": state,
+                "completed_at": utc_now_iso(),
+                "elapsed_seconds": elapsed_seconds,
+                "execution_report": _relative(run_dir / "report.json", self.repo_root),
+                "project_state": _relative(project_dir / "state.json", self.repo_root),
+                "memory_consolidation": _relative(project_dir / "memory" / "consolidation_report.json", self.repo_root),
+            }
+        )
+        problem_execution_dir = problem_dir / "formalization_runs" / run_id
+        write_json(
+            problem_execution_dir / "execution.json",
+            {
+                "schema_version": "amra.problem_active_execution_pointer.v1",
+                "generated_at": utc_now_iso(),
+                "problem_id": problem_id,
+                "run_id": run_id,
+                "outcome": outcome,
+                "state": state,
+                "report": _relative(run_dir / "report.json", self.repo_root),
+                "project": _relative(project_dir, self.repo_root),
+                "workspace": assignment.get("isolated_workspace", ""),
+            },
+        )
+        return {
+            "problem_id": problem_id,
+            "run_id": run_id,
+            "status": outcome,
+            "outcome": outcome,
+            "state": state,
+            "report": _relative(run_dir / "report.json", self.repo_root),
+            "project": _relative(project_dir, self.repo_root),
+            "workspace": assignment.get("isolated_workspace", ""),
+            "state_transition": transition,
+            "resume_pack": resume_pack["path"],
+            "indexes": indexes,
+            "memory_consolidation": consolidation,
+        }
+
+    def _write_active_attempt_report(
+        self,
+        *,
+        project_dir: Path,
+        run_dir: Path,
+        assignment: dict[str, Any],
+        raw_report: dict[str, Any],
+        outcome: str,
+        state: str,
+        elapsed_seconds: float,
+        budget_seconds: int,
+    ) -> dict[str, Any]:
+        problem_id = str(assignment.get("problem_id") or raw_report.get("problem_id") or project_dir.name)
+        run_id = str(assignment.get("run_id") or raw_report.get("run_id") or run_dir.name)
+        verified = outcome in {"verified", "library_candidate"} or bool(raw_report.get("verified"))
+        report = {
+            **raw_report,
+            "schema_version": ACTIVE_ATTEMPT_SCHEMA_VERSION,
+            "generated_at": str(raw_report.get("generated_at") or utc_now_iso()),
+            "problem_id": problem_id,
+            "run_id": run_id,
+            "route_id": str(raw_report.get("route_id") or f"portfolio-active:{run_id}"),
+            "status": str(raw_report.get("status") or outcome),
+            "outcome": outcome,
+            "state": state,
+            "verified": verified,
+            "library_candidate": outcome == "library_candidate" or bool(raw_report.get("library_candidate")),
+            "budget_seconds": budget_seconds,
+            "elapsed_seconds": elapsed_seconds,
+            "project_dir": _relative(project_dir, self.repo_root),
+            "run_dir": _relative(run_dir, self.repo_root),
+            "workspace_policy": "isolated",
+            "workspace": str(raw_report.get("workspace") or assignment.get("isolated_workspace") or ""),
+            "canonical_workspace": str(assignment.get("canonical_workspace") or ""),
+            "isolated_workspace": str(assignment.get("isolated_workspace") or raw_report.get("isolated_workspace") or ""),
+            "assignment": assignment,
+        }
+        if "summary" not in report:
+            report["summary"] = f"Portfolio active execution outcome `{outcome}` for `{problem_id}`."
+        if "transition_reason" not in report:
+            report["transition_reason"] = report["summary"]
+        if outcome == "failed" and not report.get("failed_routes"):
+            report["failed_routes"] = [
+                {
+                    "route_id": report["route_id"],
+                    "failure_mode": "proof_gap",
+                    "failed_assertion": str(report.get("stop_reason") or report.get("summary") or "Bounded attempt did not verify."),
+                    "resume_condition": "Resume only with a materially new route, corrected statement, or smaller Lean target.",
+                }
+            ]
+        write_json(run_dir / "report.json", report)
+        return report
+
+    def _write_library_candidate_review(self, *, project_dir: Path, run_id: str, report: dict[str, Any]) -> None:
+        candidates = report.get("library_candidates")
+        if not isinstance(candidates, list) or not candidates:
+            candidates = [
+                {
+                    "problem_id": report.get("problem_id"),
+                    "run_id": run_id,
+                    "declarations": report.get("verified_declarations", []),
+                    "source_report": _relative(project_dir / "runs" / run_id / "report.json", self.repo_root),
+                    "status": "candidate",
+                }
+            ]
+        write_json(
+            project_dir / "review" / f"library_candidate_{slugify(run_id)}.json",
+            {
+                "schema_version": "amra.library_candidate_review.v1",
+                "generated_at": utc_now_iso(),
+                "problem_id": report.get("problem_id"),
+                "run_id": run_id,
+                "status": "candidate",
+                "candidates": candidates,
+            },
+        )
 
     def _run_broad_scout(
         self,
