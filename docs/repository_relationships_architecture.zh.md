@@ -541,3 +541,20 @@ AMRA 的证明记忆应记录失败路线和 blocker，但不能把未验证 lem
 - Blockchain-Security 负责区块链安全领域实验和证据。
 
 三者通过 manifest、artifact bundle、evidence schema 和受限命令执行协作。共享核心库可以存在，但必须后置、薄层、基础设施化。这样既能复用 agent 工程能力，又不会牺牲各领域系统自己的验证标准和长期演化空间。
+
+## 14. AMRA Spec 动态维护规则
+
+AMRA 的证明系统开发必须把 spec、任务状态、证明尝试和工程证据分开保存，但保持可追踪关系：
+
+- `.engineering/spec_tasks.yaml`：机器可读任务台账，记录 requirement、任务状态、证据、blocker 和下一步。
+- `docs/amra_implementation_status.zh.md`：人工可读实现状态矩阵。
+- `docs/decisions/`：架构决策记录。
+- `docs/spec_update_log.jsonl`：由 engineering-harness 或人工工具追加的任务完成日志。
+
+维护要求：
+
+1. 每个新增证明系统能力都必须分配稳定 `REQ-AMRA-*` ID。
+2. 自然语言证明、Lean verified declaration、proof sketch、blocked attempt 必须在证据里严格区分。
+3. 完成一个工程任务后，更新 `.engineering/spec_tasks.yaml`；完成一个数学证明阶段后，同时保存 proof attempt ledger 或 result bundle 路径。
+4. focused attack、portfolio scouting、library harvesting 等长期任务不能只存在于 roadmap，必须能从 spec task 反查目标 requirement。
+5. engineering-harness 接手 AMRA 任务时，应在任务完成后运行 spec 同步工具，追加 evidence 和更新任务状态。
