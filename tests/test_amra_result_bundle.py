@@ -108,6 +108,34 @@ def test_amra_result_bundle_separates_sketches_from_verified_declarations(tmp_pa
     assert "`MathProject.identity_self` status=`lean_verified`" in proof_summary
 
 
+def test_amra_result_bundle_accepts_formalizer_report_contract(tmp_path: Path) -> None:
+    project = _result_project(tmp_path)
+    _write_json(
+        project / "artifacts" / "lean_build_report.json",
+        {
+            "schema_version": "amra.lean_formalizer.report.v1",
+            "status": "verified",
+            "best_audit": {
+                "build_status": "passed",
+                "verified": True,
+                "counts": {"sorry": 0, "axiom": 0, "constant": 0, "admit": 0, "placeholder": 0},
+            },
+        },
+    )
+
+    export_amra_result_bundle(project=project, output_dir=tmp_path / "bundle", repo_root=tmp_path)
+
+    bundle_dir = tmp_path / "bundle"
+    manifest = json.loads((bundle_dir / "artifact_manifest.json").read_text(encoding="utf-8"))
+    build_report = json.loads((bundle_dir / "lean_build_report.json").read_text(encoding="utf-8"))
+    blockers = (bundle_dir / "unresolved_blockers.md").read_text(encoding="utf-8")
+
+    assert manifest["lean_build_report_status"] == "passed"
+    assert manifest["verified_declaration_count"] == 1
+    assert build_report["best_audit"]["verified"] is True
+    assert "Lean build report status" not in blockers
+
+
 def test_export_amra_result_bundle_cli_and_research_lab_schema(tmp_path: Path, monkeypatch) -> None:
     project = _result_project(tmp_path)
     output = tmp_path / "cli-bundle"
