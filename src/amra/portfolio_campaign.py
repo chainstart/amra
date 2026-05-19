@@ -6,8 +6,8 @@ from pathlib import Path
 from typing import Any
 
 from ara_math.math_scout import MathScoutRunner
-from ara_math.problem_bank import load_problem_bank
-from ara_math.workspace import slugify
+from amra.core.workspace import slugify
+from amra.problem_banks.registry import load_problem_bank
 
 from amra.amra_library import AmraLibraryManager
 from amra.portfolio_evaluator import PortfolioEvaluator

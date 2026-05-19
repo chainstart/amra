@@ -4,8 +4,8 @@ import re
 from pathlib import Path
 from typing import Any
 
-from ara_math.lean import LeanExecutor
-from ara_math.workspace import read_json, utc_now_iso, write_json, write_text
+from amra.core.workspace import read_json, utc_now_iso, write_json, write_text
+from amra.lean import LeanExecutor
 
 
 AMRA_LIBRARY_ROOT = "amra_library"

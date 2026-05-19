@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
-from ara_math.workspace import slugify, utc_now_iso, write_json
+from amra.core.workspace import slugify, utc_now_iso, write_json
 
 
 LOCK_FILE_NAMES = {

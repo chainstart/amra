@@ -1,7 +1,7 @@
 from pathlib import Path
 from subprocess import CompletedProcess
 
-from ara_math.lean import LeanExecutor
+from amra.lean import LeanExecutor
 
 
 def test_prepare_package_cache_links_best_matching_candidate(tmp_path: Path) -> None:

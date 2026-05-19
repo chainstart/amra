@@ -1,4 +1,5 @@
 import json
+import importlib
 import os
 import re
 import subprocess
@@ -9,10 +10,10 @@ from pathlib import Path
 import yaml
 
 from amra.cli import main as amra_main
+from amra.core.models import ProblemRecord
+from amra.problem_banks.registry import save_problem_bank
 from amra.portfolio_campaign import PortfolioCampaignRunner
 from amra.portfolio_memory import append_state_transition, load_claim_ledger, upsert_claim
-from ara_math.models import ProblemRecord
-from ara_math.problem_bank import save_problem_bank
 
 
 ALLOWED_LEGACY_DISPOSITIONS = {
@@ -90,6 +91,22 @@ def test_amra_package_exposes_legacy_modules() -> None:
     import amra.math_scout as math_scout
 
     assert math_scout.MathScoutRunner is not None
+
+
+def test_canonical_core_imports_and_legacy_shims_share_modules() -> None:
+    module_pairs = {
+        "ara_math.models": "amra.core.models",
+        "ara_math.workspace": "amra.core.workspace",
+        "ara_math.runtime": "amra.infra.runtime",
+        "ara_math.context": "amra.core.context",
+        "ara_math.problem_bank": "amra.problem_banks.registry",
+        "ara_math.artifact_graph": "amra.core.artifact_graph",
+        "ara_math.lean_audit": "amra.lean.audit",
+        "ara_math.lean_contract": "amra.lean.contract",
+    }
+
+    for legacy_name, canonical_name in module_pairs.items():
+        assert importlib.import_module(legacy_name) is importlib.import_module(canonical_name)
 
 
 def test_uninstalled_checkout_amra_shim_exposes_legacy_modules() -> None:

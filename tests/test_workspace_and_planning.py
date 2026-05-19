@@ -2,9 +2,9 @@ import json
 from pathlib import Path
 from subprocess import CompletedProcess
 
+from amra.core.models import ProblemRecord
+from amra.problem_banks.registry import save_problem_bank
 from ara_math.orchestrator import MathResearchOrchestrator
-from ara_math.problem_bank import save_problem_bank
-from ara_math.models import ProblemRecord
 
 
 def _repo_root() -> Path:

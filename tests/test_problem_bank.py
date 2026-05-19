@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from ara_math.models import ProblemRecord
-from ara_math.problem_bank import import_erdos_open_problems, load_problem_bank, refresh_erdos_problem_bank
+from amra.core.models import ProblemRecord
+from amra.problem_banks.registry import import_erdos_open_problems, load_problem_bank, refresh_erdos_problem_bank
 
 
 def test_import_erdos_open_problems_normalizes_entries(tmp_path: Path) -> None:
@@ -48,7 +48,7 @@ def test_refresh_erdos_problem_bank_updates_open_flag(tmp_path: Path, monkeypatc
             metadata={"source_catalog": "erdosproblems", "status_state": "open"},
         )
     ]
-    from ara_math.problem_bank import save_problem_bank
+    from amra.problem_banks.registry import save_problem_bank
 
     save_problem_bank(problems, bank_path)
 
@@ -58,7 +58,7 @@ def test_refresh_erdos_problem_bank_updates_open_flag(tmp_path: Path, monkeypatc
         payload["metadata"] = {**problem.metadata, "status_state": "likely_solved_preprint"}
         return ProblemRecord.from_dict(payload)
 
-    monkeypatch.setattr("ara_math.problem_bank.refresh_erdos_problem_record", fake_refresh)
+    monkeypatch.setattr("amra.problem_banks.registry.refresh_erdos_problem_record", fake_refresh)
 
     report = refresh_erdos_problem_bank(bank_path)
     refreshed = load_problem_bank(bank_path)
