@@ -40,6 +40,9 @@ BUNDLE_FILE_KINDS = {
     "writing_brief.md": "writing_brief",
     "proof_attempt_ledger.jsonl": "proof_attempt_ledger",
     "known_problem_smoke_report.json": "known_problem_smoke_report",
+    "library_harvest_candidates.json": "library_harvest_candidates",
+    "benchmark_review_gate.json": "benchmark_review_gate",
+    "nontrivial_benchmark_report.json": "nontrivial_benchmark_report",
 }
 
 LEAN_VERIFIED_DECLARATION_SOURCE = "verified_declarations.json"
@@ -48,7 +51,11 @@ NON_VERIFIED_RESEARCH_EVIDENCE_FILES = {
     "natural_language_proof_sketches.json",
     "writing_brief.md",
 }
-OPTIONAL_PROJECT_BUNDLE_FILES = ("proof_attempt_ledger.jsonl",)
+OPTIONAL_PROJECT_BUNDLE_FILES = (
+    "proof_attempt_ledger.jsonl",
+    "library_harvest_candidates.json",
+    "benchmark_review_gate.json",
+)
 
 
 def _relative(path: Path, root: Path | None) -> str:
@@ -553,6 +560,27 @@ def _bundle_file_record(path: str) -> dict[str, Any]:
         record.update(
             {
                 "ara_contract_role": "smoke_run_summary",
+                "lean_verified_claim_source": False,
+            }
+        )
+    elif path == "library_harvest_candidates.json":
+        record.update(
+            {
+                "ara_contract_role": "library_candidate_report",
+                "lean_verified_claim_source": False,
+            }
+        )
+    elif path == "benchmark_review_gate.json":
+        record.update(
+            {
+                "ara_contract_role": "benchmark_review_gate",
+                "lean_verified_claim_source": False,
+            }
+        )
+    elif path == "nontrivial_benchmark_report.json":
+        record.update(
+            {
+                "ara_contract_role": "benchmark_run_summary",
                 "lean_verified_claim_source": False,
             }
         )

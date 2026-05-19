@@ -57,6 +57,10 @@ from amra.amra_library import AmraLibraryManager
 from amra.portfolio_campaign import PortfolioCampaignRunner
 from amra.portfolio_reports import write_portfolio_final_report
 from amra.known_problem_smoke import run_known_problem_smoke
+from amra.nontrivial_benchmark import (
+    DEFAULT_NONTRIVIAL_BENCHMARK_CASE,
+    run_nontrivial_closed_theorem_benchmark,
+)
 from amra.result_bundle import export_amra_result_bundle
 
 
@@ -351,6 +355,19 @@ def build_parser() -> argparse.ArgumentParser:
     known_problem_smoke.add_argument("--problem", required=True, help="Known-problem fixture id, e.g. imo_2025_p1.")
     known_problem_smoke.add_argument("--max-seconds", type=int, default=60)
     known_problem_smoke.add_argument("--out", type=Path, required=True, help="Output directory for the AMRA result bundle.")
+
+    nontrivial_benchmark = subparsers.add_parser(
+        "run-nontrivial-closed-theorem-benchmark",
+        aliases=["run-nontrivial-theorem-benchmark"],
+        help="Run a deterministic nontrivial closed-theorem benchmark and export an AMRA bundle.",
+    )
+    nontrivial_benchmark.add_argument(
+        "--problem",
+        default=DEFAULT_NONTRIVIAL_BENCHMARK_CASE,
+        help=f"Benchmark case id. Defaults to {DEFAULT_NONTRIVIAL_BENCHMARK_CASE}.",
+    )
+    nontrivial_benchmark.add_argument("--max-seconds", type=int, default=60)
+    nontrivial_benchmark.add_argument("--out", type=Path, required=True, help="Output directory for the AMRA result bundle.")
 
     new_project = subparsers.add_parser("new-project", help="Create a new math research project.")
     new_project.add_argument("--problem", required=True, help="Problem id from the selected bank.")
@@ -1300,6 +1317,18 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "run-known-problem-smoke":
         _print(
             run_known_problem_smoke(
+                problem_id=args.problem,
+                max_seconds=args.max_seconds,
+                output_dir=args.out,
+                repo_root=_repo_root(),
+            ),
+            args.json,
+        )
+        return 0
+
+    if args.command in {"run-nontrivial-closed-theorem-benchmark", "run-nontrivial-theorem-benchmark"}:
+        _print(
+            run_nontrivial_closed_theorem_benchmark(
                 problem_id=args.problem,
                 max_seconds=args.max_seconds,
                 output_dir=args.out,
