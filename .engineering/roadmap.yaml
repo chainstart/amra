@@ -1,1424 +1,2759 @@
-decision_log_path: .engineering/state/decision-log.jsonl
-default_timeout_seconds: 300
-milestones:
-- id: baseline
-  objective: Verify the project can run its baseline checks under the shared engineering
-    harness.
-  status: completed
-  tasks:
-  - acceptance:
-    - command: python3 -m pytest -q
-      name: Run Python test suite
-      required: true
-      timeout_seconds: 600
-    file_scope:
-    - '**'
-    id: tests
-    max_attempts: 2
-    status: passed
-    title: Run Python test suite
-  title: Project Baseline
-- id: comath-state-dashboard
-  title: CoMath State And Dashboard
-  status: completed
-  objective: Add durable Co-Mathematician project/workstream/claim state models, artifact
-    graph, uncertainty ledger, and a Markdown dashboard without invoking external
-    LLM backends.
-  generated_by: engineering-harness-continuation
-  generated_at: '2026-05-10T07:00:23Z'
-  tasks:
-  - id: comath-state-dashboard-impl
-    title: Implement CoMath state models and dashboard
-    status: passed
-    max_attempts: 2
-    max_task_iterations: 2
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/ara_math/workstreams.py
-    - src/ara_math/artifact_graph.py
-    - src/ara_math/uncertainty.py
-    - src/ara_math/coordinator.py
-    - src/ara_math/workspace.py
-    - tests/test_comath_state.py
-    - tests/test_comath_dashboard.py
-    implementation:
-    - name: Codex implementation
-      executor: codex
-      timeout_seconds: 5400
-      prompt: 'Read artifacts/design/ai_comath_migration_plan_20260510.md. Implement
-        Phase 1 only: durable CoMath dataclasses/enums, artifact graph helpers, uncertainty
-        ledger helpers, and dashboard rendering for an existing ARA project. Do not
-        integrate LLM calls yet. Keep APIs small and testable. Preserve existing user
-        changes.'
-    repair:
-    - name: Codex repair
-      executor: codex
-      timeout_seconds: 2400
-      prompt: Fix the failing CoMath state/dashboard acceptance tests with minimal
-        scoped changes. Do not broaden scope beyond the task files.
-    acceptance:
-    - name: CoMath state tests
-      command: python3 -m pytest tests/test_comath_state.py tests/test_comath_dashboard.py
-        -q
-      required: true
-      timeout_seconds: 600
-    generated_by: engineering-harness-continuation
-    generated_at: '2026-05-10T07:00:23Z'
-- id: comath-cli
-  title: CoMath CLI
-  status: completed
-  objective: Expose the state/dashboard layer through stable CLI commands.
-  generated_by: engineering-harness-continuation
-  generated_at: '2026-05-10T07:14:19Z'
-  tasks:
-  - id: comath-cli-impl
-    title: Add CoMath CLI commands
-    status: passed
-    max_attempts: 2
-    max_task_iterations: 2
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/ara_math/cli.py
-    - src/ara_math/coordinator.py
-    - src/ara_math/workstreams.py
-    - tests/test_comath_cli.py
-    - tests/test_comath_state.py
-    implementation:
-    - name: Codex implementation
-      executor: codex
-      timeout_seconds: 5400
-      prompt: Implement CLI commands for init-comath-project, add-workstream, review-workstream
-        placeholder/state-only mode, and project-dashboard. Reuse the Phase 1 modules.
-        Commands must be deterministic and local; no external LLM calls. Preserve
-        existing CLI behavior and tests.
-    repair:
-    - name: Codex repair
-      executor: codex
-      timeout_seconds: 2400
-      prompt: Fix failing CoMath CLI tests while keeping the CLI surface backward-compatible.
-    acceptance:
-    - name: CoMath CLI tests
-      command: python3 -m pytest tests/test_comath_cli.py tests/test_comath_state.py
-        -q
-      required: true
-      timeout_seconds: 600
-    generated_by: engineering-harness-continuation
-    generated_at: '2026-05-10T07:14:19Z'
-- id: comath-review-gate
-  title: CoMath Review Gate
-  status: completed
-  objective: Add multi-reviewer approval logic so workstreams with source debt, Lean
-    placeholders, or statement drift cannot be approved.
-  generated_by: engineering-harness-continuation
-  generated_at: '2026-05-10T07:21:53Z'
-  tasks:
-  - id: comath-review-gate-impl
-    title: Implement review-gated workstream completion
-    status: passed
-    max_attempts: 2
-    max_task_iterations: 2
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/ara_math/review_gate.py
-    - src/ara_math/workstreams.py
-    - src/ara_math/artifact_graph.py
-    - src/ara_math/uncertainty.py
-    - src/ara_math/coordinator.py
-    - tests/test_comath_review_gate.py
-    implementation:
-    - name: Codex implementation
-      executor: codex
-      timeout_seconds: 5400
-      prompt: Implement Phase 3 review gates from the design doc. Add logic/source/lean/computation/global
-        review decisions. A workstream must not approve if it has source debt, theorem
-        debt, sorry/admit/axiom findings, statement drift, or no dependency path to
-        the original theorem. Keep the implementation local and unit-testable.
-    repair:
-    - name: Codex repair
-      executor: codex
-      timeout_seconds: 2400
-      prompt: Fix failing review gate tests with minimal changes.
-    acceptance:
-    - name: CoMath review gate tests
-      command: python3 -m pytest tests/test_comath_review_gate.py -q
-      required: true
-      timeout_seconds: 600
-    generated_by: engineering-harness-continuation
-    generated_at: '2026-05-10T07:21:53Z'
-- id: comath-runner-wrappers
-  title: CoMath Runner Wrappers
-  status: completed
-  objective: Wrap existing proof_lab, lean_formalizer, closure, and literature capabilities
-    as workstream executors that persist artifacts and blockers.
-  generated_by: engineering-harness-continuation
-  generated_at: '2026-05-10T07:31:23Z'
-  tasks:
-  - id: comath-runner-wrappers-impl
-    title: Wrap existing runners as workstream executors
-    status: passed
-    max_attempts: 2
-    max_task_iterations: 2
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/ara_math/comath_runners.py
-    - src/ara_math/coordinator.py
-    - src/ara_math/workstreams.py
-    - src/ara_math/proof_lab.py
-    - src/ara_math/lean_formalizer.py
-    - src/ara_math/literature.py
-    - tests/test_comath_runners.py
-    implementation:
-    - name: Codex implementation
-      executor: codex
-      timeout_seconds: 7200
-      prompt: Implement Phase 2 runner wrappers. Do not rewrite proof_lab or lean_formalizer
-        internals unless a tiny adapter hook is necessary. Add workstream executor
-        abstractions for proof strategy, Lean formalization, closure, and source/literature
-        checks. Persist run directories, status, blockers, and artifact paths into
-        the CoMath workstream state.
-    repair:
-    - name: Codex repair
-      executor: codex
-      timeout_seconds: 3000
-      prompt: Fix failing runner wrapper tests. Prefer adapter-level changes over
-        modifying existing runner behavior.
-    acceptance:
-    - name: CoMath runner wrapper tests
-      command: python3 -m pytest tests/test_comath_runners.py -q
-      required: true
-      timeout_seconds: 900
-    generated_by: engineering-harness-continuation
-    generated_at: '2026-05-10T07:31:23Z'
-- id: comath-scheduler-loop
-  title: CoMath Scheduler Loop
-  objective: Implement dependency-aware project coordination and a bounded local loop
-    that chooses the next workstream based on source debt, Lean debt, proof gap, computation
-    gap, and repeated stalls.
-  tasks:
-  - id: comath-scheduler-loop-impl
-    title: Implement coordinator scheduling loop
-    agent_approval_required: true
-    max_attempts: 2
-    max_task_iterations: 2
-    file_scope:
-    - src/ara_math/coordinator.py
-    - src/ara_math/comath_runners.py
-    - src/ara_math/workstreams.py
-    - src/ara_math/cli.py
-    - tests/test_comath_scheduler.py
-    - tests/test_comath_cli.py
-    implementation:
-    - name: Codex implementation
-      executor: codex
-      timeout_seconds: 7200
-      prompt: Implement Phase 4 coordinator scheduling and a run-comath-loop CLI command.
-        The loop must be bounded by time/workstream limits, dependency-aware, and
-        able to freeze stalled branches with a freeze package. It must update dashboard/status
-        after each workstream. Do not start external long proof campaigns in tests.
-    repair:
-    - name: Codex repair
-      executor: codex
-      timeout_seconds: 3000
-      prompt: Fix failing scheduler/CLI tests with minimal scoped changes.
-    acceptance:
-    - name: CoMath scheduler tests
-      command: python3 -m pytest tests/test_comath_scheduler.py tests/test_comath_cli.py
-        -q
-      required: true
-      timeout_seconds: 900
-    status: passed
-    generated_by: engineering-harness-continuation
-    generated_at: '2026-05-10T08:19:26Z'
-  status: completed
-  generated_by: engineering-harness-continuation
-  generated_at: '2026-05-10T08:19:26Z'
-- id: comath-ces75-template
-  title: CoMath CES75 Template
-  objective: Apply the new layer to the active CES75/Erdos866 project by generating
-    source-debt, Lean-chain, source-audit, and global-review workstream templates
-    without mutating the Lean proof file.
-  tasks:
-  - id: comath-ces75-template-impl
-    title: Add CES75/Erdos866 workstream bootstrap template
-    agent_approval_required: true
-    max_attempts: 2
-    max_task_iterations: 2
-    file_scope:
-    - src/ara_math/coordinator.py
-    - src/ara_math/workstreams.py
-    - src/ara_math/cli.py
-    - projects/erdos-866-ai-continuation-20260505/comath/**
-    - tests/test_comath_ces75_template.py
-    implementation:
-    - name: Codex implementation
-      executor: codex
-      timeout_seconds: 5400
-      prompt: 'Implement Phase 6 bootstrap support for the active CES75/Erdos866 project.
-        Create a safe command or helper that initializes four workstreams: source-dense-central-block,
-        lean-current-final-window, source-audit-ces75-theorem4, and global-review.
-        Do not edit the Lean proof file. The dashboard must identify dense central
-        block source debt as the key blocker.'
-    repair:
-    - name: Codex repair
-      executor: codex
-      timeout_seconds: 2400
-      prompt: Fix failing CES75 bootstrap tests. Do not mutate project-owned Lean
-        proof files.
-    acceptance:
-    - name: CoMath CES75 template tests
-      command: python3 -m pytest tests/test_comath_ces75_template.py -q
-      required: true
-      timeout_seconds: 600
-    status: passed
-    generated_by: engineering-harness-continuation
-    generated_at: '2026-05-10T08:24:26Z'
-  status: completed
-  generated_by: engineering-harness-continuation
-  generated_at: '2026-05-10T08:24:26Z'
-- id: comath-parallel-execution
-  title: CoMath Parallel Execution
-  status: completed
-  objective: Add bounded worker-pool execution for independent CoMath workstreams
-    while serializing Lean write targets and recording resource decisions.
-  generated_by: engineering-harness-continuation
-  generated_at: '2026-05-10T09:00:00Z'
-  tasks:
-  - id: comath-parallel-execution-impl
-    title: Implement bounded parallel workstream execution
-    status: passed
-    max_attempts: 2
-    max_task_iterations: 2
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/ara_math/coordinator.py
-    - src/ara_math/comath_runners.py
-    - src/ara_math/cli.py
-    - tests/test_comath_parallel.py
-    - tests/test_comath_scheduler.py
-    - tests/test_comath_cli.py
-    implementation:
-    - name: Codex implementation
-      executor: codex
-      timeout_seconds: 7200
-      prompt: Implement Phase 5 parallel execution from artifacts/design/ai_comath_migration_plan_20260510.md.
-        Add bounded worker pools for independent workstreams, separate LLM/Lean concurrency
-        limits, same-Lean-target serialization, and loop report resource decisions.
-        Keep tests deterministic with fake executors; do not launch long external
-        campaigns.
-    repair:
-    - name: Codex repair
-      executor: codex
-      timeout_seconds: 3000
-      prompt: Fix failing parallel execution tests with minimal scoped changes. Preserve
-        existing scheduler behavior and CLI compatibility.
-    acceptance:
-    - name: CoMath parallel execution tests
-      command: python3 -m pytest tests/test_comath_parallel.py tests/test_comath_scheduler.py
-        tests/test_comath_cli.py -q
-      required: true
-      timeout_seconds: 900
-- id: comath-paper-capability-baseline
-  title: CoMath Public Paper Capability Baseline
-  status: completed
-  objective: 'Close the local architecture gaps against arXiv:2605.06651: intake refinement,
-    role contracts, computation reproducibility, theory memory, and capability evaluation,
-    while not claiming Google internal model parity.'
-  generated_by: engineering-harness-continuation
-  generated_at: '2026-05-10T10:45:00Z'
-  tasks:
-  - id: comath-paper-capability-baseline-impl
-    title: Implement public-paper capability baseline
-    status: passed
-    max_attempts: 2
-    max_task_iterations: 2
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/ara_math/comath_capabilities.py
-    - src/ara_math/comath_runners.py
-    - src/ara_math/coordinator.py
-    - src/ara_math/cli.py
-    - tests/test_comath_capabilities.py
-    - tests/test_comath_cli.py
-    - artifacts/design/ai_comath_migration_plan_20260510.md
-    implementation:
-    - name: Codex implementation
-      executor: codex
-      timeout_seconds: 10800
-      prompt: 'Implement the remaining local AI Co-Mathematician public-paper capability
-        baseline: deterministic intent refinement and workstream decomposition; specialist
-        role contracts; reproducible computation manifests/certificates/rerun verification;
-        theory-building memory; and a local capability evaluation report. Keep claims
-        scoped to architecture parity, not Google internal model or benchmark parity.'
-    repair:
-    - name: Codex repair
-      executor: codex
-      timeout_seconds: 3600
-      prompt: Fix failing CoMath capability baseline tests with minimal scoped changes
-        and preserve previous CoMath scheduler/review behavior.
-    acceptance:
-    - name: CoMath capability baseline tests
-      command: python3 -m pytest tests/test_comath_capabilities.py tests/test_comath_parallel.py
-        tests/test_comath_scheduler.py tests/test_comath_cli.py -q
-      required: true
-      timeout_seconds: 900
-    - name: Full test suite
-      command: python3 -m pytest -q
-      required: true
-      timeout_seconds: 900
-    generated_by: engineering-harness-continuation
-    generated_at: '2026-05-10T10:45:00Z'
-- id: comath-codex-specialist-orchestration
-  title: CoMath Codex Specialist Orchestration
-  status: completed
-  objective: Use the existing Codex CLI ChatGPT login as a programmable backend for
-    multiple GPT-5.5 specialist instances, with durable prompts, outputs, workstream
-    state, and testable fake-provider isolation.
-  generated_by: engineering-harness-continuation
-  generated_at: '2026-05-10T13:15:00Z'
-  tasks:
-  - id: comath-codex-specialist-orchestration-impl
-    title: Implement Codex ChatGPT specialist orchestration
-    status: passed
-    max_attempts: 2
-    max_task_iterations: 2
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/ara_math/comath_specialists.py
-    - src/ara_math/comath_runners.py
-    - src/ara_math/comath_capabilities.py
-    - src/ara_math/coordinator.py
-    - src/ara_math/cli.py
-    - tests/test_comath_specialists.py
-    - artifacts/design/ai_comath_migration_plan_20260510.md
-    implementation:
-    - name: Codex implementation
-      executor: codex
-      timeout_seconds: 10800
-      prompt: Implement multi-specialist orchestration over the existing Codex CLI
-        ChatGPT login. Add provider abstraction, fake provider tests, Codex CLI provider,
-        persistent prompts/outputs, loop report, workstream executor, and CLI commands.
-        Unit tests must not call the real Codex service.
-    repair:
-    - name: Codex repair
-      executor: codex
-      timeout_seconds: 3600
-      prompt: Fix failing specialist orchestration tests while preserving existing
-        CoMath behavior and keeping real Codex calls out of tests.
-    acceptance:
-    - name: CoMath specialist orchestration tests
-      command: python3 -m pytest tests/test_comath_specialists.py tests/test_comath_capabilities.py
-        tests/test_comath_runners.py tests/test_comath_cli.py -q
-      required: true
-      timeout_seconds: 900
-    - name: Full test suite
-      command: python3 -m pytest -q
-      required: true
-      timeout_seconds: 900
-    generated_by: engineering-harness-continuation
-    generated_at: '2026-05-10T13:15:00Z'
-- id: comath-research-workbench-hardening
-  title: CoMath Research Workbench Hardening
-  status: completed
-  objective: 'Close the next gaps to the public AI Co-Mathematician architecture:
-    specialist long-term memory, autonomous source-audit loop, and local benchmark
-    regression harness.'
-  generated_by: engineering-harness-continuation
-  generated_at: '2026-05-10T14:05:00Z'
-  tasks:
-  - id: comath-research-workbench-hardening-impl
-    title: Implement specialist memory, source audit loop, and local benchmarks
-    status: passed
-    max_attempts: 2
-    max_task_iterations: 2
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/ara_math/comath_specialists.py
-    - src/ara_math/comath_source_audit.py
-    - src/ara_math/comath_benchmarks.py
-    - src/ara_math/comath_capabilities.py
-    - src/ara_math/coordinator.py
-    - src/ara_math/cli.py
-    - tests/test_comath_specialists.py
-    - tests/test_comath_workbench_hardening.py
-    - artifacts/design/ai_comath_migration_plan_20260510.md
-    implementation:
-    - name: Codex implementation
-      executor: codex
-      timeout_seconds: 10800
-      prompt: 'Implement the next CoMath hardening phase: persistent specialist memory/resume,
-        automatic source auditor query/audit loop, and local benchmark harness. Tests
-        must use fake providers and must not invoke real Codex calls.'
-    repair:
-    - name: Codex repair
-      executor: codex
-      timeout_seconds: 3600
-      prompt: Fix failing hardening tests with minimal scoped changes while preserving
-        Codex specialist orchestration behavior.
-    acceptance:
-    - name: CoMath workbench hardening tests
-      command: python3 -m pytest tests/test_comath_workbench_hardening.py tests/test_comath_specialists.py
-        tests/test_comath_capabilities.py -q
-      required: true
-      timeout_seconds: 900
-    - name: Full test suite
-      command: python3 -m pytest -q
-      required: true
-      timeout_seconds: 900
-    generated_by: engineering-harness-continuation
-    generated_at: '2026-05-10T14:05:00Z'
-- id: amra-portfolio-campaign-refactor
-  title: AMRA Portfolio Campaign Refactor
-  status: completed
-  objective: 'Implement the AMRA portfolio campaign system from docs/portfolio_campaign_spec.md:
-    canonical AMRA interfaces, durable portfolio memory, broad scouting, independent
-    evaluation, attack scheduling, memory consolidation, library harvesting, dashboard
-    reports, and AMRA result bundles.'
-  generated_by: codex-amra-framework-bootstrap
-  generated_at: '2026-05-18T08:00:00Z'
-  tasks:
-  - id: amra-legacy-module-disposition
-    title: Classify legacy ara_math modules before migration
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 1
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - docs/amra_legacy_module_disposition.zh.md
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - .engineering/roadmap.yaml
-    - tests/test_amra_interfaces.py
-    implementation:
-    - name: Codex validates AMRA legacy module disposition
-      executor: codex
-      timeout_seconds: 2400
-      prompt: Implement task package 0 from docs/amra_engineering_harness_development_plan.zh.md.
-        Validate and refine docs/amra_legacy_module_disposition.zh.md so every src/ara_math/*.py
-        file has an explicit disposition. Do not delete or move legacy modules in
-        this task. Update roadmap references if needed.
-    acceptance:
-    - name: Legacy module disposition covers every ara_math Python file
-      command: "python3 - <<'PY'\nfrom pathlib import Path\ndoc = Path('docs/amra_legacy_module_disposition.zh.md').read_text(encoding='utf-8')\n\
-        missing = [p.name for p in sorted(Path('src/ara_math').glob('*.py')) if f'`{p.name}`'\
-        \ not in doc]\nif missing:\n    raise SystemExit(f'missing module disposition\
-        \ entries: {missing}')\nprint('covered', len(list(Path('src/ara_math').glob('*.py'))))\n\
-        PY"
-      required: true
-      timeout_seconds: 60
-    - name: AMRA interface tests still pass
-      command: python3 -m pytest -q tests/test_amra_interfaces.py
-      required: true
-      timeout_seconds: 300
-  - id: amra-rename-hardening
-    title: Harden canonical AMRA package and CLI interfaces
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 2
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/amra/**
-    - amra/**
-    - ara_math/**
-    - src/ara_math/__init__.py
-    - src/ara_math/cli.py
-    - pyproject.toml
-    - run.py
-    - research_lab.yaml
-    - tests/test_amra_interfaces.py
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - .engineering/roadmap.yaml
-    implementation:
-    - name: Codex hardens AMRA interfaces
-      executor: codex
-      timeout_seconds: 3600
-      prompt: Implement task package 1 from docs/amra_engineering_harness_development_plan.zh.md.
-        Harden the canonical AMRA package and CLI interface while preserving legacy
-        ara_math and ara-math compatibility. Keep changes scoped to package/CLI metadata,
-        research_lab.yaml, and focused tests. Do not remove src/ara_math yet.
-    acceptance:
-    - name: AMRA interface tests
-      command: python3 -m pytest -q tests/test_amra_interfaces.py tests/test_cli_flow.py
-      required: true
-      timeout_seconds: 600
-    - name: AMRA CLI smoke
-      command: python3 -m amra --help >/tmp/amra_help.txt && python3 -m amra list-problems
-        --bank data/problem_bank.yaml --json >/tmp/amra_problem_list.json && python3
-        -m ara_math list-problems --bank data/problem_bank.yaml --json >/tmp/ara_math_problem_list.json
-      required: true
-      timeout_seconds: 120
-  - id: amra-portfolio-data-layer
-    title: Implement durable AMRA portfolio data layer
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 3
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/amra/portfolio_memory.py
-    - src/amra/portfolio_campaign.py
-    - tests/test_portfolio_memory.py
-    - tests/test_portfolio_campaign.py
-    - tests/test_amra_interfaces.py
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - .engineering/roadmap.yaml
-    implementation:
-    - name: Codex implements AMRA portfolio data layer
-      executor: codex
-      timeout_seconds: 7200
-      prompt: 'Implement task package 2 from docs/amra_engineering_harness_development_plan.zh.md.
-        Extend the AMRA portfolio scaffold into a complete durable data layer: append-only
-        problem lifecycle, claim ledger, route ledger, failed route ledger, global
-        index merge, and resume pack generation. Keep tests deterministic and local.'
-    acceptance:
-    - name: Portfolio data tests
-      command: python3 -m pytest -q tests/test_portfolio_memory.py tests/test_portfolio_campaign.py
-        tests/test_amra_interfaces.py
-      required: true
-      timeout_seconds: 600
-  - id: amra-broad-scouting-integration
-    title: Connect portfolio campaigns to broad scouting
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 3
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/amra/portfolio_campaign.py
-    - src/ara_math/math_scout.py
-    - src/ara_math/cli.py
-    - tests/test_portfolio_scouting.py
-    - tests/test_math_scout.py
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - .engineering/roadmap.yaml
-    implementation:
-    - name: Codex integrates AMRA broad scouting
-      executor: codex
-      timeout_seconds: 7200
-      prompt: Implement task package 3 from docs/amra_engineering_harness_development_plan.zh.md.
-        Connect run-portfolio-campaign to short-budget MathScoutRunner probes with
-        deterministic fake-runner tests. Scout failures and timeouts must still write
-        valid artifacts.
-    acceptance:
-    - name: Portfolio scouting tests
-      command: python3 -m pytest -q tests/test_portfolio_scouting.py tests/test_math_scout.py
-      required: true
-      timeout_seconds: 900
-    - name: Portfolio campaign smoke
-      command: python3 -m amra run-portfolio-campaign --bank data/problem_bank.yaml
-        --run-name harness-smoke --scout-limit 3 --promote-top 1 --scout-timeout 60
-        --json >/tmp/amra_portfolio_campaign.json
-      required: true
-      timeout_seconds: 180
-  - id: amra-independent-evaluator
-    title: Add independent portfolio evaluator
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 3
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/amra/portfolio_evaluator.py
-    - src/amra/portfolio_campaign.py
-    - src/ara_math/cli.py
-    - tests/test_portfolio_evaluator.py
-    - tests/test_amra_interfaces.py
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - .engineering/roadmap.yaml
-    implementation:
-    - name: Codex implements AMRA independent evaluator
-      executor: codex
-      timeout_seconds: 7200
-      prompt: Implement task package 4 from docs/amra_engineering_harness_development_plan.zh.md.
-        Add a read-only independent evaluator over durable proof, Lean, claim, route,
-        and failed-route artifacts. It must produce amra.difficulty_evaluation.v1
-        and support promote/continue/park/freeze/source_recover/counterexample_review
-        recommendations.
-    acceptance:
-    - name: Portfolio evaluator tests
-      command: python3 -m pytest -q tests/test_portfolio_evaluator.py tests/test_amra_interfaces.py
-      required: true
-      timeout_seconds: 600
-  - id: amra-pure-agent-runner-migration
-    title: Promote pure agent runners into canonical AMRA agents
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 3
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/ara_math/pure_agents.py
-    - src/ara_math/agent_tools.py
-    - src/ara_math/proof_state.py
-    - src/ara_math/focused_attack.py
-    - src/amra/agents/**
-    - src/amra/proof/**
-    - tests/test_pure_agents.py
-    - tests/test_focused_attack.py
-    - tests/test_amra_interfaces.py
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - docs/amra_legacy_module_disposition.zh.md
-    - .engineering/roadmap.yaml
-    implementation:
-    - name: Codex migrates AMRA pure agent runners
-      executor: codex
-      timeout_seconds: 7200
-      prompt: Implement task package 4.5 from docs/amra_engineering_harness_development_plan.zh.md.
-        Promote pure_agents.py into canonical AMRA proof agent runner modules under
-        src/amra/agents and src/amra/proof while preserving legacy ara_math imports
-        and behavior. Do not delete legacy files. Keep existing durable run artifacts,
-        prompt/output/report behavior, and focused attack integration.
-    acceptance:
-    - name: Pure agent runner tests
-      command: python3 -m pytest -q tests/test_pure_agents.py tests/test_focused_attack.py
-        tests/test_amra_interfaces.py
-      required: true
-      timeout_seconds: 900
-    - name: Canonical and legacy pure agent imports agree
-      command: 'python3 - <<''PY''
-
-        from amra.agents.proof import UnifiedProofAgentLoop
-
-        from amra.agents.lean import LeanFromNaturalProofAgent
-
-        from ara_math.pure_agents import UnifiedProofAgentLoop as LegacyUnifiedProofAgentLoop
-
-        assert UnifiedProofAgentLoop is LegacyUnifiedProofAgentLoop
-
-        assert LeanFromNaturalProofAgent is not None
-
-        PY'
-      required: true
-      timeout_seconds: 60
-  - id: amra-attack-scheduling-locks
-    title: Implement attack scheduling, locks, and isolated workspaces
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 3
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/amra/portfolio_scheduler.py
-    - src/amra/portfolio_campaign.py
-    - src/ara_math/campaign_loop.py
-    - src/ara_math/focused_attack.py
-    - src/ara_math/lean_formalizer.py
-    - tests/test_portfolio_scheduler.py
-    - tests/test_focused_attack.py
-    - tests/test_lean_formalizer.py
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - .engineering/roadmap.yaml
-    implementation:
-    - name: Codex implements AMRA attack scheduler
-      executor: codex
-      timeout_seconds: 10800
-      prompt: Implement task package 5 from docs/amra_engineering_harness_development_plan.zh.md.
-        Add promoted-target scheduling, lock files, isolated formal workspaces, and
-        progress velocity metrics. Do not allow two workers to write the same canonical
-        Lean workspace or library module.
-    acceptance:
-    - name: Portfolio scheduler tests
-      command: python3 -m pytest -q tests/test_portfolio_scheduler.py tests/test_focused_attack.py
-        tests/test_lean_formalizer.py
-      required: true
-      timeout_seconds: 900
-  - id: amra-memory-consolidation
-    title: Implement AMRA memory consolidation and failed-route retrieval
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 3
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/amra/portfolio_memory.py
-    - src/amra/portfolio_campaign.py
-    - src/ara_math/proof_state.py
-    - tests/test_portfolio_memory_consolidation.py
-    - tests/test_amra_interfaces.py
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - .engineering/roadmap.yaml
-    implementation:
-    - name: Codex implements AMRA memory consolidation
-      executor: codex
-      timeout_seconds: 7200
-      prompt: Implement task package 6 from docs/amra_engineering_harness_development_plan.zh.md.
-        Automatically consolidate proof outputs, Lean reports, review notes, claims,
-        routes, failed routes, and global indexes. Include a P6-style failed-route
-        regression fixture.
-    acceptance:
-    - name: Portfolio memory consolidation tests
-      command: python3 -m pytest -q tests/test_portfolio_memory_consolidation.py tests/test_amra_interfaces.py
-      required: true
-      timeout_seconds: 600
-  - id: amra-library-harvesting
-    title: Implement canonical AMRA library harvesting
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 3
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/amra/amra_library.py
-    - src/amra/portfolio_campaign.py
-    - src/ara_math/ara_library.py
-    - src/ara_math/lean.py
-    - src/ara_math/cli.py
-    - amra_library/**
-    - tests/test_amra_library.py
-    - tests/test_lean_executor.py
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - .engineering/roadmap.yaml
-    implementation:
-    - name: Codex implements AMRA library harvesting
-      executor: codex
-      timeout_seconds: 10800
-      prompt: Implement task package 7 from docs/amra_engineering_harness_development_plan.zh.md.
-        Add canonical amra_library / AmraLibrary support with legacy ara_library /
-        AraLibrary migration shims. Harvest only Lean-verified declarations with no
-        sorry/admit/axiom/opaque/placeholders.
-    acceptance:
-    - name: AMRA library tests
-      command: python3 -m pytest -q tests/test_amra_library.py tests/test_lean_executor.py
-      required: true
-      timeout_seconds: 900
-    - name: AMRA library CLI smoke
-      command: python3 -m amra init-amra-library --json >/tmp/amra_library_init.json
-        && python3 -m amra build-amra-library --timeout 120 --json >/tmp/amra_library_build.json
-      required: false
-      timeout_seconds: 240
-  - id: amra-dashboard-result-bundle
-    title: Add AMRA portfolio reports and result bundle export
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 3
-    manual_approval_required: false
-    agent_approval_required: true
-    file_scope:
-    - src/amra/portfolio_reports.py
-    - src/amra/result_bundle.py
-    - src/ara_math/cli.py
-    - research_lab.yaml
-    - tests/test_amra_result_bundle.py
-    - tests/test_amra_interfaces.py
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - .engineering/roadmap.yaml
-    implementation:
-    - name: Codex implements AMRA reports and result bundles
-      executor: codex
-      timeout_seconds: 7200
-      prompt: Implement task package 8 from docs/amra_engineering_harness_development_plan.zh.md.
-        Add portfolio final reports and amra_result_bundle export for ARA consumption.
-        The bundle must distinguish natural-language proof sketches from Lean-verified
-        declarations.
-    acceptance:
-    - name: AMRA result bundle tests
-      command: python3 -m pytest -q tests/test_amra_result_bundle.py tests/test_amra_interfaces.py
-      required: true
-      timeout_seconds: 600
-- id: amra-initial-spec-completion
-  title: AMRA Initial Spec Completion
-  status: completed
-  objective: Finish the AMRA-side result bundle and known-problem proof smoke required
-    by the initial ARA ecosystem spec.
-  tasks:
-  - id: amra-ara-result-bundle-contract-hardening
-    title: Harden AMRA result bundle contract for ARA consumption
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 3
-    file_scope:
-    - '**'
-    - src/amra/**
-    - src/ara_math/cli.py
-    - research_lab.yaml
-    - tests/fixtures/**
-    - tests/test_amra_result_bundle_contract.py
-    - tests/test_amra_result_bundle.py
-    - tests/test_amra_interfaces.py
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - .engineering/roadmap.yaml
-    implementation:
-    - name: codex hardens AMRA ARA result bundle contract
-      executor: codex
-      prompt: 'Implement task package 10 from /home/biostar/work/projects/ara/docs/initial_spec_remaining_harness_packages.zh.md.
-        Build on the existing AMRA result bundle exporter and harden the ARA-facing
-        contract: proof sketches, Lean build reports, verified declarations, unresolved
-        blockers, artifact manifest, limitations, and writing brief must be separated
-        so ARA cannot treat a sketch as Lean-verified. Add deterministic fixtures
-        and focused tests. Preserve existing AMRA CLI compatibility aliases.'
-      timeout_seconds: 2400
-      no_progress_timeout_seconds: 480
-      requested_capabilities:
-      - agent
-    acceptance:
-    - name: AMRA contract fixture exports bundle
-      command: python3 -m amra export-amra-result-bundle --project tests/fixtures/amra_contract_project
-        --output /tmp/amra_contract_bundle >/tmp/amra_contract_export.json
-      required: true
-      timeout_seconds: 240
-    - name: AMRA result bundle contract tests pass
-      command: python3 -m pytest -q tests/test_amra_result_bundle_contract.py tests/test_amra_result_bundle.py
-        tests/test_amra_interfaces.py
-      required: true
-      timeout_seconds: 420
-  - id: amra-known-problem-proof-smoke
-    title: Run bounded known-problem proof and formalization smoke for ARA bundle
-      export
-    status: completed
-    max_attempts: 2
-    max_task_iterations: 3
-    file_scope:
-    - '**'
-    - src/amra/**
-    - src/ara_math/cli.py
-    - tests/fixtures/**
-    - tests/test_amra_known_problem_smoke.py
-    - tests/test_amra_result_bundle.py
-    - docs/amra_engineering_harness_development_plan.zh.md
-    - .engineering/roadmap.yaml
-    implementation:
-    - name: codex implements AMRA known problem smoke
-      executor: codex
-      prompt: Implement task package 11 from /home/biostar/work/projects/ara/docs/initial_spec_remaining_harness_packages.zh.md.
-        Add a bounded known-problem proof/formalization smoke path that can run on
-        a deterministic fixture problem, emit proof_attempt_ledger, Lean report, verified/blocked
-        status, and export an AMRA result bundle for ARA consumption. Do not require
-        solving an open problem or running long LLM calls.
-      timeout_seconds: 2400
-      no_progress_timeout_seconds: 480
-      requested_capabilities:
-      - agent
-    acceptance:
-    - name: AMRA known problem smoke emits bundle
-      command: python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds
-        60 --out /tmp/amra_known_problem_bundle --json >/tmp/amra_known_problem_smoke.json
-      required: true
-      timeout_seconds: 180
-    - name: AMRA known problem smoke tests pass
-      command: python3 -m pytest -q tests/test_amra_known_problem_smoke.py tests/test_amra_result_bundle.py
-      required: true
-      timeout_seconds: 420
-continuation:
-  enabled: true
-  goal: Implement the AI Co-Mathematician-style coordination layer described in artifacts/design/ai_comath_migration_plan_20260510.md.
-  blueprint: artifacts/design/ai_comath_migration_plan_20260510.md
-  stages:
-  - id: comath-state-dashboard
-    title: CoMath State And Dashboard
-    objective: Add durable Co-Mathematician project/workstream/claim state models,
-      artifact graph, uncertainty ledger, and a Markdown dashboard without invoking
-      external LLM backends.
-    tasks:
-    - id: comath-state-dashboard-impl
-      title: Implement CoMath state models and dashboard
-      agent_approval_required: true
-      max_attempts: 2
-      max_task_iterations: 2
-      file_scope:
-      - src/ara_math/workstreams.py
-      - src/ara_math/artifact_graph.py
-      - src/ara_math/uncertainty.py
-      - src/ara_math/coordinator.py
-      - src/ara_math/workspace.py
-      - tests/test_comath_state.py
-      - tests/test_comath_dashboard.py
-      implementation:
-      - name: Codex implementation
-        executor: codex
-        timeout_seconds: 5400
-        prompt: 'Read artifacts/design/ai_comath_migration_plan_20260510.md. Implement
-          Phase 1 only: durable CoMath dataclasses/enums, artifact graph helpers,
-          uncertainty ledger helpers, and dashboard rendering for an existing ARA
-          project. Do not integrate LLM calls yet. Keep APIs small and testable. Preserve
-          existing user changes.'
-      repair:
-      - name: Codex repair
-        executor: codex
-        timeout_seconds: 2400
-        prompt: Fix the failing CoMath state/dashboard acceptance tests with minimal
-          scoped changes. Do not broaden scope beyond the task files.
-      acceptance:
-      - name: CoMath state tests
-        command: python3 -m pytest tests/test_comath_state.py tests/test_comath_dashboard.py
-          -q
-        required: true
-        timeout_seconds: 600
-      status: passed
-    status: completed
-  - id: comath-cli
-    title: CoMath CLI
-    objective: Expose the state/dashboard layer through stable CLI commands.
-    tasks:
-    - id: comath-cli-impl
-      title: Add CoMath CLI commands
-      agent_approval_required: true
-      max_attempts: 2
-      max_task_iterations: 2
-      file_scope:
-      - src/ara_math/cli.py
-      - src/ara_math/coordinator.py
-      - src/ara_math/workstreams.py
-      - tests/test_comath_cli.py
-      - tests/test_comath_state.py
-      implementation:
-      - name: Codex implementation
-        executor: codex
-        timeout_seconds: 5400
-        prompt: Implement CLI commands for init-comath-project, add-workstream, review-workstream
-          placeholder/state-only mode, and project-dashboard. Reuse the Phase 1 modules.
-          Commands must be deterministic and local; no external LLM calls. Preserve
-          existing CLI behavior and tests.
-      repair:
-      - name: Codex repair
-        executor: codex
-        timeout_seconds: 2400
-        prompt: Fix failing CoMath CLI tests while keeping the CLI surface backward-compatible.
-      acceptance:
-      - name: CoMath CLI tests
-        command: python3 -m pytest tests/test_comath_cli.py tests/test_comath_state.py
-          -q
-        required: true
-        timeout_seconds: 600
-      status: passed
-    status: completed
-  - id: comath-review-gate
-    title: CoMath Review Gate
-    objective: Add multi-reviewer approval logic so workstreams with source debt,
-      Lean placeholders, or statement drift cannot be approved.
-    tasks:
-    - id: comath-review-gate-impl
-      title: Implement review-gated workstream completion
-      agent_approval_required: true
-      max_attempts: 2
-      max_task_iterations: 2
-      file_scope:
-      - src/ara_math/review_gate.py
-      - src/ara_math/workstreams.py
-      - src/ara_math/artifact_graph.py
-      - src/ara_math/uncertainty.py
-      - src/ara_math/coordinator.py
-      - tests/test_comath_review_gate.py
-      implementation:
-      - name: Codex implementation
-        executor: codex
-        timeout_seconds: 5400
-        prompt: Implement Phase 3 review gates from the design doc. Add logic/source/lean/computation/global
-          review decisions. A workstream must not approve if it has source debt, theorem
-          debt, sorry/admit/axiom findings, statement drift, or no dependency path
-          to the original theorem. Keep the implementation local and unit-testable.
-      repair:
-      - name: Codex repair
-        executor: codex
-        timeout_seconds: 2400
-        prompt: Fix failing review gate tests with minimal changes.
-      acceptance:
-      - name: CoMath review gate tests
-        command: python3 -m pytest tests/test_comath_review_gate.py -q
-        required: true
-        timeout_seconds: 600
-      status: passed
-    status: completed
-  - id: comath-runner-wrappers
-    title: CoMath Runner Wrappers
-    objective: Wrap existing proof_lab, lean_formalizer, closure, and literature capabilities
-      as workstream executors that persist artifacts and blockers.
-    tasks:
-    - id: comath-runner-wrappers-impl
-      title: Wrap existing runners as workstream executors
-      agent_approval_required: true
-      max_attempts: 2
-      max_task_iterations: 2
-      file_scope:
-      - src/ara_math/comath_runners.py
-      - src/ara_math/coordinator.py
-      - src/ara_math/workstreams.py
-      - src/ara_math/proof_lab.py
-      - src/ara_math/lean_formalizer.py
-      - src/ara_math/literature.py
-      - tests/test_comath_runners.py
-      implementation:
-      - name: Codex implementation
-        executor: codex
-        timeout_seconds: 7200
-        prompt: Implement Phase 2 runner wrappers. Do not rewrite proof_lab or lean_formalizer
-          internals unless a tiny adapter hook is necessary. Add workstream executor
-          abstractions for proof strategy, Lean formalization, closure, and source/literature
-          checks. Persist run directories, status, blockers, and artifact paths into
-          the CoMath workstream state.
-      repair:
-      - name: Codex repair
-        executor: codex
-        timeout_seconds: 3000
-        prompt: Fix failing runner wrapper tests. Prefer adapter-level changes over
-          modifying existing runner behavior.
-      acceptance:
-      - name: CoMath runner wrapper tests
-        command: python3 -m pytest tests/test_comath_runners.py -q
-        required: true
-        timeout_seconds: 900
-      status: passed
-    status: completed
-  - id: comath-scheduler-loop
-    title: CoMath Scheduler Loop
-    objective: Implement dependency-aware project coordination and a bounded local
-      loop that chooses the next workstream based on source debt, Lean debt, proof
-      gap, computation gap, and repeated stalls.
-    tasks:
-    - id: comath-scheduler-loop-impl
-      title: Implement coordinator scheduling loop
-      agent_approval_required: true
-      max_attempts: 2
-      max_task_iterations: 2
-      file_scope:
-      - src/ara_math/coordinator.py
-      - src/ara_math/comath_runners.py
-      - src/ara_math/workstreams.py
-      - src/ara_math/cli.py
-      - tests/test_comath_scheduler.py
-      - tests/test_comath_cli.py
-      implementation:
-      - name: Codex implementation
-        executor: codex
-        timeout_seconds: 7200
-        prompt: Implement Phase 4 coordinator scheduling and a run-comath-loop CLI
-          command. The loop must be bounded by time/workstream limits, dependency-aware,
-          and able to freeze stalled branches with a freeze package. It must update
-          dashboard/status after each workstream. Do not start external long proof
-          campaigns in tests.
-      repair:
-      - name: Codex repair
-        executor: codex
-        timeout_seconds: 3000
-        prompt: Fix failing scheduler/CLI tests with minimal scoped changes.
-      acceptance:
-      - name: CoMath scheduler tests
-        command: python3 -m pytest tests/test_comath_scheduler.py tests/test_comath_cli.py
-          -q
-        required: true
-        timeout_seconds: 900
-      status: passed
-      generated_by: engineering-harness-continuation
-      generated_at: '2026-05-10T08:19:26Z'
-    status: completed
-  - id: comath-ces75-template
-    title: CoMath CES75 Template
-    objective: Apply the new layer to the active CES75/Erdos866 project by generating
-      source-debt, Lean-chain, source-audit, and global-review workstream templates
-      without mutating the Lean proof file.
-    tasks:
-    - id: comath-ces75-template-impl
-      title: Add CES75/Erdos866 workstream bootstrap template
-      agent_approval_required: true
-      max_attempts: 2
-      max_task_iterations: 2
-      file_scope:
-      - src/ara_math/coordinator.py
-      - src/ara_math/workstreams.py
-      - src/ara_math/cli.py
-      - projects/erdos-866-ai-continuation-20260505/comath/**
-      - tests/test_comath_ces75_template.py
-      implementation:
-      - name: Codex implementation
-        executor: codex
-        timeout_seconds: 5400
-        prompt: 'Implement Phase 6 bootstrap support for the active CES75/Erdos866
-          project. Create a safe command or helper that initializes four workstreams:
-          source-dense-central-block, lean-current-final-window, source-audit-ces75-theorem4,
-          and global-review. Do not edit the Lean proof file. The dashboard must identify
-          dense central block source debt as the key blocker.'
-      repair:
-      - name: Codex repair
-        executor: codex
-        timeout_seconds: 2400
-        prompt: Fix failing CES75 bootstrap tests. Do not mutate project-owned Lean
-          proof files.
-      acceptance:
-      - name: CoMath CES75 template tests
-        command: python3 -m pytest tests/test_comath_ces75_template.py -q
-        required: true
-        timeout_seconds: 600
-      status: passed
-      generated_by: engineering-harness-continuation
-      generated_at: '2026-05-10T08:24:26Z'
-    status: completed
-  - id: comath-parallel-execution
-    title: CoMath Parallel Execution
-    status: completed
-    objective: Add bounded worker-pool execution for independent CoMath workstreams
-      while serializing Lean write targets and recording resource decisions.
-    tasks:
-    - id: comath-parallel-execution-impl
-      title: Implement bounded parallel workstream execution
-      status: passed
-      max_attempts: 2
-      max_task_iterations: 2
-      manual_approval_required: false
-      agent_approval_required: true
-      file_scope:
-      - src/ara_math/coordinator.py
-      - src/ara_math/comath_runners.py
-      - src/ara_math/cli.py
-      - tests/test_comath_parallel.py
-      - tests/test_comath_scheduler.py
-      - tests/test_comath_cli.py
-      implementation:
-      - name: Codex implementation
-        executor: codex
-        timeout_seconds: 7200
-        prompt: Implement Phase 5 parallel execution from artifacts/design/ai_comath_migration_plan_20260510.md.
-          Add bounded worker pools for independent workstreams, separate LLM/Lean
-          concurrency limits, same-Lean-target serialization, and loop report resource
-          decisions. Keep tests deterministic with fake executors; do not launch long
-          external campaigns.
-      repair:
-      - name: Codex repair
-        executor: codex
-        timeout_seconds: 3000
-        prompt: Fix failing parallel execution tests with minimal scoped changes.
-          Preserve existing scheduler behavior and CLI compatibility.
-      acceptance:
-      - name: CoMath parallel execution tests
-        command: python3 -m pytest tests/test_comath_parallel.py tests/test_comath_scheduler.py
-          tests/test_comath_cli.py -q
-        required: true
-        timeout_seconds: 900
-  - id: comath-intake-refinement
-    title: CoMath Intake Refinement
-    status: completed
-    objective: Add deterministic project intake and goal/workstream decomposition
-      before optional LLM refinement.
-    tasks:
-    - id: comath-intake-refinement-covered-by-paper-capability-baseline
-      title: Covered by public-paper capability baseline
-      status: passed
-      acceptance:
-      - name: CoMath capability baseline tests
-        command: python3 -m pytest tests/test_comath_capabilities.py -q
-        required: true
-        timeout_seconds: 600
-      notes: Deterministic intent refinement and automatic workstream decomposition
-        are covered by comath-paper-capability-baseline.
-  - id: comath-computation-repro
-    title: CoMath Computation Reproducibility
-    status: completed
-    objective: Add reproducible computation manifests, certificate hashes, and rerun
-      verification gates.
-    tasks:
-    - id: comath-computation-repro-covered-by-paper-capability-baseline
-      title: Covered by public-paper capability baseline
-      status: passed
-      acceptance:
-      - name: CoMath capability baseline tests
-        command: python3 -m pytest tests/test_comath_capabilities.py -q
-        required: true
-        timeout_seconds: 600
-      notes: Reproducible computation manifests, certificates, and verification are
-        covered by comath-paper-capability-baseline.
-  - id: comath-specialist-roles
-    title: CoMath Specialist Roles
-    status: completed
-    objective: Promote ideation, source audit, computation, Lean, review, and theory-building
-      roles into explicit contracts.
-    tasks:
-    - id: comath-specialist-roles-covered-by-paper-capability-baseline
-      title: Covered by public-paper capability baseline
-      status: passed
-      acceptance:
-      - name: CoMath capability baseline tests
-        command: python3 -m pytest tests/test_comath_capabilities.py -q
-        required: true
-        timeout_seconds: 600
-      notes: Specialist role contracts are covered by comath-paper-capability-baseline.
-  - id: comath-theory-memory
-    title: CoMath Theory Memory
-    status: completed
-    objective: Add conjecture graph, reusable lemma inventory, novelty notes, and
-      failed-hypothesis suppression.
-    tasks:
-    - id: comath-theory-memory-covered-by-paper-capability-baseline
-      title: Covered by public-paper capability baseline
-      status: passed
-      acceptance:
-      - name: CoMath capability baseline tests
-        command: python3 -m pytest tests/test_comath_capabilities.py -q
-        required: true
-        timeout_seconds: 600
-      notes: Theory-building memory is covered by comath-paper-capability-baseline.
-  - id: comath-evaluation-harness
-    title: CoMath Evaluation Harness
-    status: completed
-    objective: Add local benchmark/evaluation suites for scheduling, source-debt control,
-      Lean promotion safety, and reproducibility.
-    tasks:
-    - id: comath-evaluation-harness-covered-by-paper-capability-baseline
-      title: Covered by public-paper capability baseline
-      status: passed
-      acceptance:
-      - name: CoMath capability baseline tests
-        command: python3 -m pytest tests/test_comath_capabilities.py -q
-        required: true
-        timeout_seconds: 600
-      notes: Local capability evaluation is covered by comath-paper-capability-baseline.
-  - id: comath-paper-capability-baseline
-    title: CoMath Public Paper Capability Baseline
-    status: completed
-    objective: 'Close the local architecture gaps against arXiv:2605.06651: intake
-      refinement, role contracts, computation reproducibility, theory memory, and
-      capability evaluation, while not claiming Google internal model parity.'
-    generated_at: '2026-05-10T10:45:00Z'
-    tasks:
-    - id: comath-paper-capability-baseline-impl
-      title: Implement public-paper capability baseline
-      status: passed
-      max_attempts: 2
-      max_task_iterations: 2
-      manual_approval_required: false
-      agent_approval_required: true
-      file_scope:
-      - src/ara_math/comath_capabilities.py
-      - src/ara_math/comath_runners.py
-      - src/ara_math/coordinator.py
-      - src/ara_math/cli.py
-      - tests/test_comath_capabilities.py
-      - tests/test_comath_cli.py
-      - artifacts/design/ai_comath_migration_plan_20260510.md
-      implementation:
-      - name: Codex implementation
-        executor: codex
-        timeout_seconds: 10800
-        prompt: 'Implement the remaining local AI Co-Mathematician public-paper capability
-          baseline: deterministic intent refinement and workstream decomposition;
-          specialist role contracts; reproducible computation manifests/certificates/rerun
-          verification; theory-building memory; and a local capability evaluation
-          report. Keep claims scoped to architecture parity, not Google internal model
-          or benchmark parity.'
-      repair:
-      - name: Codex repair
-        executor: codex
-        timeout_seconds: 3600
-        prompt: Fix failing CoMath capability baseline tests with minimal scoped changes
-          and preserve previous CoMath scheduler/review behavior.
-      acceptance:
-      - name: CoMath capability baseline tests
-        command: python3 -m pytest tests/test_comath_capabilities.py tests/test_comath_parallel.py
-          tests/test_comath_scheduler.py tests/test_comath_cli.py -q
-        required: true
-        timeout_seconds: 900
-      - name: Full test suite
-        command: python3 -m pytest -q
-        required: true
-        timeout_seconds: 900
-      generated_by: engineering-harness-continuation
-      generated_at: '2026-05-10T10:45:00Z'
-  - id: comath-codex-specialist-orchestration
-    title: CoMath Codex Specialist Orchestration
-    status: completed
-    objective: Use the existing Codex CLI ChatGPT login as a programmable backend
-      for multiple GPT-5.5 specialist instances, with durable prompts, outputs, workstream
-      state, and testable fake-provider isolation.
-    generated_at: '2026-05-10T13:15:00Z'
-    tasks:
-    - id: comath-codex-specialist-orchestration-impl
-      title: Implement Codex ChatGPT specialist orchestration
-      status: passed
-      max_attempts: 2
-      max_task_iterations: 2
-      manual_approval_required: false
-      agent_approval_required: true
-      file_scope:
-      - src/ara_math/comath_specialists.py
-      - src/ara_math/comath_runners.py
-      - src/ara_math/comath_capabilities.py
-      - src/ara_math/coordinator.py
-      - src/ara_math/cli.py
-      - tests/test_comath_specialists.py
-      - artifacts/design/ai_comath_migration_plan_20260510.md
-      implementation:
-      - name: Codex implementation
-        executor: codex
-        timeout_seconds: 10800
-        prompt: Implement multi-specialist orchestration over the existing Codex CLI
-          ChatGPT login. Add provider abstraction, fake provider tests, Codex CLI
-          provider, persistent prompts/outputs, loop report, workstream executor,
-          and CLI commands. Unit tests must not call the real Codex service.
-      repair:
-      - name: Codex repair
-        executor: codex
-        timeout_seconds: 3600
-        prompt: Fix failing specialist orchestration tests while preserving existing
-          CoMath behavior and keeping real Codex calls out of tests.
-      acceptance:
-      - name: CoMath specialist orchestration tests
-        command: python3 -m pytest tests/test_comath_specialists.py tests/test_comath_capabilities.py
-          tests/test_comath_runners.py tests/test_comath_cli.py -q
-        required: true
-        timeout_seconds: 900
-      - name: Full test suite
-        command: python3 -m pytest -q
-        required: true
-        timeout_seconds: 900
-      generated_by: engineering-harness-continuation
-      generated_at: '2026-05-10T13:15:00Z'
-  - id: comath-research-workbench-hardening
-    title: CoMath Research Workbench Hardening
-    status: completed
-    objective: 'Close the next gaps to the public AI Co-Mathematician architecture:
-      specialist long-term memory, autonomous source-audit loop, and local benchmark
-      regression harness.'
-    generated_at: '2026-05-10T14:05:00Z'
-    tasks:
-    - id: comath-research-workbench-hardening-impl
-      title: Implement specialist memory, source audit loop, and local benchmarks
-      status: passed
-      max_attempts: 2
-      max_task_iterations: 2
-      manual_approval_required: false
-      agent_approval_required: true
-      file_scope:
-      - src/ara_math/comath_specialists.py
-      - src/ara_math/comath_source_audit.py
-      - src/ara_math/comath_benchmarks.py
-      - src/ara_math/comath_capabilities.py
-      - src/ara_math/coordinator.py
-      - src/ara_math/cli.py
-      - tests/test_comath_specialists.py
-      - tests/test_comath_workbench_hardening.py
-      - artifacts/design/ai_comath_migration_plan_20260510.md
-      implementation:
-      - name: Codex implementation
-        executor: codex
-        timeout_seconds: 10800
-        prompt: 'Implement the next CoMath hardening phase: persistent specialist
-          memory/resume, automatic source auditor query/audit loop, and local benchmark
-          harness. Tests must use fake providers and must not invoke real Codex calls.'
-      repair:
-      - name: Codex repair
-        executor: codex
-        timeout_seconds: 3600
-        prompt: Fix failing hardening tests with minimal scoped changes while preserving
-          Codex specialist orchestration behavior.
-      acceptance:
-      - name: CoMath workbench hardening tests
-        command: python3 -m pytest tests/test_comath_workbench_hardening.py tests/test_comath_specialists.py
-          tests/test_comath_capabilities.py -q
-        required: true
-        timeout_seconds: 900
-      - name: Full test suite
-        command: python3 -m pytest -q
-        required: true
-        timeout_seconds: 900
-      generated_by: engineering-harness-continuation
-      generated_at: '2026-05-10T14:05:00Z'
-profile: python-agent
-project: amra
-report_dir: .engineering/reports/tasks
-state_path: .engineering/state/harness-state.json
-version: 1
+{
+  "decision_log_path": ".engineering/state/decision-log.jsonl",
+  "default_timeout_seconds": 300,
+  "milestones": [
+    {
+      "id": "baseline",
+      "objective": "Verify the project can run its baseline checks under the shared engineering harness.",
+      "status": "completed",
+      "tasks": [
+        {
+          "acceptance": [
+            {
+              "command": "python3 -m pytest -q",
+              "name": "Run Python test suite",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "file_scope": [
+            "**"
+          ],
+          "id": "tests",
+          "max_attempts": 2,
+          "status": "passed",
+          "title": "Run Python test suite"
+        }
+      ],
+      "title": "Project Baseline"
+    },
+    {
+      "id": "comath-state-dashboard",
+      "title": "CoMath State And Dashboard",
+      "status": "completed",
+      "objective": "Add durable Co-Mathematician project/workstream/claim state models, artifact graph, uncertainty ledger, and a Markdown dashboard without invoking external LLM backends.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T07:00:23Z",
+      "tasks": [
+        {
+          "id": "comath-state-dashboard-impl",
+          "title": "Implement CoMath state models and dashboard",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/workstreams.py",
+            "src/ara_math/artifact_graph.py",
+            "src/ara_math/uncertainty.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/workspace.py",
+            "tests/test_comath_state.py",
+            "tests/test_comath_dashboard.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 5400,
+              "prompt": "Read artifacts/design/ai_comath_migration_plan_20260510.md. Implement Phase 1 only: durable CoMath dataclasses/enums, artifact graph helpers, uncertainty ledger helpers, and dashboard rendering for an existing ARA project. Do not integrate LLM calls yet. Keep APIs small and testable. Preserve existing user changes."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 2400,
+              "prompt": "Fix the failing CoMath state/dashboard acceptance tests with minimal scoped changes. Do not broaden scope beyond the task files."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath state tests",
+              "command": "python3 -m pytest tests/test_comath_state.py tests/test_comath_dashboard.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T07:00:23Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-cli",
+      "title": "CoMath CLI",
+      "status": "completed",
+      "objective": "Expose the state/dashboard layer through stable CLI commands.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T07:14:19Z",
+      "tasks": [
+        {
+          "id": "comath-cli-impl",
+          "title": "Add CoMath CLI commands",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/cli.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/workstreams.py",
+            "tests/test_comath_cli.py",
+            "tests/test_comath_state.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 5400,
+              "prompt": "Implement CLI commands for init-comath-project, add-workstream, review-workstream placeholder/state-only mode, and project-dashboard. Reuse the Phase 1 modules. Commands must be deterministic and local; no external LLM calls. Preserve existing CLI behavior and tests."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 2400,
+              "prompt": "Fix failing CoMath CLI tests while keeping the CLI surface backward-compatible."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath CLI tests",
+              "command": "python3 -m pytest tests/test_comath_cli.py tests/test_comath_state.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T07:14:19Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-review-gate",
+      "title": "CoMath Review Gate",
+      "status": "completed",
+      "objective": "Add multi-reviewer approval logic so workstreams with source debt, Lean placeholders, or statement drift cannot be approved.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T07:21:53Z",
+      "tasks": [
+        {
+          "id": "comath-review-gate-impl",
+          "title": "Implement review-gated workstream completion",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/review_gate.py",
+            "src/ara_math/workstreams.py",
+            "src/ara_math/artifact_graph.py",
+            "src/ara_math/uncertainty.py",
+            "src/ara_math/coordinator.py",
+            "tests/test_comath_review_gate.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 5400,
+              "prompt": "Implement Phase 3 review gates from the design doc. Add logic/source/lean/computation/global review decisions. A workstream must not approve if it has source debt, theorem debt, sorry/admit/axiom findings, statement drift, or no dependency path to the original theorem. Keep the implementation local and unit-testable."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 2400,
+              "prompt": "Fix failing review gate tests with minimal changes."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath review gate tests",
+              "command": "python3 -m pytest tests/test_comath_review_gate.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T07:21:53Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-runner-wrappers",
+      "title": "CoMath Runner Wrappers",
+      "status": "completed",
+      "objective": "Wrap existing proof_lab, lean_formalizer, closure, and literature capabilities as workstream executors that persist artifacts and blockers.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T07:31:23Z",
+      "tasks": [
+        {
+          "id": "comath-runner-wrappers-impl",
+          "title": "Wrap existing runners as workstream executors",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/comath_runners.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/workstreams.py",
+            "src/ara_math/proof_lab.py",
+            "src/ara_math/lean_formalizer.py",
+            "src/ara_math/literature.py",
+            "tests/test_comath_runners.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement Phase 2 runner wrappers. Do not rewrite proof_lab or lean_formalizer internals unless a tiny adapter hook is necessary. Add workstream executor abstractions for proof strategy, Lean formalization, closure, and source/literature checks. Persist run directories, status, blockers, and artifact paths into the CoMath workstream state."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3000,
+              "prompt": "Fix failing runner wrapper tests. Prefer adapter-level changes over modifying existing runner behavior."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath runner wrapper tests",
+              "command": "python3 -m pytest tests/test_comath_runners.py -q",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T07:31:23Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-scheduler-loop",
+      "title": "CoMath Scheduler Loop",
+      "objective": "Implement dependency-aware project coordination and a bounded local loop that chooses the next workstream based on source debt, Lean debt, proof gap, computation gap, and repeated stalls.",
+      "tasks": [
+        {
+          "id": "comath-scheduler-loop-impl",
+          "title": "Implement coordinator scheduling loop",
+          "agent_approval_required": true,
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "file_scope": [
+            "src/ara_math/coordinator.py",
+            "src/ara_math/comath_runners.py",
+            "src/ara_math/workstreams.py",
+            "src/ara_math/cli.py",
+            "tests/test_comath_scheduler.py",
+            "tests/test_comath_cli.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement Phase 4 coordinator scheduling and a run-comath-loop CLI command. The loop must be bounded by time/workstream limits, dependency-aware, and able to freeze stalled branches with a freeze package. It must update dashboard/status after each workstream. Do not start external long proof campaigns in tests."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3000,
+              "prompt": "Fix failing scheduler/CLI tests with minimal scoped changes."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath scheduler tests",
+              "command": "python3 -m pytest tests/test_comath_scheduler.py tests/test_comath_cli.py -q",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "status": "passed",
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T08:19:26Z"
+        }
+      ],
+      "status": "completed",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T08:19:26Z"
+    },
+    {
+      "id": "comath-ces75-template",
+      "title": "CoMath CES75 Template",
+      "objective": "Apply the new layer to the active CES75/Erdos866 project by generating source-debt, Lean-chain, source-audit, and global-review workstream templates without mutating the Lean proof file.",
+      "tasks": [
+        {
+          "id": "comath-ces75-template-impl",
+          "title": "Add CES75/Erdos866 workstream bootstrap template",
+          "agent_approval_required": true,
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "file_scope": [
+            "src/ara_math/coordinator.py",
+            "src/ara_math/workstreams.py",
+            "src/ara_math/cli.py",
+            "projects/erdos-866-ai-continuation-20260505/comath/**",
+            "tests/test_comath_ces75_template.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 5400,
+              "prompt": "Implement Phase 6 bootstrap support for the active CES75/Erdos866 project. Create a safe command or helper that initializes four workstreams: source-dense-central-block, lean-current-final-window, source-audit-ces75-theorem4, and global-review. Do not edit the Lean proof file. The dashboard must identify dense central block source debt as the key blocker."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 2400,
+              "prompt": "Fix failing CES75 bootstrap tests. Do not mutate project-owned Lean proof files."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath CES75 template tests",
+              "command": "python3 -m pytest tests/test_comath_ces75_template.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "status": "passed",
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T08:24:26Z"
+        }
+      ],
+      "status": "completed",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T08:24:26Z"
+    },
+    {
+      "id": "comath-parallel-execution",
+      "title": "CoMath Parallel Execution",
+      "status": "completed",
+      "objective": "Add bounded worker-pool execution for independent CoMath workstreams while serializing Lean write targets and recording resource decisions.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T09:00:00Z",
+      "tasks": [
+        {
+          "id": "comath-parallel-execution-impl",
+          "title": "Implement bounded parallel workstream execution",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/coordinator.py",
+            "src/ara_math/comath_runners.py",
+            "src/ara_math/cli.py",
+            "tests/test_comath_parallel.py",
+            "tests/test_comath_scheduler.py",
+            "tests/test_comath_cli.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement Phase 5 parallel execution from artifacts/design/ai_comath_migration_plan_20260510.md. Add bounded worker pools for independent workstreams, separate LLM/Lean concurrency limits, same-Lean-target serialization, and loop report resource decisions. Keep tests deterministic with fake executors; do not launch long external campaigns."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3000,
+              "prompt": "Fix failing parallel execution tests with minimal scoped changes. Preserve existing scheduler behavior and CLI compatibility."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath parallel execution tests",
+              "command": "python3 -m pytest tests/test_comath_parallel.py tests/test_comath_scheduler.py tests/test_comath_cli.py -q",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comath-paper-capability-baseline",
+      "title": "CoMath Public Paper Capability Baseline",
+      "status": "completed",
+      "objective": "Close the local architecture gaps against arXiv:2605.06651: intake refinement, role contracts, computation reproducibility, theory memory, and capability evaluation, while not claiming Google internal model parity.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T10:45:00Z",
+      "tasks": [
+        {
+          "id": "comath-paper-capability-baseline-impl",
+          "title": "Implement public-paper capability baseline",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/comath_capabilities.py",
+            "src/ara_math/comath_runners.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/cli.py",
+            "tests/test_comath_capabilities.py",
+            "tests/test_comath_cli.py",
+            "artifacts/design/ai_comath_migration_plan_20260510.md"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 10800,
+              "prompt": "Implement the remaining local AI Co-Mathematician public-paper capability baseline: deterministic intent refinement and workstream decomposition; specialist role contracts; reproducible computation manifests/certificates/rerun verification; theory-building memory; and a local capability evaluation report. Keep claims scoped to architecture parity, not Google internal model or benchmark parity."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing CoMath capability baseline tests with minimal scoped changes and preserve previous CoMath scheduler/review behavior."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath capability baseline tests",
+              "command": "python3 -m pytest tests/test_comath_capabilities.py tests/test_comath_parallel.py tests/test_comath_scheduler.py tests/test_comath_cli.py -q",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Full test suite",
+              "command": "python3 -m pytest -q",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T10:45:00Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-codex-specialist-orchestration",
+      "title": "CoMath Codex Specialist Orchestration",
+      "status": "completed",
+      "objective": "Use the existing Codex CLI ChatGPT login as a programmable backend for multiple GPT-5.5 specialist instances, with durable prompts, outputs, workstream state, and testable fake-provider isolation.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T13:15:00Z",
+      "tasks": [
+        {
+          "id": "comath-codex-specialist-orchestration-impl",
+          "title": "Implement Codex ChatGPT specialist orchestration",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/comath_specialists.py",
+            "src/ara_math/comath_runners.py",
+            "src/ara_math/comath_capabilities.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/cli.py",
+            "tests/test_comath_specialists.py",
+            "artifacts/design/ai_comath_migration_plan_20260510.md"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 10800,
+              "prompt": "Implement multi-specialist orchestration over the existing Codex CLI ChatGPT login. Add provider abstraction, fake provider tests, Codex CLI provider, persistent prompts/outputs, loop report, workstream executor, and CLI commands. Unit tests must not call the real Codex service."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing specialist orchestration tests while preserving existing CoMath behavior and keeping real Codex calls out of tests."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath specialist orchestration tests",
+              "command": "python3 -m pytest tests/test_comath_specialists.py tests/test_comath_capabilities.py tests/test_comath_runners.py tests/test_comath_cli.py -q",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Full test suite",
+              "command": "python3 -m pytest -q",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T13:15:00Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-research-workbench-hardening",
+      "title": "CoMath Research Workbench Hardening",
+      "status": "completed",
+      "objective": "Close the next gaps to the public AI Co-Mathematician architecture: specialist long-term memory, autonomous source-audit loop, and local benchmark regression harness.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-10T14:05:00Z",
+      "tasks": [
+        {
+          "id": "comath-research-workbench-hardening-impl",
+          "title": "Implement specialist memory, source audit loop, and local benchmarks",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/comath_specialists.py",
+            "src/ara_math/comath_source_audit.py",
+            "src/ara_math/comath_benchmarks.py",
+            "src/ara_math/comath_capabilities.py",
+            "src/ara_math/coordinator.py",
+            "src/ara_math/cli.py",
+            "tests/test_comath_specialists.py",
+            "tests/test_comath_workbench_hardening.py",
+            "artifacts/design/ai_comath_migration_plan_20260510.md"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 10800,
+              "prompt": "Implement the next CoMath hardening phase: persistent specialist memory/resume, automatic source auditor query/audit loop, and local benchmark harness. Tests must use fake providers and must not invoke real Codex calls."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing hardening tests with minimal scoped changes while preserving Codex specialist orchestration behavior."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "CoMath workbench hardening tests",
+              "command": "python3 -m pytest tests/test_comath_workbench_hardening.py tests/test_comath_specialists.py tests/test_comath_capabilities.py -q",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Full test suite",
+              "command": "python3 -m pytest -q",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-10T14:05:00Z"
+        }
+      ]
+    },
+    {
+      "id": "amra-portfolio-campaign-refactor",
+      "title": "AMRA Portfolio Campaign Refactor",
+      "status": "completed",
+      "objective": "Implement the AMRA portfolio campaign system from docs/portfolio_campaign_spec.md: canonical AMRA interfaces, durable portfolio memory, broad scouting, independent evaluation, attack scheduling, memory consolidation, library harvesting, dashboard reports, and AMRA result bundles.",
+      "generated_by": "codex-amra-framework-bootstrap",
+      "generated_at": "2026-05-18T08:00:00Z",
+      "tasks": [
+        {
+          "id": "amra-legacy-module-disposition",
+          "title": "Classify legacy ara_math modules before migration",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 1,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "docs/amra_legacy_module_disposition.zh.md",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml",
+            "tests/test_amra_interfaces.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex validates AMRA legacy module disposition",
+              "executor": "codex",
+              "timeout_seconds": 2400,
+              "prompt": "Implement task package 0 from docs/amra_engineering_harness_development_plan.zh.md. Validate and refine docs/amra_legacy_module_disposition.zh.md so every src/ara_math/*.py file has an explicit disposition. Do not delete or move legacy modules in this task. Update roadmap references if needed."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Legacy module disposition covers every ara_math Python file",
+              "command": "python3 - <<'PY'\nfrom pathlib import Path\ndoc = Path('docs/amra_legacy_module_disposition.zh.md').read_text(encoding='utf-8')\nmissing = [p.name for p in sorted(Path('src/ara_math').glob('*.py')) if f'`{p.name}`' not in doc]\nif missing:\n    raise SystemExit(f'missing module disposition entries: {missing}')\nprint('covered', len(list(Path('src/ara_math').glob('*.py'))))\nPY",
+              "required": true,
+              "timeout_seconds": 60
+            },
+            {
+              "name": "AMRA interface tests still pass",
+              "command": "python3 -m pytest -q tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 300
+            }
+          ]
+        },
+        {
+          "id": "amra-rename-hardening",
+          "title": "Harden canonical AMRA package and CLI interfaces",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/**",
+            "amra/**",
+            "ara_math/**",
+            "src/ara_math/__init__.py",
+            "src/ara_math/cli.py",
+            "pyproject.toml",
+            "run.py",
+            "research_lab.yaml",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex hardens AMRA interfaces",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Implement task package 1 from docs/amra_engineering_harness_development_plan.zh.md. Harden the canonical AMRA package and CLI interface while preserving legacy ara_math and ara-math compatibility. Keep changes scoped to package/CLI metadata, research_lab.yaml, and focused tests. Do not remove src/ara_math yet."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA interface tests",
+              "command": "python3 -m pytest -q tests/test_amra_interfaces.py tests/test_cli_flow.py",
+              "required": true,
+              "timeout_seconds": 600
+            },
+            {
+              "name": "AMRA CLI smoke",
+              "command": "python3 -m amra --help >/tmp/amra_help.txt && python3 -m amra list-problems --bank data/problem_bank.yaml --json >/tmp/amra_problem_list.json && python3 -m ara_math list-problems --bank data/problem_bank.yaml --json >/tmp/ara_math_problem_list.json",
+              "required": true,
+              "timeout_seconds": 120
+            }
+          ]
+        },
+        {
+          "id": "amra-portfolio-data-layer",
+          "title": "Implement durable AMRA portfolio data layer",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_memory.py",
+            "src/amra/portfolio_campaign.py",
+            "tests/test_portfolio_memory.py",
+            "tests/test_portfolio_campaign.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA portfolio data layer",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 2 from docs/amra_engineering_harness_development_plan.zh.md. Extend the AMRA portfolio scaffold into a complete durable data layer: append-only problem lifecycle, claim ledger, route ledger, failed route ledger, global index merge, and resume pack generation. Keep tests deterministic and local."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Portfolio data tests",
+              "command": "python3 -m pytest -q tests/test_portfolio_memory.py tests/test_portfolio_campaign.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ]
+        },
+        {
+          "id": "amra-broad-scouting-integration",
+          "title": "Connect portfolio campaigns to broad scouting",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_campaign.py",
+            "src/ara_math/math_scout.py",
+            "src/ara_math/cli.py",
+            "tests/test_portfolio_scouting.py",
+            "tests/test_math_scout.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex integrates AMRA broad scouting",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 3 from docs/amra_engineering_harness_development_plan.zh.md. Connect run-portfolio-campaign to short-budget MathScoutRunner probes with deterministic fake-runner tests. Scout failures and timeouts must still write valid artifacts."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Portfolio scouting tests",
+              "command": "python3 -m pytest -q tests/test_portfolio_scouting.py tests/test_math_scout.py",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Portfolio campaign smoke",
+              "command": "python3 -m amra run-portfolio-campaign --bank data/problem_bank.yaml --run-name harness-smoke --scout-limit 3 --promote-top 1 --scout-timeout 60 --json >/tmp/amra_portfolio_campaign.json",
+              "required": true,
+              "timeout_seconds": 180
+            }
+          ]
+        },
+        {
+          "id": "amra-independent-evaluator",
+          "title": "Add independent portfolio evaluator",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_evaluator.py",
+            "src/amra/portfolio_campaign.py",
+            "src/ara_math/cli.py",
+            "tests/test_portfolio_evaluator.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA independent evaluator",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 4 from docs/amra_engineering_harness_development_plan.zh.md. Add a read-only independent evaluator over durable proof, Lean, claim, route, and failed-route artifacts. It must produce amra.difficulty_evaluation.v1 and support promote/continue/park/freeze/source_recover/counterexample_review recommendations."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Portfolio evaluator tests",
+              "command": "python3 -m pytest -q tests/test_portfolio_evaluator.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ]
+        },
+        {
+          "id": "amra-pure-agent-runner-migration",
+          "title": "Promote pure agent runners into canonical AMRA agents",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/ara_math/pure_agents.py",
+            "src/ara_math/agent_tools.py",
+            "src/ara_math/proof_state.py",
+            "src/ara_math/focused_attack.py",
+            "src/amra/agents/**",
+            "src/amra/proof/**",
+            "tests/test_pure_agents.py",
+            "tests/test_focused_attack.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            "docs/amra_legacy_module_disposition.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex migrates AMRA pure agent runners",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 4.5 from docs/amra_engineering_harness_development_plan.zh.md. Promote pure_agents.py into canonical AMRA proof agent runner modules under src/amra/agents and src/amra/proof while preserving legacy ara_math imports and behavior. Do not delete legacy files. Keep existing durable run artifacts, prompt/output/report behavior, and focused attack integration."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Pure agent runner tests",
+              "command": "python3 -m pytest -q tests/test_pure_agents.py tests/test_focused_attack.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Canonical and legacy pure agent imports agree",
+              "command": "python3 - <<'PY'\nfrom amra.agents.proof import UnifiedProofAgentLoop\nfrom amra.agents.lean import LeanFromNaturalProofAgent\nfrom ara_math.pure_agents import UnifiedProofAgentLoop as LegacyUnifiedProofAgentLoop\nassert UnifiedProofAgentLoop is LegacyUnifiedProofAgentLoop\nassert LeanFromNaturalProofAgent is not None\nPY",
+              "required": true,
+              "timeout_seconds": 60
+            }
+          ]
+        },
+        {
+          "id": "amra-attack-scheduling-locks",
+          "title": "Implement attack scheduling, locks, and isolated workspaces",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_scheduler.py",
+            "src/amra/portfolio_campaign.py",
+            "src/ara_math/campaign_loop.py",
+            "src/ara_math/focused_attack.py",
+            "src/ara_math/lean_formalizer.py",
+            "tests/test_portfolio_scheduler.py",
+            "tests/test_focused_attack.py",
+            "tests/test_lean_formalizer.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA attack scheduler",
+              "executor": "codex",
+              "timeout_seconds": 10800,
+              "prompt": "Implement task package 5 from docs/amra_engineering_harness_development_plan.zh.md. Add promoted-target scheduling, lock files, isolated formal workspaces, and progress velocity metrics. Do not allow two workers to write the same canonical Lean workspace or library module."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Portfolio scheduler tests",
+              "command": "python3 -m pytest -q tests/test_portfolio_scheduler.py tests/test_focused_attack.py tests/test_lean_formalizer.py",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ]
+        },
+        {
+          "id": "amra-memory-consolidation",
+          "title": "Implement AMRA memory consolidation and failed-route retrieval",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_memory.py",
+            "src/amra/portfolio_campaign.py",
+            "src/ara_math/proof_state.py",
+            "tests/test_portfolio_memory_consolidation.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA memory consolidation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 6 from docs/amra_engineering_harness_development_plan.zh.md. Automatically consolidate proof outputs, Lean reports, review notes, claims, routes, failed routes, and global indexes. Include a P6-style failed-route regression fixture."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Portfolio memory consolidation tests",
+              "command": "python3 -m pytest -q tests/test_portfolio_memory_consolidation.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ]
+        },
+        {
+          "id": "amra-library-harvesting",
+          "title": "Implement canonical AMRA library harvesting",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/amra_library.py",
+            "src/amra/portfolio_campaign.py",
+            "src/ara_math/ara_library.py",
+            "src/ara_math/lean.py",
+            "src/ara_math/cli.py",
+            "amra_library/**",
+            "tests/test_amra_library.py",
+            "tests/test_lean_executor.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA library harvesting",
+              "executor": "codex",
+              "timeout_seconds": 10800,
+              "prompt": "Implement task package 7 from docs/amra_engineering_harness_development_plan.zh.md. Add canonical amra_library / AmraLibrary support with legacy ara_library / AraLibrary migration shims. Harvest only Lean-verified declarations with no sorry/admit/axiom/opaque/placeholders."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA library tests",
+              "command": "python3 -m pytest -q tests/test_amra_library.py tests/test_lean_executor.py",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "AMRA library CLI smoke",
+              "command": "python3 -m amra init-amra-library --json >/tmp/amra_library_init.json && python3 -m amra build-amra-library --timeout 120 --json >/tmp/amra_library_build.json",
+              "required": false,
+              "timeout_seconds": 240
+            }
+          ]
+        },
+        {
+          "id": "amra-dashboard-result-bundle",
+          "title": "Add AMRA portfolio reports and result bundle export",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_reports.py",
+            "src/amra/result_bundle.py",
+            "src/ara_math/cli.py",
+            "research_lab.yaml",
+            "tests/test_amra_result_bundle.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implements AMRA reports and result bundles",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement task package 8 from docs/amra_engineering_harness_development_plan.zh.md. Add portfolio final reports and amra_result_bundle export for ARA consumption. The bundle must distinguish natural-language proof sketches from Lean-verified declarations."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA result bundle tests",
+              "command": "python3 -m pytest -q tests/test_amra_result_bundle.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amra-initial-spec-completion",
+      "title": "AMRA Initial Spec Completion",
+      "status": "completed",
+      "objective": "Finish the AMRA-side result bundle and known-problem proof smoke required by the initial ARA ecosystem spec.",
+      "tasks": [
+        {
+          "id": "amra-ara-result-bundle-contract-hardening",
+          "title": "Harden AMRA result bundle contract for ARA consumption",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "file_scope": [
+            "**",
+            "src/amra/**",
+            "src/ara_math/cli.py",
+            "research_lab.yaml",
+            "tests/fixtures/**",
+            "tests/test_amra_result_bundle_contract.py",
+            "tests/test_amra_result_bundle.py",
+            "tests/test_amra_interfaces.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "codex hardens AMRA ARA result bundle contract",
+              "executor": "codex",
+              "prompt": "Implement task package 10 from /home/biostar/work/projects/ara/docs/initial_spec_remaining_harness_packages.zh.md. Build on the existing AMRA result bundle exporter and harden the ARA-facing contract: proof sketches, Lean build reports, verified declarations, unresolved blockers, artifact manifest, limitations, and writing brief must be separated so ARA cannot treat a sketch as Lean-verified. Add deterministic fixtures and focused tests. Preserve existing AMRA CLI compatibility aliases.",
+              "timeout_seconds": 2400,
+              "no_progress_timeout_seconds": 480,
+              "requested_capabilities": [
+                "agent"
+              ]
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA contract fixture exports bundle",
+              "command": "python3 -m amra export-amra-result-bundle --project tests/fixtures/amra_contract_project --output /tmp/amra_contract_bundle >/tmp/amra_contract_export.json",
+              "required": true,
+              "timeout_seconds": 240
+            },
+            {
+              "name": "AMRA result bundle contract tests pass",
+              "command": "python3 -m pytest -q tests/test_amra_result_bundle_contract.py tests/test_amra_result_bundle.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 420
+            }
+          ]
+        },
+        {
+          "id": "amra-known-problem-proof-smoke",
+          "title": "Run bounded known-problem proof and formalization smoke for ARA bundle export",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "file_scope": [
+            "**",
+            "src/amra/**",
+            "src/ara_math/cli.py",
+            "tests/fixtures/**",
+            "tests/test_amra_known_problem_smoke.py",
+            "tests/test_amra_result_bundle.py",
+            "docs/amra_engineering_harness_development_plan.zh.md",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "codex implements AMRA known problem smoke",
+              "executor": "codex",
+              "prompt": "Implement task package 11 from /home/biostar/work/projects/ara/docs/initial_spec_remaining_harness_packages.zh.md. Add a bounded known-problem proof/formalization smoke path that can run on a deterministic fixture problem, emit proof_attempt_ledger, Lean report, verified/blocked status, and export an AMRA result bundle for ARA consumption. Do not require solving an open problem or running long LLM calls.",
+              "timeout_seconds": 2400,
+              "no_progress_timeout_seconds": 480,
+              "requested_capabilities": [
+                "agent"
+              ]
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA known problem smoke emits bundle",
+              "command": "python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_known_problem_bundle --json >/tmp/amra_known_problem_smoke.json",
+              "required": true,
+              "timeout_seconds": 180
+            },
+            {
+              "name": "AMRA known problem smoke tests pass",
+              "command": "python3 -m pytest -q tests/test_amra_known_problem_smoke.py tests/test_amra_result_bundle.py",
+              "required": true,
+              "timeout_seconds": 420
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comath-intake-refinement",
+      "title": "CoMath Intake Refinement",
+      "status": "completed",
+      "objective": "Add deterministic project intake and goal/workstream decomposition before optional LLM refinement.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-19T03:22:34Z",
+      "tasks": [
+        {
+          "id": "comath-intake-refinement-covered-by-paper-capability-baseline",
+          "title": "Covered by public-paper capability baseline",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 1,
+          "manual_approval_required": false,
+          "agent_approval_required": false,
+          "file_scope": [],
+          "implementation": [],
+          "repair": [],
+          "acceptance": [
+            {
+              "name": "CoMath capability baseline tests",
+              "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-computation-repro",
+      "title": "CoMath Computation Reproducibility",
+      "status": "completed",
+      "objective": "Add reproducible computation manifests, certificate hashes, and rerun verification gates.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-19T03:22:34Z",
+      "tasks": [
+        {
+          "id": "comath-computation-repro-covered-by-paper-capability-baseline",
+          "title": "Covered by public-paper capability baseline",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 1,
+          "manual_approval_required": false,
+          "agent_approval_required": false,
+          "file_scope": [],
+          "implementation": [],
+          "repair": [],
+          "acceptance": [
+            {
+              "name": "CoMath capability baseline tests",
+              "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-specialist-roles",
+      "title": "CoMath Specialist Roles",
+      "status": "completed",
+      "objective": "Promote ideation, source audit, computation, Lean, review, and theory-building roles into explicit contracts.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-19T03:22:34Z",
+      "tasks": [
+        {
+          "id": "comath-specialist-roles-covered-by-paper-capability-baseline",
+          "title": "Covered by public-paper capability baseline",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 1,
+          "manual_approval_required": false,
+          "agent_approval_required": false,
+          "file_scope": [],
+          "implementation": [],
+          "repair": [],
+          "acceptance": [
+            {
+              "name": "CoMath capability baseline tests",
+              "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-theory-memory",
+      "title": "CoMath Theory Memory",
+      "status": "completed",
+      "objective": "Add conjecture graph, reusable lemma inventory, novelty notes, and failed-hypothesis suppression.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-19T03:22:34Z",
+      "tasks": [
+        {
+          "id": "comath-theory-memory-covered-by-paper-capability-baseline",
+          "title": "Covered by public-paper capability baseline",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 1,
+          "manual_approval_required": false,
+          "agent_approval_required": false,
+          "file_scope": [],
+          "implementation": [],
+          "repair": [],
+          "acceptance": [
+            {
+              "name": "CoMath capability baseline tests",
+              "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        }
+      ]
+    },
+    {
+      "id": "comath-evaluation-harness",
+      "title": "CoMath Evaluation Harness",
+      "status": "completed",
+      "objective": "Add local benchmark/evaluation suites for scheduling, source-debt control, Lean promotion safety, and reproducibility.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-19T03:22:34Z",
+      "tasks": [
+        {
+          "id": "comath-evaluation-harness-covered-by-paper-capability-baseline",
+          "title": "Covered by public-paper capability baseline",
+          "status": "passed",
+          "max_attempts": 2,
+          "max_task_iterations": 1,
+          "manual_approval_required": false,
+          "agent_approval_required": false,
+          "file_scope": [],
+          "implementation": [],
+          "repair": [],
+          "acceptance": [
+            {
+              "name": "CoMath capability baseline tests",
+              "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+              "required": true,
+              "timeout_seconds": 600
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        }
+      ]
+    },
+    {
+      "id": "amra-next-development-targets",
+      "title": "AMRA Next Development Targets",
+      "status": "planned",
+      "objective": "Implement the next development targets from the portfolio campaign spec: finish canonical package migration, converge legacy shims, consolidate duplicate proof/agent/formalization layers, and extend the portfolio campaign loop toward trusted source ranking, domain executors, and a nontrivial closed-theorem benchmark.",
+      "generated_by": "engineering-harness-continuation",
+      "generated_at": "2026-05-19T03:22:34Z",
+      "tasks": [
+        {
+          "id": "amra-canonical-core-migration",
+          "title": "Move stable core modules into canonical AMRA packages",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/**",
+            "src/ara_math/__init__.py",
+            "src/ara_math/models.py",
+            "src/ara_math/workspace.py",
+            "src/ara_math/runtime.py",
+            "src/ara_math/context.py",
+            "src/ara_math/problem_bank.py",
+            "src/ara_math/artifact_graph.py",
+            "src/ara_math/lean_audit.py",
+            "src/ara_math/lean_contract.py",
+            "tests/test_amra_interfaces.py",
+            "tests/test_problem_bank.py",
+            "tests/test_workspace_and_planning.py",
+            "tests/test_lean_executor.py",
+            "docs/portfolio_campaign_spec.md",
+            "docs/portfolio_campaign_spec.zh.md"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement the first safe slice of Section 16.2 canonical migration. Create canonical AMRA packages for stable shared modules, such as amra.core, amra.infra, amra.problem_banks, and amra.lean. Move or wrap the active implementations so new code and tests can import canonical amra.* paths. Keep ara_math.* compatibility through thin deprecated shims and preserve existing CLI behavior. Remove the amra namespace path tunneling only if all current amra.* imports still resolve through explicit modules. Do not make live model calls in tests."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing canonical migration tests with minimal scoped changes. Preserve legacy ara_math compatibility and avoid broad refactors outside the migration slice."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Canonical core migration tests",
+              "command": "python3 -m pytest -q tests/test_amra_interfaces.py tests/test_problem_bank.py tests/test_workspace_and_planning.py tests/test_lean_executor.py",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Canonical AMRA imports resolve",
+              "command": "python3 -c \"import importlib; [importlib.import_module(name) for name in ('amra.core.models', 'amra.core.workspace', 'amra.infra.runtime', 'amra.problem_banks.registry', 'amra.lean.contract')]\"",
+              "required": true,
+              "timeout_seconds": 120
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        },
+        {
+          "id": "amra-legacy-shim-convergence",
+          "title": "Convert migrated legacy modules into explicit compatibility shims",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/**",
+            "src/ara_math/**",
+            "tests/test_amra_interfaces.py",
+            "tests/test_amra_legacy_shims.py",
+            "docs/amra_legacy_module_disposition.zh.md",
+            "docs/portfolio_campaign_spec.md",
+            "docs/portfolio_campaign_spec.zh.md"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 5400,
+              "prompt": "Continue Section 16.2 legacy cleanup after the canonical core migration. Convert already-migrated ara_math modules into explicit deprecated compatibility shims that import from canonical amra.* modules. Add or update an import audit test so accidental new src/amra dependencies on ara_math are visible, while allowing documented temporary exceptions for unmigrated modules. Do not remove behavior; preserve ara_math CLI/import compatibility."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 2400,
+              "prompt": "Fix failing legacy shim convergence tests with minimal scoped changes. Keep documented compatibility and avoid touching unrelated algorithm code."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Legacy shim compatibility tests",
+              "command": "python3 -m pytest -q tests/test_amra_interfaces.py tests/test_amra_legacy_shims.py",
+              "required": true,
+              "timeout_seconds": 600
+            },
+            {
+              "name": "Legacy CLI remains importable",
+              "command": "python3 -m ara_math --help",
+              "required": true,
+              "timeout_seconds": 120
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        },
+        {
+          "id": "amra-proof-loop-consolidation",
+          "title": "Add canonical proof loop adapters and routing contracts",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/**",
+            "src/ara_math/proof_lab.py",
+            "src/ara_math/proof_search.py",
+            "src/ara_math/math_attack.py",
+            "src/ara_math/campaign_loop.py",
+            "src/ara_math/goal_campaign.py",
+            "src/ara_math/closure.py",
+            "src/ara_math/focused_attack.py",
+            "tests/test_amra_proof_loops.py",
+            "tests/test_amra_interfaces.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Consolidate duplicate proof-loop entry points behind canonical AMRA adapter contracts. Add a small amra proof-runner registry or equivalent routing layer that can call existing proof_lab, proof_search, math_attack, campaign_loop, goal_campaign, closure, and focused_attack behavior without rewriting their internals. Add deterministic tests for route selection, status normalization, and report metadata. No live model calls in tests."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3000,
+              "prompt": "Fix failing proof-loop consolidation tests through adapter-level changes. Avoid changing existing runner semantics unless required by the contract."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Proof loop adapter tests",
+              "command": "python3 -m pytest -q tests/test_amra_proof_loops.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        },
+        {
+          "id": "amra-agent-tool-normalization",
+          "title": "Normalize agent and tool ownership under AMRA",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/agents/**",
+            "src/amra/**",
+            "src/ara_math/pure_agents.py",
+            "src/ara_math/agent_tools.py",
+            "src/ara_math/proof_state.py",
+            "tests/test_pure_agents.py",
+            "tests/test_agent_tools.py",
+            "tests/test_amra_agent_tools.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Move AMRA agent/tool ownership toward canonical amra.agents modules. Normalize tool registry, episode state, proof-state, and Lean-agent adapters behind stable AMRA imports while keeping ara_math.pure_agents, ara_math.agent_tools, and ara_math.proof_state as compatibility shims. Tests must use fake providers and must not call live LLM backends."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3000,
+              "prompt": "Fix failing agent/tool normalization tests while preserving deterministic fake-provider behavior and legacy imports."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA agent tool tests",
+              "command": "python3 -m pytest -q tests/test_pure_agents.py tests/test_agent_tools.py tests/test_amra_agent_tools.py",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        },
+        {
+          "id": "amra-formalization-layer-consolidation",
+          "title": "Consolidate Lean formalization and audit layers",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/lean/**",
+            "src/amra/**",
+            "src/ara_math/formalization.py",
+            "src/ara_math/lean_formalizer.py",
+            "src/ara_math/lean.py",
+            "src/ara_math/lean_contract.py",
+            "src/ara_math/lean_audit.py",
+            "tests/test_lean_executor.py",
+            "tests/test_amra_formalization.py",
+            "tests/test_amra_result_bundle.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Consolidate Lean executor, formalizer, contract, and audit behavior behind canonical amra.lean imports. Keep existing public behavior and result bundle contracts stable, and preserve ara_math.* compatibility shims for migrated modules. Add deterministic tests that validate imports, audit output, and bundle contract compatibility without live model calls."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3000,
+              "prompt": "Fix failing formalization consolidation tests with minimal scoped changes while preserving Lean result bundle contracts."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Formalization layer tests",
+              "command": "python3 -m pytest -q tests/test_lean_executor.py tests/test_amra_formalization.py tests/test_amra_result_bundle.py",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        },
+        {
+          "id": "amra-portfolio-active-execution-loop",
+          "title": "Add bounded active execution to portfolio campaigns",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/portfolio_campaign.py",
+            "src/amra/portfolio_scheduler.py",
+            "src/amra/**",
+            "src/ara_math/cli.py",
+            "tests/test_portfolio_campaign.py",
+            "tests/test_portfolio_scheduler.py",
+            "tests/test_amra_portfolio_execution.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 9000,
+              "prompt": "Extend the portfolio campaign loop so promoted problems can optionally run bounded deterministic proof/formalization attempts in isolated workspaces when an explicit attack budget is provided. Update state transitions for verified, failed, parked, and library-candidate outcomes. Tests must use fake runners and must not launch live Codex/model calls or long search."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing portfolio active-execution tests with minimal scoped changes. Keep default campaign behavior deterministic and cheap."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Portfolio execution tests",
+              "command": "python3 -m pytest -q tests/test_portfolio_campaign.py tests/test_portfolio_scheduler.py tests/test_amra_portfolio_execution.py",
+              "required": true,
+              "timeout_seconds": 900
+            },
+            {
+              "name": "Portfolio dry run remains local",
+              "command": "python3 -m amra portfolio-campaign --help",
+              "required": true,
+              "timeout_seconds": 120
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        },
+        {
+          "id": "amra-source-quality-ranking",
+          "title": "Add trusted source quality ranking and audit artifacts",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/**",
+            "src/ara_math/literature.py",
+            "src/ara_math/comath_source_audit.py",
+            "data/**",
+            "tests/test_literature.py",
+            "tests/test_amra_source_quality.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement a deterministic source-quality scoring layer for AMRA. Prefer curated local snapshots and explicit provenance metadata over live crawling. Integrate quality scores into portfolio evaluation/audit artifacts so source debt, statement provenance, and trust reasons are visible. Add tests with local fixtures only."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3000,
+              "prompt": "Fix failing source-quality ranking tests while keeping all tests local and deterministic."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Source quality tests",
+              "command": "python3 -m pytest -q tests/test_literature.py tests/test_amra_source_quality.py",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        },
+        {
+          "id": "amra-domain-search-executors",
+          "title": "Add deterministic domain-specific search executor interfaces",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/domain_executors/**",
+            "src/amra/**",
+            "data/problem_bank.yaml",
+            "tests/test_amra_domain_executors.py",
+            "tests/test_problem_bank.py"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Add deterministic domain-specific search executor interfaces for AMRA, with first local stubs or bounded executors for unitary perfect numbers, amicable numbers, triangle dissections, and Carmichael-style problems. Integrate executor metadata with problem-bank or portfolio scouting records. Do not run unbounded searches; tests must use small deterministic fixtures."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3000,
+              "prompt": "Fix failing domain executor tests while preserving bounded local behavior."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Domain executor tests",
+              "command": "python3 -m pytest -q tests/test_amra_domain_executors.py tests/test_problem_bank.py",
+              "required": true,
+              "timeout_seconds": 900
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        },
+        {
+          "id": "amra-nontrivial-closed-theorem-benchmark",
+          "title": "Add a nontrivial closed-theorem end-to-end benchmark",
+          "status": "pending",
+          "max_attempts": 2,
+          "max_task_iterations": 2,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "file_scope": [
+            "src/amra/**",
+            "src/ara_math/cli.py",
+            "tests/test_amra_known_problem_smoke.py",
+            "tests/test_amra_nontrivial_benchmark.py",
+            "data/**",
+            "docs/portfolio_campaign_spec.md",
+            "docs/portfolio_campaign_spec.zh.md"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 9000,
+              "prompt": "Add a deterministic nontrivial closed-theorem benchmark that exercises the end-to-end AMRA bundle path beyond toy fixtures. It should select a medium-difficulty closed problem, produce a natural-language proof artifact, build or verify a small Lean declaration where feasible, and emit a result bundle/library-candidate report. Keep runtime bounded and tests local."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing nontrivial benchmark tests with minimal scoped changes. Preserve the existing known-problem smoke bundle contract."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Nontrivial benchmark tests",
+              "command": "python3 -m pytest -q tests/test_amra_known_problem_smoke.py tests/test_amra_nontrivial_benchmark.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "Existing known problem smoke still emits bundle",
+              "command": "python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_known_problem_bundle --json",
+              "required": true,
+              "timeout_seconds": 240
+            }
+          ],
+          "e2e": [],
+          "generated_by": "engineering-harness-continuation",
+          "generated_at": "2026-05-19T03:22:34Z"
+        }
+      ],
+      "spec_refs": [
+        "docs/portfolio_campaign_spec.zh.md#16.2",
+        "docs/portfolio_campaign_spec.md#16.2"
+      ]
+    }
+  ],
+  "continuation": {
+    "enabled": true,
+    "goal": "Implement the AI Co-Mathematician-style coordination layer described in artifacts/design/ai_comath_migration_plan_20260510.md.",
+    "blueprint": "artifacts/design/ai_comath_migration_plan_20260510.md",
+    "stages": [
+      {
+        "id": "comath-state-dashboard",
+        "title": "CoMath State And Dashboard",
+        "objective": "Add durable Co-Mathematician project/workstream/claim state models, artifact graph, uncertainty ledger, and a Markdown dashboard without invoking external LLM backends.",
+        "tasks": [
+          {
+            "id": "comath-state-dashboard-impl",
+            "title": "Implement CoMath state models and dashboard",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/workstreams.py",
+              "src/ara_math/artifact_graph.py",
+              "src/ara_math/uncertainty.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/workspace.py",
+              "tests/test_comath_state.py",
+              "tests/test_comath_dashboard.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 5400,
+                "prompt": "Read artifacts/design/ai_comath_migration_plan_20260510.md. Implement Phase 1 only: durable CoMath dataclasses/enums, artifact graph helpers, uncertainty ledger helpers, and dashboard rendering for an existing ARA project. Do not integrate LLM calls yet. Keep APIs small and testable. Preserve existing user changes."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 2400,
+                "prompt": "Fix the failing CoMath state/dashboard acceptance tests with minimal scoped changes. Do not broaden scope beyond the task files."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath state tests",
+                "command": "python3 -m pytest tests/test_comath_state.py tests/test_comath_dashboard.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "status": "passed"
+          }
+        ],
+        "status": "completed"
+      },
+      {
+        "id": "comath-cli",
+        "title": "CoMath CLI",
+        "objective": "Expose the state/dashboard layer through stable CLI commands.",
+        "tasks": [
+          {
+            "id": "comath-cli-impl",
+            "title": "Add CoMath CLI commands",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/cli.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/workstreams.py",
+              "tests/test_comath_cli.py",
+              "tests/test_comath_state.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 5400,
+                "prompt": "Implement CLI commands for init-comath-project, add-workstream, review-workstream placeholder/state-only mode, and project-dashboard. Reuse the Phase 1 modules. Commands must be deterministic and local; no external LLM calls. Preserve existing CLI behavior and tests."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 2400,
+                "prompt": "Fix failing CoMath CLI tests while keeping the CLI surface backward-compatible."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath CLI tests",
+                "command": "python3 -m pytest tests/test_comath_cli.py tests/test_comath_state.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "status": "passed"
+          }
+        ],
+        "status": "completed"
+      },
+      {
+        "id": "comath-review-gate",
+        "title": "CoMath Review Gate",
+        "objective": "Add multi-reviewer approval logic so workstreams with source debt, Lean placeholders, or statement drift cannot be approved.",
+        "tasks": [
+          {
+            "id": "comath-review-gate-impl",
+            "title": "Implement review-gated workstream completion",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/review_gate.py",
+              "src/ara_math/workstreams.py",
+              "src/ara_math/artifact_graph.py",
+              "src/ara_math/uncertainty.py",
+              "src/ara_math/coordinator.py",
+              "tests/test_comath_review_gate.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 5400,
+                "prompt": "Implement Phase 3 review gates from the design doc. Add logic/source/lean/computation/global review decisions. A workstream must not approve if it has source debt, theorem debt, sorry/admit/axiom findings, statement drift, or no dependency path to the original theorem. Keep the implementation local and unit-testable."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 2400,
+                "prompt": "Fix failing review gate tests with minimal changes."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath review gate tests",
+                "command": "python3 -m pytest tests/test_comath_review_gate.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "status": "passed"
+          }
+        ],
+        "status": "completed"
+      },
+      {
+        "id": "comath-runner-wrappers",
+        "title": "CoMath Runner Wrappers",
+        "objective": "Wrap existing proof_lab, lean_formalizer, closure, and literature capabilities as workstream executors that persist artifacts and blockers.",
+        "tasks": [
+          {
+            "id": "comath-runner-wrappers-impl",
+            "title": "Wrap existing runners as workstream executors",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/comath_runners.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/workstreams.py",
+              "src/ara_math/proof_lab.py",
+              "src/ara_math/lean_formalizer.py",
+              "src/ara_math/literature.py",
+              "tests/test_comath_runners.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Implement Phase 2 runner wrappers. Do not rewrite proof_lab or lean_formalizer internals unless a tiny adapter hook is necessary. Add workstream executor abstractions for proof strategy, Lean formalization, closure, and source/literature checks. Persist run directories, status, blockers, and artifact paths into the CoMath workstream state."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3000,
+                "prompt": "Fix failing runner wrapper tests. Prefer adapter-level changes over modifying existing runner behavior."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath runner wrapper tests",
+                "command": "python3 -m pytest tests/test_comath_runners.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ],
+            "status": "passed"
+          }
+        ],
+        "status": "completed"
+      },
+      {
+        "id": "comath-scheduler-loop",
+        "title": "CoMath Scheduler Loop",
+        "objective": "Implement dependency-aware project coordination and a bounded local loop that chooses the next workstream based on source debt, Lean debt, proof gap, computation gap, and repeated stalls.",
+        "tasks": [
+          {
+            "id": "comath-scheduler-loop-impl",
+            "title": "Implement coordinator scheduling loop",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/coordinator.py",
+              "src/ara_math/comath_runners.py",
+              "src/ara_math/workstreams.py",
+              "src/ara_math/cli.py",
+              "tests/test_comath_scheduler.py",
+              "tests/test_comath_cli.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Implement Phase 4 coordinator scheduling and a run-comath-loop CLI command. The loop must be bounded by time/workstream limits, dependency-aware, and able to freeze stalled branches with a freeze package. It must update dashboard/status after each workstream. Do not start external long proof campaigns in tests."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3000,
+                "prompt": "Fix failing scheduler/CLI tests with minimal scoped changes."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath scheduler tests",
+                "command": "python3 -m pytest tests/test_comath_scheduler.py tests/test_comath_cli.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ],
+            "status": "passed",
+            "generated_by": "engineering-harness-continuation",
+            "generated_at": "2026-05-10T08:19:26Z"
+          }
+        ],
+        "status": "completed"
+      },
+      {
+        "id": "comath-ces75-template",
+        "title": "CoMath CES75 Template",
+        "objective": "Apply the new layer to the active CES75/Erdos866 project by generating source-debt, Lean-chain, source-audit, and global-review workstream templates without mutating the Lean proof file.",
+        "tasks": [
+          {
+            "id": "comath-ces75-template-impl",
+            "title": "Add CES75/Erdos866 workstream bootstrap template",
+            "agent_approval_required": true,
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "file_scope": [
+              "src/ara_math/coordinator.py",
+              "src/ara_math/workstreams.py",
+              "src/ara_math/cli.py",
+              "projects/erdos-866-ai-continuation-20260505/comath/**",
+              "tests/test_comath_ces75_template.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 5400,
+                "prompt": "Implement Phase 6 bootstrap support for the active CES75/Erdos866 project. Create a safe command or helper that initializes four workstreams: source-dense-central-block, lean-current-final-window, source-audit-ces75-theorem4, and global-review. Do not edit the Lean proof file. The dashboard must identify dense central block source debt as the key blocker."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 2400,
+                "prompt": "Fix failing CES75 bootstrap tests. Do not mutate project-owned Lean proof files."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath CES75 template tests",
+                "command": "python3 -m pytest tests/test_comath_ces75_template.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "status": "passed",
+            "generated_by": "engineering-harness-continuation",
+            "generated_at": "2026-05-10T08:24:26Z"
+          }
+        ],
+        "status": "completed"
+      },
+      {
+        "id": "comath-parallel-execution",
+        "title": "CoMath Parallel Execution",
+        "status": "completed",
+        "objective": "Add bounded worker-pool execution for independent CoMath workstreams while serializing Lean write targets and recording resource decisions.",
+        "tasks": [
+          {
+            "id": "comath-parallel-execution-impl",
+            "title": "Implement bounded parallel workstream execution",
+            "status": "passed",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/ara_math/coordinator.py",
+              "src/ara_math/comath_runners.py",
+              "src/ara_math/cli.py",
+              "tests/test_comath_parallel.py",
+              "tests/test_comath_scheduler.py",
+              "tests/test_comath_cli.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Implement Phase 5 parallel execution from artifacts/design/ai_comath_migration_plan_20260510.md. Add bounded worker pools for independent workstreams, separate LLM/Lean concurrency limits, same-Lean-target serialization, and loop report resource decisions. Keep tests deterministic with fake executors; do not launch long external campaigns."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3000,
+                "prompt": "Fix failing parallel execution tests with minimal scoped changes. Preserve existing scheduler behavior and CLI compatibility."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath parallel execution tests",
+                "command": "python3 -m pytest tests/test_comath_parallel.py tests/test_comath_scheduler.py tests/test_comath_cli.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "comath-intake-refinement",
+        "title": "CoMath Intake Refinement",
+        "status": "completed",
+        "objective": "Add deterministic project intake and goal/workstream decomposition before optional LLM refinement.",
+        "tasks": [
+          {
+            "id": "comath-intake-refinement-covered-by-paper-capability-baseline",
+            "title": "Covered by public-paper capability baseline",
+            "status": "passed",
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "notes": "Deterministic intent refinement and automatic workstream decomposition are covered by comath-paper-capability-baseline."
+          }
+        ]
+      },
+      {
+        "id": "comath-computation-repro",
+        "title": "CoMath Computation Reproducibility",
+        "status": "completed",
+        "objective": "Add reproducible computation manifests, certificate hashes, and rerun verification gates.",
+        "tasks": [
+          {
+            "id": "comath-computation-repro-covered-by-paper-capability-baseline",
+            "title": "Covered by public-paper capability baseline",
+            "status": "passed",
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "notes": "Reproducible computation manifests, certificates, and verification are covered by comath-paper-capability-baseline."
+          }
+        ]
+      },
+      {
+        "id": "comath-specialist-roles",
+        "title": "CoMath Specialist Roles",
+        "status": "completed",
+        "objective": "Promote ideation, source audit, computation, Lean, review, and theory-building roles into explicit contracts.",
+        "tasks": [
+          {
+            "id": "comath-specialist-roles-covered-by-paper-capability-baseline",
+            "title": "Covered by public-paper capability baseline",
+            "status": "passed",
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "notes": "Specialist role contracts are covered by comath-paper-capability-baseline."
+          }
+        ]
+      },
+      {
+        "id": "comath-theory-memory",
+        "title": "CoMath Theory Memory",
+        "status": "completed",
+        "objective": "Add conjecture graph, reusable lemma inventory, novelty notes, and failed-hypothesis suppression.",
+        "tasks": [
+          {
+            "id": "comath-theory-memory-covered-by-paper-capability-baseline",
+            "title": "Covered by public-paper capability baseline",
+            "status": "passed",
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "notes": "Theory-building memory is covered by comath-paper-capability-baseline."
+          }
+        ]
+      },
+      {
+        "id": "comath-evaluation-harness",
+        "title": "CoMath Evaluation Harness",
+        "status": "completed",
+        "objective": "Add local benchmark/evaluation suites for scheduling, source-debt control, Lean promotion safety, and reproducibility.",
+        "tasks": [
+          {
+            "id": "comath-evaluation-harness-covered-by-paper-capability-baseline",
+            "title": "Covered by public-paper capability baseline",
+            "status": "passed",
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 600
+              }
+            ],
+            "notes": "Local capability evaluation is covered by comath-paper-capability-baseline."
+          }
+        ]
+      },
+      {
+        "id": "comath-paper-capability-baseline",
+        "title": "CoMath Public Paper Capability Baseline",
+        "status": "completed",
+        "objective": "Close the local architecture gaps against arXiv:2605.06651: intake refinement, role contracts, computation reproducibility, theory memory, and capability evaluation, while not claiming Google internal model parity.",
+        "generated_at": "2026-05-10T10:45:00Z",
+        "tasks": [
+          {
+            "id": "comath-paper-capability-baseline-impl",
+            "title": "Implement public-paper capability baseline",
+            "status": "passed",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/ara_math/comath_capabilities.py",
+              "src/ara_math/comath_runners.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/cli.py",
+              "tests/test_comath_capabilities.py",
+              "tests/test_comath_cli.py",
+              "artifacts/design/ai_comath_migration_plan_20260510.md"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 10800,
+                "prompt": "Implement the remaining local AI Co-Mathematician public-paper capability baseline: deterministic intent refinement and workstream decomposition; specialist role contracts; reproducible computation manifests/certificates/rerun verification; theory-building memory; and a local capability evaluation report. Keep claims scoped to architecture parity, not Google internal model or benchmark parity."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3600,
+                "prompt": "Fix failing CoMath capability baseline tests with minimal scoped changes and preserve previous CoMath scheduler/review behavior."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath capability baseline tests",
+                "command": "python3 -m pytest tests/test_comath_capabilities.py tests/test_comath_parallel.py tests/test_comath_scheduler.py tests/test_comath_cli.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              },
+              {
+                "name": "Full test suite",
+                "command": "python3 -m pytest -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ],
+            "generated_by": "engineering-harness-continuation",
+            "generated_at": "2026-05-10T10:45:00Z"
+          }
+        ]
+      },
+      {
+        "id": "comath-codex-specialist-orchestration",
+        "title": "CoMath Codex Specialist Orchestration",
+        "status": "completed",
+        "objective": "Use the existing Codex CLI ChatGPT login as a programmable backend for multiple GPT-5.5 specialist instances, with durable prompts, outputs, workstream state, and testable fake-provider isolation.",
+        "generated_at": "2026-05-10T13:15:00Z",
+        "tasks": [
+          {
+            "id": "comath-codex-specialist-orchestration-impl",
+            "title": "Implement Codex ChatGPT specialist orchestration",
+            "status": "passed",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/ara_math/comath_specialists.py",
+              "src/ara_math/comath_runners.py",
+              "src/ara_math/comath_capabilities.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/cli.py",
+              "tests/test_comath_specialists.py",
+              "artifacts/design/ai_comath_migration_plan_20260510.md"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 10800,
+                "prompt": "Implement multi-specialist orchestration over the existing Codex CLI ChatGPT login. Add provider abstraction, fake provider tests, Codex CLI provider, persistent prompts/outputs, loop report, workstream executor, and CLI commands. Unit tests must not call the real Codex service."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3600,
+                "prompt": "Fix failing specialist orchestration tests while preserving existing CoMath behavior and keeping real Codex calls out of tests."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath specialist orchestration tests",
+                "command": "python3 -m pytest tests/test_comath_specialists.py tests/test_comath_capabilities.py tests/test_comath_runners.py tests/test_comath_cli.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              },
+              {
+                "name": "Full test suite",
+                "command": "python3 -m pytest -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ],
+            "generated_by": "engineering-harness-continuation",
+            "generated_at": "2026-05-10T13:15:00Z"
+          }
+        ]
+      },
+      {
+        "id": "comath-research-workbench-hardening",
+        "title": "CoMath Research Workbench Hardening",
+        "status": "completed",
+        "objective": "Close the next gaps to the public AI Co-Mathematician architecture: specialist long-term memory, autonomous source-audit loop, and local benchmark regression harness.",
+        "generated_at": "2026-05-10T14:05:00Z",
+        "tasks": [
+          {
+            "id": "comath-research-workbench-hardening-impl",
+            "title": "Implement specialist memory, source audit loop, and local benchmarks",
+            "status": "passed",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/ara_math/comath_specialists.py",
+              "src/ara_math/comath_source_audit.py",
+              "src/ara_math/comath_benchmarks.py",
+              "src/ara_math/comath_capabilities.py",
+              "src/ara_math/coordinator.py",
+              "src/ara_math/cli.py",
+              "tests/test_comath_specialists.py",
+              "tests/test_comath_workbench_hardening.py",
+              "artifacts/design/ai_comath_migration_plan_20260510.md"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 10800,
+                "prompt": "Implement the next CoMath hardening phase: persistent specialist memory/resume, automatic source auditor query/audit loop, and local benchmark harness. Tests must use fake providers and must not invoke real Codex calls."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3600,
+                "prompt": "Fix failing hardening tests with minimal scoped changes while preserving Codex specialist orchestration behavior."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "CoMath workbench hardening tests",
+                "command": "python3 -m pytest tests/test_comath_workbench_hardening.py tests/test_comath_specialists.py tests/test_comath_capabilities.py -q",
+                "required": true,
+                "timeout_seconds": 900
+              },
+              {
+                "name": "Full test suite",
+                "command": "python3 -m pytest -q",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ],
+            "generated_by": "engineering-harness-continuation",
+            "generated_at": "2026-05-10T14:05:00Z"
+          }
+        ]
+      },
+      {
+        "id": "amra-next-development-targets",
+        "title": "AMRA Next Development Targets",
+        "status": "planned",
+        "objective": "Implement the next development targets from the portfolio campaign spec: finish canonical package migration, converge legacy shims, consolidate duplicate proof/agent/formalization layers, and extend the portfolio campaign loop toward trusted source ranking, domain executors, and a nontrivial closed-theorem benchmark.",
+        "spec_refs": [
+          "docs/portfolio_campaign_spec.zh.md#16.2",
+          "docs/portfolio_campaign_spec.md#16.2"
+        ],
+        "tasks": [
+          {
+            "id": "amra-canonical-core-migration",
+            "title": "Move stable core modules into canonical AMRA packages",
+            "status": "pending",
+            "max_attempts": 2,
+            "max_task_iterations": 3,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/amra/**",
+              "src/ara_math/__init__.py",
+              "src/ara_math/models.py",
+              "src/ara_math/workspace.py",
+              "src/ara_math/runtime.py",
+              "src/ara_math/context.py",
+              "src/ara_math/problem_bank.py",
+              "src/ara_math/artifact_graph.py",
+              "src/ara_math/lean_audit.py",
+              "src/ara_math/lean_contract.py",
+              "tests/test_amra_interfaces.py",
+              "tests/test_problem_bank.py",
+              "tests/test_workspace_and_planning.py",
+              "tests/test_lean_executor.py",
+              "docs/portfolio_campaign_spec.md",
+              "docs/portfolio_campaign_spec.zh.md"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Implement the first safe slice of Section 16.2 canonical migration. Create canonical AMRA packages for stable shared modules, such as amra.core, amra.infra, amra.problem_banks, and amra.lean. Move or wrap the active implementations so new code and tests can import canonical amra.* paths. Keep ara_math.* compatibility through thin deprecated shims and preserve existing CLI behavior. Remove the amra namespace path tunneling only if all current amra.* imports still resolve through explicit modules. Do not make live model calls in tests."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3600,
+                "prompt": "Fix failing canonical migration tests with minimal scoped changes. Preserve legacy ara_math compatibility and avoid broad refactors outside the migration slice."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "Canonical core migration tests",
+                "command": "python3 -m pytest -q tests/test_amra_interfaces.py tests/test_problem_bank.py tests/test_workspace_and_planning.py tests/test_lean_executor.py",
+                "required": true,
+                "timeout_seconds": 900
+              },
+              {
+                "name": "Canonical AMRA imports resolve",
+                "command": "python3 -c \"import importlib; [importlib.import_module(name) for name in ('amra.core.models', 'amra.core.workspace', 'amra.infra.runtime', 'amra.problem_banks.registry', 'amra.lean.contract')]\"",
+                "required": true,
+                "timeout_seconds": 120
+              }
+            ]
+          },
+          {
+            "id": "amra-legacy-shim-convergence",
+            "title": "Convert migrated legacy modules into explicit compatibility shims",
+            "status": "pending",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/amra/**",
+              "src/ara_math/**",
+              "tests/test_amra_interfaces.py",
+              "tests/test_amra_legacy_shims.py",
+              "docs/amra_legacy_module_disposition.zh.md",
+              "docs/portfolio_campaign_spec.md",
+              "docs/portfolio_campaign_spec.zh.md"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 5400,
+                "prompt": "Continue Section 16.2 legacy cleanup after the canonical core migration. Convert already-migrated ara_math modules into explicit deprecated compatibility shims that import from canonical amra.* modules. Add or update an import audit test so accidental new src/amra dependencies on ara_math are visible, while allowing documented temporary exceptions for unmigrated modules. Do not remove behavior; preserve ara_math CLI/import compatibility."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 2400,
+                "prompt": "Fix failing legacy shim convergence tests with minimal scoped changes. Keep documented compatibility and avoid touching unrelated algorithm code."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "Legacy shim compatibility tests",
+                "command": "python3 -m pytest -q tests/test_amra_interfaces.py tests/test_amra_legacy_shims.py",
+                "required": true,
+                "timeout_seconds": 600
+              },
+              {
+                "name": "Legacy CLI remains importable",
+                "command": "python3 -m ara_math --help",
+                "required": true,
+                "timeout_seconds": 120
+              }
+            ]
+          },
+          {
+            "id": "amra-proof-loop-consolidation",
+            "title": "Add canonical proof loop adapters and routing contracts",
+            "status": "pending",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/amra/**",
+              "src/ara_math/proof_lab.py",
+              "src/ara_math/proof_search.py",
+              "src/ara_math/math_attack.py",
+              "src/ara_math/campaign_loop.py",
+              "src/ara_math/goal_campaign.py",
+              "src/ara_math/closure.py",
+              "src/ara_math/focused_attack.py",
+              "tests/test_amra_proof_loops.py",
+              "tests/test_amra_interfaces.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Consolidate duplicate proof-loop entry points behind canonical AMRA adapter contracts. Add a small amra proof-runner registry or equivalent routing layer that can call existing proof_lab, proof_search, math_attack, campaign_loop, goal_campaign, closure, and focused_attack behavior without rewriting their internals. Add deterministic tests for route selection, status normalization, and report metadata. No live model calls in tests."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3000,
+                "prompt": "Fix failing proof-loop consolidation tests through adapter-level changes. Avoid changing existing runner semantics unless required by the contract."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "Proof loop adapter tests",
+                "command": "python3 -m pytest -q tests/test_amra_proof_loops.py tests/test_amra_interfaces.py",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ]
+          },
+          {
+            "id": "amra-agent-tool-normalization",
+            "title": "Normalize agent and tool ownership under AMRA",
+            "status": "pending",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/amra/agents/**",
+              "src/amra/**",
+              "src/ara_math/pure_agents.py",
+              "src/ara_math/agent_tools.py",
+              "src/ara_math/proof_state.py",
+              "tests/test_pure_agents.py",
+              "tests/test_agent_tools.py",
+              "tests/test_amra_agent_tools.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Move AMRA agent/tool ownership toward canonical amra.agents modules. Normalize tool registry, episode state, proof-state, and Lean-agent adapters behind stable AMRA imports while keeping ara_math.pure_agents, ara_math.agent_tools, and ara_math.proof_state as compatibility shims. Tests must use fake providers and must not call live LLM backends."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3000,
+                "prompt": "Fix failing agent/tool normalization tests while preserving deterministic fake-provider behavior and legacy imports."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "AMRA agent tool tests",
+                "command": "python3 -m pytest -q tests/test_pure_agents.py tests/test_agent_tools.py tests/test_amra_agent_tools.py",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ]
+          },
+          {
+            "id": "amra-formalization-layer-consolidation",
+            "title": "Consolidate Lean formalization and audit layers",
+            "status": "pending",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/amra/lean/**",
+              "src/amra/**",
+              "src/ara_math/formalization.py",
+              "src/ara_math/lean_formalizer.py",
+              "src/ara_math/lean.py",
+              "src/ara_math/lean_contract.py",
+              "src/ara_math/lean_audit.py",
+              "tests/test_lean_executor.py",
+              "tests/test_amra_formalization.py",
+              "tests/test_amra_result_bundle.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Consolidate Lean executor, formalizer, contract, and audit behavior behind canonical amra.lean imports. Keep existing public behavior and result bundle contracts stable, and preserve ara_math.* compatibility shims for migrated modules. Add deterministic tests that validate imports, audit output, and bundle contract compatibility without live model calls."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3000,
+                "prompt": "Fix failing formalization consolidation tests with minimal scoped changes while preserving Lean result bundle contracts."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "Formalization layer tests",
+                "command": "python3 -m pytest -q tests/test_lean_executor.py tests/test_amra_formalization.py tests/test_amra_result_bundle.py",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ]
+          },
+          {
+            "id": "amra-portfolio-active-execution-loop",
+            "title": "Add bounded active execution to portfolio campaigns",
+            "status": "pending",
+            "max_attempts": 2,
+            "max_task_iterations": 3,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/amra/portfolio_campaign.py",
+              "src/amra/portfolio_scheduler.py",
+              "src/amra/**",
+              "src/ara_math/cli.py",
+              "tests/test_portfolio_campaign.py",
+              "tests/test_portfolio_scheduler.py",
+              "tests/test_amra_portfolio_execution.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 9000,
+                "prompt": "Extend the portfolio campaign loop so promoted problems can optionally run bounded deterministic proof/formalization attempts in isolated workspaces when an explicit attack budget is provided. Update state transitions for verified, failed, parked, and library-candidate outcomes. Tests must use fake runners and must not launch live Codex/model calls or long search."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3600,
+                "prompt": "Fix failing portfolio active-execution tests with minimal scoped changes. Keep default campaign behavior deterministic and cheap."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "Portfolio execution tests",
+                "command": "python3 -m pytest -q tests/test_portfolio_campaign.py tests/test_portfolio_scheduler.py tests/test_amra_portfolio_execution.py",
+                "required": true,
+                "timeout_seconds": 900
+              },
+              {
+                "name": "Portfolio dry run remains local",
+                "command": "python3 -m amra portfolio-campaign --help",
+                "required": true,
+                "timeout_seconds": 120
+              }
+            ]
+          },
+          {
+            "id": "amra-source-quality-ranking",
+            "title": "Add trusted source quality ranking and audit artifacts",
+            "status": "pending",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/amra/**",
+              "src/ara_math/literature.py",
+              "src/ara_math/comath_source_audit.py",
+              "data/**",
+              "tests/test_literature.py",
+              "tests/test_amra_source_quality.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Implement a deterministic source-quality scoring layer for AMRA. Prefer curated local snapshots and explicit provenance metadata over live crawling. Integrate quality scores into portfolio evaluation/audit artifacts so source debt, statement provenance, and trust reasons are visible. Add tests with local fixtures only."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3000,
+                "prompt": "Fix failing source-quality ranking tests while keeping all tests local and deterministic."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "Source quality tests",
+                "command": "python3 -m pytest -q tests/test_literature.py tests/test_amra_source_quality.py",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ]
+          },
+          {
+            "id": "amra-domain-search-executors",
+            "title": "Add deterministic domain-specific search executor interfaces",
+            "status": "pending",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/amra/domain_executors/**",
+              "src/amra/**",
+              "data/problem_bank.yaml",
+              "tests/test_amra_domain_executors.py",
+              "tests/test_problem_bank.py"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 7200,
+                "prompt": "Add deterministic domain-specific search executor interfaces for AMRA, with first local stubs or bounded executors for unitary perfect numbers, amicable numbers, triangle dissections, and Carmichael-style problems. Integrate executor metadata with problem-bank or portfolio scouting records. Do not run unbounded searches; tests must use small deterministic fixtures."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3000,
+                "prompt": "Fix failing domain executor tests while preserving bounded local behavior."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "Domain executor tests",
+                "command": "python3 -m pytest -q tests/test_amra_domain_executors.py tests/test_problem_bank.py",
+                "required": true,
+                "timeout_seconds": 900
+              }
+            ]
+          },
+          {
+            "id": "amra-nontrivial-closed-theorem-benchmark",
+            "title": "Add a nontrivial closed-theorem end-to-end benchmark",
+            "status": "pending",
+            "max_attempts": 2,
+            "max_task_iterations": 2,
+            "manual_approval_required": false,
+            "agent_approval_required": true,
+            "file_scope": [
+              "src/amra/**",
+              "src/ara_math/cli.py",
+              "tests/test_amra_known_problem_smoke.py",
+              "tests/test_amra_nontrivial_benchmark.py",
+              "data/**",
+              "docs/portfolio_campaign_spec.md",
+              "docs/portfolio_campaign_spec.zh.md"
+            ],
+            "implementation": [
+              {
+                "name": "Codex implementation",
+                "executor": "codex",
+                "timeout_seconds": 9000,
+                "prompt": "Add a deterministic nontrivial closed-theorem benchmark that exercises the end-to-end AMRA bundle path beyond toy fixtures. It should select a medium-difficulty closed problem, produce a natural-language proof artifact, build or verify a small Lean declaration where feasible, and emit a result bundle/library-candidate report. Keep runtime bounded and tests local."
+              }
+            ],
+            "repair": [
+              {
+                "name": "Codex repair",
+                "executor": "codex",
+                "timeout_seconds": 3600,
+                "prompt": "Fix failing nontrivial benchmark tests with minimal scoped changes. Preserve the existing known-problem smoke bundle contract."
+              }
+            ],
+            "acceptance": [
+              {
+                "name": "Nontrivial benchmark tests",
+                "command": "python3 -m pytest -q tests/test_amra_known_problem_smoke.py tests/test_amra_nontrivial_benchmark.py",
+                "required": true,
+                "timeout_seconds": 1200
+              },
+              {
+                "name": "Existing known problem smoke still emits bundle",
+                "command": "python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_known_problem_bundle --json",
+                "required": true,
+                "timeout_seconds": 240
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "profile": "python-agent",
+  "project": "amra",
+  "report_dir": ".engineering/reports/tasks",
+  "state_path": ".engineering/state/harness-state.json",
+  "version": 1
+}

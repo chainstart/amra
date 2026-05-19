@@ -47,6 +47,64 @@ Required rename map:
 
 Backward compatibility aliases may exist only as temporary migration shims, and must be marked deprecated. New implementation, tests, docs, and generated artifacts should use AMRA naming only.
 
+### 2.1 Canonical Package Migration And Legacy Cleanup Plan
+
+The long-term target is for `src/amra` to contain all canonical implementation code. `src/ara_math` may exist only as a temporary compatibility layer, and should be removed after the compatibility window closes. The current `src/amra/__init__.py` approach of extending `__path__` into `src/ara_math` must be removed because it makes the true source of `amra.*` modules opaque and increases duplicate-code and behavior-drift risk.
+
+Migration must be staged. The project must not copy and delete the whole `src/ara_math` tree in one step:
+
+1. Remove namespace tunneling first: delete the `__path__` extension in `src/amra/__init__.py` after the corresponding canonical `amra.*` modules exist.
+2. Move still-active modules: use `git mv` to move active implementations into target `src/amra` subpackages, then update imports from `ara_math.*` to `amra.*`.
+3. Keep thin compatibility shims: each still-supported `src/ara_math/*.py` file should only forward to `amra.*` and be marked deprecated; it must not keep business logic.
+4. Consolidate behavior after package migration: only after imports and tests are green should the project merge duplicate or stale proof loop, agent, formalization, portfolio, and CoMath modules.
+5. Delete legacy files last: deletion is allowed only after canonical modules, tests, CLI, docs, artifact schemas, and compatibility paths are ready.
+
+Target structure:
+
+```text
+src/amra/
+  cli.py
+  problems/
+  portfolio/
+  proof/
+  formal/
+  review/
+  writing/
+  library/
+  result_bundle.py
+  compat/
+src/ara_math/
+  __init__.py
+  __main__.py
+  cli.py
+  ... thin deprecated shims only
+```
+
+Duplicate and stale modules should be classified into four dispositions:
+
+- `keep-canonical`: active core module; move it into `src/amra` and maintain it as the only implementation.
+- `merge-into`: useful behavior that should be merged into an existing AMRA module to avoid duplicate abstractions.
+- `compat-only`: shim kept only for old imports, old CLI paths, or historical artifacts.
+- `delete`: no entrypoint, no test coverage, no artifact dependency, and a canonical replacement exists.
+
+Priority cleanup areas:
+
+- proof-loop family: `proof_search.py`, `math_attack.py`, `proof_lab.py`, `campaign_loop.py`, `goal_campaign.py`, `closure.py`, `focused_attack.py`.
+- agent/tool family: `pure_agents.py`, `agent_tools.py`, `agents/*`.
+- formalization family: `formalization.py`, `lean_formalizer.py`, `lean.py`, `lean_contract.py`, `lean_audit.py`.
+- portfolio/CoMath boundary: `portfolio_*`, `comath_*`, `workstreams.py`.
+
+The file-level disposition table is maintained in [amra_legacy_module_disposition.zh.md](amra_legacy_module_disposition.zh.md). This spec defines migration principles and acceptance criteria; the disposition document records target locations and treatment for each legacy file.
+
+Acceptance criteria:
+
+- `rg "from ara_math|import ara_math" src tests docs README.md` only returns deprecated shims, compatibility tests, or migration documentation.
+- `python3 -m amra --help` works and is the canonical entrypoint.
+- `python3 -m ara_math --help` works but is clearly a deprecated alias.
+- `python3 -m pytest -q` passes.
+- `python3 run.py --json run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out <tmp>` still generates a verified AMRA result bundle.
+- `scout-bank`, `run-portfolio-campaign`, and `build-amra-library` work.
+
 ## 3. Core Principle
 
 The unit of optimization is the whole problem set, not a single problem.
@@ -701,7 +759,40 @@ python3 -m amra summarize-portfolio-memory \
 
 ## 16. Implementation Plan
 
-### Phase 1: Portfolio Data Layer
+### 16.1 Current Implementation Status
+
+As of 2026-05-19, the Phase 1-7 portfolio campaign MVP has been executed by the engineering harness and passed acceptance. The `2.1 Canonical Package Migration And Legacy Cleanup Plan` has a completed disposition precheck, but the physical module migration, consolidation, and deletion work is not complete.
+
+| Item | Current status | Evidence |
+|---|---|---|
+| Legacy module disposition precheck | Complete | `.engineering/reports/tasks/20260518T110432Z-amra-legacy-module-disposition.md` |
+| AMRA rename hardening | Complete | `.engineering/reports/tasks/20260518T111212Z-amra-rename-hardening.md` |
+| Phase 1: Portfolio Data Layer | Complete | `.engineering/reports/tasks/20260518T111830Z-amra-portfolio-data-layer.md` |
+| Phase 2: Broad Scouting Integration | Complete | `.engineering/reports/tasks/20260518T115438Z-amra-broad-scouting-integration.md` |
+| Phase 3: Independent Evaluation | Complete | `.engineering/reports/tasks/20260518T120341Z-amra-independent-evaluator.md` |
+| Pure Agent Runner Migration | Complete | `.engineering/reports/tasks/20260518T121807Z-amra-pure-agent-runner-migration.md` |
+| Phase 4: Attack Scheduling | Complete | `.engineering/reports/tasks/20260518T122446Z-amra-attack-scheduling-locks.md` |
+| Phase 5: Memory Consolidation | Complete | `.engineering/reports/tasks/20260518T123449Z-amra-memory-consolidation.md` |
+| Phase 6: Library Harvesting | Complete | `.engineering/reports/tasks/20260518T125958Z-amra-library-harvesting.md` |
+| Phase 7: Dashboard And Reports | Complete | `.engineering/reports/tasks/20260518T130426Z-amra-dashboard-result-bundle.md` |
+| ARA result bundle contract hardening | Complete | `.engineering/reports/tasks/20260518T143908Z-amra-ara-result-bundle-contract-hardening.md` |
+| Known Problem Proof Smoke | Complete | `.engineering/reports/tasks/20260518T144834Z-amra-known-problem-proof-smoke.md` |
+
+### 16.2 Next Development Targets
+
+Incomplete work must be tracked as follow-on roadmap work instead of remaining only as design principles:
+
+1. **Physical canonical package migration**: move still-active `src/ara_math` implementations into target `src/amra` subpackages, update imports, and remove the legacy `__path__` exposure from `src/amra/__init__.py`.
+2. **Legacy shim convergence**: keep `src/ara_math` as deprecated shims only; all real business logic must live under `src/amra`.
+3. **Proof-loop consolidation**: merge overlapping boundaries across `proof_search.py`, `math_attack.py`, `proof_lab.py`, `campaign_loop.py`, `goal_campaign.py`, `closure.py`, and `focused_attack.py` into one AMRA proof runner/scheduler model.
+4. **Agent/tool normalization**: consolidate `pure_agents.py`, `agent_tools.py`, and `agents/*` so tool registration, episode loops, proof agents, and Lean agents have stable ownership.
+5. **Formalization module consolidation**: consolidate `formalization.py`, `lean_formalizer.py`, `lean.py`, `lean_contract.py`, and `lean_audit.py` into stable executor, contract, audit, and formalizer layers.
+6. **Portfolio campaign active execution loop**: campaign can already scout, rank, promote, and assign targets; the next step is to automatically run bounded proof/formalizer attempts for the promoted queue and update states after failure, parking, verification, and library harvesting.
+7. **Trusted literature and source-quality ranking**: implement source-quality ranking, trusted source snapshots, and citation/source audit for statement and source recovery before open-problem attacks.
+8. **Domain-specific search executors**: add evaluator/search/certificate executors for unitary perfect, amicable, triangle dissection, Carmichael, and similar problem families.
+9. **Nontrivial closed-theorem end-to-end benchmark**: choose a medium-difficulty non-fixture known theorem and run problem selection, natural-language proof, Lean formalization, review gate, result bundle, and library harvesting end to end.
+
+### Phase 1: Portfolio Data Layer (Complete)
 
 Add:
 
@@ -725,7 +816,7 @@ Acceptance criteria:
 - writes stable JSON artifacts;
 - can resume without overwriting prior entries.
 
-### Phase 2: Broad Scouting Integration
+### Phase 2: Broad Scouting Integration (Complete)
 
 Extend `MathScoutRunner` or wrap it from `PortfolioCampaignRunner`.
 
@@ -741,7 +832,7 @@ Acceptance criteria:
 - given 3 test problems, system ranks them and emits promotion queue;
 - failed or timed-out scout runs still produce valid artifacts.
 
-### Phase 3: Independent Evaluation
+### Phase 3: Independent Evaluation (Complete)
 
 Add `EvaluatorAgentRunner`.
 
@@ -757,7 +848,7 @@ Acceptance criteria:
 - evaluator can mark a counterexample-suspected route as `freeze` or `counterexample_review`;
 - evaluator can promote an easy known theorem target.
 
-### Phase 4: Attack Scheduling
+### Phase 4: Attack Scheduling (Complete)
 
 Connect promoted targets to:
 
@@ -778,7 +869,7 @@ Acceptance criteria:
 - only promoted problems receive focused attack budget;
 - two formalizer workers cannot write the same canonical Lean workspace concurrently.
 
-### Phase 5: Memory Consolidation
+### Phase 5: Memory Consolidation (Complete)
 
 Implement automatic updates:
 
@@ -792,7 +883,7 @@ Acceptance criteria:
 - a failed route from one run appears in the next prompt as a route to avoid;
 - a verified declaration appears in future retrieval results.
 
-### Phase 6: Library Harvesting
+### Phase 6: Library Harvesting (Complete)
 
 Extend `AmraLibraryManager` workflow.
 
@@ -809,7 +900,7 @@ Acceptance criteria:
 - verified declarations can be promoted into `amra_library`;
 - future project prompts include relevant library inventory.
 
-### Phase 7: Dashboard And Reports
+### Phase 7: Dashboard And Reports (Complete)
 
 Add portfolio summary reports:
 
