@@ -23,11 +23,11 @@
 | `REQ-AMRA-NAMING-001` | `partial` | canonical `amra` package、legacy shim、接口测试；`amra-legacy-shim-convergence` 已 passed | `amra-canonical-core-migration` 因 file-scope 触碰状态/文档文件而失败，`src/ara_math` cleanup 尚未全部完成 | 仅在声明的 file_scope 内重跑 canonical migration，并继续收敛 legacy shim |
 | `REQ-AMRA-MANIFEST-001` | `completed` | `research_lab.yaml`、AMRA CLI、ARA-facing contract | 随 ARA bundle contract 演进 | 保持 manifest smoke |
 | `REQ-AMRA-PORTFOLIO-001` | `completed` | portfolio scaffold、scheduler/memory 模块；`amra-broad-scouting-integration`、`amra-independent-evaluator`、`amra-memory-consolidation`、`amra-portfolio-active-execution-loop`、`amra-source-quality-ranking`、`amra-domain-search-executors` 已 passed；本轮补齐 campaign ranking 的 difficulty/budget gate、abandon/park policy、resume-pack governance 与 active execution memory consolidation | 生产级长证明 campaign 仍依赖后续 Lean/proof-loop 能力，不在本地 deterministic smoke 内运行 | 保持 portfolio regression 与 CLI smoke，转入 AMRA-LEAN-001 强化 NL/Lean 证明闭环 |
-| `REQ-AMRA-PROOF-001` | `partial` | pure/focused proof agents、problem banks、proof attempt 记录；`amra-proof-loop-consolidation`、`amra-agent-tool-normalization`、`amra-nontrivial-closed-theorem-benchmark` 已 passed | 纯证明能力仍不稳定，难题容易长时间拉扯，容易题筛选与 abandon policy 仍需增强 | 强化 scouting、优先级评估与 bounded proof loop 稳定性 |
+| `REQ-AMRA-PROOF-001` | `partial` | pure/focused proof agents、problem banks、proof attempt 记录；`amra-proof-loop-consolidation`、`amra-agent-tool-normalization`、`amra-nontrivial-closed-theorem-benchmark` 已 passed；`AMRA-PROOF-RUNNERS-MIGRATION-001` 已把 proof_lab/proof_search/closure/math_attack/campaign/goal loop 与 retrieval/planning/proof-system runner 迁入 `amra.proof` | 纯证明能力仍不稳定，难题容易长时间拉扯，source/evaluation/scouting 活实现仍待 canonical migration | 强化 scouting、优先级评估与 bounded proof loop 稳定性；继续执行 `AMRA-SOURCES-EVALUATION-MIGRATION-001` |
 | `REQ-AMRA-LEAN-001` | `partial` | Lean executor/audit/contract、形式化产物；`amra-formalization-layer-consolidation`、`amra-known-problem-proof-smoke`、`amra-nontrivial-closed-theorem-benchmark` 已 passed | 自然语言证明到 Lean faithful modeling 仍有较大差距，更难目标上的 formalization 稳定性不足 | 强化 NL/Lean 交替 proof loop 和 faithful modeling |
 | `REQ-AMRA-LIBRARY-001` | `partial` | AMRA library manager、library harvesting 计划；`amra-library-harvesting`、`amra-dashboard-result-bundle` 已 passed | verified lemma 打包、curator gate 和复用策略仍不足 | 增加 library curator gate 与 verified-only promotion 规则 |
 | `REQ-AMRA-ARA-001` | `completed` | AMRA result bundle、`artifact_manifest.json`、`handoff_notes.md`、known-problem smoke；`amra-ara-result-bundle-contract-hardening`、`amra-known-problem-proof-smoke`、`amra-dashboard-result-bundle` 已 passed | 跨仓库 public ARA consumer smoke 需在 ARA 任务 scope 内单独补充 | ARA 消费侧按 bundle consume order 读取 AMRA 产物 |
-| `REQ-AMRA-CANONICAL-MIGRATION-001` | `partial` | `docs/amra_canonical_migration_spec.zh.md` 已定义目标和任务包；`src/amra/legacy_migration.py` 已覆盖 51 个 legacy 文件并提供 import audit；`AMRA-ORCHESTRATION-MIGRATION-001` 已把 CoMath orchestration/review/scheduler 状态迁入 canonical AMRA 模块 | proof/source/evaluation 活实现尚未全部迁入 `src/amra`，部分 scheduler runner adapter 仍通过后续任务动态调用 legacy proof/source 实现 | 继续执行 `AMRA-PROOF-RUNNERS-MIGRATION-001`、`AMRA-SOURCES-EVALUATION-MIGRATION-001` 到 `AMRA-LEGACY-SHIM-CLEANUP-001` |
+| `REQ-AMRA-CANONICAL-MIGRATION-001` | `partial` | `docs/amra_canonical_migration_spec.zh.md` 已定义目标和任务包；`src/amra/legacy_migration.py` 已覆盖 51 个 legacy 文件并提供 import audit；`AMRA-ORCHESTRATION-MIGRATION-001` 已把 CoMath orchestration/review/scheduler 状态迁入 canonical AMRA 模块；`AMRA-PROOF-RUNNERS-MIGRATION-001` 已把 proof runner 家族迁入 `src/amra/proof` 并保留 deprecated `ara_math` alias | source/evaluation/scouting 活实现尚未全部迁入 `src/amra`，部分 scheduler/source adapter 仍通过后续任务动态调用 legacy source/evaluation 实现 | 继续执行 `AMRA-SOURCES-EVALUATION-MIGRATION-001` 到 `AMRA-LEGACY-SHIM-CLEANUP-001` |
 
 ## 2026-05-20 Canonical Migration 目标
 
@@ -52,6 +52,13 @@
 - `ara_math.workstreams`、`ara_math.coordinator`、`ara_math.uncertainty`、`ara_math.review`、`ara_math.review_gate`、`ara_math.comath_runners` 现在是 deprecated compatibility alias。
 - 新增 `tests/test_amra_orchestration_state.py`，直接验证 canonical AMRA API 可以创建 dashboard/artifact graph/ledger state、运行 bounded scheduler loop，并保持 legacy module identity。
 - 本地验收通过：`python3 -m pytest -q tests/test_amra_orchestration_state.py tests/test_comath_state.py tests/test_comath_scheduler.py tests/test_comath_review_gate.py`。
+
+## 2026-05-20 AMRA-PROOF-RUNNERS-MIGRATION-001 同步说明
+
+- 新增 canonical `amra.proof.lab`、`amra.proof.search`、`amra.proof.closure`、`amra.proof.attack`、`amra.proof.campaign_loop`、`amra.proof.goal_campaign`、`amra.proof.retrieval`、`amra.proof.planning` 和 `amra.proof.proof_system`。
+- `amra.proof` package 直接导出 proof lab/search/closure/attack/campaign/goal runner、retriever、planner 和 proof-system planner API；proof-loop registry 保留 legacy adapter ID，但这些 adapter module 解析为 canonical `amra.proof.*` alias。
+- `ara_math` 中对应 proof runner 文件现在是 deprecated compatibility alias，旧导入与 canonical 模块共享 module identity。
+- 本地验收通过：`python3 -m pytest -q tests/test_amra_proof_runners.py tests/test_proof_lab.py tests/test_proof_search.py tests/test_closure_prover.py tests/test_math_attack.py tests/test_pure_agents.py`。
 
 ## 2026-05-19 同步说明
 

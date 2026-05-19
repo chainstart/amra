@@ -2102,7 +2102,7 @@
         {
           "id": "AMRA-PROOF-RUNNERS-MIGRATION-001",
           "title": "Migrate proof search, proof lab, closure, and attack runners into amra.proof",
-          "status": "pending",
+          "status": "completed",
           "max_attempts": 2,
           "max_task_iterations": 3,
           "manual_approval_required": false,
@@ -2170,7 +2170,10 @@
           ],
           "spec_refs": [
             "docs/amra_canonical_migration_spec.zh.md"
-          ]
+          ],
+          "updated_at": "2026-05-19T23:11:29Z",
+          "last_note": "Canonical proof runner migration completed; required deterministic pytest suite passed.",
+          "last_phase": "drive"
         },
         {
           "id": "AMRA-SOURCES-EVALUATION-MIGRATION-001",
