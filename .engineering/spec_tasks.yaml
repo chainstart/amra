@@ -1,7 +1,7 @@
 {
   "kind": "amra.spec_tasks.v1",
   "project": "amra",
-  "updated_at": "2026-05-19T07:21:56Z",
+  "updated_at": "2026-05-19T14:00:45Z",
   "source_spec": "docs/portfolio_campaign_spec.zh.md",
   "status_doc": "docs/amra_implementation_status.zh.md",
   "decision_log_dir": "docs/decisions",
@@ -44,7 +44,7 @@
     {
       "id": "REQ-AMRA-ARA-001",
       "title": "ARA-facing result bundle",
-      "status": "partial"
+      "status": "completed"
     }
   ],
   "tasks": [
@@ -158,7 +158,7 @@
     {
       "id": "AMRA-ARA-001",
       "title": "Export AMRA result bundles for ARA consumption",
-      "status": "partial",
+      "status": "completed",
       "requirement_ids": [
         "REQ-AMRA-ARA-001"
       ],
@@ -178,9 +178,42 @@
         {
           "kind": "record",
           "path": ".engineering/reports/tasks/20260519T044816Z-amra-nontrivial-closed-theorem-benchmark.md"
+        },
+        {
+          "kind": "test",
+          "value": "python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_ara_known_bundle --json >/tmp/amra_ara_known_smoke.json"
+        },
+        {
+          "kind": "test",
+          "value": "python3 -m pytest -q tests/test_amra_known_problem_smoke.py tests/test_amra_result_bundle.py"
+        },
+        {
+          "kind": "doc",
+          "path": "research_lab.yaml"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260519T135443Z-AMRA-ARA-001.md",
+          "recorded_at": "2026-05-19T14:00:45Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260519T135443Z-AMRA-ARA-001.json",
+          "recorded_at": "2026-05-19T14:00:45Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-19T14:00:45Z",
+          "actor": "engineering-harness:auto"
         }
       ],
-      "next_action": "Add cross-repo smoke proving public ARA can dispatch to AMRA, wait for the bundle, and consume proof/result artifacts without overstating verification."
+      "next_action": "When ARA is available in a separate task scope, add a cross-repo consumer smoke that reads the AMRA bundle using the documented consume order.",
+      "updated_at": "2026-05-19T14:00:45Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive"
     }
   ]
 }

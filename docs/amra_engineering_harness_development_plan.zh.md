@@ -329,7 +329,8 @@ python3 -m amra build-amra-library --timeout 120 --json
 要求：
 
 - `final_report.md` 解释每个问题为什么 promoted/parked/frozen。
-- `amra_result_bundle` 包含 theorem statement、proof summary、Lean build report、verified declarations、artifact manifest、writing brief。
+- `amra_result_bundle` 包含 theorem statement、proof summary、Lean build report、verified declarations、artifact manifest、writing brief、handoff notes。
+- `artifact_manifest.json` 明确声明 verification boundaries、Lean status、ARA consume order 和文件 checksum。
 - bundle 不能把 natural-language proof sketch 声称为 Lean verified。
 - ARA 可通过 `research_lab.yaml` 发现 bundle schema。
 
@@ -357,7 +358,8 @@ python3 -m pytest -q tests/test_amra_result_bundle.py tests/test_amra_interfaces
 - `python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out <dir> --json`
   必须在有 Lean toolchain 时输出 `verified`，缺 toolchain 或超时时输出结构化 `blocked`，但仍生成 bundle。
 - bundle 包含 `proof_attempt_ledger.jsonl`、`lean_build_report.json`、`verified_declarations.json`、
-  `artifact_manifest.json` 和 `known_problem_smoke_report.json`。
+  `natural_language_proof_sketches.json`、`unresolved_blockers.md`、`limitations.md`、`writing_brief.md`、
+  `handoff_notes.md`、`artifact_manifest.json` 和 `known_problem_smoke_report.json`。
 - proof attempt ledger 记录 `llm_calls=0` 和 `backend=deterministic_fixture`，证明该 smoke 不调用长 LLM。
 - fixture 使用 `imo_2025_p1` 作为 harness key，但明确标注不是 official IMO 2025 P1 statement，避免 ARA 误写来源。
 

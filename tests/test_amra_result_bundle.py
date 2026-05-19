@@ -93,19 +93,26 @@ def test_amra_result_bundle_separates_sketches_from_verified_declarations(tmp_pa
     manifest = json.loads((bundle_dir / "artifact_manifest.json").read_text(encoding="utf-8"))
     declarations = json.loads((bundle_dir / "verified_declarations.json").read_text(encoding="utf-8"))
     proof_summary = (bundle_dir / "proof_summary.md").read_text(encoding="utf-8")
+    handoff_notes = (bundle_dir / "handoff_notes.md").read_text(encoding="utf-8")
 
     assert result["schema_version"] == RESULT_BUNDLE_SCHEMA_VERSION
     assert set(result["required_files"]) <= {path.name for path in bundle_dir.iterdir()}
+    assert "handoff_notes.md" in result["required_files"]
     assert declarations["declarations"][0]["full_name"] == "MathProject.identity_self"
     assert [item["full_name"] for item in declarations["declarations"]] == ["MathProject.identity_self"]
     assert "sketched_only" not in json.dumps(declarations)
     assert manifest["verification_policy"]["natural_language_proof_sketches_are_not_lean_verified"] is True
+    assert manifest["verification_boundaries"]["formal_claims"]["source"] == "verified_declarations.json"
+    assert manifest["lean_status"]["status"] == "passed"
+    assert manifest["ara_handoff"]["handoff_notes"] == "handoff_notes.md"
     assert manifest["natural_language_proof_sketches"][0]["lean_verified"] is False
     assert (bundle_dir / "proof_attempt_ledger.jsonl").exists()
     assert "proof_attempt_ledger.jsonl" in {item["path"] for item in manifest["files"]}
+    assert {item["path"]: item for item in manifest["files"]}["handoff_notes.md"]["sha256"]
     assert {item["path"]: item for item in manifest["files"]}["proof_attempt_ledger.jsonl"]["lean_verified_claim_source"] is False
     assert "Natural-language proof sketches are research evidence only" in proof_summary
     assert "`MathProject.identity_self` status=`lean_verified`" in proof_summary
+    assert "Read `lean_build_report.json` and `verified_declarations.json` before citing any formal claim" in handoff_notes
 
 
 def test_amra_result_bundle_accepts_formalizer_report_contract(tmp_path: Path) -> None:
@@ -148,6 +155,7 @@ def test_export_amra_result_bundle_cli_and_research_lab_schema(tmp_path: Path, m
     assert (output / "artifact_manifest.json").exists()
     assert lab["interfaces"]["bundle_schema"]["amra_result_bundle"]["schema_version"] == RESULT_BUNDLE_SCHEMA_VERSION
     assert "export-amra-result-bundle" in lab["interfaces"]["portfolio_commands"]
+    assert "handoff_notes.md" in lab["interfaces"]["bundle_schema"]["amra_result_bundle"]["required_files"]
 
 
 def test_portfolio_final_report_explains_every_disposition(tmp_path: Path) -> None:

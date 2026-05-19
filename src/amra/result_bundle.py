@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 from pathlib import Path
@@ -24,6 +25,7 @@ RESULT_BUNDLE_MANIFEST_SCHEMA_VERSION = "amra.result_bundle_manifest.v1"
 PROBLEM_METADATA_SCHEMA_VERSION = "amra.problem_metadata.v1"
 PROOF_SKETCHES_SCHEMA_VERSION = "amra.natural_language_proof_sketches.v1"
 LIMITATIONS_SCHEMA_VERSION = "amra.result_bundle_limitations.v1"
+HANDOFF_NOTES_SCHEMA_VERSION = "amra.ara_handoff_notes.v1"
 VERIFIED_DECLARATION_STATUSES = {"lean_verified", "verified", "passed", "trusted"}
 NATURAL_LANGUAGE_TRUST_LEVEL = "natural_language_proof_sketch"
 
@@ -36,6 +38,7 @@ BUNDLE_FILE_KINDS = {
     "verified_declarations.json": "lean_verified_declarations",
     "unresolved_blockers.md": "unresolved_blockers",
     "limitations.md": "limitations",
+    "handoff_notes.md": "ara_handoff_notes",
     "artifact_manifest.json": "artifact_manifest",
     "writing_brief.md": "writing_brief",
     "proof_attempt_ledger.jsonl": "proof_attempt_ledger",
@@ -49,6 +52,7 @@ LEAN_VERIFIED_DECLARATION_SOURCE = "verified_declarations.json"
 NON_VERIFIED_RESEARCH_EVIDENCE_FILES = {
     "proof_summary.md",
     "natural_language_proof_sketches.json",
+    "handoff_notes.md",
     "writing_brief.md",
 }
 OPTIONAL_PROJECT_BUNDLE_FILES = (
@@ -111,6 +115,14 @@ def _excerpt(text: str, limit: int = 1600) -> str:
     if len(cleaned) <= limit:
         return cleaned
     return cleaned[: limit - 3].rstrip() + "..."
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def _problem_metadata(project_dir: Path) -> dict[str, Any]:
@@ -462,6 +474,114 @@ def _render_writing_brief(
     return "\n".join(lines)
 
 
+def _lean_status_payload(
+    *,
+    build_report: dict[str, Any],
+    verified_declarations: list[dict[str, Any]],
+) -> dict[str, Any]:
+    build_status = _build_report_status(build_report) or "missing"
+    verification_status = str(build_report.get("verification_status") or "").strip().lower()
+    if not verification_status:
+        verification_status = "verified" if build_status in {"passed", "verified", "success"} else "blocked"
+    payload: dict[str, Any] = {
+        "source": "lean_build_report.json",
+        "status": build_status,
+        "verification_status": verification_status,
+        "verified_declaration_source": LEAN_VERIFIED_DECLARATION_SOURCE,
+        "verified_declaration_count": len(verified_declarations),
+        "formal_claims_available": bool(verified_declarations),
+    }
+    for key in ("returncode", "sorry_count", "diagnostics", "summary"):
+        if key in build_report:
+            payload[key] = build_report[key]
+    if isinstance(build_report.get("forbidden_placeholder_counts"), dict):
+        payload["forbidden_placeholder_counts"] = build_report["forbidden_placeholder_counts"]
+    return payload
+
+
+def _verification_boundaries_payload(
+    *,
+    verified_declarations: list[dict[str, Any]],
+    natural_language_sketches: list[dict[str, Any]],
+    blockers: list[str],
+    limitations: list[str],
+    lean_status: dict[str, Any],
+) -> dict[str, Any]:
+    return {
+        "formal_claims": {
+            "source": LEAN_VERIFIED_DECLARATION_SOURCE,
+            "count": len(verified_declarations),
+            "consumption_rule": "Treat only declarations in verified_declarations.json as Lean-verified claims.",
+        },
+        "lean_status": lean_status,
+        "natural_language_proof_artifacts": {
+            "source": "natural_language_proof_sketches.json",
+            "count": len(natural_language_sketches),
+            "lean_verified": False,
+            "consumption_rule": "Use sketches for research context and drafting only; do not cite them as formal verification.",
+        },
+        "unresolved_blockers": {
+            "source": "unresolved_blockers.md",
+            "count": len(blockers),
+        },
+        "limitations": {
+            "source": "limitations.md",
+            "count": len(limitations),
+        },
+    }
+
+
+def _render_handoff_notes(
+    *,
+    metadata: dict[str, Any],
+    lean_status: dict[str, Any],
+    verified_declarations: list[dict[str, Any]],
+    natural_language_sketches: list[dict[str, Any]],
+    blockers: list[str],
+    limitations: list[str],
+) -> str:
+    lines = [
+        "# ARA Handoff Notes",
+        "",
+        f"- Schema version: `{HANDOFF_NOTES_SCHEMA_VERSION}`",
+        f"- Consumer: `ARA`",
+        f"- Problem ID: `{metadata['problem_id']}`",
+        "- Bundle producer: `AMRA`",
+        "- Deterministic local path: true",
+        "",
+        "## Consume Order",
+        "",
+        "1. Read `artifact_manifest.json` for file roles, checksums, and verification boundaries.",
+        "2. Read `theorem_statement.md` and `problem_metadata.json` for statement/provenance.",
+        "3. Read `lean_build_report.json` and `verified_declarations.json` before citing any formal claim.",
+        "4. Use `natural_language_proof_sketches.json`, `proof_summary.md`, and `writing_brief.md` only for research context and drafting.",
+        "5. Check `unresolved_blockers.md` and `limitations.md` before downstream publication or promotion.",
+        "",
+        "## Lean Status",
+        "",
+        f"- Build status: `{lean_status['status']}`",
+        f"- Verification status: `{lean_status['verification_status']}`",
+        f"- Verified declarations: `{len(verified_declarations)}`",
+        f"- Formal claim source: `{LEAN_VERIFIED_DECLARATION_SOURCE}`",
+        "",
+        "## Drafting Boundary",
+        "",
+        "- `writing_brief.md` contains drafting guidance, not formal proof certification.",
+        "- Natural-language proof artifacts may explain the route, but they are not Lean-verified declarations.",
+    ]
+    if natural_language_sketches:
+        lines.append(f"- Natural-language proof artifacts exported: `{len(natural_language_sketches)}`.")
+    lines.extend(["", "## Blockers And Limitations", ""])
+    if not blockers and not limitations:
+        lines.append("- None recorded.")
+    for blocker in blockers:
+        lines.append(f"- Blocker: {blocker}")
+    for limitation in limitations:
+        lines.append(f"- Limitation: {limitation}")
+    lines.append("")
+    return "\n".join(lines)
+
+
 def _unresolved_blockers(
     *,
     build_report: dict[str, Any],
@@ -535,13 +655,18 @@ def _render_limitations(limitations: list[str]) -> str:
     return "\n".join(lines)
 
 
-def _bundle_file_record(path: str) -> dict[str, Any]:
+def _bundle_file_record(path: str, *, output_dir: Path | None = None) -> dict[str, Any]:
     kind = BUNDLE_FILE_KINDS.get(path, "supporting_artifact")
     record = {
         "path": path,
         "kind": kind,
         "required": path in REQUIRED_BUNDLE_FILES,
     }
+    if output_dir is not None and path != "artifact_manifest.json":
+        artifact_path = output_dir / path
+        if artifact_path.is_file():
+            record["bytes"] = artifact_path.stat().st_size
+            record["sha256"] = _sha256_file(artifact_path)
     if path == LEAN_VERIFIED_DECLARATION_SOURCE:
         record.update(
             {
@@ -605,6 +730,7 @@ def _artifact_manifest(
     natural_language_sketches: list[dict[str, Any]],
     blockers: list[str],
     limitations: list[str],
+    lean_status: dict[str, Any],
     files: list[str],
 ) -> dict[str, Any]:
     source_artifacts = []
@@ -643,6 +769,34 @@ def _artifact_manifest(
             "non_verified_research_evidence_files": sorted(NON_VERIFIED_RESEARCH_EVIDENCE_FILES),
             "accepted_verified_declaration_statuses": sorted(VERIFIED_DECLARATION_STATUSES),
         },
+        "verification_boundaries": _verification_boundaries_payload(
+            verified_declarations=verified_declarations,
+            natural_language_sketches=natural_language_sketches,
+            blockers=blockers,
+            limitations=limitations,
+            lean_status=lean_status,
+        ),
+        "lean_status": lean_status,
+        "ara_handoff": {
+            "consumer": "ARA",
+            "producer": "AMRA",
+            "handoff_notes": "handoff_notes.md",
+            "drafting_notes": "writing_brief.md",
+            "consume_order": [
+                "artifact_manifest.json",
+                "theorem_statement.md",
+                "problem_metadata.json",
+                "lean_build_report.json",
+                "verified_declarations.json",
+                "natural_language_proof_sketches.json",
+                "unresolved_blockers.md",
+                "limitations.md",
+                "writing_brief.md",
+                "handoff_notes.md",
+            ],
+            "formal_claim_source": LEAN_VERIFIED_DECLARATION_SOURCE,
+            "natural_language_artifact_source": "natural_language_proof_sketches.json",
+        },
         "lean_build_report_status": _build_report_status(build_report) or "missing",
         "verified_declaration_count": len(verified_declarations),
         "natural_language_proof_sketch_count": len(natural_language_sketches),
@@ -653,8 +807,8 @@ def _artifact_manifest(
         "unresolved_blockers": blockers,
         "limitations": limitations,
         "source_artifacts": sorted(dict.fromkeys(source_artifacts)),
-        "files": [_bundle_file_record(path) for path in files],
-        "artifacts": [_bundle_file_record(path) for path in files],
+        "files": [_bundle_file_record(path, output_dir=output_dir) for path in files],
+        "artifacts": [_bundle_file_record(path, output_dir=output_dir) for path in files],
     }
 
 
@@ -667,6 +821,7 @@ REQUIRED_BUNDLE_FILES = {
     "verified_declarations.json",
     "unresolved_blockers.md",
     "limitations.md",
+    "handoff_notes.md",
     "artifact_manifest.json",
     "writing_brief.md",
 }
@@ -734,6 +889,10 @@ def export_amra_result_bundle(
         natural_language_sketches=natural_language_sketches,
         blockers=blockers,
     )
+    lean_status = _lean_status_payload(
+        build_report=build_report,
+        verified_declarations=verified_declarations,
+    )
 
     (output_dir / "theorem_statement.md").write_text(_render_theorem_statement(metadata), encoding="utf-8")
     write_json(output_dir / "problem_metadata.json", _problem_metadata_payload(metadata))
@@ -774,6 +933,17 @@ def export_amra_result_bundle(
     )
     (output_dir / "unresolved_blockers.md").write_text(_render_blockers(blockers), encoding="utf-8")
     (output_dir / "limitations.md").write_text(_render_limitations(limitations), encoding="utf-8")
+    (output_dir / "handoff_notes.md").write_text(
+        _render_handoff_notes(
+            metadata=metadata,
+            lean_status=lean_status,
+            verified_declarations=verified_declarations,
+            natural_language_sketches=natural_language_sketches,
+            blockers=blockers,
+            limitations=limitations,
+        ),
+        encoding="utf-8",
+    )
     _copy_optional_bundle_files(project_dir, output_dir)
 
     files = sorted(path.name for path in output_dir.iterdir() if path.is_file() and path.name != "artifact_manifest.json")
@@ -787,6 +957,7 @@ def export_amra_result_bundle(
         natural_language_sketches=natural_language_sketches,
         blockers=blockers,
         limitations=limitations,
+        lean_status=lean_status,
         files=files + ["artifact_manifest.json"],
     )
     write_json(output_dir / "artifact_manifest.json", manifest)
@@ -814,6 +985,7 @@ __all__ = [
     "PROBLEM_METADATA_SCHEMA_VERSION",
     "PROOF_SKETCHES_SCHEMA_VERSION",
     "LIMITATIONS_SCHEMA_VERSION",
+    "HANDOFF_NOTES_SCHEMA_VERSION",
     "VERIFIED_DECLARATION_STATUSES",
     "REQUIRED_BUNDLE_FILES",
     "export_amra_result_bundle",

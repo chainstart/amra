@@ -58,6 +58,7 @@ artifacts:
     - projects/*/verified_declarations.json
     - projects/*/natural_language_proof_sketches.json
     - projects/*/limitations.md
+    - projects/*/handoff_notes.md
     - projects/*/writing_brief.md
     - projects/*/final_report.md
     - amra_result_bundle/**
@@ -114,6 +115,7 @@ interfaces:
         - verified_declarations.json
         - unresolved_blockers.md
         - limitations.md
+        - handoff_notes.md
         - artifact_manifest.json
         - writing_brief.md
       optional_files:
@@ -124,6 +126,25 @@ interfaces:
         verified_declarations_require_lean_status: true
         only_lean_verified_claim_source: verified_declarations.json
         natural_language_proof_sketches_source: natural_language_proof_sketches.json
+        lean_status_source: lean_build_report.json
+        unresolved_blockers_source: unresolved_blockers.md
+        limitations_source: limitations.md
+      handoff:
+        consumer: ARA
+        handoff_notes: handoff_notes.md
+        drafting_notes: writing_brief.md
+        deterministic_known_problem_smoke: true
+        consume_order:
+          - artifact_manifest.json
+          - theorem_statement.md
+          - problem_metadata.json
+          - lean_build_report.json
+          - verified_declarations.json
+          - natural_language_proof_sketches.json
+          - unresolved_blockers.md
+          - limitations.md
+          - writing_brief.md
+          - handoff_notes.md
 
 safety:
   max_wall_time_minutes: 240

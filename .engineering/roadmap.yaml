@@ -1693,13 +1693,13 @@
     {
       "id": "amra-ara-handoff-readiness",
       "title": "AMRA ARA Handoff Readiness",
-      "status": "active",
+      "status": "completed",
       "objective": "Complete the existing AMRA-ARA-001 spec direction by making AMRA's deterministic proof bundles explicitly ready for public ARA dispatch, wait, validation, and consumption without overstating Lean verification.",
       "tasks": [
         {
           "id": "AMRA-ARA-001",
           "title": "Export AMRA result bundles for ARA consumption",
-          "status": "pending",
+          "status": "passed",
           "max_attempts": 2,
           "max_task_iterations": 3,
           "manual_approval_required": false,

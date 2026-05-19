@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 import subprocess
@@ -68,6 +69,14 @@ def utc_now_iso() -> str:
 
 def _tail(text: str, limit: int = 4000) -> str:
     return text[-limit:] if len(text) > limit else text
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def _resolve_lean_binary() -> str | None:
@@ -405,6 +414,9 @@ def run_known_problem_smoke(
     repo_root = repo_root.expanduser().resolve() if repo_root is not None else Path.cwd().resolve()
     output_dir = output_dir.expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
+    stale_smoke_report = output_dir / "known_problem_smoke_report.json"
+    if stale_smoke_report.exists():
+        stale_smoke_report.unlink()
     project_dir = output_dir / "_known_problem_project"
     formal_dir = project_dir / "formal"
     formal_dir.mkdir(parents=True, exist_ok=True)
@@ -467,16 +479,24 @@ def run_known_problem_smoke(
             "lean_build_report": "lean_build_report.json",
             "llm_calls": 0,
         }
-        if "known_problem_smoke_report.json" not in {item.get("path") for item in manifest.get("files", [])}:
-            report_record = {
-                "path": "known_problem_smoke_report.json",
-                "kind": "known_problem_smoke_report",
-                "required": False,
-                "ara_contract_role": "smoke_run_summary",
-                "lean_verified_claim_source": False,
-            }
-            manifest.setdefault("files", []).append(report_record)
-            manifest.setdefault("artifacts", []).append(report_record)
+        report_path = output_dir / "known_problem_smoke_report.json"
+        report_record = {
+            "path": "known_problem_smoke_report.json",
+            "kind": "known_problem_smoke_report",
+            "required": False,
+            "ara_contract_role": "smoke_run_summary",
+            "lean_verified_claim_source": False,
+            "bytes": report_path.stat().st_size,
+            "sha256": _sha256_file(report_path),
+        }
+        for collection_name in ("files", "artifacts"):
+            collection = [
+                item
+                for item in manifest.get(collection_name, [])
+                if item.get("path") != "known_problem_smoke_report.json"
+            ]
+            collection.append(report_record)
+            manifest[collection_name] = collection
         write_json(manifest_path, manifest)
     return smoke_report
 

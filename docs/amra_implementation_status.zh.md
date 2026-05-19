@@ -25,13 +25,14 @@
 | `REQ-AMRA-PROOF-001` | `partial` | pure/focused proof agents、problem banks、proof attempt 记录；`amra-proof-loop-consolidation`、`amra-agent-tool-normalization`、`amra-nontrivial-closed-theorem-benchmark` 已 passed | 纯证明能力仍不稳定，难题容易长时间拉扯，容易题筛选与 abandon policy 仍需增强 | 强化 scouting、优先级评估与 bounded proof loop 稳定性 |
 | `REQ-AMRA-LEAN-001` | `partial` | Lean executor/audit/contract、形式化产物；`amra-formalization-layer-consolidation`、`amra-known-problem-proof-smoke`、`amra-nontrivial-closed-theorem-benchmark` 已 passed | 自然语言证明到 Lean faithful modeling 仍有较大差距，更难目标上的 formalization 稳定性不足 | 强化 NL/Lean 交替 proof loop 和 faithful modeling |
 | `REQ-AMRA-LIBRARY-001` | `partial` | AMRA library manager、library harvesting 计划；`amra-library-harvesting`、`amra-dashboard-result-bundle` 已 passed | verified lemma 打包、curator gate 和复用策略仍不足 | 增加 library curator gate 与 verified-only promotion 规则 |
-| `REQ-AMRA-ARA-001` | `partial` | AMRA result bundle 方向；`amra-ara-result-bundle-contract-hardening`、`amra-known-problem-proof-smoke`、`amra-dashboard-result-bundle` 已 passed | 仍缺 public ARA -> AMRA 生产级 dispatch/wait/consume smoke | 增加跨仓库 bundle consumption smoke 与 production handoff |
+| `REQ-AMRA-ARA-001` | `completed` | AMRA result bundle、`artifact_manifest.json`、`handoff_notes.md`、known-problem smoke；`amra-ara-result-bundle-contract-hardening`、`amra-known-problem-proof-smoke`、`amra-dashboard-result-bundle` 已 passed | 跨仓库 public ARA consumer smoke 需在 ARA 任务 scope 内单独补充 | ARA 消费侧按 bundle consume order 读取 AMRA 产物 |
 
 ## 2026-05-19 同步说明
 
 - `amra-next-development-targets` 里共有 9 个任务；截至 `2026-05-19T07:21:56Z`，其中 8 个在 manifest 中已是 `passed`，1 个（`amra-canonical-core-migration`）为 `failed`。
 - 这次已将 `.engineering/roadmap.yaml` 的该里程碑和对应任务状态同步到 manifest 实际结果，不再停留在统一的 `pending/planned`。
 - 当前 AMRA 的主要矛盾不是“没做”，而是“已有较多实现，但 canonical migration 最后一段和跨仓库生产级闭环仍未收口”。
+- `AMRA-ARA-001` 已补齐本仓库内的 ARA-facing bundle handoff：deterministic known-problem smoke 输出 `artifact_manifest.json`、`lean_build_report.json`、`verified_declarations.json`、`natural_language_proof_sketches.json`、`unresolved_blockers.md`、`limitations.md`、`writing_brief.md` 和 `handoff_notes.md`，并在 manifest 中声明 verification boundaries、Lean status、file checksums 和 ARA consume order。
 
 ## 维护流程
 
