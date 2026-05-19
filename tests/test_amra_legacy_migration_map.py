@@ -16,8 +16,8 @@ from amra.legacy_migration import (
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DOC_PATH = REPO_ROOT / "docs" / "amra_legacy_module_disposition.zh.md"
 
-IMPLEMENTATION_STATUSES = {"active_implementation", "shim"}
-CLEANUP_STATUSES = {"delete_later", "retain_compatibility"}
+IMPLEMENTATION_STATUSES = {"shim"}
+CLEANUP_STATUSES = {"retain_compatibility"}
 DISPOSITIONS = {
     "keep-core",
     "move",
@@ -66,11 +66,8 @@ def test_legacy_migration_inventory_is_machine_readable_and_classified() -> None
         assert entry["implementation_status"] in IMPLEMENTATION_STATUSES
         assert entry["cleanup_status"] in CLEANUP_STATUSES
         assert set(entry["disposition"]) <= DISPOSITIONS
-        if entry["implementation_status"] == "active_implementation":
-            assert entry["cleanup_status"] == "delete_later", filename
-            assert entry["migration_blocked_by"], filename
-        else:
-            assert entry["migration_blocked_by"] == (), filename
+        assert entry["cleanup_status"] == "retain_compatibility", filename
+        assert entry["migration_blocked_by"] == (), filename
 
 
 def test_legacy_migration_inventory_matches_disposition_doc_table() -> None:

@@ -2338,7 +2338,7 @@
         {
           "id": "AMRA-LEGACY-SHIM-CLEANUP-001",
           "title": "Reduce src/ara_math to deprecated compatibility shims",
-          "status": "pending",
+          "status": "completed",
           "max_attempts": 2,
           "max_task_iterations": 3,
           "manual_approval_required": false,

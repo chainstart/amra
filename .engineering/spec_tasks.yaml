@@ -1,7 +1,7 @@
 {
   "kind": "amra.spec_tasks.v1",
   "project": "amra",
-  "updated_at": "2026-05-19T23:40:29Z",
+  "updated_at": "2026-05-19T23:47:19Z",
   "source_spec": "docs/portfolio_campaign_spec.zh.md",
   "status_doc": "docs/amra_implementation_status.zh.md",
   "decision_log_dir": "docs/decisions",
@@ -605,7 +605,7 @@
     {
       "id": "AMRA-LEGACY-SHIM-CLEANUP-001",
       "title": "Reduce src/ara_math to deprecated compatibility shims",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "owner": "amra",
       "requirement_ids": [
@@ -627,8 +627,31 @@
           "required": true
         }
       ],
-      "notes": "Finish cleanup so legacy modules contain only shims/forwarders or explicit deprecated compatibility errors, with active implementations in src/amra.",
-      "source_spec": "docs/amra_canonical_migration_spec.zh.md"
+      "notes": "Cleanup implemented locally: src/ara_math Python modules are deprecated shims/forwarders or explicit compatibility wrappers, with active implementations in src/amra.",
+      "source_spec": "docs/amra_canonical_migration_spec.zh.md",
+      "updated_at": "2026-05-19T23:47:19Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive",
+      "evidence": [
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260519T234034Z-AMRA-LEGACY-SHIM-CLEANUP-001.md",
+          "recorded_at": "2026-05-19T23:47:19Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260519T234034Z-AMRA-LEGACY-SHIM-CLEANUP-001.json",
+          "recorded_at": "2026-05-19T23:47:19Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-19T23:47:19Z",
+          "actor": "engineering-harness:auto"
+        }
+      ]
     }
   ]
 }

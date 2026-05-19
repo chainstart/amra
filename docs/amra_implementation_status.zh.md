@@ -20,14 +20,14 @@
 | Requirement ID | 状态 | 当前证据 | 主要缺口 | 下一步 |
 | --- | --- | --- | --- | --- |
 | `REQ-AMRA-GOV-001` | `completed` | 本文档、`.engineering/spec_tasks.yaml`、决策记录 | 需要随每轮证明系统开发持续更新 | 接入 harness spec-sync |
-| `REQ-AMRA-NAMING-001` | `partial` | canonical `amra` package、legacy shim、接口测试；`amra-legacy-shim-convergence` 已 passed | `amra-canonical-core-migration` 因 file-scope 触碰状态/文档文件而失败，`src/ara_math` cleanup 尚未全部完成 | 仅在声明的 file_scope 内重跑 canonical migration，并继续收敛 legacy shim |
+| `REQ-AMRA-NAMING-001` | `completed` | canonical `amra` package、legacy shim、接口测试；`AMRA-LEGACY-SHIM-CLEANUP-001` 后 `src/ara_math` 51 个 Python 文件全部是 deprecated compatibility shim / forwarding wrapper | 无当前命名迁移缺口 | 保持 canonical/legacy import audit |
 | `REQ-AMRA-MANIFEST-001` | `completed` | `research_lab.yaml`、AMRA CLI、ARA-facing contract | 随 ARA bundle contract 演进 | 保持 manifest smoke |
 | `REQ-AMRA-PORTFOLIO-001` | `completed` | portfolio scaffold、scheduler/memory 模块；`amra-broad-scouting-integration`、`amra-independent-evaluator`、`amra-memory-consolidation`、`amra-portfolio-active-execution-loop`、`amra-source-quality-ranking`、`amra-domain-search-executors` 已 passed；本轮补齐 campaign ranking 的 difficulty/budget gate、abandon/park policy、resume-pack governance 与 active execution memory consolidation | 生产级长证明 campaign 仍依赖后续 Lean/proof-loop 能力，不在本地 deterministic smoke 内运行 | 保持 portfolio regression 与 CLI smoke，转入 AMRA-LEAN-001 强化 NL/Lean 证明闭环 |
-| `REQ-AMRA-PROOF-001` | `partial` | pure/focused proof agents、problem banks、proof attempt 记录；`amra-proof-loop-consolidation`、`amra-agent-tool-normalization`、`amra-nontrivial-closed-theorem-benchmark` 已 passed；`AMRA-PROOF-RUNNERS-MIGRATION-001` 已把 proof_lab/proof_search/closure/math_attack/campaign/goal loop 与 retrieval/planning/proof-system runner 迁入 `amra.proof`；`AMRA-SOURCES-EVALUATION-MIGRATION-001` 已把 source/evaluation/scouting 辅助层迁入 canonical AMRA 模块；`AMRA-CANONICAL-CLI-ORCHESTRATOR-001` 已让 canonical CLI/orchestrator proof/search/formalization smoke path 不再导入 `ara_math` | 纯证明能力仍不稳定，难题容易长时间拉扯；legacy shim cleanup 尚未全部完成 | 强化 bounded proof loop 稳定性；继续执行 `AMRA-LEGACY-SHIM-CLEANUP-001` |
+| `REQ-AMRA-PROOF-001` | `partial` | pure/focused proof agents、problem banks、proof attempt 记录；`amra-proof-loop-consolidation`、`amra-agent-tool-normalization`、`amra-nontrivial-closed-theorem-benchmark` 已 passed；`AMRA-PROOF-RUNNERS-MIGRATION-001` 已把 proof_lab/proof_search/closure/math_attack/campaign/goal loop 与 retrieval/planning/proof-system runner 迁入 `amra.proof`；`AMRA-SOURCES-EVALUATION-MIGRATION-001` 已把 source/evaluation/scouting 辅助层迁入 canonical AMRA 模块；`AMRA-CANONICAL-CLI-ORCHESTRATOR-001` 已让 canonical CLI/orchestrator proof/search/formalization smoke path 不再导入 `ara_math`；legacy shim cleanup 已完成 | 纯证明能力仍不稳定，难题容易长时间拉扯 | 强化 bounded proof loop 稳定性 |
 | `REQ-AMRA-LEAN-001` | `partial` | Lean executor/audit/contract、形式化产物；`amra-formalization-layer-consolidation`、`amra-known-problem-proof-smoke`、`amra-nontrivial-closed-theorem-benchmark` 已 passed | 自然语言证明到 Lean faithful modeling 仍有较大差距，更难目标上的 formalization 稳定性不足 | 强化 NL/Lean 交替 proof loop 和 faithful modeling |
 | `REQ-AMRA-LIBRARY-001` | `partial` | AMRA library manager、library harvesting 计划；`amra-library-harvesting`、`amra-dashboard-result-bundle` 已 passed | verified lemma 打包、curator gate 和复用策略仍不足 | 增加 library curator gate 与 verified-only promotion 规则 |
 | `REQ-AMRA-ARA-001` | `completed` | AMRA result bundle、`artifact_manifest.json`、`handoff_notes.md`、known-problem smoke；`amra-ara-result-bundle-contract-hardening`、`amra-known-problem-proof-smoke`、`amra-dashboard-result-bundle` 已 passed | 跨仓库 public ARA consumer smoke 需在 ARA 任务 scope 内单独补充 | ARA 消费侧按 bundle consume order 读取 AMRA 产物 |
-| `REQ-AMRA-CANONICAL-MIGRATION-001` | `partial` | `docs/amra_canonical_migration_spec.zh.md` 已定义目标和任务包；`src/amra/legacy_migration.py` 已覆盖 51 个 legacy 文件并提供 import audit；`AMRA-ORCHESTRATION-MIGRATION-001` 已把 CoMath orchestration/review/scheduler 状态迁入 canonical AMRA 模块；`AMRA-PROOF-RUNNERS-MIGRATION-001` 已把 proof runner 家族迁入 `src/amra/proof`；`AMRA-SOURCES-EVALUATION-MIGRATION-001` 已把 literature/source audit、specialists、evaluator/refiner、strategy/scouting/convergence/banking 迁入 canonical AMRA 模块；`AMRA-CANONICAL-CLI-ORCHESTRATOR-001` 已新增 `amra.orchestrator`、移除 `src/amra` 的 `ara_math` import audit 例外，并保持 `ara_math` CLI deprecated forwarding | 最终 shim cleanup 尚未完成；`src/ara_math` 仍有少量 legacy active 文件等待收尾 | 继续执行 `AMRA-LEGACY-SHIM-CLEANUP-001` |
+| `REQ-AMRA-CANONICAL-MIGRATION-001` | `completed` | `docs/amra_canonical_migration_spec.zh.md` 已定义目标和任务包；`src/amra/legacy_migration.py` 已覆盖 51 个 legacy 文件并提供 import audit；orchestration、proof runners、sources/evaluation、CLI/orchestrator 均已迁入 canonical AMRA 模块；`AMRA-LEGACY-SHIM-CLEANUP-001` 后 `src/ara_math` 全部为 deprecated compatibility shim / forwarding wrapper，`src/amra` 无 `ara_math` 反向依赖例外 | 无当前 canonical migration cleanup 缺口 | 保持 shim/audit regression |
 
 ## 2026-05-20 Canonical Migration 目标
 
@@ -43,7 +43,7 @@
 ## 2026-05-20 AMRA-CANONICAL-INVENTORY-001 同步说明
 
 - 新增 `src/amra/legacy_migration.py` 作为 canonical migration 的机器清单和 AST import audit 源。
-- 清单覆盖全部 51 个 `src/ara_math/*.py` 文件：18 个标记为 `active_implementation` / `delete_later`，33 个标记为 `shim` / `retain_compatibility`。
+- 清单覆盖全部 51 个 `src/ara_math/*.py` 文件；`AMRA-LEGACY-SHIM-CLEANUP-001` 后全部标记为 `shim` / `retain_compatibility`。
 - `tests/test_amra_legacy_migration_map.py` 固定清单覆盖、文档处置表一致性、JSON 可读性和 `src/amra` 反向依赖例外表。
 
 ## 2026-05-20 AMRA-ORCHESTRATION-MIGRATION-001 同步说明
@@ -74,6 +74,12 @@
 - `TEMPORARY_AMRA_LEGACY_IMPORTS` 已清空，`tests/test_amra_canonical_cli.py` 覆盖 canonical CLI import 边界和 legacy forwarding。
 - 本地验收通过：`python3 -m pytest -q tests/test_amra_canonical_cli.py tests/test_cli_flow.py tests/test_amra_known_problem_smoke.py tests/test_amra_result_bundle.py`。
 - 本地 smoke 通过：`python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_canonical_cli_bundle --json >/tmp/amra_canonical_cli_bundle.json` 与 `python3 -m ara_math run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_legacy_cli_bundle --json >/tmp/amra_legacy_cli_bundle.json`，两者均为 `status=verified`、`llm_calls=0`。
+
+## 2026-05-20 AMRA-LEGACY-SHIM-CLEANUP-001 同步说明
+
+- `ara_math.accessibility`、`ara_math.deliverables`、`ara_math.writing` 已从 legacy 实现文件改为 deprecated module alias。
+- `src/amra/legacy_migration.py` 中 51 个 legacy Python 文件全部为 `shim` / `retain_compatibility`，且无 `migration_blocked_by` 条目。
+- `tests/test_amra_legacy_migration_map.py` 已同步为最终 cleanup 判定：legacy inventory 不再期望任何 `active_implementation`。
 
 ## 2026-05-19 同步说明
 
