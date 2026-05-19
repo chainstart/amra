@@ -301,7 +301,7 @@ class ProofStrategyWorkstreamExecutor:
         self.repo_root = repo_root
 
     def execute(self, context: WorkstreamExecutionContext) -> WorkstreamExecutionResult:
-        AIProofLabRunner = importlib.import_module("ara_math.proof_lab").AIProofLabRunner
+        AIProofLabRunner = importlib.import_module("amra.proof.lab").AIProofLabRunner
 
         started_at = utc_now_iso()
         options = context.options
@@ -440,7 +440,7 @@ class ClosureWorkstreamExecutor:
         options = context.options
         orchestrator = options.get("orchestrator") or self.orchestrator
         if orchestrator is None:
-            MathResearchOrchestrator = importlib.import_module("ara_math.orchestrator").MathResearchOrchestrator
+            MathResearchOrchestrator = importlib.import_module("amra.orchestrator").MathResearchOrchestrator
 
             orchestrator = MathResearchOrchestrator(repo_root=self.repo_root or context.project_dir)
         target_file = options.get("target_file", context.workstream.metadata.get("target_file"))

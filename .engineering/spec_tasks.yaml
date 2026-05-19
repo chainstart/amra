@@ -1,7 +1,7 @@
 {
   "kind": "amra.spec_tasks.v1",
   "project": "amra",
-  "updated_at": "2026-05-19T23:30:46Z",
+  "updated_at": "2026-05-19T23:40:29Z",
   "source_spec": "docs/portfolio_campaign_spec.zh.md",
   "status_doc": "docs/amra_implementation_status.zh.md",
   "decision_log_dir": "docs/decisions",
@@ -530,7 +530,7 @@
     {
       "id": "AMRA-CANONICAL-CLI-ORCHESTRATOR-001",
       "title": "Make canonical AMRA CLI and orchestrator use only canonical modules",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "owner": "amra",
       "requirement_ids": [
@@ -553,7 +553,54 @@
         }
       ],
       "notes": "Route canonical CLI/orchestrator paths through src/amra only; legacy CLI remains deprecated forwarding layer.",
-      "source_spec": "docs/amra_canonical_migration_spec.zh.md"
+      "source_spec": "docs/amra_canonical_migration_spec.zh.md",
+      "evidence": [
+        {
+          "kind": "code",
+          "path": "src/amra/cli.py"
+        },
+        {
+          "kind": "code",
+          "path": "src/amra/orchestrator.py"
+        },
+        {
+          "kind": "code",
+          "path": "src/ara_math/orchestrator.py"
+        },
+        {
+          "kind": "test",
+          "value": "python3 -m pytest -q tests/test_amra_canonical_cli.py tests/test_cli_flow.py tests/test_amra_known_problem_smoke.py tests/test_amra_result_bundle.py"
+        },
+        {
+          "kind": "smoke",
+          "value": "python3 -m amra run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_canonical_cli_bundle --json >/tmp/amra_canonical_cli_bundle.json"
+        },
+        {
+          "kind": "smoke",
+          "value": "python3 -m ara_math run-known-problem-smoke --problem imo_2025_p1 --max-seconds 60 --out /tmp/amra_legacy_cli_bundle --json >/tmp/amra_legacy_cli_bundle.json"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260519T233050Z-AMRA-CANONICAL-CLI-ORCHESTRATOR-001.md",
+          "recorded_at": "2026-05-19T23:40:29Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260519T233050Z-AMRA-CANONICAL-CLI-ORCHESTRATOR-001.json",
+          "recorded_at": "2026-05-19T23:40:29Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-19T23:40:29Z",
+          "actor": "engineering-harness:auto"
+        }
+      ],
+      "updated_at": "2026-05-19T23:40:29Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive"
     },
     {
       "id": "AMRA-LEGACY-SHIM-CLEANUP-001",

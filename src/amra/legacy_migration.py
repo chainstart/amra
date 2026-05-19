@@ -302,14 +302,12 @@ LEGACY_MODULE_INVENTORY: dict[str, InventoryEntry] = {
     },
     "orchestrator.py": {
         "module": "ara_math.orchestrator",
-        "implementation_status": "active_implementation",
-        "cleanup_status": "delete_later",
+        "implementation_status": "shim",
+        "cleanup_status": "retain_compatibility",
         "disposition": ("split", "deprecate"),
-        "canonical_target": "amra.orchestration",
-        "migration_blocked_by": (
-            "AMRA-ORCHESTRATION-MIGRATION-001",
-            "AMRA-CANONICAL-CLI-ORCHESTRATOR-001",
-        ),
+        "canonical_target": "amra.orchestrator",
+        "migration_blocked_by": (),
+        "shim_kind": "module_alias",
     },
     "planning.py": {
         "module": "ara_math.planning",
@@ -457,24 +455,7 @@ LEGACY_MODULE_INVENTORY: dict[str, InventoryEntry] = {
 }
 
 
-TEMPORARY_AMRA_LEGACY_IMPORTS: dict[str, tuple[str, ...]] = {
-    "src/amra/cli.py": (
-        "ara_math.banking",
-        "ara_math.campaign_loop",
-        "ara_math.comath_benchmarks",
-        "ara_math.comath_capabilities",
-        "ara_math.comath_source_audit",
-        "ara_math.comath_specialists",
-        "ara_math.coordinator",
-        "ara_math.goal_campaign",
-        "ara_math.orchestrator",
-        "ara_math.proof_lab",
-        "ara_math.scouting",
-        "ara_math.workstreams",
-    ),
-    "src/amra/core/artifact_graph.py": ("ara_math.workstreams",),
-    "src/amra/core/workspace.py": ("ara_math.coordinator",),
-}
+TEMPORARY_AMRA_LEGACY_IMPORTS: dict[str, tuple[str, ...]] = {}
 
 
 def module_alias_shims() -> dict[str, str]:

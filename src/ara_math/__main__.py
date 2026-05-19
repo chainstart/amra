@@ -1,6 +1,6 @@
 """Deprecated ``python -m ara_math`` compatibility entrypoint."""
 
-from ara_math.cli import main
+from amra.cli import main
 
 
 if __name__ == "__main__":

@@ -2257,7 +2257,7 @@
         {
           "id": "AMRA-CANONICAL-CLI-ORCHESTRATOR-001",
           "title": "Make canonical AMRA CLI and orchestrator use only canonical modules",
-          "status": "pending",
+          "status": "passed",
           "max_attempts": 2,
           "max_task_iterations": 3,
           "manual_approval_required": false,
@@ -2330,7 +2330,10 @@
           ],
           "spec_refs": [
             "docs/amra_canonical_migration_spec.zh.md"
-          ]
+          ],
+          "updated_at": "2026-05-19T23:36:01Z",
+          "last_note": "Canonical CLI/orchestrator migration completed; required pytest and deterministic canonical/deprecated CLI bundle smokes passed.",
+          "last_phase": "drive"
         },
         {
           "id": "AMRA-LEGACY-SHIM-CLEANUP-001",

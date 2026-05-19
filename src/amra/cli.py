@@ -8,10 +8,10 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from ara_math.banking import sync_local_problem_banks
-from ara_math.campaign_loop import CampaignLoopRunner
-from ara_math.comath_benchmarks import run_local_benchmark_suite, run_minimal_real_math_benchmark
-from ara_math.comath_capabilities import (
+from amra.problem_banks.sync import sync_local_problem_banks
+from amra.proof.campaign_loop import CampaignLoopRunner
+from amra.evaluation.benchmarks import run_local_benchmark_suite, run_minimal_real_math_benchmark
+from amra.evaluation.capabilities import (
     create_computation_certificate,
     install_specialist_role_contracts,
     refine_intake_project,
@@ -19,9 +19,9 @@ from ara_math.comath_capabilities import (
     update_theory_memory,
     verify_computation_certificate,
 )
-from ara_math.comath_source_audit import run_source_audit_loop
-from ara_math.comath_specialists import run_specialist, run_specialist_loop
-from ara_math.coordinator import (
+from amra.sources.source_audit import run_source_audit_loop
+from amra.evaluation.specialists import run_specialist, run_specialist_loop
+from amra.orchestration.coordinator import (
     add_workstream as comath_add_workstream,
     bootstrap_ces75_erdos866_workstreams,
     comath_paths,
@@ -30,8 +30,8 @@ from ara_math.coordinator import (
     review_workstream_placeholder,
     run_comath_loop as comath_run_loop,
 )
-from ara_math.goal_campaign import GoalDrivenCampaignRunner, write_goal_manifest_template
-from ara_math.orchestrator import MathResearchOrchestrator
+from amra.proof.goal_campaign import GoalDrivenCampaignRunner, write_goal_manifest_template
+from amra.orchestrator import MathResearchOrchestrator
 from amra.problem_banks.registry import (
     DEFAULT_BANK_PATH,
     import_erdos_open_problems,
@@ -44,9 +44,9 @@ from amra.lean.formalizer import LeanFormalizerRunner, collect_proof_lab_context
 from amra.proof.focused_attack import FocusedLeanAttackAgent, load_expected_target_headers
 from amra.agents.lean import LeanFromNaturalProofAgent
 from amra.agents.proof import NaturalLanguageTheoremProverAgent, UnifiedProofAgentLoop
-from ara_math.proof_lab import AIProofLabRunner
-from ara_math.scouting import scout_problem_bank
-from ara_math.workstreams import (
+from amra.proof.lab import AIProofLabRunner
+from amra.evaluation.scouting import scout_problem_bank
+from amra.orchestration.workstreams import (
     ReviewDecision,
     ReviewKind,
     WorkstreamKind,

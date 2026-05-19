@@ -427,12 +427,12 @@ def init_comath_project(
     project_name: str | None = None,
     original_goal: str | None = None,
 ) -> Any:
-    from ara_math.coordinator import initialize_comath_project
+    from amra.orchestration.coordinator import initialize_comath_project
 
     return initialize_comath_project(project_dir, project_name=project_name, original_goal=original_goal)
 
 
 def project_dashboard(project_dir: Path) -> str:
-    from ara_math.coordinator import render_project_dashboard
+    from amra.orchestration.coordinator import render_project_dashboard
 
     return render_project_dashboard(project_dir)

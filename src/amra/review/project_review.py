@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 import re
-import importlib
 from pathlib import Path
 from typing import Any
 
 from amra.core.context import build_context_audit
+from amra.deliverables import DeliverableAssessor
 from amra.lean.executor import LeanExecutor
 from amra.core.workspace import load_project_manifest, read_json, read_text, record_event, update_pipeline_status, utc_now_iso, write_json, write_text
 
@@ -13,7 +13,7 @@ from amra.core.workspace import load_project_manifest, read_json, read_text, rec
 class MathReviewer:
     def __init__(self) -> None:
         self.lean_executor = LeanExecutor()
-        self.assessor = importlib.import_module("ara_math.deliverables").DeliverableAssessor()
+        self.assessor = DeliverableAssessor()
 
     def _sync_claim_registry_statuses(
         self,

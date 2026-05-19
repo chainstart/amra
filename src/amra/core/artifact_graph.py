@@ -7,7 +7,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any
 
-from ara_math.workstreams import ClaimStatus, DependencyStatus, utc_now_iso
+from amra.orchestration.workstreams import ClaimStatus, DependencyStatus, utc_now_iso
 
 
 class _StringEnum(str, Enum):
