@@ -49,6 +49,12 @@ def load_problem_bank(path: Path | str | None = None) -> list[ProblemRecord]:
     return [ProblemRecord.from_dict(item) for item in payload]
 
 
+def load_problem_bank_with_executor_metadata(path: Path | str | None = None) -> list[ProblemRecord]:
+    from amra.domain_executors import attach_executor_metadata_to_bank
+
+    return attach_executor_metadata_to_bank(load_problem_bank(path))
+
+
 def save_problem_bank(problems: list[ProblemRecord], path: Path | str) -> Path:
     bank_path = Path(path)
     bank_path.parent.mkdir(parents=True, exist_ok=True)

@@ -11,6 +11,7 @@ from amra.core.workspace import slugify
 from amra.problem_banks.registry import load_problem_bank
 
 from amra.amra_library import AmraLibraryManager
+from amra.domain_executors import compact_executor_signal
 from amra.portfolio_evaluator import PortfolioEvaluator
 from amra.source_quality import SOURCE_QUALITY_RECOVERY_THRESHOLD, source_quality_for_problem_record
 from amra.portfolio_memory import (
@@ -162,6 +163,7 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
     proof_attempt_status = str(parsed_probe.get("proof_attempt_status", "failed"))
     scout_primary_blocker = str(parsed_probe.get("primary_blocker", "unknown"))
     source_quality_audit = source_quality_for_problem_record(problem)
+    domain_executor_signal = compact_executor_signal(problem)
     source_quality_score = float(source_quality_audit.get("score", 0.0) or 0.0)
     feasibility_score = 4.0
     if exact_statement:
@@ -286,6 +288,7 @@ def _score_problem(problem: Any, scout_entry: dict[str, Any] | None = None) -> d
             "scout_recommendation": scout_recommendation,
             "scout_primary_blocker": scout_primary_blocker,
         },
+        "domain_executor_signal": domain_executor_signal,
     }
 
 
