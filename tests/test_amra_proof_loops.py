@@ -57,6 +57,8 @@ def test_registry_declares_all_canonical_proof_loop_routes() -> None:
     assert routes["proof_lab"].adapter_id == "ara_math.proof_lab:AIProofLabRunner.run"
     assert routes["proof_search"].method_name == "run_project"
     assert routes["focused_attack"].required_parameters == ("workspace", "attack_targets")
+    assert routes["closure"].required_parameters == ("project_dir", "orchestrator")
+    assert routes["math_attack"].required_parameters == ("project_dir",)
 
 
 @pytest.mark.parametrize(
@@ -145,6 +147,30 @@ def test_registry_run_wraps_report_with_canonical_metadata(tmp_path: Path) -> No
     assert calls[0]["factory"] is True
     assert calls[1]["method"] == "run_project"
     assert calls[1]["parameters"]["backend"] == "none"
+
+
+def test_registry_supplies_legacy_defaults_for_optional_runner_arguments(tmp_path: Path) -> None:
+    calls: list[dict[str, Any]] = []
+    registry = _fake_registry(calls)
+
+    registry.run(
+        ProofRunRequest.from_kwargs(
+            repo_root=tmp_path,
+            route="math_attack",
+            project_dir=tmp_path / "project",
+        )
+    )
+    registry.run(
+        ProofRunRequest.from_kwargs(
+            repo_root=tmp_path,
+            route="closure",
+            project_dir=tmp_path / "project",
+            orchestrator=object(),
+        )
+    )
+
+    assert calls[1]["parameters"]["target"] == ""
+    assert calls[3]["parameters"]["target_theorem"] is None
 
 
 def test_run_proof_loop_can_delegate_to_existing_proof_lab_without_live_backend(tmp_path: Path, monkeypatch) -> None:
