@@ -52,6 +52,20 @@ def test_module_alias_shims_share_canonical_module_identity() -> None:
         assert importlib.import_module(legacy_name) is importlib.import_module(canonical_name)
 
 
+def test_orchestration_migration_shims_share_canonical_module_identity() -> None:
+    migrated = {
+        "ara_math.workstreams": "amra.orchestration.workstreams",
+        "ara_math.coordinator": "amra.orchestration.coordinator",
+        "ara_math.uncertainty": "amra.orchestration.uncertainty",
+        "ara_math.review": "amra.review.project_review",
+        "ara_math.review_gate": "amra.review.gates",
+        "ara_math.comath_runners": "amra.scheduler.executors",
+    }
+
+    for legacy_name, canonical_name in migrated.items():
+        assert importlib.import_module(legacy_name) is importlib.import_module(canonical_name)
+
+
 def test_reexport_shim_symbols_are_canonical() -> None:
     legacy_library = importlib.import_module("ara_math.ara_library")
     canonical_library = importlib.import_module("amra.amra_library")

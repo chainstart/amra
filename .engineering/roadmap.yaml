@@ -2033,7 +2033,7 @@
         {
           "id": "AMRA-ORCHESTRATION-MIGRATION-001",
           "title": "Migrate CoMath orchestration and review state into canonical AMRA modules",
-          "status": "pending",
+          "status": "completed",
           "max_attempts": 2,
           "max_task_iterations": 3,
           "manual_approval_required": false,

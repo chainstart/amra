@@ -27,7 +27,7 @@
 | `REQ-AMRA-LEAN-001` | `partial` | Lean executor/audit/contract、形式化产物；`amra-formalization-layer-consolidation`、`amra-known-problem-proof-smoke`、`amra-nontrivial-closed-theorem-benchmark` 已 passed | 自然语言证明到 Lean faithful modeling 仍有较大差距，更难目标上的 formalization 稳定性不足 | 强化 NL/Lean 交替 proof loop 和 faithful modeling |
 | `REQ-AMRA-LIBRARY-001` | `partial` | AMRA library manager、library harvesting 计划；`amra-library-harvesting`、`amra-dashboard-result-bundle` 已 passed | verified lemma 打包、curator gate 和复用策略仍不足 | 增加 library curator gate 与 verified-only promotion 规则 |
 | `REQ-AMRA-ARA-001` | `completed` | AMRA result bundle、`artifact_manifest.json`、`handoff_notes.md`、known-problem smoke；`amra-ara-result-bundle-contract-hardening`、`amra-known-problem-proof-smoke`、`amra-dashboard-result-bundle` 已 passed | 跨仓库 public ARA consumer smoke 需在 ARA 任务 scope 内单独补充 | ARA 消费侧按 bundle consume order 读取 AMRA 产物 |
-| `REQ-AMRA-CANONICAL-MIGRATION-001` | `partial` | `docs/amra_canonical_migration_spec.zh.md` 已定义目标和任务包；`src/amra/legacy_migration.py` 已覆盖 51 个 legacy 文件并提供 import audit | `src/ara_math` 仍有 30 个 active implementation；proof/orchestration/source/review/evaluation 活实现尚未全部迁入 `src/amra` | 继续执行 `AMRA-ORCHESTRATION-MIGRATION-001` 到 `AMRA-LEGACY-SHIM-CLEANUP-001` |
+| `REQ-AMRA-CANONICAL-MIGRATION-001` | `partial` | `docs/amra_canonical_migration_spec.zh.md` 已定义目标和任务包；`src/amra/legacy_migration.py` 已覆盖 51 个 legacy 文件并提供 import audit；`AMRA-ORCHESTRATION-MIGRATION-001` 已把 CoMath orchestration/review/scheduler 状态迁入 canonical AMRA 模块 | proof/source/evaluation 活实现尚未全部迁入 `src/amra`，部分 scheduler runner adapter 仍通过后续任务动态调用 legacy proof/source 实现 | 继续执行 `AMRA-PROOF-RUNNERS-MIGRATION-001`、`AMRA-SOURCES-EVALUATION-MIGRATION-001` 到 `AMRA-LEGACY-SHIM-CLEANUP-001` |
 
 ## 2026-05-20 Canonical Migration 目标
 
@@ -45,6 +45,13 @@
 - 新增 `src/amra/legacy_migration.py` 作为 canonical migration 的机器清单和 AST import audit 源。
 - 清单覆盖全部 51 个 `src/ara_math/*.py` 文件：30 个标记为 `active_implementation` / `delete_later`，21 个标记为 `shim` / `retain_compatibility`。
 - `tests/test_amra_legacy_migration_map.py` 固定清单覆盖、文档处置表一致性、JSON 可读性和 `src/amra` 反向依赖例外表。
+
+## 2026-05-20 AMRA-ORCHESTRATION-MIGRATION-001 同步说明
+
+- 新增 canonical `amra.orchestration`、`amra.review` 和 `amra.scheduler` package，承载原 CoMath project/workstream/claim state、coordinator loop、uncertainty ledger、review gate 和 workstream executor adapters。
+- `ara_math.workstreams`、`ara_math.coordinator`、`ara_math.uncertainty`、`ara_math.review`、`ara_math.review_gate`、`ara_math.comath_runners` 现在是 deprecated compatibility alias。
+- 新增 `tests/test_amra_orchestration_state.py`，直接验证 canonical AMRA API 可以创建 dashboard/artifact graph/ledger state、运行 bounded scheduler loop，并保持 legacy module identity。
+- 本地验收通过：`python3 -m pytest -q tests/test_amra_orchestration_state.py tests/test_comath_state.py tests/test_comath_scheduler.py tests/test_comath_review_gate.py`。
 
 ## 2026-05-19 同步说明
 
