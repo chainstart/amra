@@ -545,7 +545,7 @@ class SourceLiteratureWorkstreamExecutor:
         return _unique(blockers)
 
     def execute(self, context: WorkstreamExecutionContext) -> WorkstreamExecutionResult:
-        LiteratureHarvester = importlib.import_module("ara_math.literature").LiteratureHarvester
+        LiteratureHarvester = importlib.import_module("amra.sources.literature").LiteratureHarvester
 
         started_at = utc_now_iso()
         options = context.options
@@ -635,7 +635,7 @@ class ComputationReproWorkstreamExecutor:
     executor_name = "computation_repro"
 
     def execute(self, context: WorkstreamExecutionContext) -> WorkstreamExecutionResult:
-        capabilities = importlib.import_module("ara_math.comath_capabilities")
+        capabilities = importlib.import_module("amra.evaluation.capabilities")
         create_computation_certificate = capabilities.create_computation_certificate
         verify_computation_certificate = capabilities.verify_computation_certificate
 
@@ -699,7 +699,7 @@ class LlmSpecialistWorkstreamExecutor:
     executor_name = "llm_specialist"
 
     def execute(self, context: WorkstreamExecutionContext) -> WorkstreamExecutionResult:
-        run_specialist = importlib.import_module("ara_math.comath_specialists").run_specialist
+        run_specialist = importlib.import_module("amra.evaluation.specialists").run_specialist
 
         started_at = utc_now_iso()
         options = context.options

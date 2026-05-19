@@ -2178,7 +2178,7 @@
         {
           "id": "AMRA-SOURCES-EVALUATION-MIGRATION-001",
           "title": "Migrate source recovery, evaluator, specialist, and scouting layers",
-          "status": "pending",
+          "status": "completed",
           "max_attempts": 2,
           "max_task_iterations": 3,
           "manual_approval_required": false,
@@ -2188,6 +2188,7 @@
             "src/amra/evaluation/**",
             "src/amra/scheduler/**",
             "src/amra/portfolio_*.py",
+            "src/amra/legacy_migration.py",
             "src/amra/math_scout.py",
             "src/amra/source_quality.py",
             "src/amra/problem_banks/**",
@@ -2248,7 +2249,10 @@
           ],
           "spec_refs": [
             "docs/amra_canonical_migration_spec.zh.md"
-          ]
+          ],
+          "updated_at": "2026-05-20T00:00:00Z",
+          "last_note": "Canonical source/evaluation migration completed; required deterministic pytest suite passed.",
+          "last_phase": "drive"
         },
         {
           "id": "AMRA-CANONICAL-CLI-ORCHESTRATOR-001",

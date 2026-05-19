@@ -467,7 +467,7 @@
     {
       "id": "AMRA-SOURCES-EVALUATION-MIGRATION-001",
       "title": "Migrate source recovery, evaluator, specialist, and scouting layers",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "owner": "amra",
       "requirement_ids": [
@@ -482,7 +482,32 @@
         }
       ],
       "notes": "Move literature/source audit, specialist contracts, evaluator policy, obligation refinement, strategy/scouting/convergence/banking into canonical amra.sources/amra.evaluation/amra.scheduler/portfolio modules.",
-      "source_spec": "docs/amra_canonical_migration_spec.zh.md"
+      "source_spec": "docs/amra_canonical_migration_spec.zh.md",
+      "evidence": [
+        {
+          "kind": "code",
+          "path": "src/amra/sources"
+        },
+        {
+          "kind": "code",
+          "path": "src/amra/evaluation"
+        },
+        {
+          "kind": "code",
+          "path": "src/amra/scheduler/obligations.py"
+        },
+        {
+          "kind": "code",
+          "path": "src/amra/problem_banks/sync.py"
+        },
+        {
+          "kind": "test",
+          "value": "python3 -m pytest -q tests/test_amra_sources_evaluation.py tests/test_literature.py tests/test_portfolio_evaluator.py tests/test_math_scout.py tests/test_amra_source_quality.py"
+        }
+      ],
+      "updated_at": "2026-05-20T00:00:00Z",
+      "last_note": "Canonical source/evaluation migration completed; required deterministic pytest suite passed.",
+      "last_phase": "drive"
     },
     {
       "id": "AMRA-CANONICAL-CLI-ORCHESTRATOR-001",

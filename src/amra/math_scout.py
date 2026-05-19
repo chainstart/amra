@@ -11,7 +11,7 @@ from typing import Any
 from amra.core.models import ProblemRecord
 from amra.problem_banks.registry import load_problem_bank
 from amra.infra.runtime import env_int, env_str, run_guarded_command, wait_for_system_headroom
-from ara_math.scouting import assess_problem_readiness
+from amra.evaluation.scouting import assess_problem_readiness
 from amra.core.workspace import read_json, read_text, slugify, utc_now_iso, write_json, write_text
 
 
