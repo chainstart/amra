@@ -1,7 +1,9 @@
-"""Legacy compatibility shim for AMRA agent tool registry."""
+"""Deprecated compatibility alias for :mod:`amra.agents.tools`."""
 
 from __future__ import annotations
 
-from amra.agents.tools import ToolRegistry, ToolSpec
+import sys as _sys
 
-__all__ = ["ToolSpec", "ToolRegistry"]
+from amra.agents import tools as _canonical
+
+_sys.modules[__name__] = _canonical

@@ -1,3 +1,5 @@
+"""Deprecated compatibility shim for :mod:`amra.amra_library`."""
+
 from __future__ import annotations
 
 from amra.amra_library import (

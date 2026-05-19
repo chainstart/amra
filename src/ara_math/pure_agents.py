@@ -1,4 +1,4 @@
-"""Legacy compatibility shim for canonical AMRA proof-agent runners."""
+"""Deprecated compatibility shim for canonical AMRA proof-agent runners."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Legacy compatibility shim for canonical AMRA proof state."""
+"""Deprecated compatibility shim for canonical AMRA proof state."""
 
 from __future__ import annotations
 
