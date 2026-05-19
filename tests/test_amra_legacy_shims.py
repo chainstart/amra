@@ -9,40 +9,58 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DOC_PATH = REPO_ROOT / "docs" / "amra_legacy_module_disposition.zh.md"
 
 MODULE_ALIAS_SHIMS = {
+    "ara_math.cli": "amra.cli",
     "ara_math.models": "amra.core.models",
     "ara_math.workspace": "amra.core.workspace",
     "ara_math.runtime": "amra.infra.runtime",
     "ara_math.context": "amra.core.context",
+    "ara_math.erdos_status": "amra.problem_banks.erdos",
     "ara_math.problem_bank": "amra.problem_banks.registry",
     "ara_math.artifact_graph": "amra.core.artifact_graph",
+    "ara_math.focused_attack": "amra.proof.focused_attack",
     "ara_math.lean_audit": "amra.lean.audit",
     "ara_math.lean_contract": "amra.lean.contract",
     "ara_math.agent_tools": "amra.agents.tools",
+    "ara_math.math_scout": "amra.math_scout",
 }
 
 MIGRATED_SHIM_FILES = {
+    Path("src/ara_math/cli.py"): "amra.cli",
     Path("src/ara_math/models.py"): "amra.core.models",
     Path("src/ara_math/workspace.py"): "amra.core.workspace",
     Path("src/ara_math/runtime.py"): "amra.infra.runtime",
     Path("src/ara_math/context.py"): "amra.core.context",
+    Path("src/ara_math/erdos_status.py"): "amra.problem_banks.erdos",
     Path("src/ara_math/problem_bank.py"): "amra.problem_banks.registry",
     Path("src/ara_math/artifact_graph.py"): "amra.core.artifact_graph",
+    Path("src/ara_math/focused_attack.py"): "amra.proof.focused_attack",
     Path("src/ara_math/lean_audit.py"): "amra.lean.audit",
     Path("src/ara_math/lean_contract.py"): "amra.lean.contract",
     Path("src/ara_math/agent_tools.py"): "amra.agents.tools",
+    Path("src/ara_math/math_scout.py"): "amra.math_scout",
     Path("src/ara_math/ara_library.py"): "amra.amra_library",
     Path("src/ara_math/proof_state.py"): "amra.proof.state",
     Path("src/ara_math/pure_agents.py"): "amra.agents",
 }
 
 TEMPORARY_AMRA_LEGACY_IMPORTS = {
-    Path("src/amra/cli.py"): {"ara_math.cli"},
+    Path("src/amra/cli.py"): {
+        "ara_math.banking",
+        "ara_math.campaign_loop",
+        "ara_math.comath_benchmarks",
+        "ara_math.comath_capabilities",
+        "ara_math.comath_source_audit",
+        "ara_math.comath_specialists",
+        "ara_math.coordinator",
+        "ara_math.goal_campaign",
+        "ara_math.orchestrator",
+        "ara_math.proof_lab",
+        "ara_math.scouting",
+        "ara_math.workstreams",
+    },
     Path("src/amra/core/artifact_graph.py"): {"ara_math.workstreams"},
     Path("src/amra/core/workspace.py"): {"ara_math.coordinator"},
-    Path("src/amra/math_scout.py"): {"ara_math.math_scout"},
-    Path("src/amra/portfolio_campaign.py"): {"ara_math.math_scout"},
-    Path("src/amra/problem_banks/registry.py"): {"ara_math.erdos_status"},
-    Path("src/amra/proof/focused_attack.py"): {"ara_math.focused_attack"},
+    Path("src/amra/math_scout.py"): {"ara_math.scouting"},
 }
 
 

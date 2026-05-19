@@ -5,7 +5,7 @@ from typing import Any
 
 import yaml
 
-from ara_math.erdos_status import refresh_erdos_problem_record
+from amra.problem_banks.erdos import refresh_erdos_problem_record
 from amra.core.models import ProblemRecord
 
 

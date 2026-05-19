@@ -1,7 +1,7 @@
 {
   "kind": "amra.spec_tasks.v1",
   "project": "amra",
-  "updated_at": "2026-05-19T14:00:45Z",
+  "updated_at": "2026-05-19T14:30:37Z",
   "source_spec": "docs/portfolio_campaign_spec.zh.md",
   "status_doc": "docs/amra_implementation_status.zh.md",
   "decision_log_dir": "docs/decisions",
@@ -70,7 +70,7 @@
     {
       "id": "AMRA-NAMING-001",
       "title": "Complete canonical AMRA migration and legacy shim convergence",
-      "status": "partial",
+      "status": "completed",
       "requirement_ids": [
         "REQ-AMRA-NAMING-001"
       ],
@@ -86,9 +86,30 @@
         {
           "kind": "record",
           "path": ".engineering/reports/tasks/20260519T032302Z-amra-canonical-core-migration.md"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260519T142119Z-AMRA-NAMING-001.md",
+          "recorded_at": "2026-05-19T14:30:37Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260519T142119Z-AMRA-NAMING-001.json",
+          "recorded_at": "2026-05-19T14:30:37Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-19T14:30:37Z",
+          "actor": "engineering-harness:auto"
         }
       ],
-      "next_action": "Rerun amra-canonical-core-migration within the declared file_scope, then continue retiring remaining src/ara_math compatibility surfaces."
+      "next_action": "Rerun amra-canonical-core-migration within the declared file_scope, then continue retiring remaining src/ara_math compatibility surfaces.",
+      "updated_at": "2026-05-19T14:30:37Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive"
     },
     {
       "id": "AMRA-PORTFOLIO-001",

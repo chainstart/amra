@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from ara_math.math_scout import MathScoutRunner
+from amra.math_scout import MathScoutRunner
 from amra.core.workspace import slugify
 from amra.problem_banks.registry import load_problem_bank
 

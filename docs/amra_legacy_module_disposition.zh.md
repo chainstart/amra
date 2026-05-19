@@ -181,20 +181,18 @@ AMRA 重构要做的是模块处置，而不是目录级清空：
 `src/amra` 原则上不能新增对 `ara_math` 的依赖。下面例外只用于尚未迁移完成的模块，必须由
 `tests/test_amra_legacy_shims.py` 的 import audit 固定；新增例外需要先更新本节并说明迁移归宿。
 
-- `src/amra/cli.py` -> `ara_math.cli`：CLI 聚合层尚未拆分，legacy CLI 仍拥有完整 parser 和命令兼容。
-- `src/amra/math_scout.py` -> `ara_math.math_scout`：portfolio scout 实现尚未迁移，当前 canonical path 只是显式 facade。
-- `src/amra/portfolio_campaign.py` -> `ara_math.math_scout`：portfolio campaign 仍调用未迁移的 scout runner。
-- `src/amra/lean/executor.py` -> `ara_math.lean`：Lean executor/cache/build 实现迁移将在 Lean consolidation 任务处理。
-- `src/amra/proof/focused_attack.py` -> `ara_math.focused_attack`：focused attack runner 尚未物理迁入 `amra.proof`。
+- `src/amra/cli.py` -> `ara_math.banking`、`ara_math.campaign_loop`、`ara_math.comath_benchmarks`、`ara_math.comath_capabilities`、`ara_math.comath_source_audit`、`ara_math.comath_specialists`、`ara_math.coordinator`、`ara_math.goal_campaign`、`ara_math.orchestrator`、`ara_math.proof_lab`、`ara_math.scouting`、`ara_math.workstreams`：canonical CLI 聚合层已迁入 `amra.cli`，但这些命令处理器尚未拆到 canonical 子模块；`ara_math.cli` 只保留 deprecated shim。
+- `src/amra/math_scout.py` -> `ara_math.scouting`：active scout runner 已迁入 canonical 模块，但 deterministic readiness helper 仍在 legacy scouting 模块，后续与 portfolio scout 合并。
 - `src/amra/core/artifact_graph.py` -> `ara_math.workstreams`：artifact graph schema 暂时复用 legacy workstream enum/status。
 - `src/amra/core/workspace.py` -> `ara_math.coordinator`：legacy project initialization/dashboard helper 仍由 coordinator 提供。
-- `src/amra/problem_banks/registry.py` -> `ara_math.erdos_status`：Erdős source adapter 尚未迁入 `amra.problem_banks`。
 
 当前已经迁移并降级为 deprecated shim 的 legacy 模块包括：
 `src/ara_math/models.py`、`src/ara_math/workspace.py`、`src/ara_math/runtime.py`、
 `src/ara_math/context.py`、`src/ara_math/problem_bank.py`、`src/ara_math/artifact_graph.py`、
 `src/ara_math/lean_audit.py`、`src/ara_math/lean_contract.py`、`src/ara_math/agent_tools.py`、
-`src/ara_math/ara_library.py`、`src/ara_math/proof_state.py`、`src/ara_math/pure_agents.py`。
+`src/ara_math/ara_library.py`、`src/ara_math/proof_state.py`、`src/ara_math/pure_agents.py`、
+`src/ara_math/cli.py`、`src/ara_math/focused_attack.py`、`src/ara_math/math_scout.py`、
+`src/ara_math/erdos_status.py`。
 
 ## 7. 立即需要加入 roadmap 的任务
 

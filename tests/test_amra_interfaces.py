@@ -131,14 +131,18 @@ def test_src_amra_package_does_not_tunnel_into_ara_math(tmp_path: Path) -> None:
 
 def test_canonical_core_imports_and_legacy_shims_share_modules() -> None:
     module_pairs = {
+        "ara_math.cli": "amra.cli",
         "ara_math.models": "amra.core.models",
         "ara_math.workspace": "amra.core.workspace",
         "ara_math.runtime": "amra.infra.runtime",
         "ara_math.context": "amra.core.context",
+        "ara_math.erdos_status": "amra.problem_banks.erdos",
         "ara_math.problem_bank": "amra.problem_banks.registry",
         "ara_math.artifact_graph": "amra.core.artifact_graph",
+        "ara_math.focused_attack": "amra.proof.focused_attack",
         "ara_math.lean_audit": "amra.lean.audit",
         "ara_math.lean_contract": "amra.lean.contract",
+        "ara_math.math_scout": "amra.math_scout",
     }
 
     for legacy_name, canonical_name in module_pairs.items():
