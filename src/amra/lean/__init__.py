@@ -12,11 +12,19 @@ from amra.lean.contract import (
     render_lean_header_with_sorry,
     trim_lean_proof_from_header,
 )
+from amra.lean.faithfulness import (
+    FAITHFULNESS_REPORT_SCHEMA_VERSION,
+    MISMATCH_TAXONOMY,
+    audit_faithfulness_bundle,
+)
 
 __all__ = [
     "FormalizationPreparer",
     "LeanExecutor",
     "LeanFormalizerRunner",
+    "FAITHFULNESS_REPORT_SCHEMA_VERSION",
+    "MISMATCH_TAXONOMY",
+    "audit_faithfulness_bundle",
     "audit_lean_source_file",
     "audit_lean_source_text",
     "compare_lean_declaration_headers",

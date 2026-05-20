@@ -1,0 +1,32 @@
+schema_version: amra.nl_lean_faithfulness.fixture_suite.v1
+suite_id: local-nl-lean-faithfulness
+cases:
+  - id: faithful_identity
+    expected_taxonomy: faithfully_modeled
+    problem:
+      problem_id: faithful_identity
+      statement: Prove that every natural number is equal to itself.
+      formal_statement: "theorem identity_self (n : Nat) : n = n"
+    declaration:
+      name: identity_self
+      full_name: MathProject.identity_self
+      statement: "theorem identity_self (n : Nat) : n = n"
+
+  - id: lean_statement_mismatch
+    expected_taxonomy: lean_statement_mismatch
+    problem:
+      problem_id: lean_statement_mismatch
+      statement: Prove that every natural number is equal to itself.
+      formal_statement: "theorem identity_self (n : Nat) : n = n"
+    declaration:
+      name: identity_self
+      full_name: MathProject.identity_self
+      statement: "theorem identity_self (n : Nat) : n = 0"
+
+  - id: blocked_formalization_gap
+    expected_taxonomy: missing_lean_declaration
+    problem:
+      problem_id: blocked_formalization_gap
+      statement: Prove that every natural number is equal to itself.
+      formal_statement: "theorem identity_self (n : Nat) : n = n"
+    blocker: Target theorem header is missing from the local fixture.

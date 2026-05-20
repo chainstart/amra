@@ -97,6 +97,7 @@ def test_amra_result_bundle_separates_sketches_from_verified_declarations(tmp_pa
     declarations = json.loads((bundle_dir / "verified_declarations.json").read_text(encoding="utf-8"))
     proof_summary = (bundle_dir / "proof_summary.md").read_text(encoding="utf-8")
     handoff_notes = (bundle_dir / "handoff_notes.md").read_text(encoding="utf-8")
+    faithfulness = json.loads((bundle_dir / "faithful_modeling_report.json").read_text(encoding="utf-8"))
 
     assert result["schema_version"] == RESULT_BUNDLE_SCHEMA_VERSION
     assert set(result["required_files"]) <= {path.name for path in bundle_dir.iterdir()}
@@ -111,10 +112,15 @@ def test_amra_result_bundle_separates_sketches_from_verified_declarations(tmp_pa
     assert manifest["proof_loop_state"]["lean_verified_declarations"]["count"] == 1
     assert manifest["proof_loop_state"]["blocked_formalization_gaps"]["status"] == "absent"
     assert manifest["faithful_modeling"]["status"] == "faithfully_modeled"
+    assert manifest["faithful_modeling"]["audit_report"] == "faithful_modeling_report.json"
+    assert manifest["faithful_modeling"]["taxonomy_counts"]["faithfully_modeled"] == 1
+    assert faithfulness["status"] == "passed"
+    assert faithfulness["taxonomy_counts"]["faithfully_modeled"] == 1
     assert manifest["ara_handoff"]["handoff_notes"] == "handoff_notes.md"
     assert manifest["natural_language_proof_sketches"][0]["lean_verified"] is False
     assert (bundle_dir / "proof_attempt_ledger.jsonl").exists()
     assert "proof_attempt_ledger.jsonl" in {item["path"] for item in manifest["files"]}
+    assert "faithful_modeling_report.json" in {item["path"] for item in manifest["files"]}
     assert {item["path"]: item for item in manifest["files"]}["handoff_notes.md"]["sha256"]
     assert {item["path"]: item for item in manifest["files"]}["proof_attempt_ledger.jsonl"]["lean_verified_claim_source"] is False
     assert "Natural-language proof sketches are research evidence only" in proof_summary
@@ -243,3 +249,51 @@ def test_portfolio_final_report_explains_every_disposition(tmp_path: Path) -> No
     assert "Disposition: `parked`" in text
     assert "Disposition: `frozen`" in text
     assert "Reason:" in text
+
+
+def test_result_bundle_carries_library_curator_artifacts(tmp_path: Path) -> None:
+    project = _result_project(tmp_path)
+    _write_json(
+        project / "library_curator_report.json",
+        {
+            "schema_version": "amra.library_curator.report.v1",
+            "status": "passed",
+            "promoted_count": 1,
+            "rejected_count": 0,
+        },
+    )
+    (project / "curator_review_records.jsonl").write_text(
+        json.dumps(
+            {
+                "schema_version": "amra.library_curator.review_record.v1",
+                "decision": "promote",
+                "candidate_id": "identity-self",
+            },
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    _write_json(
+        project / "reusable_lemma_metadata.json",
+        {
+            "schema_version": "amra.reusable_lemma_metadata.v1",
+            "lemma_count": 1,
+            "lemmas": [{"full_name": "MathProject.identity_self"}],
+        },
+    )
+    _write_json(project / "rejection_reasons.json", {"schema_version": "amra.library_curator.rejection_reasons.v1"})
+    _write_json(
+        project / "promoted_library_candidates.json",
+        {"schema_version": "amra.library_curator.promoted_candidates.v1", "candidate_count": 1},
+    )
+
+    export_amra_result_bundle(project=project, output_dir=tmp_path / "bundle", repo_root=tmp_path)
+
+    manifest = json.loads((tmp_path / "bundle" / "artifact_manifest.json").read_text(encoding="utf-8"))
+    files = {item["path"]: item for item in manifest["files"]}
+
+    assert files["library_curator_report.json"]["ara_contract_role"] == "verified_only_library_curator_report"
+    assert files["curator_review_records.jsonl"]["ara_contract_role"] == "library_curator_review_records"
+    assert files["reusable_lemma_metadata.json"]["ara_contract_role"] == "reusable_lemma_metadata"
+    assert files["promoted_library_candidates.json"]["lean_verified_claim_source"] is False

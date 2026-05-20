@@ -1,0 +1,75 @@
+schema_version: amra.proof_stability.suite.v1
+suite_id: local-proof-loop-stability
+budgets:
+  max_cases: 4
+  max_total_steps: 12
+case_defaults:
+  backend: none
+  max_steps: 3
+  time_budget_seconds: 20
+  simulated_steps: 1
+  simulated_seconds: 1
+requirements:
+  min_mixed_cases: 2
+cases:
+  - id: nl_reflexivity_fixture
+    kind: natural_language
+    route: proof_lab
+    backend: none
+    statement: Prove that every natural number is equal to itself.
+    expected:
+      route: proof_lab
+      canonical_status: completed
+      failure_taxon: none
+    fake_report:
+      status: completed
+      attempts_completed: 1
+      proof_loop_state: informal_claim
+
+  - id: mixed_proof_search_converged
+    kind: mixed
+    backend: none
+    parameters:
+      project_dir: local_mixed_project
+      orchestrator: deterministic_fixture_orchestrator
+    expected:
+      route: proof_search
+      canonical_status: verified
+      failure_taxon: none
+    fake_report:
+      status: converged
+      attempts_completed: 1
+      proof_loop_state: lean_verified_declaration
+      build_status: passed
+
+  - id: mixed_closure_blocked_formalization_gap
+    kind: mixed
+    route: closure
+    backend: none
+    parameters:
+      project_dir: local_closure_project
+      orchestrator: deterministic_fixture_orchestrator
+    expected:
+      route: closure
+      canonical_status: blocked
+      failure_taxon: blocked_formalization_gap
+    fake_report:
+      status: needs_target
+      diagnostics:
+        - Target theorem header is missing from the local fixture.
+
+  - id: budget_guard_regression
+    kind: budget_control
+    route: proof_lab
+    backend: none
+    statement: This case must be stopped by deterministic budget controls.
+    max_steps: 2
+    time_budget_seconds: 20
+    simulated_steps: 3
+    simulated_seconds: 1
+    expected:
+      route: proof_lab
+      canonical_status: blocked
+      failure_taxon: budget_exhausted
+    fake_report:
+      status: completed

@@ -35,6 +35,15 @@ from amra.proof.proof_system import ProofSearchAgendaPlanner, ProofSystemPlanner
 from amra.proof.retrieval import PremiseRetriever
 from amra.proof.search import ProofSearchRunner
 from amra.proof.state import ProofArtifactTracker
+from amra.proof.stability import (
+    FAILURE_TAXONOMY,
+    PROOF_STABILITY_CASE_SCHEMA_VERSION,
+    PROOF_STABILITY_REPORT_SCHEMA_VERSION,
+    PROOF_STABILITY_RESUME_SCHEMA_VERSION,
+    PROOF_STABILITY_SUITE_SCHEMA_VERSION,
+    load_proof_stability_suite,
+    run_proof_stability_benchmark,
+)
 
 __all__ = [
     "AIProofLabRunner",
@@ -48,6 +57,11 @@ __all__ = [
     "ProofSearchRunner",
     "ProofSystemPlanner",
     "ProofArtifactTracker",
+    "FAILURE_TAXONOMY",
+    "PROOF_STABILITY_CASE_SCHEMA_VERSION",
+    "PROOF_STABILITY_REPORT_SCHEMA_VERSION",
+    "PROOF_STABILITY_RESUME_SCHEMA_VERSION",
+    "PROOF_STABILITY_SUITE_SCHEMA_VERSION",
     "ProofLoopRegistry",
     "ProofRunRequest",
     "ProofRunResult",
@@ -60,7 +74,9 @@ __all__ = [
     "normalize_goal_manifest",
     "parse_labeled_fields",
     "route_signature",
+    "load_proof_stability_suite",
     "run_proof_loop",
+    "run_proof_stability_benchmark",
     "select_proof_loop_route",
     "write_goal_manifest_template",
 ]

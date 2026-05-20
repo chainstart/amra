@@ -8,6 +8,7 @@ from typing import Any
 
 import yaml
 
+from amra.lean.faithfulness import audit_faithfulness_bundle
 from amra.lean.contract import compare_lean_declaration_headers
 from amra.portfolio_memory import (
     consolidate_project_memory,
@@ -46,8 +47,14 @@ BUNDLE_FILE_KINDS = {
     "proof_attempt_ledger.jsonl": "proof_attempt_ledger",
     "known_problem_smoke_report.json": "known_problem_smoke_report",
     "library_harvest_candidates.json": "library_harvest_candidates",
+    "library_curator_report.json": "library_curator_report",
+    "curator_review_records.jsonl": "library_curator_review_records",
+    "reusable_lemma_metadata.json": "reusable_lemma_metadata",
+    "rejection_reasons.json": "library_curator_rejection_reasons",
+    "promoted_library_candidates.json": "promoted_library_candidates",
     "benchmark_review_gate.json": "benchmark_review_gate",
     "nontrivial_benchmark_report.json": "nontrivial_benchmark_report",
+    "faithful_modeling_report.json": "faithful_modeling_report",
 }
 
 LEAN_VERIFIED_DECLARATION_SOURCE = "verified_declarations.json"
@@ -60,6 +67,11 @@ NON_VERIFIED_RESEARCH_EVIDENCE_FILES = {
 OPTIONAL_PROJECT_BUNDLE_FILES = (
     "proof_attempt_ledger.jsonl",
     "library_harvest_candidates.json",
+    "library_curator_report.json",
+    "curator_review_records.jsonl",
+    "reusable_lemma_metadata.json",
+    "rejection_reasons.json",
+    "promoted_library_candidates.json",
     "benchmark_review_gate.json",
 )
 
@@ -851,6 +863,41 @@ def _bundle_file_record(path: str, *, output_dir: Path | None = None) -> dict[st
                 "lean_verified_claim_source": False,
             }
         )
+    elif path == "library_curator_report.json":
+        record.update(
+            {
+                "ara_contract_role": "verified_only_library_curator_report",
+                "lean_verified_claim_source": False,
+            }
+        )
+    elif path == "curator_review_records.jsonl":
+        record.update(
+            {
+                "ara_contract_role": "library_curator_review_records",
+                "lean_verified_claim_source": False,
+            }
+        )
+    elif path == "reusable_lemma_metadata.json":
+        record.update(
+            {
+                "ara_contract_role": "reusable_lemma_metadata",
+                "lean_verified_claim_source": False,
+            }
+        )
+    elif path == "rejection_reasons.json":
+        record.update(
+            {
+                "ara_contract_role": "library_curator_rejection_reasons",
+                "lean_verified_claim_source": False,
+            }
+        )
+    elif path == "promoted_library_candidates.json":
+        record.update(
+            {
+                "ara_contract_role": "promoted_library_candidates",
+                "lean_verified_claim_source": False,
+            }
+        )
     elif path == "benchmark_review_gate.json":
         record.update(
             {
@@ -862,6 +909,13 @@ def _bundle_file_record(path: str, *, output_dir: Path | None = None) -> dict[st
         record.update(
             {
                 "ara_contract_role": "benchmark_run_summary",
+                "lean_verified_claim_source": False,
+            }
+        )
+    elif path == "faithful_modeling_report.json":
+        record.update(
+            {
+                "ara_contract_role": "nl_lean_faithfulness_audit",
                 "lean_verified_claim_source": False,
             }
         )
@@ -888,6 +942,7 @@ def _artifact_manifest(
     limitations: list[str],
     lean_status: dict[str, Any],
     proof_loop_state: dict[str, Any],
+    faithfulness_report: dict[str, Any],
     files: list[str],
 ) -> dict[str, Any]:
     source_artifacts = []
@@ -935,7 +990,17 @@ def _artifact_manifest(
             proof_loop_state=proof_loop_state,
         ),
         "proof_loop_state": proof_loop_state,
-        "faithful_modeling": proof_loop_state["faithful_modeling"],
+        "faithful_modeling": {
+            **proof_loop_state["faithful_modeling"],
+            "audit_report": "faithful_modeling_report.json",
+            "audit_schema_version": faithfulness_report.get("schema_version", ""),
+            "audit_status": faithfulness_report.get("status", ""),
+            "mismatch_taxonomy": faithfulness_report.get("mismatch_taxonomy", []),
+            "taxonomy_counts": faithfulness_report.get("taxonomy_counts", {}),
+            "blocked_formalization_evidence_count": faithfulness_report.get(
+                "blocked_formalization_evidence_count", 0
+            ),
+        },
         "lean_status": lean_status,
         "ara_handoff": {
             "consumer": "ARA",
@@ -1113,6 +1178,19 @@ def export_amra_result_bundle(
         encoding="utf-8",
     )
     _copy_optional_bundle_files(project_dir, output_dir)
+    faithfulness_report = audit_faithfulness_bundle(bundle=output_dir, write_artifacts=False)
+    proof_loop_state["faithful_modeling"] = {
+        **proof_loop_state["faithful_modeling"],
+        "audit_report": "faithful_modeling_report.json",
+        "audit_schema_version": faithfulness_report.get("schema_version", ""),
+        "audit_status": faithfulness_report.get("status", ""),
+        "mismatch_taxonomy": faithfulness_report.get("mismatch_taxonomy", []),
+        "taxonomy_counts": faithfulness_report.get("taxonomy_counts", {}),
+        "blocked_formalization_evidence_count": faithfulness_report.get(
+            "blocked_formalization_evidence_count", 0
+        ),
+    }
+    write_json(output_dir / "faithful_modeling_report.json", faithfulness_report)
 
     files = sorted(path.name for path in output_dir.iterdir() if path.is_file() and path.name != "artifact_manifest.json")
     manifest = _artifact_manifest(
@@ -1127,6 +1205,7 @@ def export_amra_result_bundle(
         limitations=limitations,
         lean_status=lean_status,
         proof_loop_state=proof_loop_state,
+        faithfulness_report=faithfulness_report,
         files=files + ["artifact_manifest.json"],
     )
     write_json(output_dir / "artifact_manifest.json", manifest)

@@ -1233,7 +1233,7 @@
     {
       "id": "amra-next-development-targets",
       "title": "AMRA Next Development Targets",
-      "status": "active",
+      "status": "completed",
       "objective": "Implement the next development targets from the portfolio campaign spec: finish canonical package migration, converge legacy shims, consolidate duplicate proof/agent/formalization layers, and extend the portfolio campaign loop toward trusted source ranking, domain executors, and a nontrivial closed-theorem benchmark.",
       "generated_by": "engineering-harness-continuation",
       "generated_at": "2026-05-19T03:22:34Z",
@@ -1770,7 +1770,7 @@
         {
           "id": "AMRA-NAMING-001",
           "title": "Complete canonical AMRA migration and legacy shim convergence",
-          "status": "pending",
+          "status": "completed",
           "max_attempts": 2,
           "max_task_iterations": 3,
           "manual_approval_required": false,
@@ -1964,7 +1964,7 @@
     {
       "id": "amra-canonical-migration-completion",
       "title": "AMRA Canonical Migration Completion",
-      "status": "pending",
+      "status": "completed",
       "objective": "Move all active ara_math theorem-search, orchestration, proof, Lean, evaluation, source, review, library, and bundle behavior into canonical src/amra modules; leave src/ara_math as deprecated compatibility shims only.",
       "tasks": [
         {
@@ -2403,6 +2403,172 @@
           ],
           "spec_refs": [
             "docs/amra_canonical_migration_spec.zh.md"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "amra-remaining-proof-lean-library-harness-plan",
+      "title": "AMRA Remaining Proof Lean Library Harness Plan",
+      "status": "active",
+      "objective": "Drain the remaining AMRA partial requirements for proof stability, NL/Lean faithful modeling, and verified-only library promotion.",
+      "tasks": [
+        {
+          "id": "AMRA-PROOF-STABILITY-001",
+          "title": "Harden bounded natural-language and mixed proof search loop",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "file_scope": [
+            "src/amra/**",
+            "tests/**",
+            "docs/**",
+            "data/**",
+            ".engineering/spec_tasks.yaml",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "codex hardens AMRA proof stability",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "no_progress_timeout_seconds": 1200,
+              "requested_capabilities": [
+                "agent"
+              ],
+              "prompt": "Implement AMRA-PROOF-STABILITY-001. Add a bounded deterministic proof-loop stability benchmark over representative local fixtures, with resume records, failure taxonomy, budget controls, mixed proof-search regression coverage, docs, and spec tracking. Do not run live model calls or unbounded proof search."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA proof stability benchmark runs",
+              "command": "python3 -m amra proof-stability benchmark --suite tests/fixtures/proof_stability_suite.yaml --out /tmp/amra_proof_stability --json >/tmp/amra_proof_stability.json",
+              "required": true,
+              "timeout_seconds": 600
+            },
+            {
+              "name": "AMRA proof stability tests pass",
+              "command": "python3 -m pytest -q tests/test_amra_proof_stability.py tests/test_amra_known_problem_smoke.py tests/test_amra_proof_runners.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "AMRA dynamic spec audit passes",
+              "command": "python3 -c \"import sys; sys.path.insert(0, '/home/biostar/work/projects/engineering-harness/src'); from engineering_harness.cli import main; raise SystemExit(main(['spec-sync', 'audit', '--project-root', '.', '--json']))\" >/tmp/amra_spec_sync_audit.json",
+              "required": true,
+              "timeout_seconds": 120
+            }
+          ]
+        },
+        {
+          "id": "AMRA-NL-LEAN-FAITHFULNESS-001",
+          "title": "Strengthen natural-language to Lean faithful modeling loop",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "file_scope": [
+            "src/amra/**",
+            "tests/**",
+            "docs/**",
+            "data/**",
+            ".engineering/spec_tasks.yaml",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "codex implements AMRA NL Lean faithfulness checks",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "no_progress_timeout_seconds": 1200,
+              "requested_capabilities": [
+                "agent"
+              ],
+              "prompt": "Implement AMRA-NL-LEAN-FAITHFULNESS-001. Add faithful-modeling checks between natural-language proof obligations and Lean declarations, including mismatch taxonomy, blocked formalization evidence, deterministic fixtures, result-bundle integration, docs, and spec tracking."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA faithfulness audit runs",
+              "command": "python3 -m amra formalization audit-faithfulness --bundle /tmp/amra_proof_stability --out /tmp/amra_faithfulness --json >/tmp/amra_faithfulness.json",
+              "required": true,
+              "timeout_seconds": 600
+            },
+            {
+              "name": "AMRA faithfulness tests pass",
+              "command": "python3 -m pytest -q tests/test_amra_faithfulness.py tests/test_amra_known_problem_smoke.py tests/test_amra_result_bundle.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "AMRA dynamic spec audit passes",
+              "command": "python3 -c \"import sys; sys.path.insert(0, '/home/biostar/work/projects/engineering-harness/src'); from engineering_harness.cli import main; raise SystemExit(main(['spec-sync', 'audit', '--project-root', '.', '--json']))\" >/tmp/amra_spec_sync_audit.json",
+              "required": true,
+              "timeout_seconds": 120
+            }
+          ]
+        },
+        {
+          "id": "AMRA-LIBRARY-CURATOR-001",
+          "title": "Add verified-only library curator and reusable lemma promotion gates",
+          "status": "completed",
+          "max_attempts": 2,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "file_scope": [
+            "src/amra/**",
+            "tests/**",
+            "docs/**",
+            "data/**",
+            ".engineering/spec_tasks.yaml",
+            ".engineering/roadmap.yaml"
+          ],
+          "implementation": [
+            {
+              "name": "codex implements AMRA library curator",
+              "executor": "codex",
+              "timeout_seconds": 5400,
+              "no_progress_timeout_seconds": 900,
+              "requested_capabilities": [
+                "agent"
+              ],
+              "prompt": "Implement AMRA-LIBRARY-CURATOR-001. Add verified-only library promotion, curator review records, reusable lemma metadata, rejection reasons, CLI/report artifacts, result-bundle integration, tests, docs, and spec tracking."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "AMRA library curator runs",
+              "command": "python3 -m amra library curate --candidates /tmp/amra_faithfulness --out /tmp/amra_library_curator --json >/tmp/amra_library_curator.json",
+              "required": true,
+              "timeout_seconds": 420
+            },
+            {
+              "name": "AMRA library curator tests pass",
+              "command": "python3 -m pytest -q tests/test_amra_library_curator.py tests/test_amra_result_bundle.py tests/test_amra_interfaces.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "AMRA dynamic spec audit passes",
+              "command": "python3 -c \"import sys; sys.path.insert(0, '/home/biostar/work/projects/engineering-harness/src'); from engineering_harness.cli import main; raise SystemExit(main(['spec-sync', 'audit', '--project-root', '.', '--json']))\" >/tmp/amra_spec_sync_audit.json",
+              "required": true,
+              "timeout_seconds": 120
+            }
+          ],
+          "evidence": [
+            {
+              "kind": "code",
+              "path": "src/amra/library_curator.py"
+            },
+            {
+              "kind": "test",
+              "path": "tests/test_amra_library_curator.py"
+            },
+            {
+              "kind": "doc",
+              "path": "docs/amra_library_curator.md"
+            }
           ]
         }
       ]

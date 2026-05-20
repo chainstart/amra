@@ -1,7 +1,7 @@
 {
   "kind": "amra.spec_tasks.v1",
   "project": "amra",
-  "updated_at": "2026-05-19T23:47:19Z",
+  "updated_at": "2026-05-20T07:28:57Z",
   "source_spec": "docs/portfolio_campaign_spec.zh.md",
   "status_doc": "docs/amra_implementation_status.zh.md",
   "decision_log_dir": "docs/decisions",
@@ -14,7 +14,7 @@
     {
       "id": "REQ-AMRA-NAMING-001",
       "title": "Canonical AMRA naming and legacy compatibility",
-      "status": "partial"
+      "status": "completed"
     },
     {
       "id": "REQ-AMRA-MANIFEST-001",
@@ -29,7 +29,7 @@
     {
       "id": "REQ-AMRA-PROOF-001",
       "title": "Natural-language and mixed proof search",
-      "status": "partial"
+      "status": "completed"
     },
     {
       "id": "REQ-AMRA-LEAN-001",
@@ -39,7 +39,8 @@
     {
       "id": "REQ-AMRA-LIBRARY-001",
       "title": "Reusable theorem and lemma library",
-      "status": "partial"
+      "status": "completed",
+      "notes": "Verified-only library promotion gate, curator review records, reusable lemma metadata, rejection reasons, and result-bundle integration are implemented by AMRA-LIBRARY-CURATOR-001."
     },
     {
       "id": "REQ-AMRA-ARA-001",
@@ -49,9 +50,9 @@
     {
       "id": "REQ-AMRA-CANONICAL-MIGRATION-001",
       "title": "Full canonical AMRA theorem-search stack and ara_math legacy shim cleanup",
-      "status": "pending",
+      "status": "completed",
       "source_spec": "docs/amra_canonical_migration_spec.zh.md",
-      "notes": "Move active theorem search, orchestration, proof attack, Lean formalization, review/evaluation, source recovery, library promotion, and result bundle implementation into src/amra; keep src/ara_math only as deprecated compatibility shims."
+      "notes": "Canonical migration cleanup is complete: active theorem search, orchestration, proof attack, source/evaluation, CLI/orchestrator, and result bundle paths are in src/amra; src/ara_math remains deprecated compatibility shims."
     }
   ],
   "tasks": [
@@ -652,6 +653,211 @@
           "actor": "engineering-harness:auto"
         }
       ]
+    },
+    {
+      "id": "AMRA-PROOF-STABILITY-001",
+      "title": "Harden bounded natural-language and mixed proof search loop",
+      "status": "completed",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-PROOF-001"
+      ],
+      "depends_on": [
+        "AMRA-LEGACY-SHIM-CLEANUP-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m amra proof-stability benchmark --suite tests/fixtures/proof_stability_suite.yaml --out /tmp/amra_proof_stability --json",
+          "required": true
+        },
+        {
+          "command": "python3 -m pytest -q tests/test_amra_proof_stability.py tests/test_amra_known_problem_smoke.py tests/test_amra_proof_runners.py",
+          "required": true
+        },
+        {
+          "command": "python3 -c \"import sys; sys.path.insert(0, '/home/biostar/work/projects/engineering-harness/src'); from engineering_harness.cli import main; raise SystemExit(main(['spec-sync', 'audit', '--project-root', '.', '--json']))\" >/tmp/amra_spec_sync_audit.json",
+          "required": true
+        }
+      ],
+      "notes": "Implemented bounded deterministic proof-loop stability benchmark with resume records, failure taxonomy, budget controls, and mixed proof-search regression coverage. The fixture suite uses only local deterministic reports and records llm_calls=0.",
+      "updated_at": "2026-05-20T07:01:39Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "run",
+      "evidence": [
+        {
+          "kind": "record",
+          "value": "benchmark: python3 -m amra proof-stability benchmark --suite tests/fixtures/proof_stability_suite.yaml --out /tmp/amra_proof_stability --json >/tmp/amra_proof_stability.json",
+          "recorded_at": "2026-05-20T07:40:00Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "record",
+          "value": "tests: python3 -m pytest -q tests/test_amra_proof_stability.py tests/test_amra_known_problem_smoke.py tests/test_amra_proof_runners.py",
+          "recorded_at": "2026-05-20T07:40:00Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260520T065323Z-AMRA-PROOF-STABILITY-001.md",
+          "recorded_at": "2026-05-20T07:01:39Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260520T065323Z-AMRA-PROOF-STABILITY-001.json",
+          "recorded_at": "2026-05-20T07:01:39Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-20T07:01:39Z",
+          "actor": "engineering-harness:auto"
+        }
+      ]
+    },
+    {
+      "id": "AMRA-NL-LEAN-FAITHFULNESS-001",
+      "title": "Strengthen natural-language to Lean faithful modeling loop",
+      "status": "completed",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-LEAN-001",
+        "REQ-AMRA-PROOF-001"
+      ],
+      "depends_on": [
+        "AMRA-PROOF-STABILITY-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m amra formalization audit-faithfulness --bundle /tmp/amra_proof_stability --out /tmp/amra_faithfulness --json",
+          "required": true
+        },
+        {
+          "command": "python3 -m pytest -q tests/test_amra_faithfulness.py tests/test_amra_known_problem_smoke.py tests/test_amra_result_bundle.py",
+          "required": true
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "code",
+          "path": "src/amra/lean/faithfulness.py"
+        },
+        {
+          "kind": "test",
+          "path": "tests/test_amra_faithfulness.py"
+        },
+        {
+          "kind": "fixture",
+          "path": "tests/fixtures/faithfulness_cases.yaml"
+        },
+        {
+          "kind": "doc",
+          "path": "docs/amra_nl_lean_faithfulness.md"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260520T070249Z-AMRA-NL-LEAN-FAITHFULNESS-001.md",
+          "recorded_at": "2026-05-20T07:16:04Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260520T070249Z-AMRA-NL-LEAN-FAITHFULNESS-001.json",
+          "recorded_at": "2026-05-20T07:16:04Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-20T07:16:04Z",
+          "actor": "engineering-harness:auto"
+        }
+      ],
+      "notes": "Add explicit faithful-modeling checks between natural-language proof obligations and Lean declarations, including mismatch taxonomy, blocked formalization evidence, and deterministic local fixtures.",
+      "updated_at": "2026-05-20T07:16:04Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "run"
+    },
+    {
+      "id": "AMRA-LIBRARY-CURATOR-001",
+      "title": "Add verified-only library curator and reusable lemma promotion gates",
+      "status": "completed",
+      "priority": "medium",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-LIBRARY-001",
+        "REQ-AMRA-LEAN-001"
+      ],
+      "depends_on": [
+        "AMRA-NL-LEAN-FAITHFULNESS-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m amra library curate --candidates /tmp/amra_faithfulness --out /tmp/amra_library_curator --json",
+          "required": true
+        },
+        {
+          "command": "python3 -m pytest -q tests/test_amra_library_curator.py tests/test_amra_result_bundle.py tests/test_amra_interfaces.py",
+          "required": true
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "code",
+          "path": "src/amra/library_curator.py"
+        },
+        {
+          "kind": "code",
+          "path": "src/amra/cli.py"
+        },
+        {
+          "kind": "code",
+          "path": "src/amra/result_bundle.py"
+        },
+        {
+          "kind": "test",
+          "path": "tests/test_amra_library_curator.py"
+        },
+        {
+          "kind": "test",
+          "path": "tests/test_amra_result_bundle.py"
+        },
+        {
+          "kind": "doc",
+          "path": "docs/amra_library_curator.md"
+        },
+        {
+          "kind": "record",
+          "value": "implements verified-only curator CLI, review JSONL, reusable lemma metadata, rejection reasons, and result-bundle optional artifacts",
+          "recorded_at": "2026-05-20T08:30:00Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260520T072055Z-AMRA-LIBRARY-CURATOR-001.md",
+          "recorded_at": "2026-05-20T07:28:57Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260520T072055Z-AMRA-LIBRARY-CURATOR-001.json",
+          "recorded_at": "2026-05-20T07:28:57Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-20T07:28:57Z",
+          "actor": "engineering-harness:auto"
+        }
+      ],
+      "notes": "Complete the library partial requirement with verified-only promotion, curator review records, reusable lemma metadata, rejection reasons, and result-bundle/library candidate integration.",
+      "updated_at": "2026-05-20T07:28:57Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "run"
     }
   ]
 }

@@ -45,6 +45,9 @@ from amra.proof.focused_attack import FocusedLeanAttackAgent, load_expected_targ
 from amra.agents.lean import LeanFromNaturalProofAgent
 from amra.agents.proof import NaturalLanguageTheoremProverAgent, UnifiedProofAgentLoop
 from amra.proof.lab import AIProofLabRunner
+from amra.proof.stability import run_proof_stability_benchmark
+from amra.lean.faithfulness import audit_faithfulness_bundle
+from amra.library_curator import curate_library_candidates
 from amra.evaluation.scouting import scout_problem_bank
 from amra.orchestration.workstreams import (
     ReviewDecision,
@@ -324,6 +327,18 @@ def build_parser() -> argparse.ArgumentParser:
     harvest_library_candidates.add_argument("--project", type=Path, required=True)
     harvest_library_candidates.add_argument("--module", required=True)
 
+    library = subparsers.add_parser(
+        "library",
+        help="Curate verified-only reusable AMRA library candidates.",
+    )
+    library_subparsers = library.add_subparsers(dest="library_command", required=True)
+    library_curate = library_subparsers.add_parser(
+        "curate",
+        help="Review faithfulness or bundle candidates for verified-only reusable lemma promotion.",
+    )
+    library_curate.add_argument("--candidates", type=Path, required=True)
+    library_curate.add_argument("--out", type=Path, required=True)
+
     summarize_portfolio_memory = subparsers.add_parser(
         "summarize-portfolio-memory",
         help="Summarize AMRA portfolio/global memory indexes.",
@@ -369,6 +384,30 @@ def build_parser() -> argparse.ArgumentParser:
     )
     nontrivial_benchmark.add_argument("--max-seconds", type=int, default=60)
     nontrivial_benchmark.add_argument("--out", type=Path, required=True, help="Output directory for the AMRA result bundle.")
+
+    proof_stability = subparsers.add_parser(
+        "proof-stability",
+        help="Run deterministic proof-loop stability benchmarks.",
+    )
+    proof_stability_subparsers = proof_stability.add_subparsers(dest="proof_stability_command", required=True)
+    proof_stability_benchmark = proof_stability_subparsers.add_parser(
+        "benchmark",
+        help="Run a bounded no-live-model proof stability fixture suite.",
+    )
+    proof_stability_benchmark.add_argument("--suite", type=Path, required=True)
+    proof_stability_benchmark.add_argument("--out", type=Path, required=True)
+
+    formalization = subparsers.add_parser(
+        "formalization",
+        help="Run formalization-layer audits and utilities.",
+    )
+    formalization_subparsers = formalization.add_subparsers(dest="formalization_command", required=True)
+    audit_faithfulness = formalization_subparsers.add_parser(
+        "audit-faithfulness",
+        help="Audit faithful modeling between natural-language obligations and Lean declarations.",
+    )
+    audit_faithfulness.add_argument("--bundle", type=Path, required=True)
+    audit_faithfulness.add_argument("--out", type=Path, required=True)
 
     new_project = subparsers.add_parser("new-project", help="Create a new math research project.")
     new_project.add_argument("--problem", required=True, help="Problem id from the selected bank.")
@@ -1287,6 +1326,11 @@ def main(argv: list[str] | None = None) -> int:
         _print(runner.harvest_library_candidates(project=args.project, module=args.module), args.json)
         return 0
 
+    if args.command == "library":
+        if args.library_command == "curate":
+            _print(curate_library_candidates(candidates=args.candidates, output_dir=args.out), args.json)
+            return 0
+
     if args.command == "summarize-portfolio-memory":
         runner = PortfolioCampaignRunner(repo_root=_repo_root())
         _print(runner.summarize_portfolio_memory(campaign=args.campaign), args.json)
@@ -1338,6 +1382,29 @@ def main(argv: list[str] | None = None) -> int:
             args.json,
         )
         return 0
+
+    if args.command == "proof-stability":
+        if args.proof_stability_command == "benchmark":
+            _print(
+                run_proof_stability_benchmark(
+                    suite_path=args.suite,
+                    output_dir=args.out,
+                    repo_root=_repo_root(),
+                ),
+                args.json,
+            )
+            return 0
+
+    if args.command == "formalization":
+        if args.formalization_command == "audit-faithfulness":
+            _print(
+                audit_faithfulness_bundle(
+                    bundle=args.bundle,
+                    output_dir=args.out,
+                ),
+                args.json,
+            )
+            return 0
 
     if args.command == "new-project":
         bank_path = _selected_bank_path(args)
