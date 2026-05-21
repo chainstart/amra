@@ -300,6 +300,36 @@ def test_result_bundle_carries_library_curator_artifacts(tmp_path: Path) -> None
     assert files["promoted_library_candidates.json"]["lean_verified_claim_source"] is False
 
 
+def test_result_bundle_carries_research_review_report(tmp_path: Path) -> None:
+    project = _result_project(tmp_path)
+    _write_json(
+        project / "research_review_report.json",
+        {
+            "schema_version": "amra.research_object_review.v1",
+            "object_id": "research-review-fixture-claim",
+            "object_type": "hypothesis",
+            "approved": True,
+            "decision": "approved",
+            "gate_decisions": {
+                "novelty": "novelty_reviewed",
+                "reproducibility": "reproducibility_reviewed",
+            },
+            "blocking_decisions": [],
+        },
+    )
+
+    export_amra_result_bundle(project=project, output_dir=tmp_path / "bundle", repo_root=tmp_path)
+
+    manifest = json.loads((tmp_path / "bundle" / "artifact_manifest.json").read_text(encoding="utf-8"))
+    files = {item["path"]: item for item in manifest["files"]}
+
+    assert manifest["research_review"]["status"] == "present"
+    assert manifest["research_review"]["approved"] is True
+    assert manifest["research_review"]["gate_decisions"]["novelty"] == "novelty_reviewed"
+    assert files["research_review_report.json"]["ara_contract_role"] == "research_review_gate_report"
+    assert files["research_review_report.json"]["lean_verified_claim_source"] is False
+
+
 def test_result_bundle_carries_research_experiment_harness_artifacts(tmp_path: Path) -> None:
     project = _result_project(tmp_path)
     fixture = Path(__file__).resolve().parent / "fixtures" / "research_experiment_fixture.json"
@@ -314,3 +344,55 @@ def test_result_bundle_carries_research_experiment_harness_artifacts(tmp_path: P
     assert files["research_experiment_result.json"]["lean_verified_claim_source"] is False
     assert files["research_experiment_record.json"]["kind"] == "research_experiment_record"
     assert files["research_reproducibility_report.json"]["sha256"]
+
+
+def test_result_bundle_carries_research_portfolio_artifacts(tmp_path: Path) -> None:
+    project = _result_project(tmp_path)
+    _write_json(
+        project / "research_objects.json",
+        {
+            "schema_version": "amra.research_objects.v1",
+            "objects": [{"object_id": "conj-proof-ready", "object_type": "conjecture", "status": "proof_candidate"}],
+        },
+    )
+    _write_json(
+        project / "research_artifact_graph.json",
+        {
+            "schema_version": "amra.research_artifact_graph.v1",
+            "nodes": [{"id": "conj-proof-ready", "kind": "conjecture"}],
+            "edges": [],
+        },
+    )
+    (project / "negative_results.jsonl").write_text(
+        json.dumps({"object_id": "negative-counterexample", "verification_boundary": "bounded_negative_result_not_theorem"})
+        + "\n",
+        encoding="utf-8",
+    )
+    _write_json(
+        project / "theory_map.json",
+        {
+            "schema_version": "amra.research_theory_map.v1",
+            "nodes": [{"object_id": "conj-proof-ready"}],
+            "edges": [],
+        },
+    )
+    _write_json(
+        project / "promotion_candidates.json",
+        {
+            "schema_version": "amra.research_promotion_candidates.v1",
+            "candidates": [{"candidate_id": "promotion:conj-proof-ready", "object_id": "conj-proof-ready"}],
+        },
+    )
+
+    export_amra_result_bundle(project=project, output_dir=tmp_path / "bundle", repo_root=tmp_path)
+
+    manifest = json.loads((tmp_path / "bundle" / "artifact_manifest.json").read_text(encoding="utf-8"))
+    files = {item["path"]: item for item in manifest["files"]}
+
+    assert manifest["research_portfolio"]["status"] == "present"
+    assert manifest["research_portfolio"]["research_object_count"] == 1
+    assert manifest["research_portfolio"]["promotion_candidate_count"] == 1
+    assert files["research_objects.json"]["ara_contract_role"] == "research_object_ledger"
+    assert files["theory_map.json"]["ara_contract_role"] == "theory_map"
+    assert files["negative_results.jsonl"]["verification_boundary"] == "research_evidence_only"
+    assert files["promotion_candidates.json"]["lean_verified_claim_source"] is False

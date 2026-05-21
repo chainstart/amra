@@ -1,0 +1,79 @@
+{
+  "threat_model": {
+    "threat_model_id": "threat-toy-kem-cca",
+    "title": "Toy KEM chosen-ciphertext threat model",
+    "scheme": "toy-kem-01",
+    "assets": ["shared_secret", "ciphertext_integrity"],
+    "adversary_goals": ["distinguish_challenge_secret"],
+    "capabilities": ["adaptive_decapsulation_queries", "chosen_ciphertext_queries"],
+    "exclusions": ["side_channels", "implementation_faults"],
+    "environment": {
+      "model": "symbolic_fixture",
+      "live_keys": false
+    }
+  },
+  "security_game": {
+    "game_id": "game-toy-kem-ind-cca",
+    "title": "Toy KEM IND-CCA game",
+    "scheme": "toy-kem-01",
+    "adversary_model": "ppt_chosen_ciphertext",
+    "oracle_access": ["encapsulation", "decapsulation_except_challenge"],
+    "winning_condition": "adversary guesses the challenge bit with advantage greater than 0.25",
+    "advantage_threshold": 0.25,
+    "assumptions": ["assumption-ddh-toy-group"]
+  },
+  "assumptions": [
+    {
+      "assumption_id": "assumption-ddh-toy-group",
+      "statement": "DDH is hard in the fixture toy group for adversaries within the declared query bound.",
+      "family": "ddh",
+      "hardness_parameters": {
+        "group_size_bits": 32,
+        "fixture_only": true
+      }
+    }
+  ],
+  "reductions": [
+    {
+      "reduction_id": "reduction-toy-kem-ddh",
+      "game_id": "game-toy-kem-ind-cca",
+      "assumption_id": "assumption-ddh-toy-group",
+      "statement": "A successful IND-CCA adversary would induce a DDH distinguisher in the fixture game.",
+      "loss_bound": "Adv_DDH >= Adv_IND_CCA / (q_dec + 1)",
+      "proof_sketch": "Program the challenge tuple and answer bounded decapsulation queries unless they equal the challenge ciphertext.",
+      "limitations": ["fixture model only", "not a mechanized proof"]
+    }
+  ],
+  "attack_search": {
+    "attack_report_id": "attack-search-toy-kem-cca",
+    "search_bound": {
+      "max_trials": 4,
+      "max_oracle_queries": 12,
+      "adversary_class": "symbolic_query_strategies",
+      "timeout_seconds": 1,
+      "seed": 20260521
+    },
+    "candidates": [
+      {
+        "attack_id": "attack-random-guess",
+        "strategy": "random challenge-bit guess",
+        "trials": 1,
+        "oracle_queries": 0,
+        "advantage": 0.0,
+        "wins": false
+      },
+      {
+        "attack_id": "attack-repeat-decapsulation",
+        "strategy": "query malformed variants around the challenge ciphertext",
+        "trials": 2,
+        "oracle_queries": 6,
+        "advantage": 0.125,
+        "wins": false,
+        "transcript": {
+          "queries": ["c*", "c* xor 1"]
+        }
+      }
+    ],
+    "notes": ["deterministic fixture replay; not live cryptanalysis"]
+  }
+}

@@ -1,7 +1,7 @@
 {
   "kind": "amra.spec_tasks.v1",
   "project": "amra",
-  "updated_at": "2026-05-21T04:31:38Z",
+  "updated_at": "2026-05-21T05:10:17Z",
   "source_spec": "docs/portfolio_campaign_spec.zh.md",
   "status_doc": "docs/amra_implementation_status.zh.md",
   "decision_log_dir": "docs/decisions",
@@ -88,8 +88,9 @@
     {
       "id": "REQ-AMRA-CRYPTO-SECURITY-001",
       "title": "Cryptography and security research pack",
-      "status": "planned",
-      "source_spec": "docs/amra_research_capabilities_spec.zh.md"
+      "status": "completed",
+      "source_spec": "docs/amra_research_capabilities_spec.zh.md",
+      "notes": "Deterministic fixture-backed crypto/security pack records threat models, security games, assumptions, reductions, bounded attack-search reports, security evidence, and security gate inputs while preserving the boundary that failed bounded attack search is not proof."
     },
     {
       "id": "REQ-AMRA-ML-THEORY-001",
@@ -106,7 +107,7 @@
     {
       "id": "REQ-AMRA-RESEARCH-PORTFOLIO-001",
       "title": "Research portfolio campaign and bundle integration",
-      "status": "planned",
+      "status": "completed",
       "source_spec": "docs/amra_research_capabilities_spec.zh.md"
     }
   ],
@@ -1177,9 +1178,9 @@
         }
       ],
       "notes": "Implemented deterministic fixture-backed applied model records, variables/units/assumptions schema, calibration/validation separation, sensitivity reports, validity ranges, failure-mode ledger, model-validation gate inputs, and CLI smoke.",
-      "updated_at": "2026-05-21T04:40:26Z",
-      "last_note": "Recorded by Codex during task implementation.",
-      "last_phase": "run",
+      "updated_at": "2026-05-21T04:43:57Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive",
       "evidence": [
         {
           "kind": "test",
@@ -1192,13 +1193,31 @@
           "value": "python3 -m amra modeling validate --fixture tests/fixtures/modeling_fixture.json --out /tmp/amra_modeling_validation --json",
           "recorded_at": "2026-05-21T04:40:26Z",
           "actor": "codex"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260521T044250Z-AMRA-MODELING-PACK-001.md",
+          "recorded_at": "2026-05-21T04:43:57Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260521T044250Z-AMRA-MODELING-PACK-001.json",
+          "recorded_at": "2026-05-21T04:43:57Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-21T04:43:57Z",
+          "actor": "engineering-harness:auto"
         }
       ]
     },
     {
       "id": "AMRA-CRYPTO-SECURITY-PACK-001",
       "title": "Add cryptography and security research pack",
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "owner": "amra",
       "requirement_ids": [
@@ -1218,12 +1237,47 @@
           "required": true
         }
       ],
-      "notes": "Implement threat model, security game, assumption, reduction, bounded attack search, and security gate records without claiming attack failure as proof."
+      "notes": "Implemented threat model, security game, assumption, reduction, bounded attack search, and security gate records without claiming attack failure as proof.",
+      "updated_at": "2026-05-21T04:51:36Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive",
+      "evidence": [
+        {
+          "kind": "test",
+          "value": "python3 -m pytest -q tests/test_amra_crypto_security.py tests/test_amra_research_review_gates.py",
+          "recorded_at": "2026-05-21T04:49:54Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "smoke",
+          "value": "python3 -m amra crypto search-attack --fixture tests/fixtures/crypto_security_fixture.json --out /tmp/amra_crypto_security --json",
+          "recorded_at": "2026-05-21T04:49:54Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260521T044357Z-AMRA-CRYPTO-SECURITY-PACK-001.md",
+          "recorded_at": "2026-05-21T04:51:36Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260521T044357Z-AMRA-CRYPTO-SECURITY-PACK-001.json",
+          "recorded_at": "2026-05-21T04:51:36Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-21T04:51:36Z",
+          "actor": "engineering-harness:auto"
+        }
+      ]
     },
     {
       "id": "AMRA-ML-THEORY-PACK-001",
       "title": "Add machine learning theory research pack",
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "owner": "amra",
       "requirement_ids": [
@@ -1243,12 +1297,47 @@
           "required": true
         }
       ],
-      "notes": "Implement ML theory claim records, experiment manifests, dataset/model/training config ledgers, metric schema, scaling/optimization probes, and theorem/empirical boundary tracking."
+      "notes": "Implemented ML theory claim records, experiment manifests, dataset/model/training config ledgers, metric schema, scaling/optimization probes, theorem/empirical boundary tracking, and CLI run-experiment support.",
+      "updated_at": "2026-05-21T04:58:43Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive",
+      "evidence": [
+        {
+          "kind": "test",
+          "value": "python3 -m pytest -q tests/test_amra_ml_theory.py tests/test_amra_research_review_gates.py",
+          "recorded_at": "2026-05-21T04:57:01Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "smoke",
+          "value": "python3 -m amra ml-theory run-experiment --fixture tests/fixtures/ml_theory_fixture.json --out /tmp/amra_ml_theory --json",
+          "recorded_at": "2026-05-21T04:57:01Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260521T045136Z-AMRA-ML-THEORY-PACK-001.md",
+          "recorded_at": "2026-05-21T04:58:43Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260521T045136Z-AMRA-ML-THEORY-PACK-001.json",
+          "recorded_at": "2026-05-21T04:58:43Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-21T04:58:43Z",
+          "actor": "engineering-harness:auto"
+        }
+      ]
     },
     {
       "id": "AMRA-RESEARCH-REVIEW-GATES-001",
       "title": "Add research review gates for non-proof claims",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "owner": "amra",
       "requirement_ids": [
@@ -1268,12 +1357,35 @@
           "required": true
         }
       ],
-      "notes": "Implement novelty, reproducibility, statistical, benchmark, model validation, security, and theory coherence gates with blocking decisions and result-bundle integration."
+      "notes": "Implemented novelty, reproducibility, statistical, benchmark, model validation, security, and theory coherence gates with blocking decisions, CLI review-object, and result-bundle integration.",
+      "updated_at": "2026-05-21T05:10:17Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive",
+      "evidence": [
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260521T045843Z-AMRA-RESEARCH-REVIEW-GATES-001.md",
+          "recorded_at": "2026-05-21T05:10:17Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260521T045843Z-AMRA-RESEARCH-REVIEW-GATES-001.json",
+          "recorded_at": "2026-05-21T05:10:17Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-21T05:10:17Z",
+          "actor": "engineering-harness:auto"
+        }
+      ]
     },
     {
       "id": "AMRA-RESEARCH-PORTFOLIO-001",
       "title": "Integrate research tasks into portfolio campaigns and result bundles",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "owner": "amra",
       "requirement_ids": [
@@ -1293,7 +1405,24 @@
           "required": true
         }
       ],
-      "notes": "Extend portfolio scoring, scheduling, durable campaign directories, promotion candidates, theory maps, negative-result ledgers, and research result bundle artifacts."
+      "notes": "Implemented deterministic fixture-backed research portfolio campaign scoring/scheduling, durable campaign/object/project directories, promotion candidates, theory maps, negative-result ledgers, research result-bundle artifacts, and CLI `python3 -m amra research campaign`.",
+      "updated_at": "2026-05-21T05:30:00Z",
+      "last_note": "Recorded by Codex during task implementation.",
+      "last_phase": "run",
+      "evidence": [
+        {
+          "kind": "test",
+          "value": "python3 -m pytest -q tests/test_amra_research_portfolio.py tests/test_portfolio_campaign.py tests/test_amra_result_bundle.py",
+          "recorded_at": "2026-05-21T05:30:00Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "smoke",
+          "value": "python3 -m amra research campaign --fixture tests/fixtures/research_portfolio_fixture.json --out /tmp/amra_research_campaign --json",
+          "recorded_at": "2026-05-21T05:30:00Z",
+          "actor": "codex"
+        }
+      ]
     }
   ]
 }

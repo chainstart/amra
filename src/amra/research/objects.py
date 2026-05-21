@@ -576,6 +576,48 @@ class SecurityGameRecord(ResearchObjectRecord):
 
 
 @dataclass(slots=True)
+class SecurityAssumptionRecord(ResearchObjectRecord):
+    object_type: ResearchObjectType = ResearchObjectType.SECURITY_ASSUMPTION
+    assumption_family: str = ""
+    hardness_parameters: dict[str, Any] = field(default_factory=dict)
+    related_game_ids: list[str] = field(default_factory=list)
+    reduction_ids: list[str] = field(default_factory=list)
+    limitation_notes: list[str] = field(default_factory=list)
+
+    def __post_init__(self) -> None:
+        self.object_type = ResearchObjectType.SECURITY_ASSUMPTION
+        ResearchObjectRecord.__post_init__(self)
+        self.hardness_parameters = _dict_value(self.hardness_parameters)
+        self.related_game_ids = _string_list(self.related_game_ids)
+        self.reduction_ids = _string_list(self.reduction_ids)
+        self.limitation_notes = _string_list(self.limitation_notes)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "SecurityAssumptionRecord":
+        return cls(
+            **_base_kwargs(payload, object_type=ResearchObjectType.SECURITY_ASSUMPTION),
+            assumption_family=str(payload.get("assumption_family") or payload.get("family") or ""),
+            hardness_parameters=_dict_value(payload.get("hardness_parameters")),
+            related_game_ids=_string_list(payload.get("related_game_ids")),
+            reduction_ids=_string_list(payload.get("reduction_ids")),
+            limitation_notes=_string_list(payload.get("limitation_notes")),
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        payload = _base_dict(self)
+        payload.update(
+            {
+                "assumption_family": self.assumption_family,
+                "hardness_parameters": dict(self.hardness_parameters),
+                "related_game_ids": list(self.related_game_ids),
+                "reduction_ids": list(self.reduction_ids),
+                "limitation_notes": list(self.limitation_notes),
+            }
+        )
+        return payload
+
+
+@dataclass(slots=True)
 class MLTheoryClaimRecord(ResearchObjectRecord):
     object_type: ResearchObjectType = ResearchObjectType.ML_THEORY_CLAIM
     claim_kind: str = "empirical_observation"
@@ -635,6 +677,7 @@ ResearchObjectRecord._typed_records = {
     ResearchObjectType.ALGORITHM: AlgorithmRecord,
     ResearchObjectType.MODEL: ModelRecord,
     ResearchObjectType.SECURITY_GAME: SecurityGameRecord,
+    ResearchObjectType.SECURITY_ASSUMPTION: SecurityAssumptionRecord,
     ResearchObjectType.ML_THEORY_CLAIM: MLTheoryClaimRecord,
     ResearchObjectType.NEGATIVE_RESULT: NegativeResultRecord,
 }

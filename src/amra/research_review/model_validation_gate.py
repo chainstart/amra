@@ -3,10 +3,27 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from amra.modeling.model_spec import _dict_value, _list_value, _number
-
 
 MODEL_VALIDATION_GATE_SCHEMA_VERSION = "amra.model_validation_gate.v1"
+
+
+def _dict_value(value: Any) -> dict[str, Any]:
+    return dict(value) if isinstance(value, dict) else {}
+
+
+def _list_value(value: Any) -> list[Any]:
+    return list(value) if isinstance(value, list) else []
+
+
+def _number(value: Any) -> float | None:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    try:
+        return float(str(value).strip())
+    except ValueError:
+        return None
 
 
 @dataclass(slots=True)

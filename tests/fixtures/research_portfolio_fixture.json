@@ -1,0 +1,153 @@
+{
+  "schema_version": "amra.research_portfolio_fixture.v1",
+  "campaign_id": "research-portfolio-fixture",
+  "objects": [
+    {
+      "object_id": "conj-proof-ready",
+      "object_type": "conjecture",
+      "title": "Proof-ready identity conjecture",
+      "status": "proof_candidate",
+      "statement": "Every finite search instance preserves the identity invariant.",
+      "domain": "discrete_math",
+      "tags": ["conjecture", "identity"],
+      "confidence": "high",
+      "source_ids": ["fixture-source"],
+      "evidence_ids": ["bounded-search-report"],
+      "formal_statement": "theorem identityInvariant : True",
+      "promotion_target": "proof_task"
+    },
+    {
+      "object_id": "algo-benchmark",
+      "object_type": "algorithm",
+      "title": "Bounded search optimizer",
+      "status": "testing",
+      "statement": "A pruning variant reduces bounded search work on fixture cases.",
+      "domain": "algorithms",
+      "tags": ["benchmark"],
+      "confidence": "medium",
+      "evidence_ids": ["benchmark-fixture"],
+      "problem_spec": "Fixture bounded search",
+      "baseline_ids": ["baseline-dfs"],
+      "candidate_ids": ["pruned-dfs"],
+      "benchmark_ids": ["bench-001"]
+    },
+    {
+      "object_id": "negative-counterexample",
+      "object_type": "negative_result",
+      "title": "Counterexample to monotone variant",
+      "status": "counterexample_found",
+      "statement": "A monotone strengthening fails under the listed bounded instance.",
+      "confidence": "medium",
+      "target_object_id": "conj-proof-ready",
+      "refuted_by": ["counterexample-fixture"],
+      "failure_mode": "counterexample",
+      "search_bound": {"n_max": 8},
+      "result_summary": "The strengthened monotone claim fails for n=8."
+    },
+    {
+      "object_id": "theory-node-invariant",
+      "object_type": "theory_node",
+      "title": "Identity invariant theory node",
+      "status": "active",
+      "statement": "Organizes definitions around identity-preserving transitions.",
+      "confidence": "medium",
+      "metadata": {"role": "definition"}
+    }
+  ],
+  "tasks": [
+    {
+      "task_id": "task-promote-conj",
+      "object_id": "conj-proof-ready",
+      "task_type": "prove_theorem",
+      "budget_seconds": 300,
+      "scores": {
+        "expected_information_gain": 0.8,
+        "novelty_potential": 0.7,
+        "evaluator_availability": 0.8,
+        "proof_promotion_potential": 0.92,
+        "source_quality": 0.85,
+        "reproducibility_risk": 0.15,
+        "computation_cost": 0.35,
+        "negative_result_value": 0.2,
+        "paper_value": 0.65,
+        "reusable_asset_value": 0.75,
+        "safety_or_security_risk": 0.05
+      }
+    },
+    {
+      "task_id": "task-benchmark-algo",
+      "object_id": "algo-benchmark",
+      "task_type": "run_benchmark",
+      "budget_seconds": 120,
+      "scores": {
+        "expected_information_gain": 0.78,
+        "novelty_potential": 0.55,
+        "evaluator_availability": 0.8,
+        "proof_promotion_potential": 0.25,
+        "source_quality": 0.7,
+        "reproducibility_risk": 0.2,
+        "computation_cost": 0.45,
+        "negative_result_value": 0.35,
+        "paper_value": 0.5,
+        "reusable_asset_value": 0.7,
+        "safety_or_security_risk": 0.1
+      }
+    },
+    {
+      "task_id": "task-record-negative",
+      "object_id": "negative-counterexample",
+      "task_type": "organize_theory",
+      "scores": {
+        "expected_information_gain": 0.65,
+        "novelty_potential": 0.4,
+        "evaluator_availability": 0.7,
+        "proof_promotion_potential": 0.05,
+        "source_quality": 0.55,
+        "reproducibility_risk": 0.25,
+        "computation_cost": 0.1,
+        "negative_result_value": 0.95,
+        "paper_value": 0.35,
+        "reusable_asset_value": 0.25,
+        "safety_or_security_risk": 0.05
+      }
+    }
+  ],
+  "relations": [
+    {
+      "from": "algo-benchmark",
+      "to": "conj-proof-ready",
+      "relation": "EMPIRICALLY_SUPPORTS",
+      "confidence": "medium",
+      "notes": "Fixture benchmark supports the invariant search route."
+    },
+    {
+      "from": "theory-node-invariant",
+      "to": "conj-proof-ready",
+      "relation": "GENERALIZES",
+      "confidence": "low"
+    }
+  ],
+  "benchmark_reports": [
+    {
+      "object_id": "algo-benchmark",
+      "status": "passed",
+      "metric": "fixture_runtime",
+      "baseline": 10,
+      "candidate": 6
+    }
+  ],
+  "novelty_reports": [
+    {
+      "object_id": "conj-proof-ready",
+      "status": "reviewed",
+      "nearest_known_result": "fixture baseline"
+    }
+  ],
+  "reproducibility_reports": [
+    {
+      "object_id": "algo-benchmark",
+      "status": "reproducible",
+      "rerun_key": "fixture-rerun"
+    }
+  ]
+}

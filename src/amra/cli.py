@@ -67,9 +67,13 @@ from amra.nontrivial_benchmark import (
 )
 from amra.result_bundle import export_amra_result_bundle
 from amra.algorithms import run_algorithm_benchmark_fixture
+from amra.crypto import run_crypto_attack_search_fixture
 from amra.discovery.conjecture_mining import run_conjecture_mining_fixture
+from amra.ml_theory import run_ml_theory_experiment_fixture
 from amra.modeling import run_model_validation_fixture
 from amra.research.experiments import run_research_executor_fixture
+from amra.research.portfolio import run_research_portfolio_campaign_fixture
+from amra.research_review import run_research_review_fixture
 from amra.math_tools import MATH_TOOL_PROFILES
 
 
@@ -445,6 +449,20 @@ def build_parser() -> argparse.ArgumentParser:
     research_run_executor.add_argument("--fixture", type=Path, required=True)
     research_run_executor.add_argument("--out", type=Path, required=True)
     research_run_executor.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+    research_review_object = research_subparsers.add_parser(
+        "review-object",
+        help="Run deterministic review gates for a non-proof research object.",
+    )
+    research_review_object.add_argument("--fixture", type=Path, required=True)
+    research_review_object.add_argument("--out", type=Path, required=True)
+    research_review_object.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+    research_campaign = research_subparsers.add_parser(
+        "campaign",
+        help="Run a deterministic fixture-backed research portfolio campaign.",
+    )
+    research_campaign.add_argument("--fixture", type=Path, required=True)
+    research_campaign.add_argument("--out", type=Path, required=True)
+    research_campaign.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
 
     discovery = subparsers.add_parser(
         "discovery",
@@ -491,6 +509,32 @@ def build_parser() -> argparse.ArgumentParser:
     modeling_validate.add_argument("--fixture", type=Path, required=True)
     modeling_validate.add_argument("--out", type=Path, required=True)
     modeling_validate.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+
+    crypto = subparsers.add_parser(
+        "crypto",
+        help="Run deterministic AMRA cryptography and security research utilities.",
+    )
+    crypto_subparsers = crypto.add_subparsers(dest="crypto_command", required=True)
+    crypto_search_attack = crypto_subparsers.add_parser(
+        "search-attack",
+        help="Run fixture-backed bounded attack search and persist security gate records.",
+    )
+    crypto_search_attack.add_argument("--fixture", type=Path, required=True)
+    crypto_search_attack.add_argument("--out", type=Path, required=True)
+    crypto_search_attack.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+
+    ml_theory = subparsers.add_parser(
+        "ml-theory",
+        help="Run deterministic AMRA machine-learning theory research utilities.",
+    )
+    ml_theory_subparsers = ml_theory.add_subparsers(dest="ml_theory_command", required=True)
+    ml_theory_run_experiment = ml_theory_subparsers.add_parser(
+        "run-experiment",
+        help="Run a fixture-backed ML theory experiment and persist claim/gate records.",
+    )
+    ml_theory_run_experiment.add_argument("--fixture", type=Path, required=True)
+    ml_theory_run_experiment.add_argument("--out", type=Path, required=True)
+    ml_theory_run_experiment.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
 
     new_project = subparsers.add_parser("new-project", help="Create a new math research project.")
     new_project.add_argument("--problem", required=True, help="Problem id from the selected bank.")
@@ -1530,6 +1574,25 @@ def main(argv: list[str] | None = None) -> int:
                 args.json,
             )
             return 0
+        if args.research_command == "review-object":
+            _print(
+                run_research_review_fixture(
+                    fixture=args.fixture,
+                    output_dir=args.out,
+                ),
+                args.json,
+            )
+            return 0
+        if args.research_command == "campaign":
+            _print(
+                run_research_portfolio_campaign_fixture(
+                    fixture=args.fixture,
+                    output_dir=args.out,
+                    repo_root=_repo_root(),
+                ),
+                args.json,
+            )
+            return 0
 
     if args.command == "discovery":
         if args.discovery_command in {"mine-conjectures", "search-counterexample"}:
@@ -1557,6 +1620,28 @@ def main(argv: list[str] | None = None) -> int:
         if args.modeling_command == "validate":
             _print(
                 run_model_validation_fixture(
+                    fixture=args.fixture,
+                    output_dir=args.out,
+                ),
+                args.json,
+            )
+            return 0
+
+    if args.command == "crypto":
+        if args.crypto_command == "search-attack":
+            _print(
+                run_crypto_attack_search_fixture(
+                    fixture=args.fixture,
+                    output_dir=args.out,
+                ),
+                args.json,
+            )
+            return 0
+
+    if args.command == "ml-theory":
+        if args.ml_theory_command == "run-experiment":
+            _print(
+                run_ml_theory_experiment_fixture(
                     fixture=args.fixture,
                     output_dir=args.out,
                 ),

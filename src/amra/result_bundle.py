@@ -26,6 +26,19 @@ from amra.research.experiments import (
     RESEARCH_EXPERIMENT_RESULT_FILE,
     RESEARCH_REPRODUCIBILITY_REPORT_FILE,
 )
+from amra.research.portfolio import (
+    BENCHMARK_REPORTS_FILE,
+    EXPERIMENT_REPORTS_FILE,
+    MODEL_VALIDATION_REPORTS_FILE,
+    NEGATIVE_RESULTS_FILE,
+    NOVELTY_REPORTS_FILE,
+    PROMOTION_CANDIDATES_FILE,
+    REPRODUCIBILITY_REPORTS_FILE,
+    RESEARCH_ARTIFACT_GRAPH_FILE,
+    RESEARCH_OBJECTS_FILE,
+    SECURITY_REVIEW_REPORTS_FILE,
+    THEORY_MAP_FILE,
+)
 
 
 RESULT_BUNDLE_SCHEMA_VERSION = "amra.result_bundle.v1"
@@ -35,6 +48,7 @@ PROOF_SKETCHES_SCHEMA_VERSION = "amra.natural_language_proof_sketches.v1"
 LIMITATIONS_SCHEMA_VERSION = "amra.result_bundle_limitations.v1"
 HANDOFF_NOTES_SCHEMA_VERSION = "amra.ara_handoff_notes.v1"
 PROOF_LOOP_STATE_SCHEMA_VERSION = "amra.proof_loop_state.v1"
+RESEARCH_REVIEW_REPORT_FILE = "research_review_report.json"
 VERIFIED_DECLARATION_STATUSES = {"lean_verified", "verified", "passed", "trusted"}
 NATURAL_LANGUAGE_TRUST_LEVEL = "natural_language_proof_sketch"
 
@@ -61,10 +75,22 @@ BUNDLE_FILE_KINDS = {
     "benchmark_review_gate.json": "benchmark_review_gate",
     "nontrivial_benchmark_report.json": "nontrivial_benchmark_report",
     "faithful_modeling_report.json": "faithful_modeling_report",
+    RESEARCH_REVIEW_REPORT_FILE: "research_review_report",
     RESEARCH_EXECUTOR_REQUEST_FILE: "research_executor_request",
     RESEARCH_EXPERIMENT_RESULT_FILE: "research_experiment_result",
     RESEARCH_EXPERIMENT_RECORD_FILE: "research_experiment_record",
     RESEARCH_REPRODUCIBILITY_REPORT_FILE: "research_reproducibility_report",
+    RESEARCH_OBJECTS_FILE: "research_objects",
+    RESEARCH_ARTIFACT_GRAPH_FILE: "research_artifact_graph",
+    EXPERIMENT_REPORTS_FILE: "experiment_reports",
+    BENCHMARK_REPORTS_FILE: "benchmark_reports",
+    NEGATIVE_RESULTS_FILE: "negative_results",
+    NOVELTY_REPORTS_FILE: "novelty_reports",
+    REPRODUCIBILITY_REPORTS_FILE: "reproducibility_reports",
+    MODEL_VALIDATION_REPORTS_FILE: "model_validation_reports",
+    SECURITY_REVIEW_REPORTS_FILE: "security_review_reports",
+    THEORY_MAP_FILE: "theory_map",
+    PROMOTION_CANDIDATES_FILE: "promotion_candidates",
 }
 
 LEAN_VERIFIED_DECLARATION_SOURCE = "verified_declarations.json"
@@ -83,10 +109,22 @@ OPTIONAL_PROJECT_BUNDLE_FILES = (
     "rejection_reasons.json",
     "promoted_library_candidates.json",
     "benchmark_review_gate.json",
+    RESEARCH_REVIEW_REPORT_FILE,
     RESEARCH_EXECUTOR_REQUEST_FILE,
     RESEARCH_EXPERIMENT_RESULT_FILE,
     RESEARCH_EXPERIMENT_RECORD_FILE,
     RESEARCH_REPRODUCIBILITY_REPORT_FILE,
+    RESEARCH_OBJECTS_FILE,
+    RESEARCH_ARTIFACT_GRAPH_FILE,
+    EXPERIMENT_REPORTS_FILE,
+    BENCHMARK_REPORTS_FILE,
+    NEGATIVE_RESULTS_FILE,
+    NOVELTY_REPORTS_FILE,
+    REPRODUCIBILITY_REPORTS_FILE,
+    MODEL_VALIDATION_REPORTS_FILE,
+    SECURITY_REVIEW_REPORTS_FILE,
+    THEORY_MAP_FILE,
+    PROMOTION_CANDIDATES_FILE,
 )
 
 
@@ -933,6 +971,13 @@ def _bundle_file_record(path: str, *, output_dir: Path | None = None) -> dict[st
                 "lean_verified_claim_source": False,
             }
         )
+    elif path == RESEARCH_REVIEW_REPORT_FILE:
+        record.update(
+            {
+                "ara_contract_role": "research_review_gate_report",
+                "lean_verified_claim_source": False,
+            }
+        )
     elif path in {
         RESEARCH_EXECUTOR_REQUEST_FILE,
         RESEARCH_EXPERIMENT_RESULT_FILE,
@@ -945,6 +990,39 @@ def _bundle_file_record(path: str, *, output_dir: Path | None = None) -> dict[st
                 "lean_verified_claim_source": False,
             }
         )
+    elif path in {
+        RESEARCH_OBJECTS_FILE,
+        RESEARCH_ARTIFACT_GRAPH_FILE,
+        EXPERIMENT_REPORTS_FILE,
+        BENCHMARK_REPORTS_FILE,
+        NEGATIVE_RESULTS_FILE,
+        NOVELTY_REPORTS_FILE,
+        REPRODUCIBILITY_REPORTS_FILE,
+        MODEL_VALIDATION_REPORTS_FILE,
+        SECURITY_REVIEW_REPORTS_FILE,
+        THEORY_MAP_FILE,
+        PROMOTION_CANDIDATES_FILE,
+    }:
+        roles = {
+            RESEARCH_OBJECTS_FILE: "research_object_ledger",
+            RESEARCH_ARTIFACT_GRAPH_FILE: "research_artifact_graph",
+            EXPERIMENT_REPORTS_FILE: "experiment_evidence_ledger",
+            BENCHMARK_REPORTS_FILE: "benchmark_evidence_ledger",
+            NEGATIVE_RESULTS_FILE: "negative_result_ledger",
+            NOVELTY_REPORTS_FILE: "novelty_review_ledger",
+            REPRODUCIBILITY_REPORTS_FILE: "reproducibility_review_ledger",
+            MODEL_VALIDATION_REPORTS_FILE: "model_validation_ledger",
+            SECURITY_REVIEW_REPORTS_FILE: "security_review_ledger",
+            THEORY_MAP_FILE: "theory_map",
+            PROMOTION_CANDIDATES_FILE: "research_promotion_candidates",
+        }
+        record.update(
+            {
+                "ara_contract_role": roles[path],
+                "lean_verified_claim_source": False,
+                "verification_boundary": "research_evidence_only",
+            }
+        )
     elif path in NON_VERIFIED_RESEARCH_EVIDENCE_FILES:
         record.update(
             {
@@ -953,6 +1031,76 @@ def _bundle_file_record(path: str, *, output_dir: Path | None = None) -> dict[st
             }
         )
     return record
+
+
+def _research_review_manifest_payload(project_dir: Path, output_dir: Path) -> dict[str, Any]:
+    source = output_dir / RESEARCH_REVIEW_REPORT_FILE
+    if not source.is_file():
+        source = project_dir / RESEARCH_REVIEW_REPORT_FILE
+    if not source.is_file():
+        return {
+            "status": "absent",
+            "report": "",
+            "approved": None,
+            "decision": "",
+            "gate_decisions": {},
+            "blocking_decision_count": 0,
+        }
+    report = read_json(source, {})
+    if not isinstance(report, dict):
+        report = {}
+    return {
+        "status": "present",
+        "report": RESEARCH_REVIEW_REPORT_FILE,
+        "schema_version": str(report.get("schema_version") or ""),
+        "object_id": str(report.get("object_id") or ""),
+        "approved": report.get("approved") if isinstance(report.get("approved"), bool) else None,
+        "decision": str(report.get("decision") or ""),
+        "gate_decisions": report.get("gate_decisions") if isinstance(report.get("gate_decisions"), dict) else {},
+        "blocking_decision_count": len(report.get("blocking_decisions", []))
+        if isinstance(report.get("blocking_decisions"), list)
+        else 0,
+    }
+
+
+def _research_portfolio_manifest_payload(output_dir: Path) -> dict[str, Any]:
+    files = {
+        name: (output_dir / name)
+        for name in (
+            RESEARCH_OBJECTS_FILE,
+            RESEARCH_ARTIFACT_GRAPH_FILE,
+            EXPERIMENT_REPORTS_FILE,
+            BENCHMARK_REPORTS_FILE,
+            NEGATIVE_RESULTS_FILE,
+            NOVELTY_REPORTS_FILE,
+            REPRODUCIBILITY_REPORTS_FILE,
+            MODEL_VALIDATION_REPORTS_FILE,
+            SECURITY_REVIEW_REPORTS_FILE,
+            THEORY_MAP_FILE,
+            PROMOTION_CANDIDATES_FILE,
+        )
+    }
+    available = sorted(name for name, path in files.items() if path.is_file())
+    objects = read_json(files[RESEARCH_OBJECTS_FILE], {}) if files[RESEARCH_OBJECTS_FILE].is_file() else {}
+    promotions = read_json(files[PROMOTION_CANDIDATES_FILE], {}) if files[PROMOTION_CANDIDATES_FILE].is_file() else {}
+    theory_map = read_json(files[THEORY_MAP_FILE], {}) if files[THEORY_MAP_FILE].is_file() else {}
+    return {
+        "status": "present" if available else "absent",
+        "available_files": available,
+        "research_object_count": len(objects.get("objects", [])) if isinstance(objects.get("objects"), list) else 0,
+        "promotion_candidate_count": len(promotions.get("candidates", []))
+        if isinstance(promotions.get("candidates"), list)
+        else 0,
+        "theory_map_node_count": len(theory_map.get("nodes", [])) if isinstance(theory_map.get("nodes"), list) else 0,
+        "verification_boundary": {
+            "empirical_evidence": "not_lean_verified",
+            "bounded_search_evidence": "not_lean_verified",
+            "benchmark_evidence": "not_lean_verified",
+            "negative_results": "bounded_research_evidence_not_theorem",
+            "promotion_candidates": "candidate_handoff_not_formal_claim",
+            "theory_map": "organizational_research_context",
+        },
+    }
 
 
 def _artifact_manifest(
@@ -1027,6 +1175,8 @@ def _artifact_manifest(
                 "blocked_formalization_evidence_count", 0
             ),
         },
+        "research_review": _research_review_manifest_payload(project_dir, output_dir),
+        "research_portfolio": _research_portfolio_manifest_payload(output_dir),
         "lean_status": lean_status,
         "ara_handoff": {
             "consumer": "ARA",
@@ -1042,6 +1192,10 @@ def _artifact_manifest(
                 "natural_language_proof_sketches.json",
                 "unresolved_blockers.md",
                 "limitations.md",
+                "research_objects.json",
+                "theory_map.json",
+                "negative_results.jsonl",
+                "promotion_candidates.json",
                 "writing_brief.md",
                 "handoff_notes.md",
             ],

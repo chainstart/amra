@@ -1,0 +1,150 @@
+{
+  "claim": {
+    "object_id": "ml-theory-scaling-001",
+    "title": "Toy transformer loss improves with parameter scaling",
+    "statement": "Within the fixture sweep, validation loss decreases as parameter count increases under fixed data and optimizer conditions.",
+    "domain": "machine_learning_theory",
+    "tags": ["fixture", "scaling_law", "optimization"],
+    "claim_kind": "empirical_scaling_law",
+    "theoretical_statement": "For this bounded fixture family, loss follows an empirical power-law trend in parameter count.",
+    "known_gaps": ["No proof for unseen architectures", "No guarantee outside the declared data distribution"],
+    "promotion_target": "conjecture"
+  },
+  "experiment_manifest": {
+    "experiment_id": "exp-ml-theory-scaling-001",
+    "title": "Fixture scaling and optimizer sweep",
+    "question": "Does validation loss improve under a bounded parameter-count sweep?",
+    "seed": 20260521,
+    "deterministic": true,
+    "budget": {
+      "max_train_runs": 3,
+      "max_epochs": 8,
+      "max_tokens": 4096
+    },
+    "environment": {
+      "runner": "fixture_replay",
+      "accelerator": "none"
+    }
+  },
+  "datasets": [
+    {
+      "dataset_id": "dataset-toy-language-train",
+      "role": "train",
+      "source": "local fixture",
+      "split": "train",
+      "rows": 128,
+      "checksum": "sha256:toy-language-train",
+      "preprocessing": ["tokenize_fixture_vocab"]
+    },
+    {
+      "dataset_id": "dataset-toy-language-validation",
+      "role": "validation",
+      "source": "local fixture",
+      "split": "validation",
+      "rows": 32,
+      "checksum": "sha256:toy-language-validation",
+      "preprocessing": ["tokenize_fixture_vocab"]
+    }
+  ],
+  "model_configs": [
+    {
+      "config_id": "model-tiny-transformer-64k",
+      "architecture": "toy_decoder_transformer",
+      "parameter_count": 64000,
+      "width": 64,
+      "depth": 2,
+      "initialization": "fixed_seed_xavier"
+    },
+    {
+      "config_id": "model-tiny-transformer-256k",
+      "architecture": "toy_decoder_transformer",
+      "parameter_count": 256000,
+      "width": 128,
+      "depth": 4,
+      "initialization": "fixed_seed_xavier"
+    }
+  ],
+  "training_configs": [
+    {
+      "config_id": "train-adamw-64k",
+      "model_config_id": "model-tiny-transformer-64k",
+      "dataset_ids": ["dataset-toy-language-train"],
+      "optimizer": "adamw",
+      "loss": "cross_entropy",
+      "seed": 20260521,
+      "epochs": 8,
+      "batch_size": 16,
+      "learning_rate": 0.001,
+      "budget": {"max_epochs": 8}
+    },
+    {
+      "config_id": "train-adamw-256k",
+      "model_config_id": "model-tiny-transformer-256k",
+      "dataset_ids": ["dataset-toy-language-train"],
+      "optimizer": "adamw",
+      "loss": "cross_entropy",
+      "seed": 20260521,
+      "epochs": 8,
+      "batch_size": 16,
+      "learning_rate": 0.001,
+      "budget": {"max_epochs": 8}
+    }
+  ],
+  "metrics": [
+    {
+      "metric_id": "metric-validation-loss-256k",
+      "name": "validation_loss",
+      "value": 1.18,
+      "threshold": {"max": 1.25},
+      "direction": "lower_is_better",
+      "unit": "nats",
+      "dataset_id": "dataset-toy-language-validation"
+    },
+    {
+      "metric_id": "metric-scaling-exponent",
+      "name": "scaling_exponent",
+      "value": -0.23,
+      "threshold": {"max": -0.1},
+      "direction": "lower_is_better",
+      "unit": "loss_per_log_param"
+    }
+  ],
+  "scaling_probes": [
+    {
+      "probe_id": "scaling-probe-param-loss",
+      "variable": "parameter_count",
+      "metric": "validation_loss",
+      "observations": [
+        {"model_config_id": "model-tiny-transformer-64k", "parameter_count": 64000, "validation_loss": 1.42},
+        {"model_config_id": "model-tiny-transformer-256k", "parameter_count": 256000, "validation_loss": 1.18}
+      ],
+      "fit": {
+        "law": "power_law",
+        "exponent": -0.23,
+        "r2": 0.97
+      },
+      "status": "supports_claim"
+    }
+  ],
+  "optimization_probes": [
+    {
+      "probe_id": "optimization-probe-adamw",
+      "optimizer": "adamw",
+      "baseline": {"optimizer": "sgd", "validation_loss": 1.31},
+      "candidate": {"optimizer": "adamw", "validation_loss": 1.18},
+      "improvement_pct": 9.92,
+      "status": "supports_claim"
+    }
+  ],
+  "theorem_empirical_boundary": {
+    "boundary_id": "boundary-ml-theory-scaling-001",
+    "claim_id": "ml-theory-scaling-001",
+    "empirical_status": "bounded_empirical_support",
+    "theorem_status": "not_theorem",
+    "proof_artifact_ids": [],
+    "empirical_artifact_ids": ["exp-ml-theory-scaling-001", "scaling-probe-param-loss"],
+    "requires_proof_for": ["all transformer families", "asymptotic loss bounds"],
+    "notes": ["Fixture scaling support is not a proof of the theoretical statement."],
+    "not_theorem_grade": true
+  }
+}

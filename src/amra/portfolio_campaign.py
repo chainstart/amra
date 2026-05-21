@@ -26,6 +26,7 @@ from amra.portfolio_memory import (
     write_json,
 )
 from amra.portfolio_scheduler import PortfolioAttackScheduler
+from amra.research.portfolio import ResearchPortfolioCampaignRunner, run_research_portfolio_campaign_fixture
 
 
 DEFAULT_CAMPAIGN_ROOT = Path("artifacts") / "portfolio_campaigns"

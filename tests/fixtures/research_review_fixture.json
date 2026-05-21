@@ -1,0 +1,227 @@
+{
+  "schema_version": "amra.research_object_review_fixture.v1",
+  "research_object": {
+    "object_id": "research-review-fixture-claim",
+    "object_type": "hypothesis",
+    "title": "Bounded fixture claim",
+    "statement": "A fixture-backed optimization improves the primary metric on the declared bounded benchmark.",
+    "confidence": "medium",
+    "scope": "finite fixture benchmark and validation split"
+  },
+  "required_gates": [
+    "novelty",
+    "reproducibility",
+    "statistical",
+    "benchmark",
+    "model_validation",
+    "security",
+    "theory_coherence"
+  ],
+  "novelty_report": {
+    "report_id": "novelty-review-fixture",
+    "status": "novel",
+    "compared_sources": [
+      "fixture-prior-art-a",
+      "fixture-prior-art-b"
+    ],
+    "known_prior_art": [
+      "baseline dense dynamic program"
+    ],
+    "claim_delta": "The fixture candidate changes the sparse-state transition order under a fixed benchmark."
+  },
+  "reproducibility_report": {
+    "report_id": "repro-fixture",
+    "status": "reproducible",
+    "deterministic": true,
+    "seed": 7,
+    "environment": {
+      "python": "3.x",
+      "runner": "fixture"
+    },
+    "command": "python3 -m amra research review-object --fixture tests/fixtures/research_review_fixture.json --out /tmp/amra_research_review --json",
+    "fixture_sha256": "sha256:fixture"
+  },
+  "statistical_evidence": {
+    "evidence_id": "stat-fixture",
+    "confidence": "medium",
+    "sample_size": 8,
+    "min_sample_size": 3,
+    "confidence_interval": [
+      0.11,
+      0.29
+    ],
+    "metrics": [
+      {
+        "metric_id": "improvement",
+        "name": "improvement_pct",
+        "value": 20.0,
+        "threshold": {
+          "min": 5.0
+        },
+        "passed": true
+      }
+    ]
+  },
+  "benchmark_gate_inputs": {
+    "schema_version": "amra.algorithm_benchmark_gate.v1",
+    "benchmark_id": "benchmark-fixture",
+    "primary_metric": "runtime_ms",
+    "statuses": [
+      "benchmark_passed"
+    ],
+    "decision": "benchmark_passed",
+    "checks": {
+      "baseline_fair": true,
+      "benchmark_fixed": true,
+      "metric_valid": true,
+      "case_count": 4,
+      "candidate_count": 1,
+      "traceable_to_baseline": true,
+      "regression_count": 0
+    },
+    "traces": [
+      "trace-fixture"
+    ],
+    "regression_risks": [
+      "regression-risk-overfit-monitor"
+    ]
+  },
+  "model_validation": {
+    "model_spec": {
+      "object_id": "model-fixture",
+      "variables": [
+        {
+          "name": "x",
+          "unit": "count"
+        }
+      ],
+      "assumptions": [
+        {
+          "assumption_id": "assumption-model",
+          "statement": "Fixture inputs are drawn from the bounded validation range."
+        }
+      ],
+      "parameters": [
+        {
+          "name": "alpha",
+          "source": "fixture-calibration",
+          "calibration_method": "least_squares"
+        }
+      ],
+      "validity_ranges": [
+        {
+          "variable": "x",
+          "min": 0,
+          "max": 10
+        }
+      ]
+    },
+    "calibration_report": {
+      "report_id": "calibration-fixture",
+      "datasets": [
+        {
+          "dataset_id": "calibration"
+        }
+      ]
+    },
+    "validation_report": {
+      "validation_id": "validation-fixture",
+      "status": "validated",
+      "datasets": [
+        {
+          "dataset_id": "validation"
+        }
+      ],
+      "metrics": {
+        "mae": 0.04
+      }
+    },
+    "sensitivity_report": {
+      "report_id": "sensitivity-fixture",
+      "scenarios": [
+        {
+          "scenario_id": "alpha-low",
+          "parameter": "alpha"
+        }
+      ]
+    },
+    "failure_modes": []
+  },
+  "security": {
+    "threat_model": {
+      "threat_model_id": "threat-fixture",
+      "assets": [
+        "shared_secret"
+      ],
+      "adversary_goals": [
+        "distinguish"
+      ],
+      "capabilities": [
+        "chosen_ciphertext_queries"
+      ]
+    },
+    "security_game": {
+      "game_id": "game-fixture",
+      "scheme": "toy-kem",
+      "oracle_access": [
+        "decapsulation_except_challenge"
+      ],
+      "winning_condition": "advantage above threshold"
+    },
+    "assumptions": [
+      {
+        "assumption_id": "assumption-fixture",
+        "statement": "Fixture hardness assumption."
+      }
+    ],
+    "reductions": [
+      {
+        "reduction_id": "reduction-fixture",
+        "game_id": "game-fixture",
+        "assumption_id": "assumption-fixture",
+        "statement": "Fixture reduction."
+      }
+    ],
+    "attack_report": {
+      "attack_report_id": "attack-fixture",
+      "search_bound": {
+        "max_trials": 2,
+        "max_oracle_queries": 4
+      },
+      "found_attacks": [],
+      "bounded_evidence_only": true,
+      "proof_status": "not_proof"
+    },
+    "evidence": {
+      "evidence_id": "security-evidence-fixture",
+      "kind": "security_evidence",
+      "confidence": "medium",
+      "metadata": {
+        "proof_status": "not_proof"
+      }
+    }
+  },
+  "theory_coherence": {
+    "context_id": "theory-context-fixture",
+    "scope": "bounded fixture review only",
+    "definitions": [
+      "fixed benchmark case",
+      "primary metric"
+    ],
+    "assumptions": [
+      "Fixture cases represent only the bounded local benchmark."
+    ],
+    "dependencies": [
+      {
+        "dependency_id": "benchmark-fixture",
+        "reviewed": true
+      },
+      {
+        "dependency_id": "model-fixture",
+        "reviewed": true
+      }
+    ],
+    "contradictions": [],
+    "unresolved_gaps": []
+  }
+}
