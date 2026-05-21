@@ -10,8 +10,7 @@
   synced_at: '2026-04-21T13:26:18+00:00'
 - name: erdos_open_637
   path: /home/biostar/work/projects/amra/data/banks/erdos_open_637.yaml
-  description: All open Erdős problems imported from the local formal-math metadata
-    snapshot.
+  description: All open Erdős problems imported from the local formal-math metadata snapshot.
   category: erdos_catalog
   problem_count: 637
   provenance: /home/biostar/work/projects/formal-math/docs/open_problems.yaml
@@ -23,8 +22,7 @@
   synced_at: '2026-04-21T13:26:19+00:00'
 - name: erdos_full_1120
   path: /home/biostar/work/projects/amra/data/banks/erdos_full_1120.yaml
-  description: Full Erdős problem catalog with open and non-open entries from the
-    local metadata snapshot.
+  description: Full Erdős problem catalog with open and non-open entries from the local metadata snapshot.
   category: erdos_catalog
   problem_count: 1120
   provenance: /home/biostar/work/projects/formal-math/docs/problems.yaml
@@ -36,8 +34,7 @@
   synced_at: '2026-04-21T13:26:20+00:00'
 - name: amicable_track
   path: /home/biostar/work/projects/amra/data/banks/amicable_track.yaml
-  description: Open and foundational amicable-number problems drawn from the local
-    formal-math workspace.
+  description: Open and foundational amicable-number problems drawn from the local formal-math workspace.
   category: local_topic
   problem_count: 4
   provenance: /home/biostar/work/projects/formal-math/amicable-numbers
@@ -49,8 +46,7 @@
   synced_at: '2026-04-21T13:26:20+00:00'
 - name: triangle_dissection_track
   path: /home/biostar/work/projects/amra/data/banks/triangle_dissection_track.yaml
-  description: 'Finite-case triangle-dissection targets centered on the Erdős #634
-    family.'
+  description: 'Finite-case triangle-dissection targets centered on the Erdős #634 family.'
   category: local_topic
   problem_count: 3
   provenance: /home/biostar/work/projects/formal-math/erdos-634-triangle
@@ -61,8 +57,7 @@
   synced_at: '2026-04-21T13:26:20+00:00'
 - name: weird_numbers_track
   path: /home/biostar/work/projects/amra/data/banks/weird_numbers_track.yaml
-  description: 'Weird-number conjectures and search-oriented targets from the local
-    Erdős #825 project.'
+  description: 'Weird-number conjectures and search-oriented targets from the local Erdős #825 project.'
   category: local_topic
   problem_count: 1
   provenance: /home/biostar/work/projects/formal-math/erdos-825-weird
@@ -73,8 +68,7 @@
   synced_at: '2026-04-21T13:26:20+00:00'
 - name: unitary_perfect_track
   path: /home/biostar/work/projects/amra/data/banks/unitary_perfect_track.yaml
-  description: 'Unitary-perfect-number research track combining Erdős #1052 with local
-    foundation theorems.'
+  description: 'Unitary-perfect-number research track combining Erdős #1052 with local foundation theorems.'
   category: local_topic
   problem_count: 2
   provenance: /home/biostar/work/projects/formal-math/erdos-1052-unitary-perfect
@@ -95,13 +89,12 @@
   synced_at: '2026-04-21T13:26:20+00:00'
 - name: ai_math_benchmark_2026
   path: /home/biostar/work/projects/amra/data/banks/ai_math_benchmark_2026.yaml
-  description: Curated 2025-2026 AI mathematics benchmark cases from AlphaProof,
-    AlphaGeometry2, Gemini/Aletheia, Aristotle, Gauss, GPT, Claude Code, and
-    public Lean-formalized Erdős problem workflows.
+  description: Curated 2025-2026 AI mathematics benchmark cases from AlphaProof, AlphaGeometry2, Gemini/Aletheia,
+    Aristotle, Gauss, GPT, Claude Code, and public Lean-formalized Erdős problem workflows.
   category: ai_math_benchmark
   problem_count: 16
-  provenance: Public AI mathematics announcements, papers, repositories, FirstProof,
-    and Erdős Problems pages surveyed on 2026-05-14.
+  provenance: Public AI mathematics announcements, papers, repositories, FirstProof, and Erdős Problems
+    pages surveyed on 2026-05-14.
   focus_tags:
   - ai_math_benchmark
   - lean
@@ -110,3 +103,49 @@
   - firstproof
   - autoformalization
   synced_at: '2026-05-14T00:00:00+08:00'
+- name: formal_conjectures_open_research
+  path: /home/biostar/work/projects/amra/data/banks/formal_conjectures_open_research.yaml
+  description: Open research conjectures imported from Google DeepMind Formal Conjectures as Lean 4 theorem
+    targets.
+  category: research_open_formal
+  problem_count: 1068
+  provenance: https://github.com/google-deepmind/formal-conjectures
+  focus_tags:
+  - formal_conjectures
+  - lean4
+  - research_open
+  - formal_statement
+  synced_at: '2026-05-21T05:21:05+00:00'
+- name: formal_conjectures_all
+  path: /home/biostar/work/projects/amra/data/banks/formal_conjectures_all.yaml
+  description: Full Formal Conjectures declaration bank, including open, solved, textbook, and test categories.
+  category: research_open_formal
+  problem_count: 2658
+  provenance: https://github.com/google-deepmind/formal-conjectures
+  focus_tags:
+  - formal_conjectures
+  - lean4
+  - benchmark_corpus
+  synced_at: '2026-05-21T05:21:05+00:00'
+- name: unsolvedmath_index
+  path: /home/biostar/work/projects/amra/data/banks/unsolvedmath_index.yaml
+  description: UnsolvedMath browse-index import for large-scale natural-language open problem triage.
+  category: research_open_index
+  problem_count: 2033
+  provenance: https://www.unsolvedmath.com
+  focus_tags:
+  - unsolvedmath
+  - open_problem_index
+  - research_problem
+  synced_at: '2026-05-21T05:21:05+00:00'
+- name: aim_problem_lists
+  path: /home/biostar/work/projects/amra/data/banks/aim_problem_lists.yaml
+  description: AIM workshop problem-list source inventory for domain-specific research problem extraction.
+  category: research_open_index
+  problem_count: 166
+  provenance: https://aimath.org/problemlists/
+  focus_tags:
+  - aim_problem_lists
+  - problem_list_collection
+  - research_problem
+  synced_at: '2026-05-21T05:21:05+00:00'

@@ -1,0 +1,85 @@
+{
+  "suite_id": "research_open_problem_collections",
+  "generated_at": "2026-05-21T05:21:05+00:00",
+  "purpose": "Provide high-priority research-level open problem collections for AMRA triage, proof discovery, and Lean/formalization benchmark planning.",
+  "raw_root": "data/benchmarks/research_open/raw",
+  "banks": {
+    "formal_conjectures_open_research": "data/banks/formal_conjectures_open_research.yaml",
+    "formal_conjectures_all": "data/banks/formal_conjectures_all.yaml",
+    "unsolvedmath_index": "data/banks/unsolvedmath_index.yaml",
+    "aim_problem_lists": "data/banks/aim_problem_lists.yaml"
+  },
+  "sources": [
+    {
+      "id": "formal_conjectures",
+      "name": "Formal Conjectures",
+      "source_url": "https://github.com/google-deepmind/formal-conjectures",
+      "source_revision": "9e126a6e1f7d108ced5904c43cac46b1c39b39cb",
+      "license": "Apache-2.0 for software; CC-BY-4.0 and source-specific licenses for materials",
+      "local_path": "data/benchmarks/research_open/raw/formal_conjectures",
+      "formats": [
+        "lean4"
+      ],
+      "modalities": [
+        "formal_statement",
+        "lean4_theorem_target"
+      ],
+      "difficulty": "research_open_to_solved_research_benchmark",
+      "counts": {
+        "declarations_total": 2658,
+        "open_research_declarations": 1068
+      },
+      "recommended_use": "Primary AMRA research benchmark because statements are already formal Lean 4 targets."
+    },
+    {
+      "id": "unsolvedmath",
+      "name": "UnsolvedMath",
+      "source_url": "https://www.unsolvedmath.com",
+      "license": "Source-specific; verify before redistribution of detail pages",
+      "local_path": "data/benchmarks/research_open/raw/unsolvedmath",
+      "formats": [
+        "html_index"
+      ],
+      "modalities": [
+        "natural_language_problem_index",
+        "difficulty_metadata",
+        "category_metadata"
+      ],
+      "difficulty": "advanced_to_millennium",
+      "counts": {
+        "index_records": 2033
+      },
+      "recommended_use": "Large triage index; fetch and validate detail pages before proof work."
+    },
+    {
+      "id": "aim_problem_lists",
+      "name": "AIM Problem Lists",
+      "source_url": "https://aimath.org/problemlists/",
+      "license": "Source-specific; verify each linked AimPL/PDF source",
+      "local_path": "data/benchmarks/research_open/raw/aim_problem_lists",
+      "formats": [
+        "html_index",
+        "aimpl",
+        "pdf"
+      ],
+      "modalities": [
+        "problem_list_index"
+      ],
+      "difficulty": "research_problem_lists",
+      "counts": {
+        "problem_list_records": 166
+      },
+      "recommended_use": "Curated source-list inventory for extracting domain-specific research sub-banks."
+    }
+  ],
+  "independence_policy": {
+    "formal_conjectures": [
+      "Use Lean statement files and local imports as the benchmark contract.",
+      "Do not expose external proof scripts during first-pass proof search."
+    ],
+    "natural_language_collections": [
+      "Recover exact statement and source metadata before creating proof tasks.",
+      "Record status/date validation for open problems before attack runs."
+    ]
+  }
+}
