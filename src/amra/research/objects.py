@@ -41,6 +41,8 @@ class ResearchObjectStatus(_StringEnum):
     ACTIVE = "active"
     TESTING = "testing"
     EMPIRICALLY_SUPPORTED = "empirically_supported"
+    MODEL_CALIBRATED = "model_calibrated"
+    MODEL_VALIDATED = "model_validated"
     COUNTEREXAMPLE_FOUND = "counterexample_found"
     PROOF_CANDIDATE = "proof_candidate"
     LEAN_CANDIDATE = "lean_candidate"
@@ -275,6 +277,131 @@ class ExperimentRecord(ResearchObjectRecord):
 
 
 @dataclass(slots=True)
+class CounterexampleRecord(ResearchObjectRecord):
+    object_type: ResearchObjectType = ResearchObjectType.COUNTEREXAMPLE
+    target_conjecture_id: str = ""
+    assignment: dict[str, Any] = field(default_factory=dict)
+    observed_value: dict[str, Any] = field(default_factory=dict)
+    violation_summary: str = ""
+    search_space: dict[str, Any] = field(default_factory=dict)
+    predicate: dict[str, Any] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        self.object_type = ResearchObjectType.COUNTEREXAMPLE
+        ResearchObjectRecord.__post_init__(self)
+        self.assignment = _dict_value(self.assignment)
+        self.observed_value = _dict_value(self.observed_value)
+        self.search_space = _dict_value(self.search_space)
+        self.predicate = _dict_value(self.predicate)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "CounterexampleRecord":
+        return cls(
+            **_base_kwargs(payload, object_type=ResearchObjectType.COUNTEREXAMPLE),
+            target_conjecture_id=str(payload.get("target_conjecture_id", "")),
+            assignment=_dict_value(payload.get("assignment")),
+            observed_value=_dict_value(payload.get("observed_value")),
+            violation_summary=str(payload.get("violation_summary", "")),
+            search_space=_dict_value(payload.get("search_space")),
+            predicate=_dict_value(payload.get("predicate")),
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        payload = _base_dict(self)
+        payload.update(
+            {
+                "target_conjecture_id": self.target_conjecture_id,
+                "assignment": dict(self.assignment),
+                "observed_value": dict(self.observed_value),
+                "violation_summary": self.violation_summary,
+                "search_space": dict(self.search_space),
+                "predicate": dict(self.predicate),
+            }
+        )
+        return payload
+
+
+@dataclass(slots=True)
+class ConstructionRecord(ResearchObjectRecord):
+    object_type: ResearchObjectType = ResearchObjectType.CONSTRUCTION
+    target_conjecture_id: str = ""
+    method: str = "fixture_witness"
+    parameters: dict[str, Any] = field(default_factory=dict)
+    witness: dict[str, Any] = field(default_factory=dict)
+    verifies: bool = False
+
+    def __post_init__(self) -> None:
+        self.object_type = ResearchObjectType.CONSTRUCTION
+        ResearchObjectRecord.__post_init__(self)
+        self.parameters = _dict_value(self.parameters)
+        self.witness = _dict_value(self.witness)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "ConstructionRecord":
+        return cls(
+            **_base_kwargs(payload, object_type=ResearchObjectType.CONSTRUCTION),
+            target_conjecture_id=str(payload.get("target_conjecture_id", "")),
+            method=str(payload.get("method", "fixture_witness")),
+            parameters=_dict_value(payload.get("parameters")),
+            witness=_dict_value(payload.get("witness")),
+            verifies=bool(payload.get("verifies")),
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        payload = _base_dict(self)
+        payload.update(
+            {
+                "target_conjecture_id": self.target_conjecture_id,
+                "method": self.method,
+                "parameters": dict(self.parameters),
+                "witness": dict(self.witness),
+                "verifies": self.verifies,
+            }
+        )
+        return payload
+
+
+@dataclass(slots=True)
+class NegativeResultRecord(ResearchObjectRecord):
+    object_type: ResearchObjectType = ResearchObjectType.NEGATIVE_RESULT
+    target_object_id: str = ""
+    refuted_by: list[str] = field(default_factory=list)
+    failure_mode: str = "counterexample"
+    search_bound: dict[str, Any] = field(default_factory=dict)
+    result_summary: str = ""
+
+    def __post_init__(self) -> None:
+        self.object_type = ResearchObjectType.NEGATIVE_RESULT
+        ResearchObjectRecord.__post_init__(self)
+        self.refuted_by = _string_list(self.refuted_by)
+        self.search_bound = _dict_value(self.search_bound)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "NegativeResultRecord":
+        return cls(
+            **_base_kwargs(payload, object_type=ResearchObjectType.NEGATIVE_RESULT),
+            target_object_id=str(payload.get("target_object_id", "")),
+            refuted_by=_string_list(payload.get("refuted_by")),
+            failure_mode=str(payload.get("failure_mode", "counterexample")),
+            search_bound=_dict_value(payload.get("search_bound")),
+            result_summary=str(payload.get("result_summary", "")),
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        payload = _base_dict(self)
+        payload.update(
+            {
+                "target_object_id": self.target_object_id,
+                "refuted_by": list(self.refuted_by),
+                "failure_mode": self.failure_mode,
+                "search_bound": dict(self.search_bound),
+                "result_summary": self.result_summary,
+            }
+        )
+        return payload
+
+
+@dataclass(slots=True)
 class AlgorithmRecord(ResearchObjectRecord):
     object_type: ResearchObjectType = ResearchObjectType.ALGORITHM
     problem_spec: str = ""
@@ -340,6 +467,7 @@ class ModelRecord(ResearchObjectRecord):
     validation_data: list[str] = field(default_factory=list)
     sensitivity_reports: list[str] = field(default_factory=list)
     validity_range: str = ""
+    validity_ranges: list[dict[str, Any]] = field(default_factory=list)
     known_failure_modes: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -352,6 +480,7 @@ class ModelRecord(ResearchObjectRecord):
         self.calibration_data = _string_list(self.calibration_data)
         self.validation_data = _string_list(self.validation_data)
         self.sensitivity_reports = _string_list(self.sensitivity_reports)
+        self.validity_ranges = [dict(item) for item in self.validity_ranges if isinstance(item, dict)]
         self.known_failure_modes = _string_list(self.known_failure_modes)
 
     @classmethod
@@ -367,6 +496,11 @@ class ModelRecord(ResearchObjectRecord):
             validation_data=_string_list(payload.get("validation_data")),
             sensitivity_reports=_string_list(payload.get("sensitivity_reports")),
             validity_range=str(payload.get("validity_range", "")),
+            validity_ranges=[
+                dict(item)
+                for item in payload.get("validity_ranges", [])
+                if isinstance(item, dict)
+            ],
             known_failure_modes=_string_list(payload.get("known_failure_modes")),
         )
 
@@ -383,6 +517,7 @@ class ModelRecord(ResearchObjectRecord):
                 "validation_data": list(self.validation_data),
                 "sensitivity_reports": list(self.sensitivity_reports),
                 "validity_range": self.validity_range,
+                "validity_ranges": [dict(item) for item in self.validity_ranges],
                 "known_failure_modes": list(self.known_failure_modes),
             }
         )
@@ -494,9 +629,12 @@ class MLTheoryClaimRecord(ResearchObjectRecord):
 
 ResearchObjectRecord._typed_records = {
     ResearchObjectType.CONJECTURE: ConjectureRecord,
+    ResearchObjectType.COUNTEREXAMPLE: CounterexampleRecord,
+    ResearchObjectType.CONSTRUCTION: ConstructionRecord,
     ResearchObjectType.EXPERIMENT: ExperimentRecord,
     ResearchObjectType.ALGORITHM: AlgorithmRecord,
     ResearchObjectType.MODEL: ModelRecord,
     ResearchObjectType.SECURITY_GAME: SecurityGameRecord,
     ResearchObjectType.ML_THEORY_CLAIM: MLTheoryClaimRecord,
+    ResearchObjectType.NEGATIVE_RESULT: NegativeResultRecord,
 }

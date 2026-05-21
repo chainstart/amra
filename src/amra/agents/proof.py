@@ -214,12 +214,17 @@ If a proof is plausible, produce a formalizer handoff with the exact statement, 
             status = "blocked"
         self._ensure_recovery_artifact(run_dir, status, last_message, backend_report, episode=episode)
         artifacts = self._artifact_snapshot(run_dir)
+        has_recovery_artifacts = any(artifacts[name]["exists"] for name in self.RECOVERY_ARTIFACTS)
         if artifacts["external_source_policy_violation.md"]["exists"]:
             status = "failed"
             next_action = "needs_human"
         elif artifacts["counterexample_report.md"]["exists"]:
             status = "counterexample_suspected"
-        elif artifacts["proof_package.md"]["exists"] and artifacts["formalizer_handoff.md"]["exists"]:
+        elif (
+            artifacts["proof_package.md"]["exists"]
+            and artifacts["formalizer_handoff.md"]["exists"]
+            and not has_recovery_artifacts
+        ):
             status = "proved_candidate" if status == "partial" else status
         terminal = status in self.TERMINAL_STATUSES
         if status == "blocked":
@@ -651,7 +656,12 @@ Before any long proof search, create or update durable artifacts so timeout stil
             status = "blocked"
         elif (run_dir / "counterexample_report.md").exists():
             status = "counterexample_suspected"
-        elif status == "partial" and (run_dir / "proof_package.md").exists() and (run_dir / "formalizer_handoff.md").exists():
+        elif (
+            status == "partial"
+            and (run_dir / "proof_package.md").exists()
+            and (run_dir / "formalizer_handoff.md").exists()
+            and not (run_dir / "blockers.md").exists()
+        ):
             status = "proved_candidate"
 
         terminal = status in self.TERMINAL_STATUSES

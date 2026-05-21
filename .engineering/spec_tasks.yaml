@@ -1,7 +1,7 @@
 {
   "kind": "amra.spec_tasks.v1",
   "project": "amra",
-  "updated_at": "2026-05-21T04:09:04Z",
+  "updated_at": "2026-05-21T04:31:38Z",
   "source_spec": "docs/portfolio_campaign_spec.zh.md",
   "status_doc": "docs/amra_implementation_status.zh.md",
   "decision_log_dir": "docs/decisions",
@@ -75,8 +75,9 @@
     {
       "id": "REQ-AMRA-ALGORITHM-OPTIMIZATION-001",
       "title": "Algorithm benchmark and optimization system",
-      "status": "planned",
-      "source_spec": "docs/amra_research_capabilities_spec.zh.md"
+      "status": "completed",
+      "source_spec": "docs/amra_research_capabilities_spec.zh.md",
+      "notes": "Deterministic fixture-backed algorithm benchmark pack records algorithm specs, baseline/candidate metrics, profiling metadata, optimization traces, regression risks, benchmark gate inputs, and CLI run-benchmark smoke coverage."
     },
     {
       "id": "REQ-AMRA-MODELING-001",
@@ -1008,14 +1009,34 @@
         }
       ],
       "notes": "Implemented fixture-backed ResearchExecutor request/result records, ExperimentRecord persistence, deterministic rerun metadata, reproducibility reports, CLI smoke, and result-bundle optional artifacts.",
-      "updated_at": "2026-05-21T04:15:00Z",
-      "last_note": "Verified research experiment harness acceptance commands passed.",
-      "last_phase": "run"
+      "updated_at": "2026-05-21T04:17:23Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive",
+      "evidence": [
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260521T041623Z-AMRA-EXPERIMENT-HARNESS-001.md",
+          "recorded_at": "2026-05-21T04:17:23Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260521T041623Z-AMRA-EXPERIMENT-HARNESS-001.json",
+          "recorded_at": "2026-05-21T04:17:23Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-21T04:17:23Z",
+          "actor": "engineering-harness:auto"
+        }
+      ]
     },
     {
       "id": "AMRA-CONJECTURE-DISCOVERY-001",
       "title": "Add conjecture discovery and counterexample search pack",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "owner": "amra",
       "requirement_ids": [
@@ -1035,12 +1056,47 @@
           "required": true
         }
       ],
-      "notes": "Implement bounded conjecture mining, counterexample search, construction records, negative-result promotion, and novelty-gate handoff using deterministic fixtures."
+      "notes": "Implemented deterministic fixture-backed conjecture mining, bounded counterexample search, construction records, negative-result promotion, novelty-gate handoff JSON, and CLI smoke.",
+      "updated_at": "2026-05-21T04:23:42Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive",
+      "evidence": [
+        {
+          "kind": "test",
+          "value": "python3 -m pytest -q tests/test_amra_discovery.py tests/test_amra_research_experiments.py",
+          "recorded_at": "2026-05-21T04:21:32Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "smoke",
+          "value": "python3 -m amra discovery mine-conjectures --fixture tests/fixtures/conjecture_mining_fixture.json --out /tmp/amra_conjecture_mining --json",
+          "recorded_at": "2026-05-21T04:21:32Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260521T041724Z-AMRA-CONJECTURE-DISCOVERY-001.md",
+          "recorded_at": "2026-05-21T04:23:42Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260521T041724Z-AMRA-CONJECTURE-DISCOVERY-001.json",
+          "recorded_at": "2026-05-21T04:23:42Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-21T04:23:42Z",
+          "actor": "engineering-harness:auto"
+        }
+      ]
     },
     {
       "id": "AMRA-ALGORITHM-OPTIMIZATION-001",
       "title": "Add algorithm benchmark and optimization pack",
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "owner": "amra",
       "requirement_ids": [
@@ -1060,12 +1116,47 @@
           "required": true
         }
       ],
-      "notes": "Implement algorithm specs, baseline/candidate benchmark schema, profiling metadata, optimization traces, regression risk, and benchmark gate inputs."
+      "notes": "Implemented deterministic fixture-backed algorithm specs, baseline/candidate benchmark schema, profiling metadata, optimization traces, regression risks, empirical complexity summaries, benchmark gate inputs, and CLI smoke.",
+      "updated_at": "2026-05-21T04:31:38Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive",
+      "evidence": [
+        {
+          "kind": "test",
+          "value": "python3 -m pytest -q tests/test_amra_algorithm_benchmark.py tests/test_amra_research_experiments.py",
+          "recorded_at": "2026-05-21T04:29:48Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "smoke",
+          "value": "python3 -m amra algorithms run-benchmark --fixture tests/fixtures/algorithm_benchmark_fixture.json --out /tmp/amra_algorithm_benchmark --json",
+          "recorded_at": "2026-05-21T04:29:48Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260521T042342Z-AMRA-ALGORITHM-OPTIMIZATION-001.md",
+          "recorded_at": "2026-05-21T04:31:38Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260521T042342Z-AMRA-ALGORITHM-OPTIMIZATION-001.json",
+          "recorded_at": "2026-05-21T04:31:38Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-21T04:31:38Z",
+          "actor": "engineering-harness:auto"
+        }
+      ]
     },
     {
       "id": "AMRA-MODELING-PACK-001",
       "title": "Add applied mathematical modeling pack",
-      "status": "pending",
+      "status": "completed",
       "priority": "medium",
       "owner": "amra",
       "requirement_ids": [
@@ -1085,7 +1176,24 @@
           "required": true
         }
       ],
-      "notes": "Implement model records, variables/units/assumptions schema, calibration/validation separation, sensitivity reports, validity ranges, and model-validation gate inputs."
+      "notes": "Implemented deterministic fixture-backed applied model records, variables/units/assumptions schema, calibration/validation separation, sensitivity reports, validity ranges, failure-mode ledger, model-validation gate inputs, and CLI smoke.",
+      "updated_at": "2026-05-21T04:40:26Z",
+      "last_note": "Recorded by Codex during task implementation.",
+      "last_phase": "run",
+      "evidence": [
+        {
+          "kind": "test",
+          "value": "python3 -m pytest -q tests/test_amra_modeling.py tests/test_amra_research_review_gates.py",
+          "recorded_at": "2026-05-21T04:40:26Z",
+          "actor": "codex"
+        },
+        {
+          "kind": "smoke",
+          "value": "python3 -m amra modeling validate --fixture tests/fixtures/modeling_fixture.json --out /tmp/amra_modeling_validation --json",
+          "recorded_at": "2026-05-21T04:40:26Z",
+          "actor": "codex"
+        }
+      ]
     },
     {
       "id": "AMRA-CRYPTO-SECURITY-PACK-001",

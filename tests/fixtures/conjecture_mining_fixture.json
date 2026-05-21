@@ -1,0 +1,50 @@
+{
+  "schema_version": "amra.conjecture_mining_fixture.v1",
+  "run_id": "conjecture-mining-fixture-001",
+  "domain": "number_theory",
+  "scope": "Toy divisor sums over bounded positive integers.",
+  "variables": ["n"],
+  "bounds": {
+    "max_cases": 8
+  },
+  "observations": [
+    {"n": 1, "sigma": 2},
+    {"n": 2, "sigma": 4},
+    {"n": 3, "sigma": 8},
+    {"n": 4, "sigma": 16}
+  ],
+  "search_space": [
+    {"n": 1, "sigma": 2},
+    {"n": 2, "sigma": 4},
+    {"n": 3, "sigma": 8},
+    {"n": 4, "sigma": 16},
+    {"n": 5, "sigma": 32},
+    {"n": 6, "sigma": 64},
+    {"n": 7, "sigma": 127}
+  ],
+  "known_results": [
+    {
+      "source_id": "fixture-known-parity",
+      "match_terms": ["sigma", "even"],
+      "status": "likely_known",
+      "rationale": "The fixture marks parity observations as likely known."
+    }
+  ],
+  "candidates": [
+    {
+      "id": "sigma-even",
+      "object_id": "conjecture-sigma-even",
+      "title": "Bounded observations suggest sigma is even",
+      "statement": "For every searched n in the toy fixture, sigma(n) is even.",
+      "formal_statement": "forall n in fixture_bound, sigma n % 2 = 0",
+      "tags": ["divisibility", "parity"],
+      "variables": ["n"],
+      "predicate": {
+        "op": "mod_eq",
+        "field": "sigma",
+        "mod": 2,
+        "equals": 0
+      }
+    }
+  ]
+}

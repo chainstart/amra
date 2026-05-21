@@ -66,6 +66,9 @@ from amra.nontrivial_benchmark import (
     run_nontrivial_closed_theorem_benchmark,
 )
 from amra.result_bundle import export_amra_result_bundle
+from amra.algorithms import run_algorithm_benchmark_fixture
+from amra.discovery.conjecture_mining import run_conjecture_mining_fixture
+from amra.modeling import run_model_validation_fixture
 from amra.research.experiments import run_research_executor_fixture
 from amra.math_tools import MATH_TOOL_PROFILES
 
@@ -442,6 +445,52 @@ def build_parser() -> argparse.ArgumentParser:
     research_run_executor.add_argument("--fixture", type=Path, required=True)
     research_run_executor.add_argument("--out", type=Path, required=True)
     research_run_executor.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+
+    discovery = subparsers.add_parser(
+        "discovery",
+        help="Run deterministic AMRA conjecture discovery utilities.",
+    )
+    discovery_subparsers = discovery.add_subparsers(dest="discovery_command", required=True)
+    discovery_mine = discovery_subparsers.add_parser(
+        "mine-conjectures",
+        help="Mine fixture-backed conjectures and run bounded counterexample search.",
+    )
+    discovery_mine.add_argument("--fixture", type=Path, required=True)
+    discovery_mine.add_argument("--out", type=Path, required=True)
+    discovery_mine.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+    discovery_counterexample = discovery_subparsers.add_parser(
+        "search-counterexample",
+        help="Run the bounded fixture counterexample search used by conjecture mining.",
+    )
+    discovery_counterexample.add_argument("--fixture", type=Path, required=True)
+    discovery_counterexample.add_argument("--out", type=Path, required=True)
+    discovery_counterexample.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+
+    algorithms = subparsers.add_parser(
+        "algorithms",
+        help="Run deterministic AMRA algorithm benchmark and optimization utilities.",
+    )
+    algorithms_subparsers = algorithms.add_subparsers(dest="algorithms_command", required=True)
+    algorithms_run_benchmark = algorithms_subparsers.add_parser(
+        "run-benchmark",
+        help="Run a fixture-backed algorithm benchmark and persist optimization gate records.",
+    )
+    algorithms_run_benchmark.add_argument("--fixture", type=Path, required=True)
+    algorithms_run_benchmark.add_argument("--out", type=Path, required=True)
+    algorithms_run_benchmark.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+
+    modeling = subparsers.add_parser(
+        "modeling",
+        help="Run deterministic AMRA applied-modeling validation utilities.",
+    )
+    modeling_subparsers = modeling.add_subparsers(dest="modeling_command", required=True)
+    modeling_validate = modeling_subparsers.add_parser(
+        "validate",
+        help="Validate a fixture-backed applied model and persist model-validation gate inputs.",
+    )
+    modeling_validate.add_argument("--fixture", type=Path, required=True)
+    modeling_validate.add_argument("--out", type=Path, required=True)
+    modeling_validate.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
 
     new_project = subparsers.add_parser("new-project", help="Create a new math research project.")
     new_project.add_argument("--problem", required=True, help="Problem id from the selected bank.")
@@ -1475,6 +1524,39 @@ def main(argv: list[str] | None = None) -> int:
         if args.research_command == "run-executor":
             _print(
                 run_research_executor_fixture(
+                    fixture=args.fixture,
+                    output_dir=args.out,
+                ),
+                args.json,
+            )
+            return 0
+
+    if args.command == "discovery":
+        if args.discovery_command in {"mine-conjectures", "search-counterexample"}:
+            _print(
+                run_conjecture_mining_fixture(
+                    fixture=args.fixture,
+                    output_dir=args.out,
+                ),
+                args.json,
+            )
+            return 0
+
+    if args.command == "algorithms":
+        if args.algorithms_command == "run-benchmark":
+            _print(
+                run_algorithm_benchmark_fixture(
+                    fixture=args.fixture,
+                    output_dir=args.out,
+                ),
+                args.json,
+            )
+            return 0
+
+    if args.command == "modeling":
+        if args.modeling_command == "validate":
+            _print(
+                run_model_validation_fixture(
                     fixture=args.fixture,
                     output_dir=args.out,
                 ),

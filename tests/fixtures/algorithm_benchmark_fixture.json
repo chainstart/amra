@@ -1,0 +1,129 @@
+{
+  "schema_version": "amra.algorithm_benchmark_fixture.v1",
+  "algorithm": {
+    "object_id": "algorithm-sparse-dp-001",
+    "title": "Sparse dynamic-programming recurrence accelerator",
+    "problem_spec": "Evaluate a bounded recurrence over sparse support without changing exact outputs.",
+    "domain": "algorithm_design",
+    "tags": [
+      "dynamic_programming",
+      "optimization"
+    ],
+    "input_schema": {
+      "type": "array",
+      "items": "integer"
+    },
+    "output_schema": {
+      "type": "array",
+      "items": "integer"
+    },
+    "constraints": {
+      "max_n": 128,
+      "exact_outputs_required": true
+    },
+    "complexity_claims": [
+      "Candidate reduces constant factors on sparse instances; asymptotic claims require theory review."
+    ]
+  },
+  "benchmark": {
+    "benchmark_id": "benchmark-sparse-dp-001",
+    "title": "Sparse DP fixed smoke benchmark",
+    "primary_metric": "runtime_ms",
+    "metrics": [
+      {
+        "name": "runtime_ms",
+        "direction": "lower_is_better",
+        "unit": "ms"
+      },
+      {
+        "name": "peak_memory_mb",
+        "direction": "lower_is_better",
+        "unit": "MiB"
+      },
+      {
+        "name": "correct_cases",
+        "direction": "higher_is_better",
+        "unit": "case"
+      }
+    ],
+    "fixed_inputs": [
+      {
+        "case_id": "toy-8",
+        "n": 8
+      },
+      {
+        "case_id": "sparse-32",
+        "n": 32
+      },
+      {
+        "case_id": "sparse-128",
+        "n": 128
+      }
+    ],
+    "gate": {
+      "max_allowed_regression_pct": 20
+    }
+  },
+  "environment": {
+    "runner": "fixture",
+    "python": "3.x"
+  },
+  "baselines": [
+    {
+      "id": "baseline-dense-dp",
+      "title": "Dense dynamic programming baseline",
+      "implementation": "fixture:dense_dp",
+      "metrics": {
+        "runtime_ms": 120.0,
+        "peak_memory_mb": 34.0,
+        "correct_cases": 3
+      },
+      "profile": {
+        "profiler": "fixture_profiler",
+        "samples": 3,
+        "notes": [
+          "Baseline metrics are fixed by fixture."
+        ]
+      }
+    }
+  ],
+  "candidates": [
+    {
+      "id": "candidate-sparse-dp",
+      "title": "Sparse support dynamic programming candidate",
+      "baseline_id": "baseline-dense-dp",
+      "implementation": "fixture:sparse_dp",
+      "metrics": {
+        "runtime_ms": 72.0,
+        "peak_memory_mb": 38.0,
+        "correct_cases": 3
+      },
+      "profile": {
+        "profiler": "fixture_profiler",
+        "samples": 3
+      },
+      "metadata": {
+        "optimization_steps": [
+          "Skip zero-support states.",
+          "Cache recurrence boundary terms."
+        ],
+        "complexity_claims": [
+          "Sparse support optimization is benchmark evidence only."
+        ]
+      }
+    }
+  ],
+  "optimization_traces": [
+    {
+      "trace_id": "trace-sparse-dp-fixture",
+      "candidate_id": "candidate-sparse-dp",
+      "steps": [
+        "Skip zero-support states.",
+        "Cache recurrence boundary terms."
+      ],
+      "complexity_claims": [
+        "Empirical speedup on fixed sparse cases; no theorem-grade complexity claim."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "model": {
+    "object_id": "model-heat-adoption-001",
+    "title": "Heat adoption logistic surrogate",
+    "statement": "A calibrated logistic surrogate estimates service adoption under bounded heat and density conditions.",
+    "application_domain": "urban_resilience",
+    "domain": "applied_probability",
+    "tags": ["fixture", "surrogate_model"],
+    "variables": [
+      {
+        "name": "temperature_c",
+        "symbol": "T",
+        "role": "input",
+        "unit": "degC",
+        "description": "Daily maximum air temperature.",
+        "valid_range": {"min": 0, "max": 40}
+      },
+      {
+        "name": "population_density",
+        "symbol": "rho",
+        "role": "input",
+        "unit": "people_per_km2",
+        "description": "Local population density.",
+        "valid_range": {"min": 0, "max": 20000}
+      },
+      {
+        "name": "adoption_probability",
+        "symbol": "p",
+        "role": "output",
+        "unit": "probability",
+        "description": "Predicted adoption probability.",
+        "valid_range": {"min": 0, "max": 1}
+      }
+    ],
+    "assumptions": [
+      {
+        "assumption_id": "assumption-logistic-monotone",
+        "statement": "Adoption is monotone in calibrated heat stress over the declared validity range.",
+        "scope": "equation",
+        "required": true,
+        "testable": true
+      },
+      {
+        "assumption_id": "assumption-stationary-cohort",
+        "statement": "Calibration and validation cohorts are sampled from the same intervention protocol.",
+        "scope": "data",
+        "required": true,
+        "testable": false
+      }
+    ],
+    "parameters": [
+      {
+        "name": "beta_temperature",
+        "value": 0.11,
+        "unit": "1/degC",
+        "source": "calibration-dataset-2025",
+        "calibration_method": "ridge_logistic_regression",
+        "uncertainty": {"stderr": 0.02}
+      },
+      {
+        "name": "beta_density",
+        "value": 0.00003,
+        "unit": "km2/person",
+        "source": "calibration-dataset-2025",
+        "calibration_method": "ridge_logistic_regression",
+        "uncertainty": {"stderr": 0.00001}
+      }
+    ],
+    "validity_ranges": [
+      {"variable": "temperature_c", "min": 0, "max": 40, "unit": "degC"},
+      {"variable": "population_density", "min": 0, "max": 20000, "unit": "people_per_km2"},
+      {"variable": "adoption_probability", "min": 0, "max": 1, "unit": "probability"}
+    ],
+    "equations": ["p = sigmoid(alpha + beta_temperature * T + beta_density * rho)"],
+    "outputs": ["adoption_probability"]
+  },
+  "calibration": {
+    "calibration_id": "calibration-heat-adoption-2025",
+    "method": "ridge_logistic_regression",
+    "datasets": [
+      {
+        "dataset_id": "calibration-dataset-2025",
+        "description": "Fixture calibration split.",
+        "source": "local fixture",
+        "rows": 48,
+        "checksum": "sha256:calibration-fixture"
+      }
+    ],
+    "parameter_estimates": {
+      "beta_temperature": 0.11,
+      "beta_density": 0.00003
+    },
+    "metrics": {
+      "train_log_loss": 0.41
+    }
+  },
+  "validation": {
+    "validation_id": "validation-heat-adoption-2026",
+    "datasets": [
+      {
+        "dataset_id": "validation-dataset-2026",
+        "description": "Held-out validation split.",
+        "source": "local fixture",
+        "rows": 16,
+        "checksum": "sha256:validation-fixture"
+      }
+    ],
+    "metrics": [
+      {
+        "name": "rmse",
+        "value": 0.04,
+        "threshold": {"max": 0.05},
+        "unit": "probability"
+      },
+      {
+        "name": "calibration_error",
+        "value": 0.03,
+        "threshold": {"max": 0.04},
+        "unit": "probability"
+      }
+    ],
+    "cases": [
+      {
+        "case_id": "case-nominal",
+        "inputs": {"temperature_c": 32, "population_density": 9000},
+        "observed": {"adoption_probability": 0.64},
+        "predicted": {"adoption_probability": 0.62}
+      },
+      {
+        "case_id": "case-heat-extrapolation",
+        "inputs": {"temperature_c": 44, "population_density": 9000},
+        "observed": {"adoption_probability": 0.75},
+        "predicted": {"adoption_probability": 0.82}
+      }
+    ]
+  },
+  "sensitivity": {
+    "report_id": "sensitivity-heat-adoption-001",
+    "scenarios": [
+      {
+        "scenario_id": "sensitivity-temperature-plus-ten",
+        "parameter": "beta_temperature",
+        "perturbation_pct": 10,
+        "output_metric": "adoption_probability",
+        "response_pct": 6
+      },
+      {
+        "scenario_id": "sensitivity-density-plus-ten",
+        "parameter": "beta_density",
+        "perturbation_pct": 10,
+        "output_metric": "adoption_probability",
+        "response_pct": 1.2
+      }
+    ],
+    "uncertainty_propagation": {
+      "method": "linearized_delta",
+      "output_std": 0.035
+    }
+  },
+  "failure_modes": [
+    {
+      "failure_id": "failure-cohort-shift",
+      "failure_mode": "cohort_shift",
+      "description": "Validation assumptions may fail under major intervention protocol changes.",
+      "severity": "medium",
+      "mitigation": "Require fresh validation split before deployment outside the fixture protocol.",
+      "gate_blocking": false
+    }
+  ]
+}

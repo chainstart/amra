@@ -181,6 +181,27 @@ def test_natural_language_agent_writes_failed_routes_after_repeated_thin_recover
     assert observation["artifacts"]["failed_routes.md"]["exists"] is True
 
 
+def test_natural_language_agent_does_not_promote_candidate_with_blocker(tmp_path: Path) -> None:
+    agent = NaturalLanguageTheoremProverAgent(repo_root=tmp_path)
+    run_dir = tmp_path / "run"
+    run_dir.mkdir()
+    (run_dir / "proof_package.md").write_text("Candidate with a known gap.\n", encoding="utf-8")
+    (run_dir / "formalizer_handoff.md").write_text("Formalization outline.\n", encoding="utf-8")
+    (run_dir / "blocker.md").write_text("Need a general lower bound.\n", encoding="utf-8")
+
+    observation = agent._artifact_observation(
+        run_dir,
+        "STATUS: partial\nNEXT: continue\nBLOCKER: Need a general lower bound.\n",
+        {"status": "completed"},
+        episode=1,
+    )
+
+    assert observation["status"] == "partial"
+    assert observation["terminal"] is False
+    assert observation["artifacts"]["proof_package.md"]["exists"] is True
+    assert observation["artifacts"]["blocker.md"]["exists"] is True
+
+
 def test_lean_agent_initially_verifies_clean_workspace(tmp_path: Path) -> None:
     workspace = tmp_path / "formal"
     (workspace / "MathProject").mkdir(parents=True)
