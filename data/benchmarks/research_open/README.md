@@ -1,6 +1,6 @@
 # Research Open Problem Collections
 
-Generated: 2026-05-21T05:21:05+00:00
+Generated: 2026-05-21T05:23:31+00:00
 
 This benchmark suite connects AMRA to high-priority research-level open problem
 sources. It keeps raw source snapshots under `raw/` and normalized AMRA bank

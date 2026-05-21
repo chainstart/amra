@@ -553,7 +553,7 @@
     topic: Algebraic number theory
     format: PDF
     statement_quality: problem_list_pointer
-- problem_id: aim-problem-list-rational-and-integral-points-on-higher-dimensional-varieties
+- problem_id: aim-problem-list-rational-and-integral-points-on-higher-dimensional-varieties-algebraic-number-theory
   title: Rational and integral points on higher dimensional varieties
   source: American Institute of Mathematics Problem Lists
   statement: 'AIM workshop problem-list collection in Algebraic number theory: Rational and integral points
@@ -3295,7 +3295,7 @@
     topic: Logic
     format: AimPL
     statement_quality: problem_list_pointer
-- problem_id: aim-problem-list-descriptive-inner-model-theory
+- problem_id: aim-problem-list-descriptive-inner-model-theory-logic
   title: Descriptive inner model theory
   source: American Institute of Mathematics Problem Lists
   statement: 'AIM workshop problem-list collection in Logic: Descriptive inner model theory. This record
@@ -3324,7 +3324,7 @@
     topic: Logic
     format: PDF
     statement_quality: problem_list_pointer
-- problem_id: aim-problem-list-definability-and-decidability-problems-in-number-theory
+- problem_id: aim-problem-list-definability-and-decidability-problems-in-number-theory-logic
   title: Definability and decidability problems in number theory
   source: American Institute of Mathematics Problem Lists
   statement: 'AIM workshop problem-list collection in Logic: Definability and decidability problems in

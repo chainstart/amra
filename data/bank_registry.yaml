@@ -115,7 +115,7 @@
   - lean4
   - research_open
   - formal_statement
-  synced_at: '2026-05-21T05:21:05+00:00'
+  synced_at: '2026-05-21T05:23:31+00:00'
 - name: formal_conjectures_all
   path: /home/biostar/work/projects/amra/data/banks/formal_conjectures_all.yaml
   description: Full Formal Conjectures declaration bank, including open, solved, textbook, and test categories.
@@ -126,7 +126,7 @@
   - formal_conjectures
   - lean4
   - benchmark_corpus
-  synced_at: '2026-05-21T05:21:05+00:00'
+  synced_at: '2026-05-21T05:23:31+00:00'
 - name: unsolvedmath_index
   path: /home/biostar/work/projects/amra/data/banks/unsolvedmath_index.yaml
   description: UnsolvedMath browse-index import for large-scale natural-language open problem triage.
@@ -137,7 +137,7 @@
   - unsolvedmath
   - open_problem_index
   - research_problem
-  synced_at: '2026-05-21T05:21:05+00:00'
+  synced_at: '2026-05-21T05:23:31+00:00'
 - name: aim_problem_lists
   path: /home/biostar/work/projects/amra/data/banks/aim_problem_lists.yaml
   description: AIM workshop problem-list source inventory for domain-specific research problem extraction.
@@ -148,4 +148,4 @@
   - aim_problem_lists
   - problem_list_collection
   - research_problem
-  synced_at: '2026-05-21T05:21:05+00:00'
+  synced_at: '2026-05-21T05:23:31+00:00'

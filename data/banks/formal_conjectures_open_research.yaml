@@ -530,7 +530,7 @@
     ams_codes:
     - '11'
     statement_quality: formal_lean4
-- problem_id: formal-conjectures-conjecture-1-1
+- problem_id: formal-conjectures-conjecture-1-1-njectures-arxiv-2504-17644-margulis-lean
   title: 'Formal Conjectures: conjecture_1_1'
   source: Google DeepMind Formal Conjectures
   statement: "Formal Lean declaration:\n\n```lean\ntheorem conjecture_1_1 {n : ℕ} (hn : 3 ≤ n)\n    (g\
@@ -21183,7 +21183,7 @@
     ams_codes:
     - '11'
     statement_quality: formal_lean4
-- problem_id: formal-conjectures-erdos-889-variants-v1-eq-1-finite
+- problem_id: formal-conjectures-erdos-889-variants-v1-eq-1-finite-formalconjectures-erdosproblems-889-lean
   title: 'Formal Conjectures: erdos_889.variants.V1_eq_1_finite'
   source: Google DeepMind Formal Conjectures
   statement: "Formal Lean declaration:\n\n```lean\ntheorem erdos_889.variants.V1_eq_1_finite :\n    answer(sorry)\
@@ -29142,7 +29142,7 @@
     ams_codes:
     - '11'
     statement_quality: formal_lean4
-- problem_id: formal-conjectures-conjecture
+- problem_id: formal-conjectures-conjecture-formalconjectures-oeis-239957-lean
   title: 'Formal Conjectures: conjecture'
   source: Google DeepMind Formal Conjectures
   statement: "Formal Lean declaration:\n\n```lean\ntheorem conjecture (p : ℕ) (hp : p.Prime) :\n    ∃\
@@ -29181,7 +29181,7 @@
     ams_codes:
     - '11'
     statement_quality: formal_lean4
-- problem_id: formal-conjectures-exists-k
+- problem_id: formal-conjectures-exists-k-formalconjectures-oeis-34693-lean
   title: 'Formal Conjectures: exists_k'
   source: Google DeepMind Formal Conjectures
   statement: 'Formal Lean declaration:
@@ -42578,7 +42578,7 @@
     - '30'
     - '52'
     statement_quality: formal_lean4
-- problem_id: formal-conjectures-selfridge-conjecture
+- problem_id: formal-conjectures-selfridge-conjecture-jectures-wikipedia-sierpinskinumber-lean
   title: 'Formal Conjectures: selfridge_conjecture'
   source: Google DeepMind Formal Conjectures
   statement: "Formal Lean declaration:\n\n```lean\ntheorem selfridge_conjecture :\n    answer(sorry) ↔\

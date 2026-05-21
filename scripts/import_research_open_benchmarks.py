@@ -463,10 +463,11 @@ def update_suite_json(
     *,
     counts: ImportCounts,
     formal_revision: str,
+    generated_at: str,
 ) -> None:
     payload = {
         "suite_id": "research_open_problem_collections",
-        "generated_at": utc_now_iso(),
+        "generated_at": generated_at,
         "purpose": (
             "Provide high-priority research-level open problem collections for AMRA triage, "
             "proof discovery, and Lean/formalization benchmark planning."
@@ -535,10 +536,10 @@ def update_suite_json(
     (BENCH_ROOT / "suite.json").write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
-def update_readme(counts: ImportCounts, formal_revision: str) -> None:
+def update_readme(counts: ImportCounts, formal_revision: str, generated_at: str) -> None:
     readme = f"""# Research Open Problem Collections
 
-Generated: {utc_now_iso()}
+Generated: {generated_at}
 
 This benchmark suite connects AMRA to high-priority research-level open problem
 sources. It keeps raw source snapshots under `raw/` and normalized AMRA bank
@@ -575,7 +576,7 @@ python3 scripts/import_research_open_benchmarks.py --refresh
     (BENCH_ROOT / "README.md").write_text(readme, encoding="utf-8")
 
 
-def update_registry(counts: ImportCounts) -> None:
+def update_registry(counts: ImportCounts, synced_at: str) -> None:
     entries = read_yaml(REGISTRY_PATH)
     replace_names = {
         "formal_conjectures_open_research",
@@ -584,8 +585,6 @@ def update_registry(counts: ImportCounts) -> None:
         "aim_problem_lists",
     }
     entries = [entry for entry in entries if str(entry.get("name", "")) not in replace_names]
-    synced_at = utc_now_iso()
-
     def entry(name: str, path: Path, description: str, category: str, count: int, provenance: str, tags: list[str]) -> dict[str, Any]:
         return {
             "name": name,
@@ -641,11 +640,23 @@ def update_registry(counts: ImportCounts) -> None:
     write_yaml(REGISTRY_PATH, entries)
 
 
+def existing_suite_timestamp() -> str:
+    suite_path = BENCH_ROOT / "suite.json"
+    if not suite_path.exists():
+        return ""
+    try:
+        payload = json.loads(suite_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return ""
+    return str(payload.get("generated_at", ""))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Import high-priority research open problem collections into AMRA banks.")
     parser.add_argument("--refresh", action="store_true", help="Refetch raw sources before parsing.")
     parser.add_argument("--delay", type=float, default=0.25, help="Delay between UnsolvedMath index page requests.")
     args = parser.parse_args()
+    generated_at = utc_now_iso() if args.refresh else (existing_suite_timestamp() or utc_now_iso())
 
     formal_records, formal_revision = import_formal_conjectures(refresh=args.refresh)
     unsolved_records = import_unsolvedmath(refresh=args.refresh, delay=max(args.delay, 0.0))
@@ -656,9 +667,9 @@ def main() -> None:
         unsolvedmath_total=len(unsolved_records),
         aim_problem_lists_total=len(aim_records),
     )
-    update_suite_json(counts=counts, formal_revision=formal_revision)
-    update_readme(counts, formal_revision)
-    update_registry(counts)
+    update_suite_json(counts=counts, formal_revision=formal_revision, generated_at=generated_at)
+    update_readme(counts, formal_revision, generated_at)
+    update_registry(counts, synced_at=generated_at)
     print(json.dumps(counts.__dict__, indent=2, ensure_ascii=False))
 
 
