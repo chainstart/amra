@@ -122,6 +122,30 @@ def write_yaml(path: Path, payload: Any) -> None:
     )
 
 
+def ensure_unique_problem_ids(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    seen: dict[str, int] = {}
+    for record in records:
+        original = str(record["problem_id"])
+        count = seen.get(original, 0)
+        if count:
+            metadata = record.get("metadata") or {}
+            suffix_source = (
+                str(metadata.get("source_file", ""))
+                or str(metadata.get("topic", ""))
+                or str(metadata.get("source_catalog", ""))
+                or str(count + 1)
+            )
+            suffix = slugify(suffix_source)[-40:] or str(count + 1)
+            candidate = f"{original}-{suffix}"
+            while candidate in seen:
+                count += 1
+                candidate = f"{original}-{suffix}-{count + 1}"
+            record["problem_id"] = candidate
+            seen[candidate] = 1
+        seen[original] = count + 1
+    return records
+
+
 def read_yaml(path: Path) -> Any:
     if not path.exists():
         return []
@@ -276,6 +300,7 @@ def import_formal_conjectures(*, refresh: bool) -> tuple[list[dict[str, Any]], s
     for path in sorted((FORMAL_CONJECTURES_RAW / "FormalConjectures").rglob("*.lean")):
         records.extend(parse_formal_conjecture_file(path, revision=revision))
 
+    ensure_unique_problem_ids(records)
     open_research = [record for record in records if record["open_problem"]]
     write_yaml(BANK_ROOT / "formal_conjectures_open_research.yaml", open_research)
     write_yaml(BANK_ROOT / "formal_conjectures_all.yaml", records)
@@ -367,6 +392,7 @@ def import_unsolvedmath(*, refresh: bool, delay: float) -> list[dict[str, Any]]:
             if record:
                 records[record["problem_id"]] = record
     ordered = [records[key] for key in sorted(records)]
+    ensure_unique_problem_ids(ordered)
     write_yaml(BANK_ROOT / "unsolvedmath_index.yaml", ordered)
     return ordered
 
@@ -428,6 +454,7 @@ def import_aim_problem_lists(*, refresh: bool) -> list[dict[str, Any]]:
                 },
             )
         )
+    ensure_unique_problem_ids(records)
     write_yaml(BANK_ROOT / "aim_problem_lists.yaml", records)
     return records
 
