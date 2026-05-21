@@ -16,6 +16,7 @@ from amra.lean.contract import (
     trim_lean_proof_from_header,
 )
 from amra.agents.episode_loop import CodexEpisodeConfig, CodexEpisodeLoopAgent, EpisodeObserver
+from amra.agents.tools import ToolRegistry
 from amra.portfolio_scheduler import PortfolioAttackScheduler, calculate_progress_velocity
 from amra.core.workspace import slugify, utc_now_iso
 
@@ -342,6 +343,9 @@ Before spending significant time, leave a durable note in the run directory that
         merge_to_canonical: bool = False,
         review_status: str = "",
         library_module: str = "",
+        math_tools_profile: str = "essential",
+        install_missing_math_tools: bool | None = None,
+        run_math_tool_smoke: bool | None = None,
     ) -> dict[str, Any]:
         workspace = _resolve(workspace)
         if not workspace.exists():
@@ -400,6 +404,16 @@ Before spending significant time, leave a durable note in the run directory that
             sandbox="workspace-write",
         )
         loop = CodexEpisodeLoopAgent(config)
+        registry = ToolRegistry(
+            build_command=build_command,
+            math_tools_profile=math_tools_profile,
+            install_missing_math_tools=install_missing_math_tools,
+        )
+        tool_snapshot = registry.write_artifacts(
+            loop.run_dir,
+            workspace=workspace,
+            run_math_tool_smoke=run_math_tool_smoke,
+        )
         context_bundle = self._context_bundle(context_paths or [])
         _write_json(loop.run_dir / "focus_contract.json", self._contract_payload(contract, workspace, build_command))
         _write_text(loop.run_dir / "focus_contract.md", self._render_contract(contract, workspace, build_command))
@@ -433,6 +447,11 @@ Before spending significant time, leave a durable note in the run directory that
                 "Verifier command the host will run after each episode:",
                 shlex.join(build_command),
                 "",
+                "AMRA math tools report:",
+                str(loop.run_dir / "math_tools_report.md"),
+                "",
+                "Before a long Lean repair, use available Python/Z3/CAS/Lean probes to test the exact blocker or lemma shape when that can cheaply reduce uncertainty.",
+                "",
                 "Work only toward the required declarations. If the current route is blocked, record the blocker and attack the next smallest exact lemma.",
             ]
         )
@@ -453,6 +472,9 @@ Before spending significant time, leave a durable note in the run directory that
         report["focus_contract_markdown_path"] = str(loop.run_dir / "focus_contract.md")
         report["statement_path"] = str(loop.run_dir / "statement.md")
         report["context_bundle_path"] = str(loop.run_dir / "context_bundle.md")
+        report["tool_registry_path"] = str(loop.run_dir / "tool_registry.md")
+        report["math_tools_report_path"] = str(loop.run_dir / "math_tools_report.md")
+        report["tool_snapshot"] = tool_snapshot
         report["build_command"] = build_command
         final_observation = dict(report.get("final_observation") or {})
         final_targets = dict(final_observation.get("target_reports") or {})

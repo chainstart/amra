@@ -86,6 +86,9 @@ If a proof is plausible, produce a formalizer handoff with the exact statement, 
         enable_search: bool = False,
         model: str | None = None,
         reasoning_effort: str | None = None,
+        math_tools_profile: str = "essential",
+        install_missing_math_tools: bool | None = None,
+        run_math_tool_smoke: bool | None = None,
     ) -> dict[str, Any]:
         del command_timeout_sec
         workspace = workspace or self.repo_root
@@ -106,6 +109,15 @@ If a proof is plausible, produce a formalizer handoff with the exact statement, 
             sandbox="workspace-write",
         )
         loop = CodexEpisodeLoopAgent(config)
+        registry = ToolRegistry(
+            math_tools_profile=math_tools_profile,
+            install_missing_math_tools=install_missing_math_tools,
+        )
+        tool_snapshot = registry.write_artifacts(
+            loop.run_dir,
+            workspace=workspace,
+            run_math_tool_smoke=run_math_tool_smoke,
+        )
         write_text(loop.run_dir / "statement.md", statement.strip() + "\n")
         write_text(loop.run_dir / "context_bundle.md", self._context_bundle(context_paths or []))
         goal = "\n".join(
@@ -119,6 +131,11 @@ If a proof is plausible, produce a formalizer handoff with the exact statement, 
                 "",
                 "Context bundle file:",
                 str(loop.run_dir / "context_bundle.md"),
+                "",
+                "AMRA math tools report:",
+                str(loop.run_dir / "math_tools_report.md"),
+                "",
+                "Before committing to a long proof route, use the available Python/Z3/CAS/Lean tools for quick falsification, finite search, modular checks, or theorem-shape probes when relevant.",
                 "",
                 "Durable artifacts to create when justified:",
                 "- proof_package.md",
@@ -145,6 +162,9 @@ If a proof is plausible, produce a formalizer handoff with the exact statement, 
         )
         report["statement_path"] = str(loop.run_dir / "statement.md")
         report["context_bundle_path"] = str(loop.run_dir / "context_bundle.md")
+        report["tool_registry_path"] = str(loop.run_dir / "tool_registry.md")
+        report["math_tools_report_path"] = str(loop.run_dir / "math_tools_report.md")
+        report["tool_snapshot"] = tool_snapshot
         write_json(loop.run_dir / "report.json", report)
         return report
 
@@ -376,6 +396,9 @@ Before any long proof search, create or update durable artifacts so timeout stil
         enable_search: bool = False,
         model: str | None = None,
         reasoning_effort: str | None = None,
+        math_tools_profile: str = "essential",
+        install_missing_math_tools: bool | None = None,
+        run_math_tool_smoke: bool | None = None,
     ) -> dict[str, Any]:
         resolved_workspace = _resolve_loose(workspace) if workspace is not None else None
         if resolved_workspace is not None and not resolved_workspace.exists():
@@ -399,8 +422,16 @@ Before any long proof search, create or update durable artifacts so timeout stil
         )
         loop = CodexEpisodeLoopAgent(config)
         tracker = ProofArtifactTracker(loop.run_dir)
-        registry = ToolRegistry(build_command=build_command)
-        tool_snapshot = registry.write_artifacts(loop.run_dir, workspace=resolved_workspace)
+        registry = ToolRegistry(
+            build_command=build_command,
+            math_tools_profile=math_tools_profile,
+            install_missing_math_tools=install_missing_math_tools,
+        )
+        tool_snapshot = registry.write_artifacts(
+            loop.run_dir,
+            workspace=resolved_workspace,
+            run_math_tool_smoke=run_math_tool_smoke,
+        )
         write_text(loop.run_dir / "statement.md", statement.strip() + "\n")
         write_text(loop.run_dir / "context_bundle.md", self._context_bundle(context_paths or []))
         extracted_target = (target_name or "").strip() or _extract_lean_target_name(statement)
@@ -502,6 +533,11 @@ Before any long proof search, create or update durable artifacts so timeout stil
                 "",
                 "Tool registry:",
                 str(run_dir / "tool_registry.md"),
+                "",
+                "AMRA math tools report:",
+                str(run_dir / "math_tools_report.md"),
+                "",
+                "Before deep proof search, use these tools for initial verification when they can cheaply test a route, find a counterexample, or validate a theorem shape.",
                 "",
                 "Required durable artifacts to maintain when relevant:",
                 "- proof_notes.md",

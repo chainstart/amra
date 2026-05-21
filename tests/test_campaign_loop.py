@@ -8,6 +8,7 @@ from ara_math.campaign_loop import (
     extract_formalization_target_from_run,
 )
 from ara_math.workspace import write_json
+from amra.proof.global_supervisor import parse_supervisor_decision
 
 
 def _write_workspace(tmp_path: Path, body: str) -> Path:
@@ -190,6 +191,100 @@ def test_campaign_loop_global_reassessment_after_formalizer_stall(tmp_path: Path
     assert "Required Global Decision" in assessment
     second_goal = Path(report["run_dir"]) / "rounds" / "round_002" / "stage_goal.md"
     assert "Prior Round 1 Global Assessment" in second_goal.read_text(encoding="utf-8")
+
+
+def test_parse_supervisor_decision_extracts_switch_target() -> None:
+    decision = parse_supervisor_decision(
+        "\n".join(
+            [
+                "Supervisor decision: switch_target",
+                "Reason: the final claim is too broad for the next Lean round.",
+                "Next target: `fresh_target`",
+                "Formalization target:",
+                "```lean",
+                "theorem fresh_target : True := by",
+                "  trivial",
+                "```",
+                "Instructions: prove this helper first.",
+                "Route risk: low",
+            ]
+        )
+    )
+
+    assert decision["decision"] == "switch_target"
+    assert decision["target_theorem"] == "fresh_target"
+    assert decision["route_risk"] == "low"
+
+
+def test_campaign_loop_supervisor_can_retarget_after_stall(tmp_path: Path) -> None:
+    workspace = _write_workspace(
+        tmp_path,
+        "\n".join(
+            [
+                "namespace MathProject",
+                "",
+                "theorem existing_helper : True := by",
+                "  trivial",
+                "",
+                "end MathProject",
+                "",
+            ]
+        ),
+    )
+    runner = CampaignLoopRunner(repo_root=tmp_path)
+
+    def fake_supervisor_run(**kwargs):
+        decision_path = tmp_path / "supervisor-decision.md"
+        parsed_path = tmp_path / "supervisor-decision.json"
+        decision_path.write_text("Supervisor decision: switch_target\n", encoding="utf-8")
+        parsed_path.write_text("{}", encoding="utf-8")
+        return {
+            "decision": "switch_target",
+            "target_theorem": "fresh_target",
+            "reason": "missing_final should be split first",
+            "instructions": "prove fresh_target before returning to missing_final",
+            "route_risk": "medium",
+            "decision_path": str(decision_path),
+            "parsed_decision_path": str(parsed_path),
+            "backend_invocation": {"status": "completed"},
+        }
+
+    runner.global_supervisor.run = fake_supervisor_run  # type: ignore[method-assign]
+    report = runner.run(
+        statement="Prove the root theorem, but split it if the current stage is too broad.",
+        workspace=workspace,
+        final_target_theorem="missing_final",
+        initial_target_theorem="missing_final",
+        target_file=Path("MathProject/MainClaim.lean"),
+        build_command=["python3", "-c", "print('mock build passed')"],
+        backend="none",
+        mode="hybrid",
+        rounds=1,
+        time_budget_sec=120,
+        formalizer_attempts=1,
+        output_root=tmp_path / "loops",
+        run_name="supervised-loop",
+        supervisor_backend="codex",
+    )
+
+    assert report["current_target_theorem"] == "fresh_target"
+    assert report["rounds"][0]["supervisor_decision"] == "switch_target"
+    assert report["rounds"][0]["supervisor_target_replaced"] is True
+    assert report["supervisor_decisions"][0]["target_theorem"] == "fresh_target"
+
+
+def test_campaign_loop_carries_supervisor_decision_into_later_context(tmp_path: Path) -> None:
+    runner = CampaignLoopRunner(repo_root=tmp_path)
+    decision_path = tmp_path / "supervisor" / "decision.md"
+    decision_path.parent.mkdir(parents=True)
+    decision_path.write_text(
+        "Supervisor decision: switch_target\nInstructions: prove `fresh_target` first.\n",
+        encoding="utf-8",
+    )
+    entry = {"round": 1, "supervisor_decision_path": str(decision_path), "run_dir": str(tmp_path / "missing")}
+
+    assert "Prior Round 1 Supervisor Decision" in runner._read_history_snippets([entry])
+    assert decision_path in runner._loop_context_paths([], [entry])
 
 
 def test_campaign_loop_proof_lab_only_backend_none(tmp_path: Path) -> None:

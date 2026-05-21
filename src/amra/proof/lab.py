@@ -9,6 +9,7 @@ from typing import Any
 
 from amra.infra.runtime import env_int, env_str, run_guarded_command, wait_for_system_headroom
 from amra.core.workspace import read_text, slugify, utc_now_iso, write_json, write_text
+from amra.math_tools import ensure_math_tools
 
 
 CLEAN_ATTEMPT_LABELS: tuple[str, ...] = (
@@ -273,10 +274,12 @@ class AIProofLabRunner:
         *,
         statement: str,
         context_bundle_path: Path,
+        math_tools_report_path: Path | None = None,
         grounding_path: Path | None,
         attempt: int,
         attempts: int,
     ) -> str:
+        math_tools_report_path = math_tools_report_path or (context_bundle_path.parent / "math_tools_report.md")
         doctrine = [f"- {item}" for item in PROOF_LAB_DOCTRINE]
         grounding_lines: list[str] = []
         if grounding_path is not None:
@@ -315,6 +318,11 @@ class AIProofLabRunner:
                 "",
                 "Additional context is available here:",
                 f"- {context_bundle_path}",
+                "",
+                "AMRA math tools report:",
+                f"- {math_tools_report_path}",
+                "",
+                "You must read this report before deep proof search. If a quick Python/Z3/CAS/Lean check can falsify or validate a route, run that check before committing to the route and summarize the result in your output.",
                 *grounding_lines,
                 "",
                 "Task:",
@@ -337,7 +345,14 @@ class AIProofLabRunner:
             ]
         ).strip() + "\n"
 
-    def _build_source_grounding_prompt(self, *, statement: str, context_bundle_path: Path) -> str:
+    def _build_source_grounding_prompt(
+        self,
+        *,
+        statement: str,
+        context_bundle_path: Path,
+        math_tools_report_path: Path | None = None,
+    ) -> str:
+        math_tools_report_path = math_tools_report_path or (context_bundle_path.parent / "math_tools_report.md")
         return "\n".join(
             [
                 "You are running the source-first grounding stage for ARA Proof Lab.",
@@ -358,6 +373,9 @@ class AIProofLabRunner:
                 "",
                 "Source/context bundle to read:",
                 f"- {context_bundle_path}",
+                "",
+                "AMRA math tools report:",
+                f"- {math_tools_report_path}",
                 "",
                 "Output exactly these labeled fields first, then optional notes:",
                 "Statement convention: <witness domains, positivity, distinctness, boundary conventions, or missing source requirement>",
@@ -675,6 +693,9 @@ class AIProofLabRunner:
         output_root: Path | None = None,
         run_name: str | None = None,
         enable_search: bool = False,
+        math_tools_profile: str = "essential",
+        install_missing_math_tools: bool | None = None,
+        run_math_tool_smoke: bool | None = None,
     ) -> dict[str, Any]:
         if not statement.strip():
             raise ValueError("Proof-lab statement must not be empty.")
@@ -695,6 +716,14 @@ class AIProofLabRunner:
         context_bundle_path = run_dir / "context_bundle.md"
         write_text(statement_path, statement.strip() + "\n")
         write_text(context_bundle_path, context_bundle)
+        math_tools_report = ensure_math_tools(
+            output_dir=run_dir,
+            profile=math_tools_profile,
+            install_missing=install_missing_math_tools,
+            run_smoke=run_math_tool_smoke,
+            workspace=None,
+        )
+        math_tools_report_path = Path(str(math_tools_report.get("summary_path") or run_dir / "math_tools_report.md"))
         write_json(
             run_dir / "state.json",
             {
@@ -707,6 +736,8 @@ class AIProofLabRunner:
                 "time_budget_sec": time_budget_sec,
                 "statement_path": str(statement_path),
                 "context_bundle_path": str(context_bundle_path),
+                "math_tools_report_path": str(math_tools_report_path),
+                "math_tools_profile": math_tools_profile,
             },
         )
 
@@ -730,6 +761,7 @@ class AIProofLabRunner:
                     grounding_prompt = self._build_source_grounding_prompt(
                         statement=statement,
                         context_bundle_path=context_bundle_path,
+                        math_tools_report_path=math_tools_report_path,
                     )
                     grounding_prompt_path = grounding_dir / "source_grounding_prompt.txt"
                     grounding_output_path = grounding_dir / "source_grounding_output.md"
@@ -786,6 +818,7 @@ class AIProofLabRunner:
             prompt = self._build_clean_attempt_prompt(
                 statement=statement,
                 context_bundle_path=context_bundle_path,
+                math_tools_report_path=math_tools_report_path,
                 grounding_path=grounding_output_path,
                 attempt=attempt,
                 attempts=attempt_count,
@@ -877,6 +910,8 @@ class AIProofLabRunner:
             "run_dir": str(run_dir),
             "statement_path": str(statement_path),
             "context_bundle_path": str(context_bundle_path),
+            "math_tools_report": math_tools_report,
+            "math_tools_report_path": str(math_tools_report_path),
             "source_first": source_first,
             "grounding": grounding_entry,
             "attempts_completed": len(attempt_entries),

@@ -2572,6 +2572,533 @@
           ]
         }
       ]
+    },
+    {
+      "id": "amra-research-capabilities-expansion",
+      "title": "AMRA Research Capabilities Expansion",
+      "status": "planned",
+      "objective": "Implement docs/amra_research_capabilities_spec.zh.md in ordered task packages, expanding AMRA from theorem/proof automation to broader mathematical research automation while preserving canonical proof/Lean behavior.",
+      "generated_by": "codex",
+      "generated_at": "2026-05-21T03:20:00Z",
+      "tasks": [
+        {
+          "id": "AMRA-RESEARCH-ONTOLOGY-001",
+          "title": "Add AMRA research object ontology and graph extensions",
+          "status": "pending",
+          "max_attempts": 3,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "depends_on": [
+            "AMRA-LIBRARY-CURATOR-001"
+          ],
+          "spec_refs": [
+            "REQ-AMRA-RESEARCH-ONTOLOGY-001"
+          ],
+          "file_scope": [
+            "src/amra/research/**",
+            "src/amra/core/artifact_graph.py",
+            "src/amra/orchestration/workstreams.py",
+            "src/amra/core/models.py",
+            "tests/test_amra_research_objects.py",
+            "tests/test_amra_research_artifact_graph.py",
+            "tests/test_amra_orchestration_state.py",
+            "docs/amra_research_capabilities_spec.zh.md",
+            ".engineering/spec_tasks.yaml",
+            "docs/amra_implementation_status.zh.md",
+            "docs/spec_update_log.jsonl"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement AMRA-RESEARCH-ONTOLOGY-001 from docs/amra_research_capabilities_spec.zh.md Phase 1. Add canonical amra.research dataclasses for research objects/evidence, extend artifact graph kinds/relations and workstream kinds/statuses for non-proof research, and add deterministic tests. Preserve existing proof/Lean and portfolio behavior."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing ontology or graph tests with minimal scoped changes. Keep AMRA proof/Lean regressions stable and do not broaden the task beyond the declared file scope."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Research ontology tests",
+              "command": "python3 -m pytest -q tests/test_amra_research_objects.py tests/test_amra_research_artifact_graph.py tests/test_amra_orchestration_state.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "AMRA dynamic spec audit passes",
+              "command": "python3 -c \"import sys; sys.path.insert(0, '/home/biostar/work/projects/engineering-harness/src'); from engineering_harness.cli import main; raise SystemExit(main(['spec-sync', 'audit', '--project-root', '.', '--json']))\" >/tmp/amra_spec_sync_audit.json",
+              "required": true,
+              "timeout_seconds": 180
+            }
+          ]
+        },
+        {
+          "id": "AMRA-EXPERIMENT-HARNESS-001",
+          "title": "Add reproducible research experiment harness",
+          "status": "pending",
+          "max_attempts": 3,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "depends_on": [
+            "AMRA-RESEARCH-ONTOLOGY-001"
+          ],
+          "spec_refs": [
+            "REQ-AMRA-EXPERIMENT-HARNESS-001",
+            "REQ-AMRA-RESEARCH-ONTOLOGY-001"
+          ],
+          "file_scope": [
+            "src/amra/research/**",
+            "src/amra/cli.py",
+            "src/amra/result_bundle.py",
+            "tests/test_amra_research_experiments.py",
+            "tests/test_amra_result_bundle.py",
+            "tests/fixtures/research_experiment_fixture.json",
+            ".engineering/spec_tasks.yaml",
+            "docs/amra_implementation_status.zh.md",
+            "docs/spec_update_log.jsonl"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement AMRA-EXPERIMENT-HARNESS-001. Add ResearchExecutor request/result records, ExperimentRecord persistence, deterministic rerun metadata, reproducibility reports, CLI `python3 -m amra research run-executor`, fixture-based smoke, and result-bundle optional artifacts."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing experiment harness tests while keeping execution deterministic and local-only."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Research experiment tests",
+              "command": "python3 -m pytest -q tests/test_amra_research_experiments.py tests/test_amra_result_bundle.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "Research executor CLI smoke",
+              "command": "python3 -m amra research run-executor --fixture tests/fixtures/research_experiment_fixture.json --out /tmp/amra_research_experiment --json",
+              "required": true,
+              "timeout_seconds": 300
+            }
+          ]
+        },
+        {
+          "id": "AMRA-CONJECTURE-DISCOVERY-001",
+          "title": "Add conjecture discovery and counterexample search pack",
+          "status": "pending",
+          "max_attempts": 3,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "depends_on": [
+            "AMRA-EXPERIMENT-HARNESS-001"
+          ],
+          "spec_refs": [
+            "REQ-AMRA-CONJECTURE-DISCOVERY-001"
+          ],
+          "file_scope": [
+            "src/amra/discovery/**",
+            "src/amra/research/**",
+            "src/amra/cli.py",
+            "tests/test_amra_discovery.py",
+            "tests/test_amra_research_experiments.py",
+            "tests/fixtures/conjecture_mining_fixture.json",
+            ".engineering/spec_tasks.yaml",
+            "docs/amra_implementation_status.zh.md",
+            "docs/spec_update_log.jsonl"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement AMRA-CONJECTURE-DISCOVERY-001. Add deterministic conjecture mining, bounded counterexample search, construction/negative-result records, novelty-gate handoff data, and CLI `python3 -m amra discovery mine-conjectures` using local fixtures."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing discovery tests without adding live crawling, unbounded search, or live model calls."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Discovery tests",
+              "command": "python3 -m pytest -q tests/test_amra_discovery.py tests/test_amra_research_experiments.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "Conjecture mining CLI smoke",
+              "command": "python3 -m amra discovery mine-conjectures --fixture tests/fixtures/conjecture_mining_fixture.json --out /tmp/amra_conjecture_mining --json",
+              "required": true,
+              "timeout_seconds": 300
+            }
+          ]
+        },
+        {
+          "id": "AMRA-ALGORITHM-OPTIMIZATION-001",
+          "title": "Add algorithm benchmark and optimization pack",
+          "status": "pending",
+          "max_attempts": 3,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "depends_on": [
+            "AMRA-CONJECTURE-DISCOVERY-001"
+          ],
+          "spec_refs": [
+            "REQ-AMRA-ALGORITHM-OPTIMIZATION-001"
+          ],
+          "file_scope": [
+            "src/amra/algorithms/**",
+            "src/amra/research/**",
+            "src/amra/cli.py",
+            "tests/test_amra_algorithm_benchmark.py",
+            "tests/test_amra_research_experiments.py",
+            "tests/fixtures/algorithm_benchmark_fixture.json",
+            ".engineering/spec_tasks.yaml",
+            "docs/amra_implementation_status.zh.md",
+            "docs/spec_update_log.jsonl"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement AMRA-ALGORITHM-OPTIMIZATION-001. Add algorithm specs, baseline/candidate benchmark schema, profiling metadata, optimization traces, regression risk records, benchmark gate inputs, and CLI `python3 -m amra algorithms run-benchmark`."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing algorithm benchmark tests while preserving deterministic fixtures and fair baseline reporting."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Algorithm benchmark tests",
+              "command": "python3 -m pytest -q tests/test_amra_algorithm_benchmark.py tests/test_amra_research_experiments.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "Algorithm benchmark CLI smoke",
+              "command": "python3 -m amra algorithms run-benchmark --fixture tests/fixtures/algorithm_benchmark_fixture.json --out /tmp/amra_algorithm_benchmark --json",
+              "required": true,
+              "timeout_seconds": 300
+            }
+          ]
+        },
+        {
+          "id": "AMRA-MODELING-PACK-001",
+          "title": "Add applied mathematical modeling pack",
+          "status": "pending",
+          "max_attempts": 3,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "depends_on": [
+            "AMRA-ALGORITHM-OPTIMIZATION-001"
+          ],
+          "spec_refs": [
+            "REQ-AMRA-MODELING-001"
+          ],
+          "file_scope": [
+            "src/amra/modeling/**",
+            "src/amra/research/**",
+            "src/amra/research_review/**",
+            "src/amra/cli.py",
+            "tests/test_amra_modeling.py",
+            "tests/test_amra_research_review_gates.py",
+            "tests/fixtures/modeling_fixture.json",
+            ".engineering/spec_tasks.yaml",
+            "docs/amra_implementation_status.zh.md",
+            "docs/spec_update_log.jsonl"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement AMRA-MODELING-PACK-001. Add model records, variables/units/assumptions schema, calibration/validation separation, sensitivity reports, validity ranges, model-validation gate inputs, and CLI `python3 -m amra modeling validate`."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing modeling tests with minimal scoped changes and keep model assumptions explicit."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Modeling tests",
+              "command": "python3 -m pytest -q tests/test_amra_modeling.py tests/test_amra_research_review_gates.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "Model validation CLI smoke",
+              "command": "python3 -m amra modeling validate --fixture tests/fixtures/modeling_fixture.json --out /tmp/amra_modeling_validation --json",
+              "required": true,
+              "timeout_seconds": 300
+            }
+          ]
+        },
+        {
+          "id": "AMRA-CRYPTO-SECURITY-PACK-001",
+          "title": "Add cryptography and security research pack",
+          "status": "pending",
+          "max_attempts": 3,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "depends_on": [
+            "AMRA-MODELING-PACK-001"
+          ],
+          "spec_refs": [
+            "REQ-AMRA-CRYPTO-SECURITY-001"
+          ],
+          "file_scope": [
+            "src/amra/crypto/**",
+            "src/amra/research/**",
+            "src/amra/research_review/**",
+            "src/amra/cli.py",
+            "tests/test_amra_crypto_security.py",
+            "tests/test_amra_research_review_gates.py",
+            "tests/fixtures/crypto_security_fixture.json",
+            ".engineering/spec_tasks.yaml",
+            "docs/amra_implementation_status.zh.md",
+            "docs/spec_update_log.jsonl"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement AMRA-CRYPTO-SECURITY-PACK-001. Add threat model, security game, assumption, reduction, bounded attack search, security gate records, and CLI `python3 -m amra crypto search-attack`. Attack failure must stay bounded evidence, not proof."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing crypto/security tests while preserving explicit threat models and assumptions."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Crypto/security tests",
+              "command": "python3 -m pytest -q tests/test_amra_crypto_security.py tests/test_amra_research_review_gates.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "Crypto attack CLI smoke",
+              "command": "python3 -m amra crypto search-attack --fixture tests/fixtures/crypto_security_fixture.json --out /tmp/amra_crypto_security --json",
+              "required": true,
+              "timeout_seconds": 300
+            }
+          ]
+        },
+        {
+          "id": "AMRA-ML-THEORY-PACK-001",
+          "title": "Add machine learning theory research pack",
+          "status": "pending",
+          "max_attempts": 3,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "depends_on": [
+            "AMRA-CRYPTO-SECURITY-PACK-001"
+          ],
+          "spec_refs": [
+            "REQ-AMRA-ML-THEORY-001"
+          ],
+          "file_scope": [
+            "src/amra/ml_theory/**",
+            "src/amra/research/**",
+            "src/amra/research_review/**",
+            "src/amra/cli.py",
+            "tests/test_amra_ml_theory.py",
+            "tests/test_amra_research_review_gates.py",
+            "tests/fixtures/ml_theory_fixture.json",
+            ".engineering/spec_tasks.yaml",
+            "docs/amra_implementation_status.zh.md",
+            "docs/spec_update_log.jsonl"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement AMRA-ML-THEORY-PACK-001. Add ML theory claim records, experiment manifests, dataset/model/training config ledgers, metric schema, scaling/optimization probes, theorem/empirical boundary tracking, and CLI `python3 -m amra ml-theory run-experiment`."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing ML theory tests while keeping empirical observations distinct from proof claims."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "ML theory tests",
+              "command": "python3 -m pytest -q tests/test_amra_ml_theory.py tests/test_amra_research_review_gates.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "ML theory CLI smoke",
+              "command": "python3 -m amra ml-theory run-experiment --fixture tests/fixtures/ml_theory_fixture.json --out /tmp/amra_ml_theory --json",
+              "required": true,
+              "timeout_seconds": 300
+            }
+          ]
+        },
+        {
+          "id": "AMRA-RESEARCH-REVIEW-GATES-001",
+          "title": "Add research review gates for non-proof claims",
+          "status": "pending",
+          "max_attempts": 3,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "depends_on": [
+            "AMRA-ML-THEORY-PACK-001"
+          ],
+          "spec_refs": [
+            "REQ-AMRA-RESEARCH-REVIEW-GATES-001"
+          ],
+          "file_scope": [
+            "src/amra/research_review/**",
+            "src/amra/research/**",
+            "src/amra/review/**",
+            "src/amra/result_bundle.py",
+            "src/amra/cli.py",
+            "tests/test_amra_research_review_gates.py",
+            "tests/test_comath_review_gate.py",
+            "tests/test_amra_result_bundle.py",
+            "tests/fixtures/research_review_fixture.json",
+            ".engineering/spec_tasks.yaml",
+            "docs/amra_implementation_status.zh.md",
+            "docs/spec_update_log.jsonl"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement AMRA-RESEARCH-REVIEW-GATES-001. Add novelty, reproducibility, statistical, benchmark, model validation, security, and theory coherence gates with blocking decisions, CLI `python3 -m amra research review-object`, and result-bundle integration."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing research review gate tests while preserving existing proof/Lean review behavior."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Research review gate tests",
+              "command": "python3 -m pytest -q tests/test_amra_research_review_gates.py tests/test_comath_review_gate.py tests/test_amra_result_bundle.py",
+              "required": true,
+              "timeout_seconds": 1200
+            },
+            {
+              "name": "Research review CLI smoke",
+              "command": "python3 -m amra research review-object --fixture tests/fixtures/research_review_fixture.json --out /tmp/amra_research_review --json",
+              "required": true,
+              "timeout_seconds": 300
+            }
+          ]
+        },
+        {
+          "id": "AMRA-RESEARCH-PORTFOLIO-001",
+          "title": "Integrate research tasks into portfolio campaigns and result bundles",
+          "status": "pending",
+          "max_attempts": 3,
+          "max_task_iterations": 3,
+          "manual_approval_required": false,
+          "agent_approval_required": true,
+          "depends_on": [
+            "AMRA-RESEARCH-REVIEW-GATES-001"
+          ],
+          "spec_refs": [
+            "REQ-AMRA-RESEARCH-PORTFOLIO-001"
+          ],
+          "file_scope": [
+            "src/amra/portfolio_campaign.py",
+            "src/amra/portfolio_memory.py",
+            "src/amra/research/**",
+            "src/amra/research_review/**",
+            "src/amra/result_bundle.py",
+            "src/amra/cli.py",
+            "tests/test_amra_research_portfolio.py",
+            "tests/test_portfolio_campaign.py",
+            "tests/test_amra_result_bundle.py",
+            "tests/fixtures/research_portfolio_fixture.json",
+            ".engineering/spec_tasks.yaml",
+            "docs/amra_implementation_status.zh.md",
+            "docs/spec_update_log.jsonl"
+          ],
+          "implementation": [
+            {
+              "name": "Codex implementation",
+              "executor": "codex",
+              "timeout_seconds": 7200,
+              "prompt": "Implement AMRA-RESEARCH-PORTFOLIO-001. Extend portfolio scoring/scheduling, durable research campaign directories, promotion candidates, theory maps, negative-result ledgers, research result-bundle artifacts, and CLI `python3 -m amra research campaign`."
+            }
+          ],
+          "repair": [
+            {
+              "name": "Codex repair",
+              "executor": "codex",
+              "timeout_seconds": 3600,
+              "prompt": "Fix failing research portfolio tests while preserving existing theorem portfolio campaign behavior."
+            }
+          ],
+          "acceptance": [
+            {
+              "name": "Research portfolio tests",
+              "command": "python3 -m pytest -q tests/test_amra_research_portfolio.py tests/test_portfolio_campaign.py tests/test_amra_result_bundle.py",
+              "required": true,
+              "timeout_seconds": 1500
+            },
+            {
+              "name": "Research campaign CLI smoke",
+              "command": "python3 -m amra research campaign --fixture tests/fixtures/research_portfolio_fixture.json --out /tmp/amra_research_campaign --json",
+              "required": true,
+              "timeout_seconds": 300
+            }
+          ]
+        }
+      ]
     }
   ],
   "continuation": {

@@ -10,6 +10,7 @@
 - `docs/portfolio_campaign_spec.zh.md`
 - `docs/repository_relationships_architecture.zh.md`
 - `docs/amra_canonical_migration_spec.zh.md`
+- `docs/amra_research_capabilities_spec.zh.md`
 
 机器台账：`.engineering/spec_tasks.yaml`
 
@@ -28,6 +29,15 @@
 | `REQ-AMRA-LIBRARY-001` | `completed` | AMRA library manager、library harvesting 计划；`amra-library-harvesting`、`amra-dashboard-result-bundle` 已 passed；`AMRA-LIBRARY-CURATOR-001` 新增 verified-only curator CLI、review records、reusable lemma metadata、rejection reasons 和 result-bundle artifact integration | 不在自动任务内直接写入 checked-in Lean library；promotion-ready artifact 需由后续人工或 harness 步骤应用 | 保持 `amra library curate` regression |
 | `REQ-AMRA-ARA-001` | `completed` | AMRA result bundle、`artifact_manifest.json`、`handoff_notes.md`、known-problem smoke；`amra-ara-result-bundle-contract-hardening`、`amra-known-problem-proof-smoke`、`amra-dashboard-result-bundle` 已 passed | 跨仓库 public ARA consumer smoke 需在 ARA 任务 scope 内单独补充 | ARA 消费侧按 bundle consume order 读取 AMRA 产物 |
 | `REQ-AMRA-CANONICAL-MIGRATION-001` | `completed` | `docs/amra_canonical_migration_spec.zh.md` 已定义目标和任务包；`src/amra/legacy_migration.py` 已覆盖 51 个 legacy 文件并提供 import audit；orchestration、proof runners、sources/evaluation、CLI/orchestrator 均已迁入 canonical AMRA 模块；`AMRA-LEGACY-SHIM-CLEANUP-001` 后 `src/ara_math` 全部为 deprecated compatibility shim / forwarding wrapper，`src/amra` 无 `ara_math` 反向依赖例外 | 无当前 canonical migration cleanup 缺口 | 保持 shim/audit regression |
+| `REQ-AMRA-RESEARCH-ONTOLOGY-001` | `completed` | `src/amra/research` 已新增 canonical research object/evidence dataclasses；`amra.core.artifact_graph` 已扩展非证明 artifact kind 和 relation；`amra.orchestration.workstreams` 已扩展 research workstream kind/status 和 claim status； deterministic regression 覆盖 `tests/test_amra_research_objects.py`、`tests/test_amra_research_artifact_graph.py`、`tests/test_amra_orchestration_state.py` | 后续实验执行器、discovery、algorithm/modeling/security/ML theory pack 仍按各自任务推进 | 执行 `AMRA-EXPERIMENT-HARNESS-001` |
+| `REQ-AMRA-EXPERIMENT-HARNESS-001` | `planned` | spec 已定义 experiment record、ResearchExecutor、reproducibility report 和 CLI 目标；`.engineering/spec_tasks.yaml` 已新增 `AMRA-EXPERIMENT-HARNESS-001` | 尚未实现可重跑 experiment harness 和 result-bundle artifacts | 在 ontology 完成后执行 experiment harness |
+| `REQ-AMRA-CONJECTURE-DISCOVERY-001` | `planned` | spec 已定义 discovery pack、conjecture mining 和 counterexample search；`.engineering/spec_tasks.yaml` 已新增 `AMRA-CONJECTURE-DISCOVERY-001` | 尚未实现 bounded fixture-driven discovery/counterexample executors | 在 experiment harness 后执行 discovery pack |
+| `REQ-AMRA-ALGORITHM-OPTIMIZATION-001` | `planned` | spec 已定义 algorithm spec、benchmark、profiling、optimization trace；`.engineering/spec_tasks.yaml` 已新增 `AMRA-ALGORITHM-OPTIMIZATION-001` | 尚未实现 algorithm benchmark harness 和 optimization records | 在 discovery pack 后执行 algorithm pack |
+| `REQ-AMRA-MODELING-001` | `planned` | spec 已定义 modeling pack、assumptions/units/calibration/validation；`.engineering/spec_tasks.yaml` 已新增 `AMRA-MODELING-PACK-001` | 尚未实现 model records、validation reports 和 sensitivity metadata | 在 algorithm pack 后执行 modeling pack |
+| `REQ-AMRA-CRYPTO-SECURITY-001` | `planned` | spec 已定义 threat model、security game、reduction 和 attack search；`.engineering/spec_tasks.yaml` 已新增 `AMRA-CRYPTO-SECURITY-PACK-001` | 尚未实现 security research objects 和 bounded attack records | 在 modeling pack 后执行 crypto/security pack |
+| `REQ-AMRA-ML-THEORY-001` | `planned` | spec 已定义 ML theory claim、experiment manifest、metric schema 和 theorem/empirical boundary；`.engineering/spec_tasks.yaml` 已新增 `AMRA-ML-THEORY-PACK-001` | 尚未实现 ML theory records、fixtures 和 CLI | 在 crypto/security pack 后执行 ML theory pack |
+| `REQ-AMRA-RESEARCH-REVIEW-GATES-001` | `planned` | spec 已定义 novelty、reproducibility、statistical、benchmark、model validation、security 和 theory coherence gates；`.engineering/spec_tasks.yaml` 已新增 `AMRA-RESEARCH-REVIEW-GATES-001` | 尚未实现非证明 claim 的 blocking review decisions | 在各能力包产出对象后统一实现 review gate 集成 |
+| `REQ-AMRA-RESEARCH-PORTFOLIO-001` | `planned` | spec 已定义 research portfolio、mixed task scoring、promotion candidates 和 result bundle 扩展；`.engineering/spec_tasks.yaml` 已新增 `AMRA-RESEARCH-PORTFOLIO-001` | 尚未将非证明研究任务接入 portfolio campaign 和 result bundle | 在 review gates 后执行 portfolio/bundle 集成 |
 
 ## 2026-05-20 Canonical Migration 目标
 
@@ -40,6 +50,7 @@
 - `AMRA-PROOF-STABILITY-001`：已完成；proof-loop 的剩余 partial 已转成 bounded deterministic stability benchmark，记录 resume、失败分类、预算和混合 proof-search regression。
 - `AMRA-NL-LEAN-FAITHFULNESS-001`：已完成；自然语言证明义务到 Lean declaration 的 faithful-modeling 检查现在有独立 audit CLI、mismatch taxonomy、blocked formalization evidence 和 result-bundle artifact。
 - `AMRA-LIBRARY-CURATOR-001`：已完成；新增 verified-only lemma/library promotion gate、curator review record、复用 metadata、拒绝原因和 result-bundle artifact integration。
+- `AMRA-RESEARCH-ONTOLOGY-001`：已完成；新增 canonical `amra.research` object/evidence schema、artifact graph research kind/relation 扩展，以及非证明 research workstream/claim status regression。
 
 - `python3 -m amra` 是 canonical CLI；
 - `python3 -m ara_math`、`ara-math`、`ara_math` 只转发；

@@ -18,7 +18,7 @@ from amra.orchestration.uncertainty import (
     load_uncertainty_ledger,
     save_uncertainty_ledger,
 )
-from amra.orchestration.workstreams import DependencyStatus, WorkstreamKind, WorkstreamRecord, WorkstreamStatus
+from amra.orchestration.workstreams import ClaimRecord, ClaimStatus, DependencyStatus, WorkstreamKind, WorkstreamRecord, WorkstreamStatus
 from amra.review.gates import evaluate_workstream_review_gate
 from amra.scheduler.executors import WorkstreamExecutionContext
 
@@ -111,3 +111,32 @@ def test_canonical_review_gate_and_scheduler_are_local_and_legacy_compatible(tmp
     assert importlib.import_module("ara_math.coordinator") is importlib.import_module("amra.orchestration.coordinator")
     assert importlib.import_module("ara_math.review_gate") is importlib.import_module("amra.review.gates")
     assert importlib.import_module("ara_math.comath_runners") is importlib.import_module("amra.scheduler.executors")
+
+
+def test_research_workstream_kinds_and_claim_statuses_round_trip() -> None:
+    workstream = WorkstreamRecord.from_dict(
+        {
+            "workstream_id": "discovery-main",
+            "kind": "discovery",
+            "goal": "Mine candidate conjectures from deterministic fixtures.",
+            "status": "testing",
+            "artifact_ids": ["conjecture-001"],
+        }
+    )
+    claim = ClaimRecord.from_dict(
+        {
+            "claim_id": "claim-empirical",
+            "title": "Empirical invariant",
+            "statement": "Bounded evidence supports the invariant.",
+            "status": "empirically_supported",
+            "confidence": 0.4,
+        }
+    )
+
+    assert workstream.kind == WorkstreamKind.DISCOVERY
+    assert workstream.to_dict()["kind"] == "discovery"
+    assert workstream.status == WorkstreamStatus.TESTING
+    assert workstream.to_dict()["status"] == "testing"
+    assert claim.status == ClaimStatus.EMPIRICALLY_SUPPORTED
+    assert claim.to_dict()["status"] == "empirically_supported"
+    assert ClaimStatus.coerce("REJECTED_BY_EVIDENCE") == ClaimStatus.REJECTED_BY_EVIDENCE

@@ -9,6 +9,7 @@ from typing import Any
 
 from amra.portfolio_scheduler import calculate_progress_velocity
 from amra.lean.formalizer import LeanFormalizerRunner, collect_proof_lab_context_paths
+from amra.proof.global_supervisor import GlobalProofSupervisor
 from amra.proof.lab import AIProofLabRunner
 from amra.core.workspace import read_text, slugify, utc_now_iso, write_json, write_text
 
@@ -230,6 +231,7 @@ class CampaignLoopRunner:
         self.repo_root = repo_root
         self.proof_lab_runner = AIProofLabRunner(repo_root=repo_root)
         self.lean_formalizer_runner = LeanFormalizerRunner(repo_root=repo_root)
+        self.global_supervisor = GlobalProofSupervisor(repo_root=repo_root)
 
     def _new_run_dir(self, *, output_root: Path, run_name: str | None) -> Path:
         base = slugify(run_name or f"campaign-loop-{utc_now_iso()}")
@@ -247,8 +249,9 @@ class CampaignLoopRunner:
     def _read_history_snippets(self, round_entries: list[dict[str, Any]], *, max_chars: int = 24000) -> str:
         snippets: list[str] = []
         for entry in round_entries[-6:]:
-            summary_path = Path(str(entry.get("summary_path") or ""))
-            if summary_path.exists():
+            summary_path_text = str(entry.get("summary_path") or "").strip()
+            summary_path = Path(summary_path_text) if summary_path_text else None
+            if summary_path is not None and summary_path.exists() and summary_path.is_file():
                 text = read_text(summary_path)
                 snippets.append(
                     "\n".join(
@@ -262,13 +265,26 @@ class CampaignLoopRunner:
                 )
             assessment_path_text = str(entry.get("global_assessment_path") or "").strip()
             assessment_path = Path(assessment_path_text) if assessment_path_text else None
-            if assessment_path is not None and assessment_path.exists():
+            if assessment_path is not None and assessment_path.exists() and assessment_path.is_file():
                 snippets.append(
                     "\n".join(
                         [
                             f"## Prior Round {entry.get('round')} Global Assessment",
                             "",
                             read_text(assessment_path)[-4000:].strip(),
+                            "",
+                        ]
+                    )
+                )
+            supervisor_path_text = str(entry.get("supervisor_decision_path") or "").strip()
+            supervisor_path = Path(supervisor_path_text) if supervisor_path_text else None
+            if supervisor_path is not None and supervisor_path.exists() and supervisor_path.is_file():
+                snippets.append(
+                    "\n".join(
+                        [
+                            f"## Prior Round {entry.get('round')} Supervisor Decision",
+                            "",
+                            read_text(supervisor_path)[-4000:].strip(),
                             "",
                         ]
                     )
@@ -490,13 +506,18 @@ class CampaignLoopRunner:
     def _loop_context_paths(self, base_context_paths: list[Path], round_entries: list[dict[str, Any]]) -> list[Path]:
         paths = list(base_context_paths)
         for entry in round_entries[-4:]:
-            run_dir = Path(str(entry.get("run_dir") or ""))
-            if not run_dir.exists():
-                continue
             assessment_path_text = str(entry.get("global_assessment_path") or "").strip()
             assessment_path = Path(assessment_path_text) if assessment_path_text else None
-            if assessment_path is not None and assessment_path.exists():
+            if assessment_path is not None and assessment_path.exists() and assessment_path.is_file():
                 paths.append(assessment_path)
+            supervisor_path_text = str(entry.get("supervisor_decision_path") or "").strip()
+            supervisor_path = Path(supervisor_path_text) if supervisor_path_text else None
+            if supervisor_path is not None and supervisor_path.exists() and supervisor_path.is_file():
+                paths.append(supervisor_path)
+            run_dir_text = str(entry.get("run_dir") or "").strip()
+            run_dir = Path(run_dir_text) if run_dir_text else None
+            if run_dir is None or not run_dir.exists():
+                continue
             if entry.get("stage") == "proof_lab":
                 paths.extend(collect_proof_lab_context_paths(run_dir))
             else:
@@ -513,6 +534,110 @@ class CampaignLoopRunner:
             seen.add(key)
             deduped.append(path)
         return deduped
+
+    def _supervisor_trigger_reason(
+        self,
+        *,
+        entry: dict[str, Any],
+        previous_entry: dict[str, Any] | None,
+        supervisor_every_rounds: int,
+    ) -> str:
+        round_number = int(entry.get("round") or 0)
+        reasons: list[str] = []
+        if entry.get("needs_global_reassessment"):
+            reasons.append("latest round explicitly requested global reassessment")
+        if supervisor_every_rounds > 0 and round_number > 0 and round_number % supervisor_every_rounds == 0:
+            reasons.append(f"periodic global review every {supervisor_every_rounds} rounds")
+        if previous_entry and previous_entry.get("status") == entry.get("status") and previous_entry.get("next_action") == entry.get("next_action"):
+            reasons.append("round status and next action repeated from the previous round")
+        if entry.get("stage") == "lean_formalizer" and not entry.get("verified"):
+            velocity = dict(entry.get("progress_velocity") or {})
+            if int(entry.get("attempts_completed") or 0) > 0 and int(velocity.get("net_progress_delta") or 0) <= 0:
+                reasons.append("Lean formalizer attempts produced no net strict-audit progress")
+        return "; ".join(reasons) or "manual/periodic global strategy review"
+
+    def _should_run_supervisor(
+        self,
+        *,
+        entry: dict[str, Any],
+        previous_entry: dict[str, Any] | None,
+        supervisor_backend: str,
+        supervisor_on_stall: bool,
+        supervisor_every_rounds: int,
+    ) -> bool:
+        if supervisor_backend == "none":
+            return False
+        if entry.get("verified"):
+            return False
+        round_number = int(entry.get("round") or 0)
+        if supervisor_every_rounds > 0 and round_number > 0 and round_number % supervisor_every_rounds == 0:
+            return True
+        if not supervisor_on_stall:
+            return False
+        if entry.get("needs_global_reassessment"):
+            return True
+        if (
+            previous_entry
+            and previous_entry.get("stage") == entry.get("stage")
+            and previous_entry.get("target_theorem") == entry.get("target_theorem")
+            and previous_entry.get("status") == entry.get("status")
+            and previous_entry.get("next_action") == entry.get("next_action")
+        ):
+            return True
+        if entry.get("stage") == "lean_formalizer":
+            velocity = dict(entry.get("progress_velocity") or {})
+            return int(entry.get("attempts_completed") or 0) > 0 and int(velocity.get("net_progress_delta") or 0) <= 0
+        return False
+
+    def _apply_supervisor_decision(
+        self,
+        *,
+        entry: dict[str, Any],
+        decision: dict[str, Any],
+        current_target_theorem: str,
+        final_target_theorem: str,
+        completed_target_theorems: set[str],
+    ) -> str:
+        action = str(decision.get("decision") or "continue_current_target")
+        suggested_target = str(decision.get("target_theorem") or "").strip()
+        next_target = current_target_theorem
+        entry["supervisor"] = {
+            "decision": action,
+            "target_theorem": suggested_target,
+            "reason": decision.get("reason") or "",
+            "instructions": decision.get("instructions") or "",
+            "route_risk": decision.get("route_risk") or "",
+            "decision_path": decision.get("decision_path") or "",
+            "parsed_decision_path": decision.get("parsed_decision_path") or "",
+            "backend_status": (decision.get("backend_invocation") or {}).get("status"),
+        }
+        entry["supervisor_decision"] = action
+        entry["supervisor_decision_path"] = decision.get("decision_path") or ""
+        entry["supervisor_parsed_decision_path"] = decision.get("parsed_decision_path") or ""
+        entry["supervisor_target_theorem"] = suggested_target
+        entry["supervisor_target_replaced"] = False
+        if action == "final_target":
+            suggested_target = final_target_theorem.strip() or suggested_target
+            if suggested_target and suggested_target not in completed_target_theorems:
+                next_target = suggested_target
+                entry["needs_global_reassessment"] = False
+        elif action == "switch_target":
+            if suggested_target and suggested_target not in completed_target_theorems:
+                next_target = suggested_target
+                entry["needs_global_reassessment"] = False
+            else:
+                entry["needs_global_reassessment"] = True
+        elif action == "return_to_proof_lab":
+            entry["needs_global_reassessment"] = True
+        elif action == "freeze_route":
+            entry["needs_global_reassessment"] = True
+            next_target = ""
+
+        if next_target != current_target_theorem:
+            entry["supervisor_target_replaced"] = True
+            entry["supervisor_previous_target_theorem"] = current_target_theorem
+            entry["supervisor_next_target_theorem"] = next_target
+        return next_target
 
     def _write_summary(self, *, path: Path, payload: dict[str, Any]) -> None:
         lines = [
@@ -540,6 +665,12 @@ class CampaignLoopRunner:
                     f" [retargeted from `{entry.get('previous_target_theorem')}` "
                     f"to `{entry.get('target_theorem')}`]"
                 )
+            if entry.get("supervisor_target_replaced"):
+                suffix += (
+                    f" [supervisor retargeted to `{entry.get('supervisor_next_target_theorem')}`]"
+                )
+            elif entry.get("supervisor_decision"):
+                suffix += f" [supervisor: {entry.get('supervisor_decision')}]"
             lines.append(
                 f"- Round {entry.get('round')}: {entry.get('stage')} -> "
                 f"{entry.get('status')} ({entry.get('stop_reason') or entry.get('next_action') or ''})"
@@ -587,11 +718,21 @@ class CampaignLoopRunner:
         max_stalled_rounds: int = 0,
         round_time_budget_sec: int = 0,
         completed_target_theorems: list[str] | None = None,
+        expected_target_header: str | None = None,
+        supervisor_backend: str = "none",
+        supervisor_on_stall: bool = True,
+        supervisor_every_rounds: int = 0,
+        supervisor_timeout_sec: int = 900,
+        math_tools_profile: str = "essential",
+        install_missing_math_tools: bool | None = None,
+        run_math_tool_smoke: bool | None = None,
     ) -> dict[str, Any]:
         if not statement.strip():
             raise ValueError("Campaign loop statement must not be empty.")
         if mode not in {"auto", "hybrid", "proof-lab", "lean-formalizer"}:
             raise ValueError(f"Unsupported campaign loop mode: {mode}")
+        if supervisor_backend not in {"codex", "none"}:
+            raise ValueError(f"Unsupported supervisor backend: {supervisor_backend}")
 
         output_root = output_root or (self.repo_root / "artifacts" / "campaign_loop")
         run_dir = self._new_run_dir(output_root=output_root, run_name=run_name)
@@ -648,6 +789,11 @@ class CampaignLoopRunner:
             )
 
             if stage == "lean_formalizer" and workspace and current_target_theorem:
+                child_expected_target_header = (
+                    expected_target_header
+                    if expected_target_header and current_target_theorem == final_target_theorem.strip()
+                    else None
+                )
                 child = self.lean_formalizer_runner.run(
                     workspace=workspace,
                     statement=stage_goal,
@@ -664,6 +810,10 @@ class CampaignLoopRunner:
                     run_name=f"round-{round_number:03d}-{current_target_theorem}",
                     enable_search=enable_search,
                     max_stalled_attempts=None,
+                    expected_target_header=child_expected_target_header,
+                    math_tools_profile=math_tools_profile,
+                    install_missing_math_tools=install_missing_math_tools,
+                    run_math_tool_smoke=run_math_tool_smoke,
                 )
                 needs_global_reassessment = self._formalizer_child_needs_global_reassessment(child)
                 global_assessment_path = ""
@@ -687,6 +837,7 @@ class CampaignLoopRunner:
                     "target_theorem": current_target_theorem,
                     "next_action": child.get("next_action"),
                     "verified": bool((child.get("best_audit") or {}).get("verified")),
+                    "expected_target_header_required": bool(child_expected_target_header),
                     "needs_global_reassessment": needs_global_reassessment,
                     "global_assessment_path": global_assessment_path,
                     "suggested_next_targets": list(child.get("suggested_next_targets") or []),
@@ -716,6 +867,9 @@ class CampaignLoopRunner:
                     output_root=run_dir / "proof_lab",
                     run_name=f"round-{round_number:03d}",
                     enable_search=enable_search,
+                    math_tools_profile=math_tools_profile,
+                    install_missing_math_tools=install_missing_math_tools,
+                    run_math_tool_smoke=run_math_tool_smoke,
                 )
                 suggested_target = extract_formalization_target_from_run(
                     Path(str(child.get("run_dir"))),
@@ -745,6 +899,42 @@ class CampaignLoopRunner:
                     "attempts_completed": child.get("attempts_completed"),
                     "progress_velocity": child.get("progress_velocity") or {},
                 }
+
+            if self._should_run_supervisor(
+                entry=entry,
+                previous_entry=previous,
+                supervisor_backend=supervisor_backend,
+                supervisor_on_stall=supervisor_on_stall,
+                supervisor_every_rounds=supervisor_every_rounds,
+            ):
+                supervisor_decision = self.global_supervisor.run(
+                    run_dir=run_dir,
+                    statement=statement,
+                    round_number=round_number,
+                    current_target_theorem=current_target_theorem,
+                    final_target_theorem=final_target_theorem.strip(),
+                    completed_target_theorems=completed_target_theorem_set,
+                    latest_entry=entry,
+                    round_entries=[*round_entries, entry],
+                    context_paths=context_for_round,
+                    workspace=workspace,
+                    target_file=target_file,
+                    trigger_reason=self._supervisor_trigger_reason(
+                        entry=entry,
+                        previous_entry=previous,
+                        supervisor_every_rounds=supervisor_every_rounds,
+                    ),
+                    backend=supervisor_backend,
+                    timeout_sec=supervisor_timeout_sec,
+                    enable_search=enable_search,
+                )
+                current_target_theorem = self._apply_supervisor_decision(
+                    entry=entry,
+                    decision=supervisor_decision,
+                    current_target_theorem=current_target_theorem,
+                    final_target_theorem=final_target_theorem.strip(),
+                    completed_target_theorems=completed_target_theorem_set,
+                )
 
             write_json(round_dir / "decision.json", entry)
             round_entries.append(entry)
@@ -792,10 +982,17 @@ class CampaignLoopRunner:
             "stop_reason": stop_reason,
             "mode": mode,
             "backend": backend,
+            "supervisor_backend": supervisor_backend,
+            "supervisor_on_stall": supervisor_on_stall,
+            "supervisor_every_rounds": supervisor_every_rounds,
+            "math_tools_profile": math_tools_profile,
+            "install_missing_math_tools": install_missing_math_tools,
+            "run_math_tool_smoke": run_math_tool_smoke,
             "run_dir": str(run_dir),
             "statement_path": str(run_dir / "statement.md"),
             "workspace": str(workspace or ""),
             "target_file": str(target_file or ""),
+            "expected_target_header_required": bool(expected_target_header),
             "current_target_theorem": current_target_theorem,
             "final_target_theorem": final_target_theorem.strip(),
             "completed_target_theorems": sorted(completed_target_theorem_set),
@@ -804,6 +1001,18 @@ class CampaignLoopRunner:
             "elapsed_seconds": round(time.monotonic() - started, 3),
             "rounds": round_entries,
             "global_reassessments": global_reassessments,
+            "supervisor_decisions": [
+                {
+                    "round": entry.get("round"),
+                    "decision": entry.get("supervisor_decision"),
+                    "target_theorem": entry.get("supervisor_target_theorem"),
+                    "decision_path": entry.get("supervisor_decision_path"),
+                    "parsed_decision_path": entry.get("supervisor_parsed_decision_path"),
+                    "target_replaced": entry.get("supervisor_target_replaced"),
+                }
+                for entry in round_entries
+                if entry.get("supervisor_decision")
+            ],
             "needs_global_reassessment": bool(round_entries and round_entries[-1].get("needs_global_reassessment")),
             "progress_velocity": progress_velocity,
             "summary_path": str(run_dir / "summary.md"),

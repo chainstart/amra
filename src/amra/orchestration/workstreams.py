@@ -40,6 +40,15 @@ class WorkstreamKind(_StringEnum):
     SOURCE = "source"
     COMPUTE = "compute"
     REVIEW = "review"
+    DISCOVERY = "discovery"
+    EXPERIMENT = "experiment"
+    ALGORITHM = "algorithm"
+    MODELING = "modeling"
+    CRYPTO = "crypto"
+    ML_THEORY = "ml_theory"
+    BENCHMARK = "benchmark"
+    DATA = "data"
+    THEORY_BUILDING = "theory_building"
 
 
 class WorkstreamStatus(_StringEnum):
@@ -50,6 +59,21 @@ class WorkstreamStatus(_StringEnum):
     APPROVED = "approved"
     FROZEN = "frozen"
     ESCALATED = "escalated"
+    TESTING = "testing"
+    EMPIRICALLY_SUPPORTED = "empirically_supported"
+    STATISTICALLY_SUPPORTED = "statistically_supported"
+    COUNTEREXAMPLE_FOUND = "counterexample_found"
+    MODEL_CALIBRATED = "model_calibrated"
+    MODEL_VALIDATED = "model_validated"
+    BENCHMARKED = "benchmarked"
+    OPTIMIZED = "optimized"
+    SECURITY_GAME_DEFINED = "security_game_defined"
+    ATTACK_FOUND = "attack_found"
+    REDUCTION_CANDIDATE = "reduction_candidate"
+    NOVELTY_CHECKED = "novelty_checked"
+    REPRODUCED = "reproduced"
+    REJECTED_BY_EVIDENCE = "rejected_by_evidence"
+    ARCHIVED = "archived"
 
 
 class ClaimStatus(_StringEnum):
@@ -60,6 +84,20 @@ class ClaimStatus(_StringEnum):
     LEAN_STUBBED = "lean_stubbed"
     LEAN_VERIFIED = "lean_verified"
     ASSEMBLED = "assembled"
+    CONJECTURED = "conjectured"
+    EMPIRICALLY_SUPPORTED = "empirically_supported"
+    STATISTICALLY_SUPPORTED = "statistically_supported"
+    COUNTEREXAMPLE_FOUND = "counterexample_found"
+    MODEL_CALIBRATED = "model_calibrated"
+    MODEL_VALIDATED = "model_validated"
+    BENCHMARKED = "benchmarked"
+    OPTIMIZED = "optimized"
+    SECURITY_GAME_DEFINED = "security_game_defined"
+    ATTACK_FOUND = "attack_found"
+    REDUCTION_CANDIDATE = "reduction_candidate"
+    NOVELTY_CHECKED = "novelty_checked"
+    REPRODUCED = "reproduced"
+    REJECTED_BY_EVIDENCE = "rejected_by_evidence"
 
 
 class ReviewKind(_StringEnum):

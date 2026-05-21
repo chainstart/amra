@@ -13,6 +13,7 @@ from amra.lean.executor import LeanExecutor
 from amra.lean.contract import compare_lean_declaration_headers, extract_lean_declaration_header
 from amra.infra.runtime import env_float, env_int, env_str, run_guarded_command, wait_for_system_headroom
 from amra.core.workspace import read_text, slugify, utc_now_iso, write_json, write_text
+from amra.math_tools import ensure_math_tools
 
 
 __all__ = ["LeanFormalizerRunner", "collect_proof_lab_context_paths"]
@@ -444,6 +445,7 @@ class LeanFormalizerRunner:
         run_dir: Path,
         statement: str,
         context_bundle_path: Path,
+        math_tools_report_path: Path,
         iteration: int,
         attempts: int,
         target_theorem: str | None,
@@ -497,6 +499,11 @@ class LeanFormalizerRunner:
                 "",
                 "Mathematical/proof-lab upstream context:",
                 f"- Read `{context_bundle_path}` before editing.",
+                "",
+                "AMRA math tools report:",
+                f"- Read `{math_tools_report_path}` before broad proof repair.",
+                "- Use Python/Z3/CAS/Lean probes early when a quick check can falsify a lemma shape, verify a finite obstruction, or identify the right algebraic normal form.",
+                "- Record nontrivial tool checks in the run directory; final acceptance still requires the host Lean audit.",
                 "",
                 "Current statement/implementation target:",
                 "```text",
@@ -725,6 +732,9 @@ class LeanFormalizerRunner:
         merge_to_canonical: bool = False,
         review_status: str = "",
         library_module: str = "",
+        math_tools_profile: str = "essential",
+        install_missing_math_tools: bool | None = None,
+        run_math_tool_smoke: bool | None = None,
     ) -> dict[str, Any]:
         workspace = workspace.expanduser().resolve()
         if not workspace.exists():
@@ -763,6 +773,14 @@ class LeanFormalizerRunner:
         context_bundle_path = run_dir / "context_bundle.md"
         write_text(statement_path, statement.strip() + "\n")
         write_text(context_bundle_path, context_bundle)
+        math_tools_report = ensure_math_tools(
+            output_dir=run_dir,
+            profile=math_tools_profile,
+            install_missing=install_missing_math_tools,
+            run_smoke=run_math_tool_smoke,
+            workspace=workspace,
+        )
+        math_tools_report_path = Path(str(math_tools_report.get("summary_path") or run_dir / "math_tools_report.md"))
 
         initial_build = self._run_build(workspace=workspace, build_command=build_command, timeout_sec=build_timeout_sec)
         current_audit = self._audit(
@@ -814,6 +832,7 @@ class LeanFormalizerRunner:
                         run_dir=run_dir,
                         statement=statement,
                         context_bundle_path=context_bundle_path,
+                        math_tools_report_path=math_tools_report_path,
                         iteration=iteration,
                         attempts=max(0, attempts),
                         target_theorem=target_theorem,
@@ -951,6 +970,8 @@ class LeanFormalizerRunner:
             "run_dir": str(run_dir),
             "statement_path": str(statement_path),
             "context_bundle_path": str(context_bundle_path),
+            "math_tools_report": math_tools_report,
+            "math_tools_report_path": str(math_tools_report_path),
             "target_theorem": target_theorem or "",
             "target_file": str(target_file or ""),
             "expected_target_header": expected_target_header or "",

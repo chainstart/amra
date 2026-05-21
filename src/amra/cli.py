@@ -66,6 +66,7 @@ from amra.nontrivial_benchmark import (
     run_nontrivial_closed_theorem_benchmark,
 )
 from amra.result_bundle import export_amra_result_bundle
+from amra.math_tools import MATH_TOOL_PROFILES
 
 
 DELIVERABLE_MODES = ("auto", "research_report", "formalization_note", "paper_candidate")
@@ -94,6 +95,25 @@ def _print(payload: Any, as_json: bool) -> None:
         print(payload)
         return
     print(json.dumps(payload, indent=2, ensure_ascii=False))
+
+
+def _add_math_tool_runtime_args(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--math-tools-profile",
+        choices=MATH_TOOL_PROFILES,
+        default="essential",
+        help="Math tool profile to install/check before agent work starts.",
+    )
+    parser.add_argument(
+        "--no-install-missing-math-tools",
+        action="store_true",
+        help="Disable automatic installation of missing tools in the selected math tool profile.",
+    )
+    parser.add_argument(
+        "--no-math-tool-smoke",
+        action="store_true",
+        help="Skip math tool smoke checks after installation/availability detection.",
+    )
 
 
 def _split_csv(values: list[str] | None) -> list[str]:
@@ -747,6 +767,7 @@ def build_parser() -> argparse.ArgumentParser:
     proof_lab.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
     proof_lab.add_argument("--model", default=None, help="Override the proof-lab backend model.")
     proof_lab.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+    _add_math_tool_runtime_args(proof_lab)
 
     pure_theorem_agent = subparsers.add_parser(
         "run-pure-theorem-agent",
@@ -767,6 +788,7 @@ def build_parser() -> argparse.ArgumentParser:
     pure_theorem_agent.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
     pure_theorem_agent.add_argument("--model", default=None, help="Override the decision backend model.")
     pure_theorem_agent.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+    _add_math_tool_runtime_args(pure_theorem_agent)
 
     pure_proof_agent = subparsers.add_parser(
         "run-pure-proof-agent",
@@ -789,6 +811,7 @@ def build_parser() -> argparse.ArgumentParser:
     pure_proof_agent.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
     pure_proof_agent.add_argument("--model", default=None, help="Override the decision backend model.")
     pure_proof_agent.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+    _add_math_tool_runtime_args(pure_proof_agent)
 
     pure_lean_agent = subparsers.add_parser(
         "run-pure-lean-agent",
@@ -812,6 +835,7 @@ def build_parser() -> argparse.ArgumentParser:
     pure_lean_agent.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
     pure_lean_agent.add_argument("--model", default=None, help="Override the decision backend model.")
     pure_lean_agent.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+    _add_math_tool_runtime_args(pure_lean_agent)
 
     focused_lean_attack = subparsers.add_parser(
         "run-focused-lean-attack",
@@ -871,6 +895,7 @@ def build_parser() -> argparse.ArgumentParser:
     focused_lean_attack.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
     focused_lean_attack.add_argument("--model", default=None, help="Override the decision backend model.")
     focused_lean_attack.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
+    _add_math_tool_runtime_args(focused_lean_attack)
 
     lean_formalizer = subparsers.add_parser(
         "run-lean-formalizer",
@@ -914,6 +939,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Optional early stop after this many non-improving attempts. 0 disables stall stopping.",
     )
     lean_formalizer.add_argument("--rollback-failed-attempts", action="store_true")
+    _add_math_tool_runtime_args(lean_formalizer)
 
     campaign_loop = subparsers.add_parser(
         "run-campaign-loop",
@@ -933,6 +959,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Theorem name to treat as already verified when selecting later loop targets. Repeatable.",
     )
     campaign_loop.add_argument("--target-file", type=Path, default=None)
+    campaign_loop.add_argument(
+        "--expected-target-header-file",
+        type=Path,
+        default=None,
+        help="Lean theorem/lemma header that the final target declaration must match up to whitespace.",
+    )
     campaign_loop.add_argument("--build-command", default="lake build")
     campaign_loop.add_argument("--backend", choices=("codex", "none"), default="codex")
     campaign_loop.add_argument("--mode", choices=("auto", "hybrid", "proof-lab", "lean-formalizer"), default="auto")
@@ -953,6 +985,25 @@ def build_parser() -> argparse.ArgumentParser:
     campaign_loop.add_argument("--model", default=None, help="Override proof-lab and formalizer backend model.")
     campaign_loop.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
     campaign_loop.add_argument("--max-stalled-rounds", type=int, default=0)
+    campaign_loop.add_argument(
+        "--supervisor-backend",
+        choices=("codex", "none"),
+        default="none",
+        help="Optional read-only global Codex supervisor for stalled or periodic campaign strategy review.",
+    )
+    campaign_loop.add_argument(
+        "--no-supervisor-on-stall",
+        action="store_true",
+        help="Disable automatic supervisor review when a formalization round stalls.",
+    )
+    campaign_loop.add_argument(
+        "--supervisor-every-rounds",
+        type=int,
+        default=0,
+        help="Run supervisor every N rounds in addition to stall triggers. 0 disables periodic review.",
+    )
+    campaign_loop.add_argument("--supervisor-timeout", type=int, default=900)
+    _add_math_tool_runtime_args(campaign_loop)
     campaign_loop.add_argument(
         "--round-time-budget",
         type=int,
@@ -1769,6 +1820,9 @@ def main(argv: list[str] | None = None) -> int:
                 output_root=args.output_root,
                 run_name=args.run_name,
                 enable_search=args.search,
+                math_tools_profile=args.math_tools_profile,
+                install_missing_math_tools=not args.no_install_missing_math_tools,
+                run_math_tool_smoke=not args.no_math_tool_smoke,
             ),
             args.json,
         )
@@ -1792,6 +1846,9 @@ def main(argv: list[str] | None = None) -> int:
                 enable_search=args.search,
                 model=args.model,
                 reasoning_effort=args.reasoning_effort,
+                math_tools_profile=args.math_tools_profile,
+                install_missing_math_tools=not args.no_install_missing_math_tools,
+                run_math_tool_smoke=not args.no_math_tool_smoke,
             ),
             args.json,
         )
@@ -1817,6 +1874,9 @@ def main(argv: list[str] | None = None) -> int:
                 enable_search=args.search,
                 model=args.model,
                 reasoning_effort=args.reasoning_effort,
+                math_tools_profile=args.math_tools_profile,
+                install_missing_math_tools=not args.no_install_missing_math_tools,
+                run_math_tool_smoke=not args.no_math_tool_smoke,
             ),
             args.json,
         )
@@ -1851,6 +1911,9 @@ def main(argv: list[str] | None = None) -> int:
                 enable_search=args.search,
                 model=args.model,
                 reasoning_effort=args.reasoning_effort,
+                math_tools_profile=args.math_tools_profile,
+                install_missing_math_tools=not args.no_install_missing_math_tools,
+                run_math_tool_smoke=not args.no_math_tool_smoke,
             ),
             args.json,
         )
@@ -1887,6 +1950,9 @@ def main(argv: list[str] | None = None) -> int:
                 enable_search=args.search,
                 model=args.model,
                 reasoning_effort=args.reasoning_effort,
+                math_tools_profile=args.math_tools_profile,
+                install_missing_math_tools=not args.no_install_missing_math_tools,
+                run_math_tool_smoke=not args.no_math_tool_smoke,
             ),
             args.json,
         )
@@ -1932,6 +1998,9 @@ def main(argv: list[str] | None = None) -> int:
                 max_stalled_attempts=max_stalled_attempts,
                 rollback_failed_attempts=args.rollback_failed_attempts,
                 expected_target_header=expected_target_header,
+                math_tools_profile=args.math_tools_profile,
+                install_missing_math_tools=not args.no_install_missing_math_tools,
+                run_math_tool_smoke=not args.no_math_tool_smoke,
             ),
             args.json,
         )
@@ -1942,10 +2011,17 @@ def main(argv: list[str] | None = None) -> int:
         if args.model is not None:
             runner.proof_lab_runner.backend_model = args.model
             runner.lean_formalizer_runner.backend_model = args.model
+            runner.global_supervisor.backend_model = args.model
         if args.reasoning_effort is not None:
             runner.proof_lab_runner.backend_reasoning_effort = args.reasoning_effort
             runner.lean_formalizer_runner.backend_reasoning_effort = args.reasoning_effort
+            runner.global_supervisor.backend_reasoning_effort = args.reasoning_effort
         statement = args.statement if args.statement is not None else args.statement_file.read_text(encoding="utf-8")
+        expected_target_header = (
+            args.expected_target_header_file.read_text(encoding="utf-8")
+            if args.expected_target_header_file is not None
+            else None
+        )
         _print(
             runner.run(
                 statement=statement,
@@ -1974,6 +2050,14 @@ def main(argv: list[str] | None = None) -> int:
                 run_name=args.run_name,
                 max_stalled_rounds=args.max_stalled_rounds,
                 round_time_budget_sec=args.round_time_budget,
+                expected_target_header=expected_target_header,
+                supervisor_backend=args.supervisor_backend,
+                supervisor_on_stall=not args.no_supervisor_on_stall,
+                supervisor_every_rounds=args.supervisor_every_rounds,
+                supervisor_timeout_sec=args.supervisor_timeout,
+                math_tools_profile=args.math_tools_profile,
+                install_missing_math_tools=not args.no_install_missing_math_tools,
+                run_math_tool_smoke=not args.no_math_tool_smoke,
             ),
             args.json,
         )

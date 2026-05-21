@@ -79,7 +79,7 @@ def test_episode_loop_sets_amra_and_legacy_env_for_fake_backend(tmp_path: Path, 
 
 def test_proof_artifact_tracker_is_available_from_amra_agents(tmp_path: Path) -> None:
     registry = ToolRegistry()
-    registry.write_artifacts(tmp_path, workspace=None)
+    registry.write_artifacts(tmp_path, workspace=None, install_missing_math_tools=False)
     tracker = ProofArtifactTracker(tmp_path)
 
     payload = tracker.bootstrap(

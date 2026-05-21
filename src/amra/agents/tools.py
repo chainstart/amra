@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
+from amra.math_tools import ensure_math_tools, selected_tool_specs
 from amra.agents.env import (
     AMRA_AGENT_RUN_DIR_ENV,
     AMRA_AGENT_WORKSPACE_ENV,
@@ -34,11 +35,19 @@ class ToolRegistry:
     tools, gives command recipes, and tells the agent where to persist evidence.
     """
 
-    PYTHON_MODULES = ("sympy", "numpy", "scipy", "networkx", "z3", "requests")
-    EXECUTABLES = ("codex", "lean", "lake", "python3", "rg", "git", "curl", "wget")
+    PYTHON_MODULES = ("sympy", "numpy", "scipy", "networkx", "z3", "mpmath", "requests")
+    EXECUTABLES = ("codex", "lean", "lake", "python3", "rg", "git", "curl", "wget", "z3")
 
-    def __init__(self, *, build_command: list[str] | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        build_command: list[str] | None = None,
+        math_tools_profile: str = "essential",
+        install_missing_math_tools: bool | None = None,
+    ) -> None:
         self.build_command = build_command or ["lake", "build"]
+        self.math_tools_profile = math_tools_profile
+        self.install_missing_math_tools = install_missing_math_tools
         self.tools = self._default_tools()
 
     def _default_tools(self) -> list[ToolSpec]:
@@ -115,6 +124,25 @@ class ToolRegistry:
                 ],
             ),
             ToolSpec(
+                name="cas_and_smt_tools",
+                purpose="Use installed AMRA math tools such as SymPy, NumPy/SciPy, Z3, PARI/GP, GAP, Singular, Maxima, SageMath, or cvc5 when available in the selected profile.",
+                when_to_use="Use before long proof search whenever a finite computation, CAS simplification, modular check, SMT model, or counterexample probe can validate or falsify the route cheaply.",
+                command_templates=[
+                    f"cat \"{run_dir}/math_tools_report.md\"",
+                    f"python3 \"{run_dir}/experiments/<experiment>.py\"",
+                    "z3 <problem>.smt2",
+                    "gp -q <script.gp>",
+                    "gap -q <script.g>",
+                    "Singular -q <script.sing>",
+                    "sage <script.sage>",
+                ],
+                artifact_contract="Record commands, parameters, outputs, and interpretation in experiments.jsonl or proof_notes.md.",
+                notes=[
+                    "The selected tools are installed/checked before the agent starts; see math_tools_report.md.",
+                    "External computation is evidence until checked by Lean or turned into a verifiable certificate.",
+                ],
+            ),
+            ToolSpec(
                 name="literature_search",
                 purpose="Find source statements, known results, and related papers.",
                 when_to_use="Use when the problem may depend on an external theorem, known olympiad solution, or paper.",
@@ -146,12 +174,15 @@ class ToolRegistry:
     def to_dict(self) -> dict[str, Any]:
         return {
             "build_command": self.build_command,
+            "math_tools_profile": self.math_tools_profile,
+            "install_missing_math_tools": self.install_missing_math_tools,
             "environment_variables": {
                 "run_dir": AMRA_AGENT_RUN_DIR_ENV,
                 "workspace": AMRA_AGENT_WORKSPACE_ENV,
                 "legacy_run_dir": LEGACY_AGENT_RUN_DIR_ENV,
                 "legacy_workspace": LEGACY_AGENT_WORKSPACE_ENV,
             },
+            "math_tool_specs": [spec.to_dict() for spec in selected_tool_specs(self.math_tools_profile)],
             "tools": [asdict(tool) for tool in self.tools],
         }
 
@@ -162,6 +193,7 @@ class ToolRegistry:
                 "The agent decides which tool to use and executes commands directly inside its Codex episode.",
                 "Every nontrivial tool call should leave a durable artifact in the run directory.",
                 f"The canonical runtime variables are `${AMRA_AGENT_RUN_DIR_ENV}` and `${AMRA_AGENT_WORKSPACE_ENV}`; legacy ARA aliases remain available for old prompts.",
+                "Math tool availability, auto-install results, and smoke checks are recorded in `math_tools_report.md`.",
                 "",
             ]
         )
@@ -217,15 +249,47 @@ class ToolRegistry:
             },
         }
 
-    def write_artifacts(self, run_dir: Path, *, workspace: Path | None = None) -> dict[str, Any]:
+    def write_artifacts(
+        self,
+        run_dir: Path,
+        *,
+        workspace: Path | None = None,
+        install_missing_math_tools: bool | None = None,
+        math_tools_profile: str | None = None,
+        run_math_tool_smoke: bool | None = None,
+    ) -> dict[str, Any]:
         run_dir.mkdir(parents=True, exist_ok=True)
         registry_payload = self.to_dict()
+        math_tools_report = ensure_math_tools(
+            output_dir=run_dir,
+            profile=math_tools_profile or self.math_tools_profile,
+            install_missing=(
+                self.install_missing_math_tools
+                if install_missing_math_tools is None
+                else install_missing_math_tools
+            ),
+            run_smoke=run_math_tool_smoke,
+            workspace=workspace,
+        )
         snapshot = self.environment_snapshot(workspace=workspace)
         (run_dir / "tool_registry.json").write_text(
-            json.dumps({"registry": registry_payload, "environment": snapshot}, indent=2, ensure_ascii=False) + "\n",
+            json.dumps(
+                {"registry": registry_payload, "environment": snapshot, "math_tools": math_tools_report},
+                indent=2,
+                ensure_ascii=False,
+            )
+            + "\n",
             encoding="utf-8",
         )
         (run_dir / "tool_registry.md").write_text(self.to_markdown(), encoding="utf-8")
+        snapshot["math_tools"] = {
+            "profile": math_tools_report.get("profile"),
+            "report_path": math_tools_report.get("report_path"),
+            "summary_path": math_tools_report.get("summary_path"),
+            "available_tool_ids": math_tools_report.get("available_tool_ids", []),
+            "unavailable_tool_ids": math_tools_report.get("unavailable_tool_ids", []),
+            "all_selected_available": math_tools_report.get("all_selected_available"),
+        }
         return snapshot
 
 

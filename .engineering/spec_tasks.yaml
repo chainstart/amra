@@ -1,7 +1,7 @@
 {
   "kind": "amra.spec_tasks.v1",
   "project": "amra",
-  "updated_at": "2026-05-20T07:28:57Z",
+  "updated_at": "2026-05-21T03:30:52Z",
   "source_spec": "docs/portfolio_campaign_spec.zh.md",
   "status_doc": "docs/amra_implementation_status.zh.md",
   "decision_log_dir": "docs/decisions",
@@ -53,6 +53,60 @@
       "status": "completed",
       "source_spec": "docs/amra_canonical_migration_spec.zh.md",
       "notes": "Canonical migration cleanup is complete: active theorem search, orchestration, proof attack, source/evaluation, CLI/orchestrator, and result bundle paths are in src/amra; src/ara_math remains deprecated compatibility shims."
+    },
+    {
+      "id": "REQ-AMRA-RESEARCH-ONTOLOGY-001",
+      "title": "Research object ontology and artifact graph",
+      "status": "completed",
+      "source_spec": "docs/amra_research_capabilities_spec.zh.md"
+    },
+    {
+      "id": "REQ-AMRA-EXPERIMENT-HARNESS-001",
+      "title": "Reproducible experiment harness",
+      "status": "planned",
+      "source_spec": "docs/amra_research_capabilities_spec.zh.md"
+    },
+    {
+      "id": "REQ-AMRA-CONJECTURE-DISCOVERY-001",
+      "title": "Conjecture discovery and counterexample search",
+      "status": "planned",
+      "source_spec": "docs/amra_research_capabilities_spec.zh.md"
+    },
+    {
+      "id": "REQ-AMRA-ALGORITHM-OPTIMIZATION-001",
+      "title": "Algorithm benchmark and optimization system",
+      "status": "planned",
+      "source_spec": "docs/amra_research_capabilities_spec.zh.md"
+    },
+    {
+      "id": "REQ-AMRA-MODELING-001",
+      "title": "Applied mathematical modeling pack",
+      "status": "planned",
+      "source_spec": "docs/amra_research_capabilities_spec.zh.md"
+    },
+    {
+      "id": "REQ-AMRA-CRYPTO-SECURITY-001",
+      "title": "Cryptography and security research pack",
+      "status": "planned",
+      "source_spec": "docs/amra_research_capabilities_spec.zh.md"
+    },
+    {
+      "id": "REQ-AMRA-ML-THEORY-001",
+      "title": "Machine learning theory research pack",
+      "status": "planned",
+      "source_spec": "docs/amra_research_capabilities_spec.zh.md"
+    },
+    {
+      "id": "REQ-AMRA-RESEARCH-REVIEW-GATES-001",
+      "title": "Novelty, reproducibility, statistical, security and modeling gates",
+      "status": "planned",
+      "source_spec": "docs/amra_research_capabilities_spec.zh.md"
+    },
+    {
+      "id": "REQ-AMRA-RESEARCH-PORTFOLIO-001",
+      "title": "Research portfolio campaign and bundle integration",
+      "status": "planned",
+      "source_spec": "docs/amra_research_capabilities_spec.zh.md"
     }
   ],
   "tasks": [
@@ -858,6 +912,259 @@
       "updated_at": "2026-05-20T07:28:57Z",
       "last_note": "Recorded automatically after a completed harness task.",
       "last_phase": "run"
+    },
+    {
+      "id": "AMRA-RESEARCH-ONTOLOGY-001",
+      "title": "Add AMRA research object ontology and graph extensions",
+      "status": "completed",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-RESEARCH-ONTOLOGY-001"
+      ],
+      "depends_on": [
+        "AMRA-LIBRARY-CURATOR-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_research_objects.py tests/test_amra_research_artifact_graph.py tests/test_amra_orchestration_state.py",
+          "required": true
+        },
+        {
+          "command": "python3 -c \"import sys; sys.path.insert(0, '/home/biostar/work/projects/engineering-harness/src'); from engineering_harness.cli import main; raise SystemExit(main(['spec-sync', 'audit', '--project-root', '.', '--json']))\" >/tmp/amra_spec_sync_audit.json",
+          "required": true
+        }
+      ],
+      "evidence": [
+        {
+          "kind": "code",
+          "path": "src/amra/research"
+        },
+        {
+          "kind": "code",
+          "path": "src/amra/core/artifact_graph.py"
+        },
+        {
+          "kind": "code",
+          "path": "src/amra/orchestration/workstreams.py"
+        },
+        {
+          "kind": "test",
+          "path": "tests/test_amra_research_objects.py"
+        },
+        {
+          "kind": "test",
+          "path": "tests/test_amra_research_artifact_graph.py"
+        },
+        {
+          "kind": "test",
+          "value": "python3 -m pytest -q tests/test_amra_research_objects.py tests/test_amra_research_artifact_graph.py tests/test_amra_orchestration_state.py"
+        }
+      ],
+      "notes": "Completed Phase 1 of docs/amra_research_capabilities_spec.zh.md: canonical amra.research object and evidence dataclasses, artifact graph kinds/relations, and workstream kind/status extensions for non-proof research without regressing proof/Lean behavior.",
+      "updated_at": "2026-05-21T03:30:52Z",
+      "last_note": "AMRA-RESEARCH-ONTOLOGY-001 added canonical research ontology schema and deterministic tests.",
+      "last_phase": "run"
+    },
+    {
+      "id": "AMRA-EXPERIMENT-HARNESS-001",
+      "title": "Add reproducible research experiment harness",
+      "status": "pending",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-EXPERIMENT-HARNESS-001",
+        "REQ-AMRA-RESEARCH-ONTOLOGY-001"
+      ],
+      "depends_on": [
+        "AMRA-RESEARCH-ONTOLOGY-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_research_experiments.py tests/test_amra_result_bundle.py",
+          "required": true
+        },
+        {
+          "command": "python3 -m amra research run-executor --fixture tests/fixtures/research_experiment_fixture.json --out /tmp/amra_research_experiment --json",
+          "required": true
+        }
+      ],
+      "notes": "Implement ResearchExecutor, ExperimentRecord persistence, deterministic rerun metadata, reproducibility reports, CLI smoke, and result-bundle optional artifacts."
+    },
+    {
+      "id": "AMRA-CONJECTURE-DISCOVERY-001",
+      "title": "Add conjecture discovery and counterexample search pack",
+      "status": "pending",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-CONJECTURE-DISCOVERY-001",
+        "REQ-AMRA-EXPERIMENT-HARNESS-001"
+      ],
+      "depends_on": [
+        "AMRA-EXPERIMENT-HARNESS-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_discovery.py tests/test_amra_research_experiments.py",
+          "required": true
+        },
+        {
+          "command": "python3 -m amra discovery mine-conjectures --fixture tests/fixtures/conjecture_mining_fixture.json --out /tmp/amra_conjecture_mining --json",
+          "required": true
+        }
+      ],
+      "notes": "Implement bounded conjecture mining, counterexample search, construction records, negative-result promotion, and novelty-gate handoff using deterministic fixtures."
+    },
+    {
+      "id": "AMRA-ALGORITHM-OPTIMIZATION-001",
+      "title": "Add algorithm benchmark and optimization pack",
+      "status": "pending",
+      "priority": "medium",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-ALGORITHM-OPTIMIZATION-001",
+        "REQ-AMRA-EXPERIMENT-HARNESS-001"
+      ],
+      "depends_on": [
+        "AMRA-CONJECTURE-DISCOVERY-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_algorithm_benchmark.py tests/test_amra_research_experiments.py",
+          "required": true
+        },
+        {
+          "command": "python3 -m amra algorithms run-benchmark --fixture tests/fixtures/algorithm_benchmark_fixture.json --out /tmp/amra_algorithm_benchmark --json",
+          "required": true
+        }
+      ],
+      "notes": "Implement algorithm specs, baseline/candidate benchmark schema, profiling metadata, optimization traces, regression risk, and benchmark gate inputs."
+    },
+    {
+      "id": "AMRA-MODELING-PACK-001",
+      "title": "Add applied mathematical modeling pack",
+      "status": "pending",
+      "priority": "medium",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-MODELING-001",
+        "REQ-AMRA-RESEARCH-REVIEW-GATES-001"
+      ],
+      "depends_on": [
+        "AMRA-ALGORITHM-OPTIMIZATION-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_modeling.py tests/test_amra_research_review_gates.py",
+          "required": true
+        },
+        {
+          "command": "python3 -m amra modeling validate --fixture tests/fixtures/modeling_fixture.json --out /tmp/amra_modeling_validation --json",
+          "required": true
+        }
+      ],
+      "notes": "Implement model records, variables/units/assumptions schema, calibration/validation separation, sensitivity reports, validity ranges, and model-validation gate inputs."
+    },
+    {
+      "id": "AMRA-CRYPTO-SECURITY-PACK-001",
+      "title": "Add cryptography and security research pack",
+      "status": "pending",
+      "priority": "medium",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-CRYPTO-SECURITY-001",
+        "REQ-AMRA-RESEARCH-REVIEW-GATES-001"
+      ],
+      "depends_on": [
+        "AMRA-MODELING-PACK-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_crypto_security.py tests/test_amra_research_review_gates.py",
+          "required": true
+        },
+        {
+          "command": "python3 -m amra crypto search-attack --fixture tests/fixtures/crypto_security_fixture.json --out /tmp/amra_crypto_security --json",
+          "required": true
+        }
+      ],
+      "notes": "Implement threat model, security game, assumption, reduction, bounded attack search, and security gate records without claiming attack failure as proof."
+    },
+    {
+      "id": "AMRA-ML-THEORY-PACK-001",
+      "title": "Add machine learning theory research pack",
+      "status": "pending",
+      "priority": "medium",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-ML-THEORY-001",
+        "REQ-AMRA-RESEARCH-REVIEW-GATES-001"
+      ],
+      "depends_on": [
+        "AMRA-CRYPTO-SECURITY-PACK-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_ml_theory.py tests/test_amra_research_review_gates.py",
+          "required": true
+        },
+        {
+          "command": "python3 -m amra ml-theory run-experiment --fixture tests/fixtures/ml_theory_fixture.json --out /tmp/amra_ml_theory --json",
+          "required": true
+        }
+      ],
+      "notes": "Implement ML theory claim records, experiment manifests, dataset/model/training config ledgers, metric schema, scaling/optimization probes, and theorem/empirical boundary tracking."
+    },
+    {
+      "id": "AMRA-RESEARCH-REVIEW-GATES-001",
+      "title": "Add research review gates for non-proof claims",
+      "status": "pending",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-RESEARCH-REVIEW-GATES-001",
+        "REQ-AMRA-RESEARCH-ONTOLOGY-001"
+      ],
+      "depends_on": [
+        "AMRA-ML-THEORY-PACK-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_research_review_gates.py tests/test_comath_review_gate.py tests/test_amra_result_bundle.py",
+          "required": true
+        },
+        {
+          "command": "python3 -m amra research review-object --fixture tests/fixtures/research_review_fixture.json --out /tmp/amra_research_review --json",
+          "required": true
+        }
+      ],
+      "notes": "Implement novelty, reproducibility, statistical, benchmark, model validation, security, and theory coherence gates with blocking decisions and result-bundle integration."
+    },
+    {
+      "id": "AMRA-RESEARCH-PORTFOLIO-001",
+      "title": "Integrate research tasks into portfolio campaigns and result bundles",
+      "status": "pending",
+      "priority": "high",
+      "owner": "amra",
+      "requirement_ids": [
+        "REQ-AMRA-RESEARCH-PORTFOLIO-001",
+        "REQ-AMRA-RESEARCH-REVIEW-GATES-001"
+      ],
+      "depends_on": [
+        "AMRA-RESEARCH-REVIEW-GATES-001"
+      ],
+      "acceptance": [
+        {
+          "command": "python3 -m pytest -q tests/test_amra_research_portfolio.py tests/test_portfolio_campaign.py tests/test_amra_result_bundle.py",
+          "required": true
+        },
+        {
+          "command": "python3 -m amra research campaign --fixture tests/fixtures/research_portfolio_fixture.json --out /tmp/amra_research_campaign --json",
+          "required": true
+        }
+      ],
+      "notes": "Extend portfolio scoring, scheduling, durable campaign directories, promotion candidates, theory maps, negative-result ledgers, and research result bundle artifacts."
     }
   ]
 }

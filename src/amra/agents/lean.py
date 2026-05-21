@@ -21,6 +21,7 @@ from amra.agents.episode_loop import (
     write_json,
     write_text,
 )
+from amra.agents.tools import ToolRegistry
 
 
 class LeanFromNaturalProofAgent:
@@ -60,6 +61,9 @@ Before attempting a broad formalization, create a small compiling checkpoint or 
         enable_search: bool = False,
         model: str | None = None,
         reasoning_effort: str | None = None,
+        math_tools_profile: str = "essential",
+        install_missing_math_tools: bool | None = None,
+        run_math_tool_smoke: bool | None = None,
     ) -> dict[str, Any]:
         workspace = _resolve_loose(workspace)
         if not workspace.exists():
@@ -82,6 +86,16 @@ Before attempting a broad formalization, create a small compiling checkpoint or 
             sandbox="workspace-write",
         )
         loop = CodexEpisodeLoopAgent(config)
+        registry = ToolRegistry(
+            build_command=build_command,
+            math_tools_profile=math_tools_profile,
+            install_missing_math_tools=install_missing_math_tools,
+        )
+        tool_snapshot = registry.write_artifacts(
+            loop.run_dir,
+            workspace=workspace,
+            run_math_tool_smoke=run_math_tool_smoke,
+        )
         write_text(loop.run_dir / "proof_package.md", proof_package.strip() + "\n")
         write_text(loop.run_dir / "statement.md", statement.strip() + "\n")
         write_json(loop.run_dir / "formalizer_environment.json", {"build_command": build_command, "workspace": str(workspace)})
@@ -114,6 +128,11 @@ Before attempting a broad formalization, create a small compiling checkpoint or 
                 "Verifier command the host will also run after each episode:",
                 shlex.join(build_command),
                 "",
+                "AMRA math tools report:",
+                str(loop.run_dir / "math_tools_report.md"),
+                "",
+                "Use these tools early for small Lean probes, Python/Z3/CAS counterchecks, and finite searches before committing to a large formalization route.",
+                "",
                 "Use your own tools inside the episode to inspect files, edit Lean, run the verifier, and repair errors.",
             ]
         )
@@ -125,6 +144,9 @@ Before attempting a broad formalization, create a small compiling checkpoint or 
         )
         report["proof_package_path"] = str(loop.run_dir / "proof_package.md")
         report["statement_path"] = str(loop.run_dir / "statement.md")
+        report["tool_registry_path"] = str(loop.run_dir / "tool_registry.md")
+        report["math_tools_report_path"] = str(loop.run_dir / "math_tools_report.md")
+        report["tool_snapshot"] = tool_snapshot
         report["build_command"] = build_command
         write_json(loop.run_dir / "report.json", report)
         return report

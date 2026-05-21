@@ -1,0 +1,186 @@
+{
+  "suite_id": "external_math_benchmarks",
+  "downloaded_at": "2026-05-20T00:00:00+08:00",
+  "purpose": "Provide public benchmark coverage for AMRA across natural-language mathematical reasoning, natural-language proof reconstruction, and Lean theorem proving.",
+  "raw_root": "data/benchmarks/external/raw",
+  "benchmarks": [
+    {
+      "id": "gsm8k",
+      "name": "GSM8K",
+      "source_url": "https://github.com/openai/grade-school-math",
+      "source_revision": "3101c7d5072418e28b9008a6636bde82a006892c",
+      "license": "MIT",
+      "local_path": "data/benchmarks/external/raw/gsm8k",
+      "formats": ["jsonl"],
+      "modalities": ["natural_language_problem", "natural_language_solution"],
+      "difficulty": "easy",
+      "counts": {
+        "train": 7473,
+        "test": 1319,
+        "train_socratic": 7473,
+        "test_socratic": 1319,
+        "example_model_solutions": 1319
+      },
+      "recommended_use": "Smoke-test AMRA problem parsing, answer extraction, and short natural-language derivation generation."
+    },
+    {
+      "id": "math",
+      "name": "MATH",
+      "source_url": "https://github.com/hendrycks/math",
+      "dataset_url": "https://huggingface.co/datasets/qwedsacf/competition_math",
+      "source_revision": "985bdc1696e88e8643f081a0ff4719da39f2ae2a",
+      "dataset_revision": "e839825f9ec5c6cfa585c654a59610969ec13993",
+      "license": "MIT",
+      "local_path": "data/benchmarks/external/raw/math",
+      "formats": ["parquet"],
+      "modalities": ["natural_language_problem", "natural_language_step_solution"],
+      "difficulty": "medium_to_hard",
+      "counts": {
+        "total": 12500,
+        "levels": {
+          "Level 1": 1001,
+          "Level 2": 2242,
+          "Level 3": 2723,
+          "Level 4": 2904,
+          "Level 5": 3628,
+          "Level ?": 2
+        },
+        "types": {
+          "Algebra": 2931,
+          "Counting & Probability": 1245,
+          "Geometry": 1349,
+          "Intermediate Algebra": 2198,
+          "Number Theory": 1409,
+          "Prealgebra": 2076,
+          "Precalculus": 1292
+        }
+      },
+      "recommended_use": "Evaluate contest-style solution planning, answer normalization, and difficulty-aware problem selection."
+    },
+    {
+      "id": "imo_bench",
+      "name": "IMO Bench",
+      "source_url": "https://github.com/google-deepmind/superhuman/tree/main/imobench",
+      "project_url": "https://imobench.github.io/",
+      "source_revision": "597525d09922962fe01e75cf0439b28aacba89cb",
+      "license": "CC-BY-4.0 for materials; Apache-2.0 for software",
+      "local_path": "data/benchmarks/external/raw/imo_bench",
+      "formats": ["csv"],
+      "modalities": [
+        "natural_language_problem",
+        "short_answer",
+        "natural_language_proof",
+        "proof_grading_guidelines",
+        "human_grade"
+      ],
+      "difficulty": "pre_imo_to_imo_hard",
+      "counts": {
+        "answerbench_v2": 400,
+        "answerbench_deprecated": 400,
+        "proofbench": 60,
+        "gradingbench": 1000,
+        "answerbench_v2_categories": {
+          "Algebra": 99,
+          "Combinatorics": 100,
+          "Functional Equation": 1,
+          "Geometry": 100,
+          "Number theory": 100
+        },
+        "proofbench_categories": {
+          "Algebra": 16,
+          "Combinatorics": 16,
+          "Geometry": 14,
+          "Number theory": 14
+        },
+        "proofbench_levels": {
+          "pre-IMO": 8,
+          "IMO-easy": 24,
+          "IMO-medium": 18,
+          "IMO-hard": 10
+        },
+        "gradingbench_rewards": {
+          "Correct": 300,
+          "Almost": 162,
+          "Partial": 238,
+          "Incorrect": 300
+        }
+      },
+      "notes": [
+        "Upstream README states answerbench_v2.csv should be used; answerbench.csv is kept only for reproducibility of older runs.",
+        "ProofBench includes problem statements, reference solutions, grading guidelines, category, level, short answer, and source.",
+        "GradingBench includes model responses with human-assigned IMO-style point scores and four-way reward labels."
+      ],
+      "recommended_use": "Evaluate IMO-style answer extraction, proof-writing quality, and automated proof grading against human labels."
+    },
+    {
+      "id": "minif2f_lean3",
+      "name": "miniF2F Lean 3",
+      "source_url": "https://github.com/openai/miniF2F",
+      "source_revision": "4e433ff5cadff23f9911a2bb5bbab2d351ce5554",
+      "license": "Apache-2.0 for Lean files",
+      "local_path": "data/benchmarks/external/raw/miniF2F_lean3",
+      "formats": ["lean"],
+      "modalities": ["formal_statement", "lean_theorem_proving_target"],
+      "difficulty": "medium_to_olympiad",
+      "counts": {
+        "valid_theorems": 244,
+        "test_theorems": 244
+      },
+      "recommended_use": "Run formal theorem-proving experiments against classic miniF2F Lean targets."
+    },
+    {
+      "id": "minif2f_lean4",
+      "name": "miniF2F Lean 4",
+      "source_url": "https://github.com/google-deepmind/miniF2F",
+      "source_revision": "f0a20e14c1eeccd859d51bb4c2b3ee487889c303",
+      "license": "Apache-2.0",
+      "local_path": "data/benchmarks/external/raw/miniF2F_lean4",
+      "formats": ["lean4"],
+      "modalities": ["natural_language_docstring", "formal_statement", "lean4_theorem_proving_target"],
+      "difficulty": "medium_to_olympiad",
+      "counts": {
+        "valid_theorems": 256,
+        "test_theorems": 244
+      },
+      "recommended_use": "Prefer this over Lean 3 miniF2F for current AMRA Lean 4 proof-generation experiments."
+    },
+    {
+      "id": "proofnet",
+      "name": "ProofNet",
+      "source_url": "https://github.com/zhangir-azerbayev/ProofNet",
+      "source_revision": "509ad79710ed4f46ff5c282ed5640c1aa9ac3f30",
+      "license": "MIT",
+      "local_path": "data/benchmarks/external/raw/proofnet",
+      "formats": ["jsonl", "lean", "tex"],
+      "modalities": ["natural_language_statement", "natural_language_proof", "formal_statement"],
+      "difficulty": "undergraduate_proof",
+      "counts": {
+        "valid_records": 185,
+        "test_records": 186,
+        "source_books_or_collections": 10
+      },
+      "recommended_use": "Evaluate informal proof understanding, theorem-header recovery, and informal-to-formal alignment."
+    },
+    {
+      "id": "proofnet_lean4",
+      "name": "ProofNet Lean 4",
+      "source_url": "https://github.com/rahul3613/ProofNet-lean4",
+      "source_revision": "6deae98b38954dadf732746d023e8be65c56f246",
+      "license": "MIT",
+      "local_path": "data/benchmarks/external/raw/proofnet_lean4",
+      "formats": ["jsonl", "lean4", "tex"],
+      "modalities": ["natural_language_statement", "natural_language_proof", "formal_statement", "lean4_theorem_proving_target"],
+      "difficulty": "undergraduate_proof",
+      "counts": {
+        "records": 374,
+        "source_books_or_collections": 11
+      },
+      "recommended_use": "Evaluate Lean 4 formalization and proof-search behavior on undergraduate theorem statements."
+    }
+  ],
+  "next_steps": [
+    "Build importers that convert selected records into AMRA bank YAML without exposing ground-truth solutions during independence runs.",
+    "Define per-benchmark success contracts for answer-only, natural-language proof, theorem-header formalization, and no-sorry Lean proof generation.",
+    "Add small smoke-test subsets before running large benchmark campaigns."
+  ]
+}

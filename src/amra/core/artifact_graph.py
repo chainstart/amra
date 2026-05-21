@@ -28,6 +28,21 @@ class ArtifactKind(_StringEnum):
     SOURCE = "source"
     LEAN_DECLARATION = "lean_declaration"
     COMPUTATION_CERTIFICATE = "computation_certificate"
+    CONJECTURE = "conjecture"
+    HYPOTHESIS = "hypothesis"
+    EXPERIMENT = "experiment"
+    DATASET = "dataset"
+    ALGORITHM = "algorithm"
+    MODEL = "model"
+    BENCHMARK = "benchmark"
+    COUNTEREXAMPLE = "counterexample"
+    CONSTRUCTION = "construction"
+    SECURITY_GAME = "security_game"
+    SECURITY_ASSUMPTION = "security_assumption"
+    OPTIMIZATION_TRACE = "optimization_trace"
+    STATISTICAL_REPORT = "statistical_report"
+    NEGATIVE_RESULT = "negative_result"
+    THEORY_NODE = "theory_node"
 
 
 class DependencyRelation(_StringEnum):
@@ -38,6 +53,21 @@ class DependencyRelation(_StringEnum):
     FORMALIZES = "formalizes"
     CERTIFIES = "certifies"
     BLOCKS = "blocks"
+    GENERALIZES = "generalizes"
+    SPECIALIZES = "specializes"
+    REFUTES = "refutes"
+    EMPIRICALLY_SUPPORTS = "empirically_supports"
+    STATISTICALLY_SUPPORTS = "statistically_supports"
+    BENCHMARKS = "benchmarks"
+    OPTIMIZES = "optimizes"
+    REDUCES_TO = "reduces_to"
+    ASSUMES = "assumes"
+    CALIBRATES = "calibrates"
+    VALIDATES = "validates"
+    INVALIDATES = "invalidates"
+    PRODUCES_COUNTEREXAMPLE = "produces_counterexample"
+    SUGGESTS_CONJECTURE = "suggests_conjecture"
+    PROMOTES_TO_PROOF_TASK = "promotes_to_proof_task"
 
 
 def _string_list(values: list[Any] | None) -> list[str]:
@@ -380,18 +410,53 @@ class ArtifactGraph:
             )
         )
 
+    def record_research_object(
+        self,
+        *,
+        node_id: str,
+        kind: ArtifactKind | str,
+        label: str,
+        workstream_id: str = "",
+        path: str = "",
+        metadata: dict[str, Any] | None = None,
+    ) -> ArtifactNode:
+        return self.upsert_node(
+            ArtifactNode(
+                node_id=node_id,
+                kind=ArtifactKind.coerce(kind),
+                label=label,
+                path=path,
+                workstream_id=workstream_id,
+                metadata=metadata or {},
+            )
+        )
+
     def dependencies_of(self, node_id: str) -> list[DependencyEdge]:
         return [
             edge
             for edge in self.edges
-            if edge.source_id == node_id and edge.relation in {DependencyRelation.DEPENDS_ON, DependencyRelation.CITES}
+            if edge.source_id == node_id
+            and edge.relation
+            in {
+                DependencyRelation.DEPENDS_ON,
+                DependencyRelation.CITES,
+                DependencyRelation.ASSUMES,
+                DependencyRelation.REDUCES_TO,
+            }
         ]
 
     def dependents_of(self, node_id: str) -> list[DependencyEdge]:
         return [
             edge
             for edge in self.edges
-            if edge.target_id == node_id and edge.relation in {DependencyRelation.DEPENDS_ON, DependencyRelation.CITES}
+            if edge.target_id == node_id
+            and edge.relation
+            in {
+                DependencyRelation.DEPENDS_ON,
+                DependencyRelation.CITES,
+                DependencyRelation.ASSUMES,
+                DependencyRelation.REDUCES_TO,
+            }
         ]
 
     def unresolved_dependencies_of(self, node_id: str) -> list[DependencyEdge]:
@@ -405,7 +470,26 @@ class ArtifactGraph:
         seen = {source_id}
         adjacency: dict[str, list[str]] = {}
         for edge in self.edges:
-            if edge.relation in {DependencyRelation.DEPENDS_ON, DependencyRelation.CITES, DependencyRelation.FORMALIZES}:
+            if edge.relation in {
+                DependencyRelation.DEPENDS_ON,
+                DependencyRelation.CITES,
+                DependencyRelation.FORMALIZES,
+                DependencyRelation.GENERALIZES,
+                DependencyRelation.SPECIALIZES,
+                DependencyRelation.REFUTES,
+                DependencyRelation.EMPIRICALLY_SUPPORTS,
+                DependencyRelation.STATISTICALLY_SUPPORTS,
+                DependencyRelation.BENCHMARKS,
+                DependencyRelation.OPTIMIZES,
+                DependencyRelation.REDUCES_TO,
+                DependencyRelation.ASSUMES,
+                DependencyRelation.CALIBRATES,
+                DependencyRelation.VALIDATES,
+                DependencyRelation.INVALIDATES,
+                DependencyRelation.PRODUCES_COUNTEREXAMPLE,
+                DependencyRelation.SUGGESTS_CONJECTURE,
+                DependencyRelation.PROMOTES_TO_PROOF_TASK,
+            }:
                 adjacency.setdefault(edge.source_id, []).append(edge.target_id)
 
         while queue:

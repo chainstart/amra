@@ -1,0 +1,51 @@
+{
+  "benchmark": "IMO official problems",
+  "year": 2025,
+  "source": "International Mathematical Olympiad official English PDF",
+  "source_pdf": "data/benchmarks/imo_official/problems_pdf_en/IMO-2025-problems-eng.pdf",
+  "source_page": "https://www.imo-official.org/problems/2025/",
+  "problems": [
+    {
+      "problem_id": "imo_2025_p1",
+      "statement_file": "data/benchmarks/imo_official/extracted/2025/imo_2025_p1.md",
+      "category": "combinatorics",
+      "day": 1,
+      "points": 7
+    },
+    {
+      "problem_id": "imo_2025_p2",
+      "statement_file": "data/benchmarks/imo_official/extracted/2025/imo_2025_p2.md",
+      "category": "geometry",
+      "day": 1,
+      "points": 7
+    },
+    {
+      "problem_id": "imo_2025_p3",
+      "statement_file": "data/benchmarks/imo_official/extracted/2025/imo_2025_p3.md",
+      "category": "number_theory",
+      "day": 1,
+      "points": 7
+    },
+    {
+      "problem_id": "imo_2025_p4",
+      "statement_file": "data/benchmarks/imo_official/extracted/2025/imo_2025_p4.md",
+      "category": "number_theory",
+      "day": 2,
+      "points": 7
+    },
+    {
+      "problem_id": "imo_2025_p5",
+      "statement_file": "data/benchmarks/imo_official/extracted/2025/imo_2025_p5.md",
+      "category": "game",
+      "day": 2,
+      "points": 7
+    },
+    {
+      "problem_id": "imo_2025_p6",
+      "statement_file": "data/benchmarks/imo_official/extracted/2025/imo_2025_p6.md",
+      "category": "combinatorics",
+      "day": 2,
+      "points": 7
+    }
+  ]
+}
