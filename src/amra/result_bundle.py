@@ -20,6 +20,12 @@ from amra.portfolio_memory import (
     utc_now_iso,
     write_json,
 )
+from amra.research.experiments import (
+    RESEARCH_EXECUTOR_REQUEST_FILE,
+    RESEARCH_EXPERIMENT_RECORD_FILE,
+    RESEARCH_EXPERIMENT_RESULT_FILE,
+    RESEARCH_REPRODUCIBILITY_REPORT_FILE,
+)
 
 
 RESULT_BUNDLE_SCHEMA_VERSION = "amra.result_bundle.v1"
@@ -55,6 +61,10 @@ BUNDLE_FILE_KINDS = {
     "benchmark_review_gate.json": "benchmark_review_gate",
     "nontrivial_benchmark_report.json": "nontrivial_benchmark_report",
     "faithful_modeling_report.json": "faithful_modeling_report",
+    RESEARCH_EXECUTOR_REQUEST_FILE: "research_executor_request",
+    RESEARCH_EXPERIMENT_RESULT_FILE: "research_experiment_result",
+    RESEARCH_EXPERIMENT_RECORD_FILE: "research_experiment_record",
+    RESEARCH_REPRODUCIBILITY_REPORT_FILE: "research_reproducibility_report",
 }
 
 LEAN_VERIFIED_DECLARATION_SOURCE = "verified_declarations.json"
@@ -73,6 +83,10 @@ OPTIONAL_PROJECT_BUNDLE_FILES = (
     "rejection_reasons.json",
     "promoted_library_candidates.json",
     "benchmark_review_gate.json",
+    RESEARCH_EXECUTOR_REQUEST_FILE,
+    RESEARCH_EXPERIMENT_RESULT_FILE,
+    RESEARCH_EXPERIMENT_RECORD_FILE,
+    RESEARCH_REPRODUCIBILITY_REPORT_FILE,
 )
 
 
@@ -916,6 +930,18 @@ def _bundle_file_record(path: str, *, output_dir: Path | None = None) -> dict[st
         record.update(
             {
                 "ara_contract_role": "nl_lean_faithfulness_audit",
+                "lean_verified_claim_source": False,
+            }
+        )
+    elif path in {
+        RESEARCH_EXECUTOR_REQUEST_FILE,
+        RESEARCH_EXPERIMENT_RESULT_FILE,
+        RESEARCH_EXPERIMENT_RECORD_FILE,
+        RESEARCH_REPRODUCIBILITY_REPORT_FILE,
+    }:
+        record.update(
+            {
+                "ara_contract_role": "research_experiment_harness_artifact",
                 "lean_verified_claim_source": False,
             }
         )

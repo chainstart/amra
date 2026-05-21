@@ -1,0 +1,57 @@
+{
+  "schema_version": "amra.research_experiment_fixture.v1",
+  "request": {
+    "request_id": "fixture-request-001",
+    "experiment_id": "experiment-fixture-001",
+    "title": "Deterministic bounded search fixture",
+    "question": "Does the fixture-backed candidate survive the bounded smoke search?",
+    "method": "deterministic_fixture_replay",
+    "inputs": [
+      "synthetic-sequence:v1"
+    ],
+    "parameters": {
+      "limit": 12,
+      "predicate": "n = n"
+    },
+    "seed": 7,
+    "budget": {
+      "max_seconds": 1,
+      "max_cases": 12
+    },
+    "environment": {
+      "runner": "fixture"
+    },
+    "command": [
+      "fixture-replay",
+      "--limit",
+      "12"
+    ],
+    "expected_outputs": {
+      "counterexamples": 0
+    }
+  },
+  "metrics": {
+    "cases_checked": 12,
+    "counterexamples": 0
+  },
+  "observations": [
+    "No counterexample found in the deterministic fixture range."
+  ],
+  "artifacts": [
+    {
+      "path": "observations.json",
+      "kind": "research_experiment_observations",
+      "description": "Fixture smoke observations.",
+      "json": {
+        "cases_checked": 12,
+        "counterexamples": []
+      }
+    },
+    {
+      "path": "summary.md",
+      "kind": "research_experiment_summary",
+      "description": "Human-readable deterministic experiment summary.",
+      "content": "# Deterministic Fixture Experiment\n\nNo counterexample found for the smoke range.\n"
+    }
+  ]
+}

@@ -121,15 +121,15 @@ class ProofBenchProblem:
     def slug(self) -> str:
         return slugify(self.problem_id).replace("-", "_")
 
-    def to_json(self) -> dict[str, str]:
+    def to_json(self, *, include_reference: bool = False) -> dict[str, str]:
         return {
             "problem_id": self.problem_id,
             "problem": self.problem,
-            "solution": self.solution,
-            "grading_guidelines": self.grading_guidelines,
+            "solution": self.solution if include_reference else "",
+            "grading_guidelines": self.grading_guidelines if include_reference else "",
             "category": self.category,
             "level": self.level,
-            "short_answer": self.short_answer,
+            "short_answer": self.short_answer if include_reference else "",
             "source": self.source,
         }
 
@@ -341,11 +341,12 @@ def prepare_problem(
     module_name = module_name_for_problem(record.problem_id)
     target_theorem = theorem_name_for_problem(record.problem_id)
 
-    write_json(input_dir / "problem.json", record.to_json())
+    write_json(input_dir / "problem.json", record.to_json(include_reference=include_reference))
     statement_path = input_dir / "statement.md"
     reference_path = reference_dir / "reference_solution_and_rubric.md"
     _write_statement(record, statement_path)
-    _write_reference(record, reference_path)
+    if include_reference:
+        _write_reference(record, reference_path)
     _write_lake_project(workspace, module_name)
     target_file, expected_header_path = _write_target_scaffold(
         record=record,
@@ -427,7 +428,7 @@ def run_prepared_problem(prepared: PreparedProblem, args: argparse.Namespace) ->
         formalizer_attempt_timeout_sec=args.formalizer_attempt_timeout,
         formalizer_build_timeout_sec=args.formalizer_build_timeout,
         source_first=args.source_first,
-        enable_search=args.search,
+        enable_search=False,
         output_root=prepared.problem_dir / "runs",
         run_name="campaign",
         max_stalled_rounds=args.max_stalled_rounds,
@@ -478,6 +479,11 @@ def write_state(path: Path, payload: dict[str, Any]) -> None:
 
 
 def run_campaign(args: argparse.Namespace) -> dict[str, Any]:
+    if getattr(args, "search", False):
+        raise ValueError(
+            "--search is disabled for IMO-ProofBench benchmark campaigns. "
+            "Use the open research/proof runners for tasks where external search is allowed."
+        )
     records = load_proofbench(args.proofbench_csv)
     solved = load_solved_problem_ids(args.exclude_solved_manifest) if args.exclude_solved else set()
     selected = select_problems(
@@ -493,7 +499,7 @@ def run_campaign(args: argparse.Namespace) -> dict[str, Any]:
 
     run_root = _new_run_root(args.output_root, args.run_name)
     run_root.mkdir(parents=True, exist_ok=True)
-    prepared = [prepare_problem(record=record, run_root=run_root, include_reference=not args.hide_reference) for record in selected]
+    prepared = [prepare_problem(record=record, run_root=run_root, include_reference=False) for record in selected]
     config = {
         "generated_at": utc_now_iso(),
         "run_root": str(run_root),
@@ -514,7 +520,8 @@ def run_campaign(args: argparse.Namespace) -> dict[str, Any]:
         "math_tools_profile": args.math_tools_profile,
         "install_missing_math_tools": not args.no_install_missing_math_tools,
         "run_math_tool_smoke": not args.no_math_tool_smoke,
-        "include_reference": not args.hide_reference,
+        "include_reference": False,
+        "external_source_policy": "closed_book_no_web_no_reference_solution",
         "model": args.model or "",
         "reasoning_effort": args.reasoning_effort or "",
     }
@@ -674,7 +681,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--limit", type=int, default=2)
     parser.add_argument("--exclude-solved", action="store_true")
     parser.add_argument("--exclude-solved-manifest", type=Path, action="append", default=[DEFAULT_SOLVED_MANIFEST])
-    parser.add_argument("--hide-reference", action="store_true", help="Do not pass ProofBench reference solution as context.")
+    parser.add_argument(
+        "--hide-reference",
+        action="store_true",
+        help="Deprecated no-op: ProofBench benchmark campaigns are always closed-book.",
+    )
     parser.add_argument("--backend", choices=("codex", "none"), default="codex")
     parser.add_argument("--mode", choices=("auto", "hybrid", "proof-lab", "lean-formalizer"), default="hybrid")
     parser.add_argument("--parallelism", type=int, default=2)
@@ -726,7 +737,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--build-command", default="lake build")
     parser.add_argument("--source-first", action="store_true")
-    parser.add_argument("--search", action="store_true")
+    parser.add_argument("--search", action="store_true", help="Deprecated: rejected for closed-book benchmark campaigns.")
     parser.add_argument("--model", default=None)
     parser.add_argument("--reasoning-effort", default="high")
     parser.add_argument("--dry-run", action="store_true")

@@ -6,6 +6,7 @@ from pathlib import Path
 import yaml
 
 from amra.portfolio_reports import write_portfolio_final_report
+from amra.research import run_research_executor_fixture
 from amra.result_bundle import RESULT_BUNDLE_SCHEMA_VERSION, export_amra_result_bundle
 from ara_math.cli import main
 
@@ -297,3 +298,19 @@ def test_result_bundle_carries_library_curator_artifacts(tmp_path: Path) -> None
     assert files["curator_review_records.jsonl"]["ara_contract_role"] == "library_curator_review_records"
     assert files["reusable_lemma_metadata.json"]["ara_contract_role"] == "reusable_lemma_metadata"
     assert files["promoted_library_candidates.json"]["lean_verified_claim_source"] is False
+
+
+def test_result_bundle_carries_research_experiment_harness_artifacts(tmp_path: Path) -> None:
+    project = _result_project(tmp_path)
+    fixture = Path(__file__).resolve().parent / "fixtures" / "research_experiment_fixture.json"
+    run_research_executor_fixture(fixture=fixture, output_dir=project)
+
+    export_amra_result_bundle(project=project, output_dir=tmp_path / "bundle", repo_root=tmp_path)
+
+    manifest = json.loads((tmp_path / "bundle" / "artifact_manifest.json").read_text(encoding="utf-8"))
+    files = {item["path"]: item for item in manifest["files"]}
+
+    assert files["research_executor_request.json"]["ara_contract_role"] == "research_experiment_harness_artifact"
+    assert files["research_experiment_result.json"]["lean_verified_claim_source"] is False
+    assert files["research_experiment_record.json"]["kind"] == "research_experiment_record"
+    assert files["research_reproducibility_report.json"]["sha256"]

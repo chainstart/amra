@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from amra.agents.env import agent_environment
+from amra.agents.source_policy import apply_codex_source_policy, mark_policy_violation, source_policy_prompt
 
 
 def utc_now_iso() -> str:
@@ -229,8 +230,7 @@ class CodexEpisodeLoopAgent:
             return {"backend": "codex", "status": "unavailable", "returncode": None, "elapsed_seconds": 0.0}
 
         command = [backend_bin, "-s", self.config.sandbox, "-a", "never"]
-        if self.config.enable_search:
-            command.append("--search")
+        apply_codex_source_policy(command, enable_search=self.config.enable_search)
         if self.config.model:
             command.extend(["-m", self.config.model])
         if self.config.reasoning_effort:
@@ -252,37 +252,51 @@ class CodexEpisodeLoopAgent:
                 },
             )
         except subprocess.TimeoutExpired as exc:
-            write_text(stdout_path, str(exc.stdout or exc.output or ""))
-            write_text(stderr_path, str(exc.stderr or ""))
+            stdout = str(exc.stdout or exc.output or "")
+            stderr = str(exc.stderr or "")
+            write_text(stdout_path, stdout)
+            write_text(stderr_path, stderr)
             if not output_path.exists():
                 write_text(output_path, "STATUS: partial\n\nCodex episode timed out before final response.\n")
-            return {
-                "backend": "codex",
-                "status": "timeout",
-                "returncode": None,
-                "elapsed_seconds": round(time.monotonic() - started, 3),
-                "command": [*command[:-1], "<prompt omitted>"],
-                "stdout_tail": _tail(str(exc.stdout or exc.output or ""), 4000),
-                "stderr_tail": _tail(str(exc.stderr or ""), 4000),
-                "stdout_path": str(stdout_path),
-                "stderr_path": str(stderr_path),
-            }
+            return mark_policy_violation(
+                report={
+                    "backend": "codex",
+                    "status": "timeout",
+                    "returncode": None,
+                    "elapsed_seconds": round(time.monotonic() - started, 3),
+                    "command": [*command[:-1], "<prompt omitted>"],
+                    "stdout_tail": _tail(stdout, 4000),
+                    "stderr_tail": _tail(stderr, 4000),
+                    "stdout_path": str(stdout_path),
+                    "stderr_path": str(stderr_path),
+                },
+                output_path=output_path,
+                stdout=stdout,
+                stderr=stderr,
+                enable_search=self.config.enable_search,
+            )
 
         write_text(stdout_path, completed.stdout)
         write_text(stderr_path, completed.stderr)
         if not output_path.exists():
             write_text(output_path, (completed.stdout + "\n" + completed.stderr).strip() + "\n")
-        return {
-            "backend": "codex",
-            "status": "completed" if completed.returncode == 0 else "failed",
-            "returncode": completed.returncode,
-            "elapsed_seconds": round(time.monotonic() - started, 3),
-            "command": [*command[:-1], "<prompt omitted>"],
-            "stdout_tail": _tail(completed.stdout, 4000),
-            "stderr_tail": _tail(completed.stderr, 4000),
-            "stdout_path": str(stdout_path),
-            "stderr_path": str(stderr_path),
-        }
+        return mark_policy_violation(
+            report={
+                "backend": "codex",
+                "status": "completed" if completed.returncode == 0 else "failed",
+                "returncode": completed.returncode,
+                "elapsed_seconds": round(time.monotonic() - started, 3),
+                "command": [*command[:-1], "<prompt omitted>"],
+                "stdout_tail": _tail(completed.stdout, 4000),
+                "stderr_tail": _tail(completed.stderr, 4000),
+                "stdout_path": str(stdout_path),
+                "stderr_path": str(stderr_path),
+            },
+            output_path=output_path,
+            stdout=completed.stdout,
+            stderr=completed.stderr,
+            enable_search=self.config.enable_search,
+        )
 
     def _build_episode_prompt(
         self,
@@ -318,6 +332,8 @@ class CodexEpisodeLoopAgent:
                 f"Workspace: {self.workspace}",
                 f"Run directory: {self.run_dir}",
                 f"Remaining host budget seconds: {remaining_seconds}",
+                "",
+                source_policy_prompt(enable_search=self.config.enable_search),
                 "",
                 "Current host observations:",
                 json.dumps(observations[-8:], indent=2, ensure_ascii=False),

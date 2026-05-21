@@ -66,6 +66,7 @@ from amra.nontrivial_benchmark import (
     run_nontrivial_closed_theorem_benchmark,
 )
 from amra.result_bundle import export_amra_result_bundle
+from amra.research.experiments import run_research_executor_fixture
 from amra.math_tools import MATH_TOOL_PROFILES
 
 
@@ -428,6 +429,19 @@ def build_parser() -> argparse.ArgumentParser:
     )
     audit_faithfulness.add_argument("--bundle", type=Path, required=True)
     audit_faithfulness.add_argument("--out", type=Path, required=True)
+
+    research = subparsers.add_parser(
+        "research",
+        help="Run AMRA research-object and experiment harness utilities.",
+    )
+    research_subparsers = research.add_subparsers(dest="research_command", required=True)
+    research_run_executor = research_subparsers.add_parser(
+        "run-executor",
+        help="Run a deterministic fixture-backed research executor and persist reproducibility records.",
+    )
+    research_run_executor.add_argument("--fixture", type=Path, required=True)
+    research_run_executor.add_argument("--out", type=Path, required=True)
+    research_run_executor.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
 
     new_project = subparsers.add_parser("new-project", help="Create a new math research project.")
     new_project.add_argument("--problem", required=True, help="Problem id from the selected bank.")
@@ -1451,6 +1465,17 @@ def main(argv: list[str] | None = None) -> int:
             _print(
                 audit_faithfulness_bundle(
                     bundle=args.bundle,
+                    output_dir=args.out,
+                ),
+                args.json,
+            )
+            return 0
+
+    if args.command == "research":
+        if args.research_command == "run-executor":
+            _print(
+                run_research_executor_fixture(
+                    fixture=args.fixture,
                     output_dir=args.out,
                 ),
                 args.json,

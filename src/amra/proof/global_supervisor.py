@@ -7,6 +7,7 @@ import time
 from pathlib import Path
 from typing import Any
 
+from amra.agents.source_policy import apply_codex_source_policy, mark_policy_violation, source_policy_prompt
 from amra.core.workspace import read_text, write_json, write_text
 from amra.infra.runtime import env_float, env_int, env_str, run_guarded_command, wait_for_system_headroom
 from amra.proof.lab import parse_labeled_fields
@@ -381,6 +382,7 @@ class GlobalProofSupervisor:
         timeout_sec: int,
         enable_search: bool,
     ) -> dict[str, Any]:
+        prompt = source_policy_prompt(enable_search=enable_search) + "\n\n" + prompt
         if backend == "none":
             write_text(
                 output_path,
@@ -407,8 +409,7 @@ class GlobalProofSupervisor:
             return {"backend": backend, "status": "unsupported", "returncode": None, "elapsed_seconds": 0.0, "command": []}
 
         command = [backend_bin, "-s", "read-only", "-a", "never"]
-        if enable_search:
-            command.append("--search")
+        apply_codex_source_policy(command, enable_search=enable_search)
         if self.backend_model:
             command.extend(["-m", self.backend_model])
         if self.backend_reasoning_effort:
@@ -437,25 +438,39 @@ class GlobalProofSupervisor:
         except subprocess.TimeoutExpired as exc:
             if not output_path.exists():
                 write_text(output_path, "Supervisor decision: continue_current_target\nReason: supervisor timed out.\n")
-            return {
+            stdout = str(exc.stdout or exc.output or "")
+            stderr = str(exc.stderr or "")
+            return mark_policy_violation(
+                report={
+                    "backend": backend,
+                    "status": "timeout",
+                    "returncode": None,
+                    "elapsed_seconds": round(time.monotonic() - started, 3),
+                    "command": self._redacted_command(command),
+                    "stdout_tail": stdout[-4000:],
+                    "stderr_tail": stderr[-4000:],
+                },
+                output_path=output_path,
+                stdout=stdout,
+                stderr=stderr,
+                enable_search=enable_search,
+            )
+
+        return mark_policy_violation(
+            report={
                 "backend": backend,
-                "status": "timeout",
-                "returncode": None,
+                "status": "completed" if completed.returncode == 0 else "failed",
+                "returncode": completed.returncode,
                 "elapsed_seconds": round(time.monotonic() - started, 3),
                 "command": self._redacted_command(command),
-                "stdout_tail": str(exc.stdout or exc.output or "")[-4000:],
-                "stderr_tail": str(exc.stderr or "")[-4000:],
-            }
-
-        return {
-            "backend": backend,
-            "status": "completed" if completed.returncode == 0 else "failed",
-            "returncode": completed.returncode,
-            "elapsed_seconds": round(time.monotonic() - started, 3),
-            "command": self._redacted_command(command),
-            "stdout_tail": completed.stdout[-4000:],
-            "stderr_tail": completed.stderr[-4000:],
-        }
+                "stdout_tail": completed.stdout[-4000:],
+                "stderr_tail": completed.stderr[-4000:],
+            },
+            output_path=output_path,
+            stdout=completed.stdout,
+            stderr=completed.stderr,
+            enable_search=enable_search,
+        )
 
     def run(
         self,

@@ -8,6 +8,7 @@ import time
 from pathlib import Path
 from typing import Any
 
+from amra.agents.source_policy import apply_codex_source_policy, mark_policy_violation, source_policy_prompt
 from amra.portfolio_scheduler import PortfolioAttackScheduler, calculate_progress_velocity
 from amra.lean.executor import LeanExecutor
 from amra.lean.contract import compare_lean_declaration_headers, extract_lean_declaration_header
@@ -558,6 +559,7 @@ class LeanFormalizerRunner:
         enable_search: bool,
     ) -> dict[str, Any]:
         prompt = prompt_path.read_text(encoding="utf-8")
+        prompt = source_policy_prompt(enable_search=enable_search) + "\n\n" + prompt
         if backend == "none":
             output_path.write_text(
                 "\n".join(
@@ -583,8 +585,7 @@ class LeanFormalizerRunner:
             return {"backend": backend, "status": "unsupported", "returncode": None, "elapsed_seconds": 0.0, "command": []}
 
         command = [backend_bin, "-s", "workspace-write", "-a", "never"]
-        if enable_search:
-            command.append("--search")
+        apply_codex_source_policy(command, enable_search=enable_search)
         if self.backend_model:
             command.extend(["-m", self.backend_model])
         if self.backend_reasoning_effort:
@@ -610,13 +611,21 @@ class LeanFormalizerRunner:
                     (str(exc.stdout or exc.output or "")) + "\n" + (str(exc.stderr or "")),
                     encoding="utf-8",
                 )
-            return {
-                "backend": backend,
-                "status": "timeout",
-                "returncode": None,
-                "elapsed_seconds": round(time.monotonic() - started, 3),
-                "command": [*command[:-1], "<prompt omitted; see prompt artifact>"],
-            }
+            stdout = str(exc.stdout or exc.output or "")
+            stderr = str(exc.stderr or "")
+            return mark_policy_violation(
+                report={
+                    "backend": backend,
+                    "status": "timeout",
+                    "returncode": None,
+                    "elapsed_seconds": round(time.monotonic() - started, 3),
+                    "command": [*command[:-1], "<prompt omitted; see prompt artifact>"],
+                },
+                output_path=output_path,
+                stdout=stdout,
+                stderr=stderr,
+                enable_search=enable_search,
+            )
 
         if not output_path.exists():
             output_path.write_text(
@@ -635,23 +644,29 @@ class LeanFormalizerRunner:
                 + "\n",
                 encoding="utf-8",
             )
-        return {
-            "backend": backend,
-            "status": "completed" if completed.returncode == 0 else "failed",
-            "returncode": completed.returncode,
-            "elapsed_seconds": round(time.monotonic() - started, 3),
-            "command": [*command[:-1], "<prompt omitted; see prompt artifact>"],
-            "stdout_tail": completed.stdout[-4000:],
-            "stderr_tail": completed.stderr[-4000:],
-            "resource_policy": {
-                "memory_mb": self.backend_max_memory_mb,
-                "cpu_seconds": min(self.backend_max_cpu_seconds, max(timeout_sec + 10, timeout_sec)),
-                "max_processes": self.backend_max_processes,
-                "niceness": self.backend_niceness,
-                "model": self.backend_model,
-                "reasoning_effort": self.backend_reasoning_effort,
+        return mark_policy_violation(
+            report={
+                "backend": backend,
+                "status": "completed" if completed.returncode == 0 else "failed",
+                "returncode": completed.returncode,
+                "elapsed_seconds": round(time.monotonic() - started, 3),
+                "command": [*command[:-1], "<prompt omitted; see prompt artifact>"],
+                "stdout_tail": completed.stdout[-4000:],
+                "stderr_tail": completed.stderr[-4000:],
+                "resource_policy": {
+                    "memory_mb": self.backend_max_memory_mb,
+                    "cpu_seconds": min(self.backend_max_cpu_seconds, max(timeout_sec + 10, timeout_sec)),
+                    "max_processes": self.backend_max_processes,
+                    "niceness": self.backend_niceness,
+                    "model": self.backend_model,
+                    "reasoning_effort": self.backend_reasoning_effort,
+                },
             },
-        }
+            output_path=output_path,
+            stdout=completed.stdout,
+            stderr=completed.stderr,
+            enable_search=enable_search,
+        )
 
     def _write_summary(self, *, path: Path, payload: dict[str, Any]) -> None:
         best = payload.get("best_audit") or {}

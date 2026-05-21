@@ -1,7 +1,7 @@
 {
   "kind": "amra.spec_tasks.v1",
   "project": "amra",
-  "updated_at": "2026-05-21T03:30:52Z",
+  "updated_at": "2026-05-21T04:09:04Z",
   "source_spec": "docs/portfolio_campaign_spec.zh.md",
   "status_doc": "docs/amra_implementation_status.zh.md",
   "decision_log_dir": "docs/decisions",
@@ -959,17 +959,35 @@
         {
           "kind": "test",
           "value": "python3 -m pytest -q tests/test_amra_research_objects.py tests/test_amra_research_artifact_graph.py tests/test_amra_orchestration_state.py"
+        },
+        {
+          "kind": "record",
+          "value": "task report: .engineering/reports/tasks/20260521T040807Z-AMRA-RESEARCH-ONTOLOGY-001.md",
+          "recorded_at": "2026-05-21T04:09:04Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task manifest: .engineering/reports/tasks/20260521T040807Z-AMRA-RESEARCH-ONTOLOGY-001.json",
+          "recorded_at": "2026-05-21T04:09:04Z",
+          "actor": "engineering-harness:auto"
+        },
+        {
+          "kind": "record",
+          "value": "task result: All required acceptance commands passed.",
+          "recorded_at": "2026-05-21T04:09:04Z",
+          "actor": "engineering-harness:auto"
         }
       ],
       "notes": "Completed Phase 1 of docs/amra_research_capabilities_spec.zh.md: canonical amra.research object and evidence dataclasses, artifact graph kinds/relations, and workstream kind/status extensions for non-proof research without regressing proof/Lean behavior.",
-      "updated_at": "2026-05-21T03:30:52Z",
-      "last_note": "AMRA-RESEARCH-ONTOLOGY-001 added canonical research ontology schema and deterministic tests.",
-      "last_phase": "run"
+      "updated_at": "2026-05-21T04:09:04Z",
+      "last_note": "Recorded automatically after a completed harness task.",
+      "last_phase": "drive"
     },
     {
       "id": "AMRA-EXPERIMENT-HARNESS-001",
       "title": "Add reproducible research experiment harness",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "owner": "amra",
       "requirement_ids": [
@@ -989,7 +1007,10 @@
           "required": true
         }
       ],
-      "notes": "Implement ResearchExecutor, ExperimentRecord persistence, deterministic rerun metadata, reproducibility reports, CLI smoke, and result-bundle optional artifacts."
+      "notes": "Implemented fixture-backed ResearchExecutor request/result records, ExperimentRecord persistence, deterministic rerun metadata, reproducibility reports, CLI smoke, and result-bundle optional artifacts.",
+      "updated_at": "2026-05-21T04:15:00Z",
+      "last_note": "Verified research experiment harness acceptance commands passed.",
+      "last_phase": "run"
     },
     {
       "id": "AMRA-CONJECTURE-DISCOVERY-001",

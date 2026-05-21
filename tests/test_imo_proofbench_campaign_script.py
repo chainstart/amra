@@ -88,6 +88,39 @@ def test_prepare_curated_workspace_writes_target_contract(tmp_path: Path) -> Non
     assert "theorem pb_advanced_012_main" in target_path.read_text(encoding="utf-8")
     assert "theorem pb_advanced_012_main" in prepared.expected_header_path.read_text(encoding="utf-8")
     assert prepared.context_paths == [prepared.expected_header_path]
+    assert not prepared.reference_path.exists()
+    problem_payload = module.json.loads((prepared.problem_dir / "input" / "problem.json").read_text(encoding="utf-8"))
+    assert problem_payload["solution"] == ""
+    assert problem_payload["grading_guidelines"] == ""
+    assert problem_payload["short_answer"] == ""
+
+
+def test_closed_book_campaign_rejects_web_search(tmp_path: Path) -> None:
+    module = _load_script_module()
+    csv_path = tmp_path / "proofbench.csv"
+    _write_proofbench_csv(csv_path)
+
+    args = module.build_parser().parse_args(
+        [
+            "--proofbench-csv",
+            str(csv_path),
+            "--output-root",
+            str(tmp_path / "runs"),
+            "--problem-id",
+            "PB-Advanced-012",
+            "--dry-run",
+            "--backend",
+            "none",
+            "--search",
+        ]
+    )
+
+    try:
+        module.run_campaign(args)
+    except ValueError as exc:
+        assert "disabled for IMO-ProofBench benchmark campaigns" in str(exc)
+    else:  # pragma: no cover - defensive assertion
+        raise AssertionError("closed-book benchmark accepted --search")
 
 
 def test_dry_run_campaign_prepares_selected_problem_dirs(tmp_path: Path) -> None:
@@ -115,6 +148,8 @@ def test_dry_run_campaign_prepares_selected_problem_dirs(tmp_path: Path) -> None
     assert state["status"] == "prepared"
     assert state["selected_problem_ids"] == ["PB-Advanced-012", "PB-Advanced-024"]
     assert state["supervisor_backend"] == "none"
+    assert state["include_reference"] is False
+    assert state["external_source_policy"] == "closed_book_no_web_no_reference_solution"
     assert len(state["problems"]) == 2
     for problem in state["problems"]:
         assert Path(problem["workspace"]).exists()

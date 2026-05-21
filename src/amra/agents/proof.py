@@ -54,6 +54,7 @@ If a proof is plausible, produce a formalizer handoff with the exact statement, 
         "failed_routes.md",
         "invariant_candidates.md",
         "counterexample_report.md",
+        "external_source_policy_violation.md",
     ]
     RECOVERY_ARTIFACTS = [
         "blocker.md",
@@ -206,11 +207,17 @@ If a proof is plausible, produce a formalizer handoff with the exact statement, 
     ) -> dict[str, Any]:
         status = _extract_status(last_message, fallback="partial")
         next_action = _extract_next(last_message)
-        if backend_report.get("status") in {"skipped", "unsupported", "unavailable"}:
+        if backend_report.get("status") == "policy_violation":
+            status = "failed"
+            next_action = "needs_human"
+        elif backend_report.get("status") in {"skipped", "unsupported", "unavailable"}:
             status = "blocked"
         self._ensure_recovery_artifact(run_dir, status, last_message, backend_report, episode=episode)
         artifacts = self._artifact_snapshot(run_dir)
-        if artifacts["counterexample_report.md"]["exists"]:
+        if artifacts["external_source_policy_violation.md"]["exists"]:
+            status = "failed"
+            next_action = "needs_human"
+        elif artifacts["counterexample_report.md"]["exists"]:
             status = "counterexample_suspected"
         elif artifacts["proof_package.md"]["exists"] and artifacts["formalizer_handoff.md"]["exists"]:
             status = "proved_candidate" if status == "partial" else status
@@ -629,7 +636,9 @@ Before any long proof search, create or update durable artifacts so timeout stil
         forbidden_total = sum(counts.values())
         status = _extract_status(last_message, fallback="partial")
         backend_status = str(backend_report.get("status") or "")
-        if (
+        if backend_status == "policy_violation" or (run_dir / "external_source_policy_violation.md").exists():
+            status = "failed"
+        elif (
             workspace is not None
             and target_name
             and build_report is not None
