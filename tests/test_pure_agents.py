@@ -49,6 +49,62 @@ def test_codex_episode_loop_lets_backend_own_actions(tmp_path: Path, monkeypatch
     assert (Path(report["run_dir"]) / "proof_package.md").read_text(encoding="utf-8") == "Proof candidate.\n"
 
 
+def test_codex_episode_loop_prompt_has_closed_book_policy_when_search_disabled(tmp_path: Path, monkeypatch) -> None:
+    config = CodexEpisodeConfig(
+        name="episode-test",
+        system_prompt="Run one autonomous episode.",
+        workspace=tmp_path,
+        output_root=tmp_path / "runs",
+        backend="codex",
+        run_name="closed-book",
+        max_episodes=1,
+        enable_search=False,
+    )
+    loop = CodexEpisodeLoopAgent(config)
+
+    def fake_codex(*, prompt: str, cwd: Path, output_path: Path, timeout_sec: int) -> dict[str, object]:
+        del cwd, timeout_sec
+        assert "External source policy: CLOSED-BOOK BENCHMARK." in prompt
+        assert "Python, SymPy, Z3, Lean, CAS tools" in prompt
+        output_path.write_text("STATUS: partial\nNEXT: stop\n", encoding="utf-8")
+        return {"backend": "fake", "status": "completed", "returncode": 0, "elapsed_seconds": 0.01}
+
+    monkeypatch.setattr(loop, "_call_codex", fake_codex)
+
+    report = loop.run(
+        goal="Try the theorem.",
+        episode_cwd=loop.run_dir,
+        observer=lambda episode, episode_dir, last_message, backend_report: {
+            "episode": episode,
+            "status": "partial",
+            "terminal": True,
+        },
+    )
+
+    assert report["episodes_completed"] == 1
+
+
+def test_natural_language_agent_marks_web_search_transcript_as_policy_violation(tmp_path: Path) -> None:
+    agent = NaturalLanguageTheoremProverAgent(repo_root=tmp_path)
+    run_dir = tmp_path / "run"
+    run_dir.mkdir()
+    (run_dir / "external_source_policy_violation.md").write_text(
+        "# External Source Policy Violation\n\n- `web search: known solution`\n",
+        encoding="utf-8",
+    )
+
+    observation = agent._artifact_observation(
+        run_dir,
+        "STATUS: partial\nNEXT: continue\n",
+        {"status": "policy_violation"},
+        episode=1,
+    )
+
+    assert observation["status"] == "failed"
+    assert observation["terminal"] is True
+    assert observation["artifacts"]["external_source_policy_violation.md"]["exists"] is True
+
+
 def test_natural_language_theorem_agent_backend_none_writes_artifacts(tmp_path: Path) -> None:
     agent = NaturalLanguageTheoremProverAgent(repo_root=tmp_path)
 
