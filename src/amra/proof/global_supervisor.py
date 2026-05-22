@@ -489,7 +489,7 @@ class GlobalProofSupervisor:
         trigger_reason: str = "",
         backend: str = "codex",
         timeout_sec: int = 900,
-        enable_search: bool = False,
+        enable_search: bool = True,
     ) -> dict[str, Any]:
         supervisor_dir = run_dir / "supervisor" / f"round-{round_number:03d}"
         supervisor_dir.mkdir(parents=True, exist_ok=True)

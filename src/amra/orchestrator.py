@@ -527,7 +527,7 @@ class MathResearchOrchestrator:
         sleep_jitter_seconds: int | None = None,
         launch_spacing_seconds: int | None = None,
         run_name: str | None = None,
-        enable_search: bool = False,
+        enable_search: bool = True,
         dry_run: bool = False,
     ) -> dict[str, Any]:
         report = self.math_attack_runner.run(
@@ -1037,7 +1037,7 @@ class MathResearchOrchestrator:
         timeout_per_problem_sec: int = 300,
         output_path: Path | None = None,
         run_name: str | None = None,
-        enable_search: bool = False,
+        enable_search: bool = True,
         selection_mode: str = "ranked",
         exclude_problem_ids: list[str] | None = None,
     ) -> dict[str, Any]:

@@ -322,7 +322,7 @@ class ProofStrategyWorkstreamExecutor:
             grounding_timeout_sec=int(options.get("grounding_timeout_sec", options.get("grounding_timeout", 120))),
             output_root=output_root,
             run_name=options.get("run_name"),
-            enable_search=bool(options.get("enable_search", options.get("search", False))),
+            enable_search=bool(options.get("enable_search", options.get("search", True))),
         )
         payload = _jsonable(payload)
         status = str(payload.get("status", "completed")).strip().lower() or "completed"
@@ -390,7 +390,7 @@ class LeanFormalizationWorkstreamExecutor:
             build_timeout_sec=int(options.get("build_timeout_sec", options.get("build_timeout", 120))),
             output_root=output_root,
             run_name=options.get("run_name"),
-            enable_search=bool(options.get("enable_search", options.get("search", False))),
+            enable_search=bool(options.get("enable_search", options.get("search", True))),
             max_stalled_attempts=options.get("max_stalled_attempts", context.workstream.metadata.get("max_stalled_attempts")),
             rollback_failed_attempts=bool(
                 options.get("rollback_failed_attempts", context.workstream.metadata.get("rollback_failed_attempts", False))
@@ -724,7 +724,7 @@ class LlmSpecialistWorkstreamExecutor:
             model=str(options.get("model") or context.workstream.metadata.get("model") or ""),
             reasoning_effort=str(options.get("reasoning_effort") or context.workstream.metadata.get("reasoning_effort") or ""),
             timeout_seconds=int(options.get("timeout_seconds", options.get("timeout", context.workstream.metadata.get("timeout_seconds", 900)))),
-            allow_search=bool(options.get("allow_search", options.get("search", context.workstream.metadata.get("allow_search", False)))),
+            allow_search=bool(options.get("allow_search", options.get("search", context.workstream.metadata.get("allow_search", True)))),
             run_name=options.get("run_name"),
             context_files=_as_path_list(options.get("context_files") or options.get("context_paths")),
             resume_memory=bool(options.get("resume_memory", context.workstream.metadata.get("resume_memory", True))),

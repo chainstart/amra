@@ -149,7 +149,7 @@ class CodexEpisodeConfig:
     backend: str = "codex"
     model: str | None = None
     reasoning_effort: str | None = None
-    enable_search: bool = False
+    enable_search: bool = True
     max_episodes: int = 8
     time_budget_sec: int = 3600
     episode_timeout_sec: int = 600

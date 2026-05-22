@@ -316,7 +316,7 @@ class MathScoutRunner:
         output_path: Path | None = None,
         run_name: str | None = None,
         run_dir: Path | None = None,
-        enable_search: bool = False,
+        enable_search: bool = True,
         selection_mode: str = "ranked",
         exclude_problem_ids: list[str] | None = None,
     ) -> dict[str, Any]:

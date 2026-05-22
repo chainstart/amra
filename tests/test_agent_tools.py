@@ -54,10 +54,10 @@ def test_tool_registry_uses_amra_environment_contract(tmp_path: Path) -> None:
     markdown = (tmp_path / "run" / "tool_registry.md").read_text(encoding="utf-8")
 
     assert artifact_payload["registry"]["environment_variables"] == payload["environment_variables"]
-    assert artifact_payload["registry"]["math_tools_profile"] == "essential"
+    assert artifact_payload["registry"]["math_tools_profile"] == "full"
     assert "math_tools" in artifact_payload
     assert snapshot["environment_variables"] == payload["environment_variables"]
-    assert snapshot["math_tools"]["profile"] == "essential"
+    assert snapshot["math_tools"]["profile"] == "full"
     assert artifact_payload["environment"]["workspace"]["toolchain"] == "leanprover/lean4:v4.12.0"
     assert f"${AMRA_AGENT_RUN_DIR_ENV}" in markdown
     assert "legacy ARA aliases remain available" in markdown

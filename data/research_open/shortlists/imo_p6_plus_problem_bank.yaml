@@ -1,0 +1,5012 @@
+- problem_id: formal-conjectures-erdos-1113
+  title: 'Formal Conjectures: erdos_1113'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem erdos_1113 :\n    answer(sorry)\
+    \ ↔\n      ∃ k, k.IsSierpinskiNumber ∧ ¬ HasFinitePrimeCoveringSet k\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/1113.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  - https://www.erdosproblems.com/1113
+  - https://www.erdosproblems.com/203
+  - https://www.erdosproblems.com/276
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/ErdosProblems/1113.lean
+    declaration_name: erdos_1113
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 108
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_ErdosProblems
+      - exact_formal_contract
+      - elementary_signal_hits_6
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-conjecturea81091
+  title: 'Formal Conjectures: conjectureA81091'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem conjectureA81091 :\n  \
+    \  answer(sorry) ↔ Set.Infinite {p : ℕ | isPrimeBitsSet 3 p}\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/81091.lean
+  - http://projecteuclid.org/euclid.em/999188636
+  - https://oeis.org/A81091
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/OEIS/81091.lean
+    declaration_name: conjectureA81091
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 100
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_OEIS
+      - exact_formal_contract
+      - elementary_signal_hits_4
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-agrawal-conjecture
+  title: 'Formal Conjectures: agrawal_conjecture'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem agrawal_conjecture :\n\
+    \  answer(sorry) ↔\n    ∀ (n r : ℕ), n > 1 → r > 0 → n.gcd r = 1 →\n      let\
+    \ R := Polynomial (ZMod n)\n      let X : R := Polynomial.X\n      let I : Ideal\
+    \ R := Ideal.span ({X^r - 1} : Set R)\n      Ideal.Quotient.mk I ((X - 1)^n) =\
+    \ Ideal.Quotient.mk I (X^n - 1) →\n      (n.Prime ∨ (n^2 : ZMod r) = 1)\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Agrawal.lean
+  - https://aimath.org/WWN/primesinp/articles/html/50a/
+  - https://en.wikipedia.org/wiki/Agrawal%27s_conjecture
+  - https://eprint.iacr.org/2009/008.pdf
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Wikipedia/Agrawal.lean
+    declaration_name: agrawal_conjecture
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 85
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Wikipedia
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-green-7-variants-positive-density
+  title: 'Formal Conjectures: green_7.variants.positive_density'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem green_7.variants.positive_density\
+    \ :\n    answer(sorry) ↔\n      ∀ a : ℕ → ℕ, Erdos342.IsUlamSequence a →\n   \
+    \     Set.upperDensity (Set.range a) > 0\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/7.lean
+  - https://people.maths.ox.ac.uk/greenbj/papers/open-problems.pdf#section.1
+  - https://www.apache.org/licenses/LICENSE-2.0
+  - https://www.erdosproblems.com/342
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/GreensOpenProblems/7.lean
+    declaration_name: green_7.variants.positive_density
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    - '42'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 83
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_GreensOpenProblems
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-ep-1
+  title: 'Erdős Problem #1'
+  source: UnsolvedMath
+  statement: If $A\subseteq \{1,\ldots,N\}$ with $\lvert A\rvert=n$ is such that the
+    subset sums $\sum_{a\in S}a$ are distinct for all $S\subseteq A$ then $ N \gg
+  domain: number_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/EP-1
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 11
+    source_id: EP-1
+    status: open
+    difficulty_level: 3
+    category: Number Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 83
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_number_theory
+      - elementary_signal_hits_4
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-graph-002
+  title: Eternal Domination vs Domination Number
+  source: UnsolvedMath
+  statement: Does there exist a graph where the dominating number equals the eternal
+    dominating number and both are less than the clique covering number?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GRAPH-002
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GRAPH-002
+    status: open
+    difficulty_level: 3
+    category: Graph Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_graph_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-conjecture141
+  title: 'Formal Conjectures: conjecture141'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem conjecture141 (G : SimpleGraph\
+    \ α) (h : G.Connected) :\n    G.girth / 2 - 1 + (Finset.univ.sup (indepNeighborsCard\
+    \ G)) ≤\n    largestInducedTreeSize G\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture141.lean
+  - http://cms.dt.uh.edu/faculty/delavinae/research/wowII/
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture141.lean
+    declaration_name: conjecture141
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 77
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_WrittenOnTheWallII
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-comb-001
+  title: 1/3-2/3 Conjecture
+  source: UnsolvedMath
+  statement: Does every non-total finite poset have two elements x,y with P(x before
+    y in random linear extension) ∈ [1/3, 2/3]?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/COMB-001
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 10
+    source_id: COMB-001
+    status: open
+    difficulty_level: 3
+    category: Combinatorics
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 77
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_combinatorics
+      - elementary_signal_hits_2
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-opg-37283
+  title: Finite Lattice Representation Problem
+  source: UnsolvedMath
+  statement: Conjecture There exists a finite lattice which is not the congruence
+    lattice of a finite algebra.
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/OPG-37283
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 34
+    source_id: OPG-37283
+    status: open
+    difficulty_level: 3
+    category: Algebra
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 77
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_algebra
+      - elementary_signal_hits_2
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-guy-a5b
+  title: Erdős $3000 Conjecture on Arithmetic Progressions
+  source: UnsolvedMath
+  statement: Let $\{a_i\}$ be any infinite sequence of integers for which $\sum 1/a_i$
+    is divergent. Does the sequence contain arbitrarily long arithmetic progress
+  domain: number_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GUY-A5b
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 10
+    source_id: GUY-A5b
+    status: open
+    difficulty_level: 4
+    category: Number Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 75
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_number_theory
+      - elementary_signal_hits_6
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-geom-023
+  title: Orchard-Planting Problem
+  source: UnsolvedMath
+  statement: What is the maximum number of 3-point lines attainable by a configuration
+    of $n$ points in the plane?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GEOM-023
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GEOM-023
+    status: open
+    difficulty_level: 3
+    category: Geometry
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 74
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_geometry
+      - elementary_signal_hits_1
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-graph-001
+  title: Brouwer's Conjecture on Graph Laplacians
+  source: UnsolvedMath
+  statement: Can the sum of eigenvalues of the Laplacian matrix of a graph be bounded
+    by the number of edges?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GRAPH-001
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GRAPH-001
+    status: open
+    difficulty_level: 4
+    category: Graph Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 72
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_graph_theory
+      - elementary_signal_hits_5
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-mathoverflow-10799-variants-kahn-kalai-conjecture-7
+  title: 'Formal Conjectures: mathoverflow_10799.variants.kahn_kalai_conjecture_7'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem mathoverflow_10799.variants.kahn_kalai_conjecture_7\
+    \ : answer(sorry) ↔\n    ∀ (n : ℕ) (_ : 2 ≤ n)\n    (F : Finset (Finset (Fin n)))\
+    \ (_ : IsMonotoneIncreasing F)\n    (s t : ℝ) (_ : 0 < s) (_ : s ≤ t) (_ : t <\
+    \ 1)\n    (_ : μFamily t F = 1 / 2)\n    (_ : t / s > 1000 * Real.log n),\n  \
+    \  ∃ p, s ≤ p ∧ p ≤ t ∧ IsOptimal p F\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Mathoverflow/10799.lean
+  - https://arxiv.org/abs/2203.17207
+  - https://arxiv.org/abs/math/0603218
+  - https://gilkalai.wordpress.com/ai/optimal-monotone-families-for-the-discrete-isoperimetric-inequality/
+  - https://github.com/mo271/formal-conjectures/blob/408f53dc0856c0882a5e77acd24fc83b978f0bc9/FormalConjectures/Mathoverflow/10799.lean#L252
+  - https://mathoverflow.net/questions/10799
+  - https://mathoverflow.net/users/1532/gil-kalai
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Mathoverflow/10799.lean
+    declaration_name: mathoverflow_10799.variants.kahn_kalai_conjecture_7
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '60'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Mathoverflow
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-problem-10-5-moreover
+  title: 'Formal Conjectures: problem_10_5_moreover'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem problem_10_5_moreover (K\
+    \ : IntermediateField ℚ ℝ) [FiniteDimensional ℚ K]\n    {ε : ℝ} (hε : 0 < ε) :\n\
+    \    ∃ t : ℕ → K, (∀ n, 0 < (t n : ℝ)) ∧\n      IsLacunaryReal (fun k => (t k\
+    \ : ℝ)) ∧\n      ∀ ξ : ℝ, ξ ∉ K → ∀ a, a ∈ Set.Icc (0 : ℝ) (1 - ε) →\n       \
+    \ ∃ y ∈ Set.Icc a (a + ε),\n          MapClusterPt y atTop (fun n => Int.fract\
+    \ (ξ * (t n : ℝ)))\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Books/BugeaudDistributionModuloOne/Problem10_5.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Books/BugeaudDistributionModuloOne/Problem10_5.lean
+    declaration_name: problem_10_5_moreover
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 70
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Books
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-alg-026
+  title: The Herzog-Schönheim Conjecture
+  source: UnsolvedMath
+  statement: If a finite system of left cosets of subgroups of a group $G$ partitions
+    $G$, must some two subgroups have the same index?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/ALG-026
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 5
+    source_id: ALG-026
+    status: open
+    difficulty_level: 4
+    category: Algebra
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 66
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_algebra
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-beaver-math-olympiad-problem-2-antihydra-variants-set
+  title: 'Formal Conjectures: beaver_math_olympiad_problem_2_antihydra.variants.set'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem beaver_math_olympiad_problem_2_antihydra.variants.set\n\
+    \    (a : ℕ → ℕ) (a_ini : a 0 = 8)\n    (a_rec : ∀ n, a (n + 1) = (3 * a n) /\
+    \ 2) (n : ℕ) :\n    ((Finset.Ico 0 n).filter fun x ↦ Odd (a x)).card ≤\n     \
+    \ 2 * ((Finset.Ico 0 n).filter fun x ↦ Even (a x)).card\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Other/BeaverMathOlympiad.lean
+  - https://bbchallenge.org
+  - https://bbchallenge.org/antihydra
+  - https://discord.com/channels/960643023006490684/1084047886494470185/1252634913220591728
+  - https://discord.com/channels/960643023006490684/960643023530762343/1263666591900631210
+  - https://doi.org/10.1017/S0017089508004655
+  - https://github.com/ccz181078/busycoq/blob/BB6/verify/1RB0LD_1LC0RA_1RA1LB_1LA1LE_1RF0LC_---0RE.v
+  - https://wiki.bbchallenge.org/wiki/1RB0LD_0RC1RB_0RD0RA_1LE0RD_1LF---_0LA1LA
+  - https://wiki.bbchallenge.org/wiki/1RB0LD_1LC0RA_1RA1LB_1LA1LE_1RF0LC_---0RE
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Other/BeaverMathOlympiad.lean
+    declaration_name: beaver_math_olympiad_problem_2_antihydra.variants.set
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '11'
+    - '68'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 65
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Other
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-geo-033
+  title: Erdős-Ulam Problem
+  source: UnsolvedMath
+  statement: Is there a dense set of points in the plane with all pairwise distances
+    rational?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GEO-033
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 6
+    source_id: GEO-033
+    status: open
+    difficulty_level: 4
+    category: Geometry
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 63
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_geometry
+      - elementary_signal_hits_2
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-problem-4-3
+  title: 'Formal Conjectures: problem_4_3'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem problem_4_3 :\n    answer(sorry)\
+    \ ↔ ∀ (Ω : Set ℝ) (_ : IsFiniteUnionOfIntervals Ω)\n      (ν : Measure ℝ) (_ :\
+    \ IsWeakTilingMeasure Ω ν),\n      ∃ (T : ℕ → Set ℝ) (c : ℕ → ℝ≥0), (∀ i, IsProperTiling\
+    \ Ω (T i)) ∧ ∑' i : ℕ, c i = 1 ∧\n      ν = Measure.sum\n        (fun i => (c\
+    \ i : ℝ≥0∞) • Measure.sum (fun t : T i => Measure.dirac (t : ℝ)))\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Paper/WeakTiling.lean
+  - https://arxiv.org/abs/2506.23631
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Paper/WeakTiling.lean
+    declaration_name: problem_4_3
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '42'
+    - '46'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 62
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Paper
+      - exact_formal_contract
+      - elementary_signal_hits_4
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      - lower_priority_source_Paper
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-game-007
+  title: Cap Set Problem
+  source: UnsolvedMath
+  statement: What is the largest possible cap set in $n$-dimensional affine space
+    over the three-element field?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GAME-007
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GAME-007
+    status: open
+    difficulty_level: 4
+    category: Combinatorics
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 60
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_combinatorics
+      - elementary_signal_hits_1
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-an-open-problem
+  title: 'Formal Conjectures: an_open_problem'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem an_open_problem : Transcendental ℝ (π + rexp 1)
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Util/Attributes/Basic.lean
+  - https://example.com/proof
+  - https://mathscinet.ams.org/mathscinet/msc/pdfs/classifications2020.pdf
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Util/Attributes/Basic.lean
+    declaration_name: an_open_problem
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes: []
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 56
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Util
+      - exact_formal_contract
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      - lower_priority_source_Util
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-mem-ico-c1a
+  title: 'Formal Conjectures: mem_Ico_c1a'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem mem_Ico_c1a : answer(sorry) ∈ Set.Ico C1a 1.5029
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OptimizationConstants/1a.lean
+  - https://arxiv.org/abs/0907.1379
+  - https://arxiv.org/abs/2601.16175
+  - https://arxiv.org/abs/2602.07292
+  - https://teorth.github.io/optimizationproblems/constants/1a.html
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/OptimizationConstants/1a.lean
+    declaration_name: mem_Ico_c1a
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '11'
+    - '26'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 55
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_OptimizationConstants
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      - lower_priority_source_OptimizationConstants
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-erdos-1113-variants-filaseta-finch-kozek
+  title: 'Formal Conjectures: erdos_1113.variants.filaseta_finch_kozek'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem erdos_1113.variants.filaseta_finch_kozek\
+    \ :\n    ∀ k, k.IsSierpinskiNumber →\n      k.IsPerfectPower ∨ HasFinitePrimeCoveringSet\
+    \ k\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/1113.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  - https://www.erdosproblems.com/1113
+  - https://www.erdosproblems.com/203
+  - https://www.erdosproblems.com/276
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/ErdosProblems/1113.lean
+    declaration_name: erdos_1113.variants.filaseta_finch_kozek
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 108
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_ErdosProblems
+      - exact_formal_contract
+      - elementary_signal_hits_6
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-general-supercongruence
+  title: 'Formal Conjectures: general_supercongruence'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem general_supercongruence\
+    \ (m : ℕ) : ∃ (exceptions : Finset ℕ), ∀ p, p.Prime →\n    p ∉ exceptions → u\
+    \ m (p - 1) = (0 : ZMod (p ^ 4))\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/357513.lean
+  - https://github.com/google-deepmind/formal-conjectures/commit/9c7f21e7d4445637538bc1817b058b9b3f31bd2b
+  - https://oeis.org/A357513
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/OEIS/357513.lean
+    declaration_name: general_supercongruence
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 97
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_OEIS
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-agrawal-conjecture-variants-popovych
+  title: 'Formal Conjectures: agrawal_conjecture.variants.popovych'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem agrawal_conjecture.variants.popovych\
+    \ :\n  ∀ (n r : ℕ), n > 1 → r > 0 → n.gcd r = 1 →\n    let R := Polynomial (ZMod\
+    \ n)\n    let X : R := Polynomial.X\n    let I : Ideal R := Ideal.span ({X^r -\
+    \ 1} : Set R)\n    Ideal.Quotient.mk I ((X - 1)^n) = Ideal.Quotient.mk I (X^n\
+    \ - 1) →\n    Ideal.Quotient.mk I ((X + 2)^n) = Ideal.Quotient.mk I (X^n + 2)\
+    \ →\n    (n.Prime ∨ (n^2 : ZMod r) = 1)\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Agrawal.lean
+  - https://aimath.org/WWN/primesinp/articles/html/50a/
+  - https://en.wikipedia.org/wiki/Agrawal%27s_conjecture
+  - https://eprint.iacr.org/2009/008.pdf
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Wikipedia/Agrawal.lean
+    declaration_name: agrawal_conjecture.variants.popovych
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 85
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Wikipedia
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-green-1
+  title: 'Formal Conjectures: green_1'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem green_1 : answer(sorry)\
+    \ ↔ ∃ Ω : ℕ → ℝ, atTop.Tendsto Ω atTop ∧\n     ∀ n, ∀ (A : Finset ℕ), (∀ a ∈ A,\
+    \ 0 < a) → A.card = n →\n     ∃ (S : Finset ℕ), S ⊆ A ∧ IsSumFree (S : Set ℕ)\
+    \ ∧ ((n : ℝ) / 3) + Ω n ≤ S.card\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/1.lean
+  - https://people.maths.ox.ac.uk/greenbj/papers/open-problems.pdf#section.1
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/GreensOpenProblems/1.lean
+    declaration_name: green_1
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_GreensOpenProblems
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-ep-972
+  title: 'Erdős Problem #972'
+  source: UnsolvedMath
+  statement: Let $\alpha>1$ be irrational. Are there infinitely many primes $p$ such
+    that $\lfloor p\alpha\rfloor$ is also prime?
+  domain: number_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/EP-972
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 22
+    source_id: EP-972
+    status: open
+    difficulty_level: 3
+    category: Number Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 83
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_number_theory
+      - elementary_signal_hits_4
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-graph-005
+  title: Graph Coloring Game Monotonicity
+  source: UnsolvedMath
+  statement: If Alice has a winning strategy for the vertex coloring game with k colors,
+    does she have one for k+1 colors?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GRAPH-005
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GRAPH-005
+    status: open
+    difficulty_level: 3
+    category: Graph Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_graph_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-conjecture19
+  title: 'Formal Conjectures: conjecture19'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem conjecture19 (G : SimpleGraph\
+    \ α) [Nontrivial α] (h_conn : G.Connected) :\n    ⌊(∑ v ∈ Finset.univ, ((G.eccentricity\
+    \ v).toNat : ℝ)) / (Fintype.card α : ℝ) +\n      sSup (Set.range (indepNeighbors\
+    \ G))⌋ ≤ b G\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture19.lean
+  - http://cms.dt.uh.edu/faculty/delavinae/research/wowII/
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture19.lean
+    declaration_name: conjecture19
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 74
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_WrittenOnTheWallII
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-game-004
+  title: Tic-Tac-Toe Winning Dimension
+  source: UnsolvedMath
+  statement: Given the width of a tic-tac-toe board, what is the smallest dimension
+    guaranteeing X has a winning strategy?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GAME-004
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 7
+    source_id: GAME-004
+    status: open
+    difficulty_level: 3
+    category: Combinatorics
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_combinatorics
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-alg-029
+  title: Infinitude of Leinster Groups
+  source: UnsolvedMath
+  statement: Are there infinitely many Leinster groups?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/ALG-029
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 5
+    source_id: ALG-029
+    status: open
+    difficulty_level: 3
+    category: Algebra
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 67
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_algebra
+      - elementary_signal_hits_1
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-guy-a9
+  title: General Patterns of Consecutive Primes
+  source: UnsolvedMath
+  statement: For any given pattern of primes with no congruence obstructions, are
+    there infinitely many sets of consecutive primes with this pattern?
+  domain: number_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GUY-A9
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 10
+    source_id: GUY-A9
+    status: open
+    difficulty_level: 4
+    category: Number Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 72
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_number_theory
+      - elementary_signal_hits_5
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-geo-005
+  title: Bellman's Lost in a Forest Problem
+  source: UnsolvedMath
+  statement: What is the shortest path that guarantees escape from a forest of known
+    shape and size, starting from an unknown location?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GEO-005
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 4
+    source_id: GEO-005
+    status: open
+    difficulty_level: 3
+    category: Geometry
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_geometry
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-graph-008
+  title: Cereceda's Conjecture
+  source: UnsolvedMath
+  statement: For k-degenerate graphs, can any (k+2)-coloring be transformed to any
+    other in polynomial steps via single-vertex recolorings?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GRAPH-008
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GRAPH-008
+    status: open
+    difficulty_level: 4
+    category: Graph Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 69
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_graph_theory
+      - elementary_signal_hits_4
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-mathoverflow-21003
+  title: 'Formal Conjectures: mathoverflow_21003'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem mathoverflow_21003 :\n\
+    \    answer(sorry) ↔ ∃ f : MvPolynomial (Fin 2) ℚ, Function.Bijective fun x ↦\
+    \ f.eval x\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Mathoverflow/21003.lean
+  - https://mathoverflow.net/questions/21003
+  - https://mathoverflow.net/users/5098/z-h
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Mathoverflow/21003.lean
+    declaration_name: mathoverflow_21003
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '12'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Mathoverflow
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-isaccumulationpoint-three-halves-pow
+  title: 'Formal Conjectures: isAccumulationPoint_three_halves_pow'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem isAccumulationPoint_three_halves_pow\
+    \ :\n    IsAccumulationPoint answer(sorry) (fun n => Int.fract <| (3 / 2 : ℝ)^n)\n\
+    ```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+  - https://en.wikipedia.org/wiki/Equidistributed_sequence
+  - https://store.doverpublications.com/products/9780486149998
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+    declaration_name: isAccumulationPoint_three_halves_pow
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 67
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Books
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-alg-008
+  title: Finite Lattice Representation Problem
+  source: UnsolvedMath
+  statement: Is every finite lattice isomorphic to the congruence lattice of some
+    finite algebra?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/ALG-008
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 9
+    source_id: ALG-008
+    status: open
+    difficulty_level: 4
+    category: Algebra
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 63
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_algebra
+      - elementary_signal_hits_2
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-exists-hasaddvcndimatmost-n-of-convex-rn-add-one
+  title: 'Formal Conjectures: exists_hasAddVCNDimAtMost_n_of_convex_rn_add_one'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\nlemma exists_hasAddVCNDimAtMost_n_of_convex_rn_add_one\
+    \ (n : ℕ) :\n    ∃ d : ℕ, ∀ C : Set (Fin (n + 1) → ℝ), Convex ℝ C → HasAddVCNDimAtMost\
+    \ C n d\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Other/VCDimConvex.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Other/VCDimConvex.lean
+    declaration_name: exists_hasAddVCNDimAtMost_n_of_convex_rn_add_one
+    declaration_kind: lemma
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '52'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 65
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Other
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-geo-006
+  title: The Knaster Problem
+  source: UnsolvedMath
+  statement: Can a solid cube be completely covered by finitely many smaller homothetic
+    cubes with ratio less than 1, such that the interiors are disjoint?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GEO-006
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 4
+    source_id: GEO-006
+    status: open
+    difficulty_level: 4
+    category: Geometry
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 60
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_geometry
+      - elementary_signal_hits_1
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-prime-tuples-conjecture
+  title: 'Formal Conjectures: prime_tuples_conjecture'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem prime_tuples_conjecture\
+    \ {k : ℕ} (hk : 2 ≤ k) (a : Fin k → ℕ+) (b : Fin k → ℕ)\n    (hab : ∀ p, p.Prime\
+    \ → ∃ n, ¬ p ∣ ∏ i, (a i * n + b i)) :\n    Set.Infinite {n | ∀ i : Fin k, (a\
+    \ i * n + b i).Prime}\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Paper/PrimeTuples.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Paper/PrimeTuples.lean
+    declaration_name: prime_tuples_conjecture
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 59
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Paper
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      - lower_priority_source_Paper
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-flagged-open-missing-docstring
+  title: 'Formal Conjectures: flagged_open_missing_docstring'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem flagged_open_missing_docstring : True
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Util/Linters/CategoryDocstringLinterTest.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Util/Linters/CategoryDocstringLinterTest.lean
+    declaration_name: flagged_open_missing_docstring
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes: []
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 56
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Util
+      - exact_formal_contract
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      - lower_priority_source_Util
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-mem-ioc-c1a
+  title: 'Formal Conjectures: mem_Ioc_c1a'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem mem_Ioc_c1a : answer(sorry) ∈ Set.Ioc 1.2748 C1a
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OptimizationConstants/1a.lean
+  - https://arxiv.org/abs/0907.1379
+  - https://arxiv.org/abs/2601.16175
+  - https://arxiv.org/abs/2602.07292
+  - https://teorth.github.io/optimizationproblems/constants/1a.html
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/OptimizationConstants/1a.lean
+    declaration_name: mem_Ioc_c1a
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '11'
+    - '26'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 55
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_OptimizationConstants
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      - lower_priority_source_OptimizationConstants
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-erdos-10-variants-grechuk
+  title: 'Formal Conjectures: erdos_10.variants.grechuk'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem erdos_10.variants.grechuk\
+    \ :\n    Set.Infinite <| {n : ℕ | Even n} \\ sumPrimeAndTwoPows 3\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/10.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  - https://www.erdosproblems.com/10
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/ErdosProblems/10.lean
+    declaration_name: erdos_10.variants.grechuk
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 105
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_ErdosProblems
+      - exact_formal_contract
+      - elementary_signal_hits_5
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-nopowerpartitionnumber
+  title: 'Formal Conjectures: noPowerPartitionNumber'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem noPowerPartitionNumber : answer(sorry) ↔ ∀ k, ¬IsPerfectPower (p k)
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/41.lean
+  - https://oeis.org/A41
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/OEIS/41.lean
+    declaration_name: noPowerPartitionNumber
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 97
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_OEIS
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-dickson-conjecture
+  title: 'Formal Conjectures: dickson_conjecture'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem dickson_conjecture (fs\
+    \ : Finset ℤ[X]) (hfs : ∀ f ∈ fs, f.degree = 1 ∧ BunyakovskyCondition f)\n   \
+    \ (hfs' : SchinzelCondition fs) : Infinite {n : ℕ | ∀ f ∈ fs, (f.eval (n : ℤ)).natAbs.Prime}\n\
+    ```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Dickson.lean
+  - https://archive.org/details/historyoftheoryo01dickuoft
+  - https://arxiv.org/pdf/0906.3850
+  - https://en.wikipedia.org/wiki/Dickson%27s_conjecture
+  - https://mathworld.wolfram.com/DicksonsConjecture.html
+  - https://oeis.org/wiki/Dickson%27s_conjecture
+  - https://t5k.org/glossary/xpage/DicksonsConjecture.html
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Wikipedia/Dickson.lean
+    declaration_name: dickson_conjecture
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 85
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Wikipedia
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-green-14-variant-2r2
+  title: 'Formal Conjectures: green_14_variant_2r2'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem green_14_variant_2r2 :\n\
+    \    -- Provide a pair (r, associated coloring) that avoids the monochromatic\
+    \ APs\n    -- To show $W(3, r) > 2r^2 - 1$, we need a coloring of $\\{1, \\ldots,\
+    \ 2r^2 - 1\\}$\n    -- that avoids monochromatic APs of length 3 and $r$.\n  \
+    \  let ans : Σ r : ℕ, Icc 1 (2 * r^2 - 1) → Fin 2 := answer(sorry)\n    let r\
+    \ := ans.1\n    let c := ans.2\n    3 ≤ r ∧\n    ¬ ((∃ s : Finset (Icc 1 (2 *\
+    \ r^2 - 1)), ({(s' : ℕ) | s' ∈ s}).IsAPOfLength 3 ∧ ∀ x ∈ s, c x = 0) ∨\n    \
+    \   (∃ s : Finset (Icc 1 (2 * r^2 - 1)), ({(s' : ℕ) | s' ∈ s}).IsAPOfLength r\
+    \ ∧ ∀ x ∈ s, c x = 1))\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/14.lean
+  - https://people.maths.ox.ac.uk/greenbj/papers/open-problems.pdf#problem.14
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/GreensOpenProblems/14.lean
+    declaration_name: green_14_variant_2r2
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_GreensOpenProblems
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-nt-024
+  title: Erdős-Straus Conjecture
+  source: UnsolvedMath
+  statement: For every integer $n \geq 2$, can $\frac{4}{n}$ be expressed as the sum
+    of three unit fractions $\frac{1}{x} + \frac{1}{y} + \frac{1}{z}$?
+  domain: number_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/NT-024
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 4
+    source_id: NT-024
+    status: open
+    difficulty_level: 3
+    category: Number Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 83
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_number_theory
+      - elementary_signal_hits_4
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-graph-051
+  title: Imbalance Conjecture
+  source: UnsolvedMath
+  statement: If every edge has imbalance ≥1, is the multiset of edge imbalances always
+    graphic?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GRAPH-051
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 9
+    source_id: GRAPH-051
+    status: open
+    difficulty_level: 3
+    category: Graph Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_graph_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-conjecture200
+  title: 'Formal Conjectures: conjecture200'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem conjecture200 (G : SimpleGraph\
+    \ α) (h : G.Connected)\n    (htree : (largestInducedTreeSize G : ℝ) = ⌈1 + l G⌉)\
+    \ :\n    ∃ a b : α, ∃ p : G.Walk a b, p.IsHamiltonian\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture200.lean
+  - http://cms.dt.uh.edu/faculty/delavinae/research/wowII/
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture200.lean
+    declaration_name: conjecture200
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 74
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_WrittenOnTheWallII
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-game-010
+  title: Rendezvous Problem
+  source: UnsolvedMath
+  statement: What is the optimal strategy for two agents to meet on a network without
+    communication?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GAME-010
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GAME-010
+    status: open
+    difficulty_level: 3
+    category: Combinatorics
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_combinatorics
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-nt-033
+  title: Grimm's Conjecture
+  source: UnsolvedMath
+  statement: Can each element of a set of consecutive composite numbers be assigned
+    a distinct prime divisor?
+  domain: number_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/NT-033
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 6
+    source_id: NT-033
+    status: open
+    difficulty_level: 4
+    category: Number Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 72
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_number_theory
+      - elementary_signal_hits_5
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-geo-017
+  title: The Closed Curve Problem
+  source: UnsolvedMath
+  statement: What are necessary and sufficient conditions for an integral curve defined
+    by two periodic functions to be closed?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GEO-017
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 5
+    source_id: GEO-017
+    status: open
+    difficulty_level: 3
+    category: Geometry
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_geometry
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-graph-010
+  title: Gyárfás-Sumner Conjecture
+  source: UnsolvedMath
+  statement: Is every graph class defined by excluding one fixed tree as an induced
+    subgraph χ-bounded?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GRAPH-010
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GRAPH-010
+    status: open
+    difficulty_level: 4
+    category: Graph Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 66
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_graph_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-rectangles-cover-unit-square
+  title: 'Formal Conjectures: rectangles_cover_unit_square'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem rectangles_cover_unit_square\
+    \ :\n    answer(sorry) ↔ ∃ c : Configuration, ∀ p ∈ unitSquare, ∃ n, p ∈ (c.rect\
+    \ n).toSet\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Mathoverflow/34145.lean
+  - https://mathoverflow.net/q/34145
+  - https://mathoverflow.net/users/7507/kaveh
+  - https://www.apache.org/licenses/LICENSE-2.0
+  - https://www.sciencedirect.com/science/article/pii/0097316594901163
+  - https://www.sciencedirect.com/science/article/pii/S0167506008706009
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Mathoverflow/34145.lean
+    declaration_name: rectangles_cover_unit_square
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '51'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Mathoverflow
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-isequidistributedmoduloone-three-halves-pow
+  title: 'Formal Conjectures: isEquidistributedModuloOne_three_halves_pow'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem isEquidistributedModuloOne_three_halves_pow\
+    \ :\n    IsEquidistributedModuloOne (fun n => (3 / 2 : ℝ)^n)\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+  - https://en.wikipedia.org/wiki/Equidistributed_sequence
+  - https://store.doverpublications.com/products/9780486149998
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+    declaration_name: isEquidistributedModuloOne_three_halves_pow
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 67
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Books
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-alg-021
+  title: The Pierce-Birkhoff Conjecture
+  source: UnsolvedMath
+  statement: 'Is every piecewise-polynomial function $f: \mathbb{R}^n \to \mathbb{R}$
+    the maximum of finitely many minimums of finite collections of polynomials?'
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/ALG-021
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 5
+    source_id: ALG-021
+    status: open
+    difficulty_level: 4
+    category: Algebra
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 63
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_algebra
+      - elementary_signal_hits_2
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-finite-equation677-implies-equation255
+  title: 'Formal Conjectures: Finite.Equation677_implies_Equation255'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem Finite.Equation677_implies_Equation255\
+    \ (G : Type) [Magma G] [Finite G]\n    (h : Equation677 G) : Equation255 G\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Other/EquationalTheories_677_255.lean
+  - https://leanprover.zulipchat.com/#narrow/channel/458659-Equational/topic/FINITE.3A.20677.20-.3E.20255
+  - https://teorth.github.io/equational_theories/implications/?677&finite
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Other/EquationalTheories_677_255.lean
+    declaration_name: Finite.Equation677_implies_Equation255
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '8'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 65
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Other
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-geo-022
+  title: The Hadwiger Covering Conjecture
+  source: UnsolvedMath
+  statement: Can every $n$-dimensional convex body be covered by at most $2^n$ smaller
+    homothetic copies?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GEO-022
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 5
+    source_id: GEO-022
+    status: open
+    difficulty_level: 4
+    category: Geometry
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 60
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_geometry
+      - elementary_signal_hits_1
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-problem-4-1
+  title: 'Formal Conjectures: problem_4_1'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem problem_4_1 :\n    answer(sorry)\
+    \ ↔ ∀ (Ω : Set ℝ) (_ : IsFiniteUnionOfIntervals Ω)\n      (ν : Measure ℝ) (_ :\
+    \ IsWeakTilingMeasure Ω ν), HasBoundedDensity ν.support\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Paper/WeakTiling.lean
+  - https://arxiv.org/abs/2506.23631
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Paper/WeakTiling.lean
+    declaration_name: problem_4_1
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '42'
+    - '46'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 59
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Paper
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      - lower_priority_source_Paper
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-not-flagged-with-docstring
+  title: 'Formal Conjectures: not_flagged_with_docstring'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem not_flagged_with_docstring : True
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Util/Linters/CategoryDocstringLinterTest.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Util/Linters/CategoryDocstringLinterTest.lean
+    declaration_name: not_flagged_with_docstring
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes: []
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 56
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Util
+      - exact_formal_contract
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      - lower_priority_source_Util
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-erdos-184-variants-covering
+  title: 'Formal Conjectures: erdos_184.variants.covering'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem erdos_184.variants.covering\
+    \ :\n    answer(sorry) ↔\n      ∀ {V : Type} [Fintype V] [DecidableEq V] [Nonempty\
+    \ V] (G : SimpleGraph V),\n      ∃ (D : Finset G.Subgraph),\n        (∀ H ∈ D,\
+    \ IsCycleOrEdge H.coe) ∧\n        (⋃ H ∈ D, H.edgeSet) = G.edgeSet ∧\n       \
+    \ (D.card : ℝ) ≤ (Fintype.card V : ℝ) - 1\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/184.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  - https://www.erdosproblems.com/184
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/ErdosProblems/184.lean
+    declaration_name: erdos_184.variants.covering
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 105
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_ErdosProblems
+      - exact_formal_contract
+      - elementary_signal_hits_5
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-a-infinite
+  title: 'Formal Conjectures: a.infinite'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem a.infinite : {a n | n}.Infinite
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/228828.lean
+  - https://oeis.org/A228828
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/OEIS/228828.lean
+    declaration_name: a.infinite
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 94
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_OEIS
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-infinite-fermat-composite
+  title: 'Formal Conjectures: infinite_fermat_composite'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem infinite_fermat_composite : answer(sorry) ↔ Infinite {n : ℕ | ¬Prime n.fermatNumber}
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Fermat.lean
+  - https://en.wikipedia.org/wiki/Fermat_number
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Wikipedia/Fermat.lean
+    declaration_name: infinite_fermat_composite
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 85
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Wikipedia
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-green-2
+  title: 'Formal Conjectures: green_2'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem green_2 : answer(sorry)\
+    \ ↔\n    ∀ᶠ n : ℕ in atTop, ∀ A : Finset ℤ, A.card = n →\n      (maxRestrictedSumAvoidingSubsetSize\
+    \ A : ℝ) ≥ (Real.log n) ^ 100\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/2.lean
+  - https://people.maths.ox.ac.uk/greenbj/papers/open-problems.pdf#problem.2
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/GreensOpenProblems/2.lean
+    declaration_name: green_2
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_GreensOpenProblems
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-guy-a14a
+  title: Pomerance's Questions on Good Primes
+  source: UnsolvedMath
+  statement: Call prime $p_n$ good if $p_n^2 > p_{n-i}p_{n+i}$ for all $i$, $1 \le
+    i \le n-1$. Is it true that the set of $n$ for which $p_n$ is good has density
+    0
+  domain: number_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GUY-A14a
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 11
+    source_id: GUY-A14a
+    status: open
+    difficulty_level: 3
+    category: Number Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_number_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-gt-002
+  title: Reconstruction Conjecture
+  source: UnsolvedMath
+  statement: Every finite simple graph on at least 3 vertices is uniquely determined
+    by its vertex-deleted subgraphs.
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GT-002
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 1
+    source_id: GT-002
+    status: open
+    difficulty_level: 3
+    category: Graph Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_graph_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-conjecture327
+  title: 'Formal Conjectures: conjecture327'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem conjecture327 (G : SimpleGraph\
+    \ α) [DecidableRel G.Adj] (hG : G.Connected)\n    (h : 3 * G.dominationNumber\
+    \ = G.indepDominationNumber) :\n    IsWellTotallyDominated G\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture327.lean
+  - http://cms.dt.uh.edu/faculty/delavinae/research/wowII/
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture327.lean
+    declaration_name: conjecture327
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 74
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_WrittenOnTheWallII
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-game-008
+  title: Octal Games Periodicity
+  source: UnsolvedMath
+  statement: Are the nim-sequences of all finite octal games eventually periodic?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GAME-008
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GAME-008
+    status: open
+    difficulty_level: 3
+    category: Combinatorics
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 70
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_combinatorics
+      - elementary_signal_hits_2
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-guy-a6
+  title: Consecutive Primes in Arithmetic Progression
+  source: UnsolvedMath
+  statement: Are there arbitrarily long arithmetic progressions of consecutive primes?
+    That is, for any positive integer $k$, do there exist $k$ consecutive primes
+  domain: number_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GUY-A6
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 10
+    source_id: GUY-A6
+    status: open
+    difficulty_level: 4
+    category: Number Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 69
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_number_theory
+      - elementary_signal_hits_4
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-geom-013
+  title: Tammes Problem
+  source: UnsolvedMath
+  statement: For n > 14 points (except n=24), what is the maximum minimum distance
+    between points on a unit sphere?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GEOM-013
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GEOM-013
+    status: open
+    difficulty_level: 3
+    category: Geometry
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_geometry
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-graph-014
+  title: Total Coloring Conjecture
+  source: UnsolvedMath
+  statement: Is the total chromatic number of every graph at most Δ + 2, where Δ is
+    the maximum degree?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GRAPH-014
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GRAPH-014
+    status: open
+    difficulty_level: 4
+    category: Graph Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 66
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_graph_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-rectangles-pack-unit-square
+  title: 'Formal Conjectures: rectangles_pack_unit_square'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem rectangles_pack_unit_square\
+    \ :\n    answer(sorry) ↔ ∃ c : Configuration, (∀ n, (c.rect n).toSet ⊆ unitSquare)\
+    \ ∧ c.IsPacking\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Mathoverflow/34145.lean
+  - https://mathoverflow.net/q/34145
+  - https://mathoverflow.net/users/7507/kaveh
+  - https://www.apache.org/licenses/LICENSE-2.0
+  - https://www.sciencedirect.com/science/article/pii/0097316594901163
+  - https://www.sciencedirect.com/science/article/pii/S0167506008706009
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Mathoverflow/34145.lean
+    declaration_name: rectangles_pack_unit_square
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '51'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Mathoverflow
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-isequidistributedmoduloone-transcendental-three-halves-pow
+  title: 'Formal Conjectures: isEquidistributedModuloOne_transcendental_three_halves_pow'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem isEquidistributedModuloOne_transcendental_three_halves_pow\
+    \ (x : ℝ)\n    (hx : Transcendental ℚ x) :\n    IsEquidistributedModuloOne (fun\
+    \ n ↦ x * (3 / 2 : ℝ) ^ n)\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+  - https://en.wikipedia.org/wiki/Equidistributed_sequence
+  - https://store.doverpublications.com/products/9780486149998
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+    declaration_name: isEquidistributedModuloOne_transcendental_three_halves_pow
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 67
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Books
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-alg-035
+  title: Dade's Conjecture
+  source: UnsolvedMath
+  statement: Is there a relationship between the numbers of irreducible characters
+    in blocks of a finite group and its local subgroups?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/ALG-035
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 5
+    source_id: ALG-035
+    status: open
+    difficulty_level: 4
+    category: Algebra
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 63
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_algebra
+      - elementary_signal_hits_2
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-hasaddvcndimatmost-n-one-of-convex-rn-add-one
+  title: 'Formal Conjectures: hasAddVCNDimAtMost_n_one_of_convex_rn_add_one'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\nlemma hasAddVCNDimAtMost_n_one_of_convex_rn_add_one\
+    \ {n : ℕ} (hn : 2 ≤ n) {C : Set (Fin (n + 1) → ℝ)}\n    (hC : Convex ℝ C) : HasAddVCNDimAtMost\
+    \ C n 1\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Other/VCDimConvex.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Other/VCDimConvex.lean
+    declaration_name: hasAddVCNDimAtMost_n_one_of_convex_rn_add_one
+    declaration_kind: lemma
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '52'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 65
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Other
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-geo-023
+  title: The Happy Ending Problem
+  source: UnsolvedMath
+  statement: What is the minimum number of points in the plane needed to guarantee
+    a convex $n$-gon?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GEO-023
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 5
+    source_id: GEO-023
+    status: open
+    difficulty_level: 4
+    category: Geometry
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 60
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_geometry
+      - elementary_signal_hits_1
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-reed-omega-delta-chi-conjecture-for-finite-graphs
+  title: 'Formal Conjectures: reed_omega_delta_chi_conjecture_for_finite_graphs'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem reed_omega_delta_chi_conjecture_for_finite_graphs\
+    \ :\n  ∀ {V : Type} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel\
+    \ G.Adj],\n    let χ := G.chromaticNumber\n    let ω := G.cliqueNum\n    let Δ\
+    \ := G.maxDegree\n    2 * χ ≤ ω + Δ + 2\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Paper/ReedOmegaDeltaChi.lean
+  - http://www.openproblemgarden.org/op/reeds_omega_delta_and_chi_conjecture
+  - https://mathoverflow.net/questions/37923
+  - https://mathoverflow.net/users/4580/andrew-d-king
+  - https://onlinelibrary.wiley.com/doi/10.1002/(SICI
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Paper/ReedOmegaDeltaChi.lean
+    declaration_name: reed_omega_delta_chi_conjecture_for_finite_graphs
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 59
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Paper
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      - lower_priority_source_Paper
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-erdos-10
+  title: 'Formal Conjectures: erdos_10'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem erdos_10 : answer(sorry) ↔ ∃ k, sumPrimeAndTwoPows k = Set.univ \ {0,
+    1}
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/10.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  - https://www.erdosproblems.com/10
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/ErdosProblems/10.lean
+    declaration_name: erdos_10
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 102
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_ErdosProblems
+      - exact_formal_contract
+      - elementary_signal_hits_4
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-a-unbounded
+  title: 'Formal Conjectures: a_unbounded'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem a_unbounded : ¬BddAbove (Set.range fun n ↦ a n / (Real.log n * Real.log
+    (Real.log n)))
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/34693.lean
+  - https://oeis.org/A34693
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/OEIS/34693.lean
+    declaration_name: a_unbounded
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 94
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_OEIS
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-infinite-fermat-primes
+  title: 'Formal Conjectures: infinite_fermat_primes'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem infinite_fermat_primes : answer(sorry) ↔ Infinite {n : ℕ | Prime n.fermatNumber}
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Fermat.lean
+  - https://en.wikipedia.org/wiki/Fermat_number
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Wikipedia/Fermat.lean
+    declaration_name: infinite_fermat_primes
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 85
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Wikipedia
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-green-26-variants-open
+  title: 'Formal Conjectures: green_26.variants.open'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem green_26.variants.open\
+    \ :\n    answer(sorry) ↔ ∀ (p : ℕ) [Fact p.Prime],\n      (∃ C, ∀ n, ∀ A : Fin\
+    \ C → Set (\U0001D53D p n), (∀ i, IsCube (A i)) →\n      ∑ i, A i = univ)\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/26.lean
+  - https://people.maths.ox.ac.uk/greenbj/papers/open-problems.pdf#problem.26
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/GreensOpenProblems/26.lean
+    declaration_name: green_26.variants.open
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '11'
+    - '15'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_GreensOpenProblems
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-guy-a19a
+  title: Erdős Conjecture on $n - 2^k$ Prime
+  source: UnsolvedMath
+  statement: Are 4, 7, 15, 21, 45, 75, and 105 the only values of $n$ for which $n
+    - 2^k$ is prime for all $k$ such that $2 \le 2^k < n$?
+  domain: number_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GUY-A19a
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 11
+    source_id: GUY-A19a
+    status: open
+    difficulty_level: 3
+    category: Number Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_number_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-gt-003
+  title: The Graceful Tree Conjecture
+  source: UnsolvedMath
+  statement: 'Every tree can be gracefully labeled: vertices can be assigned distinct
+    labels from $\{0, 1, \ldots, |E|\}$ such that edge labels (absolute difference'
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GT-003
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 1
+    source_id: GT-003
+    status: open
+    difficulty_level: 3
+    category: Graph Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_graph_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-conjecture194
+  title: 'Formal Conjectures: conjecture194'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem conjecture194 (G : SimpleGraph\
+    \ α) (h : G.Connected)\n    (hα : (G.indepNum : ℝ) ≤ 1 + l G) :\n    ∃ a b : α,\
+    \ ∃ p : G.Walk a b, p.IsHamiltonian\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture194.lean
+  - http://cms.dt.uh.edu/faculty/delavinae/research/wowII/
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture194.lean
+    declaration_name: conjecture194
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_WrittenOnTheWallII
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-game-009
+  title: Grundy's Game Periodicity
+  source: UnsolvedMath
+  statement: Is the nim-sequence of Grundy's game eventually periodic?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GAME-009
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GAME-009
+    status: open
+    difficulty_level: 3
+    category: Combinatorics
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 67
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_combinatorics
+      - elementary_signal_hits_1
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-guy-a8a
+  title: Erdős $5000 Problem on Prime Gaps
+  source: UnsolvedMath
+  statement: Is it true that for infinitely many $n$, $d_n = p_{n+1} - p_n > c \ln
+    n \ln \ln n \ln \ln \ln \ln n / (\ln \ln \ln n)^2$ for arbitrarily large constan
+  domain: number_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GUY-A8a
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 10
+    source_id: GUY-A8a
+    status: open
+    difficulty_level: 4
+    category: Number Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 69
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_number_theory
+      - elementary_signal_hits_4
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-geom-025
+  title: Bellman's Lost-in-a-Forest Problem
+  source: UnsolvedMath
+  statement: What is the shortest path that guarantees reaching the boundary of a
+    given shape, starting from an unknown point with unknown orientation?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GEOM-025
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GEOM-025
+    status: open
+    difficulty_level: 3
+    category: Geometry
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_geometry
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-graph-023
+  title: Conference Graph Existence
+  source: UnsolvedMath
+  statement: Does there exist a conference graph for every number of vertices $v >
+    1$ where $v \equiv 1 \pmod{4}$ and v is an odd sum of two squares?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GRAPH-023
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 8
+    source_id: GRAPH-023
+    status: open
+    difficulty_level: 4
+    category: Graph Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 66
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_graph_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-complexity-two-pow
+  title: 'Formal Conjectures: complexity_two_pow'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem complexity_two_pow : answer(sorry) ↔ ∀ n : ℕ, 0 < n → complexity (2 ^
+    n) = 2 * n
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Mathoverflow/75792.lean
+  - http://arxiv.org/abs/1203.6462
+  - http://arxiv.org/abs/1207.4841
+  - https://arxiv.org/abs/1207.4841
+  - https://en.wikipedia.org/wiki/Integer_complexity
+  - https://mathoverflow.net/a/75792
+  - https://mathoverflow.net/users/5583
+  - https://oeis.org/A5245
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Mathoverflow/75792.lean
+    declaration_name: complexity_two_pow
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 68
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Mathoverflow
+      - exact_formal_contract
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-problem-10-5
+  title: 'Formal Conjectures: problem_10_5'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem problem_10_5 (K : IntermediateField\
+    \ ℚ ℝ) [FiniteDimensional ℚ K]\n    {ε : ℝ} (hε : 0 < ε) :\n    ∃ t : ℕ → K, (∀\
+    \ n, 0 < (t n : ℝ)) ∧\n      IsLacunaryReal (fun k => (t k : ℝ)) ∧\n      ∀ ξ\
+    \ : ℝ, ξ ∉ K →\n        (1 - ε) ≤ limsup (fun n => Int.fract (ξ * (t n : ℝ)))\
+    \ atTop\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Books/BugeaudDistributionModuloOne/Problem10_5.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Books/BugeaudDistributionModuloOne/Problem10_5.lean
+    declaration_name: problem_10_5
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 67
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Books
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-hil-014
+  title: 'Hilbert''s 14th Problem: Finite Generation of Rings'
+  source: UnsolvedMath
+  statement: Is the ring of invariants of a linear algebraic group acting on a polynomial
+    ring always finitely generated?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/HIL-014
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 2
+    source_id: HIL-014
+    status: open
+    difficulty_level: 4
+    category: Algebra
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 63
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_algebra
+      - elementary_signal_hits_2
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-hasaddvcndimatmost-two-one-of-convex-r3
+  title: 'Formal Conjectures: hasAddVCNDimAtMost_two_one_of_convex_r3'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\nlemma hasAddVCNDimAtMost_two_one_of_convex_r3\
+    \ {C : Set ℝ³} (hC : Convex ℝ C) :\n    HasAddVCNDimAtMost C 2 1\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Other/VCDimConvex.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Other/VCDimConvex.lean
+    declaration_name: hasAddVCNDimAtMost_two_one_of_convex_r3
+    declaration_kind: lemma
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    - '52'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 65
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Other
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-geo-026
+  title: The Unit Distance Problem
+  source: UnsolvedMath
+  statement: What is the maximum number of unit distances determined by $n$ points
+    in the plane?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L4
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GEO-026
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 5
+    source_id: GEO-026
+    status: open
+    difficulty_level: 4
+    category: Geometry
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 60
+      tier: C_manual_review
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L4_research_entry
+      - target_domain_geometry
+      - elementary_signal_hits_1
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-conj-7-1
+  title: 'Formal Conjectures: conj_7_1'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem conj_7_1 (x y q : ℚ) (n\
+    \ : ℕ) (fus_x : IsFusible x) (fus_y : IsFusible y) (lt : x < y)\n    (nmem_Ioo\
+    \ : ∀ z, IsFusible z → z ∉ Set.Ioo x y) :\n    let m := y - x\n    let ℓ (n :\
+    \ ℕ) := y + 1 - m / 2 ^ n\n    IsFusible q → q ∈ Set.Ico (ℓ n) (ℓ (n + 1)) → IsFusible\
+    \ (2 * q - 1 - x - (2 - 1 / 2 ^ n) * m)\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Paper/FusibleNumber.lean
+  - https://arxiv.org/abs/2003.14342
+  - https://doi.org/10.46298/lmcs-18%283%3A6%292022
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Paper/FusibleNumber.lean
+    declaration_name: conj_7_1
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 56
+      tier: C_manual_review
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Paper
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      - lower_priority_source_Paper
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-erdos-1059
+  title: 'Formal Conjectures: erdos_1059'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem erdos_1059 :\n    answer(sorry)\
+    \ ↔ Set.Infinite {p | p.Prime ∧ AllFactorialSubtractionsComposite p}\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/1059.lean
+  - https://www.apache.org/licenses/LICENSE-2.0
+  - https://www.erdosproblems.com/1059
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/ErdosProblems/1059.lean
+    declaration_name: erdos_1059
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 102
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_ErdosProblems
+      - exact_formal_contract
+      - elementary_signal_hits_4
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-comesfromprimequadruple-of-a
+  title: 'Formal Conjectures: comesFromPrimeQuadruple_of_a'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem comesFromPrimeQuadruple_of_a {n : ℕ} (h : a n) : ComesFromPrimeQuadruple
+    n
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/56777.lean
+  - https://oeis.org/A56777
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/OEIS/56777.lean
+    declaration_name: comesFromPrimeQuadruple_of_a
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 94
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_OEIS
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-infinite-pellnumber-primes
+  title: 'Formal Conjectures: infinite_pellNumber_primes'
+  source: Google DeepMind Formal Conjectures
+  statement: 'Formal Lean declaration:
+
+
+    ```lean
+
+    theorem infinite_pellNumber_primes : Infinite {n : ℕ | Prime (pellNumber n)}
+
+    ```'
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Pell.lean
+  - https://en.wikipedia.org/wiki/Pell_number#Primes_and_squares
+  - https://oeis.org/A129
+  - https://oeis.org/A86383
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/Wikipedia/Pell.lean
+    declaration_name: infinite_pellNumber_primes
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '11'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 85
+      tier: A_active_scout_first
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_Wikipedia
+      - exact_formal_contract
+      - elementary_signal_hits_3
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-green-28
+  title: 'Formal Conjectures: green_28'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem green_28 : answer(sorry)\
+    \ ↔\n  ∀ (X Y : PMF ℤ), -- marginals, independence is built into indepSum\n  \
+    \  X.support.Finite ∧ Y.support.Finite ∧ IsUniformOnSupport (indepSum X Y) →\n\
+    \      IsUniformOnSupport X ∧ IsUniformOnSupport Y\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/28.lean
+  - https://math.stackexchange.com/questions/3325163/
+  - https://math.stackexchange.com/users/403309/emmanuel-amiot
+  - https://mathoverflow.net/questions/339137/why-do-polynomials-with-coefficients-0-1-like-to-have-only-factors-with-0-1
+  - https://mathoverflow.net/users/136794/sil
+  - https://people.maths.ox.ac.uk/greenbj/papers/open-problems.pdf#problem.28
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/GreensOpenProblems/28.lean
+    declaration_name: green_28
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '60'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_GreensOpenProblems
+      - exact_formal_contract
+      - elementary_signal_hits_2
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-guy-a20
+  title: Density of Symmetric Primes
+  source: UnsolvedMath
+  statement: Given pairs of odd primes $p, q$, define $S(q,p)$ as the number of lattice
+    points $(m, n)$ in the rectangle $0 < m < p/2$, $0 < n < q/2$ below the dia
+  domain: number_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GUY-A20
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 11
+    source_id: GUY-A20
+    status: open
+    difficulty_level: 3
+    category: Number Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_number_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: unsolvedmath-gt-008
+  title: Cereceda's Conjecture
+  source: UnsolvedMath
+  statement: For any $k$-chromatic graph, can its $k$-colorings be transformed into
+    each other by recoloring one vertex at a time, staying within $k$ colors, in po
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - open_problem_index
+  - difficulty_L3
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from the UnsolvedMath browse index. The index entry may contain
+    a shortened statement; fetch the detail page before formal proof work.
+  references:
+  - https://www.unsolvedmath.com/problems/GT-008
+  hypotheses:
+  - Verify the exact statement and current status against the source page before any
+    proof attempt.
+  recommended_strategy:
+  - Use this bank for triage, difficulty filtering, and source recovery.
+  - Promote selected entries to curated problem projects only after detail-page validation.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_page: 4
+    source_id: GT-008
+    status: open
+    difficulty_level: 3
+    category: Graph Theory
+    statement_quality: index_snippet
+    imo_p6_plus_shortlist:
+      score: 80
+      tier: B_good_scout_candidate
+      reason_codes:
+      - unsolvedmath_index
+      - difficulty_L3_contest_adjacent
+      - target_domain_graph_theory
+      - elementary_signal_hits_3
+      - compact_statement
+      risk_flags:
+      - source_detail_page_required
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json
+- problem_id: formal-conjectures-conjecture198a
+  title: 'Formal Conjectures: conjecture198a'
+  source: Google DeepMind Formal Conjectures
+  statement: "Formal Lean declaration:\n\n```lean\ntheorem conjecture198a (G : SimpleGraph\
+    \ α) (h : G.Connected)\n    (hb : b G ≤ 2 + averageEccentricity G) :\n    ∃ a\
+    \ b : α, ∃ p : G.Walk a b, p.IsHamiltonian\n```"
+  domain: research_mathematics
+  tags:
+  - formal_conjectures
+  - lean4
+  - category_research
+  - status_open
+  - research_open
+  open_problem: true
+  formalized: lean4_statement
+  notes: Imported from the Formal Conjectures Lean 4 repository. The import records
+    statement targets only; AMRA success requires replacing sorry with a no-sorry
+    proof.
+  references:
+  - https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture198a.lean
+  - http://cms.dt.uh.edu/faculty/delavinae/research/wowII/
+  - https://www.apache.org/licenses/LICENSE-2.0
+  hypotheses:
+  - Treat the Lean declaration as the research target contract.
+  - Do not use external proof scripts during independence runs.
+  recommended_strategy:
+  - Start with dependency discovery from imports and local definitions.
+  - Attempt small verified lemmas before attacking the top-level conjecture.
+  - Accept success only when the target closes without sorry/admit/axiom placeholders.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: formal_conjectures
+    source_revision: 9e126a6e1f7d108ced5904c43cac46b1c39b39cb
+    source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture198a.lean
+    declaration_name: conjecture198a
+    declaration_kind: theorem
+    category: research
+    status: open
+    ams_codes:
+    - '5'
+    statement_quality: formal_lean4
+    imo_p6_plus_shortlist:
+      score: 71
+      tier: B_good_scout_candidate
+      reason_codes:
+      - formal_lean4_statement
+      - formal_source_WrittenOnTheWallII
+      - exact_formal_contract
+      - elementary_signal_hits_1
+      - short_formal_statement
+      risk_flags:
+      - open_research_core_unproven
+      source_shortlist: data/research_open/shortlists/imo_p6_plus_candidates.json

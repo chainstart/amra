@@ -707,8 +707,8 @@ class AIProofLabRunner:
         grounding_timeout_sec: int = 300,
         output_root: Path | None = None,
         run_name: str | None = None,
-        enable_search: bool = False,
-        math_tools_profile: str = "essential",
+        enable_search: bool = True,
+        math_tools_profile: str = "full",
         install_missing_math_tools: bool | None = None,
         run_math_tool_smoke: bool | None = None,
     ) -> dict[str, Any]:

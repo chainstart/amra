@@ -736,7 +736,7 @@ class LeanFormalizerRunner:
         build_timeout_sec: int = 300,
         output_root: Path | None = None,
         run_name: str | None = None,
-        enable_search: bool = False,
+        enable_search: bool = True,
         max_stalled_attempts: int | None = None,
         rollback_failed_attempts: bool = False,
         expected_target_header: str | None = None,
@@ -747,7 +747,7 @@ class LeanFormalizerRunner:
         merge_to_canonical: bool = False,
         review_status: str = "",
         library_module: str = "",
-        math_tools_profile: str = "essential",
+        math_tools_profile: str = "full",
         install_missing_math_tools: bool | None = None,
         run_math_tool_smoke: bool | None = None,
     ) -> dict[str, Any]:

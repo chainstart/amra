@@ -234,6 +234,45 @@ def _count_pattern(workspace: Path, pattern: re.Pattern[str]) -> int:
     return total
 
 
+def _count_patterns_in_snapshot(snapshot: dict[str, str]) -> dict[str, int]:
+    stripped = "\n".join(_strip_lean_comments(text) for text in snapshot.values())
+    return {
+        "sorry": len(SORRY_RE.findall(stripped)),
+        "axiom": len(AXIOM_RE.findall(stripped)),
+        "admit": len(ADMIT_RE.findall(stripped)),
+        "constant_or_opaque": len(CONSTANT_RE.findall(stripped)),
+    }
+
+
+def _forbidden_counts_in_text(text: str) -> dict[str, int]:
+    stripped = _strip_lean_comments(text)
+    return {
+        "sorry": len(SORRY_RE.findall(stripped)),
+        "axiom": len(AXIOM_RE.findall(stripped)),
+        "admit": len(ADMIT_RE.findall(stripped)),
+        "constant_or_opaque": len(CONSTANT_RE.findall(stripped)),
+    }
+
+
+def _forbidden_total(counts: dict[str, int]) -> int:
+    return sum(int(value) for value in counts.values())
+
+
+def _declaration_source(workspace: Path, declaration: dict[str, Any]) -> str:
+    raw_path = Path(str(declaration.get("path") or ""))
+    path = raw_path if raw_path.is_absolute() else workspace / raw_path
+    if not path.exists():
+        return ""
+    lines = path.read_text(encoding="utf-8", errors="ignore").splitlines()
+    start = max(0, int(declaration.get("line") or 1) - 1)
+    collected: list[str] = []
+    for index, line in enumerate(lines[start:], start=start):
+        if index > start and DECL_RE.match(line):
+            break
+        collected.append(line)
+    return "\n".join(collected)
+
+
 def _looks_conditional_wrapper(header: str) -> bool:
     normalized = normalize_lean_declaration_header(header)
     return bool(re.search(r"(?:->|→)", normalized))
@@ -333,7 +372,7 @@ Before spending significant time, leave a durable note in the run directory that
         command_timeout_sec: int = 300,
         output_root: Path | None = None,
         run_name: str | None = None,
-        enable_search: bool = False,
+        enable_search: bool = True,
         model: str | None = None,
         reasoning_effort: str | None = None,
         project_dir: Path | None = None,
@@ -343,7 +382,7 @@ Before spending significant time, leave a durable note in the run directory that
         merge_to_canonical: bool = False,
         review_status: str = "",
         library_module: str = "",
-        math_tools_profile: str = "essential",
+        math_tools_profile: str = "full",
         install_missing_math_tools: bool | None = None,
         run_math_tool_smoke: bool | None = None,
     ) -> dict[str, Any]:
@@ -550,11 +589,19 @@ Before spending significant time, leave a durable note in the run directory that
             "admit": _count_pattern(workspace, ADMIT_RE),
             "constant_or_opaque": _count_pattern(workspace, CONSTANT_RE),
         }
-        forbidden_total = sum(counts.values())
+        initial_counts = _count_patterns_in_snapshot(initial_snapshot)
         target_reports = {
             target: self._target_report(workspace, target, (contract.expected_target_headers or {}).get(target, ""))
             for target in contract.attack_targets
         }
+        target_forbidden_total = sum(
+            _forbidden_total(dict(report.get("forbidden_counts") or {})) for report in target_reports.values()
+        )
+        trust_delta_counts = {
+            key: max(0, counts.get(key, 0) - initial_counts.get(key, 0))
+            for key in ("axiom", "admit", "constant_or_opaque")
+        }
+        trust_delta_total = sum(trust_delta_counts.values())
         missing_targets = [target for target, report in target_reports.items() if not report.get("found")]
         header_mismatches = [
             target
@@ -569,13 +616,20 @@ Before spending significant time, leave a durable note in the run directory that
         ]
         current_declarations = _collect_declarations(workspace)
         new_declarations = self._new_declarations(initial_declarations, current_declarations)
-        new_declaration_violations = self._new_declaration_violations(contract, new_declarations)
+        new_declaration_violations = self._new_declaration_violations(workspace, contract, new_declarations)
 
         blockers: list[str] = []
         if build_report["status"] != "passed":
             blockers.append(f"Build status is {build_report['status']}.")
-        if forbidden_total:
-            blockers.append(f"Lean workspace contains {forbidden_total} forbidden placeholder/trust declaration(s).")
+        if target_forbidden_total:
+            blockers.append(
+                f"Required target declaration(s) still contain {target_forbidden_total} forbidden placeholder/trust occurrence(s)."
+            )
+        if trust_delta_total:
+            blockers.append(
+                "New trusted/unfinished declaration marker(s) were introduced: "
+                + ", ".join(f"{key}={value}" for key, value in trust_delta_counts.items() if value)
+            )
         if missing_targets:
             blockers.append("Missing required declaration(s): " + ", ".join(missing_targets))
         if header_mismatches:
@@ -592,7 +646,8 @@ Before spending significant time, leave a durable note in the run directory that
 
         contract_satisfied = (
             build_report["status"] == "passed"
-            and forbidden_total == 0
+            and target_forbidden_total == 0
+            and trust_delta_total == 0
             and not missing_targets
             and not header_mismatches
             and not disallowed_file_changes
@@ -606,7 +661,7 @@ Before spending significant time, leave a durable note in the run directory that
             status = "blocked"
         elif status == "verified":
             status = "partial"
-        if header_mismatches and build_report["status"] == "passed" and forbidden_total == 0 and not missing_targets:
+        if header_mismatches and build_report["status"] == "passed" and target_forbidden_total == 0 and not missing_targets:
             proof_loop_state = "model_mismatch"
             faithful_modeling_status = "model_mismatch"
             failure_mode = "model_mismatch"
@@ -633,6 +688,9 @@ Before spending significant time, leave a durable note in the run directory that
             "faithful_modeling_status": faithful_modeling_status,
             "build": build_report,
             "counts": counts,
+            "initial_counts": initial_counts,
+            "target_forbidden_total": target_forbidden_total,
+            "trust_delta_counts": trust_delta_counts,
             "attack_targets": contract.attack_targets,
             "target_reports": target_reports,
             "missing_targets": missing_targets,
@@ -661,9 +719,13 @@ Before spending significant time, leave a durable note in the run directory that
                     target_theorem=target,
                 ),
             }
+        source = _declaration_source(workspace, declaration)
+        forbidden_counts = _forbidden_counts_in_text(source)
         return {
             **declaration,
             "expected_header_match": expected_match,
+            "forbidden_counts": forbidden_counts,
+            "forbidden_total": _forbidden_total(forbidden_counts),
         }
 
     def _new_declarations(
@@ -676,6 +738,7 @@ Before spending significant time, leave a durable note in the run directory that
 
     def _new_declaration_violations(
         self,
+        workspace: Path,
         contract: FocusedAttackContract,
         new_declarations: list[dict[str, Any]],
     ) -> list[dict[str, Any]]:
@@ -686,15 +749,26 @@ Before spending significant time, leave a durable note in the run directory that
         for declaration in new_declarations:
             full_name = str(declaration.get("full_name") or "")
             raw_name = str(declaration.get("name") or "")
+            forbidden_counts = _forbidden_counts_in_text(_declaration_source(workspace, declaration))
             if any(_target_name_matches(full_name, allowed) or _target_name_matches(raw_name, allowed) for allowed in allowed_names):
+                if _forbidden_total(forbidden_counts):
+                    violations.append(
+                        {
+                            **declaration,
+                            "violation_reason": "allowed_declaration_contains_forbidden_placeholder",
+                            "forbidden_counts": forbidden_counts,
+                        }
+                    )
                 continue
             reason = ""
-            if patterns and any(pattern.search(full_name) or pattern.search(raw_name) for pattern in patterns):
+            if _forbidden_total(forbidden_counts):
+                reason = "new_declaration_contains_forbidden_placeholder"
+            elif patterns and any(pattern.search(full_name) or pattern.search(raw_name) for pattern in patterns):
                 reason = "forbidden_regex"
             elif contract.forbid_new_conditional_wrappers and _looks_conditional_wrapper(str(declaration.get("header") or "")):
                 reason = "new_conditional_wrapper"
             if reason:
-                violations.append({**declaration, "violation_reason": reason})
+                violations.append({**declaration, "violation_reason": reason, "forbidden_counts": forbidden_counts})
         return violations
 
     def _next_episode_directive(

@@ -125,7 +125,7 @@
   focus_tags:
   - formal_conjectures
   - lean4
-  - benchmark_corpus
+  - formal_statement_corpus
   synced_at: '2026-05-21T05:23:31+00:00'
 - name: unsolvedmath_index
   path: /home/biostar/work/projects/amra/data/banks/unsolvedmath_index.yaml

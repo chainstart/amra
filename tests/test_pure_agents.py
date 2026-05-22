@@ -84,6 +84,40 @@ def test_codex_episode_loop_prompt_has_closed_book_policy_when_search_disabled(t
     assert report["episodes_completed"] == 1
 
 
+def test_codex_episode_loop_prompt_defaults_to_open_research(tmp_path: Path, monkeypatch) -> None:
+    config = CodexEpisodeConfig(
+        name="episode-test",
+        system_prompt="Run one autonomous episode.",
+        workspace=tmp_path,
+        output_root=tmp_path / "runs",
+        backend="codex",
+        run_name="open-research",
+        max_episodes=1,
+    )
+    loop = CodexEpisodeLoopAgent(config)
+
+    def fake_codex(*, prompt: str, cwd: Path, output_path: Path, timeout_sec: int) -> dict[str, object]:
+        del cwd, timeout_sec
+        assert "External source policy: OPEN RESEARCH." in prompt
+        assert "CLOSED-BOOK BENCHMARK" not in prompt
+        output_path.write_text("STATUS: partial\nNEXT: stop\n", encoding="utf-8")
+        return {"backend": "fake", "status": "completed", "returncode": 0, "elapsed_seconds": 0.01}
+
+    monkeypatch.setattr(loop, "_call_codex", fake_codex)
+
+    report = loop.run(
+        goal="Try the theorem.",
+        episode_cwd=loop.run_dir,
+        observer=lambda episode, episode_dir, last_message, backend_report: {
+            "episode": episode,
+            "status": "partial",
+            "terminal": True,
+        },
+    )
+
+    assert report["episodes_completed"] == 1
+
+
 def test_natural_language_agent_marks_web_search_transcript_as_policy_violation(tmp_path: Path) -> None:
     agent = NaturalLanguageTheoremProverAgent(repo_root=tmp_path)
     run_dir = tmp_path / "run"

@@ -613,7 +613,7 @@ class MathAttackRunner:
         sleep_jitter_seconds: int | None = None,
         launch_spacing_seconds: int | None = None,
         run_name: str | None = None,
-        enable_search: bool = False,
+        enable_search: bool = True,
         dry_run: bool = False,
     ) -> dict[str, Any]:
         project_dir = project_dir.resolve()

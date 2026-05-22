@@ -44,6 +44,34 @@ def test_focused_attack_initially_verifies_all_required_targets(tmp_path: Path) 
     assert report["stop_reason"] == "initial_observation_terminal"
 
 
+def test_focused_attack_ignores_existing_non_target_sorries(tmp_path: Path) -> None:
+    workspace = _write_workspace(
+        tmp_path,
+        "namespace MathProject\n\n"
+        "theorem t : True := by\n"
+        "  trivial\n\n"
+        "theorem unrelated : True := by\n"
+        "  sorry\n\n"
+        "end MathProject\n",
+    )
+    agent = FocusedLeanAttackAgent(repo_root=tmp_path)
+
+    report = agent.run(
+        workspace=workspace,
+        attack_targets=["t"],
+        build_command=[sys.executable, "-c", "print('ok')"],
+        backend="none",
+        output_root=tmp_path / "runs",
+        run_name="non-target-sorry",
+    )
+
+    observation = report["final_observation"]
+    assert report["status"] == "verified"
+    assert observation["contract_satisfied"] is True
+    assert observation["counts"]["sorry"] == 1
+    assert observation["target_forbidden_total"] == 0
+
+
 def test_focused_attack_backend_none_reports_missing_target(tmp_path: Path) -> None:
     workspace = _write_workspace(
         tmp_path,

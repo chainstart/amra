@@ -109,7 +109,7 @@ def _add_math_tool_runtime_args(parser: argparse.ArgumentParser) -> None:
     parser.add_argument(
         "--math-tools-profile",
         choices=MATH_TOOL_PROFILES,
-        default="essential",
+        default="full",
         help="Math tool profile to install/check before agent work starts.",
     )
     parser.add_argument(
@@ -121,6 +121,23 @@ def _add_math_tool_runtime_args(parser: argparse.ArgumentParser) -> None:
         "--no-math-tool-smoke",
         action="store_true",
         help="Skip math tool smoke checks after installation/availability detection.",
+    )
+
+
+def _add_open_research_source_args(parser: argparse.ArgumentParser) -> None:
+    parser.add_argument(
+        "--search",
+        dest="search",
+        action="store_true",
+        default=True,
+        help="Enable open-research external source/search access. This is the default outside benchmark runs.",
+    )
+    parser.add_argument(
+        "--closed-book",
+        "--no-search",
+        dest="search",
+        action="store_false",
+        help="Disable external source/search access for benchmark-style closed-book runs.",
     )
 
 
@@ -598,7 +615,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Override Codex reasoning effort; empty uses ~/.codex/config.toml.",
     )
     run_specialist_cmd.add_argument("--timeout", type=int, default=900)
-    run_specialist_cmd.add_argument("--search", action="store_true")
+    _add_open_research_source_args(run_specialist_cmd)
     run_specialist_cmd.add_argument("--run-name", default=None)
     run_specialist_cmd.add_argument("--context-file", type=Path, action="append", default=[])
     run_specialist_cmd.add_argument("--no-resume-memory", action="store_true")
@@ -618,7 +635,7 @@ def build_parser() -> argparse.ArgumentParser:
     run_specialist_loop_cmd.add_argument("--model", default="", help="Override Codex model; empty uses ~/.codex/config.toml.")
     run_specialist_loop_cmd.add_argument("--reasoning-effort", default="")
     run_specialist_loop_cmd.add_argument("--timeout", type=int, default=900)
-    run_specialist_loop_cmd.add_argument("--search", action="store_true")
+    _add_open_research_source_args(run_specialist_loop_cmd)
     run_specialist_loop_cmd.add_argument("--max-specialists", type=int, default=3)
     run_specialist_loop_cmd.add_argument("--max-parallel-specialists", type=int, default=1)
     run_specialist_loop_cmd.add_argument("--run-name", default=None)
@@ -720,7 +737,7 @@ def build_parser() -> argparse.ArgumentParser:
     run_comath_loop.add_argument("--max-concurrent-llm-calls", type=int, default=1)
     run_comath_loop.add_argument("--max-concurrent-lean-builds", type=int, default=1)
     run_comath_loop.add_argument("--allow-network", action="store_true")
-    run_comath_loop.add_argument("--search", action="store_true")
+    _add_open_research_source_args(run_comath_loop)
 
     bootstrap_ces75 = subparsers.add_parser(
         "bootstrap-ces75-comath",
@@ -848,7 +865,7 @@ def build_parser() -> argparse.ArgumentParser:
         help="Optional cross-process minimum spacing between backend launches.",
     )
     math_attack.add_argument("--run-name", default=None)
-    math_attack.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    _add_open_research_source_args(math_attack)
     math_attack.add_argument("--dry-run", action="store_true", help="Build artifacts and prompts without invoking the backend.")
     math_attack.add_argument("--model", default=None, help="Override the math-attack backend model.")
     math_attack.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
@@ -871,7 +888,7 @@ def build_parser() -> argparse.ArgumentParser:
     proof_lab.add_argument("--grounding-timeout", type=int, default=300)
     proof_lab.add_argument("--output-root", type=Path, default=None)
     proof_lab.add_argument("--run-name", default=None)
-    proof_lab.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    _add_open_research_source_args(proof_lab)
     proof_lab.add_argument("--model", default=None, help="Override the proof-lab backend model.")
     proof_lab.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
     _add_math_tool_runtime_args(proof_lab)
@@ -892,7 +909,7 @@ def build_parser() -> argparse.ArgumentParser:
     pure_theorem_agent.add_argument("--command-timeout", type=int, default=120, help="Reserved for compatibility.")
     pure_theorem_agent.add_argument("--output-root", type=Path, default=None)
     pure_theorem_agent.add_argument("--run-name", default=None)
-    pure_theorem_agent.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    _add_open_research_source_args(pure_theorem_agent)
     pure_theorem_agent.add_argument("--model", default=None, help="Override the decision backend model.")
     pure_theorem_agent.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
     _add_math_tool_runtime_args(pure_theorem_agent)
@@ -915,7 +932,7 @@ def build_parser() -> argparse.ArgumentParser:
     pure_proof_agent.add_argument("--command-timeout", type=int, default=300, help="Host verifier timeout.")
     pure_proof_agent.add_argument("--output-root", type=Path, default=None)
     pure_proof_agent.add_argument("--run-name", default=None)
-    pure_proof_agent.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    _add_open_research_source_args(pure_proof_agent)
     pure_proof_agent.add_argument("--model", default=None, help="Override the decision backend model.")
     pure_proof_agent.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
     _add_math_tool_runtime_args(pure_proof_agent)
@@ -939,7 +956,7 @@ def build_parser() -> argparse.ArgumentParser:
     pure_lean_agent.add_argument("--command-timeout", type=int, default=300, help="Host verifier timeout.")
     pure_lean_agent.add_argument("--output-root", type=Path, default=None)
     pure_lean_agent.add_argument("--run-name", default=None)
-    pure_lean_agent.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    _add_open_research_source_args(pure_lean_agent)
     pure_lean_agent.add_argument("--model", default=None, help="Override the decision backend model.")
     pure_lean_agent.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
     _add_math_tool_runtime_args(pure_lean_agent)
@@ -999,7 +1016,7 @@ def build_parser() -> argparse.ArgumentParser:
     focused_lean_attack.add_argument("--command-timeout", type=int, default=300, help="Host verifier timeout.")
     focused_lean_attack.add_argument("--output-root", type=Path, default=None)
     focused_lean_attack.add_argument("--run-name", default=None)
-    focused_lean_attack.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    _add_open_research_source_args(focused_lean_attack)
     focused_lean_attack.add_argument("--model", default=None, help="Override the decision backend model.")
     focused_lean_attack.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
     _add_math_tool_runtime_args(focused_lean_attack)
@@ -1036,7 +1053,7 @@ def build_parser() -> argparse.ArgumentParser:
     lean_formalizer.add_argument("--build-command", default="lake build")
     lean_formalizer.add_argument("--output-root", type=Path, default=None)
     lean_formalizer.add_argument("--run-name", default=None)
-    lean_formalizer.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    _add_open_research_source_args(lean_formalizer)
     lean_formalizer.add_argument("--model", default=None, help="Override the formalizer backend model.")
     lean_formalizer.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
     lean_formalizer.add_argument(
@@ -1086,7 +1103,7 @@ def build_parser() -> argparse.ArgumentParser:
     campaign_loop.add_argument("--formalizer-attempt-timeout", type=int, default=900)
     campaign_loop.add_argument("--formalizer-build-timeout", type=int, default=300)
     campaign_loop.add_argument("--source-first", action="store_true")
-    campaign_loop.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    _add_open_research_source_args(campaign_loop)
     campaign_loop.add_argument("--output-root", type=Path, default=None)
     campaign_loop.add_argument("--run-name", default=None)
     campaign_loop.add_argument("--model", default=None, help="Override proof-lab and formalizer backend model.")
@@ -1150,7 +1167,7 @@ def build_parser() -> argparse.ArgumentParser:
     goal_campaign.add_argument("--child-build-timeout", type=int, default=300)
     goal_campaign.add_argument("--gap-review-time-budget", type=int, default=600)
     goal_campaign.add_argument("--gap-review-attempt-timeout", type=int, default=300)
-    goal_campaign.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    _add_open_research_source_args(goal_campaign)
     goal_campaign.add_argument("--output-root", type=Path, default=None)
     goal_campaign.add_argument("--run-name", default=None)
     goal_campaign.add_argument("--model", default=None, help="Override proof-lab and formalizer backend model.")
@@ -1289,7 +1306,7 @@ def build_parser() -> argparse.ArgumentParser:
     math_scout.add_argument("--run-name", default=None)
     math_scout.add_argument("--selection-mode", choices=("ranked", "domain_balanced"), default="ranked")
     math_scout.add_argument("--exclude-problem", action="append", default=[])
-    math_scout.add_argument("--search", action="store_true", help="Allow backend web search when supported.")
+    _add_open_research_source_args(math_scout)
     math_scout.add_argument("--model", default=None, help="Override the math-scout backend model.")
     math_scout.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
 

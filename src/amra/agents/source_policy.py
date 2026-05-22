@@ -14,7 +14,7 @@ NO_EXTERNAL_SOURCE_FEATURES: tuple[str, ...] = (
 WEB_SEARCH_TRANSCRIPT_PATTERN = re.compile(r"(?im)^\s*web search\s*:")
 
 
-def apply_codex_source_policy(command: list[str], *, enable_search: bool) -> None:
+def apply_codex_source_policy(command: list[str], *, enable_search: bool = True) -> None:
     """Apply Codex feature flags for the requested external-source policy."""
 
     if enable_search:
@@ -46,7 +46,7 @@ def open_research_policy_prompt() -> str:
     )
 
 
-def source_policy_prompt(*, enable_search: bool) -> str:
+def source_policy_prompt(*, enable_search: bool = True) -> str:
     return open_research_policy_prompt() if enable_search else closed_book_policy_prompt()
 
 

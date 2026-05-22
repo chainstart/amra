@@ -42,7 +42,7 @@ class ToolRegistry:
         self,
         *,
         build_command: list[str] | None = None,
-        math_tools_profile: str = "essential",
+        math_tools_profile: str = "full",
         install_missing_math_tools: bool | None = None,
     ) -> None:
         self.build_command = build_command or ["lake", "build"]

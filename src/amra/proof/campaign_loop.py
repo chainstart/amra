@@ -712,7 +712,7 @@ class CampaignLoopRunner:
         formalizer_attempt_timeout_sec: int = 900,
         formalizer_build_timeout_sec: int = 300,
         source_first: bool = False,
-        enable_search: bool = False,
+        enable_search: bool = True,
         output_root: Path | None = None,
         run_name: str | None = None,
         max_stalled_rounds: int = 0,
@@ -723,7 +723,7 @@ class CampaignLoopRunner:
         supervisor_on_stall: bool = True,
         supervisor_every_rounds: int = 0,
         supervisor_timeout_sec: int = 900,
-        math_tools_profile: str = "essential",
+        math_tools_profile: str = "full",
         install_missing_math_tools: bool | None = None,
         run_math_tool_smoke: bool | None = None,
     ) -> dict[str, Any]:

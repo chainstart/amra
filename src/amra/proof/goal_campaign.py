@@ -558,7 +558,7 @@ class GoalDrivenCampaignRunner:
         gap_review_time_budget_sec: int = 600,
         gap_review_attempt_timeout_sec: int = 300,
         mode: str = "hybrid",
-        enable_search: bool = False,
+        enable_search: bool = True,
         output_root: Path | None = None,
         run_name: str | None = None,
         max_goal_runs: int = 0,

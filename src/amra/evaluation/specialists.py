@@ -281,7 +281,7 @@ class CodexCliSpecialistProvider:
         reasoning_effort: str = "",
         timeout_seconds: int = 900,
         sandbox: str = "read-only",
-        allow_search: bool = False,
+        allow_search: bool = True,
         memory_mb: int | None = None,
         cpu_seconds: int | None = None,
         max_processes: int | None = None,
@@ -372,7 +372,7 @@ def provider_from_backend(
     model: str = "",
     reasoning_effort: str = "",
     timeout_seconds: int = 900,
-    allow_search: bool = False,
+    allow_search: bool = True,
 ) -> SpecialistProvider:
     normalized = backend.strip().lower().replace("-", "_")
     if normalized in {"fake", "none", "test"}:
@@ -724,7 +724,7 @@ def run_specialist(
     model: str = "",
     reasoning_effort: str = "",
     timeout_seconds: int = 900,
-    allow_search: bool = False,
+    allow_search: bool = True,
     run_name: str | None = None,
     context_files: list[Path] | None = None,
     resume_memory: bool = True,
@@ -794,7 +794,7 @@ def run_specialist_loop(
     model: str = "",
     reasoning_effort: str = "",
     timeout_seconds: int = 900,
-    allow_search: bool = False,
+    allow_search: bool = True,
     max_specialists: int = 3,
     max_parallel_specialists: int = 1,
     run_name: str | None = None,

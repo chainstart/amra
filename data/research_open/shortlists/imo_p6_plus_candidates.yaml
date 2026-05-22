@@ -1,0 +1,2394 @@
+schema_version: amra.imo_p6_plus_shortlist.v1
+method: metadata_prefilter_for_active_math_scout_balanced_by_source_and_domain
+source_banks:
+- data/banks/unsolvedmath_index.yaml
+- data/banks/formal_conjectures_open_research.yaml
+shortlist_problem_bank: data/research_open/shortlists/imo_p6_plus_problem_bank.yaml
+math_scout_seed_report: data/research_open/shortlists/imo_p6_plus_scout_seed.json
+candidate_count: 3092
+shortlist_count: 100
+tier_counts_all_candidates:
+  A_active_scout_first: 580
+  B_good_scout_candidate: 357
+  C_manual_review: 164
+  D_hold: 1991
+bank_counts_all_candidates:
+  formal_conjectures_open_research: 1068
+  unsolvedmath_index: 2024
+bank_counts_shortlist:
+  formal_conjectures_open_research: 55
+  unsolvedmath_index: 45
+source_domain_groups_shortlist:
+  formal_conjectures_open_research:Books: 5
+  formal_conjectures_open_research:ErdosProblems: 6
+  formal_conjectures_open_research:GreensOpenProblems: 6
+  formal_conjectures_open_research:Mathoverflow: 5
+  formal_conjectures_open_research:OEIS: 6
+  formal_conjectures_open_research:OptimizationConstants: 2
+  formal_conjectures_open_research:Other: 5
+  formal_conjectures_open_research:Paper: 5
+  formal_conjectures_open_research:Util: 3
+  formal_conjectures_open_research:Wikipedia: 6
+  formal_conjectures_open_research:WrittenOnTheWallII: 6
+  unsolvedmath_index:L3:algebra: 2
+  unsolvedmath_index:L3:combinatorics: 5
+  unsolvedmath_index:L3:geometry: 5
+  unsolvedmath_index:L3:graph_theory: 6
+  unsolvedmath_index:L3:number_theory: 6
+  unsolvedmath_index:L4:algebra: 5
+  unsolvedmath_index:L4:combinatorics: 1
+  unsolvedmath_index:L4:geometry: 5
+  unsolvedmath_index:L4:graph_theory: 5
+  unsolvedmath_index:L4:number_theory: 5
+interpretation: This shortlist is a broad-screening input, not a proof of easiness.
+  Run MathScoutRunner on tier A/B items to validate exact statements and blockers.
+candidates:
+- problem_id: formal-conjectures-erdos-1113
+  title: 'Formal Conjectures: erdos_1113'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/ErdosProblems/1113.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/1113.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem erdos_1113 : answer(sorry)
+    ↔ ∃ k, k.IsSierpinskiNumber ∧ ¬ HasFinitePrimeCoveringSet k ```'
+  imo_p6_plus_score: 108
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_ErdosProblems
+  - exact_formal_contract
+  - elementary_signal_hits_6
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-conjecturea81091
+  title: 'Formal Conjectures: conjectureA81091'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/OEIS/81091.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/81091.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem conjectureA81091 :
+    answer(sorry) ↔ Set.Infinite {p : ℕ | isPrimeBitsSet 3 p} ```'
+  imo_p6_plus_score: 100
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_OEIS
+  - exact_formal_contract
+  - elementary_signal_hits_4
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-agrawal-conjecture
+  title: 'Formal Conjectures: agrawal_conjecture'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Wikipedia/Agrawal.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Agrawal.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem agrawal_conjecture
+    : answer(sorry) ↔ ∀ (n r : ℕ), n > 1 → r > 0 → n.gcd r = 1 → let R := Polynomial
+    (ZMod n) let X : R := Polynomial.X let I : Ideal R := Ideal.span ({X^r - 1} :
+    Set R) Ideal.Quotient.mk I ((X - 1)^n) = Ideal.Quotient.mk...'
+  imo_p6_plus_score: 85
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Wikipedia
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-green-7-variants-positive-density
+  title: 'Formal Conjectures: green_7.variants.positive_density'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/GreensOpenProblems/7.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/7.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem green_7.variants.positive_density
+    : answer(sorry) ↔ ∀ a : ℕ → ℕ, Erdos342.IsUlamSequence a → Set.upperDensity (Set.range
+    a) > 0 ```'
+  imo_p6_plus_score: 83
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_GreensOpenProblems
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-ep-1
+  title: 'Erdős Problem #1'
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: number_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/EP-1
+  statement_preview: If $A\subseteq \{1,\ldots,N\}$ with $\lvert A\rvert=n$ is such
+    that the subset sums $\sum_{a\in S}a$ are distinct for all $S\subseteq A$ then
+    $ N \gg
+  imo_p6_plus_score: 83
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_number_theory
+  - elementary_signal_hits_4
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-graph-002
+  title: Eternal Domination vs Domination Number
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: graph_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GRAPH-002
+  statement_preview: Does there exist a graph where the dominating number equals the
+    eternal dominating number and both are less than the clique covering number?
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_graph_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-conjecture141
+  title: 'Formal Conjectures: conjecture141'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture141.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture141.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem conjecture141 (G :
+    SimpleGraph α) (h : G.Connected) : G.girth / 2 - 1 + (Finset.univ.sup (indepNeighborsCard
+    G)) ≤ largestInducedTreeSize G ```'
+  imo_p6_plus_score: 77
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_WrittenOnTheWallII
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-comb-001
+  title: 1/3-2/3 Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: combinatorics
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/COMB-001
+  statement_preview: Does every non-total finite poset have two elements x,y with
+    P(x before y in random linear extension) ∈ [1/3, 2/3]?
+  imo_p6_plus_score: 77
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_combinatorics
+  - elementary_signal_hits_2
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-opg-37283
+  title: Finite Lattice Representation Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: algebra
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/OPG-37283
+  statement_preview: Conjecture There exists a finite lattice which is not the congruence
+    lattice of a finite algebra.
+  imo_p6_plus_score: 77
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_algebra
+  - elementary_signal_hits_2
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-guy-a5b
+  title: Erdős $3000 Conjecture on Arithmetic Progressions
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: number_theory
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GUY-A5b
+  statement_preview: Let $\{a_i\}$ be any infinite sequence of integers for which
+    $\sum 1/a_i$ is divergent. Does the sequence contain arbitrarily long arithmetic
+    progress
+  imo_p6_plus_score: 75
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_number_theory
+  - elementary_signal_hits_6
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-geom-023
+  title: Orchard-Planting Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: geometry
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GEOM-023
+  statement_preview: What is the maximum number of 3-point lines attainable by a configuration
+    of $n$ points in the plane?
+  imo_p6_plus_score: 74
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_geometry
+  - elementary_signal_hits_1
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-graph-001
+  title: Brouwer's Conjecture on Graph Laplacians
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: graph_theory
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GRAPH-001
+  statement_preview: Can the sum of eigenvalues of the Laplacian matrix of a graph
+    be bounded by the number of edges?
+  imo_p6_plus_score: 72
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_graph_theory
+  - elementary_signal_hits_5
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-mathoverflow-10799-variants-kahn-kalai-conjecture-7
+  title: 'Formal Conjectures: mathoverflow_10799.variants.kahn_kalai_conjecture_7'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Mathoverflow/10799.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Mathoverflow/10799.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem mathoverflow_10799.variants.kahn_kalai_conjecture_7
+    : answer(sorry) ↔ ∀ (n : ℕ) (_ : 2 ≤ n) (F : Finset (Finset (Fin n))) (_ : IsMonotoneIncreasing
+    F) (s t : ℝ) (_ : 0 < s) (_ : s ≤ t) (_ : t < 1) (_ : μFamily t F = 1 / 2) (_
+    : t / s >...'
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Mathoverflow
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-problem-10-5-moreover
+  title: 'Formal Conjectures: problem_10_5_moreover'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Books/BugeaudDistributionModuloOne/Problem10_5.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Books/BugeaudDistributionModuloOne/Problem10_5.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem problem_10_5_moreover
+    (K : IntermediateField ℚ ℝ) [FiniteDimensional ℚ K] {ε : ℝ} (hε : 0 < ε) : ∃ t
+    : ℕ → K, (∀ n, 0 < (t n : ℝ)) ∧ IsLacunaryReal (fun k => (t k : ℝ)) ∧ ∀ ξ : ℝ,
+    ξ ∉ K → ∀ a, a ∈ Set.Icc (0 : ℝ) (1 - ε) → ∃ y ∈ Set.Icc...'
+  imo_p6_plus_score: 70
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Books
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-alg-026
+  title: The Herzog-Schönheim Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: algebra
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/ALG-026
+  statement_preview: If a finite system of left cosets of subgroups of a group $G$
+    partitions $G$, must some two subgroups have the same index?
+  imo_p6_plus_score: 66
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_algebra
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-beaver-math-olympiad-problem-2-antihydra-variants-set
+  title: 'Formal Conjectures: beaver_math_olympiad_problem_2_antihydra.variants.set'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Other/BeaverMathOlympiad.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Other/BeaverMathOlympiad.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem beaver_math_olympiad_problem_2_antihydra.variants.set
+    (a : ℕ → ℕ) (a_ini : a 0 = 8) (a_rec : ∀ n, a (n + 1) = (3 * a n) / 2) (n : ℕ)
+    : ((Finset.Ico 0 n).filter fun x ↦ Odd (a x)).card ≤ 2 * ((Finset.Ico 0 n).filter
+    fun x ↦ Even (a x)).c...'
+  imo_p6_plus_score: 65
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Other
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-geo-033
+  title: Erdős-Ulam Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: geometry
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GEO-033
+  statement_preview: Is there a dense set of points in the plane with all pairwise
+    distances rational?
+  imo_p6_plus_score: 63
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_geometry
+  - elementary_signal_hits_2
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-problem-4-3
+  title: 'Formal Conjectures: problem_4_3'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Paper/WeakTiling.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Paper/WeakTiling.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem problem_4_3 : answer(sorry)
+    ↔ ∀ (Ω : Set ℝ) (_ : IsFiniteUnionOfIntervals Ω) (ν : Measure ℝ) (_ : IsWeakTilingMeasure
+    Ω ν), ∃ (T : ℕ → Set ℝ) (c : ℕ → ℝ≥0), (∀ i, IsProperTiling Ω (T i)) ∧ ∑'' i :
+    ℕ, c i = 1 ∧ ν = Measure.sum (fun i => (...'
+  imo_p6_plus_score: 62
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Paper
+  - exact_formal_contract
+  - elementary_signal_hits_4
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  - lower_priority_source_Paper
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-game-007
+  title: Cap Set Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: combinatorics
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GAME-007
+  statement_preview: What is the largest possible cap set in $n$-dimensional affine
+    space over the three-element field?
+  imo_p6_plus_score: 60
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_combinatorics
+  - elementary_signal_hits_1
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-an-open-problem
+  title: 'Formal Conjectures: an_open_problem'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Util/Attributes/Basic.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Util/Attributes/Basic.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem an_open_problem : Transcendental
+    ℝ (π + rexp 1) ```'
+  imo_p6_plus_score: 56
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Util
+  - exact_formal_contract
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  - lower_priority_source_Util
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-mem-ico-c1a
+  title: 'Formal Conjectures: mem_Ico_c1a'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/OptimizationConstants/1a.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OptimizationConstants/1a.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem mem_Ico_c1a : answer(sorry)
+    ∈ Set.Ico C1a 1.5029 ```'
+  imo_p6_plus_score: 55
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_OptimizationConstants
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  - lower_priority_source_OptimizationConstants
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-erdos-1113-variants-filaseta-finch-kozek
+  title: 'Formal Conjectures: erdos_1113.variants.filaseta_finch_kozek'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/ErdosProblems/1113.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/1113.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem erdos_1113.variants.filaseta_finch_kozek
+    : ∀ k, k.IsSierpinskiNumber → k.IsPerfectPower ∨ HasFinitePrimeCoveringSet k ```'
+  imo_p6_plus_score: 108
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_ErdosProblems
+  - exact_formal_contract
+  - elementary_signal_hits_6
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-general-supercongruence
+  title: 'Formal Conjectures: general_supercongruence'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/OEIS/357513.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/357513.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem general_supercongruence
+    (m : ℕ) : ∃ (exceptions : Finset ℕ), ∀ p, p.Prime → p ∉ exceptions → u m (p -
+    1) = (0 : ZMod (p ^ 4)) ```'
+  imo_p6_plus_score: 97
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_OEIS
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-agrawal-conjecture-variants-popovych
+  title: 'Formal Conjectures: agrawal_conjecture.variants.popovych'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Wikipedia/Agrawal.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Agrawal.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem agrawal_conjecture.variants.popovych
+    : ∀ (n r : ℕ), n > 1 → r > 0 → n.gcd r = 1 → let R := Polynomial (ZMod n) let
+    X : R := Polynomial.X let I : Ideal R := Ideal.span ({X^r - 1} : Set R) Ideal.Quotient.mk
+    I ((X - 1)^n) = Ideal.Quotient....'
+  imo_p6_plus_score: 85
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Wikipedia
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-green-1
+  title: 'Formal Conjectures: green_1'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/GreensOpenProblems/1.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/1.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem green_1 : answer(sorry)
+    ↔ ∃ Ω : ℕ → ℝ, atTop.Tendsto Ω atTop ∧ ∀ n, ∀ (A : Finset ℕ), (∀ a ∈ A, 0 < a)
+    → A.card = n → ∃ (S : Finset ℕ), S ⊆ A ∧ IsSumFree (S : Set ℕ) ∧ ((n : ℝ) / 3)
+    + Ω n ≤ S.card ```'
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_GreensOpenProblems
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-ep-972
+  title: 'Erdős Problem #972'
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: number_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/EP-972
+  statement_preview: Let $\alpha>1$ be irrational. Are there infinitely many primes
+    $p$ such that $\lfloor p\alpha\rfloor$ is also prime?
+  imo_p6_plus_score: 83
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_number_theory
+  - elementary_signal_hits_4
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-graph-005
+  title: Graph Coloring Game Monotonicity
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: graph_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GRAPH-005
+  statement_preview: If Alice has a winning strategy for the vertex coloring game
+    with k colors, does she have one for k+1 colors?
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_graph_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-conjecture19
+  title: 'Formal Conjectures: conjecture19'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture19.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture19.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem conjecture19 (G : SimpleGraph
+    α) [Nontrivial α] (h_conn : G.Connected) : ⌊(∑ v ∈ Finset.univ, ((G.eccentricity
+    v).toNat : ℝ)) / (Fintype.card α : ℝ) + sSup (Set.range (indepNeighbors G))⌋ ≤
+    b G ```'
+  imo_p6_plus_score: 74
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_WrittenOnTheWallII
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-game-004
+  title: Tic-Tac-Toe Winning Dimension
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: combinatorics
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GAME-004
+  statement_preview: Given the width of a tic-tac-toe board, what is the smallest
+    dimension guaranteeing X has a winning strategy?
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_combinatorics
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-alg-029
+  title: Infinitude of Leinster Groups
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: algebra
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/ALG-029
+  statement_preview: Are there infinitely many Leinster groups?
+  imo_p6_plus_score: 67
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_algebra
+  - elementary_signal_hits_1
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-guy-a9
+  title: General Patterns of Consecutive Primes
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: number_theory
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GUY-A9
+  statement_preview: For any given pattern of primes with no congruence obstructions,
+    are there infinitely many sets of consecutive primes with this pattern?
+  imo_p6_plus_score: 72
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_number_theory
+  - elementary_signal_hits_5
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-geo-005
+  title: Bellman's Lost in a Forest Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: geometry
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GEO-005
+  statement_preview: What is the shortest path that guarantees escape from a forest
+    of known shape and size, starting from an unknown location?
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_geometry
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-graph-008
+  title: Cereceda's Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: graph_theory
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GRAPH-008
+  statement_preview: For k-degenerate graphs, can any (k+2)-coloring be transformed
+    to any other in polynomial steps via single-vertex recolorings?
+  imo_p6_plus_score: 69
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_graph_theory
+  - elementary_signal_hits_4
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-mathoverflow-21003
+  title: 'Formal Conjectures: mathoverflow_21003'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Mathoverflow/21003.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Mathoverflow/21003.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem mathoverflow_21003
+    : answer(sorry) ↔ ∃ f : MvPolynomial (Fin 2) ℚ, Function.Bijective fun x ↦ f.eval
+    x ```'
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Mathoverflow
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-isaccumulationpoint-three-halves-pow
+  title: 'Formal Conjectures: isAccumulationPoint_three_halves_pow'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem isAccumulationPoint_three_halves_pow
+    : IsAccumulationPoint answer(sorry) (fun n => Int.fract <| (3 / 2 : ℝ)^n) ```'
+  imo_p6_plus_score: 67
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Books
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-alg-008
+  title: Finite Lattice Representation Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: algebra
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/ALG-008
+  statement_preview: Is every finite lattice isomorphic to the congruence lattice
+    of some finite algebra?
+  imo_p6_plus_score: 63
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_algebra
+  - elementary_signal_hits_2
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-exists-hasaddvcndimatmost-n-of-convex-rn-add-one
+  title: 'Formal Conjectures: exists_hasAddVCNDimAtMost_n_of_convex_rn_add_one'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Other/VCDimConvex.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Other/VCDimConvex.lean
+  statement_preview: 'Formal Lean declaration: ```lean lemma exists_hasAddVCNDimAtMost_n_of_convex_rn_add_one
+    (n : ℕ) : ∃ d : ℕ, ∀ C : Set (Fin (n + 1) → ℝ), Convex ℝ C → HasAddVCNDimAtMost
+    C n d ```'
+  imo_p6_plus_score: 65
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Other
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-geo-006
+  title: The Knaster Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: geometry
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GEO-006
+  statement_preview: Can a solid cube be completely covered by finitely many smaller
+    homothetic cubes with ratio less than 1, such that the interiors are disjoint?
+  imo_p6_plus_score: 60
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_geometry
+  - elementary_signal_hits_1
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-prime-tuples-conjecture
+  title: 'Formal Conjectures: prime_tuples_conjecture'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Paper/PrimeTuples.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Paper/PrimeTuples.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem prime_tuples_conjecture
+    {k : ℕ} (hk : 2 ≤ k) (a : Fin k → ℕ+) (b : Fin k → ℕ) (hab : ∀ p, p.Prime → ∃
+    n, ¬ p ∣ ∏ i, (a i * n + b i)) : Set.Infinite {n | ∀ i : Fin k, (a i * n + b i).Prime}
+    ```'
+  imo_p6_plus_score: 59
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Paper
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  - lower_priority_source_Paper
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-flagged-open-missing-docstring
+  title: 'Formal Conjectures: flagged_open_missing_docstring'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Util/Linters/CategoryDocstringLinterTest.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Util/Linters/CategoryDocstringLinterTest.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem flagged_open_missing_docstring
+    : True ```'
+  imo_p6_plus_score: 56
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Util
+  - exact_formal_contract
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  - lower_priority_source_Util
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-mem-ioc-c1a
+  title: 'Formal Conjectures: mem_Ioc_c1a'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/OptimizationConstants/1a.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OptimizationConstants/1a.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem mem_Ioc_c1a : answer(sorry)
+    ∈ Set.Ioc 1.2748 C1a ```'
+  imo_p6_plus_score: 55
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_OptimizationConstants
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  - lower_priority_source_OptimizationConstants
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-erdos-10-variants-grechuk
+  title: 'Formal Conjectures: erdos_10.variants.grechuk'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/ErdosProblems/10.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/10.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem erdos_10.variants.grechuk
+    : Set.Infinite <| {n : ℕ | Even n} \ sumPrimeAndTwoPows 3 ```'
+  imo_p6_plus_score: 105
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_ErdosProblems
+  - exact_formal_contract
+  - elementary_signal_hits_5
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-nopowerpartitionnumber
+  title: 'Formal Conjectures: noPowerPartitionNumber'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/OEIS/41.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/41.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem noPowerPartitionNumber
+    : answer(sorry) ↔ ∀ k, ¬IsPerfectPower (p k) ```'
+  imo_p6_plus_score: 97
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_OEIS
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-dickson-conjecture
+  title: 'Formal Conjectures: dickson_conjecture'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Wikipedia/Dickson.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Dickson.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem dickson_conjecture
+    (fs : Finset ℤ[X]) (hfs : ∀ f ∈ fs, f.degree = 1 ∧ BunyakovskyCondition f) (hfs''
+    : SchinzelCondition fs) : Infinite {n : ℕ | ∀ f ∈ fs, (f.eval (n : ℤ)).natAbs.Prime}
+    ```'
+  imo_p6_plus_score: 85
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Wikipedia
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-green-14-variant-2r2
+  title: 'Formal Conjectures: green_14_variant_2r2'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/GreensOpenProblems/14.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/14.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem green_14_variant_2r2
+    : -- Provide a pair (r, associated coloring) that avoids the monochromatic APs
+    -- To show $W(3, r) > 2r^2 - 1$, we need a coloring of $\{1, \ldots, 2r^2 - 1\}$
+    -- that avoids monochromatic APs of length 3 and $r$. l...'
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_GreensOpenProblems
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-nt-024
+  title: Erdős-Straus Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: number_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/NT-024
+  statement_preview: For every integer $n \geq 2$, can $\frac{4}{n}$ be expressed
+    as the sum of three unit fractions $\frac{1}{x} + \frac{1}{y} + \frac{1}{z}$?
+  imo_p6_plus_score: 83
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_number_theory
+  - elementary_signal_hits_4
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-graph-051
+  title: Imbalance Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: graph_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GRAPH-051
+  statement_preview: If every edge has imbalance ≥1, is the multiset of edge imbalances
+    always graphic?
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_graph_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-conjecture200
+  title: 'Formal Conjectures: conjecture200'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture200.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture200.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem conjecture200 (G :
+    SimpleGraph α) (h : G.Connected) (htree : (largestInducedTreeSize G : ℝ) = ⌈1
+    + l G⌉) : ∃ a b : α, ∃ p : G.Walk a b, p.IsHamiltonian ```'
+  imo_p6_plus_score: 74
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_WrittenOnTheWallII
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-game-010
+  title: Rendezvous Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: combinatorics
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GAME-010
+  statement_preview: What is the optimal strategy for two agents to meet on a network
+    without communication?
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_combinatorics
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-nt-033
+  title: Grimm's Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: number_theory
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/NT-033
+  statement_preview: Can each element of a set of consecutive composite numbers be
+    assigned a distinct prime divisor?
+  imo_p6_plus_score: 72
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_number_theory
+  - elementary_signal_hits_5
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-geo-017
+  title: The Closed Curve Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: geometry
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GEO-017
+  statement_preview: What are necessary and sufficient conditions for an integral
+    curve defined by two periodic functions to be closed?
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_geometry
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-graph-010
+  title: Gyárfás-Sumner Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: graph_theory
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GRAPH-010
+  statement_preview: Is every graph class defined by excluding one fixed tree as an
+    induced subgraph χ-bounded?
+  imo_p6_plus_score: 66
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_graph_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-rectangles-cover-unit-square
+  title: 'Formal Conjectures: rectangles_cover_unit_square'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Mathoverflow/34145.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Mathoverflow/34145.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem rectangles_cover_unit_square
+    : answer(sorry) ↔ ∃ c : Configuration, ∀ p ∈ unitSquare, ∃ n, p ∈ (c.rect n).toSet
+    ```'
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Mathoverflow
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-isequidistributedmoduloone-three-halves-pow
+  title: 'Formal Conjectures: isEquidistributedModuloOne_three_halves_pow'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem isEquidistributedModuloOne_three_halves_pow
+    : IsEquidistributedModuloOne (fun n => (3 / 2 : ℝ)^n) ```'
+  imo_p6_plus_score: 67
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Books
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-alg-021
+  title: The Pierce-Birkhoff Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: algebra
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/ALG-021
+  statement_preview: 'Is every piecewise-polynomial function $f: \mathbb{R}^n \to
+    \mathbb{R}$ the maximum of finitely many minimums of finite collections of polynomials?'
+  imo_p6_plus_score: 63
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_algebra
+  - elementary_signal_hits_2
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-finite-equation677-implies-equation255
+  title: 'Formal Conjectures: Finite.Equation677_implies_Equation255'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Other/EquationalTheories_677_255.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Other/EquationalTheories_677_255.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem Finite.Equation677_implies_Equation255
+    (G : Type) [Magma G] [Finite G] (h : Equation677 G) : Equation255 G ```'
+  imo_p6_plus_score: 65
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Other
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-geo-022
+  title: The Hadwiger Covering Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: geometry
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GEO-022
+  statement_preview: Can every $n$-dimensional convex body be covered by at most $2^n$
+    smaller homothetic copies?
+  imo_p6_plus_score: 60
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_geometry
+  - elementary_signal_hits_1
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-problem-4-1
+  title: 'Formal Conjectures: problem_4_1'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Paper/WeakTiling.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Paper/WeakTiling.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem problem_4_1 : answer(sorry)
+    ↔ ∀ (Ω : Set ℝ) (_ : IsFiniteUnionOfIntervals Ω) (ν : Measure ℝ) (_ : IsWeakTilingMeasure
+    Ω ν), HasBoundedDensity ν.support ```'
+  imo_p6_plus_score: 59
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Paper
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  - lower_priority_source_Paper
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-not-flagged-with-docstring
+  title: 'Formal Conjectures: not_flagged_with_docstring'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Util/Linters/CategoryDocstringLinterTest.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Util/Linters/CategoryDocstringLinterTest.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem not_flagged_with_docstring
+    : True ```'
+  imo_p6_plus_score: 56
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Util
+  - exact_formal_contract
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  - lower_priority_source_Util
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-erdos-184-variants-covering
+  title: 'Formal Conjectures: erdos_184.variants.covering'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/ErdosProblems/184.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/184.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem erdos_184.variants.covering
+    : answer(sorry) ↔ ∀ {V : Type} [Fintype V] [DecidableEq V] [Nonempty V] (G : SimpleGraph
+    V), ∃ (D : Finset G.Subgraph), (∀ H ∈ D, IsCycleOrEdge H.coe) ∧ (⋃ H ∈ D, H.edgeSet)
+    = G.edgeSet ∧ (D.card : ℝ) ≤ (Fint...'
+  imo_p6_plus_score: 105
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_ErdosProblems
+  - exact_formal_contract
+  - elementary_signal_hits_5
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-a-infinite
+  title: 'Formal Conjectures: a.infinite'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/OEIS/228828.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/228828.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem a.infinite : {a n |
+    n}.Infinite ```'
+  imo_p6_plus_score: 94
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_OEIS
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-infinite-fermat-composite
+  title: 'Formal Conjectures: infinite_fermat_composite'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Wikipedia/Fermat.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Fermat.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem infinite_fermat_composite
+    : answer(sorry) ↔ Infinite {n : ℕ | ¬Prime n.fermatNumber} ```'
+  imo_p6_plus_score: 85
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Wikipedia
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-green-2
+  title: 'Formal Conjectures: green_2'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/GreensOpenProblems/2.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/2.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem green_2 : answer(sorry)
+    ↔ ∀ᶠ n : ℕ in atTop, ∀ A : Finset ℤ, A.card = n → (maxRestrictedSumAvoidingSubsetSize
+    A : ℝ) ≥ (Real.log n) ^ 100 ```'
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_GreensOpenProblems
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-guy-a14a
+  title: Pomerance's Questions on Good Primes
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: number_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GUY-A14a
+  statement_preview: Call prime $p_n$ good if $p_n^2 > p_{n-i}p_{n+i}$ for all $i$,
+    $1 \le i \le n-1$. Is it true that the set of $n$ for which $p_n$ is good has
+    density 0
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_number_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-gt-002
+  title: Reconstruction Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: graph_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GT-002
+  statement_preview: Every finite simple graph on at least 3 vertices is uniquely
+    determined by its vertex-deleted subgraphs.
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_graph_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-conjecture327
+  title: 'Formal Conjectures: conjecture327'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture327.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture327.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem conjecture327 (G :
+    SimpleGraph α) [DecidableRel G.Adj] (hG : G.Connected) (h : 3 * G.dominationNumber
+    = G.indepDominationNumber) : IsWellTotallyDominated G ```'
+  imo_p6_plus_score: 74
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_WrittenOnTheWallII
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-game-008
+  title: Octal Games Periodicity
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: combinatorics
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GAME-008
+  statement_preview: Are the nim-sequences of all finite octal games eventually periodic?
+  imo_p6_plus_score: 70
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_combinatorics
+  - elementary_signal_hits_2
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-guy-a6
+  title: Consecutive Primes in Arithmetic Progression
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: number_theory
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GUY-A6
+  statement_preview: Are there arbitrarily long arithmetic progressions of consecutive
+    primes? That is, for any positive integer $k$, do there exist $k$ consecutive
+    primes
+  imo_p6_plus_score: 69
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_number_theory
+  - elementary_signal_hits_4
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-geom-013
+  title: Tammes Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: geometry
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GEOM-013
+  statement_preview: For n > 14 points (except n=24), what is the maximum minimum
+    distance between points on a unit sphere?
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_geometry
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-graph-014
+  title: Total Coloring Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: graph_theory
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GRAPH-014
+  statement_preview: Is the total chromatic number of every graph at most Δ + 2, where
+    Δ is the maximum degree?
+  imo_p6_plus_score: 66
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_graph_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-rectangles-pack-unit-square
+  title: 'Formal Conjectures: rectangles_pack_unit_square'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Mathoverflow/34145.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Mathoverflow/34145.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem rectangles_pack_unit_square
+    : answer(sorry) ↔ ∃ c : Configuration, (∀ n, (c.rect n).toSet ⊆ unitSquare) ∧
+    c.IsPacking ```'
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Mathoverflow
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-isequidistributedmoduloone-transcendental-three-halves-pow
+  title: 'Formal Conjectures: isEquidistributedModuloOne_transcendental_three_halves_pow'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Books/UniformDistributionOfSequences/Equidistribution.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem isEquidistributedModuloOne_transcendental_three_halves_pow
+    (x : ℝ) (hx : Transcendental ℚ x) : IsEquidistributedModuloOne (fun n ↦ x * (3
+    / 2 : ℝ) ^ n) ```'
+  imo_p6_plus_score: 67
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Books
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-alg-035
+  title: Dade's Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: algebra
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/ALG-035
+  statement_preview: Is there a relationship between the numbers of irreducible characters
+    in blocks of a finite group and its local subgroups?
+  imo_p6_plus_score: 63
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_algebra
+  - elementary_signal_hits_2
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-hasaddvcndimatmost-n-one-of-convex-rn-add-one
+  title: 'Formal Conjectures: hasAddVCNDimAtMost_n_one_of_convex_rn_add_one'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Other/VCDimConvex.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Other/VCDimConvex.lean
+  statement_preview: 'Formal Lean declaration: ```lean lemma hasAddVCNDimAtMost_n_one_of_convex_rn_add_one
+    {n : ℕ} (hn : 2 ≤ n) {C : Set (Fin (n + 1) → ℝ)} (hC : Convex ℝ C) : HasAddVCNDimAtMost
+    C n 1 ```'
+  imo_p6_plus_score: 65
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Other
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-geo-023
+  title: The Happy Ending Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: geometry
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GEO-023
+  statement_preview: What is the minimum number of points in the plane needed to guarantee
+    a convex $n$-gon?
+  imo_p6_plus_score: 60
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_geometry
+  - elementary_signal_hits_1
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-reed-omega-delta-chi-conjecture-for-finite-graphs
+  title: 'Formal Conjectures: reed_omega_delta_chi_conjecture_for_finite_graphs'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Paper/ReedOmegaDeltaChi.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Paper/ReedOmegaDeltaChi.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem reed_omega_delta_chi_conjecture_for_finite_graphs
+    : ∀ {V : Type} [Fintype V] [DecidableEq V] (G : SimpleGraph V) [DecidableRel G.Adj],
+    let χ := G.chromaticNumber let ω := G.cliqueNum let Δ := G.maxDegree 2 * χ ≤ ω
+    + Δ + 2 ```'
+  imo_p6_plus_score: 59
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Paper
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  - lower_priority_source_Paper
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-erdos-10
+  title: 'Formal Conjectures: erdos_10'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/ErdosProblems/10.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/10.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem erdos_10 : answer(sorry)
+    ↔ ∃ k, sumPrimeAndTwoPows k = Set.univ \ {0, 1} ```'
+  imo_p6_plus_score: 102
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_ErdosProblems
+  - exact_formal_contract
+  - elementary_signal_hits_4
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-a-unbounded
+  title: 'Formal Conjectures: a_unbounded'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/OEIS/34693.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/34693.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem a_unbounded : ¬BddAbove
+    (Set.range fun n ↦ a n / (Real.log n * Real.log (Real.log n))) ```'
+  imo_p6_plus_score: 94
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_OEIS
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-infinite-fermat-primes
+  title: 'Formal Conjectures: infinite_fermat_primes'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Wikipedia/Fermat.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Fermat.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem infinite_fermat_primes
+    : answer(sorry) ↔ Infinite {n : ℕ | Prime n.fermatNumber} ```'
+  imo_p6_plus_score: 85
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Wikipedia
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-green-26-variants-open
+  title: 'Formal Conjectures: green_26.variants.open'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/GreensOpenProblems/26.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/26.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem green_26.variants.open
+    : answer(sorry) ↔ ∀ (p : ℕ) [Fact p.Prime], (∃ C, ∀ n, ∀ A : Fin C → Set (𝔽 p
+    n), (∀ i, IsCube (A i)) → ∑ i, A i = univ) ```'
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_GreensOpenProblems
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-guy-a19a
+  title: Erdős Conjecture on $n - 2^k$ Prime
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: number_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GUY-A19a
+  statement_preview: Are 4, 7, 15, 21, 45, 75, and 105 the only values of $n$ for
+    which $n - 2^k$ is prime for all $k$ such that $2 \le 2^k < n$?
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_number_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-gt-003
+  title: The Graceful Tree Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: graph_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GT-003
+  statement_preview: 'Every tree can be gracefully labeled: vertices can be assigned
+    distinct labels from $\{0, 1, \ldots, |E|\}$ such that edge labels (absolute difference'
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_graph_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-conjecture194
+  title: 'Formal Conjectures: conjecture194'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture194.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture194.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem conjecture194 (G :
+    SimpleGraph α) (h : G.Connected) (hα : (G.indepNum : ℝ) ≤ 1 + l G) : ∃ a b : α,
+    ∃ p : G.Walk a b, p.IsHamiltonian ```'
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_WrittenOnTheWallII
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-game-009
+  title: Grundy's Game Periodicity
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: combinatorics
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GAME-009
+  statement_preview: Is the nim-sequence of Grundy's game eventually periodic?
+  imo_p6_plus_score: 67
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_combinatorics
+  - elementary_signal_hits_1
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-guy-a8a
+  title: Erdős $5000 Problem on Prime Gaps
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: number_theory
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GUY-A8a
+  statement_preview: Is it true that for infinitely many $n$, $d_n = p_{n+1} - p_n
+    > c \ln n \ln \ln n \ln \ln \ln \ln n / (\ln \ln \ln n)^2$ for arbitrarily large
+    constan
+  imo_p6_plus_score: 69
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_number_theory
+  - elementary_signal_hits_4
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-geom-025
+  title: Bellman's Lost-in-a-Forest Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: geometry
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GEOM-025
+  statement_preview: What is the shortest path that guarantees reaching the boundary
+    of a given shape, starting from an unknown point with unknown orientation?
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_geometry
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-graph-023
+  title: Conference Graph Existence
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: graph_theory
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GRAPH-023
+  statement_preview: Does there exist a conference graph for every number of vertices
+    $v > 1$ where $v \equiv 1 \pmod{4}$ and v is an odd sum of two squares?
+  imo_p6_plus_score: 66
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_graph_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-complexity-two-pow
+  title: 'Formal Conjectures: complexity_two_pow'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Mathoverflow/75792.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Mathoverflow/75792.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem complexity_two_pow
+    : answer(sorry) ↔ ∀ n : ℕ, 0 < n → complexity (2 ^ n) = 2 * n ```'
+  imo_p6_plus_score: 68
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Mathoverflow
+  - exact_formal_contract
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-problem-10-5
+  title: 'Formal Conjectures: problem_10_5'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Books/BugeaudDistributionModuloOne/Problem10_5.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Books/BugeaudDistributionModuloOne/Problem10_5.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem problem_10_5 (K : IntermediateField
+    ℚ ℝ) [FiniteDimensional ℚ K] {ε : ℝ} (hε : 0 < ε) : ∃ t : ℕ → K, (∀ n, 0 < (t
+    n : ℝ)) ∧ IsLacunaryReal (fun k => (t k : ℝ)) ∧ ∀ ξ : ℝ, ξ ∉ K → (1 - ε) ≤ limsup
+    (fun n => Int.fract (ξ * (t n : ℝ))) atT...'
+  imo_p6_plus_score: 67
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Books
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-hil-014
+  title: 'Hilbert''s 14th Problem: Finite Generation of Rings'
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: algebra
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/HIL-014
+  statement_preview: Is the ring of invariants of a linear algebraic group acting
+    on a polynomial ring always finitely generated?
+  imo_p6_plus_score: 63
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_algebra
+  - elementary_signal_hits_2
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-hasaddvcndimatmost-two-one-of-convex-r3
+  title: 'Formal Conjectures: hasAddVCNDimAtMost_two_one_of_convex_r3'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Other/VCDimConvex.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Other/VCDimConvex.lean
+  statement_preview: 'Formal Lean declaration: ```lean lemma hasAddVCNDimAtMost_two_one_of_convex_r3
+    {C : Set ℝ³} (hC : Convex ℝ C) : HasAddVCNDimAtMost C 2 1 ```'
+  imo_p6_plus_score: 65
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Other
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-geo-026
+  title: The Unit Distance Problem
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: geometry
+  difficulty_level: 4
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GEO-026
+  statement_preview: What is the maximum number of unit distances determined by $n$
+    points in the plane?
+  imo_p6_plus_score: 60
+  tier: C_manual_review
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L4_research_entry
+  - target_domain_geometry
+  - elementary_signal_hits_1
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-conj-7-1
+  title: 'Formal Conjectures: conj_7_1'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Paper/FusibleNumber.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Paper/FusibleNumber.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem conj_7_1 (x y q : ℚ)
+    (n : ℕ) (fus_x : IsFusible x) (fus_y : IsFusible y) (lt : x < y) (nmem_Ioo : ∀
+    z, IsFusible z → z ∉ Set.Ioo x y) : let m := y - x let ℓ (n : ℕ) := y + 1 - m
+    / 2 ^ n IsFusible q → q ∈ Set.Ico (ℓ n) (ℓ (n + 1)) → IsFu...'
+  imo_p6_plus_score: 56
+  tier: C_manual_review
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Paper
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  - lower_priority_source_Paper
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-erdos-1059
+  title: 'Formal Conjectures: erdos_1059'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/ErdosProblems/1059.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/ErdosProblems/1059.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem erdos_1059 : answer(sorry)
+    ↔ Set.Infinite {p | p.Prime ∧ AllFactorialSubtractionsComposite p} ```'
+  imo_p6_plus_score: 102
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_ErdosProblems
+  - exact_formal_contract
+  - elementary_signal_hits_4
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-comesfromprimequadruple-of-a
+  title: 'Formal Conjectures: comesFromPrimeQuadruple_of_a'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/OEIS/56777.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/OEIS/56777.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem comesFromPrimeQuadruple_of_a
+    {n : ℕ} (h : a n) : ComesFromPrimeQuadruple n ```'
+  imo_p6_plus_score: 94
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_OEIS
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-infinite-pellnumber-primes
+  title: 'Formal Conjectures: infinite_pellNumber_primes'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/Wikipedia/Pell.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/Wikipedia/Pell.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem infinite_pellNumber_primes
+    : Infinite {n : ℕ | Prime (pellNumber n)} ```'
+  imo_p6_plus_score: 85
+  tier: A_active_scout_first
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_Wikipedia
+  - exact_formal_contract
+  - elementary_signal_hits_3
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: formal-conjectures-green-28
+  title: 'Formal Conjectures: green_28'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/GreensOpenProblems/28.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/GreensOpenProblems/28.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem green_28 : answer(sorry)
+    ↔ ∀ (X Y : PMF ℤ), -- marginals, independence is built into indepSum X.support.Finite
+    ∧ Y.support.Finite ∧ IsUniformOnSupport (indepSum X Y) → IsUniformOnSupport X
+    ∧ IsUniformOnSupport Y ```'
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_GreensOpenProblems
+  - exact_formal_contract
+  - elementary_signal_hits_2
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
+- problem_id: unsolvedmath-guy-a20
+  title: Density of Symmetric Primes
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: number_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GUY-A20
+  statement_preview: Given pairs of odd primes $p, q$, define $S(q,p)$ as the number
+    of lattice points $(m, n)$ in the rectangle $0 < m < p/2$, $0 < n < q/2$ below
+    the dia
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_number_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: unsolvedmath-gt-008
+  title: Cereceda's Conjecture
+  bank: unsolvedmath_index
+  source: UnsolvedMath
+  domain: graph_theory
+  difficulty_level: 3
+  statement_quality: index_snippet
+  formalized: 'no'
+  source_file: null
+  reference: https://www.unsolvedmath.com/problems/GT-008
+  statement_preview: For any $k$-chromatic graph, can its $k$-colorings be transformed
+    into each other by recoloring one vertex at a time, staying within $k$ colors,
+    in po
+  imo_p6_plus_score: 80
+  tier: B_good_scout_candidate
+  reason_codes:
+  - unsolvedmath_index
+  - difficulty_L3_contest_adjacent
+  - target_domain_graph_theory
+  - elementary_signal_hits_3
+  - compact_statement
+  risk_flags:
+  - source_detail_page_required
+  recommended_next_action: fetch_detail_page_then_active_math_scout
+- problem_id: formal-conjectures-conjecture198a
+  title: 'Formal Conjectures: conjecture198a'
+  bank: formal_conjectures_open_research
+  source: Google DeepMind Formal Conjectures
+  domain: research_mathematics
+  difficulty_level: null
+  statement_quality: formal_lean4
+  formalized: lean4_statement
+  source_file: FormalConjectures/WrittenOnTheWallII/GraphConjecture198a.lean
+  reference: https://github.com/google-deepmind/formal-conjectures/blob/9e126a6e1f7d108ced5904c43cac46b1c39b39cb/FormalConjectures/WrittenOnTheWallII/GraphConjecture198a.lean
+  statement_preview: 'Formal Lean declaration: ```lean theorem conjecture198a (G :
+    SimpleGraph α) (h : G.Connected) (hb : b G ≤ 2 + averageEccentricity G) : ∃ a
+    b : α, ∃ p : G.Walk a b, p.IsHamiltonian ```'
+  imo_p6_plus_score: 71
+  tier: B_good_scout_candidate
+  reason_codes:
+  - formal_lean4_statement
+  - formal_source_WrittenOnTheWallII
+  - exact_formal_contract
+  - elementary_signal_hits_1
+  - short_formal_statement
+  risk_flags:
+  - open_research_core_unproven
+  recommended_next_action: active_math_scout_then_lean_dependency_probe
