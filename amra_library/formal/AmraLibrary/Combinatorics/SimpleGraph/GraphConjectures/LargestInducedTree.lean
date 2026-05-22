@@ -47,6 +47,10 @@ largest induced bipartite subgraph of `G`. -/
 noncomputable def largestInducedBipartiteSubgraphSize (G : SimpleGraph α) : ℕ :=
   sSup { n | ∃ s : Finset α, (G.induce (s : Set α)).IsBipartite ∧ s.card = n }
 
+/-- WOWII notation for the order of a largest induced bipartite subgraph. -/
+noncomputable abbrev b (G : SimpleGraph α) : ℕ :=
+  largestInducedBipartiteSubgraphSize G
+
 /-- `largestInducedForestSize G` is the number of vertices in a largest induced
 forest of `G`. -/
 noncomputable def largestInducedForestSize (G : SimpleGraph α) : ℕ :=
@@ -55,6 +59,15 @@ noncomputable def largestInducedForestSize (G : SimpleGraph α) : ℕ :=
 /-- Independence number of the neighbourhood of `v`. -/
 noncomputable def indepNeighborsCard (G : SimpleGraph α) (v : α) : ℕ :=
   (G.induce (G.neighborSet v)).indepNum
+
+/-- Sum of the local neighbourhood independence numbers. -/
+noncomputable def l_sum (G : SimpleGraph α) : ℕ :=
+  ∑ v : α, indepNeighborsCard G v
+
+/-- Average local neighbourhood independence number, in the rational form used
+by the WOWII conjecture statements. -/
+noncomputable def l_avg (G : SimpleGraph α) : ℚ :=
+  (G.l_sum : ℚ) / Fintype.card α
 
 /-- If a finite connected graph is acyclic, the whole vertex set is an induced tree. -/
 theorem card_le_largestInducedTreeSize_of_connected_acyclic
@@ -236,6 +249,53 @@ theorem card_le_largestInducedForestSize_of_induce_isTree
     (hs : (G.induce (s : Set α)).IsTree) :
     s.card ≤ largestInducedForestSize G :=
   card_le_largestInducedForestSize_of_induce_isAcyclic hs.IsAcyclic
+
+/-- A graph containing an explicit triangle is not acyclic. -/
+theorem not_isAcyclic_of_triangle {G : SimpleGraph α} {x y z : α}
+    (hxy : G.Adj x y) (hyz : G.Adj y z) (hzx : G.Adj z x)
+    (hxy_ne : x ≠ y) (hyz_ne : y ≠ z) (hzx_ne : z ≠ x) :
+    ¬ G.IsAcyclic := by
+  intro hacyc
+  let p : G.Walk x x := Walk.cons hxy (Walk.cons hyz (Walk.cons hzx Walk.nil))
+  have hp : p.IsCycle := by
+    simp [p, Walk.cons_isCycle_iff, Walk.cons_isPath_iff,
+      hxy_ne, hyz_ne, hzx_ne, hxy_ne.symm, hzx_ne.symm]
+  exact hacyc p hp
+
+/-- A graph containing an explicit 4-cycle is not acyclic. -/
+theorem not_isAcyclic_of_four_cycle {G : SimpleGraph α} {w x y z : α}
+    (hwx : G.Adj w x) (hxy : G.Adj x y) (hyz : G.Adj y z) (hzw : G.Adj z w)
+    (hwx_ne : w ≠ x) (hwy_ne : w ≠ y) (hwz_ne : w ≠ z)
+    (hxy_ne : x ≠ y) (hxz_ne : x ≠ z) (hyz_ne : y ≠ z) :
+    ¬ G.IsAcyclic := by
+  intro hacyc
+  let p : G.Walk w w := Walk.cons hwx (Walk.cons hxy (Walk.cons hyz (Walk.cons hzw Walk.nil)))
+  have hp : p.IsCycle := by
+    simp [p, Walk.cons_isCycle_iff, Walk.cons_isPath_iff,
+      hwx_ne, hwy_ne, hwz_ne, hxy_ne, hxz_ne, hyz_ne,
+      hwx_ne.symm, hwy_ne.symm, hwz_ne.symm]
+  exact hacyc p hp
+
+/-- To prove an upper bound on the largest induced forest size, it is enough to
+bound the cardinality of every finset whose induced subgraph is acyclic. -/
+theorem largestInducedForestSize_le_of_forall_induce_isAcyclic
+    {G : SimpleGraph α} {N : ℕ}
+    (h : ∀ s : Finset α, (G.induce (s : Set α)).IsAcyclic → s.card ≤ N) :
+    largestInducedForestSize G ≤ N := by
+  classical
+  unfold largestInducedForestSize
+  apply csSup_le
+  · refine ⟨0, ?_⟩
+    refine ⟨∅, ?_, by simp⟩
+    haveI : Subsingleton (↥(((∅ : Finset α) : Set α))) := by
+      constructor
+      intro x _y
+      exfalso
+      simpa using x.2
+    exact SimpleGraph.IsAcyclic.of_subsingleton
+  · intro n hn
+    rcases hn with ⟨s, hsacyc, rfl⟩
+    exact h s hsacyc
 
 /-- The largest induced tree size is bounded by the largest induced forest size. -/
 theorem largestInducedTreeSize_le_largestInducedForestSize [Nonempty α]

@@ -1,4 +1,5 @@
 import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree
+import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13
 
 /-!
 Reusable AMRA Math library modules.
