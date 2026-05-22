@@ -723,7 +723,7 @@ theorem exists_short_window_addback_indices_with_dist_two_same_parity
 
 /-- Mapping a finite set of indices along a path preserves cardinality. -/
 theorem path_index_image_card_eq
-    {G : SimpleGraph α} {u w : α} (p : G.Walk u w) (hp : p.IsPath)
+    [DecidableEq α] {G : SimpleGraph α} {u w : α} (p : G.Walk u w) (hp : p.IsPath)
     (I : Finset ℕ) (hI : ∀ i ∈ I, i ≤ p.length) :
     (I.image fun i => p.getVert i).card = I.card := by
   classical
@@ -734,7 +734,7 @@ theorem path_index_image_card_eq
 /-- If `T ⊆ Q` is added back after deleting an index window `Q` from a path,
 then the selected path vertices have the expected cardinality. -/
 theorem path_vertices_delete_window_addback_card
-    {G : SimpleGraph α} {u w : α} (p : G.Walk u w) (hp : p.IsPath)
+    [DecidableEq α] {G : SimpleGraph α} {u w : α} (p : G.Walk u w) (hp : p.IsPath)
     (Q T : Finset ℕ) (hQsub : Q ⊆ Finset.range (p.length + 1))
     (hTsub : T ⊆ Q) :
     (((Finset.range (p.length + 1) \ Q) ∪ T).image fun i => p.getVert i).card
@@ -759,7 +759,7 @@ theorem path_vertices_delete_window_addback_card
 /-- The add-back cardinal condition says that deleting the short window from a
 path and adding back `T` loses at most three path vertices. -/
 theorem path_vertices_delete_window_addback_card_add_three_ge
-    {G : SimpleGraph α} {u w : α} (p : G.Walk u w) (hp : p.IsPath)
+    [DecidableEq α] {G : SimpleGraph α} {u w : α} (p : G.Walk u w) (hp : p.IsPath)
     (Q T : Finset ℕ) (hQsub : Q ⊆ Finset.range (p.length + 1))
     (hTsub : T ⊆ Q) (hTcard : T.card + 3 ≥ Q.card) :
     (((Finset.range (p.length + 1) \ Q) ∪ T).image fun i => p.getVert i).card + 3
@@ -769,5 +769,330 @@ theorem path_vertices_delete_window_addback_card_add_three_ge
     path_vertices_delete_window_addback_card (G := G) p hp Q T hQsub hTsub
   rw [hcard]
   omega
+
+/-- A same-parity subset of a geodesic path is independent. -/
+theorem geodesic_same_parity_path_vertices_indepSet
+    {G : SimpleGraph α} {u w : α} (p : G.Walk u w)
+    (hp : p.length = G.dist u w) (I : Finset ℕ)
+    (hI : ∀ i ∈ I, i ≤ p.length) (c : ℕ) :
+    G.IsIndepSet (((I.filter fun i => i % 2 = c).image fun i => p.getVert i) : Set α) := by
+  classical
+  intro x hx y hy hxy hAdj
+  rw [Finset.mem_coe, Finset.mem_image] at hx hy
+  rcases hx with ⟨i, hi, hix⟩
+  rcases hy with ⟨j, hj, hjy⟩
+  have hiI : i ∈ I := (Finset.mem_filter.mp hi).1
+  have hjI : j ∈ I := (Finset.mem_filter.mp hj).1
+  have hiParity : i % 2 = c := (Finset.mem_filter.mp hi).2
+  have hjParity : j % 2 = c := (Finset.mem_filter.mp hj).2
+  have hiLen : i ≤ p.length := hI i hiI
+  have hjLen : j ≤ p.length := hI j hjI
+  by_cases hij : i = j
+  · exact hxy (by rw [← hix, ← hjy, hij])
+  · rcases Nat.lt_or_gt_of_ne hij with hijlt | hjilt
+    · have hAdjij : G.Adj (p.getVert i) (p.getVert j) := by
+        simpa [hix, hjy] using hAdj
+      have hsub : j - i = 1 :=
+        geodesic_getVert_adj_index_sub_eq_one (G := G) p hp hijlt hjLen hAdjij
+      have hpar : i % 2 = j % 2 := hiParity.trans hjParity.symm
+      omega
+    · have hAdjji : G.Adj (p.getVert j) (p.getVert i) := by
+        simpa [hix, hjy] using hAdj.symm
+      have hsub : i - j = 1 :=
+        geodesic_getVert_adj_index_sub_eq_one (G := G) p hp hjilt hiLen hAdjji
+      have hpar : j % 2 = i % 2 := hjParity.trans hiParity.symm
+      omega
+
+/-- The center vertex is not among the selected path vertices after deleting
+the distance-two window and adding back vertices known to be exactly distance
+two from the center. -/
+theorem center_not_mem_path_vertices_delete_window_addback
+    [DecidableEq α] {G : SimpleGraph α} {u w x : α} (p : G.Walk u w) (T : Finset ℕ)
+    (_hTsub :
+      T ⊆ (Finset.range (p.length + 1)).filter
+        (fun i => G.dist x (p.getVert i) ≤ 2))
+    (hTdist : ∀ i ∈ T, G.dist x (p.getVert i) = 2) :
+    x ∉ ((((Finset.range (p.length + 1)) \
+        (Finset.range (p.length + 1)).filter
+          (fun i => G.dist x (p.getVert i) ≤ 2)) ∪ T).image fun i => p.getVert i) := by
+  classical
+  intro hx
+  rw [Finset.mem_image] at hx
+  rcases hx with ⟨i, hi, hix⟩
+  rw [Finset.mem_union] at hi
+  rcases hi with hi | hi
+  · exact (Finset.mem_sdiff.mp hi).2
+      (Finset.mem_filter.mpr ⟨(Finset.mem_sdiff.mp hi).1, by simp [hix]⟩)
+  · have hdist : G.dist x x = 2 := by
+      simpa [hix] using hTdist i hi
+    simp at hdist
+
+/-- A neighbourhood set of the center is disjoint from the selected path
+vertices after deleting the distance-two window and adding back only vertices at
+distance exactly two. -/
+theorem neighbor_set_disjoint_path_vertices_delete_window_addback
+    [DecidableEq α] {G : SimpleGraph α} {u w x : α} (p : G.Walk u w)
+    (A : Finset α) (T : Finset ℕ)
+    (hAadj : ∀ a ∈ A, G.Adj x a)
+    (_hTsub :
+      T ⊆ (Finset.range (p.length + 1)).filter
+        (fun i => G.dist x (p.getVert i) ≤ 2))
+    (hTdist : ∀ i ∈ T, G.dist x (p.getVert i) = 2) :
+    Disjoint A
+      ((((Finset.range (p.length + 1)) \
+        (Finset.range (p.length + 1)).filter
+          (fun i => G.dist x (p.getVert i) ≤ 2)) ∪ T).image fun i => p.getVert i) := by
+  classical
+  rw [Finset.disjoint_left]
+  intro a ha hpath
+  rw [Finset.mem_image] at hpath
+  rcases hpath with ⟨i, hi, hia⟩
+  have hdist_le_one : G.dist x (p.getVert i) ≤ 1 := by
+    simpa [hia] using SimpleGraph.dist_le (hAadj a ha).toWalk
+  rw [Finset.mem_union] at hi
+  rcases hi with hi | hi
+  · exact (Finset.mem_sdiff.mp hi).2
+      (Finset.mem_filter.mpr ⟨(Finset.mem_sdiff.mp hi).1, by omega⟩)
+  · have hdist_two : G.dist x (p.getVert i) = 2 := hTdist i hi
+    omega
+
+/-- The diameter-path window construction gives the per-vertex induced
+bipartite witness needed for WOWII Conjecture 13. -/
+theorem exists_diam_add_indepNeighborsCard_sub_one_bipartite_witness
+    [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (hG : G.Connected) (v : α) :
+    ∃ s : Finset α,
+      (G.induce (s : Set α)).IsBipartite ∧
+        (G.diam : ℝ) + (indepNeighborsCard G v : ℝ) - 1 ≤ (s.card : ℝ) := by
+  classical
+  obtain ⟨A, hAcard, hAadj, hAind⟩ :=
+    exists_indepNeighborsCard_neighbor_indepSet (G := G) v
+  obtain ⟨u, w, p, hpPath, hpDist, hpDiam⟩ :=
+    exists_diameter_walk_with_dist (G := G) hG
+  let Q := (Finset.range (p.length + 1)).filter
+    (fun i => G.dist v (p.getVert i) ≤ 2)
+  obtain ⟨T, hTsub, hTcard, _hTle, hTdist, hTparity⟩ :=
+    exists_short_window_addback_indices_with_dist_two_same_parity
+      (G := G) hG (p := p) hpDist
+  change
+    ∃ s : Finset α,
+      (G.induce (s : Set α)).IsBipartite ∧
+        (G.diam : ℝ) + (indepNeighborsCard G v : ℝ) - 1 ≤ (s.card : ℝ)
+  let I := (Finset.range (p.length + 1) \ Q) ∪ T
+  let c : ℕ := if hne : T.Nonempty then T.min' hne % 2 else 0
+  let d : ℕ := (c + 1) % 2
+  let P := I.image fun i => p.getVert i
+  let P0 := (I.filter fun i => i % 2 = c).image fun i => p.getVert i
+  let P1 := (I.filter fun i => i % 2 = d).image fun i => p.getVert i
+  let L := A ∪ P1
+  let R := insert v P0
+  let S := L ∪ R
+  have hQsub : Q ⊆ Finset.range (p.length + 1) := by
+    intro i hi
+    exact (Finset.mem_filter.mp hi).1
+  have hIlen : ∀ i ∈ I, i ≤ p.length := by
+    intro i hi
+    change i ∈ (Finset.range (p.length + 1) \ Q) ∪ T at hi
+    rw [Finset.mem_union] at hi
+    rcases hi with hi | hi
+    · exact Nat.lt_succ_iff.mp (Finset.mem_range.mp (Finset.mem_sdiff.mp hi).1)
+    · exact Nat.lt_succ_iff.mp (Finset.mem_range.mp (hQsub (hTsub hi)))
+  have hTc : ∀ i ∈ T, i % 2 = c := by
+    intro i hi
+    dsimp [c]
+    by_cases hne : T.Nonempty
+    · have hmin : T.min' hne ∈ T := Finset.min'_mem T hne
+      simpa [hne] using hTparity i hi (T.min' hne) hmin
+    · exact False.elim (hne ⟨i, hi⟩)
+  have hc_lt : c < 2 := by
+    dsimp [c]
+    split_ifs with hne
+    · exact Nat.mod_lt _ (by decide)
+    · omega
+  have hpar_cover : ∀ i : ℕ, i % 2 = c ∨ i % 2 = d := by
+    intro i
+    have hi_lt : i % 2 < 2 := Nat.mod_lt i (by decide)
+    dsimp [d]
+    omega
+  have hcd_ne : c ≠ d := by
+    dsimp [d]
+    omega
+  have hP0ind : G.IsIndepSet (P0 : Set α) := by
+    simpa [P0] using
+      geodesic_same_parity_path_vertices_indepSet (G := G) p hpDist I hIlen c
+  have hP1ind : G.IsIndepSet (P1 : Set α) := by
+    simpa [P1] using
+      geodesic_same_parity_path_vertices_indepSet (G := G) p hpDist I hIlen d
+  have hNoAdjCenterP0 : ∀ y ∈ P0, ¬ G.Adj v y := by
+    intro y hy hyAdj
+    change y ∈ ((I.filter fun i => i % 2 = c).image fun i => p.getVert i) at hy
+    rw [Finset.mem_image] at hy
+    rcases hy with ⟨i, hi, hiy⟩
+    have hiI : i ∈ I := (Finset.mem_filter.mp hi).1
+    change i ∈ (Finset.range (p.length + 1) \ Q) ∪ T at hiI
+    rw [Finset.mem_union] at hiI
+    rcases hiI with hiOutside | hiT
+    · exact not_adj_center_of_index_not_mem_dist_le_two_window (G := G) p hiOutside
+        (by simpa [hiy] using hyAdj)
+    · have hdist_two : G.dist v (p.getVert i) = 2 := hTdist i hiT
+      have hdist_le_one : G.dist v (p.getVert i) ≤ 1 := by
+        simpa [hiy] using SimpleGraph.dist_le hyAdj.toWalk
+      omega
+  have hNoAdjAP1 : ∀ a ∈ A, ∀ y ∈ P1, ¬ G.Adj a y := by
+    intro a ha y hy hay
+    change y ∈ ((I.filter fun i => i % 2 = d).image fun i => p.getVert i) at hy
+    rw [Finset.mem_image] at hy
+    rcases hy with ⟨i, hi, hiy⟩
+    have hiI : i ∈ I := (Finset.mem_filter.mp hi).1
+    have hiParity : i % 2 = d := (Finset.mem_filter.mp hi).2
+    change i ∈ (Finset.range (p.length + 1) \ Q) ∪ T at hiI
+    rw [Finset.mem_union] at hiI
+    rcases hiI with hiOutside | hiT
+    · exact not_adj_neighbor_of_index_not_mem_dist_le_two_window (G := G) hG p
+        hiOutside (hAadj a ha) (by simpa [hiy] using hay)
+    · exact False.elim (hcd_ne ((hTc i hiT).symm.trans hiParity))
+  have hLind : G.IsIndepSet (L : Set α) := by
+    intro x hx y hy hxy hAdj
+    change x ∈ A ∪ P1 at hx
+    change y ∈ A ∪ P1 at hy
+    rw [Finset.mem_union] at hx hy
+    rcases hx with hxA | hxP
+    · rcases hy with hyA | hyP
+      · exact hAind hxA hyA hxy hAdj
+      · exact hNoAdjAP1 x hxA y hyP hAdj
+    · rcases hy with hyA | hyP
+      · exact hNoAdjAP1 y hyA x hxP hAdj.symm
+      · exact hP1ind hxP hyP hxy hAdj
+  have hRind : G.IsIndepSet (R : Set α) := by
+    intro x hx y hy hxy hAdj
+    change x ∈ insert v P0 at hx
+    change y ∈ insert v P0 at hy
+    rw [Finset.mem_insert] at hx hy
+    rcases hx with rfl | hxP
+    · rcases hy with hyv | hyP
+      · exact hxy hyv.symm
+      · exact hNoAdjCenterP0 y hyP hAdj
+    · rcases hy with rfl | hyP
+      · exact hNoAdjCenterP0 x hxP hAdj.symm
+      · exact hP0ind hxP hyP hxy hAdj
+  have hBip : (G.induce (S : Set α)).IsBipartite := by
+    change (G.induce (S : Set α)).Colorable 2
+    refine ⟨SimpleGraph.Coloring.mk (fun x : (S : Set α) =>
+      if x.1 ∈ L then (0 : Fin 2) else (1 : Fin 2)) ?_⟩
+    intro x y hxy hcolor
+    by_cases hxL : x.1 ∈ L <;> by_cases hyL : y.1 ∈ L
+    · exact hLind hxL hyL (fun h => hxy.ne (Subtype.ext h)) hxy
+    · simp [hxL, hyL] at hcolor
+    · simp [hxL, hyL] at hcolor
+    · have hxR : x.1 ∈ R := by
+        have hxS : x.1 ∈ S := x.2
+        change x.1 ∈ L ∪ R at hxS
+        rw [Finset.mem_union] at hxS
+        exact hxS.resolve_left hxL
+      have hyR : y.1 ∈ R := by
+        have hyS : y.1 ∈ S := y.2
+        change y.1 ∈ L ∪ R at hyS
+        rw [Finset.mem_union] at hyS
+        exact hyS.resolve_left hyL
+      exact hRind hxR hyR (fun h => hxy.ne (Subtype.ext h)) hxy
+  have hCard :
+      (G.diam : ℝ) + (indepNeighborsCard G v : ℝ) - 1 ≤ (S.card : ℝ) := by
+    let S0 := insert v (A ∪ P)
+    have hPsub : P ⊆ P0 ∪ P1 := by
+      intro y hy
+      change y ∈ (I.image fun i => p.getVert i) at hy
+      rw [Finset.mem_image] at hy
+      rcases hy with ⟨i, hiI, hiy⟩
+      rcases hpar_cover i with hiParity | hiParity
+      · exact Finset.mem_union_left P1
+          (Finset.mem_image.mpr ⟨i, Finset.mem_filter.mpr ⟨hiI, hiParity⟩, hiy⟩)
+      · exact Finset.mem_union_right P0
+          (Finset.mem_image.mpr ⟨i, Finset.mem_filter.mpr ⟨hiI, hiParity⟩, hiy⟩)
+    have hS0sub : S0 ⊆ S := by
+      intro x hx
+      change x ∈ insert v (A ∪ P) at hx
+      rw [Finset.mem_insert, Finset.mem_union] at hx
+      change x ∈ L ∪ R
+      rw [Finset.mem_union]
+      change x ∈ A ∪ P1 ∨ x ∈ insert v P0
+      rw [Finset.mem_union, Finset.mem_insert]
+      rcases hx with rfl | hx
+      · exact Or.inr (Or.inl rfl)
+      · rcases hx with hxA | hxP
+        · exact Or.inl (Or.inl hxA)
+        · have hxP01 : x ∈ P0 ∪ P1 := hPsub hxP
+          rw [Finset.mem_union] at hxP01
+          rcases hxP01 with hxP0 | hxP1
+          · exact Or.inr (Or.inr hxP0)
+          · exact Or.inl (Or.inr hxP1)
+    have hAdisjP : Disjoint A P := by
+      simpa [P, I, Q] using
+        neighbor_set_disjoint_path_vertices_delete_window_addback
+          (G := G) p A T hAadj hTsub hTdist
+    have hvnotA : v ∉ A := by
+      intro hvA
+      exact G.irrefl (hAadj v hvA)
+    have hvnotP : v ∉ P := by
+      simpa [P, I, Q] using
+        center_not_mem_path_vertices_delete_window_addback
+          (G := G) p T hTsub hTdist
+    have hvnotAP : v ∉ A ∪ P := by
+      simp [hvnotA, hvnotP]
+    have hS0card : S0.card = A.card + P.card + 1 := by
+      change (insert v (A ∪ P)).card = A.card + P.card + 1
+      rw [Finset.card_insert_of_notMem hvnotAP]
+      rw [Finset.card_union_of_disjoint hAdisjP]
+    have hPcard :
+        P.card = p.length + 1 - Q.card + T.card := by
+      simpa [P, I, Q] using
+        path_vertices_delete_window_addback_card (G := G) p hpPath Q T hQsub hTsub
+    have hPadd : P.card + 3 ≥ p.length + 1 := by
+      simpa [P, I, Q] using
+        path_vertices_delete_window_addback_card_add_three_ge
+          (G := G) p hpPath Q T hQsub hTsub hTcard
+    have hS0leS : S0.card ≤ S.card := Finset.card_le_card hS0sub
+    have hPaddR : (p.length + 1 : ℝ) ≤ (P.card + 3 : ℝ) := by
+      exact_mod_cast hPadd
+    have hS0leSR : (S0.card : ℝ) ≤ (S.card : ℝ) := by
+      exact_mod_cast hS0leS
+    have hmain : (p.length : ℝ) + (A.card : ℝ) - 1 ≤ (S0.card : ℝ) := by
+      rw [hS0card]
+      norm_num
+      nlinarith [hPaddR]
+    calc
+      (G.diam : ℝ) + (indepNeighborsCard G v : ℝ) - 1
+          = (p.length : ℝ) + (A.card : ℝ) - 1 := by
+            rw [hpDiam, hAcard]
+      _ ≤ (S0.card : ℝ) := hmain
+      _ ≤ (S.card : ℝ) := hS0leSR
+  exact ⟨S, hBip, hCard⟩
+
+/-- Per-vertex strengthening of WOWII Conjecture 13. -/
+theorem diam_add_indepNeighborsCard_sub_one_le_largestInducedBipartiteSubgraphSize
+    [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (hG : G.Connected) (v : α) :
+    (G.diam : ℝ) + (indepNeighborsCard G v : ℝ) - 1
+      ≤ (largestInducedBipartiteSubgraphSize G : ℝ) := by
+  classical
+  obtain ⟨s, hs_bip, hs_card⟩ :=
+    exists_diam_add_indepNeighborsCard_sub_one_bipartite_witness
+      (G := G) hG v
+  have hs_largest :
+      (s.card : ℝ) ≤ (largestInducedBipartiteSubgraphSize G : ℝ) := by
+    exact_mod_cast
+      (card_le_largestInducedBipartiteSubgraphSize_of_induce_isBipartite
+        (G := G) (s := s) hs_bip)
+  exact le_trans hs_card hs_largest
+
+variable [Fintype α] [DecidableEq α] [Nontrivial α]
+
+/-- WOWII Conjecture 13, derived from the per-vertex strengthening. -/
+theorem conjecture13 (G : SimpleGraph α) (h : G.Connected) :
+    letI maxL := (Finset.univ.image (fun v => indepNeighborsCard G v)).max' (by simp)
+    (G.diam : ℝ) + (maxL : ℝ) - 1 ≤ b G := by
+  classical
+  refine conjecture13_from_vertex_bipartite_witnesses_final_shape (G := G) h ?_
+  intro v
+  exact exists_diam_add_indepNeighborsCard_sub_one_bipartite_witness (G := G) h v
 
 end SimpleGraph
