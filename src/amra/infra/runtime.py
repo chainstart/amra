@@ -185,6 +185,7 @@ def run_guarded_command(
     *,
     cwd: Path,
     timeout: int,
+    input_text: str | None = None,
     env: dict[str, str] | None = None,
     memory_mb: int,
     cpu_seconds: int,
@@ -194,6 +195,7 @@ def run_guarded_command(
     process = subprocess.Popen(
         command,
         cwd=cwd,
+        stdin=subprocess.PIPE if input_text is not None else None,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
@@ -206,7 +208,7 @@ def run_guarded_command(
         ),
     )
     try:
-        stdout, stderr = process.communicate(timeout=timeout)
+        stdout, stderr = process.communicate(input=input_text, timeout=timeout)
     except subprocess.TimeoutExpired as exc:
         try:
             os.killpg(process.pid, signal.SIGKILL)

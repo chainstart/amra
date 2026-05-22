@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import subprocess
 from pathlib import Path
 
 from ara_math.campaign_loop import (
@@ -8,7 +9,7 @@ from ara_math.campaign_loop import (
     extract_formalization_target_from_run,
 )
 from ara_math.workspace import write_json
-from amra.proof.global_supervisor import parse_supervisor_decision
+from amra.proof.global_supervisor import GlobalProofSupervisor, parse_supervisor_decision
 
 
 def _write_workspace(tmp_path: Path, body: str) -> Path:
@@ -214,6 +215,58 @@ def test_parse_supervisor_decision_extracts_switch_target() -> None:
     assert decision["decision"] == "switch_target"
     assert decision["target_theorem"] == "fresh_target"
     assert decision["route_risk"] == "low"
+
+
+def test_global_supervisor_sends_large_prompt_via_stdin(tmp_path: Path, monkeypatch) -> None:
+    captured: dict[str, object] = {}
+
+    def fake_run_guarded_command(command, **kwargs):
+        captured["command"] = command
+        captured["input_text"] = kwargs.get("input_text")
+        output_path = Path(command[command.index("--output-last-message") + 1])
+        output_path.write_text(
+            "\n".join(
+                [
+                    "Supervisor decision: continue_current_target",
+                    "Reason: keep going.",
+                    "Next target: <none>",
+                    "Formalization target: <unchanged>",
+                    "Instructions: continue.",
+                    "Route risk: low",
+                    "",
+                ]
+            ),
+            encoding="utf-8",
+        )
+        return subprocess.CompletedProcess(command, 0, "", "")
+
+    monkeypatch.setattr("amra.proof.global_supervisor.shutil.which", lambda _name: "/usr/bin/codex")
+    monkeypatch.setattr("amra.proof.global_supervisor.wait_for_system_headroom", lambda **_kwargs: None)
+    monkeypatch.setattr("amra.proof.global_supervisor.run_guarded_command", fake_run_guarded_command)
+
+    long_statement = "Prove this.\n" + ("long context\n" * 20000)
+    supervisor = GlobalProofSupervisor(repo_root=tmp_path)
+    decision = supervisor.run(
+        run_dir=tmp_path / "run",
+        statement=long_statement,
+        round_number=1,
+        current_target_theorem="Current",
+        final_target_theorem="Final",
+        completed_target_theorems=set(),
+        latest_entry={"round": 1, "status": "partial"},
+        round_entries=[],
+        backend="codex",
+        timeout_sec=10,
+        enable_search=False,
+    )
+
+    command = captured["command"]
+    assert isinstance(command, list)
+    assert command[-1] == "-"
+    assert long_statement not in command
+    assert isinstance(captured["input_text"], str)
+    assert long_statement in captured["input_text"]
+    assert decision["decision"] == "continue_current_target"
 
 
 def test_campaign_loop_supervisor_can_retarget_after_stall(tmp_path: Path) -> None:

@@ -416,7 +416,7 @@ class GlobalProofSupervisor:
             command.extend(["-c", f'model_reasoning_effort="{self.backend_reasoning_effort}"'])
         resolved_run_dir = run_dir.resolve()
         resolved_output_path = output_path.resolve()
-        command.extend(["exec", "-C", str(resolved_run_dir), "--output-last-message", str(resolved_output_path), prompt])
+        command.extend(["exec", "-C", str(resolved_run_dir), "--output-last-message", str(resolved_output_path), "-"])
 
         wait_for_system_headroom(
             min_available_memory_mb=self.min_available_memory_mb,
@@ -434,6 +434,7 @@ class GlobalProofSupervisor:
                 cpu_seconds=min(self.backend_max_cpu_seconds, max(timeout_sec + 10, timeout_sec)),
                 max_processes=self.backend_max_processes,
                 niceness=self.backend_niceness,
+                input_text=prompt,
             )
         except subprocess.TimeoutExpired as exc:
             if not output_path.exists():
