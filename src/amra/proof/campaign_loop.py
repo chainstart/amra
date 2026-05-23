@@ -723,6 +723,8 @@ class CampaignLoopRunner:
         supervisor_on_stall: bool = True,
         supervisor_every_rounds: int = 0,
         supervisor_timeout_sec: int = 900,
+        library_module: str = "",
+        promote_to_library: bool = False,
         math_tools_profile: str = "full",
         install_missing_math_tools: bool | None = None,
         run_math_tool_smoke: bool | None = None,
@@ -811,6 +813,14 @@ class CampaignLoopRunner:
                     enable_search=enable_search,
                     max_stalled_attempts=None,
                     expected_target_header=child_expected_target_header,
+                    library_module=(
+                        library_module
+                        if library_module.strip()
+                        and final_target_theorem.strip()
+                        and current_target_theorem == final_target_theorem.strip()
+                        else ""
+                    ),
+                    promote_to_library=promote_to_library,
                     math_tools_profile=math_tools_profile,
                     install_missing_math_tools=install_missing_math_tools,
                     run_math_tool_smoke=run_math_tool_smoke,
@@ -841,6 +851,7 @@ class CampaignLoopRunner:
                     "needs_global_reassessment": needs_global_reassessment,
                     "global_assessment_path": global_assessment_path,
                     "suggested_next_targets": list(child.get("suggested_next_targets") or []),
+                    "library_promotion": child.get("library_promotion") or {},
                     "attempts_completed": child.get("attempts_completed"),
                     "progress_velocity": child.get("progress_velocity") or {},
                 }

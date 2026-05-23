@@ -1016,6 +1016,16 @@ def build_parser() -> argparse.ArgumentParser:
     focused_lean_attack.add_argument("--command-timeout", type=int, default=300, help="Host verifier timeout.")
     focused_lean_attack.add_argument("--output-root", type=Path, default=None)
     focused_lean_attack.add_argument("--run-name", default=None)
+    focused_lean_attack.add_argument(
+        "--promote-to-library",
+        action="store_true",
+        help="After successful verification, archive the verified target source file in AmraLibrary.",
+    )
+    focused_lean_attack.add_argument(
+        "--library-module",
+        default="",
+        help="Destination AmraLibrary module for a verified proof, e.g. AmraLibrary.Combinatorics.MyProof.",
+    )
     _add_open_research_source_args(focused_lean_attack)
     focused_lean_attack.add_argument("--model", default=None, help="Override the decision backend model.")
     focused_lean_attack.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
@@ -1053,6 +1063,16 @@ def build_parser() -> argparse.ArgumentParser:
     lean_formalizer.add_argument("--build-command", default="lake build")
     lean_formalizer.add_argument("--output-root", type=Path, default=None)
     lean_formalizer.add_argument("--run-name", default=None)
+    lean_formalizer.add_argument(
+        "--promote-to-library",
+        action="store_true",
+        help="After successful verification, archive the verified target source file in AmraLibrary.",
+    )
+    lean_formalizer.add_argument(
+        "--library-module",
+        default="",
+        help="Destination AmraLibrary module for a verified proof, e.g. AmraLibrary.Combinatorics.MyProof.",
+    )
     _add_open_research_source_args(lean_formalizer)
     lean_formalizer.add_argument("--model", default=None, help="Override the formalizer backend model.")
     lean_formalizer.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
@@ -1106,6 +1126,16 @@ def build_parser() -> argparse.ArgumentParser:
     _add_open_research_source_args(campaign_loop)
     campaign_loop.add_argument("--output-root", type=Path, default=None)
     campaign_loop.add_argument("--run-name", default=None)
+    campaign_loop.add_argument(
+        "--promote-to-library",
+        action="store_true",
+        help="After the final target is verified, archive the verified target source file in AmraLibrary.",
+    )
+    campaign_loop.add_argument(
+        "--library-module",
+        default="",
+        help="Destination AmraLibrary module for the final verified proof.",
+    )
     campaign_loop.add_argument("--model", default=None, help="Override proof-lab and formalizer backend model.")
     campaign_loop.add_argument("--reasoning-effort", default=None, help="Override backend reasoning effort.")
     campaign_loop.add_argument("--max-stalled-rounds", type=int, default=0)
@@ -2055,6 +2085,8 @@ def main(argv: list[str] | None = None) -> int:
                 enable_search=args.search,
                 model=args.model,
                 reasoning_effort=args.reasoning_effort,
+                library_module=args.library_module,
+                promote_to_library=args.promote_to_library,
                 math_tools_profile=args.math_tools_profile,
                 install_missing_math_tools=not args.no_install_missing_math_tools,
                 run_math_tool_smoke=not args.no_math_tool_smoke,
@@ -2207,6 +2239,8 @@ def main(argv: list[str] | None = None) -> int:
                 max_stalled_attempts=max_stalled_attempts,
                 rollback_failed_attempts=args.rollback_failed_attempts,
                 expected_target_header=expected_target_header,
+                library_module=args.library_module,
+                promote_to_library=args.promote_to_library,
                 math_tools_profile=args.math_tools_profile,
                 install_missing_math_tools=not args.no_install_missing_math_tools,
                 run_math_tool_smoke=not args.no_math_tool_smoke,
@@ -2264,6 +2298,8 @@ def main(argv: list[str] | None = None) -> int:
                 supervisor_on_stall=not args.no_supervisor_on_stall,
                 supervisor_every_rounds=args.supervisor_every_rounds,
                 supervisor_timeout_sec=args.supervisor_timeout,
+                library_module=args.library_module,
+                promote_to_library=args.promote_to_library,
                 math_tools_profile=args.math_tools_profile,
                 install_missing_math_tools=not args.no_install_missing_math_tools,
                 run_math_tool_smoke=not args.no_math_tool_smoke,

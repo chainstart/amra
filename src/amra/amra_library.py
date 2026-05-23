@@ -209,16 +209,18 @@ class AmraLibraryManager:
 
     def _sync_root_imports(self, modules: list[dict[str, Any]]) -> None:
         imports = sorted({str(module.get("module_name", "")).strip() for module in modules if module.get("module_name")})
-        lines = [
-            "/-!",
-            f"Reusable {self.display_name} Math library modules.",
-            "",
-            "This file imports every registered reusable module.",
-            "-/",
-            "",
-        ]
-        lines.extend(f"import {module_name}" for module_name in imports)
-        lines.append("")
+        lines = [f"import {module_name}" for module_name in imports]
+        lines.extend(
+            [
+                "",
+                "/-!",
+                f"Reusable {self.display_name} Math library modules.",
+                "",
+                "This file imports every registered reusable module.",
+                "-/",
+                "",
+            ]
+        )
         write_text(self.formal_dir / f"{self.module_prefix}.lean", "\n".join(lines))
 
     def _upsert_module(self, entry: dict[str, Any]) -> dict[str, Any]:
@@ -593,6 +595,114 @@ class AmraLibraryManager:
             "promoted_declarations": promoted_names,
             "missing_declarations": missing,
             "provenance": provenance_payload,
+        }
+
+    def promote_verified_file(
+        self,
+        *,
+        source_file: Path,
+        module_name: str,
+        source_project: Path | None = None,
+        title: str = "",
+        domain: str = "",
+        status: str = "verified",
+        tags: list[str] | None = None,
+        description: str = "",
+        verification_basis: dict[str, Any] | None = None,
+        build_timeout_sec: int | None = 600,
+    ) -> dict[str, Any]:
+        """Archive a complete verified Lean source file as a reusable AMRA module.
+
+        This is used by Lean proof loops after the final target has passed the
+        host verifier.  The whole file is preserved rather than extracting only
+        the target declaration, because completed proofs often depend on local
+        helper lemmas from the same file.
+        """
+
+        source_file = source_file.expanduser().resolve()
+        source_project = source_project.expanduser().resolve() if source_project is not None else None
+        if not source_file.exists():
+            raise FileNotFoundError(f"Source Lean file does not exist: {source_file}")
+        source_audit = self.audit_source_file(source_file)
+        if source_audit.get("trust_level") != "trusted":
+            raise ValueError("AMRA library file promotion rejected: source file contains forbidden placeholders.")
+
+        normalized_module_name = self.normalise_module_name(module_name)
+        self.ensure_library()
+        module_path = self.formal_dir / _module_to_path(normalized_module_name, module_prefix=self.module_prefix)
+        module_path.parent.mkdir(parents=True, exist_ok=True)
+        root_module_path = self.formal_dir / f"{self.module_prefix}.lean"
+
+        previous_module_text = module_path.read_text(encoding="utf-8") if module_path.exists() else None
+        previous_root_text = root_module_path.read_text(encoding="utf-8") if root_module_path.exists() else None
+        previous_registry = read_json(self.registry_path, default={})
+
+        promoted_at = utc_now_iso()
+        provenance_comment = "\n".join(
+            [
+                "/-",
+                "## AMRA library promotion provenance",
+                f"- Source file: `{source_file}`",
+                f"- Source project: `{source_project or ''}`",
+                f"- Promoted at: `{promoted_at}`",
+                f"- Verification basis: `{(verification_basis or {}).get('basis', 'host_verified_final_target')}`",
+                "-/",
+                "",
+            ]
+        )
+        source_text = source_file.read_text(encoding="utf-8", errors="ignore").lstrip()
+        write_text(module_path, provenance_comment + source_text)
+        declarations = self._scan_module_declarations(module_path)
+        entry = self._upsert_module(
+            {
+                "module_name": normalized_module_name,
+                "path": str(module_path.relative_to(self.library_root)),
+                "title": title or normalized_module_name,
+                "domain": domain,
+                "status": status,
+                "tags": [str(tag) for tag in tags or []],
+                "description": description or f"Verified Lean file promoted from {source_file}.",
+                "source_file": str(source_file),
+                "source_project": str(source_project or ""),
+                "declarations": declarations,
+                "provenance": {
+                    "source_file": str(source_file),
+                    "source_project": str(source_project or ""),
+                    "promoted_at": promoted_at,
+                    "verification_basis": verification_basis or {"basis": "host_verified_final_target"},
+                    "source_audit": source_audit,
+                },
+                "import_hints": self._import_hints(normalized_module_name, [item["name"] for item in declarations]),
+            }
+        )
+        build_report = self.build(timeout_sec=build_timeout_sec, allow_cold_cache=True)
+        if str(build_report.get("status") or "") not in {"passed", "verified"}:
+            if previous_module_text is None:
+                module_path.unlink(missing_ok=True)
+            else:
+                write_text(module_path, previous_module_text)
+            if previous_root_text is not None:
+                write_text(root_module_path, previous_root_text)
+            if previous_registry:
+                write_json(self.registry_path, previous_registry)
+            else:
+                self.registry_path.unlink(missing_ok=True)
+            return {
+                "status": "failed",
+                "module": entry,
+                "path": str(module_path),
+                "source_file": str(source_file),
+                "build_report": build_report,
+                "rolled_back": True,
+            }
+        return {
+            "status": "promoted",
+            "module": entry,
+            "path": str(module_path),
+            "source_file": str(source_file),
+            "declarations": declarations,
+            "build_report": build_report,
+            "rolled_back": False,
         }
 
     def _scan_module_declarations(self, module_path: Path) -> list[dict[str, Any]]:

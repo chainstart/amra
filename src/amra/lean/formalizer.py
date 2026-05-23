@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from amra.agents.source_policy import apply_codex_source_policy, mark_policy_violation, source_policy_prompt
+from amra.amra_library import AmraLibraryManager
 from amra.portfolio_scheduler import PortfolioAttackScheduler, calculate_progress_velocity
 from amra.lean.executor import LeanExecutor
 from amra.lean.contract import compare_lean_declaration_headers, extract_lean_declaration_header
@@ -18,6 +19,19 @@ from amra.math_tools import ensure_math_tools
 
 
 __all__ = ["LeanFormalizerRunner", "collect_proof_lab_context_paths"]
+
+
+def _lean_module_component(value: str, fallback: str = "CuratedProof") -> str:
+    words = re.findall(r"[A-Za-z0-9]+", value)
+    component = "".join(word[:1].upper() + word[1:] for word in words) or fallback
+    if component[0].isdigit():
+        component = f"Proof{component}"
+    return component
+
+
+def _inferred_library_module(target_name: str, source_file: Path) -> str:
+    stem = source_file.stem if source_file.name else target_name
+    return "AmraLibrary.Curated." + _lean_module_component(target_name or stem)
 
 
 class LeanFormalizerRunner:
@@ -747,6 +761,7 @@ class LeanFormalizerRunner:
         merge_to_canonical: bool = False,
         review_status: str = "",
         library_module: str = "",
+        promote_to_library: bool = False,
         math_tools_profile: str = "full",
         install_missing_math_tools: bool | None = None,
         run_math_tool_smoke: bool | None = None,
@@ -1022,10 +1037,56 @@ class LeanFormalizerRunner:
             )
         elif workspace_reservation is not None:
             payload["formal_workspace_merge"] = {"merged": False, "reason": "merge_not_requested"}
+        payload["library_promotion"] = self._promote_verified_target_to_library(
+            workspace=workspace,
+            audit=best_audit,
+            target_theorem=target_theorem or "",
+            library_module=library_module,
+            promote_to_library=promote_to_library,
+        )
         write_json(run_dir / "report.json", payload)
         self._write_summary(path=run_dir / "summary.md", payload=payload)
         write_json(run_dir / "state.json", payload)
         return payload
+
+    def _promote_verified_target_to_library(
+        self,
+        *,
+        workspace: Path,
+        audit: dict[str, Any],
+        target_theorem: str,
+        library_module: str,
+        promote_to_library: bool,
+    ) -> dict[str, Any]:
+        if not audit.get("verified"):
+            return {"status": "skipped", "reason": "target_not_verified"}
+        if not promote_to_library and not library_module.strip():
+            return {"status": "skipped", "reason": "library_promotion_not_requested"}
+        target = dict(audit.get("target") or {})
+        if not target.get("found"):
+            return {"status": "skipped", "reason": "target_source_not_found"}
+        source_file = Path(str(target.get("path") or ""))
+        if not source_file.is_absolute():
+            source_file = workspace / source_file
+        source_file = source_file.resolve(strict=False)
+        module_name = library_module.strip() or _inferred_library_module(target_theorem, source_file)
+        try:
+            result = AmraLibraryManager(repo_root=self.repo_root).promote_verified_file(
+                source_file=source_file,
+                module_name=module_name,
+                title=f"Verified proof artifact for {target_theorem or source_file.stem}",
+                status="verified",
+                tags=["auto_promoted", "lean_verified"],
+                verification_basis={
+                    "basis": "lean_formalizer_best_audit",
+                    "target_theorem": target_theorem,
+                    "workspace": str(workspace),
+                    "audit_generated_at": str(audit.get("generated_at") or ""),
+                },
+            )
+        except Exception as exc:
+            return {"status": "failed", "module": module_name, "source_file": str(source_file), "error": str(exc)}
+        return {"status": result.get("status", "promoted"), "result": result}
 
 
 def collect_proof_lab_context_paths(run_dir: Path) -> list[Path]:

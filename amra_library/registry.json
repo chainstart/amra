@@ -1,7 +1,1118 @@
 {
-  "modules": [],
   "schema_version": "amra.library_registry.v1",
-  "generated_at": "2026-05-18T12:59:09+00:00",
+  "generated_at": "2026-05-23T06:46:22+00:00",
   "library_root": "/home/biostar/work/projects/amra/amra_library",
-  "module_prefix": "AmraLibrary"
+  "module_prefix": "AmraLibrary",
+  "modules": [
+    {
+      "module_name": "AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+      "legacy_module_name": "",
+      "path": "formal/AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/LargestInducedTree.lean",
+      "title": "LargestInducedTree",
+      "domain": "graph_theory",
+      "status": "verified",
+      "tags": [
+        "wowii",
+        "graph_conjectures"
+      ],
+      "description": "Reusable verified graph-conjecture support module.",
+      "declarations": [
+        {
+          "kind": "def",
+          "name": "largestInducedTreeSize",
+          "line": 42
+        },
+        {
+          "kind": "def",
+          "name": "largestInducedBipartiteSubgraphSize",
+          "line": 47
+        },
+        {
+          "kind": "abbrev",
+          "name": "b",
+          "line": 51
+        },
+        {
+          "kind": "def",
+          "name": "largestInducedForestSize",
+          "line": 56
+        },
+        {
+          "kind": "def",
+          "name": "indepNeighborsCard",
+          "line": 60
+        },
+        {
+          "kind": "def",
+          "name": "l_sum",
+          "line": 64
+        },
+        {
+          "kind": "def",
+          "name": "l_avg",
+          "line": 69
+        },
+        {
+          "kind": "theorem",
+          "name": "card_le_largestInducedTreeSize_of_connected_acyclic",
+          "line": 73
+        },
+        {
+          "kind": "theorem",
+          "name": "cliqueFree_three_of_four_le_girth",
+          "line": 93
+        },
+        {
+          "kind": "theorem",
+          "name": "isIndepSet_neighborSet_of_four_le_girth",
+          "line": 102
+        },
+        {
+          "kind": "theorem",
+          "name": "indepNeighborsCard_eq_card_neighborSet_of_four_le_girth",
+          "line": 109
+        },
+        {
+          "kind": "theorem",
+          "name": "indepNeighborsCard_add_one_le_largestInducedTreeSize",
+          "line": 132
+        },
+        {
+          "kind": "theorem",
+          "name": "card_le_largestInducedForestSize_of_induce_isAcyclic",
+          "line": 232
+        },
+        {
+          "kind": "theorem",
+          "name": "card_le_largestInducedForestSize_of_induce_isTree",
+          "line": 247
+        },
+        {
+          "kind": "theorem",
+          "name": "not_isAcyclic_of_triangle",
+          "line": 254
+        },
+        {
+          "kind": "theorem",
+          "name": "not_isAcyclic_of_four_cycle",
+          "line": 266
+        },
+        {
+          "kind": "theorem",
+          "name": "largestInducedForestSize_le_of_forall_induce_isAcyclic",
+          "line": 281
+        },
+        {
+          "kind": "theorem",
+          "name": "largestInducedTreeSize_le_largestInducedForestSize",
+          "line": 301
+        },
+        {
+          "kind": "theorem",
+          "name": "card_le_largestInducedBipartiteSubgraphSize_of_induce_isBipartite",
+          "line": 326
+        },
+        {
+          "kind": "theorem",
+          "name": "induce_union_indep_isBipartite",
+          "line": 340
+        },
+        {
+          "kind": "theorem",
+          "name": "shortest_walk_no_forward_chord",
+          "line": 369
+        },
+        {
+          "kind": "theorem",
+          "name": "indepNeighborsCard_add_one_le_largestInducedBipartiteSubgraphSize",
+          "line": 389
+        }
+      ],
+      "import_hints": [
+        "import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `largestInducedTreeSize` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `largestInducedBipartiteSubgraphSize` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `b` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `largestInducedForestSize` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `indepNeighborsCard` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `l_sum` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `l_avg` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `card_le_largestInducedTreeSize_of_connected_acyclic` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `cliqueFree_three_of_four_le_girth` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `isIndepSet_neighborSet_of_four_le_girth` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `indepNeighborsCard_eq_card_neighborSet_of_four_le_girth` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `indepNeighborsCard_add_one_le_largestInducedTreeSize` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `card_le_largestInducedForestSize_of_induce_isAcyclic` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `card_le_largestInducedForestSize_of_induce_isTree` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `not_isAcyclic_of_triangle` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `not_isAcyclic_of_four_cycle` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `largestInducedForestSize_le_of_forall_induce_isAcyclic` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `largestInducedTreeSize_le_largestInducedForestSize` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `card_le_largestInducedBipartiteSubgraphSize_of_induce_isBipartite` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `induce_union_indep_isBipartite` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `shortest_walk_no_forward_chord` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree",
+        "open AmraLibrary -- enables `indepNeighborsCard_add_one_le_largestInducedBipartiteSubgraphSize` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree"
+      ],
+      "created_at": "2026-05-23T06:46:22+00:00",
+      "updated_at": "2026-05-23T06:46:22+00:00"
+    },
+    {
+      "module_name": "AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LocalGirthInducedTreeBound",
+      "legacy_module_name": "",
+      "path": "formal/AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/LocalGirthInducedTreeBound.lean",
+      "title": "LocalGirthInducedTreeBound",
+      "domain": "graph_theory",
+      "status": "verified",
+      "tags": [
+        "wowii",
+        "graph_conjectures"
+      ],
+      "description": "Reusable verified graph-conjecture support module.",
+      "declarations": [
+        {
+          "kind": "theorem",
+          "name": "conjecture141_strong",
+          "line": 43
+        },
+        {
+          "kind": "theorem",
+          "name": "local_girth_induced_tree_bound",
+          "line": 550
+        },
+        {
+          "kind": "theorem",
+          "name": "conjecture141_local_girth_strong",
+          "line": 1095
+        },
+        {
+          "kind": "theorem",
+          "name": "conjecture140_from_local_girth_strong",
+          "line": 1103
+        },
+        {
+          "kind": "theorem",
+          "name": "conjecture141_from_local_girth_strong",
+          "line": 1112
+        }
+      ],
+      "import_hints": [
+        "import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LocalGirthInducedTreeBound",
+        "open AmraLibrary -- enables `conjecture141_strong` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LocalGirthInducedTreeBound",
+        "open AmraLibrary -- enables `local_girth_induced_tree_bound` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LocalGirthInducedTreeBound",
+        "open AmraLibrary -- enables `conjecture141_local_girth_strong` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LocalGirthInducedTreeBound",
+        "open AmraLibrary -- enables `conjecture140_from_local_girth_strong` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LocalGirthInducedTreeBound",
+        "open AmraLibrary -- enables `conjecture141_from_local_girth_strong` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LocalGirthInducedTreeBound"
+      ],
+      "created_at": "2026-05-23T06:46:22+00:00",
+      "updated_at": "2026-05-23T06:46:22+00:00"
+    },
+    {
+      "module_name": "AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+      "legacy_module_name": "",
+      "path": "formal/AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/WowiiConjecture13.lean",
+      "title": "WowiiConjecture13",
+      "domain": "graph_theory",
+      "status": "verified",
+      "tags": [
+        "wowii",
+        "graph_conjectures"
+      ],
+      "description": "Reusable verified graph-conjecture support module.",
+      "declarations": [
+        {
+          "kind": "def",
+          "name": "maxIndepNeighborsCard",
+          "line": 40
+        },
+        {
+          "kind": "theorem",
+          "name": "maxIndepNeighborsCard_add_one_le_largestInducedBipartiteSubgraphSize",
+          "line": 45
+        },
+        {
+          "kind": "theorem",
+          "name": "diam_add_maxIndepNeighborsCard_sub_one_le_largestInducedBipartiteSubgraphSize",
+          "line": 60
+        },
+        {
+          "kind": "theorem",
+          "name": "conjecture13_from_vertex_bipartite_witnesses",
+          "line": 84
+        },
+        {
+          "kind": "theorem",
+          "name": "conjecture13_from_vertex_bipartite_witnesses_b",
+          "line": 108
+        },
+        {
+          "kind": "theorem",
+          "name": "conjecture13_from_vertex_bipartite_witnesses_final_shape",
+          "line": 119
+        },
+        {
+          "kind": "theorem",
+          "name": "conjecture13_of_diam_le_two",
+          "line": 134
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_indepNeighborsCard_add_one_bipartite_witness",
+          "line": 145
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_indepNeighborsCard_neighbor_indepSet",
+          "line": 217
+        },
+        {
+          "kind": "theorem",
+          "name": "vertex_bipartite_witness_of_diam_le_two",
+          "line": 258
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_diameter_walk_with_dist",
+          "line": 275
+        },
+        {
+          "kind": "theorem",
+          "name": "dist_start_getVert_le",
+          "line": 286
+        },
+        {
+          "kind": "theorem",
+          "name": "dist_getVert_end_le",
+          "line": 295
+        },
+        {
+          "kind": "theorem",
+          "name": "dist_getVert_getVert_le_index_sub",
+          "line": 304
+        },
+        {
+          "kind": "theorem",
+          "name": "geodesic_getVert_dist_eq_index_sub",
+          "line": 323
+        },
+        {
+          "kind": "theorem",
+          "name": "geodesic_getVert_adj_index_sub_eq_one",
+          "line": 350
+        },
+        {
+          "kind": "theorem",
+          "name": "Finset.card_le_five_of_pair_sub_le_four",
+          "line": 368
+        },
+        {
+          "kind": "theorem",
+          "name": "Finset.card_le_three_of_pair_sub_le_two",
+          "line": 394
+        },
+        {
+          "kind": "theorem",
+          "name": "geodesic_dist_le_two_index_set_card_le_five",
+          "line": 420
+        },
+        {
+          "kind": "theorem",
+          "name": "index_mem_dist_le_two_window_of_adj_neighbor",
+          "line": 447
+        },
+        {
+          "kind": "theorem",
+          "name": "not_adj_center_of_index_not_mem_dist_le_two_window",
+          "line": 467
+        },
+        {
+          "kind": "theorem",
+          "name": "not_adj_neighbor_of_index_not_mem_dist_le_two_window",
+          "line": 481
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_short_window_addback_indices",
+          "line": 500
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_short_window_addback_indices_with_dist_two",
+          "line": 519
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_short_window_addback_indices_with_dist_two_same_parity",
+          "line": 590
+        },
+        {
+          "kind": "theorem",
+          "name": "path_index_image_card_eq",
+          "line": 725
+        },
+        {
+          "kind": "theorem",
+          "name": "path_vertices_delete_window_addback_card",
+          "line": 736
+        },
+        {
+          "kind": "theorem",
+          "name": "path_vertices_delete_window_addback_card_add_three_ge",
+          "line": 761
+        },
+        {
+          "kind": "theorem",
+          "name": "geodesic_same_parity_path_vertices_indepSet",
+          "line": 774
+        },
+        {
+          "kind": "theorem",
+          "name": "center_not_mem_path_vertices_delete_window_addback",
+          "line": 809
+        },
+        {
+          "kind": "theorem",
+          "name": "neighbor_set_disjoint_path_vertices_delete_window_addback",
+          "line": 833
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_diam_add_indepNeighborsCard_sub_one_bipartite_witness",
+          "line": 861
+        },
+        {
+          "kind": "theorem",
+          "name": "diam_add_indepNeighborsCard_sub_one_le_largestInducedBipartiteSubgraphSize",
+          "line": 1071
+        },
+        {
+          "kind": "theorem",
+          "name": "conjecture13",
+          "line": 1090
+        }
+      ],
+      "import_hints": [
+        "import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `maxIndepNeighborsCard` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `maxIndepNeighborsCard_add_one_le_largestInducedBipartiteSubgraphSize` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `diam_add_maxIndepNeighborsCard_sub_one_le_largestInducedBipartiteSubgraphSize` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `conjecture13_from_vertex_bipartite_witnesses` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `conjecture13_from_vertex_bipartite_witnesses_b` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `conjecture13_from_vertex_bipartite_witnesses_final_shape` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `conjecture13_of_diam_le_two` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `exists_indepNeighborsCard_add_one_bipartite_witness` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `exists_indepNeighborsCard_neighbor_indepSet` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `vertex_bipartite_witness_of_diam_le_two` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `exists_diameter_walk_with_dist` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `dist_start_getVert_le` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `dist_getVert_end_le` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `dist_getVert_getVert_le_index_sub` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `geodesic_getVert_dist_eq_index_sub` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `geodesic_getVert_adj_index_sub_eq_one` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `Finset.card_le_five_of_pair_sub_le_four` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `Finset.card_le_three_of_pair_sub_le_two` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `geodesic_dist_le_two_index_set_card_le_five` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `index_mem_dist_le_two_window_of_adj_neighbor` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `not_adj_center_of_index_not_mem_dist_le_two_window` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `not_adj_neighbor_of_index_not_mem_dist_le_two_window` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `exists_short_window_addback_indices` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `exists_short_window_addback_indices_with_dist_two` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `exists_short_window_addback_indices_with_dist_two_same_parity` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `path_index_image_card_eq` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `path_vertices_delete_window_addback_card` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `path_vertices_delete_window_addback_card_add_three_ge` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `geodesic_same_parity_path_vertices_indepSet` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `center_not_mem_path_vertices_delete_window_addback` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `neighbor_set_disjoint_path_vertices_delete_window_addback` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `exists_diam_add_indepNeighborsCard_sub_one_bipartite_witness` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `diam_add_indepNeighborsCard_sub_one_le_largestInducedBipartiteSubgraphSize` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13",
+        "open AmraLibrary -- enables `conjecture13` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13"
+      ],
+      "created_at": "2026-05-23T06:46:22+00:00",
+      "updated_at": "2026-05-23T06:46:22+00:00"
+    },
+    {
+      "module_name": "AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture141",
+      "legacy_module_name": "",
+      "path": "formal/AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/WowiiConjecture141.lean",
+      "title": "WowiiConjecture141",
+      "domain": "graph_theory",
+      "status": "verified",
+      "tags": [
+        "wowii",
+        "graph_conjectures"
+      ],
+      "description": "Reusable verified graph-conjecture support module.",
+      "declarations": [
+        {
+          "kind": "theorem",
+          "name": "conjecture141_strong",
+          "line": 43
+        }
+      ],
+      "import_hints": [
+        "import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture141",
+        "open AmraLibrary -- enables `conjecture141_strong` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture141"
+      ],
+      "created_at": "2026-05-23T06:46:22+00:00",
+      "updated_at": "2026-05-23T06:46:22+00:00"
+    },
+    {
+      "module_name": "AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+      "legacy_module_name": "",
+      "path": "formal/AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/WowiiConjecture17.lean",
+      "title": "WowiiConjecture17",
+      "domain": "graph_theory",
+      "status": "verified",
+      "tags": [
+        "wowii",
+        "graph_conjectures"
+      ],
+      "description": "Reusable verified graph-conjecture support module.",
+      "declarations": [
+        {
+          "kind": "theorem",
+          "name": "pair_right_index_le_diam",
+          "line": 38
+        },
+        {
+          "kind": "theorem",
+          "name": "pair_choices_have_gap",
+          "line": 42
+        },
+        {
+          "kind": "theorem",
+          "name": "path_adjacent_pair_not_both_in_indep",
+          "line": 48
+        },
+        {
+          "kind": "theorem",
+          "name": "shortest_walk_no_forward_chord",
+          "line": 56
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_diameter_pair_selection",
+          "line": 75
+        },
+        {
+          "kind": "theorem",
+          "name": "card_le_largestInducedBipartiteSubgraphSize",
+          "line": 163
+        },
+        {
+          "kind": "theorem",
+          "name": "induce_union_indep_isBipartite",
+          "line": 175
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_indep_set_card_indepNum",
+          "line": 203
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_diameter_path_with_dist",
+          "line": 209
+        },
+        {
+          "kind": "theorem",
+          "name": "conjecture17_nat_bound",
+          "line": 217
+        },
+        {
+          "kind": "theorem",
+          "name": "nat_ceil_div_three",
+          "line": 234
+        },
+        {
+          "kind": "theorem",
+          "name": "int_ceil_div_three_cast",
+          "line": 251
+        },
+        {
+          "kind": "theorem",
+          "name": "conjecture17_real_bound",
+          "line": 258
+        },
+        {
+          "kind": "theorem",
+          "name": "conjecture17",
+          "line": 273
+        }
+      ],
+      "import_hints": [
+        "import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `pair_right_index_le_diam` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `pair_choices_have_gap` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `path_adjacent_pair_not_both_in_indep` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `shortest_walk_no_forward_chord` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `exists_diameter_pair_selection` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `card_le_largestInducedBipartiteSubgraphSize` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `induce_union_indep_isBipartite` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `exists_indep_set_card_indepNum` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `exists_diameter_path_with_dist` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `conjecture17_nat_bound` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `nat_ceil_div_three` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `int_ceil_div_three_cast` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `conjecture17_real_bound` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17",
+        "open AmraLibrary -- enables `conjecture17` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17"
+      ],
+      "created_at": "2026-05-23T06:46:22+00:00",
+      "updated_at": "2026-05-23T06:46:22+00:00"
+    },
+    {
+      "module_name": "AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+      "legacy_module_name": "",
+      "path": "formal/AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/WowiiConjecture58.lean",
+      "title": "WowiiConjecture58",
+      "domain": "graph_theory",
+      "status": "verified",
+      "tags": [
+        "wowii",
+        "graph_conjectures"
+      ],
+      "description": "Reusable verified graph-conjecture support module.",
+      "declarations": [
+        {
+          "kind": "theorem",
+          "name": "not_isBipartite_of_triangle",
+          "line": 37
+        },
+        {
+          "kind": "theorem",
+          "name": "largestInducedBipartiteSubgraphSize_le_of_forall_induce_isBipartite",
+          "line": 60
+        },
+        {
+          "kind": "inductive",
+          "name": "Wowii58Vertex",
+          "line": 82
+        },
+        {
+          "kind": "def",
+          "name": "rel",
+          "line": 92
+        },
+        {
+          "kind": "def",
+          "name": "graph",
+          "line": 103
+        },
+        {
+          "kind": "instance",
+          "name": "instDecidableRelGraphAdj",
+          "line": 106
+        },
+        {
+          "kind": "theorem",
+          "name": "card",
+          "line": 112
+        },
+        {
+          "kind": "theorem",
+          "name": "adj_a_b",
+          "line": 115
+        },
+        {
+          "kind": "theorem",
+          "name": "adj_c_c",
+          "line": 118
+        },
+        {
+          "kind": "theorem",
+          "name": "adj_a0_c",
+          "line": 121
+        },
+        {
+          "kind": "theorem",
+          "name": "adj_b0_c",
+          "line": 124
+        },
+        {
+          "kind": "theorem",
+          "name": "not_adj_a_nonzero_c",
+          "line": 127
+        },
+        {
+          "kind": "theorem",
+          "name": "not_adj_b_nonzero_c",
+          "line": 131
+        },
+        {
+          "kind": "theorem",
+          "name": "not_adj_a_a",
+          "line": 135
+        },
+        {
+          "kind": "theorem",
+          "name": "not_adj_b_b",
+          "line": 138
+        },
+        {
+          "kind": "theorem",
+          "name": "not_acyclic_induce_of_three_c_mem",
+          "line": 143
+        },
+        {
+          "kind": "theorem",
+          "name": "not_bipartite_induce_of_three_c_mem",
+          "line": 165
+        },
+        {
+          "kind": "theorem",
+          "name": "not_acyclic_induce_of_two_c_a0_mem",
+          "line": 179
+        },
+        {
+          "kind": "theorem",
+          "name": "not_bipartite_induce_of_two_c_a0_mem",
+          "line": 200
+        },
+        {
+          "kind": "theorem",
+          "name": "not_acyclic_induce_of_two_c_b0_mem",
+          "line": 213
+        },
+        {
+          "kind": "theorem",
+          "name": "not_bipartite_induce_of_two_c_b0_mem",
+          "line": 234
+        },
+        {
+          "kind": "theorem",
+          "name": "not_bipartite_induce_of_a0_b0_c_mem",
+          "line": 247
+        },
+        {
+          "kind": "theorem",
+          "name": "not_acyclic_induce_of_two_a_two_b_mem",
+          "line": 260
+        },
+        {
+          "kind": "def",
+          "name": "Averts",
+          "line": 295
+        },
+        {
+          "kind": "def",
+          "name": "Bverts",
+          "line": 299
+        },
+        {
+          "kind": "def",
+          "name": "Cverts",
+          "line": 303
+        },
+        {
+          "kind": "theorem",
+          "name": "mem_Averts",
+          "line": 306
+        },
+        {
+          "kind": "theorem",
+          "name": "mem_Bverts",
+          "line": 314
+        },
+        {
+          "kind": "theorem",
+          "name": "mem_Cverts",
+          "line": 322
+        },
+        {
+          "kind": "theorem",
+          "name": "Averts_card",
+          "line": 330
+        },
+        {
+          "kind": "theorem",
+          "name": "Bverts_card",
+          "line": 333
+        },
+        {
+          "kind": "theorem",
+          "name": "Cverts_card",
+          "line": 336
+        },
+        {
+          "kind": "def",
+          "name": "forestWitness",
+          "line": 341
+        },
+        {
+          "kind": "theorem",
+          "name": "indep_Averts",
+          "line": 344
+        },
+        {
+          "kind": "theorem",
+          "name": "indep_Bverts",
+          "line": 351
+        },
+        {
+          "kind": "theorem",
+          "name": "disjoint_Averts_Bverts",
+          "line": 358
+        },
+        {
+          "kind": "theorem",
+          "name": "disjoint_Averts_Cverts",
+          "line": 366
+        },
+        {
+          "kind": "theorem",
+          "name": "disjoint_Bverts_Cverts",
+          "line": 374
+        },
+        {
+          "kind": "theorem",
+          "name": "Averts_union_Bverts_union_Cverts",
+          "line": 382
+        },
+        {
+          "kind": "theorem",
+          "name": "inter_parts_card_eq",
+          "line": 387
+        },
+        {
+          "kind": "theorem",
+          "name": "two_le_Averts_inter_card_of_not_a0_mem",
+          "line": 414
+        },
+        {
+          "kind": "theorem",
+          "name": "two_le_Bverts_inter_card_of_not_b0_mem",
+          "line": 430
+        },
+        {
+          "kind": "theorem",
+          "name": "a0_mem_of_Averts_inter_card_eq_three",
+          "line": 446
+        },
+        {
+          "kind": "theorem",
+          "name": "b0_mem_of_Bverts_inter_card_eq_three",
+          "line": 452
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_two_Averts_mem",
+          "line": 458
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_two_Bverts_mem",
+          "line": 472
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_two_Cverts_mem",
+          "line": 486
+        },
+        {
+          "kind": "theorem",
+          "name": "exists_three_Cverts_mem",
+          "line": 500
+        },
+        {
+          "kind": "def",
+          "name": "aNeighborIndepWitness",
+          "line": 524
+        },
+        {
+          "kind": "def",
+          "name": "bNeighborIndepWitness",
+          "line": 527
+        },
+        {
+          "kind": "def",
+          "name": "cNeighborIndepWitness",
+          "line": 530
+        },
+        {
+          "kind": "theorem",
+          "name": "aNeighborIndepWitness_card",
+          "line": 533
+        },
+        {
+          "kind": "theorem",
+          "name": "bNeighborIndepWitness_card",
+          "line": 537
+        },
+        {
+          "kind": "theorem",
+          "name": "cNeighborIndepWitness_card",
+          "line": 541
+        },
+        {
+          "kind": "theorem",
+          "name": "aNeighborIndepWitness_isIndepSet",
+          "line": 545
+        },
+        {
+          "kind": "theorem",
+          "name": "bNeighborIndepWitness_isIndepSet",
+          "line": 554
+        },
+        {
+          "kind": "theorem",
+          "name": "cNeighborIndepWitness_isIndepSet",
+          "line": 563
+        },
+        {
+          "kind": "theorem",
+          "name": "original_indepSet_of_neighbor_indepSet",
+          "line": 569
+        },
+        {
+          "kind": "theorem",
+          "name": "map_subtype_val_subset_neighborSet",
+          "line": 580
+        },
+        {
+          "kind": "theorem",
+          "name": "Cverts_inter_card_le_one_of_indep",
+          "line": 589
+        },
+        {
+          "kind": "theorem",
+          "name": "Averts_inter_card_eq_zero_of_subset_neighbor_a",
+          "line": 597
+        },
+        {
+          "kind": "theorem",
+          "name": "Bverts_inter_card_eq_zero_of_subset_neighbor_b",
+          "line": 609
+        },
+        {
+          "kind": "theorem",
+          "name": "card_le_three_of_indep_subset_neighbor_a0",
+          "line": 621
+        },
+        {
+          "kind": "theorem",
+          "name": "card_le_three_of_indep_subset_neighbor_a",
+          "line": 649
+        },
+        {
+          "kind": "theorem",
+          "name": "card_le_three_of_indep_subset_neighbor_b0",
+          "line": 666
+        },
+        {
+          "kind": "theorem",
+          "name": "card_le_three_of_indep_subset_neighbor_b",
+          "line": 694
+        },
+        {
+          "kind": "theorem",
+          "name": "neighbor_c_is_clique",
+          "line": 711
+        },
+        {
+          "kind": "theorem",
+          "name": "card_le_one_of_indep_subset_neighbor_c",
+          "line": 756
+        },
+        {
+          "kind": "theorem",
+          "name": "aNeighborIndepWitness_isMaximumIndepSet",
+          "line": 765
+        },
+        {
+          "kind": "theorem",
+          "name": "bNeighborIndepWitness_isMaximumIndepSet",
+          "line": 781
+        },
+        {
+          "kind": "theorem",
+          "name": "cNeighborIndepWitness_isMaximumIndepSet",
+          "line": 797
+        },
+        {
+          "kind": "theorem",
+          "name": "indepNeighborsCard_a",
+          "line": 813
+        },
+        {
+          "kind": "theorem",
+          "name": "indepNeighborsCard_b",
+          "line": 820
+        },
+        {
+          "kind": "theorem",
+          "name": "indepNeighborsCard_c",
+          "line": 827
+        },
+        {
+          "kind": "theorem",
+          "name": "l_sum_eq",
+          "line": 834
+        },
+        {
+          "kind": "theorem",
+          "name": "l_avg_eq",
+          "line": 852
+        },
+        {
+          "kind": "theorem",
+          "name": "not_acyclic_induce_of_six_le_card",
+          "line": 855
+        },
+        {
+          "kind": "theorem",
+          "name": "six_le_b",
+          "line": 903
+        },
+        {
+          "kind": "theorem",
+          "name": "b_le_six",
+          "line": 914
+        },
+        {
+          "kind": "theorem",
+          "name": "b_eq_six",
+          "line": 963
+        },
+        {
+          "kind": "theorem",
+          "name": "forestWitness_connected",
+          "line": 967
+        },
+        {
+          "kind": "theorem",
+          "name": "five_le_largestInducedForestSize",
+          "line": 1012
+        },
+        {
+          "kind": "theorem",
+          "name": "largestInducedForestSize_le_five",
+          "line": 1030
+        },
+        {
+          "kind": "theorem",
+          "name": "largestInducedForestSize_eq_five",
+          "line": 1038
+        },
+        {
+          "kind": "theorem",
+          "name": "connected",
+          "line": 1042
+        },
+        {
+          "kind": "theorem",
+          "name": "wowii58_audited_values_violate_bound",
+          "line": 1063
+        },
+        {
+          "kind": "theorem",
+          "name": "wowii_conjecture58_counterexample_certified_except_lavg",
+          "line": 1070
+        },
+        {
+          "kind": "theorem",
+          "name": "SimpleGraph.wowii_conjecture58_counterexample_certified",
+          "line": 1087
+        },
+        {
+          "kind": "theorem",
+          "name": "wowii_conjecture58_counterexample",
+          "line": 1114
+        }
+      ],
+      "import_hints": [
+        "import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_isBipartite_of_triangle` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `largestInducedBipartiteSubgraphSize_le_of_forall_induce_isBipartite` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `Wowii58Vertex` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `rel` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `graph` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `instDecidableRelGraphAdj` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `card` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `adj_a_b` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `adj_c_c` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `adj_a0_c` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `adj_b0_c` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_adj_a_nonzero_c` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_adj_b_nonzero_c` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_adj_a_a` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_adj_b_b` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_acyclic_induce_of_three_c_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_bipartite_induce_of_three_c_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_acyclic_induce_of_two_c_a0_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_bipartite_induce_of_two_c_a0_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_acyclic_induce_of_two_c_b0_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_bipartite_induce_of_two_c_b0_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_bipartite_induce_of_a0_b0_c_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_acyclic_induce_of_two_a_two_b_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `Averts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `Bverts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `Cverts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `mem_Averts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `mem_Bverts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `mem_Cverts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `Averts_card` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `Bverts_card` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `Cverts_card` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `forestWitness` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `indep_Averts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `indep_Bverts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `disjoint_Averts_Bverts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `disjoint_Averts_Cverts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `disjoint_Bverts_Cverts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `Averts_union_Bverts_union_Cverts` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `inter_parts_card_eq` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `two_le_Averts_inter_card_of_not_a0_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `two_le_Bverts_inter_card_of_not_b0_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `a0_mem_of_Averts_inter_card_eq_three` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `b0_mem_of_Bverts_inter_card_eq_three` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `exists_two_Averts_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `exists_two_Bverts_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `exists_two_Cverts_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `exists_three_Cverts_mem` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `aNeighborIndepWitness` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `bNeighborIndepWitness` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `cNeighborIndepWitness` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `aNeighborIndepWitness_card` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `bNeighborIndepWitness_card` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `cNeighborIndepWitness_card` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `aNeighborIndepWitness_isIndepSet` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `bNeighborIndepWitness_isIndepSet` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `cNeighborIndepWitness_isIndepSet` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `original_indepSet_of_neighbor_indepSet` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `map_subtype_val_subset_neighborSet` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `Cverts_inter_card_le_one_of_indep` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `Averts_inter_card_eq_zero_of_subset_neighbor_a` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `Bverts_inter_card_eq_zero_of_subset_neighbor_b` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `card_le_three_of_indep_subset_neighbor_a0` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `card_le_three_of_indep_subset_neighbor_a` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `card_le_three_of_indep_subset_neighbor_b0` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `card_le_three_of_indep_subset_neighbor_b` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `neighbor_c_is_clique` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `card_le_one_of_indep_subset_neighbor_c` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `aNeighborIndepWitness_isMaximumIndepSet` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `bNeighborIndepWitness_isMaximumIndepSet` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `cNeighborIndepWitness_isMaximumIndepSet` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `indepNeighborsCard_a` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `indepNeighborsCard_b` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `indepNeighborsCard_c` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `l_sum_eq` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `l_avg_eq` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `not_acyclic_induce_of_six_le_card` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `six_le_b` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `b_le_six` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `b_eq_six` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `forestWitness_connected` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `five_le_largestInducedForestSize` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `largestInducedForestSize_le_five` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `largestInducedForestSize_eq_five` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `connected` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `wowii58_audited_values_violate_bound` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `wowii_conjecture58_counterexample_certified_except_lavg` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `SimpleGraph.wowii_conjecture58_counterexample_certified` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58",
+        "open AmraLibrary -- enables `wowii_conjecture58_counterexample` after importing AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58"
+      ],
+      "created_at": "2026-05-23T06:46:22+00:00",
+      "updated_at": "2026-05-23T06:46:22+00:00"
+    }
+  ]
 }

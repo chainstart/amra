@@ -17,6 +17,7 @@ from amra.lean.contract import (
 )
 from amra.agents.episode_loop import CodexEpisodeConfig, CodexEpisodeLoopAgent, EpisodeObserver
 from amra.agents.tools import ToolRegistry
+from amra.amra_library import AmraLibraryManager
 from amra.portfolio_scheduler import PortfolioAttackScheduler, calculate_progress_velocity
 from amra.core.workspace import slugify, utc_now_iso
 
@@ -81,6 +82,19 @@ def _target_name_matches(actual: str, target: str) -> bool:
     actual = _unquote_identifier(actual.strip())
     target = _unquote_identifier(target.strip())
     return actual == target or actual.endswith(f".{target}") or target.endswith(f".{actual}")
+
+
+def _lean_module_component(value: str, fallback: str = "CuratedProof") -> str:
+    words = re.findall(r"[A-Za-z0-9]+", value)
+    component = "".join(word[:1].upper() + word[1:] for word in words) or fallback
+    if component[0].isdigit():
+        component = f"Proof{component}"
+    return component
+
+
+def _inferred_library_module(target_name: str, source_file: Path) -> str:
+    stem = source_file.stem if source_file.name else target_name
+    return "AmraLibrary.Curated." + _lean_module_component(target_name or stem)
 
 
 def _relative_to_workspace(path: Path, workspace: Path) -> str:
@@ -382,6 +396,7 @@ Before spending significant time, leave a durable note in the run directory that
         merge_to_canonical: bool = False,
         review_status: str = "",
         library_module: str = "",
+        promote_to_library: bool = False,
         math_tools_profile: str = "full",
         install_missing_math_tools: bool | None = None,
         run_math_tool_smoke: bool | None = None,
@@ -540,8 +555,63 @@ Before spending significant time, leave a durable note in the run directory that
             report["formal_workspace_merge"] = merge_report
         elif workspace_reservation is not None:
             report["formal_workspace_merge"] = {"merged": False, "reason": "merge_not_requested"}
+        report["library_promotion"] = self._promote_verified_targets_to_library(
+            workspace=workspace,
+            final_observation=final_observation,
+            library_module=library_module,
+            promote_to_library=promote_to_library,
+        )
         _write_json(loop.run_dir / "report.json", report)
         return report
+
+    def _promote_verified_targets_to_library(
+        self,
+        *,
+        workspace: Path,
+        final_observation: dict[str, Any],
+        library_module: str,
+        promote_to_library: bool,
+    ) -> dict[str, Any]:
+        if not final_observation.get("contract_satisfied"):
+            return {"status": "skipped", "reason": "final_contract_not_satisfied"}
+        if not promote_to_library and not library_module.strip():
+            return {"status": "skipped", "reason": "library_promotion_not_requested"}
+        target_reports = dict(final_observation.get("target_reports") or {})
+        if not target_reports:
+            return {"status": "skipped", "reason": "no_target_reports"}
+        manager = AmraLibraryManager(repo_root=self.repo_root)
+        promoted: list[dict[str, Any]] = []
+        failed: list[dict[str, Any]] = []
+        promoted_paths: set[str] = set()
+        for target_name, target in target_reports.items():
+            if not isinstance(target, dict) or not target.get("found"):
+                continue
+            source_file = Path(str(target.get("path") or ""))
+            if not source_file.is_absolute():
+                source_file = workspace / source_file
+            source_file = source_file.resolve(strict=False)
+            if str(source_file) in promoted_paths:
+                continue
+            module_name = library_module.strip() or _inferred_library_module(str(target_name), source_file)
+            try:
+                result = manager.promote_verified_file(
+                    source_file=source_file,
+                    module_name=module_name,
+                    title=f"Verified proof artifact for {target_name}",
+                    status="verified",
+                    tags=["auto_promoted", "lean_verified"],
+                    verification_basis={
+                        "basis": "focused_lean_attack_final_observation",
+                        "target": str(target_name),
+                        "workspace": str(workspace),
+                    },
+                )
+                promoted.append(result)
+                promoted_paths.add(str(source_file))
+            except Exception as exc:
+                failed.append({"target": str(target_name), "source_file": str(source_file), "error": str(exc)})
+        status = "promoted" if promoted and not failed else "partial" if promoted else "failed" if failed else "skipped"
+        return {"status": status, "promoted": promoted, "failed": failed}
 
     def _observe_episode(
         self,

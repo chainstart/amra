@@ -150,6 +150,43 @@ def test_amra_library_promotes_only_verified_clean_declarations(tmp_path: Path) 
     assert "import AmraLibrary.NumberTheory.Reusable" in report["module"]["import_hints"]
 
 
+def test_amra_library_promotes_complete_verified_file(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    source = tmp_path / "workspace" / "Main.lean"
+    source.parent.mkdir(parents=True)
+    source.write_text(
+        "import Mathlib\n\n"
+        "namespace MathProject\n\n"
+        "lemma helper : True := by\n"
+        "  trivial\n\n"
+        "theorem target : True := by\n"
+        "  exact helper\n\n"
+        "end MathProject\n",
+        encoding="utf-8",
+    )
+    manager = AmraLibraryManager(repo_root=tmp_path)
+    monkeypatch.setattr(
+        manager,
+        "build",
+        lambda *, timeout_sec=None, allow_cold_cache=False: {"status": "passed", "timeout_sec": timeout_sec},
+    )
+
+    report = manager.promote_verified_file(
+        source_file=source,
+        module_name="AmraLibrary.Curated.TargetProof",
+        verification_basis={"basis": "unit_test"},
+    )
+
+    module_path = Path(report["path"])
+    text = module_path.read_text(encoding="utf-8")
+    root_text = (tmp_path / "amra_library" / "formal" / "AmraLibrary.lean").read_text(encoding="utf-8")
+
+    assert report["status"] == "promoted"
+    assert "AMRA library promotion provenance" in text
+    assert "lemma helper : True := by" in text
+    assert "theorem target : True := by" in text
+    assert "import AmraLibrary.Curated.TargetProof" in root_text
+
+
 def test_amra_library_rejects_unverified_source_project(tmp_path: Path) -> None:
     project, source_file = _verified_project(tmp_path)
     (project / "artifacts" / "lean_build_report.json").unlink()
