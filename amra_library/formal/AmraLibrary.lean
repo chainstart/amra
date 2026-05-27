@@ -3,7 +3,10 @@ import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LocalGirthInducedT
 import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture13
 import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture141
 import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture17
+import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture315
+import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture322
 import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.WowiiConjecture58
+import AmraLibrary.OpenProblemBatches.LeanLoop20260527FiveHour.Erdos1084TriangularD2
 
 /-!
 Reusable AMRA Math library modules.

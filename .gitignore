@@ -12,3 +12,8 @@ dist/
 projects/
 artifacts/
 benchmark_runs/
+.agents/
+.codex/
+**/.agents/
+**/.codex/
+**/.lake/

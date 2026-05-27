@@ -67,6 +67,7 @@ class MathReviewer:
         manuscript_report = read_json(project_dir / "artifacts" / "manuscript_report.json", default={})
         manuscript_path = Path(manuscript_report.get("manuscript_path", project_dir / "writing" / assessment["document_name"]))
         manuscript = read_text(manuscript_path)
+        has_figure_section = "## Figures and Intuition" in manuscript
         formal_root = project_dir / "formal"
         main_claim_text = read_text(project_dir / "formal" / "MathProject" / "MainClaim.lean")
 
@@ -206,6 +207,26 @@ class MathReviewer:
             status = "blocked"
             recommendations.append("Resolve all blockers before treating the manuscript or theorem files as publishable progress.")
 
+        paper_quality_score = 2.0
+        if context_audit["has_exact_statement"]:
+            paper_quality_score += 1.0
+        if build_report.get("status") == "passed":
+            paper_quality_score += 1.25
+        if build_report.get("sorry_count", 0) == 0 and placeholder_count == 0 and axiom_count == 0 and admit_count == 0:
+            paper_quality_score += 1.0
+        paper_quality_score += min(1.5, 0.3 * len(registry.get("claims", [])))
+        if context_audit["reference_count"] >= 2:
+            paper_quality_score += 0.75
+        if proof_path_assessment:
+            paper_quality_score += 0.5
+        if idea_ledger.get("themes"):
+            paper_quality_score += 0.5
+        if has_figure_section:
+            paper_quality_score += 0.75
+        paper_quality_score -= min(2.5, 0.8 * len(blockers))
+        paper_quality_score -= min(1.5, 0.15 * len(warnings))
+        paper_quality_score = round(max(0.0, min(10.0, paper_quality_score)), 2)
+
         report = {
             "generated_at": utc_now_iso(),
             "project_name": manifest["project_name"],
@@ -219,6 +240,8 @@ class MathReviewer:
             "blockers": blockers,
             "warnings": warnings,
             "recommendations": recommendations,
+            "paper_quality_score": paper_quality_score,
+            "paper_quality_target_met": paper_quality_score >= 6.0,
             "checks": {
                 "has_exact_statement": context_audit["has_exact_statement"],
                 "has_recovered_statement": context_audit.get("has_recovered_statement", False),
@@ -245,6 +268,7 @@ class MathReviewer:
                 "claim_count": len(registry.get("claims", [])),
                 "has_proof_path_assessment": bool(proof_path_assessment),
                 "idea_seed_count": len(idea_ledger.get("themes", [])),
+                "has_figure_section": has_figure_section,
             },
         }
         self._sync_claim_registry_statuses(project_dir, status, registry, main_claim_partial=main_claim_partial)

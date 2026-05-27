@@ -12,6 +12,178 @@ class MathWriter:
     def __init__(self) -> None:
         self.assessor = DeliverableAssessor()
 
+    def _mathematical_context(
+        self,
+        *,
+        manifest: dict[str, Any],
+        exact_statement: str,
+        claims: list[dict[str, Any]],
+        tasks: list[dict[str, Any]],
+        idea_ledger: dict[str, Any],
+    ) -> str:
+        parts: list[str] = [
+            str(manifest["problem"].get("title", "")),
+            str(manifest["problem"].get("domain", "")),
+            exact_statement,
+            " ".join(str(tag) for tag in manifest["problem"].get("tags", [])),
+            " ".join(str(item) for item in idea_ledger.get("themes", [])),
+        ]
+        parts.extend(str(claim.get("statement", "")) for claim in claims)
+        parts.extend(str(task.get("description", "")) for task in tasks)
+        return "\n".join(parts).lower()
+
+    def _default_figure_plan(self, context: str) -> list[dict[str, str]]:
+        figures: list[dict[str, str]] = []
+        graph_markers = ("graph", "simplegraph", "vertex", "vertices", "neighbor", "neighbour", "dominat", "clique")
+        if any(marker in context for marker in graph_markers):
+            if ("neighbor" in context or "neighbour" in context) and ("indep" in context or "clique" in context):
+                figures.append(
+                    {
+                        "label": "fig:local-neighborhood",
+                        "title": "Local neighborhood obstruction",
+                        "caption": (
+                            "Two non-adjacent neighbors would form an independent pair inside an open "
+                            "neighborhood, contradicting the local independence bound."
+                        ),
+                        "tikz": r"""\begin{tikzpicture}[scale=1.0, every node/.style={circle, draw, inner sep=1.8pt}]
+\node (v) at (0,0) {$v$};
+\node (x) at (-1.4,1.0) {$x$};
+\node (y) at (1.4,1.0) {$y$};
+\draw (v) -- (x);
+\draw (v) -- (y);
+\draw[dashed] (x) -- node[above,draw=none,fill=none] {$?$} (y);
+\end{tikzpicture}""",
+                    }
+                )
+            if "connected" in context or "path" in context or "shortest" in context:
+                figures.append(
+                    {
+                        "label": "fig:shortest-path-chord",
+                        "title": "Shortest path chord",
+                        "caption": (
+                            "A local clique at the second vertex of a shortest path creates a chord, "
+                            "which shortens the path and forces completeness."
+                        ),
+                        "tikz": r"""\begin{tikzpicture}[scale=1.0, every node/.style={circle, draw, inner sep=1.8pt}]
+\node (p0) at (0,0) {$p_0$};
+\node (p1) at (1.5,0) {$p_1$};
+\node (p2) at (3.0,0) {$p_2$};
+\node (p3) at (4.5,0) {$\cdots$};
+\draw (p0) -- (p1) -- (p2) -- (p3);
+\draw[bend left=35, thick] (p0) to (p2);
+\end{tikzpicture}""",
+                    }
+                )
+            if "dominat" in context or "complete" in context or "top" in context:
+                figures.append(
+                    {
+                        "label": "fig:complete-total-domination",
+                        "title": "Minimal total domination in a complete graph",
+                        "caption": (
+                            "In a complete graph, one selected vertex cannot dominate itself, while any "
+                            "two selected vertices totally dominate all vertices."
+                        ),
+                        "tikz": r"""\begin{tikzpicture}[scale=1.0, every node/.style={circle, draw, inner sep=1.8pt}]
+\node[fill=black!15] (a) at (90:1.35) {$a$};
+\node[fill=black!15] (b) at (210:1.35) {$b$};
+\node (c) at (330:1.35) {$c$};
+\node (d) at (0,0) {$d$};
+\foreach \u/\v in {a/b,a/c,a/d,b/c,b/d,c/d}{\draw (\u)--(\v);}
+\end{tikzpicture}""",
+                    }
+                )
+        elif any(marker in context for marker in ("triangle", "geometry", "dissection", "equilateral")):
+            figures.append(
+                {
+                    "label": "fig:geometric-configuration",
+                    "title": "Geometric configuration",
+                    "caption": "A schematic geometric decomposition can track the main incidence and congruence constraints.",
+                    "tikz": r"""\begin{tikzpicture}[scale=1.1]
+\coordinate (A) at (0,0);
+\coordinate (B) at (4,0);
+\coordinate (C) at (2,3.46);
+\draw (A)--(B)--(C)--cycle;
+\draw (2,0)--(C);
+\draw (1,1.73)--(3,1.73);
+\end{tikzpicture}""",
+                }
+            )
+        elif any(marker in context for marker in ("prime", "divisor", "divides", "number theory", "integer")):
+            figures.append(
+                {
+                    "label": "fig:divisibility-structure",
+                    "title": "Divisibility structure",
+                    "caption": "A divisibility diagram records the implication chain used by the arithmetic proof.",
+                    "tikz": r"""\begin{tikzpicture}[node distance=1.5cm, every node/.style={draw, rounded corners=2pt, inner sep=4pt}]
+\node (h) {hypotheses};
+\node[right of=h, xshift=1.8cm] (d) {divisibility lemmas};
+\node[right of=d, xshift=1.8cm] (c) {conclusion};
+\draw[->] (h) -- (d);
+\draw[->] (d) -- (c);
+\end{tikzpicture}""",
+                }
+            )
+        figures.append(
+            {
+                "label": "fig:proof-dependency",
+                "title": "Proof dependency outline",
+                "caption": "The main theorem is organized as a chain of reusable lemmas leading to the final claim.",
+                "tikz": r"""\begin{tikzpicture}[node distance=1.4cm, every node/.style={draw, rounded corners=2pt, inner sep=4pt}]
+\node (l1) {local lemma};
+\node[right of=l1, xshift=1.7cm] (l2) {structural lemma};
+\node[right of=l2, xshift=1.7cm] (m) {main theorem};
+\draw[->] (l1) -- (l2);
+\draw[->] (l2) -- (m);
+\end{tikzpicture}""",
+            }
+        )
+        return figures[:4]
+
+    def _figure_plan(
+        self,
+        project_dir: Path,
+        *,
+        manifest: dict[str, Any],
+        exact_statement: str,
+        claims: list[dict[str, Any]],
+        tasks: list[dict[str, Any]],
+        idea_ledger: dict[str, Any],
+    ) -> list[dict[str, str]]:
+        for path in (project_dir / "writing" / "figure_plan.json", project_dir / "artifacts" / "figure_plan.json"):
+            payload = read_json(path, default={})
+            figures = payload.get("figures", []) if isinstance(payload, dict) else []
+            if figures:
+                return [dict(item) for item in figures if isinstance(item, dict)]
+        context = self._mathematical_context(
+            manifest=manifest,
+            exact_statement=exact_statement,
+            claims=claims,
+            tasks=tasks,
+            idea_ledger=idea_ledger,
+        )
+        return self._default_figure_plan(context)
+
+    def _figure_lines(self, figures: list[dict[str, str]]) -> list[str]:
+        if not figures:
+            return []
+        lines = ["## Figures and Intuition", ""]
+        for index, figure in enumerate(figures, start=1):
+            lines.extend(
+                [
+                    f"### Figure {index}. {figure.get('title', 'Mathematical figure')}",
+                    "",
+                    figure.get("caption", "").strip() or "Add a caption explaining the mathematical role of this figure.",
+                    "",
+                ]
+            )
+            tikz = str(figure.get("tikz", "")).strip()
+            if tikz:
+                lines.extend(["```latex", tikz, "```", ""])
+            label = str(figure.get("label", "")).strip()
+            if label:
+                lines.extend([f"Label: `{label}`", ""])
+        return lines
+
     def write_manuscript(self, project_dir: Path) -> dict[str, Any]:
         manifest = load_project_manifest(project_dir)
         plan = read_json(project_dir / "proof" / "proof_plan.json", default={"tasks": [], "notes": []})
@@ -27,6 +199,24 @@ class MathWriter:
         exact_statement = read_exact_statement(project_dir).strip() or manifest["problem"]["statement"]
         claims = registry.get("claims", [])
         tasks = plan.get("tasks", [])
+        figures = self._figure_plan(
+            project_dir,
+            manifest=manifest,
+            exact_statement=exact_statement,
+            claims=claims,
+            tasks=tasks,
+            idea_ledger=idea_ledger,
+        )
+        figure_lines = self._figure_lines(figures)
+        write_json(
+            project_dir / "artifacts" / "manuscript_figure_plan.json",
+            {
+                "generated_at": utc_now_iso(),
+                "project_name": manifest["project_name"],
+                "figure_count": len(figures),
+                "figures": figures,
+            },
+        )
 
         claim_lines = ["## Claim Registry", ""]
         if claims:
@@ -192,6 +382,7 @@ class MathWriter:
                 "",
                 exact_statement,
                 "",
+                *figure_lines,
                 "## Formalization",
                 "",
                 "Summarize the Lean development, imported definitions, and the structure of the formal proof here.",
@@ -227,6 +418,7 @@ class MathWriter:
                 "",
                 exact_statement,
                 "",
+                *figure_lines,
                 "## Preliminaries",
                 "",
                 "Document the definitions, imported Mathlib components, and normalization choices here.",
@@ -271,6 +463,8 @@ class MathWriter:
             "deliverable_override_mode": assessment["override"]["mode"],
             "paper_workflow_recommended": assessment["paper_workflow_recommended"],
             "manuscript_path": str(document_path),
+            "figure_count": len(figures),
+            "figure_plan_path": str(project_dir / "artifacts" / "manuscript_figure_plan.json"),
         }
         write_json(project_dir / "artifacts" / "manuscript_report.json", report)
         update_pipeline_status(
