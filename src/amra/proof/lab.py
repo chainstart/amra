@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from amra.agents.source_policy import apply_codex_source_policy, mark_policy_violation, source_policy_prompt
-from amra.infra.runtime import env_int, env_str, run_guarded_command, wait_for_system_headroom
+from amra.infra.runtime import env_float, env_int, env_str, run_guarded_command, wait_for_system_headroom
 from amra.core.workspace import read_text, slugify, utc_now_iso, write_json, write_text
 from amra.math_tools import ensure_math_tools
 
@@ -229,6 +229,7 @@ class AIProofLabRunner:
             env_str("ARA_MATH_BACKEND_REASONING_EFFORT", "high"),
         )
         self.min_available_memory_mb = env_int("ARA_MATH_MIN_AVAILABLE_MEMORY_MB", 2048)
+        self.max_load_per_cpu = env_float("ARA_MATH_MAX_LOAD_PER_CPU", 1.5)
         self.wait_max_seconds = env_int("ARA_MATH_SYSTEM_WAIT_SECONDS", 30)
         self.wait_poll_seconds = env_int("ARA_MATH_SYSTEM_WAIT_POLL_SECONDS", 5)
 
@@ -766,7 +767,7 @@ class AIProofLabRunner:
             else:
                 headroom = wait_for_system_headroom(
                     min_available_memory_mb=self.min_available_memory_mb,
-                    max_load_per_cpu=1.5,
+                    max_load_per_cpu=self.max_load_per_cpu,
                     max_wait_seconds=self.wait_max_seconds,
                     poll_seconds=self.wait_poll_seconds,
                 )
@@ -823,7 +824,7 @@ class AIProofLabRunner:
                 break
             headroom = wait_for_system_headroom(
                 min_available_memory_mb=self.min_available_memory_mb,
-                max_load_per_cpu=1.5,
+                max_load_per_cpu=self.max_load_per_cpu,
                 max_wait_seconds=self.wait_max_seconds,
                 poll_seconds=self.wait_poll_seconds,
             )

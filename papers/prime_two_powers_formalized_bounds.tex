@@ -1,0 +1,218 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\setlist[itemize]{nosep,leftmargin=*,label={\textemdash}}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  frame=single,
+  columns=fullflexible,
+  breaklines=true,
+  breakatwhitespace=true,
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\tiny\color{gray}
+}
+
+\title{A Formal Lower-Bound for Numbers of the Form $p+2^k+2^l$ in Lean}
+\author{Automated Mathematics Research Assistant}
+\date{2026}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We formalize and prove a short obstruction result for integers of the form
+$\,p+2^k+2^l\,$, where $p$ is prime. The central statement shows that any
+integer represented by such a decomposition is bounded below by $4$. This result is
+formalized in Lean 4 within the ARA legacy number-theory module and is used to
+derive elementary consequences for the corresponding exceptional odd set.
+
+Our contribution is not a deep number-theoretic theorem, but rather a fully
+machine-checked mini-framework: a clear definition of representability, a lower-bound
+lemma proved by rewriting and arithmetic lemmas from arithmetic foundations, and two
+corollaries identifying explicit exceptional members in the odd set.
+\end{abstract}
+
+\section{Introduction}
+Expressions of the shape $p+2^k+2^l$ with prime $p$ and nonnegative integers
+$k,l$ appear in additive problems that combine prime inputs with dyadic powers.
+A common first step in such investigations is to identify basic lower bounds and
+small exceptions before turning to structural conjectures or computational searches.
+
+In this note we formalize a minimal shell for this pattern and prove a universal
+obstruction: every representable number is at least $4$. As a direct consequence,
+small odd numbers fail to be representable, yielding a nonempty exceptional odd
+set. The contribution is intentionally foundational: it demonstrates a reusable
+Lean interface for this representation and establishes a formally verified base for
+further extensions.
+
+The development is implemented in a modular style suitable for future generalization
+(e.g., to additional terms or constrained exponents), and is hosted in
+`AraLibrary.NumberTheory.PrimeTwoPowers`.
+
+\section{Formalization and Definitions}
+We define a predicate on natural numbers
+
+\begin{definition}
+$RepresentableByPrimeAndTwoPowers(n)$ asserts that
+there exist naturals $p,k,l$ such that $p$ is prime and
+$\,n=p+2^k+2^l$.
+\end{definition}
+
+The exceptional odd set is defined as
+$\{n \mid n \text{ is odd and } \neg RepresentableByPrimeAndTwoPowers(n)\}$.
+This set records odd naturals that do not admit the prescribed decomposition.
+
+The project context is intentionally conservative: only number-theoretic core
+lemmas from Mathlib are used, and no additional axioms are introduced.
+
+\section{Main Result}
+The key theorem is a lower-bound lemma.
+
+\begin{theorem}[Lower bound for representable numbers]
+For any naturals $n,p,k,l$, if $p$ is prime and $n=p+2^k+2^l$, then
+$4\le n$.
+\end{theorem}
+
+The proof is short. From primality we obtain $2\le p$. For all $k,l\in\mathbb{N}$,
+$1\le 2^k$ and $1\le 2^l$. Summing these inequalities shows
+$4\le p+2^k+2^l=n$.
+
+The theorem is mechanized with a direct rewriting step and linear arithmetic,
+minimizing dependence on higher-level lemmas.
+
+\section{Derived Corollaries}
+The lower bound yields immediate consequences.
+
+\begin{theorem}
+$1$ is not representable as $p+2^k+2^l$.
+\end{theorem}
+
+Assuming a representation of $1$, the lower-bound lemma gives $4\le1$, a
+contradiction.
+
+\begin{theorem}
+$1$ belongs to the exceptional odd set.
+\end{theorem}
+
+This follows by combining oddness of $1$ with the previous theorem.
+
+\begin{theorem}
+Every odd natural number $n<4$ belongs to the exceptional odd set.
+\end{theorem}
+
+For such $n$, oddness is by assumption. A hypothetical representation implies
+$4\le n$, contradicting $n<4$.
+
+The odd constraint is compatible with the definition of exceptional odd set, so the
+membership follows cleanly. A direct instantiation gives $1\in\text{ExceptionalOddSet}$,
+and the same argument with odd $n=3$ shows $3$ is also exceptional as an immediate
+corollary.
+
+\section{Implementation Notes}
+The implementation uses three ingredients. First, explicit existential
+quantification for representations. Second, prime-specific arithmetic facts from
+Mathlib (`Nat.Prime.two_le`). Third, standard arithmetic lower bounds for powers of
+$2$ on naturals (`Nat.one_le_two_pow`) and `omega` to close the numeric goal.
+
+The source is short, deterministic, and does not rely on specialized number-theory
+machinery, which makes it a good entry point for proof engineering and reusable
+formal components.
+
+\section{Discussion}
+Although elementary, this module supports a common pattern in formal number theory:
+defining a computationally meaningful class of numbers, proving robust guard
+lemmas by arithmetic, and extracting certified exceptional families. In this case,
+the bound $4\le n$ is a structural obstruction that immediately constrains the
+search space of candidate odd counterexamples.
+
+As a research artifact, this result is most useful as a verified foundation for
+larger workflows. For example, one can add additional representation terms,
+parameter bounds, or congruence constraints and retain the same style of theorem
+shape. Future work may include automated generation of the exceptional-set witness
+lists for finite prefixes and formalized coverage results under stronger hypotheses.
+
+\section{Conclusion}
+We provide a formal, publication-ready mini-result in Lean: numbers of the
+form $p+2^k+2^l$ are all at least $4$, and odd numbers below $4$ are therefore
+in the exceptional odd set. The proof is concise, fully mechanical, and reproducible.
+This demonstrates the viability of building mathematically meaningful statements
+directly from a trusted formal core, and of using such statements as robust
+building blocks for larger conjecture-benchmark pipelines.
+
+\appendix
+\section{Full Lean Formalization}
+The full development used in this manuscript is:
+
+\begin{lstlisting}
+import Mathlib
+
+/--!
+Reusable shell for numbers representable as a prime plus two powers of two.
+
+This module is extracted from the ARA Erd\H{o}s #9 campaign. It contains only the
+small verified obstruction that any representation `p + 2^k + 2^l` is at least
+`4`, plus immediate consequences for the exceptional odd set.
+-/
+
+namespace AraLibrary
+namespace PrimeTwoPowers
+
+/-- Numbers representable as `p + 2^k + 2^l` with `p` prime. -/
+def RepresentableByPrimeAndTwoPowers (n : \N) : Prop :=
+  \exists p k l : \N, Nat.Prime p \land n = p + 2 ^ k + 2 ^ l
+
+/-- Odd numbers not representable as `p + 2^k + 2^l`. -/
+def ExceptionalOddSet : Set \N :=
+  {n | Odd n \land \neg RepresentableByPrimeAndTwoPowers n}
+
+/-- Any representation `p + 2^k + 2^l` is at least `4`. -/
+theorem representable_lower_bound {n p k l : \N} (hp : Nat.Prime p)
+    (h : n = p + 2 ^ k + 2 ^ l) : 4 \le n := by
+  subst h
+  have hp2 : 2 \le p := hp.two_le
+  have hk : 1 \le 2 ^ k := by exact Nat.one_le_two_pow
+  have hl : 1 \le 2 ^ l := by exact Nat.one_le_two_pow
+  omega
+
+theorem not_representable_one : \not RepresentableByPrimeAndTwoPowers 1 := by
+  intro hrepr
+  rcases hrepr with \langle p, k, l, hp, hrepr\rangle
+  have h4 : 4 \le 1 := representable_lower_bound hp hrepr
+  omega
+
+theorem one_mem_exceptionalOddSet : 1 \in ExceptionalOddSet := by
+  constructor
+  \cdot decide
+  \cdot exact not_representable_one
+
+/-- Every odd natural number below `4` is exceptional for this representation shell. -/
+theorem odd_lt_four_mem_exceptionalOddSet {n : \N} (hodd : Odd n) (hn_lt : n < 4) :
+    n \in ExceptionalOddSet := by
+  constructor
+  \cdot exact hodd
+  \cdot intro hrepr
+    rcases hrepr with \langle p, k, l, hp, hEq\rangle
+    have h4 : 4 \le n := representable_lower_bound hp hEq
+    omega
+
+end PrimeTwoPowers
+end AraLibrary
+\end{lstlisting}
+
+\section{Source}
+The formalization file is located at
+\texttt{ara_library/formal/AraLibrary/NumberTheory/PrimeTwoPowers.lean}.
+
+\end{document}

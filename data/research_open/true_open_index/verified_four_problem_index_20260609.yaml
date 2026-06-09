@@ -1,0 +1,50 @@
+audit_date: "2026-06-09"
+scope:
+  - formal-conjectures-conjecture198a
+  - formal-conjectures-conjecture200
+  - formal-conjectures-conjecture327
+  - formal-conjectures-crystals-components-unique
+verified_open:
+  - problem_id: formal-conjectures-conjecture198a
+    source: "WOWII / Graffiti.pc Conjecture 198a"
+    source_url: "http://cms.dt.uh.edu/faculty/delavinae/research/wowII/"
+    current_formal_conjectures_url: "https://github.com/google-deepmind/formal-conjectures/blob/main/FormalConjectures/WrittenOnTheWallII/GraphConjecture198a.lean"
+    status_basis:
+      - "WOWII open/all pages list entry as O 198a."
+      - "WOWII resolved/resolvedT pages do not list 198a."
+      - "Formal Conjectures current main marks category research open and theorem body is sorry."
+      - "Targeted web search found no proof or counterexample."
+    confidence: high
+  - problem_id: formal-conjectures-conjecture200
+    source: "WOWII / Graffiti.pc Conjecture 200"
+    source_url: "http://cms.dt.uh.edu/faculty/delavinae/research/wowII/"
+    current_formal_conjectures_url: "https://github.com/google-deepmind/formal-conjectures/blob/main/FormalConjectures/WrittenOnTheWallII/GraphConjecture200.lean"
+    status_basis:
+      - "WOWII open/all pages list entry as O 200."
+      - "WOWII resolved/resolvedT pages do not list Conjecture 200."
+      - "Formal Conjectures current main marks category research open and theorem body is sorry."
+      - "Targeted web search found no proof or counterexample."
+    confidence: high
+  - problem_id: formal-conjectures-crystals-components-unique
+    source: "Abrate-Barbero-Cerruti-Murru, The Biharmonic mean, Conjecture 4.5"
+    source_url: "https://imar.ro/journals/Mathematical_Reports/Pdfs/2016/4/5.pdf"
+    arxiv_url: "https://arxiv.org/abs/1601.03081"
+    current_formal_conjectures_url: "https://github.com/google-deepmind/formal-conjectures/blob/main/FormalConjectures/Arxiv/1601.03081/UniqueCrystalComponents.lean"
+    status_basis:
+      - "Original paper states the uniqueness claim as a conjecture."
+      - "Original paper says proof or counterexample does not follow easily."
+      - "Formal Conjectures current main marks category research open and theorem body is sorry."
+      - "Targeted web search found no proof or counterexample."
+    confidence: medium_high
+excluded:
+  - problem_id: formal-conjectures-conjecture327
+    source: "WOWII / Graffiti.pc Conjecture 327"
+    source_url: "http://cms.dt.uh.edu/faculty/delavinae/research/wowII/"
+    exclusion_reason: "resolved_false_by_counterexample"
+    current_formal_conjectures_url: "https://github.com/google-deepmind/formal-conjectures/blob/main/FormalConjectures/WrittenOnTheWallII/GraphConjecture327.lean"
+    formal_counterexample_url: "https://github.com/mo271/formal-conjectures/blob/6e85aabe821e6ddf718d050a5bd8f19a48e4f2d9/FormalConjectures/WrittenOnTheWallII/GraphConjecture327.lean#L233"
+    status_basis:
+      - "Old WOWII pages still list O 327."
+      - "Current Formal Conjectures main marks the target category research solved."
+      - "Current source states the conjecture is false and records a 12-vertex counterexample."
+      - "Referenced Lean file proves existence of a connected 12-vertex counterexample."

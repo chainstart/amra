@@ -16,7 +16,13 @@ limitations under the License.
 
 import AmraLibrary.Combinatorics.SimpleGraph.GraphConjectures.LargestInducedTree
 import Mathlib.Combinatorics.SimpleGraph.Diam
+import Mathlib.Data.Real.Basic
 import Mathlib.Order.Interval.Finset.Nat
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.SuppressCompilation
+
+suppress_compilation
 
 /-!
 # Formal support for WOWII Conjecture 13
