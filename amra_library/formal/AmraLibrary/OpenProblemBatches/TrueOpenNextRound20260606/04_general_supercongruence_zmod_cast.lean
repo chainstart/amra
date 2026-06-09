@@ -584,7 +584,9 @@ lemma zmod_p3_mul_eq_zero_of_cast_mod_p_eq_zero
   rcases hdiv with ⟨a, ha⟩
   refine ⟨a, ?_⟩
   rw [ha]
-  ring
+  rw [show p ^ 3 * (p * a) = p ^ 4 * a by
+    rw [show p ^ 4 = p ^ 3 * p by ring]
+    rw [Nat.mul_assoc]]
 
 lemma zmod_sum_Icc_cast_eq_sum_univ_erase
     {A : Type*} [AddCommMonoid A] (p : ℕ) [NeZero p] (hp : p.Prime)
@@ -774,10 +776,11 @@ lemma zmod_units_power_sum_eq_zero_of_pos_lt
 
 lemma zmod_inverse_power_sum_eq_zero_mod_p_of_pos_lt
     (p e : ℕ) (hp : p.Prime) (hepos : 0 < e) (helt : e < p - 1) :
-    ∑ k in Finset.Icc 1 (p - 1), (((k : ZMod p) ^ e)⁻¹) = 0 := by
+    (∑ k in Finset.Icc 1 (p - 1), (((k : ZMod p) ^ e)⁻¹)) = 0 := by
   classical
   haveI : Fact p.Prime := ⟨hp⟩
   haveI : NeZero p := ⟨Nat.ne_of_gt hp.pos⟩
+  haveI : Fintype (ZMod p)ˣ := Fintype.ofFinite (ZMod p)ˣ
   calc
     (∑ k in Finset.Icc 1 (p - 1), (((k : ZMod p) ^ e)⁻¹))
         =
