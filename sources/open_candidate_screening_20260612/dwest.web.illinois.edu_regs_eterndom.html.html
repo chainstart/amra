@@ -1,0 +1,99 @@
+
+<head>
+<title>Eternal Domination Number</title>
+</head>
+<h1>Eternal Domination Number (2005)</h1>
+
+<p><b>Originator(s):</b>
+W. Goddard, S.M Hedetniemi, S.T. Hedetniemi
+&nbsp;&nbsp;
+(communicated by Klostermeyer - REGS 2008)
+
+<p><b>Definitions:</b>
+A <i>dominating set</i> in a graph <i>G</i> is a set <i>S</i> such that every
+vertex outside <i>S</i> has a neighbor in <i>S</i>; the minimum size of such a
+set is the <i>domination number</i>.  View the vertices of a dominating set
+<i>S</i> as locations of protecting armies; when a vertex <i>v</i> not in
+<i>S</i> is attacked, the army at a vertex of <i>S</i> adjacent to <i>v</i>
+can move to <i>v</i> to defeat the attack.
+An <i>eternal dominating</i> or <i>eternally secure</i> set is a dominating set
+that permits eternal defense in the following sense:  when a vertex not in the
+current dominating set is attacked, moving the army from some adjacent vertex
+in the current dominating set again produces a dominating set with the same
+property of surviving forever.  The <i>eternal security number</i> is the
+minimum size of an eternal dominating set.  Notation that has been used for
+the eternal security number of <i>G</i> is <i>&gamma;<sub>&infin;</sub>(G)</i>.
+
+<p><b>Background:</b>
+For example, the eternal security number of the 5-cycle <i>C<sub>5</sub></i>
+is 3, not 2.  Given a dominating set <i>S</i> of size 2, the opponent could
+attack the vertex adjacent to both vertices of <i>S</i>, and after protecting
+it the defender would lose on the next move.  In contrast, a
+<i>mobile eternally secure set</i> gives the defender more flexibility by
+allowing each army to move to a neighboring vertex on each move, and in this
+model two armies suffice to guard <i>C<sub>5</sub></i>.
+These concepts were introduced (?) by Goddard, Hedetniemi, and Hedetniemi [GHH].
+
+<p>It is easy to observe that
+<i>&alpha;(G)&le;&gamma;<sub>&infin;</sub>(G)&le;&theta;(G)</i>,
+where <i>&alpha;(G)</i> is the independence number and 
+<i>&theta;(G)</i> is the clique cover number (minimum number of
+complete subgraphs needed to cover the vertices).
+Also, Klostermeyer and MacGillivray [KM2] proved that 
+<i>&gamma;<sub>&infin;</sub>(G)&le;a(a+1)/2</i>, where <i>a=&alpha;(G)</i>.
+This result is nontrivial; it improves the same upper bound having been proved
+for the mobile eternal security number ([GHH?]).
+Goldwasser and Klostermeyer showed that equality holds for infinitely many
+graphs.
+
+<p><b>Question 1:</b>
+Characterize the graphs that achieve equality in these bounds.  In particular,
+is it true that <i>&gamma;<sub>&infin;</sub>(G)=&theta;(G)</i> whenever
+<i>G</i> is a planar graph?
+
+<p><b>Partial results:</b>
+All graphs not having <i>K<sub>4</sub></i> as a minor satisfy
+<i>&gamma;<sub>&infin;</sub>(G)=&theta;(G)</i> ([ABBCVY]).
+This also holds for all circular-arc graphs ([R]).
+The smallest known graph satisfying
+<i>&gamma;<sub>&infin;</sub>(G)&lt;&theta;(G)</i> has 11 vertices.  The smallest
+known graph with independence number 3 that satisfies
+<i>&gamma;<sub>&infin;</sub>(G)=3(3+1)/2</i> has 22 vertices.
+
+<p>
+Note that independence number and clique-cover number are dual integer
+programs.  Another parameter trapped between them is the Lov&aacute;sz theta
+function, which equals &radic;5 for <i>C<sub>5</sub></i>.  This suggests:
+
+<p><b>Question 2:</b>
+Is <i>&gamma;<sub>&infin;</sub></i> bounded below by the Lov&aacute;sz theta
+function?
+
+<p>
+[GHH] conjectured that if <i>&gamma;<sub>&infin;</sub>(G)=&alpha;(G)</i>,
+then <i>&alpha;(G)=&theta(G)</i>.  [KM1] proved that this is true when
+<i>&alpha;(G)=2</i>, but they provided counterexamples when
+<i>&alpha;(G)=3</i>.  They posed some additional questions.
+Complexity of various questions concerning eternal dominating sets is
+studied in [K].
+
+<p><b>References:</b>
+<br>
+[ABBCVY] M. Anderson, C. Barrientos, R. Brigham, J. Carrington,
+R. Vitray, and J. Yellen; Maximum demand graphs for eternal security,
+J. Combin. Math. Combin. Comput.} 61 (2007), 111--128.
+<br>
+[GHH] Goddard, Wayne; Hedetniemi, Sandra M.; Hedetniemi, Stephen T.; Eternal
+security in graphs.  J. Combin. Math. Combin. Comput.  52  (2005), 169--180.
+<br>
+[K] Klostermeyer, W.F.; Complexity of eternal security.
+J. Combin. Math. Combin. Comput. 61 (2007), 135--140.
+<br>
+[KM1] Klostermeyer, W.F.; MacGillivray, G.; Eternally secure sets, independence
+sets and cliques. AKCE Int. J. Graphs Comb. 2 (2005), no. 2, 119--122.
+<br>
+[KM2] Klostermeyer, W.F.; MacGillivray, G.; Eternal security in graphs of fixed
+independence number.  J. Combin. Math. Combin. Comput.  63  (2007), 97--101.
+<br>
+[R] F. Regan, Dynamic variants of domination and independence in graphs,
+graduate thesis, Rheinischen Friedrich-Wilhlems University, Bonn, 2007.

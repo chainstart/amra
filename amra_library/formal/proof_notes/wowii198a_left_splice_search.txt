@@ -1,0 +1,28 @@
+Bounded search for terminal_set_fan_splice_descent_left_of_hsep statement.
+Enumerated simple graphs n=3..5, ordered distinct v,s,t, terminal-set hsep, weighted-minimal simple path pairs, common x, and replacement rs avoiding x with nonapex y in rs∩right.
+NO_COUNTEREXAMPLE up to n=5; checked 0 target configurations.
+
+2026-06-27 iteration 4 formalizer note:
+- External sources: none used. Read only the supplied ARA context bundle and math tools report.
+- Current first blocker between `terminal_set_fan_splice_descent_left_of_hsep` and `conjecture198a` is still the retained-suffix branch of the left splice. The already checked non-retention first-crossing splice is now exposed as
+  `terminal_set_fan_left_first_crossing_splice_commonCard_lt_of_not_retained`
+  and wrapped as
+  `terminal_set_fan_splice_descent_left_of_hsep_of_first_crossing_not_retained`.
+- This closes the branch where the first crossing `w` has
+  `x ∉ ((pair.2 : G.Walk v t).dropUntil w hw_right).support`.
+- Remaining route: prove the retained branch using the bad-pivot/extremal suffix-retention package, then expose the full `terminal_set_fan_splice_descent_left_of_hsep` declaration.
+
+2026-06-27 iteration 5 formalizer note:
+- External sources: none used. Read only the supplied ARA context bundle, math tools report, local proof notes, and the Lean workspace.
+- Current first blocker between `terminal_set_fan_splice_descent_left_of_hsep` and `conjecture198a` remains the retained-suffix/first-crossing descent package.
+- Exposed `terminal_set_fan_splice_descent_left_of_hsep` as a real Lean declaration outside the frozen route comment and wired the checked direct-replacement and first-intersection setup.
+- The configured verifier now finds the target declaration and stops at the strict-descent obligation for the spliced pair:
+  `terminalPathPairCommonCard spliced < terminalPathPairCommonCard pair`.
+- Next route: replace that residual branch with the verified suffix-retention bad-pivot/extremal package, then mirror the argument for the right splice before continuing to the two-fan theorem.
+
+2026-06-27 iteration 6 formalizer note:
+- External sources: none used. Read only the supplied round-006 context bundle, supplied math tools report, local proof notes, and the Lean workspace.
+- Current first blocker between `terminal_set_fan_splice_descent_left_of_hsep` and `conjecture198a` is still the retained-suffix first-crossing descent. The live theorem currently reaches a first right-path crossing and then incorrectly tries to use `hdirect` as a strict common-card proof for the spliced pair.
+- A throwaway Lean unfreeze in `/tmp/Wowii198a_unfreeze.lean` confirmed that the frozen suffix-retention block still has the two real arbitrary-pivot containment gaps: the old-left-prefix bad pivot and the old-right-suffix bad pivot both need an order-extremal weighted-measure descent, not a local support rewrite.
+- Reran `proof_notes/wowii198a_suffix_retention_round003_countermodel_search.py`; it again reported no countermodel in the shaped six-vertex search and no countermodel in 2000 random six-vertex graphs under weighted minimality.
+- Next theorem-level target should be an extremal bad-pivot package for `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, choosing the last/first bad pivot on `rs` before constructing the secondary splice. That package feeds `terminal_set_fan_left_suffix_retention_alt_intersections_control`, then `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, then `terminal_set_fan_splice_descent_left_of_hsep`, the mirrored right splice, the two-fan theorem, the longest-path contradiction, Chvatal-Erdos traceability, and finally `conjecture198a`.

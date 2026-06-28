@@ -66,6 +66,24 @@ TARGET_FIELD_PRIORITY: tuple[tuple[str, str], ...] = (
     ("formalization_target", "last_decl"),
     ("failure_mode", "last_decl"),
 )
+LEAN_WORKSPACE_MARKERS = ("lakefile.lean", "lakefile.toml", "lean-toolchain")
+LEAN_STAGE_REQUEST_PATTERNS = (
+    "run the next round as a lean",
+    "run next round as a lean",
+    "run the next round as lean",
+    "run the next round as a formalizer",
+    "run next round as a formalizer",
+    "run as a lean formalizer",
+    "run as lean formalizer",
+    "run as a lean certificate",
+    "run as lean certificate",
+    "lean formalizer/certificate",
+    "lean formalizer round",
+    "formalizer/certificate round",
+    "formalizer round",
+    "certification only",
+    "next executable move is certification",
+)
 
 
 def _strip_escaped_identifier(name: str) -> str:
@@ -219,6 +237,15 @@ def extract_formalization_target_from_run(run_dir: Path, *, excluded_names: set[
     return ""
 
 
+def supervisor_text_requests_lean_stage(text: str) -> bool:
+    normalized = re.sub(r"\s+", " ", text.strip().lower())
+    if not normalized:
+        return False
+    if any(blocker in normalized for blocker in ("do not lean", "do not launch lean", "do not run lean")):
+        return False
+    return any(pattern in normalized for pattern in LEAN_STAGE_REQUEST_PATTERNS)
+
+
 class CampaignLoopRunner:
     """Outer self-iteration loop for long theorem-proving campaigns.
 
@@ -369,6 +396,11 @@ class CampaignLoopRunner:
         current_target_theorem: str,
         previous_entry: dict[str, Any] | None,
     ) -> str:
+        forced_next_stage = str((previous_entry or {}).get("supervisor_forced_next_stage") or "")
+        if forced_next_stage == "proof_lab":
+            return "proof_lab"
+        if forced_next_stage == "lean_formalizer" and workspace and current_target_theorem:
+            return "lean_formalizer"
         if (
             mode in {"auto", "hybrid"}
             and previous_entry
@@ -401,6 +433,95 @@ class CampaignLoopRunner:
         ):
             return "lean_formalizer"
         return "proof_lab"
+
+    def _find_lean_workspace_root(self, path: Path) -> Path | None:
+        """Return the nearest Lake workspace root containing a Lean file path."""
+
+        start = path if path.is_dir() else path.parent
+        for candidate in (start, *start.parents):
+            if any((candidate / marker).exists() for marker in LEAN_WORKSPACE_MARKERS):
+                return candidate
+        return None
+
+    def _infer_formalizer_config(
+        self,
+        *,
+        workspace: Path | None,
+        target_file: Path | None,
+        build_command: list[str] | None,
+        context_paths: list[Path] | None,
+    ) -> tuple[Path | None, Path | None, list[str] | None, dict[str, Any]]:
+        """Infer Lean formalizer inputs from context files.
+
+        Proof-lab-only launchers often include the relevant `.lean` file as a
+        context but omit `--workspace`/`--target-file`.  The supervisor cannot
+        execute a Lean switch without those inputs, so infer the conservative
+        Lake project root and target file when the context makes them explicit.
+        """
+
+        effective_workspace = workspace.expanduser().resolve() if workspace is not None else None
+        effective_target_file = target_file
+        inferred: dict[str, Any] = {
+            "workspace": False,
+            "target_file": False,
+            "build_command": False,
+            "source_context": "",
+        }
+
+        lean_contexts: list[Path] = []
+        if target_file is not None and target_file.suffix == ".lean":
+            lean_contexts.append(target_file)
+        for raw_path in context_paths or []:
+            path = raw_path.expanduser()
+            if not path.is_absolute():
+                path = self.repo_root / path
+            if path.suffix == ".lean" and path.exists():
+                lean_contexts.append(path.resolve())
+
+        if effective_workspace is None:
+            for path in lean_contexts:
+                candidate = path if path.is_absolute() else self.repo_root / path
+                root = self._find_lean_workspace_root(candidate.resolve())
+                if root is not None:
+                    effective_workspace = root
+                    inferred["workspace"] = True
+                    inferred["source_context"] = str(candidate.resolve())
+                    break
+
+        if effective_target_file is None and effective_workspace is not None:
+            for path in lean_contexts:
+                candidate = path if path.is_absolute() else self.repo_root / path
+                resolved = candidate.resolve()
+                try:
+                    resolved.relative_to(effective_workspace)
+                except ValueError:
+                    continue
+                effective_target_file = resolved
+                inferred["target_file"] = True
+                inferred["source_context"] = inferred["source_context"] or str(resolved)
+                break
+
+        effective_build_command = build_command
+        if (
+            effective_workspace is not None
+            and effective_target_file is not None
+            and (not effective_build_command or effective_build_command == ["lake", "build"])
+        ):
+            target_path = effective_target_file
+            if not target_path.is_absolute():
+                target_path = effective_workspace / target_path
+            try:
+                relative_target = target_path.resolve().relative_to(effective_workspace)
+            except ValueError:
+                relative_target = None
+            if relative_target is not None:
+                effective_build_command = ["lake", "env", "lean", str(relative_target)]
+                inferred["build_command"] = True
+
+        inferred["workspace_path"] = str(effective_workspace or "")
+        inferred["target_file_path"] = str(effective_target_file or "")
+        inferred["build_command_value"] = effective_build_command or []
+        return effective_workspace, effective_target_file, effective_build_command, inferred
 
     def _formalizer_child_needs_global_reassessment(self, child: dict[str, Any]) -> bool:
         if bool(child.get("needs_global_reassessment")):
@@ -597,13 +718,18 @@ class CampaignLoopRunner:
         current_target_theorem: str,
         final_target_theorem: str,
         completed_target_theorems: set[str],
-    ) -> str:
+        workspace: Path | None,
+        target_file: Path | None,
+    ) -> tuple[str, str]:
         action = str(decision.get("decision") or "continue_current_target")
         suggested_target = str(decision.get("target_theorem") or "").strip()
+        requested_controller_action = str(decision.get("controller_action") or "").strip()
         next_target = current_target_theorem
+        control_stop_reason = ""
         entry["supervisor"] = {
             "decision": action,
             "target_theorem": suggested_target,
+            "controller_action": requested_controller_action,
             "reason": decision.get("reason") or "",
             "instructions": decision.get("instructions") or "",
             "route_risk": decision.get("route_risk") or "",
@@ -616,28 +742,88 @@ class CampaignLoopRunner:
         entry["supervisor_parsed_decision_path"] = decision.get("parsed_decision_path") or ""
         entry["supervisor_target_theorem"] = suggested_target
         entry["supervisor_target_replaced"] = False
-        if action == "final_target":
+        entry["supervisor_control_action"] = "continue"
+        entry["supervisor_stop_reason"] = ""
+        entry["supervisor_forced_next_stage"] = ""
+        entry["supervisor_next_work_direction"] = decision.get("instructions") or ""
+        entry["supervisor_requeue"] = {}
+
+        def force_lean_or_stop(control_action: str) -> None:
+            nonlocal control_stop_reason
+            entry["supervisor_control_action"] = control_action
+            entry["supervisor_forced_next_stage"] = "lean_formalizer"
+            if workspace and next_target:
+                return
+            control_stop_reason = "supervisor_missing_formalizer_config"
+            entry["supervisor_control_action"] = f"{control_action}_needs_formalizer_config"
+            entry["supervisor_stop_reason"] = control_stop_reason
+            entry["supervisor_requeue"] = {
+                "required": True,
+                "next_mode": "lean-formalizer",
+                "next_target_theorem": next_target,
+                "workspace": str(workspace or ""),
+                "target_file": str(target_file or ""),
+                "reason": "Supervisor selected a Lean formalizer stage, but the current campaign lacks an executable Lean workspace or target theorem.",
+                "instructions": decision.get("instructions") or "",
+            }
+
+        instructions_text = str(decision.get("instructions") or "")
+        if action == "continue_current_target" and (
+            requested_controller_action == "switch_target" or supervisor_text_requests_lean_stage(instructions_text)
+        ):
+            if suggested_target and suggested_target not in completed_target_theorems:
+                next_target = suggested_target
+            if next_target:
+                entry["needs_global_reassessment"] = False
+                force_lean_or_stop("continue_as_lean_formalizer")
+            else:
+                entry["needs_global_reassessment"] = True
+                entry["supervisor_control_action"] = "reassess_missing_lean_target"
+        elif action == "final_target":
             suggested_target = final_target_theorem.strip() or suggested_target
             if suggested_target and suggested_target not in completed_target_theorems:
                 next_target = suggested_target
                 entry["needs_global_reassessment"] = False
+                force_lean_or_stop("final_target")
         elif action == "switch_target":
             if suggested_target and suggested_target not in completed_target_theorems:
                 next_target = suggested_target
                 entry["needs_global_reassessment"] = False
+                force_lean_or_stop("switch_target")
             else:
                 entry["needs_global_reassessment"] = True
+                entry["supervisor_control_action"] = "reassess_missing_switch_target"
         elif action == "return_to_proof_lab":
             entry["needs_global_reassessment"] = True
+            entry["supervisor_control_action"] = "return_to_proof_lab"
+            entry["supervisor_forced_next_stage"] = "proof_lab"
         elif action == "freeze_route":
-            entry["needs_global_reassessment"] = True
-            next_target = ""
+            if suggested_target and suggested_target not in completed_target_theorems:
+                next_target = suggested_target
+                entry["needs_global_reassessment"] = False
+                force_lean_or_stop("freeze_and_switch_target")
+            else:
+                next_target = ""
+                if requested_controller_action == "replan_proof_lab":
+                    entry["needs_global_reassessment"] = True
+                    entry["supervisor_control_action"] = "freeze_and_replan"
+                    entry["supervisor_forced_next_stage"] = "proof_lab"
+                else:
+                    entry["needs_global_reassessment"] = False
+                    control_stop_reason = "supervisor_freeze_route"
+                    entry["supervisor_control_action"] = "stop_campaign"
+                    entry["supervisor_stop_reason"] = control_stop_reason
+        if requested_controller_action == "stop_campaign" and not control_stop_reason:
+            entry["needs_global_reassessment"] = False
+            control_stop_reason = "supervisor_stop_campaign"
+            entry["supervisor_control_action"] = "stop_campaign"
+            entry["supervisor_stop_reason"] = control_stop_reason
 
         if next_target != current_target_theorem:
             entry["supervisor_target_replaced"] = True
             entry["supervisor_previous_target_theorem"] = current_target_theorem
             entry["supervisor_next_target_theorem"] = next_target
-        return next_target
+        return next_target, control_stop_reason
 
     def _write_summary(self, *, path: Path, payload: dict[str, Any]) -> None:
         lines = [
@@ -671,6 +857,9 @@ class CampaignLoopRunner:
                 )
             elif entry.get("supervisor_decision"):
                 suffix += f" [supervisor: {entry.get('supervisor_decision')}]"
+            control_action = str(entry.get("supervisor_control_action") or "")
+            if control_action and control_action != "continue":
+                suffix += f" [controller: {control_action}]"
             lines.append(
                 f"- Round {entry.get('round')}: {entry.get('stage')} -> "
                 f"{entry.get('status')} ({entry.get('stop_reason') or entry.get('next_action') or ''})"
@@ -749,6 +938,12 @@ class CampaignLoopRunner:
         completed_target_theorem_set: set[str] = {
             theorem.strip() for theorem in (completed_target_theorems or []) if theorem.strip()
         }
+        workspace, target_file, build_command, inferred_formalizer_config = self._infer_formalizer_config(
+            workspace=workspace,
+            target_file=target_file,
+            build_command=build_command,
+            context_paths=list(context_paths or []),
+        )
         stop_reason = "rounds_exhausted"
         stalled_rounds = 0
 
@@ -939,16 +1134,23 @@ class CampaignLoopRunner:
                     timeout_sec=supervisor_timeout_sec,
                     enable_search=enable_search,
                 )
-                current_target_theorem = self._apply_supervisor_decision(
+                current_target_theorem, supervisor_stop_reason = self._apply_supervisor_decision(
                     entry=entry,
                     decision=supervisor_decision,
                     current_target_theorem=current_target_theorem,
                     final_target_theorem=final_target_theorem.strip(),
                     completed_target_theorems=completed_target_theorem_set,
+                    workspace=workspace,
+                    target_file=target_file,
                 )
+            else:
+                supervisor_stop_reason = ""
 
             write_json(round_dir / "decision.json", entry)
             round_entries.append(entry)
+            if supervisor_stop_reason:
+                stop_reason = supervisor_stop_reason
+                break
             if previous and previous.get("next_action") == entry.get("next_action") and previous.get("status") == entry.get("status"):
                 stalled_rounds += 1
             else:
@@ -964,9 +1166,13 @@ class CampaignLoopRunner:
             "Final target theorem is Lean-verified."
             if status == "verified"
             else (
-                "Continue with proof-lab global reassessment before the next Lean formalizer round."
-                if round_entries and round_entries[-1].get("needs_global_reassessment")
-                else "Continue the campaign loop from the latest round summary and current target theorem."
+                "Supervisor controller stopped the current route; start a fresh route or provide a replacement target before restarting the inner loop."
+                if str(stop_reason).startswith("supervisor_")
+                else (
+                    "Continue with proof-lab global reassessment before the next Lean formalizer round."
+                    if round_entries and round_entries[-1].get("needs_global_reassessment")
+                    else "Continue the campaign loop from the latest round summary and current target theorem."
+                )
             )
         )
         global_reassessments = [
@@ -1003,6 +1209,7 @@ class CampaignLoopRunner:
             "statement_path": str(run_dir / "statement.md"),
             "workspace": str(workspace or ""),
             "target_file": str(target_file or ""),
+            "inferred_formalizer_config": inferred_formalizer_config,
             "expected_target_header_required": bool(expected_target_header),
             "current_target_theorem": current_target_theorem,
             "final_target_theorem": final_target_theorem.strip(),
@@ -1020,6 +1227,11 @@ class CampaignLoopRunner:
                     "decision_path": entry.get("supervisor_decision_path"),
                     "parsed_decision_path": entry.get("supervisor_parsed_decision_path"),
                     "target_replaced": entry.get("supervisor_target_replaced"),
+                    "control_action": entry.get("supervisor_control_action"),
+                    "stop_reason": entry.get("supervisor_stop_reason"),
+                    "forced_next_stage": entry.get("supervisor_forced_next_stage"),
+                    "next_work_direction": entry.get("supervisor_next_work_direction"),
+                    "requeue": entry.get("supervisor_requeue") or {},
                 }
                 for entry in round_entries
                 if entry.get("supervisor_decision")

@@ -18,6 +18,7 @@ SUPERVISOR_LABELS: tuple[str, ...] = (
     "Reason",
     "Next target",
     "Formalization target",
+    "Controller action",
     "Instructions",
     "Route risk",
 )
@@ -28,6 +29,13 @@ VALID_SUPERVISOR_DECISIONS = {
     "return_to_proof_lab",
     "freeze_route",
     "final_target",
+}
+
+VALID_CONTROLLER_ACTIONS = {
+    "continue",
+    "switch_target",
+    "replan_proof_lab",
+    "stop_campaign",
 }
 
 LEAN_DECL_PATTERN = re.compile(
@@ -138,12 +146,26 @@ def parse_supervisor_decision(text: str, *, excluded_names: set[str] | None = No
     decision = re.sub(r"[^a-z0-9_]+", "", decision)
     if decision not in VALID_SUPERVISOR_DECISIONS:
         decision = "continue_current_target"
+    target_theorem = extract_supervisor_target(fields, excluded_names=excluded_names)
+    raw_controller_action = fields.get("controller_action", "")
+    controller_action = raw_controller_action.strip().lower().replace("-", "_").replace(" ", "_")
+    controller_action = re.sub(r"[^a-z0-9_]+", "", controller_action)
+    if controller_action not in VALID_CONTROLLER_ACTIONS:
+        if decision in {"switch_target", "final_target"} and target_theorem:
+            controller_action = "switch_target"
+        elif decision == "return_to_proof_lab":
+            controller_action = "replan_proof_lab"
+        elif decision == "freeze_route":
+            controller_action = "switch_target" if target_theorem else "stop_campaign"
+        else:
+            controller_action = "continue"
     route_risk = fields.get("route_risk", "").strip().lower()
     if route_risk not in {"low", "medium", "high"}:
         route_risk = ""
     return {
         "decision": decision,
-        "target_theorem": extract_supervisor_target(fields, excluded_names=excluded_names),
+        "target_theorem": target_theorem,
+        "controller_action": controller_action,
         "reason": fields.get("reason", "").strip(),
         "instructions": fields.get("instructions", "").strip(),
         "route_risk": route_risk,
@@ -290,10 +312,10 @@ class GlobalProofSupervisor:
     ) -> str:
         return "\n".join(
             [
-                "# AMRA Global Proof Supervisor",
+                "# AMRA Global Proof Controller",
                 "",
-                "You are the outer strategy reviewer for a long Lean formalization campaign.",
-                "Do not edit files. Read the global state and decide the next theorem-level move.",
+                "You are the outer strategy controller for a long Lean formalization campaign.",
+                "Do not edit files. Read the global state and choose the next executable theorem-level move.",
                 "",
                 "## Required Output Format",
                 "",
@@ -303,16 +325,21 @@ class GlobalProofSupervisor:
                 "- Reason: one concise paragraph explaining the strategic basis",
                 "- Next target: a Lean theorem/lemma name in backticks, or `<none>`",
                 "- Formalization target: a fenced Lean theorem/lemma declaration when switching targets, or `<unchanged>`",
+                "- Controller action: continue | switch_target | replan_proof_lab | stop_campaign",
                 "- Instructions: concrete next-round instructions for the formalizer or proof-lab",
                 "- Route risk: low | medium | high",
                 "",
                 "## Decision Semantics",
                 "",
-                "- continue_current_target: keep the current target and give better instructions.",
-                "- switch_target: replace the current target with a smaller or better theorem-level target that directly advances the final proof.",
-                "- return_to_proof_lab: the current route is underspecified; run mathematical route discovery before more Lean editing.",
-                "- freeze_route: the current route is likely wrong or exhausted; force route re-selection.",
-                "- final_target: the final theorem itself is the correct immediate target.",
+                "- continue_current_target: keep the current target and give better instructions; the inner loop continues on this target.",
+                "- switch_target: replace the current target with a smaller or better theorem-level target; the inner loop continues on that target.",
+                "- return_to_proof_lab: the current route is underspecified; force the next inner round into mathematical route discovery before more Lean editing.",
+                "- freeze_route: the current route is wrong, exhausted, completed, or mis-specified. If a replacement target is known, set Controller action to `switch_target`; if the next step is route redesign or source/spec repair, set Controller action to `replan_proof_lab`; if no more work should be allocated to this objective, set Controller action to `stop_campaign`.",
+                "- final_target: the final theorem itself is the correct immediate target; the inner loop continues there.",
+                "- If the next executable move is Lean certification/formalizer work, set Controller action to `switch_target` even when the theorem name is unchanged.",
+                "- If the next executable move is proof-lab route redesign, set Controller action to `replan_proof_lab`.",
+                "",
+                "Do not stop merely because the current target is false or mis-specified if a repaired theorem statement, source task, or route redesign should be attempted next.",
                 "",
                 "## Trigger",
                 "",
