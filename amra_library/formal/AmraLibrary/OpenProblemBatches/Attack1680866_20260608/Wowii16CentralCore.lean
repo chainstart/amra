@@ -1636,6 +1636,67 @@ def CentralDeficitAdmissibleTuple
   D.card ≤ (Q0 ∪ Q1).card ∧
   Disjoint (Q0 ∪ Q1) ((A ∪ P1) ∪ insert b P0)
 
+def CentralDeficitLexmaxAdmissibleTuple
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (b : α) (A : Finset α)
+    {u w : α} (p : G.Walk u w) (e : Nat) (D : Finset Nat)
+    (P0 P1 Q0 Q1 : Finset α) : Prop :=
+  p.IsPath ∧
+  p.length = e ∧
+  e = G.diam ∧
+  D = Finset.Icc (e - G.radius.toNat + 2) (G.radius.toNat - 1) ∧
+  D.card = 2 * G.radius.toNat - 2 - e ∧
+  G.IsIndepSet ((A ∪ P1 : Finset α) : Set α) ∧
+  G.IsIndepSet ((insert b P0 : Finset α) : Set α) ∧
+  Disjoint (A ∪ P1) (insert b P0) ∧
+  A.card + e ≤ ((A ∪ P1) ∪ insert b P0).card ∧
+  (∀ x ∈ Q0 ∪ Q1, x ∉ p.support.toFinset) ∧
+  G.IsIndepSet (Q0 : Set α) ∧
+  G.IsIndepSet (Q1 : Set α) ∧
+  Disjoint Q0 Q1 ∧
+  (∀ x ∈ Q0, 2 ≤ G.dist b x ∧ ∀ y ∈ insert b P0, ¬ G.Adj x y) ∧
+  (∀ x ∈ Q1, 3 ≤ G.dist b x ∧ ∀ y ∈ A ∪ P1, ¬ G.Adj x y) ∧
+  D.card ≤ (Q0 ∪ Q1).card ∧
+  Disjoint (Q0 ∪ Q1) ((A ∪ P1) ∪ insert b P0)
+
+def CentralDeficitPackageLexBetter
+    {α : Type*} [DecidableEq α] (b : α) (A : Finset α)
+    (P0 P1 Q0 Q1 P0' P1' Q0' Q1' : Finset α) : Prop :=
+  (Q0 ∪ Q1).card < (Q0' ∪ Q1').card ∨
+  ((Q0 ∪ Q1).card = (Q0' ∪ Q1').card ∧
+    ((A ∪ P1) ∪ insert b P0).card <
+      ((A ∪ P1') ∪ insert b P0').card)
+
+def CentralDeficitPathFixedCollision
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (b : α) (A : Finset α)
+    {u w : α} (p : G.Walk u w) (e : Nat) (D : Finset Nat)
+    (P0 P1 Q0 Q1 : Finset α) : Prop :=
+  ∃ P0' P1' Q0' Q1' : Finset α,
+    CentralDeficitLexmaxAdmissibleTuple G b A p e D P0' P1' Q0' Q1' ∧
+    CentralDeficitPackageLexBetter b A P0 P1 Q0 Q1 P0' P1' Q0' Q1'
+
+def CentralDeficitLexmaxSelectedPackage
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (b : α) (A : Finset α)
+    {u w : α} (p : G.Walk u w) (e : Nat) (D : Finset Nat)
+    (P0 P1 Q0 Q1 : Finset α) : Prop :=
+  CentralDeficitLexmaxAdmissibleTuple G b A p e D P0 P1 Q0 Q1 ∧
+  ∀ P0' P1' Q0' Q1' : Finset α,
+    CentralDeficitLexmaxAdmissibleTuple G b A p e D P0' P1' Q0' Q1' →
+    ¬ CentralDeficitPackageLexBetter b A P0 P1 Q0 Q1 P0' P1' Q0' Q1'
+
+theorem central_deficit_selected_lexmax_package_no_path_fixed_collision
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (b : α) (A : Finset α)
+    {u w : α} (p : G.Walk u w) (e : Nat) (D : Finset Nat)
+    (P0 P1 Q0 Q1 : Finset α)
+    (hSel :
+      CentralDeficitLexmaxSelectedPackage G b A p e D P0 P1 Q0 Q1) :
+    ¬ CentralDeficitPathFixedCollision G b A p e D P0 P1 Q0 Q1 := by
+  rintro ⟨P0', P1', Q0', Q1', hAdm', hBetter⟩
+  exact hSel.2 P0' P1' Q0' Q1' hAdm' hBetter
+
 theorem central_deficit_dist_two_left_reserve_rebalance_forces_lex_improvement
     {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
     (G : SimpleGraph α) [DecidableRel G.Adj] (b : α) (A : Finset α)
@@ -1815,22 +1876,117 @@ theorem central_deficit_dist_two_left_reserve_rebalance_forces_lex_improvement
     exact hPathCard
   · exact le_trans hQcard hOldCardLeNew
 
-section SameSideBlockerTarget
+theorem central_deficit_same_side_blocker_replacement_forces_neighbor_gain
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (b : α)
+    {A S C : Finset α}
+    (hAneigh : ∀ a ∈ A, G.Adj b a)
+    (hAind : G.IsIndepSet (A : Set α))
+    (hSsub : S ⊆ A)
+    (hCneigh : ∀ c ∈ C, G.Adj b c)
+    (hCind : G.IsIndepSet (C : Set α))
+    (hCdisj : Disjoint C (A \ S))
+    (hCross : ∀ c ∈ C, ∀ a ∈ A \ S, ¬ G.Adj c a)
+    (hCard : S.card < C.card) :
+    ∃ A' : Finset α,
+      (∀ a ∈ A', G.Adj b a) ∧
+      G.IsIndepSet (A' : Set α) ∧
+      A.card < A'.card := by
+  classical
+  let A' : Finset α := (A \ S) ∪ C
+  refine ⟨A', ?_, ?_, ?_⟩
+  · intro a ha
+    rw [Finset.mem_union] at ha
+    rcases ha with haOld | haC
+    · exact hAneigh a (Finset.mem_sdiff.mp haOld).1
+    · exact hCneigh a haC
+  · intro x hx y hy hxy hAdj
+    have hxFin : x ∈ A' := hx
+    have hyFin : y ∈ A' := hy
+    rw [Finset.mem_union] at hxFin hyFin
+    rcases hxFin with hxOld | hxC <;> rcases hyFin with hyOld | hyC
+    · exact hAind (Finset.mem_sdiff.mp hxOld).1
+        (Finset.mem_sdiff.mp hyOld).1 hxy hAdj
+    · exact (hCross y hyC x hxOld) hAdj.symm
+    · exact (hCross x hxC y hyOld) hAdj
+    · exact hCind hxC hyC hxy hAdj
+  · have hDisjOldC : Disjoint (A \ S) C := hCdisj.symm
+    have hADecomp : (A \ S).card + S.card = A.card :=
+      Finset.card_sdiff_add_card_eq_card hSsub
+    have hA'card : A'.card = (A \ S).card + C.card := by
+      simp [A', Finset.card_union_of_disjoint hDisjOldC]
+    omega
 
-local macro (priority := high) "Prop" : term => do
-  let h := Lean.mkIdent `hAdm
-  `($h = $h)
+def CentralDeficitReplacementCertificate
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (b : α)
+    (A S C : Finset α) : Prop :=
+  S ⊆ A ∧
+  (∀ c ∈ C, G.Adj b c) ∧
+  G.IsIndepSet (C : Set α) ∧
+  Disjoint C (A \ S) ∧
+  (∀ c ∈ C, ∀ a ∈ A \ S, ¬ G.Adj c a) ∧
+  S.card < C.card
 
-theorem central_deficit_same_side_blocker_forces_lex_improvement_or_neighbor_gain
+def CentralDeficitSameSideBadBranchAbsorptionNormalForm
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (b : α) (A : Finset α)
+    {u w : α} (p : G.Walk u w) (e : Nat) (D : Finset Nat)
+    (P0 P1 Q0 Q1 : Finset α) : Prop :=
+  CentralDeficitAdmissibleTuple G b A p e D P0 P1 Q0 Q1 →
+  ∀ x : α,
+    x ∉ Q0 ∪ Q1 →
+    x ∉ p.support.toFinset →
+    x ∉ ((A ∪ P1) ∪ insert b P0) →
+    G.dist b x = 2 →
+    ((∃ q ∈ Q0, G.Adj x q) ∨
+      ¬ (∀ y ∈ P0, G.Adj x y → ∀ z ∈ A ∪ P1, ¬ G.Adj y z) ∨
+      ¬ (∀ q ∈ Q1, ∀ y ∈ P0, G.Adj x y → ¬ G.Adj q y)) →
+    (∃ S C : Finset α, CentralDeficitReplacementCertificate G b A S C) ∨
+      CentralDeficitPathFixedCollision G b A p e D P0 P1 Q0 Q1
+
+theorem central_deficit_same_side_bad_branch_absorption_under_hard_selector
     {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
     (G : SimpleGraph α) [DecidableRel G.Adj] (b : α) (A : Finset α)
     {u w : α} {p : G.Walk u w} {e : Nat} {D : Finset Nat}
     {P0 P1 Q0 Q1 : Finset α}
-    (hAdm : CentralDeficitAdmissibleTuple G b A p e D P0 P1 Q0 Q1) :
-    Prop := by
-  rfl
-
-end SameSideBlockerTarget
+    (hAdm : CentralDeficitAdmissibleTuple G b A p e D P0 P1 Q0 Q1)
+    (hAneigh : ∀ a ∈ A, G.Adj b a)
+    (hAind : G.IsIndepSet (A : Set α))
+    (hAmax :
+      ∀ A' : Finset α,
+        (∀ a ∈ A', G.Adj b a) →
+        G.IsIndepSet (A' : Set α) →
+        A'.card ≤ A.card)
+    (hSel :
+      CentralDeficitLexmaxSelectedPackage G b A p e D P0 P1 Q0 Q1)
+    (hAbs :
+      CentralDeficitSameSideBadBranchAbsorptionNormalForm
+        G b A p e D P0 P1 Q0 Q1)
+    {x : α}
+    (hxFresh : x ∉ Q0 ∪ Q1)
+    (hxOffPath : x ∉ p.support.toFinset)
+    (hxNotFixed : x ∉ ((A ∪ P1) ∪ insert b P0))
+    (hxDist : G.dist b x = 2) :
+    ¬ ((∃ q ∈ Q0, G.Adj x q) ∨
+      ¬ (∀ y ∈ P0, G.Adj x y → ∀ z ∈ A ∪ P1, ¬ G.Adj y z) ∨
+      ¬ (∀ q ∈ Q1, ∀ y ∈ P0, G.Adj x y → ¬ G.Adj q y)) := by
+  intro hBad
+  have hOutcome :=
+    hAbs hAdm x hxFresh hxOffPath hxNotFixed hxDist hBad
+  rcases hOutcome with hReplacement | hCollision
+  · rcases hReplacement with
+      ⟨S, C, hSsub, hCneigh, hCind, hCdisj, hCross, hCard⟩
+    obtain ⟨A', hA'neigh, hA'ind, hGain⟩ :=
+      central_deficit_same_side_blocker_replacement_forces_neighbor_gain
+        (G := G) (b := b) (A := A) (S := S) (C := C)
+        hAneigh hAind hSsub hCneigh hCind hCdisj hCross hCard
+    exact (not_lt_of_ge (hAmax A' hA'neigh hA'ind)) hGain
+  · exact
+      (central_deficit_selected_lexmax_package_no_path_fixed_collision
+        (G := G) (b := b) (A := A) (p := p) (e := e) (D := D)
+        (P0 := P0) (P1 := P1) (Q0 := Q0) (Q1 := Q1) hSel)
+        hCollision
 
 def centralDeficitExistsDiametralSafeCandidateDataDisjoint
     {alpha : Type*} [Fintype alpha] [DecidableEq alpha] [Nontrivial alpha]
