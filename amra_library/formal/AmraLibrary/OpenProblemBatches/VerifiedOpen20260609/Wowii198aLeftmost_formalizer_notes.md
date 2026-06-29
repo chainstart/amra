@@ -156,7 +156,95 @@ Remaining formal blocker:
   vertex-Menger rerouting/min-cut step: from `p`, `qx`, and `qy`, construct two
   simple `u-w` walks whose supports meet only at `u` and `w`.
 
+## 2026-06-28 later-return bypass target
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context read from the provided `context_bundle.md` and
+  `math_tools_report.md`.
+
+Tool check:
+- Ran a Python sequence model of mathlib's front-recursive `Walk.bypass` on all
+  simple left-prefix/right-suffix sequences over at most five vertices with
+  lengths up to four. The check found no counterexample to the corrected
+  later-return shape: if a non-left vertex `y` of the right suffix is absent
+  after loop-erasure, then some later right-suffix vertex returns to the left
+  prefix. This is route evidence only; the Lean proof still must formalize the
+  ordered upgrade from the existing unordered cross-repeat helper.
+
+Current blocker chain:
+- Immediate stage target:
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_later_left_return`.
+- Parent target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`,
+  closing the `hy_suffix` branch of the left-prefix residual.
+- Remaining chain to `conjecture198a`:
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` →
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` →
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` →
+  splice descent and two-fan theorem →
+  Chvatal-Erdos traceability →
+  `conjecture198a`.
+
+## 2026-06-28 later-return bypass target, iteration 2
+
+External sources relied on:
+- None from new web or literature search in this iteration.
+- Local run context and `math_tools_report.md` were reread from the supplied
+  run artifact directory.
+
+Lean work:
+- Added checked helper `support_bypass_sublist`, strengthening the existing
+  `Walk.support_bypass_subset` route with order information:
+  `p.bypass.support` is a `List.Sublist` of `p.support`.
+- This is the missing infrastructure needed by the ordered later-return proof:
+  the unordered cross-repeat from
+  `exists_left_prefix_right_suffix_tail_of_not_mem_alt` must be upgraded by
+  showing that if all left-prefix repeats in the right suffix occur before `y`,
+  then `y` remains in the sublist-preserving loop erasure.
+
+Current blocker chain:
+- Immediate stage target:
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_later_left_return`.
+- Parent target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`,
+  specifically its `hy_suffix` branch.
+- Remaining chain to `conjecture198a`:
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` →
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` →
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` →
+  splice descent and two-fan theorem →
+  Chvatal-Erdos traceability →
+  `conjecture198a`.
+
 ## Iteration 8
+
+## 2026-06-28 left-prefix not-alt descent, iteration 1
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context read from
+  `/home/biostar/work/projects/amra/artifacts/open_problem_screening/latest/wowii198a_continue_20260628_focused_2h/wowii198a-left-prefix-not-alt-descent/lean_formalizer/round-001-terminal-set-fan-left-suffix-retention-left-prefix-not-alt-commoncard-descent/context_bundle.md`
+  and the paired `math_tools_report.md`.
+
+Verifier state:
+- Reproduced the configured Lean failure. The first blocker is still the
+  `hy_suffix` branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- The branch now has the checked later-return witness
+  `r ∈ (((pair.2).dropUntil x).dropUntil y).support`,
+  `r ≠ y`, and
+  `r ∈ ((pair.1).takeUntil x).support`, but the proof still needs a
+  constructed pair with strictly smaller `terminalPathPairCommonCard`.
+
+Next Lean helper shape:
+- The viable route is to reuse the existing fallback-pair common-support
+  containment proof in the suffix case, replacing the old
+  `x ∉ fallbackLeft` argument by the ordered bypass-erasure fact
+  `x ∉ (((pair.1).takeUntil x).append ((pair.2).dropUntil x)).toPath.support`.
+- That erasure fact should be proved from the later left-prefix return:
+  a vertex from the left prefix reappearing strictly later in the right suffix
+  forces `Walk.bypass` to delete the middle interval containing `x`.
 
 External sources relied on:
 - None from new web or literature search in this iteration.
@@ -319,6 +407,81 @@ Remaining formal blocker:
   length descent, and invoke
   `false_of_weighted_min_and_commonCard_le_supportLength_lt`.
 
+## 2026-06-28 left-prefix not-alt common-card descent final iteration
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context was read from the supplied `context_bundle.md` and
+  `math_tools_report.md`.
+
+Verifier result:
+- The required command still fails at the stage theorem
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+
+Selected blocker:
+- Current first blocker to `conjecture198a` remains
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.  This stage lemma
+  is intended to close the left-prefix residual branch before
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and
+  `conjecture198a`.
+
+Tool check:
+- Ran a small Python sequence-model sanity check for the stronger bypass shape:
+  for simple prefix/suffix sequences, if a suffix vertex `y` is removed by
+  bypassing `leftPrefix ++ rightSuffix`, then a repeated vertex from the left
+  prefix occurs in the right suffix after `y`.  No counterexample was found in
+  the bounded check through seven labelled vertices.  This is route evidence
+  only; Lean still needs the corresponding checked order lemma.
+
+Remaining formal blocker:
+- The existing checked helper
+  `exists_old_common_ne_x_of_right_suffix_not_mem_alt` only produces an old
+  common vertex `r ≠ x` somewhere in the old right suffix.  The suffix branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`
+  needs the stronger ordered conclusion: a return vertex in the old-left prefix
+  lying in `(oldRight.dropUntil y).support.tail`, or an equivalent direct
+  common-card descent pair.  Without this order fact, the fallback path may
+  retain `x`, and the current proof has no way to prove strict common-card
+  descent.
+
+## 2026-06-28 interval-erasure target check
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context was read from the supplied `context_bundle.md` and
+  `math_tools_report.md`.
+- Local mathlib source `Mathlib/Combinatorics/SimpleGraph/Paths.lean` was
+  checked for the definition of `Walk.bypass`/`Walk.toPath`.
+
+Selected blocker:
+- The current first blocker to `conjecture198a` remains
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, through
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+  The requested next stage theorem
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_interval_erased`
+  was not present in the Lean workspace.
+
+Tool check:
+- Ran a Python sequence model of mathlib's `Walk.bypass`, with simple
+  left-prefix support `[0, 1, 2, 3]`, right suffix support `[3, 1, 4, 2]`,
+  combined append support `[0, 1, 2, 3, 1, 4, 2]`, and bypass support
+  `[0, 1, 2]`.  For `x = 3` and `y = 4`, the hypotheses of the proposed
+  interval-erasure statement hold at the support-list level: `y` lies in the
+  right suffix, `y` is not in the left prefix, and `y` is absent from the
+  bypassed append.  There is a later return `2` into the left prefix, but the
+  interval `[3, 1, 4]` is not erased because `1` survives in the bypass support.
+
+Implication:
+- The exact interval-erasure clause
+  `∀ u ∈ (right.dropUntil x).takeUntil y, u ∉ altRight.support` is too strong.
+  The viable Lean target is the ordered bypass obstruction without interval
+  erasure: absence of a non-left suffix vertex should produce a later suffix
+  return into `left.takeUntil x`, or directly construct the strict
+  `terminalPathPairCommonCard` descent needed by
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+
 ## 2026-06-27 left-prefix residual iteration 3
 
 External sources relied on:
@@ -352,6 +515,156 @@ Remaining formal blocker:
   still ends at `exact hpair_measure_min`.  The next useful theorem-level
   target is a weighted-minimality contradiction for the left-prefix residual
   branch, not another support-containment lemma.
+
+## 2026-06-28 left-prefix residual iteration 3
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context was read from the supplied `context_bundle.md` and
+  `math_tools_report.md`.
+
+Lean work:
+- Rewired `terminal_set_fan_left_suffix_retention_bad_pivot_descent` so an
+  arbitrary bad witness first produces a last bad pivot on `rs` via
+  `exists_last_bad_pivot_on_rs`.
+- Used the resulting `hlast_bad` hypothesis to replace the stale
+  `exact hpair_measure_min` in the old-left-prefix residual subcase with a call
+  to `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+
+Remaining formal blocker:
+- The residual helper still has the invalid isolated fallback proof:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_false`
+  tries to use weighted minimality as both common-card nonincrease and strict
+  support-length descent.
+- The arbitrary bad-pivot proof now has only the old-right-suffix residual stale
+  branch remaining; it needs the analogous first-bad-pivot control or a
+  weighted-minimality fallback under the right-suffix residual hypotheses.
+
+## 2026-06-28 left-prefix residual iteration 4
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context was read from the supplied `context_bundle.md` and
+  `math_tools_report.md`.
+
+Lean work:
+- Reconfirmed the current first blocker:
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+- Added the checked walk-order support lemma
+  `mem_takeUntil_of_mem_support_not_dropUntil`, the dual of the existing
+  `mem_dropUntil_of_mem_support_not_takeUntil`.  This is intended for the
+  first-bad/right-suffix residual branch, where a vertex known not to lie in a
+  suffix must be recovered in the corresponding prefix.
+
+Remaining formal blocker:
+- The left-prefix fallback branch still needs a proved common-card
+  nonincrease and strict support-length descent under the residual extremality
+  hypothesis.
+- The old-right-suffix residual branch still needs the analogous first-bad
+  extremal control before the stale `exact hpair_measure_min` can be removed.
+
+## 2026-06-28 interval-erasure formalizer iteration 5
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context was read from the supplied `context_bundle.md` and
+  `math_tools_report.md`.
+- Local mathlib source
+  `.lake/packages/mathlib/Mathlib/Combinatorics/SimpleGraph/Paths.lean` was
+  reread for the definitions and available API of `Walk.bypass` and
+  `Walk.toPath`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, through the
+  parent `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+  The remaining chain is
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and
+  `conjecture198a`.
+
+Verifier result:
+- The required verifier still fails at two active proof stubs:
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`
+  returns `hy_suffix` where Lean needs a strict common-card descent witness, and
+  the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` returns
+  `hpair_measure_min` where Lean needs `False`.
+
+Target assessment:
+- The requested stage declaration
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_interval_erased`
+  is still absent from the Lean workspace.  I did not add it because the
+  interval-erasure conjunct is false for mathlib `Walk.bypass`; the prior
+  recorded support-list counterexample
+  `leftPrefix = [0,1,2,3]`, `rightSuffix = [3,1,4,2]`,
+  `bypass([0,1,2,3,1,4,2]) = [0,1,2]` has `y = 4` absent from the bypass
+  while the prefix interval vertex `1` survives.
+
+Remaining formal blocker:
+- The checked helper
+  `exists_left_prefix_right_suffix_tail_of_not_mem_alt` only proves an
+  unordered return vertex in `(oldRight.dropUntil x).support.tail`.  The
+  `hy_suffix` descent branch needs the stronger ordered theorem: if a
+  non-left vertex `y` of `oldRight.dropUntil x` is absent from
+  `((oldLeft.takeUntil x).append (oldRight.dropUntil x)).toPath.support`, then
+  either there is a return vertex in
+  `(oldRight.dropUntil x).dropUntil y` meeting `oldLeft.takeUntil x`, or the
+  statement directly supplies a strict `terminalPathPairCommonCard` descent
+  pair.  This ordered/descent package is also the right symmetric ingredient
+  for replacing the stale old-right-suffix `hpair_measure_min` branch.
+
+## 2026-06-28 left-prefix residual iteration 6
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context was read from the supplied `context_bundle.md` and
+  `math_tools_report.md`.
+
+Lean work:
+- Added checked helper `false_of_weighted_min_and_commonCard_lt`. This isolates
+  the valid weighted-minimality contradiction available from a strict
+  common-card descent, avoiding the previously falsified standalone
+  support-length fallback route.
+
+Remaining formal blocker:
+- `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_false`
+  still must be strengthened or inlined under the residual `hlast_bad`
+  hypothesis to prove strict common-card descent of the fallback pair.
+- The old-right-suffix residual branch in
+
+## 2026-06-28 left-prefix residual round-004 iteration 1
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context was read from the supplied `context_bundle.md` and
+  `math_tools_report.md`; prior local finite probes in this note were used only
+  as route evidence.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+- This feeds `terminal_set_fan_left_suffix_retention_bad_pivot_descent`,
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and finally
+  `conjecture198a`.
+
+Lean blocker:
+- The verifier still fails at the two stale uses of `hpair_measure_min`:
+  line 4830 expects a strict common-card descent for the fallback pair, and
+  line 5486 expects `False` in the old-right-suffix residual branch.
+- I did not replace these with local containment claims because the prior
+  sequence probes show that the support-containment route is false without an
+  additional residual pivot package or a genuine weighted-minimality descent.
+
+Next target:
+- Prove a theorem-level residual fallback contradiction carrying the full pivot
+  package, including explicit pivot survival in `altRight.support` where needed,
+  or refactor the right-suffix branch to select/use the corresponding first-bad
+  residual package before the splice.
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still needs the
+  symmetric first-bad control rather than the stale direct use of
+  `hpair_measure_min`.
 
 ## 2026-06-27 left-prefix weighted fallback iteration 6
 
@@ -423,6 +736,79 @@ Remaining formal blocker:
   intersections unless the proof chooses an order-extremal bad pivot and shows
   the erased common support is contained in the old erased common support with
   `x` removed, or derives the weighted-measure contradiction.
+
+## 2026-06-28 left-prefix not-alt common-card descent iteration 3
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context was read from the supplied `context_bundle.md` and
+  `math_tools_report.md`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- It feeds `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`,
+  then `terminal_set_fan_left_suffix_retention_bad_pivot_descent`,
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and
+  `conjecture198a`.
+
+Lean work:
+- Added checked helper
+  `exists_mem_left_and_right_tail_of_not_isPath_append`.  It extracts the
+  concrete cross-repeat from a failed append of two simple walks: some vertex
+  is in the left support and in the tail of the right support.  Combined with
+  `not_isPath_append_of_not_mem_toPath_append_right`, this gives the Lean-ready
+  first bypass obstruction for the hard branch where
+  `y ∈ (pair.2.dropUntil x).support` but
+  `y ∉ (((pair.1.takeUntil x).append (pair.2.dropUntil x)).toPath).support`.
+
+Remaining formal blocker:
+- The suffix branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`
+  still needs to turn that extracted return from the old-right suffix into an
+  actual strict common-card descent pair.
+- The old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still has the
+  stale `exact hpair_measure_min`; it needs the symmetric first-bad residual
+  package or a direct weighted-minimality contradiction.
+
+## 2026-06-28 left-prefix not-alt common-card descent iteration 5
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context was read from the supplied `context_bundle.md` and
+  `math_tools_report.md`; prior local finite probes in this note remain route
+  evidence only.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- It feeds `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`,
+  then `terminal_set_fan_left_suffix_retention_bad_pivot_descent`,
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and
+  `conjecture198a`.
+
+Lean work:
+- Added checked helper
+  `exists_old_common_ne_x_of_right_suffix_not_mem_alt`.  It upgrades the
+  existing `.toPath` bypass obstruction: if a vertex of the old-right suffix is
+  absent from
+  `((oldLeft.takeUntil x).append (oldRight.dropUntil x)).toPath`, then the
+  obstruction yields an old common vertex `r` with `r != x`.
+- Wired that helper into the hard `hy_suffix` branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+
+Remaining formal blocker:
+- The `hy_suffix` branch still needs the descent construction from the returned
+  old common vertex `r`.  The checked witness is now available in the branch as
+  `hbypass_return`, but the proof must still build a pair whose erased common
+  support strictly drops from the old pair.
+- The old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still needs the
+  symmetric first-bad residual package; the current stale `hpair_measure_min`
+  term is not a proof of `False`.
 
 ## 2026-06-27 bad-pivot descent iteration 4
 
@@ -692,7 +1078,7 @@ Tool check:
 
 Lean work:
 - Reran the required verifier and confirmed the first target-local error.
-- Replaced the accidental hard-branch placeholder `exact hvs` with a local
+- Replaced the accidental hard-branch bogus term `exact hvs` with a local
   `hfan` obligation whose type is exactly the missing endpoint-excluding
   one-source/two-terminal `k = 2` fan/min-cut augmentation witness.
 
@@ -1264,7 +1650,7 @@ Verifier result:
   `lake env lean AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
 - The new helper verifies. The build still fails at the same final hard branch,
   now shifted to `Wowii198aLeftmost.lean:3599:4`, where `hvs : v ≠ s` is still
-  the placeholder term for the required intersection conclusion `z = v`.
+  the bogus term for the required intersection conclusion `z = v`.
 
 Remaining formal blocker:
 - The missing theorem is still the finite endpoint-excluding `k = 2`
@@ -1499,7 +1885,7 @@ Lean work:
 
 Verifier result:
 - The configured verifier still fails only at the two weighted-minimality
-  splice placeholders:
+  splice stubs:
   `terminal_set_fan_splice_descent_left_of_hsep` and
   `terminal_set_fan_splice_descent_right_of_hsep`.
 
@@ -1866,7 +2252,7 @@ Remaining formal blocker:
   strict descent from `x ∉ (spliceRight : G.Walk v t).support`, but the
   hypotheses only give `x ∉ rs.support` and prefix avoidance for
   `rs.takeUntil w`.
-- The parent left and right splice wrappers still contain placeholder uses of
+- The parent left and right splice wrappers still contain stub uses of
   the negated direct-descent hypotheses. They should be closed only after the
   left first-crossing lemma is available and mirrored/specialized with the
   corresponding first/last crossing package.
@@ -2038,3 +2424,1328 @@ Chain to final theorem:
   `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
   descent chain, the two-fan theorem, Chvatal-Erdos traceability, and finally
   `conjecture198a`.
+
+## 2026-06-28 left-prefix residual iteration 5
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context was read from the supplied `context_bundle.md` and
+  `math_tools_report.md`; local workspace and mathlib grep results for
+  `Walk.takeUntil`, `Walk.dropUntil`, `Walk.toPath`, `support_toPath_subset`,
+  and the terminal-pair weighted-measure helpers were consulted.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, with immediate
+  stage target
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+
+Verifier result:
+- The configured verifier was rerun and still fails at exactly the current
+  three stale proof terms:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_false`
+  uses `hpair_measure_min` where Lean needs common-card nonincrease and strict
+  support-length descent, and the old-right-suffix residual branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` uses
+  `hpair_measure_min` where Lean needs `False`.
+
+Formalization finding:
+- The support-length descent route in the isolated fallback helper remains
+  invalid as a local target. Existing durable probes in this file exhibit
+  fallback shapes where common-card drops but total support length increases.
+  Therefore the next Lean move should not try to prove
+  `terminalPathPairSupportLength fallbackPair <
+  terminalPathPairSupportLength pair` from the current isolated hypotheses.
+- The plausible certificate is strict common-card descent for a fallback pair,
+  or a different weighted-minimality contradiction, proved under the parent
+  residual/extremal hypotheses. The isolated helper should be strengthened with
+  `hlast_bad` or inlined under
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+- The old-right-suffix branch needs the symmetric first-bad residual package;
+  merely choosing a last bad pivot does not control vertices in
+  `rs.takeUntil z` that meet the old left path.
+
+Chain to final theorem:
+- The needed residual helper feeds
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, then
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and finally
+  `conjecture198a`.
+
+## 2026-06-28 left-prefix residual iteration 6
+
+External sources relied on:
+- None from web or literature in this iteration.
+- Local run context was reread from the supplied `context_bundle.md` and
+  `math_tools_report.md`; local Lean/mathlib search was used only to inspect
+  available `Walk.takeUntil`/`Walk.dropUntil` support-order lemmas and existing
+  terminal-pair weighted-measure helpers.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, with immediate
+  stage target
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+
+Evaluation:
+- The current Lean failures are not coercion or elaboration issues. The terms
+  `exact hpair_measure_min` are being used where Lean requires the actual
+  ingredients for a weighted-minimality contradiction:
+  common-card nonincrease and strict support-length descent for the fallback
+  pair, or a direct strict common-card descent.
+- The support-length descent subroute for the isolated
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_false`
+  remains demoted. Prior sequence probes in these notes show local branch
+  shapes satisfying the residual hypotheses where the prescribed fallback pair
+  increases support length.
+
+Next proof package:
+- Strengthen or inline the left-prefix fallback under
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`, so it
+  can use `hlast_bad` to control later `rs.dropUntil z` vertices meeting
+  `altRight`, and prove a valid strict common-card descent or weighted-measure
+  descent.
+- Add the symmetric first-bad/right-suffix residual package for the branch in
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` where the selected
+  bad pivot lies in the old-right suffix.
+
+Chain to final theorem:
+- These packages feed
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, then
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and finally
+  `conjecture198a`.
+
+## 2026-06-28 round 002 iteration 1
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, and local mathlib grep for
+  `Walk.toPath`, `Walk.bypass`, `Walk.support_toPath_subset`,
+  `takeUntil`, and `dropUntil` support-order lemmas.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+
+Verifier state:
+- The configured verifier still fails at the isolated fallback helper
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_false`.
+  The two invalid terms are attempts to use weighted minimality as if it
+  directly supplied common-card nonincrease and strict support-length descent
+  for `fallbackPair`.
+- The third failure remains in the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, where the proof
+  needs a symmetric first-bad residual package rather than an arbitrary
+  `hpair_measure_min : False` contradiction.
+
+Route decision:
+- Do not pursue the standalone support-length descent for the isolated
+  fallback helper. The upstream context and prior finite probes show that
+  local route is false as stated.
+- The next Lean move should inline or strengthen the fallback under
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false` so
+  it carries `hlast_bad`, then prove a valid common-card or weighted-measure
+  descent there. After that, add the symmetric first-bad/right-suffix residual
+  helper for the branch currently failing in
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+
+Chain to final theorem:
+- residual helper ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 003 iteration 4
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, local formalizer notes, and
+  local mathlib declarations for `Walk.toPath`,
+  `Walk.support_toPath_subset`, `Walk.takeUntil`, and `Walk.dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`.
+
+Verifier state:
+- The configured verifier fails at the two stale proof terms already exposed
+  by the previous audit:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`
+  still needs
+  `terminalPathPairCommonCard fallbackPair < terminalPathPairCommonCard pair`,
+  but the proof body supplies `hpair_measure_min`.
+- The old-right-suffix branch inside
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still needs a
+  symmetric first-bad/right-suffix residual contradiction, but the proof body
+  supplies `hpair_measure_min : False`.
+
+Route finding:
+- The strengthened fallback common-card route still hinges on proving that
+  new common support of `fallbackPair` is contained in the old common support
+  with `x` erased. The local obstruction is unchanged: Lean has
+  `Walk.support_toPath_subset`, so membership in a raw appended walk does not
+  by itself give membership in the corresponding `.toPath` support. Any next
+  proof package must either establish the specific vertex-preservation fact
+  needed for this fallback pair or avoid that route with a direct weighted
+  contradiction under the residual/extremal hypotheses.
+
+Next proof package:
+- Prove the strict common-card descent for
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`
+  under `hlast_bad`, or replace it by a direct weighted-minimality
+  contradiction that does not require a converse for `toPath.support`.
+- Then add the symmetric first-bad/right-suffix residual package for the
+  old-right-suffix branch in
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+
+Chain to final theorem:
+- strengthened fallback -> residual helper ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 003 iteration 3
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, current Lean file, prior local formalizer notes, and
+  local artifact build reports.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`.
+
+Lean work:
+- Changed
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`
+  from a private lemma to a normal lemma so the stage target exists under the
+  exact requested declaration name for strict audit.
+
+Verifier state:
+- The configured verifier still fails at the two proof obligations exposed by
+  prior rounds:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`
+  still needs the fallback pair common-card descent, and the old-right-suffix
+  branch inside `terminal_set_fan_left_suffix_retention_bad_pivot_descent`
+  still needs a symmetric first-bad residual contradiction instead of the stale
+  `hpair_measure_min : False` use.
+
+Next proof package:
+- Prove the fallback pair facts under `hlast_bad`, preferably common-card
+  nonincrease plus strict support-length descent, then invoke
+  `false_of_weighted_min_and_commonCard_le_supportLength_lt`.
+- Add the symmetric first-bad/right-suffix residual package for the line 5445
+  branch.
+
+Chain to final theorem:
+- strengthened fallback -> residual helper ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 003 iteration 1
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, local formalizer notes, and
+  local mathlib declarations for `Walk.toPath`, `Walk.bypass`,
+  `support_toPath_subset`, `takeUntil`, and `dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`.
+
+Tool check:
+- Ran a bounded Python sequence probe for the strengthened fallback target,
+  including a small implementation of the mathlib `Walk.bypass` recursion.
+  In the small exact-shape cases found by the enumeration, the hypotheses
+  including `hlast_bad` held and the fallback pair strictly decreased erased
+  common support. No counterexample was found in this bounded probe; it is only
+  route evidence, not proof evidence.
+
+Lean work:
+- Replaced the old standalone fallback declaration with the requested private
+  strengthened target
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`.
+- Threaded `hlast_bad` from
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false` into
+  the strengthened fallback helper.
+- Demoted the invalid support-length route: the helper now exposes the real
+  missing proof obligation,
+  `terminalPathPairCommonCard fallbackPair < terminalPathPairCommonCard pair`,
+  and would close by `false_of_weighted_min_and_commonCard_lt`.
+
+Verifier state:
+- The configured verifier fails with two remaining stale proof terms:
+  the strengthened fallback still needs strict common-card descent for
+  `fallbackPair`, and the old-right-suffix branch still needs the symmetric
+  first-bad residual contradiction.
+
+Next proof package:
+- Prove the strict common-card descent for
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`
+  under `hlast_bad`, then add the symmetric first-bad/right-suffix residual
+  package for the branch currently failing inside
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+
+Chain to final theorem:
+- strengthened fallback -> residual helper ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 003 iteration 2
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, local formalizer notes, and
+  local mathlib declarations for `Walk.takeUntil_takeUntil`,
+  `Walk.support_takeUntil_subset`, and `Walk.support_toPath_subset`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`.
+
+Lean work:
+- Added checked support-order helper
+  `mem_takeUntil_of_mem_takeUntil_of_mem_takeUntil`: if a vertex is before
+  `y` and `y` is before `x` on the same walk, then that vertex is before `x`.
+  This packages the order step needed in the fallback common-card proof when
+  comparing the old-right prefix against the old-right suffix.
+
+Verifier state:
+- The configured verifier command still fails at the same two theorem-level
+  blockers, shifted by the inserted helper:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`
+  still needs a proof that
+  `terminalPathPairCommonCard fallbackPair < terminalPathPairCommonCard pair`,
+  and the old-right-suffix branch in
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still contains the
+  stale `hpair_measure_min : False` use.
+
+Route finding:
+- The strengthened fallback proof cannot get old-right ordering directly from
+  `hy_not_alt`, because mathlib exposes `Walk.support_toPath_subset` but not a
+  converse preservation theorem for arbitrary vertices of the raw append.
+  The remaining useful local target is therefore a theorem that preserves the
+  specific old-right suffix/prefix vertices that survive both relevant
+  `.toPath`s, or an equivalent direct common-card descent argument for
+  `fallbackPair`.
+
+Chain to final theorem:
+- strengthened fallback -> residual helper ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 002 iteration 3
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, local formalizer notes, and
+  local mathlib grep for `Walk.toPath`, `support_toPath_subset`,
+  `Walk.takeUntil`, and `Walk.dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+
+Lean work:
+- Added the checked support-order helper
+  `not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath`: on a simple path, if
+  `y ∈ p.takeUntil x` and `y ≠ x`, then `y ∉ p.dropUntil x`.
+- This packages the strict prefix/suffix separation needed by the symmetric
+  first-bad/right-suffix residual branch.
+
+Verifier state:
+- The configured verifier still fails at the three expected theorem-level
+  obligations:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_false`
+  still tries to use `hpair_measure_min` as common-card nonincrease and strict
+  support-length descent, and the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still tries to
+  use `hpair_measure_min` as `False`.
+
+Next proof package:
+- Strengthen or inline the left-prefix fallback under
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false` so it
+  carries `hlast_bad`, and prove a valid common-card or weighted-measure
+  descent there.
+- Then add the symmetric first-bad/right-suffix residual package for the
+  branch currently failing inside
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+
+Chain to final theorem:
+- residual helper ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 002 iteration 2
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, local formalizer notes, and
+  local mathlib grep for `Walk.takeUntil`, `Walk.dropUntil`,
+  `support_toPath_subset`, and support-order lemmas.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+
+Lean work:
+- Added the checked support-order helper
+  `mem_dropUntil_of_mem_takeUntil_ne`: if `x` occurs in `p.takeUntil y` and
+  `x ≠ y`, then `y ∈ p.dropUntil x`. This packages the order step needed when
+  comparing a fallback prefix against an old suffix.
+- Reran the configured verifier. The helper introduces no new proof errors.
+
+Verifier state:
+- The verifier still fails at the same three stale obligations, shifted by the
+  inserted helper: the isolated left-prefix fallback still tries to use
+  `hpair_measure_min` as common-card nonincrease and strict support-length
+  descent, and the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still tries to
+  use `hpair_measure_min` as `False`.
+
+Next proof package:
+- Prove the left-prefix fallback contradiction under the residual `hlast_bad`
+  hypothesis by strict common-card descent or another valid weighted-measure
+  descent; do not use the demoted standalone support-length descent.
+- Add the symmetric first-bad/right-suffix residual package for the branch now
+  failing at the old-right-suffix splice.
+
+Chain to final theorem:
+- residual helper ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 002 iteration 4
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, local formalizer notes, and
+  local mathlib walk-decomposition lemmas for `takeUntil`/`dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+
+Lean work:
+- Added checked helper
+  `mem_dropUntil_of_mem_dropUntil_of_mem_takeUntil_ne`: on a simple path, if a
+  vertex `z` is after `x` and also occurs before `y`, with `z ≠ y`, then `y`
+  is after `x`. This packages the order step needed when proving that fallback
+  prefix/suffix intersections cannot introduce new common support.
+
+Verifier state:
+- The configured verifier still fails at the same three stale theorem-level
+  obligations: the isolated left-prefix fallback still uses
+  `hpair_measure_min` where Lean needs common-card nonincrease and strict
+  support-length descent, and the old-right-suffix branch still uses
+  `hpair_measure_min` where Lean needs `False`.
+
+Next proof package:
+- Replace the isolated fallback with a residual/extremal common-card descent or
+  direct weighted-minimality contradiction using `hlast_bad`.
+- Then add the symmetric first-bad/right-suffix residual package for the
+  remaining old-right-suffix branch.
+
+Chain to final theorem:
+- residual helper ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 002 iteration 5
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, local formalizer notes, and
+  local mathlib walk-decomposition lemmas for `takeUntil`/`dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+
+Lean work:
+- Added checked helper
+  `not_mem_takeUntil_of_mem_dropUntil_ne_on_isPath`: on a simple path, if a
+  non-seam vertex lies in `dropUntil x`, then it cannot also lie in
+  `takeUntil x`. This packages the prefix/suffix exclusion needed when the
+  fallback-pair common-support proof compares an old-right prefix against an
+  old-right suffix.
+
+Verifier state:
+- The configured verifier still fails at the same theorem-level obligations:
+  the isolated left-prefix fallback still uses `hpair_measure_min` where Lean
+  needs common-card nonincrease and strict support-length descent, and the
+  old-right-suffix branch still uses `hpair_measure_min` where Lean needs
+  `False`.
+
+Next proof package:
+- Strengthen or inline the left-prefix fallback under
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false` so it
+  carries `hlast_bad`, and prove strict common-card descent or another valid
+  weighted-minimality contradiction.
+- Then add the symmetric first-bad/right-suffix residual package for the
+  branch currently failing inside
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+
+Chain to final theorem:
+- residual helper ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 003 iteration 5
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, local formalizer notes, and
+  local mathlib declarations for `Walk.bypass`, `Walk.toPath`,
+  `Walk.support_toPath_subset`, and `takeUntil`/`dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`.
+
+Lean work:
+- Added the checked symmetric helper
+  `terminal_set_fan_left_suffix_retention_right_suffix_residual_bad_false_of_altRight`.
+  This packages the first-bad analogue of the existing left-prefix
+  `of_altRight` contradiction: a bad vertex in `rs.takeUntil z` that already
+  lies in `altRight.support` must equal the first bad pivot `z`, contradicting
+  the pivot's absence from the old left path.
+
+Verifier state:
+- The configured verifier still fails at the two stale proof terms:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`
+  still needs strict common-card descent for `fallbackPair`, and the
+  old-right-suffix branch inside
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still needs to be
+  rewired to a first-bad residual package instead of using
+  `hpair_measure_min` as `False`.
+
+Next proof package:
+- Prove the fallback-pair strict common-card descent under `hlast_bad`, or
+  replace it with a direct weighted-minimality contradiction that avoids a
+  converse for `Walk.toPath.support`.
+- Then refactor the old-right-suffix branch to select/use the first-bad pivot
+  and call the new symmetric `of_altRight` helper plus the remaining
+  first-bad fallback case.
+
+Chain to final theorem:
+- strengthened fallback -> residual helper ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 003 terminal iteration 6
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations for `Walk.toPath`, `Walk.bypass`,
+  `Walk.support_toPath_subset`, `Walk.takeUntil`, and `Walk.dropUntil`.
+
+Current first blocker:
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`.
+
+Verifier state before further repair:
+- The configured verifier still fails at the two stale proof terms:
+  the strengthened fallback has
+  `hpair_measure_min` where Lean needs
+  `terminalPathPairCommonCard fallbackPair < terminalPathPairCommonCard pair`,
+  and the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` has
+  `hpair_measure_min` where Lean needs `False`.
+
+Route assessment:
+- The local common-card proof for `fallbackPair` still requires a specific
+  preservation fact for vertices of a raw append after `.toPath`.  Mathlib only
+  exposes the usable direction
+  `Walk.support_toPath_subset : (p.toPath : Walk _ _).support ⊆ p.support`.
+  The proof cannot infer that an old-right suffix vertex appearing in the raw
+  appended walk survives in `altRight.support`.
+- The current strengthened fallback signature also does not carry the explicit
+  pivot fact `z ∈ altRight.support`, even though the caller obtains it from
+  `exists_last_bad_pivot_on_rs`.  The existing `hlast_bad` hypothesis is only
+  applicable to later vertices already known to meet `altRight.support`.
+
+Next proof package:
+- Move the fallback contradiction fully under
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`, or
+  introduce a theorem-level helper with the residual pivot package including
+  the explicit `hz_alt` fact and a proved vertex-preservation/weighted-measure
+  argument.
+- Then refactor the old-right-suffix branch to select the appropriate
+  first-bad/right-suffix residual pivot instead of using the global last-bad
+  package.
+
+Chain to final theorem:
+- strengthened residual fallback ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 004 iteration 2
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations for `Walk.toPath`, `Walk.bypass`,
+  `Walk.support_toPath_subset`, `Walk.takeUntil`, and `Walk.dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+- Immediate stage target:
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+
+Verifier state before further repair:
+- The configured verifier fails at two stale proof terms:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`
+  still uses weighted minimality where Lean needs strict common-card descent
+  for `fallbackPair`, and the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still uses
+  weighted minimality where Lean needs a contradiction.
+
+Route assessment:
+- The standalone strengthened fallback remains too weak for the desired
+  contradiction.  The proof needs the full residual pivot package, especially
+  explicit survival in `altRight.support`, before `hlast_bad` can be applied.
+- The right-suffix branch is genuinely asymmetric: it needs the first-bad
+  prefix package rather than the last-bad suffix package currently threaded
+  through the branch.
+
+Next proof package:
+- Inline or replace the left-prefix fallback inside
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false` with
+  a helper that carries explicit `hz_alt : z ∈ altRight.support` and the
+  required `.toPath` survival/weighted-measure argument.
+- Refactor the old-right-suffix branch to select and use a first-bad
+  right-suffix residual package, then call
+  `terminal_set_fan_left_suffix_retention_right_suffix_residual_bad_false_of_altRight`
+  in the prefix case.
+
+Chain to final theorem:
+- residual helper ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` ->
+  splice descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+## 2026-06-28 round 004 iteration 3
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations for `Walk.toPath`, `Walk.bypass`, and
+  `Walk.support_toPath_subset`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+- This is still the entry point into
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`,
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and finally
+  `conjecture198a`.
+
+Lean work:
+- Added checked helper
+  `mem_support_toPath_append_takeUntil_dropUntil_cases`, strengthening the
+  existing union-support helper for the recurring append shape.  It exposes the
+  actual raw `takeUntil`/`dropUntil` side of any vertex that survives
+  `.toPath`, using only `Walk.support_toPath_subset`.
+
+Verifier state:
+- The configured verifier still fails at two stale proof terms:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`
+  needs
+  `terminalPathPairCommonCard fallbackPair < terminalPathPairCommonCard pair`,
+  and the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still needs a
+  contradiction where it currently tries to use weighted minimality directly.
+
+Route assessment:
+- The new support-case helper is useful plumbing, but it does not supply the
+  missing converse that a raw append vertex survives the bypassed `.toPath`.
+- The next substantive theorem-level move remains to carry the full residual
+  pivot package, including explicit `hz_alt : z ∈ altRight.support`, into the
+  left-prefix fallback contradiction, and to add the symmetric first-bad
+  right-suffix residual package.
+
+## 2026-06-28 round 004 terminal iteration 4
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations for `Walk.support_toPath_subset`,
+  `Walk.mem_support_append_iff`, `Walk.support_dropUntil_subset`, and the local
+  order lemma `mem_dropUntil_of_mem_takeUntil_ne`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+- This remains the entry point into
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`,
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and
+  `conjecture198a`.
+
+Lean work:
+- Added checked helper
+  `not_mem_left_prefix_fallback_of_not_right_suffix`.  It proves that the old
+  common vertex `x` is absent from the fallback left path
+  `(oldRight.takeUntil y).append (rs.dropUntil y)` after `.toPath`, provided
+  the old-right order fact `y ∉ oldRight.dropUntil x` is available.
+- This packages the `x`-erasure part of the fallback common-card descent.  The
+  remaining hard step is deriving that order fact, or an equivalent
+  `.toPath`-survival contradiction, from `hy_not_alt`.
+
+Verifier state:
+- The configured verifier still fails at exactly the two stale proof terms,
+  shifted by the inserted helper:
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`
+  needs
+  `terminalPathPairCommonCard fallbackPair < terminalPathPairCommonCard pair`,
+  and the old-right-suffix branch in
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still needs a
+  first-bad/right-suffix residual contradiction instead of direct weighted
+  minimality.
+
+Next target:
+- Prove the missing order/survival step for the left-prefix fallback:
+  from `hy_not_alt`, obtain the usable old-right prefix fact
+  `y ∉ (pair.2.dropUntil x).support`, or bypass it with a direct
+  common-card descent for `fallbackPair`.
+- Then refactor the right-suffix branch to select/use the first-bad residual
+  package.
+
+## 2026-06-28 round 004 iteration 5
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations for `Walk.toPath`, `Walk.bypass`, and
+  `Walk.support_toPath_subset`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+- This remains the entry point into
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`,
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and
+  `conjecture198a`.
+
+Tool check:
+- Ran a small Python support-sequence probe for the tempting implication
+  `hy_not_alt -> y ∉ oldRight.dropUntil x`.  The raw append support
+  `[v,a,x,b,a,t]` bypasses to `[v,a,t]`, so `b` lies in the right suffix after
+  `x` but does not survive in the bypassed path.  This falsifies the order
+  lemma unless an additional no-later-return-to-left-prefix condition is
+  carried.
+
+Route assessment:
+- The next useful Lean helper should not assert direct survival from right
+  suffix membership.  It should instead expose the obstruction: a right-suffix
+  vertex absent from `altRight.toPath.support` must be bypassed by a later
+  return to the old left prefix.  Under the residual hypotheses, that later
+  return is the place where `hlast_bad` can control intersections with
+  `rs.dropUntil z`.
+- The old-right-suffix branch still needs a separate first-bad package; the
+  last-bad suffix package threaded through the current proof cannot rule out
+  earlier prefix vertices in `rs.takeUntil z`.
+
+Next target:
+- Prove a support-level bypass obstruction helper for
+  `((oldLeft.takeUntil x).append (oldRight.dropUntil x)).toPath`: if a
+  non-left vertex of `oldRight.dropUntil x` is absent from the resulting path,
+  produce a later vertex of `oldRight.dropUntil x` that lies in
+  `oldLeft.takeUntil x`.
+- Use that obstruction inside the residual fallback, then refactor the
+  right-suffix branch to select/use `exists_first_bad_pivot_on_rs`.
+
+## 2026-06-28 round 004 terminal iteration 6
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations for `Walk.bypass`, `Walk.toPath`, and
+  `Walk.support_toPath_subset`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`.
+- It remains the entry point into
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`,
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and
+  `conjecture198a`.
+
+Lean probe result:
+- I locally prototyped the fallback common-support containment for
+  `fallbackPair`.
+- The branch where the new common vertex lies in `rs.dropUntil y` is
+  controllable: combine `hy_drop`, the local
+  `mem_dropUntil_of_mem_dropUntil_of_mem_dropUntil` ordering helper, and
+  `hlast_bad` to force the vertex to equal the residual pivot, contradicting
+  the simple-path order.
+- The branch where the new common vertex lies in
+  `(pair.2).takeUntil y` and also in the `altRight` old-right suffix remains
+  the real obstruction.  Lean reduces it to the missing bypass theorem: an
+  old-right suffix vertex that survives `altRight.toPath` while `y` does not
+  must force a later return into the old-left prefix, or otherwise be old
+  common distinct from `x`.
+- I backed the prototype out so the target file remains at the prior smaller
+  two-error state.
+
+Verifier state:
+- The configured verifier still fails at exactly two stale proof terms:
+  the strengthened left-prefix fallback needs
+  `terminalPathPairCommonCard fallbackPair < terminalPathPairCommonCard pair`,
+  and the old-right-suffix branch inside
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` needs a
+  first-bad/right-suffix residual contradiction instead of direct weighted
+  minimality.
+
+Next target:
+- Prove a theorem-level bypass obstruction for
+  `((oldLeft.takeUntil x).append (oldRight.dropUntil x)).toPath` strong enough
+  to handle the old-right-prefix/old-right-suffix overlap in the fallback
+  common-card descent.
+- Then refactor the old-right-suffix branch to select/use
+  `exists_first_bad_pivot_on_rs` and the symmetric residual package.
+
+## 2026-06-28 round 002 terminal-set fan left-prefix not-alt descent iteration 1
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior workspace formalizer
+  notes, and local mathlib declarations for `Walk.toPath`, `Walk.bypass`, and
+  `Walk.support_toPath_subset`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- It closes the `hy_not_alt` branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`, then
+  feeds `terminal_set_fan_left_suffix_retention_bad_pivot_descent`,
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and
+  `conjecture198a`.
+
+Lean progress:
+- Added the requested target declaration
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- Added and checked the no-right-suffix branch helper
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent_of_not_right_suffix`.
+  This constructs the fallback pair and proves strict common-card descent when
+  `y ∉ (oldRight.dropUntil x).support`.
+- Rewired
+  `terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false`
+  through the new target theorem, eliminating the old local
+  `hpair_measure_min` temporary proof term in that branch.
+
+Remaining Lean blockers:
+- Target suffix branch:
+  `hy_suffix : y ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support`
+  must produce
+  `∃ pair', terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair`.
+  This is exactly the missing bypass obstruction for
+  `((oldLeft.takeUntil x).append (oldRight.dropUntil x)).toPath`.
+- Separate old-right-suffix branch in
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still has the
+  stale `exact hpair_measure_min`; refactor it through
+  `exists_first_bad_pivot_on_rs` and
+  `terminal_set_fan_left_suffix_retention_right_suffix_residual_bad_false_of_altRight`.
+
+## 2026-06-28 round 002 terminal-set fan left-prefix not-alt descent iteration 2
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, local mathlib declarations for
+  `Walk.bypass`, `Walk.toPath`, `Walk.cons_isPath_iff`, and support append
+  lemmas.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- It closes the `hy_not_alt` branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`, then
+  feeds `terminal_set_fan_left_suffix_retention_bad_pivot_descent`,
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and
+  `conjecture198a`.
+
+Lean progress:
+- Added checked support lemmas:
+  `walk_bypass_eq_self_of_isPath`,
+  `walk_toPath_eq_self_of_isPath`,
+  `mem_support_toPath_of_isPath`,
+  `mem_support_toPath_append_right_of_append_isPath`, and
+  `not_isPath_append_of_not_mem_toPath_append_right`.
+- These package the first formal step of the bypass obstruction: if a suffix
+  vertex of an append is erased by `toPath`, the appended walk was not already a
+  path, so the next proof step can focus on extracting the cross-repeat between
+  `(oldLeft.takeUntil x)` and `(oldRight.dropUntil x)`.
+
+Verifier state:
+- The configured verifier still fails at exactly two conceptual proof terms:
+  the `hy_suffix` branch in
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`
+  and the stale weighted-minimality term in the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+
+Next target:
+- Prove the next Lean obstruction lemma: from
+  `¬ (((oldLeft.takeUntil x).append (oldRight.dropUntil x)).IsPath)` with both
+  pieces path-like, extract a cross-repeat
+  `r ∈ (oldLeft.takeUntil x).support ∩ (oldRight.dropUntil x).support` with
+  `r ≠ x`; then turn that cross-repeat into either direct common-card descent or
+  the residual contradiction required by the `hy_suffix` branch.
+- After that, refactor the old-right-suffix branch through
+  `exists_first_bad_pivot_on_rs` and
+  `terminal_set_fan_left_suffix_retention_right_suffix_residual_bad_false_of_altRight`.
+
+## 2026-06-28 round 002 terminal-set fan left-prefix not-alt descent iteration 4
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations for `Walk.toPath`, `Walk.bypass`,
+  `Walk.support_toPath_subset`, `Walk.isSubwalk_takeUntil`, and
+  `Walk.isSubwalk_dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- It closes the `hy_not_alt` branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`, then
+  feeds `terminal_set_fan_left_suffix_retention_bad_pivot_descent`,
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control`,
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt`, the splice
+  descent chain, the two-fan theorem, Chvatal-Erdos traceability, and
+  `conjecture198a`.
+
+Lean progress:
+- Added checked helper
+  `exists_left_prefix_right_suffix_tail_of_not_mem_alt`.
+- This packages the first formal bypass-obstruction step for the suffix branch:
+  from `y ∈ oldRight.dropUntil x` and
+  `y ∉ ((oldLeft.takeUntil x).append (oldRight.dropUntil x)).toPath.support`,
+  Lean now derives an explicit cross-repeat
+  `r ∈ (oldLeft.takeUntil x).support ∩ (oldRight.dropUntil x).support.tail`.
+- The proof uses the existing checked route:
+  missing suffix vertex from `.toPath` implies the raw append is not a path,
+  and non-path append of two simple walks yields a left/right-tail repeat.
+
+Verifier state:
+- The configured verifier still fails at exactly two conceptual proof terms:
+  the `hy_suffix` branch in
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`
+  and the stale weighted-minimality term in the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+
+Next target:
+- Upgrade the checked cross-repeat to the full interval-erasure/later-return
+  bypass theorem, or prove a direct common-card descent for the suffix-case
+  fallback pair.
+- Then refactor the old-right-suffix branch through
+  `exists_first_bad_pivot_on_rs` and the symmetric residual package.
+
+## 2026-06-28 round 003 interval-erasure target iteration 1
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations for `Walk.bypass`, `Walk.toPath`,
+  `Walk.support_toPath_subset`, `Walk.takeUntil`, and `Walk.dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, via the
+  immediate left-prefix not-alt descent helper
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+
+Tool check:
+- Ran a Python sequence model of mathlib's recursive `Walk.bypass` on simple
+  prefix/suffix walks for the requested target
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_interval_erased`.
+  The exact interval-erasure conclusion is false.
+- Counterexample shape: `leftPrefix = [0,1,2,3]`,
+  `rightSuffix = [3,1,5,2]`, raw append support `[0,1,2,3,1,5,2]`,
+  and `toPath`/`bypass` support `[0,1,2]`.  With `x = 3` and `y = 5`,
+  the hypotheses `y ∈ rightSuffix`, `y ∉ leftPrefix`, and
+  `y ∉ toPath.support` hold, and there is a later return `r = 2` to the
+  left prefix after `y`.  But the interval-erasure clause fails because
+  `1 ∈ rightSuffix.takeUntil y` and `1 ∈ toPath.support`.
+
+Implication:
+- The requested declaration should not be inserted as a theorem: it would be a
+  false support statement.  A viable replacement target should either erase
+  only the subinterval after the last earlier return to the left prefix, or
+  state the weaker obstruction actually supported by the check: an absent
+  non-left suffix vertex forces a later return into the left prefix.
+
+## 2026-06-28 round 003 interval-erasure target iteration 2
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations for `Walk.bypass`, `Walk.toPath`,
+  `Walk.support_toPath_subset`, `Walk.isSubwalk_takeUntil`, and
+  `Walk.isSubwalk_dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, via the
+  immediate helper
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- The chain remains: left-prefix not-alt descent ->
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false` ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+Lean reassessment:
+- The requested target
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_interval_erased`
+  remains absent from the Lean workspace intentionally: its interval-erasure
+  clause is false under the local sequence model recorded in iteration 1.
+- The live Lean support already proves the sound weaker extraction
+  `exists_left_prefix_right_suffix_tail_of_not_mem_alt`: if a suffix vertex is
+  absent from `((left.takeUntil x).append (right.dropUntil x)).toPath.support`,
+  then the raw append has a left-prefix/right-suffix-tail cross-repeat.
+- This weaker cross-repeat is not yet enough to close the `hy_suffix` branch;
+  the missing theorem is an ordered bypass obstruction showing a later return
+  after the erased vertex, or a direct common-card descent from such a return.
+
+Verifier state:
+- The configured verifier still fails at the same two conceptual proof terms:
+  the `hy_suffix` branch in
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`
+  and the stale weighted-minimality term in the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+
+Next target:
+- Replace the false interval-erasure target with an ordered bypass theorem:
+  from `y ∈ right.dropUntil x`, `y ∉ left.takeUntil x`, and
+  `y ∉ ((left.takeUntil x).append (right.dropUntil x)).toPath.support`,
+  derive a later right-suffix return
+  `r ∈ (right.dropUntil x).dropUntil y` with `r ≠ y` and
+  `r ∈ left.takeUntil x`, or directly construct the strict common-card descent
+  pair needed by
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+
+## 2026-06-28 round 003 interval-erasure target iteration 4
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations for `Walk.bypass`, `Walk.toPath`, and
+  `Walk.support_toPath_subset`.
+
+Current first blocker:
+- The first blocker on the path to `conjecture198a` remains
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, via the immediate
+  helper `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- The requested audit target
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_interval_erased`
+  is still intentionally absent: its interval-erasure conjunct is false for
+  mathlib's recursive `Walk.bypass`.
+
+Verifier state:
+- The configured verifier still fails at exactly two active proof terms:
+  the `hy_suffix` branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`,
+  where the checked cross-repeat extraction is not enough to build a strict
+  common-card descent, and the stale `exact hpair_measure_min` in the
+  old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent`.
+
+Counterexample to the requested interval-erasure theorem:
+- The previous sequence probe remains decisive for the target statement:
+  `leftPrefix = [0,1,2,3]`, `rightSuffix = [3,1,5,2]`, raw append support
+  `[0,1,2,3,1,5,2]`, and mathlib-style recursive `bypass` support `[0,1,2]`.
+  With `x = 3` and `y = 5`, the hypotheses
+  `y ∈ rightSuffix`, `y ∉ leftPrefix`, and `y ∉ toPath.support` hold, and
+  there is a later return `r = 2` to the left prefix.  However the requested
+  clause
+  `∀ u ∈ rightSuffix.takeUntil y, u ∉ toPath.support` fails because
+  `1 ∈ rightSuffix.takeUntil y` and `1 ∈ toPath.support`.
+
+Next target:
+- Do not insert the false interval-erasure declaration.  Replace it with the
+  ordered later-return theorem, or with a direct theorem-level descent package
+  for the `hy_suffix` branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- Separately refactor the old-right-suffix branch through
+  `exists_first_bad_pivot_on_rs` and
+  `terminal_set_fan_left_suffix_retention_right_suffix_residual_bad_false_of_altRight`.
+
+## 2026-06-28 round 003 interval-erasure target iteration 6
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations around `Walk.bypass`, `Walk.toPath`,
+  `Walk.support_toPath_subset`, `Walk.takeUntil`, and `Walk.dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, via the immediate
+  helper
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- The chain remains: left-prefix not-alt descent ->
+  `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false` ->
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+Lean reassessment:
+- The requested declaration
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_interval_erased`
+  was not inserted.  Its interval-erasure conjunct is false for mathlib's
+  recursive `Walk.bypass`, as recorded by the local sequence model:
+  `leftPrefix = [0,1,2,3]`, `rightSuffix = [3,1,5,2]`, raw append support
+  `[0,1,2,3,1,5,2]`, and bypass support `[0,1,2]`.  With `x = 3` and `y = 5`,
+  the hypotheses of the requested target hold, but the universal interval
+  erasure clause fails at `u = 1`.
+- Existing checked support only gives
+  `exists_left_prefix_right_suffix_tail_of_not_mem_alt`, an unordered
+  cross-repeat in the right suffix tail.  The missing sound replacement is the
+  ordered later-return theorem, or a direct descent package for the
+  `hy_suffix` branch.
+
+Next target:
+- Replace the false interval-erasure target with an ordered theorem: from
+  `y ∈ right.dropUntil x`, `y ∉ left.takeUntil x`, and
+  `y ∉ ((left.takeUntil x).append (right.dropUntil x)).toPath.support`, derive
+  a later `r ∈ (right.dropUntil x).dropUntil y`, `r ≠ y`, with
+  `r ∈ left.takeUntil x`; then use that theorem to construct the strict
+  common-card descent in
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+
+## 2026-06-28 round 004 ordered later-return iteration 3
+
+External sources relied on:
+- None from web or literature.
+- Local sources used: supplied `context_bundle.md`, supplied
+  `math_tools_report.md`, the current Lean file, prior formalizer notes, and
+  local mathlib declarations for `Walk.bypass`, `Walk.toPath`,
+  `Walk.support_toPath_subset`, `Walk.takeUntil`, and `Walk.dropUntil`.
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, through the
+  immediate stage theorem
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_later_left_return`
+  and its parent
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+- The chain remains: ordered later-return theorem -> left-prefix not-alt
+  descent -> `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`
+  -> `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+Tool check:
+- Ran a Python finite sequence model of mathlib's recursive `Walk.bypass` over
+  nodup left-prefix and right-suffix supports with shared start `x`.
+- No counterexample was found for the corrected ordered theorem: whenever
+  `y ∈ rightSuffix`, `y ∉ leftPrefix`, and `y` is absent from the bypassed
+  append support, there was a later `r` in the right suffix from `y` onward
+  with `r ∈ leftPrefix` and `r ≠ y`.
+- This supports the target theorem shape, but the Lean proof still needs the
+  deterministic loop-erasure survival lemma: if no left-prefix vertex occurs in
+  the right suffix from `y` onward, then `y` survives
+  `((left.takeUntil x).append (right.dropUntil x)).toPath.support`.
+
+Verifier state:
+- The configured verifier fails first at the ordered-return target:
+  the current proof only extracts the already checked unordered repeat
+  `r ∈ (left.takeUntil x).support ∩ (right.dropUntil x).support.tail`; Lean
+  still needs the order upgrade
+  `r ∈ ((right.dropUntil x).dropUntil y hy_suffix).support`.
+- Downstream errors remain blocked by the same missing package: the
+  `hy_suffix` branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`
+  lacks a strict common-card descent pair, and the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still needs the
+  `exists_first_bad_pivot_on_rs` refactor.
+
+Next target:
+- Prove the deterministic bypass survival lemma by induction on
+  `Walk.bypass`: with `p` and `q` path-like, if
+  `y ∈ q.support`, `y ∉ p.support`, and no vertex of `p.support` occurs in
+  `(q.dropUntil y hy).support`, then
+  `y ∈ ((p.append q).toPath : _).support`.
+- Contrapose it to finish
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_later_left_return`,
+  then use the produced later return to build the common-card descent in the
+  parent not-alt branch.
+
+## 2026-06-28 later-return bypass target, iteration 4
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, via
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+  The chain remains: ordered later-return theorem -> left-prefix not-alt
+  descent -> `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`
+  -> `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+Lean work:
+- Moved the ordered later-return target below the local `dropUntil` order
+  lemmas so it can use the existing suffix-order API.
+- Added the deterministic-survival proof package:
+  `mem_dropUntil_of_mem_bypass_dropUntil`,
+  `mem_dropUntil_append_right_of_not_left`, and
+  `mem_support_bypass_append_right_of_no_later_left_return`.
+- The proof is now blocked at the precise missing nested-suffix transfer:
+  from
+  `z ∈ ((p.bypass.dropUntil u hs).dropUntil y hy).support`
+  and `y ∈ (p.bypass.dropUntil u hs).support`, Lean still needs
+  `z ∈ (p.bypass.dropUntil y hy_tail).support`.
+  This is the path-specific identity that a drop to a later vertex inside a
+  suffix is the same support suffix as dropping directly to that later vertex.
+
+Verifier state:
+- The configured verifier fails first at
+  `Wowii198aLeftmost.lean:4602:58` on the nested `dropUntil` order-transfer
+  argument above.
+- Downstream gaps remain ordinary failed proof terms, not trusted
+  assumptions: the `hy_suffix` branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`
+  still returns `hy_suffix`, and the old-right-suffix branch still has the
+  stale `hpair_measure_min : False` use.
+
+External sources:
+- No web or literature sources were used.  Only the local proof-lab context,
+  local math-tools report, local Lean/mathlib files, and the configured Lean
+  verifier were used.
+
+Next target:
+- Prove a local path-order helper:
+  if `hp : p.IsPath`, `hy_after_x : y ∈ (p.dropUntil x hx).support`, and
+  `hz_after_y_in_suffix :
+    z ∈ ((p.dropUntil x hx).dropUntil y hy_after_x).support`, then
+  `z ∈ (p.dropUntil y (Walk.support_dropUntil_subset p hx hy_after_x)).support`.
+- Use this helper inside `mem_dropUntil_of_mem_bypass_dropUntil`; then the
+  deterministic survival lemma should close
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_later_left_return`.
+
+## 2026-06-28 later-return bypass target, iteration 5
+
+Current first blocker:
+- `terminal_set_fan_left_suffix_retention_bad_pivot_descent`, via
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`.
+  The chain remains: ordered later-return theorem -> left-prefix not-alt
+  descent -> `terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false`
+  -> `terminal_set_fan_left_suffix_retention_bad_pivot_descent` ->
+  `terminal_set_fan_left_suffix_retention_alt_intersections_control` ->
+  `terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt` -> splice
+  descent chain -> two-fan theorem -> Chvatal-Erdos traceability ->
+  `conjecture198a`.
+
+Lean work:
+- Added `mem_dropUntil_of_mem_nested_dropUntil`, an index-based simple-path
+  suffix transport proving that
+  `z ∈ ((p.dropUntil x hx).dropUntil y hy_after_x).support` implies
+  `z ∈ (p.dropUntil y (Walk.support_dropUntil_subset p hx hy_after_x)).support`.
+- Used it in `mem_dropUntil_of_mem_bypass_dropUntil`, replacing the mismatched
+  transitivity call on `p.bypass`.
+- The configured verifier now compiles through
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_later_left_return`;
+  the previous line-4602 nested-suffix error is gone.
+
+Verifier state:
+- The configured verifier still fails downstream at
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`:
+  the `hy_suffix` branch now reaches the intended later-return/old-common
+  obstruction but still needs a strict common-card descent pair.
+- The old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` still has the
+  stale `hpair_measure_min : False` use and should be refactored through
+  `exists_first_bad_pivot_on_rs`.
+
+External sources:
+- No web or literature sources were used.  Local sources used: supplied
+  `context_bundle.md`, supplied `math_tools_report.md`, the current Lean file,
+  prior formalizer notes, local mathlib files, and the configured Lean verifier.
+
+Next target:
+- In the `hy_suffix` branch of
+  `terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent`,
+  use
+  `support_toPath_append_takeUntil_dropUntil_absent_right_suffix_later_left_return`
+  to construct the actual strict common-card descent pair from the later
+  right-suffix return into `oldLeft.takeUntil x`.
+- Then refactor the old-right-suffix branch of
+  `terminal_set_fan_left_suffix_retention_bad_pivot_descent` through
+  `exists_first_bad_pivot_on_rs`.

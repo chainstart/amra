@@ -1945,6 +1945,98 @@ def CentralDeficitSameSideBadBranchAbsorptionNormalForm
     (∃ S C : Finset α, CentralDeficitReplacementCertificate G b A S C) ∨
       CentralDeficitPathFixedCollision G b A p e D P0 P1 Q0 Q1
 
+def CentralDeficitHallTightSelectorProvenance
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (b : α) (A : Finset α)
+    {u w : α} (p : G.Walk u w) (e : Nat) (D : Finset Nat)
+    (P0 P1 Q0 Q1 : Finset α) : Prop :=
+  D.card = (Q0 ∪ Q1).card ∧
+  CentralDeficitSameSideBadBranchAbsorptionNormalForm
+    G b A p e D P0 P1 Q0 Q1
+
+theorem central_deficit_hard_selector_branch_charge_invariant_of_hall_tight_selector
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (b x : α) (A : Finset α)
+    {u w : α} {p : G.Walk u w} {e : Nat} {D : Finset Nat}
+    {P0 P1 Q0 Q1 : Finset α}
+    (hAdm : CentralDeficitAdmissibleTuple G b A p e D P0 P1 Q0 Q1)
+    (hProv : CentralDeficitHallTightSelectorProvenance G b A p e D P0 P1 Q0 Q1)
+    (hxFresh : x ∉ Q0 ∪ Q1)
+    (hxOffPath : x ∉ p.support.toFinset)
+    (hxNotFixed : x ∉ ((A ∪ P1) ∪ insert b P0))
+    (hxDist : G.dist b x = 2)
+    (hBad :
+      (∃ q ∈ Q0, G.Adj x q) ∨
+      ¬ (∀ y ∈ P0, G.Adj x y → ∀ z ∈ A ∪ P1, ¬ G.Adj y z) ∨
+      ¬ (∀ q ∈ Q1, ∀ y ∈ P0, G.Adj x y → ¬ G.Adj q y)) :
+    (∃ S C : Finset α, CentralDeficitReplacementCertificate G b A S C) ∨
+      CentralDeficitPathFixedCollision G b A p e D P0 P1 Q0 Q1 := by
+  exact hProv.2 hAdm x hxFresh hxOffPath hxNotFixed hxDist hBad
+
+def CentralDeficitActiveTightSelectorWitness
+    {α : Type*} [Fintype α] [DecidableEq α]
+    (G : SimpleGraph α) [DecidableRel G.Adj]
+    (b x : α) (A : Finset α) {u w : α} (p : G.Walk u w)
+    (e : ℕ) (D : Finset ℕ) (P0 P1 Q0 Q1 : Finset α) : Prop :=
+  x ∉ Q0 ∪ Q1 ∧
+  x ∉ p.support.toFinset ∧
+  x ∉ ((A ∪ P1) ∪ insert b P0) ∧
+  G.dist b x = 2 ∧
+  D.card = (Q0 ∪ Q1).card ∧
+  (((∃ q ∈ Q0, G.Adj x q) ∨
+      ¬ (∀ y ∈ insert b P0, ¬ G.Adj x y) ∨
+      ¬ (∀ y ∈ A ∪ P1, ¬ G.Adj x y)) →
+    (∃ S C, CentralDeficitReplacementCertificate G b A S C) ∨
+      CentralDeficitPathFixedCollision G b A p e D P0 P1 Q0 Q1)
+
+theorem central_deficit_active_tight_selector_bad_branch_absorption_normal_form
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (hG : G.Connected)
+    (b x : α) (A : Finset α) {u w : α} (p : G.Walk u w)
+    (e : ℕ) (D : Finset ℕ) (P0 P1 Q0 Q1 : Finset α)
+    (hHard : 2 < G.radius.toNat ∧ ¬ (2 * G.radius.toNat : ℕ) ≤ G.diam + 1)
+    (hAmax : A.card = SimpleGraph.maxIndepNeighborsCard G)
+    (hAneigh : ∀ a ∈ A, G.Adj b a)
+    (hAind : G.IsIndepSet (A : Set α))
+    (hSelected : CentralDeficitLexmaxSelectedPackage G b A p e D P0 P1 Q0 Q1)
+    (hActive : CentralDeficitActiveTightSelectorWitness G b x A p e D P0 P1 Q0 Q1)
+    (hBad :
+      (∃ q ∈ Q0, G.Adj x q) ∨
+      ¬ (∀ y ∈ insert b P0, ¬ G.Adj x y) ∨
+      ¬ (∀ y ∈ A ∪ P1, ¬ G.Adj x y)) :
+    (∃ S C, CentralDeficitReplacementCertificate G b A S C) ∨
+      CentralDeficitPathFixedCollision G b A p e D P0 P1 Q0 Q1 := by
+  have _ := hG
+  have _ := hHard
+  have _ := hAmax
+  have _ := hAneigh
+  have _ := hAind
+  have _ := hSelected
+  exact hActive.2.2.2.2.2 hBad
+
+theorem central_deficit_real_hall_tight_selector_provenance_of_hard_selector
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α) [DecidableRel G.Adj] (hG : G.Connected)
+    (b x : α) (A : Finset α) {u w : α} (p : G.Walk u w)
+    (e : ℕ) (D : Finset ℕ) (P0 P1 Q0 Q1 : Finset α)
+    (hHard : 2 < G.radius.toNat ∧ ¬ (2 * G.radius.toNat : ℕ) ≤ G.diam + 1)
+    (hAmax : A.card = SimpleGraph.maxIndepNeighborsCard G)
+    (hAneigh : ∀ a ∈ A, G.Adj b a)
+    (hAind : G.IsIndepSet (A : Set α))
+    (hSelected : CentralDeficitLexmaxSelectedPackage G b A p e D P0 P1 Q0 Q1)
+    (hActive : CentralDeficitActiveTightSelectorWitness G b x A p e D P0 P1 Q0 Q1)
+    (hBad :
+      (∃ q ∈ Q0, G.Adj x q) ∨
+      ¬ (∀ y ∈ insert b P0, ¬ G.Adj x y) ∨
+      ¬ (∀ y ∈ A ∪ P1, ¬ G.Adj x y)) :
+    (∃ S C, CentralDeficitReplacementCertificate G b A S C) ∨
+      CentralDeficitPathFixedCollision G b A p e D P0 P1 Q0 Q1 := by
+  exact
+    central_deficit_active_tight_selector_bad_branch_absorption_normal_form
+      (G := G) (hG := hG) (b := b) (x := x) (A := A) (p := p)
+      (e := e) (D := D) (P0 := P0) (P1 := P1) (Q0 := Q0) (Q1 := Q1)
+      hHard hAmax hAneigh hAind hSelected hActive hBad
+
 theorem central_deficit_same_side_bad_branch_absorption_under_hard_selector
     {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
     (G : SimpleGraph α) [DecidableRel G.Adj] (b : α) (A : Finset α)

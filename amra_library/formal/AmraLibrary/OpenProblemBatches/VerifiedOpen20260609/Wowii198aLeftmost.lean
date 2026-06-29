@@ -3781,6 +3781,210 @@ private lemma support_length_toPath_le
   rw [Walk.length_support, Walk.length_support]
   exact Nat.succ_le_succ p.length_bypass_le
 
+private lemma walk_bypass_eq_self_of_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v : α} {p : G.Walk u v}
+    (hp : p.IsPath) :
+    p.bypass = p := by
+  induction p with
+  | nil => rfl
+  | cons h p ih =>
+      rw [Walk.cons_isPath_iff] at hp
+      simp only [Walk.bypass]
+      have hp_bypass : p.bypass = p := ih hp.1
+      simp [hp_bypass, hp.2]
+
+private lemma walk_toPath_eq_self_of_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v : α} {p : G.Walk u v}
+    (hp : p.IsPath) :
+    (p.toPath : G.Walk u v) = p := by
+  simpa [Walk.toPath] using
+    (walk_bypass_eq_self_of_isPath (G := G) (p := p) hp)
+
+private lemma support_bypass_sublist
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v : α} (p : G.Walk u v) :
+    List.Sublist p.bypass.support p.support := by
+  induction p with
+  | nil =>
+      rfl
+  | @cons u₀ v₀ w₀ h p ih =>
+      simp only [Walk.bypass]
+      split_ifs with hs
+      · have hdrop :
+            List.Sublist (p.bypass.dropUntil _ hs).support p.bypass.support := by
+          exact (Walk.isSubwalk_iff_support_isInfix.mp
+            (Walk.isSubwalk_dropUntil p.bypass hs)).sublist
+        exact hdrop.trans (List.sublist_cons_of_sublist u₀ ih)
+      · simpa [Walk.support_cons] using ih.cons_cons u₀
+
+private lemma mem_support_toPath_of_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v z : α} {p : G.Walk u v}
+    (hp : p.IsPath) (hz : z ∈ p.support) :
+    z ∈ (p.toPath : G.Walk u v).support := by
+  simpa [walk_toPath_eq_self_of_isPath (G := G) (p := p) hp] using hz
+
+private lemma mem_support_toPath_append_right_of_append_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v w z : α}
+    (p : G.Walk u v) (q : G.Walk v w)
+    (hpq : (p.append q).IsPath) (hz : z ∈ q.support) :
+    z ∈ ((p.append q).toPath : G.Walk u w).support := by
+  exact mem_support_toPath_of_isPath
+    (G := G) (p := p.append q) hpq
+    (Walk.subset_support_append_right p q hz)
+
+private lemma not_isPath_append_of_not_mem_toPath_append_right
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v w z : α}
+    (p : G.Walk u v) (q : G.Walk v w)
+    (hz : z ∈ q.support)
+    (hnot : z ∉ ((p.append q).toPath : G.Walk u w).support) :
+    ¬ (p.append q).IsPath := by
+  intro hpq
+  exact hnot
+    (mem_support_toPath_append_right_of_append_isPath
+      (G := G) p q hpq hz)
+
+private lemma not_isPath_append_of_not_mem_toPath_append_left
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v w z : α}
+    (p : G.Walk u v) (q : G.Walk v w)
+    (hz : z ∈ p.support)
+    (hnot : z ∉ ((p.append q).toPath : G.Walk u w).support) :
+    ¬ (p.append q).IsPath := by
+  intro hpq
+  exact hnot
+    (mem_support_toPath_of_isPath
+      (G := G) (p := p.append q) hpq
+      (Walk.subset_support_append_left p q hz))
+
+private lemma exists_mem_left_and_right_tail_of_not_isPath_append
+    {α : Type*}
+    {G : SimpleGraph α} {u v w : α}
+    {p : G.Walk u v} {q : G.Walk v w}
+    (hp : p.IsPath) (hq : q.IsPath)
+    (hnot : ¬ (p.append q).IsPath) :
+    ∃ z : α, z ∈ p.support ∧ z ∈ q.support.tail := by
+  classical
+  have hnot_nodup : ¬ (p.support ++ q.support.tail).Nodup := by
+    intro hnodup
+    exact hnot ((Walk.isPath_def (p.append q)).mpr (by
+      simpa [Walk.support_append] using hnodup))
+  have htail_nodup : q.support.tail.Nodup :=
+    hq.support_nodup.sublist (List.tail_sublist q.support)
+  have hnot_disjoint : ¬ List.Disjoint p.support q.support.tail := by
+    intro hdisj
+    exact hnot_nodup (hp.support_nodup.append htail_nodup hdisj)
+  by_contra hnone
+  apply hnot_disjoint
+  rw [List.disjoint_left]
+  intro a ha hb
+  exact hnone ⟨a, ha, hb⟩
+
+private lemma exists_left_prefix_right_suffix_tail_of_not_mem_alt
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y : α}
+    (left : G.Walk v s) (right : G.Walk v t)
+    (hleftPath : left.IsPath) (hrightPath : right.IsPath)
+    (hx_left : x ∈ left.support)
+    (hx_right : x ∈ right.support)
+    (hy_suffix : y ∈ (right.dropUntil x hx_right).support)
+    (hy_not_alt :
+      y ∉
+        (((left.takeUntil x hx_left).append
+          (right.dropUntil x hx_right)).toPath : G.Walk v t).support) :
+    ∃ r : α,
+      r ∈ (left.takeUntil x hx_left).support ∧
+      r ∈ (right.dropUntil x hx_right).support.tail := by
+  classical
+  have hleft_prefix_path : (left.takeUntil x hx_left).IsPath :=
+    Walk.isPath_of_isSubwalk (Walk.isSubwalk_takeUntil left hx_left) hleftPath
+  have hright_suffix_path : (right.dropUntil x hx_right).IsPath :=
+    Walk.isPath_of_isSubwalk (Walk.isSubwalk_dropUntil right hx_right) hrightPath
+  have hnot_path :
+      ¬ ((left.takeUntil x hx_left).append
+        (right.dropUntil x hx_right)).IsPath :=
+    not_isPath_append_of_not_mem_toPath_append_right
+      (G := G) (p := left.takeUntil x hx_left)
+      (q := right.dropUntil x hx_right) hy_suffix hy_not_alt
+  exact exists_mem_left_and_right_tail_of_not_isPath_append
+    (G := G) hleft_prefix_path hright_suffix_path hnot_path
+
+private lemma exists_left_prefix_right_suffix_tail_of_not_mem_left_alt
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y : α}
+    (left : G.Walk v s) (right : G.Walk v t)
+    (hleftPath : left.IsPath) (hrightPath : right.IsPath)
+    (hx_left : x ∈ left.support)
+    (hx_right : x ∈ right.support)
+    (hy_left_prefix : y ∈ (left.takeUntil x hx_left).support)
+    (hy_not_alt :
+      y ∉
+        (((left.takeUntil x hx_left).append
+          (right.dropUntil x hx_right)).toPath : G.Walk v t).support) :
+    ∃ r : α,
+      r ∈ (left.takeUntil x hx_left).support ∧
+      r ∈ (right.dropUntil x hx_right).support.tail := by
+  classical
+  have hleft_prefix_path : (left.takeUntil x hx_left).IsPath :=
+    Walk.isPath_of_isSubwalk (Walk.isSubwalk_takeUntil left hx_left) hleftPath
+  have hright_suffix_path : (right.dropUntil x hx_right).IsPath :=
+    Walk.isPath_of_isSubwalk (Walk.isSubwalk_dropUntil right hx_right) hrightPath
+  have hnot_path :
+      ¬ ((left.takeUntil x hx_left).append
+        (right.dropUntil x hx_right)).IsPath :=
+    not_isPath_append_of_not_mem_toPath_append_left
+      (G := G) (p := left.takeUntil x hx_left)
+      (q := right.dropUntil x hx_right) hy_left_prefix hy_not_alt
+  exact exists_mem_left_and_right_tail_of_not_isPath_append
+    (G := G) hleft_prefix_path hright_suffix_path hnot_path
+
+private lemma exists_old_common_ne_x_of_right_suffix_not_mem_alt
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y : α}
+    (left : G.Walk v s) (right : G.Walk v t)
+    (hleftPath : left.IsPath) (hrightPath : right.IsPath)
+    (hx_left : x ∈ left.support)
+    (hx_right : x ∈ right.support)
+    (hy_suffix : y ∈ (right.dropUntil x hx_right).support)
+    (hy_not_alt :
+      y ∉
+        (((left.takeUntil x hx_left).append
+          (right.dropUntil x hx_right)).toPath : G.Walk v t).support) :
+    ∃ r : α, r ∈ left.support ∧ r ∈ right.support ∧ r ≠ x := by
+  classical
+  rcases exists_left_prefix_right_suffix_tail_of_not_mem_alt
+      (G := G) left right hleftPath hrightPath hx_left hx_right
+      hy_suffix hy_not_alt with
+    ⟨r, hr_left_prefix, hr_right_tail⟩
+  have hr_left : r ∈ left.support :=
+    Walk.support_takeUntil_subset left hx_left hr_left_prefix
+  have hr_right_suffix : r ∈ (right.dropUntil x hx_right).support :=
+    List.mem_of_mem_tail hr_right_tail
+  have hr_right : r ∈ right.support :=
+    Walk.support_dropUntil_subset right hx_right hr_right_suffix
+  have hright_suffix_path : (right.dropUntil x hx_right).IsPath :=
+    Walk.isPath_of_isSubwalk (Walk.isSubwalk_dropUntil right hx_right) hrightPath
+  have hx_not_tail : x ∉ (right.dropUntil x hx_right).support.tail := by
+    generalize hqeq : right.dropUntil x hx_right = q
+    have hqPath : q.IsPath := by
+      simpa [hqeq] using hright_suffix_path
+    change x ∉ q.support.tail
+    cases q with
+    | nil =>
+        simp
+    | cons h q' =>
+        have hnodup : x ∉ q'.support ∧ q'.support.Nodup := by
+          simpa using hqPath.support_nodup
+        simpa using hnodup.1
+  have hr_ne_x : r ≠ x := by
+    intro hrx
+    exact hx_not_tail (by simpa [hrx] using hr_right_tail)
+  exact ⟨r, hr_left, hr_right, hr_ne_x⟩
+
 private lemma terminalPathPairSupportLength_lt_of_same_left_right_lt
     {α : Type*}
     {G : SimpleGraph α} {v s t : α}
@@ -3891,6 +4095,27 @@ private lemma false_of_weighted_min_and_commonCard_le_supportLength_lt
         terminalPathPairWeightedMeasure pair :=
     terminalPathPairWeightedMeasure_lt_of_commonCard_le_supportLength_lt
       (pair := pair) (pair' := pair') hcommon hsupport
+  have hle :
+      terminalPathPairWeightedMeasure pair ≤
+        terminalPathPairWeightedMeasure pair' :=
+    hpair_measure_min pair'
+  omega
+
+private lemma false_of_weighted_min_and_commonCard_lt
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair pair' : G.Path v s × G.Path v t}
+    (hpair_measure_min : ∀ pair'' : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasure pair ≤
+        terminalPathPairWeightedMeasure pair'')
+    (hcommon :
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair) :
+    False := by
+  have hlt :
+      terminalPathPairWeightedMeasure pair' <
+        terminalPathPairWeightedMeasure pair :=
+    terminalPathPairWeightedMeasure_lt_of_commonCard_lt
+      (pair := pair) (pair' := pair') hcommon
   have hle :
       terminalPathPairWeightedMeasure pair ≤
         terminalPathPairWeightedMeasure pair' :=
@@ -4093,6 +4318,64 @@ private lemma mem_support_toPath_append_takeUntil_dropUntil_subset
   · exact Or.inl (Walk.support_takeUntil_subset p hyp hz_left)
   · exact Or.inr (Walk.support_dropUntil_subset q hyq hz_right)
 
+private lemma mem_support_toPath_append_takeUntil_dropUntil_cases
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t y z : α}
+    (p : G.Walk v s) (q : G.Walk v t)
+    (hyp : y ∈ p.support) (hyq : y ∈ q.support)
+    (hz : z ∈
+      (((p.takeUntil y hyp).append (q.dropUntil y hyq)).toPath :
+        G.Walk v t).support) :
+    z ∈ (p.takeUntil y hyp).support ∨
+      z ∈ (q.dropUntil y hyq).support := by
+  have hz' :
+      z ∈ ((p.takeUntil y hyp).append (q.dropUntil y hyq)).support :=
+    Walk.support_toPath_subset _ hz
+  simpa [Walk.mem_support_append_iff] using hz'
+
+private lemma mem_support_toPath_append_three_subset
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v w t z : α}
+    (p : G.Walk u v) (q : G.Walk v w) (r : G.Walk w t)
+    (hz :
+      z ∈ (((p.append q).append r).toPath : G.Walk u t).support) :
+    z ∈ p.support ∨ z ∈ q.support ∨ z ∈ r.support := by
+  have hz_raw :
+      z ∈ ((p.append q).append r).support :=
+    Walk.support_toPath_subset _ hz
+  rw [Walk.mem_support_append_iff] at hz_raw
+  rcases hz_raw with hz_pq | hz_r
+  · rw [Walk.mem_support_append_iff] at hz_pq
+    rcases hz_pq with hz_p | hz_q
+    · exact Or.inl hz_p
+    · exact Or.inr (Or.inl hz_q)
+  · exact Or.inr (Or.inr hz_r)
+
+private lemma mem_support_toPath_right_bypass_subset
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t a z y : α}
+    (right : G.Walk v t) (rs : G.Walk v s)
+    (ha_right : a ∈ right.support) (ha_rs : a ∈ rs.support)
+    (hz_right : z ∈ right.support)
+    (hz_tail : z ∈ (rs.dropUntil a ha_rs).support)
+    (hy :
+      y ∈ ((((right.takeUntil a ha_right).append
+        ((rs.dropUntil a ha_rs).takeUntil z hz_tail)).append
+        (right.dropUntil z hz_right)).toPath : G.Walk v t).support) :
+    y ∈ right.support ∨ y ∈ rs.support := by
+  rcases mem_support_toPath_append_three_subset
+      (G := G)
+      (p := right.takeUntil a ha_right)
+      (q := (rs.dropUntil a ha_rs).takeUntil z hz_tail)
+      (r := right.dropUntil z hz_right)
+      hy with hy_prefix | hy_mid | hy_suffix
+  · exact Or.inl (Walk.support_takeUntil_subset right ha_right hy_prefix)
+  · exact Or.inr
+      (Walk.support_dropUntil_subset rs ha_rs
+        (Walk.support_takeUntil_subset (rs.dropUntil a ha_rs) hz_tail
+          hy_mid))
+  · exact Or.inl (Walk.support_dropUntil_subset right hz_right hy_suffix)
+
 private lemma exists_first_nonapex_intersection_on_walk
     {α : Type*} [DecidableEq α]
     {G : SimpleGraph α} {v s t y : α}
@@ -4173,6 +4456,18 @@ private lemma not_mem_takeUntil_later_of_mem_takeUntil
   exact Walk.notMem_support_takeUntil_support_takeUntil_subset
     (p := p) (w := x) (x := z) hzx hx hz_prefix
 
+private lemma mem_takeUntil_of_mem_takeUntil_of_mem_takeUntil
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s x y z : α}
+    (p : G.Walk v s) (hx : x ∈ p.support) (hy : y ∈ p.support)
+    (hy_prefix_x : y ∈ (p.takeUntil x hx).support)
+    (hz_prefix_y : z ∈ (p.takeUntil y hy).support) :
+    z ∈ (p.takeUntil x hx).support := by
+  have hz_nested :
+      z ∈ ((p.takeUntil x hx).takeUntil y hy_prefix_x).support := by
+    simpa [Walk.takeUntil_takeUntil] using hz_prefix_y
+  exact Walk.support_takeUntil_subset (p.takeUntil x hx) hy_prefix_x hz_nested
+
 private lemma not_mem_takeUntil_later_of_mem_takeUntil_of_support
     {α : Type*} [DecidableEq α]
     {G : SimpleGraph α} {v s x z : α}
@@ -4211,6 +4506,117 @@ private lemma exists_index_of_mem_dropUntil
     simp [hnot_lt, hjy] at hget
     exact hget.symm
 
+private lemma mem_dropUntil_of_index_ge
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t w y : α}
+    (p : G.Walk v t) (hw : w ∈ p.support)
+    {i : ℕ}
+    (hw_len_le_i : (p.takeUntil w hw).length ≤ i)
+    (hi_le : i ≤ p.length)
+    (hi_get : p.getVert i = y) :
+    y ∈ (p.dropUntil w hw).support := by
+  rw [Walk.mem_support_iff_exists_getVert]
+  refine ⟨i - (p.takeUntil w hw).length, ?_, ?_⟩
+  · have hget := congrArg (fun q : G.Walk v t => q.getVert i) (p.take_spec hw)
+    change (((p.takeUntil w hw).append (p.dropUntil w hw)).getVert i) =
+      p.getVert i at hget
+    rw [Walk.getVert_append] at hget
+    have hnot_lt : ¬ i < (p.takeUntil w hw).length := by omega
+    simpa [hnot_lt, Nat.add_sub_cancel' hw_len_le_i, hi_get] using hget
+  · have hlen := congrArg Walk.length (p.take_spec hw)
+    rw [Walk.length_append] at hlen
+    omega
+
+private lemma mem_dropUntil_of_mem_dropUntil_of_mem_dropUntil
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t x y z : α}
+    {p : G.Walk v t} (hp : p.IsPath)
+    (hx : x ∈ p.support) (hy : y ∈ p.support)
+    (hy_after_x : y ∈ (p.dropUntil x hx).support)
+    (hz_after_y : z ∈ (p.dropUntil y hy).support) :
+    z ∈ (p.dropUntil x hx).support := by
+  rcases exists_index_of_mem_dropUntil (G := G) p hx hy_after_x with
+    ⟨iy, hx_len_le_iy, hiy_le, hiy_get⟩
+  rcases exists_index_of_mem_dropUntil (G := G) p hy hz_after_y with
+    ⟨iz, hy_len_le_iz, hiz_le, hiz_get⟩
+  have hy_len_eq_iy : (p.takeUntil y hy).length = iy := by
+    have hy_len_le : (p.takeUntil y hy).length ≤ p.length :=
+      p.length_takeUntil_le hy
+    exact hp.getVert_injOn
+      (by simpa using hy_len_le)
+      (by simpa using hiy_le)
+      (by simpa [Walk.getVert_length_takeUntil] using hiy_get.symm)
+  exact mem_dropUntil_of_index_ge
+    (G := G) p hx
+    (le_trans hx_len_le_iy (by simpa [hy_len_eq_iy] using hy_len_le_iz))
+    hiz_le hiz_get
+
+private lemma mem_dropUntil_of_mem_nested_dropUntil
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t x y z : α}
+    {p : G.Walk v t} (hp : p.IsPath)
+    (hx : x ∈ p.support)
+    (hy_after_x : y ∈ (p.dropUntil x hx).support)
+    (hz_after_y_in_suffix :
+      z ∈ ((p.dropUntil x hx).dropUntil y hy_after_x).support) :
+    z ∈ (p.dropUntil y
+      (Walk.support_dropUntil_subset p hx hy_after_x)).support := by
+  let q : G.Walk x t := p.dropUntil x hx
+  let hy : y ∈ p.support := Walk.support_dropUntil_subset p hx hy_after_x
+  let tx : ℕ := (p.takeUntil x hx).length
+  rcases exists_index_of_mem_dropUntil (G := G) q hy_after_x
+      hz_after_y_in_suffix with
+    ⟨j, hq_take_y_le_j, hj_le_q, hqj_get⟩
+  have hlen_split : p.length = tx + q.length := by
+    have hlen := congrArg Walk.length (p.take_spec hx)
+    rw [Walk.length_append] at hlen
+    simpa [q, tx] using hlen.symm
+  have hget_z_p : p.getVert (tx + j) = z := by
+    have hget := congrArg (fun r : G.Walk v t => r.getVert (tx + j))
+      (p.take_spec hx)
+    change (((p.takeUntil x hx).append (p.dropUntil x hx)).getVert (tx + j)) =
+      p.getVert (tx + j) at hget
+    rw [Walk.getVert_append] at hget
+    have hnot_lt : ¬ tx + j < tx := by omega
+    simp [q, tx, hnot_lt, hqj_get] at hget
+    exact hget.symm
+  have hI_le : tx + j ≤ p.length := by
+    omega
+  have hq_take_len_le : (q.takeUntil y hy_after_x).length ≤ q.length :=
+    q.length_takeUntil_le hy_after_x
+  have hget_y_p :
+      p.getVert (tx + (q.takeUntil y hy_after_x).length) = y := by
+    have hget := congrArg
+      (fun r : G.Walk v t =>
+        r.getVert (tx + (q.takeUntil y hy_after_x).length))
+      (p.take_spec hx)
+    change (((p.takeUntil x hx).append (p.dropUntil x hx)).getVert
+        (tx + (q.takeUntil y hy_after_x).length)) =
+      p.getVert (tx + (q.takeUntil y hy_after_x).length) at hget
+    rw [Walk.getVert_append] at hget
+    have hnot_lt :
+        ¬ tx + (q.takeUntil y hy_after_x).length < tx := by omega
+    simp [q, tx, hnot_lt, Walk.getVert_length_takeUntil] at hget
+    exact hget.symm
+  have hy_index_le :
+      tx + (q.takeUntil y hy_after_x).length ≤ p.length := by
+    omega
+  have hy_len_eq :
+      (p.takeUntil y hy).length =
+        tx + (q.takeUntil y hy_after_x).length := by
+    have hy_len_le : (p.takeUntil y hy).length ≤ p.length :=
+      p.length_takeUntil_le hy
+    exact hp.getVert_injOn
+      (by simpa using hy_len_le)
+      (by simpa using hy_index_le)
+      (by simpa [Walk.getVert_length_takeUntil] using hget_y_p.symm)
+  exact mem_dropUntil_of_index_ge
+    (G := G) p hy
+    (by
+      rw [hy_len_eq]
+      exact Nat.add_le_add_left hq_take_y_le_j tx)
+    hI_le hget_z_p
+
 private lemma mem_dropUntil_of_mem_support_not_takeUntil
     {α : Type*} [DecidableEq α]
     {G : SimpleGraph α} {v t w y : α}
@@ -4225,6 +4631,34 @@ private lemma mem_dropUntil_of_mem_support_not_takeUntil
   rcases hy_append with hy_take | hy_drop
   · exact False.elim (hnot hy_take)
   · exact hy_drop
+
+private lemma mem_takeUntil_of_mem_support_not_dropUntil
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t w y : α}
+    (p : G.Walk v t) (hw : w ∈ p.support)
+    (hy : y ∈ p.support)
+    (hnot : y ∉ (p.dropUntil w hw).support) :
+    y ∈ (p.takeUntil w hw).support := by
+  have hy_append :
+      y ∈ ((p.takeUntil w hw).append (p.dropUntil w hw)).support := by
+    simpa [p.take_spec hw] using hy
+  rw [Walk.mem_support_append_iff] at hy_append
+  rcases hy_append with hy_take | hy_drop
+  · exact hy_take
+  · exact False.elim (hnot hy_drop)
+
+private lemma mem_takeUntil_or_mem_dropUntil_of_mem_support
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t w y : α}
+    (p : G.Walk v t) (hw : w ∈ p.support)
+    (hy : y ∈ p.support) :
+    y ∈ (p.takeUntil w hw).support ∨
+      y ∈ (p.dropUntil w hw).support := by
+  have hy_append :
+      y ∈ ((p.takeUntil w hw).append (p.dropUntil w hw)).support := by
+    simpa [p.take_spec hw] using hy
+  rw [Walk.mem_support_append_iff] at hy_append
+  exact hy_append
 
 private lemma exists_first_mem_support_forall_mem_takeUntil_imp_eq
     {α : Type*} [DecidableEq α]
@@ -4298,6 +4732,1757 @@ private lemma mem_dropUntil_of_not_mem_dropUntil
         (G := G) p hx hy hy_not_prefix_x)
   exact mem_dropUntil_of_mem_support_not_takeUntil
     (G := G) p hy hx hx_not_prefix_y
+
+private lemma dropUntil_start_eq_self
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v : α}
+    (p : G.Walk u v) (h : u ∈ p.support) :
+    p.dropUntil u h = p := by
+  cases p with
+  | nil =>
+      simp [Walk.dropUntil]
+  | cons h p =>
+      simp [Walk.dropUntil]
+
+private lemma mem_dropUntil_of_mem_bypass_dropUntil
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v y z : α}
+    (p : G.Walk u v)
+    (hyb : y ∈ p.bypass.support)
+    (hzb : z ∈ (p.bypass.dropUntil y hyb).support) :
+    z ∈ (p.dropUntil y (Walk.support_bypass_subset p hyb)).support := by
+  induction p with
+  | nil =>
+      simpa using hzb
+  | @cons u₀ v₀ w₀ h p ih =>
+      simp only [Walk.bypass] at hyb hzb ⊢
+      split_ifs at hyb hzb ⊢ with hs
+      · by_cases hyu : y = u₀
+        · subst y
+          have hz_bypass_tail :
+              z ∈ (p.bypass.dropUntil u₀ hs).support :=
+            Walk.support_dropUntil_subset (p.bypass.dropUntil u₀ hs) hyb hzb
+          have hz_p_bypass : z ∈ p.bypass.support :=
+            Walk.support_dropUntil_subset p.bypass hs hz_bypass_tail
+          have hz_p : z ∈ p.support :=
+            Walk.support_bypass_subset p hz_p_bypass
+          simpa [Walk.dropUntil, Walk.support_cons] using
+            (Walk.support_subset_support_cons p h hz_p)
+        · have hyb_tail : y ∈ p.bypass.support :=
+            Walk.support_dropUntil_subset p.bypass hs hyb
+          have hzb_tail :
+              z ∈ (p.bypass.dropUntil y hyb_tail).support :=
+            mem_dropUntil_of_mem_nested_dropUntil
+              (G := G) (p := p.bypass) (hp := Walk.bypass_isPath p)
+              (x := u₀) (y := y) (z := z) hs hyb hzb
+          have hz_drop : z ∈ (p.dropUntil y
+              (Walk.support_bypass_subset p hyb_tail)).support :=
+            ih hyb_tail hzb_tail
+          have huy : u₀ ≠ y := fun h => hyu h.symm
+          simpa [Walk.dropUntil, huy] using hz_drop
+      · by_cases hyu : y = u₀
+        · subst y
+          have hz_cons_bypass : z ∈ (Walk.cons h p.bypass).support := by
+            simpa [Walk.dropUntil] using hzb
+          have hz_cons : z ∈ (Walk.cons h p).support := by
+            rw [Walk.support_cons, List.mem_cons] at hz_cons_bypass
+            rcases hz_cons_bypass with hz_head | hz_tail
+            · exact hz_head ▸ (Walk.cons h p).start_mem_support
+            · exact Walk.support_subset_support_cons p h
+                (Walk.support_bypass_subset p hz_tail)
+          simpa [Walk.dropUntil] using hz_cons
+        · have hyb_tail : y ∈ p.bypass.support := by
+            simpa [Walk.support_cons, hyu] using hyb
+          have hzb_tail :
+              z ∈ (p.bypass.dropUntil y hyb_tail).support := by
+            have huy : u₀ ≠ y := fun h => hyu h.symm
+            simpa [Walk.dropUntil, huy] using hzb
+          have hz_drop : z ∈ (p.dropUntil y
+              (Walk.support_bypass_subset p hyb_tail)).support :=
+            ih hyb_tail hzb_tail
+          have huy : u₀ ≠ y := fun h => hyu h.symm
+          simpa [Walk.dropUntil, huy] using hz_drop
+
+private lemma mem_dropUntil_append_right_of_not_left
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v w y z : α}
+    (p : G.Walk u v) (q : G.Walk v w)
+    (hyq : y ∈ q.support)
+    (hy_not_p : y ∉ p.support)
+    (hz :
+      z ∈ ((p.append q).dropUntil y
+        (Walk.subset_support_append_right p q hyq)).support)
+    (hz_not_p : z ∉ p.support) :
+    z ∈ (q.dropUntil y hyq).support := by
+  induction p with
+  | nil =>
+      simpa using hz
+  | @cons u₀ v₀ w₀ h p ih =>
+      have hyu : y ≠ u₀ := by
+        intro hyu
+        exact hy_not_p (by simp [Walk.support_cons, hyu])
+      have hy_not_tail : y ∉ p.support := by
+        intro hy_tail
+        exact hy_not_p (by simp [Walk.support_cons, hy_tail])
+      have hz_not_tail : z ∉ p.support := by
+        intro hz_tail
+        exact hz_not_p (by simp [Walk.support_cons, hz_tail])
+      have huy : u₀ ≠ y := fun h => hyu h.symm
+      exact ih q hyq hy_not_tail
+        (by simpa [Walk.dropUntil, huy] using hz) hz_not_tail
+
+private lemma mem_support_bypass_append_right_of_no_later_left_return
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {u v w y : α}
+    (p : G.Walk u v) (q : G.Walk v w)
+    (hp : p.IsPath) (hq : q.IsPath)
+    (hyq : y ∈ q.support)
+    (hy_not_p : y ∉ p.support)
+    (hno_later :
+      ∀ r : α, r ∈ (q.dropUntil y hyq).support → r ∉ p.support) :
+    y ∈ (p.append q).bypass.support := by
+  induction p with
+  | nil =>
+      simpa [walk_bypass_eq_self_of_isPath (G := G) (p := q) hq] using hyq
+  | @cons u₀ v₀ w₀ h p ih =>
+      rw [Walk.cons_isPath_iff] at hp
+      have hyu : y ≠ u₀ := by
+        intro hyu
+        exact hy_not_p (by simp [Walk.support_cons, hyu])
+      have hy_not_tail : y ∉ p.support := by
+        intro hy_tail
+        exact hy_not_p (by simp [Walk.support_cons, hy_tail])
+      have hno_later_tail :
+          ∀ r : α, r ∈ (q.dropUntil y hyq).support → r ∉ p.support := by
+        intro r hr hrp
+        exact hno_later r hr (by simp [Walk.support_cons, hrp])
+      have hy_tail_bypass :
+          y ∈ (p.append q).bypass.support :=
+        ih q hp.1 hq hyq hy_not_tail hno_later_tail
+      simp only [Walk.append, Walk.bypass]
+      split_ifs with hs
+      · by_cases hy_after_u :
+          y ∈ ((p.append q).bypass.dropUntil u₀ hs).support
+        · exact hy_after_u
+        · exfalso
+          have hu_after_y :
+              u₀ ∈ ((p.append q).bypass.dropUntil y hy_tail_bypass).support :=
+            mem_dropUntil_of_not_mem_dropUntil
+              (G := G) ((p.append q).bypass) hs hy_tail_bypass
+              (by exact fun hyeq => hyu hyeq.symm) hy_after_u
+          have hu_tail_after_y :
+              u₀ ∈ ((p.append q).dropUntil y
+                (Walk.support_bypass_subset (p.append q) hy_tail_bypass)).support :=
+            mem_dropUntil_of_mem_bypass_dropUntil
+              (G := G) (p := p.append q) hy_tail_bypass hu_after_y
+          have hu_q_after_y : u₀ ∈ (q.dropUntil y hyq).support :=
+            mem_dropUntil_append_right_of_not_left
+              (G := G) p q hyq hy_not_tail
+              (by simpa using hu_tail_after_y) hp.2
+          exact hno_later u₀ hu_q_after_y (by simp [Walk.support_cons])
+      · exact List.mem_cons_of_mem u₀ hy_tail_bypass
+
+private lemma support_toPath_append_takeUntil_dropUntil_absent_right_suffix_later_left_return
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y : α}
+    (left : G.Walk v s) (right : G.Walk v t)
+    (hleftPath : left.IsPath) (hrightPath : right.IsPath)
+    (hx_left : x ∈ left.support)
+    (hx_right : x ∈ right.support)
+    (hy_suffix : y ∈ (right.dropUntil x hx_right).support)
+    (hy_not_left :
+      y ∉ (left.takeUntil x hx_left).support)
+    (hy_not_alt :
+      y ∉ (((left.takeUntil x hx_left).append
+        (right.dropUntil x hx_right)).toPath : G.Walk v t).support) :
+    ∃ r : α,
+      r ∈ ((right.dropUntil x hx_right).dropUntil y hy_suffix).support ∧
+      r ≠ y ∧
+      r ∈ (left.takeUntil x hx_left).support := by
+  classical
+  by_contra hnone
+  have hleft_prefix_path : (left.takeUntil x hx_left).IsPath :=
+    Walk.isPath_of_isSubwalk (Walk.isSubwalk_takeUntil left hx_left) hleftPath
+  have hright_suffix_path : (right.dropUntil x hx_right).IsPath :=
+    Walk.isPath_of_isSubwalk (Walk.isSubwalk_dropUntil right hx_right) hrightPath
+  have hno_later :
+      ∀ r : α,
+        r ∈ ((right.dropUntil x hx_right).dropUntil y hy_suffix).support →
+        r ∉ (left.takeUntil x hx_left).support := by
+    intro r hr hrl
+    have hry : r = y := by
+      by_contra hry
+      exact hnone ⟨r, hr, hry, hrl⟩
+    exact hy_not_left (by simpa [hry] using hrl)
+  have hy_survives :
+      y ∈ (((left.takeUntil x hx_left).append
+        (right.dropUntil x hx_right)).bypass).support :=
+    mem_support_bypass_append_right_of_no_later_left_return
+      (G := G) (p := left.takeUntil x hx_left)
+      (q := right.dropUntil x hx_right)
+      hleft_prefix_path hright_suffix_path hy_suffix hy_not_left hno_later
+  exact hy_not_alt (by simpa [Walk.toPath] using hy_survives)
+
+private lemma mem_dropUntil_of_mem_takeUntil_ne
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t x y : α}
+    (p : G.Walk v t)
+    (hx : x ∈ p.support) (hy : y ∈ p.support)
+    (hx_prefix_y : x ∈ (p.takeUntil y hy).support)
+    (hxy : x ≠ y) :
+    y ∈ (p.dropUntil x hx).support := by
+  have hy_not_prefix_x : y ∉ (p.takeUntil x hx).support := by
+    simpa using
+      (Walk.notMem_support_takeUntil_support_takeUntil_subset
+        (p := p) (w := y) (x := x) hxy hy hx_prefix_y)
+  exact mem_dropUntil_of_mem_support_not_takeUntil
+    (G := G) p hx hy hy_not_prefix_x
+
+private lemma not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t x y : α}
+    {p : G.Walk v t} (hp : p.IsPath)
+    (hx : x ∈ p.support) (hy : y ∈ p.support)
+    (hy_prefix_x : y ∈ (p.takeUntil x hx).support)
+    (hyx : y ≠ x) :
+    y ∉ (p.dropUntil x hx).support := by
+  intro hy_after_x
+  have hx_after_y : x ∈ (p.dropUntil y hy).support :=
+    mem_dropUntil_of_mem_takeUntil_ne
+      (G := G) p hy hx hy_prefix_x hyx
+  exact not_both_mem_dropUntil_on_simple_path
+    (G := G) (p := p) hp hy hx hy_after_x hx_after_y hyx
+
+private lemma not_mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t x y : α}
+    {p : G.Walk v t} (hp : p.IsPath)
+    (hx : x ∈ p.support) (hy : y ∈ p.support)
+    (hy_after_x : y ∈ (p.dropUntil x hx).support)
+    (hyx : y ≠ x) :
+    y ∉ (p.takeUntil x hx).support := by
+  intro hy_prefix_x
+  exact not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+    (G := G) (p := p) hp hx hy hy_prefix_x hyx hy_after_x
+
+private lemma mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t x y : α}
+    {p : G.Walk v t} (hp : p.IsPath)
+    (hx : x ∈ p.support) (hy : y ∈ p.support)
+    (hy_after_x : y ∈ (p.dropUntil x hx).support)
+    (hxy : x ≠ y) :
+    x ∈ (p.takeUntil y hy).support := by
+  by_contra hx_not_prefix_y
+  have hx_after_y :
+      x ∈ (p.dropUntil y hy).support :=
+    mem_dropUntil_of_mem_support_not_takeUntil
+      (G := G) p hy hx hx_not_prefix_y
+  exact not_both_mem_dropUntil_on_simple_path
+    (G := G) (p := p) hp hx hy hx_after_y hy_after_x hxy
+
+private lemma mem_takeUntil_of_mem_dropUntil_takeUntil_ne_on_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t a z b : α}
+    {p : G.Walk v t} (hp : p.IsPath)
+    (ha : a ∈ p.support) (hz : z ∈ p.support)
+    (hz_tail : z ∈ (p.dropUntil a ha).support)
+    (hb_mid : b ∈ ((p.dropUntil a ha).takeUntil z hz_tail).support)
+    (hbz : b ≠ z) :
+    b ∈ (p.takeUntil z hz).support := by
+  have hb_tail : b ∈ (p.dropUntil a ha).support :=
+    Walk.support_takeUntil_subset (p.dropUntil a ha) hz_tail hb_mid
+  have hz_after_b_tail :
+      z ∈ ((p.dropUntil a ha).dropUntil b hb_tail).support :=
+    mem_dropUntil_of_mem_takeUntil_ne
+      (G := G) (p.dropUntil a ha) hb_tail hz_tail hb_mid hbz
+  have hb : b ∈ p.support :=
+    Walk.support_dropUntil_subset p ha hb_tail
+  have hz_after_b : z ∈ (p.dropUntil b hb).support :=
+    mem_dropUntil_of_mem_nested_dropUntil
+      (G := G) (p := p) hp ha hb_tail hz_after_b_tail
+  exact mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+    (G := G) (p := p) hp hb hz hz_after_b hbz
+
+private lemma mem_dropUntil_takeUntil_of_mem_dropUntil_of_mem_takeUntil_on_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t a z b : α}
+    {p : G.Walk v t} (hp : p.IsPath)
+    (ha : a ∈ p.support) (hz : z ∈ p.support) (hb : b ∈ p.support)
+    (hz_tail : z ∈ (p.dropUntil a ha).support)
+    (hb_tail : b ∈ (p.dropUntil a ha).support)
+    (hb_prefix_z : b ∈ (p.takeUntil z hz).support)
+    (hbz : b ≠ z) :
+    b ∈ ((p.dropUntil a ha).takeUntil z hz_tail).support := by
+  by_contra hb_not_mid
+  have hb_after_z_tail :
+      b ∈ ((p.dropUntil a ha).dropUntil z hz_tail).support :=
+    mem_dropUntil_of_mem_support_not_takeUntil
+      (G := G) (p.dropUntil a ha) hz_tail hb_tail hb_not_mid
+  have hb_after_z :
+      b ∈ (p.dropUntil z hz).support :=
+    mem_dropUntil_of_mem_nested_dropUntil
+      (G := G) (p := p) hp ha hz_tail hb_after_z_tail
+  exact
+    (not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+      (G := G) (p := p) hp hz hb hb_prefix_z hbz) hb_after_z
+
+private lemma not_mem_right_bypass_of_takeUntil_dropUntil_around
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x a z : α}
+    (right : G.Walk v t) (rs : G.Walk v s)
+    (hrightPath : right.IsPath)
+    (hx_right : x ∈ right.support)
+    (ha_right : a ∈ right.support) (ha_rs : a ∈ rs.support)
+    (hz_right : z ∈ right.support)
+    (hz_tail : z ∈ (rs.dropUntil a ha_rs).support)
+    (ha_prefix_x : a ∈ (right.takeUntil x hx_right).support)
+    (hz_suffix_x : z ∈ (right.dropUntil x hx_right).support)
+    (hax : a ≠ x) (hzx : z ≠ x)
+    (hx_rs : x ∉ rs.support) :
+    x ∉ ((((right.takeUntil a ha_right).append
+      ((rs.dropUntil a ha_rs).takeUntil z hz_tail)).append
+      (right.dropUntil z hz_right)).toPath : G.Walk v t).support := by
+  intro hx_bypass
+  rcases mem_support_toPath_append_three_subset
+      (G := G)
+      (p := right.takeUntil a ha_right)
+      (q := (rs.dropUntil a ha_rs).takeUntil z hz_tail)
+      (r := right.dropUntil z hz_right)
+      hx_bypass with hx_prefix | hx_mid | hx_suffix
+  · exact
+      (not_mem_takeUntil_later_of_mem_takeUntil_of_support
+        (G := G) right hx_right ha_right ha_prefix_x hax) hx_prefix
+  · exact hx_rs
+      (Walk.support_dropUntil_subset rs ha_rs
+        (Walk.support_takeUntil_subset (rs.dropUntil a ha_rs) hz_tail hx_mid))
+  · exact
+      (not_both_mem_dropUntil_on_simple_path
+        (G := G) (p := right) hrightPath hx_right hz_right
+        hx_suffix hz_suffix_x (fun hxz => hzx hxz.symm))
+
+private lemma mem_support_toPath_left_rs_right_bridge_subset
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t y z q : α}
+    (left : G.Walk v s) (rs : G.Walk v s) (right : G.Walk v t)
+    (hy_left : y ∈ left.support) (hy_rs : y ∈ rs.support)
+    (hz_tail : z ∈ (rs.dropUntil y hy_rs).support)
+    (hz_right : z ∈ right.support)
+    (hq :
+      q ∈ ((((left.takeUntil y hy_left).append
+        ((rs.dropUntil y hy_rs).takeUntil z hz_tail)).append
+        (right.dropUntil z hz_right)).toPath : G.Walk v t).support) :
+    q ∈ left.support ∨ q ∈ rs.support ∨ q ∈ right.support := by
+  rcases mem_support_toPath_append_three_subset
+      (G := G)
+      (p := left.takeUntil y hy_left)
+      (q := (rs.dropUntil y hy_rs).takeUntil z hz_tail)
+      (r := right.dropUntil z hz_right)
+      hq with hq_left | hq_mid | hq_right
+  · exact Or.inl (Walk.support_takeUntil_subset left hy_left hq_left)
+  · exact Or.inr
+      (Or.inl
+        (Walk.support_dropUntil_subset rs hy_rs
+          (Walk.support_takeUntil_subset (rs.dropUntil y hy_rs) hz_tail
+            hq_mid)))
+  · exact Or.inr
+      (Or.inr (Walk.support_dropUntil_subset right hz_right hq_right))
+
+private lemma not_mem_left_rs_right_bridge_of_prefix_suffix
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y z : α}
+    (left : G.Walk v s) (rs : G.Walk v s) (right : G.Walk v t)
+    (_hleftPath : left.IsPath) (hrightPath : right.IsPath)
+    (hx_left : x ∈ left.support)
+    (hy_left : y ∈ left.support) (hy_rs : y ∈ rs.support)
+    (hz_tail : z ∈ (rs.dropUntil y hy_rs).support)
+    (hx_right : x ∈ right.support) (hz_right : z ∈ right.support)
+    (hy_prefix_x : y ∈ (left.takeUntil x hx_left).support)
+    (hz_suffix_x : z ∈ (right.dropUntil x hx_right).support)
+    (hyx : y ≠ x) (hzx : z ≠ x)
+    (hx_rs : x ∉ rs.support) :
+    x ∉ ((((left.takeUntil y hy_left).append
+      ((rs.dropUntil y hy_rs).takeUntil z hz_tail)).append
+      (right.dropUntil z hz_right)).toPath : G.Walk v t).support := by
+  intro hx_bridge
+  rcases mem_support_toPath_append_three_subset
+      (G := G)
+      (p := left.takeUntil y hy_left)
+      (q := (rs.dropUntil y hy_rs).takeUntil z hz_tail)
+      (r := right.dropUntil z hz_right)
+      hx_bridge with hx_prefix | hx_mid | hx_suffix
+  · exact
+      (not_mem_takeUntil_later_of_mem_takeUntil_of_support
+        (G := G) left hx_left hy_left hy_prefix_x hyx) hx_prefix
+  · exact hx_rs
+      (Walk.support_dropUntil_subset rs hy_rs
+        (Walk.support_takeUntil_subset (rs.dropUntil y hy_rs) hz_tail hx_mid))
+  · exact
+      (not_both_mem_dropUntil_on_simple_path
+        (G := G) (p := right) hrightPath hx_right hz_right
+        hx_suffix hz_suffix_x (fun hxz => hzx hxz.symm))
+
+private lemma not_mem_cross_swap_left_of_left_prefix_not_right
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y : α}
+    (left : G.Walk v s) (right : G.Walk v t)
+    (hleftPath : left.IsPath)
+    (hx_left : x ∈ left.support)
+    (hx_right : x ∈ right.support)
+    (hy_left : y ∈ left.support)
+    (hy_prefix_x : y ∈ (left.takeUntil x hx_left).support)
+    (hy_not_right : y ∉ right.support)
+    (hyx : y ≠ x) :
+    y ∉
+      ((((right.takeUntil x hx_right).append
+        (left.dropUntil x hx_left)).toPath) : G.Walk v s).support := by
+  intro hy_swap
+  have hy_raw :
+      y ∈ ((right.takeUntil x hx_right).append
+        (left.dropUntil x hx_left)).support :=
+    Walk.support_toPath_subset _ hy_swap
+  rw [Walk.mem_support_append_iff] at hy_raw
+  rcases hy_raw with hy_right_prefix | hy_left_suffix
+  · exact hy_not_right
+      (Walk.support_takeUntil_subset right hx_right hy_right_prefix)
+  · exact
+      (not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+        (G := G) (p := left) hleftPath hx_left hy_left
+        hy_prefix_x hyx) hy_left_suffix
+
+private lemma not_mem_dropUntil_of_after_on_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s w y : α}
+    {p : G.Walk v s} (hp : p.IsPath)
+    (hw : w ∈ p.support) (hy : y ∈ p.support)
+    (hy_not_prefix_w : y ∉ (p.takeUntil w hw).support)
+    (hyw : y ≠ w) :
+    w ∉ (p.dropUntil y hy).support := by
+  intro hw_after_y
+  have hy_after_w : y ∈ (p.dropUntil w hw).support :=
+    mem_dropUntil_of_mem_support_not_takeUntil
+      (G := G) p hw hy hy_not_prefix_w
+  exact not_both_mem_dropUntil_on_simple_path
+    (G := G) (p := p) hp hy hw hy_after_w hw_after_y hyw
+
+private lemma two_sided_middle_guard_of_first_noncommon_not_swap
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y a : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hy_rs : y ∈ rs.support)
+    (ha_tail : a ∈ (rs.dropUntil y hy_rs).support)
+    (hy_not_swap :
+      y ∉
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support)
+    (hw_not_after_y : w ∉ (rs.dropUntil y hy_rs).support)
+    (ha_not_swap :
+      a ∉
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support)
+    (hfirst_after_y :
+      ∀ q : α, q ≠ v → q ≠ y → q ≠ w →
+        (q ∈ (pair.1 : G.Walk v s).support ∨
+          q ∈ (pair.2 : G.Walk v t).support) →
+        ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+           q ∈ (pair.2 : G.Walk v t).support ∧ q ≠ x) →
+        q ∈ ((rs.dropUntil y hy_rs).takeUntil a ha_tail).support →
+        q = a) :
+      ∀ q : α, q ≠ v →
+        q ∈
+          (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+            ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+              G.Walk v s).support →
+        q ∈ ((rs.dropUntil y hy_rs).takeUntil a ha_tail).support →
+        q ∈ (pair.1 : G.Walk v s).support ∧
+          q ∈ (pair.2 : G.Walk v t).support := by
+  intro q hqv hq_swap hq_mid
+  by_cases hq_common :
+      q ∈ (pair.1 : G.Walk v s).support ∧
+        q ∈ (pair.2 : G.Walk v t).support
+  · exact hq_common
+  have hq_swap_raw :
+      q ∈ (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).support :=
+    Walk.support_toPath_subset _ hq_swap
+  have hq_old :
+      q ∈ (pair.1 : G.Walk v s).support ∨
+        q ∈ (pair.2 : G.Walk v t).support := by
+    rw [Walk.mem_support_append_iff] at hq_swap_raw
+    rcases hq_swap_raw with hq_right_prefix | hq_left_suffix
+    · exact Or.inr
+        (Walk.support_takeUntil_subset (pair.2 : G.Walk v t) hx_right
+          hq_right_prefix)
+    · exact Or.inl
+        (Walk.support_dropUntil_subset (pair.1 : G.Walk v s) hx_left
+          hq_left_suffix)
+  have hqy : q ≠ y := by
+    intro hqy_eq
+    exact hy_not_swap (by simpa [hqy_eq] using hq_swap)
+  have hqw : q ≠ w := by
+    intro hqw_eq
+    have hq_after_y :
+        q ∈ (rs.dropUntil y hy_rs).support :=
+      Walk.support_takeUntil_subset (rs.dropUntil y hy_rs) ha_tail hq_mid
+    exact hw_not_after_y (by simpa [hqw_eq] using hq_after_y)
+  have hq_bad :
+      ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+         q ∈ (pair.2 : G.Walk v t).support ∧ q ≠ x) := by
+    intro hq_common_ne
+    exact hq_common ⟨hq_common_ne.1, hq_common_ne.2.1⟩
+  have hqa : q = a :=
+    hfirst_after_y q hqv hqy hqw hq_old hq_bad hq_mid
+  exact False.elim (ha_not_swap (by simpa [hqa] using hq_swap))
+
+private lemma two_sided_middle_guard_of_first_noncommon_not_left_prefix_not_swap
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y a : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hy_rs : y ∈ rs.support)
+    (ha_tail : a ∈ (rs.dropUntil y hy_rs).support)
+    (hy_not_swap :
+      y ∉
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support)
+    (hw_not_after_y : w ∉ (rs.dropUntil y hy_rs).support)
+    (ha_not_swap :
+      a ∉
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support)
+    (hfirst_after_y :
+      ∀ q : α, q ≠ v → q ≠ y → q ≠ w →
+        (q ∈ (pair.1 : G.Walk v s).support ∨
+          q ∈ (pair.2 : G.Walk v t).support) →
+        ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+           q ∈ (pair.2 : G.Walk v t).support ∧ q ≠ x) →
+        q ∉ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        q ∈ ((rs.dropUntil y hy_rs).takeUntil a ha_tail).support →
+        q = a) :
+      ∀ q : α, q ≠ v →
+        q ∈
+          (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+            ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+              G.Walk v s).support →
+        q ∈ ((rs.dropUntil y hy_rs).takeUntil a ha_tail).support →
+        q ∈ (pair.1 : G.Walk v s).support ∧
+          q ∈ (pair.2 : G.Walk v t).support := by
+  intro q hqv hq_swap hq_mid
+  by_cases hq_common :
+      q ∈ (pair.1 : G.Walk v s).support ∧
+        q ∈ (pair.2 : G.Walk v t).support
+  · exact hq_common
+  have hq_swap_raw :
+      q ∈ (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).support :=
+    Walk.support_toPath_subset _ hq_swap
+  rw [Walk.mem_support_append_iff] at hq_swap_raw
+  have hq_old :
+      q ∈ (pair.1 : G.Walk v s).support ∨
+        q ∈ (pair.2 : G.Walk v t).support := by
+    rcases hq_swap_raw with hq_right_prefix | hq_left_suffix
+    · exact Or.inr
+        (Walk.support_takeUntil_subset (pair.2 : G.Walk v t) hx_right
+          hq_right_prefix)
+    · exact Or.inl
+        (Walk.support_dropUntil_subset (pair.1 : G.Walk v s) hx_left
+          hq_left_suffix)
+  have hq_not_left_prefix :
+      q ∉ ((pair.1 : G.Walk v s).takeUntil x hx_left).support := by
+    intro hq_left_prefix
+    rcases hq_swap_raw with hq_right_prefix | hq_left_suffix
+    · exact hq_common
+        ⟨Walk.support_takeUntil_subset (pair.1 : G.Walk v s) hx_left
+            hq_left_prefix,
+          Walk.support_takeUntil_subset (pair.2 : G.Walk v t) hx_right
+            hq_right_prefix⟩
+    · by_cases hqx : q = x
+      · exact hq_common
+          ⟨Walk.support_takeUntil_subset (pair.1 : G.Walk v s) hx_left
+              hq_left_prefix,
+            by simpa [hqx] using hx_right⟩
+      · exact
+          (not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+            (G := G) (p := (pair.1 : G.Walk v s)) pair.1.property
+            hx_left
+            (Walk.support_takeUntil_subset (pair.1 : G.Walk v s) hx_left
+              hq_left_prefix)
+            hq_left_prefix hqx) hq_left_suffix
+  have hqy : q ≠ y := by
+    intro hqy_eq
+    exact hy_not_swap (by simpa [hqy_eq] using hq_swap)
+  have hqw : q ≠ w := by
+    intro hqw_eq
+    have hq_after_y :
+        q ∈ (rs.dropUntil y hy_rs).support :=
+      Walk.support_takeUntil_subset (rs.dropUntil y hy_rs) ha_tail hq_mid
+    exact hw_not_after_y (by simpa [hqw_eq] using hq_after_y)
+  have hq_bad :
+      ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+         q ∈ (pair.2 : G.Walk v t).support ∧ q ≠ x) := by
+    intro hq_common_ne
+    exact hq_common ⟨hq_common_ne.1, hq_common_ne.2.1⟩
+  have hqa : q = a :=
+    hfirst_after_y q hqv hqy hqw hq_old hq_bad hq_not_left_prefix hq_mid
+  exact False.elim (ha_not_swap (by simpa [hqa] using hq_swap))
+
+private lemma exists_first_bridge_guard_counterexample
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hy_rs : y ∈ rs.support)
+    (hz_tail : z ∈ (rs.dropUntil y hy_rs).support)
+    (hguard_fail :
+      ¬ ∀ q : α, q ≠ v →
+        q ∈
+          (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+            ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+              G.Walk v s).support →
+        q ∈ ((rs.dropUntil y hy_rs).takeUntil z hz_tail).support →
+        q ∈ (pair.1 : G.Walk v s).support ∧
+          q ∈ (pair.2 : G.Walk v t).support) :
+    ∃ q : α,
+      ∃ hq_mid : q ∈ ((rs.dropUntil y hy_rs).takeUntil z hz_tail).support,
+      q ≠ v ∧
+      q ∈
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support ∧
+      ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+        q ∈ (pair.2 : G.Walk v t).support) ∧
+      ∀ r : α, r ≠ v →
+        r ∈
+          (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+            ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+              G.Walk v s).support →
+        ¬ (r ∈ (pair.1 : G.Walk v s).support ∧
+          r ∈ (pair.2 : G.Walk v t).support) →
+        r ∈
+          (((rs.dropUntil y hy_rs).takeUntil z hz_tail).takeUntil q
+            hq_mid).support →
+        r = q := by
+  classical
+  let swapLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let middle : G.Walk y z := (rs.dropUntil y hy_rs).takeUntil z hz_tail
+  let S : Finset α :=
+    Finset.univ.filter fun q =>
+      q ≠ v ∧
+      q ∈ (swapLeft : G.Walk v s).support ∧
+      ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+        q ∈ (pair.2 : G.Walk v t).support)
+  have hfail := hguard_fail
+  push_neg at hfail
+  rcases hfail with ⟨q, hqv, hq_swap, hq_mid, hq_not_common_raw⟩
+  have hq_not_common :
+      ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+        q ∈ (pair.2 : G.Walk v t).support) := by
+    intro hq_common
+    exact hq_not_common_raw hq_common.1 hq_common.2
+  have hnonempty : {q ∈ S | q ∈ middle.support}.Nonempty := by
+    refine ⟨q, ?_⟩
+    rw [Finset.mem_filter]
+    exact ⟨by
+      rw [Finset.mem_filter]
+      exact ⟨by simp, hqv, by simpa [swapLeft] using hq_swap,
+        hq_not_common⟩,
+      by simpa [middle] using hq_mid⟩
+  rcases exists_first_mem_support_forall_mem_takeUntil_imp_eq
+      (G := G) middle S hnonempty with
+    ⟨q0, hq0S, hq0_mid, hfirst⟩
+  have hq0v : q0 ≠ v := by
+    simpa [S] using (Finset.mem_filter.mp hq0S).2.1
+  have hq0_swap :
+      q0 ∈ (swapLeft : G.Walk v s).support := by
+    simpa [S] using (Finset.mem_filter.mp hq0S).2.2.1
+  have hq0_not_common :
+      ¬ (q0 ∈ (pair.1 : G.Walk v s).support ∧
+        q0 ∈ (pair.2 : G.Walk v t).support) := by
+    simpa [S] using (Finset.mem_filter.mp hq0S).2.2.2
+  refine ⟨q0, by simpa [middle] using hq0_mid, hq0v,
+    by simpa [swapLeft] using hq0_swap, hq0_not_common, ?_⟩
+  intro r hrv hr_swap hr_not_common hr_prefix
+  have hrS : r ∈ S := by
+    rw [Finset.mem_filter]
+    exact ⟨by simp, hrv, by simpa [swapLeft] using hr_swap,
+      hr_not_common⟩
+  exact hfirst r hrS (by simpa [middle] using hr_prefix)
+
+private lemma bridge_guard_counterexample_side
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x q : α}
+    {pair : G.Path v s × G.Path v t}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hq_swap :
+      q ∈
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support)
+    (hq_not_common :
+      ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+        q ∈ (pair.2 : G.Walk v t).support)) :
+    (q ∈ (pair.2 : G.Walk v t).support ∧
+      q ∉ (pair.1 : G.Walk v s).support ∧
+      q ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support) ∨
+    (q ∈ (pair.1 : G.Walk v s).support ∧
+      q ∉ (pair.2 : G.Walk v t).support ∧
+      q ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support) := by
+  have hq_swap_raw :
+      q ∈ (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).support :=
+    Walk.support_toPath_subset _ hq_swap
+  rw [Walk.mem_support_append_iff] at hq_swap_raw
+  rcases hq_swap_raw with hq_right_prefix | hq_left_suffix
+  · have hq_right :
+        q ∈ (pair.2 : G.Walk v t).support :=
+      Walk.support_takeUntil_subset (pair.2 : G.Walk v t) hx_right
+        hq_right_prefix
+    have hq_not_left :
+        q ∉ (pair.1 : G.Walk v s).support := by
+      intro hq_left
+      exact hq_not_common ⟨hq_left, hq_right⟩
+    exact Or.inl ⟨hq_right, hq_not_left, hq_right_prefix⟩
+  · have hq_left :
+        q ∈ (pair.1 : G.Walk v s).support :=
+      Walk.support_dropUntil_subset (pair.1 : G.Walk v s) hx_left
+        hq_left_suffix
+    have hq_not_right :
+        q ∉ (pair.2 : G.Walk v t).support := by
+      intro hq_right
+      exact hq_not_common ⟨hq_left, hq_right⟩
+    exact Or.inr ⟨hq_left, hq_not_right, hq_left_suffix⟩
+
+private lemma terminal_set_fan_two_sided_bridge_commonCard_lt_of_middle_guard
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_rs : y ∈ rs.support)
+    (hz_tail : z ∈ (rs.dropUntil y hy_rs).support)
+    (hz_right : z ∈ (pair.2 : G.Walk v t).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hz_suffix_x :
+      z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support)
+    (hyx : y ≠ x)
+    (hzx : z ≠ x)
+    (hmiddle_guard :
+      ∀ q : α, q ≠ v →
+        q ∈
+          (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+            ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+              G.Walk v s).support →
+        q ∈ ((rs.dropUntil y hy_rs).takeUntil z hz_tail).support →
+        q ∈ (pair.1 : G.Walk v s).support ∧
+          q ∈ (pair.2 : G.Walk v t).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let swapLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let bridgeRight : G.Path v t :=
+    ((((pair.1 : G.Walk v s).takeUntil y hy_left).append
+      ((rs.dropUntil y hy_rs).takeUntil z hz_tail)).append
+      ((pair.2 : G.Walk v t).dropUntil z hz_right)).toPath
+  let bridged : G.Path v s × G.Path v t := (swapLeft, bridgeRight)
+  refine ⟨bridged, ?_⟩
+  have hx_not_bridge :
+      x ∉ (bridgeRight : G.Walk v t).support := by
+    simpa [bridgeRight] using
+      (not_mem_left_rs_right_bridge_of_prefix_suffix
+        (G := G) (left := (pair.1 : G.Walk v s)) (rs := rs)
+        (right := (pair.2 : G.Walk v t))
+        pair.1.property pair.2.property hx_left hy_left hy_rs hz_tail
+        hx_right hz_right hy_prefix_x hz_suffix_x hyx hzx hx_rs)
+  have hcommon_subset_old_without_x :
+      (((swapLeft : G.Walk v s).support.toFinset ∩
+          (bridgeRight : G.Walk v t).support.toFinset).erase v) ⊆
+        (((pair.1 : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset).erase v).erase x := by
+    intro q hq
+    rw [Finset.mem_erase, Finset.mem_inter] at hq
+    rcases hq with ⟨hqv, hq_swap, hq_bridge⟩
+    have hq_swap_walk : q ∈ (swapLeft : G.Walk v s).support := by
+      simpa using hq_swap
+    have hq_bridge_walk : q ∈ (bridgeRight : G.Walk v t).support := by
+      simpa using hq_bridge
+    have hqx : q ≠ x := by
+      intro hqx_eq
+      exact hx_not_bridge (by simpa [hqx_eq] using hq_bridge_walk)
+    have hq_swap_raw :
+        q ∈ (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).support :=
+      Walk.support_toPath_subset _ hq_swap_walk
+    rw [Walk.mem_support_append_iff] at hq_swap_raw
+    rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
+    refine ⟨hqx, hqv, ?_, ?_⟩
+    rcases mem_support_toPath_append_three_subset
+        (G := G)
+        (p := (pair.1 : G.Walk v s).takeUntil y hy_left)
+        (q := (rs.dropUntil y hy_rs).takeUntil z hz_tail)
+        (r := (pair.2 : G.Walk v t).dropUntil z hz_right)
+        (by simpa [bridgeRight] using hq_bridge_walk) with
+      hq_left_prefix | hq_mid | hq_right_suffix
+    · exact
+        by simpa using
+          (Walk.support_takeUntil_subset (pair.1 : G.Walk v s) hy_left
+            hq_left_prefix)
+    · exact by
+        simpa using
+          (hmiddle_guard q hqv (by simpa [swapLeft] using hq_swap_walk)
+            hq_mid).1
+    · rcases hq_swap_raw with hq_right_prefix | hq_left_suffix
+      · have hq_right :
+            q ∈ (pair.2 : G.Walk v t).support :=
+          Walk.support_takeUntil_subset (pair.2 : G.Walk v t) hx_right
+            hq_right_prefix
+        have hq_after_x :
+            q ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support :=
+          mem_dropUntil_of_mem_dropUntil_of_mem_dropUntil
+            (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
+            hx_right hz_right hz_suffix_x hq_right_suffix
+        exact False.elim
+          ((not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+            (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
+            hx_right hq_right hq_right_prefix hqx) hq_after_x)
+      · exact
+          by simpa using
+            (Walk.support_dropUntil_subset (pair.1 : G.Walk v s) hx_left
+              hq_left_suffix)
+    · rcases hq_swap_raw with hq_right_prefix | hq_left_suffix
+      · exact
+          by simpa using
+            (Walk.support_takeUntil_subset (pair.2 : G.Walk v t) hx_right
+              hq_right_prefix)
+      · rcases mem_support_toPath_append_three_subset
+          (G := G)
+          (p := (pair.1 : G.Walk v s).takeUntil y hy_left)
+          (q := (rs.dropUntil y hy_rs).takeUntil z hz_tail)
+          (r := (pair.2 : G.Walk v t).dropUntil z hz_right)
+          (by simpa [bridgeRight] using hq_bridge_walk) with
+        hq_left_prefix | hq_mid | hq_right_suffix
+        · have hq_left :
+              q ∈ (pair.1 : G.Walk v s).support :=
+            Walk.support_dropUntil_subset (pair.1 : G.Walk v s) hx_left
+              hq_left_suffix
+          have hq_prefix_x :
+              q ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support :=
+            mem_takeUntil_of_mem_takeUntil_of_mem_takeUntil
+              (G := G) (pair.1 : G.Walk v s) hx_left hy_left
+              hy_prefix_x hq_left_prefix
+          exact False.elim
+            ((not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+              (G := G) (p := (pair.1 : G.Walk v s)) pair.1.property
+              hx_left hq_left hq_prefix_x hqx) hq_left_suffix)
+        · exact by
+            simpa using
+              (hmiddle_guard q hqv (by simpa [swapLeft] using hq_swap_walk)
+                hq_mid).2
+        · exact
+            by simpa using
+              (Walk.support_dropUntil_subset (pair.2 : G.Walk v t) hz_right
+                hq_right_suffix)
+  simpa [terminalPathPairCommonCard, bridged, swapLeft, bridgeRight] using
+    (common_support_erase_card_lt_of_subset_erase_common
+      (G := G) (v := v) (s := s) (t := t)
+      (qs := (pair.1 : G.Walk v s))
+      (qt := (pair.2 : G.Walk v t))
+      (qs' := (swapLeft : G.Walk v s))
+      (qt' := (bridgeRight : G.Walk v t))
+      (x := x) hcommon_subset_old_without_x hx_left hx_right hxv)
+
+private lemma not_mem_right_rs_left_bridge_of_prefix_suffix
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x a b : α}
+    (left : G.Walk v s) (rs : G.Walk v s) (right : G.Walk v t)
+    (hleftPath : left.IsPath) (_hrightPath : right.IsPath)
+    (hx_left : x ∈ left.support)
+    (hx_right : x ∈ right.support)
+    (ha_right : a ∈ right.support) (ha_rs : a ∈ rs.support)
+    (hb_tail : b ∈ (rs.dropUntil a ha_rs).support)
+    (hb_left : b ∈ left.support)
+    (ha_prefix_x : a ∈ (right.takeUntil x hx_right).support)
+    (hb_suffix_x : b ∈ (left.dropUntil x hx_left).support)
+    (hax : a ≠ x) (hbx : b ≠ x)
+    (hx_rs : x ∉ rs.support) :
+    x ∉ ((((right.takeUntil a ha_right).append
+      ((rs.dropUntil a ha_rs).takeUntil b hb_tail)).append
+      (left.dropUntil b hb_left)).toPath : G.Walk v s).support := by
+  intro hx_bridge
+  rcases mem_support_toPath_append_three_subset
+      (G := G)
+      (p := right.takeUntil a ha_right)
+      (q := (rs.dropUntil a ha_rs).takeUntil b hb_tail)
+      (r := left.dropUntil b hb_left)
+      hx_bridge with hx_right_prefix | hx_mid | hx_left_suffix
+  · exact
+      (not_mem_takeUntil_later_of_mem_takeUntil_of_support
+        (G := G) right hx_right ha_right ha_prefix_x hax)
+      hx_right_prefix
+  · exact hx_rs
+      (Walk.support_dropUntil_subset rs ha_rs
+        (Walk.support_takeUntil_subset (rs.dropUntil a ha_rs) hb_tail
+          hx_mid))
+  · exact
+      (not_both_mem_dropUntil_on_simple_path
+        (G := G) (p := left) hleftPath hx_left hb_left
+        hx_left_suffix hb_suffix_x (fun hxb => hbx hxb.symm))
+
+private lemma not_mem_left_bypass_of_prefix_suffix
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s x y a : α}
+    (left : G.Walk v s) (rs : G.Walk v s)
+    (hleftPath : left.IsPath)
+    (hx_left : x ∈ left.support)
+    (hy_left : y ∈ left.support) (hy_rs : y ∈ rs.support)
+    (ha_tail : a ∈ (rs.dropUntil y hy_rs).support)
+    (ha_left : a ∈ left.support)
+    (hy_prefix_x : y ∈ (left.takeUntil x hx_left).support)
+    (ha_suffix_x : a ∈ (left.dropUntil x hx_left).support)
+    (hyx : y ≠ x) (hax : a ≠ x)
+    (hx_rs : x ∉ rs.support) :
+    x ∉ ((((left.takeUntil y hy_left).append
+      ((rs.dropUntil y hy_rs).takeUntil a ha_tail)).append
+      (left.dropUntil a ha_left)).toPath : G.Walk v s).support := by
+  intro hx_bypass
+  rcases mem_support_toPath_append_three_subset
+      (G := G)
+      (p := left.takeUntil y hy_left)
+      (q := (rs.dropUntil y hy_rs).takeUntil a ha_tail)
+      (r := left.dropUntil a ha_left)
+      hx_bypass with hx_prefix | hx_mid | hx_suffix
+  · exact
+      (not_mem_takeUntil_later_of_mem_takeUntil_of_support
+        (G := G) left hx_left hy_left hy_prefix_x hyx) hx_prefix
+  · exact hx_rs
+      (Walk.support_dropUntil_subset rs hy_rs
+        (Walk.support_takeUntil_subset (rs.dropUntil y hy_rs) ha_tail
+          hx_mid))
+  · exact
+      (not_both_mem_dropUntil_on_simple_path
+        (G := G) (p := left) hleftPath hx_left ha_left
+        hx_suffix ha_suffix_x (fun hxa => hax hxa.symm))
+
+private lemma terminal_set_fan_left_bypass_commonCard_lt_of_segment_right_guard
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y a : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_rs : y ∈ rs.support)
+    (ha_left : a ∈ (pair.1 : G.Walk v s).support)
+    (ha_tail : a ∈ (rs.dropUntil y hy_rs).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (ha_suffix_x :
+      a ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support)
+    (hyx : y ≠ x)
+    (hax : a ≠ x)
+    (hsegment_right_guard :
+      ∀ q : α, q ≠ v →
+        q ∈ (pair.2 : G.Walk v t).support →
+        q ∈ ((rs.dropUntil y hy_rs).takeUntil a ha_tail).support →
+        q ∈ (pair.1 : G.Walk v s).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let leftBypass : G.Path v s :=
+    ((((pair.1 : G.Walk v s).takeUntil y hy_left).append
+      ((rs.dropUntil y hy_rs).takeUntil a ha_tail)).append
+      ((pair.1 : G.Walk v s).dropUntil a ha_left)).toPath
+  let bypassPair : G.Path v s × G.Path v t := (leftBypass, pair.2)
+  refine ⟨bypassPair, ?_⟩
+  have hx_not_bypass :
+      x ∉ (leftBypass : G.Walk v s).support := by
+    simpa [leftBypass] using
+      (not_mem_left_bypass_of_prefix_suffix
+        (G := G) (left := (pair.1 : G.Walk v s)) (rs := rs)
+        pair.1.property hx_left hy_left hy_rs ha_tail ha_left
+        hy_prefix_x ha_suffix_x hyx hax hx_rs)
+  have hcommon_subset_old_without_x :
+      (((leftBypass : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset).erase v) ⊆
+        (((pair.1 : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset).erase v).erase x := by
+    intro q hq
+    rw [Finset.mem_erase, Finset.mem_inter] at hq
+    rcases hq with ⟨hqv, hq_bypass, hq_right⟩
+    have hq_bypass_walk : q ∈ (leftBypass : G.Walk v s).support := by
+      simpa using hq_bypass
+    rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
+    refine ⟨?_, hqv, ?_, by simpa using hq_right⟩
+    · intro hqx
+      exact hx_not_bypass (by simpa [hqx] using hq_bypass_walk)
+    · rcases mem_support_toPath_append_three_subset
+          (G := G)
+          (p := (pair.1 : G.Walk v s).takeUntil y hy_left)
+          (q := (rs.dropUntil y hy_rs).takeUntil a ha_tail)
+          (r := (pair.1 : G.Walk v s).dropUntil a ha_left)
+          (by simpa [leftBypass] using hq_bypass_walk) with
+        hq_prefix | hq_middle | hq_suffix
+      · exact
+          by simpa using
+            (Walk.support_takeUntil_subset (pair.1 : G.Walk v s)
+              hy_left hq_prefix)
+      · exact by
+          simpa using hsegment_right_guard q hqv (by simpa using hq_right)
+            hq_middle
+      · exact
+          by simpa using
+            (Walk.support_dropUntil_subset (pair.1 : G.Walk v s)
+              ha_left hq_suffix)
+  simpa [terminalPathPairCommonCard, bypassPair] using
+    (common_support_erase_card_lt_of_subset_erase_common
+      (G := G) (v := v) (s := s) (t := t)
+      (qs := (pair.1 : G.Walk v s))
+      (qt := (pair.2 : G.Walk v t))
+      (qs' := (leftBypass : G.Walk v s))
+      (qt' := (pair.2 : G.Walk v t))
+      (x := x) hcommon_subset_old_without_x hx_left hx_right hxv)
+
+private lemma terminal_set_fan_left_bypass_alt_commonCard_lt_of_middle_guard
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x a b : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (ha_right : a ∈ (pair.2 : G.Walk v t).support)
+    (ha_rs : a ∈ rs.support)
+    (hb_tail : b ∈ (rs.dropUntil a ha_rs).support)
+    (hb_left : b ∈ (pair.1 : G.Walk v s).support)
+    (ha_prefix_x :
+      a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hb_suffix_x :
+      b ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support)
+    (hax : a ≠ x)
+    (hbx : b ≠ x)
+    (hmiddle_guard :
+      ∀ q : α, q ≠ v →
+        q ∈ ((rs.dropUntil a ha_rs).takeUntil b hb_tail).support →
+        q ∈
+          (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+            ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+              G.Walk v t).support →
+        q ∈ (pair.1 : G.Walk v s).support ∧
+          q ∈ (pair.2 : G.Walk v t).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let bypassLeft : G.Path v s :=
+    ((((pair.2 : G.Walk v t).takeUntil a ha_right).append
+      ((rs.dropUntil a ha_rs).takeUntil b hb_tail)).append
+      ((pair.1 : G.Walk v s).dropUntil b hb_left)).toPath
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let bypassPair : G.Path v s × G.Path v t := (bypassLeft, altRight)
+  refine ⟨bypassPair, ?_⟩
+  have hx_not_bypassLeft :
+      x ∉ (bypassLeft : G.Walk v s).support := by
+    simpa [bypassLeft] using
+      (not_mem_right_rs_left_bridge_of_prefix_suffix
+        (G := G) (left := (pair.1 : G.Walk v s)) (rs := rs)
+        (right := (pair.2 : G.Walk v t))
+        pair.1.property pair.2.property hx_left hx_right
+        ha_right ha_rs hb_tail hb_left ha_prefix_x hb_suffix_x hax hbx
+        hx_rs)
+  have hcommon_subset_old_without_x :
+      (((bypassLeft : G.Walk v s).support.toFinset ∩
+          (altRight : G.Walk v t).support.toFinset).erase v) ⊆
+        (((pair.1 : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset).erase v).erase x := by
+    intro q hq
+    rw [Finset.mem_erase, Finset.mem_inter] at hq
+    rcases hq with ⟨hqv, hq_bypass, hq_alt⟩
+    have hq_bypass_walk : q ∈ (bypassLeft : G.Walk v s).support := by
+      simpa using hq_bypass
+    have hq_alt_walk : q ∈ (altRight : G.Walk v t).support := by
+      simpa using hq_alt
+    have hqx : q ≠ x := by
+      intro hqx_eq
+      exact hx_not_bypassLeft (by simpa [hqx_eq] using hq_bypass_walk)
+    have hq_alt_raw :
+        q ∈ (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).support :=
+      Walk.support_toPath_subset _ hq_alt_walk
+    rw [Walk.mem_support_append_iff] at hq_alt_raw
+    rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
+    refine ⟨hqx, hqv, ?_, ?_⟩
+    rcases mem_support_toPath_append_three_subset
+        (G := G)
+        (p := (pair.2 : G.Walk v t).takeUntil a ha_right)
+        (q := (rs.dropUntil a ha_rs).takeUntil b hb_tail)
+        (r := (pair.1 : G.Walk v s).dropUntil b hb_left)
+        (by simpa [bypassLeft] using hq_bypass_walk) with
+      hq_right_prefix | hq_mid | hq_left_suffix
+    · rcases hq_alt_raw with hq_left_prefix | hq_right_suffix
+      · exact
+          by simpa using
+            (Walk.support_takeUntil_subset (pair.1 : G.Walk v s) hx_left
+              hq_left_prefix)
+      · have hq_right :
+            q ∈ (pair.2 : G.Walk v t).support :=
+          Walk.support_takeUntil_subset (pair.2 : G.Walk v t) ha_right
+            hq_right_prefix
+        have hq_prefix_x :
+            q ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support :=
+          mem_takeUntil_of_mem_takeUntil_of_mem_takeUntil
+            (G := G) (pair.2 : G.Walk v t) hx_right ha_right
+            ha_prefix_x hq_right_prefix
+        exact False.elim
+          ((not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+            (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
+            hx_right hq_right hq_prefix_x hqx) hq_right_suffix)
+    · exact by
+        simpa using
+          (hmiddle_guard q hqv hq_mid (by simpa [altRight] using hq_alt_walk)).1
+    · exact
+        by simpa using
+          (Walk.support_dropUntil_subset (pair.1 : G.Walk v s) hb_left
+            hq_left_suffix)
+    · rcases mem_support_toPath_append_three_subset
+        (G := G)
+        (p := (pair.2 : G.Walk v t).takeUntil a ha_right)
+        (q := (rs.dropUntil a ha_rs).takeUntil b hb_tail)
+        (r := (pair.1 : G.Walk v s).dropUntil b hb_left)
+        (by simpa [bypassLeft] using hq_bypass_walk) with
+      hq_right_prefix | hq_mid | hq_left_suffix
+      · exact
+          by simpa using
+            (Walk.support_takeUntil_subset (pair.2 : G.Walk v t) ha_right
+              hq_right_prefix)
+      · exact by
+          simpa using
+            (hmiddle_guard q hqv hq_mid (by simpa [altRight] using hq_alt_walk)).2
+      · rcases hq_alt_raw with hq_left_prefix | hq_right_suffix
+        · have hq_left :
+              q ∈ (pair.1 : G.Walk v s).support :=
+            Walk.support_dropUntil_subset (pair.1 : G.Walk v s) hb_left
+              hq_left_suffix
+          have hq_after_x :
+              q ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support :=
+            mem_dropUntil_of_mem_dropUntil_of_mem_dropUntil
+              (G := G) (p := (pair.1 : G.Walk v s)) pair.1.property
+              hx_left hb_left hb_suffix_x hq_left_suffix
+          exact False.elim
+            ((not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+              (G := G) (p := (pair.1 : G.Walk v s)) pair.1.property
+              hx_left hq_left hq_left_prefix hqx) hq_after_x)
+        · exact
+            by simpa using
+              (Walk.support_dropUntil_subset (pair.2 : G.Walk v t) hx_right
+                hq_right_suffix)
+  simpa [terminalPathPairCommonCard, bypassPair, bypassLeft, altRight] using
+    (common_support_erase_card_lt_of_subset_erase_common
+      (G := G) (v := v) (s := s) (t := t)
+      (qs := (pair.1 : G.Walk v s))
+      (qt := (pair.2 : G.Walk v t))
+      (qs' := (bypassLeft : G.Walk v s))
+      (qt' := (altRight : G.Walk v t))
+      (x := x) hcommon_subset_old_without_x hx_left hx_right hxv)
+
+private lemma terminal_set_fan_right_bypass_commonCard_lt_of_segment_left_guard
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x a z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (ha_right : a ∈ (pair.2 : G.Walk v t).support)
+    (ha_rs : a ∈ rs.support)
+    (hz_right : z ∈ (pair.2 : G.Walk v t).support)
+    (hz_tail : z ∈ (rs.dropUntil a ha_rs).support)
+    (ha_prefix_x :
+      a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hz_suffix_x :
+      z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support)
+    (hax : a ≠ x)
+    (hzx : z ≠ x)
+    (hsegment_left_guard :
+      ∀ y : α, y ≠ v →
+        y ∈ (pair.1 : G.Walk v s).support →
+        y ∈ ((rs.dropUntil a ha_rs).takeUntil z hz_tail).support →
+        y ∈ (pair.2 : G.Walk v t).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let rightBypass : G.Path v t :=
+    ((((pair.2 : G.Walk v t).takeUntil a ha_right).append
+      ((rs.dropUntil a ha_rs).takeUntil z hz_tail)).append
+      ((pair.2 : G.Walk v t).dropUntil z hz_right)).toPath
+  let bypassPair : G.Path v s × G.Path v t := (pair.1, rightBypass)
+  refine ⟨bypassPair, ?_⟩
+  have hx_not_bypass :
+      x ∉ (rightBypass : G.Walk v t).support := by
+    simpa [rightBypass] using
+      (not_mem_right_bypass_of_takeUntil_dropUntil_around
+        (G := G) (right := (pair.2 : G.Walk v t)) (rs := rs)
+        pair.2.property hx_right ha_right ha_rs hz_right hz_tail
+        ha_prefix_x hz_suffix_x hax hzx hx_rs)
+  have hcommon_subset_old_without_x :
+      ((pair.1 : G.Walk v s).support.toFinset ∩
+          (rightBypass : G.Walk v t).support.toFinset).erase v ⊆
+        (((pair.1 : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset).erase v).erase x := by
+    intro y hy
+    rw [Finset.mem_erase, Finset.mem_inter] at hy
+    rcases hy with ⟨hyv, hy_left, hy_bypass⟩
+    have hy_bypass_walk : y ∈ (rightBypass : G.Walk v t).support := by
+      simpa using hy_bypass
+    rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
+    refine ⟨?_, hyv, by simpa using hy_left, ?_⟩
+    · intro hyx
+      exact hx_not_bypass (by simpa [hyx] using hy_bypass_walk)
+    · rcases mem_support_toPath_append_three_subset
+          (G := G)
+          (p := (pair.2 : G.Walk v t).takeUntil a ha_right)
+          (q := (rs.dropUntil a ha_rs).takeUntil z hz_tail)
+          (r := (pair.2 : G.Walk v t).dropUntil z hz_right)
+          (by simpa [rightBypass] using hy_bypass_walk) with
+        hy_prefix | hy_middle | hy_suffix
+      · exact
+          by simpa using
+            (Walk.support_takeUntil_subset (pair.2 : G.Walk v t)
+              ha_right hy_prefix)
+      · exact by
+          simpa using hsegment_left_guard y hyv (by simpa using hy_left) hy_middle
+      · exact
+          by simpa using
+            (Walk.support_dropUntil_subset (pair.2 : G.Walk v t)
+              hz_right hy_suffix)
+  simpa [terminalPathPairCommonCard, bypassPair] using
+    (common_support_erase_card_lt_of_subset_erase_common
+      (G := G) (v := v) (s := s) (t := t)
+      (qs := (pair.1 : G.Walk v s))
+      (qt := (pair.2 : G.Walk v t))
+      (qs' := (pair.1 : G.Walk v s))
+      (qt' := (rightBypass : G.Walk v t))
+      (x := x) hcommon_subset_old_without_x hx_left hx_right hxv)
+
+private lemma terminal_set_fan_bridge_right_prefix_stage_commonCard_lt
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x a z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (ha_right : a ∈ (pair.2 : G.Walk v t).support)
+    (ha_rs : a ∈ rs.support)
+    (hz_right : z ∈ (pair.2 : G.Walk v t).support)
+    (hz_rs : z ∈ rs.support)
+    (ha_prefix_x :
+      a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hz_suffix_x :
+      z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support)
+    (ha_prefix_z : a ∈ (rs.takeUntil z hz_rs).support)
+    (haz : a ≠ z)
+    (hzx : z ≠ x)
+    (hsegment_left_guard :
+      ∀ y : α, y ≠ v →
+        y ∈ (pair.1 : G.Walk v s).support →
+        y ∈ ((rs.dropUntil a ha_rs).takeUntil z
+          (mem_dropUntil_of_mem_takeUntil_ne
+            (G := G) rs ha_rs hz_rs ha_prefix_z haz)).support →
+        y ∈ (pair.2 : G.Walk v t).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  have hz_tail_a :
+      z ∈ (rs.dropUntil a ha_rs).support :=
+    mem_dropUntil_of_mem_takeUntil_ne
+      (G := G) rs ha_rs hz_rs ha_prefix_z haz
+  have hax : a ≠ x := by
+    intro hax_eq
+    exact hx_rs (by simpa [hax_eq] using ha_rs)
+  exact terminal_set_fan_right_bypass_commonCard_lt_of_segment_left_guard
+    (G := G) (v := v) (s := s) (t := t)
+    (x := x) (a := a) (z := z) (pair := pair) (rs := rs)
+    hx_left hx_right hxv hx_rs ha_right ha_rs hz_right hz_tail_a
+    ha_prefix_x hz_suffix_x hax hzx
+    (by simpa [hz_tail_a] using hsegment_left_guard)
+
+private lemma terminal_set_fan_bridge_left_suffix_stage_commonCard_lt
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y a : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_rs : y ∈ rs.support)
+    (ha_left : a ∈ (pair.1 : G.Walk v s).support)
+    (ha_rs : a ∈ rs.support)
+    (ha_tail : a ∈ (rs.dropUntil y hy_rs).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (ha_suffix_x :
+      a ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support)
+    (hyx : y ≠ x)
+    (hsegment_right_guard :
+      ∀ q : α, q ≠ v →
+        q ∈ (pair.2 : G.Walk v t).support →
+        q ∈ ((rs.dropUntil y hy_rs).takeUntil a ha_tail).support →
+        q ∈ (pair.1 : G.Walk v s).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  have hax : a ≠ x := by
+    intro hax_eq
+    exact hx_rs (by simpa [hax_eq] using ha_rs)
+  exact terminal_set_fan_left_bypass_commonCard_lt_of_segment_right_guard
+    (G := G) (v := v) (s := s) (t := t)
+    (x := x) (y := y) (a := a) (pair := pair) (rs := rs)
+    hx_left hx_right hxv hx_rs hy_left hy_rs ha_left ha_tail
+    hy_prefix_x ha_suffix_x hyx hax hsegment_right_guard
+
+private lemma exists_segment_left_only_of_not_segment_left_guard
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t a z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    {ha_rs : a ∈ rs.support}
+    {hz_tail : z ∈ (rs.dropUntil a ha_rs).support}
+    (hnot :
+      ¬ ∀ y : α, y ≠ v →
+        y ∈ (pair.1 : G.Walk v s).support →
+        y ∈ ((rs.dropUntil a ha_rs).takeUntil z hz_tail).support →
+        y ∈ (pair.2 : G.Walk v t).support) :
+    ∃ y : α,
+      y ≠ v ∧
+      y ∈ (pair.1 : G.Walk v s).support ∧
+      y ∈ ((rs.dropUntil a ha_rs).takeUntil z hz_tail).support ∧
+      y ∉ (pair.2 : G.Walk v t).support := by
+  classical
+  push_neg at hnot
+  rcases hnot with ⟨y, hyv, hy_left, hy_mid, hy_not_right⟩
+  exact ⟨y, hyv, hy_left, hy_mid, hy_not_right⟩
+
+private lemma exists_first_segment_left_only_of_not_segment_left_guard
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t a z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    {ha_rs : a ∈ rs.support}
+    {hz_tail : z ∈ (rs.dropUntil a ha_rs).support}
+    (hnot :
+      ¬ ∀ y : α, y ≠ v →
+        y ∈ (pair.1 : G.Walk v s).support →
+        y ∈ ((rs.dropUntil a ha_rs).takeUntil z hz_tail).support →
+        y ∈ (pair.2 : G.Walk v t).support) :
+    ∃ y : α,
+      ∃ hy_seg :
+        y ∈ ((rs.dropUntil a ha_rs).takeUntil z hz_tail).support,
+      y ≠ v ∧
+      y ∈ (pair.1 : G.Walk v s).support ∧
+      y ∉ (pair.2 : G.Walk v t).support ∧
+      ∀ q : α, q ≠ v →
+        q ∈ (pair.1 : G.Walk v s).support →
+        q ∉ (pair.2 : G.Walk v t).support →
+        q ∈
+          (((rs.dropUntil a ha_rs).takeUntil z hz_tail).takeUntil y
+            hy_seg).support →
+        q = y := by
+  classical
+  let seg : G.Walk a z := (rs.dropUntil a ha_rs).takeUntil z hz_tail
+  let S : Finset α :=
+    Finset.univ.filter fun q =>
+      q ≠ v ∧
+      q ∈ (pair.1 : G.Walk v s).support ∧
+      q ∉ (pair.2 : G.Walk v t).support
+  have hnonempty : {q ∈ S | q ∈ seg.support}.Nonempty := by
+    push_neg at hnot
+    rcases hnot with ⟨y, hyv, hy_left, hy_seg, hy_not_right⟩
+    refine ⟨y, ?_⟩
+    rw [Finset.mem_filter]
+    exact ⟨by
+      rw [Finset.mem_filter]
+      exact ⟨by simp, hyv, hy_left, hy_not_right⟩,
+      by simpa [seg] using hy_seg⟩
+  rcases exists_first_mem_support_forall_mem_takeUntil_imp_eq
+      (G := G) seg S hnonempty with
+    ⟨y, hyS, hy_seg, hfirst⟩
+  have hyv : y ≠ v := by
+    simpa [S] using (Finset.mem_filter.mp hyS).2.1
+  have hy_left : y ∈ (pair.1 : G.Walk v s).support := by
+    simpa [S] using (Finset.mem_filter.mp hyS).2.2.1
+  have hy_not_right : y ∉ (pair.2 : G.Walk v t).support := by
+    simpa [S] using (Finset.mem_filter.mp hyS).2.2.2
+  refine ⟨y, by simpa [seg] using hy_seg, hyv, hy_left, hy_not_right, ?_⟩
+  intro q hqv hq_left hq_not_right hq_prefix
+  have hqS : q ∈ S := by
+    rw [Finset.mem_filter]
+    exact ⟨by simp, hqv, hq_left, hq_not_right⟩
+  exact hfirst q hqS (by simpa [seg] using hq_prefix)
+
+private lemma exists_first_segment_right_only_of_not_segment_right_guard
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t a z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    {ha_rs : a ∈ rs.support}
+    {hz_tail : z ∈ (rs.dropUntil a ha_rs).support}
+    (hnot :
+      ¬ ∀ y : α, y ≠ v →
+        y ∈ (pair.2 : G.Walk v t).support →
+        y ∈ ((rs.dropUntil a ha_rs).takeUntil z hz_tail).support →
+        y ∈ (pair.1 : G.Walk v s).support) :
+    ∃ y : α,
+      ∃ hy_seg :
+        y ∈ ((rs.dropUntil a ha_rs).takeUntil z hz_tail).support,
+      y ≠ v ∧
+      y ∈ (pair.2 : G.Walk v t).support ∧
+      y ∉ (pair.1 : G.Walk v s).support ∧
+      ∀ q : α, q ≠ v →
+        q ∈ (pair.2 : G.Walk v t).support →
+        q ∉ (pair.1 : G.Walk v s).support →
+        q ∈
+          (((rs.dropUntil a ha_rs).takeUntil z hz_tail).takeUntil y
+            hy_seg).support →
+        q = y := by
+  classical
+  let seg : G.Walk a z := (rs.dropUntil a ha_rs).takeUntil z hz_tail
+  let S : Finset α :=
+    Finset.univ.filter fun q =>
+      q ≠ v ∧
+      q ∈ (pair.2 : G.Walk v t).support ∧
+      q ∉ (pair.1 : G.Walk v s).support
+  have hnonempty : {q ∈ S | q ∈ seg.support}.Nonempty := by
+    push_neg at hnot
+    rcases hnot with ⟨y, hyv, hy_right, hy_seg, hy_not_left⟩
+    refine ⟨y, ?_⟩
+    rw [Finset.mem_filter]
+    exact ⟨by
+      rw [Finset.mem_filter]
+      exact ⟨by simp, hyv, hy_right, hy_not_left⟩,
+      by simpa [seg] using hy_seg⟩
+  rcases exists_first_mem_support_forall_mem_takeUntil_imp_eq
+      (G := G) seg S hnonempty with
+    ⟨y, hyS, hy_seg, hfirst⟩
+  have hyv : y ≠ v := by
+    simpa [S] using (Finset.mem_filter.mp hyS).2.1
+  have hy_right : y ∈ (pair.2 : G.Walk v t).support := by
+    simpa [S] using (Finset.mem_filter.mp hyS).2.2.1
+  have hy_not_left : y ∉ (pair.1 : G.Walk v s).support := by
+    simpa [S] using (Finset.mem_filter.mp hyS).2.2.2
+  refine ⟨y, by simpa [seg] using hy_seg, hyv, hy_right, hy_not_left, ?_⟩
+  intro q hqv hq_right hq_not_left hq_prefix
+  have hqS : q ∈ S := by
+    rw [Finset.mem_filter]
+    exact ⟨by simp, hqv, hq_right, hq_not_left⟩
+  exact hfirst q hqS (by simpa [seg] using hq_prefix)
+
+private lemma terminal_set_fan_right_prefix_stage_left_suffix_witness_commonCard_lt
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x a z b : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (ha_right : a ∈ (pair.2 : G.Walk v t).support)
+    (_ha_not_left : a ∉ (pair.1 : G.Walk v s).support)
+    (ha_rs : a ∈ rs.support)
+    (ha_prefix_x :
+      a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (_hz_right : z ∈ (pair.2 : G.Walk v t).support)
+    (hz_tail : z ∈ (rs.dropUntil a ha_rs).support)
+    (_hz_suffix_x :
+      z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support)
+    (hb_mid :
+      b ∈ ((rs.dropUntil a ha_rs).takeUntil z hz_tail).support)
+    (_hbv : b ≠ v)
+    (hb_left : b ∈ (pair.1 : G.Walk v s).support)
+    (hb_not_right : b ∉ (pair.2 : G.Walk v t).support)
+    (hb_first_left_only :
+      ∀ q : α, q ≠ v →
+        q ∈ (pair.1 : G.Walk v s).support →
+        q ∉ (pair.2 : G.Walk v t).support →
+        q ∈
+          (((rs.dropUntil a ha_rs).takeUntil z hz_tail).takeUntil b
+            hb_mid).support →
+        q = b)
+    (hb_suffix_x :
+      b ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  have hb_tail_a : b ∈ (rs.dropUntil a ha_rs).support :=
+    Walk.support_takeUntil_subset (rs.dropUntil a ha_rs) hz_tail hb_mid
+  have hax : a ≠ x := by
+    intro hax_eq
+    exact hx_rs (by simpa [hax_eq] using ha_rs)
+  have hbx : b ≠ x := by
+    intro hbx_eq
+    exact hb_not_right (by simpa [hbx_eq] using hx_right)
+  by_cases hleft_bypass_guard :
+      ∀ q : α, q ≠ v →
+        q ∈ ((rs.dropUntil a ha_rs).takeUntil b hb_tail_a).support →
+        q ∈ (altRight : G.Walk v t).support →
+        q ∈ (pair.1 : G.Walk v s).support ∧
+          q ∈ (pair.2 : G.Walk v t).support
+  · exact
+      terminal_set_fan_left_bypass_alt_commonCard_lt_of_middle_guard
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (a := a) (b := b)
+        (pair := pair) (rs := rs)
+        hx_left hx_right hxv hx_rs ha_right ha_rs hb_tail_a hb_left
+        ha_prefix_x hb_suffix_x hax hbx
+        (by simpa [altRight] using hleft_bypass_guard)
+  · have hb_not_alt : b ∉ (altRight : G.Walk v t).support := by
+      intro hb_alt
+      have hb_alt_raw :
+          b ∈ (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+            ((pair.2 : G.Walk v t).dropUntil x hx_right)).support :=
+        Walk.support_toPath_subset _ hb_alt
+      rw [Walk.mem_support_append_iff] at hb_alt_raw
+      rcases hb_alt_raw with hb_left_prefix | hb_right_suffix
+      · exact
+          (not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+            (G := G) (p := (pair.1 : G.Walk v s)) pair.1.property
+            hx_left hb_left hb_left_prefix hbx) hb_suffix_x
+      · exact hb_not_right
+          (Walk.support_dropUntil_subset (pair.2 : G.Walk v t)
+            hx_right hb_right_suffix)
+    have hguard_fail := hleft_bypass_guard
+    push_neg at hguard_fail
+    rcases hguard_fail with ⟨c, hcv, hc_mid_ab, hc_alt, hc_not_common⟩
+    have hc_tail_a : c ∈ (rs.dropUntil a ha_rs).support :=
+      Walk.support_takeUntil_subset (rs.dropUntil a ha_rs) hb_tail_a
+        hc_mid_ab
+    have hcx : c ≠ x := by
+      intro hcx_eq
+      exact hx_rs
+        (by
+          have hc_rs : c ∈ rs.support :=
+            Walk.support_dropUntil_subset rs ha_rs hc_tail_a
+          simpa [hcx_eq] using hc_rs)
+    have hc_old_union :
+        c ∈ (pair.1 : G.Walk v s).support ∨
+          c ∈ (pair.2 : G.Walk v t).support := by
+      simpa [altRight] using
+        (mem_support_toPath_append_takeUntil_dropUntil_subset
+          (G := G)
+          (p := (pair.1 : G.Walk v s))
+          (q := (pair.2 : G.Walk v t))
+          (y := x) (z := c)
+          hx_left hx_right hc_alt)
+    by_cases hc_left : c ∈ (pair.1 : G.Walk v s).support
+    · have hc_not_right : c ∉ (pair.2 : G.Walk v t).support := by
+        intro hc_right
+        exact hc_not_common hc_left hc_right
+      have hc_prefix_b_in_seg :
+          c ∈
+            (((rs.dropUntil a ha_rs).takeUntil z hz_tail).takeUntil b
+              hb_mid).support := by
+        simpa [Walk.takeUntil_takeUntil] using hc_mid_ab
+      have hcb : c = b :=
+        hb_first_left_only c hcv hc_left hc_not_right hc_prefix_b_in_seg
+      exact False.elim (hb_not_alt (by simpa [hcb] using hc_alt))
+    · have hc_right : c ∈ (pair.2 : G.Walk v t).support := by
+        rcases hc_old_union with hc_left' | hc_right
+        · exact False.elim (hc_left hc_left')
+        · exact hc_right
+      have hc_suffix_x :
+          c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support := by
+        have hc_alt_raw :
+            c ∈ (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+              ((pair.2 : G.Walk v t).dropUntil x hx_right)).support :=
+          Walk.support_toPath_subset _ hc_alt
+        rw [Walk.mem_support_append_iff] at hc_alt_raw
+        rcases hc_alt_raw with hc_left_prefix | hc_right_suffix
+        · exact False.elim
+            (hc_left
+              (Walk.support_takeUntil_subset (pair.1 : G.Walk v s)
+                hx_left hc_left_prefix))
+        · exact hc_right_suffix
+      have hac : a ≠ c := by
+        intro hac_eq
+        have hc_prefix_x :
+            c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support := by
+          simpa [hac_eq] using ha_prefix_x
+        exact
+          (not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+            (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
+            hx_right hc_right hc_prefix_x hcx) hc_suffix_x
+      have hsegment_guard_c :
+          ∀ q : α, q ≠ v →
+            q ∈ (pair.1 : G.Walk v s).support →
+            q ∈ ((rs.dropUntil a ha_rs).takeUntil c hc_tail_a).support →
+            q ∈ (pair.2 : G.Walk v t).support := by
+        intro q hqv hq_left hq_mid_ac
+        by_cases hq_right : q ∈ (pair.2 : G.Walk v t).support
+        · exact hq_right
+        · have hq_mid_ab :
+              q ∈ ((rs.dropUntil a ha_rs).takeUntil b hb_tail_a).support :=
+            mem_takeUntil_of_mem_takeUntil_of_mem_takeUntil
+              (G := G) (p := rs.dropUntil a ha_rs)
+              (x := b) (y := c) (z := q)
+              hb_tail_a hc_tail_a hc_mid_ab hq_mid_ac
+          have hq_prefix_b_in_seg :
+              q ∈
+                (((rs.dropUntil a ha_rs).takeUntil z hz_tail).takeUntil b
+                  hb_mid).support := by
+            simpa [Walk.takeUntil_takeUntil] using hq_mid_ab
+          have hqb : q = b :=
+            hb_first_left_only q hqv hq_left hq_right hq_prefix_b_in_seg
+          have hcb_ne : c ≠ b := by
+            intro hcb_eq
+            exact hb_not_right (by simpa [hcb_eq] using hc_right)
+          have hb_not_mid_c :
+              b ∉ ((rs.dropUntil a ha_rs).takeUntil c hc_tail_a).support :=
+            not_mem_takeUntil_later_of_mem_takeUntil_of_support
+              (G := G) (p := rs.dropUntil a ha_rs)
+              hb_tail_a hc_tail_a hc_mid_ab hcb_ne
+          exact False.elim (hb_not_mid_c (by simpa [hqb] using hq_mid_ac))
+      exact
+        terminal_set_fan_right_bypass_commonCard_lt_of_segment_left_guard
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (a := a) (z := c)
+          (pair := pair) (rs := rs)
+          hx_left hx_right hxv hx_rs ha_right ha_rs hc_right hc_tail_a
+          ha_prefix_x hc_suffix_x hax hcx hsegment_guard_c
+
+private lemma terminal_set_fan_left_suffix_stage_right_suffix_witness_commonCard_lt
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y a z r : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_rs : y ∈ rs.support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (ha_tail : a ∈ (rs.dropUntil y hy_rs).support)
+    (hz_tail : z ∈ (rs.dropUntil y hy_rs).support)
+    (ha_mid :
+      a ∈ ((rs.dropUntil y hy_rs).takeUntil z hz_tail).support)
+    (ha_not_right : a ∉ (pair.2 : G.Walk v t).support)
+    (hr_mid :
+      r ∈ ((rs.dropUntil y hy_rs).takeUntil a ha_tail).support)
+    (_hrv : r ≠ v)
+    (hr_right : r ∈ (pair.2 : G.Walk v t).support)
+    (hr_not_left : r ∉ (pair.1 : G.Walk v s).support)
+    (hr_suffix_x :
+      r ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support)
+    (hfirst_bridge_bad :
+      ∀ q : α, q ≠ v →
+        q ∈
+          (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+            ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+              G.Walk v s).support →
+        ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+          q ∈ (pair.2 : G.Walk v t).support) →
+        q ∈
+          (((rs.dropUntil y hy_rs).takeUntil z hz_tail).takeUntil a
+            ha_mid).support →
+        q = a) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  have hr_tail_y : r ∈ (rs.dropUntil y hy_rs).support :=
+    Walk.support_takeUntil_subset (rs.dropUntil y hy_rs) ha_tail hr_mid
+  have hyx : y ≠ x := by
+    intro hyx_eq
+    exact hx_rs (by simpa [hyx_eq] using hy_rs)
+  have hrx : r ≠ x := by
+    intro hrx_eq
+    exact hr_not_left (by simpa [hrx_eq] using hx_left)
+  have hra : r ≠ a := by
+    intro hra_eq
+    exact ha_not_right (by simpa [hra_eq] using hr_right)
+  have ha_not_prefix_r :
+      a ∉ ((rs.dropUntil y hy_rs).takeUntil r hr_tail_y).support :=
+    not_mem_takeUntil_later_of_mem_takeUntil_of_support
+      (G := G) (p := rs.dropUntil y hy_rs)
+      (x := a) (z := r) ha_tail hr_tail_y hr_mid hra
+  have hmiddle_guard :
+      ∀ q : α, q ≠ v →
+        q ∈
+          (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+            ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+              G.Walk v s).support →
+        q ∈ ((rs.dropUntil y hy_rs).takeUntil r hr_tail_y).support →
+        q ∈ (pair.1 : G.Walk v s).support ∧
+          q ∈ (pair.2 : G.Walk v t).support := by
+    intro q hqv hq_swap hq_mid_yr
+    by_cases hq_common :
+        q ∈ (pair.1 : G.Walk v s).support ∧
+          q ∈ (pair.2 : G.Walk v t).support
+    · exact hq_common
+    · have hq_prefix_a_base :
+          q ∈ ((rs.dropUntil y hy_rs).takeUntil a ha_tail).support :=
+        mem_takeUntil_of_mem_takeUntil_of_mem_takeUntil
+          (G := G) (p := rs.dropUntil y hy_rs)
+          (x := a) (y := r) (z := q)
+          ha_tail hr_tail_y hr_mid hq_mid_yr
+      have hq_prefix_a_full :
+          q ∈
+            (((rs.dropUntil y hy_rs).takeUntil z hz_tail).takeUntil a
+              ha_mid).support := by
+        simpa [Walk.takeUntil_takeUntil] using hq_prefix_a_base
+      have hqa : q = a :=
+        hfirst_bridge_bad q hqv hq_swap hq_common hq_prefix_a_full
+      exact False.elim (ha_not_prefix_r (by simpa [hqa] using hq_mid_yr))
+  exact terminal_set_fan_two_sided_bridge_commonCard_lt_of_middle_guard
+    (G := G) (v := v) (s := s) (t := t)
+    (x := x) (y := y) (z := r)
+    (pair := pair) (rs := rs)
+    hx_left hx_right hxv hx_rs hy_left hy_rs hr_tail_y hr_right
+    hy_prefix_x hr_suffix_x hyx hrx hmiddle_guard
+
+private lemma mem_dropUntil_of_mem_dropUntil_of_mem_takeUntil_ne
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t x y z : α}
+    {p : G.Walk v t} (hp : p.IsPath)
+    (hx : x ∈ p.support) (hy : y ∈ p.support) (hz : z ∈ p.support)
+    (hz_after_x : z ∈ (p.dropUntil x hx).support)
+    (hz_prefix_y : z ∈ (p.takeUntil y hy).support)
+    (hzy : z ≠ y) :
+    y ∈ (p.dropUntil x hx).support := by
+  have hy_after_z :
+      y ∈ (p.dropUntil z hz).support :=
+    mem_dropUntil_of_mem_takeUntil_ne
+      (G := G) p hz hy hz_prefix_y hzy
+  exact mem_dropUntil_of_mem_dropUntil_of_mem_dropUntil
+    (G := G) (p := p) hp hx hz hz_after_x hy_after_z
 
 private lemma exists_last_mem_support_forall_mem_dropUntil_imp_eq
     {α : Type*} [DecidableEq α]
@@ -4504,6 +6689,341 @@ private lemma exists_first_bad_pivot_on_rs
     exact ⟨by simp, hyv, by simpa [altRight] using hy_alt, hybad⟩
   exact hfirst y hyS hyprefix
 
+private lemma not_mem_altRight_of_first_bad_right_only_prefix_left_only
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z y : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    {hzrs : z ∈ rs.support}
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hfirst_bad :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      ∀ y : α, y ≠ v →
+        y ∈ (altRight : G.Walk v t).support →
+        ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+           y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) →
+        y ∈ (rs.takeUntil z hzrs).support →
+        y = z)
+    (hyv : y ≠ v)
+    (hy_prefix_z : y ∈ (rs.takeUntil z hzrs).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support) :
+    y ∉
+      ((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath :
+          G.Walk v t).support := by
+  intro hy_alt
+  dsimp at hfirst_bad
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  have hy_bad :
+      ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+         y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) := by
+    intro hy_common
+    exact hy_not_right hy_common.2.1
+  have hy_eq_z : y = z :=
+    hfirst_bad y hyv (by simpa [altRight] using hy_alt) hy_bad hy_prefix_z
+  exact hz_not_left (by simpa [hy_eq_z] using hy_left)
+
+private lemma not_mem_altRight_of_first_bad_right_only_before_pivot_left_only
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z y : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hrsPath : rs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    {hzrs : z ∈ rs.support}
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hfirst_bad :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      ∀ y : α, y ≠ v →
+        y ∈ (altRight : G.Walk v t).support →
+        ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+           y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) →
+        y ∈ (rs.takeUntil z hzrs).support →
+        y = z)
+    (hy_rs : y ∈ rs.support)
+    (hz_after_y : z ∈ (rs.dropUntil y hy_rs).support)
+    (hyz : y ≠ z)
+    (hyv : y ≠ v)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support) :
+    y ∉
+      ((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath :
+          G.Walk v t).support := by
+  have hy_prefix_z :
+      y ∈ (rs.takeUntil z hzrs).support :=
+    mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+      (G := G) (p := rs) hrsPath hy_rs hzrs hz_after_y hyz
+  exact
+    not_mem_altRight_of_first_bad_right_only_prefix_left_only
+      (G := G) (v := v) (s := s) (t := t) (x := x)
+      (z := z) (y := y) (pair := pair) (rs := rs)
+      hx_left hx_right hz_not_left hfirst_bad hyv hy_prefix_z
+      hy_left hy_not_right
+
+private lemma exists_first_noncommon_old_residual_on_rs
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hres_exists :
+      ∃ z : α, z ∈ rs.support ∧ z ≠ v ∧ z ≠ w ∧
+        (z ∈ (pair.1 : G.Walk v s).support ∨
+          z ∈ (pair.2 : G.Walk v t).support) ∧
+        ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+           z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x)) :
+    ∃ z : α, ∃ hzrs : z ∈ rs.support,
+      z ≠ v ∧ z ≠ w ∧
+      (z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support) ∧
+      ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+         z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x) ∧
+      ∀ y : α,
+        y ≠ v →
+        y ≠ w →
+        (y ∈ (pair.1 : G.Walk v s).support ∨
+          y ∈ (pair.2 : G.Walk v t).support) →
+        ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+           y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) →
+        y ∈ (rs.takeUntil z hzrs).support →
+        y = z := by
+  classical
+  let S : Finset α :=
+    Finset.univ.filter fun y =>
+      y ≠ v ∧ y ≠ w ∧
+      (y ∈ (pair.1 : G.Walk v s).support ∨
+        y ∈ (pair.2 : G.Walk v t).support) ∧
+      ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+         y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x)
+  have hnonempty : {y ∈ S | y ∈ rs.support}.Nonempty := by
+    rcases hres_exists with ⟨z, hzrs, hzv, hzw, hz_old, hz_bad⟩
+    refine ⟨z, ?_⟩
+    rw [Finset.mem_filter]
+    exact ⟨by
+      rw [Finset.mem_filter]
+      exact ⟨by simp, hzv, hzw, hz_old, hz_bad⟩,
+      hzrs⟩
+  rcases exists_first_mem_support_forall_mem_takeUntil_imp_eq
+      (G := G) rs S hnonempty with
+    ⟨z, hzS, hzrs, hfirst⟩
+  have hzv : z ≠ v := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.1
+  have hzw : z ≠ w := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.1
+  have hz_old :
+      z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.2.1
+  have hz_bad :
+      ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+         z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x) := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.2.2
+  refine ⟨z, hzrs, hzv, hzw, hz_old, hz_bad, ?_⟩
+  intro y hyv hyw hy_old hy_bad hyprefix
+  have hyS : y ∈ S := by
+    rw [Finset.mem_filter]
+    exact ⟨by simp, hyv, hyw, hy_old, hy_bad⟩
+  exact hfirst y hyS hyprefix
+
+private lemma exists_first_noncommon_old_residual_on_rs_dropUntil
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hy_rs : y ∈ rs.support)
+    (hres_exists :
+      ∃ z : α, z ∈ (rs.dropUntil y hy_rs).support ∧
+        z ≠ v ∧ z ≠ y ∧ z ≠ w ∧
+        (z ∈ (pair.1 : G.Walk v s).support ∨
+          z ∈ (pair.2 : G.Walk v t).support) ∧
+        ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+           z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x)) :
+    ∃ z : α, ∃ hz_tail : z ∈ (rs.dropUntil y hy_rs).support,
+      z ∈ rs.support ∧
+      z ≠ v ∧ z ≠ y ∧ z ≠ w ∧
+      (z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support) ∧
+      ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+         z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x) ∧
+      ∀ a : α,
+        a ≠ v →
+        a ≠ y →
+        a ≠ w →
+        (a ∈ (pair.1 : G.Walk v s).support ∨
+          a ∈ (pair.2 : G.Walk v t).support) →
+        ¬ (a ∈ (pair.1 : G.Walk v s).support ∧
+           a ∈ (pair.2 : G.Walk v t).support ∧ a ≠ x) →
+        a ∈ ((rs.dropUntil y hy_rs).takeUntil z hz_tail).support →
+        a = z := by
+  classical
+  let tail : G.Walk y s := rs.dropUntil y hy_rs
+  let S : Finset α :=
+    Finset.univ.filter fun a =>
+      a ≠ v ∧ a ≠ y ∧ a ≠ w ∧
+      (a ∈ (pair.1 : G.Walk v s).support ∨
+        a ∈ (pair.2 : G.Walk v t).support) ∧
+      ¬ (a ∈ (pair.1 : G.Walk v s).support ∧
+         a ∈ (pair.2 : G.Walk v t).support ∧ a ≠ x)
+  have hnonempty : {a ∈ S | a ∈ tail.support}.Nonempty := by
+    rcases hres_exists with ⟨z, hz_tail, hzv, hzy, hzw, hz_old, hz_bad⟩
+    refine ⟨z, ?_⟩
+    rw [Finset.mem_filter]
+    exact ⟨by
+      rw [Finset.mem_filter]
+      exact ⟨by simp, hzv, hzy, hzw, hz_old, hz_bad⟩,
+      by simpa [tail] using hz_tail⟩
+  rcases exists_first_mem_support_forall_mem_takeUntil_imp_eq
+      (G := G) tail S hnonempty with
+    ⟨z, hzS, hz_tail, hfirst⟩
+  have hzv : z ≠ v := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.1
+  have hzy : z ≠ y := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.1
+  have hzw : z ≠ w := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.2.1
+  have hz_old :
+      z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.2.2.1
+  have hz_bad :
+      ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+         z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x) := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.2.2.2
+  have hz_rs : z ∈ rs.support := by
+    exact Walk.support_dropUntil_subset rs hy_rs (by simpa [tail] using hz_tail)
+  refine ⟨z, by simpa [tail] using hz_tail, hz_rs, hzv, hzy, hzw,
+    hz_old, hz_bad, ?_⟩
+  intro a hav hay haw ha_old ha_bad ha_prefix
+  have haS : a ∈ S := by
+    rw [Finset.mem_filter]
+    exact ⟨by simp, hav, hay, haw, ha_old, ha_bad⟩
+  exact hfirst a haS (by simpa [tail] using ha_prefix)
+
+private lemma exists_first_noncommon_old_residual_not_left_prefix_on_rs_dropUntil
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hy_rs : y ∈ rs.support)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hres_exists :
+      ∃ z : α, z ∈ (rs.dropUntil y hy_rs).support ∧
+        z ≠ v ∧ z ≠ y ∧ z ≠ w ∧
+        (z ∈ (pair.1 : G.Walk v s).support ∨
+          z ∈ (pair.2 : G.Walk v t).support) ∧
+        ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+           z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x) ∧
+        z ∉ ((pair.1 : G.Walk v s).takeUntil x hx_left).support) :
+    ∃ z : α, ∃ hz_tail : z ∈ (rs.dropUntil y hy_rs).support,
+      z ∈ rs.support ∧
+      z ≠ v ∧ z ≠ y ∧ z ≠ w ∧
+      (z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support) ∧
+      ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+         z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x) ∧
+      z ∉ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∀ a : α,
+        a ≠ v →
+        a ≠ y →
+        a ≠ w →
+        (a ∈ (pair.1 : G.Walk v s).support ∨
+          a ∈ (pair.2 : G.Walk v t).support) →
+        ¬ (a ∈ (pair.1 : G.Walk v s).support ∧
+           a ∈ (pair.2 : G.Walk v t).support ∧ a ≠ x) →
+        a ∉ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        a ∈ ((rs.dropUntil y hy_rs).takeUntil z hz_tail).support →
+        a = z := by
+  classical
+  let tail : G.Walk y s := rs.dropUntil y hy_rs
+  let S : Finset α :=
+    Finset.univ.filter fun a =>
+      a ≠ v ∧ a ≠ y ∧ a ≠ w ∧
+      (a ∈ (pair.1 : G.Walk v s).support ∨
+        a ∈ (pair.2 : G.Walk v t).support) ∧
+      ¬ (a ∈ (pair.1 : G.Walk v s).support ∧
+         a ∈ (pair.2 : G.Walk v t).support ∧ a ≠ x) ∧
+      a ∉ ((pair.1 : G.Walk v s).takeUntil x hx_left).support
+  have hnonempty : {a ∈ S | a ∈ tail.support}.Nonempty := by
+    rcases hres_exists with
+      ⟨z, hz_tail, hzv, hzy, hzw, hz_old, hz_bad, hz_not_left_prefix⟩
+    refine ⟨z, ?_⟩
+    rw [Finset.mem_filter]
+    exact ⟨by
+      rw [Finset.mem_filter]
+      exact
+        ⟨by simp, hzv, hzy, hzw, hz_old, hz_bad,
+          hz_not_left_prefix⟩,
+      by simpa [tail] using hz_tail⟩
+  rcases exists_first_mem_support_forall_mem_takeUntil_imp_eq
+      (G := G) tail S hnonempty with
+    ⟨z, hzS, hz_tail, hfirst⟩
+  have hzv : z ≠ v := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.1
+  have hzy : z ≠ y := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.1
+  have hzw : z ≠ w := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.2.1
+  have hz_old :
+      z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.2.2.1
+  have hz_bad :
+      ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+         z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x) := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.2.2.2.1
+  have hz_not_left_prefix :
+      z ∉ ((pair.1 : G.Walk v s).takeUntil x hx_left).support := by
+    simpa [S] using (Finset.mem_filter.mp hzS).2.2.2.2.2.2
+  have hz_rs : z ∈ rs.support := by
+    exact Walk.support_dropUntil_subset rs hy_rs (by simpa [tail] using hz_tail)
+  refine ⟨z, by simpa [tail] using hz_tail, hz_rs, hzv, hzy, hzw,
+    hz_old, hz_bad, hz_not_left_prefix, ?_⟩
+  intro a hav hay haw ha_old ha_bad ha_not_left_prefix ha_prefix
+  have haS : a ∈ S := by
+    rw [Finset.mem_filter]
+    exact
+      ⟨by simp, hav, hay, haw, ha_old, ha_bad, ha_not_left_prefix⟩
+  exact hfirst a haS (by simpa [tail] using ha_prefix)
+
+private lemma exists_next_noncommon_old_residual_after_left_of_later_right_only
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hy_rs : y ∈ rs.support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hzrs : z ∈ rs.support)
+    (hy_prefix_z : y ∈ (rs.takeUntil z hzrs).support)
+    (hzv : z ≠ v)
+    (hzw : z ≠ w)
+    (hz_right : z ∈ (pair.2 : G.Walk v t).support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support) :
+    ∃ a : α, a ∈ (rs.dropUntil y hy_rs).support ∧
+      a ≠ v ∧ a ≠ y ∧ a ≠ w ∧
+      (a ∈ (pair.1 : G.Walk v s).support ∨
+        a ∈ (pair.2 : G.Walk v t).support) ∧
+      ¬ (a ∈ (pair.1 : G.Walk v s).support ∧
+         a ∈ (pair.2 : G.Walk v t).support ∧ a ≠ x) := by
+  have hzy : z ≠ y := by
+    intro hzy_eq
+    exact hz_not_left (by simpa [hzy_eq] using hy_left)
+  have hz_after_y : z ∈ (rs.dropUntil y hy_rs).support :=
+    mem_dropUntil_of_mem_takeUntil_ne
+      (G := G) rs hy_rs hzrs hy_prefix_z hzy.symm
+  refine ⟨z, hz_after_y, hzv, hzy, hzw, Or.inr hz_right, ?_⟩
+  intro hz_common
+  exact hz_not_left hz_common.1
+
 private lemma terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false_of_altRight
     {α : Type*} [Fintype α] [DecidableEq α]
     {G : SimpleGraph α} {v s t x z y : α}
@@ -4547,7 +7067,1372 @@ private lemma terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_fa
       hy_new_bad hy_drop
   exact hz_not_right (by simpa [hy_eq_z] using hy_right)
 
-lemma terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_false
+private lemma terminal_set_fan_left_suffix_retention_right_suffix_residual_bad_false_of_altRight
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z y : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hzrs : z ∈ rs.support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hfirst_bad :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      ∀ y : α, y ≠ v →
+        y ∈ (altRight : G.Walk v t).support →
+        ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+           y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) →
+        y ∈ (rs.takeUntil z hzrs).support →
+        y = z)
+    (hyv : y ≠ v)
+    (hy_prefix : y ∈ (rs.takeUntil z hzrs).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_alt :
+      y ∈
+        ((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath :
+            G.Walk v t).support)
+    (hy_new_bad :
+      ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+         y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x)) :
+    False := by
+  classical
+  dsimp at hfirst_bad
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  have hy_eq_z : y = z :=
+    hfirst_bad y hyv (by simpa [altRight] using hy_alt)
+      hy_new_bad hy_prefix
+  exact hz_not_left (by simpa [hy_eq_z] using hy_left)
+
+private lemma mem_left_takeUntil_of_left_not_right_and_mem_altRight
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y : α}
+    (left : G.Walk v s) (right : G.Walk v t)
+    (hx_left : x ∈ left.support)
+    (hx_right : x ∈ right.support)
+    (hy_not_right : y ∉ right.support)
+    (hy_alt :
+      y ∈ (((left.takeUntil x hx_left).append
+        (right.dropUntil x hx_right)).toPath : G.Walk v t).support) :
+    y ∈ (left.takeUntil x hx_left).support := by
+  have hy_raw :
+      y ∈ ((left.takeUntil x hx_left).append
+        (right.dropUntil x hx_right)).support :=
+    Walk.support_toPath_subset _ hy_alt
+  rw [Walk.mem_support_append_iff] at hy_raw
+  rcases hy_raw with hy_prefix | hy_suffix
+  · exact hy_prefix
+  · exact False.elim
+      (hy_not_right
+        (Walk.support_dropUntil_subset right hx_right hy_suffix))
+
+private lemma not_mem_left_prefix_fallback_of_not_right_suffix
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y : α}
+    (right : G.Walk v t) (rs : G.Walk v s)
+    (hx_right : x ∈ right.support)
+    (hy_right : y ∈ right.support)
+    (hy_rs : y ∈ rs.support)
+    (hx_rs : x ∉ rs.support)
+    (hy_not_suffix : y ∉ (right.dropUntil x hx_right).support) :
+    x ∉
+      ((((right.takeUntil y hy_right).append
+        (rs.dropUntil y hy_rs)).toPath) : G.Walk v s).support := by
+  intro hx_fallback
+  have hx_raw :
+      x ∈ ((right.takeUntil y hy_right).append
+        (rs.dropUntil y hy_rs)).support :=
+    Walk.support_toPath_subset _ hx_fallback
+  rw [Walk.mem_support_append_iff] at hx_raw
+  rcases hx_raw with hx_prefix | hx_drop
+  · have hxy : x ≠ y := by
+      intro hxy_eq
+      exact hx_rs (by simpa [hxy_eq] using hy_rs)
+    exact hy_not_suffix
+      (mem_dropUntil_of_mem_takeUntil_ne
+        (G := G) right hx_right hy_right hx_prefix hxy)
+  · exact hx_rs (Walk.support_dropUntil_subset rs hy_rs hx_drop)
+
+private lemma not_mem_left_suffix_fallback_of_not_left_prefix
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s x y : α}
+    (left : G.Walk v s) (rs : G.Walk v s)
+    (hleftPath : left.IsPath)
+    (hx_left : x ∈ left.support)
+    (hy_left : y ∈ left.support)
+    (hy_rs : y ∈ rs.support)
+    (hx_rs : x ∉ rs.support)
+    (hy_not_prefix : y ∉ (left.takeUntil x hx_left).support)
+    (hyx : y ≠ x) :
+    x ∉
+      ((((rs.takeUntil y hy_rs).append
+        (left.dropUntil y hy_left)).toPath) : G.Walk v s).support := by
+  intro hx_fallback
+  have hx_raw :
+      x ∈ ((rs.takeUntil y hy_rs).append
+        (left.dropUntil y hy_left)).support :=
+    Walk.support_toPath_subset _ hx_fallback
+  rw [Walk.mem_support_append_iff] at hx_raw
+  rcases hx_raw with hx_prefix | hx_drop
+  · exact hx_rs (Walk.support_takeUntil_subset rs hy_rs hx_prefix)
+  · have hy_after_x : y ∈ (left.dropUntil x hx_left).support :=
+      mem_dropUntil_of_mem_support_not_takeUntil
+        (G := G) left hx_left hy_left hy_not_prefix
+    exact not_both_mem_dropUntil_on_simple_path
+      (G := G) (p := left) hleftPath hx_left hy_left
+      hx_drop hy_after_x hyx.symm
+
+private lemma terminal_set_fan_first_bad_right_only_fallback_left_alt_commonCard_lt
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z y : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (_hrsPath : rs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (hzrs : z ∈ rs.support)
+    (_hz_right : z ∈ (pair.2 : G.Walk v t).support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hfirst_bad :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      ∀ y : α, y ≠ v →
+        y ∈ (altRight : G.Walk v t).support →
+        ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+           y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) →
+        y ∈ (rs.takeUntil z hzrs).support →
+        y = z)
+    (hy_rs : y ∈ rs.support)
+    (hy_prefix_z : y ∈ (rs.takeUntil z hzrs).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (_hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_not_left_prefix :
+      y ∉ ((pair.1 : G.Walk v s).takeUntil x hx_left).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let fallbackLeft : G.Path v s :=
+    (((rs.takeUntil y hy_rs).append
+      ((pair.1 : G.Walk v s).dropUntil y hy_left)).toPath)
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let fallbackPair : G.Path v s × G.Path v t := (fallbackLeft, altRight)
+  refine ⟨fallbackPair, ?_⟩
+  have hy_ne_x : y ≠ x := by
+    intro hyx
+    exact hx_rs (by simpa [hyx] using hy_rs)
+  have hy_ne_z : y ≠ z := by
+    intro hyz
+    exact hz_not_left (by simpa [hyz] using hy_left)
+  have hz_not_prefix_y :
+      z ∉ (rs.takeUntil y hy_rs).support :=
+    not_mem_takeUntil_later_of_mem_takeUntil_of_support
+      (G := G) (p := rs) hzrs hy_rs hy_prefix_z hy_ne_z
+  have hx_not_fallbackLeft :
+      x ∉ (fallbackLeft : G.Walk v s).support := by
+    simpa [fallbackLeft] using
+      (not_mem_left_suffix_fallback_of_not_left_prefix
+        (G := G) (left := (pair.1 : G.Walk v s)) (rs := rs)
+        pair.1.property hx_left hy_left hy_rs hx_rs
+        hy_not_left_prefix hy_ne_x)
+  have hcommon_subset_old_without_x :
+      (((fallbackLeft : G.Walk v s).support.toFinset ∩
+          (altRight : G.Walk v t).support.toFinset).erase v) ⊆
+        (((pair.1 : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset).erase v).erase x := by
+    intro q hq
+    rw [Finset.mem_erase, Finset.mem_inter] at hq
+    rcases hq with ⟨hqv, hq_fallback, hq_alt⟩
+    have hq_fallback_walk : q ∈ (fallbackLeft : G.Walk v s).support := by
+      simpa using hq_fallback
+    have hq_alt_walk : q ∈ (altRight : G.Walk v t).support := by
+      simpa using hq_alt
+    have hqx : q ≠ x := by
+      intro hqx
+      exact hx_not_fallbackLeft (by simpa [hqx] using hq_fallback_walk)
+    have hq_fallback_raw :
+        q ∈ ((rs.takeUntil y hy_rs).append
+          ((pair.1 : G.Walk v s).dropUntil y hy_left)).support :=
+      Walk.support_toPath_subset _ hq_fallback_walk
+    have hq_alt_raw :
+        q ∈ (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).support :=
+      Walk.support_toPath_subset _ hq_alt_walk
+    rw [Walk.mem_support_append_iff] at hq_fallback_raw
+    rw [Walk.mem_support_append_iff] at hq_alt_raw
+    rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
+    refine ⟨hqx, hqv, ?_, ?_⟩
+    · rcases hq_fallback_raw with hq_rs_prefix | hq_left_suffix
+      · rcases hq_alt_raw with hq_left_prefix | hq_right_suffix
+        · exact
+            by simpa using
+              (Walk.support_takeUntil_subset (pair.1 : G.Walk v s)
+                hx_left hq_left_prefix)
+        · by_cases hq_left : q ∈ (pair.1 : G.Walk v s).support
+          · exact by simpa using hq_left
+          · have hq_right :
+                q ∈ (pair.2 : G.Walk v t).support :=
+              Walk.support_dropUntil_subset (pair.2 : G.Walk v t)
+                hx_right hq_right_suffix
+            have hq_bad :
+                ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+                   q ∈ (pair.2 : G.Walk v t).support ∧ q ≠ x) := by
+              intro hq_common
+              exact hq_left hq_common.1
+            have hq_prefix_z :
+                q ∈ (rs.takeUntil z hzrs).support :=
+              mem_takeUntil_of_mem_takeUntil_of_mem_takeUntil
+                (G := G) (p := rs) (x := z) (y := y) (z := q)
+                hzrs hy_rs hy_prefix_z hq_rs_prefix
+            have hq_eq_z : q = z :=
+              hfirst_bad q hqv (by simpa [altRight] using hq_alt_walk)
+                hq_bad hq_prefix_z
+            exact False.elim
+              (hz_not_prefix_y (by simpa [hq_eq_z] using hq_rs_prefix))
+      · exact by
+          simpa using
+            (Walk.support_dropUntil_subset (pair.1 : G.Walk v s) hy_left
+              hq_left_suffix)
+    · rcases hq_fallback_raw with hq_rs_prefix | hq_left_suffix
+      · rcases hq_alt_raw with hq_left_prefix | hq_right_suffix
+        · by_cases hq_right : q ∈ (pair.2 : G.Walk v t).support
+          · exact by simpa using hq_right
+          · have hq_left :
+                q ∈ (pair.1 : G.Walk v s).support :=
+              Walk.support_takeUntil_subset (pair.1 : G.Walk v s)
+                hx_left hq_left_prefix
+            have hq_bad :
+                ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+                   q ∈ (pair.2 : G.Walk v t).support ∧ q ≠ x) := by
+              intro hq_common
+              exact hq_right hq_common.2.1
+            have hq_prefix_z :
+                q ∈ (rs.takeUntil z hzrs).support :=
+              mem_takeUntil_of_mem_takeUntil_of_mem_takeUntil
+                (G := G) (p := rs) (x := z) (y := y) (z := q)
+                hzrs hy_rs hy_prefix_z hq_rs_prefix
+            have hq_eq_z : q = z :=
+              hfirst_bad q hqv (by simpa [altRight] using hq_alt_walk)
+                hq_bad hq_prefix_z
+            exact False.elim
+              (hz_not_left (by simpa [hq_eq_z] using hq_left))
+        · exact by
+            simpa using
+              (Walk.support_dropUntil_subset (pair.2 : G.Walk v t)
+                hx_right hq_right_suffix)
+      · rcases hq_alt_raw with hq_left_prefix | hq_right_suffix
+        · have hq_left :
+              q ∈ (pair.1 : G.Walk v s).support :=
+            Walk.support_dropUntil_subset (pair.1 : G.Walk v s) hy_left
+              hq_left_suffix
+          have hx_after_q :
+              x ∈ ((pair.1 : G.Walk v s).dropUntil q hq_left).support :=
+            mem_dropUntil_of_mem_takeUntil_ne
+              (G := G) (pair.1 : G.Walk v s) hq_left hx_left
+              hq_left_prefix hqx
+          have hy_after_x :
+              y ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support :=
+            mem_dropUntil_of_mem_support_not_takeUntil
+              (G := G) (pair.1 : G.Walk v s) hx_left hy_left
+              hy_not_left_prefix
+          have hy_after_q :
+              y ∈ ((pair.1 : G.Walk v s).dropUntil q hq_left).support :=
+            mem_dropUntil_of_mem_dropUntil_of_mem_dropUntil
+              (G := G) (p := (pair.1 : G.Walk v s)) pair.1.property
+              hq_left hx_left hx_after_q hy_after_x
+          have hqy : q ≠ y := by
+            intro hqy
+            exact hy_not_left_prefix (by simpa [hqy] using hq_left_prefix)
+          exact False.elim
+            (not_both_mem_dropUntil_on_simple_path
+              (G := G) (p := (pair.1 : G.Walk v s)) pair.1.property
+              hq_left hy_left hq_left_suffix hy_after_q hqy)
+        · exact by
+            simpa using
+              (Walk.support_dropUntil_subset (pair.2 : G.Walk v t)
+                hx_right hq_right_suffix)
+  simpa [terminalPathPairCommonCard, fallbackPair, fallbackLeft, altRight] using
+    (common_support_erase_card_lt_of_subset_erase_common
+      (G := G) (v := v) (s := s) (t := t)
+      (qs := (pair.1 : G.Walk v s))
+      (qt := (pair.2 : G.Walk v t))
+      (qs' := (fallbackLeft : G.Walk v s))
+      (qt' := (altRight : G.Walk v t))
+      (x := x) hcommon_subset_old_without_x hx_left hx_right hxv)
+
+private lemma false_of_first_noncommon_old_residual_and_left_prefix
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w z y : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hzrs : z ∈ rs.support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hfirst_residual :
+      ∀ y : α,
+        y ≠ v →
+        y ≠ w →
+        (y ∈ (pair.1 : G.Walk v s).support ∨
+          y ∈ (pair.2 : G.Walk v t).support) →
+        ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+           y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) →
+        y ∈ (rs.takeUntil z hzrs).support →
+        y = z)
+    (hyv : y ≠ v)
+    (hy_prefix : y ∈ (rs.takeUntil z hzrs).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_new_bad :
+      ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+         y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x)) :
+    False := by
+  have hy_ne_w : y ≠ w := by
+    intro hyw
+    exact hw_not_left (by simpa [hyw] using hy_left)
+  have hy_eq_z : y = z :=
+    hfirst_residual y hyv hy_ne_w (Or.inl hy_left) hy_new_bad hy_prefix
+  exact hz_not_left (by simpa [hy_eq_z] using hy_left)
+
+private lemma noncommon_old_residual_exclusive_side
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_rs : x ∉ rs.support)
+    (hzrs : z ∈ rs.support)
+    (hz_old :
+      z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support)
+    (hz_bad :
+      ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+         z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x)) :
+    (z ∈ (pair.1 : G.Walk v s).support ∧
+      z ∉ (pair.2 : G.Walk v t).support) ∨
+    (z ∈ (pair.2 : G.Walk v t).support ∧
+      z ∉ (pair.1 : G.Walk v s).support) := by
+  have hzx : z ≠ x := by
+    intro hzx_eq
+    exact hx_rs (by simpa [hzx_eq] using hzrs)
+  rcases hz_old with hz_left | hz_right
+  · by_cases hz_right : z ∈ (pair.2 : G.Walk v t).support
+    · exact False.elim (hz_bad ⟨hz_left, hz_right, hzx⟩)
+    · exact Or.inl ⟨hz_left, hz_right⟩
+  · by_cases hz_left : z ∈ (pair.1 : G.Walk v s).support
+    · exact False.elim (hz_bad ⟨hz_left, hz_right, hzx⟩)
+    · exact Or.inr ⟨hz_right, hz_left⟩
+
+private lemma terminal_set_fan_left_suffix_retention_right_only_first_wide_residual_descent
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hzrs : z ∈ rs.support)
+    (hz_right : z ∈ (pair.2 : G.Walk v t).support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hz_suffix_right :
+      z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support)
+    (hfirst_residual :
+      ∀ y : α,
+        y ≠ v →
+        y ≠ w →
+        (y ∈ (pair.1 : G.Walk v s).support ∨
+          y ∈ (pair.2 : G.Walk v t).support) →
+        ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+           y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) →
+        y ∈ (rs.takeUntil z hzrs).support →
+        y = z) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let spliceRight : G.Path v t :=
+    ((rs.takeUntil z hzrs).append
+      ((pair.2 : G.Walk v t).dropUntil z hz_right)).toPath
+  let spliced : G.Path v s × G.Path v t := (pair.1, spliceRight)
+  refine ⟨spliced, ?_⟩
+  have hx_ne_z : x ≠ z := by
+    intro hxz
+    exact hz_not_left (by simpa [hxz] using hx_left)
+  have hx_not_spliceRight :
+      x ∉ (spliceRight : G.Walk v t).support := by
+    intro hx_splice
+    have hx_append :
+        x ∈ ((rs.takeUntil z hzrs).append
+          ((pair.2 : G.Walk v t).dropUntil z hz_right)).support := by
+      exact Walk.support_toPath_subset _ hx_splice
+    rw [Walk.mem_support_append_iff] at hx_append
+    rcases hx_append with hx_prefix | hx_drop
+    · exact hx_rs (Walk.support_takeUntil_subset rs hzrs hx_prefix)
+    · exact False.elim
+        (not_both_mem_dropUntil_on_simple_path
+          (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
+          hx_right hz_right hx_drop hz_suffix_right hx_ne_z)
+  have hcommon_subset_old_without_x :
+      ((pair.1 : G.Walk v s).support.toFinset ∩
+          (spliceRight : G.Walk v t).support.toFinset).erase v ⊆
+        (((pair.1 : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset).erase v).erase x := by
+    intro y hy
+    rw [Finset.mem_erase, Finset.mem_inter] at hy
+    rcases hy with ⟨hyv, hy_left, hy_splice⟩
+    have hy_splice_walk : y ∈ (spliceRight : G.Walk v t).support := by
+      simpa using hy_splice
+    have hy_append :
+        y ∈ ((rs.takeUntil z hzrs).append
+          ((pair.2 : G.Walk v t).dropUntil z hz_right)).support := by
+      exact Walk.support_toPath_subset _ hy_splice_walk
+    rw [Walk.mem_support_append_iff] at hy_append
+    rcases hy_append with hy_prefix | hy_drop
+    · have hy_left_walk :
+          y ∈ (pair.1 : G.Walk v s).support := by
+        simpa using hy_left
+      rcases mem_erase_common_without_x_or_not_common_triple_left
+          (G := G) (pair := pair) (x := x) hyv hy_left_walk with
+        hy_old_common | hy_new_bad
+      · exact hy_old_common
+      · exact False.elim
+          (false_of_first_noncommon_old_residual_and_left_prefix
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (z := z) (y := y)
+            (pair := pair) (rs := rs)
+            hzrs hz_not_left hw_not_left hfirst_residual
+            hyv hy_prefix hy_left_walk hy_new_bad)
+    · rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
+      have hy_old_right :
+          y ∈ (pair.2 : G.Walk v t).support :=
+        Walk.support_dropUntil_subset (pair.2 : G.Walk v t) hz_right hy_drop
+      refine ⟨?_, hyv, by simpa using hy_left, by simpa using hy_old_right⟩
+      intro hyx
+      exact hx_not_spliceRight (by simpa [hyx] using hy_splice_walk)
+  simpa [terminalPathPairCommonCard, spliced] using
+    (common_support_erase_card_lt_of_subset_erase_common
+      (G := G) (v := v) (s := s) (t := t)
+      (qs := (pair.1 : G.Walk v s))
+      (qt := (pair.2 : G.Walk v t))
+      (qs' := (pair.1 : G.Walk v s))
+      (qt' := (spliceRight : G.Walk v t))
+      (x := x) hcommon_subset_old_without_x hx_left hx_right hxv)
+
+private lemma terminal_set_cross_swap_commonCard_lt_of_later_return
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y r : α}
+    {pair : G.Path v s × G.Path v t}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hy_suffix : y ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support)
+    (hr_suffix :
+      r ∈ (((pair.2 : G.Walk v t).dropUntil x hx_right).dropUntil y
+        hy_suffix).support)
+    (hr_ne_y : r ≠ y)
+    (hr_left_prefix :
+      r ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let swapLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let swapped : G.Path v s × G.Path v t := (swapLeft, altRight)
+  refine ⟨swapped, ?_⟩
+  have hright_suffix_path :
+      ((pair.2 : G.Walk v t).dropUntil x hx_right).IsPath :=
+    Walk.isPath_of_isSubwalk
+      (Walk.isSubwalk_dropUntil (pair.2 : G.Walk v t) hx_right)
+      pair.2.property
+  have hr_right_suffix :
+      r ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support :=
+    Walk.support_dropUntil_subset
+      ((pair.2 : G.Walk v t).dropUntil x hx_right) hy_suffix hr_suffix
+  have hr_right : r ∈ (pair.2 : G.Walk v t).support :=
+    Walk.support_dropUntil_subset (pair.2 : G.Walk v t) hx_right
+      hr_right_suffix
+  have hr_left : r ∈ (pair.1 : G.Walk v s).support :=
+    Walk.support_takeUntil_subset (pair.1 : G.Walk v s) hx_left
+      hr_left_prefix
+  have hv_prefix_right :
+      v ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support :=
+    (pair.2 : G.Walk v t).takeUntil x hx_right |>.start_mem_support
+  have hv_not_right_suffix :
+      v ∉ ((pair.2 : G.Walk v t).dropUntil x hx_right).support :=
+    not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+      (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
+      hx_right (by simpa using (pair.2 : G.Walk v t).start_mem_support)
+      hv_prefix_right (fun hvx => hxv hvx.symm)
+  have hrv : r ≠ v := by
+    intro hrv_eq
+    exact hv_not_right_suffix (by simpa [hrv_eq] using hr_right_suffix)
+  have hx_not_right_suffix_tail :
+      x ∉ ((pair.2 : G.Walk v t).dropUntil x hx_right).support.tail := by
+    generalize hqeq : (pair.2 : G.Walk v t).dropUntil x hx_right = q
+    have hqPath : q.IsPath := by
+      simpa [hqeq] using hright_suffix_path
+    change x ∉ q.support.tail
+    cases q with
+    | nil =>
+        simp
+    | cons h q' =>
+        have hnodup : x ∉ q'.support ∧ q'.support.Nodup := by
+          simpa using hqPath.support_nodup
+        simpa using hnodup.1
+  have hr_ne_x : r ≠ x := by
+    intro hrx
+    let q : G.Walk x t := (pair.2 : G.Walk v t).dropUntil x hx_right
+    have hx_q : x ∈ q.support := q.start_mem_support
+    have hy_q : y ∈ q.support := by
+      simpa [q] using hy_suffix
+    have hx_after_y : x ∈ (q.dropUntil y hy_q).support := by
+      simpa [q, hrx] using hr_suffix
+    have hxy : x ≠ y := by
+      intro hxy
+      exact hr_ne_y (by simpa [hrx, hxy])
+    have hy_after_x : y ∈ (q.dropUntil x hx_q).support := by
+      simpa [dropUntil_start_eq_self (G := G) q hx_q] using hy_q
+    exact not_both_mem_dropUntil_on_simple_path
+      (G := G) (p := q) (x := x) (w := y)
+      (by simpa [q] using hright_suffix_path)
+      hx_q hy_q hx_after_y hy_after_x hxy
+  have hr_not_swapLeft :
+      r ∉ (swapLeft : G.Walk v s).support := by
+    intro hr_swap
+    have hr_raw :
+        r ∈ (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).support :=
+      Walk.support_toPath_subset _ hr_swap
+    rw [Walk.mem_support_append_iff] at hr_raw
+    rcases hr_raw with hr_right_prefix | hr_left_suffix
+    · exact
+        (not_mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+          (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
+          hx_right hr_right hr_right_suffix hr_ne_x) hr_right_prefix
+    · exact
+        (not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+          (G := G) (p := (pair.1 : G.Walk v s)) pair.1.property
+          hx_left hr_left hr_left_prefix hr_ne_x) hr_left_suffix
+  have hcommon_subset_old_without_r :
+      (((swapLeft : G.Walk v s).support.toFinset ∩
+          (altRight : G.Walk v t).support.toFinset).erase v) ⊆
+        (((pair.1 : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset).erase v).erase r := by
+    intro a ha
+    rw [Finset.mem_erase, Finset.mem_inter] at ha
+    rcases ha with ⟨hav, ha_swap, ha_alt⟩
+    have ha_swap_walk : a ∈ (swapLeft : G.Walk v s).support := by
+      simpa using ha_swap
+    have ha_alt_walk : a ∈ (altRight : G.Walk v t).support := by
+      simpa using ha_alt
+    have har : a ≠ r := by
+      intro har_eq
+      exact hr_not_swapLeft (by simpa [har_eq] using ha_swap_walk)
+    have ha_swap_raw :
+        a ∈ (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).support :=
+      Walk.support_toPath_subset _ ha_swap_walk
+    have ha_alt_raw :
+        a ∈ (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).support :=
+      Walk.support_toPath_subset _ ha_alt_walk
+    rw [Walk.mem_support_append_iff] at ha_swap_raw
+    rw [Walk.mem_support_append_iff] at ha_alt_raw
+    rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
+    refine ⟨har, hav, ?_, ?_⟩
+    · rcases ha_swap_raw with ha_right_prefix | ha_left_suffix
+      · rcases ha_alt_raw with ha_left_prefix | ha_right_suffix
+        · simpa using
+            (Walk.support_takeUntil_subset
+              (pair.1 : G.Walk v s) hx_left ha_left_prefix)
+        · have ha_right : a ∈ (pair.2 : G.Walk v t).support :=
+            Walk.support_takeUntil_subset
+              (pair.2 : G.Walk v t) hx_right ha_right_prefix
+          by_cases hax : a = x
+          · simpa [hax] using hx_left
+          · exact False.elim
+              ((not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+                (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
+                hx_right ha_right ha_right_prefix hax) ha_right_suffix)
+      · simpa using
+          (Walk.support_dropUntil_subset
+            (pair.1 : G.Walk v s) hx_left ha_left_suffix)
+    · rcases ha_alt_raw with ha_left_prefix | ha_right_suffix
+      · rcases ha_swap_raw with ha_right_prefix | ha_left_suffix
+        · simpa using
+            (Walk.support_takeUntil_subset
+              (pair.2 : G.Walk v t) hx_right ha_right_prefix)
+        · have ha_left : a ∈ (pair.1 : G.Walk v s).support :=
+            Walk.support_dropUntil_subset
+              (pair.1 : G.Walk v s) hx_left ha_left_suffix
+          by_cases hax : a = x
+          · simpa [hax] using hx_right
+          · exact False.elim
+              ((not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+                (G := G) (p := (pair.1 : G.Walk v s)) pair.1.property
+                hx_left ha_left ha_left_prefix hax) ha_left_suffix)
+      · simpa using
+          (Walk.support_dropUntil_subset
+            (pair.2 : G.Walk v t) hx_right ha_right_suffix)
+  simpa [terminalPathPairCommonCard, swapped, swapLeft, altRight] using
+    (common_support_erase_card_lt_of_subset_erase_common
+      (G := G) (v := v) (s := s) (t := t)
+      (qs := (pair.1 : G.Walk v s))
+      (qt := (pair.2 : G.Walk v t))
+      (qs' := (swapLeft : G.Walk v s))
+      (qt' := (altRight : G.Walk v t))
+      (x := r) hcommon_subset_old_without_r hr_left hr_right hrv)
+
+private lemma terminalPathPairCommonCard_swap
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) :
+    terminalPathPairCommonCard
+        (((pair.2, pair.1) : G.Path v t × G.Path v s)) =
+      terminalPathPairCommonCard pair := by
+  simp [terminalPathPairCommonCard, Finset.inter_comm]
+
+private lemma terminal_set_cross_swap_commonCard_lt_of_later_left_return
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y r : α}
+    {pair : G.Path v s × G.Path v t}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hy_suffix : y ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support)
+    (hr_suffix :
+      r ∈ (((pair.1 : G.Walk v s).dropUntil x hx_left).dropUntil y
+        hy_suffix).support)
+    (hr_ne_y : r ≠ y)
+    (hr_right_prefix :
+      r ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let swappedOriginal : G.Path v t × G.Path v s := (pair.2, pair.1)
+  rcases terminal_set_cross_swap_commonCard_lt_of_later_return
+      (G := G) (v := v) (s := t) (t := s)
+      (x := x) (y := y) (r := r)
+      (pair := swappedOriginal)
+      hx_right hx_left hxv hy_suffix hr_suffix hr_ne_y
+      hr_right_prefix with
+    ⟨pairSwap', hpairSwap'_lt⟩
+  refine ⟨(pairSwap'.2, pairSwap'.1), ?_⟩
+  calc
+    terminalPathPairCommonCard
+        (((pairSwap'.2, pairSwap'.1) : G.Path v s × G.Path v t)) =
+        terminalPathPairCommonCard pairSwap' :=
+      terminalPathPairCommonCard_swap pairSwap'
+    _ < terminalPathPairCommonCard swappedOriginal := hpairSwap'_lt
+    _ = terminalPathPairCommonCard pair := terminalPathPairCommonCard_swap pair
+
+private lemma terminal_set_cross_swap_commonCard_lt_of_left_prefix_absent_altRight
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y : α}
+    {pair : G.Path v s × G.Path v t}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hy_left_prefix :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hy_not_alt :
+      y ∉
+        (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+            G.Walk v t).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  rcases exists_left_prefix_right_suffix_tail_of_not_mem_left_alt
+      (G := G) (left := (pair.1 : G.Walk v s))
+      (right := (pair.2 : G.Walk v t))
+      pair.1.property pair.2.property hx_left hx_right
+      hy_left_prefix hy_not_alt with
+    ⟨r, hr_left_prefix, hr_right_tail⟩
+  have hx_suffix :
+      x ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support :=
+    ((pair.2 : G.Walk v t).dropUntil x hx_right).start_mem_support
+  have hr_right_suffix :
+      r ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support :=
+    List.mem_of_mem_tail hr_right_tail
+  have hright_suffix_path :
+      ((pair.2 : G.Walk v t).dropUntil x hx_right).IsPath :=
+    Walk.isPath_of_isSubwalk
+      (Walk.isSubwalk_dropUntil (pair.2 : G.Walk v t) hx_right)
+      pair.2.property
+  have hr_ne_x : r ≠ x := by
+    intro hrx
+    generalize hqeq :
+      (pair.2 : G.Walk v t).dropUntil x hx_right = q
+    have hqPath : q.IsPath := by
+      simpa [hqeq] using hright_suffix_path
+    have hx_not_tail : x ∉ q.support.tail := by
+      cases q with
+      | nil =>
+          simp
+      | cons h q' =>
+          have hnodup : x ∉ q'.support ∧ q'.support.Nodup := by
+            simpa using hqPath.support_nodup
+          simpa using hnodup.1
+    exact hx_not_tail (by simpa [hqeq, hrx] using hr_right_tail)
+  have hr_after_x :
+      r ∈
+        (((pair.2 : G.Walk v t).dropUntil x hx_right).dropUntil x
+          hx_suffix).support := by
+    simpa [dropUntil_start_eq_self
+        (G := G) ((pair.2 : G.Walk v t).dropUntil x hx_right)
+        hx_suffix] using hr_right_suffix
+  exact terminal_set_cross_swap_commonCard_lt_of_later_return
+    (G := G) (v := v) (s := s) (t := t)
+    (x := x) (y := x) (r := r) (pair := pair)
+    hx_left hx_right hxv hx_suffix hr_after_x hr_ne_x hr_left_prefix
+
+private lemma terminal_set_fan_left_suffix_stage_right_prefix_witness_commonCard_lt
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y a z r : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hy_rs : y ∈ rs.support)
+    (ha_tail : a ∈ (rs.dropUntil y hy_rs).support)
+    (hz_tail : z ∈ (rs.dropUntil y hy_rs).support)
+    (ha_mid :
+      a ∈ ((rs.dropUntil y hy_rs).takeUntil z hz_tail).support)
+    (ha_not_right : a ∉ (pair.2 : G.Walk v t).support)
+    (hr_mid :
+      r ∈ ((rs.dropUntil y hy_rs).takeUntil a ha_tail).support)
+    (hrv : r ≠ v)
+    (hr_right : r ∈ (pair.2 : G.Walk v t).support)
+    (hr_not_left : r ∉ (pair.1 : G.Walk v s).support)
+    (hr_prefix_x :
+      r ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hfirst_bridge_bad :
+      ∀ q : α, q ≠ v →
+        q ∈
+          (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+            ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+              G.Walk v s).support →
+        ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+          q ∈ (pair.2 : G.Walk v t).support) →
+        q ∈
+          (((rs.dropUntil y hy_rs).takeUntil z hz_tail).takeUntil a
+            ha_mid).support →
+        q = a) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let swapLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  by_cases hr_swap : r ∈ (swapLeft : G.Walk v s).support
+  · have hr_not_common :
+        ¬ (r ∈ (pair.1 : G.Walk v s).support ∧
+          r ∈ (pair.2 : G.Walk v t).support) := by
+      intro hr_common
+      exact hr_not_left hr_common.1
+    have hr_prefix_a_full :
+        r ∈
+          (((rs.dropUntil y hy_rs).takeUntil z hz_tail).takeUntil a
+            ha_mid).support := by
+      simpa [Walk.takeUntil_takeUntil] using hr_mid
+    have hra : r = a :=
+      hfirst_bridge_bad r hrv (by simpa [swapLeft] using hr_swap)
+        hr_not_common hr_prefix_a_full
+    exact False.elim (ha_not_right (by simpa [hra] using hr_right))
+  · rcases exists_left_prefix_right_suffix_tail_of_not_mem_left_alt
+        (G := G) (left := (pair.2 : G.Walk v t))
+        (right := (pair.1 : G.Walk v s))
+        pair.2.property pair.1.property hx_right hx_left
+        hr_prefix_x (by simpa [swapLeft] using hr_swap) with
+      ⟨u, hu_right_prefix, hu_left_tail⟩
+    have hx_left_suffix :
+        x ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support :=
+      ((pair.1 : G.Walk v s).dropUntil x hx_left).start_mem_support
+    have hu_left_suffix :
+        u ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support :=
+      List.mem_of_mem_tail hu_left_tail
+    have hleft_suffix_path :
+        ((pair.1 : G.Walk v s).dropUntil x hx_left).IsPath :=
+      Walk.isPath_of_isSubwalk
+        (Walk.isSubwalk_dropUntil (pair.1 : G.Walk v s) hx_left)
+        pair.1.property
+    have hu_ne_x : u ≠ x := by
+      intro hux
+      generalize hqeq :
+        (pair.1 : G.Walk v s).dropUntil x hx_left = q
+      have hqPath : q.IsPath := by
+        simpa [hqeq] using hleft_suffix_path
+      have hx_not_tail : x ∉ q.support.tail := by
+        cases q with
+        | nil =>
+            simp
+        | cons h q' =>
+            have hnodup : x ∉ q'.support ∧ q'.support.Nodup := by
+              simpa using hqPath.support_nodup
+            simpa using hnodup.1
+      exact hx_not_tail (by simpa [hqeq, hux] using hu_left_tail)
+    have hu_after_x :
+        u ∈
+          (((pair.1 : G.Walk v s).dropUntil x hx_left).dropUntil x
+            hx_left_suffix).support := by
+      simpa [dropUntil_start_eq_self
+          (G := G) ((pair.1 : G.Walk v s).dropUntil x hx_left)
+          hx_left_suffix] using hu_left_suffix
+    exact terminal_set_cross_swap_commonCard_lt_of_later_left_return
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (y := x) (r := u) (pair := pair)
+      hx_left hx_right hxv hx_left_suffix hu_after_x hu_ne_x
+      hu_right_prefix
+
+private lemma terminal_set_fan_first_bad_right_only_splice_commonCard_lt
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hpair_measure_min : ∀ pair' : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasure pair ≤ terminalPathPairWeightedMeasure pair')
+    (_hrsPath : rs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (hzrs : z ∈ rs.support)
+    (hz_right : z ∈ (pair.2 : G.Walk v t).support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hz_suffix_right :
+      z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support)
+    (hfirst_bad :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      ∀ y : α, y ≠ v →
+        y ∈ (altRight : G.Walk v t).support →
+        ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+           y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) →
+        y ∈ (rs.takeUntil z hzrs).support →
+        y = z) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  dsimp at hfirst_bad
+  let spliceRight : G.Path v t :=
+    ((rs.takeUntil z hzrs).append
+      ((pair.2 : G.Walk v t).dropUntil z hz_right)).toPath
+  let spliced : G.Path v s × G.Path v t := (pair.1, spliceRight)
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  refine ⟨spliced, ?_⟩
+  have hno_lower :
+      ∀ pair' : G.Path v s × G.Path v t,
+        ¬ terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair :=
+    not_terminalPathPairCommonCard_lt_of_weighted_min hpair_measure_min
+  have hzx : z ≠ x := by
+    intro hzx_eq
+    exact hx_rs (by simpa [hzx_eq] using hzrs)
+  have hx_ne_z : x ≠ z := fun hxz => hzx hxz.symm
+  have hx_not_spliceRight :
+      x ∉ (spliceRight : G.Walk v t).support := by
+    intro hx_splice
+    have hx_append :
+        x ∈ ((rs.takeUntil z hzrs).append
+          ((pair.2 : G.Walk v t).dropUntil z hz_right)).support := by
+      exact Walk.support_toPath_subset _ hx_splice
+    rw [Walk.mem_support_append_iff] at hx_append
+    rcases hx_append with hx_prefix | hx_drop
+    · exact hx_rs (Walk.support_takeUntil_subset rs hzrs hx_prefix)
+    · exact False.elim
+        (not_both_mem_dropUntil_on_simple_path
+          (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
+          hx_right hz_right hx_drop hz_suffix_right hx_ne_z)
+  have hcommon_subset_old_without_x :
+      ((pair.1 : G.Walk v s).support.toFinset ∩
+          (spliceRight : G.Walk v t).support.toFinset).erase v ⊆
+        (((pair.1 : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset).erase v).erase x := by
+    intro y hy
+    rw [Finset.mem_erase, Finset.mem_inter] at hy
+    rcases hy with ⟨hyv, hy_left, hy_splice⟩
+    have hy_left_walk :
+        y ∈ (pair.1 : G.Walk v s).support := by
+      simpa using hy_left
+    have hy_splice_walk : y ∈ (spliceRight : G.Walk v t).support := by
+      simpa using hy_splice
+    have hy_append :
+        y ∈ ((rs.takeUntil z hzrs).append
+          ((pair.2 : G.Walk v t).dropUntil z hz_right)).support := by
+      exact Walk.support_toPath_subset _ hy_splice_walk
+    rw [Walk.mem_support_append_iff] at hy_append
+    rcases hy_append with hy_prefix | hy_drop
+    · have hy_rs : y ∈ rs.support :=
+        Walk.support_takeUntil_subset rs hzrs hy_prefix
+      rcases mem_erase_common_without_x_or_not_common_triple_left
+          (G := G) (pair := pair) (x := x) hyv hy_left_walk with
+        hy_old_common | hy_new_bad
+      · exact hy_old_common
+      · exfalso
+        by_cases hy_alt_local : y ∈ (altRight : G.Walk v t).support
+        · have hy_eq_z : y = z :=
+            hfirst_bad y hyv (by simpa [altRight] using hy_alt_local)
+              hy_new_bad hy_prefix
+          exact hz_not_left (by simpa [hy_eq_z] using hy_left_walk)
+        · by_cases hy_left_prefix :
+            y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support
+          · rcases exists_left_prefix_right_suffix_tail_of_not_mem_left_alt
+              (G := G) (left := (pair.1 : G.Walk v s))
+              (right := (pair.2 : G.Walk v t))
+              pair.1.property pair.2.property hx_left hx_right
+              hy_left_prefix hy_alt_local with
+              ⟨r, hr_left_prefix, hr_right_tail⟩
+            have hx_suffix :
+                x ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support :=
+              ((pair.2 : G.Walk v t).dropUntil x hx_right).start_mem_support
+            have hr_right_suffix :
+                r ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support :=
+              List.mem_of_mem_tail hr_right_tail
+            have hright_suffix_path :
+                ((pair.2 : G.Walk v t).dropUntil x hx_right).IsPath :=
+              Walk.isPath_of_isSubwalk
+                (Walk.isSubwalk_dropUntil (pair.2 : G.Walk v t) hx_right)
+                pair.2.property
+            have hr_ne_x : r ≠ x := by
+              intro hrx
+              generalize hqeq :
+                (pair.2 : G.Walk v t).dropUntil x hx_right = q
+              have hqPath : q.IsPath := by
+                simpa [hqeq] using hright_suffix_path
+              have hx_not_tail : x ∉ q.support.tail := by
+                cases q with
+                | nil =>
+                    simp
+                | cons h q' =>
+                    have hnodup : x ∉ q'.support ∧ q'.support.Nodup := by
+                      simpa using hqPath.support_nodup
+                    simpa using hnodup.1
+              exact hx_not_tail (by simpa [hqeq, hrx] using hr_right_tail)
+            have hr_after_x :
+                r ∈
+                  (((pair.2 : G.Walk v t).dropUntil x hx_right).dropUntil x
+                    hx_suffix).support := by
+              simpa [dropUntil_start_eq_self
+                  (G := G) ((pair.2 : G.Walk v t).dropUntil x hx_right)
+                  hx_suffix] using hr_right_suffix
+            rcases terminal_set_cross_swap_commonCard_lt_of_later_return
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (y := x) (r := r) (pair := pair)
+                hx_left hx_right hxv hx_suffix hr_after_x hr_ne_x
+                hr_left_prefix with
+              ⟨pair', hpair'_lt⟩
+            exact hno_lower pair' hpair'_lt
+          · have hy_ne_x : y ≠ x := by
+              intro hyx
+              exact hx_rs (by simpa [hyx] using hy_rs)
+            have hy_not_right :
+                y ∉ (pair.2 : G.Walk v t).support := by
+              intro hy_right
+              exact hy_new_bad ⟨hy_left_walk, hy_right, hy_ne_x⟩
+            rcases terminal_set_fan_first_bad_right_only_fallback_left_alt_commonCard_lt
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (z := z) (y := y)
+                (pair := pair) (rs := rs)
+                _hrsPath hx_left hx_right hxv hx_rs hzrs hz_right
+                hz_not_left hfirst_bad hy_rs hy_prefix hy_left_walk
+                hy_not_right hy_left_prefix with
+              ⟨pair', hpair'_lt⟩
+            exact hno_lower pair' hpair'_lt
+    · rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
+      have hy_old_right :
+          y ∈ (pair.2 : G.Walk v t).support :=
+        Walk.support_dropUntil_subset (pair.2 : G.Walk v t) hz_right hy_drop
+      refine ⟨?_, hyv, by simpa using hy_left, by simpa using hy_old_right⟩
+      intro hyx
+      exact hx_not_spliceRight (by simpa [hyx] using hy_splice_walk)
+  simpa [terminalPathPairCommonCard, spliced, spliceRight] using
+    (common_support_erase_card_lt_of_subset_erase_common
+      (G := G) (v := v) (s := s) (t := t)
+      (qs := (pair.1 : G.Walk v s))
+      (qt := (pair.2 : G.Walk v t))
+      (qs' := (pair.1 : G.Walk v s))
+      (qt' := (spliceRight : G.Walk v t))
+      (x := x) hcommon_subset_old_without_x hx_left hx_right hxv)
+
+private lemma first_bad_left_prefix_package
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hx_rs : x ∉ rs.support)
+    (hw_rs : w ∈ rs.support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hz_rs : z ∈ rs.support)
+    (hz_left : z ∈ (pair.1 : G.Walk v s).support)
+    (hz_alt :
+      z ∈
+        ((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath :
+            G.Walk v t).support)
+    (hz_bad :
+      ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+         z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x))
+    (hfirst : ∀ y, y ∈ rs.support → y ≠ v →
+      y ∈ (pair.1 : G.Walk v s).support ∨
+      y ∈ (pair.2 : G.Walk v t).support →
+      y = w ∨ y ∉ (rs.takeUntil w hw_rs).support)
+    (hzv : z ≠ v) :
+    z ∉ (pair.2 : G.Walk v t).support ∧
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      z ∉ (rs.takeUntil w hw_rs).support := by
+  have hzx : z ≠ x := by
+    intro hzx_eq
+    exact hx_rs (by simpa [hzx_eq] using hz_rs)
+  have hz_not_right : z ∉ (pair.2 : G.Walk v t).support := by
+    intro hz_right
+    exact hz_bad ⟨hz_left, hz_right, hzx⟩
+  have hz_alt_raw :
+      z ∈ (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).support :=
+    Walk.support_toPath_subset _ hz_alt
+  have hz_prefix_left :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support := by
+    rw [Walk.mem_support_append_iff] at hz_alt_raw
+    rcases hz_alt_raw with hz_prefix | hz_suffix
+    · exact hz_prefix
+    · exact False.elim
+        (hz_not_right
+          (Walk.support_dropUntil_subset (pair.2 : G.Walk v t)
+            hx_right hz_suffix))
+  have hz_not_rs_prefix :
+      z ∉ (rs.takeUntil w hw_rs).support := by
+    have hfirst_z := hfirst z hz_rs hzv (Or.inl hz_left)
+    rcases hfirst_z with hzw | hz_not_prefix
+    · exact False.elim (hw_not_left (by simpa [hzw] using hz_left))
+    · exact hz_not_prefix
+  exact ⟨hz_not_right, hz_prefix_left, hz_not_rs_prefix⟩
+
+private lemma later_bad_after_first_bad_on_isPath
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x y z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hrsPath : rs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hy_rs : y ∈ rs.support)
+    (hz_rs : z ∈ rs.support)
+    (_hyv : y ≠ v)
+    (hzv : z ≠ v)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hz_right : z ∈ (pair.2 : G.Walk v t).support)
+    (_hy_alt :
+      y ∈
+        ((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath :
+            G.Walk v t).support)
+    (hz_alt :
+      z ∈
+        ((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath :
+            G.Walk v t).support)
+    (hz_bad :
+      ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+         z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x))
+    (hfirst_bad :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      ∀ q : α, q ≠ v →
+        q ∈ (altRight : G.Walk v t).support →
+        ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+           q ∈ (pair.2 : G.Walk v t).support ∧ q ≠ x) →
+        q ∈ (rs.takeUntil y hy_rs).support →
+        q = y) :
+    z ∈ (rs.dropUntil y hy_rs).support ∧
+      y ∈ (rs.takeUntil z hz_rs).support := by
+  classical
+  dsimp at hfirst_bad
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  have hzy : z ≠ y := by
+    intro hzy_eq
+    exact hy_not_right (by simpa [hzy_eq] using hz_right)
+  have hz_not_prefix_y :
+      z ∉ (rs.takeUntil y hy_rs).support := by
+    intro hz_prefix_y
+    have hzy_eq : z = y :=
+      hfirst_bad z hzv (by simpa [altRight] using hz_alt) hz_bad hz_prefix_y
+    exact hzy hzy_eq
+  have hz_after_y :
+      z ∈ (rs.dropUntil y hy_rs).support :=
+    mem_dropUntil_of_mem_support_not_takeUntil
+      (G := G) rs hy_rs hz_rs hz_not_prefix_y
+  have hy_prefix_z :
+      y ∈ (rs.takeUntil z hz_rs).support :=
+    mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+      (G := G) (p := rs) hrsPath hy_rs hz_rs hz_after_y hzy.symm
+  exact ⟨hz_after_y, hy_prefix_z⟩
+
+private lemma terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent_of_not_right_suffix
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w z y : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hrsPath : rs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (_hw_rs : w ∈ rs.support)
+    (_hw_right : w ∈ (pair.2 : G.Walk v t).support)
+    (_hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (_hwv : w ≠ v)
+    (_hfirst : ∀ y, y ∈ rs.support → y ≠ v →
+      y ∈ (pair.1 : G.Walk v s).support ∨
+      y ∈ (pair.2 : G.Walk v t).support →
+      y = w ∨ y ∉ (rs.takeUntil w _hw_rs).support)
+    (_hdirect : ¬ terminalPathPairCommonCard
+      ((⟨rs, hrsPath⟩ : G.Path v s), pair.2) <
+      terminalPathPairCommonCard pair)
+    (_hret : x ∈ ((pair.2 : G.Walk v t).dropUntil w _hw_right).support)
+    (hzrs : z ∈ rs.support)
+    (_hzv : z ≠ v)
+    (_hz_left : z ∈ (pair.1 : G.Walk v s).support)
+    (hz_not_right : z ∉ (pair.2 : G.Walk v t).support)
+    (_hz_prefix_left :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (_hz_not_rs_prefix : z ∉ (rs.takeUntil w _hw_rs).support)
+    (hlast_bad :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      ∀ y : α, y ∈ rs.support → y ≠ v →
+        y ∈ (altRight : G.Walk v t).support →
+        ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+           y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) →
+        y ∈ (rs.dropUntil z hzrs).support →
+        y = z)
+    (hyv : y ≠ v)
+    (hy_rs : y ∈ rs.support)
+    (hy_drop : y ∈ (rs.dropUntil z hzrs).support)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (_hy_not_alt :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      y ∉ (altRight : G.Walk v t).support)
+    (hy_new_bad :
+      ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+         y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x))
+    (hy_not_suffix :
+      y ∉ ((pair.2 : G.Walk v t).dropUntil x hx_right).support) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let fallbackLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil y hy_right).append
+      (rs.dropUntil y hy_rs)).toPath
+  let fallbackPair : G.Path v s × G.Path v t := (fallbackLeft, altRight)
+  refine ⟨fallbackPair, ?_⟩
+  have hx_not_fallback :
+      x ∉ (fallbackLeft : G.Walk v s).support := by
+    simpa [fallbackLeft] using
+      (not_mem_left_prefix_fallback_of_not_right_suffix
+        (G := G) (right := (pair.2 : G.Walk v t)) (rs := rs)
+        hx_right hy_right hy_rs hx_rs hy_not_suffix)
+  have hcommon_subset_old_without_x :
+      (((fallbackLeft : G.Walk v s).support.toFinset ∩
+          (altRight : G.Walk v t).support.toFinset).erase v) ⊆
+        (((pair.1 : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset).erase v).erase x := by
+    intro a ha
+    rw [Finset.mem_erase, Finset.mem_inter] at ha
+    rcases ha with ⟨hav, ha_fallback, ha_alt⟩
+    have ha_fallback_walk : a ∈ (fallbackLeft : G.Walk v s).support := by
+      simpa using ha_fallback
+    have ha_alt_walk : a ∈ (altRight : G.Walk v t).support := by
+      simpa using ha_alt
+    have hax : a ≠ x := by
+      intro hax_eq
+      exact hx_not_fallback (by simpa [hax_eq] using ha_fallback_walk)
+    have ha_fallback_raw :
+        a ∈ (((pair.2 : G.Walk v t).takeUntil y hy_right).append
+          (rs.dropUntil y hy_rs)).support := by
+      exact Walk.support_toPath_subset _ ha_fallback_walk
+    have ha_alt_raw :
+        a ∈ (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).support := by
+      exact Walk.support_toPath_subset _ ha_alt_walk
+    rw [Walk.mem_support_append_iff] at ha_fallback_raw
+    rw [Walk.mem_support_append_iff] at ha_alt_raw
+    rcases ha_fallback_raw with ha_right_prefix | ha_rs_drop
+    · have ha_right : a ∈ (pair.2 : G.Walk v t).support :=
+        Walk.support_takeUntil_subset (pair.2 : G.Walk v t) hy_right ha_right_prefix
+      rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
+      refine ⟨hax, hav, ?_, by simpa using ha_right⟩
+      rcases ha_alt_raw with ha_left_prefix | ha_right_suffix
+      · simpa using
+          (Walk.support_takeUntil_subset (pair.1 : G.Walk v s) hx_left ha_left_prefix)
+      · have hay : a = y ∨ a ≠ y := eq_or_ne a y
+        rcases hay with rfl | hay_ne
+        · exact False.elim (hy_not_suffix ha_right_suffix)
+        · have hy_suffix :
+              y ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support :=
+            mem_dropUntil_of_mem_dropUntil_of_mem_takeUntil_ne
+              (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
+              hx_right hy_right ha_right ha_right_suffix ha_right_prefix hay_ne
+          exact False.elim (hy_not_suffix hy_suffix)
+    · have ha_rs : a ∈ rs.support :=
+        Walk.support_dropUntil_subset rs hy_rs ha_rs_drop
+      have ha_after_z :
+          a ∈ (rs.dropUntil z hzrs).support :=
+        mem_dropUntil_of_mem_dropUntil_of_mem_dropUntil
+          (G := G) (p := rs) hrsPath hzrs hy_rs hy_drop ha_rs_drop
+      rcases ha_alt_raw with ha_left_prefix | ha_right_suffix
+      · have ha_left : a ∈ (pair.1 : G.Walk v s).support :=
+          Walk.support_takeUntil_subset (pair.1 : G.Walk v s) hx_left ha_left_prefix
+        rcases mem_erase_common_without_x_or_not_common_triple_left
+            (G := G) (pair := pair) (x := x) hav ha_left with
+          ha_old_common | ha_new_bad
+        · exact ha_old_common
+        · have ha_eq_z : a = z :=
+            hlast_bad a ha_rs hav (by simpa [altRight] using ha_alt_walk)
+              ha_new_bad ha_after_z
+          have hy_ne_z : y ≠ z := by
+            intro hyz
+            exact hz_not_right (by simpa [hyz] using hy_right)
+          exact False.elim
+              (not_both_mem_dropUntil_on_simple_path
+                (G := G) (p := rs) hrsPath hzrs hy_rs
+              (by simpa [ha_eq_z] using ha_rs_drop) hy_drop hy_ne_z.symm)
+      · have ha_right : a ∈ (pair.2 : G.Walk v t).support :=
+          Walk.support_dropUntil_subset (pair.2 : G.Walk v t) hx_right ha_right_suffix
+        rcases mem_erase_common_without_x_or_not_common_triple
+            (G := G) (pair := pair) (x := x) hav ha_right with
+          ha_old_common | ha_new_bad
+        · exact ha_old_common
+        · have ha_eq_z : a = z :=
+            hlast_bad a ha_rs hav (by simpa [altRight] using ha_alt_walk)
+              ha_new_bad ha_after_z
+          exact False.elim (hz_not_right (by simpa [ha_eq_z] using ha_right))
+  simpa [terminalPathPairCommonCard, fallbackPair, fallbackLeft, altRight] using
+    (common_support_erase_card_lt_of_subset_erase_common
+      (G := G) (v := v) (s := s) (t := t)
+      (qs := (pair.1 : G.Walk v s))
+      (qt := (pair.2 : G.Walk v t))
+      (qs' := (fallbackLeft : G.Walk v s))
+      (qt' := (altRight : G.Walk v t))
+      (x := x) hcommon_subset_old_without_x hx_left hx_right hxv)
+
+lemma terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w z y : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hrsPath : rs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (hw_rs : w ∈ rs.support)
+    (hw_right : w ∈ (pair.2 : G.Walk v t).support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hwv : w ≠ v)
+    (hfirst : ∀ y, y ∈ rs.support → y ≠ v →
+      y ∈ (pair.1 : G.Walk v s).support ∨
+      y ∈ (pair.2 : G.Walk v t).support →
+      y = w ∨ y ∉ (rs.takeUntil w hw_rs).support)
+    (hdirect : ¬ terminalPathPairCommonCard
+      ((⟨rs, hrsPath⟩ : G.Path v s), pair.2) <
+      terminalPathPairCommonCard pair)
+    (hret : x ∈ ((pair.2 : G.Walk v t).dropUntil w hw_right).support)
+    (hzrs : z ∈ rs.support)
+    (hzv : z ≠ v)
+    (hz_left : z ∈ (pair.1 : G.Walk v s).support)
+    (hz_not_right : z ∉ (pair.2 : G.Walk v t).support)
+    (hz_prefix_left :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hz_not_rs_prefix : z ∉ (rs.takeUntil w hw_rs).support)
+    (hlast_bad :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      ∀ y : α, y ∈ rs.support → y ≠ v →
+        y ∈ (altRight : G.Walk v t).support →
+        ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+           y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) →
+        y ∈ (rs.dropUntil z hzrs).support →
+        y = z)
+    (hyv : y ≠ v)
+    (hy_rs : y ∈ rs.support)
+    (hy_drop : y ∈ (rs.dropUntil z hzrs).support)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_alt :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      y ∉ (altRight : G.Walk v t).support)
+    (hy_new_bad :
+      ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+         y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x)) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  by_cases hy_suffix :
+      y ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support
+  · have hy_ne_x : y ≠ x := by
+      intro hyx
+      exact hx_rs (by simpa [hyx] using hy_rs)
+    have hy_not_left_prefix :
+        y ∉ ((pair.1 : G.Walk v s).takeUntil x hx_left).support := by
+      intro hy_left_prefix
+      have hy_left : y ∈ (pair.1 : G.Walk v s).support :=
+        Walk.support_takeUntil_subset (pair.1 : G.Walk v s) hx_left
+          hy_left_prefix
+      exact hy_new_bad ⟨hy_left, hy_right, hy_ne_x⟩
+    have hlater_return :
+        ∃ r : α,
+          r ∈ (((pair.2 : G.Walk v t).dropUntil x hx_right).dropUntil y
+              hy_suffix).support ∧
+          r ≠ y ∧
+          r ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support := by
+      simpa using
+        (support_toPath_append_takeUntil_dropUntil_absent_right_suffix_later_left_return
+          (G := G) (left := (pair.1 : G.Walk v s))
+          (right := (pair.2 : G.Walk v t)) pair.1.property pair.2.property
+          hx_left hx_right hy_suffix hy_not_left_prefix hy_not_alt)
+    rcases hlater_return with ⟨r, hr_suffix, _hr_ne_y, hr_left_prefix⟩
+    exact terminal_set_cross_swap_commonCard_lt_of_later_return
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (y := y) (r := r) (pair := pair)
+      hx_left hx_right hxv hy_suffix hr_suffix _hr_ne_y hr_left_prefix
+  · exact
+      terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent_of_not_right_suffix
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (z := z) (y := y)
+        (pair := pair) (rs := rs)
+        hrsPath hx_left hx_right hxv hx_rs hw_rs hw_right hw_not_left hwv
+        hfirst hdirect hret hzrs hzv hz_left hz_not_right hz_prefix_left
+        hz_not_rs_prefix hlast_bad hyv hy_rs hy_drop hy_right hy_not_alt
+        hy_new_bad hy_suffix
+
+lemma terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false
     {α : Type*} [Fintype α] [DecidableEq α]
     {G : SimpleGraph α} {v s t x w z y : α}
     {pair : G.Path v s × G.Path v t}
@@ -4578,6 +8463,16 @@ lemma terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_false
     (hz_prefix_left :
       z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
     (hz_not_rs_prefix : z ∉ (rs.takeUntil w hw_rs).support)
+    (hlast_bad :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      ∀ y : α, y ∈ rs.support → y ≠ v →
+        y ∈ (altRight : G.Walk v t).support →
+        ¬ (y ∈ (pair.1 : G.Walk v s).support ∧
+           y ∈ (pair.2 : G.Walk v t).support ∧ y ≠ x) →
+        y ∈ (rs.dropUntil z hzrs).support →
+        y = z)
     (hyv : y ≠ v)
     (hy_rs : y ∈ rs.support)
     (hy_drop : y ∈ (rs.dropUntil z hzrs).support)
@@ -4623,18 +8518,25 @@ lemma terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_false
           (G := G) (p := rs) hrsPath hzrs hw_rs
           hz_after_w hw_after_z hzw)
     · exact hy_not_prefix
-  have hcommon :
-      terminalPathPairCommonCard fallbackPair ≤ terminalPathPairCommonCard pair := by
-    exact hpair_measure_min
-  have hsupport :
-      terminalPathPairSupportLength fallbackPair <
-        terminalPathPairSupportLength pair := by
-    exact hpair_measure_min
-  exact false_of_weighted_min_and_commonCard_le_supportLength_lt
+  have hcommon_lt :
+      terminalPathPairCommonCard fallbackPair < terminalPathPairCommonCard pair := by
+    rcases terminal_set_fan_left_suffix_retention_left_prefix_not_alt_commonCard_descent
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (z := z) (y := y)
+        (pair := pair) (rs := rs)
+        hrsPath hx_left hx_right hxv hx_rs hw_rs hw_right hw_not_left hwv
+        hfirst hdirect hret hzrs hzv hz_left hz_not_right hz_prefix_left
+        hz_not_rs_prefix hlast_bad hyv hy_rs hy_drop hy_right hy_not_alt
+        hy_new_bad with
+      ⟨pair', hpair'_lt⟩
+    exact False.elim
+      (not_terminalPathPairCommonCard_lt_of_weighted_min
+        hpair_measure_min pair' hpair'_lt)
+  exact false_of_weighted_min_and_commonCard_lt
     (pair := pair) (pair' := fallbackPair)
-    hpair_measure_min hcommon hsupport
+    hpair_measure_min hcommon_lt
 
-private lemma terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false
+lemma terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false
     {α : Type*} [Fintype α] [DecidableEq α]
     {G : SimpleGraph α} {v s t x w z y : α}
     {pair : G.Path v s × G.Path v t}
@@ -4692,13 +8594,13 @@ private lemma terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_fa
       (z := z) (y := y) (pair := pair) (rs := rs)
       hx_left hx_right hzrs hz_not_right hlast_bad hyv hy_drop hy_right
       (by simpa [altRight] using hy_alt) hy_new_bad
-  · exact terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_false
+  · exact terminal_set_fan_left_suffix_retention_left_prefix_weighted_fallback_extremal_false
       (G := G) (v := v) (s := s) (t := t) (x := x) (w := w)
       (z := z) (y := y) (pair := pair) (rs := rs)
       hpair_measure_min hrsPath hx_left hx_right hxv hx_rs
       hw_rs hw_right hw_not_left hwv hfirst hdirect hret
       hzrs hzv hz_left hz_not_right hz_prefix_left hz_not_rs_prefix
-      hyv (Walk.support_dropUntil_subset rs hzrs hy_drop) hy_drop hy_right
+      hlast_bad hyv (Walk.support_dropUntil_subset rs hzrs hy_drop) hy_drop hy_right
       (by simpa [altRight] using hy_alt) hy_new_bad
 
 private lemma terminalPathPair_left_endpoint_ne_of_common_nonapex
@@ -5055,229 +8957,1316 @@ lemma terminal_set_fan_left_suffix_retention_bad_pivot_descent
   classical
   dsimp
   intro hzrs hzv hz_alt hbad
-  have hno_lower :
-      ∀ pair' : G.Path v s × G.Path v t,
-        ¬ terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair :=
-    not_terminalPathPairCommonCard_lt_of_weighted_min hpair_measure_min
-  have hzx : z ≠ x := by
-    intro hzx_eq
-    exact hx_rs (by simpa [hzx_eq] using hzrs)
-  have hz_old_union :
-      z ∈ (pair.1 : G.Walk v s).support ∨
-        z ∈ (pair.2 : G.Walk v t).support := by
+  have hbad_exists :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      ∃ z : α, z ∈ rs.support ∧ z ≠ v ∧
+        z ∈ (altRight : G.Walk v t).support ∧
+        ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+           z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x) := by
+    dsimp
+    exact ⟨z, hzrs, hzv, hz_alt, hbad⟩
+  rcases exists_first_bad_pivot_on_rs
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (pair := pair) (rs := rs)
+      hx_left hx_right hbad_exists with
+    ⟨zFirst, hzFirst_rs, hzFirst_v, hzFirst_alt, hzFirst_bad, hfirst_bad⟩
+  have hzFirst_old_union :
+      zFirst ∈ (pair.1 : G.Walk v s).support ∨
+        zFirst ∈ (pair.2 : G.Walk v t).support := by
     simpa using
       (mem_support_toPath_append_takeUntil_dropUntil_subset
         (G := G) (p := (pair.1 : G.Walk v s))
-        (q := (pair.2 : G.Walk v t)) (y := x) (z := z)
-        hx_left hx_right hz_alt)
-  have hz_alt_raw :
-      z ∈ (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        (q := (pair.2 : G.Walk v t)) (y := x) (z := zFirst)
+        hx_left hx_right hzFirst_alt)
+  have hzFirst_alt_raw :
+      zFirst ∈ (((pair.1 : G.Walk v s).takeUntil x hx_left).append
         ((pair.2 : G.Walk v t).dropUntil x hx_right)).support := by
-    exact Walk.support_toPath_subset _ hz_alt
-  by_cases hz_left : z ∈ (pair.1 : G.Walk v s).support
-  · have hz_not_right : z ∉ (pair.2 : G.Walk v t).support := by
-      intro hz_right
-      exact hbad ⟨hz_left, hz_right, hzx⟩
-    have hz_prefix_left :
-        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support := by
-      rw [Walk.mem_support_append_iff] at hz_alt_raw
-      rcases hz_alt_raw with hz_prefix | hz_suffix
-      · exact hz_prefix
-      · exact False.elim
-          (hz_not_right
-            (Walk.support_dropUntil_subset (pair.2 : G.Walk v t)
-              hx_right hz_suffix))
-    have hz_not_rs_prefix :
-        z ∉ (rs.takeUntil w hw_rs).support := by
-      have hfirst_z := hfirst z hzrs hzv (Or.inl hz_left)
-      rcases hfirst_z with hzw | hz_not_prefix
-      · exact False.elim (hw_not_left (by simpa [hzw] using hz_left))
-      · exact hz_not_prefix
-    let spliceLeft : G.Path v s :=
-      (((pair.1 : G.Walk v s).takeUntil z hz_left).append
-        (rs.dropUntil z hzrs)).toPath
-    let spliced : G.Path v s × G.Path v t := (spliceLeft, pair.2)
-    refine ⟨spliced, ?_⟩
-    have hx_not_spliceLeft :
-        x ∉ (spliceLeft : G.Walk v s).support := by
-      intro hx_splice
-      have hx_append :
-          x ∈ (((pair.1 : G.Walk v s).takeUntil z hz_left).append
-            (rs.dropUntil z hzrs)).support := by
-        exact Walk.support_toPath_subset _ hx_splice
-      rw [Walk.mem_support_append_iff] at hx_append
-      rcases hx_append with hx_prefix | hx_drop
-      · exact
-          (not_mem_takeUntil_later_of_mem_takeUntil_of_support
-            (G := G) (p := (pair.1 : G.Walk v s))
-            (x := x) (z := z) hx_left hz_left hz_prefix_left hzx)
-          hx_prefix
-      · exact hx_rs (Walk.support_dropUntil_subset rs hzrs hx_drop)
-    have hspliceLeft_support :
-        ∀ y : α, y ∈ (spliceLeft : G.Walk v s).support →
-          y ∈ (pair.1 : G.Walk v s).support ∨ y ∈ rs.support := by
-      intro y hy
-      simpa [spliceLeft] using
-        (mem_support_toPath_append_takeUntil_dropUntil_subset
-          (G := G) (p := (pair.1 : G.Walk v s)) (q := rs)
-          (y := z) (z := y) hz_left hzrs hy)
-    have hcommon_subset_old_without_x :
-        (((spliceLeft : G.Walk v s).support.toFinset ∩
-            (pair.2 : G.Walk v t).support.toFinset).erase v) ⊆
-          (((pair.1 : G.Walk v s).support.toFinset ∩
-            (pair.2 : G.Walk v t).support.toFinset).erase v).erase x := by
-      intro y hy
-      rw [Finset.mem_erase, Finset.mem_inter] at hy
-      rcases hy with ⟨hyv, hy_splice, hy_right⟩
-      have hy_splice_walk : y ∈ (spliceLeft : G.Walk v s).support := by
-        simpa using hy_splice
-      have hy_append :
-          y ∈ (((pair.1 : G.Walk v s).takeUntil z hz_left).append
-            (rs.dropUntil z hzrs)).support := by
-        exact Walk.support_toPath_subset _ hy_splice_walk
-      rw [Walk.mem_support_append_iff] at hy_append
-      rcases hy_append with hy_prefix | hy_drop
-      · rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
-        have hy_old_left :
-            y ∈ (pair.1 : G.Walk v s).support :=
-          Walk.support_takeUntil_subset (pair.1 : G.Walk v s) hz_left hy_prefix
-        refine ⟨?_, hyv, by simpa using hy_old_left, by simpa using hy_right⟩
-        intro hyx
-        exact hx_not_spliceLeft (by simpa [hyx] using hy_splice_walk)
-      · -- Remaining extremal-pivot obligation: vertices in
-        -- `rs.dropUntil z` that still meet the old right path must already be
-        -- old common vertices distinct from `x`.
-        have hy_rs : y ∈ rs.support :=
-          Walk.support_dropUntil_subset rs hzrs hy_drop
-        have hfirst_y := hfirst y hy_rs hyv (Or.inr (by simpa using hy_right))
-        rcases hfirst_y with hyw | hy_not_rs_prefix
-        · have hz_after_w :
-              z ∈ (rs.dropUntil w hw_rs).support :=
-            mem_dropUntil_of_mem_support_not_takeUntil
-              (G := G) rs hw_rs hzrs hz_not_rs_prefix
-          have hw_after_z :
-              w ∈ (rs.dropUntil z hzrs).support := by
-            simpa [hyw] using hy_drop
-          have hzw : z ≠ w := by
-            intro hzw_eq
-            exact hw_not_left (by simpa [hzw_eq] using hz_left)
-          exact False.elim
-            (not_both_mem_dropUntil_on_simple_path
-              (G := G) (p := rs) hrsPath hzrs hw_rs
-              hz_after_w hw_after_z hzw)
-        · rcases mem_erase_common_without_x_or_not_common_triple
-              (G := G) (pair := pair) (x := x) hyv
-              (by simpa using hy_right) with hy_old_common | hy_new_bad
-          · exact hy_old_common
-          · exfalso
-            exact hpair_measure_min
-    simpa [terminalPathPairCommonCard, spliced] using
-      (common_support_erase_card_lt_of_subset_erase_common
+    exact Walk.support_toPath_subset _ hzFirst_alt
+  by_cases hzFirst_left : zFirst ∈ (pair.1 : G.Walk v s).support
+  ·
+    have hzFirst_pack :=
+      first_bad_left_prefix_package
         (G := G) (v := v) (s := s) (t := t)
-        (qs := (pair.1 : G.Walk v s))
-        (qt := (pair.2 : G.Walk v t))
-        (qs' := (spliceLeft : G.Walk v s))
-        (qt' := (pair.2 : G.Walk v t))
-        (x := x) hcommon_subset_old_without_x hx_left hx_right hxv)
-  · have hz_right : z ∈ (pair.2 : G.Walk v t).support := by
-      rcases hz_old_union with hz_left' | hz_right
-      · exact False.elim (hz_left hz_left')
-      · exact hz_right
-    have hz_suffix_right :
-        z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support := by
-      rw [Walk.mem_support_append_iff] at hz_alt_raw
-      rcases hz_alt_raw with hz_prefix | hz_suffix
-      · exact False.elim
-          (hz_left
-            (Walk.support_takeUntil_subset (pair.1 : G.Walk v s)
-              hx_left hz_prefix))
-      · exact hz_suffix
-    have hfirst_suffix_branch :
-        z = w ∨ z ∉ (rs.takeUntil w hw_rs).support :=
-      hfirst z hzrs hzv (Or.inr hz_right)
-    rcases hfirst_suffix_branch with hzw | hz_not_rs_prefix
-    · have hxw : x ≠ w := by
-        intro hxw_eq
-        exact hx_rs (by simpa [hxw_eq] using hw_rs)
-      exact False.elim
-        (not_both_mem_dropUntil_on_simple_path
-          (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
-          hx_right hw_right hret (by simpa [hzw] using hz_suffix_right) hxw)
-    · let spliceRight : G.Path v t :=
-        ((rs.takeUntil z hzrs).append
-          ((pair.2 : G.Walk v t).dropUntil z hz_right)).toPath
-      let spliced : G.Path v s × G.Path v t := (pair.1, spliceRight)
+        (x := x) (w := w) (z := zFirst)
+        (pair := pair) (rs := rs)
+        hx_left hx_right hx_rs hw_rs hw_not_left hzFirst_rs
+        hzFirst_left hzFirst_alt hzFirst_bad hfirst hzFirst_v
+    have hzFirst_not_right :
+        zFirst ∉ (pair.2 : G.Walk v t).support := hzFirst_pack.1
+    have hzFirst_prefix_left :
+        zFirst ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support :=
+      hzFirst_pack.2.1
+    have hzFirst_not_rs_prefix :
+        zFirst ∉ (rs.takeUntil w hw_rs).support :=
+      hzFirst_pack.2.2
+    rcases exists_last_bad_pivot_on_rs
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (pair := pair) (rs := rs)
+        hrsPath hx_left hx_right hbad_exists with
+      ⟨z, hzrs, hzv, hz_alt, hbad, hlast_bad⟩
+    have hno_lower :
+        ∀ pair' : G.Path v s × G.Path v t,
+          ¬ terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair :=
+      not_terminalPathPairCommonCard_lt_of_weighted_min hpair_measure_min
+    have hzx : z ≠ x := by
+      intro hzx_eq
+      exact hx_rs (by simpa [hzx_eq] using hzrs)
+    have hz_old_union :
+        z ∈ (pair.1 : G.Walk v s).support ∨
+          z ∈ (pair.2 : G.Walk v t).support := by
+      simpa using
+        (mem_support_toPath_append_takeUntil_dropUntil_subset
+          (G := G) (p := (pair.1 : G.Walk v s))
+          (q := (pair.2 : G.Walk v t)) (y := x) (z := z)
+          hx_left hx_right hz_alt)
+    have hz_alt_raw :
+        z ∈ (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).support := by
+      exact Walk.support_toPath_subset _ hz_alt
+    by_cases hz_left : z ∈ (pair.1 : G.Walk v s).support
+    · have hz_not_right : z ∉ (pair.2 : G.Walk v t).support := by
+        intro hz_right
+        exact hbad ⟨hz_left, hz_right, hzx⟩
+      have hz_prefix_left :
+          z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support := by
+        rw [Walk.mem_support_append_iff] at hz_alt_raw
+        rcases hz_alt_raw with hz_prefix | hz_suffix
+        · exact hz_prefix
+        · exact False.elim
+            (hz_not_right
+              (Walk.support_dropUntil_subset (pair.2 : G.Walk v t)
+                hx_right hz_suffix))
+      have hz_not_rs_prefix :
+          z ∉ (rs.takeUntil w hw_rs).support := by
+        have hfirst_z := hfirst z hzrs hzv (Or.inl hz_left)
+        rcases hfirst_z with hzw | hz_not_prefix
+        · exact False.elim (hw_not_left (by simpa [hzw] using hz_left))
+        · exact hz_not_prefix
+      let spliceLeft : G.Path v s :=
+        (((pair.1 : G.Walk v s).takeUntil z hz_left).append
+          (rs.dropUntil z hzrs)).toPath
+      let spliced : G.Path v s × G.Path v t := (spliceLeft, pair.2)
       refine ⟨spliced, ?_⟩
-      have hx_ne_z : x ≠ z := by
-        intro hxz
-        exact hzx hxz.symm
-      have hx_not_spliceRight :
-          x ∉ (spliceRight : G.Walk v t).support := by
+      have hx_not_spliceLeft :
+          x ∉ (spliceLeft : G.Walk v s).support := by
         intro hx_splice
         have hx_append :
-            x ∈ ((rs.takeUntil z hzrs).append
-              ((pair.2 : G.Walk v t).dropUntil z hz_right)).support := by
+            x ∈ (((pair.1 : G.Walk v s).takeUntil z hz_left).append
+              (rs.dropUntil z hzrs)).support := by
           exact Walk.support_toPath_subset _ hx_splice
         rw [Walk.mem_support_append_iff] at hx_append
         rcases hx_append with hx_prefix | hx_drop
-        · exact hx_rs (Walk.support_takeUntil_subset rs hzrs hx_prefix)
-        · exact False.elim
-            (not_both_mem_dropUntil_on_simple_path
-              (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
-              hx_right hz_right hx_drop hz_suffix_right hx_ne_z)
-      have hspliceRight_support :
-          ∀ y : α, y ∈ (spliceRight : G.Walk v t).support →
-            y ∈ rs.support ∨ y ∈ (pair.2 : G.Walk v t).support := by
+        · exact
+            (not_mem_takeUntil_later_of_mem_takeUntil_of_support
+              (G := G) (p := (pair.1 : G.Walk v s))
+              (x := x) (z := z) hx_left hz_left hz_prefix_left hzx)
+            hx_prefix
+        · exact hx_rs (Walk.support_dropUntil_subset rs hzrs hx_drop)
+      have hspliceLeft_support :
+          ∀ y : α, y ∈ (spliceLeft : G.Walk v s).support →
+            y ∈ (pair.1 : G.Walk v s).support ∨ y ∈ rs.support := by
         intro y hy
-        simpa [spliceRight] using
+        simpa [spliceLeft] using
           (mem_support_toPath_append_takeUntil_dropUntil_subset
-            (G := G) (p := rs) (q := (pair.2 : G.Walk v t))
-            (y := z) (z := y) hzrs hz_right hy)
+            (G := G) (p := (pair.1 : G.Walk v s)) (q := rs)
+            (y := z) (z := y) hz_left hzrs hy)
       have hcommon_subset_old_without_x :
-          ((pair.1 : G.Walk v s).support.toFinset ∩
-              (spliceRight : G.Walk v t).support.toFinset).erase v ⊆
+          (((spliceLeft : G.Walk v s).support.toFinset ∩
+              (pair.2 : G.Walk v t).support.toFinset).erase v) ⊆
             (((pair.1 : G.Walk v s).support.toFinset ∩
               (pair.2 : G.Walk v t).support.toFinset).erase v).erase x := by
         intro y hy
         rw [Finset.mem_erase, Finset.mem_inter] at hy
-        rcases hy with ⟨hyv, hy_left, hy_splice⟩
-        have hy_splice_walk : y ∈ (spliceRight : G.Walk v t).support := by
+        rcases hy with ⟨hyv, hy_splice, hy_right⟩
+        have hy_splice_walk : y ∈ (spliceLeft : G.Walk v s).support := by
           simpa using hy_splice
         have hy_append :
-            y ∈ ((rs.takeUntil z hzrs).append
-              ((pair.2 : G.Walk v t).dropUntil z hz_right)).support := by
+            y ∈ (((pair.1 : G.Walk v s).takeUntil z hz_left).append
+              (rs.dropUntil z hzrs)).support := by
           exact Walk.support_toPath_subset _ hy_splice_walk
         rw [Walk.mem_support_append_iff] at hy_append
         rcases hy_append with hy_prefix | hy_drop
+        · rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
+          have hy_old_left :
+              y ∈ (pair.1 : G.Walk v s).support :=
+            Walk.support_takeUntil_subset (pair.1 : G.Walk v s) hz_left hy_prefix
+          refine ⟨?_, hyv, by simpa using hy_old_left, by simpa using hy_right⟩
+          intro hyx
+          exact hx_not_spliceLeft (by simpa [hyx] using hy_splice_walk)
         · -- Remaining extremal-pivot obligation: vertices in
-          -- `rs.takeUntil z` that meet the old left path must already be old
-          -- common vertices distinct from `x`.
+          -- `rs.dropUntil z` that still meet the old right path must already be
+          -- old common vertices distinct from `x`.
           have hy_rs : y ∈ rs.support :=
-            Walk.support_takeUntil_subset rs hzrs hy_prefix
-          have hfirst_y := hfirst y hy_rs hyv (Or.inl (by simpa using hy_left))
+            Walk.support_dropUntil_subset rs hzrs hy_drop
+          have hfirst_y := hfirst y hy_rs hyv (Or.inr (by simpa using hy_right))
           rcases hfirst_y with hyw | hy_not_rs_prefix
-          · exact False.elim (hw_not_left (by simpa [hyw] using hy_left))
-          · rcases mem_erase_common_without_x_or_not_common_triple_left
+          · have hz_after_w :
+                z ∈ (rs.dropUntil w hw_rs).support :=
+              mem_dropUntil_of_mem_support_not_takeUntil
+                (G := G) rs hw_rs hzrs hz_not_rs_prefix
+            have hw_after_z :
+                w ∈ (rs.dropUntil z hzrs).support := by
+              simpa [hyw] using hy_drop
+            have hzw : z ≠ w := by
+              intro hzw_eq
+              exact hw_not_left (by simpa [hzw_eq] using hz_left)
+            exact False.elim
+              (not_both_mem_dropUntil_on_simple_path
+                (G := G) (p := rs) hrsPath hzrs hw_rs
+                hz_after_w hw_after_z hzw)
+          · rcases mem_erase_common_without_x_or_not_common_triple
                 (G := G) (pair := pair) (x := x) hyv
-                (by simpa using hy_left) with hy_old_common | hy_new_bad
+                (by simpa using hy_right) with hy_old_common | hy_new_bad
             · exact hy_old_common
             · exfalso
-              exact hpair_measure_min
-        · rw [Finset.mem_erase, Finset.mem_erase, Finset.mem_inter]
-          have hy_old_right :
-              y ∈ (pair.2 : G.Walk v t).support :=
-            Walk.support_dropUntil_subset (pair.2 : G.Walk v t) hz_right hy_drop
-          refine ⟨?_, hyv, by simpa using hy_left, by simpa using hy_old_right⟩
-          intro hyx
-          exact hx_not_spliceRight (by simpa [hyx] using hy_splice_walk)
+              exact terminal_set_fan_left_suffix_retention_left_prefix_residual_bad_false
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (z := z) (y := y)
+                (pair := pair) (rs := rs)
+                hpair_measure_min hrsPath hx_left hx_right hxv hx_rs
+                hw_rs hw_right hw_not_left hwv hfirst hdirect hret
+                hzrs hzv hz_left hz_not_right hz_prefix_left
+                hz_not_rs_prefix hlast_bad hyv hy_drop (by simpa using hy_right)
+                hy_new_bad
       simpa [terminalPathPairCommonCard, spliced] using
         (common_support_erase_card_lt_of_subset_erase_common
           (G := G) (v := v) (s := s) (t := t)
           (qs := (pair.1 : G.Walk v s))
           (qt := (pair.2 : G.Walk v t))
-          (qs' := (pair.1 : G.Walk v s))
-          (qt' := (spliceRight : G.Walk v t))
+          (qs' := (spliceLeft : G.Walk v s))
+          (qt' := (pair.2 : G.Walk v t))
           (x := x) hcommon_subset_old_without_x hx_left hx_right hxv)
+    · have hz_right : z ∈ (pair.2 : G.Walk v t).support := by
+        rcases hz_old_union with hz_left' | hz_right
+        · exact False.elim (hz_left hz_left')
+        · exact hz_right
+      have hz_suffix_right :
+          z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support := by
+        rw [Walk.mem_support_append_iff] at hz_alt_raw
+        rcases hz_alt_raw with hz_prefix | hz_suffix
+        · exact False.elim
+            (hz_left
+              (Walk.support_takeUntil_subset (pair.1 : G.Walk v s)
+                hx_left hz_prefix))
+        · exact hz_suffix
+      have hz_after_first_pack :=
+        later_bad_after_first_bad_on_isPath
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (y := zFirst) (z := z)
+          (pair := pair) (rs := rs)
+          hrsPath hx_left hx_right hzFirst_rs hzrs hzFirst_v hzv
+          hzFirst_not_right hz_right hzFirst_alt hz_alt hbad hfirst_bad
+      have hz_after_zFirst :
+          z ∈ (rs.dropUntil zFirst hzFirst_rs).support :=
+        hz_after_first_pack.1
+      have hzFirst_prefix_z :
+          zFirst ∈ (rs.takeUntil z hzrs).support :=
+        hz_after_first_pack.2
+      have hzFirst_ne_x : zFirst ≠ x := by
+        intro hzxFirst
+        exact hx_rs (by simpa [hzxFirst] using hzFirst_rs)
+      have hnot_global_bridge_guard :
+          ¬ ∀ q : α, q ≠ v →
+            q ∈
+              (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+                ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                  G.Walk v s).support →
+            q ∈
+              ((rs.dropUntil zFirst hzFirst_rs).takeUntil z
+                hz_after_zFirst).support →
+            q ∈ (pair.1 : G.Walk v s).support ∧
+              q ∈ (pair.2 : G.Walk v t).support := by
+        intro hbridge_guard
+        rcases terminal_set_fan_two_sided_bridge_commonCard_lt_of_middle_guard
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (y := zFirst) (z := z)
+            (pair := pair) (rs := rs)
+            hx_left hx_right hxv hx_rs hzFirst_left hzFirst_rs
+            hz_after_zFirst hz_right hzFirst_prefix_left
+            hz_suffix_right hzFirst_ne_x hzx hbridge_guard with
+          ⟨pair', hpair'_lt⟩
+        exact hno_lower pair' hpair'_lt
+      rcases exists_first_bridge_guard_counterexample
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (y := zFirst) (z := z)
+          (pair := pair) (rs := rs)
+          hx_left hx_right hzFirst_rs hz_after_zFirst
+          hnot_global_bridge_guard with
+        ⟨qBridge, hqBridge_mid, hqBridge_v, hqBridge_swap,
+          hqBridge_not_common, hfirst_bridge_bad⟩
+      have hqBridge_tail :
+          qBridge ∈ (rs.dropUntil zFirst hzFirst_rs).support :=
+        Walk.support_takeUntil_subset
+          (rs.dropUntil zFirst hzFirst_rs) hz_after_zFirst hqBridge_mid
+      have hqBridge_rs : qBridge ∈ rs.support :=
+        Walk.support_dropUntil_subset rs hzFirst_rs hqBridge_tail
+      have hqBridge_side :=
+        bridge_guard_counterexample_side
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (q := qBridge) (pair := pair)
+          hx_left hx_right hqBridge_swap hqBridge_not_common
+      have hzFirst_not_swap :
+          zFirst ∉
+            (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+              ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                G.Walk v s).support :=
+        not_mem_cross_swap_left_of_left_prefix_not_right
+          (G := G) (left := (pair.1 : G.Walk v s))
+          (right := (pair.2 : G.Walk v t)) pair.1.property
+          hx_left hx_right hzFirst_left hzFirst_prefix_left
+          hzFirst_not_right hzFirst_ne_x
+      have hqBridge_ne_zFirst : qBridge ≠ zFirst := by
+        intro hqzFirst
+        exact hzFirst_not_swap (by simpa [hqzFirst] using hqBridge_swap)
+      have hqBridge_not_rs_prefix_zFirst :
+          qBridge ∉ (rs.takeUntil zFirst hzFirst_rs).support :=
+        not_mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+          (G := G) (p := rs) hrsPath hzFirst_rs hqBridge_rs
+          hqBridge_tail hqBridge_ne_zFirst
+      have hz_not_swap :
+          z ∉
+            (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+              ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                G.Walk v s).support := by
+        intro hz_swap
+        have hz_swap_raw :
+            z ∈ (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+              ((pair.1 : G.Walk v s).dropUntil x hx_left)).support :=
+          Walk.support_toPath_subset _ hz_swap
+        rw [Walk.mem_support_append_iff] at hz_swap_raw
+        rcases hz_swap_raw with hz_right_prefix | hz_left_suffix
+        · exact
+            (not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+              (G := G) (p := (pair.2 : G.Walk v t))
+              pair.2.property hx_right hz_right hz_right_prefix hzx)
+            hz_suffix_right
+        · exact hz_left
+            (Walk.support_dropUntil_subset (pair.1 : G.Walk v s)
+              hx_left hz_left_suffix)
+      have hqBridge_ne_z : qBridge ≠ z := by
+        intro hqz
+        exact hz_not_swap (by simpa [hqz] using hqBridge_swap)
+      have hqBridge_prefix_z :
+          qBridge ∈ (rs.takeUntil z hzrs).support :=
+        mem_takeUntil_of_mem_dropUntil_takeUntil_ne_on_isPath
+          (G := G) (p := rs) hrsPath hzFirst_rs hzrs
+          hz_after_zFirst hqBridge_mid hqBridge_ne_z
+      have hz_tail_qBridge :
+          z ∈ (rs.dropUntil qBridge hqBridge_rs).support :=
+        mem_dropUntil_of_mem_takeUntil_ne
+          (G := G) rs hqBridge_rs hzrs hqBridge_prefix_z hqBridge_ne_z
+      have hqBridge_right_prefix_stage_guard_false
+          (hq_right_prefix :
+            qBridge ∈ (pair.2 : G.Walk v t).support ∧
+              qBridge ∉ (pair.1 : G.Walk v s).support ∧
+              qBridge ∈
+                ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+          (hsegment_left_guard :
+            ∀ y0 : α, y0 ≠ v →
+              y0 ∈ (pair.1 : G.Walk v s).support →
+              y0 ∈
+                ((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                  (mem_dropUntil_of_mem_takeUntil_ne
+                    (G := G) rs hqBridge_rs hzrs hqBridge_prefix_z
+                    hqBridge_ne_z)).support →
+              y0 ∈ (pair.2 : G.Walk v t).support) :
+          False := by
+        rcases terminal_set_fan_bridge_right_prefix_stage_commonCard_lt
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (a := qBridge) (z := z)
+            (pair := pair) (rs := rs)
+            hx_left hx_right hxv hx_rs hq_right_prefix.1 hqBridge_rs
+            hz_right hzrs hq_right_prefix.2.2 hz_suffix_right
+            hqBridge_prefix_z hqBridge_ne_z hzx hsegment_left_guard with
+          ⟨pair', hpair'_lt⟩
+        exact hno_lower pair' hpair'_lt
+      have hqBridge_left_suffix_stage_guard_false
+          (hq_left_suffix :
+            qBridge ∈ (pair.1 : G.Walk v s).support ∧
+              qBridge ∉ (pair.2 : G.Walk v t).support ∧
+              qBridge ∈
+                ((pair.1 : G.Walk v s).dropUntil x hx_left).support)
+          (hsegment_right_guard :
+            ∀ r : α, r ≠ v →
+              r ∈ (pair.2 : G.Walk v t).support →
+              r ∈
+                ((rs.dropUntil zFirst hzFirst_rs).takeUntil qBridge
+                  hqBridge_tail).support →
+              r ∈ (pair.1 : G.Walk v s).support) :
+          False := by
+        rcases terminal_set_fan_bridge_left_suffix_stage_commonCard_lt
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (y := zFirst) (a := qBridge)
+            (pair := pair) (rs := rs)
+            hx_left hx_right hxv hx_rs hzFirst_left hzFirst_rs
+            hq_left_suffix.1 hqBridge_rs hqBridge_tail
+            hzFirst_prefix_left hq_left_suffix.2.2 hzFirst_ne_x
+            hsegment_right_guard with
+          ⟨pair', hpair'_lt⟩
+        exact hno_lower pair' hpair'_lt
+      have hqBridge_stage_witness :
+          (∃ hright :
+              qBridge ∈ (pair.2 : G.Walk v t).support ∧
+                qBridge ∉ (pair.1 : G.Walk v s).support ∧
+                qBridge ∈
+                  ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+            ∃ b : α,
+            ∃ hb_mid :
+              b ∈ ((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                hz_tail_qBridge).support,
+              b ≠ v ∧
+              b ∈ (pair.1 : G.Walk v s).support ∧
+              b ∉ (pair.2 : G.Walk v t).support ∧
+              ∀ r : α, r ≠ v →
+                r ∈ (pair.1 : G.Walk v s).support →
+                r ∉ (pair.2 : G.Walk v t).support →
+                r ∈
+                  (((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                    hz_tail_qBridge).takeUntil b hb_mid).support →
+                r = b) ∨
+          (∃ hleft :
+              qBridge ∈ (pair.1 : G.Walk v s).support ∧
+                qBridge ∉ (pair.2 : G.Walk v t).support ∧
+                qBridge ∈
+                  ((pair.1 : G.Walk v s).dropUntil x hx_left).support,
+            ∃ r : α,
+            ∃ hr_mid :
+              r ∈ ((rs.dropUntil zFirst hzFirst_rs).takeUntil qBridge
+                hqBridge_tail).support,
+              r ≠ v ∧
+              r ∈ (pair.2 : G.Walk v t).support ∧
+              r ∉ (pair.1 : G.Walk v s).support ∧
+              ∀ q : α, q ≠ v →
+                q ∈ (pair.2 : G.Walk v t).support →
+                q ∉ (pair.1 : G.Walk v s).support →
+                q ∈
+                  (((rs.dropUntil zFirst hzFirst_rs).takeUntil qBridge
+                    hqBridge_tail).takeUntil r hr_mid).support →
+                q = r) := by
+        rcases hqBridge_side with hright | hleft
+        · left
+          have hnot_segment_left_guard :
+              ¬ ∀ y0 : α, y0 ≠ v →
+                y0 ∈ (pair.1 : G.Walk v s).support →
+                y0 ∈ ((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                  hz_tail_qBridge).support →
+                y0 ∈ (pair.2 : G.Walk v t).support := by
+            intro hguard
+            exact hqBridge_right_prefix_stage_guard_false hright
+              (by simpa [hz_tail_qBridge] using hguard)
+          rcases exists_first_segment_left_only_of_not_segment_left_guard
+              (G := G) (v := v) (s := s) (t := t)
+              (a := qBridge) (z := z) (pair := pair) (rs := rs)
+              (ha_rs := hqBridge_rs) (hz_tail := hz_tail_qBridge)
+              hnot_segment_left_guard with
+            ⟨b, hb_mid, hbv, hb_left, hb_not_right, hb_first⟩
+          exact ⟨hright, b, hb_mid, hbv, hb_left, hb_not_right, hb_first⟩
+        · right
+          have hnot_segment_right_guard :
+              ¬ ∀ r : α, r ≠ v →
+                r ∈ (pair.2 : G.Walk v t).support →
+                r ∈
+                  ((rs.dropUntil zFirst hzFirst_rs).takeUntil qBridge
+                    hqBridge_tail).support →
+                r ∈ (pair.1 : G.Walk v s).support := by
+            intro hguard
+            exact hqBridge_left_suffix_stage_guard_false hleft hguard
+          rcases exists_first_segment_right_only_of_not_segment_right_guard
+              (G := G) (v := v) (s := s) (t := t)
+              (a := zFirst) (z := qBridge) (pair := pair) (rs := rs)
+              (ha_rs := hzFirst_rs) (hz_tail := hqBridge_tail)
+              hnot_segment_right_guard with
+            ⟨r, hr_mid, hrv, hr_right, hr_not_left, hr_first⟩
+          exact ⟨hleft, r, hr_mid, hrv, hr_right, hr_not_left, hr_first⟩
+      have hqBridge_stage_obstruction :
+          (∃ hright :
+              qBridge ∈ (pair.2 : G.Walk v t).support ∧
+                qBridge ∉ (pair.1 : G.Walk v s).support ∧
+                qBridge ∈
+                  ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+            ∃ b : α,
+            ∃ hb_mid :
+              b ∈ ((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                hz_tail_qBridge).support,
+              b ≠ v ∧
+              b ∈ (pair.1 : G.Walk v s).support ∧
+              b ∉ (pair.2 : G.Walk v t).support ∧
+              b ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+              ∀ r : α, r ≠ v →
+                r ∈ (pair.1 : G.Walk v s).support →
+                r ∉ (pair.2 : G.Walk v t).support →
+                r ∈
+                  (((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                    hz_tail_qBridge).takeUntil b hb_mid).support →
+                r = b) ∨
+          (∃ hleft :
+              qBridge ∈ (pair.1 : G.Walk v s).support ∧
+                qBridge ∉ (pair.2 : G.Walk v t).support ∧
+                qBridge ∈
+                  ((pair.1 : G.Walk v s).dropUntil x hx_left).support,
+            ∃ r : α,
+            ∃ hr_mid :
+              r ∈ ((rs.dropUntil zFirst hzFirst_rs).takeUntil qBridge
+                hqBridge_tail).support,
+              r ≠ v ∧
+              r ∈ (pair.2 : G.Walk v t).support ∧
+              r ∉ (pair.1 : G.Walk v s).support ∧
+              r ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+              ∀ q : α, q ≠ v →
+                q ∈ (pair.2 : G.Walk v t).support →
+                q ∉ (pair.1 : G.Walk v s).support →
+                q ∈
+                  (((rs.dropUntil zFirst hzFirst_rs).takeUntil qBridge
+                    hqBridge_tail).takeUntil r hr_mid).support →
+                q = r) := by
+        rcases hqBridge_stage_witness with hright_stage | hleft_stage
+        · rcases hright_stage with
+            ⟨hright, b, hb_mid, hbv, hb_left, hb_not_right, hb_first⟩
+          have hb_pos :=
+            mem_takeUntil_or_mem_dropUntil_of_mem_support
+              (G := G) (p := (pair.1 : G.Walk v s))
+              hx_left hb_left
+          rcases hb_pos with hb_prefix_x | hb_suffix_x
+          · exact Or.inl
+              ⟨hright, b, hb_mid, hbv, hb_left, hb_not_right,
+                hb_prefix_x, hb_first⟩
+          · rcases
+              terminal_set_fan_right_prefix_stage_left_suffix_witness_commonCard_lt
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (a := qBridge) (z := z) (b := b)
+                (pair := pair) (rs := rs)
+                hx_left hx_right hxv hx_rs hright.1 hright.2.1
+                hqBridge_rs hright.2.2 hz_right hz_tail_qBridge
+                hz_suffix_right hb_mid hbv hb_left hb_not_right
+                hb_first hb_suffix_x with
+              ⟨pair', hpair'_lt⟩
+            exact False.elim (hno_lower pair' hpair'_lt)
+        · rcases hleft_stage with
+            ⟨hleft, r, hr_mid, hrv, hr_right, hr_not_left, hr_first⟩
+          have hr_pos :=
+            mem_takeUntil_or_mem_dropUntil_of_mem_support
+              (G := G) (p := (pair.2 : G.Walk v t))
+              hx_right hr_right
+          rcases hr_pos with hr_prefix_x | hr_suffix_x
+          · rcases
+              terminal_set_fan_left_suffix_stage_right_prefix_witness_commonCard_lt
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (y := zFirst) (a := qBridge) (z := z)
+                (r := r) (pair := pair) (rs := rs)
+                hx_left hx_right hxv hzFirst_rs hqBridge_tail
+                hz_after_zFirst hqBridge_mid hleft.2.1 hr_mid hrv
+                hr_right hr_not_left hr_prefix_x hfirst_bridge_bad with
+              ⟨pair', hpair'_lt⟩
+            exact False.elim (hno_lower pair' hpair'_lt)
+          · rcases
+              terminal_set_fan_left_suffix_stage_right_suffix_witness_commonCard_lt
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (y := zFirst) (a := qBridge) (z := z)
+                (r := r) (pair := pair) (rs := rs)
+                hx_left hx_right hxv hx_rs hzFirst_left hzFirst_rs
+                hzFirst_prefix_left hqBridge_tail hz_after_zFirst
+                hqBridge_mid hleft.2.1 hr_mid hrv hr_right hr_not_left
+                hr_suffix_x hfirst_bridge_bad with
+              ⟨pair', hpair'_lt⟩
+            exact False.elim (hno_lower pair' hpair'_lt)
+      have hqBridge_right_prefix_front_obstruction :
+          ∃ hright :
+              qBridge ∈ (pair.2 : G.Walk v t).support ∧
+                qBridge ∉ (pair.1 : G.Walk v s).support ∧
+                qBridge ∈
+                  ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+            ∃ b : α,
+            ∃ hb_mid :
+              b ∈ ((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                hz_tail_qBridge).support,
+              b ≠ v ∧
+              b ∈ (pair.1 : G.Walk v s).support ∧
+              b ∉ (pair.2 : G.Walk v t).support ∧
+              b ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+              ∀ r : α, r ≠ v →
+                r ∈ (pair.1 : G.Walk v s).support →
+                r ∉ (pair.2 : G.Walk v t).support →
+                r ∈
+                  (((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                    hz_tail_qBridge).takeUntil b hb_mid).support →
+                r = b := by
+        rcases hqBridge_stage_obstruction with hright_obstruction | hleft_obstruction
+        · exact hright_obstruction
+        · rcases hleft_obstruction with
+            ⟨hleft, r, hr_mid, hrv, hr_right, hr_not_left,
+              hr_prefix_x, _hr_first⟩
+          rcases
+            terminal_set_fan_left_suffix_stage_right_prefix_witness_commonCard_lt
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (y := zFirst) (a := qBridge) (z := z)
+              (r := r) (pair := pair) (rs := rs)
+              hx_left hx_right hxv hzFirst_rs hqBridge_tail
+              hz_after_zFirst hqBridge_mid hleft.2.1 hr_mid hrv
+              hr_right hr_not_left hr_prefix_x hfirst_bridge_bad with
+            ⟨pair', hpair'_lt⟩
+          exact False.elim (hno_lower pair' hpair'_lt)
+      have hqBridge_right_prefix_front_alt_obstruction :
+          ∃ hright :
+              qBridge ∈ (pair.2 : G.Walk v t).support ∧
+                qBridge ∉ (pair.1 : G.Walk v s).support ∧
+                qBridge ∈
+                  ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+            ∃ b : α,
+            ∃ hb_mid :
+              b ∈ ((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                hz_tail_qBridge).support,
+              b ≠ v ∧
+              b ∈ (pair.1 : G.Walk v s).support ∧
+              b ∉ (pair.2 : G.Walk v t).support ∧
+              b ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+              b ∈
+                (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+                  ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+                    G.Walk v t).support ∧
+              ∀ r : α, r ≠ v →
+                r ∈ (pair.1 : G.Walk v s).support →
+                r ∉ (pair.2 : G.Walk v t).support →
+                r ∈
+                  (((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                    hz_tail_qBridge).takeUntil b hb_mid).support →
+                r = b := by
+        rcases hqBridge_right_prefix_front_obstruction with
+          ⟨hright, b, hb_mid, hbv, hb_left, hb_not_right, hb_prefix_x,
+            hb_first⟩
+        by_cases hb_alt :
+            b ∈
+              (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+                ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+                  G.Walk v t).support
+        · exact
+            ⟨hright, b, hb_mid, hbv, hb_left, hb_not_right,
+              hb_prefix_x, hb_alt, hb_first⟩
+        · rcases
+            terminal_set_cross_swap_commonCard_lt_of_left_prefix_absent_altRight
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (y := b) (pair := pair)
+              hx_left hx_right hxv hb_prefix_x hb_alt with
+            ⟨pair', hpair'_lt⟩
+          exact False.elim (hno_lower pair' hpair'_lt)
+      have hqBridge_front_alt_order_package :
+          ∃ hright :
+              qBridge ∈ (pair.2 : G.Walk v t).support ∧
+                qBridge ∉ (pair.1 : G.Walk v s).support ∧
+                qBridge ∈
+                  ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+            ∃ b : α,
+            ∃ hb_mid :
+              b ∈ ((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                hz_tail_qBridge).support,
+              ∃ hb_rs : b ∈ rs.support,
+              b ≠ v ∧
+              b ≠ qBridge ∧
+              b ≠ z ∧
+              b ∈ (rs.dropUntil qBridge hqBridge_rs).support ∧
+              qBridge ∈ (rs.takeUntil b hb_rs).support ∧
+              b ∈ (rs.takeUntil z hzrs).support ∧
+              b ∈ (pair.1 : G.Walk v s).support ∧
+              b ∉ (pair.2 : G.Walk v t).support ∧
+              b ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+              b ∈
+                (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+                  ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+                    G.Walk v t).support ∧
+              ∀ r : α, r ≠ v →
+                r ∈ (pair.1 : G.Walk v s).support →
+                r ∉ (pair.2 : G.Walk v t).support →
+                r ∈
+                  (((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                    hz_tail_qBridge).takeUntil b hb_mid).support →
+                r = b := by
+        rcases hqBridge_right_prefix_front_alt_obstruction with
+          ⟨hright, b, hb_mid, hbv, hb_left, hb_not_right, hb_prefix_x,
+            hb_alt, hb_first⟩
+        have hb_tail_qBridge :
+            b ∈ (rs.dropUntil qBridge hqBridge_rs).support :=
+          Walk.support_takeUntil_subset
+            (rs.dropUntil qBridge hqBridge_rs) hz_tail_qBridge hb_mid
+        have hb_rs : b ∈ rs.support :=
+          Walk.support_dropUntil_subset rs hqBridge_rs hb_tail_qBridge
+        have hb_ne_qBridge : b ≠ qBridge := by
+          intro hbq
+          exact hright.2.1 (by simpa [hbq] using hb_left)
+        have hb_ne_z : b ≠ z := by
+          intro hbz
+          exact hb_not_right (by simpa [hbz] using hz_right)
+        have hqBridge_prefix_b :
+            qBridge ∈ (rs.takeUntil b hb_rs).support :=
+          mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+            (G := G) (p := rs) hrsPath hqBridge_rs hb_rs
+            hb_tail_qBridge hb_ne_qBridge.symm
+        have hb_prefix_z :
+            b ∈ (rs.takeUntil z hzrs).support := by
+          exact mem_takeUntil_of_mem_dropUntil_takeUntil_ne_on_isPath
+            (G := G) (p := rs) hrsPath hqBridge_rs hzrs
+            hz_tail_qBridge hb_mid hb_ne_z
+        exact
+          ⟨hright, b, hb_mid, hb_rs, hbv, hb_ne_qBridge, hb_ne_z,
+            hb_tail_qBridge, hqBridge_prefix_b, hb_prefix_z, hb_left,
+            hb_not_right, hb_prefix_x, hb_alt, hb_first⟩
+      have hqBridge_front_next_bridge_package :
+          ∃ hright :
+              qBridge ∈ (pair.2 : G.Walk v t).support ∧
+                qBridge ∉ (pair.1 : G.Walk v s).support ∧
+                qBridge ∈
+                  ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+            ∃ b : α,
+            ∃ hb_mid :
+              b ∈ ((rs.dropUntil qBridge hqBridge_rs).takeUntil z
+                hz_tail_qBridge).support,
+            ∃ hb_rs : b ∈ rs.support,
+            ∃ hz_tail_b : z ∈ (rs.dropUntil b hb_rs).support,
+              b ≠ v ∧
+              b ≠ qBridge ∧
+              b ≠ z ∧
+              b ∈ (rs.dropUntil qBridge hqBridge_rs).support ∧
+              qBridge ∈ (rs.takeUntil b hb_rs).support ∧
+              b ∈ (rs.takeUntil z hzrs).support ∧
+              b ∈ (pair.1 : G.Walk v s).support ∧
+              b ∉ (pair.2 : G.Walk v t).support ∧
+              b ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+              b ∈
+                (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+                  ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+                    G.Walk v t).support ∧
+              (∃ qNext : α,
+              ∃ hqNext_mid :
+                qNext ∈ ((rs.dropUntil b hb_rs).takeUntil z
+                  hz_tail_b).support,
+                qNext ≠ v ∧
+                qNext ∈
+                  (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+                    ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                      G.Walk v s).support ∧
+                ¬ (qNext ∈ (pair.1 : G.Walk v s).support ∧
+                  qNext ∈ (pair.2 : G.Walk v t).support) ∧
+                ∀ r : α, r ≠ v →
+                  r ∈
+                    (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+                      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                        G.Walk v s).support →
+                  ¬ (r ∈ (pair.1 : G.Walk v s).support ∧
+                    r ∈ (pair.2 : G.Walk v t).support) →
+                  r ∈
+                    (((rs.dropUntil b hb_rs).takeUntil z
+                      hz_tail_b).takeUntil qNext hqNext_mid).support →
+                  r = qNext) := by
+        rcases hqBridge_front_alt_order_package with
+          ⟨hright, b, hb_mid, hb_rs, hbv, hb_ne_qBridge, hb_ne_z,
+            hb_tail_qBridge, hqBridge_prefix_b, hb_prefix_z, hb_left,
+            hb_not_right, hb_prefix_x, hb_alt, _hb_first⟩
+        have hz_tail_b : z ∈ (rs.dropUntil b hb_rs).support :=
+          mem_dropUntil_of_mem_takeUntil_ne
+            (G := G) rs hb_rs hzrs hb_prefix_z hb_ne_z
+        have hbx : b ≠ x := by
+          intro hbx_eq
+          exact hb_not_right (by simpa [hbx_eq] using hx_right)
+        have hnot_bridge_guard_bz :
+            ¬ ∀ q : α, q ≠ v →
+              q ∈
+                (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+                  ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                    G.Walk v s).support →
+              q ∈ ((rs.dropUntil b hb_rs).takeUntil z hz_tail_b).support →
+              q ∈ (pair.1 : G.Walk v s).support ∧
+                q ∈ (pair.2 : G.Walk v t).support := by
+          intro hguard
+          rcases terminal_set_fan_two_sided_bridge_commonCard_lt_of_middle_guard
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (y := b) (z := z)
+              (pair := pair) (rs := rs)
+              hx_left hx_right hxv hx_rs hb_left hb_rs hz_tail_b
+              hz_right hb_prefix_x hz_suffix_right hbx hzx hguard with
+            ⟨pair', hpair'_lt⟩
+          exact hno_lower pair' hpair'_lt
+        rcases exists_first_bridge_guard_counterexample
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (y := b) (z := z)
+            (pair := pair) (rs := rs)
+            hx_left hx_right hb_rs hz_tail_b hnot_bridge_guard_bz with
+          ⟨qNext, hqNext_mid, hqNext_v, hqNext_swap,
+            hqNext_not_common, hqNext_first⟩
+        exact
+          ⟨hright, b, hb_mid, hb_rs, hz_tail_b, hbv, hb_ne_qBridge,
+            hb_ne_z, hb_tail_qBridge, hqBridge_prefix_b, hb_prefix_z,
+            hb_left, hb_not_right, hb_prefix_x, hb_alt, qNext,
+            hqNext_mid, hqNext_v, hqNext_swap, hqNext_not_common,
+            hqNext_first⟩
+      have hqBridge_front_next_bridge_side_package :
+          ∃ hright :
+              qBridge ∈ (pair.2 : G.Walk v t).support ∧
+                qBridge ∉ (pair.1 : G.Walk v s).support ∧
+                qBridge ∈
+                  ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+            ∃ b : α,
+            ∃ hb_rs : b ∈ rs.support,
+            ∃ hz_tail_b : z ∈ (rs.dropUntil b hb_rs).support,
+            ∃ qNext : α,
+            ∃ hqNext_mid :
+              qNext ∈ ((rs.dropUntil b hb_rs).takeUntil z
+                hz_tail_b).support,
+              b ≠ v ∧
+              b ∈ (pair.1 : G.Walk v s).support ∧
+              b ∉ (pair.2 : G.Walk v t).support ∧
+              b ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+              b ∉
+                (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+                  ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                    G.Walk v s).support ∧
+              qNext ≠ v ∧
+              qNext ≠ b ∧
+              qNext ∈ rs.support ∧
+              qNext ∈
+                (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+                  ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                    G.Walk v s).support ∧
+              ¬ (qNext ∈ (pair.1 : G.Walk v s).support ∧
+                qNext ∈ (pair.2 : G.Walk v t).support) ∧
+              ((qNext ∈ (pair.2 : G.Walk v t).support ∧
+                  qNext ∉ (pair.1 : G.Walk v s).support ∧
+                  qNext ∈
+                    ((pair.2 : G.Walk v t).takeUntil x hx_right).support) ∨
+                (qNext ∈ (pair.1 : G.Walk v s).support ∧
+                  qNext ∉ (pair.2 : G.Walk v t).support ∧
+                  qNext ∈
+                    ((pair.1 : G.Walk v s).dropUntil x hx_left).support)) := by
+        rcases hqBridge_front_next_bridge_package with
+          ⟨hright, b, _hb_mid, hb_rs, hz_tail_b, hbv, _hb_ne_qBridge,
+            _hb_ne_z, _hb_tail_qBridge, _hqBridge_prefix_b, _hb_prefix_z,
+            hb_left, hb_not_right, hb_prefix_x, _hb_alt, qNext,
+            hqNext_mid, hqNext_v, hqNext_swap, hqNext_not_common,
+            _hqNext_first⟩
+        have hbx : b ≠ x := by
+          intro hbx_eq
+          exact hb_not_right (by simpa [hbx_eq] using hx_right)
+        have hb_not_swap :
+            b ∉
+              (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+                ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                  G.Walk v s).support :=
+          not_mem_cross_swap_left_of_left_prefix_not_right
+            (G := G) (left := (pair.1 : G.Walk v s))
+            (right := (pair.2 : G.Walk v t)) pair.1.property
+            hx_left hx_right hb_left hb_prefix_x hb_not_right hbx
+        have hqNext_ne_b : qNext ≠ b := by
+          intro hqb
+          exact hb_not_swap (by simpa [hqb] using hqNext_swap)
+        have hqNext_tail_b :
+            qNext ∈ (rs.dropUntil b hb_rs).support :=
+          Walk.support_takeUntil_subset
+            (rs.dropUntil b hb_rs) hz_tail_b hqNext_mid
+        have hqNext_rs : qNext ∈ rs.support :=
+          Walk.support_dropUntil_subset rs hb_rs hqNext_tail_b
+        have hqNext_side :=
+          bridge_guard_counterexample_side
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (q := qNext) (pair := pair)
+            hx_left hx_right hqNext_swap hqNext_not_common
+        exact
+          ⟨hright, b, hb_rs, hz_tail_b, qNext, hqNext_mid, hbv,
+            hb_left, hb_not_right, hb_prefix_x, hb_not_swap, hqNext_v,
+            hqNext_ne_b, hqNext_rs, hqNext_swap, hqNext_not_common,
+            hqNext_side⟩
+      have hqBridge_front_next_stage_witness :
+          ∃ hright :
+              qBridge ∈ (pair.2 : G.Walk v t).support ∧
+                qBridge ∉ (pair.1 : G.Walk v s).support ∧
+                qBridge ∈
+                  ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+            ∃ b : α,
+            ∃ hb_rs : b ∈ rs.support,
+            ∃ qNext : α,
+            ∃ hqNext_tail_b : qNext ∈ (rs.dropUntil b hb_rs).support,
+              b ≠ v ∧
+              b ∈ (pair.1 : G.Walk v s).support ∧
+              b ∉ (pair.2 : G.Walk v t).support ∧
+              b ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+              qNext ≠ v ∧
+              qNext ≠ b ∧
+              qNext ∈ rs.support ∧
+              qNext ∈
+                (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+                  ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                    G.Walk v s).support ∧
+              ¬ (qNext ∈ (pair.1 : G.Walk v s).support ∧
+                qNext ∈ (pair.2 : G.Walk v t).support) ∧
+              ((qNext ∈ (pair.2 : G.Walk v t).support ∧
+                  qNext ∉ (pair.1 : G.Walk v s).support ∧
+                  qNext ∈
+                    ((pair.2 : G.Walk v t).takeUntil x hx_right).support) ∨
+                (∃ r2 : α,
+                ∃ hr2_mid :
+                  r2 ∈ ((rs.dropUntil b hb_rs).takeUntil qNext
+                    hqNext_tail_b).support,
+                  r2 ≠ v ∧
+                  r2 ∈ (pair.2 : G.Walk v t).support ∧
+                  r2 ∉ (pair.1 : G.Walk v s).support ∧
+                  ∀ q : α, q ≠ v →
+                    q ∈ (pair.2 : G.Walk v t).support →
+                    q ∉ (pair.1 : G.Walk v s).support →
+                    q ∈
+                      (((rs.dropUntil b hb_rs).takeUntil qNext
+                        hqNext_tail_b).takeUntil r2 hr2_mid).support →
+                    q = r2)) := by
+        rcases hqBridge_front_next_bridge_side_package with
+          ⟨hright, b, hb_rs, _hz_tail_b, qNext, hqNext_mid, hbv,
+            hb_left, hb_not_right, hb_prefix_x, _hb_not_swap, hqNext_v,
+            hqNext_ne_b, hqNext_rs, hqNext_swap, hqNext_not_common,
+            hqNext_side⟩
+        have hqNext_tail_b :
+            qNext ∈ (rs.dropUntil b hb_rs).support :=
+          Walk.support_takeUntil_subset
+            (rs.dropUntil b hb_rs) _hz_tail_b hqNext_mid
+        have hbx : b ≠ x := by
+          intro hbx_eq
+          exact hb_not_right (by simpa [hbx_eq] using hx_right)
+        rcases hqNext_side with hqNext_right_prefix | hqNext_left_suffix
+        · exact
+            ⟨hright, b, hb_rs, qNext, hqNext_tail_b, hbv, hb_left,
+              hb_not_right, hb_prefix_x, hqNext_v, hqNext_ne_b,
+              hqNext_rs, hqNext_swap, hqNext_not_common,
+              Or.inl hqNext_right_prefix⟩
+        · have hnot_segment_right_guard :
+              ¬ ∀ r : α, r ≠ v →
+                r ∈ (pair.2 : G.Walk v t).support →
+                r ∈ ((rs.dropUntil b hb_rs).takeUntil qNext
+                  hqNext_tail_b).support →
+                r ∈ (pair.1 : G.Walk v s).support := by
+            intro hguard
+            rcases terminal_set_fan_bridge_left_suffix_stage_commonCard_lt
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (y := b) (a := qNext)
+                (pair := pair) (rs := rs)
+                hx_left hx_right hxv hx_rs hb_left hb_rs
+                hqNext_left_suffix.1 hqNext_rs hqNext_tail_b
+                hb_prefix_x hqNext_left_suffix.2.2 hbx hguard with
+              ⟨pair', hpair'_lt⟩
+            exact hno_lower pair' hpair'_lt
+          rcases exists_first_segment_right_only_of_not_segment_right_guard
+              (G := G) (v := v) (s := s) (t := t)
+              (a := b) (z := qNext) (pair := pair) (rs := rs)
+              (ha_rs := hb_rs) (hz_tail := hqNext_tail_b)
+              hnot_segment_right_guard with
+            ⟨r2, hr2_mid, hr2v, hr2_right, hr2_not_left, hr2_first⟩
+          exact
+            ⟨hright, b, hb_rs, qNext, hqNext_tail_b, hbv, hb_left,
+              hb_not_right, hb_prefix_x, hqNext_v, hqNext_ne_b,
+              hqNext_rs, hqNext_swap, hqNext_not_common,
+              Or.inr
+                ⟨r2, hr2_mid, hr2v, hr2_right, hr2_not_left,
+                  hr2_first⟩⟩
+      have hqBridge_front_next_right_prefix_package :
+          ∃ hright :
+              qBridge ∈ (pair.2 : G.Walk v t).support ∧
+                qBridge ∉ (pair.1 : G.Walk v s).support ∧
+                qBridge ∈
+                  ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+            ∃ b : α,
+            ∃ hb_rs : b ∈ rs.support,
+            ∃ hz_tail_b : z ∈ (rs.dropUntil b hb_rs).support,
+            ∃ qNext : α,
+            ∃ hqNext_mid :
+              qNext ∈ ((rs.dropUntil b hb_rs).takeUntil z
+                hz_tail_b).support,
+              b ≠ v ∧
+              b ∈ (pair.1 : G.Walk v s).support ∧
+              b ∉ (pair.2 : G.Walk v t).support ∧
+              b ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+              qNext ≠ v ∧
+              qNext ≠ b ∧
+              qNext ∈ rs.support ∧
+              qNext ∈
+                (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+                  ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                    G.Walk v s).support ∧
+              ¬ (qNext ∈ (pair.1 : G.Walk v s).support ∧
+                qNext ∈ (pair.2 : G.Walk v t).support) ∧
+              qNext ∈ (pair.2 : G.Walk v t).support ∧
+              qNext ∉ (pair.1 : G.Walk v s).support ∧
+              qNext ∈
+                ((pair.2 : G.Walk v t).takeUntil x hx_right).support := by
+        rcases hqBridge_front_next_bridge_package with
+          ⟨hright, b, _hb_mid, hb_rs, hz_tail_b, hbv, _hb_ne_qBridge,
+            _hb_ne_z, _hb_tail_qBridge, _hqBridge_prefix_b, _hb_prefix_z,
+            hb_left, hb_not_right, hb_prefix_x, _hb_alt, qNext,
+            hqNext_mid, hqNext_v, hqNext_swap, hqNext_not_common,
+            hqNext_first⟩
+        have hbx : b ≠ x := by
+          intro hbx_eq
+          exact hb_not_right (by simpa [hbx_eq] using hx_right)
+        have hb_not_swap :
+            b ∉
+              (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+                ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+                  G.Walk v s).support :=
+          not_mem_cross_swap_left_of_left_prefix_not_right
+            (G := G) (left := (pair.1 : G.Walk v s))
+            (right := (pair.2 : G.Walk v t)) pair.1.property
+            hx_left hx_right hb_left hb_prefix_x hb_not_right hbx
+        have hqNext_ne_b : qNext ≠ b := by
+          intro hqb
+          exact hb_not_swap (by simpa [hqb] using hqNext_swap)
+        have hqNext_tail_b :
+            qNext ∈ (rs.dropUntil b hb_rs).support :=
+          Walk.support_takeUntil_subset
+            (rs.dropUntil b hb_rs) hz_tail_b hqNext_mid
+        have hqNext_rs : qNext ∈ rs.support :=
+          Walk.support_dropUntil_subset rs hb_rs hqNext_tail_b
+        have hqNext_side :=
+          bridge_guard_counterexample_side
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (q := qNext) (pair := pair)
+            hx_left hx_right hqNext_swap hqNext_not_common
+        rcases hqNext_side with hqNext_right_prefix | hqNext_left_suffix
+        · exact
+            ⟨hright, b, hb_rs, hz_tail_b, qNext, hqNext_mid,
+              hbv, hb_left, hb_not_right, hb_prefix_x, hqNext_v,
+              hqNext_ne_b, hqNext_rs, hqNext_swap, hqNext_not_common,
+              hqNext_right_prefix⟩
+        · have hnot_segment_right_guard :
+              ¬ ∀ r : α, r ≠ v →
+                r ∈ (pair.2 : G.Walk v t).support →
+                r ∈ ((rs.dropUntil b hb_rs).takeUntil qNext
+                  hqNext_tail_b).support →
+                r ∈ (pair.1 : G.Walk v s).support := by
+            intro hguard
+            rcases terminal_set_fan_bridge_left_suffix_stage_commonCard_lt
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (y := b) (a := qNext)
+                (pair := pair) (rs := rs)
+                hx_left hx_right hxv hx_rs hb_left hb_rs
+                hqNext_left_suffix.1 hqNext_rs hqNext_tail_b
+                hb_prefix_x hqNext_left_suffix.2.2 hbx hguard with
+              ⟨pair', hpair'_lt⟩
+            exact hno_lower pair' hpair'_lt
+          rcases exists_first_segment_right_only_of_not_segment_right_guard
+              (G := G) (v := v) (s := s) (t := t)
+              (a := b) (z := qNext) (pair := pair) (rs := rs)
+              (ha_rs := hb_rs) (hz_tail := hqNext_tail_b)
+              hnot_segment_right_guard with
+            ⟨r2, hr2_mid, hr2v, hr2_right, hr2_not_left, _hr2_first⟩
+          have hr2_pos :=
+            mem_takeUntil_or_mem_dropUntil_of_mem_support
+              (G := G) (p := (pair.2 : G.Walk v t))
+              hx_right hr2_right
+          rcases hr2_pos with hr2_prefix_x | hr2_suffix_x
+          · rcases terminal_set_fan_left_suffix_stage_right_prefix_witness_commonCard_lt
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (y := b) (a := qNext) (z := z)
+                (r := r2) (pair := pair) (rs := rs)
+                hx_left hx_right hxv hb_rs hqNext_tail_b
+                hz_tail_b hqNext_mid hqNext_left_suffix.2.1
+                hr2_mid hr2v hr2_right hr2_not_left hr2_prefix_x
+                hqNext_first with
+              ⟨pair', hpair'_lt⟩
+            exact False.elim (hno_lower pair' hpair'_lt)
+          · rcases terminal_set_fan_left_suffix_stage_right_suffix_witness_commonCard_lt
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (y := b) (a := qNext) (z := z)
+                (r := r2) (pair := pair) (rs := rs)
+                hx_left hx_right hxv hx_rs hb_left hb_rs hb_prefix_x
+                hqNext_tail_b hz_tail_b hqNext_mid
+                hqNext_left_suffix.2.1 hr2_mid hr2v hr2_right
+                hr2_not_left hr2_suffix_x hqNext_first with
+              ⟨pair', hpair'_lt⟩
+            exact False.elim (hno_lower pair' hpair'_lt)
+      have hfront_extremal_false : False := by
+        rcases hqBridge_front_next_right_prefix_package with
+          ⟨hqBridge_right_prefix, _b0, _hb0_rs, _hz_tail_b0, _qNext0,
+            _hqNext0_mid, _hb0v, _hb0_left, _hb0_not_right,
+            _hb0_prefix_x, _hqNext0v, _hqNext0_ne_b, _hqNext0_rs,
+            _hqNext0_swap, _hqNext0_not_common, _hqNext0_right,
+            _hqNext0_not_left, _hqNext0_prefix_x⟩
+        let swapLeft : G.Path v s :=
+          (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+            ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+        let S : Finset α :=
+          Finset.univ.filter fun q =>
+            q ≠ v ∧
+            q ∈ (swapLeft : G.Walk v s).support ∧
+            ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+              q ∈ (pair.2 : G.Walk v t).support) ∧
+            q ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+            q ∈ (rs.takeUntil z hzrs).support
+        have hright_prefix_front_successor :
+            ∀ q : α, ∀ hq_rs : q ∈ rs.support, q ∈ S →
+              ∃ qNext : α,
+                qNext ∈ S ∧
+                qNext ∈ (rs.dropUntil q hq_rs).support ∧
+                qNext ≠ q := by
+          intro q hq_rs hqS
+          have hqS_data := (Finset.mem_filter.mp hqS).2
+          rcases hqS_data with
+            ⟨hqv, hq_swap, hq_not_common, hq_prefix_x, hq_prefix_z⟩
+          have hq_right : q ∈ (pair.2 : G.Walk v t).support :=
+            Walk.support_takeUntil_subset (pair.2 : G.Walk v t) hx_right
+              hq_prefix_x
+          have hq_not_left : q ∉ (pair.1 : G.Walk v s).support := by
+            intro hq_left
+            exact hq_not_common ⟨hq_left, hq_right⟩
+          have hq_ne_z : q ≠ z := by
+            intro hqz
+            exact hz_not_swap (by simpa [swapLeft, hqz] using hq_swap)
+          have hz_tail_q : z ∈ (rs.dropUntil q hq_rs).support :=
+            mem_dropUntil_of_mem_takeUntil_ne
+              (G := G) rs hq_rs hzrs hq_prefix_z hq_ne_z
+          have hnot_segment_left_guard :
+              ¬ ∀ y0 : α, y0 ≠ v →
+                y0 ∈ (pair.1 : G.Walk v s).support →
+                y0 ∈ ((rs.dropUntil q hq_rs).takeUntil z
+                  hz_tail_q).support →
+                y0 ∈ (pair.2 : G.Walk v t).support := by
+            intro hguard
+            rcases terminal_set_fan_bridge_right_prefix_stage_commonCard_lt
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (a := q) (z := z)
+                (pair := pair) (rs := rs)
+                hx_left hx_right hxv hx_rs hq_right hq_rs hz_right hzrs
+                hq_prefix_x hz_suffix_right hq_prefix_z hq_ne_z hzx hguard with
+              ⟨pair', hpair'_lt⟩
+            exact hno_lower pair' hpair'_lt
+          rcases exists_first_segment_left_only_of_not_segment_left_guard
+              (G := G) (v := v) (s := s) (t := t)
+              (a := q) (z := z) (pair := pair) (rs := rs)
+              (ha_rs := hq_rs) (hz_tail := hz_tail_q)
+              hnot_segment_left_guard with
+            ⟨b, hb_mid, hbv, hb_left, hb_not_right, hb_first⟩
+          have hb_tail_q : b ∈ (rs.dropUntil q hq_rs).support :=
+            Walk.support_takeUntil_subset (rs.dropUntil q hq_rs)
+              hz_tail_q hb_mid
+          have hb_rs : b ∈ rs.support :=
+            Walk.support_dropUntil_subset rs hq_rs hb_tail_q
+          have hb_ne_q : b ≠ q := by
+            intro hbq
+            exact hq_not_left (by simpa [hbq] using hb_left)
+          have hq_prefix_b : q ∈ (rs.takeUntil b hb_rs).support :=
+            mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+              (G := G) (p := rs) hrsPath hq_rs hb_rs hb_tail_q
+              hb_ne_q.symm
+          have hq_not_tail_b : q ∉ (rs.dropUntil b hb_rs).support :=
+            not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+              (G := G) (p := rs) hrsPath hb_rs hq_rs hq_prefix_b
+              hb_ne_q.symm
+          have hb_ne_z : b ≠ z := by
+            intro hbz
+            exact hb_not_right (by simpa [hbz] using hz_right)
+          have hb_prefix_z : b ∈ (rs.takeUntil z hzrs).support :=
+            mem_takeUntil_of_mem_dropUntil_takeUntil_ne_on_isPath
+              (G := G) (p := rs) hrsPath hq_rs hzrs hz_tail_q
+              hb_mid hb_ne_z
+          have hz_tail_b : z ∈ (rs.dropUntil b hb_rs).support :=
+            mem_dropUntil_of_mem_takeUntil_ne
+              (G := G) rs hb_rs hzrs hb_prefix_z hb_ne_z
+          have hbx : b ≠ x := by
+            intro hbx_eq
+            exact hb_not_right (by simpa [hbx_eq] using hx_right)
+          have hb_pos :=
+            mem_takeUntil_or_mem_dropUntil_of_mem_support
+              (G := G) (p := (pair.1 : G.Walk v s)) hx_left hb_left
+          have hb_prefix_x :
+              b ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support := by
+            rcases hb_pos with hb_prefix_x | hb_suffix_x
+            · exact hb_prefix_x
+            · rcases terminal_set_fan_right_prefix_stage_left_suffix_witness_commonCard_lt
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (a := q) (z := z) (b := b)
+                (pair := pair) (rs := rs)
+                hx_left hx_right hxv hx_rs hq_right hq_not_left
+                hq_rs hq_prefix_x hz_right hz_tail_q hz_suffix_right
+                hb_mid hbv hb_left hb_not_right hb_first hb_suffix_x with
+              ⟨pair', hpair'_lt⟩
+              exact False.elim (hno_lower pair' hpair'_lt)
+          have hb_alt :
+              b ∈
+                (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+                  ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+                    G.Walk v t).support := by
+            by_contra hb_not_alt
+            rcases terminal_set_cross_swap_commonCard_lt_of_left_prefix_absent_altRight
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (y := b) (pair := pair)
+                hx_left hx_right hxv hb_prefix_x hb_not_alt with
+              ⟨pair', hpair'_lt⟩
+            exact hno_lower pair' hpair'_lt
+          have hnot_bridge_guard_bz :
+              ¬ ∀ q0 : α, q0 ≠ v →
+                q0 ∈ (swapLeft : G.Walk v s).support →
+                q0 ∈ ((rs.dropUntil b hb_rs).takeUntil z
+                  hz_tail_b).support →
+                q0 ∈ (pair.1 : G.Walk v s).support ∧
+                  q0 ∈ (pair.2 : G.Walk v t).support := by
+            intro hguard
+            rcases terminal_set_fan_two_sided_bridge_commonCard_lt_of_middle_guard
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (y := b) (z := z)
+                (pair := pair) (rs := rs)
+                hx_left hx_right hxv hx_rs hb_left hb_rs hz_tail_b
+                hz_right hb_prefix_x hz_suffix_right hbx hzx
+                (by simpa [swapLeft] using hguard) with
+              ⟨pair', hpair'_lt⟩
+            exact hno_lower pair' hpair'_lt
+          rcases exists_first_bridge_guard_counterexample
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (y := b) (z := z)
+              (pair := pair) (rs := rs)
+              hx_left hx_right hb_rs hz_tail_b
+              (by simpa [swapLeft] using hnot_bridge_guard_bz) with
+            ⟨qNext, hqNext_mid, hqNext_v, hqNext_swap,
+              hqNext_not_common, hqNext_first⟩
+          have hqNext_tail_b :
+              qNext ∈ (rs.dropUntil b hb_rs).support :=
+            Walk.support_takeUntil_subset (rs.dropUntil b hb_rs)
+              hz_tail_b hqNext_mid
+          have hqNext_rs : qNext ∈ rs.support :=
+            Walk.support_dropUntil_subset rs hb_rs hqNext_tail_b
+          have hqNext_ne_b : qNext ≠ b := by
+            have hb_not_swap :
+                b ∉ (swapLeft : G.Walk v s).support := by
+              simpa [swapLeft] using
+                (not_mem_cross_swap_left_of_left_prefix_not_right
+                  (G := G) (left := (pair.1 : G.Walk v s))
+                  (right := (pair.2 : G.Walk v t)) pair.1.property
+                  hx_left hx_right hb_left hb_prefix_x hb_not_right hbx)
+            intro hqb
+            exact hb_not_swap (by simpa [hqb] using hqNext_swap)
+          have hqNext_ne_q : qNext ≠ q := by
+            intro hqq
+            exact hq_not_tail_b (by simpa [hqq] using hqNext_tail_b)
+          have hqNext_tail_q :
+              qNext ∈ (rs.dropUntil q hq_rs).support :=
+            mem_dropUntil_of_mem_dropUntil_of_mem_dropUntil
+              (G := G) (p := rs) hrsPath hq_rs hb_rs hb_tail_q
+              hqNext_tail_b
+          have hqNext_ne_z : qNext ≠ z := by
+            intro hqz
+            exact hz_not_swap (by simpa [swapLeft, hqz] using hqNext_swap)
+          have hqNext_prefix_z :
+              qNext ∈ (rs.takeUntil z hzrs).support :=
+            mem_takeUntil_of_mem_dropUntil_takeUntil_ne_on_isPath
+              (G := G) (p := rs) hrsPath hb_rs hzrs hz_tail_b
+              hqNext_mid hqNext_ne_z
+          have hqNext_side :=
+            bridge_guard_counterexample_side
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (q := qNext) (pair := pair)
+              hx_left hx_right (by simpa [swapLeft] using hqNext_swap)
+              hqNext_not_common
+          have hqNext_right_prefix :
+              qNext ∈ (pair.2 : G.Walk v t).support ∧
+                qNext ∉ (pair.1 : G.Walk v s).support ∧
+                qNext ∈
+                  ((pair.2 : G.Walk v t).takeUntil x hx_right).support := by
+            rcases hqNext_side with hright | hleft
+            · exact hright
+            · have hnot_segment_right_guard :
+                  ¬ ∀ r : α, r ≠ v →
+                    r ∈ (pair.2 : G.Walk v t).support →
+                    r ∈ ((rs.dropUntil b hb_rs).takeUntil qNext
+                      hqNext_tail_b).support →
+                    r ∈ (pair.1 : G.Walk v s).support := by
+                intro hguard
+                rcases terminal_set_fan_bridge_left_suffix_stage_commonCard_lt
+                    (G := G) (v := v) (s := s) (t := t)
+                    (x := x) (y := b) (a := qNext)
+                    (pair := pair) (rs := rs)
+                    hx_left hx_right hxv hx_rs hb_left hb_rs
+                    hleft.1 hqNext_rs hqNext_tail_b
+                    hb_prefix_x hleft.2.2 hbx hguard with
+                  ⟨pair', hpair'_lt⟩
+                exact hno_lower pair' hpair'_lt
+              rcases exists_first_segment_right_only_of_not_segment_right_guard
+                  (G := G) (v := v) (s := s) (t := t)
+                  (a := b) (z := qNext) (pair := pair) (rs := rs)
+                  (ha_rs := hb_rs) (hz_tail := hqNext_tail_b)
+                  hnot_segment_right_guard with
+                ⟨r2, hr2_mid, hr2v, hr2_right, hr2_not_left, _hr2_first⟩
+              have hr2_pos :=
+                mem_takeUntil_or_mem_dropUntil_of_mem_support
+                  (G := G) (p := (pair.2 : G.Walk v t))
+                  hx_right hr2_right
+              rcases hr2_pos with hr2_prefix_x | hr2_suffix_x
+              · rcases terminal_set_fan_left_suffix_stage_right_prefix_witness_commonCard_lt
+                    (G := G) (v := v) (s := s) (t := t)
+                    (x := x) (y := b) (a := qNext) (z := z)
+                    (r := r2) (pair := pair) (rs := rs)
+                    hx_left hx_right hxv hb_rs hqNext_tail_b
+                    hz_tail_b hqNext_mid hleft.2.1
+                    hr2_mid hr2v hr2_right hr2_not_left hr2_prefix_x
+                    hqNext_first with
+                  ⟨pair', hpair'_lt⟩
+                exact False.elim (hno_lower pair' hpair'_lt)
+              · rcases terminal_set_fan_left_suffix_stage_right_suffix_witness_commonCard_lt
+                    (G := G) (v := v) (s := s) (t := t)
+                    (x := x) (y := b) (a := qNext) (z := z)
+                    (r := r2) (pair := pair) (rs := rs)
+                    hx_left hx_right hxv hx_rs hb_left hb_rs hb_prefix_x
+                    hqNext_tail_b hz_tail_b hqNext_mid
+                    hleft.2.1 hr2_mid hr2v hr2_right
+                    hr2_not_left hr2_suffix_x hqNext_first with
+                  ⟨pair', hpair'_lt⟩
+                exact False.elim (hno_lower pair' hpair'_lt)
+          have hqNextS : qNext ∈ S := by
+            change qNext ∈ Finset.univ.filter (fun q =>
+              q ≠ v ∧
+              q ∈ (swapLeft : G.Walk v s).support ∧
+              ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+                q ∈ (pair.2 : G.Walk v t).support) ∧
+              q ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+              q ∈ (rs.takeUntil z hzrs).support)
+            rw [Finset.mem_filter]
+            exact
+              ⟨by simp, hqNext_v, by simpa [swapLeft] using hqNext_swap,
+                hqNext_not_common, hqNext_right_prefix.2.2,
+                hqNext_prefix_z⟩
+          exact ⟨qNext, hqNextS, hqNext_tail_q, hqNext_ne_q⟩
+        have hqBridgeS : qBridge ∈ S := by
+          change qBridge ∈ Finset.univ.filter (fun q =>
+            q ≠ v ∧
+            q ∈ (swapLeft : G.Walk v s).support ∧
+            ¬ (q ∈ (pair.1 : G.Walk v s).support ∧
+              q ∈ (pair.2 : G.Walk v t).support) ∧
+            q ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+            q ∈ (rs.takeUntil z hzrs).support)
+          rw [Finset.mem_filter]
+          exact
+            ⟨by simp, hqBridge_v, by simpa [swapLeft] using hqBridge_swap,
+              hqBridge_not_common, hqBridge_right_prefix.2.2,
+              hqBridge_prefix_z⟩
+        have hnonempty : {q ∈ S | q ∈ rs.support}.Nonempty := by
+          refine ⟨qBridge, ?_⟩
+          rw [Finset.mem_filter]
+          exact ⟨hqBridgeS, hqBridge_rs⟩
+        rcases exists_last_mem_support_forall_mem_dropUntil_imp_eq
+            (G := G) rs hrsPath S hnonempty with
+          ⟨qMax, hqMaxS, hqMax_rs, hlastS⟩
+        rcases hright_prefix_front_successor qMax hqMax_rs hqMaxS with
+          ⟨qNext, hqNextS, hqNext_tail_qMax, hqNext_ne_qMax⟩
+        exact hqNext_ne_qMax (hlastS qNext hqNextS hqNext_tail_qMax)
+      exact False.elim hfront_extremal_false
+  · have hzFirst_right : zFirst ∈ (pair.2 : G.Walk v t).support := by
+      rcases hzFirst_old_union with hzFirst_left' | hzFirst_right
+      · exact False.elim (hzFirst_left hzFirst_left')
+      · exact hzFirst_right
+    have hzFirst_suffix_right :
+        zFirst ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support := by
+      rw [Walk.mem_support_append_iff] at hzFirst_alt_raw
+      rcases hzFirst_alt_raw with hzFirst_prefix | hzFirst_suffix
+      · exact False.elim
+          (hzFirst_left
+            (Walk.support_takeUntil_subset (pair.1 : G.Walk v s)
+              hx_left hzFirst_prefix))
+      · exact hzFirst_suffix
+    exact terminal_set_fan_first_bad_right_only_splice_commonCard_lt
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := zFirst) (pair := pair) (rs := rs)
+      hpair_measure_min hrsPath hx_left hx_right hxv hx_rs
+      hzFirst_rs hzFirst_right hzFirst_left hzFirst_suffix_right hfirst_bad
 
 lemma terminal_set_fan_left_suffix_retention_extremal_bad_pivot_descent
     {α : Type*} [Fintype α] [DecidableEq α]
@@ -5315,13 +10304,48 @@ lemma terminal_set_fan_left_suffix_retention_extremal_bad_pivot_descent
       terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
   classical
   dsimp at hbad_exists
-  rcases hbad_exists with ⟨z, hzrs, hzv, hz_alt, hbad⟩
-  exact terminal_set_fan_left_suffix_retention_bad_pivot_descent
-    (G := G) (v := v) (s := s) (t := t)
-    (x := x) (w := w) (z := z) (pair := pair) (rs := rs)
-    hpair_measure_min hrsPath hx_left hx_right hxv hx_rs
-    hw_rs hw_right hw_not_left hwv hfirst hdirect hret
-    hzrs hzv hz_alt hbad
+  rcases exists_first_bad_pivot_on_rs
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (pair := pair) (rs := rs)
+      hx_left hx_right hbad_exists with
+    ⟨z0, hz0rs, hz0v, hz0_alt, hz0_bad, hfirst_bad⟩
+  have hz0_old_union :
+      z0 ∈ (pair.1 : G.Walk v s).support ∨
+        z0 ∈ (pair.2 : G.Walk v t).support := by
+    simpa using
+      (mem_support_toPath_append_takeUntil_dropUntil_subset
+        (G := G) (p := (pair.1 : G.Walk v s))
+        (q := (pair.2 : G.Walk v t)) (y := x) (z := z0)
+        hx_left hx_right hz0_alt)
+  have hz0_alt_raw :
+      z0 ∈ (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).support := by
+    exact Walk.support_toPath_subset _ hz0_alt
+  by_cases hz0_left : z0 ∈ (pair.1 : G.Walk v s).support
+  · exact terminal_set_fan_left_suffix_retention_bad_pivot_descent
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (z := z0) (pair := pair) (rs := rs)
+      hpair_measure_min hrsPath hx_left hx_right hxv hx_rs
+      hw_rs hw_right hw_not_left hwv hfirst hdirect hret
+      hz0rs hz0v hz0_alt hz0_bad
+  · have hz0_right : z0 ∈ (pair.2 : G.Walk v t).support := by
+      rcases hz0_old_union with hz0_left' | hz0_right
+      · exact False.elim (hz0_left hz0_left')
+      · exact hz0_right
+    have hz0_suffix_right :
+        z0 ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support := by
+      rw [Walk.mem_support_append_iff] at hz0_alt_raw
+      rcases hz0_alt_raw with hz0_prefix | hz0_suffix
+      · exact False.elim
+          (hz0_left
+            (Walk.support_takeUntil_subset (pair.1 : G.Walk v s)
+              hx_left hz0_prefix))
+      · exact hz0_suffix
+    exact terminal_set_fan_first_bad_right_only_splice_commonCard_lt
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z0) (pair := pair) (rs := rs)
+      hpair_measure_min hrsPath hx_left hx_right hxv hx_rs
+      hz0rs hz0_right hz0_left hz0_suffix_right hfirst_bad
 
 lemma terminal_set_fan_left_suffix_retention_alt_intersections_control
     {α : Type*} [Fintype α] [DecidableEq α]
@@ -5551,9 +10575,57 @@ lemma terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt
         (pair := pair) (rs := rs) hrsPath hx_left hx_right hxv hx_rs
         hw_rs hw_right hw_not_left hfirst hret
 
-#check terminal_set_fan_left_suffix_retention_bad_pivot_descent
-#check terminal_set_fan_left_suffix_retention_alt_intersections_control
-#check terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt
+lemma terminal_set_fan_left_suffix_retention_right_prefix_wide_residual_descent
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hpair_measure_min : ∀ pair' : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasure pair ≤ terminalPathPairWeightedMeasure pair')
+    (hrsPath : rs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (hw_rs : w ∈ rs.support)
+    (hw_right : w ∈ (pair.2 : G.Walk v t).support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hwv : w ≠ v)
+    (hfirst : ∀ y, y ∈ rs.support → y ≠ v →
+      y ∈ (pair.1 : G.Walk v s).support ∨
+      y ∈ (pair.2 : G.Walk v t).support →
+      y = w ∨ y ∉ (rs.takeUntil w hw_rs).support)
+    (_hdirect : ¬ terminalPathPairCommonCard
+      ((⟨rs, hrsPath⟩ : G.Path v s), pair.2) <
+      terminalPathPairCommonCard pair)
+    (_hret : x ∈ ((pair.2 : G.Walk v t).dropUntil w hw_right).support)
+    (hres_exists :
+      ∃ z : α, z ∈ rs.support ∧ z ≠ v ∧ z ≠ w ∧
+        (z ∈ (pair.1 : G.Walk v s).support ∨
+          z ∈ (pair.2 : G.Walk v t).support) ∧
+        ¬ (z ∈ (pair.1 : G.Walk v s).support ∧
+           z ∈ (pair.2 : G.Walk v t).support ∧ z ≠ x)) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  rcases exists_first_noncommon_old_residual_on_rs
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (pair := pair) (rs := rs)
+      hres_exists with
+    ⟨z, hzrs, _hzv, _hzw, hz_old, hz_bad, _hfirst_residual⟩
+  have _hz_side :
+      (z ∈ (pair.1 : G.Walk v s).support ∧
+        z ∉ (pair.2 : G.Walk v t).support) ∨
+      (z ∈ (pair.2 : G.Walk v t).support ∧
+        z ∉ (pair.1 : G.Walk v s).support) :=
+    noncommon_old_residual_exclusive_side
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z) (pair := pair) (rs := rs)
+      hx_rs hzrs hz_old hz_bad
+  exact terminal_set_fan_left_first_crossing_uncrossing_commonCard_lt
+    (G := G) (v := v) (s := s) (t := t)
+    (x := x) (w := w) (pair := pair) (rs := rs)
+    hpair_measure_min hrsPath hx_left hx_right hxv hx_rs
+    hw_rs hw_right hw_not_left hwv hfirst
 
 /-
 The singleton replacement route below is frozen: a path avoiding the old
