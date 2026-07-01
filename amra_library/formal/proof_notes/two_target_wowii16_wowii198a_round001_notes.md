@@ -2826,3 +2826,30 @@ Strategic status:
   the secondary-minimality/prefix-defect comparison, or show it forces the
   exposed same-side prefix-only source.  The residual is now at the right
   semantic level for that argument.
+
+## Round update, support-minimal residual shape consumes survival
+
+Lean progress:
+- Added concrete support-minimal-output wrappers
+  `terminal_set_fan_left_support_minimal_suffix_common_or_same_only_survives_of_weighted_min`
+  and
+  `terminal_set_fan_right_support_minimal_suffix_common_or_same_only_survives_of_weighted_min`.
+- These wrappers consume the theorem-layer
+  `suffix_common_or_same_only` output shape and return the same split with the
+  suffix-common branch strengthened by old-common membership, non-apex
+  distinctness, opposite-suffix membership, replacement-tail membership, and
+  `alt` survival.
+
+Verifier result:
+- `WOWII198a` passes with
+  `env LEAN_NUM_THREADS=1 OMP_NUM_THREADS=1 lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The active residual is now ready to be consumed at the support-minimal layer:
+  one branch is an explicit surviving old-common witness; the other is an
+  explicit same-side prefix-only source.
+- Next useful target is no longer survival.  It is to close one of these two
+  exposed branches, preferably by deriving a strict prefix-defect decrease from
+  the same-side source or by showing the surviving old-common witness imposes
+  such a source.

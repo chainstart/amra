@@ -20071,6 +20071,138 @@ lemma terminal_set_fan_right_suffix_common_residual_old_common_survives_or_same_
         hc_alt, hcommon.2.2.1, hcommon.2.2.2⟩
   · exact Or.inr hsame
 
+lemma terminal_set_fan_left_support_minimal_suffix_common_or_same_only_survives_of_weighted_min
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Walk v s}
+    (hpair_measure_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hrsPath : rs.IsPath) (hxv : x ≠ v) (hw_rs : w ∈ rs.support)
+    (hres :
+      let altRight : G.Path v t :=
+        (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+      let altPair : G.Path v s × G.Path v t :=
+        ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+      (∃ c : α,
+        c ∈ (rs.dropUntil w hw_rs).support ∧
+        c ∈ (pair.1 : G.Walk v s).support ∧
+        c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+        c ≠ x) ∨
+      ∃ z : α,
+        z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        z ∉ (pair.2 : G.Walk v t).support) :
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+    (∃ c : α,
+      c ∈ (rs.dropUntil w hw_rs).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ∈ (altRight : G.Walk v t).support ∧
+      c ≠ v ∧
+      c ≠ x) ∨
+    ∃ z : α,
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      z ∉ (pair.2 : G.Walk v t).support := by
+  classical
+  dsimp at hres ⊢
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+  let Same : α → Prop := fun z =>
+    z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      z ∉ (pair.2 : G.Walk v t).support
+  have hres' :
+      (∃ c : α,
+        c ∈ (rs.dropUntil w hw_rs).support ∧
+        c ∈ (pair.1 : G.Walk v s).support ∧
+        c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+        c ≠ x) ∨
+      ∃ z : α, Same z := by
+    simpa [Same, altPair, altRight] using hres
+  simpa [Same, altPair, altRight] using
+    (terminal_set_fan_left_suffix_common_residual_old_common_survives_or_same_of_weighted_min
+      (G := G) (v := v) (s := s) (t := t) (x := x) (w := w)
+      (pair := pair) (rs := rs) (Same := Same)
+      hpair_measure_min hx_left hx_right hxv hw_rs hres')
+
+lemma terminal_set_fan_right_support_minimal_suffix_common_or_same_only_survives_of_weighted_min
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Walk v t}
+    (hpair_measure_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hrtPath : rt.IsPath) (hxv : x ≠ v) (hw_rt : w ∈ rt.support)
+    (hres :
+      let altLeft : G.Path v s :=
+        (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+      let altPair : G.Path v s × G.Path v t :=
+        (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+      (∃ c : α,
+        c ∈ (rt.dropUntil w hw_rt).support ∧
+        c ∈ (pair.2 : G.Walk v t).support ∧
+        c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+        c ≠ x) ∨
+      ∃ z : α,
+        z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        z ∉ (pair.1 : G.Walk v s).support) :
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+    (∃ c : α,
+      c ∈ (rt.dropUntil w hw_rt).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ∈ (altLeft : G.Walk v s).support ∧
+      c ≠ v ∧
+      c ≠ x) ∨
+    ∃ z : α,
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      z ∉ (pair.1 : G.Walk v s).support := by
+  classical
+  dsimp at hres ⊢
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+  let Same : α → Prop := fun z =>
+    z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      z ∉ (pair.1 : G.Walk v s).support
+  have hres' :
+      (∃ c : α,
+        c ∈ (rt.dropUntil w hw_rt).support ∧
+        c ∈ (pair.2 : G.Walk v t).support ∧
+        c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+        c ≠ x) ∨
+      ∃ z : α, Same z := by
+    simpa [Same, altPair, altLeft] using hres
+  simpa [Same, altPair, altLeft] using
+    (terminal_set_fan_right_suffix_common_residual_old_common_survives_or_same_of_weighted_min
+      (G := G) (v := v) (s := s) (t := t) (x := x) (w := w)
+      (pair := pair) (rt := rt) (Same := Same)
+      hpair_measure_min hx_left hx_right hxv hw_rt hres')
+
 lemma terminal_set_fan_left_front_eq_start_or_front_of_weighted_min_replacement_left_defectSet_subset_erase
     {α : Type*} [Fintype α] [DecidableEq α]
     {G : SimpleGraph α} {v s t x w zRemoved : α}
