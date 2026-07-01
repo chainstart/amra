@@ -2793,3 +2793,36 @@ Strategic status:
   enough old common vertices to violate secondary minimality, or the missing
   common vertex creates the same-side prefix-only source already exposed by the
   current residual split.
+
+## Round update, weighted-minimal survival for suffix residuals
+
+Lean progress:
+- Added `right_suffix_mem_altRight_of_weighted_min` and
+  `left_suffix_mem_altLeft_of_weighted_min`.  Under weighted minimality of the
+  original path pair, every vertex in the old opposite suffix after `x`
+  survives in the corresponding replacement `toPath`.
+- Added residual post-processors
+  `terminal_set_fan_left_suffix_common_residual_old_common_survives_or_same_of_weighted_min`
+  and
+  `terminal_set_fan_right_suffix_common_residual_old_common_survives_or_same_of_weighted_min`.
+  These strengthen the previous
+  `double-suffix old-common witness ∨ same-side prefix-only source` split to a
+  split where the old-common witness is non-apex, old-common on both original
+  paths, behind `x` on the opposite old path, behind `w` on the replacement
+  path, and present in the new `alt` path.
+
+Verifier result:
+- `WOWII198a` passes with
+  `env LEAN_NUM_THREADS=1 OMP_NUM_THREADS=1 lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This is a real route correction, not just local cleanup.  Earlier we could
+  not safely assert that the double-suffix witness survived through
+  `toPath`.  The new survival lemmas prove exactly the missing conditional:
+  survival follows from weighted minimality, because failure of survival gives
+  a cross-swap common-card descent.
+- Remaining proof debt: use the surviving non-apex old-common witness inside
+  the secondary-minimality/prefix-defect comparison, or show it forces the
+  exposed same-side prefix-only source.  The residual is now at the right
+  semantic level for that argument.
