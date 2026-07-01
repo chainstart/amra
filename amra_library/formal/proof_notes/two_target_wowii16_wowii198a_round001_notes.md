@@ -2876,7 +2876,9 @@ Lean progress:
   `terminal_set_fan_left_surviving_suffix_common_order_or_left_prefix_or_same_of_weighted_min`
   and the right analogue.  They refine the residual to three branches:
   ordered surviving old-common, cross-prefix surviving old-common, or
-  same-side prefix-only source.
+  same-side prefix-only source.  The cross-prefix branch explicitly records
+  the negated order fact `x ∉ alt.takeUntil c`, so it is exactly the bypass
+  obstruction rather than just a loose membership overlap.
 
 Verifier result:
 - `WOWII198a` passes with

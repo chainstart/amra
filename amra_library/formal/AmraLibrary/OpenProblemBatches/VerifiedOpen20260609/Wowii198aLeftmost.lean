@@ -19985,7 +19985,8 @@ lemma right_suffix_common_x_before_or_left_prefix_of_weighted_min
       (((pair.1 : G.Walk v s).takeUntil x hx_left).append
         ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
     x ∈ ((altRight : G.Walk v t).takeUntil c (by simpa [altRight] using hc_alt)).support ∨
-      c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support := by
+      x ∉ ((altRight : G.Walk v t).takeUntil c (by simpa [altRight] using hc_alt)).support ∧
+        c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support := by
   classical
   dsimp
   let leftPrefix : G.Walk v x :=
@@ -20009,6 +20010,7 @@ lemma right_suffix_common_x_before_or_left_prefix_of_weighted_min
       x ∈ ((altRight : G.Walk v t).takeUntil c hc_alt').support
   · exact Or.inl hx_prefix_c
   · right
+    refine ⟨by simpa [altRight, raw, leftPrefix, rightSuffix] using hx_prefix_c, ?_⟩
     by_contra hc_not_leftPrefix
     have hx_after_c_alt :
         x ∈ ((altRight : G.Walk v t).dropUntil c hc_alt').support :=
@@ -20071,7 +20073,8 @@ lemma left_suffix_common_x_before_or_right_prefix_of_weighted_min
       (((pair.2 : G.Walk v t).takeUntil x hx_right).append
         ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
     x ∈ ((altLeft : G.Walk v s).takeUntil c (by simpa [altLeft] using hc_alt)).support ∨
-      c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support := by
+      x ∉ ((altLeft : G.Walk v s).takeUntil c (by simpa [altLeft] using hc_alt)).support ∧
+        c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support := by
   classical
   let swappedOriginal : G.Path v t × G.Path v s := (pair.2, pair.1)
   have hpair_measure_min_swap :
@@ -20130,17 +20133,21 @@ lemma terminal_set_fan_left_surviving_suffix_common_order_or_left_prefix_or_same
         (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
           ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath :
             G.Walk v t).takeUntil c hc_alt).support) ∨
-    (∃ c : α,
+    (∃ c : α, ∃ hc_alt :
+      c ∈
+        (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+            G.Walk v t).support,
       c ∈ (rs.dropUntil w hw_rs).support ∧
       c ∈ (pair.1 : G.Walk v s).support ∧
       c ∈ (pair.2 : G.Walk v t).support ∧
       c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
-      c ∈
-        (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
-          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
-            G.Walk v t).support ∧
       c ≠ v ∧
       c ≠ x ∧
+      x ∉
+        (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath :
+            G.Walk v t).takeUntil c hc_alt).support ∧
       c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support) ∨
     ∃ z : α, Same z := by
   classical
@@ -20154,13 +20161,14 @@ lemma terminal_set_fan_left_surviving_suffix_common_order_or_left_prefix_or_same
           (x := x) (c := c) (pair := pair)
           hpair_measure_min hx_left hx_right hxv hc_right_suffix hc_alt
           hcx with
-      hx_before | hc_left_prefix
+      hx_before | hprefix
     · exact Or.inl
         ⟨c, hc_alt, hc_tail, hc_left, hc_right, hc_right_suffix,
           hcv, hcx, by simpa using hx_before⟩
-    · exact Or.inr (Or.inl
-        ⟨c, hc_tail, hc_left, hc_right, hc_right_suffix, hc_alt, hcv,
-          hcx, hc_left_prefix⟩)
+    · rcases hprefix with ⟨hx_not_before, hc_left_prefix⟩
+      exact Or.inr (Or.inl
+        ⟨c, hc_alt, hc_tail, hc_left, hc_right, hc_right_suffix, hcv,
+          hcx, by simpa using hx_not_before, hc_left_prefix⟩)
   · exact Or.inr (Or.inr hsame)
 
 lemma terminal_set_fan_right_surviving_suffix_common_order_or_right_prefix_or_same_of_weighted_min
@@ -20201,17 +20209,21 @@ lemma terminal_set_fan_right_surviving_suffix_common_order_or_right_prefix_or_sa
         (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
           ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath :
             G.Walk v s).takeUntil c hc_alt).support) ∨
-    (∃ c : α,
+    (∃ c : α, ∃ hc_alt :
+      c ∈
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support,
       c ∈ (rt.dropUntil w hw_rt).support ∧
       c ∈ (pair.2 : G.Walk v t).support ∧
       c ∈ (pair.1 : G.Walk v s).support ∧
       c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
-      c ∈
-        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
-          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
-            G.Walk v s).support ∧
       c ≠ v ∧
       c ≠ x ∧
+      x ∉
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath :
+            G.Walk v s).takeUntil c hc_alt).support ∧
       c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support) ∨
     ∃ z : α, Same z := by
   classical
@@ -20225,13 +20237,14 @@ lemma terminal_set_fan_right_surviving_suffix_common_order_or_right_prefix_or_sa
           (x := x) (c := c) (pair := pair)
           hpair_measure_min hx_left hx_right hxv hc_left_suffix hc_alt
           hcx with
-      hx_before | hc_right_prefix
+      hx_before | hprefix
     · exact Or.inl
         ⟨c, hc_alt, hc_tail, hc_right, hc_left, hc_left_suffix,
           hcv, hcx, by simpa using hx_before⟩
-    · exact Or.inr (Or.inl
-        ⟨c, hc_tail, hc_right, hc_left, hc_left_suffix, hc_alt, hcv,
-          hcx, hc_right_prefix⟩)
+    · rcases hprefix with ⟨hx_not_before, hc_right_prefix⟩
+      exact Or.inr (Or.inl
+        ⟨c, hc_alt, hc_tail, hc_right, hc_left, hc_left_suffix, hcv,
+          hcx, by simpa using hx_not_before, hc_right_prefix⟩)
   · exact Or.inr (Or.inr hsame)
 
 lemma terminal_set_fan_left_suffix_common_residual_old_common_survives_or_same_of_weighted_min
