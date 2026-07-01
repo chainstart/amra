@@ -2894,3 +2894,31 @@ Strategic status:
 - Next target: use the ordered branch with the existing
   `old_common_x_witness_suffix_residual` / front-not-right machinery, and
   separately attack the cross-prefix branch as the genuine bypass obstruction.
+
+## Round update, theorem layer exposes the cross-prefix obstruction
+
+Lean progress:
+- Added theorem-layer wrappers
+  `...false_of_secondary_minimal_replacement_altRight_measure_le_front_not_right_of_surviving_order_or_left_prefix_obstructions`
+  and
+  `...false_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left_of_surviving_order_or_right_prefix_obstructions`.
+- These consume the surviving residual theorem and immediately post-process it
+  through the weighted-minimality order split.  The resulting false criterion
+  now has three explicit obstruction predicates: ordered surviving old-common,
+  cross-prefix surviving old-common, and same-side prefix-only source.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The ordered and same-side-source cases are now directly pluggable into
+  existing front-clean / prefix-defect machinery.  The remaining non-mechanical
+  proof obligation is the cross-prefix branch:
+  a surviving common vertex lies before `x` on the old same-side path and after
+  `x` on the old opposite-side path, while `x` is not before it in the
+  replacement path.
+- This is the right next attack point.  Proving that cross-prefix predicate
+  false, or turning it into a strict secondary-measure descent, should close
+  the main residual split.
