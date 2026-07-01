@@ -17494,6 +17494,133 @@ lemma terminal_set_fan_right_front_clean_alt_leftPrefixOnlyDefect_old_common_x_w
       hx_right hx_left hxv hw_rt hw_not_left
       (by simpa [swappedOriginal] using hfirst_union))
 
+lemma terminal_set_fan_left_suffix_common_residual_old_common_ne_apex
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x c : α}
+    {pair : G.Path v s × G.Path v t}
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hc_left : c ∈ (pair.1 : G.Walk v s).support)
+    (hc_right_suffix :
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support)
+    (hcx : c ≠ x) :
+    c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧ c ≠ v ∧ c ≠ x := by
+  classical
+  have hc_right : c ∈ (pair.2 : G.Walk v t).support :=
+    Walk.support_dropUntil_subset (pair.2 : G.Walk v t) hx_right
+      hc_right_suffix
+  have hv_prefix_x :
+      v ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support := by
+    simpa using
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).start_mem_support)
+  have hcv : c ≠ v := by
+    intro hcv_eq
+    have hv_suffix :
+        v ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support := by
+      simpa [hcv_eq] using hc_right_suffix
+    exact
+      (not_mem_dropUntil_of_mem_takeUntil_ne_on_isPath
+        (G := G) (p := (pair.2 : G.Walk v t)) pair.2.property
+        hx_right (by exact (pair.2 : G.Walk v t).start_mem_support)
+        hv_prefix_x (fun hvx => hxv hvx.symm)) hv_suffix
+  exact ⟨hc_left, hc_right, hcv, hcx⟩
+
+lemma terminal_set_fan_right_suffix_common_residual_old_common_ne_apex
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x c : α}
+    {pair : G.Path v s × G.Path v t}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hxv : x ≠ v)
+    (hc_right : c ∈ (pair.2 : G.Walk v t).support)
+    (hc_left_suffix :
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support)
+    (hcx : c ≠ x) :
+    c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧ c ≠ v ∧ c ≠ x := by
+  classical
+  let swappedOriginal : G.Path v t × G.Path v s := (pair.2, pair.1)
+  simpa [swappedOriginal] using
+    (terminal_set_fan_left_suffix_common_residual_old_common_ne_apex
+      (G := G) (v := v) (s := t) (t := s) (x := x) (c := c)
+      (pair := swappedOriginal) hx_left hxv hc_right hc_left_suffix hcx)
+
+lemma terminal_set_fan_left_suffix_common_residual_old_common_ne_apex_or_same
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s} {Same : α → Prop}
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hw_rs : w ∈ rs.support)
+    (hres :
+      (∃ c : α,
+        c ∈ (rs.dropUntil w hw_rs).support ∧
+        c ∈ (pair.1 : G.Walk v s).support ∧
+        c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+        c ≠ x) ∨
+      ∃ z : α, Same z) :
+    (∃ c : α,
+      c ∈ (rs.dropUntil w hw_rs).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ≠ v ∧
+      c ≠ x) ∨
+      ∃ z : α, Same z := by
+  classical
+  rcases hres with hsuffix | hsame
+  · rcases hsuffix with
+      ⟨c, hc_tail, hc_left, hc_right_suffix, hcx⟩
+    have hcommon :
+        c ∈ (pair.1 : G.Walk v s).support ∧
+          c ∈ (pair.2 : G.Walk v t).support ∧ c ≠ v ∧ c ≠ x :=
+      terminal_set_fan_left_suffix_common_residual_old_common_ne_apex
+        (G := G) (v := v) (s := s) (t := t) (x := x) (c := c)
+        (pair := pair) hx_right hxv hc_left hc_right_suffix hcx
+    exact Or.inl
+      ⟨c, hc_tail, hcommon.1, hcommon.2.1, hc_right_suffix,
+        hcommon.2.2.1, hcommon.2.2.2⟩
+  · exact Or.inr hsame
+
+lemma terminal_set_fan_right_suffix_common_residual_old_common_ne_apex_or_same
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Walk v t} {Same : α → Prop}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hxv : x ≠ v)
+    (hw_rt : w ∈ rt.support)
+    (hres :
+      (∃ c : α,
+        c ∈ (rt.dropUntil w hw_rt).support ∧
+        c ∈ (pair.2 : G.Walk v t).support ∧
+        c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+        c ≠ x) ∨
+      ∃ z : α, Same z) :
+    (∃ c : α,
+      c ∈ (rt.dropUntil w hw_rt).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ≠ v ∧
+      c ≠ x) ∨
+      ∃ z : α, Same z := by
+  classical
+  rcases hres with hsuffix | hsame
+  · rcases hsuffix with
+      ⟨c, hc_tail, hc_right, hc_left_suffix, hcx⟩
+    have hcommon :
+        c ∈ (pair.2 : G.Walk v t).support ∧
+          c ∈ (pair.1 : G.Walk v s).support ∧ c ≠ v ∧ c ≠ x :=
+      terminal_set_fan_right_suffix_common_residual_old_common_ne_apex
+        (G := G) (v := v) (s := s) (t := t) (x := x) (c := c)
+        (pair := pair) hx_left hxv hc_right hc_left_suffix hcx
+    exact Or.inl
+      ⟨c, hc_tail, hcommon.1, hcommon.2.1, hc_left_suffix,
+        hcommon.2.2.1, hcommon.2.2.2⟩
+  · exact Or.inr hsame
+
 lemma terminal_set_fan_left_front_clean_alt_rightPrefixOnlyDefect_suffix_source_recovery_of_no_obstructions
     {α : Type*} [Fintype α] [DecidableEq α]
     {G : SimpleGraph α} {v s t x w y : α}

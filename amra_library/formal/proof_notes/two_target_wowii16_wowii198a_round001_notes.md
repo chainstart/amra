@@ -2758,3 +2758,38 @@ Strategic status:
   3. after both are closed, promote the support-minimal residual split back
      into the active finite wrapper and only then reopen the frozen final
      two-fan/splice block.
+
+## Round update, double-suffix residual normalized to non-apex old-common
+
+Lean progress:
+- Added local normalization lemmas
+  `terminal_set_fan_left_suffix_common_residual_old_common_ne_apex` and
+  `terminal_set_fan_right_suffix_common_residual_old_common_ne_apex`.
+  They show that the double-suffix residual witness is an actual old-common
+  vertex on both original paths and is distinct from both `v` and `x`.
+- Added the reusable disjunction post-processors
+  `terminal_set_fan_left_suffix_common_residual_old_common_ne_apex_or_same`
+  and
+  `terminal_set_fan_right_suffix_common_residual_old_common_ne_apex_or_same`.
+  These turn any existing
+  `double-suffix old-common witness ∨ same-side prefix-only source` split into
+  a stronger
+  `non-apex old-common suffix witness ∨ same-side prefix-only source` split.
+
+Verifier result:
+- `WOWII198a` passes with
+  `env LEAN_NUM_THREADS=1 OMP_NUM_THREADS=1 lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This deliberately does not assume that the old-common witness survives in
+  the replacement `toPath`; that would require a separate survival hypothesis.
+  The useful gain is narrower and safer: the remaining old-common obstruction
+  is now a genuine non-apex shared vertex in the old fan, behind `x` on the
+  opposite old path and behind `w` on the replacement path.
+- Next target: connect this normalized witness to the weighted/secondary
+  minimality comparison.  The likely contradiction is not a local suffix-only
+  obstruction, but a common-card/order descent: either the replacement retains
+  enough old common vertices to violate secondary minimality, or the missing
+  common vertex creates the same-side prefix-only source already exposed by the
+  current residual split.
