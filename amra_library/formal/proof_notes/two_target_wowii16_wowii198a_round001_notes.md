@@ -2991,3 +2991,28 @@ Strategic status:
   theorem-layer wrappers, replacing the current ordered-only obstruction
   predicate.  After that, the real mathematical split is double-suffix common
   versus prefix-absent/same-side source.
+
+## Round update, double-suffix obstruction exposed at theorem layer
+
+Lean progress:
+- Added theorem-layer wrappers
+  `...false_of_secondary_minimal_replacement_altRight_measure_le_front_not_right_of_surviving_double_suffix_order_obstructions`
+  and
+  `...false_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left_of_surviving_double_suffix_order_obstructions`.
+- These are thin lifts over the previous ordered-obstruction wrappers.  They
+  derive the missing same-side suffix membership with
+  `right_suffix_common_left_suffix_of_weighted_min` / the right analogue, so
+  callers no longer need to rule out a merely one-sided ordered common point.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- Current theorem-layer residual is now exactly:
+  double-suffix ordered old-common, or same-side prefix-only source.
+- The next nontrivial attack should decide which of these is convertible to
+  the existing prefix-absent guarded branch.  The same-side source already has
+  the shape of a prefix-absent witness; the double-suffix common branch likely
+  needs a separate common-suffix descent or separator argument.

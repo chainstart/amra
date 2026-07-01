@@ -35886,6 +35886,224 @@ lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInfl
         intro z hz_defect hz_prefix hz_not_left
         exact hno_same_only z hz_defect hz_prefix hz_not_left)
 
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_secondary_minimal_replacement_altRight_measure_le_front_not_right_of_surviving_double_suffix_order_obstructions
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Walk v s}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrsPath : rs.IsPath) (hxv : x ≠ v) (hx_rs : x ∉ rs.support)
+    (hw_rs : w ∈ rs.support)
+    (hw_not_right : w ∉ (pair.2 : G.Walk v t).support)
+    (hy_rs : y ∈ rs.support)
+    (hy_tail : y ∈ (rs.dropUntil w hw_rs).support)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_left : y ∉ (pair.1 : G.Walk v s).support)
+    (hy_prefix_x :
+      y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rs.support → z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∈ (rs.takeUntil w hw_rs).support → z = w)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ (rs.dropUntil y hy_rs).support →
+        False)
+    (hno_right_suffix_only :
+      ∀ z : α, z ∈ rs.support → z ≠ v →
+        z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.1 : G.Walk v s).support.length ≤ rs.support.length) :
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∀ c : α, ∀ hc_alt : c ∈ (altRight : G.Walk v t).support,
+      c ∈ (rs.dropUntil w hw_rs).support →
+      c ∈ (pair.1 : G.Walk v s).support →
+      c ∈ (pair.2 : G.Walk v t).support →
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+      c ≠ v →
+      c ≠ x →
+      x ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support →
+      False) →
+    (∀ z : α,
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+      z ∉ (pair.2 : G.Walk v t).support →
+      False) →
+    False := by
+  classical
+  dsimp
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+  intro hmeasure_le hleft_sub hno_ordered hno_same_only
+  exact
+    terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_secondary_minimal_replacement_altRight_measure_le_front_not_right_of_surviving_order_obstructions
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+      hobs hpair_min hsecondary_min hrsPath hxv hx_rs hw_rs
+      hw_not_right hy_rs hy_tail hy_right hy_not_left hy_prefix_x hyx
+      hfirst_union hno_middle hno_post hno_right_suffix_only hlen_fail
+      (by simpa [altPair, altRight] using hmeasure_le)
+      (by simpa [altPair, altRight] using hleft_sub)
+      (by
+        intro c hc_alt hc_tail hc_left hc_right hc_right_suffix hcv hcx
+          hx_before
+        have hc_left_suffix :
+            c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support :=
+          right_suffix_common_left_suffix_of_weighted_min
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (c := c) (pair := pair)
+            hpair_min hx_left hx_right hxv hc_left hc_right_suffix hcx
+        exact hno_ordered c hc_alt hc_tail hc_left hc_right
+          hc_right_suffix hc_left_suffix hcv hcx hx_before)
+      (by
+        intro z hz_defect hz_prefix hz_not_right
+        exact hno_same_only z hz_defect hz_prefix hz_not_right)
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left_of_surviving_double_suffix_order_obstructions
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Walk v t}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrtPath : rt.IsPath) (hxv : x ≠ v) (hx_rt : x ∉ rt.support)
+    (hw_rt : w ∈ rt.support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hy_rt : y ∈ rt.support)
+    (hy_tail : y ∈ (rt.dropUntil w hw_rt).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rt.support → z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support ∨
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∈ (rt.takeUntil w hw_rt).support → z = w)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ ((rt.dropUntil w hw_rt).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ (rt.dropUntil y hy_rt).support →
+        False)
+    (hno_left_suffix_only :
+      ∀ z : α, z ∈ rt.support → z ≠ v →
+        z ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.2 : G.Walk v t).support.length ≤ rt.support.length) :
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∀ c : α, ∀ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+      c ∈ (rt.dropUntil w hw_rt).support →
+      c ∈ (pair.2 : G.Walk v t).support →
+      c ∈ (pair.1 : G.Walk v s).support →
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+      c ≠ v →
+      c ≠ x →
+      x ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support →
+      False) →
+    (∀ z : α,
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+      z ∉ (pair.1 : G.Walk v s).support →
+      False) →
+    False := by
+  classical
+  dsimp
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+  intro hmeasure_le hright_sub hno_ordered hno_same_only
+  exact
+    terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left_of_surviving_order_obstructions
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+      hobs hpair_min hsecondary_min hrtPath hxv hx_rt hw_rt
+      hw_not_left hy_rt hy_tail hy_left hy_not_right hy_prefix_x hyx
+      hfirst_union hno_middle hno_post hno_left_suffix_only hlen_fail
+      (by simpa [altPair, altLeft] using hmeasure_le)
+      (by simpa [altPair, altLeft] using hright_sub)
+      (by
+        intro c hc_alt hc_tail hc_right hc_left hc_left_suffix hcv hcx
+          hx_before
+        have hc_right_suffix :
+            c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support :=
+          left_suffix_common_right_suffix_of_weighted_min
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (c := c) (pair := pair)
+            hpair_min hx_left hx_right hxv hc_right hc_left_suffix hcx
+        exact hno_ordered c hc_alt hc_tail hc_right hc_left
+          hc_left_suffix hc_right_suffix hcv hcx hx_before)
+      (by
+        intro z hz_defect hz_prefix hz_not_left
+        exact hno_same_only z hz_defect hz_prefix hz_not_left)
+
 lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.length_ge_or_prefix_only_defect_pos_of_prefix_split
     {α : Type*} [Fintype α] [DecidableEq α]
     {G : SimpleGraph α} {v s t x w y : α}
