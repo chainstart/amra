@@ -2853,3 +2853,42 @@ Strategic status:
   exposed branches, preferably by deriving a strict prefix-defect decrease from
   the same-side source or by showing the surviving old-common witness imposes
   such a source.
+
+## Round update, surviving old-common residual split sharpened
+
+Lean progress:
+- Added theorem-layer surviving residual wrappers
+  `...suffix_common_or_same_only_survives_of_secondary_minimal_replacement_altRight_measure_le_front_not_right`
+  and the right-side `altLeft` analogue.  The old-common residual now carries
+  old-common membership on both original paths, opposite-suffix membership,
+  replacement-tail membership, non-apex distinctness, and survival in the
+  replacement `alt` path.
+- Added `...false_of_secondary_minimal_replacement_..._of_surviving_suffix_common_obstructions`
+  wrappers.  These expose the exact two remaining obstruction predicates:
+  a surviving suffix old-common witness and the same-side prefix-only source.
+- Added order-splitting lemmas
+  `right_suffix_common_x_before_or_left_prefix_of_weighted_min` and
+  `left_suffix_common_x_before_or_right_prefix_of_weighted_min`.  Under
+  weighted minimality, a surviving old opposite-suffix common vertex is either
+  after `x` in the replacement path, or it is also present in the old same-side
+  prefix.
+- Added post-processors
+  `terminal_set_fan_left_surviving_suffix_common_order_or_left_prefix_or_same_of_weighted_min`
+  and the right analogue.  They refine the residual to three branches:
+  ordered surviving old-common, cross-prefix surviving old-common, or
+  same-side prefix-only source.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This confirms the current route is still structurally sound, but the old
+  common branch is not automatically contradictory.  The real remaining hard
+  case is now smaller: a vertex that is simultaneously in the old same-side
+  prefix before `x` and the old opposite-side suffix after `x`, while also
+  surviving in the replacement path.
+- Next target: use the ordered branch with the existing
+  `old_common_x_witness_suffix_residual` / front-not-right machinery, and
+  separately attack the cross-prefix branch as the genuine bypass obstruction.
