@@ -2962,3 +2962,32 @@ Strategic status:
   front-clean / prefix-defect descent machinery, and separately check whether
   the same-side source already gives the strict secondary-measure decrease
   required by `terminalPathPairSecondaryMinimalAfterWeighted`.
+
+## Round update, ordered old-common sharpened to double suffix
+
+Lean progress:
+- Added
+  `right_suffix_common_left_suffix_of_weighted_min` and
+  `left_suffix_common_right_suffix_of_weighted_min`.
+- These use the just-closed cross-prefix obstruction to show that an old
+  common vertex on the opposite-side suffix cannot lie in the same-side prefix.
+  Therefore it must lie in the same-side suffix after `x`.
+- Added two post-processors
+  `terminal_set_fan_left_surviving_suffix_common_double_suffix_order_or_same_of_weighted_min`
+  and the right analogue.  The surviving residual is now narrowed to:
+  a double-suffix ordered old-common vertex, or the same-side prefix-only
+  source.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The old-common branch is smaller than before: the remaining common witness
+  is after `x` on both original paths and after `x` in the replacement path.
+  This rules out all “one side before `x`, one side after `x`” configurations.
+- Next mechanical lift: expose this double-suffix ordered branch at the
+  theorem-layer wrappers, replacing the current ordered-only obstruction
+  predicate.  After that, the real mathematical split is double-suffix common
+  versus prefix-absent/same-side source.

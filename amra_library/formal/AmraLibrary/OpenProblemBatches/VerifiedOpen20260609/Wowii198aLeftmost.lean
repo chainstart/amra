@@ -20035,6 +20035,60 @@ lemma left_suffix_right_prefix_common_false_of_weighted_min
     not_terminalPathPairCommonCard_lt_of_weighted_min
       hpair_measure_min pair' hpair'_lt
 
+lemma right_suffix_common_left_suffix_of_weighted_min
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x c : α}
+    {pair : G.Path v s × G.Path v t}
+    (hpair_measure_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hc_left : c ∈ (pair.1 : G.Walk v s).support)
+    (hc_right_suffix :
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support)
+    (hcx : c ≠ x) :
+    c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support := by
+  classical
+  by_cases hc_left_prefix :
+      c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support
+  · exact False.elim
+      (right_suffix_left_prefix_common_false_of_weighted_min
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (c := c) (pair := pair)
+        hpair_measure_min hx_left hx_right hxv hc_right_suffix
+        hc_left_prefix hcx)
+  · exact
+      mem_dropUntil_of_mem_support_not_takeUntil
+        (G := G) (pair.1 : G.Walk v s) hx_left hc_left
+        hc_left_prefix
+
+lemma left_suffix_common_right_suffix_of_weighted_min
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x c : α}
+    {pair : G.Path v s × G.Path v t}
+    (hpair_measure_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hc_right : c ∈ (pair.2 : G.Walk v t).support)
+    (hc_left_suffix :
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support)
+    (hcx : c ≠ x) :
+    c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support := by
+  classical
+  by_cases hc_right_prefix :
+      c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support
+  · exact False.elim
+      (left_suffix_right_prefix_common_false_of_weighted_min
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (c := c) (pair := pair)
+        hpair_measure_min hx_left hx_right hxv hc_left_suffix
+        hc_right_prefix hcx)
+  · exact
+      mem_dropUntil_of_mem_support_not_takeUntil
+        (G := G) (pair.2 : G.Walk v t) hx_right hc_right
+        hc_right_prefix
+
 lemma right_suffix_common_x_before_or_left_prefix_of_weighted_min
     {α : Type*} [Fintype α] [DecidableEq α]
     {G : SimpleGraph α} {v s t x c : α}
@@ -20436,6 +20490,132 @@ lemma terminal_set_fan_right_surviving_suffix_common_order_or_same_of_weighted_m
           hpair_measure_min hx_left hx_right hxv hc_left_suffix
           hc_right_prefix hcx)
     · exact Or.inr hsame
+
+lemma terminal_set_fan_left_surviving_suffix_common_double_suffix_order_or_same_of_weighted_min
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s} {Same : α → Prop}
+    (hpair_measure_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hw_rs : w ∈ rs.support)
+    (hres :
+      (∃ c : α,
+        c ∈ (rs.dropUntil w hw_rs).support ∧
+        c ∈ (pair.1 : G.Walk v s).support ∧
+        c ∈ (pair.2 : G.Walk v t).support ∧
+        c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+        c ∈
+          (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+            ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+              G.Walk v t).support ∧
+        c ≠ v ∧
+        c ≠ x) ∨
+      ∃ z : α, Same z) :
+    (∃ c : α, ∃ hc_alt :
+      c ∈
+        (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+            G.Walk v t).support,
+      c ∈ (rs.dropUntil w hw_rs).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ≠ v ∧
+      c ≠ x ∧
+      x ∈
+        (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath :
+            G.Walk v t).takeUntil c hc_alt).support) ∨
+    ∃ z : α, Same z := by
+  classical
+  rcases
+      terminal_set_fan_left_surviving_suffix_common_order_or_same_of_weighted_min
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (pair := pair) (rs := rs)
+        (Same := Same)
+        hpair_measure_min hx_left hx_right hxv hw_rs hres with
+    hordered | hsame
+  · rcases hordered with
+      ⟨c, hc_alt, hc_tail, hc_left, hc_right, hc_right_suffix,
+        hcv, hcx, hx_before⟩
+    have hc_left_suffix :
+        c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support :=
+      right_suffix_common_left_suffix_of_weighted_min
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (c := c) (pair := pair)
+        hpair_measure_min hx_left hx_right hxv hc_left
+        hc_right_suffix hcx
+    exact Or.inl
+      ⟨c, hc_alt, hc_tail, hc_left, hc_right, hc_right_suffix,
+        hc_left_suffix, hcv, hcx, hx_before⟩
+  · exact Or.inr hsame
+
+lemma terminal_set_fan_right_surviving_suffix_common_double_suffix_order_or_same_of_weighted_min
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Walk v t} {Same : α → Prop}
+    (hpair_measure_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hw_rt : w ∈ rt.support)
+    (hres :
+      (∃ c : α,
+        c ∈ (rt.dropUntil w hw_rt).support ∧
+        c ∈ (pair.2 : G.Walk v t).support ∧
+        c ∈ (pair.1 : G.Walk v s).support ∧
+        c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+        c ∈
+          (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+            ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+              G.Walk v s).support ∧
+        c ≠ v ∧
+        c ≠ x) ∨
+      ∃ z : α, Same z) :
+    (∃ c : α, ∃ hc_alt :
+      c ∈
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support,
+      c ∈ (rt.dropUntil w hw_rt).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ≠ v ∧
+      c ≠ x ∧
+      x ∈
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath :
+            G.Walk v s).takeUntil c hc_alt).support) ∨
+    ∃ z : α, Same z := by
+  classical
+  rcases
+      terminal_set_fan_right_surviving_suffix_common_order_or_same_of_weighted_min
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (pair := pair) (rt := rt)
+        (Same := Same)
+        hpair_measure_min hx_left hx_right hxv hw_rt hres with
+    hordered | hsame
+  · rcases hordered with
+      ⟨c, hc_alt, hc_tail, hc_right, hc_left, hc_left_suffix,
+        hcv, hcx, hx_before⟩
+    have hc_right_suffix :
+        c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support :=
+      left_suffix_common_right_suffix_of_weighted_min
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (c := c) (pair := pair)
+        hpair_measure_min hx_left hx_right hxv hc_right
+        hc_left_suffix hcx
+    exact Or.inl
+      ⟨c, hc_alt, hc_tail, hc_right, hc_left, hc_left_suffix,
+        hc_right_suffix, hcv, hcx, hx_before⟩
+  · exact Or.inr hsame
 
 lemma terminal_set_fan_left_suffix_common_residual_old_common_survives_or_same_of_weighted_min
     {α : Type*} [Fintype α] [DecidableEq α]
