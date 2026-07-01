@@ -2922,3 +2922,43 @@ Strategic status:
 - This is the right next attack point.  Proving that cross-prefix predicate
   false, or turning it into a strict secondary-measure descent, should close
   the main residual split.
+
+## Round update, cross-prefix obstruction eliminated
+
+Lean progress:
+- Added local weighted-minimality contradictions
+  `right_suffix_left_prefix_common_false_of_weighted_min` and
+  `left_suffix_right_prefix_common_false_of_weighted_min`.
+- These instantiate the existing cross-swap common-card descent at `y = x`.
+  A vertex `c ≠ x` cannot be both in the old opposite-side suffix after `x`
+  and in the old same-side prefix before `x`; otherwise a swapped pair has
+  strictly smaller `terminalPathPairCommonCard`, contradicting weighted
+  minimality.
+- Added two-way post-processors
+  `terminal_set_fan_left_surviving_suffix_common_order_or_same_of_weighted_min`
+  and the right analogue.  The previous three-way split is now reduced to:
+  ordered surviving old-common, or same-side prefix-only source.
+- Added theorem-layer wrappers
+  `...false_of_secondary_minimal_replacement_altRight_measure_le_front_not_right_of_surviving_order_obstructions`
+  and
+  `...false_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left_of_surviving_order_obstructions`.
+  The theorem layer no longer requires a separate cross-prefix obstruction
+  hypothesis.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The cross-prefix branch is closed.  This is a genuine simplification of the
+  main WOWII198a residual, not just a restatement.
+- Remaining hard branches:
+  1. ordered surviving old-common: an old common vertex survives after the
+     replacement pivot, with `x` before it on the replacement path;
+  2. same-side prefix-only source: the replacement creates or preserves a
+     prefix-only defect source on the same side.
+- Next target: connect the ordered surviving old-common branch to the existing
+  front-clean / prefix-defect descent machinery, and separately check whether
+  the same-side source already gives the strict secondary-measure decrease
+  required by `terminalPathPairSecondaryMinimalAfterWeighted`.
