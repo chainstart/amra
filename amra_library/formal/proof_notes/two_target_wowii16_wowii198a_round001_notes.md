@@ -3016,3 +3016,30 @@ Strategic status:
   the existing prefix-absent guarded branch.  The same-side source already has
   the shape of a prefix-absent witness; the double-suffix common branch likely
   needs a separate common-suffix descent or separator argument.
+
+## Round update, same-side source converted to prefix-absent obstruction
+
+Lean progress:
+- Added extraction lemmas
+  `terminal_set_fan_left_altRight_same_side_source_prefix_absent` and
+  `terminal_set_fan_right_altLeft_same_side_source_prefix_absent`.
+- These unfold the replacement prefix-only defect set and show that a same-side
+  source is an actual prefix-absent witness: it lies in the old same-side
+  prefix, is not on the old opposite path, is not on the replacement support,
+  and is distinct from both `v` and `w`.
+- Added theorem-layer wrappers
+  `...false_of_secondary_minimal_replacement_altRight_measure_le_front_not_right_of_surviving_double_suffix_order_or_prefix_absent_obstructions`
+  and the right-side analogue.  The active residual is now expressed directly
+  as two semantic obstructions: double-suffix common, or prefix-absent.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The same-side source is no longer a separate mystery branch; it is the
+  prefix-absent branch already represented elsewhere in the file.
+- The genuinely remaining nontrivial branch is the double-suffix old-common
+  witness.  The next attack should focus on converting that branch into either
+  a common-suffix descent or a separator contradiction.
