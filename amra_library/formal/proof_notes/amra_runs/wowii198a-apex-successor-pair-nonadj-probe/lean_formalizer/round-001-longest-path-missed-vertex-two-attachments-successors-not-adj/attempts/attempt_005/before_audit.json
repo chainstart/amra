@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-07-02T02:21:55+00:00",
+  "workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+  "target_theorem": "longest_path_missed_vertex_two_attachments_successors_not_adj",
+  "target_file": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+  "target": {
+    "found": false,
+    "reason": "target_declaration_not_found",
+    "name": "longest_path_missed_vertex_two_attachments_successors_not_adj"
+  },
+  "build_status": "failed",
+  "returncode": 137,
+  "diagnostics": [],
+  "diagnostic_count": 0,
+  "counts": {
+    "sorry": 0,
+    "axiom": 0,
+    "constant": 0,
+    "admit": 0,
+    "placeholder": 0
+  },
+  "target_header": "",
+  "expected_target_header": "",
+  "target_statement_match": {
+    "required": false,
+    "matched": null
+  },
+  "forbidden_target_header_patterns": [],
+  "forbidden_target_header_hits": [],
+  "defect_score": 1050000,
+  "verified": false,
+  "failure_mode": "blocked_formalization_gap",
+  "proof_loop_state": "blocked_formalization_gap",
+  "faithful_modeling_status": "blocked_formalization_gap",
+  "blockers": [
+    "Lean build status is `failed`, not `passed`.",
+    "Target theorem `longest_path_missed_vertex_two_attachments_successors_not_adj` was not found in the Lean workspace."
+  ]
+}

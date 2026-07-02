@@ -1,0 +1,1 @@
+WOWII198a current Lean target: strengthen the active longest-path dichotomy so each non-residual branch carries two-sided local nonadjacency around both separated attachment indices, without full project compilation.

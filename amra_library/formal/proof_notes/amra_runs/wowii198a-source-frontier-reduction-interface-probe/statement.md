@@ -1,0 +1,1 @@
+WOWII198a global reduction interface: under the original source-bound branch, if both non-residual two-sided local-nonadjacency branches yield an independent set of size four, then only the terminal residual branch remains.

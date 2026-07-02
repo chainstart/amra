@@ -1,0 +1,1272 @@
+{
+  "generated_at": "2026-07-02T06:37:57+00:00",
+  "status": "partial",
+  "stop_reason": "attempts_exhausted",
+  "backend": "none",
+  "workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+  "workspace_isolated": false,
+  "canonical_workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+  "isolated_workspace": "",
+  "run_dir": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier",
+  "statement_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/statement.md",
+  "context_bundle_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/context_bundle.md",
+  "math_tools_report": {
+    "schema_version": "amra.math_tools_report.v1",
+    "profile": "full",
+    "install_missing": true,
+    "run_smoke": true,
+    "workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+    "tools": [
+      {
+        "spec": {
+          "tool_id": "python_math_stack",
+          "name": "Python math stack",
+          "purpose": "Finite search, symbolic checks, numerical sanity checks, graph probes, and counterexample search.",
+          "profile": "essential",
+          "executables": [
+            "python3"
+          ],
+          "python_modules": [
+            "sympy",
+            "numpy",
+            "scipy",
+            "networkx",
+            "mpmath"
+          ],
+          "pip_packages": [
+            "sympy",
+            "numpy",
+            "scipy",
+            "networkx",
+            "mpmath"
+          ],
+          "apt_packages": [],
+          "smoke_commands": [
+            [
+              "python3",
+              "-c",
+              "import sympy,numpy,scipy,networkx,mpmath; print(sympy.factorint(360)); print(numpy.eye(1).shape)"
+            ]
+          ],
+          "command_templates": [
+            "python3 $AMRA_AGENT_RUN_DIR/experiments/<experiment>.py",
+            "python3 - <<'PY'\nimport sympy as sp\n# finite or symbolic check\nPY"
+          ],
+          "notes": [
+            "Computation is route evidence unless converted into a checked certificate or Lean proof."
+          ]
+        },
+        "available": true,
+        "missing": {
+          "executables": [],
+          "python_modules": []
+        },
+        "executables": [
+          {
+            "name": "python3",
+            "available": true,
+            "path": "/usr/bin/python3"
+          }
+        ],
+        "python_modules": [
+          {
+            "name": "sympy",
+            "available": true
+          },
+          {
+            "name": "numpy",
+            "available": true
+          },
+          {
+            "name": "scipy",
+            "available": true
+          },
+          {
+            "name": "networkx",
+            "available": true
+          },
+          {
+            "name": "mpmath",
+            "available": true
+          }
+        ],
+        "smoke": [
+          {
+            "command": [
+              "python3",
+              "-c",
+              "import sympy,numpy,scipy,networkx,mpmath; print(sympy.factorint(360)); print(numpy.eye(1).shape)"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 1.115,
+            "stdout_tail": "{2: 3, 3: 2, 5: 1}\n(1, 1)\n",
+            "stderr_tail": ""
+          }
+        ]
+      },
+      {
+        "spec": {
+          "tool_id": "z3",
+          "name": "Z3",
+          "purpose": "Bounded model checks and SMT sanity checks for arithmetic, ordering, graph, and incidence constraints.",
+          "profile": "essential",
+          "executables": [
+            "z3"
+          ],
+          "python_modules": [
+            "z3"
+          ],
+          "pip_packages": [
+            "z3-solver"
+          ],
+          "apt_packages": [
+            "z3"
+          ],
+          "smoke_commands": [
+            [
+              "python3",
+              "-c",
+              "from z3 import *; x=Int('x'); s=Solver(); s.add(x>0,x<2); print(s.check())"
+            ],
+            [
+              "z3",
+              "-version"
+            ]
+          ],
+          "command_templates": [
+            "python3 - <<'PY'\nfrom z3 import *\n# bounded model check\nPY",
+            "z3 <problem>.smt2"
+          ],
+          "notes": [
+            "Keep encodings explicit; a SAT/UNSAT result only applies to the encoded finite model."
+          ]
+        },
+        "available": true,
+        "missing": {
+          "executables": [],
+          "python_modules": []
+        },
+        "executables": [
+          {
+            "name": "z3",
+            "available": true,
+            "path": "/home/biostar/.local/bin/z3"
+          }
+        ],
+        "python_modules": [
+          {
+            "name": "z3",
+            "available": true
+          }
+        ],
+        "smoke": [
+          {
+            "command": [
+              "python3",
+              "-c",
+              "from z3 import *; x=Int('x'); s=Solver(); s.add(x>0,x<2); print(s.check())"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 0.114,
+            "stdout_tail": "sat\n",
+            "stderr_tail": ""
+          },
+          {
+            "command": [
+              "z3",
+              "-version"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 0.042,
+            "stdout_tail": "Z3 version 4.12.6 - 64 bit\n",
+            "stderr_tail": ""
+          }
+        ]
+      },
+      {
+        "spec": {
+          "tool_id": "lean4",
+          "name": "Lean 4 / lake / mathlib",
+          "purpose": "Final trusted formal verification and small theorem-shape probes.",
+          "profile": "essential",
+          "executables": [
+            "lean",
+            "lake"
+          ],
+          "python_modules": [],
+          "pip_packages": [],
+          "apt_packages": [],
+          "smoke_commands": [
+            [
+              "lean",
+              "--version"
+            ],
+            [
+              "lake",
+              "--version"
+            ]
+          ],
+          "command_templates": [
+            "cd $AMRA_AGENT_WORKSPACE && lake build",
+            "cd $AMRA_AGENT_WORKSPACE && lake env lean $AMRA_AGENT_RUN_DIR/lean_probes/<probe>.lean",
+            "rg -n '<keyword>' .lake/packages/mathlib/Mathlib"
+          ],
+          "notes": [
+            "AMRA accepts formal completion only after Lean builds without sorry/admit/axiom/constant/opaque."
+          ]
+        },
+        "available": true,
+        "missing": {
+          "executables": [],
+          "python_modules": []
+        },
+        "executables": [
+          {
+            "name": "lean",
+            "available": true,
+            "path": "/home/biostar/.elan/bin/lean"
+          },
+          {
+            "name": "lake",
+            "available": true,
+            "path": "/home/biostar/.elan/bin/lake"
+          }
+        ],
+        "python_modules": [],
+        "smoke": [
+          {
+            "command": [
+              "lean",
+              "--version"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 0.036,
+            "stdout_tail": "Lean (version 4.26.0, x86_64-unknown-linux-gnu, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)\n",
+            "stderr_tail": ""
+          },
+          {
+            "command": [
+              "lake",
+              "--version"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 0.035,
+            "stdout_tail": "Lake version 5.0.0-src+d8204c9 (Lean version 4.26.0)\n",
+            "stderr_tail": ""
+          }
+        ]
+      },
+      {
+        "spec": {
+          "tool_id": "pari_gp",
+          "name": "PARI/GP",
+          "purpose": "Fast number-theory experiments, modular arithmetic, algebraic number checks, and sequence probes.",
+          "profile": "extended",
+          "executables": [
+            "gp"
+          ],
+          "python_modules": [],
+          "pip_packages": [],
+          "apt_packages": [
+            "pari-gp"
+          ],
+          "smoke_commands": [
+            [
+              "gp",
+              "-q",
+              "-f",
+              "-e",
+              "print(factor(360)); quit"
+            ]
+          ],
+          "command_templates": [
+            "gp -q <script.gp>"
+          ],
+          "notes": [
+            "Use for candidate generation; certify final facts separately."
+          ]
+        },
+        "available": true,
+        "missing": {
+          "executables": [],
+          "python_modules": []
+        },
+        "executables": [
+          {
+            "name": "gp",
+            "available": true,
+            "path": "/usr/bin/gp"
+          }
+        ],
+        "python_modules": [],
+        "smoke": [
+          {
+            "command": [
+              "gp",
+              "-q",
+              "-f",
+              "-e",
+              "print(factor(360)); quit"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 0.014,
+            "stdout_tail": "",
+            "stderr_tail": "  ***   error opening input file: `print(factor(360)); quit'.\n... skipping file 'print(factor(360)); quit'\n"
+          }
+        ]
+      },
+      {
+        "spec": {
+          "tool_id": "gap",
+          "name": "GAP",
+          "purpose": "Group theory, finite algebra, combinatorics, and exact discrete computations.",
+          "profile": "extended",
+          "executables": [
+            "gap"
+          ],
+          "python_modules": [],
+          "pip_packages": [],
+          "apt_packages": [
+            "gap"
+          ],
+          "smoke_commands": [
+            [
+              "gap",
+              "-q",
+              "-c",
+              "Print(Size(SymmetricGroup(3)),\"\\n\"); QUIT;"
+            ]
+          ],
+          "command_templates": [
+            "gap -q <script.g>"
+          ],
+          "notes": []
+        },
+        "available": true,
+        "missing": {
+          "executables": [],
+          "python_modules": []
+        },
+        "executables": [
+          {
+            "name": "gap",
+            "available": true,
+            "path": "/usr/bin/gap"
+          }
+        ],
+        "python_modules": [],
+        "smoke": [
+          {
+            "command": [
+              "gap",
+              "-q",
+              "-c",
+              "Print(Size(SymmetricGroup(3)),\"\\n\"); QUIT;"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 1.062,
+            "stdout_tail": "6\n",
+            "stderr_tail": ""
+          }
+        ]
+      },
+      {
+        "spec": {
+          "tool_id": "singular",
+          "name": "Singular",
+          "purpose": "Polynomial ideals, Groebner bases, and computational commutative algebra.",
+          "profile": "extended",
+          "executables": [
+            "Singular"
+          ],
+          "python_modules": [],
+          "pip_packages": [],
+          "apt_packages": [
+            "singular"
+          ],
+          "smoke_commands": [
+            [
+              "Singular",
+              "--version"
+            ]
+          ],
+          "command_templates": [
+            "Singular -q <script.sing>"
+          ],
+          "notes": []
+        },
+        "available": true,
+        "missing": {
+          "executables": [],
+          "python_modules": []
+        },
+        "executables": [
+          {
+            "name": "Singular",
+            "available": true,
+            "path": "/usr/bin/Singular"
+          }
+        ],
+        "python_modules": [],
+        "smoke": [
+          {
+            "command": [
+              "Singular",
+              "--version"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 0.805,
+            "stdout_tail": "o-common -O3 -Wno-unused-function -Wno-trigraphs -Wno-unused-parameter -Wunknown-pragmas -Wno-unused-variable -fomit-frame-pointer -fwrapv -fvisibility=default -finline-functions -fno-exceptions -fno-threadsafe-statics -fno-enforce-eh-specs -fconserve-space -funroll-loops -pthread -pthread,\nCXX = g++,FLAGS : -g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/singular-HDHwVv/singular-4.3.2-p10+ds=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fdebug-prefix-map=/build/singular-HDHwVv/singular-4.3.2-p10+ds=/usr/src/singular-1:4.3.2-p10+ds-1.1build1 -pipe -fno-common -O3 -Wno-unused-function -Wno-trigraphs -Wno-unused-parameter -Wunknown-pragmas -Wno-unused-variable -fomit-frame-pointer -fwrapv -fvisibility=default -finline-functions -fno-exceptions -fno-threadsafe-statics -fno-enforce-eh-specs -fconserve-space -funroll-loops -fno-rtti -fno-delete-null-pointer-checks -pthread,\nDEFS : ,CPPFLAGS : -Wdate-time -D_FORTIFY_SOURCE=3,\nLDFLAGS : -Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -Wl,-z,now -pipe -fno-common -g -O3 -Wno-unused-function -Wno-trigraphs -Wno-unused-parameter -Wunknown-pragmas -Wno-unused-variable -fomit-frame-pointer -fwrapv -fvisibility=default -finline-functions -fno-exceptions -fno-threadsafe-statics -fno-enforce-eh-specs -fconserve-space -funroll-loops  -rdynamic -Wl,-undefined,dynamic_lookup,LIBS : -lreadline -lncurses  -lgmp -lrt  -lpthread (ver: 13.2.0)\nargv[0]   :\tSingular\nSearchPath:\t/usr/bin/../share/singular/LIB:/usr/bin/../share/singular/factory:/usr/libexec/x86_64-linux-gnu/singular/MOD:/usr/bin\nSingular  :\t/usr/bin/Singular\nBinDir    :\t/usr/bin\nProcDir   :\t/usr/libexec/x86_64-linux-gnu/singular/MOD\nRootDir   :\t/usr/bin/..\nDataDir   :\t/usr/bin/../share\nDefaultDir:\t/usr\nInfoFile  :\t\nIdxFile   :\t\nHtmlDir   :\t\nManualUrl :\thttps://www.singular.uni-kl.de/Manual/\nExDir     :\t\nPath      :\t/usr/bin:/usr/libexec/x86_64-linux-gnu/singular/MOD:/home/biostar/.elan/bin:/home/biostar/.nvm/versions/node/v22.21.1/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-path:/home/biostar/.codex/tmp/arg0/codex-arg0QkcUsj:/home/biostar/.cargo/bin:/home/biostar/.nvm/versions/node/v22.21.1/bin:/home/biostar/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/MicrosoftCorporationII.WindowsSubsystemForLinux_2.6.1.0_x64__8wekyb3d8bbwe:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0:/mnt/c/Windows/System32/OpenSSH:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs:/mnt/c/Users/30107/AppData/Local/Programs/Python/Python312/Scripts:/mnt/c/Users/30107/AppData/Local/Programs/Python/Python312:/mnt/c/Users/30107/AppData/Local/Programs/Python/Launcher:/mnt/c/Users/30107/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/30107/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/30107/AppData/Local/Programs/MiKTeX/miktex/bin/x64:/mnt/c/Users/30107/AppData/Roaming/npm:/home/biostar/.foundry/bin:/home/biostar/.local/bin\nemacs     :\t\nxemacs    :\t\nSingularEmacs:\t/usr/bin/Singular\nEmacsLoad :\t\nEmacsDir  :\t\nSingularXterm:\t/usr/bin/Singular\nxterm     :\t/usr/bin/xterm\nEmacsDir  :\t\nAvailable HelpBrowsers: dummy, emacs, \nCurrent HelpBrowser: dummy \n                     SINGULAR                                 /  Development\n A Computer Algebra System for Polynomial Computations       /   version 4.3.2\n                                                           0<\n by: W. Decker, G.-M. Greuel, G. Pfister, H. Schoenemann     \\   Feb 2023\nFB Mathematik der Universitaet, D-67653 Kaiserslautern        \\  Debian 1:4.3.2-p10+ds-1.1build1\nAuf Wiedersehen.\n",
+            "stderr_tail": ""
+          }
+        ]
+      },
+      {
+        "spec": {
+          "tool_id": "maxima",
+          "name": "Maxima",
+          "purpose": "Classical symbolic algebra and calculus sanity checks.",
+          "profile": "extended",
+          "executables": [
+            "maxima"
+          ],
+          "python_modules": [],
+          "pip_packages": [],
+          "apt_packages": [
+            "maxima"
+          ],
+          "smoke_commands": [
+            [
+              "maxima",
+              "--very-quiet",
+              "--batch-string=print(expand((x+1)^3)); quit();"
+            ]
+          ],
+          "command_templates": [
+            "maxima --batch=<script.mac>"
+          ],
+          "notes": []
+        },
+        "available": true,
+        "missing": {
+          "executables": [],
+          "python_modules": []
+        },
+        "executables": [
+          {
+            "name": "maxima",
+            "available": true,
+            "path": "/usr/bin/maxima"
+          }
+        ],
+        "python_modules": [],
+        "smoke": [
+          {
+            "command": [
+              "maxima",
+              "--very-quiet",
+              "--batch-string=print(expand((x+1)^3)); quit();"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 0.127,
+            "stdout_tail": "\nprint(expand((x+1)^3))\n 3      2\nx  + 3 x  + 3 x + 1 \n                               3      2\n                              x  + 3 x  + 3 x + 1\nquit()\n",
+            "stderr_tail": ""
+          }
+        ]
+      },
+      {
+        "spec": {
+          "tool_id": "cvc5",
+          "name": "cvc5",
+          "purpose": "SMT solving complementary to Z3, especially for quantified or arithmetic encodings.",
+          "profile": "extended",
+          "executables": [
+            "cvc5"
+          ],
+          "python_modules": [],
+          "pip_packages": [],
+          "apt_packages": [
+            "cvc5"
+          ],
+          "smoke_commands": [
+            [
+              "cvc5",
+              "--version"
+            ]
+          ],
+          "command_templates": [
+            "cvc5 <problem>.smt2"
+          ],
+          "notes": []
+        },
+        "available": true,
+        "missing": {
+          "executables": [],
+          "python_modules": []
+        },
+        "executables": [
+          {
+            "name": "cvc5",
+            "available": true,
+            "path": "/usr/bin/cvc5"
+          }
+        ],
+        "python_modules": [],
+        "smoke": [
+          {
+            "command": [
+              "cvc5",
+              "--version"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 0.026,
+            "stdout_tail": "This is cvc5 version 1.1.2\ncompiled with GCC version 13.2.0\non Mar 31 2024 17:58:39\n\nCopyright (c) 2009-2023 by the authors and their institutional\naffiliations listed at https://cvc5.github.io/people.html\n\nThis build of cvc5 uses GPLed libraries, and is thus covered by\nthe GNU General Public License (GPL) version 3.  Versions of cvc5\nare available that are covered by the (modified) BSD license. If\nyou want to license cvc5 under this license, please configure cvc5\nwith the \"--no-gpl\" option before building from sources.\n\nTHIS SOFTWARE IS PROVIDED AS-IS, WITHOUT ANY WARRANTIES.\nUSE AT YOUR OWN RISK.\n\nThis version of cvc5 is linked against the following non-(L)GPL'ed\nthird party libraries.\n\n  CaDiCaL - Simplified Satisfiability Solver\n  See https://github.com/arminbiere/cadical for copyright information.\n\n  CryptoMiniSat - An Advanced SAT Solver\n  See https://github.com/msoos/cryptominisat for copyright information.\n\n  SymFPU - The Symbolic Floating Point Unit\n  See https://github.com/martin-cs/symfpu/tree/CVC4 for copyright information.\n\nThis version of cvc5 is linked against the following third party\nlibraries covered by the GPLv3 license.\nSee licenses/gpl-3.0.txt for more information.\n\n  CLN - Class Library for Numbers\n  See http://www.ginac.de/CLN for copyright information.\n\nSee the file COPYING (distributed with the source code, and with\nall binaries) for the full cvc5 copyright, licensing, and (lack of)\nwarranty information.\n\n",
+            "stderr_tail": ""
+          }
+        ]
+      },
+      {
+        "spec": {
+          "tool_id": "sagemath",
+          "name": "SageMath",
+          "purpose": "Broad CAS environment for number theory, algebra, combinatorics, and exact computation.",
+          "profile": "full",
+          "executables": [
+            "sage"
+          ],
+          "python_modules": [],
+          "pip_packages": [],
+          "apt_packages": [
+            "sagemath"
+          ],
+          "smoke_commands": [
+            [
+              "sage",
+              "-c",
+              "print(factor(360))"
+            ]
+          ],
+          "command_templates": [
+            "sage <script.sage>",
+            "sage -python <script.py>"
+          ],
+          "notes": [
+            "Large package; full-profile installation can take substantial disk and time."
+          ]
+        },
+        "available": true,
+        "missing": {
+          "executables": [],
+          "python_modules": []
+        },
+        "executables": [
+          {
+            "name": "sage",
+            "available": true,
+            "path": "/home/biostar/.local/bin/sage"
+          }
+        ],
+        "python_modules": [],
+        "smoke": [
+          {
+            "command": [
+              "sage",
+              "-c",
+              "print(factor(360))"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 2.125,
+            "stdout_tail": "2^3 * 3^2 * 5\n",
+            "stderr_tail": ""
+          }
+        ]
+      },
+      {
+        "spec": {
+          "tool_id": "coq",
+          "name": "Coq / Rocq compatibility",
+          "purpose": "External proof assistant experiments when a source theorem already exists in Coq/Rocq.",
+          "profile": "full",
+          "executables": [
+            "coqc"
+          ],
+          "python_modules": [],
+          "pip_packages": [],
+          "apt_packages": [
+            "coq"
+          ],
+          "smoke_commands": [
+            [
+              "coqc",
+              "-v"
+            ]
+          ],
+          "command_templates": [
+            "coqc <file.v>"
+          ],
+          "notes": [
+            "AMRA does not currently translate Coq proofs into Lean automatically."
+          ]
+        },
+        "available": true,
+        "missing": {
+          "executables": [],
+          "python_modules": []
+        },
+        "executables": [
+          {
+            "name": "coqc",
+            "available": true,
+            "path": "/usr/bin/coqc"
+          }
+        ],
+        "python_modules": [],
+        "smoke": [
+          {
+            "command": [
+              "coqc",
+              "-v"
+            ],
+            "status": "completed",
+            "returncode": 0,
+            "elapsed_seconds": 0.116,
+            "stdout_tail": "The Coq Proof Assistant, version 8.18.0\ncompiled with OCaml 4.14.1\n",
+            "stderr_tail": ""
+          }
+        ]
+      }
+    ],
+    "install_reports": [],
+    "available_tool_ids": [
+      "python_math_stack",
+      "z3",
+      "lean4",
+      "pari_gp",
+      "gap",
+      "singular",
+      "maxima",
+      "cvc5",
+      "sagemath",
+      "coq"
+    ],
+    "unavailable_tool_ids": [],
+    "all_selected_available": true,
+    "report_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/math_tools_report.json",
+    "summary_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/math_tools_report.md"
+  },
+  "math_tools_report_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/math_tools_report.md",
+  "target_theorem": "source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier",
+  "target_file": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+  "expected_target_header": "",
+  "build_command": [
+    "lake",
+    "env",
+    "lean",
+    "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean"
+  ],
+  "attempts_requested": 8,
+  "attempts_completed": 8,
+  "elapsed_seconds": 170.513,
+  "initial_audit": {
+    "generated_at": "2026-07-02T06:35:51+00:00",
+    "workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+    "target_theorem": "source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier",
+    "target_file": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+    "target": {
+      "found": true,
+      "kind": "lemma",
+      "name": "source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier",
+      "path": "/home/biostar/work/projects/amra/amra_library/formal/AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+      "relative_path": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+      "line": 57430,
+      "declaration_line": "lemma source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier"
+    },
+    "build_status": "failed",
+    "returncode": 137,
+    "diagnostics": [],
+    "diagnostic_count": 0,
+    "counts": {
+      "sorry": 0,
+      "axiom": 0,
+      "constant": 0,
+      "admit": 0,
+      "placeholder": 0
+    },
+    "target_header": "lemma source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier\n    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]\n    (G : SimpleGraph α)\n    (hconn : G.Connected)\n    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)\n    (hb2 : b G = G.diam + 2)\n    {a b v : α} (p : G.Walk a b)\n    (hpPath : p.IsPath)\n    (hmax : ∀ u w : α, ∀ q : G.Walk u w,\n      q.IsPath → q.support.length ≤ p.support.length)\n    (hv : v ∉ p.support) :\n    G.indepNum ≤ 3 ∧\n    (((∃ s t x y : α,\n      ∃ i j : ℕ, ∃ q : G.Walk x y,\n        0 < i ∧\n        i < j ∧\n        j < p.length ∧\n        x ∉ p.support ∧\n        y ∉ p.support ∧\n        p.getVert i = s ∧\n        p.getVert j = t ∧\n        G.Adj x s ∧\n        G.Adj y t ∧\n        i + 2 < j ∧\n        q.IsPath ∧\n        0 < q.length ∧\n        v ∈ q.support ∧\n        (∀ z : α, z ∈ q.support → z ∉ p.support) ∧\n        q.length + 2 ≤ j - i ∧\n        ¬ G.Adj x (p.getVert (i - 1)) ∧\n        ¬ G.Adj x (p.getVert (i + 1)) ∧\n        ¬ G.Adj y (p.getVert (j - 1)) ∧\n        ¬ G.Adj y (p.getVert (j + 1))) ∨\n    (∃ s t : α,\n      ∃ i j : ℕ,\n        0 < i ∧\n        i < j ∧\n        j < p.length ∧\n        p.getVert i = s ∧\n        p.getVert j = t ∧",
+    "expected_target_header": "",
+    "target_statement_match": {
+      "required": false,
+      "matched": null
+    },
+    "forbidden_target_header_patterns": [],
+    "forbidden_target_header_hits": [],
+    "defect_score": 1000000,
+    "verified": false,
+    "failure_mode": "blocked_formalization_gap",
+    "proof_loop_state": "blocked_formalization_gap",
+    "faithful_modeling_status": "blocked_formalization_gap",
+    "blockers": [
+      "Lean build status is `failed`, not `passed`."
+    ]
+  },
+  "best_audit": {
+    "generated_at": "2026-07-02T06:35:51+00:00",
+    "workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+    "target_theorem": "source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier",
+    "target_file": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+    "target": {
+      "found": true,
+      "kind": "lemma",
+      "name": "source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier",
+      "path": "/home/biostar/work/projects/amra/amra_library/formal/AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+      "relative_path": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+      "line": 57430,
+      "declaration_line": "lemma source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier"
+    },
+    "build_status": "failed",
+    "returncode": 137,
+    "diagnostics": [],
+    "diagnostic_count": 0,
+    "counts": {
+      "sorry": 0,
+      "axiom": 0,
+      "constant": 0,
+      "admit": 0,
+      "placeholder": 0
+    },
+    "target_header": "lemma source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier\n    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]\n    (G : SimpleGraph α)\n    (hconn : G.Connected)\n    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)\n    (hb2 : b G = G.diam + 2)\n    {a b v : α} (p : G.Walk a b)\n    (hpPath : p.IsPath)\n    (hmax : ∀ u w : α, ∀ q : G.Walk u w,\n      q.IsPath → q.support.length ≤ p.support.length)\n    (hv : v ∉ p.support) :\n    G.indepNum ≤ 3 ∧\n    (((∃ s t x y : α,\n      ∃ i j : ℕ, ∃ q : G.Walk x y,\n        0 < i ∧\n        i < j ∧\n        j < p.length ∧\n        x ∉ p.support ∧\n        y ∉ p.support ∧\n        p.getVert i = s ∧\n        p.getVert j = t ∧\n        G.Adj x s ∧\n        G.Adj y t ∧\n        i + 2 < j ∧\n        q.IsPath ∧\n        0 < q.length ∧\n        v ∈ q.support ∧\n        (∀ z : α, z ∈ q.support → z ∉ p.support) ∧\n        q.length + 2 ≤ j - i ∧\n        ¬ G.Adj x (p.getVert (i - 1)) ∧\n        ¬ G.Adj x (p.getVert (i + 1)) ∧\n        ¬ G.Adj y (p.getVert (j - 1)) ∧\n        ¬ G.Adj y (p.getVert (j + 1))) ∨\n    (∃ s t : α,\n      ∃ i j : ℕ,\n        0 < i ∧\n        i < j ∧\n        j < p.length ∧\n        p.getVert i = s ∧\n        p.getVert j = t ∧",
+    "expected_target_header": "",
+    "target_statement_match": {
+      "required": false,
+      "matched": null
+    },
+    "forbidden_target_header_patterns": [],
+    "forbidden_target_header_hits": [],
+    "defect_score": 1000000,
+    "verified": false,
+    "failure_mode": "blocked_formalization_gap",
+    "proof_loop_state": "blocked_formalization_gap",
+    "faithful_modeling_status": "blocked_formalization_gap",
+    "blockers": [
+      "Lean build status is `failed`, not `passed`."
+    ]
+  },
+  "attempts": [
+    {
+      "generated_at": "2026-07-02T06:36:23+00:00",
+      "iteration": 1,
+      "backend": "none",
+      "backend_status": "skipped",
+      "backend_returncode": 0,
+      "backend_elapsed_seconds": 0.0,
+      "before_defect_score": 1000000,
+      "after_defect_score": 1000000,
+      "progress_delta": 0,
+      "stalled_attempts": 1,
+      "rollback_applied": false,
+      "verified": false,
+      "build_status": "failed",
+      "blockers": [
+        "Lean build status is `failed`, not `passed`."
+      ],
+      "counts": {
+        "sorry": 0,
+        "axiom": 0,
+        "constant": 0,
+        "admit": 0,
+        "placeholder": 0
+      },
+      "suggested_next_target": "rerun with backend=codex",
+      "prompt_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_001/prompt.txt",
+      "backend_last_message_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_001/backend_last_message.txt",
+      "system_headroom": {
+        "status": "ready",
+        "snapshot": {
+          "captured_at": 1782974151,
+          "cpu_count": 8,
+          "load1": 3.513,
+          "load5": 2.856,
+          "load15": 2.613,
+          "load_per_cpu": 0.439,
+          "mem_total_mb": 32098.2,
+          "mem_available_mb": 23800.3
+        },
+        "blockers": [],
+        "thresholds": {
+          "min_available_memory_mb": 2048,
+          "max_load_per_cpu": 1.5
+        },
+        "waited_seconds": 0.0,
+        "poll_count": 1,
+        "polls": [
+          {
+            "captured_at": 1782974151,
+            "cpu_count": 8,
+            "load1": 3.513,
+            "load5": 2.856,
+            "load15": 2.613,
+            "load_per_cpu": 0.439,
+            "mem_total_mb": 32098.2,
+            "mem_available_mb": 23800.3
+          }
+        ]
+      }
+    },
+    {
+      "generated_at": "2026-07-02T06:36:48+00:00",
+      "iteration": 2,
+      "backend": "none",
+      "backend_status": "skipped",
+      "backend_returncode": 0,
+      "backend_elapsed_seconds": 0.0,
+      "before_defect_score": 1000000,
+      "after_defect_score": 1000000,
+      "progress_delta": 0,
+      "stalled_attempts": 2,
+      "rollback_applied": false,
+      "verified": false,
+      "build_status": "failed",
+      "blockers": [
+        "Lean build status is `failed`, not `passed`."
+      ],
+      "counts": {
+        "sorry": 0,
+        "axiom": 0,
+        "constant": 0,
+        "admit": 0,
+        "placeholder": 0
+      },
+      "suggested_next_target": "rerun with backend=codex",
+      "prompt_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_002/prompt.txt",
+      "backend_last_message_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_002/backend_last_message.txt",
+      "system_headroom": {
+        "status": "ready",
+        "snapshot": {
+          "captured_at": 1782974183,
+          "cpu_count": 8,
+          "load1": 3.979,
+          "load5": 3.042,
+          "load15": 2.684,
+          "load_per_cpu": 0.497,
+          "mem_total_mb": 32098.2,
+          "mem_available_mb": 23937.8
+        },
+        "blockers": [],
+        "thresholds": {
+          "min_available_memory_mb": 2048,
+          "max_load_per_cpu": 1.5
+        },
+        "waited_seconds": 0.0,
+        "poll_count": 1,
+        "polls": [
+          {
+            "captured_at": 1782974183,
+            "cpu_count": 8,
+            "load1": 3.979,
+            "load5": 3.042,
+            "load15": 2.684,
+            "load_per_cpu": 0.497,
+            "mem_total_mb": 32098.2,
+            "mem_available_mb": 23937.8
+          }
+        ]
+      }
+    },
+    {
+      "generated_at": "2026-07-02T06:37:07+00:00",
+      "iteration": 3,
+      "backend": "none",
+      "backend_status": "skipped",
+      "backend_returncode": 0,
+      "backend_elapsed_seconds": 0.0,
+      "before_defect_score": 1000000,
+      "after_defect_score": 1000000,
+      "progress_delta": 0,
+      "stalled_attempts": 3,
+      "rollback_applied": false,
+      "verified": false,
+      "build_status": "failed",
+      "blockers": [
+        "Lean build status is `failed`, not `passed`."
+      ],
+      "counts": {
+        "sorry": 0,
+        "axiom": 0,
+        "constant": 0,
+        "admit": 0,
+        "placeholder": 0
+      },
+      "suggested_next_target": "rerun with backend=codex",
+      "prompt_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_003/prompt.txt",
+      "backend_last_message_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_003/backend_last_message.txt",
+      "system_headroom": {
+        "status": "ready",
+        "snapshot": {
+          "captured_at": 1782974208,
+          "cpu_count": 8,
+          "load1": 4.397,
+          "load5": 3.229,
+          "load15": 2.757,
+          "load_per_cpu": 0.55,
+          "mem_total_mb": 32098.2,
+          "mem_available_mb": 23902.5
+        },
+        "blockers": [],
+        "thresholds": {
+          "min_available_memory_mb": 2048,
+          "max_load_per_cpu": 1.5
+        },
+        "waited_seconds": 0.0,
+        "poll_count": 1,
+        "polls": [
+          {
+            "captured_at": 1782974208,
+            "cpu_count": 8,
+            "load1": 4.397,
+            "load5": 3.229,
+            "load15": 2.757,
+            "load_per_cpu": 0.55,
+            "mem_total_mb": 32098.2,
+            "mem_available_mb": 23902.5
+          }
+        ]
+      }
+    },
+    {
+      "generated_at": "2026-07-02T06:37:22+00:00",
+      "iteration": 4,
+      "backend": "none",
+      "backend_status": "skipped",
+      "backend_returncode": 0,
+      "backend_elapsed_seconds": 0.0,
+      "before_defect_score": 1000000,
+      "after_defect_score": 1000000,
+      "progress_delta": 0,
+      "stalled_attempts": 4,
+      "rollback_applied": false,
+      "verified": false,
+      "build_status": "failed",
+      "blockers": [
+        "Lean build status is `failed`, not `passed`."
+      ],
+      "counts": {
+        "sorry": 0,
+        "axiom": 0,
+        "constant": 0,
+        "admit": 0,
+        "placeholder": 0
+      },
+      "suggested_next_target": "rerun with backend=codex",
+      "prompt_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_004/prompt.txt",
+      "backend_last_message_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_004/backend_last_message.txt",
+      "system_headroom": {
+        "status": "ready",
+        "snapshot": {
+          "captured_at": 1782974227,
+          "cpu_count": 8,
+          "load1": 4.378,
+          "load5": 3.31,
+          "load15": 2.794,
+          "load_per_cpu": 0.547,
+          "mem_total_mb": 32098.2,
+          "mem_available_mb": 23907.2
+        },
+        "blockers": [],
+        "thresholds": {
+          "min_available_memory_mb": 2048,
+          "max_load_per_cpu": 1.5
+        },
+        "waited_seconds": 0.0,
+        "poll_count": 1,
+        "polls": [
+          {
+            "captured_at": 1782974227,
+            "cpu_count": 8,
+            "load1": 4.378,
+            "load5": 3.31,
+            "load15": 2.794,
+            "load_per_cpu": 0.547,
+            "mem_total_mb": 32098.2,
+            "mem_available_mb": 23907.2
+          }
+        ]
+      }
+    },
+    {
+      "generated_at": "2026-07-02T06:37:35+00:00",
+      "iteration": 5,
+      "backend": "none",
+      "backend_status": "skipped",
+      "backend_returncode": 0,
+      "backend_elapsed_seconds": 0.0,
+      "before_defect_score": 1000000,
+      "after_defect_score": 1000000,
+      "progress_delta": 0,
+      "stalled_attempts": 5,
+      "rollback_applied": false,
+      "verified": false,
+      "build_status": "failed",
+      "blockers": [
+        "Lean build status is `failed`, not `passed`."
+      ],
+      "counts": {
+        "sorry": 0,
+        "axiom": 0,
+        "constant": 0,
+        "admit": 0,
+        "placeholder": 0
+      },
+      "suggested_next_target": "rerun with backend=codex",
+      "prompt_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_005/prompt.txt",
+      "backend_last_message_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_005/backend_last_message.txt",
+      "system_headroom": {
+        "status": "ready",
+        "snapshot": {
+          "captured_at": 1782974242,
+          "cpu_count": 8,
+          "load1": 4.936,
+          "load5": 3.49,
+          "load15": 2.862,
+          "load_per_cpu": 0.617,
+          "mem_total_mb": 32098.2,
+          "mem_available_mb": 23681.3
+        },
+        "blockers": [],
+        "thresholds": {
+          "min_available_memory_mb": 2048,
+          "max_load_per_cpu": 1.5
+        },
+        "waited_seconds": 0.0,
+        "poll_count": 1,
+        "polls": [
+          {
+            "captured_at": 1782974242,
+            "cpu_count": 8,
+            "load1": 4.936,
+            "load5": 3.49,
+            "load15": 2.862,
+            "load_per_cpu": 0.617,
+            "mem_total_mb": 32098.2,
+            "mem_available_mb": 23681.3
+          }
+        ]
+      }
+    },
+    {
+      "generated_at": "2026-07-02T06:37:45+00:00",
+      "iteration": 6,
+      "backend": "none",
+      "backend_status": "skipped",
+      "backend_returncode": 0,
+      "backend_elapsed_seconds": 0.0,
+      "before_defect_score": 1000000,
+      "after_defect_score": 1000000,
+      "progress_delta": 0,
+      "stalled_attempts": 6,
+      "rollback_applied": false,
+      "verified": false,
+      "build_status": "failed",
+      "blockers": [
+        "Lean build status is `failed`, not `passed`."
+      ],
+      "counts": {
+        "sorry": 0,
+        "axiom": 0,
+        "constant": 0,
+        "admit": 0,
+        "placeholder": 0
+      },
+      "suggested_next_target": "rerun with backend=codex",
+      "prompt_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_006/prompt.txt",
+      "backend_last_message_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_006/backend_last_message.txt",
+      "system_headroom": {
+        "status": "ready",
+        "snapshot": {
+          "captured_at": 1782974255,
+          "cpu_count": 8,
+          "load1": 5.247,
+          "load5": 3.606,
+          "load15": 2.907,
+          "load_per_cpu": 0.656,
+          "mem_total_mb": 32098.2,
+          "mem_available_mb": 23944.5
+        },
+        "blockers": [],
+        "thresholds": {
+          "min_available_memory_mb": 2048,
+          "max_load_per_cpu": 1.5
+        },
+        "waited_seconds": 0.0,
+        "poll_count": 1,
+        "polls": [
+          {
+            "captured_at": 1782974255,
+            "cpu_count": 8,
+            "load1": 5.247,
+            "load5": 3.606,
+            "load15": 2.907,
+            "load_per_cpu": 0.656,
+            "mem_total_mb": 32098.2,
+            "mem_available_mb": 23944.5
+          }
+        ]
+      }
+    },
+    {
+      "generated_at": "2026-07-02T06:37:52+00:00",
+      "iteration": 7,
+      "backend": "none",
+      "backend_status": "skipped",
+      "backend_returncode": 0,
+      "backend_elapsed_seconds": 0.0,
+      "before_defect_score": 1000000,
+      "after_defect_score": 1000000,
+      "progress_delta": 0,
+      "stalled_attempts": 7,
+      "rollback_applied": false,
+      "verified": false,
+      "build_status": "failed",
+      "blockers": [
+        "Lean build status is `failed`, not `passed`."
+      ],
+      "counts": {
+        "sorry": 0,
+        "axiom": 0,
+        "constant": 0,
+        "admit": 0,
+        "placeholder": 0
+      },
+      "suggested_next_target": "rerun with backend=codex",
+      "prompt_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_007/prompt.txt",
+      "backend_last_message_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_007/backend_last_message.txt",
+      "system_headroom": {
+        "status": "ready",
+        "snapshot": {
+          "captured_at": 1782974265,
+          "cpu_count": 8,
+          "load1": 4.908,
+          "load5": 3.586,
+          "load15": 2.909,
+          "load_per_cpu": 0.613,
+          "mem_total_mb": 32098.2,
+          "mem_available_mb": 23672.5
+        },
+        "blockers": [],
+        "thresholds": {
+          "min_available_memory_mb": 2048,
+          "max_load_per_cpu": 1.5
+        },
+        "waited_seconds": 0.0,
+        "poll_count": 1,
+        "polls": [
+          {
+            "captured_at": 1782974265,
+            "cpu_count": 8,
+            "load1": 4.908,
+            "load5": 3.586,
+            "load15": 2.909,
+            "load_per_cpu": 0.613,
+            "mem_total_mb": 32098.2,
+            "mem_available_mb": 23672.5
+          }
+        ]
+      }
+    },
+    {
+      "generated_at": "2026-07-02T06:37:57+00:00",
+      "iteration": 8,
+      "backend": "none",
+      "backend_status": "skipped",
+      "backend_returncode": 0,
+      "backend_elapsed_seconds": 0.0,
+      "before_defect_score": 1000000,
+      "after_defect_score": 1000000,
+      "progress_delta": 0,
+      "stalled_attempts": 8,
+      "rollback_applied": false,
+      "verified": false,
+      "build_status": "failed",
+      "blockers": [
+        "Lean build status is `failed`, not `passed`."
+      ],
+      "counts": {
+        "sorry": 0,
+        "axiom": 0,
+        "constant": 0,
+        "admit": 0,
+        "placeholder": 0
+      },
+      "suggested_next_target": "rerun with backend=codex",
+      "prompt_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_008/prompt.txt",
+      "backend_last_message_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_008/backend_last_message.txt",
+      "system_headroom": {
+        "status": "ready",
+        "snapshot": {
+          "captured_at": 1782974272,
+          "cpu_count": 8,
+          "load1": 4.916,
+          "load5": 3.61,
+          "load15": 2.92,
+          "load_per_cpu": 0.614,
+          "mem_total_mb": 32098.2,
+          "mem_available_mb": 23886.3
+        },
+        "blockers": [],
+        "thresholds": {
+          "min_available_memory_mb": 2048,
+          "max_load_per_cpu": 1.5
+        },
+        "waited_seconds": 0.0,
+        "poll_count": 1,
+        "polls": [
+          {
+            "captured_at": 1782974272,
+            "cpu_count": 8,
+            "load1": 4.916,
+            "load5": 3.61,
+            "load15": 2.92,
+            "load_per_cpu": 0.614,
+            "mem_total_mb": 32098.2,
+            "mem_available_mb": 23886.3
+          }
+        ]
+      }
+    }
+  ],
+  "suggested_next_targets": [
+    "rerun with backend=codex"
+  ],
+  "needs_global_reassessment": true,
+  "global_reassessment_reason": "All completed attempts produced no strict-audit score improvement; a campaign-level supervisor should reassess the proof decomposition and choose a smaller theorem-level stage target before continuing.",
+  "summary_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/summary.md",
+  "next_action": "Run a global reassessment to choose or confirm a smaller theorem-level target.",
+  "progress_velocity": {
+    "schema_version": "amra.progress_velocity.v1",
+    "elapsed_seconds": 170.513,
+    "attempts_completed": 8,
+    "episodes_completed": 0,
+    "positive_progress_delta": 0,
+    "net_progress_delta": 0.0,
+    "progress_delta_per_hour": 0.0,
+    "attempts_per_hour": 168.902078,
+    "episodes_per_hour": 0.0,
+    "verified_target_count": 0,
+    "target_count": 1,
+    "verified_targets_per_hour": 0.0
+  },
+  "library_promotion": {
+    "status": "skipped",
+    "reason": "target_not_verified"
+  }
+}

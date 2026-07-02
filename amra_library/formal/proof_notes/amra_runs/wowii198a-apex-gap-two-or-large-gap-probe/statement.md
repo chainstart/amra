@@ -1,0 +1,1 @@
+Verify the public Lean theorem missed_vertex_two_attachments_gap_two_or_large_gap_local_or_cross_chords in Wowii198aLeftmost.lean, splitting apex obstruction into minimal gap or large-gap local/cross chord trichotomy.

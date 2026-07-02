@@ -1,0 +1,1 @@
+Verify the public Lean theorem source_bound_missed_vertex_two_attachments_forces_gap_two_or_large_gap_chords in Wowii198aLeftmost.lean, bridging source-bound apex branch to minimal-gap or large-gap local/cross chord split.

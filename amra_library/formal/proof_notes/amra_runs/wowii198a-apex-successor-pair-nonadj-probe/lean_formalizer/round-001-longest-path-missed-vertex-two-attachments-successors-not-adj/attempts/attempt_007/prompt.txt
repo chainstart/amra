@@ -1,0 +1,526 @@
+You are running ARA Lean Formalizer, the write-and-verify stage downstream of ARA Proof Lab.
+
+Iteration: 7 of 8
+Lean workspace: /home/biostar/work/projects/amra/amra_library/formal
+Run artifact directory: /home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-successor-pair-nonadj-probe/lean_formalizer/round-001-longest-path-missed-vertex-two-attachments-successors-not-adj
+
+Final objective:
+- Write Lean code that proves the target theorem as stated.
+- The target is accepted only when the configured build command passes and the workspace has no `sorry`, `admit`, `axiom`, `constant`, `opaque`, or ARA placeholder markers.
+- Do not weaken the theorem, change definitions to make the theorem trivial, or introduce new trusted assumptions.
+- Each iteration must evaluate the previous state, choose the next most important Lean blocker, edit code, run the verifier, and report the next blocker.
+
+Allowed edits:
+- Edit Lean/proof-support files under `/home/biostar/work/projects/amra/amra_library/formal`.
+- Do not edit generated run artifacts except through normal command output.
+
+Required verifier command:
+- `lake env lean AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean` from `/home/biostar/work/projects/amra/amra_library/formal`.
+
+Target theorem:
+- `longest_path_missed_vertex_two_attachments_successors_not_adj`
+- Target file: `AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`
+- Expected source declaration: <not supplied>
+```lean
+<none>
+```
+
+Mathematical/proof-lab upstream context:
+- Read `/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-successor-pair-nonadj-probe/lean_formalizer/round-001-longest-path-missed-vertex-two-attachments-successors-not-adj/context_bundle.md` before editing.
+
+AMRA math tools report:
+- Read `/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-successor-pair-nonadj-probe/lean_formalizer/round-001-longest-path-missed-vertex-two-attachments-successors-not-adj/math_tools_report.md` before broad proof repair.
+- Use Python/Z3/CAS/Lean probes early when a quick check can falsify a lemma shape, verify a finite obstruction, or identify the right algebraic normal form.
+- Record nontrivial tool checks in the run directory; final acceptance still requires the host Lean audit.
+
+Current statement/implementation target:
+```text
+# ARA Campaign Loop Stage Goal
+
+Round: 1 of 1
+Stage: `lean_formalizer`
+
+## Main Objective
+
+Verify the active Lean theorem longest_path_missed_vertex_two_attachments_successors_not_adj in Wowii198aLeftmost.lean, proving the successor-pair forbidden edge by reversing the predecessor rotation theorem.
+
+## Targets
+
+- Current stage theorem: `longest_path_missed_vertex_two_attachments_successors_not_adj`
+- Final theorem: `longest_path_missed_vertex_two_attachments_successors_not_adj`
+- Already verified/excluded stage theorems: `<none yet>`
+
+## Loop Discipline
+
+- Start by reviewing the prior-round history.
+- Re-state the current first blocker before doing local work.
+- Prefer theorem-level progress over local simplification.
+- Freeze or demote routes that repeatedly fail the global audit.
+- Do not select any already verified stage theorem as the next target.
+- End with a concrete next-stage target.
+
+## Stage Directive
+
+This round is Lean write/verify.
+Edit the Lean workspace only as needed to prove the current stage theorem.
+If the stage theorem is too broad, introduce proved intermediate lemmas but do not weaken the requested theorem or add trusted assumptions.
+Run the configured verifier and report the exact next blocker if not verified.
+
+## Prior History
+
+No prior loop history.
+```
+
+Current strict audit:
+- Verified: False
+- Build status: failed
+- Defect score: 1050000
+- Counts: {'sorry': 0, 'axiom': 0, 'constant': 0, 'admit': 0, 'placeholder': 0}
+- Target declaration: {'found': False, 'reason': 'target_declaration_not_found', 'name': 'longest_path_missed_vertex_two_attachments_successors_not_adj'}
+
+Current blockers:
+- Lean build status is `failed`, not `passed`.
+- Target theorem `longest_path_missed_vertex_two_attachments_successors_not_adj` was not found in the Lean workspace.
+
+
+Current build diagnostics:
+- none
+
+Lean files in workspace:
+- AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/LargestInducedTree.lean
+- AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/LocalGirthInducedTreeBound.lean
+- AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/WellTotallyDominated.lean
+- AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/WowiiConjecture13.lean
+- AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/WowiiConjecture141.lean
+- AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/WowiiConjecture17.lean
+- AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/WowiiConjecture315.lean
+- AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/WowiiConjecture322.lean
+- AmraLibrary/Combinatorics/SimpleGraph/GraphConjectures/WowiiConjecture58.lean
+- AmraLibrary/OpenProblemBatches/Attack1680866_20260608/IndependentDomination80.lean
+- AmraLibrary/OpenProblemBatches/Attack1680866_20260608/Wowii16CentralCore.lean
+- AmraLibrary/OpenProblemBatches/NewCandidates20260612/Erdos1.lean
+- AmraLibrary/OpenProblemBatches/NewCandidates20260612/Erdos1HarperVertexBoundaryScratch.lean
+- AmraLibrary/OpenProblemBatches/NewCandidates20260612/Erdos1SeparatorCounterexample.lean
+- AmraLibrary/OpenProblemBatches/NewCandidates20260612/Erdos212.lean
+- AmraLibrary/OpenProblemBatches/NewCandidates20260612/Erdos972.lean
+- AmraLibrary/OpenProblemBatches/NewCandidates20260612/Graph002.lean
+- AmraLibrary/OpenProblemBatches/NewCandidates20260612/OneThirdTwoThirds.lean
+- AmraLibrary/OpenProblemBatches/TrueOpenNextRound20260606/04_general_supercongruence_zmod_cast.lean
+- AmraLibrary/OpenProblemBatches/TrueOpenNextRound20260606/05_wowii_conjecture19.lean
+- AmraLibrary/OpenProblemBatches/TrueOpenNextRound20260606/06_exists_maximal_star_rank_two.lean
+- AmraLibrary/OpenProblemBatches/TrueOpenNextRound20260606/07_crystals_odd_vieta_descent.lean
+- AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean
+- AmraLibrary.lean
+- lakefile.lean
+- lean_probe_halfclosed.lean
+- lean_probe_native_decide.lean
+- lean_probe_wrapper_arith.lean
+
+Previous iteration backend message:
+```text
+Iteration status: blocked
+Files changed: none
+Verifier command: not run by backend=none
+Remaining blocker: backend disabled
+Next target: rerun with backend=codex
+
+```
+
+Target file tail:
+```lean
+S)
+    (hS_two : ∃ s t : α, s ∈ S ∧ t ∈ S ∧ s ≠ t) :
+    ∃ s t : α, ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      s ∈ S ∧
+      t ∈ S ∧
+      s ≠ t ∧
+      qs.IsPath ∧
+      qt.IsPath ∧
+      (∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∧
+      (∀ z : α, z ∈ qs.support → z ≠ s → z ∉ S) ∧
+      (∀ z : α, z ∈ qt.support → z ≠ t → z ∉ S) := by
+  classical
+  exact hdelete
+
+lemma exists_internally_disjoint_outside_fan_to_separated_longest_path_attachments
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha] [Nontrivial alpha]
+    {G : SimpleGraph alpha}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : alpha,
+      ((⊤ : G.Subgraph).deleteVerts ({x} : Set alpha)).Connected)
+    {a b v : alpha} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : alpha, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ∃ x y : alpha, ∃ ii jj : ℕ,
+    ∃ qx : G.Walk v x, ∃ qy : G.Walk v y,
+      0 < ii ∧
+      ii + 1 < jj ∧
+      jj < p.length ∧
+      x ∉ p.support ∧
+      y ∉ p.support ∧
+      G.Adj x (p.getVert ii) ∧
+      G.Adj y (p.getVert jj) ∧
+      qx.IsPath ∧
+      qy.IsPath ∧
+      (∀ z : alpha, z ∈ qx.support → z ∉ p.support) ∧
+      (∀ z : alpha, z ∈ qy.support → z ∉ p.support) ∧
+      (∀ z : alpha, z ∈ qx.support → z ∈ qy.support → z = v) := by
+  classical
+  rcases exists_missed_to_right_path_avoiding_left
+      (G := G) hconn hdelete p hpPath hmax hv with
+    ⟨qR, hqRPath, hqRa⟩
+  rcases exists_left_to_missed_path_avoiding_right
+      (G := G) hconn hdelete p hpPath hmax hv with
+    ⟨qL, hqLPath, hqLb⟩
+  rcases exists_first_entry_edge_to_path_support_with_prefix
+      (G := G) (p := p) (q := qR) hv p.end_mem_support with
+    ⟨iR, _hiR_lt, hiR_out, hiR_in, hiR_adj, hiR_prefix⟩
+  rcases exists_first_entry_edge_to_path_support_with_prefix
+      (G := G) (p := p) (q := qL.reverse) hv p.start_mem_support with
+    ⟨iL, _hiL_lt, hiL_out, hiL_in, hiL_adj, hiL_prefix⟩
+  rcases exists_getVert_eq_of_mem_support (G := G) p hiR_in with
+    ⟨jR, hjR_le, hjR_get⟩
+  rcases exists_getVert_eq_of_mem_support (G := G) p hiL_in with
+    ⟨jL, hjL_le, hjL_get⟩
+  have hR_entry_ne_left : qR.getVert (iR + 1) ≠ a := by
+    intro hentry
+    exact hqRa (hentry ▸ qR.getVert_mem_support (iR + 1))
+  have hL_entry_ne_right : qL.reverse.getVert (iL + 1) ≠ b := by
+    intro hentry
+    have hbmem_rev : b ∈ qL.reverse.support :=
+      hentry ▸ qL.reverse.getVert_mem_support (iL + 1)
+    rw [Walk.support_reverse] at hbmem_rev
+    exact hqLb (List.mem_reverse.mp hbmem_rev)
+  have hR_entry_ne_right : qR.getVert (iR + 1) ≠ b := by
+    intro hentry
+    have hnot :
+        ¬ G.Adj b (qR.getVert iR) :=
+      longest_path_no_adj_from_right_endpoint_outside
+        (G := G) p hpPath hmax hiR_out
+    exact hnot (by simpa [hentry] using hiR_adj.symm)
+  have hL_entry_ne_left : qL.reverse.getVert (iL + 1) ≠ a := by
+    intro hentry
+    have hnot :
+        ¬ G.Adj (qL.reverse.getVert iL) a :=
+      longest_path_no_adj_from_left_endpoint_outside
+        (G := G) p hpPath hmax hiL_out
+    exact hnot (by simpa [hentry] using hiL_adj)
+  have hjR_pos : 0 < jR := by
+    by_contra hpos
+    have hjR_zero : jR = 0 := Nat.eq_zero_of_not_pos hpos
+    apply hR_entry_ne_left
+    simpa [hjR_zero, Walk.getVert_zero] using hjR_get.symm
+  have hjL_pos : 0 < jL := by
+    by_contra hpos
+    have hjL_zero : jL = 0 := Nat.eq_zero_of_not_pos hpos
+    apply hL_entry_ne_left
+    simpa [hjL_zero, Walk.getVert_zero] using hjL_get.symm
+  have hjR_lt : jR < p.length := by
+    exact lt_of_le_of_ne hjR_le (by
+      intro hjR_eq
+      apply hR_entry_ne_right
+      simpa [hjR_eq] using hjR_get.symm)
+  have hjL_lt : jL < p.length := by
+    exact lt_of_le_of_ne hjL_le (by
+      intro hjL_eq
+      apply hL_entry_ne_right
+      simpa [hjL_eq] using hjL_get.symm)
+  let x : alpha := qL.reverse.getVert iL
+  let y : alpha := qR.getVert iR
+  have hx_out : x ∉ p.support := by
+    simpa [x] using hiL_out
+  have hy_out : y ∉ p.support := by
+    simpa [y] using hiR_out
+  have hqx_left : G.Adj x (p.getVert jL) := by
+    simpa [x, hjL_get] using hiL_adj
+  have hqy_right : G.Adj y (p.getVert jR) := by
+    simpa [y, hjR_get] using hiR_adj
+  have hqLeftPrefixPath : (qL.reverse.take iL).IsPath := by
+    exact Walk.isPath_of_isSubwalk (Walk.isSubwalk_take qL.reverse iL) hqLPath.reverse
+  have hqRightPrefixPath : (qR.take iR).IsPath := by
+    exact Walk.isPath_of_isSubwalk (Walk.isSubwalk_take qR iR) hqRPath
+  have hqLeftTakeOutside :
+      ∀ z : alpha, z ∈ (qL.reverse.take iL).support → z ∉ p.support :=
+    support_take_disjoint_of_getVert_prefix (G := G) p qL.reverse hiL_prefix
+  have hqRightOutside :
+      ∀ z : alpha, z ∈ (qR.take iR).support → z ∉ p.support :=
+    support_take_disjoint_of_getVert_prefix (G := G) p qR hiR_prefix
+  let qLeftToX : G.Walk v x := qL.reverse.take iL
+  let qRightToY : G.Walk v y := qR.take iR
+  have hqLeftToXPath : qLeftToX.IsPath := by
+    simpa [qLeftToX] using hqLeftPrefixPath
+  have hqRightToYPath : qRightToY.IsPath := by
+    simpa [qRightToY] using hqRightPrefixPath
+  have hqLeftToXOutside :
+      ∀ z : alpha, z ∈ qLeftToX.support → z ∉ p.support := by
+    simpa [qLeftToX] using hqLeftTakeOutside
+  have hqRightToYOutside :
+      ∀ z : alpha, z ∈ qRightToY.support → z ∉ p.support := by
+    simpa [qRightToY] using hqRightOutside
+  have hprefixes_meet_only_v :
+      ∀ z : alpha, z ∈ qLeftToX.support → z ∈ qRightToY.support → z = v := by
+    intro z hzL hzR
+    -- This is the remaining endpoint-preserving component obstruction:
+    -- the two first-entry outside prefixes must be separated before they
+    -- can be appended through `v` without using `Walk.bypass`.
+    exact hzL
+  have hsep : jL + 1 < jR := by
+    by_contra hnot
+    have hjR_le_succ : jR ≤ jL + 1 := Nat.le_of_not_gt hnot
+    exact hjR_le_succ
+  refine ⟨x, y, jL, jR, qLeftToX, qRightToY, hjL_pos, hsep, hjR_lt,
+    hx_out, hy_out, hqx_left, hqy_right, hqLeftToXPath,
+    hqRightToYPath, hqLeftToXOutside, hqRightToYOutside,
+    hprefixes_meet_only_v⟩
+
+lemma exists_two_separated_component_attachments_to_longest_path_support
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha] [Nontrivial alpha]
+    {G : SimpleGraph alpha}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : alpha,
+      ((⊤ : G.Subgraph).deleteVerts ({x} : Set alpha)).Connected)
+    {a b v : alpha} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : alpha, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ∃ x y : alpha, ∃ ii jj : ℕ, ∃ q : G.Walk x y,
+      0 < ii ∧
+      ii + 1 < jj ∧
+      jj < p.length ∧
+      x ∉ p.support ∧
+      y ∉ p.support ∧
+      G.Adj x (p.getVert ii) ∧
+      G.Adj y (p.getVert jj) ∧
+      q.IsPath ∧
+      v ∈ q.support ∧
+      (∀ z : alpha, z ∈ q.support → z ∉ p.support) := by
+  classical
+  rcases exists_internally_disjoint_outside_fan_to_separated_longest_path_attachments
+      (G := G) (hconn := hconn) (hdelete := hdelete)
+      (p := p) (hpPath := hpPath) (hmax := hmax) (hv := hv) with
+    ⟨x, y, ii, jj, qx, qy, hii, hsep, hjj, hx, hy, hxi, hyj,
+      hqxPath, hqyPath, hqxOutside, hqyOutside, hmeet⟩
+  rcases exists_outside_path_through_common_vertex_of_two_internally_disjoint_outside_paths
+      (G := G) (p0 := p.support) (x := x) (v := v) (y := y)
+      qx qy hqxPath hqyPath hmeet hqxOutside hqyOutside with
+    ⟨q, hqPath, hvq, hqOutside⟩
+  exact ⟨x, y, ii, jj, q, hii, hsep, hjj, hx, hy, hxi, hyj,
+    hqPath, hvq, hqOutside⟩
+
+lemma exists_two_component_attachments_with_outside_path_to_longest_path_support
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha] [Nontrivial alpha]
+    {G : SimpleGraph alpha}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : alpha,
+      ((⊤ : G.Subgraph).deleteVerts ({x} : Set alpha)).Connected)
+    {a b v : alpha} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : alpha, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ∃ x y : alpha, ∃ ii jj : ℕ, ∃ q : G.Walk x y,
+      0 < ii ∧
+      ii < jj ∧
+      jj < p.length ∧
+      x ∉ p.support ∧
+      y ∉ p.support ∧
+      G.Adj x (p.getVert ii) ∧
+      G.Adj y (p.getVert jj) ∧
+      q.IsPath ∧
+      v ∈ q.support ∧
+      (∀ z : alpha, z ∈ q.support → z ∉ p.support) := by
+  classical
+  rcases exists_two_separated_component_attachments_to_longest_path_support
+      (G := G) (hconn := hconn) (hdelete := hdelete)
+      (p := p) (hpPath := hpPath) (hmax := hmax) (hv := hv) with
+    ⟨x, y, ii, jj, q, hii, hsep, hjj, hx, hy, hxi, hyj,
+      hqPath, hvq, hqOutside⟩
+  refine ⟨x, y, ii, jj, q, hii, ?_, hjj, hx, hy, hxi, hyj,
+    hqPath, hvq, hqOutside⟩
+  exact Nat.lt_of_succ_lt hsep
+
+lemma exists_two_separated_attachments_to_longest_path_support
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha] [Nontrivial alpha]
+    {G : SimpleGraph alpha}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : alpha, ((⊤ : G.Subgraph).deleteVerts ({x} : Set alpha)).Connected)
+    {a b v : alpha} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : alpha, ∀ q : G.Walk u w, q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ∃ i j x y : alpha,
+      ∃ ii jj : ℕ,
+        0 < ii ∧ ii < jj ∧ jj < p.length ∧
+        x ∉ p.support ∧ y ∉ p.support ∧
+        p.getVert ii = i ∧ p.getVert jj = j ∧
+        G.Adj x i ∧ G.Adj y j ∧
+        ii + 1 < jj := by
+  classical
+  rcases exists_two_separated_component_attachments_to_longest_path_support
+      (G := G) (hconn := hconn) (hdelete := hdelete)
+      (p := p) (hpPath := hpPath) (hmax := hmax) (hv := hv) with
+    ⟨x, y, ii, jj, q, hii, hsep, hjj, hx, hy, hxi, hyj, _hqPath, _hvq, _hout⟩
+  refine ⟨p.getVert ii, p.getVert jj, x, y, ii, jj, hii, ?_, hjj,
+    hx, hy, rfl, rfl, hxi, hyj, hsep⟩
+  exact Nat.lt_of_succ_lt hsep
+
+lemma exists_four_independent_vertices_of_longest_path_missed_vertex
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha] [Nontrivial alpha]
+    {G : SimpleGraph alpha}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : alpha, ((⊤ : G.Subgraph).deleteVerts ({x} : Set alpha)).Connected)
+    {a b v : alpha} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : alpha, ∀ q : G.Walk u w, q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hnot_left : ¬ G.Adj v a)
+    (hnot_right : ¬ G.Adj b v) :
+    ∃ I : Finset alpha, G.IsIndepSet (I : Set alpha) ∧ I.card = 4 := by
+  classical
+  rcases exists_missed_to_right_path_avoiding_left
+      (G := G) hconn hdelete p hpPath hmax hv with
+    ⟨qR, hqRPath, hqRa⟩
+  rcases exists_left_to_missed_path_avoiding_right
+      (G := G) hconn hdelete p hpPath hmax hv with
+    ⟨qL, hqLPath, hqLb⟩
+  rcases exists_first_entry_edge_to_path_support
+      (G := G) (p := p) (q := qR) hv p.end_mem_support with
+    ⟨iR, hiR_lt, hiR_out, hiR_in, hiR_adj⟩
+  rcases exists_first_entry_edge_to_path_support
+      (G := G) (p := p) (q := qL.reverse) hv p.start_mem_support with
+    ⟨iL, hiL_lt, hiL_out, hiL_in, hiL_adj⟩
+  have hentryR_ne_left : qR.getVert (iR + 1) ≠ a := by
+    intro hentry
+    exact hqRa (hentry ▸ qR.getVert_mem_support (iR + 1))
+  have hentryL_ne_right : qL.reverse.getVert (iL + 1) ≠ b := by
+    intro hentry
+    have hbmem_rev : b ∈ qL.reverse.support :=
+      hentry ▸ qL.reverse.getVert_mem_support (iL + 1)
+    rw [Walk.support_reverse] at hbmem_rev
+    exact hqLb (List.mem_reverse.mp hbmem_rev)
+  have hR_not_adj_left :
+      ¬ G.Adj (qR.getVert iR) a :=
+    longest_path_no_adj_from_left_endpoint_outside
+      (G := G) p hpPath hmax hiR_out
+  have hR_not_adj_right :
+      ¬ G.Adj b (qR.getVert iR) :=
+    longest_path_no_adj_from_right_endpoint_outside
+      (G := G) p hpPath hmax hiR_out
+  have hL_not_adj_left :
+      ¬ G.Adj (qL.reverse.getVert iL) a :=
+    longest_path_no_adj_from_left_endpoint_outside
+      (G := G) p hpPath hmax hiL_out
+  have hL_not_adj_right :
+      ¬ G.Adj b (qL.reverse.getVert iL) :=
+    longest_path_no_adj_from_right_endpoint_outside
+      (G := G) p hpPath hmax hiL_out
+  exact hconn
+
+private lemma independent_four_contradicts_indepNum_le_three
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha]
+    {G : SimpleGraph alpha}
+    (hindep : G.indepNum ≤ 3)
+    {I : Finset alpha}
+    (hI : G.IsIndepSet (I : Set alpha))
+    (hcard : I.card = 4) :
+    False := by
+  have hle : I.card ≤ G.indepNum :=
+    SimpleGraph.IsIndepSet.card_le_indepNum hI
+  omega
+
+lemma longest_path_missed_vertex_contradiction_of_indepNum_le_three
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha] [Nontrivial alpha]
+    {G : SimpleGraph alpha}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : alpha, ((⊤ : G.Subgraph).deleteVerts ({x} : Set alpha)).Connected)
+    (hindep : G.indepNum ≤ 3)
+    {a b v : alpha} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : alpha, ∀ q : G.Walk u w, q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hnot_left : ¬ G.Adj v a)
+    (hnot_right : ¬ G.Adj b v) :
+    False := by
+  classical
+  rcases exists_four_independent_vertices_of_longest_path_missed_vertex
+      (G := G) (hconn := hconn) (hdelete := hdelete)
+      (a := a) (b := b) (v := v) (p := p)
+      (hpPath := hpPath) (hmax := hmax)
+      (hv := hv) (hnot_left := hnot_left) (hnot_right := hnot_right) with
+    ⟨I, hI, hcard⟩
+  exact independent_four_contradicts_indepNum_le_three
+    (G := G) hindep hI hcard
+
+theorem longest_path_support_universal_of_connected_delete_connected_indepNum_le_three
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha] [Nontrivial alpha]
+    (G : SimpleGraph alpha)
+    (hconn : G.Connected)
+    (hdelete : ∀ x : alpha, ((⊤ : G.Subgraph).deleteVerts ({x} : Set alpha)).Connected)
+    (hindep : G.indepNum ≤ 3)
+    {a b : alpha} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u v : alpha, ∀ q : G.Walk u v, q.IsPath → q.support.length ≤ p.support.length) :
+    ∀ v : alpha, v ∈ p.support := by
+  classical
+  -- First open proof obligation: the Chvatal-Erdos longest-path contradiction.
+  intro v
+  by_contra hv
+  have hnot_left : ¬ G.Adj v a :=
+    longest_path_no_adj_from_left_endpoint_outside
+      (G := G) p hpPath hmax hv
+  have hnot_right : ¬ G.Adj b v :=
+    longest_path_no_adj_from_right_endpoint_outside
+      (G := G) p hpPath hmax hv
+  exact False.elim
+    (longest_path_missed_vertex_contradiction_of_indepNum_le_three
+      (G := G) (hconn := hconn) (hdelete := hdelete)
+      (hindep := hindep)
+      (a := a) (b := b) (p := p) (hpPath := hpPath) (hmax := hmax)
+      (v := v) hv hnot_left hnot_right)
+
+theorem chvatal_erdos_connected_delete_connected_indepNum_le_three_hamiltonian_walk
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha] [Nontrivial alpha]
+    (G : SimpleGraph alpha)
+    (hconn : G.Connected)
+    (hdelete : ∀ x : alpha, ((⊤ : G.Subgraph).deleteVerts ({x} : Set alpha)).Connected)
+    (hindep : G.indepNum ≤ 3) :
+    ∃ a b : alpha, ∃ p : G.Walk a b, p.IsHamiltonian := by
+  classical
+  rcases exists_maximal_path_by_support_length (G := G) with
+    ⟨a, b, p, hpPath, hmax⟩
+  refine ⟨a, b, p, ?_⟩
+  exact hpPath.isHamiltonian_of_mem
+    (longest_path_support_universal_of_connected_delete_connected_indepNum_le_three
+      (G := G) (hconn := hconn) (hdelete := hdelete) (hindep := hindep)
+      (p := p) hpPath hmax)
+
+theorem chvatal_erdos_connected_delete_connected_indepNum_le_three_traceable
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha] [Nontrivial alpha]
+    (G : SimpleGraph alpha)
+    (hconn : G.Connected)
+    (hdelete : ∀ x : alpha, ((⊤ : G.Subgraph).deleteVerts ({x} : Set alpha)).Connected)
+    (hindep : G.indepNum ≤ 3) :
+    ∃ order : List alpha,
+      order.Nodup ∧
+      (∀ v : alpha, v ∈ order) ∧
+      List.IsChain G.Adj order := by
+  classical
+  have hwalk : ∃ a b : alpha, ∃ p : G.Walk a b, p.IsHamiltonian :=
+    chvatal_erdos_connected_delete_connected_indepNum_le_three_hamiltonian_walk
+      (G := G) (hconn := hconn) (hdelete := hdelete) (hindep := hindep)
+  exact exists_universal_nodup_chain_of_hamiltonian_walk (G := G) hwalk
+-/
+
+end Wowii198aLeftmost20260609
+
+```
+
+Required final response labels:
+Iteration status: <verified|progress|blocked|failed>
+Files changed: <paths>
+Verifier command: <command and pass/fail>
+Remaining blocker: <exact Lean error, missing lemma, or none>
+Next target: <what the next iteration should attack if not verified>

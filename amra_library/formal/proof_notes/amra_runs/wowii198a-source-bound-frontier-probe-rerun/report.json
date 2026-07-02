@@ -1,0 +1,93 @@
+{
+  "generated_at": "2026-07-02T01:35:43+00:00",
+  "status": "verified",
+  "stop_reason": "final_target_verified",
+  "mode": "hybrid",
+  "backend": "none",
+  "supervisor_backend": "none",
+  "supervisor_on_stall": true,
+  "supervisor_every_rounds": 0,
+  "math_tools_profile": "full",
+  "install_missing_math_tools": true,
+  "run_math_tool_smoke": false,
+  "run_dir": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-frontier-probe-rerun",
+  "statement_path": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-frontier-probe-rerun/statement.md",
+  "workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+  "target_file": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+  "inferred_formalizer_config": {
+    "workspace": false,
+    "target_file": false,
+    "build_command": false,
+    "source_context": "",
+    "workspace_path": "/home/biostar/work/projects/amra/amra_library/formal",
+    "target_file_path": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+    "build_command_value": [
+      "lake",
+      "env",
+      "lean",
+      "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean"
+    ]
+  },
+  "expected_target_header_required": false,
+  "current_target_theorem": "source_bound_b_eq_diam_add_two_forces_longest_path_two_sided_local_nonadj_frontier",
+  "final_target_theorem": "source_bound_b_eq_diam_add_two_forces_longest_path_two_sided_local_nonadj_frontier",
+  "completed_target_theorems": [],
+  "rounds_requested": 1,
+  "rounds_completed": 1,
+  "elapsed_seconds": 58.141,
+  "rounds": [
+    {
+      "round": 1,
+      "stage": "lean_formalizer",
+      "status": "verified",
+      "stop_reason": "verified_initially",
+      "run_dir": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-frontier-probe-rerun/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-two-sided-local-nonadj-frontier",
+      "summary_path": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-frontier-probe-rerun/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-two-sided-local-nonadj-frontier/summary.md",
+      "target_theorem": "source_bound_b_eq_diam_add_two_forces_longest_path_two_sided_local_nonadj_frontier",
+      "next_action": "Target theorem is Lean-verified.",
+      "verified": true,
+      "expected_target_header_required": false,
+      "needs_global_reassessment": false,
+      "global_assessment_path": "",
+      "suggested_next_targets": [],
+      "library_promotion": {
+        "status": "skipped",
+        "reason": "library_promotion_not_requested"
+      },
+      "attempts_completed": 0,
+      "progress_velocity": {
+        "schema_version": "amra.progress_velocity.v1",
+        "elapsed_seconds": 58.137,
+        "attempts_completed": 0,
+        "episodes_completed": 0,
+        "positive_progress_delta": 0,
+        "net_progress_delta": 0,
+        "progress_delta_per_hour": 0.0,
+        "attempts_per_hour": 0.0,
+        "episodes_per_hour": 0.0,
+        "verified_target_count": 1,
+        "target_count": 1,
+        "verified_targets_per_hour": 61.9227
+      }
+    }
+  ],
+  "global_reassessments": [],
+  "supervisor_decisions": [],
+  "needs_global_reassessment": false,
+  "progress_velocity": {
+    "schema_version": "amra.progress_velocity.v1",
+    "elapsed_seconds": 58.141,
+    "attempts_completed": 0,
+    "episodes_completed": 0,
+    "positive_progress_delta": 0,
+    "net_progress_delta": 0.0,
+    "progress_delta_per_hour": 0.0,
+    "attempts_per_hour": 0.0,
+    "episodes_per_hour": 0.0,
+    "verified_target_count": 0,
+    "target_count": 1,
+    "verified_targets_per_hour": 0.0
+  },
+  "summary_path": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-frontier-probe-rerun/summary.md",
+  "next_action": "Final target theorem is Lean-verified."
+}

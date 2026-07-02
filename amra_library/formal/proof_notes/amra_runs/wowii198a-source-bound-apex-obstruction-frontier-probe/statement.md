@@ -1,0 +1,1 @@
+Verify the public Lean theorem source_bound_b_eq_diam_add_two_forces_longest_path_apex_obstruction_frontier in Wowii198aLeftmost.lean, upgrading the source-bound frontier from local apex nonadjacency to apex forced-obstruction disjunctions.

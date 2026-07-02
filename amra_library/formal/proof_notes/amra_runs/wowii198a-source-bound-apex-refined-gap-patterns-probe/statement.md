@@ -1,0 +1,1 @@
+Verify the public Lean theorem source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns in Wowii198aLeftmost.lean, bridging the source-bound apex branch to refined minimal/large gap chord patterns.

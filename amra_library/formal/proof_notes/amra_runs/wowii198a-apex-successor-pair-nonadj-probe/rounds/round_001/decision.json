@@ -1,0 +1,36 @@
+{
+  "round": 1,
+  "stage": "lean_formalizer",
+  "status": "partial",
+  "stop_reason": "time_budget_exhausted",
+  "run_dir": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-successor-pair-nonadj-probe/lean_formalizer/round-001-longest-path-missed-vertex-two-attachments-successors-not-adj",
+  "summary_path": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-successor-pair-nonadj-probe/lean_formalizer/round-001-longest-path-missed-vertex-two-attachments-successors-not-adj/summary.md",
+  "target_theorem": "longest_path_missed_vertex_two_attachments_successors_not_adj",
+  "next_action": "Run a global reassessment to choose or confirm a smaller theorem-level target.",
+  "verified": false,
+  "expected_target_header_required": false,
+  "needs_global_reassessment": true,
+  "global_assessment_path": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-successor-pair-nonadj-probe/rounds/round_001/global_assessment.md",
+  "suggested_next_targets": [
+    "rerun with backend=codex"
+  ],
+  "library_promotion": {
+    "status": "skipped",
+    "reason": "target_not_verified"
+  },
+  "attempts_completed": 7,
+  "progress_velocity": {
+    "schema_version": "amra.progress_velocity.v1",
+    "elapsed_seconds": 179.209,
+    "attempts_completed": 7,
+    "episodes_completed": 0,
+    "positive_progress_delta": 0,
+    "net_progress_delta": -1000000.0,
+    "progress_delta_per_hour": 0.0,
+    "attempts_per_hour": 140.617938,
+    "episodes_per_hour": 0.0,
+    "verified_target_count": 0,
+    "target_count": 1,
+    "verified_targets_per_hour": 0.0
+  }
+}

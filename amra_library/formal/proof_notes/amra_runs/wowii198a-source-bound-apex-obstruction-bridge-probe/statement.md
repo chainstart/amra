@@ -1,0 +1,1 @@
+Verify the public Lean theorem source_bound_missed_vertex_two_attachments_forces_apex_obstruction_disjunctions in Wowii198aLeftmost.lean, bridging the original source-bound branch to the apex forced-obstruction disjunctions.

@@ -3043,3 +3043,1572 @@ Strategic status:
 - The genuinely remaining nontrivial branch is the double-suffix old-common
   witness.  The next attack should focus on converting that branch into either
   a common-suffix descent or a separator contradiction.
+
+## Round update, double-suffix branch split around the front witness
+
+Lean progress:
+- Added theorem-layer split wrappers
+  `...false_of_split_double_suffix_or_prefix_absent_obstructions` for both
+  left and right support-minimal residuals.
+- These refine the previous ordered double-suffix obstruction by comparing the
+  surviving common witness `c` with the front opposite-only witness `y`.
+  The old-common branch is now split into:
+  1. `c` lies in the middle segment `(dropUntil w).takeUntil y`;
+  2. `c` lies in the post segment `dropUntil y`;
+  3. the fallback prefix-absent witness.
+- Added positive residual packages
+  `...split_double_suffix_or_prefix_absent_of_secondary_minimal_replacement_altRight_measure_le_front_not_right`
+  and the right-side analogue.  These expose the same three-way split as an
+  existential conclusion, so later theorem-level reductions can consume a
+  concrete middle-common, post-common, or prefix-absent witness instead of a
+  contrapositive obstruction predicate.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+- `git diff --check` passes.
+
+Strategic status:
+- The bottom `terminal_set_two_fan_of_no_small_endpoint_separator` route is
+  still inside a frozen comment block; it is not a live proof of the original
+  theorem.  The live route remains the residual-elimination chain above it.
+- The current main residual is no longer a monolithic ordered old-common
+  branch.  It is now:
+  1. middle double-suffix old-common;
+  2. post double-suffix old-common;
+  3. prefix-absent.
+- Next target: prove a common-specific descent for the middle/post
+  double-suffix branches.  Existing FirstGuard machinery handles noncommon
+  right-prefix witnesses, but these branches are explicitly old common
+  witnesses, so they need a separate suffix/common splice argument rather than
+  more prefix-absent iteration.
+
+## Round update, middle common branch closed by suffix-return descent
+
+Lean progress:
+- Added common-specific descent lemmas
+  `terminal_set_fan_left_middle_common_suffix_return_commonCard_lt` and
+  `terminal_set_fan_right_middle_common_suffix_return_commonCard_lt`.
+- These handle a double-suffix old-common witness `c` lying in the middle
+  segment before the front opposite-only witness `y`.  The proof treats `c` as
+  a suffix-return target.  The bridge-guard case gives a common-card descent;
+  the first-counterexample case is either excluded by `hfirst_global` or
+  reduced to the existing first-guard suffix descent.
+- Added theorem-layer wrappers
+  `...post_common_or_prefix_absent_of_secondary_minimal_replacement_altRight_measure_le_front_not_right`
+  and the right-side analogue.  These consume the previous three-way
+  split/order result and use weighted minimality to remove the middle-common
+  branch.
+- Added stronger contradiction wrappers
+  `...false_of_split_post_common_or_prefix_absent_obstructions` on both sides.
+  These no longer require an external middle-common obstruction hypothesis;
+  only post-common and prefix-absent obstructions remain to be discharged.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The main residual has been reduced from:
+  middle common / post common / prefix-absent
+  to:
+  post common / prefix-absent.
+- The post-common branch is not a direct copy of the middle proof.  In the
+  suffix-return analysis, the first counterexample may be exactly `y`; then
+  `hfirst_global` gives no contradiction.  The next real target is therefore
+  the `q = y` post-common case, likely via the existing defect
+  removal/inflation machinery rather than a pure common-card descent.
+
+## Round update, post common linked to surviving order obstruction
+
+Lean progress:
+- Added theorem-layer wrappers
+  `terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_split_post_common_or_prefix_absent_via_surviving_double_suffix_order_obstructions`
+  and the right-side analogue.
+- These consume the existing `post_common_or_prefix_absent` split and turn a
+  post-common witness in `dropUntil y` into a surviving double-suffix/order
+  obstruction in `dropUntil w` using nested `dropUntil` membership.  Thus the
+  post-common branch is no longer an independent shape once the ordered
+  double-suffix obstruction is available.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This is useful integration, but it does not by itself close the original
+  theorem.  The contradiction wrappers still require the replacement-alt
+  weighted-measure and prefix-only defect-set subset/erase assumptions that
+  secondary minimality needs.
+- The remaining main-target gap is therefore the promotion from the current
+  `AbsentFailure`/prefix-absent residual to usable secondary-minimality
+  hypotheses, or an alternative global descent that avoids the failed full
+  replacement defect-set subset route.
+
+## Round update, original target reduction and front-obstruction alignment
+
+Lean progress:
+- Added residual eliminators
+  `...AbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_no_prefix_split_branch_witness`
+  for both left and right sides.  These unpack the final absent-failure
+  residual into the support-minimal replacement path, the front witness `w`,
+  the opposite-front witness `y`, the clean-suffix branch, and the prefix-cover
+  split.
+- Added
+  `terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual`.
+  This is the active original-theorem reduction: under `hsep`, proving both
+  left and right absent-failure residuals impossible gives the desired two-fan
+  conclusion immediately.
+- Added back-projections from the current final residual to the earlier
+  `SupportMinimalBridgePrefixObstruction`, and strengthened them to direct
+  projections into `SupportMinimalBridgeFrontObstruction`.  The key conversion
+  is `w ∈ old.takeUntil x` plus `w ≠ x` implying
+  `x ∉ old.takeUntil w`.
+- Added left/right `prefix_only_defect_pos` projections for both
+  `FailureExchange...PrefixSplitResidual` and `AbsentFailure...PrefixSplitResidual`.
+  The witness is the opposite-front vertex `y`: it lies in the opposite
+  `takeUntil x` and is absent from the same-side old path.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The original target is now explicitly reduced in Lean to eliminating the two
+  final absent-failure residuals.
+- Those residuals are not a new or detached route: Lean now verifies that they
+  are strict refinements of the earlier same-side-first front obstruction.
+- The remaining mathematical work is not to revisit the old front obstruction
+  split.  It is to use the extra guards accumulated after that split
+  (clean-suffix branch, cover-length guard, length-failure exchange,
+  prefix-absent guard, and secondary minimality) to force a real descent.
+- In particular, the residual already forces
+  `0 < terminalPathPairPrefixOnlyDefect pair`.  So the final obstacle is not
+  finding a defect; it is proving that the available replacement/splice removes
+  a defect without introducing enough new prefix-only defects to defeat the
+  secondary-minimality comparison.
+
+## Round update, original-target global defect dichotomy
+
+Goal-mode status:
+- A new tool-level goal could not be created because this thread still has an
+  unfinished paused goal.  This round therefore proceeded semantically under
+  the requested original-target / four-hour budget.
+
+Lean progress:
+- Added non-apex helpers for prefix-only defects:
+  `terminalPathPairLeftPrefixOnlyDefect_ne_apex_of_not_mem_right` and
+  `terminalPathPairRightPrefixOnlyDefect_ne_apex_of_not_mem_left`.
+  These expose the simple but important fact that a vertex missing from the
+  opposite terminal path cannot be the apex `v`.
+- Added final-residual contradiction wrappers
+  `...AbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_secondary_minimal_and_weighted_minimal_zero_prefix_only_defect`
+  on both left and right sides.  A final residual forces positive
+  `terminalPathPairPrefixOnlyDefect`; if any weighted-minimal pair has zero
+  prefix-only defect, secondary minimality immediately contradicts that.
+- Added original-layer theorem
+  `terminal_set_two_fan_of_no_small_endpoint_separator_of_weighted_minimal_zero_prefix_only_defect`.
+  Thus the original no-small-endpoint-separator theorem is proved once one can
+  exhibit a weighted-minimal terminal path pair with zero prefix-only defect.
+- Added the global dichotomy
+  `terminal_set_two_fan_or_all_weighted_minimal_prefix_only_defect_pos_of_no_small_endpoint_separator`:
+  under `hsep`, either the desired two-fan already exists or every
+  weighted-minimal terminal path pair has positive prefix-only defect.
+- Added first-defect reductions
+  `terminal_set_two_fan_or_prefix_only_minimal_first_prefix_only_defect_of_no_small_endpoint_separator`
+  and the strengthened non-apex version
+  `terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_of_no_small_endpoint_separator`.
+  If the original theorem is not yet closed, Lean now produces a
+  weighted-minimal and prefix-only-secondary-minimal pair with a first
+  prefix-only defect `z ≠ v`.
+- Added
+  `terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_avoiding_terminal_path_of_no_small_endpoint_separator`.
+  This applies `hsep` to the singleton `{z}` and packages an avoiding terminal
+  path together with the first-defect bad case.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This round did not complete the original theorem, but it sharpened the main
+  target away from local residual iteration:
+  1. prove existence of a weighted-minimal zero-prefix-only-defect pair; or
+  2. start from the verified non-apex first-prefix-only defect bad case and
+     force a weighted/secondary descent.
+- The separator is now formally applied to the singleton `{z}` in the
+  first-defect bad case.  The next real issue is directional: the separator
+  returns a path to one of `s` or `t`, and the proof must show that either
+  returned endpoint yields a valid descent or can be converted to one.
+
+## Round update, side-path split and same-side descent isolation
+
+Goal-mode status:
+- The old tool-level goal was marked `blocked`, so its timer is no longer the
+  active semantic target.  The tool still refused to create a fresh goal
+  because a blocked goal counts as unfinished; this round proceeded under the
+  requested new four-hour objective and recorded the actual proof state here.
+
+Lean progress:
+- Added
+  `exists_left_or_right_terminal_path_avoiding_singleton_of_terminal_set_separator`.
+  This refines the singleton separator output from an arbitrary terminal
+  endpoint into an explicit left-path/right-path disjunction.
+- Added
+  `terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_avoiding_side_path_split_of_no_small_endpoint_separator`.
+  The first non-apex prefix-only defect bad case now carries a direction split:
+  either there is a `v-s` path avoiding the defect vertex or a `v-t` path
+  avoiding it.
+- Added same-side replacement removal helpers:
+  `terminalPathPairLeftPrefixOnlyDefectSet_mem_and_absent_after_left_replacement_avoids`
+  and
+  `terminalPathPairRightPrefixOnlyDefectSet_mem_and_absent_after_right_replacement_avoids`.
+  These prove that if the separator returns the same side as the defect, the
+  direct replacement removes the current defect point from the corresponding
+  prefix-only defect set.
+- Added generic same-side descent templates, including the measure-le versions
+  `terminalPathPairSecondaryMinimal_false_after_left_replacement_avoids_measure_le_defectSet_subsets`
+  and
+  `terminalPathPairSecondaryMinimal_false_after_right_replacement_avoids_measure_le_defectSet_subsets`.
+  Thus same-side replacement is contradictory once three concrete conditions
+  hold: weighted measure does not increase, the same-side defect set falls
+  into the old set with the removed point erased, and the opposite defect set
+  does not grow.
+- Added
+  `terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_opposite_path_or_same_side_descent_failure_of_no_small_endpoint_separator`.
+  This is the new main-target reduction: in the first-defect bad case, an
+  opposite-side avoiding path remains as a real branch; a same-side avoiding
+  path can survive only if at least one of the descent package conditions
+  fails.
+- Added case split helpers
+  `terminalPathPairLeftReplacementAvoidsDescentPackageFailure_cases` and
+  `terminalPathPairRightReplacementAvoidsDescentPackageFailure_cases`, turning
+  the same-side failure package into explicit alternatives: measure increases,
+  same-side erase-subset fails, or opposite-side subset fails.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The route is no longer merely “find an avoiding path”.  That part is now
+  formally split by endpoint.
+- Same-side return is conditionally closed: if it behaves like a genuine
+  weighted/secondary descent, contradiction follows immediately.
+- The next mathematical targets are now precise:
+  1. prove a measure-increase same-side replacement triggers an existing
+     common-card/uncrossing descent, or show it forces one of the known
+     bridge-front residuals;
+  2. prove same-side defect-set subset failures are equivalent to an already
+     catalogued prefix obstruction;
+  3. analyze the opposite-side avoiding path, where the original defect point
+     is not removed by direct replacement and likely needs a splice/first-hit
+     argument rather than secondary-minimality alone.
+
+## Round update, support-minimal same-side failure split
+
+Internal timer:
+- This round is using a wall-clock budget from `2026-07-01T16:01:34+08:00`
+  to `2026-07-01T20:01:34+08:00`.
+
+Lean progress:
+- Added
+  `terminalReplacementPathSupportLengthMinimal_support_length_le_of_walk`.
+  This exposes the defining minimality property for later comparisons against
+  any avoiding walk.
+- Added
+  `terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_opposite_path_or_same_side_minimal_descent_failure_of_no_small_endpoint_separator`.
+  The same-side branch now chooses a support-length-minimal path avoiding the
+  first prefix-only defect point `z`; the branch no longer carries an arbitrary
+  separator-returned path.
+- Added path-level failure case wrappers
+  `terminalPathPairLeftReplacementAvoidsDescentPackageFailure_cases_path` and
+  `terminalPathPairRightReplacementAvoidsDescentPackageFailure_cases_path`.
+- Added the global three-case reduction
+  `terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_opposite_path_or_same_side_minimal_failure_cases_of_no_small_endpoint_separator`.
+  Same-side survival is now explicitly one of:
+  weighted measure increases, same-side erase-subset fails, or opposite-side
+  subset fails.
+- Added
+  `terminalPathPairWeightedMeasure_lt_commonCard_or_supportLength_lt`.
+  This converts weighted-measure increase into either common-card increase or
+  support-length increase.
+- Added common-card increase witnesses
+  `exists_new_left_replacement_intersection_of_commonCard_lt` and
+  `exists_new_right_replacement_intersection_of_commonCard_lt`.
+  These turn a common-card increase into a concrete new non-apex intersection
+  vertex on the replacement path and the unchanged opposite path, absent from
+  the old same-side path.
+- Added refined same-side failure split helpers
+  `terminalPathPairLeftReplacementAvoidsDescentPackageFailure_refined_cases_path`,
+  `terminalPathPairRightReplacementAvoidsDescentPackageFailure_refined_cases_path`,
+  and their `witness_or_support_or_subset_cases_path` versions.  The measure
+  branch is now geometrized as a new-intersection witness or isolated as pure
+  support-length increase.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The current route is still aligned with the original target: assume no
+  two-fan, choose a weighted-minimal and prefix-only-secondary-minimal pair,
+  take the first non-apex prefix-only defect `z`, and use the singleton
+  separator.
+- Same-side avoiding paths are no longer an opaque obstruction.  They reduce
+  to four precise subtargets:
+  1. new intersection with the opposite path;
+  2. support-length increase with common-card unchanged;
+  3. same-side prefix-only defect erase-subset failure;
+  4. opposite-side prefix-only defect subset failure.
+- The next task is to attack support-length increase using support minimality
+  of the avoiding path.  If that fails directly, the right fallback is to
+  package it as a new support-minimal obstruction rather than continue local
+  rewriting inside the old descent package.
+
+## Round update, concrete residual and route correction
+
+Lean progress:
+- Added support-length projection helpers
+  `left_replacement_support_length_lt_of_pair_supportLength_lt` and
+  `right_replacement_support_length_lt_of_pair_supportLength_lt`.
+  These convert pair-level support increase back to the changed component.
+- Added
+  `terminalReplacementPathSupportLengthMinimal_all_avoiding_walk_longer_of_baseline_lt`.
+  If the support-minimal avoiding path is longer than a baseline path, then
+  every path avoiding the forbidden vertex is longer than that baseline.
+- Added
+  `terminalPathPairLeftReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_subset_cases_path`
+  and the right-side analogue.  The support-growth branch is now an explicit
+  bottleneck: every same-side path avoiding `z` is longer than the old
+  same-side terminal path.
+- Added
+  `terminalPathPairLeftReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_defect_witness_cases_path`
+  and the right-side analogue.  The defect-set subset failures are now
+  witness-producing statements rather than opaque negations.
+- Added concrete residual abbreviations
+  `terminalPathPairLeftReplacementConcreteFailureResidual` and
+  `terminalPathPairRightReplacementConcreteFailureResidual`.
+- Added the main concrete reduction
+  `terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_opposite_path_or_same_side_concrete_failure_of_no_small_endpoint_separator`.
+  Same-side survival is now one of:
+  new intersection witness, same-side avoiding bottleneck, same-side defect
+  replacement witness, or opposite-side new defect witness.
+- Added
+  `exists_right_path_avoiding_of_left_prefix_only_absent` and
+  `exists_left_path_avoiding_of_right_prefix_only_absent`.
+  These formally record that the opposite-side avoiding branch is trivial in a
+  prefix-only defect case: the unchanged opposite path already avoids `z`.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Route correction:
+- The singleton-separator route cannot close the original theorem by itself.
+  In the left first-prefix-only case, `z ∉ pair.2.support`, so the theorem can
+  always satisfy the opposite-path branch with `pair.2`; the right case is
+  symmetric.
+- Therefore the same-side concrete residual is a useful conditional branch,
+  but not a forced branch from `hsep`.
+- The next main-target attack should pivot to direct splice/uncrossing from
+  the first prefix-only defect, or find a separate argument forcing a
+  same-side avoiding path.  Continuing to refine the opposite branch would be
+  local iteration without global force.
+
+## Round update, direct splice failure route activated
+
+Internal timer:
+- This continuation is using wall-clock time from `2026-07-01T16:34:54+08:00`
+  to `2026-07-01T20:34:54+08:00`.
+
+Lean progress:
+- Added generic direct-splice secondary-minimality templates:
+  `terminalPathPairPrefixOnlyDefect_lt_after_altRight_of_absent_alt_defectSet_subsets`,
+  `terminalPathPairPrefixOnlyDefect_lt_after_altLeft_of_absent_alt_defectSet_subsets`,
+  and their measure-le contradiction forms
+  `terminalPathPairSecondaryMinimal_false_after_altRight_of_absent_alt_measure_le_defectSet_subsets`
+  and
+  `terminalPathPairSecondaryMinimal_false_after_altLeft_of_absent_alt_measure_le_defectSet_subsets`.
+- Added helpers
+  `left_common_ne_apex_of_nonapex_prefix_mem` and
+  `right_common_ne_apex_of_nonapex_prefix_mem`, deriving `x ≠ v` from a
+  non-apex first prefix witness in `takeUntil x`.
+- Added direct-splice failure packages
+  `terminalPathPairLeftAltRightDescentPackageFailure` and
+  `terminalPathPairRightAltLeftDescentPackageFailure`.  These say that the
+  natural cross-splice `left.takeUntil x ++ right.dropUntil x` (or symmetric
+  splice) must fail at least one of the exact hypotheses needed for a
+  weighted/secondary descent.
+- Added concrete direct-splice residual packages
+  `terminalPathPairLeftAltRightConcreteFailureResidual` and
+  `terminalPathPairRightAltLeftConcreteFailureResidual`, plus conversion lemmas
+  from the failure packages.  Each direct-splice failure is now one of:
+  new non-apex splice intersection, support-length inflation, same-side
+  defect-set control failure, or opposite-side defect-set control failure.
+- Added theorem-level reductions
+  `terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_direct_splice_failure_of_no_small_endpoint_separator`
+  and
+  `terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_direct_splice_concrete_failure_of_no_small_endpoint_separator`.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This repairs the route correction above.  The current main route no longer
+  depends on the separator returning a same-side avoiding path; it starts
+  directly from the first prefix-only defect and forces the cross-splice
+  residual.
+- The next target is to eliminate or further reduce the concrete direct-splice
+  residual.  The first promising branch is the support-length inflation case:
+  for `altRight = left.takeUntil x ++ right.dropUntil x`, support should be
+  controlled by old prefixes/suffixes, so any strict support increase ought to
+  expose a return/repetition or a new intersection already covered by existing
+  uncrossing lemmas.
+
+## Round update, bridge-front main residual narrowed
+
+Internal timer:
+- This continuation is using wall-clock time from `2026-07-01T17:12:07+08:00`
+  to `2026-07-01T21:12:07+08:00`.
+
+Route correction:
+- The direct-splice residual remains useful, but it is not by itself a closing
+  route.  Its first "new intersection" branch is often tautological: the
+  original first prefix-only defect can reappear as a new intersection after
+  the splice.  Treating that as progress would be local iteration rather than
+  a path to the original theorem.
+- The active main chain should therefore stay on the bridge-front/minimal
+  replacement route, where the singleton separator, support-minimal replacement
+  path, and secondary minimality are all used simultaneously.
+
+Lean progress:
+- Added clean/non-clean bridge-front suffix splits:
+  `terminalSetFanLeftBridgeFrontCleanSuffixBranch.clean_or_nonclean` and the
+  right-side analogue.
+- Added double-replacement descent package failures
+  `terminalPathPairLeftReplacementAltRightDescentPackageFailure` and
+  `terminalPathPairRightReplacementAltLeftDescentPackageFailure`.
+- Added witness-level bridge-front lemmas showing that, under a genuine
+  component length decrease, a clean suffix branch forces failure of the
+  double-replacement descent package.
+- Added the theorem-level reduction
+  `terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_nonclean_or_replacement_alt_failure_of_no_small_endpoint_separator`.
+  The no-two-fan case is now narrowed to a weighted-minimal,
+  prefix-only-secondary-minimal pair and a bridge-front witness with one of:
+  1. replacement component length not shorter;
+  2. non-clean suffix branch;
+  3. double-replacement descent package failure.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Next attack target:
+- First refine branch 3 into concrete cases, mirroring the earlier same-side
+  failure work: weighted-measure increase, same-side defect erase-subset
+  failure, or opposite-side defect subset failure.  Then split measure
+  increase into common-card increase or support-length increase using
+  `terminalPathPairWeightedMeasure_lt_commonCard_or_supportLength_lt`.
+- If branch 3 becomes concrete without closing, turn to branch 1.  The
+  inequality `old support length <= replacement support length` is likely the
+  real bottleneck: it says the support-minimal path avoiding the common vertex
+  is not cheaper than the old component, so any closure must use the
+  bridge-front witness rather than pure minimality.
+
+## Round update, double-replacement failure made witness-level
+
+Lean progress:
+- Added concrete double-replacement failure residuals:
+  `terminalPathPairLeftReplacementAltRightConcreteFailureResidual` and
+  `terminalPathPairRightReplacementAltLeftConcreteFailureResidual`.
+  The opaque failure package now splits into:
+  1. common-card increase;
+  2. equal common-card plus support-length increase;
+  3. same-side prefix-only defect erase-subset failure;
+  4. opposite-side prefix-only defect subset failure.
+- Added defect-witness versions
+  `terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual`
+  and
+  `terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual`.
+  The two subset-failure branches now produce explicit vertices.
+- Lifted these refinements through the bridge-front residual with
+  `terminalSetFanLeftSupportMinimalBridgeFrontDefectWitnessFailureResidual`,
+  the right-side analogue, and the theorem-level reduction
+  `terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_defect_witness_failure_of_no_small_endpoint_separator`.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The remaining no-two-fan obstruction is now much more explicit.  For a
+  weighted-minimal, prefix-only-secondary-minimal pair and bridge-front witness,
+  one must handle:
+  1. replacement component not shorter than the original component;
+  2. non-clean suffix branch;
+  3. double-replacement common-card increase;
+  4. double-replacement support-length increase at equal common-card;
+  5. an explicit same-side defect-control witness;
+  6. an explicit opposite-side new-defect witness.
+- The next productive target is not the numerical common-card/support branches
+  in isolation.  They are consistent with weighted minimality because the
+  replacement pair may simply be worse.  The better next step is to use the
+  bridge-front first-union and first-global conditions to localize the two
+  explicit defect witnesses from branch 5/6; if they must occur before `w` or
+  before `y`, the clean/non-clean split should force them into the existing
+  non-clean branch.
+
+## Round update, non-clean suffix made explicit
+
+Lean progress:
+- Added explicit non-clean suffix case splits:
+  `terminalSetFanLeftBridgeFrontNonCleanSuffixCases` and
+  `terminalSetFanRightBridgeFrontNonCleanSuffixCases`.
+  A non-clean bridge-front branch is now one of four concrete failures:
+  1. the bridge-front `w` is already on the opposite original component;
+  2. the replacement suffix meets the opposite old suffix outside the same old
+     component;
+  3. a same-side prefix-only point reappears after `y`;
+  4. a same-side prefix-only point appears in the middle segment from `w` to
+     `y`.
+- Lifted this through the residual with
+  `terminalSetFanLeftSupportMinimalBridgeFrontExplicitFailureResidual`, the
+  right-side analogue, and the theorem-level reduction
+  `terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_explicit_failure_of_no_small_endpoint_separator`.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The current active no-two-fan branch is now explicit enough for a genuine
+  global attack.  The remaining branches are:
+  1. the replacement path avoiding the common vertex is not shorter;
+  2. one of four explicit non-clean suffix witnesses;
+  3. double-replacement common-card increase;
+  4. double-replacement support-length increase at equal common-card;
+  5. explicit same-side defect-control witness;
+  6. explicit opposite-side new-defect witness.
+- The next step should be to compare branches 2, 5, and 6.  They are all
+  witness-level statements about prefix-only vertices; proving that the
+  double-replacement defect witnesses imply one of the non-clean suffix cases
+  would merge the branch tree instead of creating another isolated residual.
+
+## Round update, length branch upgraded to bottleneck
+
+Lean progress:
+- Added bottleneck residuals
+  `terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual`
+  and the right-side analogue.
+- Lifted the theorem-level reduction to
+  `terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_explicit_failure_of_no_small_endpoint_separator`.
+- The old length branch
+  `(old component).support.length <= (replacement).support.length` is now
+  strengthened to:
+  every same-terminal path avoiding the common vertex `x` has support length
+  at least the old component's support length.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This is a real strengthening of the obstruction.  The hard case is now:
+  either `x` is a shortest-path bottleneck for the relevant terminal, or the
+  bridge-front witness exposes one of the explicit geometric/defect failures.
+- The next mathematical question is whether the no-small-endpoint-separator
+  hypothesis can contradict the bottleneck branch directly.  It gives a path
+  avoiding any singleton set not containing `v`; if the chosen singleton is
+  `{x}`, then it returns a path to `s` or `t` avoiding `x`, but not necessarily
+  to the bottlenecked side.  Therefore the bottleneck branch cannot be closed
+  from `hsep` alone unless we force the separator path to the same endpoint or
+  combine it with the opposite-side bridge-front witness.
+
+## Round update, active-code audit and finite wrapper
+
+Lean progress:
+- Added
+  `finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_explicit_failure_of_terminal_set_no_small_endpoint_separator`,
+  matching the existing finite-wrapper pattern for earlier reductions.
+- Added the closure interface
+  `terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_explicit_failure`.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Active-code audit:
+- The new bottleneck/explicit reduction and closure interface are at comment
+  depth 0, so they are active Lean declarations.
+- The old apparent theorem
+  `terminal_set_two_fan_of_no_small_endpoint_separator` is still inside a
+  frozen comment block in the current file.  It should not be counted as the
+  completed original theorem.
+- Therefore the current honest state is: the original target is reduced to
+  excluding the active bottleneck-or-explicit residual, not fully proved.
+
+## Round update, defect witnesses expanded to support data
+
+Lean progress:
+- Added path-level expanded defect residuals
+  `terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual`
+  and
+  `terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual`.
+- Added conversions from the defect-witness concrete residuals via
+  `terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual.to_expanded`
+  and the right-side analogue.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The same-side and opposite-side replacement defect witnesses can now be
+  unfolded into direct support facts: the new defect vertex is absent from one
+  replacement component and lies before a concrete common vertex of the
+  replacement pair.
+- This is a tool for the next branch attack: split the replacement common
+  vertex by whether it lies in the spliced prefix or the old suffix, then
+  compare with the four explicit non-clean suffix cases.
+
+## Round update, expanded defect witnesses lifted and source-split
+
+Lean progress:
+- Lifted the expanded defect-witness residual through the bridge-front main
+  residual:
+  `terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual`
+  and the right-side analogue.
+- Added the theorem-level, finite, and closure interfaces:
+  `terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_expanded_failure_of_no_small_endpoint_separator`,
+  `finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_expanded_failure_of_terminal_set_no_small_endpoint_separator`,
+  and
+  `terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_expanded_failure`.
+- Added source-split path residuals for the replacement-splice common vertex:
+  `terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual`
+  and
+  `terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual`.
+  These record whether the replacement common vertex `c` comes from the old
+  prefix side of the splice or from the old suffix side.
+- Lifted source-split residuals through bridge-front and theorem-level
+  wrappers, ending at
+  `terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_source_split_expanded_failure_of_no_small_endpoint_separator`
+  plus finite and closure analogues.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The active main-chain obstruction is now:
+  a same-terminal shortest-path bottleneck, one of the four explicit non-clean
+  suffix cases, or a source-split replacement defect witness.
+- The next useful compression target is the source-split replacement defect
+  witness.  In each side there are two branches for the replacement common
+  vertex `c`: it lies in the spliced prefix, or it lies in the old suffix after
+  `x`.  The old-suffix branch is the more promising one because it should
+  interact with the bridge-front firstness hypotheses and may imply one of the
+  explicit non-clean suffix cases.
+
+## Round update, old-suffix source split separated
+
+Lean progress:
+- Added path-level old-suffix opposite-only source residuals:
+  `terminalPathPairLeftReplacementAltRightOldSuffixOppositeOnlySource`
+  and
+  `terminalPathPairRightReplacementAltLeftOldSuffixOppositeOnlySource`.
+- Added common-source versions of the source-split replacement residuals:
+  `terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual`
+  and
+  the right-side analogue.
+- Proved that every source-split replacement defect residual is either an
+  old-suffix opposite-only source or a common-source residual:
+  `...to_old_suffix_opposite_only_or_common`.
+- Lifted this split through bridge-front and theorem-level wrappers, ending at
+  `terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_common_source_split_failure_of_no_small_endpoint_separator`
+  plus finite and closure analogues.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The active main-chain obstruction is now:
+  a bottleneck, an explicit non-clean suffix case, an old-suffix
+  opposite-only source, or a common-source replacement defect.
+- The important correction is that the old-suffix opposite-only source cannot
+  honestly be merged into `NonCleanSuffixCases` yet, because the current
+  residual no longer carries the original `CleanSuffixBranch` witness in that
+  branch.  Treating it as a separate naked geometric residual is therefore the
+  right shape until we either preserve/reconstruct that branch witness or prove
+  a direct contradiction from firstness.
+
+## Round update, branch-preserving split removes naked old-suffix residual
+
+Lean progress:
+- Added branch-preserving bridge-front residuals:
+  `terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual`
+  and the right-side analogue.  These keep the original
+  `CleanSuffixBranch` witness alongside the bottleneck/non-clean/common-source
+  split.
+- Added direct conversions from the earlier cover-length absent residual:
+  `terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_common_source_split`
+  and the right-side analogue.
+- Added theorem-level, finite, and closure interfaces ending at
+  `terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_common_source_split_failure_of_no_small_endpoint_separator`.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This is stronger than the non-branch common-source split.  Because the
+  original clean-branch witness is preserved, the old-suffix opposite-only
+  source is now legally absorbed into `NonCleanSuffixCases`.
+- The current active obstruction is reduced to three families:
+  a same-terminal bottleneck, an explicit non-clean suffix case, or a
+  common-source replacement defect where every old-suffix replacement common
+  vertex is still common with the original same-side path.
+
+## Round update, common-source aligned around `x`
+
+Lean progress:
+- Added aligned common-source replacement residuals:
+  `terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual`
+  and the right-side analogue.
+- Proved common-source residuals refine to aligned common-source residuals via
+  `...to_aligned_common_source_split`.  The new split says that a replacement
+  common vertex `c` is either on the same-side prefix before `x`, or it is on
+  both old suffixes after `x`.
+- Lifted this through branch-preserving bridge-front residuals and theorem
+  wrappers, ending at
+  `terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_common_source_split_failure_of_no_small_endpoint_separator`
+  plus finite and closure analogues.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The remaining replacement-defect obstruction is now cleaner: any old-suffix
+  source that survives must be common on both old suffixes after `x`; otherwise
+  it is treated as a same-side prefix source.  This makes the next attack a
+  direct order comparison around `x`, rather than an unstructured support-set
+  problem.
+
+## Round update, aligned common-source split into prefix and double-suffix
+
+Lean progress:
+- Added path-level residuals splitting aligned common-source replacement
+  defects into:
+  `terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual`
+  / right analogue, and
+  `terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual`
+  / right analogue.
+- Proved every aligned common-source residual refines to the prefix-source or
+  double-suffix residual via `...to_prefix_source_or_double_suffix`.
+- Lifted the split through bridge-front and theorem-level wrappers, ending at
+  `terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_source_split_failure_of_no_small_endpoint_separator`
+  plus finite and closure analogues.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The active main-chain obstruction is now:
+  a same-terminal bottleneck, explicit non-clean suffix cases, a prefix-source
+  replacement defect, or a double-suffix replacement defect.
+- This is a useful separation.  The prefix-source branch should interact with
+  first-bad / fallback lemmas controlling intersections of `rs` with
+  `altRight` (and symmetrically `rt` with `altLeft`).  The double-suffix branch
+  is now the cleanest possible form of the "later common after `x`" obstruction
+  and should be attacked through bridge-front firstness or a direct suffix-order
+  contradiction.
+
+## Round update, first-prefix witness carried by clean source split
+
+Lean progress:
+- Added first-prefix residuals on top of the separated clean length-failure
+  aligned source split:
+  `terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual`
+  and the right-side analogue.
+- Added `.to_first_prefix` conversions from the previous split.  In clean
+  prefix-source and clean double-suffix branches, the residual now also carries
+  the corresponding
+  `terminalSetFanLeftBridgeFrontFirstPrefixAbsentAltResidual` or right analogue.
+- Lifted this through theorem-level, finite, and closure wrappers, ending at
+  `terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_first_prefix_residual`.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This is real progress but not a closed proof.  The first-prefix witness is
+  already in the cross-spliced path (`altRight`/`altLeft`), so it cannot by
+  itself trigger the old "prefix absent from cross-swap" descent.
+- The frozen direct proof of
+  `terminal_set_two_fan_of_no_small_endpoint_separator` still contains
+  placeholder splice lemmas (`terminal_set_fan_splice_descent_left/right_of_hsep`)
+  with an impossible `exact hdirect` core.  The active route should therefore
+  keep reducing the residual chain rather than reviving that frozen sketch as
+  if it were nearly complete.
+- Current bottleneck: combine the new first-prefix witness with the
+  prefix-source common witness `c`, or split the explicit non-clean suffix
+  cases far enough that existing first-guard/common-card descent lemmas can
+  consume them.
+
+## Round update, same-pair first-prefix residual plus first prefix-only defect
+
+Lean progress:
+- Added compact residual case abbreviations:
+  `terminalSetFanFirstPrefixResidualCases` and
+  `terminalPathPairFirstNonapexPrefixOnlyDefectCases`.
+- Proved
+  `terminalPathPairFirstNonapexPrefixOnlyDefectCases_of_pos`, turning positive
+  prefix-only defect count into an explicit first non-apex prefix-only witness.
+- Added the same-pair combined theorem
+  `terminal_set_two_fan_or_prefix_only_minimal_first_prefix_residual_and_first_nonapex_prefix_only_defect_of_no_small_endpoint_separator`.
+  This keeps the latest first-prefix bridge residual and the first prefix-only
+  defect on the same weighted/secondary-minimal path pair.
+- Added the closure wrapper
+  `terminal_set_two_fan_of_no_prefix_only_minimal_first_prefix_residual_and_first_nonapex_prefix_only_defect`.
+  The next global target can now be phrased as excluding one combined residual
+  instead of juggling two separate existential reductions.
+- Added a same-witness direct/side concrete failure theorem:
+  `terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_direct_and_side_concrete_failure_of_no_small_endpoint_separator`.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The prefix-only defect route by itself is not enough: if the defect is on the
+  left prefix, the original right terminal path already avoids that vertex, so
+  the separator hypothesis can be satisfied trivially on that singleton.  The
+  useful formulation must retain the bridge residual at the same minimal pair.
+- A direct conversion from direct `AltRight`/`AltLeft` defect-witness failure to
+  the replacement `AltRight`/`AltLeft` source-split pipeline is not sound as a
+  pure definitional step.  The direct residual has a "new non-apex intersection"
+  branch, while the replacement pipeline expects common-card/support-length
+  failure; a new intersection does not automatically imply common-card increase
+  because old common vertices may be lost.
+- Existing lemmas already prove that first-prefix absent-alt witnesses erase an
+  old prefix-only defect under the alt replacement and feed the secondary
+  minimality contradiction when measure/subset hypotheses hold.  The unresolved
+  work is therefore the geometric failure side of those measure/subset
+  hypotheses, especially the aligned prefix-source and aligned double-suffix
+  branches.
+
+## Round update, same-pair first-prefix residual plus direct/side failure
+
+Lean progress:
+- Added
+  `terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases`,
+  a compact same-pair residual packaging the direct `AltRight`/`AltLeft`
+  defect-witness failure together with the same-side replacement failure.
+- Proved
+  `terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases_of_pos`.
+  This derives the direct/side concrete failure residual for any
+  weighted/secondary-minimal pair with positive prefix-only defect, using the
+  singleton separator only to obtain the same-side/opposite-side avoiding path
+  split.
+- Added the combined theorem
+  `terminal_set_two_fan_or_prefix_only_minimal_first_prefix_residual_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_of_no_small_endpoint_separator`.
+  The latest first-prefix bridge residual and the direct/side concrete
+  first-defect residual now live on the same weighted/secondary-minimal pair.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This avoids the earlier weakness where the first-prefix residual chain and
+  the direct/side first-defect chain could pick unrelated minimal pairs.
+- The remaining main target can now be stated as excluding one pair that has
+  both:
+  `terminalSetFanFirstPrefixResidualCases`, and
+  `terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases`.
+- Next attack: split side combinations.  The promising cases are when the
+  first-prefix bridge residual already exposes an opposite prefix-only defect
+  on the replacement tail and the direct/side residual exposes either a new
+  direct `AltRight`/`AltLeft` intersection or a same-side replacement concrete
+  failure.  These should be compared through the existing non-clean suffix
+  cases and bridge first-guard/common-card descent lemmas.
+
+## Round update, same-pair bridge explicit residual plus direct/side failure
+
+Lean progress:
+- Added prefix-only-defect positivity projections for
+  `terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual`
+  and its right-side analogue.  The residual-internal opposite-side witness
+  `y` is enough to recover `0 < terminalPathPairPrefixOnlyDefect` for the same
+  pair.
+- Added
+  `terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases`, a compact
+  pair-level wrapper for the existing bridge-front bottleneck-or-explicit
+  residual.
+- Proved
+  `terminal_set_two_fan_or_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_of_no_small_endpoint_separator`.
+  This joins the older bridge-front explicit residual chain with the newer
+  first-nonapex direct/side concrete failure chain on the same
+  weighted/secondary-minimal pair.
+- Added the closure wrapper
+  `terminal_set_two_fan_of_no_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure`.
+
+Verifier result:
+- `WOWII198a` passes with
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This is stronger than the previous first-prefix-only interface because it
+  plugs direct/side failure into the already-developed bridge-front
+  bottleneck-or-explicit residual line.
+- The next proof target can be phrased as excluding one same minimal pair with
+  both:
+  `terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases`, and
+  `terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases`.
+- Added and verified the four-way closure
+  `terminal_set_two_fan_of_no_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_by_sides`.
+  The remaining same-pair target is now split into:
+  left bridge / left direct, left bridge / right direct, right bridge / left
+  direct, and right bridge / right direct.
+
+Status correction after repository check:
+- The simple declaration
+  `terminal_set_two_fan_of_no_small_endpoint_separator` is still inside the
+  frozen singleton-replacement block beginning near the later bridge/splice
+  route.  It must not be counted as an active proved target.
+- The active two-fan progress currently stops at the residual/closure interface
+  ending in
+  `terminal_set_two_fan_of_no_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_by_sides`.
+- The later Chvatal-Erdos / longest-path route also remains inside a frozen
+  comment block and should not be counted as an active proved target.
+
+## Round update, connected-delete-connected bridge and set first-entry interface
+
+Lean progress:
+- Added
+  `endpoint_pair_no_small_separator_of_connected_delete_connected`.
+  This proves that `G.Connected` plus connected single-vertex deletions gives
+  a path between any two endpoints avoiding any forbidden finset of size
+  `< 2` that avoids the endpoints.
+- Added
+  `terminal_set_no_small_endpoint_separator_of_connected_delete_connected`.
+  This converts the outer `hconn/hdelete` assumptions into the terminal-set
+  separator form used by the active two-fan residual pipeline.
+- Added
+  `terminal_set_two_fan_or_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_of_connected_delete_connected`.
+  This directly connects the outer assumptions to the current honest
+  two-fan-or-residual theorem.
+- Added first-entry truncation lemmas:
+  `exists_first_entry_prefix_to_finset` and
+  `terminal_two_fan_first_entry_prefixes_to_finset`.
+  These convert a two-fan to two vertices of a finset into a two-fan to the
+  first entry points, with interiors avoiding the finset.
+- Added
+  `exists_two_fan_first_entry_prefixes_to_finset_or_terminal_residual_of_connected_delete_connected`.
+  This is the active replacement for the old frozen set-attachment sketch:
+  from `hconn/hdelete` and two vertices in a finset, either obtain the
+  internally finset-avoiding first-entry fan or land in the current explicit
+  terminal residual.
+- Added endpoint-extension blockers
+  `longest_path_no_outside_path_to_left_endpoint` and
+  `longest_path_no_outside_path_to_right_endpoint`.  If a missed vertex has an
+  outside path to either endpoint of a longest path, appending the path to the
+  longest path gives a strictly longer path.
+- Added longest-path specializations:
+  `exists_two_fan_first_entry_prefixes_to_longest_path_support_or_terminal_residual_of_connected_delete_connected`,
+  `exists_two_fan_first_entry_prefixes_to_longest_path_internal_support_or_terminal_residual_of_connected_delete_connected`,
+  `exists_two_fan_first_entry_prefixes_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected`,
+  and
+  `exists_ordered_two_fan_first_entry_prefixes_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected`.
+  These convert a missed vertex of a longest path into either a current
+  terminal residual or a two-fan to ordered, strictly internal attachment
+  indices `0 < i < j < p.length`.
+
+Verifier result:
+- `WOWII198a` passes with the local single-file check:
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- This round did not close the core terminal two-fan residual.  It did remove
+  an outer integration gap: the longest-path/delete-connected layer now has a
+  verified way to enter the active residual pipeline without relying on the
+  frozen `exact hdelete` sketch.
+- Next attack should split the ordered internal attachment fan into adjacent
+  (`j = i + 1`) and separated (`i + 1 < j`) cases.  The separated case matches
+  the old longest-path sketch; the adjacent case should either extend the
+  longest path or create a smaller local obstruction.
+
+## Round update, adjacent/separated longest-path attachment split
+
+Lean progress:
+- Added
+  `exists_adjacent_or_separated_ordered_two_fan_first_entry_prefixes_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected`.
+  This splits the ordered internal attachment fan into the adjacent case
+  `i + 1 = j`, the separated case `i + 1 < j`, or the existing terminal
+  residual.
+- Added
+  `exists_last_step_from_outside_finset_of_first_entry_path`.
+  A first-entry path from outside a finset to a vertex of the finset has a last
+  edge from a vertex outside the finset into the entry vertex.
+- Added
+  `exists_adjacent_or_separated_external_attachments_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected`.
+  In the separated case this exposes outside vertices `x,y` adjacent to
+  `p.getVert i` and `p.getVert j`.
+- Added
+  `terminal_two_fan_connector_path_avoids_finset_except_endpoints`.
+  A two-fan to adjacent attachment points can be joined into a simple connector
+  path from one attachment point to the other, through the missed vertex, with
+  all non-endpoint connector vertices outside the longest path support.
+- Added
+  `exists_adjacent_connector_or_separated_external_attachments_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected`
+  and the old-sketch-compatible projection
+  `exists_adjacent_connector_or_separated_attachments_to_longest_path_support_or_terminal_residual_of_connected_delete_connected`.
+
+Verifier result:
+- `WOWII198a` passes with the local single-file check:
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The old frozen separated-attachment target is now available as an active
+  theorem modulo two honest alternatives: the adjacent connector case and the
+  terminal residual case.
+- The next mathematical bottleneck is therefore sharply split:
+  prove that the adjacent connector replaces the edge
+  `p.getVert i -- p.getVert (i+1)` to create a longer path, or prove that the
+  terminal residual cannot occur under the same longest-path hypotheses.
+
+## Round update, adjacent connector eliminated and separated branch sharpened
+
+Lean progress:
+- Added the support-list wrapper
+  `exists_adjacent_connector_or_separated_attachments_to_longest_path_support_list_or_terminal_residual_of_connected_delete_connected`.
+  This removes the `Finset`/`List` mismatch from the adjacent connector branch.
+- Added local `takeUntil`/`dropUntil` order lemmas and
+  `adjacent_connector_splice_isPath`.
+  These prove that replacing a longest-path segment between ordered support
+  vertices by an internally outside connector gives a simple path.
+- Added
+  `adjacent_connector_splice_contradicts_longest_path`.
+  The adjacent connector branch is now formally contradictory with longest-path
+  maximality, because the connector contains the missed vertex and therefore
+  replaces one edge by a path of length at least two.
+- Added
+  `exists_separated_attachments_to_longest_path_support_or_terminal_residual_of_connected_delete_connected`.
+  The active longest-path interface is now a true dichotomy: separated outside
+  attachments or the terminal residual.
+- Added
+  `exists_separated_attachments_with_outside_path_to_longest_path_support_or_terminal_residual_of_connected_delete_connected`
+  and
+  `exists_separated_attachments_with_bounded_outside_path_to_longest_path_support_or_terminal_residual_of_connected_delete_connected`.
+  In the separated branch, the two outside attachment vertices are connected by
+  a simple outside path through the missed vertex `v`, and longest-path
+  maximality forces the bound `q.length + 2 ≤ j - i`.
+
+Verifier result:
+- `WOWII198a` passes with the local single-file check:
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The adjacent case is no longer a main obstacle.
+- The remaining main WOWII198a frontier is now:
+  either eliminate the terminal residual, or use the bounded separated outside
+  path to derive the final contradiction/counting structure required by the
+  original theorem.
+
+## Round update, AMRA loop probe and local nonadjacency frontier
+
+AMRA usage:
+- Ran `python3 -m amra run-campaign-loop` with `backend none`, `mode hybrid`,
+  and the single-file build command
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+- First AMRA probe target:
+  `exists_separated_attachments_with_bounded_outside_path_to_longest_path_support_or_terminal_residual_of_connected_delete_connected`.
+  AMRA reported `verified_initially`; run output is under
+  `proof_notes/amra_runs/wowii198a-manual-round-probe`.
+- Second AMRA probe target:
+  `exists_long_separated_outside_path_with_local_nonadj_or_missed_vertex_two_attachments_or_terminal_residual_of_connected_delete_connected`.
+  AMRA also reported `verified_initially`; run output is under
+  `proof_notes/amra_runs/wowii198a-local-nonadj-probe`.
+
+Lean progress:
+- Added
+  `exists_long_separated_outside_path_or_missed_vertex_two_attachments_or_terminal_residual_of_connected_delete_connected`.
+  This splits the bounded separated branch into:
+  a positive-length outside path with a longer gap `i + 2 < j`, or a degenerate
+  case where the missed vertex `v` itself is adjacent to both separated support
+  vertices.
+- Added
+  `longest_path_no_outside_vertex_adjacent_to_consecutive_vertices` and
+  `longest_path_no_outside_vertex_adjacent_to_predecessor_of_adjacent`.
+  These formalize the local longest-path fact that an outside vertex cannot be
+  adjacent to both endpoints of a single path edge.
+- Added
+  `exists_long_separated_outside_path_with_local_nonadj_or_missed_vertex_two_attachments_or_terminal_residual_of_connected_delete_connected`
+  and
+  `exists_long_separated_outside_path_or_missed_vertex_two_attachments_with_local_nonadj_or_terminal_residual_of_connected_delete_connected`.
+  Both non-residual alternatives now carry local non-adjacency data at the
+  neighboring path vertices.
+
+Verifier result:
+- `WOWII198a` passes with the local single-file check:
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The non-residual side is now much closer to an independent-set contradiction:
+  the long separated branch exposes outside attachments plus forbidden
+  adjacencies to the adjacent path vertices, while the degenerate branch exposes
+  a missed vertex adjacent to two separated path vertices plus the same local
+  non-adjacency.
+- The remaining hard obstruction is still the terminal residual, plus the final
+  extraction of a contradiction from these local non-adjacency packages.
+
+## Round update, source-bound frontier and reduction interface
+
+Manual timing:
+- New hand-timed round started at `2026-07-02 09:19:28 HKT`.
+
+Lean progress:
+- Added
+  `exists_long_separated_outside_path_or_missed_vertex_two_attachments_with_two_sided_local_nonadj_or_terminal_residual_of_connected_delete_connected`.
+  The long outside-path branch now records four local forbidden adjacencies:
+  `x` is nonadjacent to both neighboring path vertices around its attachment,
+  and `y` is nonadjacent to both neighboring path vertices around its
+  attachment.  The degenerate missed-vertex two-attachment branch now carries
+  the analogous four forbidden adjacencies for `v`.
+- Added
+  `source_bound_b_eq_diam_add_two_forces_longest_path_two_sided_local_nonadj_frontier`.
+  This reconnects the active longest-path frontier to the original
+  source-bound branch: from
+  `((b G : Nat) : Real) <= 2 + averageEccentricity G` and
+  `b G = G.diam + 2`, the theorem produces both `G.indepNum ≤ 3` and the
+  two-sided local-nonadjacency trichotomy or terminal residual.
+- Added the active contradiction helper
+  `indepNum_le_three_contradicts_independent_four`.
+- Added
+  `source_bound_frontier_reduces_to_terminal_residual_of_nonresidual_independent_four`.
+  This is the current route interface: under the original source-bound branch,
+  if the long outside-path branch and the degenerate missed-vertex
+  two-attachment branch each yield an independent set of size four, then the
+  only remaining case is the terminal residual.
+
+AMRA usage:
+- Verified the two-sided local-nonadjacency target with
+  `python3 -m amra run-campaign-loop`; AMRA reported `verified_initially`.
+  Output is under
+  `proof_notes/amra_runs/wowii198a-two-sided-local-nonadj-probe`.
+- Probed the source-bound frontier once with a `60s` budget; AMRA timed out
+  before completing its wrapper audit, while the direct single-file Lean check
+  had already passed.  Re-ran the same target with a `180s` budget; AMRA then
+  reported `verified_initially`.  Output is under
+  `proof_notes/amra_runs/wowii198a-source-bound-frontier-probe-rerun`.
+- Verified the reduction-interface target with AMRA; output is under
+  `proof_notes/amra_runs/wowii198a-source-frontier-reduction-interface-probe`.
+
+Verifier result:
+- `WOWII198a` passes with the local single-file check:
+  `lake env lean
+  AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`.
+
+Strategic status:
+- The active route is now explicitly aimed at the original source-bound
+  branch, not just an internal stage theorem.
+- Remaining proof obligations are cleanly separated:
+  1. extract an independent set of size four from the long separated
+     outside-path branch, or prove that this branch collapses by a stronger
+     rotation/splice argument;
+  2. extract an independent set of size four from the degenerate missed-vertex
+     two-attachment branch, likely using longest-path rotation forbidden-edge
+     lemmas for predecessor/successor sets;
+  3. eliminate the terminal residual package, or derive an independent-set
+     contradiction from it.
+
+Additional Lean progress:
+- Added
+  `exists_independent_four_of_pairwise_not_adj`, a reusable finset constructor:
+  four pairwise distinct vertices with all six pairwise non-adjacencies give an
+  independent set of cardinality four.
+- Added
+  `missed_vertex_two_attachments_independent_four_of_path_neighbor_nonadj`.
+  This packages one possible closure of the degenerate missed-vertex
+  two-attachment branch: if three additional path-neighbor non-adjacencies are
+  available, the branch yields an independent set of size four.
+- AMRA verified this interface under
+  `proof_notes/amra_runs/wowii198a-apex-independent-four-interface-probe`.
+
+Strategic correction:
+- The new degenerate-branch interface is a useful extraction tool, but it is not
+  itself a proof that the branch is close to closed.  The standard longest-path
+  rotation facts more directly yield predecessor-pair and successor-pair
+  non-adjacencies; turning those two independent triples into a four-vertex
+  independent set still needs extra cross-edge analysis or a stronger rotation
+  argument.
+
+## Round update, apex rotation infrastructure and obstruction split
+
+Manual timing:
+- Continued the hand-timed round from `2026-07-02 09:19:28 HKT`.
+
+Lean progress:
+- Added indexed-segment infrastructure around `(p.drop i).take (j - i)`:
+  `indexedSegment`, endpoint/length/support helpers, and left/right
+  non-membership lemmas for vertices outside the indexed interval.  These are
+  now the local toolkit for rotation-splice proofs.
+- Added `append_three_isPath_of_disjoint_tails`, a reusable three-piece path
+  concatenation lemma: if the three pieces are paths and the two tail-disjoint
+  obligations hold, the full append is a path.
+- Proved the predecessor rotation package:
+  `predecessor_rotation_connector_exists`,
+  `predecessor_rotation_splice_isPath`, and
+  `longest_path_missed_vertex_two_attachments_predecessors_not_adj`.
+  This shows that in the apex two-attachment branch,
+  `p[i-1]` and `p[j-1]` cannot be adjacent, because that would rotate through
+  `v` and produce a longer simple path.
+- Proved the successor analogue
+  `longest_path_missed_vertex_two_attachments_successors_not_adj` by applying
+  the predecessor theorem to `p.reverse`.
+- Packaged both automatic forbidden edges as
+  `missed_vertex_two_attachments_predecessor_successor_pairs_not_adj`.
+- Strengthened the apex independent-four interface:
+  `missed_vertex_two_attachments_independent_four_of_remaining_path_neighbor_nonadj`
+  now needs only the two remaining path-neighbor non-adjacencies, because the
+  predecessor-pair non-adjacency is automatic.
+- Added the finite obstruction helper
+  `indepNum_le_three_forces_cross_neighbor_of_apex_independent_pair`.
+- Derived two active apex obstruction disjunctions under `G.indepNum <= 3`:
+  `missed_vertex_two_attachments_j_next_hits_predecessor_pair_of_indepNum_le_three`
+  and
+  `missed_vertex_two_attachments_i_prev_hits_successor_pair_of_indepNum_le_three`.
+  These say the apex branch does not simply yield the missing independent four;
+  instead, the no-independent-four assumption forces cross/local adjacency
+  cases that must be eliminated by further rotation arguments.
+- Added
+  `source_bound_missed_vertex_two_attachments_forces_apex_obstruction_disjunctions`.
+  This bridges the original source-bound route directly to the apex obstruction:
+  if the source-bound frontier enters the two-attachment apex branch, then the
+  branch satisfies both forced-hit disjunctions.
+- Added
+  `source_bound_b_eq_diam_add_two_forces_longest_path_apex_obstruction_frontier`.
+  This upgrades the active source-bound frontier to
+  `long branch or apex-obstruction branch or terminal residual`, while keeping
+  the original `G.indepNum <= 3` output.
+- Added
+  `source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_apex_obstruction_contradiction`.
+  This is the current reduction interface: if the long branch gives an
+  independent set of size four and the apex-obstruction branch is contradictory,
+  the source-bound route has only the terminal residual left.
+- Added large-gap apex obstruction refinements:
+  `missed_vertex_two_attachments_j_prev_hits_successor_pair_of_indepNum_le_three_of_gap`
+  and
+  `missed_vertex_two_attachments_i_next_hits_predecessor_pair_of_indepNum_le_three_of_gap`.
+  Under `i + 2 < j`, the two middle neighbor vertices must also hit the
+  opposite independent pair.
+- Added
+  `missed_vertex_two_attachments_large_gap_forces_local_or_cross_chords`.
+  In the large-gap apex obstruction case, the path-neighbor chord structure now
+  reduces to three alternatives: a left local chord, a right local chord, or the
+  two cross chords.
+- Added
+  `missed_vertex_two_attachments_gap_two_or_large_gap_local_or_cross_chords`.
+  This splits the apex obstruction gap into the minimal case `j = i + 2` or the
+  large-gap local/cross chord trichotomy.
+- Added
+  `source_bound_missed_vertex_two_attachments_forces_gap_two_or_large_gap_chords`,
+  connecting the same split directly to the original source-bound apex branch.
+- Added
+  `missed_vertex_two_attachments_gap_two_forces_cross_or_two_local_chords`.
+  In the minimal gap case `j = i + 2`, the obstruction reduces to either the
+  outer cross chord or two local chords through the middle vertex.
+- Added
+  `missed_vertex_two_attachments_refined_gap_chord_patterns`, combining the
+  minimal-gap and large-gap chord pattern refinements into a single apex
+  case-split interface.
+- Added
+  `source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns`,
+  connecting that refined case split directly to the original source-bound
+  apex branch.
+
+AMRA usage:
+- AMRA verified
+  `missed_vertex_two_attachments_independent_four_of_remaining_path_neighbor_nonadj`
+  under
+  `proof_notes/amra_runs/wowii198a-apex-predecessor-reduction-interface-probe`.
+- AMRA verified
+  `missed_vertex_two_attachments_predecessor_successor_pairs_not_adj`
+  under
+  `proof_notes/amra_runs/wowii198a-apex-pair-nonadj-package-probe`.
+- A direct AMRA probe of the private successor theorem timed out at `180s`, but
+  the public package theorem above verified; the direct single-file Lean check
+  also verifies the private successor theorem.
+- AMRA verified
+  `missed_vertex_two_attachments_j_next_hits_predecessor_pair_of_indepNum_le_three`
+  under `proof_notes/amra_runs/wowii198a-apex-jnext-obstruction-probe`.
+- AMRA verified
+  `missed_vertex_two_attachments_i_prev_hits_successor_pair_of_indepNum_le_three`
+  under `proof_notes/amra_runs/wowii198a-apex-iprev-obstruction-probe`.
+- AMRA verified
+  `source_bound_missed_vertex_two_attachments_forces_apex_obstruction_disjunctions`
+  under
+  `proof_notes/amra_runs/wowii198a-source-bound-apex-obstruction-bridge-probe`.
+- AMRA verified
+  `source_bound_b_eq_diam_add_two_forces_longest_path_apex_obstruction_frontier`
+  under
+  `proof_notes/amra_runs/wowii198a-source-bound-apex-obstruction-frontier-probe`.
+- AMRA verified
+  `source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_apex_obstruction_contradiction`
+  under
+  `proof_notes/amra_runs/wowii198a-source-bound-obstruction-reduction-interface-probe`.
+- AMRA verified the large-gap refinements under
+  `proof_notes/amra_runs/wowii198a-apex-large-gap-jprev-hit-probe` and
+  `proof_notes/amra_runs/wowii198a-apex-large-gap-inext-hit-probe`.
+- AMRA verified
+  `missed_vertex_two_attachments_large_gap_forces_local_or_cross_chords`
+  under `proof_notes/amra_runs/wowii198a-apex-large-gap-local-or-cross-probe`.
+- AMRA verified
+  `missed_vertex_two_attachments_gap_two_or_large_gap_local_or_cross_chords`
+  under `proof_notes/amra_runs/wowii198a-apex-gap-two-or-large-gap-probe`.
+- AMRA verified
+  `source_bound_missed_vertex_two_attachments_forces_gap_two_or_large_gap_chords`
+  under `proof_notes/amra_runs/wowii198a-source-bound-apex-gap-split-probe`.
+- AMRA verified
+  `missed_vertex_two_attachments_gap_two_forces_cross_or_two_local_chords`
+  under `proof_notes/amra_runs/wowii198a-apex-gap-two-cross-or-local-probe`.
+- AMRA verified
+  `missed_vertex_two_attachments_refined_gap_chord_patterns`
+  under `proof_notes/amra_runs/wowii198a-apex-refined-gap-patterns-probe`.
+- AMRA verified
+  `source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns`
+  under
+  `proof_notes/amra_runs/wowii198a-source-bound-apex-refined-gap-patterns-probe`.
+
+Strategic status:
+- The original WOWII198a theorem is still not proved.
+- The apex branch is materially narrower: under the original source-bound
+  assumptions it now has automatic predecessor and successor independent pairs,
+  plus forced cross-adjacency disjunctions.
+- The next apex target should be a case split on the forced adjacency cases,
+  especially the edges
+  `p[j+1]--p[i-1]`, `p[j+1]--p[j-1]`,
+  `p[i-1]--p[i+1]`, and `p[i-1]--p[j+1]`.
+  These are rotation-splice cases, not simple independent-set extraction cases.
+- The current source-bound reduction target is now precise: prove the long
+  branch independent-four extraction, prove the apex-obstruction contradiction,
+  then the source-bound branch reduces to the existing terminal residual.
+- In the large-gap apex subcase (`i + 2 < j`), all four path-neighbor vertices
+  now have forced-hit constraints against the opposite independent pair, and
+  those constraints are packaged as a local-or-cross chord trichotomy.  The next
+  rotation-splice attack should target these three alternatives separately.
+
+## Round update, minimal-gap two-local branch eliminated
+
+Lean progress:
+- Added private connector
+  `gap_two_left_local_connector_exists`.  In the minimal-gap apex case
+  `j = i + 2`, a left-local chord `p[i-1]--p[i+1]` builds a replacement walk
+  from `p[i-1]` to `p[j]` through `p[i+1]`, `p[i]`, and the missed vertex `v`.
+- Added
+  `missed_vertex_two_attachments_gap_two_left_local_chord_false`.  The connector
+  plugs into the existing predecessor-splice infrastructure and contradicts
+  longest-path maximality by producing a path with support length larger by one.
+- Added
+  `missed_vertex_two_attachments_gap_two_two_local_chords_false`, a convenience
+  wrapper for the previous contradiction.
+- Added
+  `missed_vertex_two_attachments_gap_two_forces_cross_chord`.  The minimal-gap
+  branch now forces only the outer cross chord
+  `p[i-1]--p[j+1]`; the two-local alternative is formally eliminated.
+- Added
+  `missed_vertex_two_attachments_refined_gap_chord_patterns_without_gap_two_local`
+  and
+  `source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns_without_gap_two_local`.
+  The source-bound apex branch now has a four-way refined shape:
+  minimal-gap outer cross, or large-gap left-local, right-local, or cross-cross.
+- Added interface theorems
+  `source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier`,
+  `source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_refined_apex_pattern_contradiction`,
+  `source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_refined_apex_case_contradictions`,
+  and
+  `source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_refined_apex_four_case_contradictions`.
+
+Checks:
+- `lake env lean AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`
+  passes after the new minimal-gap connector and four-way refined source-bound
+  bridge.
+- An AMRA `backend none` probe of
+  `source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier`
+  did not recognize the already-Lean-verified theorem and ended `partial` under
+  `proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe`.
+  This is a tool-recognition issue, not a Lean failure.
+
+Strategic status:
+- WOWII198a is still not proved.
+- The apex obstruction is no longer the previous five-case refined split; one
+  real branch has been closed.  The remaining apex cases are:
+  minimal-gap outer cross, large-gap left-local, large-gap right-local, and
+  large-gap cross-cross.
+- The next useful attack is to use the forced-hit disjunctions plus
+  `indepNum ≤ 3` to strengthen one of the remaining four cases enough to build
+  another explicit rotation-splice contradiction.
+
+## Round update, large-gap single-local branches merged
+
+Lean progress:
+- Added
+  `missed_vertex_two_attachments_large_gap_forces_two_local_or_cross_chords`.
+  In the large-gap apex obstruction, the four forced-hit disjunctions rule out
+  a lone local chord: the branch now reduces to either both local chords
+  `p[i-1]--p[i+1]` and `p[j-1]--p[j+1]`, or the two cross chords
+  `p[i-1]--p[j+1]` and `p[i+1]--p[j-1]`.
+- Added
+  `missed_vertex_two_attachments_refined_gap_chord_patterns_without_single_local`
+  and
+  `source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns_without_single_local`.
+  The source-bound apex obstruction is now a three-way split:
+  minimal-gap outer cross, large-gap both-local, or large-gap cross-cross.
+- Added
+  `source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_refined_apex_three_case_contradictions`.
+  This is the current clean reduction interface: once the long branch gives an
+  independent four, and the three apex cases are each contradicted, the
+  source-bound branch reduces to the existing terminal residual.
+
+Checks:
+- `lake env lean AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`
+  passes after the new large-gap two-case refinement and three-case reduction.
+
+Strategic status:
+- WOWII198a is still not proved.
+- The apex branch has been reduced from the earlier four cases to three real
+  cases:
+  minimal-gap outer cross, large-gap both-local, and large-gap cross-cross.
+- The next best target is one of these three case contradictions.  The
+  large-gap both-local case is the most structured target because both local
+  chords are available for a possible rotation-splice, while the cross-cross
+  case likely needs a different segment-reversal splice.
+
+## Round update, gap-three both-local splice contradiction
+
+Lean progress:
+- Added private splice helper
+  `indexed_connector_to_successor_splice_isPath`.  This packages the common
+  replacement pattern from `p[i-1]` to `p[j+1]`: if the connector is a path,
+  contains only the left endpoint, the missed vertex, and the indexed segment
+  `p[i..j+1]`, then appending the prefix and suffix of `p` is again a path.
+- Added private connector
+  `gap_three_two_local_connector_exists`.  In the large-gap both-local apex
+  case with the minimal large gap `j = i + 3`, the two local chords build the
+  explicit connector
+  `p[i-1] -> p[i+1] -> p[i] -> v -> p[j] -> p[j-1] -> p[j+1]`.
+- Added
+  `missed_vertex_two_attachments_gap_three_two_local_chords_false`.  The
+  connector has length six, exactly one longer than the replaced path segment,
+  so maximality of the longest path is contradicted.
+
+Checks:
+- `lake env lean AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`
+  passes after the new `gap=3` both-local connector and contradiction.
+
+Strategic status:
+- WOWII198a is still not proved.
+- The three-case apex reduction is not yet closed, but the large-gap
+  both-local branch has lost its smallest and most splice-friendly instance.
+- The remaining both-local work is now `j >= i + 4`.  The same bare two-local
+  connector no longer covers the middle vertices of the path segment, so the
+  next attack should first extract extra forced chords from `indepNum <= 3`
+  before attempting another Lean splice.
+
+## Round update, gap-four both-local escape split
+
+Lean progress:
+- Added private helper
+  `indepNum_le_three_forces_adj_of_two_common_nonneighbors`.  If two vertices
+  share two nonadjacent common non-neighbors, then `indepNum <= 3` forces those
+  two vertices to be adjacent.  This is the basic mechanism behind the inner
+  clique/ladder forced in the both-local residual models.
+- Added
+  `missed_vertex_two_attachments_middle_vertex_forces_outer_cross_or_side_escape`.
+  For any inner path vertex `p[k]` between `p[i-1]` and `p[j+1]`, `indepNum <= 3`
+  forces either the outer cross `p[i-1]--p[j+1]` or an escape edge from
+  `p[k]` to `p[i-1]`, `v`, or `p[j+1]`; otherwise
+  `{v, p[i-1], p[k], p[j+1]}` is an independent four.
+- Added
+  `missed_vertex_two_attachments_inner_pair_forces_adj_of_no_left_or_apex_escape`
+  and
+  `missed_vertex_two_attachments_inner_pair_forces_adj_of_no_right_or_apex_escape`.
+  These turn the common-nonneighbor helper into path-index tools: if two inner
+  vertices both avoid the same side anchor and the apex, then they must be
+  adjacent.  This is the Lean basis for proving the inner almost-clique in the
+  outer-cross residual family.
+- Added
+  `missed_vertex_two_attachments_gap_four_forces_outer_cross_or_escape_chord`.
+  In the `j = i + 4` local model, if the outer cross and all nine escape edges
+  are absent, then `{v, p[i-1], p[i+2], p[j+1]}` is an independent four,
+  contradicting `indepNum <= 3`.
+- Added private connector
+  `gap_four_left_middle_escape_connector_exists`.  The escape edge
+  `p[i-1]--p[i+2]`, together with the right local chord, gives the explicit
+  replacement path
+  `p[i-1] -> p[i+2] -> p[i+1] -> p[i] -> v -> p[j] -> p[j-1] -> p[j+1]`.
+- Added
+  `missed_vertex_two_attachments_gap_four_left_middle_escape_chord_false`
+  and the packaged reduction
+  `missed_vertex_two_attachments_gap_four_forces_outer_cross_or_remaining_escape_chord`.
+  Thus this one escape branch is already formally eliminated.
+
+Checks:
+- `lake env lean AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean`
+  passes after the gap-four escape split and the first escape connector.
+
+Finite-model/SAT evidence:
+- For `j = i + 4`, among the `alpha <= 3` local models with both local chords
+  and the known forbidden adjacencies, all but four have a full
+  `p[i-1]` to `p[j+1]` Hamilton connector.  The four residuals all contain the
+  outer cross `p[i-1]--p[j+1]` and avoid the nine escape edges.
+- For `j = i + 5`, exact enumeration again leaves only four residuals.  These
+  force the outer cross and the two inward chords
+  `p[i+1]--p[j-2]` and `p[i+2]--p[j-1]`.
+- For `j = i + 6`, a Z3 encoding of `alpha <= 3` plus absence of the full
+  connector again leaves four residuals.  The common forced structure is the
+  outer cross plus an almost-clique on the inner interval `p[i+1..j-1]`
+  (possibly missing only the endpoint chord).
+
+Strategic status:
+- The both-local branch should not be attacked as a blind list of local
+  splice cases.  The stable residual family has no contiguous-interval
+  Hamilton replacement even when the inner interval is almost complete.
+- The better next target is a residual-family interface: prove that both-local
+  either has an escape connector contradiction, or falls into an outer-cross
+  inward-ladder residual that must then be handled by a separate global
+  argument.

@@ -1,0 +1,1 @@
+WOWII198a current Lean target: eliminate the remaining terminal residual or bounded separated outside path branch in AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean without full project compilation.

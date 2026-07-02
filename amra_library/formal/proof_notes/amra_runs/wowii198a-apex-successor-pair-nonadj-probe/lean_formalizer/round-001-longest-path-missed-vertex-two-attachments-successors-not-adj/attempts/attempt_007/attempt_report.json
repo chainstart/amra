@@ -1,0 +1,61 @@
+{
+  "generated_at": "2026-07-02T02:22:27+00:00",
+  "iteration": 7,
+  "backend": "none",
+  "backend_status": "skipped",
+  "backend_returncode": 0,
+  "backend_elapsed_seconds": 0.0,
+  "before_defect_score": 1050000,
+  "after_defect_score": 1050000,
+  "progress_delta": 0,
+  "stalled_attempts": 7,
+  "rollback_applied": false,
+  "verified": false,
+  "build_status": "timeout",
+  "blockers": [
+    "Lean build status is `timeout`, not `passed`.",
+    "Target theorem `longest_path_missed_vertex_two_attachments_successors_not_adj` was not found in the Lean workspace."
+  ],
+  "counts": {
+    "sorry": 0,
+    "axiom": 0,
+    "constant": 0,
+    "admit": 0,
+    "placeholder": 0
+  },
+  "suggested_next_target": "rerun with backend=codex",
+  "prompt_path": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-successor-pair-nonadj-probe/lean_formalizer/round-001-longest-path-missed-vertex-two-attachments-successors-not-adj/attempts/attempt_007/prompt.txt",
+  "backend_last_message_path": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-successor-pair-nonadj-probe/lean_formalizer/round-001-longest-path-missed-vertex-two-attachments-successors-not-adj/attempts/attempt_007/backend_last_message.txt",
+  "system_headroom": {
+    "status": "ready",
+    "snapshot": {
+      "captured_at": 1782958941,
+      "cpu_count": 8,
+      "load1": 8.747,
+      "load5": 5.128,
+      "load15": 3.658,
+      "load_per_cpu": 1.093,
+      "mem_total_mb": 32098.2,
+      "mem_available_mb": 22148.2
+    },
+    "blockers": [],
+    "thresholds": {
+      "min_available_memory_mb": 2048,
+      "max_load_per_cpu": 1.5
+    },
+    "waited_seconds": 0.0,
+    "poll_count": 1,
+    "polls": [
+      {
+        "captured_at": 1782958941,
+        "cpu_count": 8,
+        "load1": 8.747,
+        "load5": 5.128,
+        "load15": 3.658,
+        "load_per_cpu": 1.093,
+        "mem_total_mb": 32098.2,
+        "mem_available_mb": 22148.2
+      }
+    ]
+  }
+}

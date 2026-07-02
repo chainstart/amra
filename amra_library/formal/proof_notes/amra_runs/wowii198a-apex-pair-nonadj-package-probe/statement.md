@@ -1,0 +1,1 @@
+Verify the public Lean theorem missed_vertex_two_attachments_predecessor_successor_pairs_not_adj in Wowii198aLeftmost.lean, packaging predecessor and successor forbidden neighbor pairs in the apex branch.

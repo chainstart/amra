@@ -1,0 +1,34 @@
+{
+  "round": 1,
+  "stage": "lean_formalizer",
+  "status": "verified",
+  "stop_reason": "verified_initially",
+  "run_dir": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-local-nonadj-probe/lean_formalizer/round-001-exists-long-separated-outside-path-with-local-nonadj-or-missed-vertex-two-attachments-or-terminal-residual-of-connected-delete-connected",
+  "summary_path": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-local-nonadj-probe/lean_formalizer/round-001-exists-long-separated-outside-path-with-local-nonadj-or-missed-vertex-two-attachments-or-terminal-residual-of-connected-delete-connected/summary.md",
+  "target_theorem": "exists_long_separated_outside_path_with_local_nonadj_or_missed_vertex_two_attachments_or_terminal_residual_of_connected_delete_connected",
+  "next_action": "Target theorem is Lean-verified.",
+  "verified": true,
+  "expected_target_header_required": false,
+  "needs_global_reassessment": false,
+  "global_assessment_path": "",
+  "suggested_next_targets": [],
+  "library_promotion": {
+    "status": "skipped",
+    "reason": "library_promotion_not_requested"
+  },
+  "attempts_completed": 0,
+  "progress_velocity": {
+    "schema_version": "amra.progress_velocity.v1",
+    "elapsed_seconds": 41.77,
+    "attempts_completed": 0,
+    "episodes_completed": 0,
+    "positive_progress_delta": 0,
+    "net_progress_delta": 0,
+    "progress_delta_per_hour": 0.0,
+    "attempts_per_hour": 0.0,
+    "episodes_per_hour": 0.0,
+    "verified_target_count": 1,
+    "target_count": 1,
+    "verified_targets_per_hour": 86.186258
+  }
+}

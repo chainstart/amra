@@ -1,0 +1,36 @@
+{
+  "round": 1,
+  "stage": "lean_formalizer",
+  "status": "partial",
+  "stop_reason": "attempts_exhausted",
+  "run_dir": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier",
+  "summary_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/summary.md",
+  "target_theorem": "source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier",
+  "next_action": "Run a global reassessment to choose or confirm a smaller theorem-level target.",
+  "verified": false,
+  "expected_target_header_required": false,
+  "needs_global_reassessment": true,
+  "global_assessment_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/rounds/round_001/global_assessment.md",
+  "suggested_next_targets": [
+    "rerun with backend=codex"
+  ],
+  "library_promotion": {
+    "status": "skipped",
+    "reason": "target_not_verified"
+  },
+  "attempts_completed": 8,
+  "progress_velocity": {
+    "schema_version": "amra.progress_velocity.v1",
+    "elapsed_seconds": 170.513,
+    "attempts_completed": 8,
+    "episodes_completed": 0,
+    "positive_progress_delta": 0,
+    "net_progress_delta": 0.0,
+    "progress_delta_per_hour": 0.0,
+    "attempts_per_hour": 168.902078,
+    "episodes_per_hour": 0.0,
+    "verified_target_count": 0,
+    "target_count": 1,
+    "verified_targets_per_hour": 0.0
+  }
+}

@@ -1,0 +1,504 @@
+{
+  "schema_version": "amra.math_tools_report.v1",
+  "profile": "full",
+  "install_missing": true,
+  "run_smoke": false,
+  "workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+  "tools": [
+    {
+      "spec": {
+        "tool_id": "python_math_stack",
+        "name": "Python math stack",
+        "purpose": "Finite search, symbolic checks, numerical sanity checks, graph probes, and counterexample search.",
+        "profile": "essential",
+        "executables": [
+          "python3"
+        ],
+        "python_modules": [
+          "sympy",
+          "numpy",
+          "scipy",
+          "networkx",
+          "mpmath"
+        ],
+        "pip_packages": [
+          "sympy",
+          "numpy",
+          "scipy",
+          "networkx",
+          "mpmath"
+        ],
+        "apt_packages": [],
+        "smoke_commands": [
+          [
+            "python3",
+            "-c",
+            "import sympy,numpy,scipy,networkx,mpmath; print(sympy.factorint(360)); print(numpy.eye(1).shape)"
+          ]
+        ],
+        "command_templates": [
+          "python3 $AMRA_AGENT_RUN_DIR/experiments/<experiment>.py",
+          "python3 - <<'PY'\nimport sympy as sp\n# finite or symbolic check\nPY"
+        ],
+        "notes": [
+          "Computation is route evidence unless converted into a checked certificate or Lean proof."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "python3",
+          "available": true,
+          "path": "/usr/bin/python3"
+        }
+      ],
+      "python_modules": [
+        {
+          "name": "sympy",
+          "available": true
+        },
+        {
+          "name": "numpy",
+          "available": true
+        },
+        {
+          "name": "scipy",
+          "available": true
+        },
+        {
+          "name": "networkx",
+          "available": true
+        },
+        {
+          "name": "mpmath",
+          "available": true
+        }
+      ],
+      "smoke": []
+    },
+    {
+      "spec": {
+        "tool_id": "z3",
+        "name": "Z3",
+        "purpose": "Bounded model checks and SMT sanity checks for arithmetic, ordering, graph, and incidence constraints.",
+        "profile": "essential",
+        "executables": [
+          "z3"
+        ],
+        "python_modules": [
+          "z3"
+        ],
+        "pip_packages": [
+          "z3-solver"
+        ],
+        "apt_packages": [
+          "z3"
+        ],
+        "smoke_commands": [
+          [
+            "python3",
+            "-c",
+            "from z3 import *; x=Int('x'); s=Solver(); s.add(x>0,x<2); print(s.check())"
+          ],
+          [
+            "z3",
+            "-version"
+          ]
+        ],
+        "command_templates": [
+          "python3 - <<'PY'\nfrom z3 import *\n# bounded model check\nPY",
+          "z3 <problem>.smt2"
+        ],
+        "notes": [
+          "Keep encodings explicit; a SAT/UNSAT result only applies to the encoded finite model."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "z3",
+          "available": true,
+          "path": "/home/biostar/.local/bin/z3"
+        }
+      ],
+      "python_modules": [
+        {
+          "name": "z3",
+          "available": true
+        }
+      ],
+      "smoke": []
+    },
+    {
+      "spec": {
+        "tool_id": "lean4",
+        "name": "Lean 4 / lake / mathlib",
+        "purpose": "Final trusted formal verification and small theorem-shape probes.",
+        "profile": "essential",
+        "executables": [
+          "lean",
+          "lake"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [],
+        "smoke_commands": [
+          [
+            "lean",
+            "--version"
+          ],
+          [
+            "lake",
+            "--version"
+          ]
+        ],
+        "command_templates": [
+          "cd $AMRA_AGENT_WORKSPACE && lake build",
+          "cd $AMRA_AGENT_WORKSPACE && lake env lean $AMRA_AGENT_RUN_DIR/lean_probes/<probe>.lean",
+          "rg -n '<keyword>' .lake/packages/mathlib/Mathlib"
+        ],
+        "notes": [
+          "AMRA accepts formal completion only after Lean builds without sorry/admit/axiom/constant/opaque."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "lean",
+          "available": true,
+          "path": "/home/biostar/.elan/bin/lean"
+        },
+        {
+          "name": "lake",
+          "available": true,
+          "path": "/home/biostar/.elan/bin/lake"
+        }
+      ],
+      "python_modules": [],
+      "smoke": []
+    },
+    {
+      "spec": {
+        "tool_id": "pari_gp",
+        "name": "PARI/GP",
+        "purpose": "Fast number-theory experiments, modular arithmetic, algebraic number checks, and sequence probes.",
+        "profile": "extended",
+        "executables": [
+          "gp"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "pari-gp"
+        ],
+        "smoke_commands": [
+          [
+            "gp",
+            "-q",
+            "-f",
+            "-e",
+            "print(factor(360)); quit"
+          ]
+        ],
+        "command_templates": [
+          "gp -q <script.gp>"
+        ],
+        "notes": [
+          "Use for candidate generation; certify final facts separately."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "gp",
+          "available": true,
+          "path": "/usr/bin/gp"
+        }
+      ],
+      "python_modules": [],
+      "smoke": []
+    },
+    {
+      "spec": {
+        "tool_id": "gap",
+        "name": "GAP",
+        "purpose": "Group theory, finite algebra, combinatorics, and exact discrete computations.",
+        "profile": "extended",
+        "executables": [
+          "gap"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "gap"
+        ],
+        "smoke_commands": [
+          [
+            "gap",
+            "-q",
+            "-c",
+            "Print(Size(SymmetricGroup(3)),\"\\n\"); QUIT;"
+          ]
+        ],
+        "command_templates": [
+          "gap -q <script.g>"
+        ],
+        "notes": []
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "gap",
+          "available": true,
+          "path": "/usr/bin/gap"
+        }
+      ],
+      "python_modules": [],
+      "smoke": []
+    },
+    {
+      "spec": {
+        "tool_id": "singular",
+        "name": "Singular",
+        "purpose": "Polynomial ideals, Groebner bases, and computational commutative algebra.",
+        "profile": "extended",
+        "executables": [
+          "Singular"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "singular"
+        ],
+        "smoke_commands": [
+          [
+            "Singular",
+            "--version"
+          ]
+        ],
+        "command_templates": [
+          "Singular -q <script.sing>"
+        ],
+        "notes": []
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "Singular",
+          "available": true,
+          "path": "/usr/bin/Singular"
+        }
+      ],
+      "python_modules": [],
+      "smoke": []
+    },
+    {
+      "spec": {
+        "tool_id": "maxima",
+        "name": "Maxima",
+        "purpose": "Classical symbolic algebra and calculus sanity checks.",
+        "profile": "extended",
+        "executables": [
+          "maxima"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "maxima"
+        ],
+        "smoke_commands": [
+          [
+            "maxima",
+            "--very-quiet",
+            "--batch-string=print(expand((x+1)^3)); quit();"
+          ]
+        ],
+        "command_templates": [
+          "maxima --batch=<script.mac>"
+        ],
+        "notes": []
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "maxima",
+          "available": true,
+          "path": "/usr/bin/maxima"
+        }
+      ],
+      "python_modules": [],
+      "smoke": []
+    },
+    {
+      "spec": {
+        "tool_id": "cvc5",
+        "name": "cvc5",
+        "purpose": "SMT solving complementary to Z3, especially for quantified or arithmetic encodings.",
+        "profile": "extended",
+        "executables": [
+          "cvc5"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "cvc5"
+        ],
+        "smoke_commands": [
+          [
+            "cvc5",
+            "--version"
+          ]
+        ],
+        "command_templates": [
+          "cvc5 <problem>.smt2"
+        ],
+        "notes": []
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "cvc5",
+          "available": true,
+          "path": "/usr/bin/cvc5"
+        }
+      ],
+      "python_modules": [],
+      "smoke": []
+    },
+    {
+      "spec": {
+        "tool_id": "sagemath",
+        "name": "SageMath",
+        "purpose": "Broad CAS environment for number theory, algebra, combinatorics, and exact computation.",
+        "profile": "full",
+        "executables": [
+          "sage"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "sagemath"
+        ],
+        "smoke_commands": [
+          [
+            "sage",
+            "-c",
+            "print(factor(360))"
+          ]
+        ],
+        "command_templates": [
+          "sage <script.sage>",
+          "sage -python <script.py>"
+        ],
+        "notes": [
+          "Large package; full-profile installation can take substantial disk and time."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "sage",
+          "available": true,
+          "path": "/home/biostar/.local/bin/sage"
+        }
+      ],
+      "python_modules": [],
+      "smoke": []
+    },
+    {
+      "spec": {
+        "tool_id": "coq",
+        "name": "Coq / Rocq compatibility",
+        "purpose": "External proof assistant experiments when a source theorem already exists in Coq/Rocq.",
+        "profile": "full",
+        "executables": [
+          "coqc"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "coq"
+        ],
+        "smoke_commands": [
+          [
+            "coqc",
+            "-v"
+          ]
+        ],
+        "command_templates": [
+          "coqc <file.v>"
+        ],
+        "notes": [
+          "AMRA does not currently translate Coq proofs into Lean automatically."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "coqc",
+          "available": true,
+          "path": "/usr/bin/coqc"
+        }
+      ],
+      "python_modules": [],
+      "smoke": []
+    }
+  ],
+  "install_reports": [],
+  "available_tool_ids": [
+    "python_math_stack",
+    "z3",
+    "lean4",
+    "pari_gp",
+    "gap",
+    "singular",
+    "maxima",
+    "cvc5",
+    "sagemath",
+    "coq"
+  ],
+  "unavailable_tool_ids": [],
+  "all_selected_available": true,
+  "report_path": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-gap-two-cross-or-local-probe/lean_formalizer/round-001-missed-vertex-two-attachments-gap-two-forces-cross-or-two-local-chords/math_tools_report.json",
+  "summary_path": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-gap-two-cross-or-local-probe/lean_formalizer/round-001-missed-vertex-two-attachments-gap-two-forces-cross-or-two-local-chords/math_tools_report.md"
+}

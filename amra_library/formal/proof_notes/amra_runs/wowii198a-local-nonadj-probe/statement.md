@@ -1,0 +1,1 @@
+WOWII198a current Lean target: use the active longest-path dichotomy to expose local nonadjacency data in the long separated outside path branch, while preserving the missed-vertex two-attachment and terminal-residual alternatives.

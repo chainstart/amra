@@ -1,0 +1,1 @@
+Verify the active Lean theorem missed_vertex_two_attachments_independent_four_of_remaining_path_neighbor_nonadj in Wowii198aLeftmost.lean after predecessor-rotation reduction.

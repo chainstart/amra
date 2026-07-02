@@ -1,0 +1,655 @@
+{
+  "schema_version": "amra.math_tools_report.v1",
+  "profile": "full",
+  "install_missing": true,
+  "run_smoke": true,
+  "workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+  "tools": [
+    {
+      "spec": {
+        "tool_id": "python_math_stack",
+        "name": "Python math stack",
+        "purpose": "Finite search, symbolic checks, numerical sanity checks, graph probes, and counterexample search.",
+        "profile": "essential",
+        "executables": [
+          "python3"
+        ],
+        "python_modules": [
+          "sympy",
+          "numpy",
+          "scipy",
+          "networkx",
+          "mpmath"
+        ],
+        "pip_packages": [
+          "sympy",
+          "numpy",
+          "scipy",
+          "networkx",
+          "mpmath"
+        ],
+        "apt_packages": [],
+        "smoke_commands": [
+          [
+            "python3",
+            "-c",
+            "import sympy,numpy,scipy,networkx,mpmath; print(sympy.factorint(360)); print(numpy.eye(1).shape)"
+          ]
+        ],
+        "command_templates": [
+          "python3 $AMRA_AGENT_RUN_DIR/experiments/<experiment>.py",
+          "python3 - <<'PY'\nimport sympy as sp\n# finite or symbolic check\nPY"
+        ],
+        "notes": [
+          "Computation is route evidence unless converted into a checked certificate or Lean proof."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "python3",
+          "available": true,
+          "path": "/usr/bin/python3"
+        }
+      ],
+      "python_modules": [
+        {
+          "name": "sympy",
+          "available": true
+        },
+        {
+          "name": "numpy",
+          "available": true
+        },
+        {
+          "name": "scipy",
+          "available": true
+        },
+        {
+          "name": "networkx",
+          "available": true
+        },
+        {
+          "name": "mpmath",
+          "available": true
+        }
+      ],
+      "smoke": [
+        {
+          "command": [
+            "python3",
+            "-c",
+            "import sympy,numpy,scipy,networkx,mpmath; print(sympy.factorint(360)); print(numpy.eye(1).shape)"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 1.115,
+          "stdout_tail": "{2: 3, 3: 2, 5: 1}\n(1, 1)\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "spec": {
+        "tool_id": "z3",
+        "name": "Z3",
+        "purpose": "Bounded model checks and SMT sanity checks for arithmetic, ordering, graph, and incidence constraints.",
+        "profile": "essential",
+        "executables": [
+          "z3"
+        ],
+        "python_modules": [
+          "z3"
+        ],
+        "pip_packages": [
+          "z3-solver"
+        ],
+        "apt_packages": [
+          "z3"
+        ],
+        "smoke_commands": [
+          [
+            "python3",
+            "-c",
+            "from z3 import *; x=Int('x'); s=Solver(); s.add(x>0,x<2); print(s.check())"
+          ],
+          [
+            "z3",
+            "-version"
+          ]
+        ],
+        "command_templates": [
+          "python3 - <<'PY'\nfrom z3 import *\n# bounded model check\nPY",
+          "z3 <problem>.smt2"
+        ],
+        "notes": [
+          "Keep encodings explicit; a SAT/UNSAT result only applies to the encoded finite model."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "z3",
+          "available": true,
+          "path": "/home/biostar/.local/bin/z3"
+        }
+      ],
+      "python_modules": [
+        {
+          "name": "z3",
+          "available": true
+        }
+      ],
+      "smoke": [
+        {
+          "command": [
+            "python3",
+            "-c",
+            "from z3 import *; x=Int('x'); s=Solver(); s.add(x>0,x<2); print(s.check())"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 0.114,
+          "stdout_tail": "sat\n",
+          "stderr_tail": ""
+        },
+        {
+          "command": [
+            "z3",
+            "-version"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 0.042,
+          "stdout_tail": "Z3 version 4.12.6 - 64 bit\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "spec": {
+        "tool_id": "lean4",
+        "name": "Lean 4 / lake / mathlib",
+        "purpose": "Final trusted formal verification and small theorem-shape probes.",
+        "profile": "essential",
+        "executables": [
+          "lean",
+          "lake"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [],
+        "smoke_commands": [
+          [
+            "lean",
+            "--version"
+          ],
+          [
+            "lake",
+            "--version"
+          ]
+        ],
+        "command_templates": [
+          "cd $AMRA_AGENT_WORKSPACE && lake build",
+          "cd $AMRA_AGENT_WORKSPACE && lake env lean $AMRA_AGENT_RUN_DIR/lean_probes/<probe>.lean",
+          "rg -n '<keyword>' .lake/packages/mathlib/Mathlib"
+        ],
+        "notes": [
+          "AMRA accepts formal completion only after Lean builds without sorry/admit/axiom/constant/opaque."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "lean",
+          "available": true,
+          "path": "/home/biostar/.elan/bin/lean"
+        },
+        {
+          "name": "lake",
+          "available": true,
+          "path": "/home/biostar/.elan/bin/lake"
+        }
+      ],
+      "python_modules": [],
+      "smoke": [
+        {
+          "command": [
+            "lean",
+            "--version"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 0.036,
+          "stdout_tail": "Lean (version 4.26.0, x86_64-unknown-linux-gnu, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)\n",
+          "stderr_tail": ""
+        },
+        {
+          "command": [
+            "lake",
+            "--version"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 0.035,
+          "stdout_tail": "Lake version 5.0.0-src+d8204c9 (Lean version 4.26.0)\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "spec": {
+        "tool_id": "pari_gp",
+        "name": "PARI/GP",
+        "purpose": "Fast number-theory experiments, modular arithmetic, algebraic number checks, and sequence probes.",
+        "profile": "extended",
+        "executables": [
+          "gp"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "pari-gp"
+        ],
+        "smoke_commands": [
+          [
+            "gp",
+            "-q",
+            "-f",
+            "-e",
+            "print(factor(360)); quit"
+          ]
+        ],
+        "command_templates": [
+          "gp -q <script.gp>"
+        ],
+        "notes": [
+          "Use for candidate generation; certify final facts separately."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "gp",
+          "available": true,
+          "path": "/usr/bin/gp"
+        }
+      ],
+      "python_modules": [],
+      "smoke": [
+        {
+          "command": [
+            "gp",
+            "-q",
+            "-f",
+            "-e",
+            "print(factor(360)); quit"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 0.014,
+          "stdout_tail": "",
+          "stderr_tail": "  ***   error opening input file: `print(factor(360)); quit'.\n... skipping file 'print(factor(360)); quit'\n"
+        }
+      ]
+    },
+    {
+      "spec": {
+        "tool_id": "gap",
+        "name": "GAP",
+        "purpose": "Group theory, finite algebra, combinatorics, and exact discrete computations.",
+        "profile": "extended",
+        "executables": [
+          "gap"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "gap"
+        ],
+        "smoke_commands": [
+          [
+            "gap",
+            "-q",
+            "-c",
+            "Print(Size(SymmetricGroup(3)),\"\\n\"); QUIT;"
+          ]
+        ],
+        "command_templates": [
+          "gap -q <script.g>"
+        ],
+        "notes": []
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "gap",
+          "available": true,
+          "path": "/usr/bin/gap"
+        }
+      ],
+      "python_modules": [],
+      "smoke": [
+        {
+          "command": [
+            "gap",
+            "-q",
+            "-c",
+            "Print(Size(SymmetricGroup(3)),\"\\n\"); QUIT;"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 1.062,
+          "stdout_tail": "6\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "spec": {
+        "tool_id": "singular",
+        "name": "Singular",
+        "purpose": "Polynomial ideals, Groebner bases, and computational commutative algebra.",
+        "profile": "extended",
+        "executables": [
+          "Singular"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "singular"
+        ],
+        "smoke_commands": [
+          [
+            "Singular",
+            "--version"
+          ]
+        ],
+        "command_templates": [
+          "Singular -q <script.sing>"
+        ],
+        "notes": []
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "Singular",
+          "available": true,
+          "path": "/usr/bin/Singular"
+        }
+      ],
+      "python_modules": [],
+      "smoke": [
+        {
+          "command": [
+            "Singular",
+            "--version"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 0.805,
+          "stdout_tail": "o-common -O3 -Wno-unused-function -Wno-trigraphs -Wno-unused-parameter -Wunknown-pragmas -Wno-unused-variable -fomit-frame-pointer -fwrapv -fvisibility=default -finline-functions -fno-exceptions -fno-threadsafe-statics -fno-enforce-eh-specs -fconserve-space -funroll-loops -pthread -pthread,\nCXX = g++,FLAGS : -g -O2 -fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ffile-prefix-map=/build/singular-HDHwVv/singular-4.3.2-p10+ds=. -flto=auto -ffat-lto-objects -fstack-protector-strong -fstack-clash-protection -Wformat -Werror=format-security -fcf-protection -fdebug-prefix-map=/build/singular-HDHwVv/singular-4.3.2-p10+ds=/usr/src/singular-1:4.3.2-p10+ds-1.1build1 -pipe -fno-common -O3 -Wno-unused-function -Wno-trigraphs -Wno-unused-parameter -Wunknown-pragmas -Wno-unused-variable -fomit-frame-pointer -fwrapv -fvisibility=default -finline-functions -fno-exceptions -fno-threadsafe-statics -fno-enforce-eh-specs -fconserve-space -funroll-loops -fno-rtti -fno-delete-null-pointer-checks -pthread,\nDEFS : ,CPPFLAGS : -Wdate-time -D_FORTIFY_SOURCE=3,\nLDFLAGS : -Wl,-Bsymbolic-functions -flto=auto -ffat-lto-objects -Wl,-z,relro -Wl,-z,now -pipe -fno-common -g -O3 -Wno-unused-function -Wno-trigraphs -Wno-unused-parameter -Wunknown-pragmas -Wno-unused-variable -fomit-frame-pointer -fwrapv -fvisibility=default -finline-functions -fno-exceptions -fno-threadsafe-statics -fno-enforce-eh-specs -fconserve-space -funroll-loops  -rdynamic -Wl,-undefined,dynamic_lookup,LIBS : -lreadline -lncurses  -lgmp -lrt  -lpthread (ver: 13.2.0)\nargv[0]   :\tSingular\nSearchPath:\t/usr/bin/../share/singular/LIB:/usr/bin/../share/singular/factory:/usr/libexec/x86_64-linux-gnu/singular/MOD:/usr/bin\nSingular  :\t/usr/bin/Singular\nBinDir    :\t/usr/bin\nProcDir   :\t/usr/libexec/x86_64-linux-gnu/singular/MOD\nRootDir   :\t/usr/bin/..\nDataDir   :\t/usr/bin/../share\nDefaultDir:\t/usr\nInfoFile  :\t\nIdxFile   :\t\nHtmlDir   :\t\nManualUrl :\thttps://www.singular.uni-kl.de/Manual/\nExDir     :\t\nPath      :\t/usr/bin:/usr/libexec/x86_64-linux-gnu/singular/MOD:/home/biostar/.elan/bin:/home/biostar/.nvm/versions/node/v22.21.1/lib/node_modules/@openai/codex/node_modules/@openai/codex-linux-x64/vendor/x86_64-unknown-linux-musl/codex-path:/home/biostar/.codex/tmp/arg0/codex-arg0QkcUsj:/home/biostar/.cargo/bin:/home/biostar/.nvm/versions/node/v22.21.1/bin:/home/biostar/.npm-global/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/MicrosoftCorporationII.WindowsSubsystemForLinux_2.6.1.0_x64__8wekyb3d8bbwe:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0:/mnt/c/Windows/System32/OpenSSH:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/dotnet:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/nodejs:/mnt/c/Users/30107/AppData/Local/Programs/Python/Python312/Scripts:/mnt/c/Users/30107/AppData/Local/Programs/Python/Python312:/mnt/c/Users/30107/AppData/Local/Programs/Python/Launcher:/mnt/c/Users/30107/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/30107/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/30107/AppData/Local/Programs/MiKTeX/miktex/bin/x64:/mnt/c/Users/30107/AppData/Roaming/npm:/home/biostar/.foundry/bin:/home/biostar/.local/bin\nemacs     :\t\nxemacs    :\t\nSingularEmacs:\t/usr/bin/Singular\nEmacsLoad :\t\nEmacsDir  :\t\nSingularXterm:\t/usr/bin/Singular\nxterm     :\t/usr/bin/xterm\nEmacsDir  :\t\nAvailable HelpBrowsers: dummy, emacs, \nCurrent HelpBrowser: dummy \n                     SINGULAR                                 /  Development\n A Computer Algebra System for Polynomial Computations       /   version 4.3.2\n                                                           0<\n by: W. Decker, G.-M. Greuel, G. Pfister, H. Schoenemann     \\   Feb 2023\nFB Mathematik der Universitaet, D-67653 Kaiserslautern        \\  Debian 1:4.3.2-p10+ds-1.1build1\nAuf Wiedersehen.\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "spec": {
+        "tool_id": "maxima",
+        "name": "Maxima",
+        "purpose": "Classical symbolic algebra and calculus sanity checks.",
+        "profile": "extended",
+        "executables": [
+          "maxima"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "maxima"
+        ],
+        "smoke_commands": [
+          [
+            "maxima",
+            "--very-quiet",
+            "--batch-string=print(expand((x+1)^3)); quit();"
+          ]
+        ],
+        "command_templates": [
+          "maxima --batch=<script.mac>"
+        ],
+        "notes": []
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "maxima",
+          "available": true,
+          "path": "/usr/bin/maxima"
+        }
+      ],
+      "python_modules": [],
+      "smoke": [
+        {
+          "command": [
+            "maxima",
+            "--very-quiet",
+            "--batch-string=print(expand((x+1)^3)); quit();"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 0.127,
+          "stdout_tail": "\nprint(expand((x+1)^3))\n 3      2\nx  + 3 x  + 3 x + 1 \n                               3      2\n                              x  + 3 x  + 3 x + 1\nquit()\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "spec": {
+        "tool_id": "cvc5",
+        "name": "cvc5",
+        "purpose": "SMT solving complementary to Z3, especially for quantified or arithmetic encodings.",
+        "profile": "extended",
+        "executables": [
+          "cvc5"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "cvc5"
+        ],
+        "smoke_commands": [
+          [
+            "cvc5",
+            "--version"
+          ]
+        ],
+        "command_templates": [
+          "cvc5 <problem>.smt2"
+        ],
+        "notes": []
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "cvc5",
+          "available": true,
+          "path": "/usr/bin/cvc5"
+        }
+      ],
+      "python_modules": [],
+      "smoke": [
+        {
+          "command": [
+            "cvc5",
+            "--version"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 0.026,
+          "stdout_tail": "This is cvc5 version 1.1.2\ncompiled with GCC version 13.2.0\non Mar 31 2024 17:58:39\n\nCopyright (c) 2009-2023 by the authors and their institutional\naffiliations listed at https://cvc5.github.io/people.html\n\nThis build of cvc5 uses GPLed libraries, and is thus covered by\nthe GNU General Public License (GPL) version 3.  Versions of cvc5\nare available that are covered by the (modified) BSD license. If\nyou want to license cvc5 under this license, please configure cvc5\nwith the \"--no-gpl\" option before building from sources.\n\nTHIS SOFTWARE IS PROVIDED AS-IS, WITHOUT ANY WARRANTIES.\nUSE AT YOUR OWN RISK.\n\nThis version of cvc5 is linked against the following non-(L)GPL'ed\nthird party libraries.\n\n  CaDiCaL - Simplified Satisfiability Solver\n  See https://github.com/arminbiere/cadical for copyright information.\n\n  CryptoMiniSat - An Advanced SAT Solver\n  See https://github.com/msoos/cryptominisat for copyright information.\n\n  SymFPU - The Symbolic Floating Point Unit\n  See https://github.com/martin-cs/symfpu/tree/CVC4 for copyright information.\n\nThis version of cvc5 is linked against the following third party\nlibraries covered by the GPLv3 license.\nSee licenses/gpl-3.0.txt for more information.\n\n  CLN - Class Library for Numbers\n  See http://www.ginac.de/CLN for copyright information.\n\nSee the file COPYING (distributed with the source code, and with\nall binaries) for the full cvc5 copyright, licensing, and (lack of)\nwarranty information.\n\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "spec": {
+        "tool_id": "sagemath",
+        "name": "SageMath",
+        "purpose": "Broad CAS environment for number theory, algebra, combinatorics, and exact computation.",
+        "profile": "full",
+        "executables": [
+          "sage"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "sagemath"
+        ],
+        "smoke_commands": [
+          [
+            "sage",
+            "-c",
+            "print(factor(360))"
+          ]
+        ],
+        "command_templates": [
+          "sage <script.sage>",
+          "sage -python <script.py>"
+        ],
+        "notes": [
+          "Large package; full-profile installation can take substantial disk and time."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "sage",
+          "available": true,
+          "path": "/home/biostar/.local/bin/sage"
+        }
+      ],
+      "python_modules": [],
+      "smoke": [
+        {
+          "command": [
+            "sage",
+            "-c",
+            "print(factor(360))"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 2.125,
+          "stdout_tail": "2^3 * 3^2 * 5\n",
+          "stderr_tail": ""
+        }
+      ]
+    },
+    {
+      "spec": {
+        "tool_id": "coq",
+        "name": "Coq / Rocq compatibility",
+        "purpose": "External proof assistant experiments when a source theorem already exists in Coq/Rocq.",
+        "profile": "full",
+        "executables": [
+          "coqc"
+        ],
+        "python_modules": [],
+        "pip_packages": [],
+        "apt_packages": [
+          "coq"
+        ],
+        "smoke_commands": [
+          [
+            "coqc",
+            "-v"
+          ]
+        ],
+        "command_templates": [
+          "coqc <file.v>"
+        ],
+        "notes": [
+          "AMRA does not currently translate Coq proofs into Lean automatically."
+        ]
+      },
+      "available": true,
+      "missing": {
+        "executables": [],
+        "python_modules": []
+      },
+      "executables": [
+        {
+          "name": "coqc",
+          "available": true,
+          "path": "/usr/bin/coqc"
+        }
+      ],
+      "python_modules": [],
+      "smoke": [
+        {
+          "command": [
+            "coqc",
+            "-v"
+          ],
+          "status": "completed",
+          "returncode": 0,
+          "elapsed_seconds": 0.116,
+          "stdout_tail": "The Coq Proof Assistant, version 8.18.0\ncompiled with OCaml 4.14.1\n",
+          "stderr_tail": ""
+        }
+      ]
+    }
+  ],
+  "install_reports": [],
+  "available_tool_ids": [
+    "python_math_stack",
+    "z3",
+    "lean4",
+    "pari_gp",
+    "gap",
+    "singular",
+    "maxima",
+    "cvc5",
+    "sagemath",
+    "coq"
+  ],
+  "unavailable_tool_ids": [],
+  "all_selected_available": true,
+  "report_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/math_tools_report.json",
+  "summary_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/math_tools_report.md"
+}

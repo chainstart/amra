@@ -1,0 +1,1 @@
+Verify the public Lean theorem missed_vertex_two_attachments_i_next_hits_predecessor_pair_of_indepNum_le_three_of_gap in Wowii198aLeftmost.lean.

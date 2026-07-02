@@ -1,0 +1,5 @@
+Iteration status: blocked
+Files changed: none
+Verifier command: not run by backend=none
+Remaining blocker: backend disabled
+Next target: rerun with backend=codex

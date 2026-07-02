@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-07-02T06:37:57+00:00",
+  "iteration": 8,
+  "backend": "none",
+  "backend_status": "skipped",
+  "backend_returncode": 0,
+  "backend_elapsed_seconds": 0.0,
+  "before_defect_score": 1000000,
+  "after_defect_score": 1000000,
+  "progress_delta": 0,
+  "stalled_attempts": 8,
+  "rollback_applied": false,
+  "verified": false,
+  "build_status": "failed",
+  "blockers": [
+    "Lean build status is `failed`, not `passed`."
+  ],
+  "counts": {
+    "sorry": 0,
+    "axiom": 0,
+    "constant": 0,
+    "admit": 0,
+    "placeholder": 0
+  },
+  "suggested_next_target": "rerun with backend=codex",
+  "prompt_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_008/prompt.txt",
+  "backend_last_message_path": "amra_library/formal/proof_notes/amra_runs/wowii198a-source-bound-refined-apex-frontier-probe/lean_formalizer/round-001-source-bound-b-eq-diam-add-two-forces-longest-path-refined-apex-pattern-frontier/attempts/attempt_008/backend_last_message.txt",
+  "system_headroom": {
+    "status": "ready",
+    "snapshot": {
+      "captured_at": 1782974272,
+      "cpu_count": 8,
+      "load1": 4.916,
+      "load5": 3.61,
+      "load15": 2.92,
+      "load_per_cpu": 0.614,
+      "mem_total_mb": 32098.2,
+      "mem_available_mb": 23886.3
+    },
+    "blockers": [],
+    "thresholds": {
+      "min_available_memory_mb": 2048,
+      "max_load_per_cpu": 1.5
+    },
+    "waited_seconds": 0.0,
+    "poll_count": 1,
+    "polls": [
+      {
+        "captured_at": 1782974272,
+        "cpu_count": 8,
+        "load1": 4.916,
+        "load5": 3.61,
+        "load15": 2.92,
+        "load_per_cpu": 0.614,
+        "mem_total_mb": 32098.2,
+        "mem_available_mb": 23886.3
+      }
+    ]
+  }
+}

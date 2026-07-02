@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-07-02T06:37:57+00:00",
+  "workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+  "target_theorem": "source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier",
+  "target_file": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+  "target": {
+    "found": true,
+    "kind": "lemma",
+    "name": "source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier",
+    "path": "/home/biostar/work/projects/amra/amra_library/formal/AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+    "relative_path": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+    "line": 57430,
+    "declaration_line": "lemma source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier"
+  },
+  "build_status": "failed",
+  "returncode": 137,
+  "diagnostics": [],
+  "diagnostic_count": 0,
+  "counts": {
+    "sorry": 0,
+    "axiom": 0,
+    "constant": 0,
+    "admit": 0,
+    "placeholder": 0
+  },
+  "target_header": "lemma source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier\n    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]\n    (G : SimpleGraph α)\n    (hconn : G.Connected)\n    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)\n    (hb2 : b G = G.diam + 2)\n    {a b v : α} (p : G.Walk a b)\n    (hpPath : p.IsPath)\n    (hmax : ∀ u w : α, ∀ q : G.Walk u w,\n      q.IsPath → q.support.length ≤ p.support.length)\n    (hv : v ∉ p.support) :\n    G.indepNum ≤ 3 ∧\n    (((∃ s t x y : α,\n      ∃ i j : ℕ, ∃ q : G.Walk x y,\n        0 < i ∧\n        i < j ∧\n        j < p.length ∧\n        x ∉ p.support ∧\n        y ∉ p.support ∧\n        p.getVert i = s ∧\n        p.getVert j = t ∧\n        G.Adj x s ∧\n        G.Adj y t ∧\n        i + 2 < j ∧\n        q.IsPath ∧\n        0 < q.length ∧\n        v ∈ q.support ∧\n        (∀ z : α, z ∈ q.support → z ∉ p.support) ∧\n        q.length + 2 ≤ j - i ∧\n        ¬ G.Adj x (p.getVert (i - 1)) ∧\n        ¬ G.Adj x (p.getVert (i + 1)) ∧\n        ¬ G.Adj y (p.getVert (j - 1)) ∧\n        ¬ G.Adj y (p.getVert (j + 1))) ∨\n    (∃ s t : α,\n      ∃ i j : ℕ,\n        0 < i ∧\n        i < j ∧\n        j < p.length ∧\n        p.getVert i = s ∧\n        p.getVert j = t ∧",
+  "expected_target_header": "",
+  "target_statement_match": {
+    "required": false,
+    "matched": null
+  },
+  "forbidden_target_header_patterns": [],
+  "forbidden_target_header_hits": [],
+  "defect_score": 1000000,
+  "verified": false,
+  "failure_mode": "blocked_formalization_gap",
+  "proof_loop_state": "blocked_formalization_gap",
+  "faithful_modeling_status": "blocked_formalization_gap",
+  "blockers": [
+    "Lean build status is `failed`, not `passed`."
+  ]
+}

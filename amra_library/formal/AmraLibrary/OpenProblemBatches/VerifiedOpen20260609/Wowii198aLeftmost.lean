@@ -3031,6 +3031,74 @@ lemma exists_path_of_delete_connected_avoiding
       exact hxH.2
     exact hnot (by simp)
 
+lemma endpoint_pair_no_small_separator_of_connected_delete_connected
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha]
+    {G : SimpleGraph alpha}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : alpha, ((⊤ : G.Subgraph).deleteVerts ({x} : Set alpha)).Connected)
+    {u w : alpha} (_huw : u ≠ w) :
+    ∀ C : Finset alpha, C.card < 2 → u ∉ C → w ∉ C →
+      ∃ p : G.Walk u w, p.IsPath ∧ ∀ z, z ∈ p.support → z ∉ C := by
+  classical
+  intro C hCcard huC hwC
+  have hcard_cases : C.card = 0 ∨ C.card = 1 := by omega
+  rcases hcard_cases with hC0 | hC1
+  · have hCempty : C = ∅ := Finset.card_eq_zero.mp hC0
+    rcases hconn.exists_isPath u w with ⟨p, hpPath⟩
+    refine ⟨p, hpPath, ?_⟩
+    intro z _hz hzC
+    simpa [hCempty] using hzC
+  · rcases Finset.card_eq_one.mp hC1 with ⟨x, rfl⟩
+    have hux : u ≠ x := by
+      intro hux_eq
+      exact huC (by simp [hux_eq])
+    have hwx : w ≠ x := by
+      intro hwx_eq
+      exact hwC (by simp [hwx_eq])
+    rcases exists_path_of_delete_connected_avoiding
+        (G := G) hdelete (x := x) (y := u) (z := w) hux hwx with
+      ⟨p, hpPath, hx_p⟩
+    refine ⟨p, hpPath, ?_⟩
+    intro z hz hzC
+    have hz_eq_x : z = x := by simpa using hzC
+    exact hx_p (by simpa [hz_eq_x] using hz)
+
+lemma terminal_set_no_small_endpoint_separator_of_connected_delete_connected
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha]
+    {G : SimpleGraph alpha}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : alpha, ((⊤ : G.Subgraph).deleteVerts ({x} : Set alpha)).Connected)
+    {v s t : alpha}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t) :
+    ∀ C : Finset alpha, C.card < 2 → v ∉ C →
+      ∃ u : alpha, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C := by
+  classical
+  intro C hCcard hvC
+  by_cases hsC : s ∈ C
+  · have htC : t ∉ C := by
+      intro htC
+      have hsubset : ({s, t} : Finset alpha) ⊆ C := by
+        intro z hz
+        simp only [Finset.mem_insert, Finset.mem_singleton] at hz
+        rcases hz with rfl | rfl
+        · exact hsC
+        · exact htC
+      have htwo_le : 2 ≤ C.card := by
+        have := Finset.card_le_card hsubset
+        simpa [hst] using this
+      omega
+    rcases endpoint_pair_no_small_separator_of_connected_delete_connected
+        (G := G) hconn hdelete (u := v) (w := t) hvt
+        C hCcard hvC htC with
+      ⟨q, hqPath, hqAvoid⟩
+    exact ⟨t, Or.inr rfl, htC, q, hqPath, hqAvoid⟩
+  · rcases endpoint_pair_no_small_separator_of_connected_delete_connected
+        (G := G) hconn hdelete (u := v) (w := s) hvs
+        C hCcard hvC hsC with
+      ⟨q, hqPath, hqAvoid⟩
+    exact ⟨s, Or.inl rfl, hsC, q, hqPath, hqAvoid⟩
+
 private lemma longest_path_no_adj_from_left_endpoint_outside
     {alpha : Type*} [Fintype alpha] [DecidableEq alpha]
     {G : SimpleGraph alpha}
@@ -3080,6 +3148,98 @@ private lemma missed_vertex_ne_right_endpoint
     v ≠ b := by
   intro h
   exact hv (h.symm ▸ p.end_mem_support)
+
+private lemma longest_path_no_outside_path_to_left_endpoint
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha]
+    {G : SimpleGraph alpha}
+    {a b v : alpha} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : alpha, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    {q : G.Walk v a}
+    (hqPath : q.IsPath)
+    (hqOutside : ∀ z : alpha, z ∈ q.support → z ≠ a → z ∉ p.support) :
+    False := by
+  classical
+  have hqaPath : (q.append p).IsPath := by
+    rw [Walk.isPath_def, Walk.support_append]
+    refine hqPath.support_nodup.append hpPath.support_nodup.tail ?_
+    rw [List.disjoint_left]
+    intro z hzq hzp_tail
+    have hzp : z ∈ p.support := List.mem_of_mem_tail hzp_tail
+    have hza : z ≠ a := by
+      intro hza
+      have ha_not_tail : a ∉ p.support.tail := by
+        have hnodup : (a :: p.support.tail).Nodup := by
+          simpa [← p.support_eq_cons] using hpPath.support_nodup
+        exact (List.nodup_cons.mp hnodup).1
+      exact ha_not_tail (by simpa [hza] using hzp_tail)
+    exact (hqOutside z hzq hza) hzp
+  have hle := hmax v b (q.append p) hqaPath
+  rw [Walk.support_append, List.length_append] at hle
+  have hva : v ≠ a := missed_vertex_ne_left_endpoint (G := G) p hv
+  have hq_len_pos : 0 < q.length := by
+    by_contra hnot
+    have hq_len_zero : q.length = 0 := Nat.eq_zero_of_not_pos hnot
+    have hva_eq : v = a := Walk.exists_length_eq_zero_iff.mp ⟨q, hq_len_zero⟩
+    exact hva hva_eq
+  have hq_support_two : 2 ≤ q.support.length := by
+    rw [Walk.length_support]
+    omega
+  have hp_tail_len : p.support.length = p.support.tail.length + 1 := by
+    rw [p.support_eq_cons]
+    simp
+  omega
+
+private lemma longest_path_no_outside_path_to_right_endpoint
+    {alpha : Type*} [Fintype alpha] [DecidableEq alpha]
+    {G : SimpleGraph alpha}
+    {a b v : alpha} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : alpha, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    {q : G.Walk v b}
+    (hqPath : q.IsPath)
+    (hqOutside : ∀ z : alpha, z ∈ q.support → z ≠ b → z ∉ p.support) :
+    False := by
+  classical
+  have hqbPath : (q.append p.reverse).IsPath := by
+    rw [Walk.isPath_def, Walk.support_append]
+    refine hqPath.support_nodup.append hpPath.reverse.support_nodup.tail ?_
+    rw [List.disjoint_left]
+    intro z hzq hzp_tail
+    have hzprev : z ∈ p.reverse.support := List.mem_of_mem_tail hzp_tail
+    have hzp : z ∈ p.support := by
+      rw [Walk.support_reverse] at hzprev
+      exact List.mem_reverse.mp hzprev
+    have hzb : z ≠ b := by
+      intro hzb
+      have hb_not_tail : b ∉ p.reverse.support.tail := by
+        have hnodup : p.reverse.support.Nodup := hpPath.reverse.support_nodup
+        rw [p.reverse.support_eq_cons] at hnodup
+        exact (List.nodup_cons.mp hnodup).1
+      exact hb_not_tail (by simpa [hzb] using hzp_tail)
+    exact (hqOutside z hzq hzb) hzp
+  have hle := hmax v a (q.append p.reverse) hqbPath
+  rw [Walk.support_append, List.length_append] at hle
+  have hvb : v ≠ b := missed_vertex_ne_right_endpoint (G := G) p hv
+  have hq_len_pos : 0 < q.length := by
+    by_contra hnot
+    have hq_len_zero : q.length = 0 := Nat.eq_zero_of_not_pos hnot
+    have hvb_eq : v = b := Walk.exists_length_eq_zero_iff.mp ⟨q, hq_len_zero⟩
+    exact hvb hvb_eq
+  have hq_support_two : 2 ≤ q.support.length := by
+    rw [Walk.length_support]
+    omega
+  have hp_tail_len :
+      p.support.length = p.reverse.support.tail.length + 1 := by
+    have hrev_len : p.reverse.support.length = p.support.length := by
+      simp [Walk.support_reverse]
+    rw [← hrev_len, p.reverse.support_eq_cons]
+    simp
+  omega
 
 private lemma longest_path_endpoints_ne_of_missed_vertex
     {alpha : Type*} [Fintype alpha] [DecidableEq alpha]
@@ -3225,6 +3385,29 @@ private lemma exists_getVert_eq_of_mem_support
     (by
       rw [p.getVert_eq_support_getElem hi_le]
       exact hi : p.getVert i.val = z)
+
+private lemma exists_internal_index_of_mem_support_ne_endpoints
+    {alpha : Type*}
+    {G : SimpleGraph alpha}
+    {a b x : alpha} (p : G.Walk a b)
+    (hx : x ∈ p.support)
+    (hxa : x ≠ a) (hxb : x ≠ b) :
+    ∃ i : ℕ, 0 < i ∧ i < p.length ∧ p.getVert i = x := by
+  rcases exists_getVert_eq_of_mem_support (G := G) p hx with
+    ⟨i, hi_le, hix⟩
+  have hi_pos : 0 < i := by
+    by_contra hnot
+    have hi_zero : i = 0 := Nat.eq_zero_of_not_pos hnot
+    have hxa_eq : x = a := by
+      simpa [hi_zero, Walk.getVert_zero] using hix.symm
+    exact hxa hxa_eq
+  have hi_lt : i < p.length := by
+    exact lt_of_le_of_ne hi_le (by
+      intro hi_eq
+      have hxb_eq : x = b := by
+        simpa [hi_eq] using hix.symm
+      exact hxb hxb_eq)
+  exact ⟨i, hi_pos, hi_lt, hix⟩
 
 private lemma support_take_disjoint_of_getVert_prefix
     {alpha : Type*}
@@ -3579,6 +3762,37 @@ private lemma exists_terminal_path_avoiding_singleton_of_terminal_set_separator
   · intro hxq
     exact hqAvoid x hxq (by simp)
 
+private lemma exists_left_or_right_terminal_path_avoiding_singleton_of_terminal_set_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (hxv : x ≠ v)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, qs.IsPath ∧ x ∉ qs.support) ∨
+      ∃ qt : G.Walk v t, qt.IsPath ∧ x ∉ qt.support := by
+  classical
+  rcases exists_terminal_path_avoiding_singleton_of_terminal_set_separator
+      (G := G) (v := v) (s := s) (t := t) (x := x) hxv hsep with
+    ⟨u, hu, _hux, q, hqPath, hxq⟩
+  rcases hu with hus | hut
+  · left
+    let qs : G.Walk v s := q.copy rfl hus
+    have hqsPath : qs.IsPath := by
+      simpa [qs] using hqPath
+    have hx_qs : x ∉ qs.support := by
+      intro hxmem
+      exact hxq (by simpa [qs] using hxmem)
+    exact ⟨qs, hqsPath, hx_qs⟩
+  · right
+    let qt : G.Walk v t := q.copy rfl hut
+    have hqtPath : qt.IsPath := by
+      simpa [qt] using hqPath
+    have hx_qt : x ∉ qt.support := by
+      intro hxmem
+      exact hxq (by simpa [qt] using hxmem)
+    exact ⟨qt, hqtPath, hx_qt⟩
+
 private def terminalReplacementPathSupportLengthMinimal
     {α : Type*} [DecidableEq α]
     {G : SimpleGraph α} {v u : α} (x : α) (p : G.Path v u) : Prop :=
@@ -3621,9 +3835,31 @@ private lemma exists_support_length_minimal_path_avoiding
       le_of_not_ge hle
     have hmin :
         (p.1 : G.Walk v u).support.length ≤
-          (p'sub.1 : G.Walk v u).support.length :=
+        (p'sub.1 : G.Walk v u).support.length :=
       hp.2 (by simp) hp'_le_p
     simpa [p'sub] using hmin
+
+private lemma terminalReplacementPathSupportLengthMinimal_support_length_le_of_walk
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v u x : α}
+    {p : G.Path v u} {q : G.Walk v u}
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) x p)
+    (hq : q.IsPath) (hxq : x ∉ q.support) :
+    (p : G.Walk v u).support.length ≤ q.support.length := by
+  exact hmin.2 ⟨q, hq⟩ hxq
+
+private lemma terminalReplacementPathSupportLengthMinimal_all_avoiding_walk_longer_of_baseline_lt
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v u x : α}
+    {p : G.Path v u} {base : G.Walk v u}
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) x p)
+    (hbase_lt : base.support.length < (p : G.Walk v u).support.length) :
+    ∀ q : G.Walk v u, q.IsPath → x ∉ q.support →
+      base.support.length < q.support.length := by
+  intro q hqPath hxq
+  exact lt_of_lt_of_le hbase_lt
+    (terminalReplacementPathSupportLengthMinimal_support_length_le_of_walk
+      (G := G) (p := p) (q := q) hmin hqPath hxq)
 
 private lemma common_support_erase_card_eq_zero_of_meet_only_apex
     {α : Type*} [DecidableEq α]
@@ -3923,6 +4159,32 @@ private def terminalPathPairSupportLength
     (pair : G.Path v s × G.Path v t) : ℕ :=
   (pair.1 : G.Walk v s).support.length +
     (pair.2 : G.Walk v t).support.length
+
+private lemma left_replacement_support_length_lt_of_pair_supportLength_lt
+    {α : Type*}
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    (hsupport :
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength (rs, pair.2)) :
+    (pair.1 : G.Walk v s).support.length <
+      (rs : G.Walk v s).support.length := by
+  dsimp [terminalPathPairSupportLength] at hsupport ⊢
+  omega
+
+private lemma right_replacement_support_length_lt_of_pair_supportLength_lt
+    {α : Type*}
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    (hsupport :
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength (pair.1, rt)) :
+    (pair.2 : G.Walk v t).support.length <
+      (rt : G.Walk v t).support.length := by
+  dsimp [terminalPathPairSupportLength] at hsupport ⊢
+  omega
 
 private lemma support_length_toPath_le
     {α : Type*} {G : SimpleGraph α} {u v : α}
@@ -4446,6 +4708,47 @@ private lemma terminalPathPairWeightedMeasure_le_of_commonCard_le_supportLength_
     (Nat.mul_le_mul_right (2 * Fintype.card α + 3) hcommon)
     hsupport
 
+private lemma terminalPathPairWeightedMeasure_lt_commonCard_or_supportLength_lt
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair pair' : G.Path v s × G.Path v t}
+    (hmeasure :
+      terminalPathPairWeightedMeasure (G := G) pair <
+        terminalPathPairWeightedMeasure (G := G) pair') :
+    terminalPathPairCommonCard pair < terminalPathPairCommonCard pair' ∨
+      terminalPathPairCommonCard pair = terminalPathPairCommonCard pair' ∧
+        terminalPathPairSupportLength pair <
+          terminalPathPairSupportLength pair' := by
+  classical
+  by_cases hcommon :
+      terminalPathPairCommonCard pair < terminalPathPairCommonCard pair'
+  · exact Or.inl hcommon
+  · right
+    have hnot_reverse :
+        ¬ terminalPathPairCommonCard pair' <
+          terminalPathPairCommonCard pair := by
+      intro hreverse
+      have hreverse_measure :
+          terminalPathPairWeightedMeasure (G := G) pair' <
+            terminalPathPairWeightedMeasure (G := G) pair :=
+        terminalPathPairWeightedMeasure_lt_of_commonCard_lt
+          (G := G) (pair := pair) (pair' := pair') hreverse
+      exact (Nat.not_lt_of_ge (Nat.le_of_lt hmeasure)) hreverse_measure
+    have hle : terminalPathPairCommonCard pair' ≤
+        terminalPathPairCommonCard pair :=
+      le_of_not_gt hcommon
+    have hge : terminalPathPairCommonCard pair ≤
+        terminalPathPairCommonCard pair' :=
+      le_of_not_gt hnot_reverse
+    have heq :
+        terminalPathPairCommonCard pair =
+          terminalPathPairCommonCard pair' :=
+      le_antisymm hge hle
+    refine ⟨heq, ?_⟩
+    dsimp [terminalPathPairWeightedMeasure] at hmeasure
+    rw [heq] at hmeasure
+    exact Nat.lt_of_add_lt_add_left hmeasure
+
 private lemma false_of_weighted_min_and_commonCard_le_supportLength_lt
     {α : Type*} [Fintype α] [DecidableEq α]
     {G : SimpleGraph α} {v s t : α}
@@ -4668,6 +4971,96 @@ private lemma exists_new_right_replacement_intersection_of_not_commonCard_lt
     have hyA : y ∈ A := by
       simp [A, hyv, hyleft, hyright]
     exact hy_not_old_erase (by simp [hyA, hyx])
+  exact ⟨y, hyv, hyleft, hyr, hy_not_right⟩
+
+private lemma exists_new_left_replacement_intersection_of_commonCard_lt
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    (hcommon :
+      terminalPathPairCommonCard pair <
+        terminalPathPairCommonCard (rs, pair.2)) :
+    ∃ y : α,
+      y ≠ v ∧
+      y ∈ (rs : G.Walk v s).support ∧
+      y ∈ (pair.2 : G.Walk v t).support ∧
+      y ∉ (pair.1 : G.Walk v s).support := by
+  classical
+  let A : Finset α :=
+    (((pair.1 : G.Walk v s).support.toFinset ∩
+      (pair.2 : G.Walk v t).support.toFinset).erase v)
+  let B : Finset α :=
+    (((rs : G.Walk v s).support.toFinset ∩
+      (pair.2 : G.Walk v t).support.toFinset).erase v)
+  have hcard : A.card < B.card := by
+    simpa [A, B, terminalPathPairCommonCard] using hcommon
+  rcases Finset.exists_mem_notMem_of_card_lt_card hcard with
+    ⟨y, hyB, hy_not_A⟩
+  have hyv : y ≠ v := by
+    simpa [B] using (Finset.mem_erase.mp hyB).1
+  have hyr : y ∈ (rs : G.Walk v s).support := by
+    have hyinter :
+        y ∈ (rs : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset :=
+      (Finset.mem_erase.mp hyB).2
+    simpa using (Finset.mem_inter.mp hyinter).1
+  have hyright : y ∈ (pair.2 : G.Walk v t).support := by
+    have hyinter :
+        y ∈ (rs : G.Walk v s).support.toFinset ∩
+          (pair.2 : G.Walk v t).support.toFinset :=
+      (Finset.mem_erase.mp hyB).2
+    simpa using (Finset.mem_inter.mp hyinter).2
+  have hy_not_left : y ∉ (pair.1 : G.Walk v s).support := by
+    intro hyleft
+    have hyA : y ∈ A := by
+      simp [A, hyv, hyleft, hyright]
+    exact hy_not_A hyA
+  exact ⟨y, hyv, hyr, hyright, hy_not_left⟩
+
+private lemma exists_new_right_replacement_intersection_of_commonCard_lt
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    (hcommon :
+      terminalPathPairCommonCard pair <
+        terminalPathPairCommonCard (pair.1, rt)) :
+    ∃ y : α,
+      y ≠ v ∧
+      y ∈ (pair.1 : G.Walk v s).support ∧
+      y ∈ (rt : G.Walk v t).support ∧
+      y ∉ (pair.2 : G.Walk v t).support := by
+  classical
+  let A : Finset α :=
+    (((pair.1 : G.Walk v s).support.toFinset ∩
+      (pair.2 : G.Walk v t).support.toFinset).erase v)
+  let B : Finset α :=
+    (((pair.1 : G.Walk v s).support.toFinset ∩
+      (rt : G.Walk v t).support.toFinset).erase v)
+  have hcard : A.card < B.card := by
+    simpa [A, B, terminalPathPairCommonCard] using hcommon
+  rcases Finset.exists_mem_notMem_of_card_lt_card hcard with
+    ⟨y, hyB, hy_not_A⟩
+  have hyv : y ≠ v := by
+    simpa [B] using (Finset.mem_erase.mp hyB).1
+  have hyleft : y ∈ (pair.1 : G.Walk v s).support := by
+    have hyinter :
+        y ∈ (pair.1 : G.Walk v s).support.toFinset ∩
+          (rt : G.Walk v t).support.toFinset :=
+      (Finset.mem_erase.mp hyB).2
+    simpa using (Finset.mem_inter.mp hyinter).1
+  have hyr : y ∈ (rt : G.Walk v t).support := by
+    have hyinter :
+        y ∈ (pair.1 : G.Walk v s).support.toFinset ∩
+          (rt : G.Walk v t).support.toFinset :=
+      (Finset.mem_erase.mp hyB).2
+    simpa using (Finset.mem_inter.mp hyinter).2
+  have hy_not_right : y ∉ (pair.2 : G.Walk v t).support := by
+    intro hyright
+    have hyA : y ∈ A := by
+      simp [A, hyv, hyleft, hyright]
+    exact hy_not_A hyA
   exact ⟨y, hyv, hyleft, hyr, hy_not_right⟩
 
 private lemma mem_support_toPath_append_takeUntil_dropUntil_subset
@@ -5041,6 +5434,152 @@ private lemma exists_first_mem_support_forall_mem_takeUntil_imp_eq
   rcases p.exists_mem_support_forall_mem_support_imp_eq S hnonempty with
     ⟨z, hzS, hzsup, hfirst⟩
   exact ⟨z, hzS, hzsup, hfirst⟩
+
+private lemma exists_first_entry_prefix_to_finset
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v t : α}
+    (p : G.Walk v t) (S : Finset α)
+    (hpPath : p.IsPath)
+    (htS : t ∈ S) :
+    ∃ s : α, s ∈ S ∧ ∃ hsupp : s ∈ p.support,
+      (p.takeUntil s hsupp).IsPath ∧
+      s ∈ (p.takeUntil s hsupp).support ∧
+      ∀ z : α, z ∈ (p.takeUntil s hsupp).support → z ≠ s → z ∉ S := by
+  classical
+  have hnonempty : {y ∈ S | y ∈ p.support}.Nonempty := by
+    refine ⟨t, ?_⟩
+    simp [htS, p.end_mem_support]
+  rcases exists_first_mem_support_forall_mem_takeUntil_imp_eq
+      (G := G) p S hnonempty with
+    ⟨s, hsS, hsupp, hfirst⟩
+  refine ⟨s, hsS, hsupp, ?_, ?_, ?_⟩
+  · exact Walk.isPath_of_isSubwalk (Walk.isSubwalk_takeUntil p hsupp) hpPath
+  · exact (p.takeUntil s hsupp).end_mem_support
+  · intro z hz hzs_ne hzS
+    exact hzs_ne (hfirst z hzS hz)
+
+lemma terminal_two_fan_first_entry_prefixes_to_finset
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (S : Finset α)
+    (hvS : v ∉ S)
+    {qs : G.Walk v s} {qt : G.Walk v t}
+    (hsS : s ∈ S) (htS : t ∈ S)
+    (hqsPath : qs.IsPath) (hqtPath : qt.IsPath)
+    (hmeet : ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) :
+    ∃ s' t' : α, ∃ qs' : G.Walk v s', ∃ qt' : G.Walk v t',
+      s' ∈ S ∧
+      t' ∈ S ∧
+      s' ≠ t' ∧
+      qs'.IsPath ∧
+      qt'.IsPath ∧
+      (∀ z : α, z ∈ qs'.support → z ∈ qt'.support → z = v) ∧
+      (∀ z : α, z ∈ qs'.support → z ≠ s' → z ∉ S) ∧
+      (∀ z : α, z ∈ qt'.support → z ≠ t' → z ∉ S) := by
+  classical
+  rcases exists_first_entry_prefix_to_finset
+      (G := G) qs S hqsPath hsS with
+    ⟨s', hs'S, hs'supp, hqs'Path, _hs'_prefix, hqs'_avoid⟩
+  rcases exists_first_entry_prefix_to_finset
+      (G := G) qt S hqtPath htS with
+    ⟨t', ht'S, ht'supp, hqt'Path, _ht'_prefix, hqt'_avoid⟩
+  let qs' : G.Walk v s' := qs.takeUntil s' hs'supp
+  let qt' : G.Walk v t' := qt.takeUntil t' ht'supp
+  have hdistinct : s' ≠ t' := by
+    intro hst'
+    have hs'_qt : s' ∈ qt.support := by
+      simpa [hst'] using ht'supp
+    have hs'_v : s' = v := hmeet s' hs'supp hs'_qt
+    exact hvS (by simpa [hs'_v] using hs'S)
+  refine ⟨s', t', qs', qt', hs'S, ht'S, hdistinct, ?_, ?_, ?_, ?_, ?_⟩
+  · simpa [qs'] using hqs'Path
+  · simpa [qt'] using hqt'Path
+  · intro z hzqs hzqt
+    exact hmeet z
+      (Walk.support_takeUntil_subset qs hs'supp (by simpa [qs'] using hzqs))
+      (Walk.support_takeUntil_subset qt ht'supp (by simpa [qt'] using hzqt))
+  · simpa [qs'] using hqs'_avoid
+  · simpa [qt'] using hqt'_avoid
+
+private lemma exists_last_step_from_outside_finset_of_first_entry_path
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s : α}
+    (S : Finset α)
+    (hvS : v ∉ S)
+    {q : G.Walk v s}
+    (hsS : s ∈ S)
+    (hqOutside : ∀ z : α, z ∈ q.support → z ≠ s → z ∉ S) :
+    ∃ x : α, x ∉ S ∧ G.Adj x s ∧ x ∈ q.support := by
+  classical
+  have hvs : v ≠ s := by
+    intro hvs_eq
+    exact hvS (by simpa [hvs_eq] using hsS)
+  have hq_len_pos : 0 < q.length := by
+    by_contra hnot
+    have hq_len_zero : q.length = 0 := Nat.eq_zero_of_not_pos hnot
+    have hvs_eq : v = s := Walk.exists_length_eq_zero_iff.mp ⟨q, hq_len_zero⟩
+    exact hvs hvs_eq
+  let k : ℕ := q.length - 1
+  have hk_lt : k < q.length := by
+    dsimp [k]
+    omega
+  have hk_succ : k + 1 = q.length := by
+    dsimp [k]
+    omega
+  let x : α := q.getVert k
+  have hadj : G.Adj x s := by
+    have hadj_step : G.Adj (q.getVert k) (q.getVert (k + 1)) :=
+      q.adj_getVert_succ hk_lt
+    simpa [x, hk_succ] using hadj_step
+  have hx_ne_s : x ≠ s := by
+    intro hxs
+    exact G.loopless s (by simpa [hxs] using hadj)
+  have hx_support : x ∈ q.support := by
+    simpa [x] using q.getVert_mem_support k
+  exact ⟨x, hqOutside x hx_support hx_ne_s, hadj, hx_support⟩
+
+private lemma terminal_two_fan_connector_path_avoids_finset_except_endpoints
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (S : Finset α)
+    {qs : G.Walk v s} {qt : G.Walk v t}
+    (hqsPath : qs.IsPath) (hqtPath : qt.IsPath)
+    (hmeet : ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v)
+    (hqsOutside : ∀ z : α, z ∈ qs.support → z ≠ s → z ∉ S)
+    (hqtOutside : ∀ z : α, z ∈ qt.support → z ≠ t → z ∉ S) :
+    ∃ r : G.Walk s t,
+      r.IsPath ∧
+      v ∈ r.support ∧
+      ∀ z : α, z ∈ r.support → z ≠ s → z ≠ t → z ∉ S := by
+  classical
+  let r : G.Walk s t := qs.reverse.append qt
+  refine ⟨r, ?_, ?_, ?_⟩
+  · rw [Walk.isPath_def]
+    dsimp [r]
+    rw [Walk.support_append]
+    refine hqsPath.reverse.support_nodup.append hqtPath.support_nodup.tail ?_
+    rw [List.disjoint_left]
+    intro z hzqs_rev hzqt_tail
+    have hzqs : z ∈ qs.support := by
+      rw [Walk.support_reverse] at hzqs_rev
+      exact List.mem_reverse.mp hzqs_rev
+    have hzqt : z ∈ qt.support := List.mem_of_mem_tail hzqt_tail
+    have hzv : z = v := hmeet z hzqs hzqt
+    have hv_tail : v ∈ qt.support.tail := by
+      simpa [hzv] using hzqt_tail
+    have hqt_support_nodup :
+        (v :: qt.support.tail).Nodup := by
+      simpa [← qt.support_eq_cons] using hqtPath.support_nodup
+    exact (List.nodup_cons.mp hqt_support_nodup).1 hv_tail
+  · dsimp [r]
+    exact reverse_append_common_start_mem_support qs qt
+  · intro z hz hzs hzt
+    dsimp [r] at hz
+    rw [Walk.mem_support_append_iff] at hz
+    rcases hz with hzqs_rev | hzqt
+    · rw [Walk.support_reverse] at hzqs_rev
+      exact hqsOutside z (List.mem_reverse.mp hzqs_rev) hzs
+    · exact hqtOutside z hzqt hzt
 
 private lemma not_both_mem_dropUntil_on_simple_path
     {α : Type*} [DecidableEq α]
@@ -9460,6 +9999,26 @@ private lemma not_mem_terminalPathPairRightPrefixOnlyDefectSet_of_not_mem_right
     (Walk.support_takeUntil_subset (pair.2 : G.Walk v t) hc_right
       hz_prefix)
 
+private lemma terminalPathPairLeftPrefixOnlyDefect_ne_apex_of_not_mem_right
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hz_not_right : z ∉ (pair.2 : G.Walk v t).support) :
+    z ≠ v := by
+  intro hzv
+  exact hz_not_right
+    (by simpa [hzv] using (pair.2 : G.Walk v t).start_mem_support)
+
+private lemma terminalPathPairRightPrefixOnlyDefect_ne_apex_of_not_mem_left
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support) :
+    z ≠ v := by
+  intro hzv
+  exact hz_not_left
+    (by simpa [hzv] using (pair.1 : G.Walk v s).start_mem_support)
+
 private lemma terminalPathPairLeftPrefixOnlyDefect_le_of_defectSet_subset
     {α : Type*} [Fintype α] [DecidableEq α]
     {G : SimpleGraph α} {v s t : α}
@@ -9639,6 +10198,330 @@ private lemma terminalPathPairRightPrefixOnlyDefectSet_mem_and_absent_after_altL
     (mem_terminalPathPairRightPrefixOnlyDefectSet
       (G := G) (pair := (altLeft, pair.2)) (z := z)).mp hz_new |>.1
   exact hz_not_alt (by simpa [altLeft] using hz_alt)
+
+private lemma terminalPathPairLeftPrefixOnlyDefectSet_mem_and_absent_after_left_replacement_avoids
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    {qs : G.Walk v s}
+    (hqsPath : qs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hz_not_right : z ∉ (pair.2 : G.Walk v t).support)
+    (hz_qs : z ∉ qs.support) :
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨qs, hqsPath⟩ : G.Path v s), pair.2)
+    z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair := by
+  classical
+  dsimp
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨qs, hqsPath⟩ : G.Path v s), pair.2)
+  have hz_old :
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair :=
+    terminalPathPairLeftPrefixOnlyDefectSet_mem_of_prefix_only
+      (G := G) (pair := pair) hx_left hx_right hz_prefix hz_not_right
+  have hz_new_absent :
+      z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair :=
+    not_mem_terminalPathPairLeftPrefixOnlyDefectSet_of_not_mem_left
+      (G := G) (pair := altPair) (z := z)
+      (by simpa [altPair] using hz_qs)
+  exact ⟨hz_old, hz_new_absent⟩
+
+private lemma terminalPathPairRightPrefixOnlyDefectSet_mem_and_absent_after_right_replacement_avoids
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    {qt : G.Walk v t}
+    (hqtPath : qt.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hz_qt : z ∉ qt.support) :
+    let altPair : G.Path v s × G.Path v t :=
+      (pair.1, (⟨qt, hqtPath⟩ : G.Path v t))
+    z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+      z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair := by
+  classical
+  dsimp
+  let altPair : G.Path v s × G.Path v t :=
+    (pair.1, (⟨qt, hqtPath⟩ : G.Path v t))
+  have hz_old :
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair :=
+    terminalPathPairRightPrefixOnlyDefectSet_mem_of_prefix_only
+      (G := G) (pair := pair) hx_left hx_right hz_prefix hz_not_left
+  have hz_new_absent :
+      z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair :=
+    not_mem_terminalPathPairRightPrefixOnlyDefectSet_of_not_mem_right
+      (G := G) (pair := altPair) (z := z)
+      (by simpa [altPair] using hz_qt)
+  exact ⟨hz_old, hz_new_absent⟩
+
+private lemma terminalPathPairPrefixOnlyDefect_lt_after_left_replacement_avoids_of_defectSet_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    {qs : G.Walk v s}
+    (hqsPath : qs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hz_not_right : z ∉ (pair.2 : G.Walk v t).support)
+    (hz_qs : z ∉ qs.support) :
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨qs, hqsPath⟩ : G.Path v s), pair.2)
+    (∀ w : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) →
+    terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+    terminalPathPairPrefixOnlyDefect (G := G) altPair <
+      terminalPathPairPrefixOnlyDefect (G := G) pair := by
+  classical
+  dsimp
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨qs, hqsPath⟩ : G.Path v s), pair.2)
+  intro hleft_sub hright_sub
+  have hz_removed :
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+        z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair := by
+    simpa [altPair] using
+      (terminalPathPairLeftPrefixOnlyDefectSet_mem_and_absent_after_left_replacement_avoids
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (z := z) (pair := pair) (qs := qs)
+        hqsPath hx_left hx_right hz_prefix hz_not_right hz_qs)
+  exact
+    terminalPathPairPrefixOnlyDefect_lt_of_left_defectSet_subset_erase_right_defectSet_subset
+      (G := G) (pair := pair) (pair' := altPair) (z := z)
+      (hleft_sub z hz_removed.1 hz_removed.2)
+      hz_removed.1
+      hright_sub
+
+private lemma terminalPathPairPrefixOnlyDefect_lt_after_right_replacement_avoids_of_defectSet_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    {qt : G.Walk v t}
+    (hqtPath : qt.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hz_qt : z ∉ qt.support) :
+    let altPair : G.Path v s × G.Path v t :=
+      (pair.1, (⟨qt, hqtPath⟩ : G.Path v t))
+    terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+    (∀ w : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w) →
+    terminalPathPairPrefixOnlyDefect (G := G) altPair <
+      terminalPathPairPrefixOnlyDefect (G := G) pair := by
+  classical
+  dsimp
+  let altPair : G.Path v s × G.Path v t :=
+    (pair.1, (⟨qt, hqtPath⟩ : G.Path v t))
+  intro hleft_sub hright_sub
+  have hz_removed :
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+        z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair := by
+    simpa [altPair] using
+      (terminalPathPairRightPrefixOnlyDefectSet_mem_and_absent_after_right_replacement_avoids
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (z := z) (pair := pair) (qt := qt)
+        hqtPath hx_left hx_right hz_prefix hz_not_left hz_qt)
+  exact
+    terminalPathPairPrefixOnlyDefect_lt_of_left_defectSet_subset_right_defectSet_subset_erase
+      (G := G) (pair := pair) (pair' := altPair) (z := z)
+      hleft_sub
+      (hright_sub z hz_removed.1 hz_removed.2)
+      hz_removed.1
+
+private lemma terminalPathPairSecondaryMinimal_false_after_left_replacement_avoids_of_defectSet_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    {qs : G.Walk v s}
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hqsPath : qs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hz_not_right : z ∉ (pair.2 : G.Walk v t).support)
+    (hz_qs : z ∉ qs.support) :
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨qs, hqsPath⟩ : G.Path v s), pair.2)
+    terminalPathPairWeightedMeasureMinimal (G := G) altPair →
+    (∀ w : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) →
+    terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+    False := by
+  classical
+  dsimp
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨qs, hqsPath⟩ : G.Path v s), pair.2)
+  intro halt_min hleft_sub hright_sub
+  have hlt :
+      terminalPathPairPrefixOnlyDefect (G := G) altPair <
+        terminalPathPairPrefixOnlyDefect (G := G) pair :=
+    terminalPathPairPrefixOnlyDefect_lt_after_left_replacement_avoids_of_defectSet_subsets
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z) (pair := pair) (qs := qs)
+      hqsPath hx_left hx_right hz_prefix hz_not_right hz_qs
+      hleft_sub hright_sub
+  have hle :
+      terminalPathPairPrefixOnlyDefect (G := G) pair ≤
+        terminalPathPairPrefixOnlyDefect (G := G) altPair :=
+    hsecondary_min altPair halt_min
+  omega
+
+private lemma terminalPathPairSecondaryMinimal_false_after_right_replacement_avoids_of_defectSet_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    {qt : G.Walk v t}
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hqtPath : qt.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hz_qt : z ∉ qt.support) :
+    let altPair : G.Path v s × G.Path v t :=
+      (pair.1, (⟨qt, hqtPath⟩ : G.Path v t))
+    terminalPathPairWeightedMeasureMinimal (G := G) altPair →
+    terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+    (∀ w : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w) →
+    False := by
+  classical
+  dsimp
+  let altPair : G.Path v s × G.Path v t :=
+    (pair.1, (⟨qt, hqtPath⟩ : G.Path v t))
+  intro halt_min hleft_sub hright_sub
+  have hlt :
+      terminalPathPairPrefixOnlyDefect (G := G) altPair <
+        terminalPathPairPrefixOnlyDefect (G := G) pair :=
+    terminalPathPairPrefixOnlyDefect_lt_after_right_replacement_avoids_of_defectSet_subsets
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z) (pair := pair) (qt := qt)
+      hqtPath hx_left hx_right hz_prefix hz_not_left hz_qt
+      hleft_sub hright_sub
+  have hle :
+      terminalPathPairPrefixOnlyDefect (G := G) pair ≤
+        terminalPathPairPrefixOnlyDefect (G := G) altPair :=
+    hsecondary_min altPair halt_min
+  omega
+
+private lemma terminalPathPairSecondaryMinimal_false_after_left_replacement_avoids_measure_le_defectSet_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    {qs : G.Walk v s}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hqsPath : qs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hz_not_right : z ∉ (pair.2 : G.Walk v t).support)
+    (hz_qs : z ∉ qs.support) :
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨qs, hqsPath⟩ : G.Path v s), pair.2)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair →
+      (∀ w : α,
+        w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      False := by
+  classical
+  dsimp
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨qs, hqsPath⟩ : G.Path v s), pair.2)
+  intro hmeasure_le hleft_sub hright_sub
+  have halt_min : terminalPathPairWeightedMeasureMinimal (G := G) altPair :=
+    terminalPathPairWeightedMeasureMinimal_of_measure_le
+      (G := G) (pair := pair) (pair' := altPair) hpair_min hmeasure_le
+  exact
+    terminalPathPairSecondaryMinimal_false_after_left_replacement_avoids_of_defectSet_subsets
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z) (pair := pair) (qs := qs)
+      hsecondary_min hqsPath hx_left hx_right hz_prefix hz_not_right
+      hz_qs halt_min hleft_sub hright_sub
+
+private lemma terminalPathPairSecondaryMinimal_false_after_right_replacement_avoids_measure_le_defectSet_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    {qt : G.Walk v t}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hqtPath : qt.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hz_qt : z ∉ qt.support) :
+    let altPair : G.Path v s × G.Path v t :=
+      (pair.1, (⟨qt, hqtPath⟩ : G.Path v t))
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      (∀ w : α,
+        w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w) →
+      False := by
+  classical
+  dsimp
+  let altPair : G.Path v s × G.Path v t :=
+    (pair.1, (⟨qt, hqtPath⟩ : G.Path v t))
+  intro hmeasure_le hleft_sub hright_sub
+  have halt_min : terminalPathPairWeightedMeasureMinimal (G := G) altPair :=
+    terminalPathPairWeightedMeasureMinimal_of_measure_le
+      (G := G) (pair := pair) (pair' := altPair) hpair_min hmeasure_le
+  exact
+    terminalPathPairSecondaryMinimal_false_after_right_replacement_avoids_of_defectSet_subsets
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z) (pair := pair) (qt := qt)
+      hsecondary_min hqtPath hx_left hx_right hz_prefix hz_not_left
+      hz_qt halt_min hleft_sub hright_sub
 
 private lemma terminalPathPairLeftPrefixOnlyDefect_pos_of_prefix_only
     {α : Type*} [Fintype α] [DecidableEq α]
@@ -10327,6 +11210,214 @@ private lemma terminalPathPairSecondaryMinimal_false_after_replacement_altLeft_o
       (x := x) (z := z) (pair := pair) (rt := rt)
       hsecondary_min hrtPath hx_left hx_right hz_prefix hz_not_left
       hz_alt halt_min hleft_sub hright_sub
+
+private lemma terminalPathPairPrefixOnlyDefect_lt_after_altRight_of_absent_alt_defectSet_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hz_not_right : z ∉ (pair.2 : G.Walk v t).support)
+    (hz_alt :
+      z ∈
+        (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+            G.Walk v t).support) :
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t := (pair.1, altRight)
+    (∀ w : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) →
+    terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+    terminalPathPairPrefixOnlyDefect (G := G) altPair <
+      terminalPathPairPrefixOnlyDefect (G := G) pair := by
+  classical
+  dsimp
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (pair.1, altRight)
+  intro hleft_sub hright_sub
+  have hz_removed :
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+        z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair := by
+    simpa [altPair, altRight] using
+      (terminalPathPairLeftPrefixOnlyDefectSet_mem_and_absent_after_altRight
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (z := z) (pair := pair)
+        hx_left hx_right hz_prefix hz_not_right hz_alt)
+  exact
+    terminalPathPairPrefixOnlyDefect_lt_of_left_defectSet_subset_erase_right_defectSet_subset
+      (G := G) (pair := pair) (pair' := altPair) (z := z)
+      (hleft_sub z hz_removed.1 hz_removed.2)
+      hz_removed.1
+      hright_sub
+
+private lemma terminalPathPairPrefixOnlyDefect_lt_after_altLeft_of_absent_alt_defectSet_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hz_alt :
+      z ∈
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support) :
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t := (altLeft, pair.2)
+    terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+    (∀ w : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w) →
+    terminalPathPairPrefixOnlyDefect (G := G) altPair <
+      terminalPathPairPrefixOnlyDefect (G := G) pair := by
+  classical
+  dsimp
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, pair.2)
+  intro hleft_sub hright_sub
+  have hz_removed :
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+        z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair := by
+    simpa [altPair, altLeft] using
+      (terminalPathPairRightPrefixOnlyDefectSet_mem_and_absent_after_altLeft
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (z := z) (pair := pair)
+        hx_left hx_right hz_prefix hz_not_left hz_alt)
+  exact
+    terminalPathPairPrefixOnlyDefect_lt_of_left_defectSet_subset_right_defectSet_subset_erase
+      (G := G) (pair := pair) (pair' := altPair) (z := z)
+      hleft_sub
+      (hright_sub z hz_removed.1 hz_removed.2)
+      hz_removed.1
+
+private lemma terminalPathPairSecondaryMinimal_false_after_altRight_of_absent_alt_measure_le_defectSet_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hz_not_right : z ∉ (pair.2 : G.Walk v t).support)
+    (hz_alt :
+      z ∈
+        (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+            G.Walk v t).support) :
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t := (pair.1, altRight)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair →
+      (∀ w : α,
+        w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      False := by
+  classical
+  dsimp
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (pair.1, altRight)
+  intro hmeasure_le hleft_sub hright_sub
+  have halt_min : terminalPathPairWeightedMeasureMinimal (G := G) altPair :=
+    terminalPathPairWeightedMeasureMinimal_of_measure_le
+      (G := G) (pair := pair) (pair' := altPair) hpair_min hmeasure_le
+  have hlt :
+      terminalPathPairPrefixOnlyDefect (G := G) altPair <
+        terminalPathPairPrefixOnlyDefect (G := G) pair :=
+    terminalPathPairPrefixOnlyDefect_lt_after_altRight_of_absent_alt_defectSet_subsets
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z) (pair := pair)
+      hx_left hx_right hz_prefix hz_not_right hz_alt hleft_sub hright_sub
+  have hle :
+      terminalPathPairPrefixOnlyDefect (G := G) pair ≤
+        terminalPathPairPrefixOnlyDefect (G := G) altPair :=
+    hsecondary_min altPair halt_min
+  omega
+
+private lemma terminalPathPairSecondaryMinimal_false_after_altLeft_of_absent_alt_measure_le_defectSet_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support)
+    (hz_alt :
+      z ∈
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support) :
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t := (altLeft, pair.2)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      (∀ w : α,
+        w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w) →
+      False := by
+  classical
+  dsimp
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, pair.2)
+  intro hmeasure_le hleft_sub hright_sub
+  have halt_min : terminalPathPairWeightedMeasureMinimal (G := G) altPair :=
+    terminalPathPairWeightedMeasureMinimal_of_measure_le
+      (G := G) (pair := pair) (pair' := altPair) hpair_min hmeasure_le
+  have hlt :
+      terminalPathPairPrefixOnlyDefect (G := G) altPair <
+        terminalPathPairPrefixOnlyDefect (G := G) pair :=
+    terminalPathPairPrefixOnlyDefect_lt_after_altLeft_of_absent_alt_defectSet_subsets
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z) (pair := pair)
+      hx_left hx_right hz_prefix hz_not_left hz_alt hleft_sub hright_sub
+  have hle :
+      terminalPathPairPrefixOnlyDefect (G := G) pair ≤
+        terminalPathPairPrefixOnlyDefect (G := G) altPair :=
+    hsecondary_min altPair halt_min
+  omega
 
 lemma terminal_set_fan_left_first_crossing_splice_commonCard_lt_of_not_retained
     {α : Type*} [DecidableEq α]
@@ -27781,6 +28872,154 @@ lemma terminal_set_fan_right_first_guard_right_suffix_commonCard_lt
     _ < terminalPathPairCommonCard swappedOriginal := hpairSwap'_lt
     _ = terminalPathPairCommonCard pair := terminalPathPairCommonCard_swap pair
 
+lemma terminal_set_fan_left_middle_common_suffix_return_commonCard_lt
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y c : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Walk v s}
+    (hrsPath : rs.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rs : x ∉ rs.support)
+    (hw_rs : w ∈ rs.support)
+    (hw_left : w ∈ (pair.1 : G.Walk v s).support)
+    (hw_prefix_x :
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hy_rs : y ∈ rs.support)
+    (hy_tail : y ∈ (rs.dropUntil w hw_rs).support)
+    (hfirst_global :
+      ∀ a : α, a ≠ v →
+        a ∈ (pair.2 : G.Walk v t).support →
+        a ∉ (pair.1 : G.Walk v s).support →
+        a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        a ∈ (rs.takeUntil y hy_rs).support →
+        a = y)
+    (hc_mid : c ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support)
+    (hc_right : c ∈ (pair.2 : G.Walk v t).support)
+    (hc_right_suffix :
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support)
+    (hcy : c ≠ y) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  have hc_tail_w : c ∈ (rs.dropUntil w hw_rs).support :=
+    Walk.support_takeUntil_subset (rs.dropUntil w hw_rs) hy_tail hc_mid
+  rcases terminal_set_fan_left_front_suffix_return_guard_or_first_counterexample
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (z := c) (pair := pair) (rs := rs)
+      hx_left hx_right hxv hx_rs hw_rs hw_left hw_prefix_x
+      hc_tail_w hc_right_suffix with
+    hdescent | hcounter
+  · exact hdescent
+  · rcases hcounter with
+      ⟨q, hq_mid, hqv, _hq_swap, _hq_not_common, hfirst_bad,
+        hq_side⟩
+    rcases hq_side with hq_right_prefix | hq_left_suffix
+    · rcases hq_right_prefix with ⟨hq_right, hq_not_left, hq_prefix_x⟩
+      have hq_ne_y : q ≠ y := by
+        intro hqy
+        have hy_not_prefix_c :
+            y ∉ ((rs.dropUntil w hw_rs).takeUntil c hc_tail_w).support :=
+          not_mem_takeUntil_later_of_mem_takeUntil_of_support
+            (G := G) (p := rs.dropUntil w hw_rs)
+            hy_tail hc_tail_w hc_mid hcy
+        exact hy_not_prefix_c (by simpa [hqy] using hq_mid)
+      have hq_mid_y :
+          q ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support :=
+        mem_takeUntil_of_mem_takeUntil_of_mem_takeUntil
+          (G := G) (p := rs.dropUntil w hw_rs)
+          hy_tail hc_tail_w hc_mid hq_mid
+      have hq_prefix_y : q ∈ (rs.takeUntil y hy_rs).support :=
+        mem_takeUntil_of_mem_dropUntil_takeUntil_ne_on_isPath
+          (G := G) (p := rs) hrsPath hw_rs hy_rs hy_tail
+          hq_mid_y hq_ne_y
+      exact False.elim
+        (hq_ne_y
+          (hfirst_global q hqv hq_right hq_not_left hq_prefix_x
+            hq_prefix_y))
+    · rcases hq_left_suffix with ⟨hq_left, hq_not_right, hq_suffix_x⟩
+      have hwx : w ≠ x := by
+        intro hwx_eq
+        exact hx_rs (by simpa [hwx_eq] using hw_rs)
+      have hx_not_prefix_left :
+          x ∉ ((pair.1 : G.Walk v s).takeUntil w hw_left).support :=
+        not_mem_takeUntil_later_of_mem_takeUntil_of_support
+          (G := G) (p := (pair.1 : G.Walk v s))
+          hx_left hw_left hw_prefix_x hwx
+      exact
+        terminal_set_fan_left_first_guard_left_suffix_commonCard_lt
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := c) (q := q)
+          (pair := pair) (rs := rs)
+          hx_left hx_right hxv hx_rs hw_rs hw_left hx_not_prefix_left
+          hc_tail_w hc_right hc_right_suffix hq_mid hqv hq_left
+          hq_not_right hq_suffix_x hfirst_bad
+
+lemma terminal_set_fan_right_middle_common_suffix_return_commonCard_lt
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y c : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Walk v t}
+    (hrtPath : rt.IsPath)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hxv : x ≠ v)
+    (hx_rt : x ∉ rt.support)
+    (hw_rt : w ∈ rt.support)
+    (hw_right : w ∈ (pair.2 : G.Walk v t).support)
+    (hw_prefix_x :
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hy_rt : y ∈ rt.support)
+    (hy_tail : y ∈ (rt.dropUntil w hw_rt).support)
+    (hfirst_global :
+      ∀ a : α, a ≠ v →
+        a ∈ (pair.1 : G.Walk v s).support →
+        a ∉ (pair.2 : G.Walk v t).support →
+        a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        a ∈ (rt.takeUntil y hy_rt).support →
+        a = y)
+    (hc_mid : c ∈ ((rt.dropUntil w hw_rt).takeUntil y hy_tail).support)
+    (hc_left : c ∈ (pair.1 : G.Walk v s).support)
+    (hc_left_suffix :
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support)
+    (hcy : c ≠ y) :
+    ∃ pair' : G.Path v s × G.Path v t,
+      terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair := by
+  classical
+  let swappedOriginal : G.Path v t × G.Path v s := (pair.2, pair.1)
+  have hfirst_global_swap :
+      ∀ a : α, a ≠ v →
+        a ∈ (swappedOriginal.2 : G.Walk v s).support →
+        a ∉ (swappedOriginal.1 : G.Walk v t).support →
+        a ∈ ((swappedOriginal.2 : G.Walk v s).takeUntil x hx_left).support →
+        a ∈ (rt.takeUntil y hy_rt).support →
+        a = y := by
+    intro a hav ha_right ha_not_left ha_prefix ha_rt_prefix
+    exact hfirst_global a hav
+      (by simpa [swappedOriginal] using ha_right)
+      (by simpa [swappedOriginal] using ha_not_left)
+      (by simpa [swappedOriginal] using ha_prefix)
+      ha_rt_prefix
+  rcases terminal_set_fan_left_middle_common_suffix_return_commonCard_lt
+      (G := G) (v := v) (s := t) (t := s)
+      (x := x) (w := w) (y := y) (c := c)
+      (pair := swappedOriginal) (rs := rt)
+      hrtPath hx_right hx_left hxv hx_rt hw_rt hw_right hw_prefix_x
+      hy_rt hy_tail hfirst_global_swap hc_mid
+      (by simpa [swappedOriginal] using hc_left)
+      (by simpa [swappedOriginal] using hc_left_suffix)
+      hcy with
+    ⟨pairSwap', hpairSwap'_lt⟩
+  refine ⟨(pairSwap'.2, pairSwap'.1), ?_⟩
+  calc
+    terminalPathPairCommonCard
+        (((pairSwap'.2, pairSwap'.1) : G.Path v s × G.Path v t)) =
+        terminalPathPairCommonCard pairSwap' :=
+      terminalPathPairCommonCard_swap pairSwap'
+    _ < terminalPathPairCommonCard swappedOriginal := hpairSwap'_lt
+    _ = terminalPathPairCommonCard pair := terminalPathPairCommonCard_swap pair
+
 lemma terminal_set_fan_left_front_suffix_return_descent_or_post_prefix_or_same_prefix
     {α : Type*} [Fintype α] [DecidableEq α]
     {G : SimpleGraph α} {v s t x w y : α}
@@ -28906,12 +30145,346 @@ private def terminalSetFanRightBridgeFrontCleanSuffixBranch
       b ∉ (pair.1 : G.Walk v s).support ∧
       b ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
       ∀ q : α, q ≠ v →
-        q ∈ (pair.2 : G.Walk v t).support →
-        q ∉ (pair.1 : G.Walk v s).support →
-        q ∈
-          (((rt.dropUntil y hy).takeUntil z hz_tail_y).takeUntil b
-            hb_seg).support →
-        q = b
+          q ∈ (pair.2 : G.Walk v t).support →
+          q ∉ (pair.1 : G.Walk v s).support →
+          q ∈
+            (((rt.dropUntil y hy).takeUntil z hz_tail_y).takeUntil b
+              hb_seg).support →
+          q = b
+
+private abbrev terminalSetFanLeftBridgeFrontCleanSuffixCore
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Walk v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hw : w ∈ rs.support) (hy : y ∈ rs.support)
+    (hy_tail : y ∈ (rs.dropUntil w hw).support) : Prop :=
+  w ∉ (pair.2 : G.Walk v t).support ∧
+    (∀ z : α, z ∈ rs.support → z ≠ v →
+      z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+      z ∉ (pair.1 : G.Walk v s).support →
+      False) ∧
+    (∀ z : α, z ≠ v →
+      z ∈ (pair.1 : G.Walk v s).support →
+      z ∉ (pair.2 : G.Walk v t).support →
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+      z ∈ (rs.dropUntil y hy).support →
+      False) ∧
+    (∀ z : α, z ≠ v → z ≠ w →
+      z ∈ (pair.1 : G.Walk v s).support →
+      z ∉ (pair.2 : G.Walk v t).support →
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+      z ∈ ((rs.dropUntil w hw).takeUntil y hy_tail).support →
+      False)
+
+private abbrev terminalSetFanRightBridgeFrontCleanSuffixCore
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Walk v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hw : w ∈ rt.support) (hy : y ∈ rt.support)
+    (hy_tail : y ∈ (rt.dropUntil w hw).support) : Prop :=
+  w ∉ (pair.1 : G.Walk v s).support ∧
+    (∀ z : α, z ∈ rt.support → z ≠ v →
+      z ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+      z ∉ (pair.2 : G.Walk v t).support →
+      False) ∧
+    (∀ z : α, z ≠ v →
+      z ∈ (pair.2 : G.Walk v t).support →
+      z ∉ (pair.1 : G.Walk v s).support →
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+      z ∈ (rt.dropUntil y hy).support →
+      False) ∧
+    (∀ z : α, z ≠ v → z ≠ w →
+      z ∈ (pair.2 : G.Walk v t).support →
+      z ∉ (pair.1 : G.Walk v s).support →
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+      z ∈ ((rt.dropUntil w hw).takeUntil y hy_tail).support →
+      False)
+
+private abbrev terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Walk v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hw : w ∈ rs.support) (hy : y ∈ rs.support)
+    (hy_tail : y ∈ (rs.dropUntil w hw).support) : Prop :=
+  terminalSetFanLeftBridgeFrontCleanSuffixBranch
+    (G := G) (v := v) (s := s) (t := t)
+    (x := x) (w := w) (y := y) pair rs
+    hx_left hx_right hw hy hy_tail ∧
+  ¬ terminalSetFanLeftBridgeFrontCleanSuffixCore
+    (G := G) (v := v) (s := s) (t := t)
+    (x := x) (w := w) (y := y) pair rs
+    hx_left hx_right hw hy hy_tail
+
+private abbrev terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Walk v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hw : w ∈ rt.support) (hy : y ∈ rt.support)
+    (hy_tail : y ∈ (rt.dropUntil w hw).support) : Prop :=
+  terminalSetFanRightBridgeFrontCleanSuffixBranch
+    (G := G) (v := v) (s := s) (t := t)
+    (x := x) (w := w) (y := y) pair rt
+    hx_left hx_right hw hy hy_tail ∧
+  ¬ terminalSetFanRightBridgeFrontCleanSuffixCore
+    (G := G) (v := v) (s := s) (t := t)
+    (x := x) (w := w) (y := y) pair rt
+    hx_left hx_right hw hy hy_tail
+
+private abbrev terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Walk v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hw : w ∈ rs.support) (hy : y ∈ rs.support)
+    (hy_tail : y ∈ (rs.dropUntil w hw).support) : Prop :=
+  terminalSetFanLeftBridgeFrontCleanSuffixBranch
+    (G := G) (v := v) (s := s) (t := t)
+    (x := x) (w := w) (y := y) pair rs
+    hx_left hx_right hw hy hy_tail ∧
+  (w ∈ (pair.2 : G.Walk v t).support ∨
+    (∃ z : α,
+      z ∈ rs.support ∧ z ≠ v ∧
+      z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      z ∉ (pair.1 : G.Walk v s).support) ∨
+    (∃ z : α,
+      z ≠ v ∧
+      z ∈ (pair.1 : G.Walk v s).support ∧
+      z ∉ (pair.2 : G.Walk v t).support ∧
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      z ∈ (rs.dropUntil y hy).support) ∨
+    (∃ z : α,
+      z ≠ v ∧ z ≠ w ∧
+      z ∈ (pair.1 : G.Walk v s).support ∧
+      z ∉ (pair.2 : G.Walk v t).support ∧
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      z ∈ ((rs.dropUntil w hw).takeUntil y hy_tail).support))
+
+private abbrev terminalSetFanRightBridgeFrontNonCleanSuffixCases
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Walk v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hw : w ∈ rt.support) (hy : y ∈ rt.support)
+    (hy_tail : y ∈ (rt.dropUntil w hw).support) : Prop :=
+  terminalSetFanRightBridgeFrontCleanSuffixBranch
+    (G := G) (v := v) (s := s) (t := t)
+    (x := x) (w := w) (y := y) pair rt
+    hx_left hx_right hw hy hy_tail ∧
+  (w ∈ (pair.1 : G.Walk v s).support ∨
+    (∃ z : α,
+      z ∈ rt.support ∧ z ≠ v ∧
+      z ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      z ∉ (pair.2 : G.Walk v t).support) ∨
+    (∃ z : α,
+      z ≠ v ∧
+      z ∈ (pair.2 : G.Walk v t).support ∧
+      z ∉ (pair.1 : G.Walk v s).support ∧
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      z ∈ (rt.dropUntil y hy).support) ∨
+    (∃ z : α,
+      z ≠ v ∧ z ≠ w ∧
+      z ∈ (pair.2 : G.Walk v t).support ∧
+      z ∉ (pair.1 : G.Walk v s).support ∧
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      z ∈ ((rt.dropUntil w hw).takeUntil y hy_tail).support))
+
+private lemma terminalSetFanLeftBridgeFrontNonCleanSuffixBranch.to_cases
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t} {rs : G.Walk v s}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {hw : w ∈ rs.support} {hy : y ∈ rs.support}
+    {hy_tail : y ∈ (rs.dropUntil w hw).support}
+    (hnonclean :
+      terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair rs
+        hx_left hx_right hw hy hy_tail) :
+    terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) pair rs
+      hx_left hx_right hw hy hy_tail := by
+  classical
+  dsimp [terminalSetFanLeftBridgeFrontNonCleanSuffixBranch,
+    terminalSetFanLeftBridgeFrontCleanSuffixCore,
+    terminalSetFanLeftBridgeFrontNonCleanSuffixCases] at hnonclean ⊢
+  rcases hnonclean with ⟨hbranch, hnot_core⟩
+  refine ⟨hbranch, ?_⟩
+  by_cases hw_clean : w ∉ (pair.2 : G.Walk v t).support
+  · by_cases hsuffix :
+      ∀ z : α, z ∈ rs.support → z ≠ v →
+        z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        False
+    · by_cases hpost :
+        ∀ z : α, z ≠ v →
+          z ∈ (pair.1 : G.Walk v s).support →
+          z ∉ (pair.2 : G.Walk v t).support →
+          z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+          z ∈ (rs.dropUntil y hy).support →
+          False
+      · by_cases hmiddle :
+          ∀ z : α, z ≠ v → z ≠ w →
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∉ (pair.2 : G.Walk v t).support →
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            z ∈ ((rs.dropUntil w hw).takeUntil y hy_tail).support →
+            False
+        · exact False.elim (hnot_core ⟨hw_clean, hsuffix, hpost, hmiddle⟩)
+        · right
+          right
+          right
+          push_neg at hmiddle
+          rcases hmiddle with
+            ⟨z, hzv, hzw, hz_left, hz_not_right, hz_prefix, hz_seg, _⟩
+          exact ⟨z, hzv, hzw, hz_left, hz_not_right, hz_prefix, hz_seg⟩
+      · right
+        right
+        left
+        push_neg at hpost
+        rcases hpost with
+          ⟨z, hzv, hz_left, hz_not_right, hz_prefix, hz_drop, _⟩
+        exact ⟨z, hzv, hz_left, hz_not_right, hz_prefix, hz_drop⟩
+    · right
+      left
+      push_neg at hsuffix
+      rcases hsuffix with ⟨z, hz_rs, hzv, hz_drop, hz_not_left, _⟩
+      exact ⟨z, hz_rs, hzv, hz_drop, hz_not_left⟩
+  · exact Or.inl (not_not.mp hw_clean)
+
+private lemma terminalSetFanRightBridgeFrontNonCleanSuffixBranch.to_cases
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t} {rt : G.Walk v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {hw : w ∈ rt.support} {hy : y ∈ rt.support}
+    {hy_tail : y ∈ (rt.dropUntil w hw).support}
+    (hnonclean :
+      terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair rt
+        hx_left hx_right hw hy hy_tail) :
+    terminalSetFanRightBridgeFrontNonCleanSuffixCases
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) pair rt
+      hx_left hx_right hw hy hy_tail := by
+  classical
+  dsimp [terminalSetFanRightBridgeFrontNonCleanSuffixBranch,
+    terminalSetFanRightBridgeFrontCleanSuffixCore,
+    terminalSetFanRightBridgeFrontNonCleanSuffixCases] at hnonclean ⊢
+  rcases hnonclean with ⟨hbranch, hnot_core⟩
+  refine ⟨hbranch, ?_⟩
+  by_cases hw_clean : w ∉ (pair.1 : G.Walk v s).support
+  · by_cases hsuffix :
+      ∀ z : α, z ∈ rt.support → z ≠ v →
+        z ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        False
+    · by_cases hpost :
+        ∀ z : α, z ≠ v →
+          z ∈ (pair.2 : G.Walk v t).support →
+          z ∉ (pair.1 : G.Walk v s).support →
+          z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+          z ∈ (rt.dropUntil y hy).support →
+          False
+      · by_cases hmiddle :
+          ∀ z : α, z ≠ v → z ≠ w →
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∉ (pair.1 : G.Walk v s).support →
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            z ∈ ((rt.dropUntil w hw).takeUntil y hy_tail).support →
+            False
+        · exact False.elim (hnot_core ⟨hw_clean, hsuffix, hpost, hmiddle⟩)
+        · right
+          right
+          right
+          push_neg at hmiddle
+          rcases hmiddle with
+            ⟨z, hzv, hzw, hz_right, hz_not_left, hz_prefix, hz_seg, _⟩
+          exact ⟨z, hzv, hzw, hz_right, hz_not_left, hz_prefix, hz_seg⟩
+      · right
+        right
+        left
+        push_neg at hpost
+        rcases hpost with
+          ⟨z, hzv, hz_right, hz_not_left, hz_prefix, hz_drop, _⟩
+        exact ⟨z, hzv, hz_right, hz_not_left, hz_prefix, hz_drop⟩
+    · right
+      left
+      push_neg at hsuffix
+      rcases hsuffix with ⟨z, hz_rt, hzv, hz_drop, hz_not_right, _⟩
+      exact ⟨z, hz_rt, hzv, hz_drop, hz_not_right⟩
+  · exact Or.inl (not_not.mp hw_clean)
+
+lemma terminalSetFanLeftBridgeFrontCleanSuffixBranch.clean_or_nonclean
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t} {rs : G.Walk v s}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {hw : w ∈ rs.support} {hy : y ∈ rs.support}
+    {hy_tail : y ∈ (rs.dropUntil w hw).support}
+    (hbranch : terminalSetFanLeftBridgeFrontCleanSuffixBranch
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) pair rs
+      hx_left hx_right hw hy hy_tail) :
+    terminalSetFanLeftBridgeFrontCleanSuffixCore
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) pair rs
+      hx_left hx_right hw hy hy_tail ∨
+    terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) pair rs
+      hx_left hx_right hw hy hy_tail := by
+  classical
+  by_cases hclean :
+      terminalSetFanLeftBridgeFrontCleanSuffixCore
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair rs
+        hx_left hx_right hw hy hy_tail
+  · exact Or.inl hclean
+  · exact Or.inr ⟨hbranch, hclean⟩
+
+lemma terminalSetFanRightBridgeFrontCleanSuffixBranch.clean_or_nonclean
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t} {rt : G.Walk v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {hw : w ∈ rt.support} {hy : y ∈ rt.support}
+    {hy_tail : y ∈ (rt.dropUntil w hw).support}
+    (hbranch : terminalSetFanRightBridgeFrontCleanSuffixBranch
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) pair rt
+      hx_left hx_right hw hy hy_tail) :
+    terminalSetFanRightBridgeFrontCleanSuffixCore
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) pair rt
+      hx_left hx_right hw hy hy_tail ∨
+    terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) pair rt
+      hx_left hx_right hw hy hy_tail := by
+  classical
+  by_cases hclean :
+      terminalSetFanRightBridgeFrontCleanSuffixCore
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair rt
+        hx_left hx_right hw hy hy_tail
+  · exact Or.inl hclean
+  · exact Or.inr ⟨hbranch, hclean⟩
 
 private def terminalSetFanLeftBridgeFrontCleanSuffixResidual
     {α : Type*} [DecidableEq α]
@@ -36406,6 +37979,1512 @@ lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInfl
         exact hno_prefix_absent z hz_prefix hzv hzw hz_not_left
           hz_not_rt)
 
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_split_double_suffix_or_prefix_absent_obstructions
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Walk v s}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrsPath : rs.IsPath) (hxv : x ≠ v) (hx_rs : x ∉ rs.support)
+    (hw_rs : w ∈ rs.support)
+    (hw_not_right : w ∉ (pair.2 : G.Walk v t).support)
+    (hy_rs : y ∈ rs.support)
+    (hy_tail : y ∈ (rs.dropUntil w hw_rs).support)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_left : y ∉ (pair.1 : G.Walk v s).support)
+    (hy_prefix_x :
+      y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rs.support → z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∈ (rs.takeUntil w hw_rs).support → z = w)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ (rs.dropUntil y hy_rs).support →
+        False)
+    (hno_right_suffix_only :
+      ∀ z : α, z ∈ rs.support → z ≠ v →
+        z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.1 : G.Walk v s).support.length ≤ rs.support.length) :
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∀ c : α, ∀ hc_alt : c ∈ (altRight : G.Walk v t).support,
+      c ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support →
+      c ∈ (pair.1 : G.Walk v s).support →
+      c ∈ (pair.2 : G.Walk v t).support →
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+      c ≠ v →
+      c ≠ w →
+      c ≠ x →
+      c ≠ y →
+      x ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support →
+      False) →
+    (∀ c : α, ∀ hc_alt : c ∈ (altRight : G.Walk v t).support,
+      c ∈ (rs.dropUntil y hy_rs).support →
+      c ∈ (pair.1 : G.Walk v s).support →
+      c ∈ (pair.2 : G.Walk v t).support →
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+      c ≠ v →
+      c ≠ w →
+      c ≠ x →
+      c ≠ y →
+      x ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support →
+      False) →
+    (∀ z : α,
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+      z ≠ v →
+      z ≠ w →
+      z ∉ (pair.2 : G.Walk v t).support →
+      z ∉ rs.support →
+      False) →
+    False := by
+  classical
+  dsimp
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+  intro hmeasure_le hleft_sub hno_middle_common hno_post_common
+    hno_prefix_absent
+  exact
+    terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_secondary_minimal_replacement_altRight_measure_le_front_not_right_of_surviving_double_suffix_order_or_prefix_absent_obstructions
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+      hobs hpair_min hsecondary_min hrsPath hxv hx_rs hw_rs
+      hw_not_right hy_rs hy_tail hy_right hy_not_left hy_prefix_x hyx
+      hfirst_union hno_middle hno_post hno_right_suffix_only hlen_fail
+      (by simpa [altPair, altRight] using hmeasure_le)
+      (by simpa [altPair, altRight] using hleft_sub)
+      (by
+        intro c hc_alt hc_tail hc_left hc_right hc_right_suffix
+          hc_left_suffix hcv hcx hx_before
+        have hcw : c ≠ w := by
+          intro hcw_eq
+          exact hw_not_right (by simpa [hcw_eq] using hc_right)
+        have hcy : c ≠ y := by
+          intro hcy_eq
+          exact hy_not_left (by simpa [hcy_eq] using hc_left)
+        rcases
+            mem_takeUntil_or_mem_dropUntil_of_mem_support
+              (G := G) (p := (rs.dropUntil w hw_rs)) hy_tail hc_tail with
+          hc_mid | hc_post
+        · exact hno_middle_common c hc_alt hc_mid hc_left hc_right
+            hc_right_suffix hc_left_suffix hcv hcw hcx hcy hx_before
+        · have hc_post_rs :
+              c ∈ (rs.dropUntil y hy_rs).support := by
+            simpa using
+              (mem_dropUntil_of_mem_nested_dropUntil
+                (G := G) (p := rs) hrsPath hw_rs hy_tail hc_post)
+          exact hno_post_common c hc_alt hc_post_rs hc_left hc_right
+            hc_right_suffix hc_left_suffix hcv hcw hcx hcy hx_before)
+      (by
+        intro z hz_prefix hzv hzw hz_not_right hz_not_rs
+        exact hno_prefix_absent z hz_prefix hzv hzw hz_not_right
+          hz_not_rs)
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_split_double_suffix_or_prefix_absent_obstructions
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Walk v t}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrtPath : rt.IsPath) (hxv : x ≠ v) (hx_rt : x ∉ rt.support)
+    (hw_rt : w ∈ rt.support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hy_rt : y ∈ rt.support)
+    (hy_tail : y ∈ (rt.dropUntil w hw_rt).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rt.support → z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support ∨
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∈ (rt.takeUntil w hw_rt).support → z = w)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ ((rt.dropUntil w hw_rt).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ (rt.dropUntil y hy_rt).support →
+        False)
+    (hno_left_suffix_only :
+      ∀ z : α, z ∈ rt.support → z ≠ v →
+        z ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.2 : G.Walk v t).support.length ≤ rt.support.length) :
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∀ c : α, ∀ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+      c ∈ ((rt.dropUntil w hw_rt).takeUntil y hy_tail).support →
+      c ∈ (pair.2 : G.Walk v t).support →
+      c ∈ (pair.1 : G.Walk v s).support →
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+      c ≠ v →
+      c ≠ w →
+      c ≠ x →
+      c ≠ y →
+      x ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support →
+      False) →
+    (∀ c : α, ∀ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+      c ∈ (rt.dropUntil y hy_rt).support →
+      c ∈ (pair.2 : G.Walk v t).support →
+      c ∈ (pair.1 : G.Walk v s).support →
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+      c ≠ v →
+      c ≠ w →
+      c ≠ x →
+      c ≠ y →
+      x ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support →
+      False) →
+    (∀ z : α,
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+      z ≠ v →
+      z ≠ w →
+      z ∉ (pair.1 : G.Walk v s).support →
+      z ∉ rt.support →
+      False) →
+    False := by
+  classical
+  dsimp
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+  intro hmeasure_le hright_sub hno_middle_common hno_post_common
+    hno_prefix_absent
+  exact
+    terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left_of_surviving_double_suffix_order_or_prefix_absent_obstructions
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+      hobs hpair_min hsecondary_min hrtPath hxv hx_rt hw_rt
+      hw_not_left hy_rt hy_tail hy_left hy_not_right hy_prefix_x hyx
+      hfirst_union hno_middle hno_post hno_left_suffix_only hlen_fail
+      (by simpa [altPair, altLeft] using hmeasure_le)
+      (by simpa [altPair, altLeft] using hright_sub)
+      (by
+        intro c hc_alt hc_tail hc_right hc_left hc_left_suffix
+          hc_right_suffix hcv hcx hx_before
+        have hcw : c ≠ w := by
+          intro hcw_eq
+          exact hw_not_left (by simpa [hcw_eq] using hc_left)
+        have hcy : c ≠ y := by
+          intro hcy_eq
+          exact hy_not_right (by simpa [hcy_eq] using hc_right)
+        rcases
+            mem_takeUntil_or_mem_dropUntil_of_mem_support
+              (G := G) (p := (rt.dropUntil w hw_rt)) hy_tail hc_tail with
+          hc_mid | hc_post
+        · exact hno_middle_common c hc_alt hc_mid hc_right hc_left
+            hc_left_suffix hc_right_suffix hcv hcw hcx hcy hx_before
+        · have hc_post_rt :
+              c ∈ (rt.dropUntil y hy_rt).support := by
+            simpa using
+              (mem_dropUntil_of_mem_nested_dropUntil
+                (G := G) (p := rt) hrtPath hw_rt hy_tail hc_post)
+          exact hno_post_common c hc_alt hc_post_rt hc_right hc_left
+            hc_left_suffix hc_right_suffix hcv hcw hcx hcy hx_before)
+      (by
+        intro z hz_prefix hzv hzw hz_not_left hz_not_rt
+        exact hno_prefix_absent z hz_prefix hzv hzw hz_not_left
+          hz_not_rt)
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.split_double_suffix_or_prefix_absent_of_secondary_minimal_replacement_altRight_measure_le_front_not_right
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Walk v s}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrsPath : rs.IsPath) (hxv : x ≠ v) (hx_rs : x ∉ rs.support)
+    (hw_rs : w ∈ rs.support)
+    (hw_not_right : w ∉ (pair.2 : G.Walk v t).support)
+    (hy_rs : y ∈ rs.support)
+    (hy_tail : y ∈ (rs.dropUntil w hw_rs).support)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_left : y ∉ (pair.1 : G.Walk v s).support)
+    (hy_prefix_x :
+      y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rs.support → z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∈ (rs.takeUntil w hw_rs).support → z = w)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ (rs.dropUntil y hy_rs).support →
+        False)
+    (hno_right_suffix_only :
+      ∀ z : α, z ∈ rs.support → z ≠ v →
+        z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.1 : G.Walk v s).support.length ≤ rs.support.length) :
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+      c ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ≠ v ∧ c ≠ w ∧ c ≠ x ∧ c ≠ y ∧
+      x ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support) ∨
+    (∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+      c ∈ (rs.dropUntil y hy_rs).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ≠ v ∧ c ≠ w ∧ c ≠ x ∧ c ≠ y ∧
+      x ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support) ∨
+    ∃ z : α,
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      z ≠ v ∧ z ≠ w ∧
+      z ∉ (pair.2 : G.Walk v t).support ∧
+      z ∉ rs.support := by
+  classical
+  dsimp
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+  intro hmeasure_le hleft_sub
+  by_contra hnone
+  exact
+    terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_split_double_suffix_or_prefix_absent_obstructions
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+      hobs hpair_min hsecondary_min hrsPath hxv hx_rs hw_rs
+      hw_not_right hy_rs hy_tail hy_right hy_not_left hy_prefix_x hyx
+      hfirst_union hno_middle hno_post hno_right_suffix_only hlen_fail
+      (by simpa [altPair, altRight] using hmeasure_le)
+      (by simpa [altPair, altRight] using hleft_sub)
+      (by
+        intro c hc_alt hc_mid hc_left hc_right hc_right_suffix
+          hc_left_suffix hcv hcw hcx hcy hx_before
+        exact hnone (Or.inl
+          ⟨c, hc_alt, hc_mid, hc_left, hc_right, hc_right_suffix,
+            hc_left_suffix, hcv, hcw, hcx, hcy, hx_before⟩))
+      (by
+        intro c hc_alt hc_post hc_left hc_right hc_right_suffix
+          hc_left_suffix hcv hcw hcx hcy hx_before
+        exact hnone (Or.inr (Or.inl
+          ⟨c, hc_alt, hc_post, hc_left, hc_right, hc_right_suffix,
+            hc_left_suffix, hcv, hcw, hcx, hcy, hx_before⟩)))
+      (by
+        intro z hz_prefix hzv hzw hz_not_right hz_not_rs
+        exact hnone (Or.inr (Or.inr
+          ⟨z, hz_prefix, hzv, hzw, hz_not_right, hz_not_rs⟩)))
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.split_double_suffix_or_prefix_absent_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Walk v t}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrtPath : rt.IsPath) (hxv : x ≠ v) (hx_rt : x ∉ rt.support)
+    (hw_rt : w ∈ rt.support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hy_rt : y ∈ rt.support)
+    (hy_tail : y ∈ (rt.dropUntil w hw_rt).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rt.support → z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support ∨
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∈ (rt.takeUntil w hw_rt).support → z = w)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ ((rt.dropUntil w hw_rt).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ (rt.dropUntil y hy_rt).support →
+        False)
+    (hno_left_suffix_only :
+      ∀ z : α, z ∈ rt.support → z ≠ v →
+        z ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.2 : G.Walk v t).support.length ≤ rt.support.length) :
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+      c ∈ ((rt.dropUntil w hw_rt).takeUntil y hy_tail).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ≠ v ∧ c ≠ w ∧ c ≠ x ∧ c ≠ y ∧
+      x ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support) ∨
+    (∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+      c ∈ (rt.dropUntil y hy_rt).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ≠ v ∧ c ≠ w ∧ c ≠ x ∧ c ≠ y ∧
+      x ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support) ∨
+    ∃ z : α,
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      z ≠ v ∧ z ≠ w ∧
+      z ∉ (pair.1 : G.Walk v s).support ∧
+      z ∉ rt.support := by
+  classical
+  dsimp
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+  intro hmeasure_le hright_sub
+  by_contra hnone
+  exact
+    terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_split_double_suffix_or_prefix_absent_obstructions
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+      hobs hpair_min hsecondary_min hrtPath hxv hx_rt hw_rt
+      hw_not_left hy_rt hy_tail hy_left hy_not_right hy_prefix_x hyx
+      hfirst_union hno_middle hno_post hno_left_suffix_only hlen_fail
+      (by simpa [altPair, altLeft] using hmeasure_le)
+      (by simpa [altPair, altLeft] using hright_sub)
+      (by
+        intro c hc_alt hc_mid hc_right hc_left hc_left_suffix
+          hc_right_suffix hcv hcw hcx hcy hx_before
+        exact hnone (Or.inl
+          ⟨c, hc_alt, hc_mid, hc_right, hc_left, hc_left_suffix,
+            hc_right_suffix, hcv, hcw, hcx, hcy, hx_before⟩))
+      (by
+        intro c hc_alt hc_post hc_right hc_left hc_left_suffix
+          hc_right_suffix hcv hcw hcx hcy hx_before
+        exact hnone (Or.inr (Or.inl
+          ⟨c, hc_alt, hc_post, hc_right, hc_left, hc_left_suffix,
+            hc_right_suffix, hcv, hcw, hcx, hcy, hx_before⟩)))
+      (by
+        intro z hz_prefix hzv hzw hz_not_left hz_not_rt
+        exact hnone (Or.inr (Or.inr
+          ⟨z, hz_prefix, hzv, hzw, hz_not_left, hz_not_rt⟩)))
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.split_double_suffix_or_prefix_absent_with_order_of_secondary_minimal_replacement_altRight_measure_le_front_not_right
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Walk v s}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrsPath : rs.IsPath) (hxv : x ≠ v) (hx_rs : x ∉ rs.support)
+    (hw_rs : w ∈ rs.support)
+    (hw_not_right : w ∉ (pair.2 : G.Walk v t).support)
+    (hy_rs : y ∈ rs.support)
+    (hy_tail : y ∈ (rs.dropUntil w hw_rs).support)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_left : y ∉ (pair.1 : G.Walk v s).support)
+    (hy_prefix_x :
+      y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rs.support → z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∈ (rs.takeUntil w hw_rs).support → z = w)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ (rs.dropUntil y hy_rs).support →
+        False)
+    (hno_right_suffix_only :
+      ∀ z : α, z ∈ rs.support → z ≠ v →
+        z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.1 : G.Walk v s).support.length ≤ rs.support.length) :
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+      ∃ hc_rs : c ∈ rs.support,
+      c ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support ∧
+      c ∈ (rs.takeUntil y hy_rs).support ∧
+      w ∈ (rs.takeUntil c hc_rs).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ≠ v ∧ c ≠ w ∧ c ≠ x ∧ c ≠ y ∧
+      x ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support) ∨
+    (∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+      ∃ hc_rs : c ∈ rs.support,
+      c ∈ (rs.dropUntil y hy_rs).support ∧
+      y ∈ (rs.takeUntil c hc_rs).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ≠ v ∧ c ≠ w ∧ c ≠ x ∧ c ≠ y ∧
+      x ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support) ∨
+    ∃ z : α,
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      z ≠ v ∧ z ≠ w ∧
+      z ∉ (pair.2 : G.Walk v t).support ∧
+      z ∉ rs.support := by
+  classical
+  dsimp
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+  intro hmeasure_le hleft_sub
+  rcases
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.split_double_suffix_or_prefix_absent_of_secondary_minimal_replacement_altRight_measure_le_front_not_right
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+        hobs hpair_min hsecondary_min hrsPath hxv hx_rs hw_rs
+        hw_not_right hy_rs hy_tail hy_right hy_not_left hy_prefix_x hyx
+        hfirst_union hno_middle hno_post hno_right_suffix_only hlen_fail
+        (by simpa [altPair, altRight] using hmeasure_le)
+        (by simpa [altPair, altRight] using hleft_sub) with
+    hmiddle | hrest
+  · rcases hmiddle with
+      ⟨c, hc_alt, hc_mid, hc_left, hc_right, hc_right_suffix,
+        hc_left_suffix, hcv, hcw, hcx, hcy, hx_before⟩
+    have hc_tail_w : c ∈ (rs.dropUntil w hw_rs).support :=
+      Walk.support_takeUntil_subset (rs.dropUntil w hw_rs) hy_tail hc_mid
+    have hc_rs : c ∈ rs.support :=
+      Walk.support_dropUntil_subset rs hw_rs hc_tail_w
+    have hc_prefix_y : c ∈ (rs.takeUntil y hy_rs).support :=
+      mem_takeUntil_of_mem_dropUntil_takeUntil_ne_on_isPath
+        (G := G) (p := rs) hrsPath hw_rs hy_rs hy_tail hc_mid hcy
+    have hw_prefix_c : w ∈ (rs.takeUntil c hc_rs).support :=
+      mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+        (G := G) (p := rs) hrsPath hw_rs hc_rs hc_tail_w hcw.symm
+    exact Or.inl
+      ⟨c, hc_alt, hc_rs, hc_mid, hc_prefix_y, hw_prefix_c,
+        hc_left, hc_right, hc_right_suffix, hc_left_suffix, hcv, hcw,
+        hcx, hcy, hx_before⟩
+  · rcases hrest with hpost | hprefix_absent
+    · rcases hpost with
+        ⟨c, hc_alt, hc_post, hc_left, hc_right, hc_right_suffix,
+          hc_left_suffix, hcv, hcw, hcx, hcy, hx_before⟩
+      have hc_rs : c ∈ rs.support :=
+        Walk.support_dropUntil_subset rs hy_rs hc_post
+      have hy_prefix_c : y ∈ (rs.takeUntil c hc_rs).support :=
+        mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+          (G := G) (p := rs) hrsPath hy_rs hc_rs hc_post hcy.symm
+      exact Or.inr (Or.inl
+        ⟨c, hc_alt, hc_rs, hc_post, hy_prefix_c,
+          hc_left, hc_right, hc_right_suffix, hc_left_suffix, hcv, hcw,
+          hcx, hcy, hx_before⟩)
+    · exact Or.inr (Or.inr hprefix_absent)
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.split_double_suffix_or_prefix_absent_with_order_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Walk v t}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrtPath : rt.IsPath) (hxv : x ≠ v) (hx_rt : x ∉ rt.support)
+    (hw_rt : w ∈ rt.support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hy_rt : y ∈ rt.support)
+    (hy_tail : y ∈ (rt.dropUntil w hw_rt).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rt.support → z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support ∨
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∈ (rt.takeUntil w hw_rt).support → z = w)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ ((rt.dropUntil w hw_rt).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ (rt.dropUntil y hy_rt).support →
+        False)
+    (hno_left_suffix_only :
+      ∀ z : α, z ∈ rt.support → z ≠ v →
+        z ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.2 : G.Walk v t).support.length ≤ rt.support.length) :
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+      ∃ hc_rt : c ∈ rt.support,
+      c ∈ ((rt.dropUntil w hw_rt).takeUntil y hy_tail).support ∧
+      c ∈ (rt.takeUntil y hy_rt).support ∧
+      w ∈ (rt.takeUntil c hc_rt).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ≠ v ∧ c ≠ w ∧ c ≠ x ∧ c ≠ y ∧
+      x ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support) ∨
+    (∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+      ∃ hc_rt : c ∈ rt.support,
+      c ∈ (rt.dropUntil y hy_rt).support ∧
+      y ∈ (rt.takeUntil c hc_rt).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ≠ v ∧ c ≠ w ∧ c ≠ x ∧ c ≠ y ∧
+      x ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support) ∨
+    ∃ z : α,
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      z ≠ v ∧ z ≠ w ∧
+      z ∉ (pair.1 : G.Walk v s).support ∧
+      z ∉ rt.support := by
+  classical
+  dsimp
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+  intro hmeasure_le hright_sub
+  rcases
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.split_double_suffix_or_prefix_absent_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+        hobs hpair_min hsecondary_min hrtPath hxv hx_rt hw_rt
+        hw_not_left hy_rt hy_tail hy_left hy_not_right hy_prefix_x hyx
+        hfirst_union hno_middle hno_post hno_left_suffix_only hlen_fail
+        (by simpa [altPair, altLeft] using hmeasure_le)
+        (by simpa [altPair, altLeft] using hright_sub) with
+    hmiddle | hrest
+  · rcases hmiddle with
+      ⟨c, hc_alt, hc_mid, hc_right, hc_left, hc_left_suffix,
+        hc_right_suffix, hcv, hcw, hcx, hcy, hx_before⟩
+    have hc_tail_w : c ∈ (rt.dropUntil w hw_rt).support :=
+      Walk.support_takeUntil_subset (rt.dropUntil w hw_rt) hy_tail hc_mid
+    have hc_rt : c ∈ rt.support :=
+      Walk.support_dropUntil_subset rt hw_rt hc_tail_w
+    have hc_prefix_y : c ∈ (rt.takeUntil y hy_rt).support :=
+      mem_takeUntil_of_mem_dropUntil_takeUntil_ne_on_isPath
+        (G := G) (p := rt) hrtPath hw_rt hy_rt hy_tail hc_mid hcy
+    have hw_prefix_c : w ∈ (rt.takeUntil c hc_rt).support :=
+      mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+        (G := G) (p := rt) hrtPath hw_rt hc_rt hc_tail_w hcw.symm
+    exact Or.inl
+      ⟨c, hc_alt, hc_rt, hc_mid, hc_prefix_y, hw_prefix_c,
+        hc_right, hc_left, hc_left_suffix, hc_right_suffix, hcv, hcw,
+        hcx, hcy, hx_before⟩
+  · rcases hrest with hpost | hprefix_absent
+    · rcases hpost with
+        ⟨c, hc_alt, hc_post, hc_right, hc_left, hc_left_suffix,
+          hc_right_suffix, hcv, hcw, hcx, hcy, hx_before⟩
+      have hc_rt : c ∈ rt.support :=
+        Walk.support_dropUntil_subset rt hy_rt hc_post
+      have hy_prefix_c : y ∈ (rt.takeUntil c hc_rt).support :=
+        mem_takeUntil_of_mem_dropUntil_ne_on_isPath
+          (G := G) (p := rt) hrtPath hy_rt hc_rt hc_post hcy.symm
+      exact Or.inr (Or.inl
+        ⟨c, hc_alt, hc_rt, hc_post, hy_prefix_c,
+          hc_right, hc_left, hc_left_suffix, hc_right_suffix, hcv, hcw,
+          hcx, hcy, hx_before⟩)
+    · exact Or.inr (Or.inr hprefix_absent)
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.post_common_or_prefix_absent_of_secondary_minimal_replacement_altRight_measure_le_front_not_right
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Walk v s}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrsPath : rs.IsPath) (hxv : x ≠ v) (hx_rs : x ∉ rs.support)
+    (hw_rs : w ∈ rs.support)
+    (hw_not_right : w ∉ (pair.2 : G.Walk v t).support)
+    (hw_left : w ∈ (pair.1 : G.Walk v s).support)
+    (hw_prefix_x :
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hy_rs : y ∈ rs.support)
+    (hy_tail : y ∈ (rs.dropUntil w hw_rs).support)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_left : y ∉ (pair.1 : G.Walk v s).support)
+    (hy_prefix_x :
+      y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rs.support → z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∈ (rs.takeUntil w hw_rs).support → z = w)
+    (hfirst_global :
+      ∀ a : α, a ≠ v →
+        a ∈ (pair.2 : G.Walk v t).support →
+        a ∉ (pair.1 : G.Walk v s).support →
+        a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        a ∈ (rs.takeUntil y hy_rs).support →
+        a = y)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ (rs.dropUntil y hy_rs).support →
+        False)
+    (hno_right_suffix_only :
+      ∀ z : α, z ∈ rs.support → z ≠ v →
+        z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.1 : G.Walk v s).support.length ≤ rs.support.length) :
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+      ∃ hc_rs : c ∈ rs.support,
+      c ∈ (rs.dropUntil y hy_rs).support ∧
+      y ∈ (rs.takeUntil c hc_rs).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ≠ v ∧ c ≠ w ∧ c ≠ x ∧ c ≠ y ∧
+      x ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support) ∨
+    ∃ z : α,
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      z ≠ v ∧ z ≠ w ∧
+      z ∉ (pair.2 : G.Walk v t).support ∧
+      z ∉ rs.support := by
+  classical
+  dsimp
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+  intro hmeasure_le hleft_sub
+  have hno_lower :
+      ∀ pair' : G.Path v s × G.Path v t,
+        ¬ terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair :=
+    not_terminalPathPairCommonCard_lt_of_weighted_min hpair_min
+  rcases
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.split_double_suffix_or_prefix_absent_with_order_of_secondary_minimal_replacement_altRight_measure_le_front_not_right
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+        hobs hpair_min hsecondary_min hrsPath hxv hx_rs hw_rs
+        hw_not_right hy_rs hy_tail hy_right hy_not_left hy_prefix_x hyx
+        hfirst_union hno_middle hno_post hno_right_suffix_only hlen_fail
+        (by simpa [altPair, altRight] using hmeasure_le)
+        (by simpa [altPair, altRight] using hleft_sub) with
+    hmiddle | hrest
+  · rcases hmiddle with
+      ⟨c, _hc_alt, _hc_rs, hc_mid, _hc_prefix_y, _hw_prefix_c,
+        _hc_left, hc_right, hc_right_suffix, _hc_left_suffix,
+        _hcv, _hcw, _hcx, hcy, _hx_before⟩
+    rcases
+        terminal_set_fan_left_middle_common_suffix_return_commonCard_lt
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) (c := c)
+          (pair := pair) (rs := rs)
+          hrsPath hx_left hx_right hxv hx_rs hw_rs hw_left
+          hw_prefix_x hy_rs hy_tail hfirst_global hc_mid hc_right
+          hc_right_suffix hcy with
+      ⟨pair', hpair'_lt⟩
+    exact False.elim (hno_lower pair' hpair'_lt)
+  · exact hrest
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.post_common_or_prefix_absent_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Walk v t}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrtPath : rt.IsPath) (hxv : x ≠ v) (hx_rt : x ∉ rt.support)
+    (hw_rt : w ∈ rt.support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hw_right : w ∈ (pair.2 : G.Walk v t).support)
+    (hw_prefix_x :
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hy_rt : y ∈ rt.support)
+    (hy_tail : y ∈ (rt.dropUntil w hw_rt).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rt.support → z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support ∨
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∈ (rt.takeUntil w hw_rt).support → z = w)
+    (hfirst_global :
+      ∀ a : α, a ≠ v →
+        a ∈ (pair.1 : G.Walk v s).support →
+        a ∉ (pair.2 : G.Walk v t).support →
+        a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        a ∈ (rt.takeUntil y hy_rt).support →
+        a = y)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ ((rt.dropUntil w hw_rt).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ (rt.dropUntil y hy_rt).support →
+        False)
+    (hno_left_suffix_only :
+      ∀ z : α, z ∈ rt.support → z ≠ v →
+        z ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.2 : G.Walk v t).support.length ≤ rt.support.length) :
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+      ∃ hc_rt : c ∈ rt.support,
+      c ∈ (rt.dropUntil y hy_rt).support ∧
+      y ∈ (rt.takeUntil c hc_rt).support ∧
+      c ∈ (pair.2 : G.Walk v t).support ∧
+      c ∈ (pair.1 : G.Walk v s).support ∧
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+      c ≠ v ∧ c ≠ w ∧ c ≠ x ∧ c ≠ y ∧
+      x ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support) ∨
+    ∃ z : α,
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      z ≠ v ∧ z ≠ w ∧
+      z ∉ (pair.1 : G.Walk v s).support ∧
+      z ∉ rt.support := by
+  classical
+  dsimp
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+  intro hmeasure_le hright_sub
+  have hno_lower :
+      ∀ pair' : G.Path v s × G.Path v t,
+        ¬ terminalPathPairCommonCard pair' < terminalPathPairCommonCard pair :=
+    not_terminalPathPairCommonCard_lt_of_weighted_min hpair_min
+  rcases
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.split_double_suffix_or_prefix_absent_with_order_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+        hobs hpair_min hsecondary_min hrtPath hxv hx_rt hw_rt
+        hw_not_left hy_rt hy_tail hy_left hy_not_right hy_prefix_x hyx
+        hfirst_union hno_middle hno_post hno_left_suffix_only hlen_fail
+        (by simpa [altPair, altLeft] using hmeasure_le)
+        (by simpa [altPair, altLeft] using hright_sub) with
+    hmiddle | hrest
+  · rcases hmiddle with
+      ⟨c, _hc_alt, _hc_rt, hc_mid, _hc_prefix_y, _hw_prefix_c,
+        _hc_right, hc_left, hc_left_suffix, _hc_right_suffix,
+        _hcv, _hcw, _hcx, hcy, _hx_before⟩
+    rcases
+        terminal_set_fan_right_middle_common_suffix_return_commonCard_lt
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) (c := c)
+          (pair := pair) (rt := rt)
+          hrtPath hx_left hx_right hxv hx_rt hw_rt hw_right
+          hw_prefix_x hy_rt hy_tail hfirst_global hc_mid hc_left
+          hc_left_suffix hcy with
+      ⟨pair', hpair'_lt⟩
+    exact False.elim (hno_lower pair' hpair'_lt)
+  · exact hrest
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_split_post_common_or_prefix_absent_obstructions
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Walk v s}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrsPath : rs.IsPath) (hxv : x ≠ v) (hx_rs : x ∉ rs.support)
+    (hw_rs : w ∈ rs.support)
+    (hw_not_right : w ∉ (pair.2 : G.Walk v t).support)
+    (hw_left : w ∈ (pair.1 : G.Walk v s).support)
+    (hw_prefix_x :
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hy_rs : y ∈ rs.support)
+    (hy_tail : y ∈ (rs.dropUntil w hw_rs).support)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_left : y ∉ (pair.1 : G.Walk v s).support)
+    (hy_prefix_x :
+      y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rs.support → z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∈ (rs.takeUntil w hw_rs).support → z = w)
+    (hfirst_global :
+      ∀ a : α, a ≠ v →
+        a ∈ (pair.2 : G.Walk v t).support →
+        a ∉ (pair.1 : G.Walk v s).support →
+        a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        a ∈ (rs.takeUntil y hy_rs).support →
+        a = y)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ (rs.dropUntil y hy_rs).support →
+        False)
+    (hno_right_suffix_only :
+      ∀ z : α, z ∈ rs.support → z ≠ v →
+        z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.1 : G.Walk v s).support.length ≤ rs.support.length) :
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∀ c : α, ∀ hc_alt : c ∈ (altRight : G.Walk v t).support,
+      c ∈ (rs.dropUntil y hy_rs).support →
+      c ∈ (pair.1 : G.Walk v s).support →
+      c ∈ (pair.2 : G.Walk v t).support →
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+      c ≠ v →
+      c ≠ w →
+      c ≠ x →
+      c ≠ y →
+      x ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support →
+      False) →
+    (∀ z : α,
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+      z ≠ v →
+      z ≠ w →
+      z ∉ (pair.2 : G.Walk v t).support →
+      z ∉ rs.support →
+      False) →
+    False := by
+  classical
+  dsimp
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+  intro hmeasure_le hleft_sub hno_post_common hno_prefix_absent
+  rcases
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.post_common_or_prefix_absent_of_secondary_minimal_replacement_altRight_measure_le_front_not_right
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+        hobs hpair_min hsecondary_min hrsPath hxv hx_rs hw_rs
+        hw_not_right hw_left hw_prefix_x hy_rs hy_tail hy_right
+        hy_not_left hy_prefix_x hyx hfirst_union hfirst_global
+        hno_middle hno_post hno_right_suffix_only hlen_fail
+        (by simpa [altPair, altRight] using hmeasure_le)
+        (by simpa [altPair, altRight] using hleft_sub) with
+    hpost | hprefix_absent
+  · rcases hpost with
+      ⟨c, hc_alt, _hc_rs, hc_post, _hy_prefix_c, hc_left,
+        hc_right, hc_right_suffix, hc_left_suffix, hcv, hcw, hcx,
+        hcy, hx_before⟩
+    exact hno_post_common c hc_alt hc_post hc_left hc_right
+      hc_right_suffix hc_left_suffix hcv hcw hcx hcy hx_before
+  · rcases hprefix_absent with
+      ⟨z, hz_prefix, hzv, hzw, hz_not_right, hz_not_rs⟩
+    exact hno_prefix_absent z hz_prefix hzv hzw hz_not_right hz_not_rs
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_split_post_common_or_prefix_absent_obstructions
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Walk v t}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrtPath : rt.IsPath) (hxv : x ≠ v) (hx_rt : x ∉ rt.support)
+    (hw_rt : w ∈ rt.support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hw_right : w ∈ (pair.2 : G.Walk v t).support)
+    (hw_prefix_x :
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hy_rt : y ∈ rt.support)
+    (hy_tail : y ∈ (rt.dropUntil w hw_rt).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rt.support → z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support ∨
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∈ (rt.takeUntil w hw_rt).support → z = w)
+    (hfirst_global :
+      ∀ a : α, a ≠ v →
+        a ∈ (pair.1 : G.Walk v s).support →
+        a ∉ (pair.2 : G.Walk v t).support →
+        a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        a ∈ (rt.takeUntil y hy_rt).support →
+        a = y)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ ((rt.dropUntil w hw_rt).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ (rt.dropUntil y hy_rt).support →
+        False)
+    (hno_left_suffix_only :
+      ∀ z : α, z ∈ rt.support → z ≠ v →
+        z ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.2 : G.Walk v t).support.length ≤ rt.support.length) :
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∀ c : α, ∀ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+      c ∈ (rt.dropUntil y hy_rt).support →
+      c ∈ (pair.2 : G.Walk v t).support →
+      c ∈ (pair.1 : G.Walk v s).support →
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+      c ≠ v →
+      c ≠ w →
+      c ≠ x →
+      c ≠ y →
+      x ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support →
+      False) →
+    (∀ z : α,
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+      z ≠ v →
+      z ≠ w →
+      z ∉ (pair.1 : G.Walk v s).support →
+      z ∉ rt.support →
+      False) →
+    False := by
+  classical
+  dsimp
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+  intro hmeasure_le hright_sub hno_post_common hno_prefix_absent
+  rcases
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.post_common_or_prefix_absent_of_secondary_minimal_replacement_altLeft_measure_le_front_not_left
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+        hobs hpair_min hsecondary_min hrtPath hxv hx_rt hw_rt
+        hw_not_left hw_right hw_prefix_x hy_rt hy_tail hy_left
+        hy_not_right hy_prefix_x hyx hfirst_union hfirst_global
+        hno_middle hno_post hno_left_suffix_only hlen_fail
+        (by simpa [altPair, altLeft] using hmeasure_le)
+        (by simpa [altPair, altLeft] using hright_sub) with
+    hpost | hprefix_absent
+  · rcases hpost with
+      ⟨c, hc_alt, _hc_rt, hc_post, _hy_prefix_c, hc_right,
+        hc_left, hc_left_suffix, hc_right_suffix, hcv, hcw, hcx,
+        hcy, hx_before⟩
+    exact hno_post_common c hc_alt hc_post hc_right hc_left
+      hc_left_suffix hc_right_suffix hcv hcw hcx hcy hx_before
+  · rcases hprefix_absent with
+      ⟨z, hz_prefix, hzv, hzw, hz_not_left, hz_not_rt⟩
+    exact hno_prefix_absent z hz_prefix hzv hzw hz_not_left hz_not_rt
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_split_post_common_or_prefix_absent_via_surviving_double_suffix_order_obstructions
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Walk v s}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrsPath : rs.IsPath) (hxv : x ≠ v) (hx_rs : x ∉ rs.support)
+    (hw_rs : w ∈ rs.support)
+    (hw_not_right : w ∉ (pair.2 : G.Walk v t).support)
+    (hw_left : w ∈ (pair.1 : G.Walk v s).support)
+    (hw_prefix_x :
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hy_rs : y ∈ rs.support)
+    (hy_tail : y ∈ (rs.dropUntil w hw_rs).support)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_left : y ∉ (pair.1 : G.Walk v s).support)
+    (hy_prefix_x :
+      y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rs.support → z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∈ (rs.takeUntil w hw_rs).support → z = w)
+    (hfirst_global :
+      ∀ a : α, a ≠ v →
+        a ∈ (pair.2 : G.Walk v t).support →
+        a ∉ (pair.1 : G.Walk v s).support →
+        a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        a ∈ (rs.takeUntil y hy_rs).support →
+        a = y)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ ((rs.dropUntil w hw_rs).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ (rs.dropUntil y hy_rs).support →
+        False)
+    (hno_right_suffix_only :
+      ∀ z : α, z ∈ rs.support → z ≠ v →
+        z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.1 : G.Walk v s).support.length ≤ rs.support.length) :
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∀ c : α, ∀ hc_alt : c ∈ (altRight : G.Walk v t).support,
+      c ∈ (rs.dropUntil w hw_rs).support →
+      c ∈ (pair.1 : G.Walk v s).support →
+      c ∈ (pair.2 : G.Walk v t).support →
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+      c ≠ v →
+      c ≠ x →
+      x ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support →
+      False) →
+    (∀ z : α,
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+      z ≠ v →
+      z ≠ w →
+      z ∉ (pair.2 : G.Walk v t).support →
+      z ∉ rs.support →
+      False) →
+    False := by
+  classical
+  dsimp
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨rs, hrsPath⟩ : G.Path v s), altRight)
+  intro hmeasure_le hleft_sub hno_ordered hno_prefix_absent
+  exact
+    terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_split_post_common_or_prefix_absent_obstructions
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+      hobs hpair_min hsecondary_min hrsPath hxv hx_rs hw_rs
+      hw_not_right hw_left hw_prefix_x hy_rs hy_tail hy_right
+      hy_not_left hy_prefix_x hyx hfirst_union hfirst_global
+      hno_middle hno_post hno_right_suffix_only hlen_fail
+      (by simpa [altPair, altRight] using hmeasure_le)
+      (by simpa [altPair, altRight] using hleft_sub)
+      (by
+        intro c hc_alt hc_post hc_left hc_right hc_right_suffix
+          hc_left_suffix hcv _hcw hcx _hcy hx_before
+        have hc_tail_w : c ∈ (rs.dropUntil w hw_rs).support :=
+          mem_dropUntil_of_mem_dropUntil_of_mem_dropUntil
+            (G := G) (p := rs) hrsPath hw_rs hy_rs hy_tail hc_post
+        exact hno_ordered c hc_alt hc_tail_w hc_left hc_right
+          hc_right_suffix hc_left_suffix hcv hcx hx_before)
+      hno_prefix_absent
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_split_post_common_or_prefix_absent_via_surviving_double_suffix_order_obstructions
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Walk v t}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hrtPath : rt.IsPath) (hxv : x ≠ v) (hx_rt : x ∉ rt.support)
+    (hw_rt : w ∈ rt.support)
+    (hw_not_left : w ∉ (pair.1 : G.Walk v s).support)
+    (hw_right : w ∈ (pair.2 : G.Walk v t).support)
+    (hw_prefix_x :
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hy_rt : y ∈ rt.support)
+    (hy_tail : y ∈ (rt.dropUntil w hw_rt).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ rt.support → z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support ∨
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∈ (rt.takeUntil w hw_rt).support → z = w)
+    (hfirst_global :
+      ∀ a : α, a ≠ v →
+        a ∈ (pair.1 : G.Walk v s).support →
+        a ∉ (pair.2 : G.Walk v t).support →
+        a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        a ∈ (rt.takeUntil y hy_rt).support →
+        a = y)
+    (hno_middle :
+      ∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ ((rt.dropUntil w hw_rt).takeUntil y hy_tail).support →
+        False)
+    (hno_post :
+      ∀ z : α, z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ (rt.dropUntil y hy_rt).support →
+        False)
+    (hno_left_suffix_only :
+      ∀ z : α, z ∈ rt.support → z ≠ v →
+        z ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        False)
+    (hlen_fail :
+      ¬ (pair.2 : G.Walk v t).support.length ≤ rt.support.length) :
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t :=
+      (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase z) →
+    (∀ c : α, ∀ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+      c ∈ (rt.dropUntil w hw_rt).support →
+      c ∈ (pair.2 : G.Walk v t).support →
+      c ∈ (pair.1 : G.Walk v s).support →
+      c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+      c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+      c ≠ v →
+      c ≠ x →
+      x ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support →
+      False) →
+    (∀ z : α,
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+      z ≠ v →
+      z ≠ w →
+      z ∉ (pair.1 : G.Walk v s).support →
+      z ∉ rt.support →
+      False) →
+    False := by
+  classical
+  dsimp
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t :=
+    (altLeft, (⟨rt, hrtPath⟩ : G.Path v t))
+  intro hmeasure_le hright_sub hno_ordered hno_prefix_absent
+  exact
+    terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.false_of_split_post_common_or_prefix_absent_obstructions
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+      hobs hpair_min hsecondary_min hrtPath hxv hx_rt hw_rt
+      hw_not_left hw_right hw_prefix_x hy_rt hy_tail hy_left
+      hy_not_right hy_prefix_x hyx hfirst_union hfirst_global
+      hno_middle hno_post hno_left_suffix_only hlen_fail
+      (by simpa [altPair, altLeft] using hmeasure_le)
+      (by simpa [altPair, altLeft] using hright_sub)
+      (by
+        intro c hc_alt hc_post hc_right hc_left hc_left_suffix
+          hc_right_suffix hcv _hcw hcx _hcy hx_before
+        have hc_tail_w : c ∈ (rt.dropUntil w hw_rt).support :=
+          mem_dropUntil_of_mem_dropUntil_of_mem_dropUntil
+            (G := G) (p := rt) hrtPath hw_rt hy_rt hy_tail hc_post
+        exact hno_ordered c hc_alt hc_tail_w hc_right hc_left
+          hc_left_suffix hc_right_suffix hcv hcx hx_before)
+      hno_prefix_absent
+
 lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.length_ge_or_prefix_only_defect_pos_of_prefix_split
     {α : Type*} [Fintype α] [DecidableEq α]
     {G : SimpleGraph α} {v s t x w y : α}
@@ -38669,6 +41748,5780 @@ lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInfl
       (G := G) (v := v) (s := s) (t := t)
       (x := x) (pair := pair) hcover).2
   exact ⟨hobs, habsent⟩
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_no_prefix_split_branch_witness
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hno :
+      ∀ (rs : G.Path v s),
+        terminalReplacementPathSupportLengthMinimal (G := G) x rs →
+        ∀ (w : α) (hw : w ∈ (rs : G.Walk v s).support),
+          w ≠ v → w ≠ x →
+          ∀ (_hw_left : w ∈ (pair.1 : G.Walk v s).support),
+            w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            ∀ (y : α), y ≠ v → y ≠ x →
+            ∀ (hy : y ∈ (rs : G.Walk v s).support),
+              y ∈ (pair.2 : G.Walk v t).support →
+              y ∉ (pair.1 : G.Walk v s).support →
+              ∀ (hy_tail :
+                y ∈ (((rs : G.Walk v s).dropUntil w hw)).support),
+                (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+                  z ∈ (pair.1 : G.Walk v s).support ∨
+                  z ∈ (pair.2 : G.Walk v t).support →
+                  z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+                  z = w) →
+                y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                (∀ a : α, a ≠ v →
+                  a ∈ (pair.2 : G.Walk v t).support →
+                  a ∉ (pair.1 : G.Walk v s).support →
+                  a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                  a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+                  a = y) →
+                terminalSetFanLeftBridgeFrontCleanSuffixBranch
+                  (G := G) (v := v) (s := s) (t := t)
+                  (x := x) (w := w) (y := y) pair
+                  (rs : G.Walk v s) hx_left hx_right hw hy hy_tail →
+                terminalSetFanLeftBridgeFrontPrefixCoverSplit
+                  (G := G) (v := v) (s := s) (t := t)
+                  pair x w hx_left →
+                False) :
+    False := by
+  rcases hobs.1.1.1 with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix, y, hyv, hyx,
+      hy_rs, hy_right, hy_not_left, hy_tail, hfirst_union, hy_prefix,
+      hfirst_global, hbranch, _hlen, hsplit⟩
+  exact
+    hno rs hmin w hw hwv hwx hw_left hw_prefix y hyv hyx hy_rs
+      hy_right hy_not_left hy_tail hfirst_union hy_prefix hfirst_global
+      hbranch hsplit
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_no_prefix_split_branch_witness
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hno :
+      ∀ (rt : G.Path v t),
+        terminalReplacementPathSupportLengthMinimal (G := G) x rt →
+        ∀ (w : α) (hw : w ∈ (rt : G.Walk v t).support),
+          w ≠ v → w ≠ x →
+          ∀ (_hw_right : w ∈ (pair.2 : G.Walk v t).support),
+            w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            ∀ (y : α), y ≠ v → y ≠ x →
+            ∀ (hy : y ∈ (rt : G.Walk v t).support),
+              y ∈ (pair.1 : G.Walk v s).support →
+              y ∉ (pair.2 : G.Walk v t).support →
+              ∀ (hy_tail :
+                y ∈ (((rt : G.Walk v t).dropUntil w hw)).support),
+                (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+                  z ∈ (pair.2 : G.Walk v t).support ∨
+                  z ∈ (pair.1 : G.Walk v s).support →
+                  z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+                  z = w) →
+                y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                (∀ a : α, a ≠ v →
+                  a ∈ (pair.1 : G.Walk v s).support →
+                  a ∉ (pair.2 : G.Walk v t).support →
+                  a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                  a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+                  a = y) →
+                terminalSetFanRightBridgeFrontCleanSuffixBranch
+                  (G := G) (v := v) (s := s) (t := t)
+                  (x := x) (w := w) (y := y) pair
+                  (rt : G.Walk v t) hx_left hx_right hw hy hy_tail →
+                terminalSetFanRightBridgeFrontPrefixCoverSplit
+                  (G := G) (v := v) (s := s) (t := t)
+                  pair x w hx_right →
+                False) :
+    False := by
+  rcases hobs.1.1.1 with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix, y, hyv, hyx,
+      hy_rt, hy_left, hy_not_right, hy_tail, hfirst_union, hy_prefix,
+      hfirst_global, hbranch, _hlen, hsplit⟩
+  exact
+    hno rt hmin w hw hwv hwx hw_right hw_prefix y hyv hyx hy_rt
+      hy_left hy_not_right hy_tail hfirst_union hy_prefix hfirst_global
+      hbranch hsplit
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_prefix_obstruction
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgePrefixObstruction
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  rcases hobs.1.1 with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix, y, hyv, _hyx,
+      hy_rs, hy_right, hy_not_left, hy_tail, hfirst_union, hy_prefix,
+      _hfirst_global, _hbranch, _hlen, _hsplit⟩
+  have hx_not_prefix_left :
+      x ∉ ((pair.1 : G.Walk v s).takeUntil w hw_left).support :=
+    not_mem_takeUntil_later_of_mem_takeUntil_of_support
+      (G := G) (p := (pair.1 : G.Walk v s)) hx_left hw_left
+      hw_prefix hwx
+  exact
+    ⟨rs, hmin, w, hw, hwv, hw_left, hx_not_prefix_left, y, hyv,
+      hy_rs, hy_right, hy_not_left, hy_tail, hfirst_union,
+      Or.inl hy_prefix⟩
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_prefix_obstruction
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgePrefixObstruction
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  rcases hobs.1.1 with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix, y, hyv, _hyx,
+      hy_rt, hy_left, hy_not_right, hy_tail, hfirst_union, hy_prefix,
+      _hfirst_global, _hbranch, _hlen, _hsplit⟩
+  have hx_not_prefix_right :
+      x ∉ ((pair.2 : G.Walk v t).takeUntil w hw_right).support :=
+    not_mem_takeUntil_later_of_mem_takeUntil_of_support
+      (G := G) (p := (pair.2 : G.Walk v t)) hx_right hw_right
+      hw_prefix hwx
+  exact
+    ⟨rt, hmin, w, hw, hwv, hw_right, hx_not_prefix_right, y, hyv,
+      hy_rt, hy_left, hy_not_right, hy_tail, hfirst_union,
+      Or.inl hy_prefix⟩
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_front_obstruction
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontObstruction
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  rcases hobs.1.1 with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix, y, hyv, _hyx,
+      hy_rs, hy_right, hy_not_left, hy_tail, hfirst_union, hy_prefix,
+      _hfirst_global, _hbranch, _hlen, _hsplit⟩
+  have hx_not_prefix_left :
+      x ∉ ((pair.1 : G.Walk v s).takeUntil w hw_left).support :=
+    not_mem_takeUntil_later_of_mem_takeUntil_of_support
+      (G := G) (p := (pair.1 : G.Walk v s)) hx_left hw_left
+      hw_prefix hwx
+  exact
+    ⟨rs, hmin, w, hw, hwv, hw_left, hx_not_prefix_left, y, hyv,
+      hy_rs, hy_right, hy_not_left, hy_tail, hfirst_union, hy_prefix⟩
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_front_obstruction
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontObstruction
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  rcases hobs.1.1 with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix, y, hyv, _hyx,
+      hy_rt, hy_left, hy_not_right, hy_tail, hfirst_union, hy_prefix,
+      _hfirst_global, _hbranch, _hlen, _hsplit⟩
+  have hx_not_prefix_right :
+      x ∉ ((pair.2 : G.Walk v t).takeUntil w hw_right).support :=
+    not_mem_takeUntil_later_of_mem_takeUntil_of_support
+      (G := G) (p := (pair.2 : G.Walk v t)) hx_right hw_right
+      hw_prefix hwx
+  exact
+    ⟨rt, hmin, w, hw, hwv, hw_right, hx_not_prefix_right, y, hyv,
+      hy_rt, hy_left, hy_not_right, hy_tail, hfirst_union, hy_prefix⟩
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_prefix_obstruction
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgePrefixObstruction
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right :=
+  terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_prefix_obstruction
+    (G := G) (v := v) (s := s) (t := t) (x := x) (pair := pair)
+    hobs.1
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_prefix_obstruction
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgePrefixObstruction
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right :=
+  terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_prefix_obstruction
+    (G := G) (v := v) (s := s) (t := t) (x := x) (pair := pair)
+    hobs.1
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_front_obstruction
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontObstruction
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right :=
+  terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_front_obstruction
+    (G := G) (v := v) (s := s) (t := t) (x := x) (pair := pair)
+    hobs.1
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_front_obstruction
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontObstruction
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right :=
+  terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.to_support_minimal_bridge_front_obstruction
+    (G := G) (v := v) (s := s) (t := t) (x := x) (pair := pair)
+    hobs.1
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    0 < terminalPathPairPrefixOnlyDefect (G := G) pair := by
+  rcases hobs.1.1 with
+    ⟨_rs, _hmin, _w, _hw, _hwv, _hwx, _hw_left, _hw_prefix,
+      y, _hyv, _hyx, _hy_rs, _hy_right, hy_not_left, _hy_tail,
+      _hfirst_union, hy_prefix, _hfirst_global, _hbranch, _hlen,
+      _hsplit⟩
+  have hright :
+      0 < terminalPathPairRightPrefixOnlyDefect (G := G) pair :=
+    terminalPathPairRightPrefixOnlyDefect_pos_of_prefix_only
+      (G := G) (pair := pair) hx_left hx_right hy_prefix hy_not_left
+  unfold terminalPathPairPrefixOnlyDefect
+  omega
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    0 < terminalPathPairPrefixOnlyDefect (G := G) pair := by
+  rcases hobs.1.1 with
+    ⟨_rt, _hmin, _w, _hw, _hwv, _hwx, _hw_right, _hw_prefix,
+      y, _hyv, _hyx, _hy_rt, _hy_left, hy_not_right, _hy_tail,
+      _hfirst_union, hy_prefix, _hfirst_global, _hbranch, _hlen,
+      _hsplit⟩
+  have hleft :
+      0 < terminalPathPairLeftPrefixOnlyDefect (G := G) pair :=
+    terminalPathPairLeftPrefixOnlyDefect_pos_of_prefix_only
+      (G := G) (pair := pair) hx_left hx_right hy_prefix hy_not_right
+  unfold terminalPathPairPrefixOnlyDefect
+  omega
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.exists_right_prefix_only_defect_on_replacement_tail
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    ∃ rs : G.Path v s,
+      terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+      ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      ∃ y : α, ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+        y ∈ (((rs : G.Walk v s).dropUntil w hw)).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        (∀ a : α, a ≠ v →
+          a ∈ (pair.2 : G.Walk v t).support →
+          a ∉ (pair.1 : G.Walk v s).support →
+          a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+          a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+          a = y) := by
+  rcases hobs.1.1 with
+    ⟨rs, hmin, w, hw, _hwv, _hwx, _hw_left, _hw_prefix,
+      y, _hyv, _hyx, hy_rs, _hy_right, hy_not_left, hy_tail,
+      _hfirst_union, hy_prefix, hfirst_global, _hbranch, _hlen,
+      _hsplit⟩
+  have hy_defect :
+      y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair :=
+    terminalPathPairRightPrefixOnlyDefectSet_mem_of_prefix_only
+      (G := G) (pair := pair) hx_left hx_right hy_prefix hy_not_left
+  exact
+    ⟨rs, hmin, w, hw, y, hy_rs, hy_defect, hy_tail, hy_prefix,
+      hfirst_global⟩
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.exists_left_prefix_only_defect_on_replacement_tail
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    ∃ rt : G.Path v t,
+      terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+      ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      ∃ y : α, ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+        y ∈ (((rt : G.Walk v t).dropUntil w hw)).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        (∀ a : α, a ≠ v →
+          a ∈ (pair.1 : G.Walk v s).support →
+          a ∉ (pair.2 : G.Walk v t).support →
+          a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+          a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+          a = y) := by
+  rcases hobs.1.1 with
+    ⟨rt, hmin, w, hw, _hwv, _hwx, _hw_right, _hw_prefix,
+      y, _hyv, _hyx, hy_rt, _hy_left, hy_not_right, hy_tail,
+      _hfirst_union, hy_prefix, hfirst_global, _hbranch, _hlen,
+      _hsplit⟩
+  have hy_defect :
+      y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair :=
+    terminalPathPairLeftPrefixOnlyDefectSet_mem_of_prefix_only
+      (G := G) (pair := pair) hx_left hx_right hy_prefix hy_not_right
+  exact
+    ⟨rt, hmin, w, hw, y, hy_rt, hy_defect, hy_tail, hy_prefix,
+      hfirst_global⟩
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    0 < terminalPathPairPrefixOnlyDefect (G := G) pair :=
+  terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+    (G := G) (v := v) (s := s) (t := t) (x := x) (pair := pair)
+    hobs.1
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    0 < terminalPathPairPrefixOnlyDefect (G := G) pair :=
+  terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+    (G := G) (v := v) (s := s) (t := t) (x := x) (pair := pair)
+    hobs.1
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.exists_right_prefix_only_defect_on_replacement_tail
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    ∃ rs : G.Path v s,
+      terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+      ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      ∃ y : α, ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+        y ∈ (((rs : G.Walk v s).dropUntil w hw)).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        (∀ a : α, a ≠ v →
+          a ∈ (pair.2 : G.Walk v t).support →
+          a ∉ (pair.1 : G.Walk v s).support →
+          a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+          a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+          a = y) :=
+  terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.exists_right_prefix_only_defect_on_replacement_tail
+    (G := G) (v := v) (s := s) (t := t) (x := x) (pair := pair)
+    hobs.1
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.exists_left_prefix_only_defect_on_replacement_tail
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    ∃ rt : G.Path v t,
+      terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+      ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      ∃ y : α, ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+        y ∈ (((rt : G.Walk v t).dropUntil w hw)).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        (∀ a : α, a ≠ v →
+          a ∈ (pair.1 : G.Walk v s).support →
+          a ∉ (pair.2 : G.Walk v t).support →
+          a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+          a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+          a = y) :=
+  terminalSetFanRightSupportMinimalBridgeFrontCoverLengthFailureExchangeInflationGuardedPrefixSplitResidual.exists_left_prefix_only_defect_on_replacement_tail
+    (G := G) (v := v) (s := s) (t := t) (x := x) (pair := pair)
+    hobs.1
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.exists_branch_witness_with_opposite_defect
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    ∃ rs : G.Path v s,
+      terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+      ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+        w ≠ v ∧ w ≠ x ∧
+        w ∈ (pair.1 : G.Walk v s).support ∧
+        w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ y : α, y ≠ v ∧ y ≠ x ∧
+        ∃ hy : y ∈ (rs : G.Walk v s).support,
+          y ∈ (pair.2 : G.Walk v t).support ∧
+          y ∉ (pair.1 : G.Walk v s).support ∧
+          y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+          y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+          ∃ hy_tail :
+            y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+            (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+              z ∈ (pair.1 : G.Walk v s).support ∨
+              z ∈ (pair.2 : G.Walk v t).support →
+              z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+              z = w) ∧
+            (∀ a : α, a ≠ v →
+              a ∈ (pair.2 : G.Walk v t).support →
+              a ∉ (pair.1 : G.Walk v s).support →
+              a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+              a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+              a = y) ∧
+            terminalSetFanLeftBridgeFrontCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∧
+            terminalSetFanLeftBridgeFrontPrefixCoverSplit
+              (G := G) (v := v) (s := s) (t := t) pair x w hx_left := by
+  classical
+  rcases hobs.1.1.1 with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_tail,
+      hfirst_union, hy_prefix, hfirst_global, hbranch, _hlen,
+      hsplit⟩
+  have hy_defect :
+      y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair :=
+    terminalPathPairRightPrefixOnlyDefectSet_mem_of_prefix_only
+      (G := G) (pair := pair) hx_left hx_right hy_prefix hy_not_left
+  refine
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix, y, hyv, hyx,
+      hy_rs, hy_right, hy_not_left, hy_prefix, hy_defect, hy_tail,
+      hfirst_union, hfirst_global, ?_, hsplit⟩
+  simpa using hbranch
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.exists_branch_witness_with_opposite_defect
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    ∃ rt : G.Path v t,
+      terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+      ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+        w ≠ v ∧ w ≠ x ∧
+        w ∈ (pair.2 : G.Walk v t).support ∧
+        w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ y : α, y ≠ v ∧ y ≠ x ∧
+        ∃ hy : y ∈ (rt : G.Walk v t).support,
+          y ∈ (pair.1 : G.Walk v s).support ∧
+          y ∉ (pair.2 : G.Walk v t).support ∧
+          y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+          y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+          ∃ hy_tail :
+            y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+            (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+              z ∈ (pair.2 : G.Walk v t).support ∨
+              z ∈ (pair.1 : G.Walk v s).support →
+              z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+              z = w) ∧
+            (∀ a : α, a ≠ v →
+              a ∈ (pair.1 : G.Walk v s).support →
+              a ∉ (pair.2 : G.Walk v t).support →
+              a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+              a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+              a = y) ∧
+            terminalSetFanRightBridgeFrontCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∧
+            terminalSetFanRightBridgeFrontPrefixCoverSplit
+              (G := G) (v := v) (s := s) (t := t) pair x w hx_right := by
+  classical
+  rcases hobs.1.1.1 with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_tail,
+      hfirst_union, hy_prefix, hfirst_global, hbranch, _hlen,
+      hsplit⟩
+  have hy_defect :
+      y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair :=
+    terminalPathPairLeftPrefixOnlyDefectSet_mem_of_prefix_only
+      (G := G) (pair := pair) hx_left hx_right hy_prefix hy_not_right
+  refine
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix, y, hyv, hyx,
+      hy_rt, hy_left, hy_not_right, hy_prefix, hy_defect, hy_tail,
+      hfirst_union, hfirst_global, ?_, hsplit⟩
+  simpa using hbranch
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_clean_length_failure_secondary_minimal_replacement_altRight_measure_le_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Path v s}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) x rs)
+    (hw_rs : w ∈ (rs : G.Walk v s).support)
+    (hy_rs : y ∈ (rs : G.Walk v s).support)
+    (hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw_rs)).support)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_left : y ∉ (pair.1 : G.Walk v s).support)
+    (hy_prefix_x :
+      y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∈ (((rs : G.Walk v s).takeUntil w hw_rs)).support →
+        z = w)
+    (hclean :
+      w ∉ (pair.2 : G.Walk v t).support ∧
+      (∀ z : α, z ∈ (rs : G.Walk v s).support → z ≠ v →
+        z ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        False) ∧
+      (∀ z : α, z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ (((rs : G.Walk v s).dropUntil y hy_rs)).support →
+        False) ∧
+      (∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        z ∈ ((((rs : G.Walk v s).dropUntil w hw_rs).takeUntil y
+          hy_tail)).support →
+        False))
+    (hlen_fail :
+      ¬ (pair.1 : G.Walk v s).support.length ≤
+        (rs : G.Walk v s).support.length) :
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t := (rs, altRight)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase z) →
+    terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+    False := by
+  classical
+  dsimp
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  intro hmeasure_le hleft_sub hright_sub
+  rcases hclean with
+    ⟨_hw_not_right, hno_right_suffix_only, hno_post, hno_middle⟩
+  exact
+    terminalSetFanLeftBridgeFrontLengthFailureExchangeInflationGuard.false_of_secondary_minimal_replacement_altRight_measure_le_subsets
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) (pair := pair)
+      (rs := (rs : G.Walk v s))
+      hobs.1.2 hpair_min hsecondary_min rs.property hmin.1 hw_rs
+      hy_rs hy_tail hy_right hy_not_left hy_prefix_x hyx hfirst_union
+      hno_middle hno_post hno_right_suffix_only hlen_fail
+      (by simpa [altPair, altRight] using hmeasure_le)
+      (by simpa [altPair, altRight] using hleft_sub)
+      (by simpa [altPair, altRight] using hright_sub)
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_clean_length_failure_secondary_minimal_replacement_altLeft_measure_le_subsets
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Path v t}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) x rt)
+    (hw_rt : w ∈ (rt : G.Walk v t).support)
+    (hy_rt : y ∈ (rt : G.Walk v t).support)
+    (hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw_rt)).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support ∨
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∈ (((rt : G.Walk v t).takeUntil w hw_rt)).support →
+        z = w)
+    (hclean :
+      w ∉ (pair.1 : G.Walk v s).support ∧
+      (∀ z : α, z ∈ (rt : G.Walk v t).support → z ≠ v →
+        z ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support →
+        z ∉ (pair.2 : G.Walk v t).support →
+        False) ∧
+      (∀ z : α, z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ (((rt : G.Walk v t).dropUntil y hy_rt)).support →
+        False) ∧
+      (∀ z : α, z ≠ v → z ≠ w →
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∉ (pair.1 : G.Walk v s).support →
+        z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        z ∈ ((((rt : G.Walk v t).dropUntil w hw_rt).takeUntil y
+          hy_tail)).support →
+        False))
+    (hlen_fail :
+      ¬ (pair.2 : G.Walk v t).support.length ≤
+        (rt : G.Walk v t).support.length) :
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+    terminalPathPairWeightedMeasure (G := G) altPair ≤
+      terminalPathPairWeightedMeasure (G := G) pair →
+    terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+    (∀ z : α,
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase z) →
+    False := by
+  classical
+  dsimp
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  intro hmeasure_le hleft_sub hright_sub
+  rcases hclean with
+    ⟨_hw_not_left, hno_left_suffix_only, hno_post, hno_middle⟩
+  exact
+    terminalSetFanRightBridgeFrontLengthFailureExchangeInflationGuard.false_of_secondary_minimal_replacement_altLeft_measure_le_subsets
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) (y := y) (pair := pair)
+      (rt := (rt : G.Walk v t))
+      hobs.1.2 hpair_min hsecondary_min rt.property hmin.1 hw_rt
+        hy_rt hy_tail hy_left hy_not_right hy_prefix_x hyx hfirst_union
+        hno_middle hno_post hno_left_suffix_only hlen_fail
+        (by simpa [altPair, altLeft] using hmeasure_le)
+        (by simpa [altPair, altLeft] using hleft_sub)
+        (by simpa [altPair, altLeft] using hright_sub)
+
+private abbrev terminalPathPairLeftReplacementAltRightDescentPackageFailure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Path v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  ¬ (terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair ∧
+      (∀ z : α,
+        z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+        z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase z) ∧
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightReplacementAltLeftDescentPackageFailure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  ¬ (terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair ∧
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      (∀ z : α,
+        z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+        z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase z))
+
+private abbrev terminalPathPairLeftReplacementAltRightConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Path v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    ¬ (∀ z : α,
+      z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase z) ∨
+    ¬ (terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightReplacementAltLeftConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    ¬ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+    ¬ (∀ z : α,
+      z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase z)
+
+private lemma terminalPathPairLeftReplacementAltRightDescentPackageFailure_concrete_cases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hfail :
+      terminalPathPairLeftReplacementAltRightDescentPackageFailure
+        (G := G) (x := x) pair rs hx_left hx_right) :
+    terminalPathPairLeftReplacementAltRightConcreteFailureResidual
+      (G := G) (x := x) pair rs hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairLeftReplacementAltRightDescentPackageFailure,
+    terminalPathPairLeftReplacementAltRightConcreteFailureResidual] at hfail ⊢
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  by_cases hmeasure :
+      terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair
+  · by_cases hleft :
+        ∀ z : α,
+          z ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+          z ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+          terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+            (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase z
+    · by_cases hright :
+          terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+            terminalPathPairRightPrefixOnlyDefectSet (G := G) pair
+      · exact False.elim (hfail ⟨hmeasure, hleft, hright⟩)
+      · exact Or.inr (Or.inr hright)
+    · exact Or.inr (Or.inl hleft)
+  · exact Or.inl
+      (terminalPathPairWeightedMeasure_lt_commonCard_or_supportLength_lt
+        (G := G) (pair := pair) (pair' := altPair) (lt_of_not_ge hmeasure))
+
+private lemma terminalPathPairRightReplacementAltLeftDescentPackageFailure_concrete_cases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hfail :
+      terminalPathPairRightReplacementAltLeftDescentPackageFailure
+        (G := G) (x := x) pair rt hx_left hx_right) :
+    terminalPathPairRightReplacementAltLeftConcreteFailureResidual
+      (G := G) (x := x) pair rt hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairRightReplacementAltLeftDescentPackageFailure,
+    terminalPathPairRightReplacementAltLeftConcreteFailureResidual] at hfail ⊢
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  by_cases hmeasure :
+      terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair
+  · by_cases hleft :
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+          terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair
+    · by_cases hright :
+          ∀ z : α,
+            z ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+            z ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+            terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+              (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase z
+      · exact False.elim (hfail ⟨hmeasure, hleft, hright⟩)
+      · exact Or.inr (Or.inr hright)
+    · exact Or.inr (Or.inl hleft)
+  · exact Or.inl
+      (terminalPathPairWeightedMeasure_lt_commonCard_or_supportLength_lt
+        (G := G) (pair := pair) (pair' := altPair) (lt_of_not_ge hmeasure))
+
+private abbrev terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Path v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+    (∃ y : α,
+      y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ y : α,
+      y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w)
+
+private lemma terminalPathPairLeftReplacementAltRightConcreteFailureResidual_defect_witness_cases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairLeftReplacementAltRightConcreteFailureResidual
+        (G := G) (x := x) pair rs hx_left hx_right) :
+    terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+      (G := G) (x := x) pair rs hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairLeftReplacementAltRightConcreteFailureResidual,
+    terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual] at hres ⊢
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  rcases hres with hmeasure | hsubset
+  · exact Or.inl hmeasure
+  · rcases hsubset with hleft | hright
+    · right
+      left
+      push_neg at hleft
+      rcases hleft with ⟨w, hw_old, hw_absent, hnot_subset⟩
+      rw [Finset.not_subset] at hnot_subset
+      rcases hnot_subset with ⟨y, hy_new, hy_not_erase⟩
+      exact ⟨w, y, hw_old, hw_absent, hy_new, hy_not_erase⟩
+    · right
+      right
+      rw [Finset.not_subset] at hright
+      rcases hright with ⟨y, hy_new, hy_not_old⟩
+      exact ⟨y, hy_new, hy_not_old⟩
+
+private lemma terminalPathPairRightReplacementAltLeftConcreteFailureResidual_defect_witness_cases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairRightReplacementAltLeftConcreteFailureResidual
+        (G := G) (x := x) pair rt hx_left hx_right) :
+    terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+      (G := G) (x := x) pair rt hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairRightReplacementAltLeftConcreteFailureResidual,
+    terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual] at hres ⊢
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  rcases hres with hmeasure | hsubset
+  · exact Or.inl hmeasure
+  · rcases hsubset with hleft | hright
+    · right
+      left
+      rw [Finset.not_subset] at hleft
+      rcases hleft with ⟨y, hy_new, hy_not_old⟩
+      exact ⟨y, hy_new, hy_not_old⟩
+    · right
+      right
+      push_neg at hright
+      rcases hright with ⟨w, hw_old, hw_absent, hnot_subset⟩
+      rw [Finset.not_subset] at hnot_subset
+      rcases hnot_subset with ⟨y, hy_new, hy_not_erase⟩
+      exact ⟨w, y, hw_old, hw_absent, hy_new, hy_not_erase⟩
+
+private abbrev terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Path v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altRight : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_rs : c ∈ (rs : G.Walk v s).support,
+        c ∈ (altRight : G.Walk v t).support ∧
+        y ∈ ((rs : G.Walk v s).takeUntil c hc_rs).support) ∧
+      y ∉ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+    (∃ y : α,
+      y ∉ (rs : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+        c ∈ (rs : G.Walk v s).support ∧
+        y ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ y : α,
+      y ∉ (rt : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+        c ∈ (rt : G.Walk v t).support ∧
+        y ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altLeft : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_rt : c ∈ (rt : G.Walk v t).support,
+        c ∈ (altLeft : G.Walk v s).support ∧
+        y ∈ ((rt : G.Walk v t).takeUntil c hc_rt).support) ∧
+      y ∉ (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w)
+
+private lemma terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual.to_expanded
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+        (G := G) (x := x) pair rs hx_left hx_right) :
+    terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual
+      (G := G) (x := x) pair rs hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual,
+    terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual] at hres ⊢
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  rcases hres with hmeasure | hrest
+  · exact Or.inl hmeasure
+  · rcases hrest with hsame | hopp
+    · right
+      left
+      rcases hsame with ⟨w, y, hw_old, hw_absent, hy_new, hy_not_erase⟩
+      have hy_new_exp :
+          y ∉ (altRight : G.Walk v t).support ∧
+            ∃ c : α, ∃ hc_rs : c ∈ (rs : G.Walk v s).support,
+              c ∈ (altRight : G.Walk v t).support ∧
+              y ∈ ((rs : G.Walk v s).takeUntil c hc_rs).support := by
+        simpa [altPair, altRight] using
+          (mem_terminalPathPairLeftPrefixOnlyDefectSet
+            (G := G) (pair := altPair) (z := y)).mp hy_new
+      rcases hy_new_exp with ⟨hy_not_alt, c, hc_rs, hc_alt, hy_prefix⟩
+      exact
+        ⟨w, y, hw_old, hw_absent, hy_not_alt,
+          ⟨c, hc_rs, hc_alt, hy_prefix⟩, hy_not_erase⟩
+    · right
+      right
+      rcases hopp with ⟨y, hy_new, hy_not_old⟩
+      have hy_new_exp :
+          y ∉ (rs : G.Walk v s).support ∧
+            ∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+              c ∈ (rs : G.Walk v s).support ∧
+              y ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support := by
+        simpa [altPair, altRight] using
+          (mem_terminalPathPairRightPrefixOnlyDefectSet
+            (G := G) (pair := altPair) (z := y)).mp hy_new
+      rcases hy_new_exp with ⟨hy_not_rs, c, hc_alt, hc_rs, hy_prefix⟩
+      exact ⟨y, hy_not_rs, ⟨c, hc_alt, hc_rs, hy_prefix⟩, hy_not_old⟩
+
+private lemma terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual.to_expanded
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+        (G := G) (x := x) pair rt hx_left hx_right) :
+    terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual
+      (G := G) (x := x) pair rt hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual,
+    terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual] at hres ⊢
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  rcases hres with hmeasure | hrest
+  · exact Or.inl hmeasure
+  · rcases hrest with hopp | hsame
+    · right
+      left
+      rcases hopp with ⟨y, hy_new, hy_not_old⟩
+      have hy_new_exp :
+          y ∉ (rt : G.Walk v t).support ∧
+            ∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+              c ∈ (rt : G.Walk v t).support ∧
+              y ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support := by
+        simpa [altPair, altLeft] using
+          (mem_terminalPathPairLeftPrefixOnlyDefectSet
+            (G := G) (pair := altPair) (z := y)).mp hy_new
+      rcases hy_new_exp with ⟨hy_not_rt, c, hc_alt, hc_rt, hy_prefix⟩
+      exact ⟨y, hy_not_rt, ⟨c, hc_alt, hc_rt, hy_prefix⟩, hy_not_old⟩
+    · right
+      right
+      rcases hsame with ⟨w, y, hw_old, hw_absent, hy_new, hy_not_erase⟩
+      have hy_new_exp :
+          y ∉ (altLeft : G.Walk v s).support ∧
+            ∃ c : α, ∃ hc_rt : c ∈ (rt : G.Walk v t).support,
+              c ∈ (altLeft : G.Walk v s).support ∧
+              y ∈ ((rt : G.Walk v t).takeUntil c hc_rt).support := by
+        simpa [altPair, altLeft] using
+          (mem_terminalPathPairRightPrefixOnlyDefectSet
+            (G := G) (pair := altPair) (z := y)).mp hy_new
+      rcases hy_new_exp with ⟨hy_not_alt, c, hc_rt, hc_alt, hy_prefix⟩
+      exact
+        ⟨w, y, hw_old, hw_absent, hy_not_alt,
+          ⟨c, hc_rt, hc_alt, hy_prefix⟩, hy_not_erase⟩
+
+private abbrev terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Path v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altRight : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_rs : c ∈ (rs : G.Walk v s).support,
+        ∃ _hc_alt : c ∈ (altRight : G.Walk v t).support,
+          (c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∨
+            c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support) ∧
+          y ∈ ((rs : G.Walk v s).takeUntil c hc_rs).support) ∧
+      y ∉ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+    (∃ y : α,
+      y ∉ (rs : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+        (c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∨
+          c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support) ∧
+        c ∈ (rs : G.Walk v s).support ∧
+        y ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ y : α,
+      y ∉ (rt : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+        (c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∨
+          c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support) ∧
+        c ∈ (rt : G.Walk v t).support ∧
+        y ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altLeft : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_rt : c ∈ (rt : G.Walk v t).support,
+        ∃ _hc_alt : c ∈ (altLeft : G.Walk v s).support,
+          (c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∨
+            c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support) ∧
+          y ∈ ((rt : G.Walk v t).takeUntil c hc_rt).support) ∧
+      y ∉ (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w)
+
+private abbrev terminalPathPairLeftReplacementAltRightOldSuffixOppositeOnlySource
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Path v s)
+    (_hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ c : α,
+    c ∈ (rs : G.Walk v s).support ∧
+    c ≠ v ∧
+    c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+    c ∉ (pair.1 : G.Walk v s).support
+
+private abbrev terminalPathPairRightReplacementAltLeftOldSuffixOppositeOnlySource
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (_hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ c : α,
+    c ∈ (rt : G.Walk v t).support ∧
+    c ≠ v ∧
+    c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+    c ∉ (pair.2 : G.Walk v t).support
+
+private abbrev terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Path v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altRight : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_rs : c ∈ (rs : G.Walk v s).support,
+        ∃ _hc_alt : c ∈ (altRight : G.Walk v t).support,
+          (c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∨
+            c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+              c ∈ (pair.1 : G.Walk v s).support) ∧
+          y ∈ ((rs : G.Walk v s).takeUntil c hc_rs).support) ∧
+      y ∉ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+    (∃ y : α,
+      y ∉ (rs : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+        (c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∨
+          c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+            c ∈ (pair.1 : G.Walk v s).support) ∧
+        c ∈ (rs : G.Walk v s).support ∧
+        y ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ y : α,
+      y ∉ (rt : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+        (c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∨
+          c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+            c ∈ (pair.2 : G.Walk v t).support) ∧
+        c ∈ (rt : G.Walk v t).support ∧
+        y ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altLeft : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_rt : c ∈ (rt : G.Walk v t).support,
+        ∃ _hc_alt : c ∈ (altLeft : G.Walk v s).support,
+          (c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∨
+            c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+              c ∈ (pair.2 : G.Walk v t).support) ∧
+          y ∈ ((rt : G.Walk v t).takeUntil c hc_rt).support) ∧
+      y ∉ (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w)
+
+private abbrev terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Path v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altRight : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_rs : c ∈ (rs : G.Walk v s).support,
+        ∃ _hc_alt : c ∈ (altRight : G.Walk v t).support,
+          (c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∨
+            c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+              c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support) ∧
+          y ∈ ((rs : G.Walk v s).takeUntil c hc_rs).support) ∧
+      y ∉ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+    (∃ y : α,
+      y ∉ (rs : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+        (c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∨
+          c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+            c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support) ∧
+        c ∈ (rs : G.Walk v s).support ∧
+        y ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ y : α,
+      y ∉ (rt : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+        (c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∨
+          c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+            c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support) ∧
+        c ∈ (rt : G.Walk v t).support ∧
+        y ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altLeft : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_rt : c ∈ (rt : G.Walk v t).support,
+        ∃ _hc_alt : c ∈ (altLeft : G.Walk v s).support,
+          (c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∨
+            c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+              c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support) ∧
+          y ∈ ((rt : G.Walk v t).takeUntil c hc_rt).support) ∧
+      y ∉ (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w)
+
+private lemma terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual.to_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual
+        (G := G) (x := x) pair rs hx_left hx_right) :
+    terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual
+      (G := G) (x := x) pair rs hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual,
+    terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual] at hres ⊢
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  rcases hres with hmeasure | hrest
+  · exact Or.inl hmeasure
+  · rcases hrest with hsame | hopp
+    · right
+      left
+      rcases hsame with
+        ⟨w, y, hw_old, hw_absent, hy_not_alt,
+          hc_pack, hy_not_erase⟩
+      rcases hc_pack with ⟨c, hc_rs, hc_alt, hy_prefix⟩
+      have hc_source :
+          c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∨
+            c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support := by
+        exact
+          mem_support_toPath_append_takeUntil_dropUntil_cases
+            (G := G) (p := (pair.1 : G.Walk v s))
+            (q := (pair.2 : G.Walk v t)) (y := x) (z := c)
+            hx_left hx_right (by simpa [altRight] using hc_alt)
+      exact
+        ⟨w, y, hw_old, hw_absent, hy_not_alt,
+          ⟨c, hc_rs, hc_alt, hc_source, hy_prefix⟩, hy_not_erase⟩
+    · right
+      right
+      rcases hopp with ⟨y, hy_not_rs, hc_pack, hy_not_old⟩
+      rcases hc_pack with ⟨c, hc_alt, hc_rs, hy_prefix⟩
+      have hc_source :
+          c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∨
+            c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support := by
+        exact
+          mem_support_toPath_append_takeUntil_dropUntil_cases
+            (G := G) (p := (pair.1 : G.Walk v s))
+            (q := (pair.2 : G.Walk v t)) (y := x) (z := c)
+            hx_left hx_right (by simpa [altRight] using hc_alt)
+      exact
+        ⟨y, hy_not_rs,
+          ⟨c, hc_alt, hc_source, hc_rs, hy_prefix⟩, hy_not_old⟩
+
+private lemma terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual.to_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual
+        (G := G) (x := x) pair rt hx_left hx_right) :
+    terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual
+      (G := G) (x := x) pair rt hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual,
+    terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual] at hres ⊢
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  rcases hres with hmeasure | hrest
+  · exact Or.inl hmeasure
+  · rcases hrest with hopp | hsame
+    · right
+      left
+      rcases hopp with ⟨y, hy_not_rt, hc_pack, hy_not_old⟩
+      rcases hc_pack with ⟨c, hc_alt, hc_rt, hy_prefix⟩
+      have hc_source :
+          c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∨
+            c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support := by
+        exact
+          mem_support_toPath_append_takeUntil_dropUntil_cases
+            (G := G) (p := (pair.2 : G.Walk v t))
+            (q := (pair.1 : G.Walk v s)) (y := x) (z := c)
+            hx_right hx_left (by simpa [altLeft] using hc_alt)
+      exact
+        ⟨y, hy_not_rt,
+          ⟨c, hc_alt, hc_source, hc_rt, hy_prefix⟩, hy_not_old⟩
+    · right
+      right
+      rcases hsame with
+        ⟨w, y, hw_old, hw_absent, hy_not_alt,
+          hc_pack, hy_not_erase⟩
+      rcases hc_pack with ⟨c, hc_rt, hc_alt, hy_prefix⟩
+      have hc_source :
+          c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∨
+            c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support := by
+        exact
+          mem_support_toPath_append_takeUntil_dropUntil_cases
+            (G := G) (p := (pair.2 : G.Walk v t))
+            (q := (pair.1 : G.Walk v s)) (y := x) (z := c)
+            hx_right hx_left (by simpa [altLeft] using hc_alt)
+      exact
+        ⟨w, y, hw_old, hw_absent, hy_not_alt,
+          ⟨c, hc_rt, hc_alt, hc_source, hy_prefix⟩, hy_not_erase⟩
+
+private lemma terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual.to_old_suffix_opposite_only_or_common
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual
+        (G := G) (x := x) pair rs hx_left hx_right) :
+    terminalPathPairLeftReplacementAltRightOldSuffixOppositeOnlySource
+        (G := G) (x := x) pair rs hx_left hx_right ∨
+      terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual
+        (G := G) (x := x) pair rs hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual,
+    terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual,
+    terminalPathPairLeftReplacementAltRightOldSuffixOppositeOnlySource] at hres ⊢
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  rcases hres with hmeasure | hrest
+  · exact Or.inr (Or.inl hmeasure)
+  · rcases hrest with hsame | hopp
+    · rcases hsame with
+        ⟨w, y, hw_old, hw_absent, hy_not_alt, hc_pack, hy_not_erase⟩
+      rcases hc_pack with ⟨c, hc_rs, hc_alt, hc_source, hy_prefix⟩
+      rcases hc_source with hc_prefix | hc_suffix
+      · exact Or.inr (Or.inr (Or.inl
+          ⟨w, y, hw_old, hw_absent, hy_not_alt,
+            ⟨c, hc_rs, hc_alt, Or.inl hc_prefix, hy_prefix⟩,
+            hy_not_erase⟩))
+      · by_cases hc_left : c ∈ (pair.1 : G.Walk v s).support
+        · exact Or.inr (Or.inr (Or.inl
+            ⟨w, y, hw_old, hw_absent, hy_not_alt,
+              ⟨c, hc_rs, hc_alt, Or.inr ⟨hc_suffix, hc_left⟩,
+                hy_prefix⟩,
+              hy_not_erase⟩))
+        · have hcv : c ≠ v := by
+            intro hcv
+            exact hc_left (by
+              simpa [hcv] using
+                (pair.1 : G.Walk v s).start_mem_support)
+          exact Or.inl ⟨c, hc_rs, hcv, hc_suffix, hc_left⟩
+    · rcases hopp with ⟨y, hy_not_rs, hc_pack, hy_not_old⟩
+      rcases hc_pack with ⟨c, hc_alt, hc_source, hc_rs, hy_prefix⟩
+      rcases hc_source with hc_prefix | hc_suffix
+      · exact Or.inr (Or.inr (Or.inr
+          ⟨y, hy_not_rs,
+            ⟨c, hc_alt, Or.inl hc_prefix, hc_rs, hy_prefix⟩,
+            hy_not_old⟩))
+      · by_cases hc_left : c ∈ (pair.1 : G.Walk v s).support
+        · exact Or.inr (Or.inr (Or.inr
+            ⟨y, hy_not_rs,
+              ⟨c, hc_alt, Or.inr ⟨hc_suffix, hc_left⟩,
+                hc_rs, hy_prefix⟩,
+              hy_not_old⟩))
+        · have hcv : c ≠ v := by
+            intro hcv
+            exact hc_left (by
+              simpa [hcv] using
+                (pair.1 : G.Walk v s).start_mem_support)
+          exact Or.inl ⟨c, hc_rs, hcv, hc_suffix, hc_left⟩
+
+private lemma terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual.to_old_suffix_opposite_only_or_common
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual
+        (G := G) (x := x) pair rt hx_left hx_right) :
+    terminalPathPairRightReplacementAltLeftOldSuffixOppositeOnlySource
+        (G := G) (x := x) pair rt hx_left hx_right ∨
+      terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual
+        (G := G) (x := x) pair rt hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual,
+    terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual,
+    terminalPathPairRightReplacementAltLeftOldSuffixOppositeOnlySource] at hres ⊢
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  rcases hres with hmeasure | hrest
+  · exact Or.inr (Or.inl hmeasure)
+  · rcases hrest with hopp | hsame
+    · rcases hopp with ⟨y, hy_not_rt, hc_pack, hy_not_old⟩
+      rcases hc_pack with ⟨c, hc_alt, hc_source, hc_rt, hy_prefix⟩
+      rcases hc_source with hc_prefix | hc_suffix
+      · exact Or.inr (Or.inr (Or.inl
+          ⟨y, hy_not_rt,
+            ⟨c, hc_alt, Or.inl hc_prefix, hc_rt, hy_prefix⟩,
+            hy_not_old⟩))
+      · by_cases hc_right : c ∈ (pair.2 : G.Walk v t).support
+        · exact Or.inr (Or.inr (Or.inl
+            ⟨y, hy_not_rt,
+              ⟨c, hc_alt, Or.inr ⟨hc_suffix, hc_right⟩,
+                hc_rt, hy_prefix⟩,
+              hy_not_old⟩))
+        · have hcv : c ≠ v := by
+            intro hcv
+            exact hc_right (by
+              simpa [hcv] using
+                (pair.2 : G.Walk v t).start_mem_support)
+          exact Or.inl ⟨c, hc_rt, hcv, hc_suffix, hc_right⟩
+    · rcases hsame with
+        ⟨w, y, hw_old, hw_absent, hy_not_alt, hc_pack, hy_not_erase⟩
+      rcases hc_pack with ⟨c, hc_rt, hc_alt, hc_source, hy_prefix⟩
+      rcases hc_source with hc_prefix | hc_suffix
+      · exact Or.inr (Or.inr (Or.inr
+          ⟨w, y, hw_old, hw_absent, hy_not_alt,
+            ⟨c, hc_rt, hc_alt, Or.inl hc_prefix, hy_prefix⟩,
+            hy_not_erase⟩))
+      · by_cases hc_right : c ∈ (pair.2 : G.Walk v t).support
+        · exact Or.inr (Or.inr (Or.inr
+            ⟨w, y, hw_old, hw_absent, hy_not_alt,
+              ⟨c, hc_rt, hc_alt, Or.inr ⟨hc_suffix, hc_right⟩,
+                hy_prefix⟩,
+              hy_not_erase⟩))
+        · have hcv : c ≠ v := by
+            intro hcv
+            exact hc_right (by
+              simpa [hcv] using
+                (pair.2 : G.Walk v t).start_mem_support)
+          exact Or.inl ⟨c, hc_rt, hcv, hc_suffix, hc_right⟩
+
+private lemma terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual.to_aligned_common_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual
+        (G := G) (x := x) pair rs hx_left hx_right) :
+    terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+      (G := G) (x := x) pair rs hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual,
+    terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual] at hres ⊢
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  rcases hres with hmeasure | hrest
+  · exact Or.inl hmeasure
+  · rcases hrest with hsame | hopp
+    · right
+      left
+      rcases hsame with
+        ⟨w, y, hw_old, hw_absent, hy_not_alt, hc_pack, hy_not_erase⟩
+      rcases hc_pack with ⟨c, hc_rs, hc_alt, hc_source, hy_prefix⟩
+      have hc_aligned :
+          c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∨
+            c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+              c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support := by
+        rcases hc_source with hc_prefix | hsuffix_common
+        · exact Or.inl hc_prefix
+        · rcases hsuffix_common with ⟨hc_suffix, hc_left⟩
+          rcases
+              mem_takeUntil_or_mem_dropUntil_of_mem_support
+                (G := G) (p := (pair.1 : G.Walk v s))
+                (w := x) (y := c) hx_left hc_left with
+            hc_left_prefix | hc_left_suffix
+          · exact Or.inl hc_left_prefix
+          · exact Or.inr ⟨hc_suffix, hc_left_suffix⟩
+      exact
+        ⟨w, y, hw_old, hw_absent, hy_not_alt,
+          ⟨c, hc_rs, hc_alt, hc_aligned, hy_prefix⟩, hy_not_erase⟩
+    · right
+      right
+      rcases hopp with ⟨y, hy_not_rs, hc_pack, hy_not_old⟩
+      rcases hc_pack with ⟨c, hc_alt, hc_source, hc_rs, hy_prefix⟩
+      have hc_aligned :
+          c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∨
+            c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+              c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support := by
+        rcases hc_source with hc_prefix | hsuffix_common
+        · exact Or.inl hc_prefix
+        · rcases hsuffix_common with ⟨hc_suffix, hc_left⟩
+          rcases
+              mem_takeUntil_or_mem_dropUntil_of_mem_support
+                (G := G) (p := (pair.1 : G.Walk v s))
+                (w := x) (y := c) hx_left hc_left with
+            hc_left_prefix | hc_left_suffix
+          · exact Or.inl hc_left_prefix
+          · exact Or.inr ⟨hc_suffix, hc_left_suffix⟩
+      exact
+        ⟨y, hy_not_rs,
+          ⟨c, hc_alt, hc_aligned, hc_rs, hy_prefix⟩, hy_not_old⟩
+
+private lemma terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual.to_aligned_common_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual
+        (G := G) (x := x) pair rt hx_left hx_right) :
+    terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+      (G := G) (x := x) pair rt hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual,
+    terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual] at hres ⊢
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  rcases hres with hmeasure | hrest
+  · exact Or.inl hmeasure
+  · rcases hrest with hopp | hsame
+    · right
+      left
+      rcases hopp with ⟨y, hy_not_rt, hc_pack, hy_not_old⟩
+      rcases hc_pack with ⟨c, hc_alt, hc_source, hc_rt, hy_prefix⟩
+      have hc_aligned :
+          c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∨
+            c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+              c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support := by
+        rcases hc_source with hc_prefix | hsuffix_common
+        · exact Or.inl hc_prefix
+        · rcases hsuffix_common with ⟨hc_suffix, hc_right⟩
+          rcases
+              mem_takeUntil_or_mem_dropUntil_of_mem_support
+                (G := G) (p := (pair.2 : G.Walk v t))
+                (w := x) (y := c) hx_right hc_right with
+            hc_right_prefix | hc_right_suffix
+          · exact Or.inl hc_right_prefix
+          · exact Or.inr ⟨hc_suffix, hc_right_suffix⟩
+      exact
+        ⟨y, hy_not_rt,
+          ⟨c, hc_alt, hc_aligned, hc_rt, hy_prefix⟩, hy_not_old⟩
+    · right
+      right
+      rcases hsame with
+        ⟨w, y, hw_old, hw_absent, hy_not_alt, hc_pack, hy_not_erase⟩
+      rcases hc_pack with ⟨c, hc_rt, hc_alt, hc_source, hy_prefix⟩
+      have hc_aligned :
+          c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∨
+            c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+              c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support := by
+        rcases hc_source with hc_prefix | hsuffix_common
+        · exact Or.inl hc_prefix
+        · rcases hsuffix_common with ⟨hc_suffix, hc_right⟩
+          rcases
+              mem_takeUntil_or_mem_dropUntil_of_mem_support
+                (G := G) (p := (pair.2 : G.Walk v t))
+                (w := x) (y := c) hx_right hc_right with
+            hc_right_prefix | hc_right_suffix
+          · exact Or.inl hc_right_prefix
+          · exact Or.inr ⟨hc_suffix, hc_right_suffix⟩
+      exact
+        ⟨w, y, hw_old, hw_absent, hy_not_alt,
+          ⟨c, hc_rt, hc_alt, hc_aligned, hy_prefix⟩, hy_not_erase⟩
+
+private abbrev terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Path v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altRight : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_rs : c ∈ (rs : G.Walk v s).support,
+        ∃ _hc_alt : c ∈ (altRight : G.Walk v t).support,
+          c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+          y ∈ ((rs : G.Walk v s).takeUntil c hc_rs).support) ∧
+      y ∉ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+    (∃ y : α,
+      y ∉ (rs : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+        c ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        c ∈ (rs : G.Walk v s).support ∧
+        y ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Path v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  (∃ w y : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altRight : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_rs : c ∈ (rs : G.Walk v s).support,
+        ∃ _hc_alt : c ∈ (altRight : G.Walk v t).support,
+          (c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+            c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support) ∧
+          y ∈ ((rs : G.Walk v s).takeUntil c hc_rs).support) ∧
+      y ∉ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+    (∃ y : α,
+      y ∉ (rs : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altRight : G.Walk v t).support,
+        (c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support ∧
+          c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support) ∧
+        c ∈ (rs : G.Walk v s).support ∧
+        y ∈ ((altRight : G.Walk v t).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  (terminalPathPairCommonCard pair <
+      terminalPathPairCommonCard altPair ∨
+    terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ y : α,
+      y ∉ (rt : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+        c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        c ∈ (rt : G.Walk v t).support ∧
+        y ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altLeft : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_rt : c ∈ (rt : G.Walk v t).support,
+        ∃ _hc_alt : c ∈ (altLeft : G.Walk v s).support,
+          c ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+          y ∈ ((rt : G.Walk v t).takeUntil c hc_rt).support) ∧
+      y ∉ (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w)
+
+private abbrev terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  (∃ y : α,
+      y ∉ (rt : G.Walk v t).support ∧
+      (∃ c : α, ∃ hc_alt : c ∈ (altLeft : G.Walk v s).support,
+        (c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+          c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support) ∧
+        c ∈ (rt : G.Walk v t).support ∧
+        y ∈ ((altLeft : G.Walk v s).takeUntil c hc_alt).support) ∧
+      y ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (altLeft : G.Walk v s).support ∧
+      (∃ c : α, ∃ hc_rt : c ∈ (rt : G.Walk v t).support,
+        ∃ _hc_alt : c ∈ (altLeft : G.Walk v s).support,
+          (c ∈ ((pair.1 : G.Walk v s).dropUntil x hx_left).support ∧
+            c ∈ ((pair.2 : G.Walk v t).dropUntil x hx_right).support) ∧
+          y ∈ ((rt : G.Walk v t).takeUntil c hc_rt).support) ∧
+      y ∉ (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w)
+
+private lemma terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual.to_prefix_source_or_double_suffix
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+        (G := G) (x := x) pair rs hx_left hx_right) :
+    terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+        (G := G) (x := x) pair rs hx_left hx_right ∨
+      terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+        (G := G) (x := x) pair rs hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual,
+    terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual,
+    terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual] at hres ⊢
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (rs, altRight)
+  rcases hres with hmeasure | hrest
+  · exact Or.inl (Or.inl hmeasure)
+  · rcases hrest with hsame | hopp
+    · rcases hsame with
+        ⟨w, y, hw_old, hw_absent, hy_not_alt, hc_pack, hy_not_erase⟩
+      rcases hc_pack with ⟨c, hc_rs, hc_alt, hc_source, hy_prefix⟩
+      rcases hc_source with hc_prefix | hc_suffix
+      · exact Or.inl (Or.inr (Or.inl
+          ⟨w, y, hw_old, hw_absent, hy_not_alt,
+            ⟨c, hc_rs, hc_alt, hc_prefix, hy_prefix⟩, hy_not_erase⟩))
+      · exact Or.inr (Or.inl
+          ⟨w, y, hw_old, hw_absent, hy_not_alt,
+            ⟨c, hc_rs, hc_alt, hc_suffix, hy_prefix⟩, hy_not_erase⟩)
+    · rcases hopp with ⟨y, hy_not_rs, hc_pack, hy_not_old⟩
+      rcases hc_pack with ⟨c, hc_alt, hc_source, hc_rs, hy_prefix⟩
+      rcases hc_source with hc_prefix | hc_suffix
+      · exact Or.inl (Or.inr (Or.inr
+          ⟨y, hy_not_rs,
+            ⟨c, hc_alt, hc_prefix, hc_rs, hy_prefix⟩, hy_not_old⟩))
+      · exact Or.inr (Or.inr
+          ⟨y, hy_not_rs,
+            ⟨c, hc_alt, hc_suffix, hc_rs, hy_prefix⟩, hy_not_old⟩)
+
+private lemma terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual.to_prefix_source_or_double_suffix
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+        (G := G) (x := x) pair rt hx_left hx_right) :
+    terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+        (G := G) (x := x) pair rt hx_left hx_right ∨
+      terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+        (G := G) (x := x) pair rt hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual,
+    terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual,
+    terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual] at hres ⊢
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+  rcases hres with hmeasure | hrest
+  · exact Or.inl (Or.inl hmeasure)
+  · rcases hrest with hopp | hsame
+    · rcases hopp with ⟨y, hy_not_rt, hc_pack, hy_not_old⟩
+      rcases hc_pack with ⟨c, hc_alt, hc_source, hc_rt, hy_prefix⟩
+      rcases hc_source with hc_prefix | hc_suffix
+      · exact Or.inl (Or.inr (Or.inl
+          ⟨y, hy_not_rt,
+            ⟨c, hc_alt, hc_prefix, hc_rt, hy_prefix⟩, hy_not_old⟩))
+      · exact Or.inr (Or.inl
+          ⟨y, hy_not_rt,
+            ⟨c, hc_alt, hc_suffix, hc_rt, hy_prefix⟩, hy_not_old⟩)
+    · rcases hsame with
+        ⟨w, y, hw_old, hw_absent, hy_not_alt, hc_pack, hy_not_erase⟩
+      rcases hc_pack with ⟨c, hc_rt, hc_alt, hc_source, hy_prefix⟩
+      rcases hc_source with hc_prefix | hc_suffix
+      · exact Or.inl (Or.inr (Or.inr
+          ⟨w, y, hw_old, hw_absent, hy_not_alt,
+            ⟨c, hc_rt, hc_alt, hc_prefix, hy_prefix⟩, hy_not_erase⟩))
+      · exact Or.inr (Or.inr
+          ⟨w, y, hw_old, hw_absent, hy_not_alt,
+            ⟨c, hc_rt, hc_alt, hc_suffix, hy_prefix⟩, hy_not_erase⟩)
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.nonclean_or_replacement_altRight_failure_of_witness
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Path v s}
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) x rs)
+    (hw_rs : w ∈ (rs : G.Walk v s).support)
+    (hy_rs : y ∈ (rs : G.Walk v s).support)
+    (hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw_rs)).support)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_left : y ∉ (pair.1 : G.Walk v s).support)
+    (hy_prefix_x :
+      y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∈ (((rs : G.Walk v s).takeUntil w hw_rs)).support →
+        z = w)
+    (hbranch :
+      terminalSetFanLeftBridgeFrontCleanSuffixBranch
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+        hx_left hx_right hw_rs hy_rs hy_tail)
+    (hlen_fail :
+      ¬ (pair.1 : G.Walk v s).support.length ≤
+        (rs : G.Walk v s).support.length) :
+    terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+        hx_left hx_right hw_rs hy_rs hy_tail ∨
+      terminalPathPairLeftReplacementAltRightDescentPackageFailure
+        (G := G) (x := x) pair rs hx_left hx_right := by
+  classical
+  rcases
+      terminalSetFanLeftBridgeFrontCleanSuffixBranch.clean_or_nonclean
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y)
+        (pair := pair) (rs := (rs : G.Walk v s))
+        (hx_left := hx_left) (hx_right := hx_right)
+        (hw := hw_rs) (hy := hy_rs) (hy_tail := hy_tail)
+        hbranch with
+    hclean | hnonclean
+  · right
+    dsimp [terminalPathPairLeftReplacementAltRightDescentPackageFailure]
+    let altRight : G.Path v t :=
+      (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+        ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+    let altPair : G.Path v s × G.Path v t := (rs, altRight)
+    intro hgood
+    rcases hgood with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+    exact
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_clean_length_failure_secondary_minimal_replacement_altRight_measure_le_subsets
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+        hobs hpair_min hsecondary_min hmin hw_rs hy_rs hy_tail
+        hy_right hy_not_left hy_prefix_x hyx hfirst_union hclean
+        hlen_fail
+        (by simpa [altPair, altRight] using hmeasure_le)
+        (by simpa [altPair, altRight] using hleft_sub)
+        (by simpa [altPair, altRight] using hright_sub)
+  · exact Or.inl hnonclean
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.nonclean_or_replacement_altLeft_failure_of_witness
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Path v t}
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) x rt)
+    (hw_rt : w ∈ (rt : G.Walk v t).support)
+    (hy_rt : y ∈ (rt : G.Walk v t).support)
+    (hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw_rt)).support)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_prefix_x :
+      y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hyx : y ≠ x)
+    (hfirst_union :
+      ∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support ∨
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∈ (((rt : G.Walk v t).takeUntil w hw_rt)).support →
+        z = w)
+    (hbranch :
+      terminalSetFanRightBridgeFrontCleanSuffixBranch
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+        hx_left hx_right hw_rt hy_rt hy_tail)
+    (hlen_fail :
+      ¬ (pair.2 : G.Walk v t).support.length ≤
+        (rt : G.Walk v t).support.length) :
+    terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+        hx_left hx_right hw_rt hy_rt hy_tail ∨
+      terminalPathPairRightReplacementAltLeftDescentPackageFailure
+        (G := G) (x := x) pair rt hx_left hx_right := by
+  classical
+  rcases
+      terminalSetFanRightBridgeFrontCleanSuffixBranch.clean_or_nonclean
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y)
+        (pair := pair) (rt := (rt : G.Walk v t))
+        (hx_left := hx_left) (hx_right := hx_right)
+        (hw := hw_rt) (hy := hy_rt) (hy_tail := hy_tail)
+        hbranch with
+    hclean | hnonclean
+  · right
+    dsimp [terminalPathPairRightReplacementAltLeftDescentPackageFailure]
+    let altLeft : G.Path v s :=
+      (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+        ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+    let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+    intro hgood
+    rcases hgood with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+    exact
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_clean_length_failure_secondary_minimal_replacement_altLeft_measure_le_subsets
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+        hobs hpair_min hsecondary_min hmin hw_rt hy_rt hy_tail
+        hy_left hy_not_right hy_prefix_x hyx hfirst_union hclean
+        hlen_fail
+        (by simpa [altPair, altLeft] using hmeasure_le)
+        (by simpa [altPair, altLeft] using hleft_sub)
+        (by simpa [altPair, altLeft] using hright_sub)
+  · exact Or.inl hnonclean
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          ((pair.1 : G.Walk v s).support.length ≤
+              (rs : G.Walk v s).support.length ∨
+            terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairLeftReplacementAltRightDescentPackageFailure
+              (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          ((pair.2 : G.Walk v t).support.length ≤
+              (rt : G.Walk v t).support.length ∨
+            terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairRightReplacementAltLeftDescentPackageFailure
+              (G := G) (x := x) pair rt hx_left hx_right)
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          ((pair.1 : G.Walk v s).support.length ≤
+              (rs : G.Walk v s).support.length ∨
+            terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairLeftReplacementAltRightConcreteFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          ((pair.2 : G.Walk v t).support.length ≤
+              (rt : G.Walk v t).support.length ∨
+            terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairRightReplacementAltLeftConcreteFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right)
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual.to_concrete_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (pair.1 : G.Walk v s).support.length ≤
+          (rs : G.Walk v s).support.length ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightConcreteFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    rcases hcase with hlen | hrest
+    · exact Or.inl hlen
+    · rcases hrest with hnonclean | hpackage
+      · exact Or.inr (Or.inl hnonclean)
+      · exact Or.inr (Or.inr
+          (terminalPathPairLeftReplacementAltRightDescentPackageFailure_concrete_cases
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hpackage))
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual.to_concrete_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (pair.2 : G.Walk v t).support.length ≤
+          (rt : G.Walk v t).support.length ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftConcreteFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    rcases hcase with hlen | hrest
+    · exact Or.inl hlen
+    · rcases hrest with hnonclean | hpackage
+      · exact Or.inr (Or.inl hnonclean)
+      · exact Or.inr (Or.inr
+          (terminalPathPairRightReplacementAltLeftDescentPackageFailure_concrete_cases
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hpackage))
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontDefectWitnessFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          ((pair.1 : G.Walk v s).support.length ≤
+              (rs : G.Walk v s).support.length ∨
+            terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontDefectWitnessFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          ((pair.2 : G.Walk v t).support.length ≤
+              (rt : G.Walk v t).support.length ∨
+            terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right)
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual.to_defect_witness_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontDefectWitnessFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (pair.1 : G.Walk v s).support.length ≤
+          (rs : G.Walk v s).support.length ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    rcases hcase with hlen | hrest
+    · exact Or.inl hlen
+    · rcases hrest with hnonclean | hconcrete
+      · exact Or.inr (Or.inl hnonclean)
+      · exact Or.inr (Or.inr
+          (terminalPathPairLeftReplacementAltRightConcreteFailureResidual_defect_witness_cases
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hconcrete))
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual.to_defect_witness_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontDefectWitnessFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (pair.2 : G.Walk v t).support.length ≤
+          (rt : G.Walk v t).support.length ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    rcases hcase with hlen | hrest
+    · exact Or.inl hlen
+    · rcases hrest with hnonclean | hconcrete
+      · exact Or.inr (Or.inl hnonclean)
+      · exact Or.inr (Or.inr
+          (terminalPathPairRightReplacementAltLeftConcreteFailureResidual_defect_witness_cases
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hconcrete))
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontExplicitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          ((pair.1 : G.Walk v s).support.length ≤
+              (rs : G.Walk v s).support.length ∨
+            terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontExplicitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          ((pair.2 : G.Walk v t).support.length ≤
+              (rt : G.Walk v t).support.length ∨
+            terminalSetFanRightBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right)
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontDefectWitnessFailureResidual.to_explicit_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontDefectWitnessFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontExplicitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (pair.1 : G.Walk v s).support.length ≤
+          (rs : G.Walk v s).support.length ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    rcases hcase with hlen | hrest
+    · exact Or.inl hlen
+    · rcases hrest with hnonclean | hreplacement
+      · exact Or.inr (Or.inl
+          (terminalSetFanLeftBridgeFrontNonCleanSuffixBranch.to_cases
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair)
+            (rs := (rs : G.Walk v s)) (hx_left := hx_left)
+            (hx_right := hx_right) (hw := hw) (hy := hy_rs)
+            (hy_tail := hy_tail) hnonclean))
+      · exact Or.inr (Or.inr hreplacement)
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontDefectWitnessFailureResidual.to_explicit_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontDefectWitnessFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontExplicitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (pair.2 : G.Walk v t).support.length ≤
+          (rt : G.Walk v t).support.length ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    rcases hcase with hlen | hrest
+    · exact Or.inl hlen
+    · rcases hrest with hnonclean | hreplacement
+      · exact Or.inr (Or.inl
+          (terminalSetFanRightBridgeFrontNonCleanSuffixBranch.to_cases
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair)
+            (rt := (rt : G.Walk v t)) (hx_left := hx_left)
+            (hx_right := hx_right) (hw := hw) (hy := hy_rt)
+            (hy_tail := hy_tail) hnonclean))
+      · exact Or.inr (Or.inr hreplacement)
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          ((∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+              (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+            terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          ((∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+              (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+            terminalSetFanRightBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right)
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontExplicitFailureResidual.to_bottleneck_or_explicit_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontExplicitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    rcases hcase with hlen | hrest
+    · left
+      intro q hqPath hxq
+      exact le_trans hlen
+        (terminalReplacementPathSupportLengthMinimal_support_length_le_of_walk
+          (G := G) (p := rs) (q := q) hmin hqPath hxq)
+    · exact Or.inr hrest
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontExplicitFailureResidual.to_bottleneck_or_explicit_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontExplicitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    rcases hcase with hlen | hrest
+    · left
+      intro q hqPath hxq
+      exact le_trans hlen
+        (terminalReplacementPathSupportLengthMinimal_support_length_le_of_walk
+          (G := G) (p := rt) (q := q) hmin hqPath hxq)
+    · exact Or.inr hrest
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          ((∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+              (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+            terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          ((∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+              (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+            terminalSetFanRightBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right)
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual.to_expanded_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with hnonclean | hreplacement
+      · exact Or.inr (Or.inl hnonclean)
+      · exact Or.inr (Or.inr
+          (terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual.to_expanded
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hreplacement))
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual.to_expanded_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with hnonclean | hreplacement
+      · exact Or.inr (Or.inl hnonclean)
+      · exact Or.inr (Or.inr
+          (terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual.to_expanded
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hreplacement))
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          ((∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+              (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+            terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          ((∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+              (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+            terminalSetFanRightBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right)
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual.to_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with hnonclean | hreplacement
+      · exact Or.inr (Or.inl hnonclean)
+      · exact Or.inr (Or.inr
+          (terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual.to_source_split
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hreplacement))
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual.to_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with hnonclean | hreplacement
+      · exact Or.inr (Or.inl hnonclean)
+      · exact Or.inr (Or.inr
+          (terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual.to_source_split
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hreplacement))
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrCommonSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          ((∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+              (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+            terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairLeftReplacementAltRightOldSuffixOppositeOnlySource
+              (G := G) (x := x) pair rs hx_left hx_right ∨
+            terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrCommonSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          ((∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+              (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+            terminalSetFanRightBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairRightReplacementAltLeftOldSuffixOppositeOnlySource
+              (G := G) (x := x) pair rt hx_left hx_right ∨
+            terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right)
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanLeftBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+              (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+            terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanRightBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+              (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+            terminalSetFanRightBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right)
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanLeftBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+              (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+            terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanRightBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+              (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+            terminalSetFanRightBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right)
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanLeftBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+              (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+            terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right ∨
+            terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanRightBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+              (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+            terminalSetFanRightBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy hy_tail ∨
+            terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right ∨
+            terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right)
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanLeftBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+              (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+            (¬ (pair.1 : G.Walk v s).support.length ≤
+                (rs : G.Walk v s).support.length) ∧
+              (terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+                  (G := G) (v := v) (s := s) (t := t)
+                  (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+                  hx_left hx_right hw hy hy_tail ∨
+                terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+                  (G := G) (x := x) pair rs hx_left hx_right ∨
+                terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+                  (G := G) (x := x) pair rs hx_left hx_right))
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanRightBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+              (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+            (¬ (pair.2 : G.Walk v t).support.length ≤
+                (rt : G.Walk v t).support.length) ∧
+              (terminalSetFanRightBridgeFrontNonCleanSuffixCases
+                  (G := G) (v := v) (s := s) (t := t)
+                  (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+                  hx_left hx_right hw hy hy_tail ∨
+                terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+                  (G := G) (x := x) pair rt hx_left hx_right ∨
+                terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+                  (G := G) (x := x) pair rt hx_left hx_right))
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanLeftBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+              (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+            (¬ (pair.1 : G.Walk v s).support.length ≤
+                (rs : G.Walk v s).support.length) ∧
+              (terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+                  (G := G) (v := v) (s := s) (t := t)
+                  (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+                  hx_left hx_right hw hy hy_tail ∨
+                terminalSetFanLeftBridgeFrontCleanSuffixCore
+                  (G := G) (v := v) (s := s) (t := t)
+                  (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+                  hx_left hx_right hw hy hy_tail ∧
+                  (terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+                    (G := G) (x := x) pair rs hx_left hx_right ∨
+                  terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+                    (G := G) (x := x) pair rs hx_left hx_right)))
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanRightBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+              (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+            (¬ (pair.2 : G.Walk v t).support.length ≤
+                (rt : G.Walk v t).support.length) ∧
+              (terminalSetFanRightBridgeFrontNonCleanSuffixCases
+                  (G := G) (v := v) (s := s) (t := t)
+                  (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+                  hx_left hx_right hw hy hy_tail ∨
+                terminalSetFanRightBridgeFrontCleanSuffixCore
+                  (G := G) (v := v) (s := s) (t := t)
+                  (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+                  hx_left hx_right hw hy hy_tail ∧
+                  (terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+                    (G := G) (x := x) pair rt hx_left hx_right ∨
+                  terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+                    (G := G) (x := x) pair rt hx_left hx_right)))
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right ∧
+  terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right ∧
+  terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right ∧
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanLeftBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+              (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+            (¬ (pair.1 : G.Walk v s).support.length ≤
+                (rs : G.Walk v s).support.length) ∧
+              terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+                hx_left hx_right hw hy hy_tail ∨
+            (¬ (pair.1 : G.Walk v s).support.length ≤
+                (rs : G.Walk v s).support.length) ∧
+              terminalSetFanLeftBridgeFrontCleanSuffixCore
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+                hx_left hx_right hw hy hy_tail ∧
+              terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+                (G := G) (x := x) pair rs hx_left hx_right ∨
+            (¬ (pair.1 : G.Walk v s).support.length ≤
+                (rs : G.Walk v s).support.length) ∧
+              terminalSetFanLeftBridgeFrontCleanSuffixCore
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+                hx_left hx_right hw hy hy_tail ∧
+              terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+                (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right ∧
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanRightBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+              (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+            (¬ (pair.2 : G.Walk v t).support.length ≤
+                (rt : G.Walk v t).support.length) ∧
+              terminalSetFanRightBridgeFrontNonCleanSuffixCases
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+                hx_left hx_right hw hy hy_tail ∨
+            (¬ (pair.2 : G.Walk v t).support.length ≤
+                (rt : G.Walk v t).support.length) ∧
+              terminalSetFanRightBridgeFrontCleanSuffixCore
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+                hx_left hx_right hw hy hy_tail ∧
+              terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+                (G := G) (x := x) pair rt hx_left hx_right ∨
+            (¬ (pair.2 : G.Walk v t).support.length ≤
+                (rt : G.Walk v t).support.length) ∧
+              terminalSetFanRightBridgeFrontCleanSuffixCore
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+                hx_left hx_right hw hy hy_tail ∧
+              terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+                (G := G) (x := x) pair rt hx_left hx_right)
+
+private abbrev terminalSetFanLeftBridgeFrontFirstPrefixAbsentResidual
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Walk v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (_hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (_hw : w ∈ rs.support) : Prop :=
+  ∃ z : α,
+    ∃ hz_prefix : z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+      z ≠ v ∧ z ≠ w ∧
+      z ∉ (pair.2 : G.Walk v t).support ∧
+      z ∉ rs.support ∧
+      ∀ a : α,
+        a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        a ≠ w →
+        a ∉ (pair.2 : G.Walk v t).support →
+        a ∈
+          (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil z
+            hz_prefix).support →
+        a = z
+
+private abbrev terminalSetFanRightBridgeFrontFirstPrefixAbsentResidual
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Walk v t)
+    (_hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (_hw : w ∈ rt.support) : Prop :=
+  ∃ z : α,
+    ∃ hz_prefix : z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+      z ≠ v ∧ z ≠ w ∧
+      z ∉ (pair.1 : G.Walk v s).support ∧
+      z ∉ rt.support ∧
+      ∀ a : α,
+        a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        a ≠ w →
+        a ∉ (pair.1 : G.Walk v s).support →
+        a ∈
+          (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil z
+            hz_prefix).support →
+        a = z
+
+private abbrev terminalSetFanLeftBridgeFrontFirstPrefixAbsentAltResidual
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Walk v s)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (_hw : w ∈ rs.support) : Prop :=
+  ∃ z : α,
+    ∃ hz_prefix : z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+      z ≠ v ∧ z ≠ w ∧
+      z ∉ (pair.2 : G.Walk v t).support ∧
+      z ∉ rs.support ∧
+      z ∈
+        (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+            G.Walk v t).support ∧
+      ∀ a : α,
+        a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        a ≠ w →
+        a ∉ (pair.2 : G.Walk v t).support →
+        a ∈
+          (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil z
+            hz_prefix).support →
+        a = z
+
+private abbrev terminalSetFanRightBridgeFrontFirstPrefixAbsentAltResidual
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Walk v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (_hw : w ∈ rt.support) : Prop :=
+  ∃ z : α,
+    ∃ hz_prefix : z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+      z ≠ v ∧ z ≠ w ∧
+      z ∉ (pair.1 : G.Walk v s).support ∧
+      z ∉ rt.support ∧
+      z ∈
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support ∧
+      ∀ a : α,
+        a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        a ≠ w →
+        a ∉ (pair.1 : G.Walk v s).support →
+        a ∈
+          (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil z
+            hz_prefix).support →
+        a = z
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual.to_branch_aligned_common_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with hnonclean | hcommon
+      · exact Or.inr (Or.inl hnonclean)
+      · exact Or.inr (Or.inr
+          (terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual.to_aligned_common_source_split
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hcommon))
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual.to_branch_aligned_common_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with hnonclean | hcommon
+      · exact Or.inr (Or.inl hnonclean)
+      · exact Or.inr (Or.inr
+          (terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual.to_aligned_common_source_split
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hcommon))
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase'⟩
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual.to_branch_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right ∨
+        terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with hnonclean | haligned
+      · exact Or.inr (Or.inl hnonclean)
+      · rcases
+          terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual.to_prefix_source_or_double_suffix
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) haligned with
+          hprefix | hdouble
+        · exact Or.inr (Or.inr (Or.inl hprefix))
+        · exact Or.inr (Or.inr (Or.inr hdouble))
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual.to_branch_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right ∨
+        terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with hnonclean | haligned
+      · exact Or.inr (Or.inl hnonclean)
+      · rcases
+          terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual.to_prefix_source_or_double_suffix
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) haligned with
+          hprefix | hdouble
+        · exact Or.inr (Or.inr (Or.inl hprefix))
+        · exact Or.inr (Or.inr (Or.inr hdouble))
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase'⟩
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual.to_branch_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right ∨
+        terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with ⟨_hlen_fail, hbranch_case⟩
+      rcases hbranch_case with hnonclean | hsplit
+      · exact Or.inr (Or.inl hnonclean)
+      · rcases hsplit with hprefix | hdouble
+        · exact Or.inr (Or.inr (Or.inl hprefix))
+        · exact Or.inr (Or.inr (Or.inr hdouble))
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual.to_branch_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right ∨
+        terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with ⟨_hlen_fail, hbranch_case⟩
+      rcases hbranch_case with hnonclean | hsplit
+      · exact Or.inr (Or.inl hnonclean)
+      · rcases hsplit with hprefix | hdouble
+        · exact Or.inr (Or.inr (Or.inl hprefix))
+        · exact Or.inr (Or.inr (Or.inr hdouble))
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase'⟩
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual.to_length_failure_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        (¬ (pair.1 : G.Walk v s).support.length ≤
+            (rs : G.Walk v s).support.length) ∧
+          (terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy_rs hy_tail ∨
+            terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right ∨
+            terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right) := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with ⟨hlen_fail, hbranch_case⟩
+      right
+      refine ⟨hlen_fail, ?_⟩
+      rcases hbranch_case with hnonclean | hclean_split
+      · exact Or.inl hnonclean
+      · rcases hclean_split with ⟨_hclean, hsplit⟩
+        rcases hsplit with hprefix | hdouble
+        · exact Or.inr (Or.inl hprefix)
+        · exact Or.inr (Or.inr hdouble)
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual.to_length_failure_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        (¬ (pair.2 : G.Walk v t).support.length ≤
+            (rt : G.Walk v t).support.length) ∧
+          (terminalSetFanRightBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy_rt hy_tail ∨
+            terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right ∨
+            terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right) := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with ⟨hlen_fail, hbranch_case⟩
+      right
+      refine ⟨hlen_fail, ?_⟩
+      rcases hbranch_case with hnonclean | hclean_split
+      · exact Or.inl hnonclean
+      · rcases hclean_split with ⟨_hclean, hsplit⟩
+        rcases hsplit with hprefix | hdouble
+        · exact Or.inr (Or.inl hprefix)
+        · exact Or.inr (Or.inr hdouble)
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase'⟩
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_common_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs :
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hobs.1.1.1 with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_tail,
+      hfirst_union, hy_prefix, hfirst_global, hbranch, _hlen_fail,
+      _hsplit⟩
+  have hcase :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    by_cases hlen_ge :
+        (pair.1 : G.Walk v s).support.length ≤
+          (rs : G.Walk v s).support.length
+    · left
+      intro q hqPath hxq
+      exact le_trans hlen_ge
+        (terminalReplacementPathSupportLengthMinimal_support_length_le_of_walk
+          (G := G) (p := rs) (q := q) hmin hqPath hxq)
+    · have hbranch_or_package :
+          terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy_rs hy_tail ∨
+            terminalPathPairLeftReplacementAltRightDescentPackageFailure
+              (G := G) (x := x) pair rs hx_left hx_right :=
+        terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.nonclean_or_replacement_altRight_failure_of_witness
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+          hobs hpair_min hsecondary_min hmin hw hy_rs hy_tail
+          hy_right hy_not_left hy_prefix hyx hfirst_union hbranch hlen_ge
+      rcases hbranch_or_package with hnonclean | hpackage
+      · exact Or.inr (Or.inl
+          (terminalSetFanLeftBridgeFrontNonCleanSuffixBranch.to_cases
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair)
+            (rs := (rs : G.Walk v s))
+            (hx_left := hx_left) (hx_right := hx_right)
+            (hw := hw) (hy := hy_rs) (hy_tail := hy_tail)
+            hnonclean))
+      · have hconcrete :
+            terminalPathPairLeftReplacementAltRightConcreteFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightDescentPackageFailure_concrete_cases
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hpackage
+        have hdefect :
+            terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightConcreteFailureResidual_defect_witness_cases
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hconcrete
+        have hexpanded :
+            terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual.to_expanded
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hdefect
+        have hsource :
+            terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual.to_source_split
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hexpanded
+        rcases
+            terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual.to_old_suffix_opposite_only_or_common
+              (G := G) (x := x) (pair := pair) (rs := rs)
+              (hx_left := hx_left) (hx_right := hx_right) hsource with
+          hold | hcommon
+        · rcases hold with ⟨c, hc_rs, hcv, hc_drop, hc_not_left⟩
+          exact Or.inr (Or.inl
+            ⟨hbranch,
+              Or.inr (Or.inl
+                ⟨c, hc_rs, hcv, hc_drop, hc_not_left⟩)⟩)
+        · exact Or.inr (Or.inr hcommon)
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_common_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs :
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hobs.1.1.1 with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_tail,
+      hfirst_union, hy_prefix, hfirst_global, hbranch, _hlen_fail,
+      _hsplit⟩
+  have hcase :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    by_cases hlen_ge :
+        (pair.2 : G.Walk v t).support.length ≤
+          (rt : G.Walk v t).support.length
+    · left
+      intro q hqPath hxq
+      exact le_trans hlen_ge
+        (terminalReplacementPathSupportLengthMinimal_support_length_le_of_walk
+          (G := G) (p := rt) (q := q) hmin hqPath hxq)
+    · have hbranch_or_package :
+          terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy_rt hy_tail ∨
+            terminalPathPairRightReplacementAltLeftDescentPackageFailure
+              (G := G) (x := x) pair rt hx_left hx_right :=
+        terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.nonclean_or_replacement_altLeft_failure_of_witness
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+          hobs hpair_min hsecondary_min hmin hw hy_rt hy_tail
+          hy_left hy_not_right hy_prefix hyx hfirst_union hbranch hlen_ge
+      rcases hbranch_or_package with hnonclean | hpackage
+      · exact Or.inr (Or.inl
+          (terminalSetFanRightBridgeFrontNonCleanSuffixBranch.to_cases
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair)
+            (rt := (rt : G.Walk v t))
+            (hx_left := hx_left) (hx_right := hx_right)
+            (hw := hw) (hy := hy_rt) (hy_tail := hy_tail)
+            hnonclean))
+      · have hconcrete :
+            terminalPathPairRightReplacementAltLeftConcreteFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftDescentPackageFailure_concrete_cases
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hpackage
+        have hdefect :
+            terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftConcreteFailureResidual_defect_witness_cases
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hconcrete
+        have hexpanded :
+            terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual.to_expanded
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hdefect
+        have hsource :
+            terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual.to_source_split
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hexpanded
+        rcases
+            terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual.to_old_suffix_opposite_only_or_common
+              (G := G) (x := x) (pair := pair) (rt := rt)
+              (hx_left := hx_left) (hx_right := hx_right) hsource with
+          hold | hcommon
+        · rcases hold with ⟨c, hc_rt, hcv, hc_drop, hc_not_right⟩
+          exact Or.inr (Or.inl
+            ⟨hbranch,
+              Or.inr (Or.inl
+                ⟨c, hc_rt, hcv, hc_drop, hc_not_right⟩)⟩)
+        · exact Or.inr (Or.inr hcommon)
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_length_failure_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs :
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hobs.1.1.1 with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_tail,
+      hfirst_union, hy_prefix, hfirst_global, hbranch, _hlen_fail,
+      _hsplit⟩
+  have hcase :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        (¬ (pair.1 : G.Walk v s).support.length ≤
+            (rs : G.Walk v s).support.length) ∧
+          (terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy_rs hy_tail ∨
+            terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right ∨
+            terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right) := by
+    by_cases hlen_ge :
+        (pair.1 : G.Walk v s).support.length ≤
+          (rs : G.Walk v s).support.length
+    · left
+      intro q hqPath hxq
+      exact le_trans hlen_ge
+        (terminalReplacementPathSupportLengthMinimal_support_length_le_of_walk
+          (G := G) (p := rs) (q := q) hmin hqPath hxq)
+    · right
+      refine ⟨hlen_ge, ?_⟩
+      have hbranch_or_package :
+          terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy_rs hy_tail ∨
+            terminalPathPairLeftReplacementAltRightDescentPackageFailure
+              (G := G) (x := x) pair rs hx_left hx_right :=
+        terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.nonclean_or_replacement_altRight_failure_of_witness
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+          hobs hpair_min hsecondary_min hmin hw hy_rs hy_tail
+          hy_right hy_not_left hy_prefix hyx hfirst_union hbranch hlen_ge
+      rcases hbranch_or_package with hnonclean | hpackage
+      · exact Or.inl
+          (terminalSetFanLeftBridgeFrontNonCleanSuffixBranch.to_cases
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair)
+            (rs := (rs : G.Walk v s))
+            (hx_left := hx_left) (hx_right := hx_right)
+            (hw := hw) (hy := hy_rs) (hy_tail := hy_tail)
+            hnonclean)
+      · have hconcrete :
+            terminalPathPairLeftReplacementAltRightConcreteFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightDescentPackageFailure_concrete_cases
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hpackage
+        have hdefect :
+            terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightConcreteFailureResidual_defect_witness_cases
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hconcrete
+        have hexpanded :
+            terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual.to_expanded
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hdefect
+        have hsource :
+            terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual.to_source_split
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hexpanded
+        rcases
+            terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual.to_old_suffix_opposite_only_or_common
+              (G := G) (x := x) (pair := pair) (rs := rs)
+              (hx_left := hx_left) (hx_right := hx_right) hsource with
+          hold | hcommon
+        · rcases hold with ⟨c, hc_rs, hcv, hc_drop, hc_not_left⟩
+          exact Or.inl
+            ⟨hbranch,
+              Or.inr (Or.inl
+                ⟨c, hc_rs, hcv, hc_drop, hc_not_left⟩)⟩
+        · have haligned :
+              terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+                (G := G) (x := x) pair rs hx_left hx_right :=
+            terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual.to_aligned_common_source_split
+              (G := G) (x := x) (pair := pair) (rs := rs)
+              (hx_left := hx_left) (hx_right := hx_right) hcommon
+          rcases
+              terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual.to_prefix_source_or_double_suffix
+                (G := G) (x := x) (pair := pair) (rs := rs)
+                (hx_left := hx_left) (hx_right := hx_right) haligned with
+            hprefix | hdouble
+          · exact Or.inr (Or.inl hprefix)
+          · exact Or.inr (Or.inr hdouble)
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_length_failure_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs :
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hobs.1.1.1 with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_tail,
+      hfirst_union, hy_prefix, hfirst_global, hbranch, _hlen_fail,
+      _hsplit⟩
+  have hcase :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        (¬ (pair.2 : G.Walk v t).support.length ≤
+            (rt : G.Walk v t).support.length) ∧
+          (terminalSetFanRightBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy_rt hy_tail ∨
+            terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right ∨
+            terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right) := by
+    by_cases hlen_ge :
+        (pair.2 : G.Walk v t).support.length ≤
+          (rt : G.Walk v t).support.length
+    · left
+      intro q hqPath hxq
+      exact le_trans hlen_ge
+        (terminalReplacementPathSupportLengthMinimal_support_length_le_of_walk
+          (G := G) (p := rt) (q := q) hmin hqPath hxq)
+    · right
+      refine ⟨hlen_ge, ?_⟩
+      have hbranch_or_package :
+          terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy_rt hy_tail ∨
+            terminalPathPairRightReplacementAltLeftDescentPackageFailure
+              (G := G) (x := x) pair rt hx_left hx_right :=
+        terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.nonclean_or_replacement_altLeft_failure_of_witness
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+          hobs hpair_min hsecondary_min hmin hw hy_rt hy_tail
+          hy_left hy_not_right hy_prefix hyx hfirst_union hbranch hlen_ge
+      rcases hbranch_or_package with hnonclean | hpackage
+      · exact Or.inl
+          (terminalSetFanRightBridgeFrontNonCleanSuffixBranch.to_cases
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair)
+            (rt := (rt : G.Walk v t))
+            (hx_left := hx_left) (hx_right := hx_right)
+            (hw := hw) (hy := hy_rt) (hy_tail := hy_tail)
+            hnonclean)
+      · have hconcrete :
+            terminalPathPairRightReplacementAltLeftConcreteFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftDescentPackageFailure_concrete_cases
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hpackage
+        have hdefect :
+            terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftConcreteFailureResidual_defect_witness_cases
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hconcrete
+        have hexpanded :
+            terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual.to_expanded
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hdefect
+        have hsource :
+            terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual.to_source_split
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hexpanded
+        rcases
+            terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual.to_old_suffix_opposite_only_or_common
+              (G := G) (x := x) (pair := pair) (rt := rt)
+              (hx_left := hx_left) (hx_right := hx_right) hsource with
+          hold | hcommon
+        · rcases hold with ⟨c, hc_rt, hcv, hc_drop, hc_not_right⟩
+          exact Or.inl
+            ⟨hbranch,
+              Or.inr (Or.inl
+                ⟨c, hc_rt, hcv, hc_drop, hc_not_right⟩)⟩
+        · have haligned :
+              terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+                (G := G) (x := x) pair rt hx_left hx_right :=
+            terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual.to_aligned_common_source_split
+              (G := G) (x := x) (pair := pair) (rt := rt)
+              (hx_left := hx_left) (hx_right := hx_right) hcommon
+          rcases
+              terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual.to_prefix_source_or_double_suffix
+                (G := G) (x := x) (pair := pair) (rt := rt)
+                (hx_left := hx_left) (hx_right := hx_right) haligned with
+            hprefix | hdouble
+          · exact Or.inr (Or.inl hprefix)
+          · exact Or.inr (Or.inr hdouble)
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_clean_length_failure_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs :
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hobs.1.1.1 with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_tail,
+      hfirst_union, hy_prefix, hfirst_global, hbranch, _hlen_fail,
+      _hsplit⟩
+  have hcase :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        (¬ (pair.1 : G.Walk v s).support.length ≤
+            (rs : G.Walk v s).support.length) ∧
+          (terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy_rs hy_tail ∨
+            terminalSetFanLeftBridgeFrontCleanSuffixCore
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+              hx_left hx_right hw hy_rs hy_tail ∧
+              (terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+                (G := G) (x := x) pair rs hx_left hx_right ∨
+              terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+                (G := G) (x := x) pair rs hx_left hx_right)) := by
+    by_cases hlen_ge :
+        (pair.1 : G.Walk v s).support.length ≤
+          (rs : G.Walk v s).support.length
+    · left
+      intro q hqPath hxq
+      exact le_trans hlen_ge
+        (terminalReplacementPathSupportLengthMinimal_support_length_le_of_walk
+          (G := G) (p := rs) (q := q) hmin hqPath hxq)
+    · right
+      refine ⟨hlen_ge, ?_⟩
+      rcases
+          terminalSetFanLeftBridgeFrontCleanSuffixBranch.clean_or_nonclean
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y)
+            (pair := pair) (rs := (rs : G.Walk v s))
+            (hx_left := hx_left) (hx_right := hx_right)
+            (hw := hw) (hy := hy_rs) (hy_tail := hy_tail)
+            hbranch with
+        hclean | hnonclean
+      · right
+        refine ⟨hclean, ?_⟩
+        have hpackage :
+            terminalPathPairLeftReplacementAltRightDescentPackageFailure
+              (G := G) (x := x) pair rs hx_left hx_right := by
+          dsimp [terminalPathPairLeftReplacementAltRightDescentPackageFailure]
+          let altRight : G.Path v t :=
+            (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+              ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+          let altPair : G.Path v s × G.Path v t := (rs, altRight)
+          intro hgood
+          rcases hgood with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+          exact
+            terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_clean_length_failure_secondary_minimal_replacement_altRight_measure_le_subsets
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+              hobs hpair_min hsecondary_min hmin hw hy_rs hy_tail
+              hy_right hy_not_left hy_prefix hyx hfirst_union hclean
+              hlen_ge
+              (by simpa [altPair, altRight] using hmeasure_le)
+              (by simpa [altPair, altRight] using hleft_sub)
+              (by simpa [altPair, altRight] using hright_sub)
+        have hconcrete :
+            terminalPathPairLeftReplacementAltRightConcreteFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightDescentPackageFailure_concrete_cases
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hpackage
+        have hdefect :
+            terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightConcreteFailureResidual_defect_witness_cases
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hconcrete
+        have hexpanded :
+            terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightDefectWitnessConcreteFailureResidual.to_expanded
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hdefect
+        have hsource :
+            terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rs hx_left hx_right :=
+          terminalPathPairLeftReplacementAltRightExpandedDefectWitnessFailureResidual.to_source_split
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hexpanded
+        rcases
+            terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual.to_old_suffix_opposite_only_or_common
+              (G := G) (x := x) (pair := pair) (rs := rs)
+              (hx_left := hx_left) (hx_right := hx_right) hsource with
+          hold | hcommon
+        · rcases hold with ⟨c, hc_rs, hcv, hc_drop, hc_not_left⟩
+          exact False.elim
+            (hclean.2.1 c hc_rs hcv hc_drop hc_not_left)
+        · have haligned :
+              terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+                (G := G) (x := x) pair rs hx_left hx_right :=
+            terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual.to_aligned_common_source_split
+              (G := G) (x := x) (pair := pair) (rs := rs)
+              (hx_left := hx_left) (hx_right := hx_right) hcommon
+          rcases
+              terminalPathPairLeftReplacementAltRightAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual.to_prefix_source_or_double_suffix
+                (G := G) (x := x) (pair := pair) (rs := rs)
+                (hx_left := hx_left) (hx_right := hx_right) haligned with
+            hprefix | hdouble
+          · exact Or.inl hprefix
+          · exact Or.inr hdouble
+      · left
+        exact
+          terminalSetFanLeftBridgeFrontNonCleanSuffixBranch.to_cases
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair)
+            (rs := (rs : G.Walk v s))
+            (hx_left := hx_left) (hx_right := hx_right)
+            (hw := hw) (hy := hy_rs) (hy_tail := hy_tail)
+            hnonclean
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_clean_length_failure_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs :
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hobs.1.1.1 with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_tail,
+      hfirst_union, hy_prefix, hfirst_global, hbranch, _hlen_fail,
+      _hsplit⟩
+  have hcase :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        (¬ (pair.2 : G.Walk v t).support.length ≤
+            (rt : G.Walk v t).support.length) ∧
+          (terminalSetFanRightBridgeFrontNonCleanSuffixCases
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy_rt hy_tail ∨
+            terminalSetFanRightBridgeFrontCleanSuffixCore
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+              hx_left hx_right hw hy_rt hy_tail ∧
+              (terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+                (G := G) (x := x) pair rt hx_left hx_right ∨
+              terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+                (G := G) (x := x) pair rt hx_left hx_right)) := by
+    by_cases hlen_ge :
+        (pair.2 : G.Walk v t).support.length ≤
+          (rt : G.Walk v t).support.length
+    · left
+      intro q hqPath hxq
+      exact le_trans hlen_ge
+        (terminalReplacementPathSupportLengthMinimal_support_length_le_of_walk
+          (G := G) (p := rt) (q := q) hmin hqPath hxq)
+    · right
+      refine ⟨hlen_ge, ?_⟩
+      rcases
+          terminalSetFanRightBridgeFrontCleanSuffixBranch.clean_or_nonclean
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y)
+            (pair := pair) (rt := (rt : G.Walk v t))
+            (hx_left := hx_left) (hx_right := hx_right)
+            (hw := hw) (hy := hy_rt) (hy_tail := hy_tail)
+            hbranch with
+        hclean | hnonclean
+      · right
+        refine ⟨hclean, ?_⟩
+        have hpackage :
+            terminalPathPairRightReplacementAltLeftDescentPackageFailure
+              (G := G) (x := x) pair rt hx_left hx_right := by
+          dsimp [terminalPathPairRightReplacementAltLeftDescentPackageFailure]
+          let altLeft : G.Path v s :=
+            (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+              ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+          let altPair : G.Path v s × G.Path v t := (altLeft, rt)
+          intro hgood
+          rcases hgood with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+          exact
+            terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_clean_length_failure_secondary_minimal_replacement_altLeft_measure_le_subsets
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+              hobs hpair_min hsecondary_min hmin hw hy_rt hy_tail
+              hy_left hy_not_right hy_prefix hyx hfirst_union hclean
+              hlen_ge
+              (by simpa [altPair, altLeft] using hmeasure_le)
+              (by simpa [altPair, altLeft] using hleft_sub)
+              (by simpa [altPair, altLeft] using hright_sub)
+        have hconcrete :
+            terminalPathPairRightReplacementAltLeftConcreteFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftDescentPackageFailure_concrete_cases
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hpackage
+        have hdefect :
+            terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftConcreteFailureResidual_defect_witness_cases
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hconcrete
+        have hexpanded :
+            terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftDefectWitnessConcreteFailureResidual.to_expanded
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hdefect
+        have hsource :
+            terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual
+              (G := G) (x := x) pair rt hx_left hx_right :=
+          terminalPathPairRightReplacementAltLeftExpandedDefectWitnessFailureResidual.to_source_split
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hexpanded
+        rcases
+            terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual.to_old_suffix_opposite_only_or_common
+              (G := G) (x := x) (pair := pair) (rt := rt)
+              (hx_left := hx_left) (hx_right := hx_right) hsource with
+          hold | hcommon
+        · rcases hold with ⟨c, hc_rt, hcv, hc_drop, hc_not_right⟩
+          exact False.elim
+            (hclean.2.1 c hc_rt hcv hc_drop hc_not_right)
+        · have haligned :
+              terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual
+                (G := G) (x := x) pair rt hx_left hx_right :=
+            terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual.to_aligned_common_source_split
+              (G := G) (x := x) (pair := pair) (rt := rt)
+              (hx_left := hx_left) (hx_right := hx_right) hcommon
+          rcases
+              terminalPathPairRightReplacementAltLeftAlignedCommonSourceSplitExpandedDefectWitnessFailureResidual.to_prefix_source_or_double_suffix
+                (G := G) (x := x) (pair := pair) (rt := rt)
+                (hx_left := hx_left) (hx_right := hx_right) haligned with
+            hprefix | hdouble
+          · exact Or.inl hprefix
+          · exact Or.inr hdouble
+      · left
+        exact
+          terminalSetFanRightBridgeFrontNonCleanSuffixBranch.to_cases
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair)
+            (rt := (rt : G.Walk v t))
+            (hx_left := hx_left) (hx_right := hx_right)
+            (hw := hw) (hy := hy_rt) (hy_tail := hy_tail)
+            hnonclean
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_cover_length_absent_and_clean_length_failure_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs :
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  exact
+    ⟨hobs,
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_clean_length_failure_aligned_source_split
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (pair := pair) hpair_min hsecondary_min hobs⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_cover_length_absent_and_clean_length_failure_aligned_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs :
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  exact
+    ⟨hobs,
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_clean_length_failure_aligned_source_split
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (pair := pair) hpair_min hsecondary_min hobs⟩
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual.to_separated
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with ⟨hobs, hclean_res⟩
+  refine ⟨hobs, ?_⟩
+  rcases hclean_res with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        (¬ (pair.1 : G.Walk v s).support.length ≤
+            (rs : G.Walk v s).support.length) ∧
+          terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+            hx_left hx_right hw hy_rs hy_tail ∨
+        (¬ (pair.1 : G.Walk v s).support.length ≤
+            (rs : G.Walk v s).support.length) ∧
+          terminalSetFanLeftBridgeFrontCleanSuffixCore
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+            hx_left hx_right hw hy_rs hy_tail ∧
+          terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+            (G := G) (x := x) pair rs hx_left hx_right ∨
+        (¬ (pair.1 : G.Walk v s).support.length ≤
+            (rs : G.Walk v s).support.length) ∧
+          terminalSetFanLeftBridgeFrontCleanSuffixCore
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+            hx_left hx_right hw hy_rs hy_tail ∧
+          terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+            (G := G) (x := x) pair rs hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with ⟨hlen_fail, hbranch_case⟩
+      rcases hbranch_case with hnonclean | hclean_split
+      · exact Or.inr (Or.inl ⟨hlen_fail, hnonclean⟩)
+      · rcases hclean_split with ⟨hclean, hsplit⟩
+        rcases hsplit with hprefix | hdouble
+        · exact Or.inr (Or.inr (Or.inl ⟨hlen_fail, hclean, hprefix⟩))
+        · exact Or.inr (Or.inr (Or.inr ⟨hlen_fail, hclean, hdouble⟩))
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual.to_separated
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with ⟨hobs, hclean_res⟩
+  refine ⟨hobs, ?_⟩
+  rcases hclean_res with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        (¬ (pair.2 : G.Walk v t).support.length ≤
+            (rt : G.Walk v t).support.length) ∧
+          terminalSetFanRightBridgeFrontNonCleanSuffixCases
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+            hx_left hx_right hw hy_rt hy_tail ∨
+        (¬ (pair.2 : G.Walk v t).support.length ≤
+            (rt : G.Walk v t).support.length) ∧
+          terminalSetFanRightBridgeFrontCleanSuffixCore
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+            hx_left hx_right hw hy_rt hy_tail ∧
+          terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+            (G := G) (x := x) pair rt hx_left hx_right ∨
+        (¬ (pair.2 : G.Walk v t).support.length ≤
+            (rt : G.Walk v t).support.length) ∧
+          terminalSetFanRightBridgeFrontCleanSuffixCore
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+            hx_left hx_right hw hy_rt hy_tail ∧
+          terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+            (G := G) (x := x) pair rt hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with ⟨hlen_fail, hbranch_case⟩
+      rcases hbranch_case with hnonclean | hclean_split
+      · exact Or.inr (Or.inl ⟨hlen_fail, hnonclean⟩)
+      · rcases hclean_split with ⟨hclean, hsplit⟩
+        rcases hsplit with hprefix | hdouble
+        · exact Or.inr (Or.inr (Or.inl ⟨hlen_fail, hclean, hprefix⟩))
+        · exact Or.inr (Or.inr (Or.inr ⟨hlen_fail, hclean, hdouble⟩))
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase'⟩
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.first_prefix_absent_of_clean_length_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Path v s}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) x rs)
+    (hw : w ∈ (rs : G.Walk v s).support)
+    (hwv : w ≠ v) (hwx : w ≠ x)
+    (hy : y ∈ (rs : G.Walk v s).support)
+    (hyv : y ≠ v) (hyx : y ≠ x)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_left : y ∉ (pair.1 : G.Walk v s).support)
+    (hy_prefix : y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support)
+    (hfirst_union :
+      ∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+        z = w)
+    (hclean :
+      terminalSetFanLeftBridgeFrontCleanSuffixCore
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+        hx_left hx_right hw hy hy_tail)
+    (hlen_fail :
+      ¬ (pair.1 : G.Walk v s).support.length ≤
+        (rs : G.Walk v s).support.length) :
+    terminalSetFanLeftBridgeFrontFirstPrefixAbsentResidual
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) pair (rs : G.Walk v s) hx_left hx_right hw := by
+  classical
+  rcases hclean with
+    ⟨_hw_not_right, hno_right_suffix_only, hno_post, hno_middle⟩
+  rcases
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.length_ge_or_first_prefix_absent
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rs := (rs : G.Walk v s))
+        hres.1 rs.property hmin.1 hw hy hy_tail hwv hwx hyv hyx
+        hy_right hy_not_left hy_prefix hfirst_union hno_middle hno_post
+        hno_right_suffix_only with
+    hlen | hprefix_absent
+  · exact False.elim (hlen_fail hlen)
+  · exact hprefix_absent
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.first_prefix_absent_of_clean_length_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Path v t}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) x rt)
+    (hw : w ∈ (rt : G.Walk v t).support)
+    (hwv : w ≠ v) (hwx : w ≠ x)
+    (hy : y ∈ (rt : G.Walk v t).support)
+    (hyv : y ≠ v) (hyx : y ≠ x)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_prefix : y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support)
+    (hfirst_union :
+      ∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support ∨
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+        z = w)
+    (hclean :
+      terminalSetFanRightBridgeFrontCleanSuffixCore
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+        hx_left hx_right hw hy hy_tail)
+    (hlen_fail :
+      ¬ (pair.2 : G.Walk v t).support.length ≤
+        (rt : G.Walk v t).support.length) :
+    terminalSetFanRightBridgeFrontFirstPrefixAbsentResidual
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) pair (rt : G.Walk v t) hx_left hx_right hw := by
+  classical
+  rcases hclean with
+    ⟨_hw_not_left, hno_left_suffix_only, hno_post, hno_middle⟩
+  rcases
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.length_ge_or_first_prefix_absent
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rt := (rt : G.Walk v t))
+        hres.1 rt.property hmin.1 hw hy hy_tail hwv hwx hyv hyx
+        hy_left hy_not_right hy_prefix hfirst_union hno_middle hno_post
+        hno_left_suffix_only with
+    hlen | hprefix_absent
+  · exact False.elim (hlen_fail hlen)
+  · exact hprefix_absent
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.first_prefix_absent_alt_of_clean_length_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rs : G.Path v s}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hxv : x ≠ v)
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) x rs)
+    (hw : w ∈ (rs : G.Walk v s).support)
+    (hwv : w ≠ v) (hwx : w ≠ x)
+    (hy : y ∈ (rs : G.Walk v s).support)
+    (hyv : y ≠ v) (hyx : y ≠ x)
+    (hy_right : y ∈ (pair.2 : G.Walk v t).support)
+    (hy_not_left : y ∉ (pair.1 : G.Walk v s).support)
+    (hy_prefix : y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support)
+    (hfirst_union :
+      ∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+        z ∈ (pair.1 : G.Walk v s).support ∨
+        z ∈ (pair.2 : G.Walk v t).support →
+        z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+        z = w)
+    (hclean :
+      terminalSetFanLeftBridgeFrontCleanSuffixCore
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+        hx_left hx_right hw hy hy_tail)
+    (hlen_fail :
+      ¬ (pair.1 : G.Walk v s).support.length ≤
+        (rs : G.Walk v s).support.length) :
+    terminalSetFanLeftBridgeFrontFirstPrefixAbsentAltResidual
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) pair (rs : G.Walk v s) hx_left hx_right hw := by
+  classical
+  rcases hclean with
+    ⟨_hw_not_right, hno_right_suffix_only, hno_post, hno_middle⟩
+  rcases
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.length_ge_or_first_prefix_absent_alt_of_weighted_min
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rs := (rs : G.Walk v s))
+        hpair_min hxv hres.1 rs.property hmin.1 hw hy hy_tail
+        hwv hwx hyv hyx hy_right hy_not_left hy_prefix hfirst_union
+        hno_middle hno_post hno_right_suffix_only with
+    hlen | hprefix_absent
+  · exact False.elim (hlen_fail hlen)
+  · exact hprefix_absent
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.first_prefix_absent_alt_of_clean_length_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x w y : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    {rt : G.Path v t}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hxv : x ≠ v)
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) x rt)
+    (hw : w ∈ (rt : G.Walk v t).support)
+    (hwv : w ≠ v) (hwx : w ≠ x)
+    (hy : y ∈ (rt : G.Walk v t).support)
+    (hyv : y ≠ v) (hyx : y ≠ x)
+    (hy_left : y ∈ (pair.1 : G.Walk v s).support)
+    (hy_not_right : y ∉ (pair.2 : G.Walk v t).support)
+    (hy_prefix : y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support)
+    (hfirst_union :
+      ∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+        z ∈ (pair.2 : G.Walk v t).support ∨
+        z ∈ (pair.1 : G.Walk v s).support →
+        z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+        z = w)
+    (hclean :
+      terminalSetFanRightBridgeFrontCleanSuffixCore
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+        hx_left hx_right hw hy hy_tail)
+    (hlen_fail :
+      ¬ (pair.2 : G.Walk v t).support.length ≤
+        (rt : G.Walk v t).support.length) :
+    terminalSetFanRightBridgeFrontFirstPrefixAbsentAltResidual
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (w := w) pair (rt : G.Walk v t) hx_left hx_right hw := by
+  classical
+  rcases hclean with
+    ⟨_hw_not_left, hno_left_suffix_only, hno_post, hno_middle⟩
+  rcases
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.length_ge_or_first_prefix_absent_alt_of_weighted_min
+        (G := G) (v := v) (s := s) (t := t)
+        (x := x) (w := w) (y := y) (pair := pair) (rt := (rt : G.Walk v t))
+        hpair_min hxv hres.1 rt.property hmin.1 hw hy hy_tail
+        hwv hwx hyv hyx hy_left hy_not_right hy_prefix hfirst_union
+        hno_middle hno_post hno_left_suffix_only with
+    hlen | hprefix_absent
+  · exact False.elim (hlen_fail hlen)
+  · exact hprefix_absent
+
+private abbrev terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right ∧
+  ∃ rs : G.Path v s,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rs ∧
+    ∃ w : α, ∃ hw : w ∈ (rs : G.Walk v s).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.1 : G.Walk v s).support ∧
+      w ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rs : G.Walk v s).support,
+        y ∈ (pair.2 : G.Walk v t).support ∧
+        y ∉ (pair.1 : G.Walk v s).support ∧
+        y ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+        ∃ hy_tail : y ∈ (((rs : G.Walk v s).dropUntil w hw)).support,
+          (∀ z, z ∈ (rs : G.Walk v s).support → z ≠ v →
+            z ∈ (pair.1 : G.Walk v s).support ∨
+            z ∈ (pair.2 : G.Walk v t).support →
+            z ∈ (((rs : G.Walk v s).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.2 : G.Walk v t).support →
+            a ∉ (pair.1 : G.Walk v s).support →
+            a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+            a ∈ (((rs : G.Walk v s).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanLeftBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+              (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+            (¬ (pair.1 : G.Walk v s).support.length ≤
+                (rs : G.Walk v s).support.length) ∧
+              terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+                hx_left hx_right hw hy hy_tail ∨
+            (¬ (pair.1 : G.Walk v s).support.length ≤
+                (rs : G.Walk v s).support.length) ∧
+              terminalSetFanLeftBridgeFrontCleanSuffixCore
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+                hx_left hx_right hw hy hy_tail ∧
+              terminalSetFanLeftBridgeFrontFirstPrefixAbsentAltResidual
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) pair (rs : G.Walk v s)
+                hx_left hx_right hw ∧
+              terminalPathPairLeftReplacementAltRightAlignedPrefixSourceFailureResidual
+                (G := G) (x := x) pair rs hx_left hx_right ∨
+            (¬ (pair.1 : G.Walk v s).support.length ≤
+                (rs : G.Walk v s).support.length) ∧
+              terminalSetFanLeftBridgeFrontCleanSuffixCore
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+                hx_left hx_right hw hy hy_tail ∧
+              terminalSetFanLeftBridgeFrontFirstPrefixAbsentAltResidual
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) pair (rs : G.Walk v s)
+                hx_left hx_right hw ∧
+              terminalPathPairLeftReplacementAltRightAlignedDoubleSuffixFailureResidual
+                (G := G) (x := x) pair rs hx_left hx_right)
+
+private abbrev terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right ∧
+  ∃ rt : G.Path v t,
+    terminalReplacementPathSupportLengthMinimal (G := G) x rt ∧
+    ∃ w : α, ∃ hw : w ∈ (rt : G.Walk v t).support,
+      w ≠ v ∧ w ≠ x ∧
+      w ∈ (pair.2 : G.Walk v t).support ∧
+      w ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support ∧
+      ∃ y : α, y ≠ v ∧ y ≠ x ∧
+      ∃ hy : y ∈ (rt : G.Walk v t).support,
+        y ∈ (pair.1 : G.Walk v s).support ∧
+        y ∉ (pair.2 : G.Walk v t).support ∧
+        y ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support ∧
+        ∃ hy_tail : y ∈ (((rt : G.Walk v t).dropUntil w hw)).support,
+          (∀ z, z ∈ (rt : G.Walk v t).support → z ≠ v →
+            z ∈ (pair.2 : G.Walk v t).support ∨
+            z ∈ (pair.1 : G.Walk v s).support →
+            z ∈ (((rt : G.Walk v t).takeUntil w hw)).support →
+            z = w) ∧
+          (∀ a : α, a ≠ v →
+            a ∈ (pair.1 : G.Walk v s).support →
+            a ∉ (pair.2 : G.Walk v t).support →
+            a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+            a ∈ (((rt : G.Walk v t).takeUntil y hy)).support →
+            a = y) ∧
+          terminalSetFanRightBridgeFrontCleanSuffixBranch
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+            hx_left hx_right hw hy hy_tail ∧
+          ((∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+              (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+            (¬ (pair.2 : G.Walk v t).support.length ≤
+                (rt : G.Walk v t).support.length) ∧
+              terminalSetFanRightBridgeFrontNonCleanSuffixCases
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+                hx_left hx_right hw hy hy_tail ∨
+            (¬ (pair.2 : G.Walk v t).support.length ≤
+                (rt : G.Walk v t).support.length) ∧
+              terminalSetFanRightBridgeFrontCleanSuffixCore
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+                hx_left hx_right hw hy hy_tail ∧
+              terminalSetFanRightBridgeFrontFirstPrefixAbsentAltResidual
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) pair (rt : G.Walk v t)
+                hx_left hx_right hw ∧
+              terminalPathPairRightReplacementAltLeftAlignedPrefixSourceFailureResidual
+                (G := G) (x := x) pair rt hx_left hx_right ∨
+            (¬ (pair.2 : G.Walk v t).support.length ≤
+                (rt : G.Walk v t).support.length) ∧
+              terminalSetFanRightBridgeFrontCleanSuffixCore
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+                hx_left hx_right hw hy hy_tail ∧
+              terminalSetFanRightBridgeFrontFirstPrefixAbsentAltResidual
+                (G := G) (v := v) (s := s) (t := t)
+                (x := x) (w := w) pair (rt : G.Walk v t)
+                hx_left hx_right hw ∧
+              terminalPathPairRightReplacementAltLeftAlignedDoubleSuffixFailureResidual
+                (G := G) (x := x) pair rt hx_left hx_right)
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.to_first_prefix
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hxv : x ≠ v)
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  have hres_saved := hres
+  rcases hres with ⟨hobs, hbody⟩
+  refine ⟨hobs, ?_⟩
+  rcases hbody with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  refine
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, ?_⟩
+  rcases hcase with hbottleneck | hrest
+  · exact Or.inl hbottleneck
+  · rcases hrest with hnonclean | hrest
+    · exact Or.inr (Or.inl hnonclean)
+    · rcases hrest with hprefix_case | hdouble_case
+      · rcases hprefix_case with ⟨hlen_fail, hclean, hprefix⟩
+        have hfirst :
+            terminalSetFanLeftBridgeFrontFirstPrefixAbsentAltResidual
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) pair (rs : G.Walk v s)
+              hx_left hx_right hw :=
+          terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.first_prefix_absent_alt_of_clean_length_failure
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+            hpair_min hxv hres_saved hmin hw hwv hwx hy_rs
+            hyv hyx hy_right hy_not_left hy_prefix hy_tail
+            hfirst_union hclean hlen_fail
+        exact Or.inr (Or.inr (Or.inl
+          ⟨hlen_fail, hclean, hfirst, hprefix⟩))
+      · rcases hdouble_case with ⟨hlen_fail, hclean, hdouble⟩
+        have hfirst :
+            terminalSetFanLeftBridgeFrontFirstPrefixAbsentAltResidual
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) pair (rs : G.Walk v s)
+              hx_left hx_right hw :=
+          terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.first_prefix_absent_alt_of_clean_length_failure
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+            hpair_min hxv hres_saved hmin hw hwv hwx hy_rs
+            hyv hyx hy_right hy_not_left hy_prefix hy_tail
+            hfirst_union hclean hlen_fail
+        exact Or.inr (Or.inr (Or.inr
+          ⟨hlen_fail, hclean, hfirst, hdouble⟩))
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.to_first_prefix
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hxv : x ≠ v)
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  have hres_saved := hres
+  rcases hres with ⟨hobs, hbody⟩
+  refine ⟨hobs, ?_⟩
+  rcases hbody with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, hcase⟩
+  refine
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hbranch, ?_⟩
+  rcases hcase with hbottleneck | hrest
+  · exact Or.inl hbottleneck
+  · rcases hrest with hnonclean | hrest
+    · exact Or.inr (Or.inl hnonclean)
+    · rcases hrest with hprefix_case | hdouble_case
+      · rcases hprefix_case with ⟨hlen_fail, hclean, hprefix⟩
+        have hfirst :
+            terminalSetFanRightBridgeFrontFirstPrefixAbsentAltResidual
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) pair (rt : G.Walk v t)
+              hx_left hx_right hw :=
+          terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.first_prefix_absent_alt_of_clean_length_failure
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+            hpair_min hxv hres_saved hmin hw hwv hwx hy_rt
+            hyv hyx hy_left hy_not_right hy_prefix hy_tail
+            hfirst_union hclean hlen_fail
+        exact Or.inr (Or.inr (Or.inl
+          ⟨hlen_fail, hclean, hfirst, hprefix⟩))
+      · rcases hdouble_case with ⟨hlen_fail, hclean, hdouble⟩
+        have hfirst :
+            terminalSetFanRightBridgeFrontFirstPrefixAbsentAltResidual
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (w := w) pair (rt : G.Walk v t)
+              hx_left hx_right hw :=
+          terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.first_prefix_absent_alt_of_clean_length_failure
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+            hpair_min hxv hres_saved hmin hw hwv hwx hy_rt
+            hyv hyx hy_left hy_not_right hy_prefix hy_tail
+            hfirst_union hclean hlen_fail
+        exact Or.inr (Or.inr (Or.inr
+          ⟨hlen_fail, hclean, hfirst, hdouble⟩))
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual.to_common_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrCommonSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v s, q.IsPath → x ∉ q.support →
+          (pair.1 : G.Walk v s).support.length ≤ q.support.length) ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightOldSuffixOppositeOnlySource
+          (G := G) (x := x) pair rs hx_left hx_right ∨
+        terminalPathPairLeftReplacementAltRightCommonSourceSplitExpandedDefectWitnessFailureResidual
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with hnonclean | hreplacement
+      · exact Or.inr (Or.inl hnonclean)
+      · rcases
+          terminalPathPairLeftReplacementAltRightSourceSplitExpandedDefectWitnessFailureResidual.to_old_suffix_opposite_only_or_common
+            (G := G) (x := x) (pair := pair) (rs := rs)
+            (hx_left := hx_left) (hx_right := hx_right) hreplacement with
+          hold | hcommon
+        · exact Or.inr (Or.inr (Or.inl hold))
+        · exact Or.inr (Or.inr (Or.inr hcommon))
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual.to_common_source_split
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrCommonSourceSplitFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hres with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+  have hcase' :
+      (∀ q : G.Walk v t, q.IsPath → x ∉ q.support →
+          (pair.2 : G.Walk v t).support.length ≤ q.support.length) ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixCases
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftOldSuffixOppositeOnlySource
+          (G := G) (x := x) pair rt hx_left hx_right ∨
+        terminalPathPairRightReplacementAltLeftCommonSourceSplitExpandedDefectWitnessFailureResidual
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    rcases hcase with hbottleneck | hrest
+    · exact Or.inl hbottleneck
+    · rcases hrest with hnonclean | hreplacement
+      · exact Or.inr (Or.inl hnonclean)
+      · rcases
+          terminalPathPairRightReplacementAltLeftSourceSplitExpandedDefectWitnessFailureResidual.to_old_suffix_opposite_only_or_common
+            (G := G) (x := x) (pair := pair) (rt := rt)
+            (hx_left := hx_left) (hx_right := hx_right) hreplacement with
+          hold | hcommon
+        · exact Or.inr (Or.inr (Or.inl hold))
+        · exact Or.inr (Or.inr (Or.inr hcommon))
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase'⟩
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_nonclean_or_replacement_alt_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hobs.1.1.1 with
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_tail,
+      hfirst_union, hy_prefix, hfirst_global, hbranch, hlen_fail,
+      _hsplit⟩
+  have hcase :
+      (pair.1 : G.Walk v s).support.length ≤
+          (rs : G.Walk v s).support.length ∨
+        terminalSetFanLeftBridgeFrontNonCleanSuffixBranch
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rs : G.Walk v s)
+          hx_left hx_right hw hy_rs hy_tail ∨
+        terminalPathPairLeftReplacementAltRightDescentPackageFailure
+          (G := G) (x := x) pair rs hx_left hx_right := by
+    by_cases hlen_ge :
+        (pair.1 : G.Walk v s).support.length ≤
+          (rs : G.Walk v s).support.length
+    · exact Or.inl hlen_ge
+    · exact Or.inr
+        (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.nonclean_or_replacement_altRight_failure_of_witness
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) (pair := pair) (rs := rs)
+          hobs hpair_min hsecondary_min hmin hw hy_rs hy_tail
+          hy_right hy_not_left hy_prefix hyx hfirst_union hbranch hlen_ge)
+  exact
+    ⟨rs, hmin, w, hw, hwv, hwx, hw_left, hw_prefix,
+      y, hyv, hyx, hy_rs, hy_right, hy_not_left, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_nonclean_or_replacement_alt_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right := by
+  classical
+  rcases hobs.1.1.1 with
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_tail,
+      hfirst_union, hy_prefix, hfirst_global, hbranch, hlen_fail,
+      _hsplit⟩
+  have hcase :
+      (pair.2 : G.Walk v t).support.length ≤
+          (rt : G.Walk v t).support.length ∨
+        terminalSetFanRightBridgeFrontNonCleanSuffixBranch
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) pair (rt : G.Walk v t)
+          hx_left hx_right hw hy_rt hy_tail ∨
+        terminalPathPairRightReplacementAltLeftDescentPackageFailure
+          (G := G) (x := x) pair rt hx_left hx_right := by
+    by_cases hlen_ge :
+        (pair.2 : G.Walk v t).support.length ≤
+          (rt : G.Walk v t).support.length
+    · exact Or.inl hlen_ge
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.nonclean_or_replacement_altLeft_failure_of_witness
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (w := w) (y := y) (pair := pair) (rt := rt)
+          hobs hpair_min hsecondary_min hmin hw hy_rt hy_tail
+          hy_left hy_not_right hy_prefix hyx hfirst_union hbranch hlen_ge)
+  exact
+    ⟨rt, hmin, w, hw, hwv, hwx, hw_right, hw_prefix,
+      y, hyv, hyx, hy_rt, hy_left, hy_not_right, hy_prefix, hy_tail,
+      hfirst_union, hfirst_global, hcase⟩
+
+lemma terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_secondary_minimal_and_weighted_minimal_zero_prefix_only_defect
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs : terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hzero_min :
+      ∃ pair0 : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair0 ∧
+        terminalPathPairPrefixOnlyDefect (G := G) pair0 = 0) :
+    False := by
+  rcases hzero_min with ⟨pair0, hpair0_min, hpair0_zero⟩
+  have hpos :
+      0 < terminalPathPairPrefixOnlyDefect (G := G) pair :=
+    terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+      (G := G) (v := v) (s := s) (t := t) (x := x)
+      (pair := pair) hobs
+  have hle :
+      terminalPathPairPrefixOnlyDefect (G := G) pair ≤ 0 := by
+    simpa [hpair0_zero] using hsecondary_min pair0 hpair0_min
+  omega
+
+lemma terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_secondary_minimal_and_weighted_minimal_zero_prefix_only_defect
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hobs : terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+      (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right)
+    (hzero_min :
+      ∃ pair0 : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair0 ∧
+        terminalPathPairPrefixOnlyDefect (G := G) pair0 = 0) :
+    False := by
+  rcases hzero_min with ⟨pair0, hpair0_min, hpair0_zero⟩
+  have hpos :
+      0 < terminalPathPairPrefixOnlyDefect (G := G) pair :=
+    terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+      (G := G) (v := v) (s := s) (t := t) (x := x)
+      (pair := pair) hobs
+  have hle :
+      terminalPathPairPrefixOnlyDefect (G := G) pair ≤ 0 := by
+    simpa [hpair0_zero] using hsecondary_min pair0 hpair0_min
+  omega
 
 lemma terminalSetFanLeftBridgeFrontCoverLengthGuardedPrefixSplitResidual.to_absent_alt_guarded_of_weighted_min
     {α : Type*} [Fintype α] [DecidableEq α]
@@ -41015,9 +49868,10109 @@ lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front
             terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
               (G := G) (v := v) (s := s) (t := t)
               pair x hx_left hx_right) := by
+    exact
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_nonclean_or_replacement_alt_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_nonclean_or_replacement_alt_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hsecondary_min hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_nonclean_or_replacement_alt_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hsecondary_min hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_nonclean_or_replacement_alt_concrete_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_nonclean_or_replacement_alt_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual.to_concrete_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltFailureResidual.to_concrete_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_defect_witness_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontDefectWitnessFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontDefectWitnessFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_nonclean_or_replacement_alt_concrete_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual.to_defect_witness_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontNonCleanOrReplacementAltConcreteFailureResidual.to_defect_witness_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_explicit_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontExplicitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontExplicitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_defect_witness_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontDefectWitnessFailureResidual.to_explicit_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontDefectWitnessFailureResidual.to_explicit_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_explicit_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_explicit_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontExplicitFailureResidual.to_bottleneck_or_explicit_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontExplicitFailureResidual.to_bottleneck_or_explicit_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_explicit_failure_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
   exact
-    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual_of_no_small_endpoint_separator
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_explicit_failure_of_no_small_endpoint_separator
       (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_explicit_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_explicit_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_expanded_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_explicit_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual.to_expanded_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual.to_expanded_failure
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_expanded_failure_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_expanded_failure_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_expanded_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_expanded_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_source_split_expanded_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_expanded_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual.to_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExpandedFailureResidual.to_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_source_split_expanded_failure_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_source_split_expanded_failure_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_source_split_expanded_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_source_split_expanded_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_common_source_split_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_source_split_expanded_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual.to_common_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrSourceSplitExpandedFailureResidual.to_common_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_common_source_split_failure_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_common_source_split_failure_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_common_source_split_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrCommonSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrCommonSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_common_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_common_source_split_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_common_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hsecondary_min hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_common_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hsecondary_min hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_common_source_split_failure_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_common_source_split_failure_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_common_source_split_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_common_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_common_source_split_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_common_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual.to_branch_aligned_common_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCommonSourceSplitFailureResidual.to_branch_aligned_common_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_common_source_split_failure_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_common_source_split_failure_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_common_source_split_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_common_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_source_split_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_common_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual.to_branch_aligned_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedCommonSourceSplitFailureResidual.to_branch_aligned_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_source_split_failure_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_source_split_failure_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_source_split_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchAlignedSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_aligned_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_length_failure_aligned_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hsecondary_min hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_length_failure_aligned_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hsecondary_min hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_length_failure_aligned_source_split_failure_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_length_failure_aligned_source_split_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchLengthFailureAlignedSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_clean_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_clean_length_failure_aligned_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hsecondary_min hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_bottleneck_or_branch_clean_length_failure_aligned_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hsecondary_min hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_clean_length_failure_aligned_source_split_failure_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_clean_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_clean_length_failure_aligned_source_split_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrBranchCleanLengthFailureAlignedSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_branch_clean_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_and_clean_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_cover_length_absent_and_clean_length_failure_aligned_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hsecondary_min hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.to_cover_length_absent_and_clean_length_failure_aligned_source_split
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hsecondary_min hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_and_clean_length_failure_aligned_source_split_failure_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_and_clean_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_and_clean_length_failure_aligned_source_split_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_and_clean_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_and_clean_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual.to_separated
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentAndCleanLengthFailureAlignedSourceSplitFailureResidual.to_separated
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_failure_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_first_prefix_residual_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min,
+      x, hx_left, hx_right, hxv, ?_⟩
+    rcases hside with hleft | hright
+    · exact Or.inl
+        (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.to_first_prefix
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hxv hleft)
+    · exact Or.inr
+        (terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFailureResidual.to_first_prefix
+          (G := G) (v := v) (s := s) (t := t)
+          (x := x) (pair := pair) hpair_min hxv hright)
+
+lemma finite_two_fan_to_pair_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_first_prefix_residual_of_terminal_set_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ∃ x : α,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          x ≠ v ∧
+          (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right ∨
+            terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+              (G := G) (v := v) (s := s) (t := t)
+              pair x hx_left hx_right) := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_first_prefix_residual_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_first_prefix_residual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_first_prefix_residual_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_min hsecondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False)
+    (hright_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (x : α)
+          (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+          (hx_right : x ∈ (pair.2 : G.Walk v t).support),
+          x ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair x hx_left hx_right →
+          False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_measure_min, hpair_secondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    rcases hside with hleft | hright
+    · exact False.elim
+        (hleft_no pair hpair_measure_min hpair_secondary_min
+          x hx_left hx_right hxv hleft)
+    · exact False.elim
+        (hright_no pair hpair_measure_min hpair_secondary_min
+          x hx_left hx_right hxv hright)
+
+lemma terminal_set_two_fan_of_no_small_endpoint_separator_of_weighted_minimal_zero_prefix_only_defect
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hzero_min :
+      ∃ pair0 : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair0 ∧
+        terminalPathPairPrefixOnlyDefect (G := G) pair0 = 0) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  exact
+    terminal_set_two_fan_of_no_small_endpoint_separator_of_no_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual
+      (G := G) (v := v) (s := s) (t := t)
+      hvs hvt hst hsep
+      (by
+        intro pair _hpair_min hsecondary_min x hx_left hx_right _hxv hobs
+        exact
+          terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_secondary_minimal_and_weighted_minimal_zero_prefix_only_defect
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (pair := pair) hsecondary_min hobs hzero_min)
+      (by
+        intro pair _hpair_min hsecondary_min x hx_left hx_right _hxv hobs
+        exact
+          terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.false_of_secondary_minimal_and_weighted_minimal_zero_prefix_only_defect
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (pair := pair) hsecondary_min hobs hzero_min)
+
+lemma terminal_set_two_fan_or_all_weighted_minimal_prefix_only_defect_pos_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∀ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair →
+      0 < terminalPathPairPrefixOnlyDefect (G := G) pair := by
+  classical
+  by_cases hzero_min :
+      ∃ pair0 : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair0 ∧
+        terminalPathPairPrefixOnlyDefect (G := G) pair0 = 0
+  · exact Or.inl
+      (terminal_set_two_fan_of_no_small_endpoint_separator_of_weighted_minimal_zero_prefix_only_defect
+        (G := G) (v := v) (s := s) (t := t)
+        hvs hvt hst hsep hzero_min)
+  · right
+    intro pair hpair_min
+    have hne :
+        terminalPathPairPrefixOnlyDefect (G := G) pair ≠ 0 := by
+      intro hzero
+      exact hzero_min ⟨pair, hpair_min, hzero⟩
+    exact Nat.pos_of_ne_zero hne
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_prefix_only_defect_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        x ∈ (pair.2 : G.Walk v t).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              z ∉ (pair.2 : G.Walk v t).support ∧
+                ∀ a : α,
+                  a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                    a ∉ (pair.2 : G.Walk v t).support →
+                      a ∈
+                        (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                          z hz_prefix).support →
+                        a = z) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        x ∈ (pair.1 : G.Walk v s).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              z ∉ (pair.1 : G.Walk v s).support ∧
+                ∀ a : α,
+                  a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                    a ∉ (pair.1 : G.Walk v s).support →
+                      a ∈
+                        (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                          z hz_prefix).support →
+                        a = z)) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_failure_exchange_inflation_guarded_prefix_split_residual_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x, hx_left, hx_right,
+        _hxv, hside⟩
+    have hpos :
+        0 < terminalPathPairPrefixOnlyDefect (G := G) pair := by
+      rcases hside with hleft | hright
+      · exact
+          terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (pair := pair) hleft
+      · exact
+          terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (pair := pair) hright
+    exact Or.inr
+      ⟨pair, hpair_min, hsecondary_min,
+        terminalPathPairPrefixOnlyDefect_pos_first_cases
+          (G := G) (pair := pair) hpos⟩
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        x ∈ (pair.2 : G.Walk v t).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              z ≠ v ∧
+              z ∉ (pair.2 : G.Walk v t).support ∧
+                ∀ a : α,
+                  a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                    a ∉ (pair.2 : G.Walk v t).support →
+                      a ∈
+                        (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                          z hz_prefix).support →
+                        a = z) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        x ∈ (pair.1 : G.Walk v s).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              z ≠ v ∧
+              z ∉ (pair.1 : G.Walk v s).support ∧
+                ∀ a : α,
+                  a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                    a ∉ (pair.1 : G.Walk v s).support →
+                      a ∈
+                        (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                          z hz_prefix).support →
+                        a = z)) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_prefix_only_defect_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hbad
+  · exact Or.inl hfan
+  · rcases hbad with ⟨pair, hpair_min, hsecondary_min, hfirst⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_⟩
+    rcases hfirst with hleft | hright
+    · left
+      rcases hleft with
+        ⟨x, hx_left, hx_right, z, hz_prefix, hz_not_right,
+          hfirst_prefix⟩
+      exact
+        ⟨x, hx_left, hx_right, z, hz_prefix,
+          terminalPathPairLeftPrefixOnlyDefect_ne_apex_of_not_mem_right
+            (G := G) (pair := pair) hz_not_right,
+          hz_not_right, hfirst_prefix⟩
+    · right
+      rcases hright with
+        ⟨x, hx_right, hx_left, z, hz_prefix, hz_not_left,
+          hfirst_prefix⟩
+      exact
+        ⟨x, hx_right, hx_left, z, hz_prefix,
+          terminalPathPairRightPrefixOnlyDefect_ne_apex_of_not_mem_left
+            (G := G) (pair := pair) hz_not_left,
+          hz_not_left, hfirst_prefix⟩
+
+private abbrev terminalSetFanFirstPrefixResidualCases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) : Prop :=
+  ∃ x : α,
+    ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+    ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+      x ≠ v ∧
+      (terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+          (G := G) (v := v) (s := s) (t := t)
+          pair x hx_left hx_right ∨
+        terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentSeparatedCleanLengthFailureAlignedSourceSplitFirstPrefixResidual
+          (G := G) (v := v) (s := s) (t := t)
+          pair x hx_left hx_right)
+
+private abbrev terminalPathPairFirstNonapexPrefixOnlyDefectCases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) : Prop :=
+  ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+    ∃ _hx_right : x ∈ (pair.2 : G.Walk v t).support,
+      ∃ z : α, ∃ hz_prefix :
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+          z ≠ v ∧
+          z ∉ (pair.2 : G.Walk v t).support ∧
+            ∀ a : α,
+              a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                a ∉ (pair.2 : G.Walk v t).support →
+                  a ∈
+                    (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                      z hz_prefix).support →
+                  a = z) ∨
+    (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+      ∃ _hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ z : α, ∃ hz_prefix :
+          z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+            z ≠ v ∧
+            z ∉ (pair.1 : G.Walk v s).support ∧
+              ∀ a : α,
+                a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                  a ∉ (pair.1 : G.Walk v s).support →
+                    a ∈
+                      (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                        z hz_prefix).support →
+                    a = z))
+
+private lemma terminalPathPairFirstNonapexPrefixOnlyDefectCases_of_pos
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    (hpos : 0 < terminalPathPairPrefixOnlyDefect (G := G) pair) :
+    terminalPathPairFirstNonapexPrefixOnlyDefectCases
+      (G := G) (v := v) pair := by
+  classical
+  dsimp [terminalPathPairFirstNonapexPrefixOnlyDefectCases]
+  rcases terminalPathPairPrefixOnlyDefect_pos_first_cases
+      (G := G) (pair := pair) hpos with hleft | hright
+  · left
+    rcases hleft with
+      ⟨x, hx_left, hx_right, z, hz_prefix, hz_not_right,
+        hfirst_prefix⟩
+    exact
+      ⟨x, hx_left, hx_right, z, hz_prefix,
+        terminalPathPairLeftPrefixOnlyDefect_ne_apex_of_not_mem_right
+          (G := G) (pair := pair) hz_not_right,
+        hz_not_right, hfirst_prefix⟩
+  · right
+    rcases hright with
+      ⟨x, hx_right, hx_left, z, hz_prefix, hz_not_left,
+        hfirst_prefix⟩
+    exact
+      ⟨x, hx_right, hx_left, z, hz_prefix,
+        terminalPathPairRightPrefixOnlyDefect_ne_apex_of_not_mem_left
+          (G := G) (pair := pair) hz_not_left,
+        hz_not_left, hfirst_prefix⟩
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_prefix_residual_and_first_nonapex_prefix_only_defect_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      terminalSetFanFirstPrefixResidualCases
+        (G := G) (v := v) (s := s) (t := t) pair ∧
+      terminalPathPairFirstNonapexPrefixOnlyDefectCases
+        (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_cover_length_absent_separated_clean_length_failure_aligned_source_split_first_prefix_residual_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x, hx_left, hx_right,
+        hxv, hside⟩
+    have hpos :
+        0 < terminalPathPairPrefixOnlyDefect (G := G) pair := by
+      rcases hside with hleft | hright
+      · exact
+          terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (pair := pair) hleft.1
+      · exact
+          terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (pair := pair) hright.1
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_, ?_⟩
+    · exact ⟨x, hx_left, hx_right, hxv, hside⟩
+    · exact
+        terminalPathPairFirstNonapexPrefixOnlyDefectCases_of_pos
+          (G := G) (v := v) (pair := pair) hpos
+
+lemma terminal_set_two_fan_of_no_prefix_only_minimal_first_prefix_residual_and_first_nonapex_prefix_only_defect
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hno :
+      ∀ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        terminalSetFanFirstPrefixResidualCases
+          (G := G) (v := v) (s := s) (t := t) pair →
+        terminalPathPairFirstNonapexPrefixOnlyDefectCases
+          (G := G) (v := v) (s := s) (t := t) pair →
+        False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_prefix_residual_and_first_nonapex_prefix_only_defect_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, hbridge, hprefix⟩
+    exact False.elim
+      (hno pair hpair_min hsecondary_min hbridge hprefix)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_avoiding_terminal_path_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        x ∈ (pair.2 : G.Walk v t).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              z ≠ v ∧
+              z ∉ (pair.2 : G.Walk v t).support ∧
+              (∀ a : α,
+                a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                  a ∉ (pair.2 : G.Walk v t).support →
+                    a ∈
+                      (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ∃ u : α, (u = s ∨ u = t) ∧ u ≠ z ∧
+                ∃ q : G.Walk v u, q.IsPath ∧ z ∉ q.support) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        x ∈ (pair.1 : G.Walk v s).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              z ≠ v ∧
+              z ∉ (pair.1 : G.Walk v s).support ∧
+              (∀ a : α,
+                a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                  a ∉ (pair.1 : G.Walk v s).support →
+                    a ∈
+                      (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ∃ u : α, (u = s ∨ u = t) ∧ u ≠ z ∧
+                ∃ q : G.Walk v u, q.IsPath ∧ z ∉ q.support)) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hbad
+  · exact Or.inl hfan
+  · rcases hbad with ⟨pair, hpair_min, hsecondary_min, hfirst⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_⟩
+    rcases hfirst with hleft | hright
+    · left
+      rcases hleft with
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix⟩
+      exact
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix,
+          exists_terminal_path_avoiding_singleton_of_terminal_set_separator
+            (G := G) (v := v) (s := s) (t := t) (x := z)
+            hzv hsep⟩
+    · right
+      rcases hright with
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix⟩
+      exact
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix,
+          exists_terminal_path_avoiding_singleton_of_terminal_set_separator
+            (G := G) (v := v) (s := s) (t := t) (x := z)
+            hzv hsep⟩
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_avoiding_side_path_split_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        x ∈ (pair.2 : G.Walk v t).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              z ≠ v ∧
+              z ∉ (pair.2 : G.Walk v t).support ∧
+              (∀ a : α,
+                a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                  a ∉ (pair.2 : G.Walk v t).support →
+                    a ∈
+                      (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ((∃ qs : G.Walk v s, qs.IsPath ∧ z ∉ qs.support) ∨
+                ∃ qt : G.Walk v t, qt.IsPath ∧ z ∉ qt.support)) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        x ∈ (pair.1 : G.Walk v s).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              z ≠ v ∧
+              z ∉ (pair.1 : G.Walk v s).support ∧
+              (∀ a : α,
+                a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                  a ∉ (pair.1 : G.Walk v s).support →
+                    a ∈
+                      (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ((∃ qs : G.Walk v s, qs.IsPath ∧ z ∉ qs.support) ∨
+                ∃ qt : G.Walk v t, qt.IsPath ∧ z ∉ qt.support))) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hbad
+  · exact Or.inl hfan
+  · rcases hbad with ⟨pair, hpair_min, hsecondary_min, hfirst⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_⟩
+    rcases hfirst with hleft | hright
+    · left
+      rcases hleft with
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix⟩
+      exact
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix,
+          exists_left_or_right_terminal_path_avoiding_singleton_of_terminal_set_separator
+            (G := G) (v := v) (s := s) (t := t) (x := z)
+            hzv hsep⟩
+    · right
+      rcases hright with
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix⟩
+      exact
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix,
+          exists_left_or_right_terminal_path_avoiding_singleton_of_terminal_set_separator
+            (G := G) (v := v) (s := s) (t := t) (x := z)
+            hzv hsep⟩
+
+private lemma exists_right_path_avoiding_of_left_prefix_only_absent
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hz_not_right : z ∉ (pair.2 : G.Walk v t).support) :
+    ∃ qt : G.Walk v t, qt.IsPath ∧ z ∉ qt.support :=
+  ⟨(pair.2 : G.Walk v t), pair.2.property, hz_not_right⟩
+
+private lemma exists_left_path_avoiding_of_right_prefix_only_absent
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support) :
+    ∃ qs : G.Walk v s, qs.IsPath ∧ z ∉ qs.support :=
+  ⟨(pair.1 : G.Walk v s), pair.1.property, hz_not_left⟩
+
+private lemma left_common_ne_apex_of_nonapex_prefix_mem
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hz_prefix :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hzv : z ≠ v) :
+    x ≠ v := by
+  intro hxv
+  subst x
+  have hz_eq : z = v :=
+    eq_start_of_mem_takeUntil_start
+      (G := G) (p := (pair.1 : G.Walk v s)) hx_left hz_prefix
+  exact hzv hz_eq
+
+private lemma right_common_ne_apex_of_nonapex_prefix_mem
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hzv : z ≠ v) :
+    x ≠ v := by
+  intro hxv
+  subst x
+  have hz_eq : z = v :=
+    eq_start_of_mem_takeUntil_start
+      (G := G) (p := (pair.2 : G.Walk v t)) hx_right hz_prefix
+  exact hzv hz_eq
+
+private abbrev terminalPathPairLeftAltRightDescentPackageFailure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t)
+    (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (pair.1, altRight)
+  ¬ (terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair ∧
+      (∀ w : α,
+        w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∧
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightAltLeftDescentPackageFailure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t)
+    (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, pair.2)
+  ¬ (terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair ∧
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      (∀ w : α,
+        w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w))
+
+private lemma terminalPathPairLeftAltRightDescentPackageFailure_of_first_prefix_only
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support)
+    (hzv : z ≠ v)
+    (hz_not_right : z ∉ (pair.2 : G.Walk v t).support) :
+    terminalPathPairLeftAltRightDescentPackageFailure
+      (G := G) pair x hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairLeftAltRightDescentPackageFailure]
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (pair.1, altRight)
+  intro hgood
+  rcases hgood with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+  have hxv : x ≠ v :=
+    left_common_ne_apex_of_nonapex_prefix_mem
+      (G := G) (pair := pair) hx_left hz_prefix hzv
+  have hz_alt :
+      z ∈
+        (((((pair.1 : G.Walk v s).takeUntil x hx_left).append
+          ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath) :
+            G.Walk v t).support :=
+    left_prefix_mem_altRight_of_weighted_min
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z) (pair := pair)
+      hpair_min hx_left hx_right hxv hz_prefix
+  exact
+    terminalPathPairSecondaryMinimal_false_after_altRight_of_absent_alt_measure_le_defectSet_subsets
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z) (pair := pair)
+      hpair_min hsecondary_min hx_left hx_right hz_prefix
+      hz_not_right hz_alt hmeasure_le hleft_sub hright_sub
+
+private lemma terminalPathPairRightAltLeftDescentPackageFailure_of_first_prefix_only
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    {pair : G.Path v s × G.Path v t}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support)
+    (hzv : z ≠ v)
+    (hz_not_left : z ∉ (pair.1 : G.Walk v s).support) :
+    terminalPathPairRightAltLeftDescentPackageFailure
+      (G := G) pair x hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairRightAltLeftDescentPackageFailure]
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, pair.2)
+  intro hgood
+  rcases hgood with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+  have hxv : x ≠ v :=
+    right_common_ne_apex_of_nonapex_prefix_mem
+      (G := G) (pair := pair) hx_right hz_prefix hzv
+  have hz_alt :
+      z ∈
+        (((((pair.2 : G.Walk v t).takeUntil x hx_right).append
+          ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath) :
+            G.Walk v s).support :=
+    right_prefix_mem_altLeft_of_weighted_min
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z) (pair := pair)
+      hpair_min hx_left hx_right hxv hz_prefix
+  exact
+    terminalPathPairSecondaryMinimal_false_after_altLeft_of_absent_alt_measure_le_defectSet_subsets
+      (G := G) (v := v) (s := s) (t := t)
+      (x := x) (z := z) (pair := pair)
+      hpair_min hsecondary_min hx_left hx_right hz_prefix
+      hz_not_left hz_alt hmeasure_le hleft_sub hright_sub
+
+private abbrev terminalPathPairLeftAltRightConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t)
+    (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (pair.1, altRight)
+  (∃ y : α,
+    y ≠ v ∧
+    y ∈ (pair.1 : G.Walk v s).support ∧
+    y ∈ (altRight : G.Walk v t).support ∧
+    y ∉ (pair.2 : G.Walk v t).support) ∨
+    (terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    ¬ (∀ w : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+    ¬ (terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightAltLeftConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t)
+    (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, pair.2)
+  (∃ y : α,
+    y ≠ v ∧
+    y ∈ (altLeft : G.Walk v s).support ∧
+    y ∈ (pair.2 : G.Walk v t).support ∧
+    y ∉ (pair.1 : G.Walk v s).support) ∨
+    (terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    ¬ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+    ¬ (∀ w : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w)
+
+private lemma terminalPathPairLeftAltRightDescentPackageFailure_concrete_cases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hfail :
+      terminalPathPairLeftAltRightDescentPackageFailure
+        (G := G) pair x hx_left hx_right) :
+    terminalPathPairLeftAltRightConcreteFailureResidual
+      (G := G) pair x hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairLeftAltRightDescentPackageFailure,
+    terminalPathPairLeftAltRightConcreteFailureResidual] at hfail ⊢
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (pair.1, altRight)
+  by_cases hmeasure :
+      terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair
+  · by_cases hleft :
+        ∀ w : α,
+          w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+          w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+          terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+            (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w
+    · by_cases hright :
+          terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+            terminalPathPairRightPrefixOnlyDefectSet (G := G) pair
+      · exact False.elim (hfail ⟨hmeasure, hleft, hright⟩)
+      · exact Or.inr (Or.inr (Or.inr hright))
+    · exact Or.inr (Or.inr (Or.inl hleft))
+  · have hmeasure_lt :
+        terminalPathPairWeightedMeasure (G := G) pair <
+          terminalPathPairWeightedMeasure (G := G) altPair :=
+      lt_of_not_ge hmeasure
+    rcases
+        terminalPathPairWeightedMeasure_lt_commonCard_or_supportLength_lt
+          (G := G) (pair := pair) (pair' := altPair) hmeasure_lt with
+      hcommon | hsupport
+    · exact Or.inl
+        (exists_new_right_replacement_intersection_of_commonCard_lt
+          (G := G) (pair := pair) (rt := altRight) hcommon)
+    · exact Or.inr (Or.inl hsupport)
+
+private lemma terminalPathPairRightAltLeftDescentPackageFailure_concrete_cases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hfail :
+      terminalPathPairRightAltLeftDescentPackageFailure
+        (G := G) pair x hx_left hx_right) :
+    terminalPathPairRightAltLeftConcreteFailureResidual
+      (G := G) pair x hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairRightAltLeftDescentPackageFailure,
+    terminalPathPairRightAltLeftConcreteFailureResidual] at hfail ⊢
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, pair.2)
+  by_cases hmeasure :
+      terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair
+  · by_cases hleft :
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+          terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair
+    · by_cases hright :
+          ∀ w : α,
+            w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+            w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+            terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+              (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w
+      · exact False.elim (hfail ⟨hmeasure, hleft, hright⟩)
+      · exact Or.inr (Or.inr (Or.inr hright))
+    · exact Or.inr (Or.inr (Or.inl hleft))
+  · have hmeasure_lt :
+        terminalPathPairWeightedMeasure (G := G) pair <
+          terminalPathPairWeightedMeasure (G := G) altPair :=
+      lt_of_not_ge hmeasure
+    rcases
+        terminalPathPairWeightedMeasure_lt_commonCard_or_supportLength_lt
+          (G := G) (pair := pair) (pair' := altPair) hmeasure_lt with
+      hcommon | hsupport
+    · exact Or.inl
+        (exists_new_left_replacement_intersection_of_commonCard_lt
+          (G := G) (pair := pair) (rs := altLeft) hcommon)
+    · exact Or.inr (Or.inl hsupport)
+
+private abbrev terminalPathPairLeftAltRightDefectWitnessConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t)
+    (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (pair.1, altRight)
+  (∃ y : α,
+    y ≠ v ∧
+    y ∈ (pair.1 : G.Walk v s).support ∧
+    y ∈ (altRight : G.Walk v t).support ∧
+    y ∉ (pair.2 : G.Walk v t).support) ∨
+    (terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+    (∃ y : α,
+      y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightAltLeftDefectWitnessConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t)
+    (x : α)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support) : Prop :=
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, pair.2)
+  (∃ y : α,
+    y ≠ v ∧
+    y ∈ (altLeft : G.Walk v s).support ∧
+    y ∈ (pair.2 : G.Walk v t).support ∧
+    y ∉ (pair.1 : G.Walk v s).support) ∨
+    (terminalPathPairCommonCard pair =
+        terminalPathPairCommonCard altPair ∧
+      terminalPathPairSupportLength pair <
+        terminalPathPairSupportLength altPair) ∨
+    (∃ y : α,
+      y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ∧
+      y ∉ (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w)
+
+private lemma terminalPathPairLeftAltRightConcreteFailureResidual_defect_witness_cases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairLeftAltRightConcreteFailureResidual
+        (G := G) pair x hx_left hx_right) :
+    terminalPathPairLeftAltRightDefectWitnessConcreteFailureResidual
+      (G := G) pair x hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairLeftAltRightConcreteFailureResidual,
+    terminalPathPairLeftAltRightDefectWitnessConcreteFailureResidual] at hres ⊢
+  let altRight : G.Path v t :=
+    (((pair.1 : G.Walk v s).takeUntil x hx_left).append
+      ((pair.2 : G.Walk v t).dropUntil x hx_right)).toPath
+  let altPair : G.Path v s × G.Path v t := (pair.1, altRight)
+  rcases hres with hnew | hrest
+  · exact Or.inl hnew
+  · rcases hrest with hsupport | hsubset
+    · exact Or.inr (Or.inl hsupport)
+    · rcases hsubset with hleft | hright
+      · right
+        right
+        left
+        push_neg at hleft
+        rcases hleft with ⟨w, hw_old, hw_absent, hnot_subset⟩
+        rw [Finset.not_subset] at hnot_subset
+        rcases hnot_subset with ⟨y, hy_new, hy_not_erase⟩
+        exact ⟨w, y, hw_old, hw_absent, hy_new, hy_not_erase⟩
+      · right
+        right
+        right
+        rw [Finset.not_subset] at hright
+        rcases hright with ⟨y, hy_new, hy_not_old⟩
+        exact ⟨y, hy_new, hy_not_old⟩
+
+private lemma terminalPathPairRightAltLeftConcreteFailureResidual_defect_witness_cases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalPathPairRightAltLeftConcreteFailureResidual
+        (G := G) pair x hx_left hx_right) :
+    terminalPathPairRightAltLeftDefectWitnessConcreteFailureResidual
+      (G := G) pair x hx_left hx_right := by
+  classical
+  dsimp [terminalPathPairRightAltLeftConcreteFailureResidual,
+    terminalPathPairRightAltLeftDefectWitnessConcreteFailureResidual] at hres ⊢
+  let altLeft : G.Path v s :=
+    (((pair.2 : G.Walk v t).takeUntil x hx_right).append
+      ((pair.1 : G.Walk v s).dropUntil x hx_left)).toPath
+  let altPair : G.Path v s × G.Path v t := (altLeft, pair.2)
+  rcases hres with hnew | hrest
+  · exact Or.inl hnew
+  · rcases hrest with hsupport | hsubset
+    · exact Or.inr (Or.inl hsupport)
+    · rcases hsubset with hleft | hright
+      · right
+        right
+        left
+        rw [Finset.not_subset] at hleft
+        rcases hleft with ⟨y, hy_new, hy_not_old⟩
+        exact ⟨y, hy_new, hy_not_old⟩
+      · right
+        right
+        right
+        push_neg at hright
+        rcases hright with ⟨w, hw_old, hw_absent, hnot_subset⟩
+        rw [Finset.not_subset] at hnot_subset
+        rcases hnot_subset with ⟨y, hy_new, hy_not_erase⟩
+        exact ⟨w, y, hw_old, hw_absent, hy_new, hy_not_erase⟩
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_direct_splice_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              z ≠ v ∧
+              z ∉ (pair.2 : G.Walk v t).support ∧
+              (∀ a : α,
+                a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                  a ∉ (pair.2 : G.Walk v t).support →
+                    a ∈
+                      (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              terminalPathPairLeftAltRightDescentPackageFailure
+                (G := G) pair x hx_left hx_right) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              z ≠ v ∧
+              z ∉ (pair.1 : G.Walk v s).support ∧
+              (∀ a : α,
+                a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                  a ∉ (pair.1 : G.Walk v s).support →
+                    a ∈
+                      (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              terminalPathPairRightAltLeftDescentPackageFailure
+                (G := G) pair x hx_left hx_right)) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hbad
+  · exact Or.inl hfan
+  · rcases hbad with ⟨pair, hpair_min, hsecondary_min, hfirst⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_⟩
+    rcases hfirst with hleft | hright
+    · left
+      rcases hleft with
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix⟩
+      refine
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, ?_⟩
+      exact
+        terminalPathPairLeftAltRightDescentPackageFailure_of_first_prefix_only
+          (G := G) (pair := pair) hpair_min hsecondary_min
+          hx_left hx_right hz_prefix hzv hz_not_right
+    · right
+      rcases hright with
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix⟩
+      refine
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, ?_⟩
+      exact
+        terminalPathPairRightAltLeftDescentPackageFailure_of_first_prefix_only
+          (G := G) (pair := pair) hpair_min hsecondary_min
+          hx_left hx_right hz_prefix hzv hz_not_left
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_direct_splice_concrete_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              z ≠ v ∧
+              z ∉ (pair.2 : G.Walk v t).support ∧
+              (∀ a : α,
+                a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                  a ∉ (pair.2 : G.Walk v t).support →
+                    a ∈
+                      (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              terminalPathPairLeftAltRightConcreteFailureResidual
+                (G := G) pair x hx_left hx_right) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              z ≠ v ∧
+              z ∉ (pair.1 : G.Walk v s).support ∧
+              (∀ a : α,
+                a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                  a ∉ (pair.1 : G.Walk v s).support →
+                    a ∈
+                      (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              terminalPathPairRightAltLeftConcreteFailureResidual
+                (G := G) pair x hx_left hx_right)) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_direct_splice_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hbad
+  · exact Or.inl hfan
+  · rcases hbad with ⟨pair, hpair_min, hsecondary_min, hfirst⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_⟩
+    rcases hfirst with hleft | hright
+    · left
+      rcases hleft with
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, hfail⟩
+      refine
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, ?_⟩
+      exact
+        terminalPathPairLeftAltRightDescentPackageFailure_concrete_cases
+          (G := G) (pair := pair) (x := x)
+          (hx_left := hx_left) (hx_right := hx_right) hfail
+    · right
+      rcases hright with
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, hfail⟩
+      refine
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, ?_⟩
+      exact
+        terminalPathPairRightAltLeftDescentPackageFailure_concrete_cases
+          (G := G) (pair := pair) (x := x)
+          (hx_left := hx_left) (hx_right := hx_right) hfail
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_direct_splice_defect_witness_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              z ≠ v ∧
+              z ∉ (pair.2 : G.Walk v t).support ∧
+              (∀ a : α,
+                a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                  a ∉ (pair.2 : G.Walk v t).support →
+                    a ∈
+                      (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              terminalPathPairLeftAltRightDefectWitnessConcreteFailureResidual
+                (G := G) pair x hx_left hx_right) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              z ≠ v ∧
+              z ∉ (pair.1 : G.Walk v s).support ∧
+              (∀ a : α,
+                a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                  a ∉ (pair.1 : G.Walk v s).support →
+                    a ∈
+                      (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              terminalPathPairRightAltLeftDefectWitnessConcreteFailureResidual
+                (G := G) pair x hx_left hx_right)) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_direct_splice_concrete_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hbad
+  · exact Or.inl hfan
+  · rcases hbad with ⟨pair, hpair_min, hsecondary_min, hfirst⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_⟩
+    rcases hfirst with hleft | hright
+    · left
+      rcases hleft with
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, hres⟩
+      refine
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, ?_⟩
+      exact
+        terminalPathPairLeftAltRightConcreteFailureResidual_defect_witness_cases
+          (G := G) (pair := pair) (x := x)
+          (hx_left := hx_left) (hx_right := hx_right) hres
+    · right
+      rcases hright with
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, hres⟩
+      refine
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, ?_⟩
+      exact
+        terminalPathPairRightAltLeftConcreteFailureResidual_defect_witness_cases
+          (G := G) (pair := pair) (x := x)
+          (hx_left := hx_left) (hx_right := hx_right) hres
+
+private abbrev terminalPathPairLeftReplacementAvoidsDescentPackageFailure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t)
+    (qs : G.Walk v s) (hqsPath : qs.IsPath) : Prop :=
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨qs, hqsPath⟩ : G.Path v s), pair.2)
+  ¬ (terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair ∧
+      (∀ w : α,
+        w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∧
+      terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightReplacementAvoidsDescentPackageFailure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t)
+    (qt : G.Walk v t) (hqtPath : qt.IsPath) : Prop :=
+  let altPair : G.Path v s × G.Path v t :=
+    (pair.1, (⟨qt, hqtPath⟩ : G.Path v t))
+  ¬ (terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair ∧
+      terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      (∀ w : α,
+        w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w))
+
+private lemma terminalPathPairLeftReplacementAvoidsDescentPackageFailure_cases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {qs : G.Walk v s} {hqsPath : qs.IsPath}
+    (hfail :
+      terminalPathPairLeftReplacementAvoidsDescentPackageFailure
+        (G := G) pair qs hqsPath) :
+    let altPair : G.Path v s × G.Path v t :=
+      ((⟨qs, hqsPath⟩ : G.Path v s), pair.2)
+    terminalPathPairWeightedMeasure (G := G) pair <
+        terminalPathPairWeightedMeasure (G := G) altPair ∨
+      ¬ (∀ w : α,
+        w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+      ¬ (terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) pair) := by
+  classical
+  dsimp [terminalPathPairLeftReplacementAvoidsDescentPackageFailure] at hfail ⊢
+  let altPair : G.Path v s × G.Path v t :=
+    ((⟨qs, hqsPath⟩ : G.Path v s), pair.2)
+  by_cases hmeasure :
+      terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair
+  · by_cases hleft :
+        ∀ w : α,
+          w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+          w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair →
+          terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+            (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w
+    · by_cases hright :
+          terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+            terminalPathPairRightPrefixOnlyDefectSet (G := G) pair
+      · exact False.elim (hfail ⟨hmeasure, hleft, hright⟩)
+      · exact Or.inr (Or.inr hright)
+    · exact Or.inr (Or.inl hleft)
+  · exact Or.inl (lt_of_not_ge hmeasure)
+
+private lemma terminalPathPairRightReplacementAvoidsDescentPackageFailure_cases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {qt : G.Walk v t} {hqtPath : qt.IsPath}
+    (hfail :
+      terminalPathPairRightReplacementAvoidsDescentPackageFailure
+        (G := G) pair qt hqtPath) :
+    let altPair : G.Path v s × G.Path v t :=
+      (pair.1, (⟨qt, hqtPath⟩ : G.Path v t))
+    terminalPathPairWeightedMeasure (G := G) pair <
+        terminalPathPairWeightedMeasure (G := G) altPair ∨
+      ¬ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+      ¬ (∀ w : α,
+        w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+          (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w) := by
+  classical
+  dsimp [terminalPathPairRightReplacementAvoidsDescentPackageFailure] at hfail ⊢
+  let altPair : G.Path v s × G.Path v t :=
+    (pair.1, (⟨qt, hqtPath⟩ : G.Path v t))
+  by_cases hmeasure :
+      terminalPathPairWeightedMeasure (G := G) altPair ≤
+        terminalPathPairWeightedMeasure (G := G) pair
+  · by_cases hleft :
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) altPair ⊆
+          terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair
+    · by_cases hright :
+          ∀ w : α,
+            w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+            w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair →
+            terminalPathPairRightPrefixOnlyDefectSet (G := G) altPair ⊆
+              (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w
+      · exact False.elim (hfail ⟨hmeasure, hleft, hright⟩)
+      · exact Or.inr (Or.inr hright)
+    · exact Or.inr (Or.inl hleft)
+  · exact Or.inl (lt_of_not_ge hmeasure)
+
+private lemma terminalPathPairLeftReplacementAvoidsDescentPackageFailure_cases_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    (hfail :
+      terminalPathPairLeftReplacementAvoidsDescentPackageFailure
+        (G := G) pair (rs : G.Walk v s) rs.property) :
+    terminalPathPairWeightedMeasure (G := G) pair <
+        terminalPathPairWeightedMeasure (G := G) (rs, pair.2) ∨
+      ¬ (∀ w : α,
+        w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) →
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) ⊆
+          (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+      ¬ (terminalPathPairRightPrefixOnlyDefectSet (G := G) (rs, pair.2) ⊆
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) pair) := by
+  simpa using
+    (terminalPathPairLeftReplacementAvoidsDescentPackageFailure_cases
+      (G := G) (pair := pair) (qs := (rs : G.Walk v s))
+      (hqsPath := rs.property) hfail)
+
+private lemma terminalPathPairRightReplacementAvoidsDescentPackageFailure_cases_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    (hfail :
+      terminalPathPairRightReplacementAvoidsDescentPackageFailure
+        (G := G) pair (rt : G.Walk v t) rt.property) :
+    terminalPathPairWeightedMeasure (G := G) pair <
+        terminalPathPairWeightedMeasure (G := G) (pair.1, rt) ∨
+      ¬ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) (pair.1, rt) ⊆
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+      ¬ (∀ w : α,
+        w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) →
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) ⊆
+          (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w) := by
+  simpa using
+    (terminalPathPairRightReplacementAvoidsDescentPackageFailure_cases
+      (G := G) (pair := pair) (qt := (rt : G.Walk v t))
+      (hqtPath := rt.property) hfail)
+
+private lemma terminalPathPairLeftReplacementAvoidsDescentPackageFailure_refined_cases_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    (hfail :
+      terminalPathPairLeftReplacementAvoidsDescentPackageFailure
+        (G := G) pair (rs : G.Walk v s) rs.property) :
+    (terminalPathPairCommonCard pair <
+        terminalPathPairCommonCard (rs, pair.2) ∨
+      terminalPathPairCommonCard pair =
+          terminalPathPairCommonCard (rs, pair.2) ∧
+        terminalPathPairSupportLength pair <
+          terminalPathPairSupportLength (rs, pair.2)) ∨
+      ¬ (∀ w : α,
+        w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) →
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) ⊆
+          (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+      ¬ (terminalPathPairRightPrefixOnlyDefectSet (G := G) (rs, pair.2) ⊆
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) pair) := by
+  rcases
+      terminalPathPairLeftReplacementAvoidsDescentPackageFailure_cases_path
+        (G := G) (pair := pair) (rs := rs) hfail with
+    hmeasure | hrest
+  · exact Or.inl
+      (terminalPathPairWeightedMeasure_lt_commonCard_or_supportLength_lt
+        (G := G) (pair := pair) (pair' := (rs, pair.2)) hmeasure)
+  · exact Or.inr hrest
+
+private lemma terminalPathPairRightReplacementAvoidsDescentPackageFailure_refined_cases_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    (hfail :
+      terminalPathPairRightReplacementAvoidsDescentPackageFailure
+        (G := G) pair (rt : G.Walk v t) rt.property) :
+    (terminalPathPairCommonCard pair <
+        terminalPathPairCommonCard (pair.1, rt) ∨
+      terminalPathPairCommonCard pair =
+          terminalPathPairCommonCard (pair.1, rt) ∧
+        terminalPathPairSupportLength pair <
+          terminalPathPairSupportLength (pair.1, rt)) ∨
+      ¬ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) (pair.1, rt) ⊆
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+      ¬ (∀ w : α,
+        w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) →
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) ⊆
+          (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w) := by
+  rcases
+      terminalPathPairRightReplacementAvoidsDescentPackageFailure_cases_path
+        (G := G) (pair := pair) (rt := rt) hfail with
+    hmeasure | hrest
+  · exact Or.inl
+      (terminalPathPairWeightedMeasure_lt_commonCard_or_supportLength_lt
+        (G := G) (pair := pair) (pair' := (pair.1, rt)) hmeasure)
+  · exact Or.inr hrest
+
+private lemma terminalPathPairLeftReplacementAvoidsDescentPackageFailure_witness_or_support_or_subset_cases_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    (hfail :
+      terminalPathPairLeftReplacementAvoidsDescentPackageFailure
+        (G := G) pair (rs : G.Walk v s) rs.property) :
+    (∃ y : α,
+      y ≠ v ∧
+      y ∈ (rs : G.Walk v s).support ∧
+      y ∈ (pair.2 : G.Walk v t).support ∧
+      y ∉ (pair.1 : G.Walk v s).support) ∨
+      (terminalPathPairCommonCard pair =
+          terminalPathPairCommonCard (rs, pair.2) ∧
+        terminalPathPairSupportLength pair <
+          terminalPathPairSupportLength (rs, pair.2)) ∨
+      ¬ (∀ w : α,
+        w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) →
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) ⊆
+          (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+      ¬ (terminalPathPairRightPrefixOnlyDefectSet (G := G) (rs, pair.2) ⊆
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) pair) := by
+  rcases
+      terminalPathPairLeftReplacementAvoidsDescentPackageFailure_refined_cases_path
+        (G := G) (pair := pair) (rs := rs) hfail with
+    hmeasure | hrest
+  · rcases hmeasure with hcommon | hsupport
+    · exact Or.inl
+        (exists_new_left_replacement_intersection_of_commonCard_lt
+          (G := G) (pair := pair) (rs := rs) hcommon)
+    · exact Or.inr (Or.inl hsupport)
+  · exact Or.inr (Or.inr hrest)
+
+private lemma terminalPathPairRightReplacementAvoidsDescentPackageFailure_witness_or_support_or_subset_cases_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    (hfail :
+      terminalPathPairRightReplacementAvoidsDescentPackageFailure
+        (G := G) pair (rt : G.Walk v t) rt.property) :
+    (∃ y : α,
+      y ≠ v ∧
+      y ∈ (pair.1 : G.Walk v s).support ∧
+      y ∈ (rt : G.Walk v t).support ∧
+      y ∉ (pair.2 : G.Walk v t).support) ∨
+      (terminalPathPairCommonCard pair =
+          terminalPathPairCommonCard (pair.1, rt) ∧
+        terminalPathPairSupportLength pair <
+          terminalPathPairSupportLength (pair.1, rt)) ∨
+      ¬ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) (pair.1, rt) ⊆
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+      ¬ (∀ w : α,
+        w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) →
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) ⊆
+          (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w) := by
+  rcases
+      terminalPathPairRightReplacementAvoidsDescentPackageFailure_refined_cases_path
+        (G := G) (pair := pair) (rt := rt) hfail with
+    hmeasure | hrest
+  · rcases hmeasure with hcommon | hsupport
+    · exact Or.inl
+        (exists_new_right_replacement_intersection_of_commonCard_lt
+          (G := G) (pair := pair) (rt := rt) hcommon)
+    · exact Or.inr (Or.inl hsupport)
+  · exact Or.inr (Or.inr hrest)
+
+private lemma terminalPathPairLeftReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_subset_cases_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) z rs)
+    (hfail :
+      terminalPathPairLeftReplacementAvoidsDescentPackageFailure
+        (G := G) pair (rs : G.Walk v s) rs.property) :
+    (∃ y : α,
+      y ≠ v ∧
+      y ∈ (rs : G.Walk v s).support ∧
+      y ∈ (pair.2 : G.Walk v t).support ∧
+      y ∉ (pair.1 : G.Walk v s).support) ∨
+      (∀ q : G.Walk v s, q.IsPath → z ∉ q.support →
+        (pair.1 : G.Walk v s).support.length < q.support.length) ∨
+      ¬ (∀ w : α,
+        w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) →
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) ⊆
+          (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+      ¬ (terminalPathPairRightPrefixOnlyDefectSet (G := G) (rs, pair.2) ⊆
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) pair) := by
+  rcases
+      terminalPathPairLeftReplacementAvoidsDescentPackageFailure_witness_or_support_or_subset_cases_path
+        (G := G) (pair := pair) (rs := rs) hfail with
+    hwitness | hrest
+  · exact Or.inl hwitness
+  · rcases hrest with hsupport | hsubset
+    · have hleft_len :
+        (pair.1 : G.Walk v s).support.length <
+          (rs : G.Walk v s).support.length :=
+        left_replacement_support_length_lt_of_pair_supportLength_lt
+          (G := G) (pair := pair) (rs := rs) hsupport.2
+      exact Or.inr (Or.inl
+        (terminalReplacementPathSupportLengthMinimal_all_avoiding_walk_longer_of_baseline_lt
+          (G := G) (p := rs) (base := (pair.1 : G.Walk v s))
+          hmin hleft_len))
+    · exact Or.inr (Or.inr hsubset)
+
+private lemma terminalPathPairRightReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_subset_cases_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) z rt)
+    (hfail :
+      terminalPathPairRightReplacementAvoidsDescentPackageFailure
+        (G := G) pair (rt : G.Walk v t) rt.property) :
+    (∃ y : α,
+      y ≠ v ∧
+      y ∈ (pair.1 : G.Walk v s).support ∧
+      y ∈ (rt : G.Walk v t).support ∧
+      y ∉ (pair.2 : G.Walk v t).support) ∨
+      (∀ q : G.Walk v t, q.IsPath → z ∉ q.support →
+        (pair.2 : G.Walk v t).support.length < q.support.length) ∨
+      ¬ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) (pair.1, rt) ⊆
+        terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+      ¬ (∀ w : α,
+        w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair →
+        w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) →
+        terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) ⊆
+          (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w) := by
+  rcases
+      terminalPathPairRightReplacementAvoidsDescentPackageFailure_witness_or_support_or_subset_cases_path
+        (G := G) (pair := pair) (rt := rt) hfail with
+    hwitness | hrest
+  · exact Or.inl hwitness
+  · rcases hrest with hsupport | hsubset
+    · have hright_len :
+        (pair.2 : G.Walk v t).support.length <
+          (rt : G.Walk v t).support.length :=
+        right_replacement_support_length_lt_of_pair_supportLength_lt
+          (G := G) (pair := pair) (rt := rt) hsupport.2
+      exact Or.inr (Or.inl
+        (terminalReplacementPathSupportLengthMinimal_all_avoiding_walk_longer_of_baseline_lt
+          (G := G) (p := rt) (base := (pair.2 : G.Walk v t))
+          hmin hright_len))
+    · exact Or.inr (Or.inr hsubset)
+
+private lemma terminalPathPairLeftReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_defect_witness_cases_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rs : G.Path v s}
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) z rs)
+    (hfail :
+      terminalPathPairLeftReplacementAvoidsDescentPackageFailure
+        (G := G) pair (rs : G.Walk v s) rs.property) :
+    (∃ y : α,
+      y ≠ v ∧
+      y ∈ (rs : G.Walk v s).support ∧
+      y ∈ (pair.2 : G.Walk v t).support ∧
+      y ∉ (pair.1 : G.Walk v s).support) ∨
+      (∀ q : G.Walk v s, q.IsPath → z ∉ q.support →
+        (pair.1 : G.Walk v s).support.length < q.support.length) ∨
+      (∃ w y : α,
+        w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+        w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) ∧
+        y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) ∧
+        y ∉ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+      (∃ y : α,
+        y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) (rs, pair.2) ∧
+        y ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair) := by
+  classical
+  rcases
+      terminalPathPairLeftReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_subset_cases_path
+        (G := G) (z := z) (pair := pair) (rs := rs) hmin hfail with
+    hwitness | hrest
+  · exact Or.inl hwitness
+  · rcases hrest with hbottleneck | hsubset
+    · exact Or.inr (Or.inl hbottleneck)
+    · rcases hsubset with hsame | hopp
+      · right
+        right
+        left
+        push_neg at hsame
+        rcases hsame with ⟨w, hw_old, hw_absent, hnot_subset⟩
+        rw [Finset.not_subset] at hnot_subset
+        rcases hnot_subset with ⟨y, hy_new, hy_not_erase⟩
+        exact ⟨w, y, hw_old, hw_absent, hy_new, hy_not_erase⟩
+      · right
+        right
+        right
+        rw [Finset.not_subset] at hopp
+        rcases hopp with ⟨y, hy_new, hy_not_old⟩
+        exact ⟨y, hy_new, hy_not_old⟩
+
+private lemma terminalPathPairRightReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_defect_witness_cases_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t z : α}
+    {pair : G.Path v s × G.Path v t}
+    {rt : G.Path v t}
+    (hmin : terminalReplacementPathSupportLengthMinimal (G := G) z rt)
+    (hfail :
+      terminalPathPairRightReplacementAvoidsDescentPackageFailure
+        (G := G) pair (rt : G.Walk v t) rt.property) :
+    (∃ y : α,
+      y ≠ v ∧
+      y ∈ (pair.1 : G.Walk v s).support ∧
+      y ∈ (rt : G.Walk v t).support ∧
+      y ∉ (pair.2 : G.Walk v t).support) ∨
+      (∀ q : G.Walk v t, q.IsPath → z ∉ q.support →
+        (pair.2 : G.Walk v t).support.length < q.support.length) ∨
+      (∃ y : α,
+        y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) (pair.1, rt) ∧
+        y ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+      (∃ w y : α,
+        w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+        w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) ∧
+        y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) ∧
+        y ∉ (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w) := by
+  classical
+  rcases
+      terminalPathPairRightReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_subset_cases_path
+        (G := G) (z := z) (pair := pair) (rt := rt) hmin hfail with
+    hwitness | hrest
+  · exact Or.inl hwitness
+  · rcases hrest with hbottleneck | hsubset
+    · exact Or.inr (Or.inl hbottleneck)
+    · rcases hsubset with hleft | hsame
+      · right
+        right
+        left
+        rw [Finset.not_subset] at hleft
+        rcases hleft with ⟨y, hy_new, hy_not_old⟩
+        exact ⟨y, hy_new, hy_not_old⟩
+      · right
+        right
+        right
+        push_neg at hsame
+        rcases hsame with ⟨w, hw_old, hw_absent, hnot_subset⟩
+        rw [Finset.not_subset] at hnot_subset
+        rcases hnot_subset with ⟨y, hy_new, hy_not_erase⟩
+        exact ⟨w, y, hw_old, hw_absent, hy_new, hy_not_erase⟩
+
+private abbrev terminalPathPairLeftReplacementConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t z : α}
+    (pair : G.Path v s × G.Path v t) (rs : G.Path v s) : Prop :=
+  (∃ y : α,
+    y ≠ v ∧
+    y ∈ (rs : G.Walk v s).support ∧
+    y ∈ (pair.2 : G.Walk v t).support ∧
+    y ∉ (pair.1 : G.Walk v s).support) ∨
+    (∀ q : G.Walk v s, q.IsPath → z ∉ q.support →
+      (pair.1 : G.Walk v s).support.length < q.support.length) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) ∧
+      y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) (rs, pair.2) ∧
+      y ∉ (terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair).erase w) ∨
+    (∃ y : α,
+      y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) (rs, pair.2) ∧
+      y ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair)
+
+private abbrev terminalPathPairRightReplacementConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t z : α}
+    (pair : G.Path v s × G.Path v t) (rt : G.Path v t) : Prop :=
+  (∃ y : α,
+    y ≠ v ∧
+    y ∈ (pair.1 : G.Walk v s).support ∧
+    y ∈ (rt : G.Walk v t).support ∧
+    y ∉ (pair.2 : G.Walk v t).support) ∨
+    (∀ q : G.Walk v t, q.IsPath → z ∉ q.support →
+      (pair.2 : G.Walk v t).support.length < q.support.length) ∨
+    (∃ y : α,
+      y ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) (pair.1, rt) ∧
+      y ∉ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair) ∨
+    (∃ w y : α,
+      w ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) pair ∧
+      w ∉ terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) ∧
+      y ∈ terminalPathPairRightPrefixOnlyDefectSet (G := G) (pair.1, rt) ∧
+      y ∉ (terminalPathPairRightPrefixOnlyDefectSet (G := G) pair).erase w)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_opposite_path_or_same_side_descent_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        x ∈ (pair.2 : G.Walk v t).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              z ≠ v ∧
+              z ∉ (pair.2 : G.Walk v t).support ∧
+              (∀ a : α,
+                a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                  a ∉ (pair.2 : G.Walk v t).support →
+                    a ∈
+                      (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ((∃ qt : G.Walk v t, qt.IsPath ∧ z ∉ qt.support) ∨
+                ∃ qs : G.Walk v s, ∃ hqsPath : qs.IsPath,
+                  z ∉ qs.support ∧
+                    terminalPathPairLeftReplacementAvoidsDescentPackageFailure
+                      pair qs hqsPath)) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        x ∈ (pair.1 : G.Walk v s).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              z ≠ v ∧
+              z ∉ (pair.1 : G.Walk v s).support ∧
+              (∀ a : α,
+                a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                  a ∉ (pair.1 : G.Walk v s).support →
+                    a ∈
+                      (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ((∃ qs : G.Walk v s, qs.IsPath ∧ z ∉ qs.support) ∨
+                ∃ qt : G.Walk v t, ∃ hqtPath : qt.IsPath,
+                  z ∉ qt.support ∧
+                    terminalPathPairRightReplacementAvoidsDescentPackageFailure
+                      pair qt hqtPath))) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_avoiding_side_path_split_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hbad
+  · exact Or.inl hfan
+  · rcases hbad with ⟨pair, hpair_min, hsecondary_min, hfirst⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_⟩
+    rcases hfirst with hleft | hright
+    · left
+      rcases hleft with
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, havoid⟩
+      refine
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, ?_⟩
+      rcases havoid with hsame | hopposite
+      · right
+        rcases hsame with ⟨qs, hqsPath, hz_qs⟩
+        refine ⟨qs, hqsPath, hz_qs, ?_⟩
+        intro hall
+        rcases hall with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+        exact
+          terminalPathPairSecondaryMinimal_false_after_left_replacement_avoids_measure_le_defectSet_subsets
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (z := z) (pair := pair) (qs := qs)
+            hpair_min hsecondary_min hqsPath hx_left hx_right
+            hz_prefix hz_not_right hz_qs hmeasure_le hleft_sub hright_sub
+      · left
+        exact hopposite
+    · right
+      rcases hright with
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, havoid⟩
+      refine
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, ?_⟩
+      rcases havoid with hopposite | hsame
+      · left
+        exact hopposite
+      · right
+        rcases hsame with ⟨qt, hqtPath, hz_qt⟩
+        refine ⟨qt, hqtPath, hz_qt, ?_⟩
+        intro hall
+        rcases hall with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+        exact
+          terminalPathPairSecondaryMinimal_false_after_right_replacement_avoids_measure_le_defectSet_subsets
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (z := z) (pair := pair) (qt := qt)
+            hpair_min hsecondary_min hqtPath hx_left hx_right
+            hz_prefix hz_not_left hz_qt hmeasure_le hleft_sub hright_sub
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_opposite_path_or_same_side_minimal_descent_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        x ∈ (pair.2 : G.Walk v t).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              z ≠ v ∧
+              z ∉ (pair.2 : G.Walk v t).support ∧
+              (∀ a : α,
+                a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                  a ∉ (pair.2 : G.Walk v t).support →
+                    a ∈
+                      (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ((∃ qt : G.Walk v t, qt.IsPath ∧ z ∉ qt.support) ∨
+                ∃ rs : G.Path v s,
+                  terminalReplacementPathSupportLengthMinimal (G := G) z rs ∧
+                    terminalPathPairLeftReplacementAvoidsDescentPackageFailure
+                      pair (rs : G.Walk v s) rs.property)) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        x ∈ (pair.1 : G.Walk v s).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              z ≠ v ∧
+              z ∉ (pair.1 : G.Walk v s).support ∧
+              (∀ a : α,
+                a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                  a ∉ (pair.1 : G.Walk v s).support →
+                    a ∈
+                      (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ((∃ qs : G.Walk v s, qs.IsPath ∧ z ∉ qs.support) ∨
+                ∃ rt : G.Path v t,
+                  terminalReplacementPathSupportLengthMinimal (G := G) z rt ∧
+                    terminalPathPairRightReplacementAvoidsDescentPackageFailure
+                      pair (rt : G.Walk v t) rt.property))) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_avoiding_side_path_split_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hbad
+  · exact Or.inl hfan
+  · rcases hbad with ⟨pair, hpair_min, hsecondary_min, hfirst⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_⟩
+    rcases hfirst with hleft | hright
+    · left
+      rcases hleft with
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, havoid⟩
+      refine
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, ?_⟩
+      rcases havoid with hsame | hopposite
+      · right
+        rcases hsame with ⟨qs, hqsPath, hz_qs⟩
+        rcases exists_support_length_minimal_path_avoiding
+            (G := G) (x := z) qs hqsPath hz_qs with
+          ⟨rs, hmin⟩
+        refine ⟨rs, hmin, ?_⟩
+        intro hall
+        rcases hall with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+        exact
+          terminalPathPairSecondaryMinimal_false_after_left_replacement_avoids_measure_le_defectSet_subsets
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (z := z) (pair := pair) (qs := (rs : G.Walk v s))
+            hpair_min hsecondary_min rs.property hx_left hx_right
+            hz_prefix hz_not_right hmin.1 hmeasure_le hleft_sub hright_sub
+      · left
+        exact hopposite
+    · right
+      rcases hright with
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, havoid⟩
+      refine
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, ?_⟩
+      rcases havoid with hopposite | hsame
+      · left
+        exact hopposite
+      · right
+        rcases hsame with ⟨qt, hqtPath, hz_qt⟩
+        rcases exists_support_length_minimal_path_avoiding
+            (G := G) (x := z) qt hqtPath hz_qt with
+          ⟨rt, hmin⟩
+        refine ⟨rt, hmin, ?_⟩
+        intro hall
+        rcases hall with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+        exact
+          terminalPathPairSecondaryMinimal_false_after_right_replacement_avoids_measure_le_defectSet_subsets
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (z := z) (pair := pair) (qt := (rt : G.Walk v t))
+            hpair_min hsecondary_min rt.property hx_left hx_right
+            hz_prefix hz_not_left hmin.1 hmeasure_le hleft_sub hright_sub
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_opposite_path_or_same_side_concrete_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        x ∈ (pair.2 : G.Walk v t).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              z ≠ v ∧
+              z ∉ (pair.2 : G.Walk v t).support ∧
+              (∀ a : α,
+                a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                  a ∉ (pair.2 : G.Walk v t).support →
+                    a ∈
+                      (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ((∃ qt : G.Walk v t, qt.IsPath ∧ z ∉ qt.support) ∨
+                ∃ rs : G.Path v s,
+                  terminalReplacementPathSupportLengthMinimal (G := G) z rs ∧
+                    terminalPathPairLeftReplacementConcreteFailureResidual
+                      (G := G) (z := z) pair rs)) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        x ∈ (pair.1 : G.Walk v s).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              z ≠ v ∧
+              z ∉ (pair.1 : G.Walk v s).support ∧
+              (∀ a : α,
+                a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                  a ∉ (pair.1 : G.Walk v s).support →
+                    a ∈
+                      (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ((∃ qs : G.Walk v s, qs.IsPath ∧ z ∉ qs.support) ∨
+                ∃ rt : G.Path v t,
+                  terminalReplacementPathSupportLengthMinimal (G := G) z rt ∧
+                    terminalPathPairRightReplacementConcreteFailureResidual
+                      (G := G) (z := z) pair rt))) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_opposite_path_or_same_side_minimal_descent_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hbad
+  · exact Or.inl hfan
+  · rcases hbad with ⟨pair, hpair_min, hsecondary_min, hfirst⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_⟩
+    rcases hfirst with hleft | hright
+    · left
+      rcases hleft with
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, havoid⟩
+      refine
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, ?_⟩
+      rcases havoid with hopposite | hsame
+      · exact Or.inl hopposite
+      · right
+        rcases hsame with ⟨rs, hmin, hfail⟩
+        refine ⟨rs, hmin, ?_⟩
+        simpa [terminalPathPairLeftReplacementConcreteFailureResidual] using
+          terminalPathPairLeftReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_defect_witness_cases_path
+            (G := G) (z := z) (pair := pair) (rs := rs) hmin hfail
+    · right
+      rcases hright with
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, havoid⟩
+      refine
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, ?_⟩
+      rcases havoid with hopposite | hsame
+      · exact Or.inl hopposite
+      · right
+        rcases hsame with ⟨rt, hmin, hfail⟩
+        refine ⟨rt, hmin, ?_⟩
+        simpa [terminalPathPairRightReplacementConcreteFailureResidual] using
+          terminalPathPairRightReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_defect_witness_cases_path
+            (G := G) (z := z) (pair := pair) (rt := rt) hmin hfail
+
+private abbrev terminalPathPairLeftFirstPrefixDirectAndSideConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    (pair : G.Path v s × G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support) : Prop :=
+  z ≠ v ∧
+    z ∉ (pair.2 : G.Walk v t).support ∧
+    (∀ a : α,
+      a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+        a ∉ (pair.2 : G.Walk v t).support →
+          a ∈
+            (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+              z hz_prefix).support →
+            a = z) ∧
+    terminalPathPairLeftAltRightDefectWitnessConcreteFailureResidual
+      (G := G) pair x hx_left hx_right ∧
+    ((∃ qt : G.Walk v t, qt.IsPath ∧ z ∉ qt.support) ∨
+      ∃ rs : G.Path v s,
+        terminalReplacementPathSupportLengthMinimal (G := G) z rs ∧
+          terminalPathPairLeftReplacementConcreteFailureResidual
+            (G := G) (z := z) pair rs)
+
+private abbrev terminalPathPairRightFirstPrefixDirectAndSideConcreteFailureResidual
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x z : α}
+    (pair : G.Path v s × G.Path v t)
+    (hx_left : x ∈ (pair.1 : G.Walk v s).support)
+    (hx_right : x ∈ (pair.2 : G.Walk v t).support)
+    (hz_prefix :
+      z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support) : Prop :=
+  z ≠ v ∧
+    z ∉ (pair.1 : G.Walk v s).support ∧
+    (∀ a : α,
+      a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+        a ∉ (pair.1 : G.Walk v s).support →
+          a ∈
+            (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+              z hz_prefix).support →
+            a = z) ∧
+    terminalPathPairRightAltLeftDefectWitnessConcreteFailureResidual
+      (G := G) pair x hx_left hx_right ∧
+    ((∃ qs : G.Walk v s, qs.IsPath ∧ z ∉ qs.support) ∨
+      ∃ rt : G.Path v t,
+        terminalReplacementPathSupportLengthMinimal (G := G) z rt ∧
+          terminalPathPairRightReplacementConcreteFailureResidual
+            (G := G) (z := z) pair rt)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_direct_and_side_concrete_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              terminalPathPairLeftFirstPrefixDirectAndSideConcreteFailureResidual
+                (G := G) (x := x) (z := z)
+                pair hx_left hx_right hz_prefix) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              terminalPathPairRightFirstPrefixDirectAndSideConcreteFailureResidual
+                (G := G) (x := x) (z := z)
+                pair hx_left hx_right hz_prefix)) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_avoiding_side_path_split_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hbad
+  · exact Or.inl hfan
+  · rcases hbad with ⟨pair, hpair_min, hsecondary_min, hfirst⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_⟩
+    rcases hfirst with hleft | hright
+    · left
+      rcases hleft with
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, havoid⟩
+      refine ⟨x, hx_left, hx_right, z, hz_prefix, ?_⟩
+      have hdirect_fail :
+          terminalPathPairLeftAltRightDescentPackageFailure
+            (G := G) pair x hx_left hx_right :=
+        terminalPathPairLeftAltRightDescentPackageFailure_of_first_prefix_only
+          (G := G) (pair := pair) hpair_min hsecondary_min
+          hx_left hx_right hz_prefix hzv hz_not_right
+      have hdirect_concrete :
+          terminalPathPairLeftAltRightConcreteFailureResidual
+            (G := G) pair x hx_left hx_right :=
+        terminalPathPairLeftAltRightDescentPackageFailure_concrete_cases
+          (G := G) (pair := pair) (x := x)
+          (hx_left := hx_left) (hx_right := hx_right) hdirect_fail
+      have hdirect_witness :
+          terminalPathPairLeftAltRightDefectWitnessConcreteFailureResidual
+            (G := G) pair x hx_left hx_right :=
+        terminalPathPairLeftAltRightConcreteFailureResidual_defect_witness_cases
+          (G := G) (pair := pair) (x := x)
+          (hx_left := hx_left) (hx_right := hx_right) hdirect_concrete
+      refine ⟨hzv, hz_not_right, hfirst_prefix, hdirect_witness, ?_⟩
+      rcases havoid with hsame | hopposite
+      · right
+        rcases hsame with ⟨qs, hqsPath, hz_qs⟩
+        rcases exists_support_length_minimal_path_avoiding
+            (G := G) (x := z) qs hqsPath hz_qs with
+          ⟨rs, hmin⟩
+        refine ⟨rs, hmin, ?_⟩
+        have hfail :
+            terminalPathPairLeftReplacementAvoidsDescentPackageFailure
+              (G := G) pair (rs : G.Walk v s) rs.property := by
+          intro hall
+          rcases hall with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+          exact
+            terminalPathPairSecondaryMinimal_false_after_left_replacement_avoids_measure_le_defectSet_subsets
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (z := z) (pair := pair) (qs := (rs : G.Walk v s))
+              hpair_min hsecondary_min rs.property hx_left hx_right
+              hz_prefix hz_not_right hmin.1 hmeasure_le hleft_sub hright_sub
+        simpa [terminalPathPairLeftReplacementConcreteFailureResidual] using
+          terminalPathPairLeftReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_defect_witness_cases_path
+            (G := G) (z := z) (pair := pair) (rs := rs) hmin hfail
+      · exact Or.inl hopposite
+    · right
+      rcases hright with
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, havoid⟩
+      refine ⟨x, hx_right, hx_left, z, hz_prefix, ?_⟩
+      have hdirect_fail :
+          terminalPathPairRightAltLeftDescentPackageFailure
+            (G := G) pair x hx_left hx_right :=
+        terminalPathPairRightAltLeftDescentPackageFailure_of_first_prefix_only
+          (G := G) (pair := pair) hpair_min hsecondary_min
+          hx_left hx_right hz_prefix hzv hz_not_left
+      have hdirect_concrete :
+          terminalPathPairRightAltLeftConcreteFailureResidual
+            (G := G) pair x hx_left hx_right :=
+        terminalPathPairRightAltLeftDescentPackageFailure_concrete_cases
+          (G := G) (pair := pair) (x := x)
+          (hx_left := hx_left) (hx_right := hx_right) hdirect_fail
+      have hdirect_witness :
+          terminalPathPairRightAltLeftDefectWitnessConcreteFailureResidual
+            (G := G) pair x hx_left hx_right :=
+        terminalPathPairRightAltLeftConcreteFailureResidual_defect_witness_cases
+          (G := G) (pair := pair) (x := x)
+          (hx_left := hx_left) (hx_right := hx_right) hdirect_concrete
+      refine ⟨hzv, hz_not_left, hfirst_prefix, hdirect_witness, ?_⟩
+      rcases havoid with hopposite | hsame
+      · exact Or.inl hopposite
+      · right
+        rcases hsame with ⟨qt, hqtPath, hz_qt⟩
+        rcases exists_support_length_minimal_path_avoiding
+            (G := G) (x := z) qt hqtPath hz_qt with
+          ⟨rt, hmin⟩
+        refine ⟨rt, hmin, ?_⟩
+        have hfail :
+            terminalPathPairRightReplacementAvoidsDescentPackageFailure
+              (G := G) pair (rt : G.Walk v t) rt.property := by
+          intro hall
+          rcases hall with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+          exact
+            terminalPathPairSecondaryMinimal_false_after_right_replacement_avoids_measure_le_defectSet_subsets
+              (G := G) (v := v) (s := s) (t := t)
+              (x := x) (z := z) (pair := pair) (qt := (rt : G.Walk v t))
+              hpair_min hsecondary_min rt.property hx_left hx_right
+              hz_prefix hz_not_left hmin.1 hmeasure_le hleft_sub hright_sub
+        simpa [terminalPathPairRightReplacementConcreteFailureResidual] using
+          terminalPathPairRightReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_defect_witness_cases_path
+            (G := G) (z := z) (pair := pair) (rt := rt) hmin hfail
+
+private abbrev terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) : Prop :=
+  ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+    ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+      ∃ z : α, ∃ hz_prefix :
+        z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+          terminalPathPairLeftFirstPrefixDirectAndSideConcreteFailureResidual
+            (G := G) (x := x) (z := z)
+            pair hx_left hx_right hz_prefix) ∨
+    (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+      ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        ∃ z : α, ∃ hz_prefix :
+          z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+            terminalPathPairRightFirstPrefixDirectAndSideConcreteFailureResidual
+              (G := G) (x := x) (z := z)
+              pair hx_left hx_right hz_prefix))
+
+private lemma terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases_of_pos
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    {pair : G.Path v s × G.Path v t}
+    (hpair_min : terminalPathPairWeightedMeasureMinimal (G := G) pair)
+    (hsecondary_min :
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair)
+    (hpos : 0 < terminalPathPairPrefixOnlyDefect (G := G) pair) :
+    terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+      (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases terminalPathPairFirstNonapexPrefixOnlyDefectCases_of_pos
+      (G := G) (v := v) (s := s) (t := t) (pair := pair)
+      hpos with hleft | hright
+  · left
+    rcases hleft with
+      ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+        hfirst_prefix⟩
+    refine ⟨x, hx_left, hx_right, z, hz_prefix, ?_⟩
+    have hdirect_fail :
+        terminalPathPairLeftAltRightDescentPackageFailure
+          (G := G) pair x hx_left hx_right :=
+      terminalPathPairLeftAltRightDescentPackageFailure_of_first_prefix_only
+        (G := G) (pair := pair) hpair_min hsecondary_min
+        hx_left hx_right hz_prefix hzv hz_not_right
+    have hdirect_concrete :
+        terminalPathPairLeftAltRightConcreteFailureResidual
+          (G := G) pair x hx_left hx_right :=
+      terminalPathPairLeftAltRightDescentPackageFailure_concrete_cases
+        (G := G) (pair := pair) (x := x)
+        (hx_left := hx_left) (hx_right := hx_right) hdirect_fail
+    have hdirect_witness :
+        terminalPathPairLeftAltRightDefectWitnessConcreteFailureResidual
+          (G := G) pair x hx_left hx_right :=
+      terminalPathPairLeftAltRightConcreteFailureResidual_defect_witness_cases
+        (G := G) (pair := pair) (x := x)
+        (hx_left := hx_left) (hx_right := hx_right) hdirect_concrete
+    refine ⟨hzv, hz_not_right, hfirst_prefix, hdirect_witness, ?_⟩
+    have havoid :=
+      exists_left_or_right_terminal_path_avoiding_singleton_of_terminal_set_separator
+        (G := G) (v := v) (s := s) (t := t) (x := z)
+        hzv hsep
+    rcases havoid with hsame | hopposite
+    · right
+      rcases hsame with ⟨qs, hqsPath, hz_qs⟩
+      rcases exists_support_length_minimal_path_avoiding
+          (G := G) (x := z) qs hqsPath hz_qs with
+        ⟨rs, hmin⟩
+      refine ⟨rs, hmin, ?_⟩
+      have hfail :
+          terminalPathPairLeftReplacementAvoidsDescentPackageFailure
+            (G := G) pair (rs : G.Walk v s) rs.property := by
+        intro hall
+        rcases hall with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+        exact
+          terminalPathPairSecondaryMinimal_false_after_left_replacement_avoids_measure_le_defectSet_subsets
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (z := z) (pair := pair) (qs := (rs : G.Walk v s))
+            hpair_min hsecondary_min rs.property hx_left hx_right
+            hz_prefix hz_not_right hmin.1 hmeasure_le hleft_sub hright_sub
+      simpa [terminalPathPairLeftReplacementConcreteFailureResidual] using
+        terminalPathPairLeftReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_defect_witness_cases_path
+          (G := G) (z := z) (pair := pair) (rs := rs) hmin hfail
+    · exact Or.inl hopposite
+  · right
+    rcases hright with
+      ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+        hfirst_prefix⟩
+    refine ⟨x, hx_right, hx_left, z, hz_prefix, ?_⟩
+    have hdirect_fail :
+        terminalPathPairRightAltLeftDescentPackageFailure
+          (G := G) pair x hx_left hx_right :=
+      terminalPathPairRightAltLeftDescentPackageFailure_of_first_prefix_only
+        (G := G) (pair := pair) hpair_min hsecondary_min
+        hx_left hx_right hz_prefix hzv hz_not_left
+    have hdirect_concrete :
+        terminalPathPairRightAltLeftConcreteFailureResidual
+          (G := G) pair x hx_left hx_right :=
+      terminalPathPairRightAltLeftDescentPackageFailure_concrete_cases
+        (G := G) (pair := pair) (x := x)
+        (hx_left := hx_left) (hx_right := hx_right) hdirect_fail
+    have hdirect_witness :
+        terminalPathPairRightAltLeftDefectWitnessConcreteFailureResidual
+          (G := G) pair x hx_left hx_right :=
+      terminalPathPairRightAltLeftConcreteFailureResidual_defect_witness_cases
+        (G := G) (pair := pair) (x := x)
+        (hx_left := hx_left) (hx_right := hx_right) hdirect_concrete
+    refine ⟨hzv, hz_not_left, hfirst_prefix, hdirect_witness, ?_⟩
+    have havoid :=
+      exists_left_or_right_terminal_path_avoiding_singleton_of_terminal_set_separator
+        (G := G) (v := v) (s := s) (t := t) (x := z)
+        hzv hsep
+    rcases havoid with hopposite | hsame
+    · exact Or.inl hopposite
+    · right
+      rcases hsame with ⟨qt, hqtPath, hz_qt⟩
+      rcases exists_support_length_minimal_path_avoiding
+          (G := G) (x := z) qt hqtPath hz_qt with
+        ⟨rt, hmin⟩
+      refine ⟨rt, hmin, ?_⟩
+      have hfail :
+          terminalPathPairRightReplacementAvoidsDescentPackageFailure
+            (G := G) pair (rt : G.Walk v t) rt.property := by
+        intro hall
+        rcases hall with ⟨hmeasure_le, hleft_sub, hright_sub⟩
+        exact
+          terminalPathPairSecondaryMinimal_false_after_right_replacement_avoids_measure_le_defectSet_subsets
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (z := z) (pair := pair) (qt := (rt : G.Walk v t))
+            hpair_min hsecondary_min rt.property hx_left hx_right
+            hz_prefix hz_not_left hmin.1 hmeasure_le hleft_sub hright_sub
+      simpa [terminalPathPairRightReplacementConcreteFailureResidual] using
+        terminalPathPairRightReplacementAvoidsDescentPackageFailure_witness_or_bottleneck_or_defect_witness_cases_path
+          (G := G) (z := z) (pair := pair) (rt := rt) hmin hfail
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_prefix_residual_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      terminalSetFanFirstPrefixResidualCases
+        (G := G) (v := v) (s := s) (t := t) pair ∧
+      terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+        (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_prefix_residual_and_first_nonapex_prefix_only_defect_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, hfirst_prefix, _hfirst_defect⟩
+    have hpos :
+        0 < terminalPathPairPrefixOnlyDefect (G := G) pair := by
+      rcases hfirst_prefix with ⟨x, hx_left, hx_right, _hxv, hside⟩
+      rcases hside with hleft | hright
+      · exact
+          terminalSetFanLeftSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (pair := pair) hleft.1
+      · exact
+          terminalSetFanRightSupportMinimalBridgeFrontCoverLengthAbsentFailureExchangeInflationGuardedPrefixSplitResidual.prefix_only_defect_pos
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (pair := pair) hright.1
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, hfirst_prefix, ?_⟩
+    exact
+      terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases_of_pos
+        (G := G) (v := v) (s := s) (t := t)
+        hsep hpair_min hsecondary_min hpos
+
+lemma terminal_set_two_fan_of_no_prefix_only_minimal_first_prefix_residual_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hno :
+      ∀ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        terminalSetFanFirstPrefixResidualCases
+          (G := G) (v := v) (s := s) (t := t) pair →
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair →
+        False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_prefix_residual_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, hfirst_prefix, hdirect_side⟩
+    exact False.elim
+      (hno pair hpair_min hsecondary_min hfirst_prefix hdirect_side)
+
+private lemma terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual.prefix_only_defect_pos
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    0 < terminalPathPairPrefixOnlyDefect (G := G) pair := by
+  rcases hres with
+    ⟨_rs, _hmin, _w, _hw, _hwv, _hwx, _hw_left, _hw_prefix,
+      y, _hyv, _hyx, _hy_rs, _hy_right, hy_not_left, hy_prefix,
+      _hy_tail, _hfirst_union, _hfirst_global, _hcase⟩
+  exact
+    terminalPathPairPrefixOnlyDefect_pos_of_right_prefix_only
+      (G := G) (pair := pair) hx_left hx_right hy_prefix hy_not_left
+
+private lemma terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual.prefix_only_defect_pos
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t x : α}
+    {pair : G.Path v s × G.Path v t}
+    {hx_left : x ∈ (pair.1 : G.Walk v s).support}
+    {hx_right : x ∈ (pair.2 : G.Walk v t).support}
+    (hres :
+      terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+        (G := G) (v := v) (s := s) (t := t) pair x hx_left hx_right) :
+    0 < terminalPathPairPrefixOnlyDefect (G := G) pair := by
+  rcases hres with
+    ⟨_rt, _hmin, _w, _hw, _hwv, _hwx, _hw_right, _hw_prefix,
+      y, _hyv, _hyx, _hy_rt, _hy_left, hy_not_right, hy_prefix,
+      _hy_tail, _hfirst_union, _hfirst_global, _hcase⟩
+  exact
+    terminalPathPairPrefixOnlyDefect_pos_of_left_prefix_only
+      (G := G) (pair := pair) hx_left hx_right hy_prefix hy_not_right
+
+private abbrev terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (pair : G.Path v s × G.Path v t) : Prop :=
+  ∃ x : α,
+    ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+    ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+      x ≠ v ∧
+      (terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+          (G := G) (v := v) (s := s) (t := t)
+          pair x hx_left hx_right ∨
+        terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+          (G := G) (v := v) (s := s) (t := t)
+          pair x hx_left hx_right)
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+        (G := G) (v := v) (s := s) (t := t) pair ∧
+      terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+        (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_support_minimal_bridge_front_bottleneck_or_explicit_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact Or.inl hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, x,
+        hx_left, hx_right, hxv, hside⟩
+    have hpos :
+        0 < terminalPathPairPrefixOnlyDefect (G := G) pair := by
+      rcases hside with hleft | hright
+      · exact
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual.prefix_only_defect_pos
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (pair := pair) hleft
+      · exact
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual.prefix_only_defect_pos
+            (G := G) (v := v) (s := s) (t := t)
+            (x := x) (pair := pair) hright
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_, ?_⟩
+    · exact ⟨x, hx_left, hx_right, hxv, hside⟩
+    · exact
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases_of_pos
+          (G := G) (v := v) (s := s) (t := t)
+          hsep hpair_min hsecondary_min hpos
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+        (G := G) (v := v) (s := s) (t := t) pair ∧
+      terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+        (G := G) (v := v) (s := s) (t := t) pair := by
+  exact
+    terminal_set_two_fan_or_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_of_no_small_endpoint_separator
+      (G := G) (v := v) (s := s) (t := t) hvs hvt hst
+      (terminal_set_no_small_endpoint_separator_of_connected_delete_connected
+        (G := G) hconn hdelete hvs hvt hst)
+
+lemma exists_two_fan_first_entry_prefixes_to_finset_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {v : α} {S : Finset α}
+    (hvS : v ∉ S)
+    (hS_two : ∃ s t : α, s ∈ S ∧ t ∈ S ∧ s ≠ t) :
+    (∃ s t : α, ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      s ∈ S ∧
+      t ∈ S ∧
+      s ≠ t ∧
+      qs.IsPath ∧
+      qt.IsPath ∧
+      (∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∧
+      (∀ z : α, z ∈ qs.support → z ≠ s → z ∉ S) ∧
+      (∀ z : α, z ∈ qt.support → z ≠ t → z ∉ S)) ∨
+    ∃ s t : α,
+      s ∈ S ∧ t ∈ S ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases hS_two with ⟨s, t, hsS, htS, hst⟩
+  have hvs : v ≠ s := by
+    intro hvs_eq
+    exact hvS (by simpa [hvs_eq] using hsS)
+  have hvt : v ≠ t := by
+    intro hvt_eq
+    exact hvS (by simpa [hvt_eq] using htS)
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_of_connected_delete_connected
+        (G := G) (v := v) (s := s) (t := t)
+        hconn hdelete hvs hvt hst with
+    hfan | hresidual
+  · left
+    rcases hfan with ⟨qs, qt, hqsPath, hqtPath, hmeet⟩
+    exact
+      terminal_two_fan_first_entry_prefixes_to_finset
+        (G := G) (S := S) hvS hsS htS hqsPath hqtPath hmeet
+  · right
+    exact ⟨s, t, hsS, htS, hst, hresidual⟩
+
+lemma exists_two_fan_first_entry_prefixes_to_longest_path_support_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    (∃ s t : α, ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      qs.IsPath ∧
+      qt.IsPath ∧
+      (∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∧
+      (∀ z : α, z ∈ qs.support → z ≠ s → z ∉ p.support.toFinset) ∧
+      (∀ z : α, z ∈ qt.support → z ≠ t → z ∉ p.support.toFinset)) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  have hvS : v ∉ p.support.toFinset := by
+    simpa using hv
+  have hab : a ≠ b :=
+    longest_path_endpoints_ne_of_missed_vertex
+      (G := G) hconn p hpPath hmax hv
+  have hS_two :
+      ∃ s t : α,
+        s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t := by
+    refine ⟨a, b, ?_, ?_, hab⟩
+    · simpa using p.start_mem_support
+    · simpa using p.end_mem_support
+  exact
+    exists_two_fan_first_entry_prefixes_to_finset_or_terminal_residual_of_connected_delete_connected
+      (G := G) hconn hdelete hvS hS_two
+
+lemma exists_two_fan_first_entry_prefixes_to_longest_path_internal_support_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    (∃ s t : α, ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      s ≠ a ∧
+      s ≠ b ∧
+      t ≠ a ∧
+      t ≠ b ∧
+      qs.IsPath ∧
+      qt.IsPath ∧
+      (∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∧
+      (∀ z : α, z ∈ qs.support → z ≠ s → z ∉ p.support.toFinset) ∧
+      (∀ z : α, z ∈ qt.support → z ≠ t → z ∉ p.support.toFinset)) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_two_fan_first_entry_prefixes_to_longest_path_support_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with
+      ⟨s, t, qs, qt, hsS, htS, hst, hqsPath, hqtPath,
+        hmeet, hqsOutside, hqtOutside⟩
+    have hs_ne_a : s ≠ a := by
+      intro hsa
+      let qsA : G.Walk v a := qs.copy rfl hsa
+      have hqsAPath : qsA.IsPath := by
+        simpa [qsA] using hqsPath
+      have hqsAOutside :
+          ∀ z : α, z ∈ qsA.support → z ≠ a → z ∉ p.support := by
+        intro z hz hza
+        have hz_qs : z ∈ qs.support := by
+          simpa [qsA] using hz
+        have hz_not_s : z ≠ s := by simpa [hsa] using hza
+        simpa using hqsOutside z hz_qs hz_not_s
+      exact longest_path_no_outside_path_to_left_endpoint
+        (G := G) p hpPath hmax hv (q := qsA) hqsAPath hqsAOutside
+    have hs_ne_b : s ≠ b := by
+      intro hsb
+      let qsB : G.Walk v b := qs.copy rfl hsb
+      have hqsBPath : qsB.IsPath := by
+        simpa [qsB] using hqsPath
+      have hqsBOutside :
+          ∀ z : α, z ∈ qsB.support → z ≠ b → z ∉ p.support := by
+        intro z hz hzb
+        have hz_qs : z ∈ qs.support := by
+          simpa [qsB] using hz
+        have hz_not_s : z ≠ s := by simpa [hsb] using hzb
+        simpa using hqsOutside z hz_qs hz_not_s
+      exact longest_path_no_outside_path_to_right_endpoint
+        (G := G) p hpPath hmax hv (q := qsB) hqsBPath hqsBOutside
+    have ht_ne_a : t ≠ a := by
+      intro hta
+      let qtA : G.Walk v a := qt.copy rfl hta
+      have hqtAPath : qtA.IsPath := by
+        simpa [qtA] using hqtPath
+      have hqtAOutside :
+          ∀ z : α, z ∈ qtA.support → z ≠ a → z ∉ p.support := by
+        intro z hz hza
+        have hz_qt : z ∈ qt.support := by
+          simpa [qtA] using hz
+        have hz_not_t : z ≠ t := by simpa [hta] using hza
+        simpa using hqtOutside z hz_qt hz_not_t
+      exact longest_path_no_outside_path_to_left_endpoint
+        (G := G) p hpPath hmax hv (q := qtA) hqtAPath hqtAOutside
+    have ht_ne_b : t ≠ b := by
+      intro htb
+      let qtB : G.Walk v b := qt.copy rfl htb
+      have hqtBPath : qtB.IsPath := by
+        simpa [qtB] using hqtPath
+      have hqtBOutside :
+          ∀ z : α, z ∈ qtB.support → z ≠ b → z ∉ p.support := by
+        intro z hz hzb
+        have hz_qt : z ∈ qt.support := by
+          simpa [qtB] using hz
+        have hz_not_t : z ≠ t := by simpa [htb] using hzb
+        simpa using hqtOutside z hz_qt hz_not_t
+      exact longest_path_no_outside_path_to_right_endpoint
+        (G := G) p hpPath hmax hv (q := qtB) hqtBPath hqtBOutside
+    exact
+      ⟨s, t, qs, qt, hsS, htS, hst, hs_ne_a, hs_ne_b, ht_ne_a, ht_ne_b,
+        hqsPath, hqtPath, hmeet, hqsOutside, hqtOutside⟩
+  · exact Or.inr hresidual
+
+lemma exists_two_fan_first_entry_prefixes_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    (∃ s t : α, ∃ i j : ℕ, ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      0 < i ∧
+      i < p.length ∧
+      0 < j ∧
+      j < p.length ∧
+      i ≠ j ∧
+      p.getVert i = s ∧
+      p.getVert j = t ∧
+      qs.IsPath ∧
+      qt.IsPath ∧
+      (∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∧
+      (∀ z : α, z ∈ qs.support → z ≠ s → z ∉ p.support.toFinset) ∧
+      (∀ z : α, z ∈ qt.support → z ≠ t → z ∉ p.support.toFinset)) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_two_fan_first_entry_prefixes_to_longest_path_internal_support_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with
+      ⟨s, t, qs, qt, hsS, htS, hst, hs_ne_a, hs_ne_b, ht_ne_a, ht_ne_b,
+        hqsPath, hqtPath, hmeet, hqsOutside, hqtOutside⟩
+    have hs_support : s ∈ p.support := by
+      simpa using hsS
+    have ht_support : t ∈ p.support := by
+      simpa using htS
+    rcases exists_internal_index_of_mem_support_ne_endpoints
+        (G := G) p hs_support hs_ne_a hs_ne_b with
+      ⟨i, hi_pos, hi_lt, hi_get⟩
+    rcases exists_internal_index_of_mem_support_ne_endpoints
+        (G := G) p ht_support ht_ne_a ht_ne_b with
+      ⟨j, hj_pos, hj_lt, hj_get⟩
+    have hij : i ≠ j := by
+      intro hij_eq
+      apply hst
+      calc
+        s = p.getVert i := hi_get.symm
+        _ = p.getVert j := by rw [hij_eq]
+        _ = t := hj_get
+    exact
+      ⟨s, t, i, j, qs, qt, hsS, htS, hst, hi_pos, hi_lt, hj_pos, hj_lt,
+        hij, hi_get, hj_get, hqsPath, hqtPath, hmeet, hqsOutside, hqtOutside⟩
+  · exact Or.inr hresidual
+
+lemma exists_ordered_two_fan_first_entry_prefixes_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    (∃ s t : α, ∃ i j : ℕ, ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      0 < i ∧
+      i < j ∧
+      j < p.length ∧
+      p.getVert i = s ∧
+      p.getVert j = t ∧
+      qs.IsPath ∧
+      qt.IsPath ∧
+      (∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∧
+      (∀ z : α, z ∈ qs.support → z ≠ s → z ∉ p.support.toFinset) ∧
+      (∀ z : α, z ∈ qt.support → z ≠ t → z ∉ p.support.toFinset)) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_two_fan_first_entry_prefixes_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with
+      ⟨s, t, i, j, qs, qt, hsS, htS, hst, hi_pos, hi_lt, hj_pos, hj_lt,
+        hij, hi_get, hj_get, hqsPath, hqtPath, hmeet, hqsOutside, hqtOutside⟩
+    rcases lt_or_gt_of_ne hij with hij_lt | hji_lt
+    · exact
+        ⟨s, t, i, j, qs, qt, hsS, htS, hst, hi_pos, hij_lt, hj_lt,
+          hi_get, hj_get, hqsPath, hqtPath, hmeet, hqsOutside, hqtOutside⟩
+    · exact
+        ⟨t, s, j, i, qt, qs, htS, hsS, hst.symm, hj_pos, hji_lt, hi_lt,
+          hj_get, hi_get, hqtPath, hqsPath,
+          (fun z hzt hzs => hmeet z hzs hzt), hqtOutside, hqsOutside⟩
+  · exact Or.inr hresidual
+
+lemma exists_adjacent_or_separated_ordered_two_fan_first_entry_prefixes_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ((∃ s t : α, ∃ i j : ℕ, ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      0 < i ∧
+      i + 1 = j ∧
+      j < p.length ∧
+      p.getVert i = s ∧
+      p.getVert j = t ∧
+      qs.IsPath ∧
+      qt.IsPath ∧
+      (∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∧
+      (∀ z : α, z ∈ qs.support → z ≠ s → z ∉ p.support.toFinset) ∧
+      (∀ z : α, z ∈ qt.support → z ≠ t → z ∉ p.support.toFinset)) ∨
+    (∃ s t : α, ∃ i j : ℕ, ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      0 < i ∧
+      i + 1 < j ∧
+      j < p.length ∧
+      p.getVert i = s ∧
+      p.getVert j = t ∧
+      qs.IsPath ∧
+      qt.IsPath ∧
+      (∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∧
+      (∀ z : α, z ∈ qs.support → z ≠ s → z ∉ p.support.toFinset) ∧
+      (∀ z : α, z ∈ qt.support → z ≠ t → z ∉ p.support.toFinset))) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_ordered_two_fan_first_entry_prefixes_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with
+      ⟨s, t, i, j, qs, qt, hsS, htS, hst, hi_pos, hij, hj_lt,
+        hi_get, hj_get, hqsPath, hqtPath, hmeet, hqsOutside, hqtOutside⟩
+    have hsucc_le : i + 1 ≤ j := Nat.succ_le_of_lt hij
+    rcases eq_or_lt_of_le hsucc_le with hsucc_eq | hsucc_lt
+    · left
+      exact
+        ⟨s, t, i, j, qs, qt, hsS, htS, hst, hi_pos, hsucc_eq, hj_lt,
+          hi_get, hj_get, hqsPath, hqtPath, hmeet, hqsOutside, hqtOutside⟩
+    · right
+      exact
+        ⟨s, t, i, j, qs, qt, hsS, htS, hst, hi_pos, hsucc_lt, hj_lt,
+          hi_get, hj_get, hqsPath, hqtPath, hmeet, hqsOutside, hqtOutside⟩
+  · exact Or.inr hresidual
+
+lemma exists_adjacent_or_separated_external_attachments_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ((∃ s t : α, ∃ i j : ℕ, ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      0 < i ∧
+      i + 1 = j ∧
+      j < p.length ∧
+      p.getVert i = s ∧
+      p.getVert j = t ∧
+      qs.IsPath ∧
+      qt.IsPath ∧
+      (∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∧
+      (∀ z : α, z ∈ qs.support → z ≠ s → z ∉ p.support.toFinset) ∧
+      (∀ z : α, z ∈ qt.support → z ≠ t → z ∉ p.support.toFinset)) ∨
+    (∃ s t : α, ∃ i j : ℕ, ∃ x y : α,
+      ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      0 < i ∧
+      i + 1 < j ∧
+      j < p.length ∧
+      p.getVert i = s ∧
+      p.getVert j = t ∧
+      x ∉ p.support.toFinset ∧
+      y ∉ p.support.toFinset ∧
+      G.Adj x (p.getVert i) ∧
+      G.Adj y (p.getVert j) ∧
+      qs.IsPath ∧
+      qt.IsPath ∧
+      (∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∧
+      x ∈ qs.support ∧
+      y ∈ qt.support ∧
+      (∀ z : α, z ∈ qs.support → z ≠ s → z ∉ p.support.toFinset) ∧
+      (∀ z : α, z ∈ qt.support → z ≠ t → z ∉ p.support.toFinset))) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_adjacent_or_separated_ordered_two_fan_first_entry_prefixes_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with hadjacent | hseparated
+    · exact Or.inl hadjacent
+    · right
+      rcases hseparated with
+        ⟨s, t, i, j, qs, qt, hsS, htS, hst, hi_pos, hsep, hj_lt,
+          hi_get, hj_get, hqsPath, hqtPath, hmeet, hqsOutside, hqtOutside⟩
+      have hvS : v ∉ p.support.toFinset := by
+        simpa using hv
+      rcases exists_last_step_from_outside_finset_of_first_entry_path
+          (G := G) (S := p.support.toFinset) hvS hsS hqsOutside with
+        ⟨x, hxS, hxs, hxqs⟩
+      rcases exists_last_step_from_outside_finset_of_first_entry_path
+          (G := G) (S := p.support.toFinset) hvS htS hqtOutside with
+        ⟨y, hyS, hyt, hyqt⟩
+      refine
+        ⟨s, t, i, j, x, y, qs, qt, hsS, htS, hst, hi_pos, hsep, hj_lt,
+          hi_get, hj_get, hxS, hyS, ?_, ?_, hqsPath, hqtPath,
+          hmeet, hxqs, hyqt, hqsOutside, hqtOutside⟩
+      · simpa [hi_get] using hxs
+      · simpa [hj_get] using hyt
+  · exact Or.inr hresidual
+
+lemma exists_adjacent_connector_or_separated_external_attachments_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ((∃ s t : α, ∃ i j : ℕ, ∃ r : G.Walk s t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      0 < i ∧
+      i + 1 = j ∧
+      j < p.length ∧
+      p.getVert i = s ∧
+      p.getVert j = t ∧
+      r.IsPath ∧
+      v ∈ r.support ∧
+      (∀ z : α, z ∈ r.support → z ≠ s → z ≠ t → z ∉ p.support.toFinset)) ∨
+    (∃ s t : α, ∃ i j : ℕ, ∃ x y : α,
+      ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      0 < i ∧
+      i + 1 < j ∧
+      j < p.length ∧
+      p.getVert i = s ∧
+      p.getVert j = t ∧
+      x ∉ p.support.toFinset ∧
+      y ∉ p.support.toFinset ∧
+      G.Adj x (p.getVert i) ∧
+      G.Adj y (p.getVert j) ∧
+      qs.IsPath ∧
+      qt.IsPath ∧
+      (∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∧
+      x ∈ qs.support ∧
+      y ∈ qt.support ∧
+      (∀ z : α, z ∈ qs.support → z ≠ s → z ∉ p.support.toFinset) ∧
+      (∀ z : α, z ∈ qt.support → z ≠ t → z ∉ p.support.toFinset))) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_adjacent_or_separated_external_attachments_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with hadjacent | hseparated
+    · left
+      rcases hadjacent with
+        ⟨s, t, i, j, qs, qt, hsS, htS, hst, hi_pos, hij_adj, hj_lt,
+          hi_get, hj_get, hqsPath, hqtPath, hmeet, hqsOutside, hqtOutside⟩
+      rcases terminal_two_fan_connector_path_avoids_finset_except_endpoints
+          (G := G) (S := p.support.toFinset)
+          hqsPath hqtPath hmeet hqsOutside hqtOutside with
+        ⟨r, hrPath, hvr, hrOutside⟩
+      exact
+        ⟨s, t, i, j, r, hsS, htS, hst, hi_pos, hij_adj, hj_lt,
+          hi_get, hj_get, hrPath, hvr, hrOutside⟩
+    · exact Or.inr hseparated
+  · exact Or.inr hresidual
+
+lemma exists_adjacent_connector_or_separated_external_attachment_vertices_to_longest_path_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ((∃ s t : α, ∃ i j : ℕ, ∃ r : G.Walk s t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      0 < i ∧
+      i + 1 = j ∧
+      j < p.length ∧
+      p.getVert i = s ∧
+      p.getVert j = t ∧
+      r.IsPath ∧
+      v ∈ r.support ∧
+      (∀ z : α, z ∈ r.support → z ≠ s → z ≠ t → z ∉ p.support.toFinset)) ∨
+    (∃ i j x y : α,
+      ∃ ii jj : ℕ,
+        0 < ii ∧
+        ii + 1 < jj ∧
+        jj < p.length ∧
+        x ∉ p.support.toFinset ∧
+        y ∉ p.support.toFinset ∧
+        p.getVert ii = i ∧
+        p.getVert jj = j ∧
+        G.Adj x i ∧
+        G.Adj y j)) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_adjacent_connector_or_separated_external_attachments_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with hadjacent | hseparated
+    · exact Or.inl hadjacent
+    · right
+      rcases hseparated with
+        ⟨s, t, i, j, x, y, qs, qt, _hsS, _htS, _hst, hi_pos, hsep, hj_lt,
+          hi_get, hj_get, hxS, hyS, hxi, hyj, _hqsPath, _hqtPath,
+          _hmeet, _hxqs, _hyqt, _hqsOutside, _hqtOutside⟩
+      exact
+        ⟨p.getVert i, p.getVert j, x, y, i, j, hi_pos, hsep, hj_lt,
+          hxS, hyS, rfl, rfl, hxi, hyj⟩
+  · exact Or.inr hresidual
+
+lemma exists_adjacent_connector_or_separated_attachments_to_longest_path_support_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ((∃ s t : α, ∃ i j : ℕ, ∃ r : G.Walk s t,
+      s ∈ p.support.toFinset ∧
+      t ∈ p.support.toFinset ∧
+      s ≠ t ∧
+      0 < i ∧
+      i + 1 = j ∧
+      j < p.length ∧
+      p.getVert i = s ∧
+      p.getVert j = t ∧
+      r.IsPath ∧
+      v ∈ r.support ∧
+      (∀ z : α, z ∈ r.support → z ≠ s → z ≠ t → z ∉ p.support.toFinset)) ∨
+    (∃ i j x y : α,
+      ∃ ii jj : ℕ,
+        0 < ii ∧
+        ii < jj ∧
+        jj < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert ii = i ∧
+        p.getVert jj = j ∧
+        G.Adj x i ∧
+        G.Adj y j ∧
+        ii + 1 < jj)) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_adjacent_connector_or_separated_external_attachment_vertices_to_longest_path_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with hadjacent | hseparated
+    · exact Or.inl hadjacent
+    · right
+      rcases hseparated with
+        ⟨i, j, x, y, ii, jj, hii, hsep, hjj, hxS, hyS,
+          hi_get, hj_get, hxi, hyj⟩
+      exact
+        ⟨i, j, x, y, ii, jj, hii, Nat.lt_of_succ_lt hsep, hjj,
+          (by simpa using hxS), (by simpa using hyS),
+          hi_get, hj_get, hxi, hyj, hsep⟩
+  · exact Or.inr hresidual
+
+lemma exists_adjacent_connector_or_separated_attachments_to_longest_path_support_list_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ((∃ s t : α, ∃ i j : ℕ, ∃ r : G.Walk s t,
+      s ∈ p.support ∧
+      t ∈ p.support ∧
+      s ≠ t ∧
+      0 < i ∧
+      i + 1 = j ∧
+      j < p.length ∧
+      p.getVert i = s ∧
+      p.getVert j = t ∧
+      r.IsPath ∧
+      v ∈ r.support ∧
+      (∀ z : α, z ∈ r.support → z ≠ s → z ≠ t → z ∉ p.support)) ∨
+    (∃ i j x y : α,
+      ∃ ii jj : ℕ,
+        0 < ii ∧
+        ii < jj ∧
+        jj < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert ii = i ∧
+        p.getVert jj = j ∧
+        G.Adj x i ∧
+        G.Adj y j ∧
+        ii + 1 < jj)) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_adjacent_connector_or_separated_attachments_to_longest_path_support_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with hadjacent | hseparated
+    · left
+      rcases hadjacent with
+        ⟨s, t, i, j, r, hsS, htS, hst, hi_pos, hij_adj, hj_lt,
+          hi_get, hj_get, hrPath, hvr, hrOutside⟩
+      refine
+        ⟨s, t, i, j, r, (by simpa using hsS), (by simpa using htS), hst,
+          hi_pos, hij_adj, hj_lt, hi_get, hj_get, hrPath, hvr, ?_⟩
+      intro z hz hzs hzt hzP
+      exact hrOutside z hz hzs hzt (by simpa using hzP)
+    · exact Or.inr hseparated
+  · exact Or.inr hresidual
+
+private lemma length_takeUntil_eq_of_isPath_getVert
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b x : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hx : x ∈ p.support)
+    {i : ℕ} (hi : i ≤ p.length)
+    (hi_get : p.getVert i = x) :
+    (p.takeUntil x hx).length = i := by
+  have hlen_le : (p.takeUntil x hx).length ≤ p.length :=
+    p.length_takeUntil_le hx
+  exact hpPath.getVert_injOn
+    (by simpa using hlen_le) hi
+    (by simpa [Walk.getVert_length_takeUntil] using hi_get.symm)
+
+private lemma not_mem_takeUntil_of_isPath_getVert_strict_later
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b s t : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hs : s ∈ p.support)
+    {i j : ℕ} (hi : i ≤ p.length) (hj : j ≤ p.length)
+    (hij : i < j)
+    (hi_get : p.getVert i = s)
+    (hj_get : p.getVert j = t) :
+    t ∉ (p.takeUntil s hs).support := by
+  intro ht_prefix
+  rcases exists_getVert_eq_of_mem_support
+      (G := G) (p.takeUntil s hs) ht_prefix with
+    ⟨k, hk_le_left, hk_get_left⟩
+  have hleft_len : (p.takeUntil s hs).length = i :=
+    length_takeUntil_eq_of_isPath_getVert
+      (G := G) hpPath hs hi hi_get
+  have hk_le_i : k ≤ i := by
+    simpa [hleft_len] using hk_le_left
+  have hk_le_p : k ≤ p.length :=
+    le_trans hk_le_left (p.length_takeUntil_le hs)
+  have hk_get_p : p.getVert k = t := by
+    simpa [Walk.getVert_takeUntil hs hk_le_left] using hk_get_left
+  have hk_eq_j : k = j :=
+    hpPath.getVert_injOn hk_le_p hj (by rw [hk_get_p, hj_get])
+  omega
+
+private lemma not_mem_dropUntil_of_isPath_getVert_strict_earlier
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b s t : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (ht : t ∈ p.support)
+    {i j : ℕ} (hi : i ≤ p.length) (hj : j ≤ p.length)
+    (hij : i < j)
+    (hi_get : p.getVert i = s)
+    (hj_get : p.getVert j = t) :
+    s ∉ (p.dropUntil t ht).support := by
+  intro hs_suffix
+  rcases exists_index_of_mem_dropUntil
+      (G := G) p ht hs_suffix with
+    ⟨k, ht_len_le_k, hk_le, hk_get⟩
+  have ht_len_eq : (p.takeUntil t ht).length = j :=
+    length_takeUntil_eq_of_isPath_getVert
+      (G := G) hpPath ht hj hj_get
+  have hj_le_k : j ≤ k := by
+    simpa [ht_len_eq] using ht_len_le_k
+  have hk_eq_i : k = i :=
+    hpPath.getVert_injOn hk_le hi (by rw [hk_get, hi_get])
+  omega
+
+private lemma disjoint_takeUntil_support_dropUntil_tail_of_isPath_getVert_order
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b s t : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hs : s ∈ p.support) (ht : t ∈ p.support)
+    {i j : ℕ} (hi : i ≤ p.length) (hj : j ≤ p.length)
+    (hij : i < j)
+    (hi_get : p.getVert i = s)
+    (hj_get : p.getVert j = t) :
+    List.Disjoint (p.takeUntil s hs).support
+      (p.dropUntil t ht).support.tail := by
+  rw [List.disjoint_left]
+  intro z hz_left hz_right_tail
+  have hz_right : z ∈ (p.dropUntil t ht).support :=
+    List.mem_of_mem_tail hz_right_tail
+  rcases exists_getVert_eq_of_mem_support
+      (G := G) (p.takeUntil s hs) hz_left with
+    ⟨k, hk_le_left, hk_get_left⟩
+  have hleft_len : (p.takeUntil s hs).length = i :=
+    length_takeUntil_eq_of_isPath_getVert
+      (G := G) hpPath hs hi hi_get
+  have hk_le_i : k ≤ i := by
+    simpa [hleft_len] using hk_le_left
+  have hk_le_p : k ≤ p.length :=
+    le_trans hk_le_left (p.length_takeUntil_le hs)
+  have hk_get_p : p.getVert k = z := by
+    simpa [Walk.getVert_takeUntil hs hk_le_left] using hk_get_left
+  rcases exists_index_of_mem_dropUntil
+      (G := G) p ht hz_right with
+    ⟨l, ht_len_le_l, hl_le, hl_get⟩
+  have hright_len : (p.takeUntil t ht).length = j :=
+    length_takeUntil_eq_of_isPath_getVert
+      (G := G) hpPath ht hj hj_get
+  have hj_le_l : j ≤ l := by
+    simpa [hright_len] using ht_len_le_l
+  have hk_eq_l : k = l :=
+    hpPath.getVert_injOn hk_le_p hl_le (by rw [hk_get_p, hl_get])
+  omega
+
+private lemma indexed_segment_isPath_of_isPath
+    {α : Type*}
+    {G : SimpleGraph α} {a b : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (i j : ℕ) :
+    ((p.drop i).take (j - i)).IsPath := by
+  exact
+    Walk.isPath_of_isSubwalk
+      (Walk.isSubwalk_take (p.drop i) (j - i))
+      (Walk.isPath_of_isSubwalk (Walk.isSubwalk_drop p i) hpPath)
+
+private lemma indexed_segment_length_eq
+    {α : Type*}
+    {G : SimpleGraph α} {a b : α}
+    (p : G.Walk a b)
+    {i j : ℕ}
+    (_hi : i ≤ j)
+    (hj : j ≤ p.length) :
+    ((p.drop i).take (j - i)).length = j - i := by
+  simp [Walk.take_length, Walk.drop_length,
+    Nat.min_eq_left (Nat.sub_le_sub_right hj i)]
+
+private lemma indexed_segment_support_subset
+    {α : Type*}
+    {G : SimpleGraph α} {a b z : α}
+    {p : G.Walk a b}
+    {i j : ℕ}
+    (hz : z ∈ ((p.drop i).take (j - i)).support) :
+    z ∈ p.support := by
+  exact
+    (Walk.isSubwalk_drop p i).support_subset
+      ((Walk.isSubwalk_take (p.drop i) (j - i)).support_subset hz)
+
+private def indexedSegment
+    {α : Type*}
+    {G : SimpleGraph α} {a b : α}
+    (p : G.Walk a b)
+    (i j : ℕ)
+    (hi : i ≤ j)
+    (hj : j ≤ p.length) :
+    G.Walk (p.getVert i) (p.getVert j) :=
+  ((p.drop i).take (j - i)).copy rfl (by
+    rw [Walk.drop_getVert]
+    have _hji : j - i ≤ p.length - i := Nat.sub_le_sub_right hj i
+    rw [Nat.add_sub_of_le hi])
+
+private lemma indexedSegment_isPath_of_isPath
+    {α : Type*}
+    {G : SimpleGraph α} {a b : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    {i j : ℕ}
+    (hi : i ≤ j)
+    (hj : j ≤ p.length) :
+    (indexedSegment (G := G) p i j hi hj).IsPath := by
+  simpa [indexedSegment] using
+    indexed_segment_isPath_of_isPath (G := G) hpPath i j
+
+private lemma indexedSegment_length_eq
+    {α : Type*}
+    {G : SimpleGraph α} {a b : α}
+    (p : G.Walk a b)
+    {i j : ℕ}
+    (hi : i ≤ j)
+    (hj : j ≤ p.length) :
+    (indexedSegment (G := G) p i j hi hj).length = j - i := by
+  simpa [indexedSegment] using
+    indexed_segment_length_eq (G := G) p hi hj
+
+private lemma indexedSegment_support_subset
+    {α : Type*}
+    {G : SimpleGraph α} {a b z : α}
+    {p : G.Walk a b}
+    {i j : ℕ}
+    (hi : i ≤ j)
+    (hj : j ≤ p.length)
+    (hz : z ∈ (indexedSegment (G := G) p i j hi hj).support) :
+    z ∈ p.support := by
+  exact indexed_segment_support_subset (G := G) (p := p) (i := i) (j := j)
+    (by simpa [indexedSegment] using hz)
+
+private lemma indexed_segment_getVert_eq
+    {α : Type*}
+    {G : SimpleGraph α} {a b : α}
+    (p : G.Walk a b)
+    {i j k : ℕ}
+    (hk : k ≤ j - i) :
+    ((p.drop i).take (j - i)).getVert k = p.getVert (i + k) := by
+  simp [Walk.take_getVert, Walk.drop_getVert, Nat.min_eq_right hk]
+
+private lemma indexed_segment_getVert_end_eq
+    {α : Type*}
+    {G : SimpleGraph α} {a b : α}
+    (p : G.Walk a b)
+    {i j : ℕ}
+    (hi : i ≤ j) :
+    ((p.drop i).take (j - i)).getVert (j - i) = p.getVert j := by
+  have hget :=
+    indexed_segment_getVert_eq (G := G) (p := p) (i := i) (j := j)
+      (k := j - i) le_rfl
+  simpa [Nat.add_sub_of_le hi] using hget
+
+private lemma exists_index_between_of_mem_indexed_segment_support
+    {α : Type*}
+    {G : SimpleGraph α} {a b z : α}
+    {p : G.Walk a b}
+    {i j : ℕ}
+    (hi : i ≤ j)
+    (hj : j ≤ p.length)
+    (hz : z ∈ ((p.drop i).take (j - i)).support) :
+    ∃ k : ℕ, i ≤ k ∧ k ≤ j ∧ p.getVert k = z := by
+  rcases exists_getVert_eq_of_mem_support (G := G)
+      ((p.drop i).take (j - i)) hz with
+    ⟨k, hk_le, hk_get⟩
+  have hlen :
+      ((p.drop i).take (j - i)).length = j - i :=
+    indexed_segment_length_eq (G := G) p hi hj
+  have hk_le_sub : k ≤ j - i := by
+    simpa [hlen] using hk_le
+  refine ⟨i + k, by omega, by omega, ?_⟩
+  have hget :=
+    indexed_segment_getVert_eq (G := G) (p := p) (i := i) (j := j)
+      (k := k) hk_le_sub
+  exact hget.symm.trans hk_get
+
+private lemma getVert_not_mem_indexed_segment_support_of_lt_left
+    {α : Type*}
+    {G : SimpleGraph α} {a b : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    {i j k : ℕ}
+    (hi : i ≤ j)
+    (hj : j ≤ p.length)
+    (hk : k < i) :
+    p.getVert k ∉ ((p.drop i).take (j - i)).support := by
+  intro hz
+  rcases exists_index_between_of_mem_indexed_segment_support
+      (G := G) (p := p) hi hj hz with
+    ⟨l, hil, hlj, hl_get⟩
+  have hk_le : k ≤ p.length := by omega
+  have hl_le : l ≤ p.length := le_trans hlj hj
+  have hkl : k = l :=
+    hpPath.getVert_injOn hk_le hl_le hl_get.symm
+  omega
+
+private lemma getVert_not_mem_indexed_segment_support_of_right_lt
+    {α : Type*}
+    {G : SimpleGraph α} {a b : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    {i j k : ℕ}
+    (hi : i ≤ j)
+    (hj : j ≤ p.length)
+    (hjk : j < k)
+    (hk_len : k ≤ p.length) :
+    p.getVert k ∉ ((p.drop i).take (j - i)).support := by
+  intro hz
+  rcases exists_index_between_of_mem_indexed_segment_support
+      (G := G) (p := p) hi hj hz with
+    ⟨l, _hil, hlj, hl_get⟩
+  have hl_le : l ≤ p.length := le_trans hlj hj
+  have hkl : k = l :=
+    hpPath.getVert_injOn hk_len hl_le hl_get.symm
+  omega
+
+private lemma exists_index_le_of_mem_take_support
+    {α : Type*}
+    {G : SimpleGraph α} {a b z : α}
+    {p : G.Walk a b}
+    {n : ℕ}
+    (hz : z ∈ (p.take n).support) :
+    ∃ k : ℕ, k ≤ n ∧ k ≤ p.length ∧ p.getVert k = z := by
+  rcases exists_getVert_eq_of_mem_support (G := G) (p.take n) hz with
+    ⟨k, hk_le, hk_get⟩
+  have hk_le_min : k ≤ n ⊓ p.length := by
+    simpa [Walk.take_length] using hk_le
+  have hk_le_n : k ≤ n := le_trans hk_le_min (Nat.min_le_left n p.length)
+  have hk_le_len : k ≤ p.length := le_trans hk_le_min (Nat.min_le_right n p.length)
+  refine ⟨k, hk_le_n, hk_le_len, ?_⟩
+  simpa [Walk.take_getVert, Nat.min_eq_right hk_le_n] using hk_get
+
+private lemma exists_index_gt_of_mem_drop_tail
+    {α : Type*}
+    {G : SimpleGraph α} {a b z : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    {n : ℕ}
+    (hz : z ∈ (p.drop n).support.tail) :
+    ∃ k : ℕ, n < k ∧ k ≤ p.length ∧ p.getVert k = z := by
+  have hz_support : z ∈ (p.drop n).support := List.mem_of_mem_tail hz
+  rcases exists_getVert_eq_of_mem_support (G := G) (p.drop n) hz_support with
+    ⟨k, hk_le, hk_get⟩
+  have hk_pos : 0 < k := by
+    by_contra hnot
+    have hk_zero : k = 0 := Nat.eq_zero_of_not_pos hnot
+    have hz_head : z = (p.drop n).getVert 0 := by
+      simpa [hk_zero] using hk_get.symm
+    have hdropPath : (p.drop n).IsPath :=
+      Walk.isPath_of_isSubwalk (Walk.isSubwalk_drop p n) hpPath
+    have hhead_not_tail : (p.drop n).getVert 0 ∉ (p.drop n).support.tail := by
+      have hnodup_cons :
+          ((p.drop n).getVert 0 :: (p.drop n).support.tail).Nodup := by
+        simpa [← (p.drop n).support_eq_cons] using hdropPath.support_nodup
+      exact (List.nodup_cons.mp hnodup_cons).1
+    exact hhead_not_tail (by simpa [hz_head] using hz)
+  refine ⟨n + k, by omega, ?_, ?_⟩
+  · have hk_le_drop : k ≤ p.length - n := by
+      simpa [Walk.drop_length] using hk_le
+    omega
+  · simpa [Walk.drop_getVert] using hk_get
+
+private lemma append_three_isPath_of_disjoint_tails
+    {α : Type*}
+    {G : SimpleGraph α} {a s t b : α}
+    {left : G.Walk a s} {mid : G.Walk s t} {right : G.Walk t b}
+    (hleftPath : left.IsPath)
+    (hmidPath : mid.IsPath)
+    (hrightPath : right.IsPath)
+    (hleft_mid_tail :
+      List.Disjoint left.support mid.support.tail)
+    (hleft_mid_right_tail :
+      List.Disjoint (left.support ++ mid.support.tail) right.support.tail) :
+    ((left.append mid).append right).IsPath := by
+  rw [Walk.isPath_def, Walk.support_append, Walk.support_append]
+  exact
+    (hleftPath.support_nodup.append hmidPath.support_nodup.tail
+      hleft_mid_tail).append
+      hrightPath.support_nodup.tail hleft_mid_right_tail
+
+private lemma predecessor_rotation_connector_exists
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hpred : G.Adj (p.getVert (i - 1)) (p.getVert (j - 1))) :
+    ∃ r : G.Walk (p.getVert (i - 1)) (p.getVert j),
+      r.IsPath ∧
+      v ∈ r.support ∧
+      r.length = j - i + 2 ∧
+      ∀ z : α, z ∈ r.support →
+        z = p.getVert (i - 1) ∨
+          z = p.getVert j ∨
+          z = v ∨
+          z ∈ ((p.drop i).take ((j - 1) - i)).support := by
+  classical
+  have hi_le_jpred : i ≤ j - 1 := by omega
+  have hjpred_le : j - 1 ≤ p.length := by omega
+  have hj_le : j ≤ p.length := by omega
+  let midForward : G.Walk (p.getVert i) (p.getVert (j - 1)) :=
+    indexedSegment (G := G) p i (j - 1) hi_le_jpred hjpred_le
+  let mid : G.Walk (p.getVert (j - 1)) (p.getVert i) :=
+    midForward.reverse
+  have hmidPath : mid.IsPath := by
+    simpa [mid, midForward] using
+      (indexedSegment_isPath_of_isPath (G := G) hpPath
+        hi_le_jpred hjpred_le).reverse
+  have hpred_not_mid : p.getVert (i - 1) ∉ mid.support := by
+    intro hmem
+    have hmem_forward : p.getVert (i - 1) ∈ midForward.support := by
+      have hmem_rev : p.getVert (i - 1) ∈ midForward.support.reverse := by
+        simpa [mid, Walk.support_reverse] using hmem
+      exact List.mem_reverse.mp hmem_rev
+    have hnot :=
+      getVert_not_mem_indexed_segment_support_of_lt_left
+        (G := G) hpPath hi_le_jpred hjpred_le (k := i - 1) (by omega)
+    exact hnot (by simpa [midForward, indexedSegment] using hmem_forward)
+  let r0 : G.Walk (p.getVert (i - 1)) (p.getVert i) :=
+    mid.cons hpred
+  have hr0Path : r0.IsPath := by
+    change (mid.cons hpred).IsPath
+    exact hmidPath.cons hpred_not_mid
+  have hv_not_r0 : v ∉ r0.support := by
+    intro hmem
+    have hcases :
+        v = p.getVert (i - 1) ∨ v ∈ mid.support := by
+      simpa [r0, Walk.support_cons] using hmem
+    rcases hcases with hv_eq | hv_mid
+    · exact hv (by simpa [hv_eq] using p.getVert_mem_support (i - 1))
+    · have hv_mid_forward : v ∈ midForward.support := by
+        have hv_mid_rev : v ∈ midForward.support.reverse := by
+          simpa [mid, Walk.support_reverse] using hv_mid
+        exact List.mem_reverse.mp hv_mid_rev
+      exact hv
+        (indexedSegment_support_subset (G := G) (p := p)
+          hi_le_jpred hjpred_le
+          (by simpa [midForward] using hv_mid_forward))
+  let r1 : G.Walk (p.getVert (i - 1)) v :=
+    r0.concat hvi.symm
+  have hr1Path : r1.IsPath := by
+    simpa [r1] using hr0Path.concat hv_not_r0 hvi.symm
+  have hj_not_r1 : p.getVert j ∉ r1.support := by
+    intro hmem
+    have hcases :
+        p.getVert j ∈ r0.support ∨ p.getVert j = v := by
+      simpa [r1, Walk.support_concat] using hmem
+    rcases hcases with hj_r0 | hj_v
+    · have hcases0 :
+          p.getVert j = p.getVert (i - 1) ∨
+            p.getVert j ∈ mid.support := by
+        simpa [r0, Walk.support_cons] using hj_r0
+      rcases hcases0 with hj_eq_pred | hj_mid
+      · have hi_pred_le : i - 1 ≤ p.length := by omega
+        have hidx :
+            j = i - 1 :=
+          hpPath.getVert_injOn hj_le hi_pred_le hj_eq_pred
+        omega
+      · have hj_mid_forward : p.getVert j ∈ midForward.support := by
+          have hj_mid_rev : p.getVert j ∈ midForward.support.reverse := by
+            simpa [mid, Walk.support_reverse] using hj_mid
+          exact List.mem_reverse.mp hj_mid_rev
+        have hnot :=
+          getVert_not_mem_indexed_segment_support_of_right_lt
+            (G := G) hpPath hi_le_jpred hjpred_le (k := j)
+            (by omega) hj_le
+        exact hnot (by simpa [midForward, indexedSegment] using hj_mid_forward)
+    · exact hv (by simpa [hj_v] using p.getVert_mem_support j)
+  let r : G.Walk (p.getVert (i - 1)) (p.getVert j) :=
+    r1.concat hvj
+  have hrPath : r.IsPath := by
+    simpa [r] using hr1Path.concat hj_not_r1 hvj
+  have hvr : v ∈ r.support := by
+    have hv_r1 : v ∈ r1.support := r1.end_mem_support
+    simpa [r, Walk.support_concat, hv_r1]
+  refine ⟨r, hrPath, hvr, ?_, ?_⟩
+  · have hmid_len : mid.length = (j - 1) - i := by
+      simpa [mid, midForward] using
+        indexedSegment_length_eq (G := G) p hi_le_jpred hjpred_le
+    simp [r, r1, r0, mid, Walk.length_cons, Walk.length_concat, hmid_len]
+    omega
+  · intro z hz
+    have hz_r1_or_j : z ∈ r1.support ∨ z = p.getVert j := by
+      simpa [r, Walk.support_concat] using hz
+    rcases hz_r1_or_j with hz_r1 | hz_j
+    · have hz_r0_or_v : z ∈ r0.support ∨ z = v := by
+        simpa [r1, Walk.support_concat] using hz_r1
+      rcases hz_r0_or_v with hz_r0 | hz_v
+      · have hz_pred_or_mid :
+            z = p.getVert (i - 1) ∨ z ∈ mid.support := by
+          simpa [r0, Walk.support_cons] using hz_r0
+        rcases hz_pred_or_mid with hz_pred | hz_mid
+        · exact Or.inl hz_pred
+        · have hz_mid_forward : z ∈ midForward.support := by
+            have hz_mid_rev : z ∈ midForward.support.reverse := by
+              simpa [mid, Walk.support_reverse] using hz_mid
+            exact List.mem_reverse.mp hz_mid_rev
+          exact Or.inr <| Or.inr <| Or.inr <|
+            (by simpa [midForward, indexedSegment] using hz_mid_forward)
+      · exact Or.inr <| Or.inr <| Or.inl hz_v
+    · exact Or.inr <| Or.inl hz_j
+
+private lemma predecessor_rotation_splice_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (_hij : i < j)
+    (hj_lt : j < p.length)
+    {r : G.Walk (p.getVert (i - 1)) (p.getVert j)}
+    (hrPath : r.IsPath)
+    (hrSupport :
+      ∀ z : α, z ∈ r.support →
+        z = p.getVert (i - 1) ∨
+          z = p.getVert j ∨
+          z = v ∨
+          z ∈ ((p.drop i).take ((j - 1) - i)).support) :
+    (((p.take (i - 1)).append r).append (p.drop j)).IsPath := by
+  classical
+  have hi_le_jpred : i ≤ j - 1 := by omega
+  have hjpred_le : j - 1 ≤ p.length := by omega
+  have hj_le : j ≤ p.length := by omega
+  have hleftPath : (p.take (i - 1)).IsPath :=
+    Walk.isPath_of_isSubwalk (Walk.isSubwalk_take p (i - 1)) hpPath
+  have hrightPath : (p.drop j).IsPath :=
+    Walk.isPath_of_isSubwalk (Walk.isSubwalk_drop p j) hpPath
+  have hpred_not_r_tail : p.getVert (i - 1) ∉ r.support.tail := by
+    have hnodup_cons :
+        (p.getVert (i - 1) :: r.support.tail).Nodup := by
+      simpa [← r.support_eq_cons] using hrPath.support_nodup
+    exact (List.nodup_cons.mp hnodup_cons).1
+  have hleft_r_tail :
+      List.Disjoint (p.take (i - 1)).support r.support.tail := by
+    rw [List.disjoint_left]
+    intro z hz_left hz_r_tail
+    have hz_r : z ∈ r.support := List.mem_of_mem_tail hz_r_tail
+    rcases hrSupport z hz_r with hz_pred | hz_j | hz_v | hz_seg
+    · exact hpred_not_r_tail (by simpa [hz_pred] using hz_r_tail)
+    · rcases exists_index_le_of_mem_take_support (G := G) hz_left with
+        ⟨k, hk_take, hk_len, hk_get⟩
+      have hidx : k = j :=
+        hpPath.getVert_injOn hk_len hj_le (hk_get.trans hz_j)
+      omega
+    · have hz_p : z ∈ p.support :=
+        (Walk.isSubwalk_take p (i - 1)).support_subset hz_left
+      exact hv (by simpa [hz_v] using hz_p)
+    · rcases exists_index_between_of_mem_indexed_segment_support
+        (G := G) (p := p) hi_le_jpred hjpred_le hz_seg with
+        ⟨l, hil, hlj, hl_get⟩
+      rcases exists_index_le_of_mem_take_support (G := G) hz_left with
+        ⟨k, hk_take, hk_len, hk_get⟩
+      have hl_le : l ≤ p.length := le_trans hlj hjpred_le
+      have hidx : k = l :=
+        hpPath.getVert_injOn hk_len hl_le (hk_get.trans hl_get.symm)
+      omega
+  have hleft_r_right_tail :
+      List.Disjoint ((p.take (i - 1)).support ++ r.support.tail)
+        (p.drop j).support.tail := by
+    rw [List.disjoint_left]
+    intro z hz_left_or_r hz_right_tail
+    rcases exists_index_gt_of_mem_drop_tail (G := G) hpPath hz_right_tail with
+      ⟨k, hjk, hk_len, hk_get⟩
+    rw [List.mem_append] at hz_left_or_r
+    rcases hz_left_or_r with hz_left | hz_r_tail
+    · rcases exists_index_le_of_mem_take_support (G := G) hz_left with
+        ⟨l, hl_take, hl_len, hl_get⟩
+      have hidx : l = k :=
+        hpPath.getVert_injOn hl_len hk_len (hl_get.trans hk_get.symm)
+      omega
+    · have hz_r : z ∈ r.support := List.mem_of_mem_tail hz_r_tail
+      rcases hrSupport z hz_r with hz_pred | hz_j | hz_v | hz_seg
+      · have hi_pred_le : i - 1 ≤ p.length := by omega
+        have hidx : i - 1 = k :=
+          hpPath.getVert_injOn hi_pred_le hk_len
+            (by simpa [hz_pred] using hk_get.symm)
+        omega
+      · have hidx : j = k :=
+          hpPath.getVert_injOn hj_le hk_len
+            (by simpa [hz_j] using hk_get.symm)
+        omega
+      · have hkv : p.getVert k = v := hk_get.trans hz_v
+        exact hv (by simpa [hkv] using p.getVert_mem_support k)
+      · rcases exists_index_between_of_mem_indexed_segment_support
+          (G := G) (p := p) hi_le_jpred hjpred_le hz_seg with
+          ⟨l, hil, hlj, hl_get⟩
+        have hl_len : l ≤ p.length := le_trans hlj hjpred_le
+        have hidx : l = k :=
+          hpPath.getVert_injOn hl_len hk_len (hl_get.trans hk_get.symm)
+        omega
+  exact
+    append_three_isPath_of_disjoint_tails
+      (G := G) hleftPath hrPath hrightPath
+      hleft_r_tail hleft_r_right_tail
+
+private lemma indexed_connector_to_successor_splice_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    {r : G.Walk (p.getVert (i - 1)) (p.getVert (j + 1))}
+    (hrPath : r.IsPath)
+    (hrSupport :
+      ∀ z : α, z ∈ r.support →
+        z = p.getVert (i - 1) ∨
+          z = v ∨
+          z ∈ ((p.drop i).take ((j + 1) - i)).support) :
+    (((p.take (i - 1)).append r).append (p.drop (j + 1))).IsPath := by
+  classical
+  have hi_le_jnext : i ≤ j + 1 := by omega
+  have hjnext_le : j + 1 ≤ p.length := by omega
+  have hleftPath : (p.take (i - 1)).IsPath :=
+    Walk.isPath_of_isSubwalk (Walk.isSubwalk_take p (i - 1)) hpPath
+  have hrightPath : (p.drop (j + 1)).IsPath :=
+    Walk.isPath_of_isSubwalk (Walk.isSubwalk_drop p (j + 1)) hpPath
+  have hpred_not_r_tail : p.getVert (i - 1) ∉ r.support.tail := by
+    have hnodup_cons :
+        (p.getVert (i - 1) :: r.support.tail).Nodup := by
+      simpa [← r.support_eq_cons] using hrPath.support_nodup
+    exact (List.nodup_cons.mp hnodup_cons).1
+  have hleft_r_tail :
+      List.Disjoint (p.take (i - 1)).support r.support.tail := by
+    rw [List.disjoint_left]
+    intro z hz_left hz_r_tail
+    have hz_r : z ∈ r.support := List.mem_of_mem_tail hz_r_tail
+    rcases hrSupport z hz_r with hz_pred | hz_v | hz_seg
+    · exact hpred_not_r_tail (by simpa [hz_pred] using hz_r_tail)
+    · have hz_p : z ∈ p.support :=
+        (Walk.isSubwalk_take p (i - 1)).support_subset hz_left
+      exact hv (by simpa [hz_v] using hz_p)
+    · rcases exists_index_between_of_mem_indexed_segment_support
+        (G := G) (p := p) hi_le_jnext hjnext_le hz_seg with
+        ⟨l, hil, hlj, hl_get⟩
+      rcases exists_index_le_of_mem_take_support (G := G) hz_left with
+        ⟨k, hk_take, hk_len, hk_get⟩
+      have hl_le : l ≤ p.length := le_trans hlj hjnext_le
+      have hidx : k = l :=
+        hpPath.getVert_injOn hk_len hl_le (hk_get.trans hl_get.symm)
+      omega
+  have hleft_r_right_tail :
+      List.Disjoint ((p.take (i - 1)).support ++ r.support.tail)
+        (p.drop (j + 1)).support.tail := by
+    rw [List.disjoint_left]
+    intro z hz_left_or_r hz_right_tail
+    rcases exists_index_gt_of_mem_drop_tail (G := G) hpPath hz_right_tail with
+      ⟨k, hjk, hk_len, hk_get⟩
+    rw [List.mem_append] at hz_left_or_r
+    rcases hz_left_or_r with hz_left | hz_r_tail
+    · rcases exists_index_le_of_mem_take_support (G := G) hz_left with
+        ⟨l, hl_take, hl_len, hl_get⟩
+      have hidx : l = k :=
+        hpPath.getVert_injOn hl_len hk_len (hl_get.trans hk_get.symm)
+      omega
+    · have hz_r : z ∈ r.support := List.mem_of_mem_tail hz_r_tail
+      rcases hrSupport z hz_r with hz_pred | hz_v | hz_seg
+      · have hi_pred_le : i - 1 ≤ p.length := by omega
+        have hidx : i - 1 = k :=
+          hpPath.getVert_injOn hi_pred_le hk_len
+            (by simpa [hz_pred] using hk_get.symm)
+        omega
+      · have hkv : p.getVert k = v := hk_get.trans hz_v
+        exact hv (by simpa [hkv] using p.getVert_mem_support k)
+      · rcases exists_index_between_of_mem_indexed_segment_support
+          (G := G) (p := p) hi_le_jnext hjnext_le hz_seg with
+          ⟨l, hil, hlj, hl_get⟩
+        have hl_len : l ≤ p.length := le_trans hlj hjnext_le
+        have hidx : l = k :=
+          hpPath.getVert_injOn hl_len hk_len (hl_get.trans hk_get.symm)
+        omega
+  exact
+    append_three_isPath_of_disjoint_tails
+      (G := G) hleftPath hrPath hrightPath
+      hleft_r_tail hleft_r_right_tail
+
+private lemma longest_path_missed_vertex_two_attachments_predecessors_not_adj
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j)) :
+    ¬ G.Adj (p.getVert (i - 1)) (p.getVert (j - 1)) := by
+  intro hpred
+  rcases predecessor_rotation_connector_exists
+      (G := G) (p := p) hpPath hv hi_pos hij hj_lt hvi hvj hpred with
+    ⟨r, hrPath, _hvr, hrLen, hrSupport⟩
+  let q : G.Walk a b := ((p.take (i - 1)).append r).append (p.drop j)
+  have hqPath : q.IsPath := by
+    simpa [q] using
+      predecessor_rotation_splice_isPath
+        (G := G) (p := p) hpPath hv hi_pos hij hj_lt hrPath hrSupport
+  have hle := hmax a b q hqPath
+  have hq_len : q.length = p.length + 1 := by
+    have hi_pred_le : i - 1 ≤ p.length := by omega
+    simp [q, Walk.length_append, Walk.take_length, Walk.drop_length,
+      Nat.min_eq_left hi_pred_le, hrLen]
+    omega
+  have hq_support_len : q.support.length = q.length + 1 := q.length_support
+  have hp_support_len : p.support.length = p.length + 1 := p.length_support
+  omega
+
+private lemma longest_path_missed_vertex_two_attachments_successors_not_adj
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j)) :
+    ¬ G.Adj (p.getVert (i + 1)) (p.getVert (j + 1)) := by
+  intro hsucc
+  let pr : G.Walk b a := p.reverse
+  let ii : ℕ := p.length - j
+  let jj : ℕ := p.length - i
+  have hprPath : pr.IsPath := by
+    simpa [pr] using hpPath.reverse
+  have hmaxRev : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ pr.support.length := by
+    intro u w q hq
+    have hle := hmax u w q hq
+    simpa [pr, Walk.support_reverse] using hle
+  have hvRev : v ∉ pr.support := by
+    intro hvp
+    have hvp_rev : v ∈ p.support.reverse := by
+      simpa [pr, Walk.support_reverse] using hvp
+    exact hv (List.mem_reverse.mp hvp_rev)
+  have hii_pos : 0 < ii := by omega
+  have hijR : ii < jj := by omega
+  have hjj_lt : jj < pr.length := by
+    simp [pr, jj, Walk.length_reverse]
+    omega
+  have hpr_ii : pr.getVert ii = p.getVert j := by
+    simp [pr, ii, Walk.getVert_reverse]
+    have hsub : p.length - (p.length - j) = j := by omega
+    simpa [hsub]
+  have hpr_jj : pr.getVert jj = p.getVert i := by
+    simp [pr, jj, Walk.getVert_reverse]
+    have hsub : p.length - (p.length - i) = i := by omega
+    simpa [hsub]
+  have hv_ii : G.Adj v (pr.getVert ii) := by
+    simpa [hpr_ii] using hvj
+  have hv_jj : G.Adj v (pr.getVert jj) := by
+    simpa [hpr_jj] using hvi
+  have hnotR :
+      ¬ G.Adj (pr.getVert (ii - 1)) (pr.getVert (jj - 1)) :=
+    longest_path_missed_vertex_two_attachments_predecessors_not_adj
+      (G := G) hprPath hmaxRev hvRev hii_pos hijR hjj_lt hv_ii hv_jj
+  have hpr_ii_pred : pr.getVert (ii - 1) = p.getVert (j + 1) := by
+    simp [pr, ii, Walk.getVert_reverse]
+    have hsub : p.length - (p.length - j - 1) = j + 1 := by omega
+    simpa [hsub]
+  have hpr_jj_pred : pr.getVert (jj - 1) = p.getVert (i + 1) := by
+    simp [pr, jj, Walk.getVert_reverse]
+    have hsub : p.length - (p.length - i - 1) = i + 1 := by omega
+    simpa [hsub]
+  exact hnotR (by simpa [hpr_ii_pred, hpr_jj_pred] using hsucc.symm)
+
+private lemma adjacent_connector_splice_isPath
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b s t : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hs : s ∈ p.support) (ht : t ∈ p.support)
+    {i j : ℕ} (hi : i ≤ p.length) (hj : j ≤ p.length)
+    (hij : i < j)
+    (hi_get : p.getVert i = s)
+    (hj_get : p.getVert j = t)
+    {r : G.Walk s t} (hrPath : r.IsPath)
+    (hrOutside :
+      ∀ z : α, z ∈ r.support → z ≠ s → z ≠ t → z ∉ p.support) :
+    (((p.takeUntil s hs).append r).append (p.dropUntil t ht)).IsPath := by
+  classical
+  let left : G.Walk a s := p.takeUntil s hs
+  let right : G.Walk t b := p.dropUntil t ht
+  have hleftPath : left.IsPath := by
+    simpa [left] using hpPath.takeUntil hs
+  have hrightPath : right.IsPath := by
+    simpa [right] using hpPath.dropUntil ht
+  have ht_not_left : t ∉ left.support := by
+    simpa [left] using
+      not_mem_takeUntil_of_isPath_getVert_strict_later
+        (G := G) hpPath hs hi hj hij hi_get hj_get
+  have hs_not_right : s ∉ right.support := by
+    simpa [right] using
+      not_mem_dropUntil_of_isPath_getVert_strict_earlier
+        (G := G) hpPath ht hi hj hij hi_get hj_get
+  have hs_not_r_tail : s ∉ r.support.tail := by
+    have hnodup : (s :: r.support.tail).Nodup := by
+      simpa [← r.support_eq_cons] using hrPath.support_nodup
+    exact (List.nodup_cons.mp hnodup).1
+  have ht_not_right_tail : t ∉ right.support.tail := by
+    have hnodup : (t :: right.support.tail).Nodup := by
+      simpa [left, right, ← right.support_eq_cons] using hrightPath.support_nodup
+    exact (List.nodup_cons.mp hnodup).1
+  have hleft_right_tail_disjoint :
+      List.Disjoint left.support right.support.tail := by
+    simpa [left, right] using
+      disjoint_takeUntil_support_dropUntil_tail_of_isPath_getVert_order
+        (G := G) hpPath hs ht hi hj hij hi_get hj_get
+  have hleft_r_tail_disjoint :
+      List.Disjoint left.support r.support.tail := by
+    rw [List.disjoint_left]
+    intro z hz_left hz_r_tail
+    have hz_r : z ∈ r.support := List.mem_of_mem_tail hz_r_tail
+    have hz_p : z ∈ p.support := by
+      exact Walk.support_takeUntil_subset p hs (by simpa [left] using hz_left)
+    have hzs : z ≠ s := by
+      intro hzs
+      exact hs_not_r_tail (by simpa [hzs] using hz_r_tail)
+    by_cases hzt : z = t
+    · exact ht_not_left (by simpa [hzt] using hz_left)
+    · exact (hrOutside z hz_r hzs hzt) hz_p
+  have hleft_r_right_tail_disjoint :
+      List.Disjoint (left.support ++ r.support.tail) right.support.tail := by
+    rw [List.disjoint_left]
+    intro z hz_lr hz_right_tail
+    rw [List.mem_append] at hz_lr
+    rcases hz_lr with hz_left | hz_r_tail
+    · exact hleft_right_tail_disjoint hz_left hz_right_tail
+    · have hz_r : z ∈ r.support := List.mem_of_mem_tail hz_r_tail
+      have hz_right : z ∈ right.support :=
+        List.mem_of_mem_tail hz_right_tail
+      have hz_p : z ∈ p.support := by
+        exact Walk.support_dropUntil_subset p ht (by simpa [right] using hz_right)
+      have hzs : z ≠ s := by
+        intro hzs
+        exact hs_not_right (by simpa [hzs] using hz_right)
+      have hzt : z ≠ t := by
+        intro hzt
+        exact ht_not_right_tail (by simpa [hzt] using hz_right_tail)
+      exact (hrOutside z hz_r hzs hzt) hz_p
+  rw [Walk.isPath_def, Walk.support_append, Walk.support_append]
+  exact
+    (hleftPath.support_nodup.append hrPath.support_nodup.tail
+      hleft_r_tail_disjoint).append
+      hrightPath.support_nodup.tail hleft_r_right_tail_disjoint
+
+private lemma adjacent_connector_splice_contradicts_longest_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b s t v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hs : s ∈ p.support) (ht : t ∈ p.support)
+    {i j : ℕ}
+    (hij_adj : i + 1 = j)
+    (hj_lt : j < p.length)
+    (hi_get : p.getVert i = s)
+    (hj_get : p.getVert j = t)
+    {r : G.Walk s t} (hrPath : r.IsPath)
+    (hvr : v ∈ r.support)
+    (hrOutside :
+      ∀ z : α, z ∈ r.support → z ≠ s → z ≠ t → z ∉ p.support) :
+    False := by
+  classical
+  have hi_le : i ≤ p.length := by omega
+  have hj_le : j ≤ p.length := by omega
+  have hij : i < j := by omega
+  let q : G.Walk a b :=
+    ((p.takeUntil s hs).append r).append (p.dropUntil t ht)
+  have hqPath : q.IsPath := by
+    simpa [q] using
+      adjacent_connector_splice_isPath
+        (G := G) hpPath hs ht hi_le hj_le hij hi_get hj_get
+        hrPath hrOutside
+  have hle := hmax a b q hqPath
+  simp only [q, Walk.support_append, List.length_append] at hle
+  have hleft_len : (p.takeUntil s hs).length = i :=
+    length_takeUntil_eq_of_isPath_getVert
+      (G := G) hpPath hs hi_le hi_get
+  have hleft_support_len : (p.takeUntil s hs).support.length = i + 1 := by
+    rw [Walk.length_support, hleft_len]
+  have ht_len : (p.takeUntil t ht).length = j :=
+    length_takeUntil_eq_of_isPath_getVert
+      (G := G) hpPath ht hj_le hj_get
+  have hsplit := congrArg Walk.length (p.take_spec ht)
+  rw [Walk.length_append] at hsplit
+  have hright_tail_len :
+      (p.dropUntil t ht).support.tail.length =
+        (p.dropUntil t ht).length := by
+    rw [List.length_tail, Walk.length_support]
+    omega
+  have hr_tail_len : r.support.tail.length = r.length := by
+    rw [List.length_tail, Walk.length_support]
+    omega
+  have hvs : v ≠ s := by
+    intro hvs
+    exact hv (by simpa [hvs] using hs)
+  have hvt : v ≠ t := by
+    intro hvt
+    exact hv (by simpa [hvt] using ht)
+  have hr_len_two : 2 ≤ r.length := by
+    rcases exists_internal_index_of_mem_support_ne_endpoints
+        (G := G) r hvr hvs hvt with
+      ⟨k, hk_pos, hk_lt, _hk_get⟩
+    omega
+  have hp_support_len : p.support.length = p.length + 1 :=
+    p.length_support
+  omega
+
+private lemma adjacent_connector_splice_contradicts_longest_path_of_le
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b s t v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hs : s ∈ p.support) (ht : t ∈ p.support)
+    {i j : ℕ}
+    (hi_le : i ≤ p.length)
+    (hj_le : j ≤ p.length)
+    (hij_adj : i + 1 = j)
+    (hi_get : p.getVert i = s)
+    (hj_get : p.getVert j = t)
+    {r : G.Walk s t} (hrPath : r.IsPath)
+    (hvr : v ∈ r.support)
+    (hrOutside :
+      ∀ z : α, z ∈ r.support → z ≠ s → z ≠ t → z ∉ p.support) :
+    False := by
+  classical
+  have hij : i < j := by omega
+  let q : G.Walk a b :=
+    ((p.takeUntil s hs).append r).append (p.dropUntil t ht)
+  have hqPath : q.IsPath := by
+    simpa [q] using
+      adjacent_connector_splice_isPath
+        (G := G) hpPath hs ht hi_le hj_le hij hi_get hj_get
+        hrPath hrOutside
+  have hle := hmax a b q hqPath
+  simp only [q, Walk.support_append, List.length_append] at hle
+  have hleft_len : (p.takeUntil s hs).length = i :=
+    length_takeUntil_eq_of_isPath_getVert
+      (G := G) hpPath hs hi_le hi_get
+  have hleft_support_len : (p.takeUntil s hs).support.length = i + 1 := by
+    rw [Walk.length_support, hleft_len]
+  have ht_len : (p.takeUntil t ht).length = j :=
+    length_takeUntil_eq_of_isPath_getVert
+      (G := G) hpPath ht hj_le hj_get
+  have hsplit := congrArg Walk.length (p.take_spec ht)
+  rw [Walk.length_append] at hsplit
+  have hright_tail_len :
+      (p.dropUntil t ht).support.tail.length =
+        (p.dropUntil t ht).length := by
+    rw [List.length_tail, Walk.length_support]
+    omega
+  have hr_tail_len : r.support.tail.length = r.length := by
+    rw [List.length_tail, Walk.length_support]
+    omega
+  have hvs : v ≠ s := by
+    intro hvs
+    exact hv (by simpa [hvs] using hs)
+  have hvt : v ≠ t := by
+    intro hvt
+    exact hv (by simpa [hvt] using ht)
+  have hr_len_two : 2 ≤ r.length := by
+    rcases exists_internal_index_of_mem_support_ne_endpoints
+        (G := G) r hvr hvs hvt with
+      ⟨k, hk_pos, hk_lt, _hk_get⟩
+    omega
+  have hp_support_len : p.support.length = p.length + 1 :=
+    p.length_support
+  omega
+
+lemma exists_separated_attachments_to_longest_path_support_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    (∃ i j x y : α,
+      ∃ ii jj : ℕ,
+        0 < ii ∧
+        ii < jj ∧
+        jj < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert ii = i ∧
+        p.getVert jj = j ∧
+        G.Adj x i ∧
+        G.Adj y j ∧
+        ii + 1 < jj) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_adjacent_connector_or_separated_attachments_to_longest_path_support_list_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · rcases hfan with hadjacent | hseparated
+    · rcases hadjacent with
+        ⟨s, t, i, j, r, hs, ht, _hst, _hi_pos, hij_adj, hj_lt,
+          hi_get, hj_get, hrPath, hvr, hrOutside⟩
+      exact False.elim
+        (adjacent_connector_splice_contradicts_longest_path
+          (G := G) hpPath hmax hv hs ht hij_adj hj_lt
+          hi_get hj_get hrPath hvr hrOutside)
+    · exact Or.inl hseparated
+  · exact Or.inr hresidual
+
+lemma exists_separated_attachments_with_outside_path_to_longest_path_support_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    (∃ s t x y : α,
+      ∃ i j : ℕ, ∃ q : G.Walk x y,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj x s ∧
+        G.Adj y t ∧
+        i + 1 < j ∧
+        q.IsPath ∧
+        v ∈ q.support ∧
+        ∀ z : α, z ∈ q.support → z ∉ p.support) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_adjacent_or_separated_external_attachments_to_longest_path_internal_indices_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · rcases hfan with hadjacent | hseparated
+    · rcases hadjacent with
+        ⟨s, t, i, j, qs, qt, hsS, htS, _hst, _hi_pos, hij_adj, hj_lt,
+          hi_get, hj_get, hqsPath, hqtPath, hmeet, hqsOutside, hqtOutside⟩
+      rcases terminal_two_fan_connector_path_avoids_finset_except_endpoints
+          (G := G) (S := p.support.toFinset)
+          hqsPath hqtPath hmeet hqsOutside hqtOutside with
+        ⟨r, hrPath, hvr, hrOutsideFinset⟩
+      have hs : s ∈ p.support := by simpa using hsS
+      have ht : t ∈ p.support := by simpa using htS
+      have hrOutside :
+          ∀ z : α, z ∈ r.support → z ≠ s → z ≠ t → z ∉ p.support := by
+        intro z hz hzs hzt hzP
+        exact hrOutsideFinset z hz hzs hzt (by simpa using hzP)
+      exact False.elim
+        (adjacent_connector_splice_contradicts_longest_path
+          (G := G) hpPath hmax hv hs ht hij_adj hj_lt
+          hi_get hj_get hrPath hvr hrOutside)
+    · left
+      rcases hseparated with
+        ⟨s, t, i, j, x, y, qs, qt, hsS, htS, _hst, hi_pos, hsep, hj_lt,
+          hi_get, hj_get, hxS, hyS, hxs, hyt, hqsPath, hqtPath,
+          hmeet, hxqs, hyqt, hqsOutside, hqtOutside⟩
+      let qx : G.Walk v x := qs.takeUntil x hxqs
+      let qy : G.Walk v y := qt.takeUntil y hyqt
+      have hx : x ∉ p.support := by simpa using hxS
+      have hy : y ∉ p.support := by simpa using hyS
+      have hxs_ne : x ≠ s := by
+        intro hxs_eq
+        exact hxS (by simpa [hxs_eq] using hsS)
+      have hyt_ne : y ≠ t := by
+        intro hyt_eq
+        exact hyS (by simpa [hyt_eq] using htS)
+      have hs_not_qx : s ∉ qx.support := by
+        simpa [qx] using
+          (Walk.endpoint_notMem_support_takeUntil
+            (p := qs) hqsPath hxqs hxs_ne.symm)
+      have ht_not_qy : t ∉ qy.support := by
+        simpa [qy] using
+          (Walk.endpoint_notMem_support_takeUntil
+            (p := qt) hqtPath hyqt hyt_ne.symm)
+      have hqxPath : qx.IsPath := by
+        simpa [qx] using hqsPath.takeUntil hxqs
+      have hqyPath : qy.IsPath := by
+        simpa [qy] using hqtPath.takeUntil hyqt
+      have hqxOutside : ∀ z : α, z ∈ qx.support → z ∉ p.support := by
+        intro z hz hzP
+        have hzqs : z ∈ qs.support :=
+          Walk.support_takeUntil_subset qs hxqs (by simpa [qx] using hz)
+        have hzs : z ≠ s := by
+          intro hzs
+          exact hs_not_qx (by simpa [hzs] using hz)
+        exact hqsOutside z hzqs hzs (by simpa using hzP)
+      have hqyOutside : ∀ z : α, z ∈ qy.support → z ∉ p.support := by
+        intro z hz hzP
+        have hzqt : z ∈ qt.support :=
+          Walk.support_takeUntil_subset qt hyqt (by simpa [qy] using hz)
+        have hzt : z ≠ t := by
+          intro hzt
+          exact ht_not_qy (by simpa [hzt] using hz)
+        exact hqtOutside z hzqt hzt (by simpa using hzP)
+      have hprefixMeet :
+          ∀ z : α, z ∈ qx.support → z ∈ qy.support → z = v := by
+        intro z hzqx hzqy
+        exact hmeet z
+          (Walk.support_takeUntil_subset qs hxqs (by simpa [qx] using hzqx))
+          (Walk.support_takeUntil_subset qt hyqt (by simpa [qy] using hzqy))
+      rcases exists_outside_path_through_common_vertex_of_two_internally_disjoint_outside_paths
+          (G := G) (p0 := p.support) qx qy
+          hqxPath hqyPath hprefixMeet hqxOutside hqyOutside with
+        ⟨q, hqPath, hvq, hqOutside⟩
+      exact
+        ⟨s, t, x, y, i, j, q, hi_pos, Nat.lt_of_succ_lt hsep, hj_lt,
+          hx, hy, hi_get, hj_get, (by simpa [hi_get] using hxs),
+          (by simpa [hj_get] using hyt), hsep, hqPath, hvq, hqOutside⟩
+  · exact Or.inr hresidual
+
+private lemma outside_path_with_attachment_edges_connector
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b s t x y v : α}
+    {p : G.Walk a b}
+    (hs : s ∈ p.support) (ht : t ∈ p.support)
+    (hst : s ≠ t)
+    {q : G.Walk x y}
+    (hqPath : q.IsPath)
+    (hvq : v ∈ q.support)
+    (hqOutside : ∀ z : α, z ∈ q.support → z ∉ p.support)
+    (hxs : G.Adj x s) (hyt : G.Adj y t) :
+    ∃ r : G.Walk s t,
+      r.IsPath ∧
+      v ∈ r.support ∧
+      (∀ z : α, z ∈ r.support → z ≠ s → z ≠ t → z ∉ p.support) ∧
+      r.length = q.length + 2 := by
+  classical
+  have hs_not_q : s ∉ q.support := by
+    intro hsq
+    exact hqOutside s hsq hs
+  have ht_not_q : t ∉ q.support := by
+    intro htq
+    exact hqOutside t htq ht
+  let qs : G.Walk s y := q.cons hxs.symm
+  have hqsPath : qs.IsPath := by
+    change (q.cons hxs.symm).IsPath
+    exact hqPath.cons hs_not_q
+  have ht_not_qs : t ∉ qs.support := by
+    intro htqs
+    have ht_or : t = s ∨ t ∈ q.support := by
+      simpa [qs, Walk.support_cons] using htqs
+    rcases ht_or with hts | htq
+    · exact hst hts.symm
+    · exact ht_not_q htq
+  let r : G.Walk s t := qs.concat hyt
+  have hrPath : r.IsPath := by
+    simpa [r] using hqsPath.concat ht_not_qs hyt
+  have hvqs : v ∈ qs.support := by
+    simp [qs, Walk.support_cons, hvq]
+  have hvr : v ∈ r.support := by
+    simp [r, Walk.support_concat, hvqs]
+  have hrOutside :
+      ∀ z : α, z ∈ r.support → z ≠ s → z ≠ t → z ∉ p.support := by
+    intro z hz hzs hzt
+    have hz_qs_or_t : z ∈ qs.support ∨ z = t := by
+      simpa [r, Walk.support_concat] using hz
+    rcases hz_qs_or_t with hzqs | hzt_eq
+    · have hz_s_or_q : z = s ∨ z ∈ q.support := by
+        simpa [qs, Walk.support_cons] using hzqs
+      rcases hz_s_or_q with hzs_eq | hzq
+      · exact False.elim (hzs hzs_eq)
+      · exact hqOutside z hzq
+    · exact False.elim (hzt hzt_eq)
+  refine ⟨r, hrPath, hvr, hrOutside, ?_⟩
+  simp [r, qs, Walk.length_cons, Walk.length_concat]
+
+private lemma longest_path_no_outside_vertex_adjacent_to_consecutive_vertices
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b x : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hx : x ∉ p.support)
+    {i : ℕ}
+    (hi_succ_le : i + 1 ≤ p.length)
+    (hxi : G.Adj x (p.getVert i)) :
+    ¬ G.Adj x (p.getVert (i + 1)) := by
+  classical
+  intro hxi_next
+  let s : α := p.getVert i
+  let t : α := p.getVert (i + 1)
+  have hi_le : i ≤ p.length := by omega
+  have hs : s ∈ p.support := by
+    simpa [s] using p.getVert_mem_support i
+  have ht : t ∈ p.support := by
+    simpa [t] using p.getVert_mem_support (i + 1)
+  have hst : s ≠ t := by
+    intro hst_eq
+    have hi_eq : i = i + 1 :=
+      hpPath.getVert_injOn hi_le hi_succ_le (by simpa [s, t] using hst_eq)
+    omega
+  let q0 : G.Walk x x := Walk.nil
+  have hq0Path : q0.IsPath := Walk.IsPath.nil
+  have hxq0 : x ∈ q0.support := by simp [q0]
+  have hq0Outside : ∀ z : α, z ∈ q0.support → z ∉ p.support := by
+    intro z hz
+    have hzx : z = x := by simpa [q0] using hz
+    simpa [hzx] using hx
+  rcases outside_path_with_attachment_edges_connector
+      (G := G) (p := p) (s := s) (t := t)
+      hs ht hst hq0Path hxq0 hq0Outside
+      (by simpa [s] using hxi) (by simpa [t] using hxi_next) with
+    ⟨r, hrPath, hxr, hrOutside, _hr_len⟩
+  exact
+    adjacent_connector_splice_contradicts_longest_path_of_le
+      (G := G) hpPath hmax hx hs ht hi_le hi_succ_le rfl
+      (by simp [s]) (by simp [t]) hrPath hxr hrOutside
+
+private lemma longest_path_no_outside_vertex_adjacent_to_predecessor_of_adjacent
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b x : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hx : x ∉ p.support)
+    {j : ℕ}
+    (hj_pos : 0 < j)
+    (hj_le : j ≤ p.length)
+    (hxj : G.Adj x (p.getVert j)) :
+    ¬ G.Adj x (p.getVert (j - 1)) := by
+  intro hx_prev
+  have hsucc_le : (j - 1) + 1 ≤ p.length := by omega
+  have hnot :=
+    longest_path_no_outside_vertex_adjacent_to_consecutive_vertices
+      (G := G) hpPath hmax hx hsucc_le hx_prev
+  have hsucc_eq : (j - 1) + 1 = j := by omega
+  exact hnot (by simpa [hsucc_eq] using hxj)
+
+private lemma separated_outside_path_length_bound_of_longest_path
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b s t x y v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hs : s ∈ p.support) (ht : t ∈ p.support)
+    {i j : ℕ} (hi : i ≤ p.length) (hj : j ≤ p.length)
+    (hij : i < j)
+    (hi_get : p.getVert i = s)
+    (hj_get : p.getVert j = t)
+    {q : G.Walk x y}
+    (hqPath : q.IsPath)
+    (hvq : v ∈ q.support)
+    (hqOutside : ∀ z : α, z ∈ q.support → z ∉ p.support)
+    (hxs : G.Adj x s) (hyt : G.Adj y t) :
+    q.length + 2 ≤ j - i := by
+  classical
+  have hst : s ≠ t := by
+    intro hst_eq
+    have hij_eq : i = j :=
+      hpPath.getVert_injOn hi hj (by rw [hi_get, hj_get, hst_eq])
+    omega
+  rcases outside_path_with_attachment_edges_connector
+      (G := G) (p := p) hs ht hst
+      hqPath hvq hqOutside hxs hyt with
+    ⟨r, hrPath, _hvr, hrOutside, hr_len⟩
+  let splice : G.Walk a b :=
+    ((p.takeUntil s hs).append r).append (p.dropUntil t ht)
+  have hsplicePath : splice.IsPath := by
+    simpa [splice] using
+      adjacent_connector_splice_isPath
+        (G := G) hpPath hs ht hi hj hij hi_get hj_get
+        hrPath hrOutside
+  have hle := hmax a b splice hsplicePath
+  simp only [splice, Walk.support_append, List.length_append] at hle
+  have hleft_len : (p.takeUntil s hs).length = i :=
+    length_takeUntil_eq_of_isPath_getVert
+      (G := G) hpPath hs hi hi_get
+  have hleft_support_len : (p.takeUntil s hs).support.length = i + 1 := by
+    rw [Walk.length_support, hleft_len]
+  have ht_len : (p.takeUntil t ht).length = j :=
+    length_takeUntil_eq_of_isPath_getVert
+      (G := G) hpPath ht hj hj_get
+  have hsplit := congrArg Walk.length (p.take_spec ht)
+  rw [Walk.length_append] at hsplit
+  have hright_tail_len :
+      (p.dropUntil t ht).support.tail.length =
+        (p.dropUntil t ht).length := by
+    rw [List.length_tail, Walk.length_support]
+    omega
+  have hr_tail_len : r.support.tail.length = r.length := by
+    rw [List.length_tail, Walk.length_support]
+    omega
+  have hp_support_len : p.support.length = p.length + 1 :=
+    p.length_support
+  omega
+
+lemma exists_separated_attachments_with_bounded_outside_path_to_longest_path_support_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    (∃ s t x y : α,
+      ∃ i j : ℕ, ∃ q : G.Walk x y,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj x s ∧
+        G.Adj y t ∧
+        i + 1 < j ∧
+        q.IsPath ∧
+        v ∈ q.support ∧
+        (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+        q.length + 2 ≤ j - i) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_separated_attachments_with_outside_path_to_longest_path_support_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hseparated | hresidual
+  · left
+    rcases hseparated with
+      ⟨s, t, x, y, i, j, q, hi_pos, hij, hj_lt, hx, hy,
+        hi_get, hj_get, hxs, hyt, hsep, hqPath, hvq, hqOutside⟩
+    have hi_le : i ≤ p.length := by omega
+    have hj_le : j ≤ p.length := by omega
+    have hs : s ∈ p.support := by
+      simpa [hi_get] using p.getVert_mem_support i
+    have ht : t ∈ p.support := by
+      simpa [hj_get] using p.getVert_mem_support j
+    have hbound :
+        q.length + 2 ≤ j - i :=
+      separated_outside_path_length_bound_of_longest_path
+        (G := G) hpPath hmax hs ht hi_le hj_le hij
+        hi_get hj_get hqPath hvq hqOutside hxs hyt
+    exact
+      ⟨s, t, x, y, i, j, q, hi_pos, hij, hj_lt, hx, hy,
+        hi_get, hj_get, hxs, hyt, hsep, hqPath, hvq, hqOutside, hbound⟩
+  · exact Or.inr hresidual
+
+private lemma eq_start_of_mem_support_of_walk_length_zero
+    {α : Type*}
+    {G : SimpleGraph α} {x y v : α}
+    {q : G.Walk x y}
+    (hlen : q.length = 0)
+    (hvq : v ∈ q.support) :
+    v = x := by
+  rw [Walk.mem_support_iff_exists_getVert] at hvq
+  rcases hvq with ⟨k, hk_get, hk_le⟩
+  have hk_zero : k = 0 := by omega
+  simpa [hk_zero, Walk.getVert_zero] using hk_get.symm
+
+lemma exists_long_separated_outside_path_or_missed_vertex_two_attachments_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ((∃ s t x y : α,
+      ∃ i j : ℕ, ∃ q : G.Walk x y,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj x s ∧
+        G.Adj y t ∧
+        i + 2 < j ∧
+        q.IsPath ∧
+        0 < q.length ∧
+        v ∈ q.support ∧
+        (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+        q.length + 2 ≤ j - i) ∨
+    (∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j)) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_separated_attachments_with_bounded_outside_path_to_longest_path_support_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hseparated | hresidual
+  · left
+    rcases hseparated with
+      ⟨s, t, x, y, i, j, q, hi_pos, hij, hj_lt, hx, hy,
+        hi_get, hj_get, hxs, hyt, hsep, hqPath, hvq, hqOutside, hbound⟩
+    by_cases hq_pos : 0 < q.length
+    · left
+      have hlong : i + 2 < j := by omega
+      exact
+        ⟨s, t, x, y, i, j, q, hi_pos, hij, hj_lt, hx, hy,
+          hi_get, hj_get, hxs, hyt, hlong, hqPath, hq_pos, hvq,
+          hqOutside, hbound⟩
+    · right
+      have hq_zero : q.length = 0 := Nat.eq_zero_of_not_pos hq_pos
+      have hvx : v = x :=
+        eq_start_of_mem_support_of_walk_length_zero
+          (G := G) (q := q) hq_zero hvq
+      have hxy : x = y := Walk.eq_of_length_eq_zero hq_zero
+      have hvy : v = y := by rw [hvx, hxy]
+      exact
+        ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+          (by simpa [hvx] using hxs), (by simpa [hvy] using hyt),
+          hsep⟩
+  · exact Or.inr hresidual
+
+lemma exists_long_separated_outside_path_with_local_nonadj_or_missed_vertex_two_attachments_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ((∃ s t x y : α,
+      ∃ i j : ℕ, ∃ q : G.Walk x y,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj x s ∧
+        G.Adj y t ∧
+        i + 2 < j ∧
+        q.IsPath ∧
+        0 < q.length ∧
+        v ∈ q.support ∧
+        (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+        q.length + 2 ≤ j - i ∧
+        ¬ G.Adj x (p.getVert (i + 1)) ∧
+        ¬ G.Adj y (p.getVert (j - 1))) ∨
+    (∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j)) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_long_separated_outside_path_or_missed_vertex_two_attachments_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with hlong | hapex
+    · left
+      rcases hlong with
+        ⟨s, t, x, y, i, j, q, hi_pos, hij, hj_lt, hx, hy,
+          hi_get, hj_get, hxs, hyt, hlong, hqPath, hq_pos, hvq,
+          hqOutside, hbound⟩
+      have hi_succ_le : i + 1 ≤ p.length := by omega
+      have hx_next_not :
+          ¬ G.Adj x (p.getVert (i + 1)) := by
+        exact
+          longest_path_no_outside_vertex_adjacent_to_consecutive_vertices
+            (G := G) hpPath hmax hx hi_succ_le
+            (by simpa [hi_get] using hxs)
+      have hj_pos : 0 < j := by omega
+      have hj_le : j ≤ p.length := by omega
+      have hy_prev_not :
+          ¬ G.Adj y (p.getVert (j - 1)) := by
+        exact
+          longest_path_no_outside_vertex_adjacent_to_predecessor_of_adjacent
+            (G := G) hpPath hmax hy hj_pos hj_le
+            (by simpa [hj_get] using hyt)
+      exact
+        ⟨s, t, x, y, i, j, q, hi_pos, hij, hj_lt, hx, hy,
+          hi_get, hj_get, hxs, hyt, hlong, hqPath, hq_pos, hvq,
+          hqOutside, hbound, hx_next_not, hy_prev_not⟩
+    · exact Or.inr hapex
+  · exact Or.inr hresidual
+
+lemma exists_long_separated_outside_path_or_missed_vertex_two_attachments_with_local_nonadj_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ((∃ s t x y : α,
+      ∃ i j : ℕ, ∃ q : G.Walk x y,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj x s ∧
+        G.Adj y t ∧
+        i + 2 < j ∧
+        q.IsPath ∧
+        0 < q.length ∧
+        v ∈ q.support ∧
+        (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+        q.length + 2 ≤ j - i ∧
+        ¬ G.Adj x (p.getVert (i + 1)) ∧
+        ¬ G.Adj y (p.getVert (j - 1))) ∨
+    (∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j ∧
+        ¬ G.Adj v (p.getVert (i + 1)) ∧
+        ¬ G.Adj v (p.getVert (j - 1)))) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_long_separated_outside_path_with_local_nonadj_or_missed_vertex_two_attachments_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with hlong | hapex
+    · exact Or.inl hlong
+    · right
+      rcases hapex with
+        ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get, hvs, hvt, hsep⟩
+      have hi_succ_le : i + 1 ≤ p.length := by omega
+      have hv_next_not :
+          ¬ G.Adj v (p.getVert (i + 1)) := by
+        exact
+          longest_path_no_outside_vertex_adjacent_to_consecutive_vertices
+            (G := G) hpPath hmax hv hi_succ_le
+            (by simpa [hi_get] using hvs)
+      have hj_pos : 0 < j := by omega
+      have hj_le : j ≤ p.length := by omega
+      have hv_prev_not :
+          ¬ G.Adj v (p.getVert (j - 1)) := by
+        exact
+          longest_path_no_outside_vertex_adjacent_to_predecessor_of_adjacent
+            (G := G) hpPath hmax hv hj_pos hj_le
+            (by simpa [hj_get] using hvt)
+      exact
+        ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+          hvs, hvt, hsep, hv_next_not, hv_prev_not⟩
+  · exact Or.inr hresidual
+
+lemma exists_long_separated_outside_path_or_missed_vertex_two_attachments_with_two_sided_local_nonadj_or_terminal_residual_of_connected_delete_connected
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hconn : G.Connected)
+    (hdelete : ∀ x : α, ((⊤ : G.Subgraph).deleteVerts ({x} : Set α)).Connected)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    ((∃ s t x y : α,
+      ∃ i j : ℕ, ∃ q : G.Walk x y,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj x s ∧
+        G.Adj y t ∧
+        i + 2 < j ∧
+        q.IsPath ∧
+        0 < q.length ∧
+        v ∈ q.support ∧
+        (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+        q.length + 2 ≤ j - i ∧
+        ¬ G.Adj x (p.getVert (i - 1)) ∧
+        ¬ G.Adj x (p.getVert (i + 1)) ∧
+        ¬ G.Adj y (p.getVert (j - 1)) ∧
+        ¬ G.Adj y (p.getVert (j + 1))) ∨
+    (∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j ∧
+        ¬ G.Adj v (p.getVert (i - 1)) ∧
+        ¬ G.Adj v (p.getVert (i + 1)) ∧
+        ¬ G.Adj v (p.getVert (j - 1)) ∧
+        ¬ G.Adj v (p.getVert (j + 1)))) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      exists_long_separated_outside_path_or_missed_vertex_two_attachments_with_local_nonadj_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv with
+    hfan | hresidual
+  · left
+    rcases hfan with hlong | hapex
+    · left
+      rcases hlong with
+        ⟨s, t, x, y, i, j, q, hi_pos, hij, hj_lt, hx, hy,
+          hi_get, hj_get, hxs, hyt, hlong_gap, hqPath, hq_pos, hvq,
+          hqOutside, hbound, hx_next_not, hy_prev_not⟩
+      have hi_le : i ≤ p.length := by omega
+      have hx_prev_not :
+          ¬ G.Adj x (p.getVert (i - 1)) := by
+        exact
+          longest_path_no_outside_vertex_adjacent_to_predecessor_of_adjacent
+            (G := G) hpPath hmax hx hi_pos hi_le
+            (by simpa [hi_get] using hxs)
+      have hj_succ_le : j + 1 ≤ p.length := by omega
+      have hy_next_not :
+          ¬ G.Adj y (p.getVert (j + 1)) := by
+        exact
+          longest_path_no_outside_vertex_adjacent_to_consecutive_vertices
+            (G := G) hpPath hmax hy hj_succ_le
+            (by simpa [hj_get] using hyt)
+      exact
+        ⟨s, t, x, y, i, j, q, hi_pos, hij, hj_lt, hx, hy,
+          hi_get, hj_get, hxs, hyt, hlong_gap, hqPath, hq_pos, hvq,
+          hqOutside, hbound, hx_prev_not, hx_next_not, hy_prev_not,
+          hy_next_not⟩
+    · right
+      rcases hapex with
+        ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+          hvs, hvt, hsep, hv_next_not, hv_prev_not⟩
+      have hi_le : i ≤ p.length := by omega
+      have hv_i_prev_not :
+          ¬ G.Adj v (p.getVert (i - 1)) := by
+        exact
+          longest_path_no_outside_vertex_adjacent_to_predecessor_of_adjacent
+            (G := G) hpPath hmax hv hi_pos hi_le
+            (by simpa [hi_get] using hvs)
+      have hj_succ_le : j + 1 ≤ p.length := by omega
+      have hv_j_next_not :
+          ¬ G.Adj v (p.getVert (j + 1)) := by
+        exact
+          longest_path_no_outside_vertex_adjacent_to_consecutive_vertices
+            (G := G) hpPath hmax hv hj_succ_le
+            (by simpa [hj_get] using hvt)
+      exact
+        ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+          hvs, hvt, hsep, hv_i_prev_not, hv_next_not, hv_prev_not,
+          hv_j_next_not⟩
+  · exact Or.inr hresidual
+
+lemma source_bound_b_eq_diam_add_two_forces_longest_path_two_sided_local_nonadj_frontier
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    G.indepNum ≤ 3 ∧
+    (((∃ s t x y : α,
+      ∃ i j : ℕ, ∃ q : G.Walk x y,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj x s ∧
+        G.Adj y t ∧
+        i + 2 < j ∧
+        q.IsPath ∧
+        0 < q.length ∧
+        v ∈ q.support ∧
+        (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+        q.length + 2 ≤ j - i ∧
+        ¬ G.Adj x (p.getVert (i - 1)) ∧
+        ¬ G.Adj x (p.getVert (i + 1)) ∧
+        ¬ G.Adj y (p.getVert (j - 1)) ∧
+        ¬ G.Adj y (p.getVert (j + 1))) ∨
+    (∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j ∧
+        ¬ G.Adj v (p.getVert (i - 1)) ∧
+        ¬ G.Adj v (p.getVert (i + 1)) ∧
+        ¬ G.Adj v (p.getVert (j - 1)) ∧
+        ¬ G.Adj v (p.getVert (j + 1)))) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair) := by
+  classical
+  rcases
+      source_bound_b_eq_diam_add_two_forces_reduced_branch
+        (G := G) hconn hb hb2 with
+    ⟨_hdiam, _hb4, _hecc, hdelete, hindep⟩
+  exact
+    ⟨hindep,
+      exists_long_separated_outside_path_or_missed_vertex_two_attachments_with_two_sided_local_nonadj_or_terminal_residual_of_connected_delete_connected
+        (G := G) hconn hdelete p hpPath hmax hv⟩
+
+private lemma indepNum_le_three_contradicts_independent_four
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hindep : G.indepNum ≤ 3)
+    {I : Finset α}
+    (hI : G.IsIndepSet (I : Set α))
+    (hcard : I.card = 4) :
+    False := by
+  have hle : I.card ≤ G.indepNum :=
+    SimpleGraph.IsIndepSet.card_le_indepNum hI
+  omega
+
+private lemma exists_independent_four_of_pairwise_not_adj
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    {a b c d : α}
+    (hab : a ≠ b) (hac : a ≠ c) (had : a ≠ d)
+    (hbc : b ≠ c) (hbd : b ≠ d) (hcd : c ≠ d)
+    (hnab : ¬ G.Adj a b) (hnac : ¬ G.Adj a c) (hnad : ¬ G.Adj a d)
+    (hnbc : ¬ G.Adj b c) (hnbd : ¬ G.Adj b d) (hncd : ¬ G.Adj c d) :
+    ∃ I : Finset α, G.IsIndepSet (I : Set α) ∧ I.card = 4 := by
+  classical
+  refine ⟨({a, b, c, d} : Finset α), ?_, ?_⟩
+  · intro x hx y hy hxy_ne hxy_adj
+    simp only [Finset.mem_coe, Finset.mem_insert, Finset.mem_singleton] at hx hy
+    rcases hx with rfl | rfl | rfl | rfl
+    · rcases hy with rfl | rfl | rfl | rfl
+      · exact hxy_ne rfl
+      · exact hnab hxy_adj
+      · exact hnac hxy_adj
+      · exact hnad hxy_adj
+    · rcases hy with rfl | rfl | rfl | rfl
+      · exact hnab hxy_adj.symm
+      · exact hxy_ne rfl
+      · exact hnbc hxy_adj
+      · exact hnbd hxy_adj
+    · rcases hy with rfl | rfl | rfl | rfl
+      · exact hnac hxy_adj.symm
+      · exact hnbc hxy_adj.symm
+      · exact hxy_ne rfl
+      · exact hncd hxy_adj
+    · rcases hy with rfl | rfl | rfl | rfl
+      · exact hnad hxy_adj.symm
+      · exact hnbd hxy_adj.symm
+      · exact hncd hxy_adj.symm
+      · exact hxy_ne rfl
+  · simp [hab, hac, had, hbc, hbd, hcd]
+
+private lemma indepNum_le_three_forces_cross_neighbor_of_apex_independent_pair
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hindep : G.indepNum ≤ 3)
+    {v a c d : α}
+    (hv_ne_a : v ≠ a)
+    (hv_ne_c : v ≠ c)
+    (hv_ne_d : v ≠ d)
+    (ha_ne_c : a ≠ c)
+    (ha_ne_d : a ≠ d)
+    (hc_ne_d : c ≠ d)
+    (hv_a_not : ¬ G.Adj v a)
+    (hv_c_not : ¬ G.Adj v c)
+    (hv_d_not : ¬ G.Adj v d)
+    (hc_d_not : ¬ G.Adj c d) :
+    G.Adj a c ∨ G.Adj a d := by
+  classical
+  by_cases hac : G.Adj a c
+  · exact Or.inl hac
+  · by_cases had : G.Adj a d
+    · exact Or.inr had
+    · rcases exists_independent_four_of_pairwise_not_adj
+        (G := G)
+        hv_ne_a hv_ne_c hv_ne_d ha_ne_c ha_ne_d hc_ne_d
+        hv_a_not hv_c_not hv_d_not hac had hc_d_not with
+        ⟨I, hI, hcard⟩
+      exact False.elim
+        (indepNum_le_three_contradicts_independent_four
+          (G := G) hindep hI hcard)
+
+private lemma indepNum_le_three_forces_adj_of_two_common_nonneighbors
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α}
+    (hindep : G.indepNum ≤ 3)
+    {u v x y : α}
+    (huv : u ≠ v) (hux : u ≠ x) (huy : u ≠ y)
+    (hvx : v ≠ x) (hvy : v ≠ y) (hxy : x ≠ y)
+    (huv_not : ¬ G.Adj u v)
+    (hux_not : ¬ G.Adj u x)
+    (huy_not : ¬ G.Adj u y)
+    (hvx_not : ¬ G.Adj v x)
+    (hvy_not : ¬ G.Adj v y) :
+    G.Adj x y := by
+  classical
+  by_contra hxy_not
+  rcases exists_independent_four_of_pairwise_not_adj
+      (G := G)
+      huv hux huy hvx hvy hxy
+      huv_not hux_not huy_not hvx_not hvy_not hxy_not with
+    ⟨I, hI, hcard⟩
+  exact indepNum_le_three_contradicts_independent_four
+    (G := G) hindep hI hcard
+
+lemma missed_vertex_two_attachments_independent_four_of_path_neighbor_nonadj
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1)))
+    (h_i_prev_j_prev_not :
+      ¬ G.Adj (p.getVert (i - 1)) (p.getVert (j - 1)))
+    (h_i_prev_j_next_not :
+      ¬ G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)))
+    (h_j_prev_j_next_not :
+      ¬ G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) :
+    ∃ I : Finset α, G.IsIndepSet (I : Set α) ∧ I.card = 4 := by
+  classical
+  have hi_prev_le : i - 1 ≤ p.length := by omega
+  have hj_prev_le : j - 1 ≤ p.length := by omega
+  have hj_next_le : j + 1 ≤ p.length := by omega
+  have hv_ne_i_prev : v ≠ p.getVert (i - 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (i - 1))
+  have hv_ne_j_prev : v ≠ p.getVert (j - 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (j - 1))
+  have hv_ne_j_next : v ≠ p.getVert (j + 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (j + 1))
+  have h_i_prev_j_prev_ne :
+      p.getVert (i - 1) ≠ p.getVert (j - 1) := by
+    intro h
+    have hidx :
+        i - 1 = j - 1 :=
+      hpPath.getVert_injOn hi_prev_le hj_prev_le h
+    omega
+  have h_i_prev_j_next_ne :
+      p.getVert (i - 1) ≠ p.getVert (j + 1) := by
+    intro h
+    have hidx :
+        i - 1 = j + 1 :=
+      hpPath.getVert_injOn hi_prev_le hj_next_le h
+    omega
+  have h_j_prev_j_next_ne :
+      p.getVert (j - 1) ≠ p.getVert (j + 1) := by
+    intro h
+    have hidx :
+        j - 1 = j + 1 :=
+      hpPath.getVert_injOn hj_prev_le hj_next_le h
+    omega
+  exact
+    exists_independent_four_of_pairwise_not_adj
+      (G := G)
+      hv_ne_i_prev hv_ne_j_prev hv_ne_j_next
+      h_i_prev_j_prev_ne h_i_prev_j_next_ne h_j_prev_j_next_ne
+      hv_i_prev_not hv_j_prev_not hv_j_next_not
+      h_i_prev_j_prev_not h_i_prev_j_next_not h_j_prev_j_next_not
+
+lemma missed_vertex_two_attachments_independent_four_of_remaining_path_neighbor_nonadj
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1)))
+    (h_i_prev_j_next_not :
+      ¬ G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)))
+    (h_j_prev_j_next_not :
+      ¬ G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) :
+    ∃ I : Finset α, G.IsIndepSet (I : Set α) ∧ I.card = 4 := by
+  have h_i_prev_j_prev_not :
+      ¬ G.Adj (p.getVert (i - 1)) (p.getVert (j - 1)) :=
+    longest_path_missed_vertex_two_attachments_predecessors_not_adj
+      (G := G) hpPath hmax hv hi_pos hij hj_lt hvi hvj
+  exact
+    missed_vertex_two_attachments_independent_four_of_path_neighbor_nonadj
+      (G := G) hpPath hv hi_pos hij hj_lt
+      hv_i_prev_not hv_j_prev_not hv_j_next_not
+      h_i_prev_j_prev_not h_i_prev_j_next_not h_j_prev_j_next_not
+
+lemma missed_vertex_two_attachments_predecessor_successor_pairs_not_adj
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j)) :
+    ¬ G.Adj (p.getVert (i - 1)) (p.getVert (j - 1)) ∧
+      ¬ G.Adj (p.getVert (i + 1)) (p.getVert (j + 1)) := by
+  exact
+    ⟨longest_path_missed_vertex_two_attachments_predecessors_not_adj
+        (G := G) hpPath hmax hv hi_pos hij hj_lt hvi hvj,
+      longest_path_missed_vertex_two_attachments_successors_not_adj
+        (G := G) hpPath hmax hv hi_pos hij hj_lt hvi hvj⟩
+
+lemma missed_vertex_two_attachments_j_next_hits_predecessor_pair_of_indepNum_le_three
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    G.Adj (p.getVert (j + 1)) (p.getVert (i - 1)) ∨
+      G.Adj (p.getVert (j + 1)) (p.getVert (j - 1)) := by
+  have hi_pred_le : i - 1 ≤ p.length := by omega
+  have hj_pred_le : j - 1 ≤ p.length := by omega
+  have hj_next_le : j + 1 ≤ p.length := by omega
+  have hv_ne_j_next : v ≠ p.getVert (j + 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (j + 1))
+  have hv_ne_i_prev : v ≠ p.getVert (i - 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (i - 1))
+  have hv_ne_j_prev : v ≠ p.getVert (j - 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (j - 1))
+  have h_j_next_i_prev_ne :
+      p.getVert (j + 1) ≠ p.getVert (i - 1) := by
+    intro h
+    have hidx :
+        j + 1 = i - 1 :=
+      hpPath.getVert_injOn hj_next_le hi_pred_le h
+    omega
+  have h_j_next_j_prev_ne :
+      p.getVert (j + 1) ≠ p.getVert (j - 1) := by
+    intro h
+    have hidx :
+        j + 1 = j - 1 :=
+      hpPath.getVert_injOn hj_next_le hj_pred_le h
+    omega
+  have h_i_prev_j_prev_ne :
+      p.getVert (i - 1) ≠ p.getVert (j - 1) := by
+    intro h
+    have hidx :
+        i - 1 = j - 1 :=
+      hpPath.getVert_injOn hi_pred_le hj_pred_le h
+    omega
+  have h_i_prev_j_prev_not :
+      ¬ G.Adj (p.getVert (i - 1)) (p.getVert (j - 1)) :=
+    longest_path_missed_vertex_two_attachments_predecessors_not_adj
+      (G := G) hpPath hmax hv hi_pos hij hj_lt hvi hvj
+  exact
+    indepNum_le_three_forces_cross_neighbor_of_apex_independent_pair
+      (G := G) hindep
+      hv_ne_j_next hv_ne_i_prev hv_ne_j_prev
+      h_j_next_i_prev_ne h_j_next_j_prev_ne h_i_prev_j_prev_ne
+      hv_j_next_not hv_i_prev_not hv_j_prev_not h_i_prev_j_prev_not
+
+lemma missed_vertex_two_attachments_i_prev_hits_successor_pair_of_indepNum_le_three
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+      G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) := by
+  have hi_pred_le : i - 1 ≤ p.length := by omega
+  have hi_next_le : i + 1 ≤ p.length := by omega
+  have hj_next_le : j + 1 ≤ p.length := by omega
+  have hv_ne_i_prev : v ≠ p.getVert (i - 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (i - 1))
+  have hv_ne_i_next : v ≠ p.getVert (i + 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (i + 1))
+  have hv_ne_j_next : v ≠ p.getVert (j + 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (j + 1))
+  have h_i_prev_i_next_ne :
+      p.getVert (i - 1) ≠ p.getVert (i + 1) := by
+    intro h
+    have hidx :
+        i - 1 = i + 1 :=
+      hpPath.getVert_injOn hi_pred_le hi_next_le h
+    omega
+  have h_i_prev_j_next_ne :
+      p.getVert (i - 1) ≠ p.getVert (j + 1) := by
+    intro h
+    have hidx :
+        i - 1 = j + 1 :=
+      hpPath.getVert_injOn hi_pred_le hj_next_le h
+    omega
+  have h_i_next_j_next_ne :
+      p.getVert (i + 1) ≠ p.getVert (j + 1) := by
+    intro h
+    have hidx :
+        i + 1 = j + 1 :=
+      hpPath.getVert_injOn hi_next_le hj_next_le h
+    omega
+  have h_i_next_j_next_not :
+      ¬ G.Adj (p.getVert (i + 1)) (p.getVert (j + 1)) :=
+    longest_path_missed_vertex_two_attachments_successors_not_adj
+      (G := G) hpPath hmax hv hi_pos hij hj_lt hvi hvj
+  exact
+    indepNum_le_three_forces_cross_neighbor_of_apex_independent_pair
+      (G := G) hindep
+      hv_ne_i_prev hv_ne_i_next hv_ne_j_next
+      h_i_prev_i_next_ne h_i_prev_j_next_ne h_i_next_j_next_ne
+      hv_i_prev_not hv_i_next_not hv_j_next_not h_i_next_j_next_not
+
+lemma missed_vertex_two_attachments_j_prev_hits_successor_pair_of_indepNum_le_three_of_gap
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hgap : i + 2 < j)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    G.Adj (p.getVert (j - 1)) (p.getVert (i + 1)) ∨
+      G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) := by
+  have hj_pred_le : j - 1 ≤ p.length := by omega
+  have hi_next_le : i + 1 ≤ p.length := by omega
+  have hj_next_le : j + 1 ≤ p.length := by omega
+  have hv_ne_j_prev : v ≠ p.getVert (j - 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (j - 1))
+  have hv_ne_i_next : v ≠ p.getVert (i + 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (i + 1))
+  have hv_ne_j_next : v ≠ p.getVert (j + 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (j + 1))
+  have h_j_prev_i_next_ne :
+      p.getVert (j - 1) ≠ p.getVert (i + 1) := by
+    intro h
+    have hidx :
+        j - 1 = i + 1 :=
+      hpPath.getVert_injOn hj_pred_le hi_next_le h
+    omega
+  have h_j_prev_j_next_ne :
+      p.getVert (j - 1) ≠ p.getVert (j + 1) := by
+    intro h
+    have hidx :
+        j - 1 = j + 1 :=
+      hpPath.getVert_injOn hj_pred_le hj_next_le h
+    omega
+  have h_i_next_j_next_ne :
+      p.getVert (i + 1) ≠ p.getVert (j + 1) := by
+    intro h
+    have hidx :
+        i + 1 = j + 1 :=
+      hpPath.getVert_injOn hi_next_le hj_next_le h
+    omega
+  have h_i_next_j_next_not :
+      ¬ G.Adj (p.getVert (i + 1)) (p.getVert (j + 1)) :=
+    longest_path_missed_vertex_two_attachments_successors_not_adj
+      (G := G) hpPath hmax hv hi_pos hij hj_lt hvi hvj
+  exact
+    indepNum_le_three_forces_cross_neighbor_of_apex_independent_pair
+      (G := G) hindep
+      hv_ne_j_prev hv_ne_i_next hv_ne_j_next
+      h_j_prev_i_next_ne h_j_prev_j_next_ne h_i_next_j_next_ne
+      hv_j_prev_not hv_i_next_not hv_j_next_not h_i_next_j_next_not
+
+lemma missed_vertex_two_attachments_i_next_hits_predecessor_pair_of_indepNum_le_three_of_gap
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hgap : i + 2 < j)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1))) :
+    G.Adj (p.getVert (i + 1)) (p.getVert (i - 1)) ∨
+      G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)) := by
+  have hi_next_le : i + 1 ≤ p.length := by omega
+  have hi_pred_le : i - 1 ≤ p.length := by omega
+  have hj_pred_le : j - 1 ≤ p.length := by omega
+  have hv_ne_i_next : v ≠ p.getVert (i + 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (i + 1))
+  have hv_ne_i_prev : v ≠ p.getVert (i - 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (i - 1))
+  have hv_ne_j_prev : v ≠ p.getVert (j - 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (j - 1))
+  have h_i_next_i_prev_ne :
+      p.getVert (i + 1) ≠ p.getVert (i - 1) := by
+    intro h
+    have hidx :
+        i + 1 = i - 1 :=
+      hpPath.getVert_injOn hi_next_le hi_pred_le h
+    omega
+  have h_i_next_j_prev_ne :
+      p.getVert (i + 1) ≠ p.getVert (j - 1) := by
+    intro h
+    have hidx :
+        i + 1 = j - 1 :=
+      hpPath.getVert_injOn hi_next_le hj_pred_le h
+    omega
+  have h_i_prev_j_prev_ne :
+      p.getVert (i - 1) ≠ p.getVert (j - 1) := by
+    intro h
+    have hidx :
+        i - 1 = j - 1 :=
+      hpPath.getVert_injOn hi_pred_le hj_pred_le h
+    omega
+  have h_i_prev_j_prev_not :
+      ¬ G.Adj (p.getVert (i - 1)) (p.getVert (j - 1)) :=
+    longest_path_missed_vertex_two_attachments_predecessors_not_adj
+      (G := G) hpPath hmax hv hi_pos hij hj_lt hvi hvj
+  exact
+    indepNum_le_three_forces_cross_neighbor_of_apex_independent_pair
+      (G := G) hindep
+      hv_ne_i_next hv_ne_i_prev hv_ne_j_prev
+      h_i_next_i_prev_ne h_i_next_j_prev_ne h_i_prev_j_prev_ne
+      hv_i_next_not hv_i_prev_not hv_j_prev_not h_i_prev_j_prev_not
+
+lemma missed_vertex_two_attachments_large_gap_forces_local_or_cross_chords
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hgap : i + 2 < j)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+      G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+        (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+          G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))) := by
+  have hi_prev_hit :
+      G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+        G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) :=
+    missed_vertex_two_attachments_i_prev_hits_successor_pair_of_indepNum_le_three
+      (G := G) hpPath hmax hindep hv hi_pos hij hj_lt hvi hvj
+      hv_i_prev_not hv_i_next_not hv_j_next_not
+  have hj_prev_hit :
+      G.Adj (p.getVert (j - 1)) (p.getVert (i + 1)) ∨
+        G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) :=
+    missed_vertex_two_attachments_j_prev_hits_successor_pair_of_indepNum_le_three_of_gap
+      (G := G) hpPath hmax hindep hv hi_pos hij hgap hj_lt hvi hvj
+      hv_j_prev_not hv_i_next_not hv_j_next_not
+  rcases hi_prev_hit with hlocal_left | hcross_left
+  · exact Or.inl hlocal_left
+  · rcases hj_prev_hit with hcross_right | hlocal_right
+    · exact Or.inr <| Or.inr ⟨hcross_left, hcross_right.symm⟩
+    · exact Or.inr <| Or.inl hlocal_right
+
+lemma missed_vertex_two_attachments_large_gap_forces_two_local_or_cross_chords
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hgap : i + 2 < j)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+      G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) ∨
+      (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+        G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))) := by
+  have hi_prev_hit :
+      G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+        G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) :=
+    missed_vertex_two_attachments_i_prev_hits_successor_pair_of_indepNum_le_three
+      (G := G) hpPath hmax hindep hv hi_pos hij hj_lt hvi hvj
+      hv_i_prev_not hv_i_next_not hv_j_next_not
+  have hj_next_hit :
+      G.Adj (p.getVert (j + 1)) (p.getVert (i - 1)) ∨
+        G.Adj (p.getVert (j + 1)) (p.getVert (j - 1)) :=
+    missed_vertex_two_attachments_j_next_hits_predecessor_pair_of_indepNum_le_three
+      (G := G) hpPath hmax hindep hv hi_pos hij hj_lt hvi hvj
+      hv_i_prev_not hv_j_prev_not hv_j_next_not
+  have hj_prev_hit :
+      G.Adj (p.getVert (j - 1)) (p.getVert (i + 1)) ∨
+        G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) :=
+    missed_vertex_two_attachments_j_prev_hits_successor_pair_of_indepNum_le_three_of_gap
+      (G := G) hpPath hmax hindep hv hi_pos hij hgap hj_lt hvi hvj
+      hv_j_prev_not hv_i_next_not hv_j_next_not
+  have hi_next_hit :
+      G.Adj (p.getVert (i + 1)) (p.getVert (i - 1)) ∨
+        G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)) :=
+    missed_vertex_two_attachments_i_next_hits_predecessor_pair_of_indepNum_le_three_of_gap
+      (G := G) hpPath hmax hindep hv hi_pos hij hgap hj_lt hvi hvj
+      hv_i_next_not hv_i_prev_not hv_j_prev_not
+  have hleft_cases
+      (hleft : G.Adj (p.getVert (i - 1)) (p.getVert (i + 1))) :
+      (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+        G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) ∨
+        (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+          G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))) := by
+    rcases hj_next_hit with houter_rev | hright_rev
+    · rcases hj_prev_hit with hinner_rev | hright
+      · exact Or.inr ⟨houter_rev.symm, hinner_rev.symm⟩
+      · exact Or.inl ⟨hleft, hright⟩
+    · exact Or.inl ⟨hleft, hright_rev.symm⟩
+  rcases hi_prev_hit with hleft | houter
+  · exact hleft_cases hleft
+  · rcases hi_next_hit with hleft_rev | hinner
+    · exact hleft_cases hleft_rev.symm
+    · exact Or.inr ⟨houter, hinner⟩
+
+lemma missed_vertex_two_attachments_gap_two_or_large_gap_local_or_cross_chords
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hgap_at_least_two : i + 1 < j)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    j = i + 2 ∨
+      (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+        G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+          (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+            G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))) := by
+  by_cases hgap : i + 2 < j
+  · exact Or.inr
+      (missed_vertex_two_attachments_large_gap_forces_local_or_cross_chords
+        (G := G) hpPath hmax hindep hv hi_pos hij hgap hj_lt hvi hvj
+        hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not)
+  · left
+    omega
+
+lemma missed_vertex_two_attachments_gap_two_forces_cross_or_two_local_chords
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hgap_eq : j = i + 2)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∨
+      (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+        G.Adj (p.getVert (j + 1)) (p.getVert (i + 1))) := by
+  have hi_prev_hit :
+      G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+        G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) :=
+    missed_vertex_two_attachments_i_prev_hits_successor_pair_of_indepNum_le_three
+      (G := G) hpPath hmax hindep hv hi_pos hij hj_lt hvi hvj
+      hv_i_prev_not hv_i_next_not hv_j_next_not
+  have hj_next_hit :
+      G.Adj (p.getVert (j + 1)) (p.getVert (i - 1)) ∨
+        G.Adj (p.getVert (j + 1)) (p.getVert (j - 1)) :=
+    missed_vertex_two_attachments_j_next_hits_predecessor_pair_of_indepNum_le_three
+      (G := G) hpPath hmax hindep hv hi_pos hij hj_lt hvi hvj
+      hv_i_prev_not hv_j_prev_not hv_j_next_not
+  have hj_pred_eq : j - 1 = i + 1 := by omega
+  rcases hi_prev_hit with hlocal_left | hcross
+  · rcases hj_next_hit with hcross_rev | hlocal_right
+    · exact Or.inl hcross_rev.symm
+    · exact Or.inr
+        ⟨hlocal_left, by simpa [hj_pred_eq] using hlocal_right⟩
+  · exact Or.inl hcross
+
+private lemma gap_two_left_local_connector_exists
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (_hij : i < j)
+    (hgap_eq : j = i + 2)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hleft : G.Adj (p.getVert (i - 1)) (p.getVert (i + 1))) :
+    ∃ r : G.Walk (p.getVert (i - 1)) (p.getVert j),
+      r.IsPath ∧
+      v ∈ r.support ∧
+      r.length = 4 ∧
+      ∀ z : α, z ∈ r.support →
+        z = p.getVert (i - 1) ∨
+          z = p.getVert j ∨
+          z = v ∨
+          z ∈ ((p.drop i).take ((j - 1) - i)).support := by
+  classical
+  have hi_le : i ≤ p.length := by omega
+  have hi_pred_le : i - 1 ≤ p.length := by omega
+  have hi_succ_le : i + 1 ≤ p.length := by omega
+  have hj_le : j ≤ p.length := by omega
+  have hseg_pos : 1 ≤ (j - 1) - i := by omega
+  have hstep_i : G.Adj (p.getVert i) (p.getVert (i + 1)) :=
+    p.adj_getVert_succ (by omega)
+  let r0 : G.Walk (p.getVert (i - 1)) (p.getVert (i + 1)) :=
+    (Walk.nil : G.Walk (p.getVert (i + 1)) (p.getVert (i + 1))).cons hleft
+  have hr0Path : r0.IsPath := by
+    simpa [r0] using hleft.ne
+  let r1 : G.Walk (p.getVert (i - 1)) (p.getVert i) :=
+    r0.concat hstep_i.symm
+  have hr1Path : r1.IsPath := by
+    have hi_not_r0 : p.getVert i ∉ r0.support := by
+      have hi_ne_pred : p.getVert i ≠ p.getVert (i - 1) := by
+        intro h
+        have hidx : i = i - 1 :=
+          hpPath.getVert_injOn hi_le hi_pred_le h
+        omega
+      have hi_ne_succ : p.getVert i ≠ p.getVert (i + 1) :=
+        hstep_i.ne
+      simp [r0, Walk.support_cons, hi_ne_pred, hi_ne_succ]
+    simpa [r1] using hr0Path.concat hi_not_r0 hstep_i.symm
+  let r2 : G.Walk (p.getVert (i - 1)) v :=
+    r1.concat hvi.symm
+  have hr2Path : r2.IsPath := by
+    have hv_not_r1 : v ∉ r1.support := by
+      have hv_ne_pred : v ≠ p.getVert (i - 1) := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support (i - 1))
+      have hv_ne_succ : v ≠ p.getVert (i + 1) := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support (i + 1))
+      have hv_ne_i : v ≠ p.getVert i := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support i)
+      simp [r1, r0, Walk.support_concat, Walk.support_cons,
+        hv_ne_pred, hv_ne_succ, hv_ne_i]
+    simpa [r2] using hr1Path.concat hv_not_r1 hvi.symm
+  let r : G.Walk (p.getVert (i - 1)) (p.getVert j) :=
+    r2.concat hvj
+  have hrPath : r.IsPath := by
+    have hj_not_r2 : p.getVert j ∉ r2.support := by
+      have hj_ne_pred : p.getVert j ≠ p.getVert (i - 1) := by
+        intro h
+        have hidx : j = i - 1 :=
+          hpPath.getVert_injOn hj_le hi_pred_le h
+        omega
+      have hj_ne_succ : p.getVert j ≠ p.getVert (i + 1) := by
+        intro h
+        have hidx : j = i + 1 :=
+          hpPath.getVert_injOn hj_le hi_succ_le h
+        omega
+      have hj_ne_i : p.getVert j ≠ p.getVert i := by
+        intro h
+        have hidx : j = i :=
+          hpPath.getVert_injOn hj_le hi_le h
+        omega
+      have hj_ne_v : p.getVert j ≠ v := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support j)
+      simp [r2, r1, r0, Walk.support_concat, Walk.support_cons,
+        hj_ne_pred, hj_ne_succ, hj_ne_i, hj_ne_v]
+    simpa [r] using hr2Path.concat hj_not_r2 hvj
+  have hvr : v ∈ r.support := by
+    have hv_r2 : v ∈ r2.support := r2.end_mem_support
+    simpa [r, Walk.support_concat, hv_r2]
+  have hi_mem_seg :
+      p.getVert i ∈ ((p.drop i).take ((j - 1) - i)).support := by
+    simpa [Walk.drop_getVert] using
+      (((p.drop i).take ((j - 1) - i)).start_mem_support)
+  have hi_succ_mem_seg :
+      p.getVert (i + 1) ∈ ((p.drop i).take ((j - 1) - i)).support := by
+    have hmem :
+        ((p.drop i).take ((j - 1) - i)).getVert 1 ∈
+          ((p.drop i).take ((j - 1) - i)).support :=
+      (((p.drop i).take ((j - 1) - i)).getVert_mem_support 1)
+    have hget :
+        ((p.drop i).take ((j - 1) - i)).getVert 1 =
+          p.getVert (i + 1) :=
+      indexed_segment_getVert_eq (G := G) (p := p)
+        (i := i) (j := j - 1) (k := 1) hseg_pos
+    simpa [hget]
+      using hmem
+  refine ⟨r, hrPath, hvr, ?_, ?_⟩
+  · simp [r, r2, r1, r0, Walk.length_cons, Walk.length_concat]
+  · intro z hz
+    have hcases :
+        z = p.getVert (i - 1) ∨
+          z = p.getVert (i + 1) ∨
+          z = p.getVert i ∨
+          z = v ∨
+          z = p.getVert j := by
+      simpa [r, r2, r1, r0, Walk.support_concat, Walk.support_cons] using hz
+    rcases hcases with hz_pred | hz_succ | hz_i | hz_v | hz_j
+    · exact Or.inl hz_pred
+    · exact Or.inr <| Or.inr <| Or.inr <| by
+        simpa [hz_succ] using hi_succ_mem_seg
+    · exact Or.inr <| Or.inr <| Or.inr <| by
+        simpa [hz_i] using hi_mem_seg
+    · exact Or.inr <| Or.inr <| Or.inl hz_v
+    · exact Or.inr <| Or.inl hz_j
+
+lemma missed_vertex_two_attachments_gap_two_left_local_chord_false
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hgap_eq : j = i + 2)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hleft : G.Adj (p.getVert (i - 1)) (p.getVert (i + 1))) :
+    False := by
+  rcases gap_two_left_local_connector_exists
+      (G := G) (p := p) hpPath hv hi_pos hij hgap_eq hj_lt hvi hvj hleft with
+    ⟨r, hrPath, _hvr, hrLen, hrSupport⟩
+  let q : G.Walk a b := ((p.take (i - 1)).append r).append (p.drop j)
+  have hqPath : q.IsPath := by
+    simpa [q] using
+      predecessor_rotation_splice_isPath
+        (G := G) (p := p) hpPath hv hi_pos hij hj_lt hrPath hrSupport
+  have hle := hmax a b q hqPath
+  have hq_len : q.length = p.length + 1 := by
+    have hi_pred_le : i - 1 ≤ p.length := by omega
+    simp [q, Walk.length_append, Walk.take_length, Walk.drop_length,
+      Nat.min_eq_left hi_pred_le, hrLen]
+    omega
+  have hq_support_len : q.support.length = q.length + 1 := q.length_support
+  have hp_support_len : p.support.length = p.length + 1 := p.length_support
+  omega
+
+lemma missed_vertex_two_attachments_gap_two_two_local_chords_false
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hgap_eq : j = i + 2)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hleft : G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)))
+    (_hright : G.Adj (p.getVert (j + 1)) (p.getVert (i + 1))) :
+    False :=
+  missed_vertex_two_attachments_gap_two_left_local_chord_false
+    (G := G) hpPath hmax hv hi_pos hij hgap_eq hj_lt hvi hvj hleft
+
+lemma missed_vertex_two_attachments_gap_two_forces_cross_chord
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hgap_eq : j = i + 2)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) := by
+  rcases
+      missed_vertex_two_attachments_gap_two_forces_cross_or_two_local_chords
+        (G := G) hpPath hmax hindep hv hi_pos hij hgap_eq hj_lt hvi hvj
+        hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not with
+    hcross | hlocals
+  · exact hcross
+  · exact False.elim
+      (missed_vertex_two_attachments_gap_two_two_local_chords_false
+        (G := G) hpPath hmax hv hi_pos hij hgap_eq hj_lt hvi hvj
+        hlocals.1 hlocals.2)
+
+private lemma gap_three_two_local_connector_exists
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hgap_eq : j = i + 3)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hleft : G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)))
+    (hright : G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) :
+    ∃ r : G.Walk (p.getVert (i - 1)) (p.getVert (j + 1)),
+      r.IsPath ∧
+      v ∈ r.support ∧
+      r.length = 6 ∧
+      ∀ z : α, z ∈ r.support →
+        z = p.getVert (i - 1) ∨
+          z = v ∨
+          z ∈ ((p.drop i).take ((j + 1) - i)).support := by
+  classical
+  have hi_le : i ≤ p.length := by omega
+  have hi_pred_le : i - 1 ≤ p.length := by omega
+  have hi_succ_le : i + 1 ≤ p.length := by omega
+  have hj_pred_le : j - 1 ≤ p.length := by omega
+  have hj_le : j ≤ p.length := by omega
+  have hj_next_le : j + 1 ≤ p.length := by omega
+  have hi_le_jnext : i ≤ j + 1 := by omega
+  have hstep_i : G.Adj (p.getVert i) (p.getVert (i + 1)) :=
+    p.adj_getVert_succ (by omega)
+  have hstep_j_pred : G.Adj (p.getVert (j - 1)) (p.getVert j) :=
+    by simpa [Nat.sub_add_cancel (by omega : 1 ≤ j)] using
+      p.adj_getVert_succ (by omega : j - 1 < p.length)
+  let r0 : G.Walk (p.getVert (i - 1)) (p.getVert (i + 1)) :=
+    (Walk.nil : G.Walk (p.getVert (i + 1)) (p.getVert (i + 1))).cons hleft
+  have hr0Path : r0.IsPath := by
+    simpa [r0] using hleft.ne
+  let r1 : G.Walk (p.getVert (i - 1)) (p.getVert i) :=
+    r0.concat hstep_i.symm
+  have hr1Path : r1.IsPath := by
+    have hi_not_r0 : p.getVert i ∉ r0.support := by
+      have hi_ne_pred : p.getVert i ≠ p.getVert (i - 1) := by
+        intro h
+        have hidx : i = i - 1 :=
+          hpPath.getVert_injOn hi_le hi_pred_le h
+        omega
+      have hi_ne_succ : p.getVert i ≠ p.getVert (i + 1) :=
+        hstep_i.ne
+      simp [r0, Walk.support_cons, hi_ne_pred, hi_ne_succ]
+    simpa [r1] using hr0Path.concat hi_not_r0 hstep_i.symm
+  let r2 : G.Walk (p.getVert (i - 1)) v :=
+    r1.concat hvi.symm
+  have hr2Path : r2.IsPath := by
+    have hv_not_r1 : v ∉ r1.support := by
+      have hv_ne_pred : v ≠ p.getVert (i - 1) := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support (i - 1))
+      have hv_ne_succ : v ≠ p.getVert (i + 1) := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support (i + 1))
+      have hv_ne_i : v ≠ p.getVert i := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support i)
+      simp [r1, r0, Walk.support_concat, Walk.support_cons,
+        hv_ne_pred, hv_ne_succ, hv_ne_i]
+    simpa [r2] using hr1Path.concat hv_not_r1 hvi.symm
+  let r3 : G.Walk (p.getVert (i - 1)) (p.getVert j) :=
+    r2.concat hvj
+  have hr3Path : r3.IsPath := by
+    have hj_not_r2 : p.getVert j ∉ r2.support := by
+      have hj_ne_pred : p.getVert j ≠ p.getVert (i - 1) := by
+        intro h
+        have hidx : j = i - 1 :=
+          hpPath.getVert_injOn hj_le hi_pred_le h
+        omega
+      have hj_ne_succ : p.getVert j ≠ p.getVert (i + 1) := by
+        intro h
+        have hidx : j = i + 1 :=
+          hpPath.getVert_injOn hj_le hi_succ_le h
+        omega
+      have hj_ne_i : p.getVert j ≠ p.getVert i := by
+        intro h
+        have hidx : j = i :=
+          hpPath.getVert_injOn hj_le hi_le h
+        omega
+      have hj_ne_v : p.getVert j ≠ v := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support j)
+      simp [r2, r1, r0, Walk.support_concat, Walk.support_cons,
+        hj_ne_pred, hj_ne_succ, hj_ne_i, hj_ne_v]
+    simpa [r3] using hr2Path.concat hj_not_r2 hvj
+  let r4 : G.Walk (p.getVert (i - 1)) (p.getVert (j - 1)) :=
+    r3.concat hstep_j_pred.symm
+  have hr4Path : r4.IsPath := by
+    have hj_pred_not_r3 : p.getVert (j - 1) ∉ r3.support := by
+      have hj_pred_ne_pred : p.getVert (j - 1) ≠ p.getVert (i - 1) := by
+        intro h
+        have hidx : j - 1 = i - 1 :=
+          hpPath.getVert_injOn hj_pred_le hi_pred_le h
+        omega
+      have hj_pred_ne_succ : p.getVert (j - 1) ≠ p.getVert (i + 1) := by
+        intro h
+        have hidx : j - 1 = i + 1 :=
+          hpPath.getVert_injOn hj_pred_le hi_succ_le h
+        omega
+      have hj_pred_ne_i : p.getVert (j - 1) ≠ p.getVert i := by
+        intro h
+        have hidx : j - 1 = i :=
+          hpPath.getVert_injOn hj_pred_le hi_le h
+        omega
+      have hj_pred_ne_v : p.getVert (j - 1) ≠ v := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support (j - 1))
+      have hj_pred_ne_j : p.getVert (j - 1) ≠ p.getVert j :=
+        hstep_j_pred.ne
+      simp [r3, r2, r1, r0, Walk.support_concat, Walk.support_cons,
+        hj_pred_ne_pred, hj_pred_ne_succ, hj_pred_ne_i,
+        hj_pred_ne_v, hj_pred_ne_j]
+    simpa [r4] using hr3Path.concat hj_pred_not_r3 hstep_j_pred.symm
+  let r : G.Walk (p.getVert (i - 1)) (p.getVert (j + 1)) :=
+    r4.concat hright
+  have hrPath : r.IsPath := by
+    have hj_next_not_r4 : p.getVert (j + 1) ∉ r4.support := by
+      have hj_next_ne_pred : p.getVert (j + 1) ≠ p.getVert (i - 1) := by
+        intro h
+        have hidx : j + 1 = i - 1 :=
+          hpPath.getVert_injOn hj_next_le hi_pred_le h
+        omega
+      have hj_next_ne_succ : p.getVert (j + 1) ≠ p.getVert (i + 1) := by
+        intro h
+        have hidx : j + 1 = i + 1 :=
+          hpPath.getVert_injOn hj_next_le hi_succ_le h
+        omega
+      have hj_next_ne_i : p.getVert (j + 1) ≠ p.getVert i := by
+        intro h
+        have hidx : j + 1 = i :=
+          hpPath.getVert_injOn hj_next_le hi_le h
+        omega
+      have hj_next_ne_v : p.getVert (j + 1) ≠ v := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support (j + 1))
+      have hj_next_ne_j : p.getVert (j + 1) ≠ p.getVert j := by
+        intro h
+        have hidx : j + 1 = j :=
+          hpPath.getVert_injOn hj_next_le hj_le h
+        omega
+      have hj_next_ne_j_pred : p.getVert (j + 1) ≠ p.getVert (j - 1) := by
+        intro h
+        have hidx : j + 1 = j - 1 :=
+          hpPath.getVert_injOn hj_next_le hj_pred_le h
+        omega
+      simp [r4, r3, r2, r1, r0, Walk.support_concat, Walk.support_cons,
+        hj_next_ne_pred, hj_next_ne_succ, hj_next_ne_i,
+        hj_next_ne_v, hj_next_ne_j, hj_next_ne_j_pred]
+    simpa [r] using hr4Path.concat hj_next_not_r4 hright
+  have hvr : v ∈ r.support := by
+    have hv_r2 : v ∈ r2.support := r2.end_mem_support
+    simp [r, r4, r3, Walk.support_concat, hv_r2]
+  have hmem_seg :
+      ∀ k : ℕ, i ≤ k → k ≤ j + 1 →
+        p.getVert k ∈ ((p.drop i).take ((j + 1) - i)).support := by
+    intro k hik hkj
+    have hk_sub : k - i ≤ (j + 1) - i := by omega
+    have hmem :
+        ((p.drop i).take ((j + 1) - i)).getVert (k - i) ∈
+          ((p.drop i).take ((j + 1) - i)).support :=
+      (((p.drop i).take ((j + 1) - i)).getVert_mem_support (k - i))
+    have hget :
+        ((p.drop i).take ((j + 1) - i)).getVert (k - i) =
+          p.getVert (i + (k - i)) :=
+      indexed_segment_getVert_eq (G := G) (p := p)
+        (i := i) (j := j + 1) (k := k - i) hk_sub
+    simpa [hget, Nat.add_sub_of_le hik] using hmem
+  refine ⟨r, hrPath, hvr, ?_, ?_⟩
+  · simp [r, r4, r3, r2, r1, r0, Walk.length_cons, Walk.length_concat]
+  · intro z hz
+    simp [r, r4, r3, r2, r1, r0, Walk.support_concat,
+      Walk.support_cons] at hz
+    rcases hz with hz_pred | hz_succ | hz_i | hz_v | hz_j | hz_j_pred | hz_j_next
+    · exact Or.inl hz_pred
+    · exact Or.inr <| Or.inr <| by
+        simpa [hz_succ] using hmem_seg (i + 1) (by omega) (by omega)
+    · exact Or.inr <| Or.inr <| by
+        have hi_seg_right : i ≤ j + 1 := by omega
+        simpa [hz_i] using hmem_seg i le_rfl hi_seg_right
+    · exact Or.inr <| Or.inl hz_v
+    · exact Or.inr <| Or.inr <| by
+        simpa [hz_j] using hmem_seg j (by omega) (by omega)
+    · exact Or.inr <| Or.inr <| by
+        simpa [hz_j_pred] using hmem_seg (j - 1) (by omega) (by omega)
+    · exact Or.inr <| Or.inr <| by
+        simpa [hz_j_next] using hmem_seg (j + 1) (by omega) (by omega)
+
+lemma missed_vertex_two_attachments_gap_three_two_local_chords_false
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hgap_eq : j = i + 3)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hleft : G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)))
+    (hright : G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) :
+    False := by
+  rcases gap_three_two_local_connector_exists
+      (G := G) (p := p) hpPath hv hi_pos hgap_eq hj_lt hvi hvj
+      hleft hright with
+    ⟨r, hrPath, _hvr, hrLen, hrSupport⟩
+  let q : G.Walk a b := ((p.take (i - 1)).append r).append (p.drop (j + 1))
+  have hqPath : q.IsPath := by
+    simpa [q] using
+      indexed_connector_to_successor_splice_isPath
+        (G := G) (p := p) hpPath hv hi_pos hij hj_lt hrPath hrSupport
+  have hle := hmax a b q hqPath
+  have hq_len : q.length = p.length + 1 := by
+    have hi_pred_le : i - 1 ≤ p.length := by omega
+    simp [q, Walk.length_append, Walk.take_length, Walk.drop_length,
+      Nat.min_eq_left hi_pred_le, hrLen]
+    omega
+  have hq_support_len : q.support.length = q.length + 1 := q.length_support
+  have hp_support_len : p.support.length = p.length + 1 := p.length_support
+  omega
+
+lemma missed_vertex_two_attachments_middle_vertex_forces_outer_cross_or_side_escape
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j k : ℕ}
+    (hk_after_left : i - 1 < k)
+    (hk_before_right : k < j + 1)
+    (hj_lt : j < p.length)
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∨
+      G.Adj (p.getVert (i - 1)) (p.getVert k) ∨
+      G.Adj v (p.getVert k) ∨
+      G.Adj (p.getVert k) (p.getVert (j + 1)) := by
+  classical
+  by_cases houter : G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))
+  · exact Or.inl houter
+  · right
+    by_cases hleft_escape : G.Adj (p.getVert (i - 1)) (p.getVert k)
+    · exact Or.inl hleft_escape
+    · right
+      by_cases hv_escape : G.Adj v (p.getVert k)
+      · exact Or.inl hv_escape
+      · right
+        by_cases hright_escape : G.Adj (p.getVert k) (p.getVert (j + 1))
+        · exact hright_escape
+        · exfalso
+          have hi_pred_le : i - 1 ≤ p.length := by omega
+          have hk_le : k ≤ p.length := by omega
+          have hj_next_le : j + 1 ≤ p.length := by omega
+          have hv_ne_im1 : v ≠ p.getVert (i - 1) := by
+            intro h
+            exact hv (by simpa [h] using p.getVert_mem_support (i - 1))
+          have hv_ne_k : v ≠ p.getVert k := by
+            intro h
+            exact hv (by simpa [h] using p.getVert_mem_support k)
+          have hv_ne_jp1 : v ≠ p.getVert (j + 1) := by
+            intro h
+            exact hv (by simpa [h] using p.getVert_mem_support (j + 1))
+          have him1_ne_k : p.getVert (i - 1) ≠ p.getVert k := by
+            intro h
+            have hidx : i - 1 = k :=
+              hpPath.getVert_injOn hi_pred_le hk_le h
+            omega
+          have him1_ne_jp1 :
+              p.getVert (i - 1) ≠ p.getVert (j + 1) := by
+            intro h
+            have hidx : i - 1 = j + 1 :=
+              hpPath.getVert_injOn hi_pred_le hj_next_le h
+            omega
+          have hk_ne_jp1 : p.getVert k ≠ p.getVert (j + 1) := by
+            intro h
+            have hidx : k = j + 1 :=
+              hpPath.getVert_injOn hk_le hj_next_le h
+            omega
+          rcases
+              exists_independent_four_of_pairwise_not_adj
+                (G := G)
+                hv_ne_im1 hv_ne_k hv_ne_jp1
+                him1_ne_k him1_ne_jp1 hk_ne_jp1
+                hv_i_prev_not hv_escape hv_j_next_not
+                hleft_escape houter hright_escape with
+            ⟨I, hI, hcard⟩
+          exact indepNum_le_three_contradicts_independent_four
+            (G := G) hindep hI hcard
+
+lemma missed_vertex_two_attachments_inner_pair_forces_adj_of_no_left_or_apex_escape
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i k l : ℕ}
+    (hk_after_left : i - 1 < k)
+    (hkl : k < l)
+    (hl_le : l ≤ p.length)
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_k_not : ¬ G.Adj v (p.getVert k))
+    (hv_l_not : ¬ G.Adj v (p.getVert l))
+    (hleft_k_not : ¬ G.Adj (p.getVert (i - 1)) (p.getVert k))
+    (hleft_l_not : ¬ G.Adj (p.getVert (i - 1)) (p.getVert l)) :
+    G.Adj (p.getVert k) (p.getVert l) := by
+  classical
+  have hi_pred_le : i - 1 ≤ p.length := by omega
+  have hk_le : k ≤ p.length := by omega
+  have hv_ne_im1 : v ≠ p.getVert (i - 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (i - 1))
+  have hv_ne_k : v ≠ p.getVert k := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support k)
+  have hv_ne_l : v ≠ p.getVert l := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support l)
+  have him1_ne_k : p.getVert (i - 1) ≠ p.getVert k := by
+    intro h
+    have hidx : i - 1 = k :=
+      hpPath.getVert_injOn hi_pred_le hk_le h
+    omega
+  have him1_ne_l : p.getVert (i - 1) ≠ p.getVert l := by
+    intro h
+    have hidx : i - 1 = l :=
+      hpPath.getVert_injOn hi_pred_le hl_le h
+    omega
+  have hk_ne_l : p.getVert k ≠ p.getVert l := by
+    intro h
+    have hidx : k = l :=
+      hpPath.getVert_injOn hk_le hl_le h
+    omega
+  exact
+    indepNum_le_three_forces_adj_of_two_common_nonneighbors
+      (G := G) hindep
+      hv_ne_im1 hv_ne_k hv_ne_l
+      him1_ne_k him1_ne_l hk_ne_l
+      hv_i_prev_not hv_k_not hv_l_not
+      hleft_k_not hleft_l_not
+
+lemma missed_vertex_two_attachments_inner_pair_forces_adj_of_no_right_or_apex_escape
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {j k l : ℕ}
+    (hkl : k < l)
+    (hl_before_right : l < j + 1)
+    (hj_lt : j < p.length)
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1)))
+    (hv_k_not : ¬ G.Adj v (p.getVert k))
+    (hv_l_not : ¬ G.Adj v (p.getVert l))
+    (hright_k_not : ¬ G.Adj (p.getVert k) (p.getVert (j + 1)))
+    (hright_l_not : ¬ G.Adj (p.getVert l) (p.getVert (j + 1))) :
+    G.Adj (p.getVert k) (p.getVert l) := by
+  classical
+  have hk_le : k ≤ p.length := by omega
+  have hl_le : l ≤ p.length := by omega
+  have hj_next_le : j + 1 ≤ p.length := by omega
+  have hv_ne_jp1 : v ≠ p.getVert (j + 1) := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support (j + 1))
+  have hv_ne_k : v ≠ p.getVert k := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support k)
+  have hv_ne_l : v ≠ p.getVert l := by
+    intro h
+    exact hv (by simpa [h] using p.getVert_mem_support l)
+  have hjp1_ne_k : p.getVert (j + 1) ≠ p.getVert k := by
+    intro h
+    have hidx : j + 1 = k :=
+      hpPath.getVert_injOn hj_next_le hk_le h
+    omega
+  have hjp1_ne_l : p.getVert (j + 1) ≠ p.getVert l := by
+    intro h
+    have hidx : j + 1 = l :=
+      hpPath.getVert_injOn hj_next_le hl_le h
+    omega
+  have hk_ne_l : p.getVert k ≠ p.getVert l := by
+    intro h
+    have hidx : k = l :=
+      hpPath.getVert_injOn hk_le hl_le h
+    omega
+  have hjp1_k_not : ¬ G.Adj (p.getVert (j + 1)) (p.getVert k) := by
+    intro h
+    exact hright_k_not h.symm
+  have hjp1_l_not : ¬ G.Adj (p.getVert (j + 1)) (p.getVert l) := by
+    intro h
+    exact hright_l_not h.symm
+  exact
+    indepNum_le_three_forces_adj_of_two_common_nonneighbors
+      (G := G) hindep
+      hv_ne_jp1 hv_ne_k hv_ne_l
+      hjp1_ne_k hjp1_ne_l hk_ne_l
+      hv_j_next_not hv_k_not hv_l_not
+      hjp1_k_not hjp1_l_not
+
+lemma missed_vertex_two_attachments_gap_four_forces_outer_cross_or_escape_chord
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hgap_eq : j = i + 4)
+    (hj_lt : j < p.length)
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∨
+      G.Adj (p.getVert (i - 1)) (p.getVert (i + 2)) ∨
+      G.Adj (p.getVert (i - 1)) (p.getVert j) ∨
+      G.Adj (p.getVert i) (p.getVert (i + 2)) ∨
+      G.Adj (p.getVert i) (p.getVert (j - 1)) ∨
+      G.Adj (p.getVert i) (p.getVert (j + 1)) ∨
+      G.Adj (p.getVert (i + 1)) (p.getVert j) ∨
+      G.Adj (p.getVert (i + 2)) (p.getVert j) ∨
+      G.Adj (p.getVert (i + 2)) (p.getVert (j + 1)) ∨
+      G.Adj v (p.getVert (i + 2)) := by
+  classical
+  by_cases houter : G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))
+  · exact Or.inl houter
+  · right
+    by_cases him1_mid : G.Adj (p.getVert (i - 1)) (p.getVert (i + 2))
+    · exact Or.inl him1_mid
+    · right
+      by_cases him1_j : G.Adj (p.getVert (i - 1)) (p.getVert j)
+      · exact Or.inl him1_j
+      · right
+        by_cases hi_mid : G.Adj (p.getVert i) (p.getVert (i + 2))
+        · exact Or.inl hi_mid
+        · right
+          by_cases hi_jm1 : G.Adj (p.getVert i) (p.getVert (j - 1))
+          · exact Or.inl hi_jm1
+          · right
+            by_cases hi_jp1 : G.Adj (p.getVert i) (p.getVert (j + 1))
+            · exact Or.inl hi_jp1
+            · right
+              by_cases hip1_j : G.Adj (p.getVert (i + 1)) (p.getVert j)
+              · exact Or.inl hip1_j
+              · right
+                by_cases hmid_j : G.Adj (p.getVert (i + 2)) (p.getVert j)
+                · exact Or.inl hmid_j
+                · right
+                  by_cases hmid_jp1 :
+                      G.Adj (p.getVert (i + 2)) (p.getVert (j + 1))
+                  · exact Or.inl hmid_jp1
+                  · right
+                    by_cases hv_mid : G.Adj v (p.getVert (i + 2))
+                    · exact hv_mid
+                    · exfalso
+                      have hi_pred_le : i - 1 ≤ p.length := by omega
+                      have hi_mid_le : i + 2 ≤ p.length := by omega
+                      have hj_next_le : j + 1 ≤ p.length := by omega
+                      have hv_ne_im1 : v ≠ p.getVert (i - 1) := by
+                        intro h
+                        exact hv (by simpa [h] using p.getVert_mem_support (i - 1))
+                      have hv_ne_mid : v ≠ p.getVert (i + 2) := by
+                        intro h
+                        exact hv (by simpa [h] using p.getVert_mem_support (i + 2))
+                      have hv_ne_jp1 : v ≠ p.getVert (j + 1) := by
+                        intro h
+                        exact hv (by simpa [h] using p.getVert_mem_support (j + 1))
+                      have him1_ne_mid :
+                          p.getVert (i - 1) ≠ p.getVert (i + 2) := by
+                        intro h
+                        have hidx :
+                            i - 1 = i + 2 :=
+                          hpPath.getVert_injOn hi_pred_le hi_mid_le h
+                        omega
+                      have him1_ne_jp1 :
+                          p.getVert (i - 1) ≠ p.getVert (j + 1) := by
+                        intro h
+                        have hidx :
+                            i - 1 = j + 1 :=
+                          hpPath.getVert_injOn hi_pred_le hj_next_le h
+                        omega
+                      have hmid_ne_jp1 :
+                          p.getVert (i + 2) ≠ p.getVert (j + 1) := by
+                        intro h
+                        have hidx :
+                            i + 2 = j + 1 :=
+                          hpPath.getVert_injOn hi_mid_le hj_next_le h
+                        omega
+                      rcases
+                          exists_independent_four_of_pairwise_not_adj
+                            (G := G)
+                            hv_ne_im1 hv_ne_mid hv_ne_jp1
+                            him1_ne_mid him1_ne_jp1 hmid_ne_jp1
+                            hv_i_prev_not hv_mid hv_j_next_not
+                            him1_mid houter hmid_jp1 with
+                        ⟨I, hI, hcard⟩
+                      exact indepNum_le_three_contradicts_independent_four
+                        (G := G) hindep hI hcard
+
+private lemma gap_four_left_middle_escape_connector_exists
+    {α : Type*} [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hgap_eq : j = i + 4)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hescape : G.Adj (p.getVert (i - 1)) (p.getVert (i + 2)))
+    (hright : G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) :
+    ∃ r : G.Walk (p.getVert (i - 1)) (p.getVert (j + 1)),
+      r.IsPath ∧
+      v ∈ r.support ∧
+      r.length = 7 ∧
+      ∀ z : α, z ∈ r.support →
+        z = p.getVert (i - 1) ∨
+          z = v ∨
+          z ∈ ((p.drop i).take ((j + 1) - i)).support := by
+  classical
+  have hi_le : i ≤ p.length := by omega
+  have hi_pred_le : i - 1 ≤ p.length := by omega
+  have hi_succ_le : i + 1 ≤ p.length := by omega
+  have hi_mid_le : i + 2 ≤ p.length := by omega
+  have hj_pred_le : j - 1 ≤ p.length := by omega
+  have hj_le : j ≤ p.length := by omega
+  have hj_next_le : j + 1 ≤ p.length := by omega
+  have hstep_i : G.Adj (p.getVert i) (p.getVert (i + 1)) :=
+    p.adj_getVert_succ (by omega)
+  have hstep_i_succ : G.Adj (p.getVert (i + 1)) (p.getVert (i + 2)) :=
+    p.adj_getVert_succ (by omega)
+  have hstep_j_pred : G.Adj (p.getVert (j - 1)) (p.getVert j) :=
+    by simpa [Nat.sub_add_cancel (by omega : 1 ≤ j)] using
+      p.adj_getVert_succ (by omega : j - 1 < p.length)
+  let r0 : G.Walk (p.getVert (i - 1)) (p.getVert (i + 2)) :=
+    (Walk.nil : G.Walk (p.getVert (i + 2)) (p.getVert (i + 2))).cons hescape
+  have hr0Path : r0.IsPath := by
+    simpa [r0] using hescape.ne
+  let r1 : G.Walk (p.getVert (i - 1)) (p.getVert (i + 1)) :=
+    r0.concat hstep_i_succ.symm
+  have hr1Path : r1.IsPath := by
+    have hi_succ_not_r0 : p.getVert (i + 1) ∉ r0.support := by
+      have hi_succ_ne_pred : p.getVert (i + 1) ≠ p.getVert (i - 1) := by
+        intro h
+        have hidx : i + 1 = i - 1 :=
+          hpPath.getVert_injOn hi_succ_le hi_pred_le h
+        omega
+      have hi_succ_ne_mid : p.getVert (i + 1) ≠ p.getVert (i + 2) :=
+        hstep_i_succ.ne
+      simp [r0, Walk.support_cons, hi_succ_ne_pred, hi_succ_ne_mid]
+    simpa [r1] using hr0Path.concat hi_succ_not_r0 hstep_i_succ.symm
+  let r2 : G.Walk (p.getVert (i - 1)) (p.getVert i) :=
+    r1.concat hstep_i.symm
+  have hr2Path : r2.IsPath := by
+    have hi_not_r1 : p.getVert i ∉ r1.support := by
+      have hi_ne_pred : p.getVert i ≠ p.getVert (i - 1) := by
+        intro h
+        have hidx : i = i - 1 :=
+          hpPath.getVert_injOn hi_le hi_pred_le h
+        omega
+      have hi_ne_mid : p.getVert i ≠ p.getVert (i + 2) := by
+        intro h
+        have hidx : i = i + 2 :=
+          hpPath.getVert_injOn hi_le hi_mid_le h
+        omega
+      have hi_ne_succ : p.getVert i ≠ p.getVert (i + 1) :=
+        hstep_i.ne
+      simp [r1, r0, Walk.support_concat, Walk.support_cons,
+        hi_ne_pred, hi_ne_mid, hi_ne_succ]
+    simpa [r2] using hr1Path.concat hi_not_r1 hstep_i.symm
+  let r3 : G.Walk (p.getVert (i - 1)) v :=
+    r2.concat hvi.symm
+  have hr3Path : r3.IsPath := by
+    have hv_not_r2 : v ∉ r2.support := by
+      have hv_ne_pred : v ≠ p.getVert (i - 1) := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support (i - 1))
+      have hv_ne_mid : v ≠ p.getVert (i + 2) := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support (i + 2))
+      have hv_ne_succ : v ≠ p.getVert (i + 1) := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support (i + 1))
+      have hv_ne_i : v ≠ p.getVert i := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support i)
+      simp [r2, r1, r0, Walk.support_concat, Walk.support_cons,
+        hv_ne_pred, hv_ne_mid, hv_ne_succ, hv_ne_i]
+    simpa [r3] using hr2Path.concat hv_not_r2 hvi.symm
+  let r4 : G.Walk (p.getVert (i - 1)) (p.getVert j) :=
+    r3.concat hvj
+  have hr4Path : r4.IsPath := by
+    have hj_not_r3 : p.getVert j ∉ r3.support := by
+      have hj_ne_pred : p.getVert j ≠ p.getVert (i - 1) := by
+        intro h
+        have hidx : j = i - 1 :=
+          hpPath.getVert_injOn hj_le hi_pred_le h
+        omega
+      have hj_ne_mid : p.getVert j ≠ p.getVert (i + 2) := by
+        intro h
+        have hidx : j = i + 2 :=
+          hpPath.getVert_injOn hj_le hi_mid_le h
+        omega
+      have hj_ne_succ : p.getVert j ≠ p.getVert (i + 1) := by
+        intro h
+        have hidx : j = i + 1 :=
+          hpPath.getVert_injOn hj_le hi_succ_le h
+        omega
+      have hj_ne_i : p.getVert j ≠ p.getVert i := by
+        intro h
+        have hidx : j = i :=
+          hpPath.getVert_injOn hj_le hi_le h
+        omega
+      have hj_ne_v : p.getVert j ≠ v := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support j)
+      simp [r3, r2, r1, r0, Walk.support_concat, Walk.support_cons,
+        hj_ne_pred, hj_ne_mid, hj_ne_succ, hj_ne_i, hj_ne_v]
+    simpa [r4] using hr3Path.concat hj_not_r3 hvj
+  let r5 : G.Walk (p.getVert (i - 1)) (p.getVert (j - 1)) :=
+    r4.concat hstep_j_pred.symm
+  have hr5Path : r5.IsPath := by
+    have hj_pred_not_r4 : p.getVert (j - 1) ∉ r4.support := by
+      have hj_pred_ne_pred : p.getVert (j - 1) ≠ p.getVert (i - 1) := by
+        intro h
+        have hidx : j - 1 = i - 1 :=
+          hpPath.getVert_injOn hj_pred_le hi_pred_le h
+        omega
+      have hj_pred_ne_mid : p.getVert (j - 1) ≠ p.getVert (i + 2) := by
+        intro h
+        have hidx : j - 1 = i + 2 :=
+          hpPath.getVert_injOn hj_pred_le hi_mid_le h
+        omega
+      have hj_pred_ne_succ : p.getVert (j - 1) ≠ p.getVert (i + 1) := by
+        intro h
+        have hidx : j - 1 = i + 1 :=
+          hpPath.getVert_injOn hj_pred_le hi_succ_le h
+        omega
+      have hj_pred_ne_i : p.getVert (j - 1) ≠ p.getVert i := by
+        intro h
+        have hidx : j - 1 = i :=
+          hpPath.getVert_injOn hj_pred_le hi_le h
+        omega
+      have hj_pred_ne_v : p.getVert (j - 1) ≠ v := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support (j - 1))
+      have hj_pred_ne_j : p.getVert (j - 1) ≠ p.getVert j :=
+        hstep_j_pred.ne
+      simp [r4, r3, r2, r1, r0, Walk.support_concat, Walk.support_cons,
+        hj_pred_ne_pred, hj_pred_ne_mid, hj_pred_ne_succ,
+        hj_pred_ne_i, hj_pred_ne_v, hj_pred_ne_j]
+    simpa [r5] using hr4Path.concat hj_pred_not_r4 hstep_j_pred.symm
+  let r : G.Walk (p.getVert (i - 1)) (p.getVert (j + 1)) :=
+    r5.concat hright
+  have hrPath : r.IsPath := by
+    have hj_next_not_r5 : p.getVert (j + 1) ∉ r5.support := by
+      have hj_next_ne_pred : p.getVert (j + 1) ≠ p.getVert (i - 1) := by
+        intro h
+        have hidx : j + 1 = i - 1 :=
+          hpPath.getVert_injOn hj_next_le hi_pred_le h
+        omega
+      have hj_next_ne_mid : p.getVert (j + 1) ≠ p.getVert (i + 2) := by
+        intro h
+        have hidx : j + 1 = i + 2 :=
+          hpPath.getVert_injOn hj_next_le hi_mid_le h
+        omega
+      have hj_next_ne_succ : p.getVert (j + 1) ≠ p.getVert (i + 1) := by
+        intro h
+        have hidx : j + 1 = i + 1 :=
+          hpPath.getVert_injOn hj_next_le hi_succ_le h
+        omega
+      have hj_next_ne_i : p.getVert (j + 1) ≠ p.getVert i := by
+        intro h
+        have hidx : j + 1 = i :=
+          hpPath.getVert_injOn hj_next_le hi_le h
+        omega
+      have hj_next_ne_v : p.getVert (j + 1) ≠ v := by
+        intro h
+        exact hv (by simpa [h] using p.getVert_mem_support (j + 1))
+      have hj_next_ne_j : p.getVert (j + 1) ≠ p.getVert j := by
+        intro h
+        have hidx : j + 1 = j :=
+          hpPath.getVert_injOn hj_next_le hj_le h
+        omega
+      have hj_next_ne_j_pred : p.getVert (j + 1) ≠ p.getVert (j - 1) := by
+        intro h
+        have hidx : j + 1 = j - 1 :=
+          hpPath.getVert_injOn hj_next_le hj_pred_le h
+        omega
+      simp [r5, r4, r3, r2, r1, r0, Walk.support_concat, Walk.support_cons,
+        hj_next_ne_pred, hj_next_ne_mid, hj_next_ne_succ,
+        hj_next_ne_i, hj_next_ne_v, hj_next_ne_j, hj_next_ne_j_pred]
+    simpa [r] using hr5Path.concat hj_next_not_r5 hright
+  have hvr : v ∈ r.support := by
+    have hv_r3 : v ∈ r3.support := r3.end_mem_support
+    simp [r, r5, r4, Walk.support_concat, hv_r3]
+  have hmem_seg :
+      ∀ k : ℕ, i ≤ k → k ≤ j + 1 →
+        p.getVert k ∈ ((p.drop i).take ((j + 1) - i)).support := by
+    intro k hik hkj
+    have hk_sub : k - i ≤ (j + 1) - i := by omega
+    have hmem :
+        ((p.drop i).take ((j + 1) - i)).getVert (k - i) ∈
+          ((p.drop i).take ((j + 1) - i)).support :=
+      (((p.drop i).take ((j + 1) - i)).getVert_mem_support (k - i))
+    have hget :
+        ((p.drop i).take ((j + 1) - i)).getVert (k - i) =
+          p.getVert (i + (k - i)) :=
+      indexed_segment_getVert_eq (G := G) (p := p)
+        (i := i) (j := j + 1) (k := k - i) hk_sub
+    simpa [hget, Nat.add_sub_of_le hik] using hmem
+  refine ⟨r, hrPath, hvr, ?_, ?_⟩
+  · simp [r, r5, r4, r3, r2, r1, r0, Walk.length_cons, Walk.length_concat]
+  · intro z hz
+    have hcases :
+        z = p.getVert (i - 1) ∨
+          z = p.getVert (i + 2) ∨
+          z = p.getVert (i + 1) ∨
+          z = p.getVert i ∨
+          z = v ∨
+          z = p.getVert j ∨
+          z = p.getVert (j - 1) ∨
+          z = p.getVert (j + 1) := by
+      simpa [r, r5, r4, r3, r2, r1, r0, Walk.support_concat,
+        Walk.support_cons] using hz
+    rcases hcases with
+      hz_pred | hz_mid | hz_succ | hz_i | hz_v | hz_j | hz_j_pred | hz_j_next
+    · exact Or.inl hz_pred
+    · exact Or.inr <| Or.inr <| by
+        simpa [hz_mid] using hmem_seg (i + 2) (by omega) (by omega)
+    · exact Or.inr <| Or.inr <| by
+        simpa [hz_succ] using hmem_seg (i + 1) (by omega) (by omega)
+    · exact Or.inr <| Or.inr <| by
+        have hi_seg_right : i ≤ j + 1 := by omega
+        simpa [hz_i] using hmem_seg i le_rfl hi_seg_right
+    · exact Or.inr <| Or.inl hz_v
+    · exact Or.inr <| Or.inr <| by
+        simpa [hz_j] using hmem_seg j (by omega) (by omega)
+    · exact Or.inr <| Or.inr <| by
+        simpa [hz_j_pred] using hmem_seg (j - 1) (by omega) (by omega)
+    · exact Or.inr <| Or.inr <| by
+        simpa [hz_j_next] using hmem_seg (j + 1) (by omega) (by omega)
+
+lemma missed_vertex_two_attachments_gap_four_left_middle_escape_chord_false
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hgap_eq : j = i + 4)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hescape : G.Adj (p.getVert (i - 1)) (p.getVert (i + 2)))
+    (hright : G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) :
+    False := by
+  rcases gap_four_left_middle_escape_connector_exists
+      (G := G) (p := p) hpPath hv hi_pos hgap_eq hj_lt hvi hvj
+      hescape hright with
+    ⟨r, hrPath, _hvr, hrLen, hrSupport⟩
+  let q : G.Walk a b := ((p.take (i - 1)).append r).append (p.drop (j + 1))
+  have hqPath : q.IsPath := by
+    simpa [q] using
+      indexed_connector_to_successor_splice_isPath
+        (G := G) (p := p) hpPath hv hi_pos hij hj_lt hrPath hrSupport
+  have hle := hmax a b q hqPath
+  have hq_len : q.length = p.length + 1 := by
+    have hi_pred_le : i - 1 ≤ p.length := by omega
+    simp [q, Walk.length_append, Walk.take_length, Walk.drop_length,
+      Nat.min_eq_left hi_pred_le, hrLen]
+    omega
+  have hq_support_len : q.support.length = q.length + 1 := q.length_support
+  have hp_support_len : p.support.length = p.length + 1 := p.length_support
+  omega
+
+lemma missed_vertex_two_attachments_gap_four_forces_outer_cross_or_remaining_escape_chord
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hgap_eq : j = i + 4)
+    (hj_lt : j < p.length)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1)))
+    (hright : G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) :
+    G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∨
+      G.Adj (p.getVert (i - 1)) (p.getVert j) ∨
+      G.Adj (p.getVert i) (p.getVert (i + 2)) ∨
+      G.Adj (p.getVert i) (p.getVert (j - 1)) ∨
+      G.Adj (p.getVert i) (p.getVert (j + 1)) ∨
+      G.Adj (p.getVert (i + 1)) (p.getVert j) ∨
+      G.Adj (p.getVert (i + 2)) (p.getVert j) ∨
+      G.Adj (p.getVert (i + 2)) (p.getVert (j + 1)) ∨
+      G.Adj v (p.getVert (i + 2)) := by
+  rcases
+      missed_vertex_two_attachments_gap_four_forces_outer_cross_or_escape_chord
+        (G := G) hpPath hindep hv hi_pos hgap_eq hj_lt
+        hv_i_prev_not hv_j_next_not with
+    houter | hrest
+  · exact Or.inl houter
+  · rcases hrest with hleft_mid | hremaining
+    · exact False.elim
+        (missed_vertex_two_attachments_gap_four_left_middle_escape_chord_false
+          (G := G) hpPath hmax hv hi_pos hij hgap_eq hj_lt hvi hvj
+          hleft_mid hright)
+    · exact Or.inr hremaining
+
+lemma missed_vertex_two_attachments_refined_gap_chord_patterns
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hgap_at_least_two : i + 1 < j)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    (j = i + 2 ∧
+      (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∨
+        (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+          G.Adj (p.getVert (j + 1)) (p.getVert (i + 1))))) ∨
+      (i + 2 < j ∧
+        (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+          G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+            (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+              G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))))) := by
+  by_cases hgap : i + 2 < j
+  · exact Or.inr
+      ⟨hgap,
+        missed_vertex_two_attachments_large_gap_forces_local_or_cross_chords
+          (G := G) hpPath hmax hindep hv hi_pos hij hgap hj_lt hvi hvj
+          hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not⟩
+  · have hgap_eq : j = i + 2 := by omega
+    exact Or.inl
+      ⟨hgap_eq,
+        missed_vertex_two_attachments_gap_two_forces_cross_or_two_local_chords
+      (G := G) hpPath hmax hindep hv hi_pos hij hgap_eq hj_lt hvi hvj
+      hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not⟩
+
+lemma missed_vertex_two_attachments_refined_gap_chord_patterns_without_gap_two_local
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hgap_at_least_two : i + 1 < j)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    (j = i + 2 ∧
+      G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))) ∨
+      (i + 2 < j ∧
+        (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+          G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+            (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+              G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))))) := by
+  by_cases hgap : i + 2 < j
+  · exact Or.inr
+      ⟨hgap,
+        missed_vertex_two_attachments_large_gap_forces_local_or_cross_chords
+          (G := G) hpPath hmax hindep hv hi_pos hij hgap hj_lt hvi hvj
+          hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not⟩
+  · have hgap_eq : j = i + 2 := by omega
+    exact Or.inl
+      ⟨hgap_eq,
+        missed_vertex_two_attachments_gap_two_forces_cross_chord
+          (G := G) hpPath hmax hindep hv hi_pos hij hgap_eq hj_lt hvi hvj
+          hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not⟩
+
+lemma missed_vertex_two_attachments_refined_gap_chord_patterns_without_single_local
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {a b v : α}
+    {p : G.Walk a b} (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hindep : G.indepNum ≤ 3)
+    (hv : v ∉ p.support)
+    {i j : ℕ}
+    (hi_pos : 0 < i)
+    (hij : i < j)
+    (hj_lt : j < p.length)
+    (hgap_at_least_two : i + 1 < j)
+    (hvi : G.Adj v (p.getVert i))
+    (hvj : G.Adj v (p.getVert j))
+    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))
+    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))
+    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))
+    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :
+    (j = i + 2 ∧
+      G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))) ∨
+      (i + 2 < j ∧
+        ((G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+          G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) ∨
+          (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+            G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))))) := by
+  by_cases hgap : i + 2 < j
+  · exact Or.inr
+      ⟨hgap,
+        missed_vertex_two_attachments_large_gap_forces_two_local_or_cross_chords
+          (G := G) hpPath hmax hindep hv hi_pos hij hgap hj_lt hvi hvj
+          hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not⟩
+  · have hgap_eq : j = i + 2 := by omega
+    exact Or.inl
+      ⟨hgap_eq,
+        missed_vertex_two_attachments_gap_two_forces_cross_chord
+          (G := G) hpPath hmax hindep hv hi_pos hij hgap_eq hj_lt hvi hvj
+          hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not⟩
+
+lemma source_bound_missed_vertex_two_attachments_forces_apex_obstruction_disjunctions
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hapex :
+      ∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1))) :
+    ∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j ∧
+        ¬ G.Adj v (p.getVert (i - 1)) ∧
+        ¬ G.Adj v (p.getVert (i + 1)) ∧
+        ¬ G.Adj v (p.getVert (j - 1)) ∧
+        ¬ G.Adj v (p.getVert (j + 1)) ∧
+        (G.Adj (p.getVert (j + 1)) (p.getVert (i - 1)) ∨
+          G.Adj (p.getVert (j + 1)) (p.getVert (j - 1))) ∧
+        (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+          G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))) := by
+  rcases source_bound_b_eq_diam_add_two_forces_reduced_branch
+      (G := G) hconn hb hb2 with
+    ⟨_hdiam, _hb4, _hecc, _hdelete, hindep⟩
+  rcases hapex with
+    ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+      hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+      hv_j_prev_not, hv_j_next_not⟩
+  have hvi : G.Adj v (p.getVert i) := by
+    simpa [hi_get] using hvs
+  have hvj : G.Adj v (p.getVert j) := by
+    simpa [hj_get] using hvt
+  have hj_next_hit :
+      G.Adj (p.getVert (j + 1)) (p.getVert (i - 1)) ∨
+        G.Adj (p.getVert (j + 1)) (p.getVert (j - 1)) :=
+    missed_vertex_two_attachments_j_next_hits_predecessor_pair_of_indepNum_le_three
+      (G := G) hpPath hmax hindep hv hi_pos hij hj_lt hvi hvj
+      hv_i_prev_not hv_j_prev_not hv_j_next_not
+  have hi_prev_hit :
+      G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+        G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) :=
+    missed_vertex_two_attachments_i_prev_hits_successor_pair_of_indepNum_le_three
+      (G := G) hpPath hmax hindep hv hi_pos hij hj_lt hvi hvj
+      hv_i_prev_not hv_i_next_not hv_j_next_not
+  exact
+    ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get, hvs, hvt,
+      hsep, hv_i_prev_not, hv_i_next_not, hv_j_prev_not,
+      hv_j_next_not, hj_next_hit, hi_prev_hit⟩
+
+lemma source_bound_missed_vertex_two_attachments_forces_gap_two_or_large_gap_chords
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hapex :
+      ∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1))) :
+    ∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j ∧
+        ¬ G.Adj v (p.getVert (i - 1)) ∧
+        ¬ G.Adj v (p.getVert (i + 1)) ∧
+        ¬ G.Adj v (p.getVert (j - 1)) ∧
+        ¬ G.Adj v (p.getVert (j + 1)) ∧
+        (j = i + 2 ∨
+          (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+            G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+              (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+                G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))))) := by
+  rcases source_bound_b_eq_diam_add_two_forces_reduced_branch
+      (G := G) hconn hb hb2 with
+    ⟨_hdiam, _hb4, _hecc, _hdelete, hindep⟩
+  rcases hapex with
+    ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+      hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+      hv_j_prev_not, hv_j_next_not⟩
+  have hvi : G.Adj v (p.getVert i) := by
+    simpa [hi_get] using hvs
+  have hvj : G.Adj v (p.getVert j) := by
+    simpa [hj_get] using hvt
+  have hgap_split :
+      j = i + 2 ∨
+        (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+          G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+            (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+              G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))) :=
+    missed_vertex_two_attachments_gap_two_or_large_gap_local_or_cross_chords
+      (G := G) hpPath hmax hindep hv hi_pos hij hj_lt hsep hvi hvj
+      hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not
+  exact
+    ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get, hvs, hvt,
+      hsep, hv_i_prev_not, hv_i_next_not, hv_j_prev_not,
+      hv_j_next_not, hgap_split⟩
+
+lemma source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hapex :
+      ∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1))) :
+    ∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j ∧
+        ¬ G.Adj v (p.getVert (i - 1)) ∧
+        ¬ G.Adj v (p.getVert (i + 1)) ∧
+        ¬ G.Adj v (p.getVert (j - 1)) ∧
+        ¬ G.Adj v (p.getVert (j + 1)) ∧
+        ((j = i + 2 ∧
+          (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∨
+            (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+              G.Adj (p.getVert (j + 1)) (p.getVert (i + 1))))) ∨
+          (i + 2 < j ∧
+            (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+              G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+                (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+                  G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))))) := by
+  rcases source_bound_b_eq_diam_add_two_forces_reduced_branch
+      (G := G) hconn hb hb2 with
+    ⟨_hdiam, _hb4, _hecc, _hdelete, hindep⟩
+  rcases hapex with
+    ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+      hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+      hv_j_prev_not, hv_j_next_not⟩
+  have hvi : G.Adj v (p.getVert i) := by
+    simpa [hi_get] using hvs
+  have hvj : G.Adj v (p.getVert j) := by
+    simpa [hj_get] using hvt
+  have hpatterns :
+      (j = i + 2 ∧
+        (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∨
+          (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+            G.Adj (p.getVert (j + 1)) (p.getVert (i + 1))))) ∨
+        (i + 2 < j ∧
+          (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+            G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+              (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+                G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))))) :=
+    missed_vertex_two_attachments_refined_gap_chord_patterns
+      (G := G) hpPath hmax hindep hv hi_pos hij hj_lt hsep hvi hvj
+      hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not
+  exact
+    ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get, hvs, hvt,
+      hsep, hv_i_prev_not, hv_i_next_not, hv_j_prev_not,
+      hv_j_next_not, hpatterns⟩
+
+lemma source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns_without_gap_two_local
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hapex :
+      ∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1))) :
+    ∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j ∧
+        ¬ G.Adj v (p.getVert (i - 1)) ∧
+        ¬ G.Adj v (p.getVert (i + 1)) ∧
+        ¬ G.Adj v (p.getVert (j - 1)) ∧
+        ¬ G.Adj v (p.getVert (j + 1)) ∧
+        ((j = i + 2 ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))) ∨
+          (i + 2 < j ∧
+            (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+              G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+                (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+                  G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))))) := by
+  rcases source_bound_b_eq_diam_add_two_forces_reduced_branch
+      (G := G) hconn hb hb2 with
+    ⟨_hdiam, _hb4, _hecc, _hdelete, hindep⟩
+  rcases hapex with
+    ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+      hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+      hv_j_prev_not, hv_j_next_not⟩
+  have hvi : G.Adj v (p.getVert i) := by
+    simpa [hi_get] using hvs
+  have hvj : G.Adj v (p.getVert j) := by
+    simpa [hj_get] using hvt
+  have hpatterns :
+      (j = i + 2 ∧
+        G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))) ∨
+        (i + 2 < j ∧
+          (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+            G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+              (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+                G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))))) :=
+    missed_vertex_two_attachments_refined_gap_chord_patterns_without_gap_two_local
+      (G := G) hpPath hmax hindep hv hi_pos hij hj_lt hsep hvi hvj
+      hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not
+  exact
+    ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get, hvs, hvt,
+      hsep, hv_i_prev_not, hv_i_next_not, hv_j_prev_not,
+      hv_j_next_not, hpatterns⟩
+
+lemma source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns_without_single_local
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hapex :
+      ∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1))) :
+    ∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j ∧
+        ¬ G.Adj v (p.getVert (i - 1)) ∧
+        ¬ G.Adj v (p.getVert (i + 1)) ∧
+        ¬ G.Adj v (p.getVert (j - 1)) ∧
+        ¬ G.Adj v (p.getVert (j + 1)) ∧
+        ((j = i + 2 ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))) ∨
+          (i + 2 < j ∧
+            ((G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+              G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) ∨
+              (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+                G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))))) := by
+  rcases source_bound_b_eq_diam_add_two_forces_reduced_branch
+      (G := G) hconn hb hb2 with
+    ⟨_hdiam, _hb4, _hecc, _hdelete, hindep⟩
+  rcases hapex with
+    ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+      hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+      hv_j_prev_not, hv_j_next_not⟩
+  have hvi : G.Adj v (p.getVert i) := by
+    simpa [hi_get] using hvs
+  have hvj : G.Adj v (p.getVert j) := by
+    simpa [hj_get] using hvt
+  have hpatterns :
+      (j = i + 2 ∧
+        G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))) ∨
+        (i + 2 < j ∧
+          ((G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+            G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) ∨
+            (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+              G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))))) :=
+    missed_vertex_two_attachments_refined_gap_chord_patterns_without_single_local
+      (G := G) hpPath hmax hindep hv hi_pos hij hj_lt hsep hvi hvj
+      hv_i_prev_not hv_i_next_not hv_j_prev_not hv_j_next_not
+  exact
+    ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get, hvs, hvt,
+      hsep, hv_i_prev_not, hv_i_next_not, hv_j_prev_not,
+      hv_j_next_not, hpatterns⟩
+
+lemma source_bound_b_eq_diam_add_two_forces_longest_path_apex_obstruction_frontier
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    G.indepNum ≤ 3 ∧
+    (((∃ s t x y : α,
+      ∃ i j : ℕ, ∃ q : G.Walk x y,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj x s ∧
+        G.Adj y t ∧
+        i + 2 < j ∧
+        q.IsPath ∧
+        0 < q.length ∧
+        v ∈ q.support ∧
+        (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+        q.length + 2 ≤ j - i ∧
+        ¬ G.Adj x (p.getVert (i - 1)) ∧
+        ¬ G.Adj x (p.getVert (i + 1)) ∧
+        ¬ G.Adj y (p.getVert (j - 1)) ∧
+        ¬ G.Adj y (p.getVert (j + 1))) ∨
+    (∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j ∧
+        ¬ G.Adj v (p.getVert (i - 1)) ∧
+        ¬ G.Adj v (p.getVert (i + 1)) ∧
+        ¬ G.Adj v (p.getVert (j - 1)) ∧
+        ¬ G.Adj v (p.getVert (j + 1)) ∧
+        (G.Adj (p.getVert (j + 1)) (p.getVert (i - 1)) ∨
+          G.Adj (p.getVert (j + 1)) (p.getVert (j - 1))) ∧
+        (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+          G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)))) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair)) := by
+  rcases source_bound_b_eq_diam_add_two_forces_longest_path_two_sided_local_nonadj_frontier
+      (G := G) hconn hb hb2 p hpPath hmax hv with
+    ⟨hindep, hfrontier⟩
+  refine ⟨hindep, ?_⟩
+  rcases hfrontier with hfan | hresidual
+  · rcases hfan with hlong | hapex
+    · exact Or.inl hlong
+    · exact Or.inr <| Or.inl <|
+        source_bound_missed_vertex_two_attachments_forces_apex_obstruction_disjunctions
+          (G := G) hconn hb hb2 p hpPath hmax hv hapex
+  · exact Or.inr <| Or.inr hresidual
+
+lemma source_bound_b_eq_diam_add_two_forces_longest_path_refined_apex_pattern_frontier
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support) :
+    G.indepNum ≤ 3 ∧
+    (((∃ s t x y : α,
+      ∃ i j : ℕ, ∃ q : G.Walk x y,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        x ∉ p.support ∧
+        y ∉ p.support ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj x s ∧
+        G.Adj y t ∧
+        i + 2 < j ∧
+        q.IsPath ∧
+        0 < q.length ∧
+        v ∈ q.support ∧
+        (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+        q.length + 2 ≤ j - i ∧
+        ¬ G.Adj x (p.getVert (i - 1)) ∧
+        ¬ G.Adj x (p.getVert (i + 1)) ∧
+        ¬ G.Adj y (p.getVert (j - 1)) ∧
+        ¬ G.Adj y (p.getVert (j + 1))) ∨
+    (∃ s t : α,
+      ∃ i j : ℕ,
+        0 < i ∧
+        i < j ∧
+        j < p.length ∧
+        p.getVert i = s ∧
+        p.getVert j = t ∧
+        G.Adj v s ∧
+        G.Adj v t ∧
+        i + 1 < j ∧
+        ¬ G.Adj v (p.getVert (i - 1)) ∧
+        ¬ G.Adj v (p.getVert (i + 1)) ∧
+        ¬ G.Adj v (p.getVert (j - 1)) ∧
+        ¬ G.Adj v (p.getVert (j + 1)) ∧
+        ((j = i + 2 ∧
+          (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∨
+            (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+              G.Adj (p.getVert (j + 1)) (p.getVert (i + 1))))) ∨
+          (i + 2 < j ∧
+            (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+              G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+                (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+                  G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))))))) ∨
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair)) := by
+  rcases source_bound_b_eq_diam_add_two_forces_longest_path_two_sided_local_nonadj_frontier
+      (G := G) hconn hb hb2 p hpPath hmax hv with
+    ⟨hindep, hfrontier⟩
+  refine ⟨hindep, ?_⟩
+  rcases hfrontier with hfan | hresidual
+  · rcases hfan with hlong | hapex
+    · exact Or.inl hlong
+    · exact Or.inr <| Or.inl <|
+        source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns
+          (G := G) hconn hb hb2 p hpPath hmax hv hapex
+  · exact Or.inr <| Or.inr hresidual
+
+lemma source_bound_frontier_reduces_to_terminal_residual_of_nonresidual_independent_four
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hlong_indep :
+      (∃ s t x y : α,
+        ∃ i j : ℕ, ∃ q : G.Walk x y,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          x ∉ p.support ∧
+          y ∉ p.support ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj x s ∧
+          G.Adj y t ∧
+          i + 2 < j ∧
+          q.IsPath ∧
+          0 < q.length ∧
+          v ∈ q.support ∧
+          (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+          q.length + 2 ≤ j - i ∧
+          ¬ G.Adj x (p.getVert (i - 1)) ∧
+          ¬ G.Adj x (p.getVert (i + 1)) ∧
+          ¬ G.Adj y (p.getVert (j - 1)) ∧
+          ¬ G.Adj y (p.getVert (j + 1))) →
+        ∃ I : Finset α, G.IsIndepSet (I : Set α) ∧ I.card = 4)
+    (hapex_indep :
+      (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1))) →
+        ∃ I : Finset α, G.IsIndepSet (I : Set α) ∧ I.card = 4) :
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  classical
+  rcases
+      source_bound_b_eq_diam_add_two_forces_longest_path_two_sided_local_nonadj_frontier
+        (G := G) hconn hb hb2 p hpPath hmax hv with
+    ⟨hindep, hfrontier⟩
+  rcases hfrontier with hnonresidual | hresidual
+  · rcases hnonresidual with hlong | hapex
+    · rcases hlong_indep hlong with ⟨I, hI, hcard⟩
+      exact False.elim
+        (indepNum_le_three_contradicts_independent_four
+          (G := G) hindep hI hcard)
+    · rcases hapex_indep hapex with ⟨I, hI, hcard⟩
+      exact False.elim
+        (indepNum_le_three_contradicts_independent_four
+          (G := G) hindep hI hcard)
+  · exact hresidual
+
+lemma source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_apex_obstruction_contradiction
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hlong_indep :
+      (∃ s t x y : α,
+        ∃ i j : ℕ, ∃ q : G.Walk x y,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          x ∉ p.support ∧
+          y ∉ p.support ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj x s ∧
+          G.Adj y t ∧
+          i + 2 < j ∧
+          q.IsPath ∧
+          0 < q.length ∧
+          v ∈ q.support ∧
+          (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+          q.length + 2 ≤ j - i ∧
+          ¬ G.Adj x (p.getVert (i - 1)) ∧
+          ¬ G.Adj x (p.getVert (i + 1)) ∧
+          ¬ G.Adj y (p.getVert (j - 1)) ∧
+          ¬ G.Adj y (p.getVert (j + 1))) →
+        ∃ I : Finset α, G.IsIndepSet (I : Set α) ∧ I.card = 4)
+    (hapex_obstruction_false :
+      (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          (G.Adj (p.getVert (j + 1)) (p.getVert (i - 1)) ∨
+            G.Adj (p.getVert (j + 1)) (p.getVert (j - 1))) ∧
+          (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+            G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)))) →
+        False) :
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  exact
+    source_bound_frontier_reduces_to_terminal_residual_of_nonresidual_independent_four
+      (G := G) hconn hb hb2 p hpPath hmax hv hlong_indep
+      (by
+        intro hapex
+        have hobstruction :
+            ∃ s t : α,
+              ∃ i j : ℕ,
+                0 < i ∧
+                i < j ∧
+                j < p.length ∧
+                p.getVert i = s ∧
+                p.getVert j = t ∧
+                G.Adj v s ∧
+                G.Adj v t ∧
+                i + 1 < j ∧
+                ¬ G.Adj v (p.getVert (i - 1)) ∧
+                ¬ G.Adj v (p.getVert (i + 1)) ∧
+                ¬ G.Adj v (p.getVert (j - 1)) ∧
+                ¬ G.Adj v (p.getVert (j + 1)) ∧
+                (G.Adj (p.getVert (j + 1)) (p.getVert (i - 1)) ∨
+                  G.Adj (p.getVert (j + 1)) (p.getVert (j - 1))) ∧
+                (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+                  G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))) :=
+          source_bound_missed_vertex_two_attachments_forces_apex_obstruction_disjunctions
+            (G := G) hconn hb hb2 p hpPath hmax hv hapex
+        exact False.elim (hapex_obstruction_false hobstruction))
+
+lemma source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_refined_apex_pattern_contradiction
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hlong_indep :
+      (∃ s t x y : α,
+        ∃ i j : ℕ, ∃ q : G.Walk x y,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          x ∉ p.support ∧
+          y ∉ p.support ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj x s ∧
+          G.Adj y t ∧
+          i + 2 < j ∧
+          q.IsPath ∧
+          0 < q.length ∧
+          v ∈ q.support ∧
+          (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+          q.length + 2 ≤ j - i ∧
+          ¬ G.Adj x (p.getVert (i - 1)) ∧
+          ¬ G.Adj x (p.getVert (i + 1)) ∧
+          ¬ G.Adj y (p.getVert (j - 1)) ∧
+          ¬ G.Adj y (p.getVert (j + 1))) →
+        ∃ I : Finset α, G.IsIndepSet (I : Set α) ∧ I.card = 4)
+    (hapex_refined_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          ((j = i + 2 ∧
+            (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∨
+              (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+                G.Adj (p.getVert (j + 1)) (p.getVert (i + 1))))) ∨
+            (i + 2 < j ∧
+              (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+                G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+                  (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+                    G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))))))) :
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  exact
+    source_bound_frontier_reduces_to_terminal_residual_of_nonresidual_independent_four
+      (G := G) hconn hb hb2 p hpPath hmax hv hlong_indep
+      (by
+        intro hapex
+        have hpatterns :
+            ∃ s t : α,
+              ∃ i j : ℕ,
+                0 < i ∧
+                i < j ∧
+                j < p.length ∧
+                p.getVert i = s ∧
+                p.getVert j = t ∧
+                G.Adj v s ∧
+                G.Adj v t ∧
+                i + 1 < j ∧
+                ¬ G.Adj v (p.getVert (i - 1)) ∧
+                ¬ G.Adj v (p.getVert (i + 1)) ∧
+                ¬ G.Adj v (p.getVert (j - 1)) ∧
+                ¬ G.Adj v (p.getVert (j + 1)) ∧
+                ((j = i + 2 ∧
+                  (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∨
+                    (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+                      G.Adj (p.getVert (j + 1)) (p.getVert (i + 1))))) ∨
+                  (i + 2 < j ∧
+                    (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+                      G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+                        (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+                          G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))))) :=
+          source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns
+            (G := G) hconn hb hb2 p hpPath hmax hv hapex
+        exact False.elim (hapex_refined_false hpatterns))
+
+lemma source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_refined_apex_case_contradictions
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hlong_indep :
+      (∃ s t x y : α,
+        ∃ i j : ℕ, ∃ q : G.Walk x y,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          x ∉ p.support ∧
+          y ∉ p.support ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj x s ∧
+          G.Adj y t ∧
+          i + 2 < j ∧
+          q.IsPath ∧
+          0 < q.length ∧
+          v ∈ q.support ∧
+          (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+          q.length + 2 ≤ j - i ∧
+          ¬ G.Adj x (p.getVert (i - 1)) ∧
+          ¬ G.Adj x (p.getVert (i + 1)) ∧
+          ¬ G.Adj y (p.getVert (j - 1)) ∧
+          ¬ G.Adj y (p.getVert (j + 1))) →
+        ∃ I : Finset α, G.IsIndepSet (I : Set α) ∧ I.card = 4)
+    (hgap_two_cross_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          j = i + 2 ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))))
+    (hgap_two_two_local_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          j = i + 2 ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+          G.Adj (p.getVert (j + 1)) (p.getVert (i + 1))))
+    (hlarge_left_local_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          i + 2 < j ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (i + 1))))
+    (hlarge_right_local_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          i + 2 < j ∧
+          G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))))
+    (hlarge_cross_cross_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          i + 2 < j ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+          G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))) :
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  exact
+    source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_refined_apex_pattern_contradiction
+      (G := G) hconn hb hb2 p hpPath hmax hv hlong_indep
+      (by
+        rintro ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+          hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+          hv_j_prev_not, hv_j_next_not, hpatterns⟩
+        rcases hpatterns with hgap_two | hlarge
+        · rcases hgap_two with ⟨hgap_eq, hcase⟩
+          rcases hcase with hcross | hlocals
+          · exact hgap_two_cross_false
+              ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                hv_j_prev_not, hv_j_next_not, hgap_eq, hcross⟩
+          · exact hgap_two_two_local_false
+              ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                hv_j_prev_not, hv_j_next_not, hgap_eq, hlocals.1, hlocals.2⟩
+        · rcases hlarge with ⟨hgap_large, hcase⟩
+          rcases hcase with hleft | hright_or_cross
+          · exact hlarge_left_local_false
+              ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                hv_j_prev_not, hv_j_next_not, hgap_large, hleft⟩
+          · rcases hright_or_cross with hright | hcrosses
+            · exact hlarge_right_local_false
+                ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                  hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                  hv_j_prev_not, hv_j_next_not, hgap_large, hright⟩
+            · exact hlarge_cross_cross_false
+                ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                  hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                  hv_j_prev_not, hv_j_next_not, hgap_large,
+                  hcrosses.1, hcrosses.2⟩)
+
+lemma source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_refined_apex_four_case_contradictions
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hlong_indep :
+      (∃ s t x y : α,
+        ∃ i j : ℕ, ∃ q : G.Walk x y,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          x ∉ p.support ∧
+          y ∉ p.support ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj x s ∧
+          G.Adj y t ∧
+          i + 2 < j ∧
+          q.IsPath ∧
+          0 < q.length ∧
+          v ∈ q.support ∧
+          (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+          q.length + 2 ≤ j - i ∧
+          ¬ G.Adj x (p.getVert (i - 1)) ∧
+          ¬ G.Adj x (p.getVert (i + 1)) ∧
+          ¬ G.Adj y (p.getVert (j - 1)) ∧
+          ¬ G.Adj y (p.getVert (j + 1))) →
+        ∃ I : Finset α, G.IsIndepSet (I : Set α) ∧ I.card = 4)
+    (hgap_two_cross_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          j = i + 2 ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))))
+    (hlarge_left_local_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          i + 2 < j ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (i + 1))))
+    (hlarge_right_local_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          i + 2 < j ∧
+          G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))))
+    (hlarge_cross_cross_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          i + 2 < j ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+          G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))) :
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  exact
+    source_bound_frontier_reduces_to_terminal_residual_of_nonresidual_independent_four
+      (G := G) hconn hb hb2 p hpPath hmax hv hlong_indep
+      (by
+        intro hapex
+        have hpatterns :
+            ∃ s t : α,
+              ∃ i j : ℕ,
+                0 < i ∧
+                i < j ∧
+                j < p.length ∧
+                p.getVert i = s ∧
+                p.getVert j = t ∧
+                G.Adj v s ∧
+                G.Adj v t ∧
+                i + 1 < j ∧
+                ¬ G.Adj v (p.getVert (i - 1)) ∧
+                ¬ G.Adj v (p.getVert (i + 1)) ∧
+                ¬ G.Adj v (p.getVert (j - 1)) ∧
+                ¬ G.Adj v (p.getVert (j + 1)) ∧
+                ((j = i + 2 ∧
+                  G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))) ∨
+                  (i + 2 < j ∧
+                    (G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨
+                      G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨
+                        (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+                          G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))))) :=
+          source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns_without_gap_two_local
+            (G := G) hconn hb hb2 p hpPath hmax hv hapex
+        rcases hpatterns with
+          ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+            hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+            hv_j_prev_not, hv_j_next_not, hcases⟩
+        rcases hcases with hgap_two | hlarge
+        · exact False.elim
+            (hgap_two_cross_false
+              ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                hv_j_prev_not, hv_j_next_not, hgap_two.1, hgap_two.2⟩)
+        · rcases hlarge with ⟨hgap_large, hcase⟩
+          rcases hcase with hleft | hright_or_cross
+          · exact False.elim
+              (hlarge_left_local_false
+                ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                  hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                  hv_j_prev_not, hv_j_next_not, hgap_large, hleft⟩)
+          · rcases hright_or_cross with hright | hcrosses
+            · exact False.elim
+                (hlarge_right_local_false
+                  ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                    hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                    hv_j_prev_not, hv_j_next_not, hgap_large, hright⟩)
+            · exact False.elim
+                (hlarge_cross_cross_false
+                  ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                    hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                    hv_j_prev_not, hv_j_next_not, hgap_large,
+                    hcrosses.1, hcrosses.2⟩))
+
+lemma source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_refined_apex_three_case_contradictions
+    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]
+    (G : SimpleGraph α)
+    (hconn : G.Connected)
+    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)
+    (hb2 : b G = G.diam + 2)
+    {a b v : α} (p : G.Walk a b)
+    (hpPath : p.IsPath)
+    (hmax : ∀ u w : α, ∀ q : G.Walk u w,
+      q.IsPath → q.support.length ≤ p.support.length)
+    (hv : v ∉ p.support)
+    (hlong_indep :
+      (∃ s t x y : α,
+        ∃ i j : ℕ, ∃ q : G.Walk x y,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          x ∉ p.support ∧
+          y ∉ p.support ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj x s ∧
+          G.Adj y t ∧
+          i + 2 < j ∧
+          q.IsPath ∧
+          0 < q.length ∧
+          v ∈ q.support ∧
+          (∀ z : α, z ∈ q.support → z ∉ p.support) ∧
+          q.length + 2 ≤ j - i ∧
+          ¬ G.Adj x (p.getVert (i - 1)) ∧
+          ¬ G.Adj x (p.getVert (i + 1)) ∧
+          ¬ G.Adj y (p.getVert (j - 1)) ∧
+          ¬ G.Adj y (p.getVert (j + 1))) →
+        ∃ I : Finset α, G.IsIndepSet (I : Set α) ∧ I.card = 4)
+    (hgap_two_cross_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          j = i + 2 ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))))
+    (hlarge_two_local_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          i + 2 < j ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+          G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))))
+    (hlarge_cross_cross_false :
+      ¬ (∃ s t : α,
+        ∃ i j : ℕ,
+          0 < i ∧
+          i < j ∧
+          j < p.length ∧
+          p.getVert i = s ∧
+          p.getVert j = t ∧
+          G.Adj v s ∧
+          G.Adj v t ∧
+          i + 1 < j ∧
+          ¬ G.Adj v (p.getVert (i - 1)) ∧
+          ¬ G.Adj v (p.getVert (i + 1)) ∧
+          ¬ G.Adj v (p.getVert (j - 1)) ∧
+          ¬ G.Adj v (p.getVert (j + 1)) ∧
+          i + 2 < j ∧
+          G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+          G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))) :
+    ∃ s t : α,
+      s ∈ p.support.toFinset ∧ t ∈ p.support.toFinset ∧ s ≠ t ∧
+      ∃ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair ∧
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair := by
+  exact
+    source_bound_frontier_reduces_to_terminal_residual_of_nonresidual_independent_four
+      (G := G) hconn hb hb2 p hpPath hmax hv hlong_indep
+      (by
+        intro hapex
+        have hpatterns :
+            ∃ s t : α,
+              ∃ i j : ℕ,
+                0 < i ∧
+                i < j ∧
+                j < p.length ∧
+                p.getVert i = s ∧
+                p.getVert j = t ∧
+                G.Adj v s ∧
+                G.Adj v t ∧
+                i + 1 < j ∧
+                ¬ G.Adj v (p.getVert (i - 1)) ∧
+                ¬ G.Adj v (p.getVert (i + 1)) ∧
+                ¬ G.Adj v (p.getVert (j - 1)) ∧
+                ¬ G.Adj v (p.getVert (j + 1)) ∧
+                ((j = i + 2 ∧
+                  G.Adj (p.getVert (i - 1)) (p.getVert (j + 1))) ∨
+                  (i + 2 < j ∧
+                    ((G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∧
+                      G.Adj (p.getVert (j - 1)) (p.getVert (j + 1))) ∨
+                      (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧
+                        G.Adj (p.getVert (i + 1)) (p.getVert (j - 1)))))) :=
+          source_bound_missed_vertex_two_attachments_forces_refined_gap_chord_patterns_without_single_local
+            (G := G) hconn hb hb2 p hpPath hmax hv hapex
+        rcases hpatterns with
+          ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+            hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+            hv_j_prev_not, hv_j_next_not, hcases⟩
+        rcases hcases with hgap_two | hlarge
+        · exact False.elim
+            (hgap_two_cross_false
+              ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                hv_j_prev_not, hv_j_next_not, hgap_two.1, hgap_two.2⟩)
+        · rcases hlarge with ⟨hgap_large, hcase⟩
+          rcases hcase with htwo_local | hcrosses
+          · exact False.elim
+              (hlarge_two_local_false
+                ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                  hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                  hv_j_prev_not, hv_j_next_not, hgap_large,
+                  htwo_local.1, htwo_local.2⟩)
+          · exact False.elim
+              (hlarge_cross_cross_false
+                ⟨s, t, i, j, hi_pos, hij, hj_lt, hi_get, hj_get,
+                  hvs, hvt, hsep, hv_i_prev_not, hv_i_next_not,
+                  hv_j_prev_not, hv_j_next_not, hgap_large,
+                  hcrosses.1, hcrosses.2⟩))
+
+lemma terminal_set_two_fan_of_no_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hno :
+      ∀ pair : G.Path v s × G.Path v t,
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        terminalSetFanBridgeFrontBottleneckOrExplicitFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair →
+        terminalPathPairFirstNonapexPrefixOnlyDefectWithDirectAndSideConcreteFailureCases
+          (G := G) (v := v) (s := s) (t := t) pair →
+        False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hresidual
+  · exact hfan
+  · rcases hresidual with
+      ⟨pair, hpair_min, hsecondary_min, hbridge, hdirect_side⟩
+    exact False.elim
+      (hno pair hpair_min hsecondary_min hbridge hdirect_side)
+
+lemma terminal_set_two_fan_of_no_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure_by_sides
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C)
+    (hleft_left_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (xb : α)
+          (hxb_left : xb ∈ (pair.1 : G.Walk v s).support)
+          (hxb_right : xb ∈ (pair.2 : G.Walk v t).support),
+          xb ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair xb hxb_left hxb_right →
+          ∀ (xd : α)
+            (hxd_left : xd ∈ (pair.1 : G.Walk v s).support)
+            (hxd_right : xd ∈ (pair.2 : G.Walk v t).support)
+            (z : α)
+            (hz_prefix :
+              z ∈ ((pair.1 : G.Walk v s).takeUntil xd hxd_left).support),
+            terminalPathPairLeftFirstPrefixDirectAndSideConcreteFailureResidual
+              (G := G) (x := xd) (z := z)
+              pair hxd_left hxd_right hz_prefix →
+            False)
+    (hleft_right_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (xb : α)
+          (hxb_left : xb ∈ (pair.1 : G.Walk v s).support)
+          (hxb_right : xb ∈ (pair.2 : G.Walk v t).support),
+          xb ≠ v →
+          terminalSetFanLeftSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair xb hxb_left hxb_right →
+          ∀ (xd : α)
+            (hxd_left : xd ∈ (pair.1 : G.Walk v s).support)
+            (hxd_right : xd ∈ (pair.2 : G.Walk v t).support)
+            (z : α)
+            (hz_prefix :
+              z ∈ ((pair.2 : G.Walk v t).takeUntil xd hxd_right).support),
+            terminalPathPairRightFirstPrefixDirectAndSideConcreteFailureResidual
+              (G := G) (x := xd) (z := z)
+              pair hxd_left hxd_right hz_prefix →
+            False)
+    (hright_left_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (xb : α)
+          (hxb_left : xb ∈ (pair.1 : G.Walk v s).support)
+          (hxb_right : xb ∈ (pair.2 : G.Walk v t).support),
+          xb ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair xb hxb_left hxb_right →
+          ∀ (xd : α)
+            (hxd_left : xd ∈ (pair.1 : G.Walk v s).support)
+            (hxd_right : xd ∈ (pair.2 : G.Walk v t).support)
+            (z : α)
+            (hz_prefix :
+              z ∈ ((pair.1 : G.Walk v s).takeUntil xd hxd_left).support),
+            terminalPathPairLeftFirstPrefixDirectAndSideConcreteFailureResidual
+              (G := G) (x := xd) (z := z)
+              pair hxd_left hxd_right hz_prefix →
+            False)
+    (hright_right_no :
+      ∀ (pair : G.Path v s × G.Path v t),
+        terminalPathPairWeightedMeasureMinimal (G := G) pair →
+        terminalPathPairSecondaryMinimalAfterWeighted
+          (G := G) terminalPathPairPrefixOnlyDefect pair →
+        ∀ (xb : α)
+          (hxb_left : xb ∈ (pair.1 : G.Walk v s).support)
+          (hxb_right : xb ∈ (pair.2 : G.Walk v t).support),
+          xb ≠ v →
+          terminalSetFanRightSupportMinimalBridgeFrontBottleneckOrExplicitFailureResidual
+            (G := G) (v := v) (s := s) (t := t)
+            pair xb hxb_left hxb_right →
+          ∀ (xd : α)
+            (hxd_left : xd ∈ (pair.1 : G.Walk v s).support)
+            (hxd_right : xd ∈ (pair.2 : G.Walk v t).support)
+            (z : α)
+            (hz_prefix :
+              z ∈ ((pair.2 : G.Walk v t).takeUntil xd hxd_right).support),
+            terminalPathPairRightFirstPrefixDirectAndSideConcreteFailureResidual
+              (G := G) (x := xd) (z := z)
+              pair hxd_left hxd_right hz_prefix →
+            False) :
+    ∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v := by
+  refine
+    terminal_set_two_fan_of_no_prefix_only_minimal_bridge_front_bottleneck_or_explicit_failure_and_first_nonapex_prefix_only_defect_direct_side_concrete_failure
+      (G := G) (v := v) (s := s) (t := t)
+      hvs hvt hst hsep ?_
+  intro pair hpair_min hsecondary_min hbridge hdirect_side
+  rcases hbridge with ⟨xb, hxb_left, hxb_right, hxbv, hbridge_side⟩
+  rcases hdirect_side with hdirect_left | hdirect_right
+  · rcases hdirect_left with
+      ⟨xd, hxd_left, hxd_right, z, hz_prefix, hdirect⟩
+    rcases hbridge_side with hbridge_left | hbridge_right
+    · exact
+        hleft_left_no pair hpair_min hsecondary_min
+          xb hxb_left hxb_right hxbv hbridge_left
+          xd hxd_left hxd_right z hz_prefix hdirect
+    · exact
+        hright_left_no pair hpair_min hsecondary_min
+          xb hxb_left hxb_right hxbv hbridge_right
+          xd hxd_left hxd_right z hz_prefix hdirect
+  · rcases hdirect_right with
+      ⟨xd, hxd_right, hxd_left, z, hz_prefix, hdirect⟩
+    rcases hbridge_side with hbridge_left | hbridge_right
+    · exact
+        hleft_right_no pair hpair_min hsecondary_min
+          xb hxb_left hxb_right hxbv hbridge_left
+          xd hxd_left hxd_right z hz_prefix hdirect
+    · exact
+        hright_right_no pair hpair_min hsecondary_min
+          xb hxb_left hxb_right hxbv hbridge_right
+          xd hxd_left hxd_right z hz_prefix hdirect
+
+lemma terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_opposite_path_or_same_side_minimal_failure_cases_of_no_small_endpoint_separator
+    {α : Type*} [Fintype α] [DecidableEq α]
+    {G : SimpleGraph α} {v s t : α}
+    (hvs : v ≠ s) (hvt : v ≠ t) (hst : s ≠ t)
+    (hsep : ∀ C : Finset α, C.card < 2 → v ∉ C →
+      ∃ u : α, (u = s ∨ u = t) ∧ u ∉ C ∧
+        ∃ q : G.Walk v u, q.IsPath ∧ ∀ z, z ∈ q.support → z ∉ C) :
+    (∃ qs : G.Walk v s, ∃ qt : G.Walk v t,
+      qs.IsPath ∧ qt.IsPath ∧
+      ∀ z : α, z ∈ qs.support → z ∈ qt.support → z = v) ∨
+    ∃ pair : G.Path v s × G.Path v t,
+      terminalPathPairWeightedMeasureMinimal (G := G) pair ∧
+      terminalPathPairSecondaryMinimalAfterWeighted
+        (G := G) terminalPathPairPrefixOnlyDefect pair ∧
+      ((∃ x : α, ∃ hx_left : x ∈ (pair.1 : G.Walk v s).support,
+        x ∈ (pair.2 : G.Walk v t).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support,
+              z ≠ v ∧
+              z ∉ (pair.2 : G.Walk v t).support ∧
+              (∀ a : α,
+                a ∈ ((pair.1 : G.Walk v s).takeUntil x hx_left).support →
+                  a ∉ (pair.2 : G.Walk v t).support →
+                    a ∈
+                      (((pair.1 : G.Walk v s).takeUntil x hx_left).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ((∃ qt : G.Walk v t, qt.IsPath ∧ z ∉ qt.support) ∨
+                ∃ rs : G.Path v s,
+                  terminalReplacementPathSupportLengthMinimal (G := G) z rs ∧
+                  (terminalPathPairWeightedMeasure (G := G) pair <
+                      terminalPathPairWeightedMeasure (G := G) (rs, pair.2) ∨
+                    ¬ (∀ w : α,
+                      w ∈ terminalPathPairLeftPrefixOnlyDefectSet (G := G) pair →
+                      w ∉ terminalPathPairLeftPrefixOnlyDefectSet
+                        (G := G) (rs, pair.2) →
+                      terminalPathPairLeftPrefixOnlyDefectSet
+                          (G := G) (rs, pair.2) ⊆
+                        (terminalPathPairLeftPrefixOnlyDefectSet
+                          (G := G) pair).erase w) ∨
+                    ¬ (terminalPathPairRightPrefixOnlyDefectSet
+                        (G := G) (rs, pair.2) ⊆
+                      terminalPathPairRightPrefixOnlyDefectSet
+                        (G := G) pair)))) ∨
+      (∃ x : α, ∃ hx_right : x ∈ (pair.2 : G.Walk v t).support,
+        x ∈ (pair.1 : G.Walk v s).support ∧
+          ∃ z : α, ∃ hz_prefix :
+            z ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support,
+              z ≠ v ∧
+              z ∉ (pair.1 : G.Walk v s).support ∧
+              (∀ a : α,
+                a ∈ ((pair.2 : G.Walk v t).takeUntil x hx_right).support →
+                  a ∉ (pair.1 : G.Walk v s).support →
+                    a ∈
+                      (((pair.2 : G.Walk v t).takeUntil x hx_right).takeUntil
+                        z hz_prefix).support →
+                      a = z) ∧
+              ((∃ qs : G.Walk v s, qs.IsPath ∧ z ∉ qs.support) ∨
+                ∃ rt : G.Path v t,
+                  terminalReplacementPathSupportLengthMinimal (G := G) z rt ∧
+                  (terminalPathPairWeightedMeasure (G := G) pair <
+                      terminalPathPairWeightedMeasure (G := G) (pair.1, rt) ∨
+                    ¬ (terminalPathPairLeftPrefixOnlyDefectSet
+                        (G := G) (pair.1, rt) ⊆
+                      terminalPathPairLeftPrefixOnlyDefectSet
+                        (G := G) pair) ∨
+                    ¬ (∀ w : α,
+                      w ∈ terminalPathPairRightPrefixOnlyDefectSet
+                        (G := G) pair →
+                      w ∉ terminalPathPairRightPrefixOnlyDefectSet
+                        (G := G) (pair.1, rt) →
+                      terminalPathPairRightPrefixOnlyDefectSet
+                          (G := G) (pair.1, rt) ⊆
+                        (terminalPathPairRightPrefixOnlyDefectSet
+                          (G := G) pair).erase w))))) := by
+  classical
+  rcases
+      terminal_set_two_fan_or_prefix_only_minimal_first_nonapex_prefix_only_defect_with_opposite_path_or_same_side_minimal_descent_failure_of_no_small_endpoint_separator
+        (G := G) (v := v) (s := s) (t := t) hvs hvt hst hsep with
+    hfan | hbad
+  · exact Or.inl hfan
+  · rcases hbad with ⟨pair, hpair_min, hsecondary_min, hfirst⟩
+    right
+    refine ⟨pair, hpair_min, hsecondary_min, ?_⟩
+    rcases hfirst with hleft | hright
+    · left
+      rcases hleft with
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, havoid⟩
+      refine
+        ⟨x, hx_left, hx_right, z, hz_prefix, hzv, hz_not_right,
+          hfirst_prefix, ?_⟩
+      rcases havoid with hopposite | hsame
+      · exact Or.inl hopposite
+      · right
+        rcases hsame with ⟨rs, hmin, hfail⟩
+        exact
+          ⟨rs, hmin,
+            terminalPathPairLeftReplacementAvoidsDescentPackageFailure_cases_path
+              (G := G) (pair := pair) (rs := rs) hfail⟩
+    · right
+      rcases hright with
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, havoid⟩
+      refine
+        ⟨x, hx_right, hx_left, z, hz_prefix, hzv, hz_not_left,
+          hfirst_prefix, ?_⟩
+      rcases havoid with hopposite | hsame
+      · exact Or.inl hopposite
+      · right
+        rcases hsame with ⟨rt, hmin, hfail⟩
+        exact
+          ⟨rt, hmin,
+            terminalPathPairRightReplacementAvoidsDescentPackageFailure_cases_path
+              (G := G) (pair := pair) (rt := rt) hfail⟩
 
 lemma terminal_set_two_fan_or_bridge_front_or_first_guard_obstruction_of_no_small_endpoint_separator
     {α : Type*} [Fintype α] [DecidableEq α]

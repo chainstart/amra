@@ -1,0 +1,40 @@
+{
+  "generated_at": "2026-07-02T06:07:04+00:00",
+  "workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+  "target_theorem": "missed_vertex_two_attachments_large_gap_forces_local_or_cross_chords",
+  "target_file": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+  "target": {
+    "found": true,
+    "kind": "lemma",
+    "name": "missed_vertex_two_attachments_large_gap_forces_local_or_cross_chords",
+    "path": "/home/biostar/work/projects/amra/amra_library/formal/AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+    "relative_path": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+    "line": 56981,
+    "declaration_line": "lemma missed_vertex_two_attachments_large_gap_forces_local_or_cross_chords"
+  },
+  "build_status": "passed",
+  "returncode": 0,
+  "diagnostics": [],
+  "diagnostic_count": 0,
+  "counts": {
+    "sorry": 0,
+    "axiom": 0,
+    "constant": 0,
+    "admit": 0,
+    "placeholder": 0
+  },
+  "target_header": "lemma missed_vertex_two_attachments_large_gap_forces_local_or_cross_chords\n    {α : Type*} [Fintype α] [DecidableEq α]\n    {G : SimpleGraph α} {a b v : α}\n    {p : G.Walk a b} (hpPath : p.IsPath)\n    (hmax : ∀ u w : α, ∀ q : G.Walk u w,\n      q.IsPath → q.support.length ≤ p.support.length)\n    (hindep : G.indepNum ≤ 3)\n    (hv : v ∉ p.support)\n    {i j : ℕ}\n    (hi_pos : 0 < i)\n    (hij : i < j)\n    (hgap : i + 2 < j)\n    (hj_lt : j < p.length)\n    (hvi : G.Adj v (p.getVert i))\n    (hvj : G.Adj v (p.getVert j))\n    (hv_i_prev_not : ¬ G.Adj v (p.getVert (i - 1)))\n    (hv_i_next_not : ¬ G.Adj v (p.getVert (i + 1)))\n    (hv_j_prev_not : ¬ G.Adj v (p.getVert (j - 1)))\n    (hv_j_next_not : ¬ G.Adj v (p.getVert (j + 1))) :\n    G.Adj (p.getVert (i - 1)) (p.getVert (i + 1)) ∨\n      G.Adj (p.getVert (j - 1)) (p.getVert (j + 1)) ∨\n        (G.Adj (p.getVert (i - 1)) (p.getVert (j + 1)) ∧\n          G.Adj (p.getVert (i + 1)) (p.getVert (j - 1))) := by",
+  "expected_target_header": "",
+  "target_statement_match": {
+    "required": false,
+    "matched": null
+  },
+  "forbidden_target_header_patterns": [],
+  "forbidden_target_header_hits": [],
+  "defect_score": 0,
+  "verified": true,
+  "failure_mode": "",
+  "proof_loop_state": "lean_verified_declaration",
+  "faithful_modeling_status": "faithfully_modeled",
+  "blockers": []
+}

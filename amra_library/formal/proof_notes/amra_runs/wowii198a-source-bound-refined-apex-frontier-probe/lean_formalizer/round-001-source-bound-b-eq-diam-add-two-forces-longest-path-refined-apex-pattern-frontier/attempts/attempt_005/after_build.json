@@ -1,0 +1,14 @@
+{
+  "status": "failed",
+  "returncode": 137,
+  "elapsed_seconds": 11.823,
+  "command": [
+    "lake",
+    "env",
+    "lean",
+    "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean"
+  ],
+  "stdout_tail": "",
+  "stderr_tail": "",
+  "diagnostics": []
+}

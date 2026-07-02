@@ -1,0 +1,40 @@
+{
+  "generated_at": "2026-07-02T06:14:43+00:00",
+  "workspace": "/home/biostar/work/projects/amra/amra_library/formal",
+  "target_theorem": "source_bound_missed_vertex_two_attachments_forces_gap_two_or_large_gap_chords",
+  "target_file": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+  "target": {
+    "found": true,
+    "kind": "lemma",
+    "name": "source_bound_missed_vertex_two_attachments_forces_gap_two_or_large_gap_chords",
+    "path": "/home/biostar/work/projects/amra/amra_library/formal/AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+    "relative_path": "AmraLibrary/OpenProblemBatches/VerifiedOpen20260609/Wowii198aLeftmost.lean",
+    "line": 57126,
+    "declaration_line": "lemma source_bound_missed_vertex_two_attachments_forces_gap_two_or_large_gap_chords"
+  },
+  "build_status": "passed",
+  "returncode": 0,
+  "diagnostics": [],
+  "diagnostic_count": 0,
+  "counts": {
+    "sorry": 0,
+    "axiom": 0,
+    "constant": 0,
+    "admit": 0,
+    "placeholder": 0
+  },
+  "target_header": "lemma source_bound_missed_vertex_two_attachments_forces_gap_two_or_large_gap_chords\n    {α : Type*} [Fintype α] [DecidableEq α] [Nontrivial α]\n    (G : SimpleGraph α)\n    (hconn : G.Connected)\n    (hb : ((b G : Nat) : Real) <= 2 + averageEccentricity G)\n    (hb2 : b G = G.diam + 2)\n    {a b v : α} (p : G.Walk a b)\n    (hpPath : p.IsPath)\n    (hmax : ∀ u w : α, ∀ q : G.Walk u w,\n      q.IsPath → q.support.length ≤ p.support.length)\n    (hv : v ∉ p.support)\n    (hapex :\n      ∃ s t : α,\n        ∃ i j : ℕ,\n          0 < i ∧\n          i < j ∧\n          j < p.length ∧\n          p.getVert i = s ∧\n          p.getVert j = t ∧\n          G.Adj v s ∧\n          G.Adj v t ∧\n          i + 1 < j ∧\n          ¬ G.Adj v (p.getVert (i - 1)) ∧\n          ¬ G.Adj v (p.getVert (i + 1)) ∧\n          ¬ G.Adj v (p.getVert (j - 1)) ∧\n          ¬ G.Adj v (p.getVert (j + 1))) :\n    ∃ s t : α,\n      ∃ i j : ℕ,\n        0 < i ∧\n        i < j ∧\n        j < p.length ∧\n        p.getVert i = s ∧\n        p.getVert j = t ∧\n        G.Adj v s ∧\n        G.Adj v t ∧\n        i + 1 < j ∧\n        ¬ G.Adj v (p.getVert (i - 1)) ∧\n        ¬ G.Adj v (p.getVert (i + 1)) ∧\n        ¬ G.Adj v (p.getVert (j - 1)) ∧\n        ¬ G.Adj v (p.getVert (j + 1)) ∧",
+  "expected_target_header": "",
+  "target_statement_match": {
+    "required": false,
+    "matched": null
+  },
+  "forbidden_target_header_patterns": [],
+  "forbidden_target_header_hits": [],
+  "defect_score": 0,
+  "verified": true,
+  "failure_mode": "",
+  "proof_loop_state": "lean_verified_declaration",
+  "faithful_modeling_status": "faithfully_modeled",
+  "blockers": []
+}

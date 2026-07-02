@@ -1,0 +1,1 @@
+Verify the public Lean theorem missed_vertex_two_attachments_i_prev_hits_successor_pair_of_indepNum_le_three in Wowii198aLeftmost.lean, the left-side apex obstruction disjunction forced by indepNum <= 3.

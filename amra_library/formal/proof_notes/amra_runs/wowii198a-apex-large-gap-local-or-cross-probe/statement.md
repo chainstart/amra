@@ -1,0 +1,1 @@
+Verify the public Lean theorem missed_vertex_two_attachments_large_gap_forces_local_or_cross_chords in Wowii198aLeftmost.lean, packaging the large-gap apex forced-hit structure into local-or-cross chord alternatives.

@@ -1,0 +1,1 @@
+Verify the active Lean theorem longest_path_missed_vertex_two_attachments_successors_not_adj in Wowii198aLeftmost.lean, proving the successor-pair forbidden edge by reversing the predecessor rotation theorem.

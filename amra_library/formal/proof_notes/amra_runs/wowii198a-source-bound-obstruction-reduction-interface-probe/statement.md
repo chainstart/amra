@@ -1,0 +1,1 @@
+Verify the public Lean theorem source_bound_frontier_reduces_to_terminal_residual_of_long_indep_and_apex_obstruction_contradiction in Wowii198aLeftmost.lean, reducing source-bound to terminal residual if long branch yields independent four and apex obstruction is contradictory.

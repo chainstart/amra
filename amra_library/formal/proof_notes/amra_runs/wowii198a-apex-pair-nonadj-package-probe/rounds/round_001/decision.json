@@ -1,0 +1,34 @@
+{
+  "round": 1,
+  "stage": "lean_formalizer",
+  "status": "verified",
+  "stop_reason": "verified_initially",
+  "run_dir": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-pair-nonadj-package-probe/lean_formalizer/round-001-missed-vertex-two-attachments-predecessor-successor-pairs-not-adj",
+  "summary_path": "/home/biostar/work/projects/amra/amra_library/formal/proof_notes/amra_runs/wowii198a-apex-pair-nonadj-package-probe/lean_formalizer/round-001-missed-vertex-two-attachments-predecessor-successor-pairs-not-adj/summary.md",
+  "target_theorem": "missed_vertex_two_attachments_predecessor_successor_pairs_not_adj",
+  "next_action": "Target theorem is Lean-verified.",
+  "verified": true,
+  "expected_target_header_required": false,
+  "needs_global_reassessment": false,
+  "global_assessment_path": "",
+  "suggested_next_targets": [],
+  "library_promotion": {
+    "status": "skipped",
+    "reason": "library_promotion_not_requested"
+  },
+  "attempts_completed": 0,
+  "progress_velocity": {
+    "schema_version": "amra.progress_velocity.v1",
+    "elapsed_seconds": 42.307,
+    "attempts_completed": 0,
+    "episodes_completed": 0,
+    "positive_progress_delta": 0,
+    "net_progress_delta": 0,
+    "progress_delta_per_hour": 0.0,
+    "attempts_per_hour": 0.0,
+    "episodes_per_hour": 0.0,
+    "verified_target_count": 1,
+    "target_count": 1,
+    "verified_targets_per_hour": 85.092302
+  }
+}

@@ -1,0 +1,1 @@
+WOWII198a main-source frontier: from the original source-bound branch b(G)=diam(G)+2 and b(G)<=2+average eccentricity, derive indepNum<=3 together with the active longest-path two-sided local-nonadjacency trichotomy or terminal residual, using only single-file Lean checking.
