@@ -17,3 +17,6 @@ benchmark_runs/
 **/.agents/
 **/.codex/
 **/.lake/
+*.aux
+*.log
+*.out
