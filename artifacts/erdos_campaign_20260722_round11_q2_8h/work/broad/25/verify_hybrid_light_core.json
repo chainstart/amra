@@ -1,0 +1,17 @@
+{
+  "schema": "amra.erdos25.hybrid-light-core.v1",
+  "status": "PASS",
+  "random_seed": 2511072026,
+  "cases": 600,
+  "checks": [
+    "non-nested core contains a prescribed initial segment",
+    "full activated count differs from core density by tail mass plus clique error",
+    "finite full-system density is below core density",
+    "core density is below initial-segment density"
+  ],
+  "maximum_error_over_budget": [
+    3749,
+    5954
+  ],
+  "scope_warning": "Finite exact regression only; asymptotics are proved in markdown."
+}

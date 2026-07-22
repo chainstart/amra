@@ -1,0 +1,41 @@
+{
+  "schema": "amra.erdos25.mobius-compression.v1",
+  "status": "PASS",
+  "rows": [
+    {
+      "k": 3,
+      "L": 30,
+      "compressed_absolute_coefficient": 2,
+      "uncompressed_cliques_of_size_at_least_two": 4,
+      "identity_pass": true
+    },
+    {
+      "k": 4,
+      "L": 210,
+      "compressed_absolute_coefficient": 3,
+      "uncompressed_cliques_of_size_at_least_two": 11,
+      "identity_pass": true
+    },
+    {
+      "k": 5,
+      "L": 2310,
+      "compressed_absolute_coefficient": 4,
+      "uncompressed_cliques_of_size_at_least_two": 26,
+      "identity_pass": true
+    },
+    {
+      "k": 8,
+      "L": 9699690,
+      "compressed_absolute_coefficient": 7,
+      "uncompressed_cliques_of_size_at_least_two": 247,
+      "identity_pass": true
+    }
+  ],
+  "randomized_grouping_audit": {
+    "random_systems": 80,
+    "point_identities_checked": 3200,
+    "grouped_harmonic_identity_pass": true,
+    "grouped_periodic_density_identity_pass": true
+  },
+  "scope_warning": "Finite audit of the realised separation example; the theorem has a separate algebraic proof."
+}

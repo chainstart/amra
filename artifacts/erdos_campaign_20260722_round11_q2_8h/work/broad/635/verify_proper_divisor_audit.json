@@ -1,0 +1,28 @@
+{
+  "schema": "amra.erdos635.proper-divisor-audit.v1",
+  "status": "PASS",
+  "least_prime_choice_collision": {
+    "independent_left_vertices": [
+      150,
+      154
+    ],
+    "common_target": 147
+  },
+  "no_private_neighbour_equality_block": {
+    "independent_left_vertices": [
+      280,
+      286
+    ],
+    "proper_lower_neighbourhood": [
+      273,
+      275
+    ]
+  },
+  "prime_oddpart_canonical_forest_probe": {
+    "maximum_center_and_endpoint": 1000000,
+    "edges": 70393,
+    "cycle_found": false,
+    "global_claim": false
+  },
+  "scope_warning": "Counterexamples are exact; the finite forest scan is not an asymptotic proof."
+}

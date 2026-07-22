@@ -1,0 +1,46 @@
+{
+  "schema_version": "amra.erdos.round11.root-verification.v1",
+  "status": "PASS",
+  "performed_after_proof_boundary": true,
+  "new_proof_search_performed": false,
+  "workflow_checks": {
+    "broad": {
+      "scripts_rerun": 8,
+      "status": "PASS"
+    },
+    "679": {
+      "verifier": "verify_growing_moment.py",
+      "status": "PASS_BYTE_IDENTICAL_TO_FROZEN_OUTPUT"
+    },
+    "geometry": {
+      "verifier": "verify_round11_geometry.py",
+      "status": "PASS_BYTE_IDENTICAL_TO_FROZEN_OUTPUT"
+    },
+    "macaulay_pte": {
+      "base_verifier_status": "PASS",
+      "large_witness_command_includes": "--large-defect-m 75000",
+      "large_witness_status": "PASS",
+      "large_witness": {
+        "M": 75000,
+        "d_3": 70306875137528,
+        "binom_M_minus_1_3": 70306875137499,
+        "excess": 29,
+        "canonical_expansion": [[74999, 3], [8, 2], [1, 1]]
+      }
+    }
+  },
+  "structural_checks": {
+    "unique_problem_ids": 21,
+    "python_ast_files": 11,
+    "json_files": 17,
+    "markdown_files": 33,
+    "control_byte_files": 0,
+    "unbalanced_display_math_files": 0
+  },
+  "claim_boundary": {
+    "original_problem_closures": 0,
+    "q2_gates_met": 0,
+    "accepted_proofs_invalidated": 0,
+    "internal_candidate_routes_refuted": 1
+  }
+}

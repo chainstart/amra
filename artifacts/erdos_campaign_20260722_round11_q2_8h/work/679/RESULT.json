@@ -1,0 +1,156 @@
+{
+  "schema_version": "amra.erdos.round11.679.v1",
+  "round": "erdos_campaign_20260722_round11_q2_8h",
+  "problem_id": 679,
+  "status": "OPEN__LOW_CONDUCTORS_TO_X_POWER_ONE_MINUS_ETA_LOG1_LOG2_REMOVED__ULTRAHIGH_SIGNED_TAIL_OPEN",
+  "official_problem_status_carried_forward": {
+    "status": "OPEN",
+    "page_classification": "OPEN_WITH_PARTIAL_SOLUTION",
+    "checked_at": "2026-07-22",
+    "checked_at_hkt": "2026-07-22T23:29:00+08:00",
+    "source": "https://www.erdosproblems.com/679",
+    "closest_unconditional_result_recorded": "Lau arXiv:2604.15042v2 Theorem 1.3, omega(n-k)<=Omega(n-k)<=C log k",
+    "conditional_falsity_counted_as_closure": false
+  },
+  "full_solution_claim": "none",
+  "original_problem_closures": 0,
+  "deterministic_interval_transfer_claim": "partial_low_conductor_only",
+  "q2_early_stop": false,
+  "strongest_results": [
+    {
+      "name": "growing-moment low-conductor spectral small deviation",
+      "claim_level": "unconditional_lemma",
+      "statement": "Normalize the ANOVA energies of W^q by M_2,q, where q=floor(s/a), s tends to infinity and s=o(log_3 X). The selected-prime coordinates are independent non-identical Bernoulli variables with theta_p=(1+o(1))H/p uniformly for p>=2H and total mean (1+o(1))HL. For every fixed alpha>0, conductor at most exp(alpha HL) forces only O_alpha(H) selected primes, and its normalized energy probability is at most exp(-(1-o(1))HL). Thus the unnormalized Fourier energy below that level is at most exp(-(2-o(1))HL)."
+    },
+    {
+      "name": "deterministic primitive large-sieve cutoff",
+      "claim_level": "unconditional_theorem_reduction",
+      "statement": "Fix eta in (0,1), set alpha=1-eta, and then let X tend to infinity. On every prescribed interval of length N asymptotic to X, the signed aggregate over 1<c(T)<=exp((1-eta)HL) is at most exp(-(eta-o(1))HL). For H=(log X)^2 the cutoff is X^((1-eta+o(1)) log_1 X log_2 X). More generally the same proof works for every fixed H=(log X)^d, d>=1, with cutoff X^((1-eta+o(1))(log X)^(d-1) log_2 X) and candidate coefficient d."
+    },
+    {
+      "name": "candidate forces positive ultra-high signed tail",
+      "claim_level": "unconditional_theorem_reduction",
+      "statement": "If one original candidate lies in the interval, the exact signed aggregate over all primitive full conductors c(T)>exp((1-eta)HL) is positive and at least one half times t^(qR)=exp(-o(HL)). This is a necessary condition, not an upper bound or contradiction."
+    },
+    {
+      "name": "growing-moment exceptional-phase density",
+      "claim_level": "unconditional_almost_all_phase_theorem",
+      "statement": "For starts uniform modulo the full CRT period, the fraction of length-N intervals with moment sum at least t^(qR), hence the fraction that can contain a local candidate, is at most exp(-(1-o(1))HL). The period is much larger and exceptional starts can cluster for length N, so this does not locate the actual dyadic start."
+    },
+    {
+      "name": "fixed-moment Rankin transfer",
+      "claim_level": "unconditional_lemma",
+      "statement": "For fixed q,C, Rankin's trick gives conductor mass F(Y)<=z^K for Y<=Xz and transfers all conductors through D=N z^(-B), leaving only a fixed-power-in-z inherited suffix."
+    },
+    {
+      "name": "fixed-moment polynomial middle range",
+      "claim_level": "unconditional_theorem_reduction",
+      "statement": "For each prescribed fixed A, one may then choose fixed q with qC>A+1/2+delta and deterministically control D<c(T)<=X^A at the actual interval start. One fixed q does not control all A."
+    },
+    {
+      "name": "coefficient-one pooled energy ceiling",
+      "claim_level": "method_barrier",
+      "statement": "The single pooled energy plus global worst-case Farey spacing plus physical Cauchy calculation gives exp((alpha-1+o(1))HL) at cutoff exp(alpha HL). Its cumulative nonconstant low-energy exponent is exactly 2HL already on the one-prime layers, so the energy gain is not a zero-mode artefact; this does not exclude conductor-stratified spacing estimates because those witnesses lie at smaller conductors. Put a CRT point with W^q=1 inside any length-X interval: positivity and the uniform low estimate force the high signed interval aggregate to be at least 1-o(1). Thus arbitrary-start interval smallness is false, though the CRT representative is not at the self-consistent location A asymptotic to X."
+    }
+  ],
+  "quantifier_order": [
+    "Fix the original epsilon and fixed C.",
+    "Choose s(X) tending to infinity with s=o(log_3 X), and q=floor(s/a).",
+    "Fix eta in (0,1), then set alpha=1-eta.",
+    "Only afterward let X tend to infinity.",
+    "No simultaneous eta-to-zero statement is used."
+  ],
+  "next_round_conditional_interface": {
+    "source": "Lau arXiv:2604.15042v2, Section 7",
+    "status": "UNPROVED_SHORT_INTERVAL_CONJECTURE__NOT_A_CLOSURE",
+    "d_equals_2_specialization": "At H=(log X)^2 and shifts k asymptotic to H, a #679 candidate has omega(n-k)<=(2+o_epsilon(1))(1+epsilon) log_2 X/log_3 X. It would suffice to force in every corresponding H-block one integer with omega>C0 log_2 X/log_3 X for a fixed C0>2(1+epsilon).",
+    "relation_to_current_route": "This is the same local-density bottleneck that the Fourier argument reduces to the ultra-high-conductor signed aggregate."
+  },
+  "remaining_gap": "Primary route: prove an upper bound o(t^(qR)) for the exact signed aggregate over c(T)>exp((1-eta)HL) at the prescribed actual start A asymptotic to X; energy, absolute coefficients, and arbitrary-CRT-start estimates do not provide this. Alternative sufficient route: prove Lau's unproved fixed-power short-interval density conjecture for integers with omega at least C0 log_2 x/log_3 x, with interval exponent d<C0.",
+  "literature_audit": [
+    {
+      "source": "https://arxiv.org/abs/1502.00769",
+      "result": "Bettin-Chandee has a relevant inverse-modulus phase but no theorem stated for the ultra-high many-prime, growing-shift aggregate."
+    },
+    {
+      "source": "https://arxiv.org/abs/2604.25177",
+      "result": "Wright 2026 removes no remaining mismatch in conductor structure, shifted dimension, or target normalization."
+    },
+    {
+      "source": "https://arxiv.org/abs/2606.19863",
+      "result": "van Doorn-Tang reaches exp(Theta((log_2 X)^2)) rather than the required endpoint exp(log_1 X) at the relevant run length."
+    },
+    {
+      "source": "https://arxiv.org/abs/2512.01739",
+      "version": "v2_2026-04-25",
+      "primary_tex_sha256": "66eb00d6506974a42db872c26f6e4673eed0a4d5ab68b552c86a38d2f1bc3292",
+      "result": "Tao-Teravainen v2 proves the weaker Erdős #248 bound Omega(n+k)<=Ck. Its Remark 1.2 explicitly states the #679 target and assesses it as beyond the present method; its O(log_2 X) simultaneous-shift sieve does not control the H=(log X)^2 ultra-high signed-conductor tail required here."
+    },
+    {
+      "source": "https://arxiv.org/abs/2604.15042",
+      "version": "v2_2026-06-24",
+      "primary_tex_sha256": "50c31fc1861c480a67073bfe3f9cf9a95c0a04c7b4e058eec1b94223b8be17f2",
+      "result": "Lau v2 (2026-06-24), Theorem 1.3, unconditionally gives infinitely many n with omega(n-k)<=Omega(n-k)<=C log k for every 1<k<n, explicitly leaving a log log k factor to #679. Its predicted optimality and Section 7 falsity theorem depend on unproved conjectures and do not close #679."
+    }
+  ],
+  "claim_boundary": {
+    "original_problem_closed": false,
+    "accepted_proof_invalidated": false,
+    "official_status_changed": false,
+    "finite_computation_used_as_general_proof": false,
+    "recognized_main_exponent_changed": false,
+    "publication_gate_met": false
+  },
+  "verification": {
+    "script": "verify_growing_moment.py",
+    "output": "verify_growing_moment.out",
+    "result": "PASS",
+    "checks": [
+      "ANOVA reconstruction",
+      "Fourier inversion",
+      "nonprimitive coefficients vanish",
+      "Parseval and exact second moment",
+      "normalized energy is product Bernoulli",
+      "theta_p at most H/p",
+      "Farey spacing",
+      "finite additive large-sieve inequality"
+    ],
+    "scope": "Finite algebra and normalization only; no asymptotic claim depends on computation.",
+    "post_boundary_rerun": {
+      "at_hkt": "2026-07-23T00:15:43+08:00",
+      "command_policy": "one low-priority process pinned to core 7",
+      "recorded_output_byte_identical": true
+    },
+    "qa": "ROUND11_INTERNAL_QA.md",
+    "qa_result": "PASS_STRICT_REDUCTIONS__ORIGINAL_OPEN__Q2_FALSE"
+  },
+  "resources": {
+    "cpu_policy": "At most one low-priority process pinned to core 7; all other work symbolic.",
+    "heavy_parallelism": false,
+    "charged_start": "2026-07-22T22:15:18+08:00",
+    "charged_end": "2026-07-23T00:15:18+08:00",
+    "charged_seconds": 7200,
+    "status": "FROZEN_AT_UNIFIED_BOUNDARY",
+    "freeze_observed_at": "2026-07-23T00:15:36+08:00",
+    "new_proof_or_search_after_boundary": false
+  },
+  "files": [
+    "REPORT.md",
+    "RESULT.json",
+    "ATTEMPT_LOG.md",
+    "ROUND11_INTERNAL_QA.md",
+    "SOURCE_AUDIT_CHECKLIST.md",
+    "rankin_conductor_mass_improvement.md",
+    "primitive_large_sieve_middle_range.md",
+    "actual_representative_and_recent_input_audit.md",
+    "growing_moment_ultrahigh_conductor_reduction.md",
+    "growing_moment_kloosterman_reaudit.md",
+    "coefficient_one_energy_barrier.md",
+    "growing_moment_exceptional_phase_density.md",
+    "tao_teravainen_high_dimensional_sieve_audit.md",
+    "lau_2026_direct_boundary_audit.md",
+    "verify_growing_moment.py",
+    "verify_growing_moment.out",
+    "SHA256SUMS"
+  ]
+}

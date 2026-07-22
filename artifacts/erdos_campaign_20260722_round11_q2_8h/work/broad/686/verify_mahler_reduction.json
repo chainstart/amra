@@ -1,0 +1,135 @@
+{
+  "schema": "amra.erdos686.mahler-coefficient-reduction.v1",
+  "status": "PASS",
+  "rows": [
+    {
+      "m": 1,
+      "coefficients_checked": 2
+    },
+    {
+      "m": 2,
+      "coefficients_checked": 3
+    },
+    {
+      "m": 3,
+      "coefficients_checked": 4
+    },
+    {
+      "m": 4,
+      "coefficients_checked": 5
+    },
+    {
+      "m": 5,
+      "coefficients_checked": 6
+    },
+    {
+      "m": 6,
+      "coefficients_checked": 7
+    },
+    {
+      "m": 7,
+      "coefficients_checked": 8
+    },
+    {
+      "m": 8,
+      "coefficients_checked": 9
+    },
+    {
+      "m": 9,
+      "coefficients_checked": 10
+    },
+    {
+      "m": 10,
+      "coefficients_checked": 11
+    },
+    {
+      "m": 11,
+      "coefficients_checked": 12
+    },
+    {
+      "m": 12,
+      "coefficients_checked": 13
+    },
+    {
+      "m": 13,
+      "coefficients_checked": 14
+    },
+    {
+      "m": 14,
+      "coefficients_checked": 15
+    },
+    {
+      "m": 15,
+      "coefficients_checked": 16
+    },
+    {
+      "m": 16,
+      "coefficients_checked": 17
+    },
+    {
+      "m": 17,
+      "coefficients_checked": 18
+    },
+    {
+      "m": 18,
+      "coefficients_checked": 19
+    },
+    {
+      "m": 19,
+      "coefficients_checked": 20
+    },
+    {
+      "m": 20,
+      "coefficients_checked": 21
+    },
+    {
+      "m": 21,
+      "coefficients_checked": 22
+    },
+    {
+      "m": 22,
+      "coefficients_checked": 23
+    },
+    {
+      "m": 23,
+      "coefficients_checked": 24
+    },
+    {
+      "m": 24,
+      "coefficients_checked": 25
+    },
+    {
+      "m": 25,
+      "coefficients_checked": 26
+    },
+    {
+      "m": 26,
+      "coefficients_checked": 27
+    },
+    {
+      "m": 27,
+      "coefficients_checked": 28
+    },
+    {
+      "m": 28,
+      "coefficients_checked": 29
+    },
+    {
+      "m": 29,
+      "coefficients_checked": 30
+    },
+    {
+      "m": 30,
+      "coefficients_checked": 31
+    },
+    {
+      "m": 31,
+      "coefficients_checked": 32
+    },
+    {
+      "m": 32,
+      "coefficients_checked": 33
+    }
+  ],
+  "scope_warning": "Finite regression only; the displayed formula has a separate algebraic proof."
+}

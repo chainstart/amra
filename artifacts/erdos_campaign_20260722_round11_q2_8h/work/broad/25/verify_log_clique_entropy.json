@@ -1,0 +1,19 @@
+{
+  "schema": "amra.erdos25.log-clique-entropy.v1",
+  "status": "PASS",
+  "random_seed": 25072026,
+  "systems": 100,
+  "cutoffs": 6812,
+  "checks": [
+    "global contained-class removal preserves full periodic density",
+    "compatible subsets are counted as graph cliques",
+    "pointwise activated-count error obeys min(1,2*kappa/x)",
+    "discrete Abel identity is exact",
+    "summed Abel error is bounded by the eta budget"
+  ],
+  "maximum_count_discrepancy_over_kappa": [
+    233,
+    216
+  ],
+  "scope_warning": "Finite exact regression only; asymptotics are proved in markdown."
+}

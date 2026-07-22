@@ -1,0 +1,82 @@
+{
+  "schema_version": "amra.erdos.round11.broad.v1",
+  "round": "erdos_campaign_20260722_round11_q2_8h",
+  "workflow": "D_broad_and_global_qa",
+  "problem_ids": [25, 143, 148, 301, 325, 332, 377, 539, 635, 686, 788, 934, 950, 952, 963, 1063],
+  "status": "STRICT_STRUCTURAL_CRITERIA_AND_ROUTE_AUDITS__NO_ORIGINAL_CLOSURE_NO_Q2",
+  "full_solution_claim": "none",
+  "original_problem_closures": 0,
+  "q2_early_stop": false,
+  "strongest_results": [
+    {
+      "problem_id": 25,
+      "status": "OPEN__FIVE_NON_DOWNGRADED_STRUCTURAL_CRITERION_FAMILIES",
+      "result": "Compatible-clique endpoint bounds, their logarithmic-Cesaro form, a dynamic light-tail/structured-core theorem, a harmonic-weighted CRT-clique theorem, and an exact two-stage Mobius compression of activated intersection states give rigorous sufficient conditions. On the squarefree block n_i=L/p_i, the new compression replaces 2^k-k-1 repeated higher-clique charges by coefficient k-1.",
+      "important_downgrade": "The low divisibility-width theorem is correct but, after global redundancy removal, forces only polylogarithmically many effective moduli and hence a summable reciprocal tail. Uniformly bounded compatibility degeneracy is likewise summable by finite coloring. Neither is counted as new coverage.",
+      "remaining_gap": "No universal o(log X) total-variation bound is known for the compressed intersection poset, and signed cancellation between distinct activated progressions remains uncontrolled.",
+      "q2": false
+    },
+    {
+      "problem_id": 635,
+      "status": "OPEN__TWO_PROPER_DIVISOR_LOCAL_TEMPLATES_REFUTED",
+      "result": "The least-prime outlet collides on the independent pair 150,154, and the private proper-lower-neighbor property fails on 280,286, whose proper neighborhoods both equal {273,275}. The set-level Hall candidate survives.",
+      "remaining_gap": "Prove set-level proper-divisor expansion and combine it collision-free with canonical pseudoforest matching.",
+      "q2": false
+    },
+    {
+      "problem_id": 686,
+      "status": "OPEN__ALL_PARAMETER_MAHLER_REDUCTION_FIXED_CERTIFICATES_AND_BASIS_BARRIER",
+      "result": "Exact Mahler certificates prove the predicted valuation for all integer z at m=16,24,32,40,48,56,64, while ordinary monomial divisibility fails. An all-parameter coefficient-extraction identity reduces the first unresolved family to Mahler divisibility and proves uniformly that its last four Mahler coefficients are not the obstruction.",
+      "remaining_gap": "The exact constant valuation and the middle Mahler band 1<=r<=m-4 still require a uniform divided-power/Cartier induction.",
+      "q2": false
+    }
+  ],
+  "no_new_strict_result_this_round": [143, 148, 301, 325, 332, 377, 539, 788, 934, 950, 952, 963, 1063],
+  "claim_boundary": {
+    "original_problem_closed": false,
+    "accepted_proof_invalidated": false,
+    "official_status_changed": false,
+    "recognized_main_exponent_changed": false,
+    "publication_gate_met": false,
+    "existing_paper_candidates_recounted_as_new": false
+  },
+  "verification": {
+    "scripts": [
+      "25/verify_divisibility_width.py",
+      "25/verify_log_clique_entropy.py",
+      "25/verify_hybrid_light_core.py",
+      "25/verify_harmonic_weight.py",
+      "25/verify_mobius_compression.py",
+      "635/verify_proper_divisor_audit.py",
+      "686/verify_basis_gap.py",
+      "686/verify_mahler_reduction.py"
+    ],
+    "status": "PASS_AT_POST_BOUNDARY_RERUN",
+    "post_boundary_rerun_at_hkt": "2026-07-23T00:17:00+08:00",
+    "scope": "Finite algebra, exact counterexamples, and fixed-parameter certificates only; asymptotic statements are proved in markdown.",
+    "qa": "BROAD_QA.md"
+  },
+  "resources": {
+    "cpu_policy": "At most one additional low-priority one-core computation in the broad workflow; total campaign target below 50% of 8 visible CPUs.",
+    "charged_start": "2026-07-22T22:15:18+08:00",
+    "charged_end": "2026-07-23T00:15:18+08:00",
+    "charged_seconds": 7200,
+    "status": "FROZEN_AT_UNIFIED_BOUNDARY"
+  },
+  "files": [
+    "BROAD_REPORT.md",
+    "BROAD_QA.md",
+    "RESULT.json",
+    "25/DIVISIBILITY_WIDTH_THEOREM.md",
+    "25/COMPATIBILITY_CLIQUE_THEOREM.md",
+    "25/LOG_AVERAGED_CLIQUE_ENTROPY.md",
+    "25/HYBRID_LIGHT_CORE_THEOREM.md",
+    "25/HARMONIC_WEIGHTED_CLIQUES.md",
+    "25/MOBIUS_COMPRESSED_CLIQUES.md",
+    "25/SOURCE_NOVELTY_AUDIT.md",
+    "635/PROPER_DIVISOR_HALL_AUDIT.md",
+    "686/CARTIER_BASIS_AUDIT.md",
+    "686/MAHLER_COEFFICIENT_REDUCTION.md",
+    "SHA256SUMS"
+  ]
+}

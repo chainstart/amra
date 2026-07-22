@@ -1,0 +1,56 @@
+{
+  "schema": "amra.erdos686.cartier-basis-gap.v1",
+  "status": "PASS",
+  "rows": [
+    {
+      "m": 16,
+      "target_v2": 14,
+      "minimum_normalized_monomial_v2": -14,
+      "negative_normalized_monomial_coefficients": 16,
+      "mahler_all_integer_and_parity_certificate": true
+    },
+    {
+      "m": 24,
+      "target_v2": 17,
+      "minimum_normalized_monomial_v2": -17,
+      "negative_normalized_monomial_coefficients": 24,
+      "mahler_all_integer_and_parity_certificate": true
+    },
+    {
+      "m": 32,
+      "target_v2": 30,
+      "minimum_normalized_monomial_v2": -30,
+      "negative_normalized_monomial_coefficients": 32,
+      "mahler_all_integer_and_parity_certificate": true
+    },
+    {
+      "m": 40,
+      "target_v2": 27,
+      "minimum_normalized_monomial_v2": -27,
+      "negative_normalized_monomial_coefficients": 40,
+      "mahler_all_integer_and_parity_certificate": true
+    },
+    {
+      "m": 48,
+      "target_v2": 41,
+      "minimum_normalized_monomial_v2": -41,
+      "negative_normalized_monomial_coefficients": 48,
+      "mahler_all_integer_and_parity_certificate": true
+    },
+    {
+      "m": 56,
+      "target_v2": 38,
+      "minimum_normalized_monomial_v2": -38,
+      "negative_normalized_monomial_coefficients": 56,
+      "mahler_all_integer_and_parity_certificate": true
+    },
+    {
+      "m": 64,
+      "target_v2": 62,
+      "minimum_normalized_monomial_v2": -62,
+      "negative_normalized_monomial_coefficients": 64,
+      "mahler_all_integer_and_parity_certificate": true
+    }
+  ],
+  "scope_warning": "Exact fixed-m certificates; no uniform-m inference."
+}

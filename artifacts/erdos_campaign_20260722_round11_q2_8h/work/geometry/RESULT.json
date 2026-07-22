@@ -1,0 +1,92 @@
+{
+  "schema_version": "amra.erdos.round11.geometry.v1",
+  "round": "erdos_campaign_20260722_round11_q2_8h",
+  "workflow": "A_reflection_radius_geometry",
+  "problem_ids": [1083, 827],
+  "status": "STRICT_HIGH_Q_LOW_ORDER_EXCLUSION_AND_HIGH_ORDER_KERNELS__NO_ORIGINAL_CLOSURE_NO_Q2",
+  "full_solution_claim": "none",
+  "original_problem_closures": 0,
+  "q2_early_stop": false,
+  "results": [
+    {
+      "problem_id": 1083,
+      "status": "OPEN__HIGH_Q_LOW_ORDER_BRANCH_EXCLUDED__HIGH_ORDER_SOURCE_KERNEL_UNRESOLVED",
+      "strongest_results": [
+        "In the inherited high-Q critical layer, a source-sensitive dichotomy gives either one failed slot charged by n^(1/5-o(1)) distinct high-order source faces or a dense bounded-order common star.",
+        "The bounded-order branch is rigorously excluded: DRC and Ramsey produce three linearly independent pairwise irrational normals; a coefficient-uniform bounded-degree torsion-closure theorem forces a positive-dimensional torsion coset; an explicit one-parameter real-unit-sphere argument rules every such coset out.",
+        "The surviving high-order branch yields a two-coordinate repair star, global repair graphs with n^(2-o(1)) edges and n^(3-o(1)) clean marks, and a three-source cross-kernel of n^(4/5-o(1)) Q-rich faces.",
+        "The cross-kernel synchronizes a common reference pattern whose size tends slowly to infinity across n^(4/5-o(1)) reflecting faces. Its point-plane incidence count exactly saturates the n^(7/5-o(1)) Rudnev main term; ordinary KST/DRC and second/third incidence moments are quantitatively too weak."
+      ],
+      "remaining_gap": "Prove a source-sensitive incidence or capacity saving for the high-order failed-slot/cross-kernel structure. Separately, the Round10 low-Q weighted (q_pi,g_pi) branch remains unresolved and was not closed by this workflow.",
+      "recognized_main_exponent_changed": false,
+      "original_status_changed": false,
+      "q2": false
+    },
+    {
+      "problem_id": 827,
+      "status": "OPEN__EXACT_104_AND_PINNED_INVERSION_ENERGY_REDUCTION",
+      "strongest_results": [
+        "A joint alteration theorem converts H5 and H6 power savings into rainbow exponent min(1/3,(1+epsilon_5)/4,(1+epsilon_6)/5); unconditionally it gives the known 1/4 route or a radius class with n^(7/4) triangles.",
+        "The H6 obstruction contains the general-position form of open Erdos problem #104. Inversion converts H5 exactly into fixed-center equal-distance collisions among spanned secants.",
+        "The exact identities E_inv=2C4+C5 and E_rad=C4+C5+C6 give a positive Bernstein-form sampling ledger, showing that no hidden cancellation removes either remaining energy bottleneck."
+      ],
+      "remaining_gap": "Obtain a fixed power saving for the aggregate pinned inversion energy H5 and a power saving for the H6/#104 radius energy. Neither is supplied by existing single-center bounds.",
+      "recognized_main_exponent_changed": false,
+      "original_status_changed": false,
+      "q2": false
+    }
+  ],
+  "claim_boundary": {
+    "original_problem_closed": false,
+    "accepted_proof_invalidated": false,
+    "official_status_changed": false,
+    "recognized_main_exponent_changed": false,
+    "publication_gate_met": false,
+    "high_Q_low_order_exclusion_is_global_1083_solution": false,
+    "round10_low_Q_branch_closed": false,
+    "novelty_or_priority_claimed": false
+  },
+  "publication_assessment": {
+    "q2_ready": false,
+    "assessment": "The #1083 low-order exclusion and high-order kernels are substantial components and sharper interfaces, but without a main-exponent improvement or closure they do not yet form a standalone SCI Q2 result. The #827 work is an exact reduction/barrier analysis rather than a new extremal bound."
+  },
+  "verification": {
+    "script": "verify_round11_geometry.py",
+    "output": "verify_round11_geometry.json",
+    "command": "taskset -c 6 nice -n 15 python3 verify_round11_geometry.py --output verify_round11_geometry.json",
+    "status": "PASS_AT_POST_BOUNDARY_RERUN",
+    "scope": "Exact rational exponent arithmetic, inversion algebra, and conflict-energy identities only; universal combinatorial and algebraic-geometric arguments are audited in markdown.",
+    "post_boundary_rerun_at_hkt": "2026-07-23T00:15:31+08:00"
+  },
+  "hostile_qa": {
+    "file": "INDEPENDENT_QA.md",
+    "result": "PASS_STRICT_PARTIAL__NO_ORIGINAL_CLOSURE__NO_Q2",
+    "checks": [
+      "DRC bad-tuple count and KKPR perpendicular-configuration consequence",
+      "explicit projection-closure identity and one-dimensional torsion-subcoset selection",
+      "real/unit-circle restriction and Laurent identity extension",
+      "repair-graph injectivity and KST exponent deficit",
+      "synchronized-pattern Rudnev saturation and low-moment no-go",
+      "problem #827/#104 hypothesis preservation and exact energy coefficients"
+    ],
+    "note": "Internal hostile re-derivation, not external peer review."
+  },
+  "resources": {
+    "cpu_policy": "symbolic work plus one low-priority single-thread verification process pinned to core 6; campaign CPU target below 50%",
+    "charged_start": "2026-07-22T22:15:18+08:00",
+    "charged_end": "2026-07-23T00:15:18+08:00",
+    "charged_seconds": 7200,
+    "status": "FROZEN_AT_UNIFIED_BOUNDARY",
+    "freeze_observed_at": "2026-07-23T00:15:31+08:00",
+    "new_proof_or_search_after_boundary": false
+  },
+  "files": [
+    "REPORT.md",
+    "INDEPENDENT_QA.md",
+    "SOURCE_MANIFEST.json",
+    "RESULT.json",
+    "verify_round11_geometry.py",
+    "verify_round11_geometry.json",
+    "SHA256SUMS"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": "amra.erdos.round11.summary.v1",
+  "round": "erdos_campaign_20260722_round11_q2_8h",
+  "problem_ids": [25, 143, 148, 256, 301, 325, 332, 377, 539, 635, 679, 686, 776, 788, 827, 934, 950, 952, 963, 1063, 1083],
+  "charged_start": "2026-07-22T22:15:18+08:00",
+  "charged_end": "2026-07-23T00:15:18+08:00",
+  "workflows": 4,
+  "charged_seconds_per_workflow": 7200,
+  "charged_agent_seconds": 28800,
+  "charged_agent_hours": 8,
+  "resources": {
+    "visible_logical_cpus": 8,
+    "campaign_max_single_core_computations": 3,
+    "cpu_target_met": true,
+    "proof_work_frozen_at_boundary": true
+  },
+  "verdict": {
+    "original_problem_closures": 0,
+    "recognized_main_order_or_exponent_changes": 0,
+    "q2_publication_gates_met": 0,
+    "accepted_or_published_proofs_invalidated": 0,
+    "internal_candidate_routes_refuted": 1,
+    "internal_route_refuted_problem_id": 776,
+    "full_solution_claim": "none"
+  },
+  "strongest_results": [
+    {
+      "problem_id": 1083,
+      "result": "The inherited high-Q low-order branch is excluded; the surviving high-order branch has source fans, global repair graphs, a three-source kernel, and synchronized growing reference patterns, but Rudnev/KST/moment bounds saturate and the low-Q branch remains open.",
+      "q2": false
+    },
+    {
+      "problem_id": 679,
+      "result": "For every fixed d>=1 and H=(log X)^d, all primitive conductors through exp((1-eta)HL) have exponentially small signed aggregate at the actual interval start; a candidate forces an uncontrolled positive ultra-high-conductor tail.",
+      "q2": false
+    },
+    {
+      "problem_id": 776,
+      "result": "The internal universal colex target d_3<=binom(M-1,3)+28 is false: at M=75000 the exact excess is 29. This refutes the route, not the original problem.",
+      "q2": false
+    },
+    {
+      "problem_id": 256,
+      "result": "If a prime q divides m exponents and q-1 does not divide n-m-1, then E(A)>=6m and the sup norm is at least sqrt(12m); no universal split is known.",
+      "q2": false
+    },
+    {
+      "problem_id": 25,
+      "result": "Two-stage Mobius compression of activated CRT intersections gives natural- and logarithmic-density criteria and an exponential finite-block reduction of repeated clique charges; no universal compressed-variation bound is proved.",
+      "q2": false
+    },
+    {
+      "problem_id": 686,
+      "result": "An all-parameter Mahler coefficient formula removes the last four coefficients as obstructions in the first unresolved Cartier family; the constant and middle band remain open.",
+      "q2": false
+    },
+    {
+      "problem_id": 827,
+      "result": "Exact transfer and inversion-energy reductions identify H5 and the H6/#104 bottleneck without a new power saving.",
+      "q2": false
+    }
+  ],
+  "workflow_results": {
+    "geometry": "work/geometry/RESULT.json",
+    "679": "work/679/RESULT.json",
+    "macaulay_pte": "work/macaulay_pte/RESULT.json",
+    "broad": "work/broad/RESULT.json"
+  },
+  "synthesis": "ROUND11_SYNTHESIS.md",
+  "verification_status": "PASS_ROOT_INDEPENDENT_AUDIT",
+  "root_verification": "ROOT_VERIFICATION.json",
+  "root_qa": "ROOT_QA.md",
+  "git": {
+    "round10_local_commit": "794c2fe",
+    "round10_pushed": false,
+    "round11_committed": false
+  }
+}

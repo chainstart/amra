@@ -1,0 +1,54 @@
+{
+  "checks": {
+    "anova_reconstruction": true,
+    "direct_second_moment": true,
+    "exact_second_moment": true,
+    "farey_spacing": true,
+    "fourier_inversion": true,
+    "large_sieve_inequality": true,
+    "nonprimitive_coefficients_vanish": true,
+    "normalized_energy_is_product_bernoulli": true,
+    "normalized_energy_sums_to_one": true,
+    "parseval_anova": true,
+    "theta_at_most_H_over_p": true
+  },
+  "diagnostics": {
+    "coefficient_energy": 0.3902596204082207,
+    "direct_second_moment": 0.39025962040822076,
+    "exact_second_moment": 0.39025962040822076,
+    "farey_lower_bound": 0.00033057851239669424,
+    "fourier_inversion_error": 7.1885046574641e-15,
+    "large_sieve_lhs": 4.976077131357019,
+    "large_sieve_rhs": 421.73920256075843,
+    "low_energy": 0.1376433428723102,
+    "max_nonprimitive_coefficient": 2.4474631114044384e-16,
+    "minimum_circular_spacing": 0.0025974025974025983,
+    "normalized_energy_error": 1.1102230246251565e-16,
+    "normalized_energy_total": 0.9999999999999998,
+    "physical_anova_energy": 0.39025962040822065,
+    "reconstruction_error": 4.163336342344337e-17,
+    "theta_parameters": {
+      "5": 0.19019867596005352,
+      "7": 0.138827731088171,
+      "11": 0.08965220687178077
+    },
+    "theta_upper_margin": 0.09216597494640105
+  },
+  "parameters": {
+    "H": 2,
+    "K": 1,
+    "base_a": 0.07,
+    "cutoff": 55,
+    "full_period": 385,
+    "interval_length": 40,
+    "interval_start": 13,
+    "moment_q": 17,
+    "primes": [
+      5,
+      7,
+      11
+    ]
+  },
+  "result": "PASS",
+  "scope": "finite algebra and normalization only"
+}

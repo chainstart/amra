@@ -1,0 +1,24 @@
+{
+  "schema": "amra.erdos25.width-and-clique-entropy.v2",
+  "status": "PASS",
+  "random_seed": 20260722,
+  "cases": 400,
+  "max_modulus": 18,
+  "checks": [
+    "minimum chain count equals brute-force width",
+    "chain CRT inclusion-exclusion equals direct period density",
+    "pairwise compatibility is equivalent to joint CRT compatibility",
+    "actual compatible term count obeys the degeneracy clique bound",
+    "activated cutoff discrepancy is at most twice the IE term bound",
+    "activated cutoff discrepancy is at most twice the compatible-clique count"
+  ],
+  "maximum_discrepancy_over_term_bound": [
+    17,
+    18
+  ],
+  "maximum_discrepancy_over_clique_count": [
+    17,
+    18
+  ],
+  "scope_warning": "Finite exact regression only; the theorem is proved in markdown."
+}

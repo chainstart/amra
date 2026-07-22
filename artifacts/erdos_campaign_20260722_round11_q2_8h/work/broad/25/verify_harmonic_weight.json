@@ -1,0 +1,13 @@
+{
+  "schema": "amra.erdos25.harmonic-weight.v1",
+  "status": "PASS",
+  "exhaustive": {
+    "max_L": 20,
+    "max_X_over_L": 4
+  },
+  "random_seed": 2500252026,
+  "random_cases": 5000,
+  "total_cases": 181400,
+  "maximum_error_over_stated_budget": 0.6749949144896683,
+  "scope_warning": "Finite floating-point falsifier; the uniform bound is proved by integral comparison."
+}

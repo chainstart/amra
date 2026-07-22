@@ -1,0 +1,70 @@
+{
+  "arithmetic": "fractions.Fraction and exact sympy algebra",
+  "problem_1083": {
+    "DRC_no_three_coplanar_decay_exponent": "1/5",
+    "D_and_Q_exponent": "3/5",
+    "K_exponent": "4/5",
+    "Ramsey_high_clique_exponent": "2/75",
+    "Rudnev_main_at_sync_exponent": "7/5",
+    "Rudnev_pencil_at_sync_exponent": "7/5",
+    "average_marked_graph_edge_exponent": "1/1",
+    "average_repair_graph_edge_exponent": "1/1",
+    "axis_orbit_circle_cap_exponent": "3/5",
+    "balanced_K22_forcing_threshold_exponent": "6/5",
+    "common_domain_exponent": "1/1",
+    "distinct_neighbor_direction_exponent": "2/5",
+    "fixed_point_contamination_exponent": "11/5",
+    "global_marked_repair_count_exponent": "3/1",
+    "global_repair_edge_count_exponent": "2/1",
+    "high_order_clean_common_star_exponent": "1/5",
+    "high_order_failure_slot_multiplicity_exponent": "1/5",
+    "high_order_repair_fan_exponent": "1/5",
+    "large_common_neighbor_exponent": "4/5",
+    "low_order_total_good_mass_exponent": "13/5",
+    "low_star_edge_count_exponent": "8/5",
+    "planar_branch_contradicts_D": true,
+    "planar_normal_cap_exponent": "3/5",
+    "projective_pencil_exponent": "2/5",
+    "rich_pair_count_exponent": "8/5",
+    "sync_pair_moment_lhs_exponent": "2/1",
+    "sync_pair_moment_rhs_exponent": "13/5",
+    "sync_triple_moment_lhs_exponent": "13/5",
+    "sync_triple_moment_rhs_exponent": "3/1",
+    "synchronized_incidence_exponent": "7/5",
+    "synchronized_triangle_family_exponent": "4/5"
+  },
+  "problem_827": {
+    "alteration_gamma_H4": "1/3",
+    "alteration_gamma_H5_without_saving": "1/4",
+    "alteration_gamma_H6_without_saving": "1/5",
+    "conflict_energy_rows": [
+      {
+        "common_vertices": 2,
+        "global_radius_energy_coefficient": 1,
+        "pinned_energy_coefficient": 2,
+        "union_size": 4
+      },
+      {
+        "common_vertices": 1,
+        "global_radius_energy_coefficient": 1,
+        "pinned_energy_coefficient": 1,
+        "union_size": 5
+      },
+      {
+        "common_vertices": 0,
+        "global_radius_energy_coefficient": 1,
+        "pinned_energy_coefficient": 0,
+        "union_size": 6
+      }
+    ],
+    "delta_one_half_joint_gamma_still_capped_by_H5": "1/4",
+    "delta_one_quarter_rainbow_gamma": "1/4",
+    "delta_one_quarter_rich_circle_exponent": "7/4",
+    "inversion_cleared_equation": "-2*c1*y1 - 2*c2*y2 + 1",
+    "inverted_line_distance_squared": "1/(4*(c1**2 + c2**2))",
+    "survival_energy_identity": "c4*p**4*(1 - p)**2 + p**6*(c4 + c5 + c6) + p**5*(1 - p)*(2*c4 + c5)"
+  },
+  "result": "PASS",
+  "schema": "amra.erdos_geometry.round11.v1",
+  "warning": "The script certifies algebra and exponent bookkeeping only; the universal proofs and source-sensitive hypotheses are in REPORT.md and INDEPENDENT_QA.md."
+}
