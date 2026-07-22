@@ -1,0 +1,88 @@
+{
+  "all_midpoint_comparisons": "PASS",
+  "common_prefix_histogram": {
+    "0": 2,
+    "1": 5,
+    "2": 41,
+    "3": 251
+  },
+  "minimum_positive_gap": 14,
+  "schema": "amra.erdos776.midpoint-galois.v1",
+  "galois_bruteforce": "PASS ranks=1..6, x,y=0..29",
+  "scope_warning": "Finite exact verification; no all-r proof claim.",
+  "selected_rows": [
+    {
+      "N": 25,
+      "a_first_different_digit": [20, 10],
+      "a_middle": 3663705,
+      "b_first_different_digit": [19, 10],
+      "b_middle": 3536134,
+      "canonical_pair_sha256": "df3faa53ba621a2a75ead2b1a2d7273de9013c4454b8cd7694397d5607355262",
+      "common_canonical_prefix_length": 2,
+      "middle_rank": 12,
+      "positive_gap": 127571,
+      "r": 20
+    },
+    {
+      "N": 55,
+      "a_first_different_digit": [48, 24],
+      "a_middle": 2613856881122219,
+      "b_first_different_digit": [26, 24],
+      "b_middle": 2569268565034515,
+      "canonical_pair_sha256": "571f29d7b11ff5ac98111080f302d5d4b5e347e295fd2870ee661782978a1941",
+      "common_canonical_prefix_length": 3,
+      "middle_rank": 27,
+      "positive_gap": 44588316087704,
+      "r": 50
+    },
+    {
+      "N": 105,
+      "a_first_different_digit": [98, 49],
+      "a_middle": 2118319312675101664628151522327,
+      "b_first_different_digit": [78, 49],
+      "b_middle": 2083566050966530717448311046074,
+      "canonical_pair_sha256": "5c9b9cae2b34439affa5ca69cfdd779779d97043228a5a79a1b4edbd43303a8d",
+      "common_canonical_prefix_length": 3,
+      "middle_rank": 52,
+      "positive_gap": 34753261708570947179840476253,
+      "r": 100
+    },
+    {
+      "N": 106,
+      "a_first_different_digit": [99, 50],
+      "a_middle": 4196395013894817345503802723551,
+      "b_first_different_digit": [79, 50],
+      "b_middle": 4127599886234797802147878702392,
+      "canonical_pair_sha256": "e07812e3596bb5c96a170f28afd8418a6137b1196b51f495e76ab781737e4d4b",
+      "common_canonical_prefix_length": 3,
+      "middle_rank": 53,
+      "positive_gap": 68795127660019543355924021159,
+      "r": 101
+    },
+    {
+      "N": 205,
+      "a_first_different_digit": [198, 99],
+      "a_middle": 1916109112809162834685059518346713118514659086472011614998396,
+      "b_first_different_digit": [185, 99],
+      "b_middle": 1885489715172119208389266843792508181884846863779543868264611,
+      "canonical_pair_sha256": "17549fbba74786e807489c4f8cd050e07a2adb6b82219834889eb8cb72aa8de2",
+      "common_canonical_prefix_length": 3,
+      "middle_rank": 102,
+      "positive_gap": 30619397637043626295792674554204936629812222692467746733785,
+      "r": 200
+    },
+    {
+      "N": 305,
+      "a_first_different_digit": [298, 149],
+      "a_middle": 1989463587439045812627889841708571252482061826487598993907345119586783573554175238140529983,
+      "b_first_different_digit": [296, 149],
+      "b_middle": 1969585161411593290982635505412691491254693519754074750140766178170785566956187520980147435,
+      "canonical_pair_sha256": "a29274b5150d49b1aba09ba044913b185febc0693d1e5123ff7383e46b7b4d4f",
+      "common_canonical_prefix_length": 3,
+      "middle_rank": 152,
+      "positive_gap": 19878426027452521645254336295879761227368306733524243766578941415998006597987717160382548,
+      "r": 300
+    }
+  ],
+  "verified_range": [2, 300]
+}

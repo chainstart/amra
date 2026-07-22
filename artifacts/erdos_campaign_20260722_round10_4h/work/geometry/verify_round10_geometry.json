@@ -1,0 +1,81 @@
+{
+  "arithmetic": "fractions.Fraction and exact sympy polynomial algebra",
+  "problem_1083_conditions": {
+    "K_times_R_exponent": "9/5",
+    "K_times_R_squared_times_Q_exponent": "17/5",
+    "R_squared_exponent": "2/1",
+    "axis_fixed_total_scale_exponent": "7/5"
+  },
+  "problem_1083_critical_exponents": {
+    "D_and_Q": "3/5",
+    "boundary_components_per_high_order_pair": "2/5",
+    "carrying_plane_count_K": "4/5",
+    "cylinder_incidence_lower_exponent": "6/5",
+    "fixed_depth_common_domain_rows": [
+      {
+        "common_domain_exponent": "1/1",
+        "depth": 2
+      },
+      {
+        "common_domain_exponent": "1/1",
+        "depth": 3
+      },
+      {
+        "common_domain_exponent": "1/1",
+        "depth": 4
+      },
+      {
+        "common_domain_exponent": "1/1",
+        "depth": 5
+      },
+      {
+        "common_domain_exponent": "1/1",
+        "depth": 6
+      }
+    ],
+    "hypothetical_two_dof_ST_main_exponent": "6/5",
+    "number_of_distinct_rich_cylinders": "4/5",
+    "number_of_rich_plane_pairs": "8/5",
+    "points_per_rich_cylinder": "2/5",
+    "projective_pencil_kappa": "2/5",
+    "reflection_domain_R": "1/1",
+    "total_nonparallel_off_axis_overlap": "13/5"
+  },
+  "problem_827_all_color_cube_sampling": {
+    "H6_conflict_exponent": "1/5",
+    "cube_count_upper_exponent": "4/1",
+    "cube_free_subset_exponent": "2/5",
+    "cube_removal_sampling_exponent": "-3/5",
+    "expected_surviving_cube_exponent": "-3/5",
+    "retained_vertex_exponent": "1/5",
+    "sampling_probability_exponent": "-23/30",
+    "second_sampling_probability_loss": "4/5"
+  },
+  "problem_827_fixed_hyperbola": {
+    "quadratic_A": "x**2*y**2 + x*y",
+    "quadratic_B": "-rho*x*y + x**2*y + x*y**2 + x + y",
+    "quadratic_C": "x*y + 1",
+    "root_product": "1/(x*y)"
+  },
+  "problem_827_midpoint_energy_rows": [
+    {
+      "ambient_dimension": 6,
+      "midpoint_energy_lower_exponent": "5/2"
+    },
+    {
+      "ambient_dimension": 10,
+      "midpoint_energy_lower_exponent": "11/4"
+    },
+    {
+      "ambient_dimension": 22,
+      "midpoint_energy_lower_exponent": "29/10"
+    },
+    {
+      "ambient_dimension": 102,
+      "midpoint_energy_lower_exponent": "149/50"
+    }
+  ],
+  "result": "PASS",
+  "schema": "amra.erdos_geometry.round10.v1",
+  "warning": "The universal combinatorial and generic-projection arguments are in REPORT.md."
+}

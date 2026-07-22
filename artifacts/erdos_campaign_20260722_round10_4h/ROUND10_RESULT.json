@@ -1,0 +1,90 @@
+{
+  "schema_version": "amra.erdos.round10.summary.v1",
+  "round": "erdos_campaign_20260722_round10_4h",
+  "problem_count": 21,
+  "charged_start": "2026-07-22T17:10:18+08:00",
+  "charged_end": "2026-07-22T18:10:18+08:00",
+  "parallel_workflows": 4,
+  "charged_seconds_per_workflow": 3600,
+  "charged_seconds_total": 14400,
+  "resource_policy": "8 logical CPUs; at most 2-3 one-thread heavy calculations; target <=50%",
+  "status": "FROZEN__NO_ORIGINAL_CLOSURE__NO_NEW_MAIN_EXPONENT__NO_NEW_Q2_GATE",
+  "original_problems_closed": 0,
+  "original_problems_refuted": 0,
+  "new_main_order_or_exponent_results": 0,
+  "new_q2_early_stops": 0,
+  "accepted_closure_proofs_invalidated": 0,
+  "strict_advances": [
+    {
+      "problem_id": 1083,
+      "result": "at the critical high-Q scale, n^(4/5-o(1)) rich positive-radius cylinders with pairwise distinct axes, each containing n^(2/5-o(1)) points",
+      "status": "OPEN__NO_DISTANCE_EXPONENT_GAIN"
+    },
+    {
+      "problem_id": 679,
+      "result": "polynomially sparse complete-CRT exceptional phases for the high ANOVA tail; a candidate forces a subpower-long exceptional run, while uniform arbitrary-phase anti-clustering is false",
+      "status": "OPEN__DETERMINISTIC_ACTUAL_PHASE_TRANSFER_MISSING"
+    },
+    {
+      "problem_id": 256,
+      "result": "every nontrivial modulus split has at least two quotient residue fibres, yielding E(A)>=4m_q and m_q<=n/2 in Tang equality; exact residue-copy decomposition in the dissociated case",
+      "status": "OPEN__NO_UNIVERSAL_MAIN_ORDER_GAIN"
+    },
+    {
+      "problem_id": 25,
+      "result": "natural density for arbitrary activated residue systems in a fixed countable chain partition with h(X)=o(log X/log log X), plus an absolutely convergent CRT/lcm formula for fixed finite chain count",
+      "status": "OPEN__STRICT_SUBCLASS_CLOSED"
+    },
+    {
+      "problem_id": 635,
+      "result": "canonical Hall matching iff the endpoint graph is a pseudoforest, plus a two-layer interior Hall-deficiency-2 example repaired by proper-divisor neighbours",
+      "status": "OFFICIAL_ASYMPTOTIC_KNOWN__EXACT_ROUTE_OPEN"
+    },
+    {
+      "problem_id": 963,
+      "result": "reachable-wrap packing 2^g*kappa(W)<=|G| and a linear-size wrap set with clique number 2 admitting a near-full binary decoder",
+      "status": "OPEN"
+    },
+    {
+      "problem_id": 776,
+      "result": "Macaulay-Galois equivalence reduces every colex capacity condition to an exact comparison at any common rank",
+      "status": "OPEN__ALL_R_MIDDLE_COMPARISON_UNPROVED"
+    },
+    {
+      "problem_id": 827,
+      "result": "all-color K222 count below N^4/48, an Omega(N^(2/5)) subset simultaneously K222-free in every radius color, and planar general-position examples with midpoint energy at least N^(3-epsilon)",
+      "status": "OPEN__NO_RAINBOW_EXPONENT_GAIN"
+    },
+    {
+      "problem_id": 686,
+      "result": "exact all-integer Mahler certificates at m=12,20,28 in the missing third Cartier layer",
+      "status": "OPEN__FIXED_PARAMETERS_ONLY"
+    }
+  ],
+  "route_audit_only_problem_ids": [143, 148, 301, 325, 332, 377, 539, 788, 934, 950, 952, 1063],
+  "claim_boundary": {
+    "finite_computation_used_as_general_proof": false,
+    "official_status_changed": false,
+    "existing_round_1063_q2_candidate_counted_as_new": false,
+    "776_unbounded_common_prefix_claimed": false,
+    "679_complete_crt_phase_average_claimed_for_actual_start": false,
+    "635_canonical_counterexample_claimed_against_known_asymptotic": false
+  },
+  "quality_control": {
+    "25_independent_qa": "PASS_INTERNAL",
+    "776_independent_qa": "PASS_WITH_SCOPE_CORRECTION",
+    "geometry_independent_qa": "PASS_INTERNAL",
+    "mixed_independent_qa": "PASS_STRICT_PARTIAL__ALL_ORIGINAL_CLOSURES_FALSE",
+    "679_internal_qa": "PASS_PARTIAL_RESULTS__DETERMINISTIC_TRANSFER_OPEN",
+    "json_files_parsed": 8,
+    "python_files_ast_parsed": 7,
+    "python_and_json_validation": "PASS",
+    "all_provided_verification_scripts_reexecuted": "PASS",
+    "workflow_sha256_manifests": "PASS"
+  },
+  "previous_round_commit": {
+    "commit": "deb581f",
+    "pushed": false
+  },
+  "round10_git_commit_created": false
+}

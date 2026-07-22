@@ -1,0 +1,66 @@
+{
+  "schema_version": "amra.erdos.round10.mixed.v1",
+  "round": "erdos_campaign_20260722_round10_4h",
+  "problem_ids": [686, 256, 635, 963],
+  "status": "THREE_GENERAL_STRUCTURAL_ADVANCES_ONE_ROUTE_COUNTEREXAMPLE_AND_THREE_FIXED_CERTIFICATES__ALL_ORIGINAL_PROBLEMS_UNCLOSED_NO_Q2",
+  "full_solution_claim": "none",
+  "original_problem_closures": 0,
+  "q2_early_stop": false,
+  "independent_qa": {
+    "file": "INDEPENDENT_QA.md",
+    "result": "PASS_STRICT_PARTIAL__ALL_ORIGINAL_CLOSURES_FALSE",
+    "note": "Internal adversarial re-derivation and second-implementation checks; not external peer review."
+  },
+  "claim_boundary": {
+    "existing_proof_invalidated": false,
+    "open_status_changed_by_this_work": false,
+    "finite_computation_used_as_general_proof": false,
+    "note": "The #635 example refutes only a canonical-neighbour proof template. It does not refute the known asymptotic result. No accepted closure proof was found defective."
+  },
+  "results": [
+    {
+      "problem_id": 686,
+      "status": "OPEN__THREE_NEW_FIXED_THIRD_CARTIER_LAYER_CERTIFICATES",
+      "strongest_result": "Exact Mahler identities prove v2(C_12(z))=5, v2(C_20(z))=7, and v2(C_28(z))=10 for every integer z; equivalently v2(A_24(x))=17, v2(A_40(x))=27, and v2(A_56(x))=38 for every integer x.",
+      "remaining_gap": "These are the first fixed certificates with nontrivial odd cores 3,5,7 in the missing third layer, but the all-s Cartier doubling law and any uniform control over variable block length remain unproved. Squares N in the original variable-k problem remain open.",
+      "verification": "higher_cartier_mahler_certificates.py; exact Fraction construction of the full degree-m polynomials and Mahler coefficients; independent direct SymPy series check for all three listed m"
+    },
+    {
+      "problem_id": 256,
+      "status": "OPEN__TWO_FIBRE_MAJORITY_BARRIER_AND_EXACT_DISSOCIATED_RESIDUE_COPIES",
+      "strongest_result": "For every nontrivial modulus split, the quotient occupies at least two residue fibres, so E(A)>=4m_q and norm(P)>=sqrt(8m_q); hence a Tang equality tuple has m_q<=n/2 for every q unless q divides all exponents. At the critical m_q=n/2 split it has exactly two active fibres and both are ideal Prouhet-Tarry-Escott equality chains. If the r outside residues are additionally dissociated, the exact formula E(A)=2^r E(C) holds and forces a ternary residue relation in every equality split except n=2.",
+      "remaining_gap": "The majority-divisibility theorem gives a strict constant improvement on a broad subclass but does not force any m_q>n/2 in an arbitrary primitive tuple. Nor is there a global theorem forcing a high-rank dissociated residue split; the universal sqrt(n) order is unchanged.",
+      "verification": "residue_copy_decomposition.py; 8007 exponent multisets, 38235 nontrivial modulus splits, and 3679 dissociated directions, zero failures; non-dissociated sharpness and two Tang-equality controls"
+    },
+    {
+      "problem_id": 635,
+      "status": "OFFICIAL_ASYMPTOTIC_KNOWN__EXACT_CANONICAL_HALL_MULTI_CYCLE_OBSTRUCTION",
+      "strongest_result": "For interior vertices, canonical Hall matching is equivalent to the odd-endpoint graph being a pseudoforest. A solver-free independent 10-point set in only valuation layers 1 and 4, with every upper neighbour in range, has 10 canonical edges on 8 vertices and Hall deficiency 2; three proper-divisor neighbours yield an explicit full matching. Every standard two-layer commuting square also has a proper-divisor exit.",
+      "remaining_gap": "One must choose proper-divisor exits globally across overlapping multi-cycle components and handle nonstandard cycles and boundary vertices. Canonical directions, two layers, and boundary repair alone are insufficient.",
+      "verification": "canonical_bicycle_counterexample.py; all 45 independence pairs, endpoints, connected cycle rank, full matching, and 1393 standard-square regressions checked with solver-free integer arithmetic"
+    },
+    {
+      "problem_id": 963,
+      "status": "OPEN__REACHABLE_WRAP_CAYLEY_CLIQUE_INTERFACE",
+      "strongest_result": "For actual forbidden wrap differences W in any finite abelian decoder group, 2^g*kappa(W)<=|G|, where kappa is the largest K with nonzero K-K contained in W. Universal intervals recover the previous log k loss, but a middle-third set W of size Theta(p) has kappa=2 and admits an explicit binary decoder of rank log2(p)-O(1) avoiding W.",
+      "remaining_gap": "The actual zero-fibre recursion has not been shown to produce wrap sets with bounded clique number, nor has cumulative clique loss been made O(1). Thus the pointwise floor(log2 n) conjecture remains open.",
+      "verification": "reachable_wrap_packing.py; 3130 dissociated cyclic decoders through modulus 21 plus exact p=11,17,101 middle-third clique and explicit-decoder controls"
+    }
+  ],
+  "resources": {
+    "cpu_policy": "single-threaded short exact computations only",
+    "charged_start": "2026-07-22T17:10:18+08:00",
+    "charged_end": "2026-07-22T18:10:18+08:00",
+    "charged_seconds": 3600
+  },
+  "files": [
+    "REPORT.md",
+    "INDEPENDENT_QA.md",
+    "RESULT.json",
+    "residue_copy_decomposition.py",
+    "canonical_bicycle_counterexample.py",
+    "reachable_wrap_packing.py",
+    "higher_cartier_mahler_certificates.py",
+    "SHA256SUMS"
+  ]
+}

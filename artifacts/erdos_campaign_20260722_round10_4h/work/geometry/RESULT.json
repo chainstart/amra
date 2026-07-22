@@ -1,0 +1,107 @@
+{
+  "round": "erdos_campaign_20260722_round10_4h",
+  "workflow": "geometry",
+  "problems": [1083, 827],
+  "status": "STRICT_STRUCTURAL_PROGRESS__ORIGINAL_PROBLEMS_OPEN__NO_MAIN_EXPONENT_GAIN",
+  "q2_early_stop": false,
+  "full_solution_claims": {
+    "1083": "none",
+    "827": "none"
+  },
+  "main_exponent_gain": "none",
+  "theorems": [
+    {
+      "problem_id": 1083,
+      "name": "critical rich-cylinder bush",
+      "label": "THEOREM",
+      "statement": "For the corrected no-rich-line high-Q carrying family, if KR>=2n, KR^2Q>>n^3, and R^2>>ell*n, there are Omega(K^2R^2/n^2) nonparallel plane pairs with Omega(R^2/n) off-axis composition domain, and Omega(K^2R^2/(kappa^2 n^2)) positive-radius cylinders with pairwise distinct axes, each containing Omega(R^2/(nD)) points. At Q asymptotic to D=n^(3/5+o(1)), this gives n^(8/5-o(1)) rich plane pairs and n^(4/5-o(1)) rich cylinders with pairwise distinct axes, each with n^(2/5-o(1)) points."
+    },
+    {
+      "problem_id": 1083,
+      "name": "fixed-depth common-domain reflection stars",
+      "label": "THEOREM",
+      "statement": "For every fixed t>=2, if KR/n>=2t, some t carrying planes have a common reflection-success domain of size Omega_t(R^t/n^(t-1)); at the critical scale this is n/polylog(n)^t. This is a star-shaped common domain only and does not imply that an ordered t-reflection word is successively defined."
+    },
+    {
+      "problem_id": 1083,
+      "name": "partial-rotation orbit dichotomy",
+      "label": "THEOREM",
+      "statement": "For each rich nonparallel pair, either its rotation has order at most 2D+1, or every off-axis success component is a path of at most D edges, yielding Omega(R^2/(nD)) distinct path-boundary certificates. This does not yet globally bound the certificates."
+    },
+    {
+      "problem_id": 827,
+      "name": "all-color cube sparsity and simultaneous cube-free extraction",
+      "label": "THEOREM",
+      "statement": "Across all circumradius colors, the total number of K_{2,2,2} copies is less than N^4/48. Consequently a p=N^(-23/30) vertex sample contains no such copy in any color with probability 1-o(1). More strongly for cube removal alone, sampling at p=N^(-3/5) and deleting one vertex per surviving cube gives an Omega(N^(2/5))-point subset in which every radius color is simultaneously K_{2,2,2}-free. This does not by itself control the remaining H4/H5/H6 conflicts."
+    },
+    {
+      "problem_id": 827,
+      "name": "near-cubic midpoint energy in planar general position",
+      "label": "THEOREM",
+      "statement": "For every epsilon>0 there are arbitrarily large N-point planar sets with no three collinear and no four concyclic for which sum_O m_O^2 >= N^(3-epsilon), where m_O counts pairs with midpoint O. Thus any route that first bounds fixed-center contributions by O(m_O^2) and then discards the common-radius equation cannot yield a fixed global power saving."
+    }
+  ],
+  "corrected_interfaces": [
+    "Rudnev's parameter in the K<=n high-Q application is the maximum number kappa of planes sharing a projective line; kappa<2n/Q on the carrying layer.",
+    "When K>n in the low-Q branch, duality changes the degeneration parameter to the original point collinearity ell, and KQ is swallowed by K*sqrt(n) for Q<=sqrt(n).",
+    "For problem 827, the fixed-hyperbola radius equation is quadratic in the third parameter with root product 1/(xy), but quotient vertices belonging to distinct midpoint centers are disjoint; cross-center savings must use original endpoints."
+  ],
+  "method_barriers": [
+    {
+      "problem_id": 1083,
+      "label": "EXPONENT_PRESSURE_TEST",
+      "statement": "The cylinder bush supplies n^(6/5-o(1)) point-cylinder incidences. Even a hypothetical two-degrees-of-freedom Szemeredi-Trotter main term is n^(2/3)*(n^(4/5))^(2/3)=n^(6/5), so a generic bare incidence count is exponent-saturated and must use the reflection provenance to improve."
+    },
+    {
+      "problem_id": 827,
+      "label": "RIGOROUS_ROUTE_OBSTRUCTION",
+      "statement": "General position alone permits midpoint energy sum_O m_O^2 >= N^(3-epsilon) for every epsilon>0; summing fixed-center O(m_O^2) estimates after discarding the common-radius equation cannot give a fixed power saving."
+    },
+    {
+      "problem_id": 827,
+      "label": "EXPONENT_PRESSURE_TEST",
+      "statement": "Even after simultaneous K_{2,2,2}-removal at p=N^(-23/30), the crude all-color H6 estimate remains O(M^5); balancing qM against q^6M^5 gives q=M^(-4/5) and only M^(1/5) retained vertices. Cube-freeness alone therefore does not improve the legacy fifth-power scale without joint H4/H5/H6 control."
+    }
+  ],
+  "conditional_targets": [
+    {
+      "problem_id": 1083,
+      "label": "CONDITIONAL_TARGET",
+      "statement": "Prove a point-incidence bound specialized to the n^(4/5-o(1)) rich cylinders, or globally charge the path-boundary certificates across n^(8/5-o(1)) rotations."
+    },
+    {
+      "problem_id": 1083,
+      "label": "CONDITIONAL_TARGET",
+      "statement": "Obtain a genuinely (q_pi,g_pi)-weighted point-plane incidence saving for Q<=sqrt(n)."
+    },
+    {
+      "problem_id": 827,
+      "label": "CONDITIONAL_TARGET",
+      "statement": "Retain the common-radius equation while summing across midpoint centers, or build an endpoint-level joint container for the group-type cubes together with H4/H5/H6."
+    }
+  ],
+  "heuristic_claims": "none",
+  "publication_assessment": "The distinct-axis cylinder-bush amplification, simultaneous N^(2/5) all-color cube-free extraction, and midpoint-energy obstruction are rigorous structural increments, but without a new exponent for either original problem they do not independently meet the SCI-Q2 main-result gate.",
+  "verification": {
+    "mathematical_qa": "INDEPENDENT_QA.md",
+    "qa_result": "PASS_INTERNAL",
+    "exact_script": "verify_round10_geometry.py",
+    "exact_output": "verify_round10_geometry.json",
+    "exact_result": "PASS"
+  },
+  "resources": {
+    "cpu_policy": "single short-running process pinned to one logical core via taskset -c 6; nice -n 10",
+    "charged_start": "2026-07-22T17:10:18+08:00",
+    "charged_end": "2026-07-22T18:10:18+08:00",
+    "charged_seconds": 3600
+  },
+  "files": [
+    "REPORT.md",
+    "INDEPENDENT_QA.md",
+    "RESULT.json",
+    "SOURCE_MANIFEST.json",
+    "verify_round10_geometry.py",
+    "verify_round10_geometry.json",
+    "SHA256SUMS"
+  ]
+}

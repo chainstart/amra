@@ -1,0 +1,32 @@
+{
+  "checked_at": "2026-07-22",
+  "timezone": "Asia/Hong_Kong",
+  "scope": "Inherited primary theorem inputs and current problem statements used by the round-10 geometry workflow.",
+  "sources": [
+    {
+      "url": "https://www.erdosproblems.com/1083",
+      "role": "problem #1083 statement, open status, and recorded three-dimensional distance bound"
+    },
+    {
+      "url": "https://arxiv.org/abs/1407.0426",
+      "role": "Rudnev point-plane incidence theorem; k is the maximum number of planes sharing a projective line"
+    },
+    {
+      "url": "https://arxiv.org/abs/2011.14232",
+      "role": "rational-angle classification inherited by the partial-reflection orbit endpoint"
+    },
+    {
+      "url": "https://www.erdosproblems.com/827",
+      "role": "problem #827 statement and open status"
+    },
+    {
+      "url": "https://arxiv.org/abs/2211.13294",
+      "role": "Solymosi-Zahl Elekes-Szabo estimate inherited for one fixed rectangular hyperbola"
+    },
+    {
+      "url": "https://arxiv.org/abs/1705.01979",
+      "role": "Do's semi-algebraic hypergraph Zarankiewicz bound used only for the post-sampling exponent pressure test"
+    }
+  ],
+  "warning": "No claim of exhaustive novelty or publication priority is made."
+}

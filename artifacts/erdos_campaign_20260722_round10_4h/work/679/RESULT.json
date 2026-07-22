@@ -1,0 +1,105 @@
+{
+  "schema_version": "amra.erdos.round10.679.v1",
+  "round": "erdos_campaign_20260722_round10_4h",
+  "problem_id": 679,
+  "status": "OPEN__EXACT_INHERITED_PRIMITIVE_PHASE__FIXED_POWER_SUFFICES__ALMOST_ALL_PHASES__DETERMINISTIC_EXCEPTION_OPEN",
+  "official_problem_status_carried_forward": {
+    "status": "OPEN",
+    "checked_at": "2026-07-22",
+    "source": "https://www.erdosproblems.com/679"
+  },
+  "full_solution_claim": "none",
+  "deterministic_interval_transfer_claim": "none",
+  "q2_early_stop": false,
+  "strongest_results": [
+    {
+      "name": "exact inherited phase and primitive frontier transform",
+      "claim_level": "theorem_identity",
+      "statement": "The suffix phases are B_{p,r,c}=c^{-1}(A_p-u_r), with u_r ranging through one inherited c-block. Every nonzero Fourier frequency of a stopping prefix is primitive modulo c, and the exact correlation retains interval start, suffix endpoint, and frontier phase jointly."
+    },
+    {
+      "name": "fixed-power additive sufficiency",
+      "claim_level": "theorem_reduction",
+      "statement": "For any fixed q,C with qC>1, an aggregate signed high-tail bound O(X^{-delta}) for any fixed delta>0 closes the relevant interval. In particular q=1,C>1 suffices; relative transfer to N mu_q is not required."
+    },
+    {
+      "name": "almost-all inherited-phase theorem",
+      "claim_level": "unconditional_partial_theorem",
+      "statement": "For A uniform modulo the full CRT period, high-tail energy is at most mu_q^2 exp(-(2+o(1)) log_2 X log_3 X). If qC>1+delta, the fraction of starts whose length-N high-tail sum exceeds X^{-delta} is at most X^{-2(qC-1-delta)+o(1)}; for N asymptotic to X, every nonexceptional interval has zero candidates."
+    },
+    {
+      "name": "candidate forces a long exceptional run",
+      "claim_level": "theorem_reduction",
+      "statement": "Sliding a fixed-parameter H-block through K in [Y,2Y], Y=exp(log_2 X sqrt(log_3 X)), shows that one original candidate forces Y+1 consecutive inherited interval starts to have moment at least X^{-o(1)}."
+    },
+    {
+      "name": "uniform anti-clustering counterexample",
+      "claim_level": "theorem_barrier",
+      "statement": "A Chernoff plus CRT construction produces somewhere modulo Q a run of length Y on which every canonical weight is X^{-o(1)}. Therefore neither pointwise nor run anti-clustering can be uniform over arbitrary CRT starts; a viable theorem must exploit the actual location A asymptotic to X."
+    }
+  ],
+  "exact_route_barriers": [
+    "Taking absolute values frontier-by-frontier before using the joint inherited phase incurs a top-band normalized cost at least X^{qC(1-o(1))} exp(log_2 X+o(log_2 X)).",
+    "Bettin-Chandee, Walker, Fouvry-Radziwill, and Wright 2026 do not directly cover the growing shifted system with a frontier-dependent untruncated suffix and conductor level X^{1-o(1)}.",
+    "A polynomially sparse exceptional set modulo the enormous CRT period can contain all actual dyadic starts.",
+    "Even a length-Y arbitrary-start anti-clustering black box is false by an explicit Chernoff-CRT construction."
+  ],
+  "remaining_gap": "Prove a fixed-power signed high-conductor estimate at the self-consistent deterministic starts A asymptotic to X, or prove a local exceptional-run exclusion specifically in that actual dyadic range. The theorem must retain terminal suffix and inherited frontier phase and cannot be uniformized over arbitrary CRT starts.",
+  "claim_boundary": {
+    "original_problem_closed": false,
+    "accepted_proof_invalidated": false,
+    "official_status_changed": false,
+    "finite_computation_used_as_general_proof": false,
+    "publication_gate_met": false
+  },
+  "literature_checks": [
+    {
+      "source": "https://arxiv.org/abs/1502.00769",
+      "result": "Kloosterman phase analogy only; no frontier-suffix theorem"
+    },
+    {
+      "source": "https://arxiv.org/abs/2101.04418",
+      "result": "truncated one-variable divisor-weight correlation; hypotheses and target do not match"
+    },
+    {
+      "source": "https://arxiv.org/abs/1811.08672",
+      "result": "unbalanced convolution level of distribution; no direct application"
+    },
+    {
+      "source": "https://arxiv.org/abs/2604.25177",
+      "result": "2026 fixed-factor improvement still requires convolution and modulus-average structure absent here"
+    }
+  ],
+  "verification": {
+    "script": "verify_primitive_phase.py",
+    "output": "verify_primitive_phase.out",
+    "result": "PASS finite algebra only; max coefficient error 4.680e-17; correlation error 2.419e-15",
+    "qa": "ROUND10_INTERNAL_QA.md",
+    "qa_result": "PASS_PARTIAL_RESULTS__DETERMINISTIC_PHASE_OPEN"
+  },
+  "resources": {
+    "cpu_policy": "single short Python audit pinned with taskset -c 7 and nice -n 10; no parallel or long computation",
+    "heavy_parallelism": false,
+    "charged_start": "2026-07-22T17:10:18+08:00",
+    "charged_end": "2026-07-22T18:10:18+08:00",
+    "charged_seconds": 3600,
+    "freeze_observed_at": "2026-07-22T18:10:18+08:00",
+    "status": "FROZEN_AT_UNIFIED_BOUNDARY"
+  },
+  "files": [
+    "REPORT.md",
+    "RESULT.json",
+    "ATTEMPT_LOG.md",
+    "ROUND10_INTERNAL_QA.md",
+    "inherited_phase_state_and_abs_barrier.md",
+    "fixed_power_additive_sufficiency.md",
+    "primitive_phase_target.md",
+    "kloosterman_applicability_audit.md",
+    "almost_all_inherited_phases.md",
+    "exceptional_phase_run_reduction.md",
+    "uniform_anticlustering_counterexample.md",
+    "verify_primitive_phase.py",
+    "verify_primitive_phase.out",
+    "SHA256SUMS"
+  ]
+}

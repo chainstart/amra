@@ -1,0 +1,45 @@
+{
+  "round": "erdos_campaign_20260722_round10_4h",
+  "workflow": "broad",
+  "problems": [25, 143, 148, 301, 325, 332, 377, 539, 776, 788, 934, 950, 952, 1063],
+  "status": "STRICT_SUBCLASS_AND_ROUTE_REDUCTION__ORIGINAL_PROBLEMS_OPEN__NO_Q2_GATE",
+  "q2_early_stop": false,
+  "full_solution_claims": "none",
+  "main_order_or_exponent_gain": "none",
+  "strict_advances": [
+    {
+      "problem_id": 25,
+      "name": "finite and slowly growing divisibility-chain cover density theorem",
+      "label": "THEOREM",
+      "statement": "For arbitrary activated residue classes in a fixed countable partition into strict divisibility chains, the survivor set has a natural density whenever the number h(X) of chains active by X is o(log X/log log X). For a fixed finite number of chains, the density also has an absolutely convergent CRT/lcm inclusion-exclusion formula.",
+      "qa": "PASS_INTERNAL",
+      "scope": "strict subclass; rapidly growing divisibility width remains open"
+    },
+    {
+      "problem_id": 776,
+      "name": "arbitrary-rank Macaulay Galois meeting reduction",
+      "label": "THEOREM",
+      "statement": "With the forward residual capacities a_p and reverse minimum requirements b_p, a_(p+1)>=b_(p+1) iff a_p>=b_p. Thus exact comparison at any common rank certifies all colex capacities.",
+      "qa": "PASS_WITH_SCOPE_CORRECTION",
+      "scope": "the all-r middle-rank inequality is unproved; finite prefix growth does not prove an unbounded prefix"
+    }
+  ],
+  "route_audit_only_problem_ids": [143, 148, 301, 325, 332, 377, 539, 788, 934, 950, 952, 1063],
+  "claim_boundary": {
+    "25_original_closed": false,
+    "776_original_closed": false,
+    "776_finite_scan_used_as_general_proof": false,
+    "776_unbounded_common_prefix_claimed": false,
+    "1063_constant_refresh_counted_as_breakthrough": false
+  },
+  "files": [
+    "BROAD_REPORT.md",
+    "25/FINITE_CHAIN_COVER.md",
+    "25/INDEPENDENT_QA.md",
+    "776/ATTEMPT.md",
+    "776/INDEPENDENT_QA.md",
+    "776/midpoint_galois_probe.py",
+    "776/midpoint_galois_probe_output.json",
+    "SHA256SUMS"
+  ]
+}

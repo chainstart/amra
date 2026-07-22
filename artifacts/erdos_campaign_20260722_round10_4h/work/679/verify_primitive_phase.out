@@ -1,0 +1,6 @@
+c=55 H=2 K=4 q=2 interval=(13,103]
+max_hat_error=4.680e-17
+direct_corr=-1.2031885405867589e-01
+fourier_corr_real=-1.2031885405867440e-01
+fourier_corr_imag=1.909e-15
+correlation_error=2.419e-15
