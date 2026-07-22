@@ -1,0 +1,1 @@
+status=PASS Q=15015 cutoffs=4 orders=2 max_identity_error=2.220e-16 max_absolute_frontier=0.508905 interval_tails=D5:-4.808657e-02,D20:5.306540e-02,D100:9.834824e-02,D500:-3.660725e-03

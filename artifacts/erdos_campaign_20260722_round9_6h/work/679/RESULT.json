@@ -1,0 +1,100 @@
+{
+  "schema_version": "amra.erdos.round9.679.v1",
+  "round": "erdos_campaign_20260722_round9_6h",
+  "problem_id": 679,
+  "status": "OPEN__FIXED_LOG_SQUARED_SUPERPOLY_COMPLETE_PERIOD__MOVING_LOW_CONDUCTOR_TRANSFER__PHASED_SUFFIX_OPEN",
+  "official_problem_status_checked": {
+    "status": "OPEN",
+    "checked_at": "2026-07-22",
+    "source": "https://www.erdosproblems.com/679"
+  },
+  "full_solution_claim": "none",
+  "interval_transfer_claim": "none_for_full_positive_weight",
+  "q2_early_stop": false,
+  "strongest_results": [
+    {
+      "name": "fixed log-squared complete-period theorem",
+      "statement": "For H=floor((log X)^2), a=C log X/(H L), and q=floor(log_3 X), the complete-CRT good-class density is at most X^{-C log_3 X(1-o(1))}, while the relative nonzero Fourier energy of W^q is O((log_3 X)^2/log_2 X)=o(1)."
+    },
+    {
+      "name": "moving low-conductor interval transfer",
+      "statement": "For Phi=log X log_3 X/log_2 X, the explicit cutoff D=X exp(-2 Phi) gives sum_I W_{<=D}=N mu(1+O(exp(-Phi))). In particular every fixed conductor range D=X^kappa, kappa<1, transfers with relative error X^{-1+kappa+o(1)}."
+    },
+    {
+      "name": "subpower stopping frontier and exact suffix conditioning",
+      "statement": "The normalized absolute crossing-frontier mass through X^kappa z is exp(O(log X log_3 X/log_2 X))=X^{o(1)}. Conditioning modulo a crossing conductor maps the suffix exactly to another H-forbidden-residue weight on an interval of length N/c."
+    },
+    {
+      "name": "uniform suffix black-box counterexample",
+      "statement": "A suffix theorem uniform over every start and arbitrary forbidden sets is impossible: CRT gives an all-inactive class of weight one, forcing A(M)>=(M mu_suffix)^{-1}. A viable continuation must retain the inherited start phase and its correlation with the crossing residue."
+    }
+  ],
+  "exact_route_barriers": [
+    "Blockwise polynomial-modulus transfer followed only by scalar generalized Holder retains o(log X) zero-mode exponent.",
+    "Any low-conductor sum-of-squares majorant with square conductor at most X^kappa has mean at least X^{-kappa}, far above the required X^{-C+o(1)}.",
+    "The canonical soft Selberg denominator at every fixed polynomial level has log mass o(q log X), exponentially below the qC log X complete-period target.",
+    "The fully uniform transformed-suffix interval theorem suggested by a crude stopping recurrence is false by an all-inactive CRT class."
+  ],
+  "remaining_gap": "Prove a one-sided signed high-conductor tail, equivalently a phase-sensitive bound for inherited frontier-suffix correlations. The state must retain interval length, suffix prime endpoint, and inherited starting phase; taking a supremum over arbitrary suffix intervals destroys the needed information.",
+  "claim_boundary": {
+    "original_problem_closed": false,
+    "accepted_proof_invalidated": false,
+    "official_status_changed": false,
+    "finite_computation_used_as_general_proof": false,
+    "publication_gate_met": false
+  },
+  "literature_checks": [
+    {
+      "source": "https://www.erdosproblems.com/679",
+      "result": "OPEN on 2026-07-22"
+    },
+    {
+      "source": "https://arxiv.org/abs/2605.29470",
+      "result": "withdrawn after an important miscalculation; not used"
+    }
+  ],
+  "verification": {
+    "stopping_script": "verify_stopping_line.py",
+    "stopping_output": "verify_stopping_line.out",
+    "stopping_result": "PASS; all 15015 residues, four cutoffs, two orders, max error 2.220e-16",
+    "minimax_script": "minimax_majorant_probe.py",
+    "minimax_output": "minimax_majorant_probe.out",
+    "minimax_result": "PASS finite LP only",
+    "qa": [
+      "ROUND9_INTERNAL_QA.md",
+      "ULTRASMALL_TILT_INDEPENDENT_QA.md"
+    ],
+    "qa_result": "PASS_PARTIAL_RESULTS__TRANSFER_OPEN"
+  },
+  "resources": {
+    "cpu_policy": "8 logical CPUs observed; single core via taskset -c 1 (12.5% ceiling); nice -n 10; BLAS threads pinned to one for LP",
+    "heavy_parallelism": false,
+    "charged_start": "2026-07-22T14:42:16+08:00",
+    "charged_end": "2026-07-22T16:12:16+08:00",
+    "charged_seconds": 5400,
+    "freeze_observed_at": "2026-07-22T16:13:22+08:00",
+    "status": "FROZEN_AT_UNIFIED_BOUNDARY"
+  },
+  "files": [
+    "REPORT.md",
+    "RESULT.json",
+    "ATTEMPT_LOG.md",
+    "ROUND9_INTERNAL_QA.md",
+    "ULTRASMALL_TILT_INDEPENDENT_QA.md",
+    "fixed_exponent_tilt_refinement.md",
+    "ultrasmall_tilt_window.md",
+    "ultrasmall_tilt_internal_qa.md",
+    "stopping_line_recombination.md",
+    "stopping_line_conditional_suffix.md",
+    "holder_block_barrier.md",
+    "low_conductor_sos_barrier.md",
+    "random_thinning_sieve_audit.md",
+    "ultrasmall_selberg_level_barrier.md",
+    "minimax_probe_analysis.md",
+    "verify_stopping_line.py",
+    "verify_stopping_line.out",
+    "minimax_majorant_probe.py",
+    "minimax_majorant_probe.out",
+    "SHA256SUMS"
+  ]
+}

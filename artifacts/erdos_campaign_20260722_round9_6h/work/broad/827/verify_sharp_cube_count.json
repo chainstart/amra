@@ -1,0 +1,9 @@
+{
+  "checks": {
+    "circle_determinant_factor": true,
+    "vieta_product_equals_1_over_xy": true
+  },
+  "circle_quotient": "-(r0*r1*r2*r3 - 1)/(r0**2*r1**2*r2**2*r3**2)",
+  "status": "PASS",
+  "vieta_product": "1/(x*y)"
+}

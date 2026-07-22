@@ -1,0 +1,37 @@
+{
+  "problem_id": 1083,
+  "checked_at": "2026-07-22",
+  "timezone": "Asia/Hong_Kong",
+  "scope": "Primary sources used for theorem inputs, current status, and targeted novelty comparison.",
+  "sources": [
+    {
+      "url": "https://www.erdosproblems.com/1083",
+      "role": "current problem statement/status and recorded three-dimensional bound"
+    },
+    {
+      "url": "https://www.math.ubc.ca/~solymosi/sajatcikkek/distancesvu.pdf",
+      "role": "high-dimensional distinct-distance framework and hyperplane-occupancy input"
+    },
+    {
+      "url": "https://arxiv.org/abs/1011.4105",
+      "role": "planar distinct-distance bound used to infer h=O(D log n)"
+    },
+    {
+      "url": "https://arxiv.org/abs/2011.14232",
+      "role": "rational-angle line classification used by the round-8 small-defect theorem"
+    },
+    {
+      "url": "https://arxiv.org/abs/1407.0426",
+      "role": "point-plane incidence theorem used for the corrected high-q bridge and exact saturation audit; k is the maximum number of planes sharing a projective line"
+    },
+    {
+      "url": "https://arxiv.org/abs/1411.6868",
+      "role": "closest planar bisector-energy comparison"
+    },
+    {
+      "url": "https://arxiv.org/abs/1608.02775",
+      "role": "closest planar partial-reflection/distinct-distance comparison"
+    }
+  ],
+  "warning": "Targeted screen only; absence of an exact match is not a complete novelty or priority proof."
+}

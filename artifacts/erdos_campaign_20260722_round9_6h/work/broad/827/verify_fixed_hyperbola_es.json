@@ -1,0 +1,24 @@
+{
+  "F": "-R*x*y*z + x**2*y**2*z**2 + x**2*y*z + x*y**2*z + x*y*z**2 + x*y + x*z + y*z + 1",
+  "checks": {
+    "all_partials_nonzero_at_test_point": true,
+    "mixed_log_derivative_equals_minus_4": true,
+    "quartic_discriminant_nonzero_for_R_gt_8": true,
+    "radius_surface_factorization": true,
+    "test_point_lies_on_surface": true
+  },
+  "mixed_log_derivative_at_test_point": "-4",
+  "partials_at_test_point": [
+    "R",
+    "-1",
+    "1"
+  ],
+  "quadratic_discriminant_at_y_1": "R**2*x**2 - 2*R*x**3 - 4*R*x**2 - 2*R*x + x**4 - 2*x**2 + 1",
+  "quartic_discriminant_in_x": "256*R**3*(R - 8)*(R + 1)**2",
+  "status": "PASS",
+  "test_point": {
+    "x": 0,
+    "y": 1,
+    "z": -1
+  }
+}

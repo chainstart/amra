@@ -1,0 +1,64 @@
+{
+  "schema_version": "amra.erdos.round9.mixed.v1",
+  "round": "erdos_campaign_20260722_round9_6h",
+  "problem_ids": [686, 635, 256, 963],
+  "status": "THREE_RIGOROUS_LOCAL_ADVANCES_AND_ONE_ARCHITECTURE_BARRIER__ALL_ORIGINAL_PROBLEMS_UNCLOSED_NO_Q2",
+  "full_solution_claim": "none",
+  "original_problem_closures": 0,
+  "q2_early_stop": false,
+  "independent_qa": {
+    "file": "INDEPENDENT_QA.md",
+    "result": "PASS_STRICT_PARTIAL__ALL_ORIGINAL_CLOSURES_FALSE"
+  },
+  "claim_boundary": {
+    "existing_proof_invalidated": false,
+    "open_status_changed_by_this_work": false,
+    "finite_computation_used_as_general_proof": false,
+    "note": "A gap in an attempted route is not a refutation of an existing theorem. This work found no fatal error in an accepted closure proof for these four targets."
+  },
+  "results": [
+    {
+      "problem_id": 686,
+      "status": "OPEN__EVEN_2ADIC_LAYERS_V2_L_1_AND_2_PROVED",
+      "strongest_result": "For every integer x, v2(A_(2m)(x))=-v2(m!) when m is odd, and v2(A_(4s)(x))=2s-v2(s!) when s is odd. Together with round 8 this proves the polynomial-part law for v2(l)<=2. On the first missing layer, C_(4s) is divisible by 4 for odd s and by 8 for odd s>=3; exact Mahler identities additionally prove the isolated cases v2(A_8)=6 and v2(A_16)=14.",
+      "remaining_gap": "The first two uniform Cartier divisibility steps on the first missing layer are proved (C_(4s) is divisible by 4 for odd s and by 8 for odd s>=3), but the full target valuation and doubling congruence remain open; even those would still not supply uniform control over variable l in the original equation.",
+      "verification": "even_l_two_layers.py; exact Fraction arithmetic; default scan 1536 theorem evaluations, four proved third-layer seed regressions, and 2032 explicitly unproved Cartier probe cases, zero failures"
+    },
+    {
+      "problem_id": 635,
+      "status": "OFFICIAL_ASYMPTOTIC_KNOWN__EXACT_HALL_ROUTE_OPEN",
+      "strongest_result": "Every independent complete lower fibre of size r has r distinct in-range canonical odd neighbours: its base and the upper neighbours of all but its least-exponent point. Within any fixed 2-adic layer, all canonical cross-fibre collisions form disjoint directed paths with no branching or cycles.",
+      "remaining_gap": "Canonical neighbours collide across fibres, already on the independent chain (24,42,54); proper-divisor neighbours and a terminating augmenting-path theorem are still required.",
+      "verification": "chain_fibre_audit.py; 276 independent subfibres and 58 fixed-layer canonical collisions through N=500, zero failures; exact global naive-injection counterexample"
+    },
+    {
+      "problem_id": 256,
+      "status": "OPEN__ROOT_ENERGY_2M_RESIDUE_CERTIFICATE",
+      "strongest_result": "Every nonzero integer polynomial divisible by (1-u)^m has coefficient-square energy at least 2m. Consequently E(P)>=2 m_q S_q(P/(1-z^q)^m_q) for every divisor direction q. Equality chains are exactly disjoint ideal Prouhet-Tarry-Escott pairs of size m; energy excess 2D permits at most D non-equality residue fibres.",
+      "remaining_gap": "No simultaneous residue inverse theorem forces m_q S_q/n to grow or excludes many compatible ideal Prouhet-Tarry-Escott fibres; q=1 gives exactly the known 2n energy boundary.",
+      "verification": "residue_root_energy_audit.py; 5004 exponent multisets, 26927 divisor rows, and 12809 equality-chain inverse checks, zero failures"
+    },
+    {
+      "problem_id": 963,
+      "status": "OPEN__NO_O1_RECURSION_FOUND__ONE_MODULUS_TRADEOFF_BARRIER",
+      "strongest_result": "Within the uniform-density AP-window plus universal wrap-decoder architecture, window width rho and packing give g+log2(M)<=log2(N)-log2(k)+O(1); widening the window only transfers the unavoidable log k loss from fibre density to decoder capacity. The packing lemma holds in every finite abelian group, so a naive direct product of several moduli has the same loss.",
+      "remaining_gap": "An O(1)-loss recursion needs a genuinely different decoder using actual reachable wraps or zero-fibre structure, rather than universal avoidance in one modulus or a direct product of moduli.",
+      "verification": "general cyclic-gap proof in REPORT.md; the endpoint packing calculation was independently audited in round 2"
+    }
+  ],
+  "resources": {
+    "cpu_policy": "single-threaded exact computations; no heavy parallelism inside this stream",
+    "charged_start": "2026-07-22T14:42:16+08:00",
+    "charged_end": "2026-07-22T16:12:16+08:00",
+    "charged_seconds": 5400
+  },
+  "files": [
+    "REPORT.md",
+    "INDEPENDENT_QA.md",
+    "RESULT.json",
+    "even_l_two_layers.py",
+    "chain_fibre_audit.py",
+    "residue_root_energy_audit.py",
+    "SHA256SUMS"
+  ]
+}

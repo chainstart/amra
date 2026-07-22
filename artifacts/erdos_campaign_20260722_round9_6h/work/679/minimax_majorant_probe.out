@@ -1,0 +1,7 @@
+status=PASS variables=10 patterns=1024 exact_mean=0.620022370614 full_modulus=62298863484143
+D=1 terms=1 optimum=1.000000000000 ratio_to_exact=1.612845 min_slack=0.000e+00
+D=100 terms=11 optimum=0.732512431454 ratio_to_exact=1.181429 min_slack=-2.776e-17
+D=1000 terms=47 optimum=0.638052171189 ratio_to_exact=1.029079 min_slack=-5.551e-17
+D=10000 terms=96 optimum=0.622115544661 ratio_to_exact=1.003376 min_slack=-2.220e-16
+D=100000 terms=188 optimum=0.620451179170 ratio_to_exact=1.000692 min_slack=-2.484e-15
+D=62298863484143 terms=1024 optimum=0.620022370614 ratio_to_exact=1.000000 min_slack=-2.776e-17

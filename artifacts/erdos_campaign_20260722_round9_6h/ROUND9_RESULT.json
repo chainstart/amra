@@ -1,0 +1,82 @@
+{
+  "schema_version": "amra.erdos.round9.summary.v1",
+  "round": "erdos_campaign_20260722_round9_6h",
+  "problem_count": 21,
+  "charged_start": "2026-07-22T14:42:16+08:00",
+  "charged_end": "2026-07-22T16:12:16+08:00",
+  "parallel_workflows": 4,
+  "charged_seconds_per_workflow": 5400,
+  "charged_seconds_total": 21600,
+  "resource_policy": "8 logical CPUs; at most 2-3 one-thread heavy calculations; target <=50%",
+  "status": "FROZEN__NO_ORIGINAL_CLOSURE__NO_NEW_MAIN_EXPONENT__NO_NEW_Q2_GATE",
+  "original_problems_closed": 0,
+  "original_problems_refuted": 0,
+  "new_main_order_or_exponent_results": 0,
+  "new_q2_early_stops": 0,
+  "accepted_closure_proofs_invalidated": 0,
+  "strict_advances": [
+    {
+      "problem_id": 679,
+      "result": "moving low-conductor ANOVA interval transfer at D=X exp(-2 logX log_3X/log_2X), plus an exact phase-sensitive stopping suffix interface",
+      "status": "OPEN"
+    },
+    {
+      "problem_id": 1083,
+      "result": "corrected high-Q weighted reflection bridge; kappa<2n/Q, K<<n^2/Q^2, and a critical positive-radius cylinder with n^(2/5-o(1)) points",
+      "status": "OPEN__NO_DISTANCE_EXPONENT_GAIN"
+    },
+    {
+      "problem_id": 827,
+      "result": "complete general-position equal-radius K222 classification, global count <N^3/24, and O(m^(12/7)) on each fixed centered hyperbola",
+      "status": "OPEN__NO_GLOBAL_RAINBOW_GAIN"
+    },
+    {
+      "problem_id": 686,
+      "result": "full v2(l)=1,2 even layers, two uniform divisibility bits on the first missing layer, and exact l=8,16 certificates",
+      "status": "OPEN"
+    },
+    {
+      "problem_id": 256,
+      "result": "E(P)>=2 m_q S_q with ideal Prouhet-Tarry-Escott equality and near-equality inverse structure",
+      "status": "OPEN"
+    },
+    {
+      "problem_id": 635,
+      "result": "complete lower-fibre self-expansion and fixed-layer canonical collision paths",
+      "status": "OFFICIAL_ASYMPTOTIC_KNOWN__EXACT_ROUTE_OPEN"
+    },
+    {
+      "problem_id": 963,
+      "result": "universal wrap-decoder packing barrier over arbitrary finite abelian decoder groups",
+      "status": "OPEN"
+    },
+    {
+      "problem_id": 25,
+      "result": "natural-density formula for arbitrary activated residue systems on a strict divisibility chain",
+      "status": "OPEN__STRICT_SUBCLASS_CLOSED"
+    }
+  ],
+  "route_audit_only_problem_ids": [143, 148, 301, 325, 332, 377, 539, 776, 788, 934, 950, 952, 1063],
+  "claim_boundary": {
+    "finite_computation_used_as_general_proof": false,
+    "official_status_changed": false,
+    "existing_round_1063_q2_candidate_counted_as_new": false,
+    "fixed_hyperbola_12_7_extrapolated_to_global_19_7": false,
+    "full_679_weight_transfer_claimed": false
+  },
+  "quality_control": {
+    "python_files_parsed": 11,
+    "json_files_parsed_before_summary": 10,
+    "syntax_errors": 0,
+    "1083_rudnev_parameter_error_found_and_removed": true,
+    "1083_corrected_theorems_independently_rechecked": true,
+    "827_fixed_hyperbola_independent_qa": "PASS",
+    "mixed_independent_qa": "PASS_STRICT_PARTIAL",
+    "679_internal_qa": "PASS_PARTIAL_RESULTS__TRANSFER_OPEN"
+  },
+  "previous_round_commit": {
+    "commit": "bde3e7d",
+    "pushed": false
+  },
+  "round9_git_commit_created": true
+}

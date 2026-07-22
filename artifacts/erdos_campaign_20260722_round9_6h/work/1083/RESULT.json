@@ -1,0 +1,82 @@
+{
+  "problem_id": 1083,
+  "round": "erdos_campaign_20260722_round9_6h",
+  "status": "RIGOROUS_HIGH_Q_WEIGHTED_REFLECTION_BRIDGE__NO_EXPONENT_GAIN",
+  "official_problem_status_checked": "OPEN",
+  "full_solution_claim": "none",
+  "new_distance_exponent_claim": "none",
+  "q2_early_stop": false,
+  "strongest_results": [
+    {
+      "name": "small-defect mass evacuation",
+      "statement": "For E0=floor((n/(D+1)-1)/4), the planes with e_pi<=E0 carry O(n D^2 log n) isosceles mass.  Hence their fraction is O(D^3 log n/n^2), equal to n^{-1/5+o(1)} at D=n^{3/5+o(1)}."
+    },
+    {
+      "name": "high-defect carrying layer",
+      "statement": "Outside the rich-line branch and when D^3 log n=o(n^2), some dyadic layer Q has q_pi in [Q,2Q), e_pi>E0, g_pi>>Q^2/(D L), total generator weight >>n^3/(D Q L), and at least >>n^2/(D Q L) planes."
+    },
+    {
+      "name": "axis-pencil energy",
+      "statement": "For every affine line L with ell=|P cap L|, sum_{pi contains L} g_pi<=Dn and sum_{pi contains L} g_pi q_pi<=ell D n +(n-ell)(n-ell-1)/2."
+    },
+    {
+      "name": "high-q weighted incidence bridge",
+      "statement": "In the no-rich-line branch, every projective plane pencil in the Q-rich carrying layer has kappa<2n/Q. Thus, when Q is larger than an absolute constant times sqrt(n), a carrying subfamily has g_pi >> nQ/(D L) and reflection domain r_pi >> nQ/(D L). At Q asymptotic to D=n^{3/5+o(1)}, every retained domain has size n^{1-o(1)}."
+    },
+    {
+      "name": "large composition domain and forced critical cylinder",
+      "statement": "Exactly |Dom(s_pi s_sigma)|=|S_pi intersect S_sigma|. Cauchy yields a pair with composition domain >>R0^2/n; at Q asymptotic to D this is n^{1-o(1)}. Parallel classes contribute only o(1) of the total overlap at the critical right endpoint, so an intersecting pair can be chosen and it forces a genuine positive-radius coaxial cylinder with n^{2/5-o(1)} P-points."
+    }
+  ],
+  "exact_no_go_results": [
+    "The round-8 near-complete reflection regime carries asymptotically negligible critical mass, so the Coxeter endpoint does not interpolate to the carrying spectrum by mass alone.",
+    "A cover of the no-rich-line main mass by axis pencils needs Omega(n/D) distinct axes, or n^{2/5-o(1)} axes at the critical exponent.",
+    "Rudnev's k parameter is the maximum number of planes sharing a projective line, not the point collinearity ell. The no-rich-line carrying layer nevertheless forces kappa<2n/Q; after this correction the generic bound still compresses high-q planes enough to force n^{1-o(1)} reflection domains at Q=D.",
+    "The off-diagonal parts of the reflection graphs exactly partition P^2 minus the diagonal, so unweighted rich-transformation overlap cannot see the missing fixed/moved mixed structure."
+  ],
+  "next_required_input": [
+    "turn the n^{1-o(1)} one-step composition domain into a long invariant orbit, or exploit the forced rich positive-radius coaxial cylinder",
+    "a reflection-matching-weighted point-plane incidence saving for the low-Q (Q at most about sqrt(n)) branch",
+    "or a theorem forbidding Omega(n/D) simultaneously near-saturated reflection axes in a D-distance point set"
+  ],
+  "novelty_screen": {
+    "level": "targeted primary-source screen; not a priority guarantee",
+    "closest_sources": [
+      "https://www.erdosproblems.com/1083",
+      "https://www.math.ubc.ca/~solymosi/sajatcikkek/distancesvu.pdf",
+      "https://arxiv.org/abs/2011.14232",
+      "https://arxiv.org/abs/1407.0426",
+      "https://arxiv.org/abs/1411.6868",
+      "https://arxiv.org/abs/1608.02775"
+    ],
+    "exact_duplicate_found": false
+  },
+  "verification": {
+    "geometry_script": "verify_defect_and_pencil.py",
+    "geometry_output": "verify_defect_and_pencil.json",
+    "geometry_result": "PASS",
+    "exponent_script": "verify_exponent_barriers.py",
+    "exponent_output": "verify_exponent_barriers.json",
+    "exponent_result": "PASS",
+    "qa": "INDEPENDENT_QA.md",
+    "qa_result": "PASS_INTERNAL",
+    "arithmetic": "integer/rational geometry and fractions.Fraction exponents; no floating-point tolerances"
+  },
+  "resources": {
+    "cpu_policy": "single core via taskset -c 6; nice -n 10",
+    "heavy_parallelism": false,
+    "charged_start": "2026-07-22T14:42:16+08:00",
+    "charged_end": "2026-07-22T16:12:16+08:00",
+    "charged_seconds": 5400
+  },
+  "files": [
+    "REPORT.md",
+    "INDEPENDENT_QA.md",
+    "RESULT.json",
+    "verify_defect_and_pencil.py",
+    "verify_defect_and_pencil.json",
+    "verify_exponent_barriers.py",
+    "verify_exponent_barriers.json",
+    "SHA256SUMS"
+  ]
+}

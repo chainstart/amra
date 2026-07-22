@@ -1,0 +1,71 @@
+{
+  "arithmetic": "fractions.Fraction; exact rational exponents",
+  "critical_distance_exponent_beta": "3/5",
+  "high_q_weighted_bridge_rows": [
+    {
+      "a": "1/2",
+      "automatic_high_q_condition": false,
+      "cauchy_composition_domain_exponent": "4/5",
+      "incidence_forced_reflection_domain_exponent": "9/10",
+      "rotation_cylinder_shell_exponent": "1/5"
+    },
+    {
+      "a": "11/20",
+      "automatic_high_q_condition": true,
+      "cauchy_composition_domain_exponent": "9/10",
+      "incidence_forced_reflection_domain_exponent": "19/20",
+      "rotation_cylinder_shell_exponent": "3/10"
+    },
+    {
+      "a": "3/5",
+      "automatic_high_q_condition": true,
+      "cauchy_composition_domain_exponent": "1/1",
+      "incidence_forced_reflection_domain_exponent": "1/1",
+      "rotation_cylinder_shell_exponent": "2/5"
+    }
+  ],
+  "identities_checked": [
+    "KQ exponent = 2-beta at every carrying scale",
+    "KQ <= n sqrt(K) is automatic exactly when a<=beta",
+    "the corrected projective-pencil term kappa*n is at most exponent 2-a",
+    "KQ reaches the projective-pencil upper exponent exactly at a=beta",
+    "Rudnev main term is exactly saturated at a=beta",
+    "small-defect mass / total mass has exponent 3beta-2=-1/5",
+    "at a=beta=3/5 the weighted bridge forces reflection and composition domains of exponent 1",
+    "a rotational composition then has a cylinder/axis shell of exponent 1-beta=2/5"
+  ],
+  "minimum_axis_pencil_count_exponent_1_minus_beta": "2/5",
+  "result": "PASS",
+  "rows": [
+    {
+      "KQ_incidence_exponent": "7/5",
+      "K_exponent": "1/1",
+      "Rudnev_n_sqrt_K_exponent": "3/2",
+      "Rudnev_projective_pencil_term_upper_exponent": "8/5",
+      "a": "2/5",
+      "average_pair_domain_overlap_exponent": "-1/5",
+      "g_threshold_exponent": "1/5"
+    },
+    {
+      "KQ_incidence_exponent": "7/5",
+      "K_exponent": "9/10",
+      "Rudnev_n_sqrt_K_exponent": "29/20",
+      "Rudnev_projective_pencil_term_upper_exponent": "3/2",
+      "a": "1/2",
+      "average_pair_domain_overlap_exponent": "0/1",
+      "g_threshold_exponent": "2/5"
+    },
+    {
+      "KQ_incidence_exponent": "7/5",
+      "K_exponent": "4/5",
+      "Rudnev_n_sqrt_K_exponent": "7/5",
+      "Rudnev_projective_pencil_term_upper_exponent": "7/5",
+      "a": "3/5",
+      "average_pair_domain_overlap_exponent": "1/5",
+      "g_threshold_exponent": "3/5"
+    }
+  ],
+  "schema": "amra.erdos1083.round9.exponent_barrier.v1",
+  "small_defect_mass_ratio_exponent_3beta_minus_2": "-1/5",
+  "warning": "Exponent audit only; logarithms and constants are retained in REPORT.md."
+}

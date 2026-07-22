@@ -1,0 +1,20 @@
+{
+  "arithmetic": "exact symbolic polynomial arithmetic over ZZ",
+  "collinearity_identity": "Im((b^2-1)conj(c^2-1))=-2F",
+  "common_factor": "t**2*u*v + t*u**2*w - t*v**2*w - t*w - u*v*w**2 + u*v",
+  "normalization": "a=(1,0), b=(u,v), c=(w,t)",
+  "residual_resultant": "-v**2*(u - w)*(w - 1)*(u**2 + v**2 - 1)**2*(u**2 - 2*u + v**2 + 1)",
+  "result": "PASS",
+  "schema": "amra.erdos827.round9.antipodal_classification.v1",
+  "script_sha256": "89ef19f0b3cd9913e5b7f3c4e160005d1fdce3823490797b1235a4f8604cb17b",
+  "u_equals_w_branch": {
+    "residual_a": "(t - v)*(t*v - u**2 + 1)",
+    "residual_b": "(t - v)*(t*v - u**3 - u*v**2 + u + v**2)"
+  },
+  "u_equals_w_difference": "-(u - 1)*(u**2 + v**2 - 1)",
+  "w_equals_one_branch": {
+    "residual_a": "t*(t*v - u**2 - v**2 + 1)",
+    "residual_b": "t*(t*v - u**3 - u*v**2 + u)"
+  },
+  "w_equals_one_difference": "-(u - 1)*(u**2 + v**2 - 1)"
+}

@@ -1,0 +1,70 @@
+{
+  "arithmetic": "exact integers and rational comparison",
+  "identities_checked": [
+    "sum_pi g_pi = binom(n,2)",
+    "sum_pi g_pi q_pi = direct unordered isosceles count",
+    "e_pi = n-q_pi-2g_pi >= 0",
+    "sum_{pi contains L} g_pi <= D n",
+    "sum_{pi contains L} g_pi q_pi <= ell D n +(n-ell)(n-ell-1)/2",
+    "|Dom(s_pi s_sigma)| = |S_pi intersect S_sigma|",
+    "sum pairwise domain overlaps = sum_x binom(domain_degree_x,2)",
+    "every q-rich parallel class has at most n/q planes"
+  ],
+  "result": "PASS",
+  "samples": {
+    "asymmetric_7": {
+      "axis_lines_checked": 140,
+      "composition_pairs_checked": 210,
+      "distinct_distances": 16,
+      "generated_planes": 21,
+      "isosceles_flags": 1,
+      "maximum_composition_domain": 2,
+      "maximum_defect": 5,
+      "maximum_pencil_flag_sum": 1,
+      "maximum_pencil_generator_sum": 3,
+      "minimum_defect": 4,
+      "n": 7
+    },
+    "cube_2": {
+      "axis_lines_checked": 49,
+      "composition_pairs_checked": 78,
+      "distinct_distances": 3,
+      "generated_planes": 13,
+      "isosceles_flags": 48,
+      "maximum_composition_domain": 8,
+      "maximum_defect": 6,
+      "maximum_pencil_flag_sum": 24,
+      "maximum_pencil_generator_sum": 12,
+      "minimum_defect": 0,
+      "n": 8
+    },
+    "grid_2x2x3": {
+      "axis_lines_checked": 245,
+      "composition_pairs_checked": 465,
+      "distinct_distances": 6,
+      "generated_planes": 31,
+      "isosceles_flags": 124,
+      "maximum_composition_domain": 12,
+      "maximum_defect": 10,
+      "maximum_pencil_flag_sum": 38,
+      "maximum_pencil_generator_sum": 18,
+      "minimum_defect": 0,
+      "n": 12
+    },
+    "octahedron": {
+      "axis_lines_checked": 25,
+      "composition_pairs_checked": 36,
+      "distinct_distances": 2,
+      "generated_planes": 9,
+      "isosceles_flags": 36,
+      "maximum_composition_domain": 6,
+      "maximum_defect": 0,
+      "maximum_pencil_flag_sum": 16,
+      "maximum_pencil_generator_sum": 6,
+      "minimum_defect": 0,
+      "n": 6
+    }
+  },
+  "schema": "amra.erdos1083.round9.defect_pencil_audit.v1",
+  "warning": "finite audit only; universal proofs are in REPORT.md"
+}
