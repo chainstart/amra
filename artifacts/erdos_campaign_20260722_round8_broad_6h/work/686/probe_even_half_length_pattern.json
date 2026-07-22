@@ -1,0 +1,267 @@
+{
+  "cases_checked": 4096,
+  "failures": [],
+  "formula": "v2(A_l(x)) = l - 2*oddpart(l) - v2(oddpart(l)!)",
+  "max_even_l": 64,
+  "max_x": 127,
+  "scope_warning": "finite exact probe; the even-l formula is unproved",
+  "status": "PASS",
+  "summaries": [
+    {
+      "l": 2,
+      "observed": [
+        0
+      ],
+      "odd_part": 1,
+      "predicted": 0
+    },
+    {
+      "l": 4,
+      "observed": [
+        2
+      ],
+      "odd_part": 1,
+      "predicted": 2
+    },
+    {
+      "l": 6,
+      "observed": [
+        -1
+      ],
+      "odd_part": 3,
+      "predicted": -1
+    },
+    {
+      "l": 8,
+      "observed": [
+        6
+      ],
+      "odd_part": 1,
+      "predicted": 6
+    },
+    {
+      "l": 10,
+      "observed": [
+        -3
+      ],
+      "odd_part": 5,
+      "predicted": -3
+    },
+    {
+      "l": 12,
+      "observed": [
+        5
+      ],
+      "odd_part": 3,
+      "predicted": 5
+    },
+    {
+      "l": 14,
+      "observed": [
+        -4
+      ],
+      "odd_part": 7,
+      "predicted": -4
+    },
+    {
+      "l": 16,
+      "observed": [
+        14
+      ],
+      "odd_part": 1,
+      "predicted": 14
+    },
+    {
+      "l": 18,
+      "observed": [
+        -7
+      ],
+      "odd_part": 9,
+      "predicted": -7
+    },
+    {
+      "l": 20,
+      "observed": [
+        7
+      ],
+      "odd_part": 5,
+      "predicted": 7
+    },
+    {
+      "l": 22,
+      "observed": [
+        -8
+      ],
+      "odd_part": 11,
+      "predicted": -8
+    },
+    {
+      "l": 24,
+      "observed": [
+        17
+      ],
+      "odd_part": 3,
+      "predicted": 17
+    },
+    {
+      "l": 26,
+      "observed": [
+        -10
+      ],
+      "odd_part": 13,
+      "predicted": -10
+    },
+    {
+      "l": 28,
+      "observed": [
+        10
+      ],
+      "odd_part": 7,
+      "predicted": 10
+    },
+    {
+      "l": 30,
+      "observed": [
+        -11
+      ],
+      "odd_part": 15,
+      "predicted": -11
+    },
+    {
+      "l": 32,
+      "observed": [
+        30
+      ],
+      "odd_part": 1,
+      "predicted": 30
+    },
+    {
+      "l": 34,
+      "observed": [
+        -15
+      ],
+      "odd_part": 17,
+      "predicted": -15
+    },
+    {
+      "l": 36,
+      "observed": [
+        11
+      ],
+      "odd_part": 9,
+      "predicted": 11
+    },
+    {
+      "l": 38,
+      "observed": [
+        -16
+      ],
+      "odd_part": 19,
+      "predicted": -16
+    },
+    {
+      "l": 40,
+      "observed": [
+        27
+      ],
+      "odd_part": 5,
+      "predicted": 27
+    },
+    {
+      "l": 42,
+      "observed": [
+        -18
+      ],
+      "odd_part": 21,
+      "predicted": -18
+    },
+    {
+      "l": 44,
+      "observed": [
+        14
+      ],
+      "odd_part": 11,
+      "predicted": 14
+    },
+    {
+      "l": 46,
+      "observed": [
+        -19
+      ],
+      "odd_part": 23,
+      "predicted": -19
+    },
+    {
+      "l": 48,
+      "observed": [
+        41
+      ],
+      "odd_part": 3,
+      "predicted": 41
+    },
+    {
+      "l": 50,
+      "observed": [
+        -22
+      ],
+      "odd_part": 25,
+      "predicted": -22
+    },
+    {
+      "l": 52,
+      "observed": [
+        16
+      ],
+      "odd_part": 13,
+      "predicted": 16
+    },
+    {
+      "l": 54,
+      "observed": [
+        -23
+      ],
+      "odd_part": 27,
+      "predicted": -23
+    },
+    {
+      "l": 56,
+      "observed": [
+        38
+      ],
+      "odd_part": 7,
+      "predicted": 38
+    },
+    {
+      "l": 58,
+      "observed": [
+        -25
+      ],
+      "odd_part": 29,
+      "predicted": -25
+    },
+    {
+      "l": 60,
+      "observed": [
+        19
+      ],
+      "odd_part": 15,
+      "predicted": 19
+    },
+    {
+      "l": 62,
+      "observed": [
+        -26
+      ],
+      "odd_part": 31,
+      "predicted": -26
+    },
+    {
+      "l": 64,
+      "observed": [
+        62
+      ],
+      "odd_part": 1,
+      "predicted": 62
+    }
+  ]
+}

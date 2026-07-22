@@ -1,0 +1,52 @@
+{
+  "schema_version": "amra.erdos.round8.campaign_result.v1",
+  "campaign": "erdos_campaign_20260722_round8_broad_6h",
+  "scope": {
+    "attacked_problem_ids": [25, 143, 256, 325, 332, 377, 539, 635, 679, 686, 788, 827, 934, 950, 952, 963, 1083],
+    "deliberately_excluded_concentrated_ids": [1063, 148, 301, 776],
+    "already_solved_excluded_ids": [358]
+  },
+  "unified_start": "2026-07-22T08:52:14+08:00",
+  "planned_stop": "2026-07-22T10:22:14+08:00",
+  "budget_boundary": "2026-07-22T10:22:14+08:00",
+  "final_freeze_completed": "2026-07-22T10:22:57+08:00",
+  "workflow_count": 4,
+  "seconds_per_workflow": 5400,
+  "total_cumulative_budget_seconds": 21600,
+  "accounted_cumulative_seconds": 21600,
+  "terminal_status": "BUDGET_EXHAUSTED_NO_Q2",
+  "post_boundary_actions": "Terminal-state, checksum, and ledger writes only; no new proof work.",
+  "strict_counts": {
+    "original_problems_closed": 0,
+    "candidate_complete_proofs": 0,
+    "new_q2_main_results": 0,
+    "fatal_errors_invalidating_published_closures": 0
+  },
+  "strongest_results": [
+    {
+      "problem_id": 679,
+      "classification": "major_route_advance_not_closed",
+      "result": "First-overrun conductor transfer plus X^{-C+o(1)} large-band zero mode.",
+      "remaining_target": "One-sided signed ANOVA tail over reduced conductors c(S)>X^kappa."
+    },
+    {
+      "problem_id": 1083,
+      "classification": "rigorous_structural_theorem_no_exponent_gain",
+      "result": "At most max(15,2t+2) small-defect reflection planes, with stable coaxiality under the stronger defect threshold.",
+      "remaining_target": "Bridge the extreme small-defect structure to medium-defect reflection energy."
+    },
+    {
+      "problem_id": 686,
+      "classification": "rigorous_infinite_family_below_known_global_boundary",
+      "result": "Exact 2-adic valuation of the polynomial part for every odd half-length.",
+      "remaining_target": "Prove the even-half-length formula and obtain a consequence uniform in varying k."
+    }
+  ],
+  "reports": {
+    "synthesis": "ROUND8_SYNTHESIS.md",
+    "analytic": "group_analytic_progress.md",
+    "combinatorics": "group_combinatorics_progress.md",
+    "geometry": "group_geometry_progress.md",
+    "structural": "group_structural_progress.md"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "arithmetic": "exact rational affine 2x2 matrices",
+  "concurrent_case": "(r1 r2 r3)^2 is identity",
+  "nonconcurrent_case": "(r1 r2 r3)^2 is a nonzero translation",
+  "ordered_pairwise_nonparallel_triples_checked": 210,
+  "result": "PASS",
+  "schema": "amra.erdos1083.round8.triple_reflection_glide.v1",
+  "warning": "finite audit only; universal proof is in markdown"
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "amra.erdos.round8.result.v1",
+  "problem_id": 1083,
+  "terminal_status": "RIGOROUS_O_T_NEAR_REFLECTION_AND_STABLE_COAXIALITY_NO_EXPONENT_GAIN",
+  "original_problem_closed": false,
+  "old_route_audit": "The cross-fan moment inequalities are correct but saturate at the 3/5 exponent. The initial O(t^4) spherical-polynomial count is correct but superseded and has no novelty claim.",
+  "new_result": "For two reflection planes, either their product is a rotation of order at most 2t+1 or n <= (e_pi+e_sigma+1)(t+1). Under (2E+1)(t+1)<n, KKPR Theorem 1.2 plus a sharp projective-circle gap argument gives the uniform bound |R_E|<=max(15,2t+2), improving the preliminary O(t^2) count to O(t); equality forces cyclic-coset directions and is attained by planar regular odd polygons in R^3.",
+  "additional_result": "For three planes in the common-direction branch, their triple reflection is a pure reflection iff the planes share one affine axis; otherwise its square is a nonzero translation. Consequently, under (6E+1)(t+1)<n the entire common-direction subfamily shares one axis. Also, a product rotation of order m has at least n-(e_pi+e_sigma)(m-1) points in complete orbits.",
+  "external_input": "Kedlaya-Kolpakov-Poonen-Rubinstein, Space vectors forming rational angles, arXiv:2011.14232, Theorem 1.2.",
+  "remaining_gap": "The extreme small-defect layer is now O(t) and stably coaxial, but no argument connects this near-dihedral structure to the medium-defect reflection energy that controls the 3/5 critical spectrum.",
+  "q2_gate_reached": false,
+  "publication_potential": "medium-high as a new structural stability theorem or core lemma; not a Q2 main theorem without an exponent gain or broader application",
+  "charged_active_seconds": 2100,
+  "evidence": [
+    "route_audit_and_coxeter_dichotomy.md",
+    "near_reflection_stability.md",
+    "verify_near_reflection_constants.py",
+    "verify_near_reflection_constants.json",
+    "verify_triple_reflection_glide.py",
+    "verify_triple_reflection_glide.json"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "affine_four_cube_containment": false,
+  "arithmetic": "fractions.Fraction exact rational arithmetic",
+  "cube_symmetry_orbits": 27,
+  "cube_vertex_subsets": 4368,
+  "dissociation_dimension": 4,
+  "five_collision_certificate_sha256": "548ab1184dd6b42e0ebdabee378b4b47c80dda48a16a42e43eb0679c366dcad0",
+  "five_subsets_with_explicit_collision": 462,
+  "orbit_representatives_sha256": "36ebaa6bf8e60b8c6a84f492f3e5b8fb78e7604a890081aa857505373cf575a6",
+  "ordered_affine_basis_assignments_checked": 1496880,
+  "sample_dissociated_four_set": [
+    1,
+    6,
+    8,
+    20
+  ],
+  "scope": "finite certificate refuting the affine-cube strengthening; not #963",
+  "set": [
+    1,
+    6,
+    7,
+    8,
+    13,
+    14,
+    20,
+    21,
+    27,
+    34,
+    35
+  ],
+  "status": "PASS"
+}

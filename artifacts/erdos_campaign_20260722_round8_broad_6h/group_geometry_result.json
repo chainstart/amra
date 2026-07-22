@@ -1,0 +1,52 @@
+{
+  "schema_version": "amra.erdos.round8.group_result.v1",
+  "workflow": "geometry_group_theory",
+  "problem_ids": [325, 827, 934, 1083],
+  "unified_start": "2026-07-22T08:52:14+08:00",
+  "planned_stop": "2026-07-22T10:22:14+08:00",
+  "actual_stop": "2026-07-22T10:22:24+08:00",
+  "reserved_seconds": 5400,
+  "accounted_active_seconds": 5400,
+  "cpu_policy": "one nice CPU worker at a time",
+  "q2_gate_reached": false,
+  "terminal_status": "BUDGET_EXHAUSTED_NO_Q2",
+  "strict_global_claims": {
+    "original_problem_closed_count": 0,
+    "new_q2_candidate_count": 0,
+    "finite_probe_promoted_to_infinite_claim": false,
+    "vacuous_asymptotic_route_rejected": true
+  },
+  "strongest_result": {
+    "problem_id": 1083,
+    "statement": "Under (2E+1)(t+1)<n, the number of reflection planes of defect at most E is at most max(15,2t+2); under (6E+1)(t+1)<n, the common-direction branch is coaxial apart from the single possible KKPR exception.",
+    "external_input": "KKPR, arXiv:2011.14232, Theorem 1.2",
+    "q2_boundary": "No improvement of the 3/5 exponent and no medium-defect energy bridge."
+  },
+  "problems": {
+    "325": {
+      "status": "open",
+      "verdict": "exact_route_rejection",
+      "new_result": "An equal-biquadrate ray and exact perturbation disprove both intended pointwise coercivity bounds.",
+      "next_route": "Average over quartic signatures with zero-cone/transverse decomposition."
+    },
+    "827": {
+      "status": "open",
+      "verdict": "exact_geometric_obstruction",
+      "new_result": "A rational general-position antipodal configuration gives eight equal-radius transversal triangles.",
+      "next_route": "Sign quotient followed by an additive-energy inverse theorem."
+    },
+    "934": {
+      "status": "open",
+      "verdict": "two_sided_no_growth_structure_and_vacuous_route_rejection",
+      "new_result": "Dual normalized containments produce disjoint two-sided no-growth extensions.",
+      "failure_boundary": "D>=11r is impossible because D<sqrt(2)r in the target range."
+    },
+    "1083": {
+      "status": "open",
+      "verdict": "rigorous_O_t_near_reflection_stability_and_coaxiality",
+      "new_result": "A sharp circle-gap argument upgrades KKPR's perpendicular branch to O(t), and a triple-reflection glide criterion controls affine offsets.",
+      "failure_boundary": "The small-defect theorem is not yet coupled to the medium-defect critical spectrum."
+    }
+  },
+  "report": "group_geometry_progress.md"
+}

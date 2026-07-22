@@ -1,0 +1,23 @@
+{
+  "basis": [
+    1,
+    10,
+    100,
+    1000
+  ],
+  "bounded_kernel_box": [
+    -5,
+    5
+  ],
+  "bounded_kernel_is_trivial": true,
+  "conclusion": "see solver_status and counterexample",
+  "counterexample": null,
+  "cut_digest_sha256": "174eaf0baf2ae1627452c2447a22b6bae4b25cd96685f3521e82bfe7dc97b9f2",
+  "distinct_dissociated_five_cuts": 35736,
+  "elapsed_seconds": 491.497,
+  "iterations_with_models": 37,
+  "projective_vertex_count": 40,
+  "scope_warning": "This checks only the trivial bounded relation kernel.",
+  "solver_status": "unsat",
+  "target_size": 14
+}

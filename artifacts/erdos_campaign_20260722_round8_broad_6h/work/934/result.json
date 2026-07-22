@@ -1,0 +1,21 @@
+{
+  "schema_version": "amra.erdos.round8.result.v1",
+  "problem_id": 934,
+  "terminal_status": "DUAL_NO_GROWTH_STRUCTURE_AND_VACUOUS_ROUTE_REJECTION_NO_Q2",
+  "original_problem_closed": false,
+  "old_route_audit": "The nonabelian index-two coordinates are correct. Finite scans do not prove closure, and quasirandom mixing gives only a standard product-growth corollary.",
+  "new_result": "After normalization, A^{-1}CA is contained in V and the exact dual inclusion AD'A^{-1} is contained in U holds; AD' and CA are disjoint. Hence A union cA and A union Ad double A without enlarging the corresponding one-sided difference set.",
+  "rejected_claim": "Although BNP mixing yields r c <= N^2/D and the formal condition D>=11r would beat 253/225, it is vacuous because D<=sqrt(N-1)<sqrt(2)r under N<2r^2.",
+  "remaining_gap": "A stabilizer or energy theorem for the two-sided no-growth extensions is needed; neither the Cayley subclass nor general h_3 is closed.",
+  "q2_gate_reached": false,
+  "publication_potential": "low-to-medium as a component; no nonvacuous numerical improvement",
+  "charged_active_seconds": 1500,
+  "evidence": [
+    "route_audit_and_normalized_defect.md",
+    "quasirandom_mixing_vacuity_audit.md",
+    "verify_normalized_defect.py",
+    "verify_normalized_defect.json",
+    "verify_quasirandom_vacuity.py",
+    "verify_quasirandom_vacuity.json"
+  ]
+}

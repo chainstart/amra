@@ -1,0 +1,14 @@
+{
+  "checked_r_interval": [
+    1,
+    10000
+  ],
+  "coefficient": "5291/50625",
+  "gamma": "253/225",
+  "result": "PASS_VACUOUS_ROUTE_REJECTED",
+  "schema": "amra.erdos934.round8.quasirandom_vacuity.v1",
+  "symbolic_identities": {
+    "dimension_obstruction": "D^2 <= N-1 <= 2r^2-3r+1 < 121r^2",
+    "threshold_margin": "(5291/50625) r^2 + 11 r - 11 > 0"
+  }
+}

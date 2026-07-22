@@ -1,0 +1,31 @@
+{
+  "equal_biquadrate_identity": "158^4+59^4=134^4+133^4",
+  "homogeneous_hard_ray": {
+    "U": "50*T",
+    "a": "48*T",
+    "d": "336*T",
+    "fibre_identity": "2*z=U*d-a*p",
+    "h": "98*T",
+    "p": "50*T",
+    "s": "0",
+    "u": "-50*T",
+    "v": "-7200*T^2",
+    "z": "7200*T**2"
+  },
+  "one_coordinate_perturbation": {
+    "asymptotic_scales": "|s|~15777248*T^3, |u|~50*T, |v|~7200*T^2",
+    "h": "98*T + 1",
+    "s": "15777248*T**3 + 149784*T**2 + 632*T + 1",
+    "tuple": [
+      "158*T + 1",
+      "59*T",
+      "134*T",
+      "133*T"
+    ],
+    "u": "1 - 50*T",
+    "v": "-7200*T**2 + 316*T + 1"
+  },
+  "result": "PASS",
+  "rigorous_scope": "This disproves any uniform coercive hard-chamber estimate |u|=O(|s|^(1/4)) or |v|=O(|s|^(1/2)); it does not disprove an average image/fibre estimate.",
+  "schema": "amra.erdos325.round8.quartic_cone_barrier.v1"
+}

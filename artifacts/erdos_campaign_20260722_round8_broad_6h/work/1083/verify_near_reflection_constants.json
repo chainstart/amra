@@ -1,0 +1,21 @@
+{
+  "checked_t_interval": [
+    1,
+    500
+  ],
+  "identities": {
+    "allowed_angle_count": "s_M = 1 + (1/2) sum_{m=3}^M phi(m)",
+    "even_spherical_dimension": "sum_{j=0}^s (4j+1) = (s+1)(2s+1)",
+    "finite_rotation_threshold": "m > 2t+1 implies floor(m/2) >= t+1",
+    "pairwise_circle_gap_bound": "pairwise difference denominators <= M implies at most M projective directions",
+    "projective_farey_count": "1 + sum_{m=2}^M phi(m) = 2 s_M",
+    "sharp_circle_construction": "{j/M : 0 <= j < M} has M directions and all difference orders <= M",
+    "univariate_degree_barrier": "a nonzero polynomial vanishing on all allowed values has degree >= s_M"
+  },
+  "largest_allowed_angle_count": 152456,
+  "largest_uniform_near_reflection_bound": 1002,
+  "max_s_over_M_squared": "2/9",
+  "result": "PASS",
+  "schema": "amra.erdos1083.round8.near_reflection_constants.v1",
+  "warning": "constant audit only; universal geometric proof is in markdown"
+}

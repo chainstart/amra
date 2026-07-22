@@ -1,0 +1,49 @@
+{
+  "campaign": "erdos_campaign_20260722_round8_broad_6h",
+  "workflow": "analytic_primes",
+  "common_start": "2026-07-22T08:52:14+08:00",
+  "budget_seconds": 5400,
+  "accounted_seconds": 5400,
+  "planned_stop": "2026-07-22T10:22:14+08:00",
+  "actual_stop": "2026-07-22T10:22:57+08:00",
+  "status": "frozen_at_budget_boundary",
+  "cpu_limit": "one logical core for finite checks",
+  "q2_gate_met": false,
+  "problems": {
+    "143": {
+      "seconds": 650,
+      "status": "open",
+      "verdict": "strict_partial_equivalence_and_incidence",
+      "new_result": "Exact rational-fibre bracket identity and dyadic numerator-GCD incidence bound.",
+      "failure_boundary": "Coupled denominator/numerator Carleson incidence and weighted closure remain open."
+    },
+    "377": {
+      "seconds": 600,
+      "status": "open",
+      "verdict": "exact_reformulation_only",
+      "new_result": "Uniform reciprocal bound is equivalent to a maximal-order totient ratio for the small-prime radical of the central binomial coefficient.",
+      "failure_boundary": "No weighted lower-bound sieve for that small-prime radical was obtained."
+    },
+    "679": {
+      "seconds": 3550,
+      "status": "open",
+      "verdict": "major_route_advance_zero_mode_complete_transfer_open",
+      "new_results": [
+        "First-overrun reduced-conductor transfer theorem with explicit polynomial relative error.",
+        "Large-band small-tilt complete-period density X^{-C+o(1)} for every fixed C>1.",
+        "Energy-only Farey/Cauchy blows up at the full-conductor layer, but this is only a method pseudo-obstruction.",
+        "Exact ANOVA recombination proves the actual full-conductor layer is tiny and isolates a signed high-conductor tail."
+      ],
+      "failure_boundary": "All conductor layers c(S) <= X^kappa for kappa < 2/3 are controllable, but neither absolute high-degree summation nor Bonferroni proves the one-sided signed high-conductor ANOVA-tail bound N mu X^{o(1)} sufficient for closure; local phase or alternating-sieve information beyond conductor energy is required."
+    },
+    "950": {
+      "seconds": 600,
+      "status": "open",
+      "verdict": "structural_reduction_and_count_only_no_go",
+      "new_result": "Exact backward dyadic-density criterion and robust-yield upper bound for coordinate-uncontrolled prime clusters.",
+      "failure_boundary": "No coordinate-weighted or growing multiscale prime correlation theorem is available."
+    }
+  },
+  "strict_conclusion": "All four original problems remain open. Problem 679 has the strongest new route, but the decisive interval-transfer estimate is unproved.",
+  "post_boundary_actions": "Terminal-state, checksum, and budget-ledger writes only; no new proof work."
+}

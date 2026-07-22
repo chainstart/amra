@@ -1,0 +1,52 @@
+{
+  "schema_version": "amra.erdos.round8.group_result.v1",
+  "workflow": "structural_diophantine_computational",
+  "problem_ids": [332, 635, 686, 952, 963],
+  "unified_start": "2026-07-22T08:52:14+08:00",
+  "planned_stop": "2026-07-22T10:22:14+08:00",
+  "actual_stop": "2026-07-22T10:22:14+08:00",
+  "reserved_seconds": 5400,
+  "accounted_seconds": 5400,
+  "q2_gate_reached": false,
+  "terminal_status": "BUDGET_EXHAUSTED_NO_Q2",
+  "strict_global_claims": {
+    "original_problem_closed_count": 0,
+    "new_q2_candidate_count": 0,
+    "solver_only_claim_promoted_to_theorem": false,
+    "finite_probe_promoted_to_infinite_claim": false
+  },
+  "problems": {
+    "332": {
+      "status": "open",
+      "verdict": "route_autopsy",
+      "new_result": "The squares give an additive-basis-strength counterexample with infinite-difference spectrum {0}.",
+      "failure_boundary": "A useful hypothesis must encode recurrence rather than covering order or coarse growth."
+    },
+    "635": {
+      "status": "open",
+      "verdict": "rigorous_poset_reformulation",
+      "new_result": "Every odd vertex sees a chain in the valuation-reversed-odd-part poset; antichains match explicitly.",
+      "failure_boundary": "Arithmetic Hall expansion for long chains remains unproved."
+    },
+    "686": {
+      "status": "open",
+      "verdict": "rigorous_infinite_family_structure",
+      "new_result": "For odd l, v2(A_l(x))=-l-v2(l!) for every integer x.",
+      "failure_boundary": "The original problem has varying k; fixed-N, fixed-k finiteness is already known.",
+      "conjectural_extension": "For even l, v2(A_l(x))=l-2*oddpart(l)-v2(oddpart(l)!), checked in 4096 exact finite cases only."
+    },
+    "952": {
+      "status": "open",
+      "verdict": "rigorous_finite_direction_extension",
+      "new_result": "No bounded-step Gaussian-prime ray is contained in a fixed finite union of rational corridors of width o(log T/log log T).",
+      "failure_boundary": "Growing direction complexity and annular walls remain uncontrolled."
+    },
+    "963": {
+      "status": "open",
+      "verdict": "exact_route_counterexamples",
+      "new_result": "An exact solver-free certificate shows an 11-point rank-four set not contained in any affine four-cube.",
+      "failure_boundary": "Single binary-coordinate containment is false; the global extremal inequality remains open."
+    }
+  },
+  "report": "group_structural_progress.md"
+}

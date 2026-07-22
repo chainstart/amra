@@ -1,0 +1,43 @@
+{
+  "finite_exact_example": {
+    "common_radius_squared": "25/2",
+    "general_position": true,
+    "points": [
+      [
+        "1",
+        "0"
+      ],
+      [
+        "-1",
+        "0"
+      ],
+      [
+        "1",
+        "1"
+      ],
+      [
+        "-1",
+        "-1"
+      ],
+      [
+        "2",
+        "3"
+      ],
+      [
+        "-2",
+        "-3"
+      ]
+    ],
+    "result": "PASS",
+    "transversal_triangles": 8
+  },
+  "schema": "amra.erdos827.round8.antipodal_radius_cube.v1",
+  "symbolic": {
+    "common_factor": "t**2*u*v + t*u**2*w - t*v**2*w - t*w - u*v*w**2 + u*v",
+    "complex_collinearity_imaginary_part": "-2*t**2*u*v - 2*t*u**2*w + 2*t*v**2*w + 2*t*w + 2*u*v*w**2 - 2*u*v",
+    "identity": "Im(((u+iv)^2-1)*conj((w+it)^2-1))=-2*common_factor",
+    "normalization": "a=(1,0), b=(u,v), c=(w,t)",
+    "result": "PASS",
+    "three_sign_flip_quotients": "{\"(-1, 1, 1)\": \"4*(t**2 - 2*t*v + u**2 - 2*u*w + v**2 + w**2)*(t**2*v - t*u**2 - t*v**2 + t + v*w**2 - v)\", \"(1, -1, 1)\": \"4*(t**2 + w**2 - 2*w + 1)*(t**2*v - t*u**3 - t*u*v**2 + t*u + u**2*v*w - u**2*v + v**3*w - v**3 + v*w**2 - v*w)\", \"(1, 1, -1)\": \"-4*(u**2 - 2*u + v**2 + 1)*(t**3*u - t**3 - t**2*v*w + t*u**2 + t*u*w**2 - t*u + t*v**2 - t*w**2 - v*w**3 + v*w)\"}"
+  }
+}

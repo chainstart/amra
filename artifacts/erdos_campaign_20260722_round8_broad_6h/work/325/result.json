@@ -1,0 +1,18 @@
+{
+  "schema_version": "amra.erdos.round8.result.v1",
+  "problem_id": 325,
+  "terminal_status": "ROUTE_REFUTED_QUARTIC_CONE_BARRIER_NO_Q2",
+  "original_problem_closed": false,
+  "old_route_audit": "The Hadamard chamber identities are correct, but pointwise coercivity in the sole hard chamber is false.",
+  "new_result": "The exact ray (158T,59T;134T,133T) lies on the equal-biquadrate zero cone in the hard chamber. Perturbing one coordinate gives |s| asymptotic T^3, |u| asymptotic T and |v| asymptotic T^2, disproving uniform |u|=O(|s|^(1/4)) and |v|=O(|s|^(1/2)).",
+  "new_direction": "Replace pointwise shifted bounds by an averaged signature estimate over the quartic difference set, split into a zero-cone tube and a transverse determinant-method region.",
+  "remaining_gap": "No averaged fibre bound is proved, so no official exponent improves.",
+  "q2_gate_reached": false,
+  "publication_potential": "low standalone; useful route-rejection lemma",
+  "charged_active_seconds": 900,
+  "evidence": [
+    "route_audit_and_quartic_cone_barrier.md",
+    "verify_quartic_cone_barrier.py",
+    "verify_quartic_cone_barrier.json"
+  ]
+}

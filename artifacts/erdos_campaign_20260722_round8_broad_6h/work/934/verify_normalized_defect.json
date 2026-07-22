@@ -1,0 +1,21 @@
+{
+  "records": [
+    {
+      "group": "S_3",
+      "method": "exhaustive_nonempty_subsets",
+      "premise_holds": 22,
+      "proper_defect_premise_holds": 0,
+      "tested": 63
+    },
+    {
+      "group": "S_4",
+      "method": "deterministic_random_subsets",
+      "premise_holds": 15477,
+      "proper_defect_premise_holds": 0,
+      "tested": 25000
+    }
+  ],
+  "result": "PASS",
+  "schema": "amra.erdos934.round8.normalized_defect.v1",
+  "warning": "finite falsification only; the markdown proof is universal"
+}

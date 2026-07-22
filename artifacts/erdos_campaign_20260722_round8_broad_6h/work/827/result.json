@@ -1,0 +1,18 @@
+{
+  "schema_version": "amra.erdos.round8.result.v1",
+  "problem_id": 827,
+  "terminal_status": "ANTIPODAL_RADIUS_CUBE_ROUTE_REJECTION_NO_Q2",
+  "original_problem_closed": false,
+  "old_route_audit": "The window and joint-deletion identities are correct but saturate without a near-additive-energy saving; a naive K_{2,2,2}-free semialgebraic route is false.",
+  "new_result": "If the complex squares a^2,b^2,c^2 are collinear, all eight transversal triangles through the antipodal pairs +/-a,+/-b,+/-c have equal circumradius. The rational general-position example +/-(1,0), +/-(1,1), +/-(2,3) has common R^2=25/2.",
+  "new_direction": "Quotient the antipodal signs first, then combine inverse additive theory on ordered logarithmic parameters with strict mixed-derivative positivity.",
+  "remaining_gap": "No energy inverse theorem has yet produced a larger rainbow set or improved n_k.",
+  "q2_gate_reached": false,
+  "publication_potential": "low standalone; geometric obstruction and route redesign",
+  "charged_active_seconds": 900,
+  "evidence": [
+    "route_audit_and_antipodal_obstruction.md",
+    "verify_antipodal_radius_cube.py",
+    "verify_antipodal_radius_cube.json"
+  ]
+}
