@@ -1,0 +1,32 @@
+{
+  "schema_version": "amra.erdos.round12.root.sources.v1",
+  "round": "erdos_campaign_20260723_round12_original_targets_10h",
+  "root_inputs": [
+    {
+      "source": "ORIGINAL_TARGET_MATRIX.md",
+      "role": "Frozen statement of the 21 original targets, quantifiers, and closure gates."
+    },
+    {
+      "source": "work/geometry/SOURCE_MANIFEST.json",
+      "role": "Sources and inherited dependencies for #1083 and #827."
+    },
+    {
+      "source": "work/679/SOURCE_MANIFEST.json",
+      "role": "Sources and theorem-scope audit for #679."
+    },
+    {
+      "source": "work/macaulay_pte/SOURCE_MANIFEST.json",
+      "role": "Sources and inherited dependencies for #776 and #256."
+    },
+    {
+      "source": "work/broad/SOURCE_MANIFEST.json",
+      "role": "Sources and inherited dependencies for the other 16 problems."
+    },
+    {
+      "source": "git commit 947654a",
+      "role": "Frozen Round11 baseline already pushed to origin/main."
+    }
+  ],
+  "claim_policy": "External attribution and theorem scope live in each workflow manifest. Root synthesis adds no external theorem attribution and does not claim exhaustive literature novelty.",
+  "publication_boundary": "No priority, novelty, peer-review, or SCI-quartile certification is claimed."
+}

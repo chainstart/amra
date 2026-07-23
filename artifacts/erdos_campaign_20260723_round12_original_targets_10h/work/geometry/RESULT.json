@@ -1,0 +1,110 @@
+{
+  "schema_version": "amra.erdos.round12.geometry.v1",
+  "round": "erdos_campaign_20260723_round12_original_targets_10h",
+  "workflow": "geometry_1083_827_original_targets",
+  "problem_ids": [1083, 827],
+  "status": "STRICT_STRUCTURAL_PROGRESS__NO_ORIGINAL_CLOSURE_NO_MAIN_EXPONENT_NO_Q2",
+  "full_solution_claim": "none",
+  "original_problem_closures": 0,
+  "q2_early_stop": false,
+  "results": [
+    {
+      "problem_id": 1083,
+      "status": "OPEN__HIGH_Q_STRUCTURAL_CONCENTRATION_AND_LOW_Q_WEIGHTED_INTERFACE_UNRESOLVED",
+      "strongest_results": [
+        "The common-success high-Q star has rational-angle edge density at most n^(-2/15+o(1)), yielding pairwise-irrational and three-source-general-position subfamilies of sizes n^(2/15-o(1)) and n^(1/10-o(1)).",
+        "For an n-point three-dimensional set with D distances, the number of same-orientation R-rich rigid motions is O(n^4(D log n)^(4/3)/R^3) once R is at least a constant times D log n. At D=n^(3/5+o(1)), R=n^(1-o(1)), this is n^(9/5+o(1)).",
+        "The rich-motion bound shortens the general-position word thresholds to L=19 for positive multiplicity and L=28 for near-linear multiplicity, and gives t^(2L-18-o(1)) pushforward word energy without claiming small tripling of the generator set.",
+        "On almost the full n^(4/5-o(1)) star, adjacent irrational turns produce n^(3/5-o(1)) same-motion, same-endpoint three-reflection representations and hence genuine nonempty relations of length at most six.",
+        "A fixed-axis Q-rich plane-pencil bound extracts n^(1/5-o(1)) distinct n^(1-o(1))-rich infinite-order rotations h_a=g s_a in one reflection coset.",
+        "The coset is classified into reflection/coplanar-axis, glide/parallel-axis, or unique-fixed-point/concurrent-axis geometry. In the glide and fixed-point branches, independent affine-complex and projective-quaternion point-line models bound T-plane representation counts by O(T^(4/3)+T), forcing T>=n^(9/20-o(1)) and equally large coplanar or cospherical P-point witnesses.",
+        "In the reflection branch, either an n^(1/5-o(1)) plane pencil or n^(1/5-o(1)) active coplanar axes occurs. The local angular relation has Theta(m^2) irrational-turn solutions, so no analogous purely algebraic 4/3 saving is possible; an exact circular-fibre q_alpha/r_alpha model identifies the missing joint weighted-energy estimate.",
+        "The low-Q route retains both q_pi and generating-pair weight g_pi, proves pinned irrational/general-position subfamilies and a source-sensitive triple-codegree bound, but its unweighted moments remain below contradiction scale."
+      ],
+      "new_internal_exponents": {
+        "rich_rigid_motion_upper": "9/5",
+        "full_star_three_word_same_motion_representations": "3/5",
+        "synchronized_rich_rotation_family": "1/5",
+        "glide_or_fixed_point_structured_plane_concentration": "9/20",
+        "current_plane_or_sphere_capacity": "3/5",
+        "remaining_structured_capacity_gap": "3/20"
+      },
+      "remaining_gap": "For glide and fixed-point branches, prove an o(n^(9/20)) bound for Q-rich source planes whose reflections and common-coset rotations are simultaneously n^(1-o(1))-rich. For the reflection branch, prove o(n^(1/5)) for the synchronized coplanar-axis rich rotations using the joint Q-rich/circular-autocorrelation data. The low-Q weighted branch and the all-fixed-d lift also remain open.",
+      "recognized_main_exponent_changed": false,
+      "original_status_changed": false,
+      "q2": false
+    },
+    {
+      "problem_id": 827,
+      "status": "OPEN__104_RICH_OR_MULTI_CENTER_TANGENT_MATCHING_PHASE",
+      "strongest_results": [
+        "For each fixed 0<eta<=1/12, either there is an Omega(N^(1/4+eta)) circumradius-rainbow subset, one radius supports Omega(N^(7/4-5eta)) triangles, or Omega(N^(1-4eta)) centers each support an Omega(N^(1-4eta)) pinned tangent matching.",
+        "The multi-center branch forces two centers with Omega(N^(1-8eta)) common matching endpoints and, more generally, j fixed centers with Omega(N^(1-4j eta)) common endpoints whenever 4j eta<=1.",
+        "The matching partners may lie outside the common endpoint core and the selected radii may differ, so these concentration statements do not yield a new H5/H6 power saving or n_k exponent."
+      ],
+      "remaining_gap": "Prove a source-sensitive semi-algebraic incidence saving for multiple inversion centers, common endpoints, and their separate secant partners, or solve the competing #104-rich radius branch with a fixed power saving.",
+      "recognized_main_exponent_changed": false,
+      "original_status_changed": false,
+      "q2": false
+    }
+  ],
+  "claim_boundary": {
+    "original_problem_closed": false,
+    "accepted_proof_invalidated": false,
+    "official_status_changed": false,
+    "recognized_main_exponent_changed": false,
+    "publication_gate_met": false,
+    "novelty_or_priority_claimed": false,
+    "theorem_4_6_novelty_search_exhaustive": false,
+    "theorem_4_11_is_original_1083_exponent_improvement": false,
+    "problem_827_phase_is_new_n_k_bound": false
+  },
+  "publication_assessment": {
+    "q2_ready": false,
+    "assessment": "The n^(9/5+o(1)) rich-motion bound and n^(9/20-o(1)) two-branch concentration are the strongest internally rigorous reusable/structural outputs, but neither changes a recognized original-problem exponent. Exhaustive novelty and priority review was not completed, so no SCI Q2 claim is made."
+  },
+  "verification": {
+    "script": "verify_round12_geometry.py",
+    "output": "verify_round12_geometry.json",
+    "command": "taskset -c 6 nice -n 15 python3 -B verify_round12_geometry.py --output verify_round12_geometry.json",
+    "status": "PASS_AT_FREEZE_RERUN",
+    "scope": "Exact rational exponent arithmetic, fixed-angle algebra, quaternion determinant/real-part identity, glide point-line identity, and #827 phase exponents only; universal arguments are audited in INDEPENDENT_QA.md."
+  },
+  "hostile_qa": {
+    "file": "INDEPENDENT_QA.md",
+    "result": "PASS_INTERNAL_STRICT_PARTIAL__NO_MAIN_EXPONENT_GAIN__NO_Q2",
+    "checks": [
+      "rational-angle torsion/Ramsey quantifiers and density exponents",
+      "sphere/plane capacity and rich rigid-motion frame count",
+      "short-word multiplicities, support counts, and pushforward-energy claim boundary",
+      "synchronized-rotation capacity, infinite order, injectivity, and individual-word richness",
+      "orientation-reversing isometry trichotomy and reflection-branch sharpness",
+      "glide affine point-line injection and unique c",
+      "quaternion signs, projective normal signs, invertible line map, and unique c",
+      "low-Q pinned codegrees and exact remaining exponent gaps",
+      "#827 alteration phase and fixed-j common-endpoint moments"
+    ],
+    "note": "Internal hostile re-derivation, not external peer review or novelty certification."
+  },
+  "resources": {
+    "cpu_policy": "Symbolic work plus one low-priority single-thread verification process pinned to core 6; campaign CPU target below 50%.",
+    "charged_start": "2026-07-23T06:28:31+08:00",
+    "charged_end": "2026-07-23T08:58:31+08:00",
+    "charged_seconds": 9000,
+    "proof_search_stopped_at": "2026-07-23T08:41:06+08:00",
+    "status": "FROZEN_NO_FURTHER_CHANGES__UNIFIED_CHARGE_BOUNDARY_RETAINED",
+    "freeze_observed_at": "2026-07-23T08:52:03+08:00",
+    "new_proof_or_search_after_proof_cutoff": false,
+    "new_proof_or_search_after_boundary": false
+  },
+  "files": [
+    "TARGET_AUDIT.md",
+    "REPORT.md",
+    "INDEPENDENT_QA.md",
+    "SOURCE_MANIFEST.json",
+    "RESULT.json",
+    "verify_round12_geometry.py",
+    "verify_round12_geometry.json",
+    "SHA256SUMS"
+  ]
+}

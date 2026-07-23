@@ -1,0 +1,75 @@
+{
+  "checked_at": "2026-07-23",
+  "timezone": "Asia/Hong_Kong",
+  "scope": "Primary problem statements, public bounds, and inherited repository inputs actually used in the round-12 Erdős #776/#256 workflow.",
+  "sources": [
+    {
+      "url": "https://www.erdosproblems.com/776",
+      "role": "current OPEN statement and definition of n_0(r)"
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.09803v2",
+      "role": "He--Tang public results n_0(2)=3, n_0(3)=8, and n_0(r)=2r+o(r) with the stated logarithmic upper error"
+    },
+    {
+      "url": "https://www.erdosproblems.com/256",
+      "role": "current OPEN statement of the Erdős--Szekeres product growth problem"
+    },
+    {
+      "url": "https://doi.org/10.1090/proc/17668",
+      "role": "Quanyu Tang, An improved lower bound for Erdős--Szekeres products; source for the public f(n)>=2 sqrt(n) lower bound"
+    },
+    {
+      "citation": "A. S. Belov and S. V. Konyagin, An estimate of the free term of a non-negative trigonometric polynomial with integer coefficients, Izv. Math. 60 (1996)",
+      "role": "public polylogarithmic upper bound context for #256"
+    }
+  ],
+  "inherited_repository_inputs": [
+    {
+      "path": "artifacts/erdos_campaign_20260721_round7_q2_gate_10h/work/776/attempt.md",
+      "role": "original colex interval construction and translation to n_0(r)<=2r+5"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260721_round7_q2_gate_10h/work/776/colex_construct_verify.py",
+      "role": "independent set-level and capacity implementation inherited for endpoint translation"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260722_round10_4h/work/broad/776/ATTEMPT.md",
+      "role": "Macaulay Galois meet and original colex recurrence"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260722_round10_4h/work/broad/776/INDEPENDENT_QA.md",
+      "role": "adversarial audit of the midpoint/Galois equivalence and finite-prefix scope"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260722_round11_q2_8h/work/macaulay_pte/REPORT.md",
+      "role": "diagonal suspension, defect endpoint reduction, M=75000 strengthened-start counterexample, and prime cyclotomic norm condition"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260722_round11_q2_8h/work/macaulay_pte/exact_interfaces.py",
+      "role": "independently re-used lazy-carry algorithmic interface; round-12 script is self-contained"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260722_round9_6h/work/mixed/REPORT.md",
+      "role": "integer-root multiplicity energy lower bound for coefficient fibres"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260722_round10_4h/work/mixed/REPORT.md",
+      "role": "nontrivial prime split has at least two active coefficient fibres"
+    }
+  ],
+  "standard_theorems_used": [
+    "Macaulay/Kruskal--Katona canonical expansion and Galois adjunction",
+    "nonvanishing L(1,chi) for nonprincipal Dirichlet characters",
+    "the even-character log-sine Fourier formula",
+    "cyclotomic norm N(1-zeta_p^a)=p for p not dividing a",
+    "Chinese remainder theorem"
+  ],
+  "warnings": [
+    "No exhaustive novelty or publication-priority claim is made for the signed-residue classification or carry normal forms.",
+    "Finite exact checks are regression audits only; the algebraic interval identities and Fourier theorem carry their own paper proofs in REPORT.md.",
+    "The Round11 -1 correction is local to a displayed seed value and does not invalidate its suspension equality or strengthened-start counterexample.",
+    "The interrupted M=150000 finite attempt produced no complete output and is not evidence for or against any claim.",
+    "Neither #776 nor #256 is closed and no recognized public main exponent is changed."
+  ]
+}

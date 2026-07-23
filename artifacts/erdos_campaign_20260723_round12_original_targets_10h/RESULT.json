@@ -1,0 +1,84 @@
+{
+  "schema_version": "amra.erdos.round12.root.v1",
+  "round": "erdos_campaign_20260723_round12_original_targets_10h",
+  "status": "FROZEN_COMPLETE__STRICT_PARTIAL__NO_ORIGINAL_CLOSURE_NO_MAIN_EXPONENT_NO_Q2",
+  "window": {
+    "timezone": "Asia/Hong_Kong",
+    "charged_start": "2026-07-23T06:28:31+08:00",
+    "charged_end": "2026-07-23T08:58:31+08:00",
+    "workflows": 4,
+    "charged_seconds_per_workflow": 9000,
+    "total_agent_seconds": 36000,
+    "total_agent_hours": 10
+  },
+  "problem_ids": [25, 143, 148, 256, 301, 325, 332, 377, 539, 635, 679, 686, 776, 788, 827, 934, 950, 952, 963, 1063, 1083],
+  "counts": {
+    "problems": 21,
+    "original_problem_closures": 0,
+    "recognized_main_order_or_exponent_changes": 0,
+    "q2_early_stop_results": 0,
+    "accepted_or_published_proofs_invalidated": 0,
+    "strict_stage_progress_problems": 6,
+    "route_audit_only_problems": 15
+  },
+  "strict_stage_progress_problem_ids": [256, 635, 679, 776, 827, 1083],
+  "strongest_results": [
+    {
+      "problem": 776,
+      "result": "For V>=379 the original endpoint is equivalent to E5-F5<=70500; for V>=70501 this is equivalent to an explicit rank-6 quadratic lower bound.",
+      "boundary": "The uniform residual bound is unproved; OPEN."
+    },
+    {
+      "problem": 1083,
+      "result": "A rich rigid-motion bound and two exact point-line models force n^(9/20-o(1)) structured-plane concentration in the glide and fixed-point branches.",
+      "boundary": "The capacity gap is n^(3/20), the reflection branch remains, and no original exponent changed; OPEN."
+    },
+    {
+      "problem": 256,
+      "result": "The primitive odd-prime two-support branch has an iff signed-residue histogram classification; finite-prime marginal constraints admit simultaneous CRT realizations.",
+      "boundary": "No universal bridge to arbitrary exponent multisets; OPEN."
+    },
+    {
+      "problem": 635,
+      "result": "The semiprime proper-Hall subproblem reduces to excluding pairwise-independent arithmetic theta, figure-eight, and dumbbell cores, with exact local conflict and path ledgers.",
+      "boundary": "The cores and the full t=2 problem are not excluded; OPEN."
+    },
+    {
+      "problem": 679,
+      "result": "Moving-cutoff entropy, far-union-bound and growing-block method boundaries were sharpened, and Lau witness weights were reduced to x^o(1).",
+      "boundary": "These do not meet the original fixed-K all-k quantifier; OPEN."
+    },
+    {
+      "problem": 827,
+      "result": "Failure of a larger rainbow subset forces a rich radius or many pinned matchings with fixed-j common endpoints.",
+      "boundary": "No new n_k exponent follows; OPEN."
+    }
+  ],
+  "workflows": [
+    {"name": "geometry", "problem_ids": [1083, 827], "result": "work/geometry/RESULT.json", "sha256": "work/geometry/SHA256SUMS"},
+    {"name": "number_theory_679", "problem_ids": [679], "result": "work/679/RESULT.json", "sha256": "work/679/SHA256SUMS"},
+    {"name": "macaulay_pte", "problem_ids": [776, 256], "result": "work/macaulay_pte/RESULT.json", "sha256": "work/macaulay_pte/SHA256SUMS"},
+    {"name": "broad", "problem_ids": [25, 143, 148, 301, 325, 332, 377, 539, 635, 686, 788, 934, 950, 952, 963, 1063], "result": "work/broad/RESULT.json", "sha256": "work/broad/SHA256SUMS"}
+  ],
+  "claim_boundary": {
+    "all_original_problems_remain_open": true,
+    "finite_computation_extrapolated": false,
+    "inherited_result_recounted_as_new": false,
+    "novelty_or_priority_claimed": false,
+    "publication_gate_met": false,
+    "internal_hostile_qa_is_external_peer_review": false
+  },
+  "verification": {
+    "root_qa": "ROUND12_QA.md",
+    "synthesis": "ROUND12_SYNTHESIS.md",
+    "source_manifest": "SOURCE_MANIFEST.json",
+    "workflow_hashes_checked": true,
+    "root_hashes_checked": true
+  },
+  "version_control": {
+    "round11_commit": "947654a",
+    "round11_pushed_to": "origin/main",
+    "round12_committed": true,
+    "round12_commit": "containing_git_commit"
+  }
+}

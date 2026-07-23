@@ -1,0 +1,67 @@
+{
+  "checked_at": "2026-07-23",
+  "timezone": "Asia/Hong_Kong",
+  "scope": "Primary statements and theorem inputs actually used in the round-12 Erdős #679 workflow.",
+  "sources": [
+    {
+      "url": "https://www.erdosproblems.com/679",
+      "role": "Current OPEN statement, separation of the first question from the disproved additive-constant second question, and bibliography."
+    },
+    {
+      "citation": "P. Erdős, Some unconventional problems in number theory, Acta Math. Acad. Sci. Hungar. 33 (1979), 71--80, p. 72, formulas (3)--(4).",
+      "role": "Original conjunction and quantifier wording."
+    },
+    {
+      "url": "https://arxiv.org/abs/2604.15042v2",
+      "role": "Lau's C log k theorem; official TeX definitions of eta, tilde-eta, W, R_k and nu; denominator formula giving total weight x^(0.4+o(1)); conditional Section 7 boundary."
+    },
+    {
+      "url": "https://arxiv.org/abs/2512.01739v2",
+      "role": "Tao--Teräväinen weaker O(k) context and the inherited sieve architecture."
+    },
+    {
+      "url": "https://arxiv.org/abs/2508.06005v3",
+      "role": "Steve Fan's modern all-level statement of the uniform Hardy--Ramanujan inequality and sifted-set theorem; the latter was audited and not applied to growing forms Wa-k."
+    },
+    {
+      "url": "https://arxiv.org/abs/1607.08666",
+      "role": "Goudout Theorems 1--2 for local omega laws and the formally proved fixed-b two-shift corollary, used with b=1."
+    },
+    {
+      "url": "https://arxiv.org/abs/1710.04877",
+      "role": "Tenenbaum Theorem 1 for joint local omega laws at any fixed number of polynomial arguments; inherited all-fixed-log-power candidate sparsity revalidated with a no-fixed-divisor shift family."
+    },
+    {
+      "url": "https://arxiv.org/abs/2607.15574v1",
+      "role": "Menon's July 2026 almost-all short-interval theorem for 1-bounded multiplicative functions; audited as not covering the required growing positive saddle."
+    },
+    {
+      "url": "https://doi.org/10.1155/S016117128500031X",
+      "role": "Spiro's arithmetic-progression Sathe--Selberg theorem; its modulus range is only a fixed power of log x and does not cover Lau's W=x^(0.6+o(1))."
+    }
+  ],
+  "inherited_repository_inputs": [
+    {
+      "path": "artifacts/erdos_campaign_20260720/results/679.json",
+      "role": "Earlier record of the Tenenbaum arbitrary-fixed-dimension consequence; round 12 classifies it as inherited/revalidated."
+    },
+    {
+      "path": "round-11 #679 report and QA in the repository campaign artifacts",
+      "role": "Inherited fixed-margin low-conductor ANOVA reduction; round 12 moves the entropy cutoff and re-audits its errors."
+    }
+  ],
+  "source_hypothesis_notes": [
+    "Goudout's candidate-density estimate uses only the paper's proved fixed b=1 corollary, not its remark about more shifts.",
+    "Tenenbaum is applied to Q_j(m)=m-jP_r with P_r the product of primes at most r. This avoids the fixed-prime-divisor failure of consecutive shifts.",
+    "Fan's sifted-set theorem is not claimed to apply to omega(Wa-k) when W and k grow.",
+    "Spiro is used only to rule out a direct citation at modulus W; no extrapolation beyond the stated polylogarithmic range is made.",
+    "Menon's theorem is not extrapolated from 1-bounded functions to the positive saddle z much larger than 1."
+  ],
+  "warnings": [
+    "No exhaustive novelty, priority, publication, or journal-quartile claim is made.",
+    "The Tenenbaum all-fixed-C sparsity estimate is inherited and is not counted as a new round-12 result.",
+    "Almost-all and density-zero statements do not settle the original existence quantifier.",
+    "Finite symbolic calculations are regression audits only and are not asymptotic evidence.",
+    "The original first question remains OPEN and original_problem_closures equals 0."
+  ]
+}

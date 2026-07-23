@@ -1,0 +1,29 @@
+{
+  "schema_version": "amra.erdos.round12.broad.sources.v1",
+  "round": "erdos_campaign_20260723_round12_original_targets_10h",
+  "workflow": "D_broad_original_targets_and_global_qa",
+  "sources": [
+    {
+      "source": "https://www.erdosproblems.com/635",
+      "role": "Original statement and the boundary between the solved asymptotic subquestion and the still-open exact/fixed-t problem.",
+      "claim_scope": "Problem statement/status only; no new theorem is attributed to the webpage."
+    },
+    {
+      "source": "artifacts/erdos_campaign_20260722_round11_q2_8h/work/broad/635/PROPER_DIVISOR_HALL_AUDIT.md",
+      "role": "Inherited proper-lower-neighbour Hall interface and the two Round11 local counterexamples.",
+      "claim_scope": "Internal frozen dependency; Round12 does not recount it as new."
+    },
+    {
+      "source": "artifacts/erdos_campaign_20260722_round11_q2_8h/work/broad/BROAD_REPORT.md",
+      "role": "Inherited status and blockers for the other fifteen broad-workflow problems.",
+      "claim_scope": "Internal frozen dependency; all Round12 route audits are compared against it."
+    }
+  ],
+  "internally_derived_without_external_black_box": [
+    "The semiprime swap formulas and their inverse parametrisation.",
+    "The fixed-valuation nesting theorem and local conflict criteria.",
+    "The bicircular Hall equivalence and the theta/figure-eight/dumbbell minimal-core reduction.",
+    "The fixed- and mixed-valuation path ledgers and the analytic A=2 triangle exclusion."
+  ],
+  "novelty_boundary": "No exhaustive literature search for the swap-graph lemmas was completed, so no priority or publication claim is made."
+}

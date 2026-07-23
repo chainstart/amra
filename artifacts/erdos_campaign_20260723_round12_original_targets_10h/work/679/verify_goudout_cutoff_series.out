@@ -1,0 +1,10 @@
+command: nice -n 10 taskset -c 7 python3 verify_goudout_cutoff_series.py
+run_at_hkt: 2026-07-23 08:06
+
+PASS: phi L^-1 coefficient = A*T
+PASS: phi L^-2 coefficient = -A^2*T*(T-1)
+PASS: phi L^-3 coefficient = A**2*T*(2*A*T**2 - 5*A*T + 2*A + 2*T - 2)/2
+PASS: excess L^-3 coefficient = C3-a3
+PASS: leading_T(C3) = A^3*T^3 > 0
+PASS: at a3=C3, excess L^-4 coefficient = C4-a4
+PASS: leading_T(C4) = -A^4*T^4 < 0

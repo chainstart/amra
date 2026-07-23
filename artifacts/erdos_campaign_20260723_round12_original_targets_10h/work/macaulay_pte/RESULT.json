@@ -1,0 +1,104 @@
+{
+  "task": "Erdos #776 and #256 Round12 original-target proof work",
+  "window": {
+    "timezone": "Asia/Hong_Kong",
+    "started_at": "2026-07-23 06:28:31",
+    "hard_boundary": "2026-07-23 08:58:31",
+    "budget_seconds": 9000,
+    "research_frozen_at": "2026-07-23 08:41:46",
+    "resource_status": "FROZEN"
+  },
+  "status": "OPEN_STRICT_PARTIAL",
+  "original_problem_closures": 0,
+  "q2": false,
+  "results": [
+    {
+      "problem": 776,
+      "original_status": "OPEN",
+      "original_start": "a_3=binom(N,3)-r",
+      "strengthened_start": "C_r=binom(N,3)-(N-2)=a_3-3",
+      "new_all_parameter_results": [
+        "The original three units produce strong-minus-original defect gaps 6, M+4, and binom(M-7,2)+4M-21 in the first three compared transitions for M>=14.",
+        "The original endpoint is equivalent to E_3<=binom(M-1,3)+28.",
+        "The endpoint is equivalently a quadratic forward-slack target S_(M-5)>=binom(M-3,2)-378 for M>=32, provided along the exact nonnegative branch.",
+        "Before the first carry, the quadratic slack has an exact canonical normal form controlled by x_3=5 and x_(j+1)=binom(x_j,2)-2j+3; its first values are 5, 7, 16, 113, 6319, and 19961710.",
+        "The intervals I_j=[x_(j-1)+2j-6,x_j+2j-5], j>=4, partition every V>=7 and classify exactly the rank and legal post-carry canonical form of the first carry.",
+        "The first-carry rank is log_2(log V)+O(1), from x_j^2/4<=x_(j+1)<x_j^2/2 for j>=5.",
+        "At that first carry, S_j-binom(V,j)>=binom(V-2j+7,3)=(1/6+o(1))V^3 uniformly, so the original three-unit perturbation still leaves a cubic reservoir; survival through later blocks is unproved.",
+        "For every 6329<=V<=19961721, the first carry occurs at rank 8 and has an explicit legal post-carry normal form with rank-2 residual y=19961710-(V-11).",
+        "The next full-interval split is exact: V*=19840461 is the unique rank-9 threshold U_2(y)>=V, and both sides have explicit legal canonical normal forms.",
+        "A carry-independent backward block requirement B_(L+1)=0, B_k=KK_(k+1)(V+B_(k+1)) is equivalent to residual survival through any fixed separated block; for L=3 its next exact threshold is V**=19838163.",
+        "For V>=379, with F_5=binom(V+1,5)+binom(V-1,4)+binom(V-2,3), the original endpoint condition is exactly equivalent to the fixed residual bound E_5-F_5<=binom(376,2)=70500; proving that uniform bound remains open.",
+        "For V>=70501, that fixed rank-5 bound is exactly equivalent to F_6-E_6>=binom(V-4,2)-binom(70496,2), an explicit quadratic rank-6 target."
+      ],
+      "finite_exact_witness": {
+        "M": 75000,
+        "E3": "binom(74999,3)+5",
+        "canonical_tail": "binom(3,2)+binom(2,1)",
+        "original_allowed_excess": 28,
+        "remaining_margin": 23,
+        "stronger_start_excess_at_same_M": 29,
+        "strong_minus_original_final_defect": 24,
+        "scope": "one exact finite parameter; no extrapolation"
+      },
+      "translation_to_original": "An all-M proof of the original endpoint would give n_0(r)<=2r+5 and, with the repository lower bound, equality for r>=11. That all-M carry bound is not proved here.",
+      "remaining_gap": "Prove the fixed rank-5 residual bound E_5-F_5<=70500 for all V>=379 (equivalently control every earlier carry), or find an original-start counterexample."
+    },
+    {
+      "problem": 256,
+      "original_status": "OPEN",
+      "new_all_parameter_result": "For every odd prime p, a nonzero residue multiset has a two-support product in Z[C_p] iff, for some t and signed class D, class D occurs 2t+1 times and every other signed class occurs 2t times.",
+      "low_energy_consequence": "If p divides exactly m exponents, 0<m<n, and E(A)<6m, then s-1=t(p-1) and the outside signed-residue histogram has exactly that form.",
+      "strict_no_go": "Primitive prime cyclic projection alone cannot exclude all compatible low-energy branches, because every classified histogram is realizable.",
+      "multi_prime_marginal_no_go": "For every finite set of odd primes, CRT constructs one exponent multiset simultaneously realizing a t=1 compatible signed histogram at every prime; marginal histogram constraints alone cannot yield a contradiction (no low-energy claim is made for that construction).",
+      "degenerate_branch_recursion": "When t=0, necessarily s=1 and E(pc_1,...,pc_m,b)=2E(c_1,...,c_m) exactly for p not dividing b.",
+      "translation_to_original": "Conditional structural theorem only; no universal lower-bound improvement for f(n).",
+      "remaining_gap": "A universal prime/CRT/full-fibre/Archimedean bridge for arbitrary exponent multisets."
+    }
+  ],
+  "round11_correction": {
+    "location": "Round11 REPORT equation (10f) seed display",
+    "correction": "Both displayed binomial values need -1: D^[M]_(M-4)=binom(M-1,2)-1 and D^[M+1]_(M-3)=binom(M,2)-1.",
+    "impact": "The same -1 occurs on both sides, so the suspension equality, propagation theorem, M=75000 strengthened-start counterexample, and original-open status are unchanged.",
+    "severity": "local displayed arithmetic error"
+  },
+  "aborted_finite_attempt": {
+    "M": 150000,
+    "engine": "single-core lazy-carry",
+    "resource_policy": "CPU core 5, nice 10",
+    "elapsed": "approximately 81 minutes",
+    "terminated_at": "2026-07-23 08:41:46 HKT",
+    "reason": "research-freeze boundary",
+    "complete_output": false,
+    "evidentiary_status": "none; not used in any claim"
+  },
+  "verification": {
+    "frozen_command_exit_code": 0,
+    "frozen_command_elapsed_seconds": 5.1,
+    "macaulay_M_range": [9, 180],
+    "macaulay_points": 172,
+    "precarry_normal_form_checks": 551,
+    "general_first_carry_partition_checks": 18,
+    "rank8_interval_checks": 5,
+    "rank9_segment_checks": 7,
+    "macaulay_engines_cross_checked": [
+      "ordinary canonical",
+      "run-length compressed",
+      "lazy carry"
+    ],
+    "cyclic_residue_multisets_tested": 3540,
+    "cyclic_two_support_actual": 162,
+    "cyclic_two_support_predicted": 162,
+    "cyclic_classification_mismatches": 0,
+    "full_exponent_nontrivial_prime_splits": 29866,
+    "full_exponent_low_energy_splits": 89,
+    "full_exponent_odd_prime_low_energy_splits": 25,
+    "single_outside_exact_energy_recursions": 1585,
+    "signed_histogram_counterexamples": 0,
+    "rank5_fixed_threshold": 70500,
+    "rank5_threshold_selected_branch_checks": 36,
+    "rank6_reverse_threshold_selected_checks": 14,
+    "finite_scope_only": true
+  },
+  "qa_verdict": "PASS_STRICT_PARTIAL__ORIGINAL_CLOSURES_0__Q2_FALSE"
+}

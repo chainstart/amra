@@ -1,0 +1,72 @@
+{
+  "schema_version": "amra.erdos.round12.broad.v1",
+  "round": "erdos_campaign_20260723_round12_original_targets_10h",
+  "workflow": "D_broad_original_targets_and_global_qa",
+  "problem_ids": [25, 143, 148, 301, 325, 332, 377, 539, 635, 686, 788, 934, 950, 952, 963, 1063],
+  "status": "STRICT_635_SWAP_GRAPH_REDUCTIONS_AND_ROUTE_REFUTATIONS__NO_ORIGINAL_CLOSURE_NO_Q2",
+  "full_solution_claim": "none",
+  "original_problem_closures": 0,
+  "q2_early_stop": false,
+  "strongest_results": [
+    {
+      "problem_id": 635,
+      "status": "OPEN__SEMIPRIME_PROPER_HALL_REDUCED_TO_INDEPENDENT_BICIRCULAR_CORES",
+      "results": [
+        "For x=2^a p q with distinct odd primes, the two proper lower odd neighbours form the exact swap edge q(2^a p-1)--p(2^a q-1), with a complete inverse parametrisation from either odd endpoint.",
+        "For fixed A=2^a, incident prime intervals are strictly nested. A non-backtracking m-cycle has a finite multiplier parametrisation with product h_i<A^m; complete enumeration rules out all A=2 cycles of length at most 12.",
+        "The semiprime proper-neighbour Hall statement is exactly equivalent to every pairwise nonconflicting labelled edge set being a pseudoforest. Any minimal obstruction reduces to a theta, figure-eight, or dumbbell multigraph core.",
+        "For two intersecting edges x=b+r=2^a r s and y=b+u=2^a' u v, writing |u-r|=2^cD gives the exact local conflict criterion c<=min(a,a') and D=1 or D=s=v. In a fixed layer this sharpens to |u-r|=2^a.",
+        "Local-degree elimination is false: b=9471 supports four pairwise nonconflicting semiprime edges labelled 9474, 9478, 9482, and 9512.",
+        "Fixed-layer cycles obey sum d_i=sum h_i d_i=0 and product h_i<A^m; mixed layers obey sum d_i=sum t_i=0, sum h_i d_i=sum A_i t_i, and product h_i<product A_i. These are necessary path systems, not contradictions."
+      ],
+      "remaining_gap": "Exclude or construct a pairwise-independent arithmetic theta/figure-eight/dumbbell core; then incorporate prime-square and higher-odd-factor hyperedges and combine proper matching with the canonical surplus. The exact t=2 extremal formula remains open.",
+      "recognized_main_exponent_changed": false,
+      "q2": false
+    }
+  ],
+  "no_new_strict_result_this_round": [25, 143, 148, 301, 325, 332, 377, 539, 686, 788, 934, 950, 952, 963, 1063],
+  "claim_boundary": {
+    "original_problem_closed": false,
+    "accepted_proof_invalidated": false,
+    "official_status_changed": false,
+    "recognized_main_exponent_changed": false,
+    "publication_gate_met": false,
+    "finite_scan_used_as_general_proof": false,
+    "semiprime_subclass_is_full_t2_problem": false
+  },
+  "verification": {
+        "scripts": [
+            "verify_635_swap.py",
+            "verify_635_fixed_A2_cycles.py",
+            "verify_635_frozen_summary.py"
+    ],
+    "recorded_outputs": [
+      "verify_635_swap.json",
+      "verify_635_fixed_A2_cycles.json"
+    ],
+        "scope": "Exact finite regression and complete bounded-length multiplier enumeration only. The fixed-A=2 JSON is a normalized summary checked by verify_635_frozen_summary.py; all-parameter algebraic statements are proved in markdown.",
+    "qa": "BROAD_QA.md"
+  },
+  "resources": {
+    "cpu_policy": "At most one low-priority one-core broad diagnostic; campaign target below 50% of 8 visible logical CPUs.",
+    "charged_start": "2026-07-23T06:28:31+08:00",
+    "charged_end": "2026-07-23T08:58:31+08:00",
+    "charged_seconds": 9000,
+        "proof_search_stopped_before_boundary": true,
+        "status": "FROZEN_NO_FURTHER_PROOF_CHANGES__UNIFIED_CHARGE_BOUNDARY_RETAINED"
+  },
+  "files": [
+    "BROAD_REPORT.md",
+    "BROAD_QA.md",
+    "TARGET_AUDIT.md",
+    "635_SEMIPRIME_SWAP_GRAPH.md",
+    "verify_635_swap.py",
+    "verify_635_swap.json",
+        "verify_635_fixed_A2_cycles.py",
+        "verify_635_fixed_A2_cycles.json",
+        "verify_635_frozen_summary.py",
+    "SOURCE_MANIFEST.json",
+    "RESULT.json",
+    "SHA256SUMS"
+  ]
+}

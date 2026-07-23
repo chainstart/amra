@@ -1,0 +1,64 @@
+{
+  "fixed_valuation_collision_checks": 639,
+  "fixed_valuation_local_conflict_checks": 639,
+  "formula_checks": 12450,
+  "independent_degree_four_witness": {
+    "left_labels": [
+      9474,
+      9478,
+      9482,
+      9512
+    ],
+    "right_vertex": 9471
+  },
+  "independent_degree_three_witness": {
+    "left_labels": [
+      402,
+      406,
+      418
+    ],
+    "right_vertex": 399
+  },
+  "mixed_valuation_local_conflict_checks": 3530,
+  "schema": "amra.erdos635.swap-regression.v1",
+  "scope": "finite regression only; the nesting theorem is symbolic",
+  "six_cycle_left_conflicts": [
+    [
+      29184,
+      29488,
+      304
+    ],
+    [
+      29492,
+      29488,
+      4
+    ],
+    [
+      29488,
+      29472,
+      16
+    ]
+  ],
+  "six_cycle_mixed_path_ledger": {
+    "label_increment_sum": 0,
+    "multipliers": [
+      5,
+      137,
+      1,
+      31,
+      3,
+      517
+    ],
+    "vertex_increment_sum": 0,
+    "weighted_identity": 1632
+  },
+  "six_cycle_vertices": [
+    29149,
+    29165,
+    29181,
+    29391,
+    29419,
+    29469
+  ],
+  "status": "PASS"
+}

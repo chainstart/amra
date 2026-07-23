@@ -1,0 +1,76 @@
+{
+  "task": "Erdos #679 Round12 original-target proof work",
+  "problem": 679,
+  "window": {
+    "timezone": "Asia/Hong_Kong",
+    "charged_start": "2026-07-23 06:28:31",
+    "charged_end": "2026-07-23 08:58:31",
+    "hard_boundary": "2026-07-23 08:58:31",
+    "charged_seconds": 9000,
+    "resource_status": "FROZEN",
+    "cpu_limit": "below 50 percent of WSL resources",
+    "finite_compute_policy": "single nice+taskset process on core 7"
+  },
+  "status": "OPEN_STRICT_PARTIAL",
+  "official_original_status": "OPEN",
+  "original_problem_closures": 0,
+  "q2": false,
+  "original_quantifier_preserved": true,
+  "round12_new_results": [
+    {
+      "name": "moving_entropy_conductor_necessity",
+      "claim": "Every candidate forces a positive signed Fourier tail above exp((I(rho)-1/log_3 X)HL), of size at least (1-o(1))rho^R.",
+      "boundary": "Necessary signed-tail statement only; no tail upper bound and no closure."
+    },
+    {
+      "name": "critical_far_cutoff",
+      "claim": "At D0=(1+epsilon)/epsilon, fixed C*>(e/epsilon)^D0 gives a density-zero far-bad estimate; a moving coefficient C_X=C0 exp(3D0 log_4 X/log_3 X) tends to C0=(e/epsilon)^D0 and retains a positive exponent xi=A log_4 X/(5D0(log_3 X)^2).",
+      "critical_equality": "Literal C=C0 is on the negative side for this Hardy-Ramanujan union-bound architecture.",
+      "boundary": "Growing-cutoff almost-all theorem, not the original fixed-K quantifier and not an original-problem boundary."
+    },
+    {
+      "name": "goudout_block_obstruction",
+      "claim": "For H=exp(C log_2 X log_3 X), fixed C with (1+epsilon)C>1, almost every endpoint is bad somewhere in [H,2H); an ineffective diagonal extension exists for some G(X) tending to infinity.",
+      "boundary": "Does not exclude a sparse infinite candidate sequence."
+    },
+    {
+      "name": "exact_level_method_threshold",
+      "claim": "The Goudout exact-level cutoff has third-order coefficient C3 asymptotic to A^3 T^3 and fourth-order coefficient C4 asymptotic to -A^4 T^4.",
+      "boundary": "Method-threshold audit only; near log X a fixed shift already gives almost-all violations."
+    },
+    {
+      "name": "lau_weight_mass_improvement",
+      "claim": "Using |S_k(n)|<=min(R_k,tau(n+k)) gives max nu=x^o(1), hence at least x^(0.4-o(1)) unweighted witnesses to Lau's C log k theorem.",
+      "boundary": "Lau's threshold is weaker than #679 and the far exceptional set can still contain the whole support."
+    },
+    {
+      "name": "method_barriers",
+      "claim": "Shiftwise tilt optimization changes only a lower-order term; a top-prime band simultaneously saturates energy, effective support, and spacing; generic density splicing remains insufficient.",
+      "boundary": "Coefficient-sensitive cancellation and a tailored weighted far theorem remain open."
+    }
+  ],
+  "inherited_revalidated_results": [
+    {
+      "name": "official_goudout_two_shift",
+      "source_scope": "Goudout's formally proved fixed b=1 corollary, not the more-shifts remark",
+      "claim": "#G_epsilon,K(X) << X/(log X)^(2-o(1))"
+    },
+    {
+      "name": "tenenbaum_arbitrary_fixed_dimension",
+      "source_scope": "Tenenbaum 2018 Theorem 1 with Q_j(m)=m-jP_r and P_r the product of primes at most r, avoiding a fixed divisor",
+      "claim": "For every fixed C, #G_epsilon,K(X) <<_epsilon,K,C X/(log X)^C",
+      "novelty": "Already recorded in earlier campaign results; revalidated, not round-12-new."
+    }
+  ],
+  "remaining_gap": [
+    "A coefficient-sensitive signed high-conductor upper bound at the moving entropy cutoff.",
+    "Or a Hardy-Ramanujan far estimate directly under the Lau near-shift weight together with an upgrade from C log k to the exact #679 threshold."
+  ],
+  "verification": {
+    "verify_moving_cutoff": "PASS",
+    "verify_goudout_cutoff_series": "PASS",
+    "verify_far_critical_boundary": "PASS",
+    "finite_computation_is_asymptotic_evidence": false
+  },
+  "qa_verdict": "PASS_STRICT_PARTIAL__ORIGINAL_OPEN__CLOSURES_0__Q2_FALSE"
+}
