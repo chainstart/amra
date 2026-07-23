@@ -1,0 +1,52 @@
+{
+  "schema_version": "amra.erdos569.source_qa_result.v1",
+  "problem_id": 569,
+  "cycle_id": "R002",
+  "verdict": "SOURCE_NOT_OBTAINED",
+  "source_obtained": false,
+  "fixed_dissertation_scan_obtained": false,
+  "alternate_formal_all_m_source_obtained": false,
+  "theorem_4_5_directly_verified": false,
+  "target_statement": {
+    "formula": "R(C5,H) <= 2e(H)+2",
+    "H_connected": "not directly verified",
+    "vertex_order_at_least_4": "not directly verified",
+    "all_finite_m_without_asymptotic_threshold": "not directly verified",
+    "simple_graph_convention": "not directly verified"
+  },
+  "secondary_evidence": {
+    "strength": "strong but not upgrade-grade",
+    "findings": [
+      "The author's institutional page and AMS dissertation listing confirm title, institution, degree type, and year.",
+      "Radziszowski revisions 6 through 8 list a Jayawardene-Rousseau preprint titled Sharp Upper Bounds for the Ramsey Numbers r(C5,G) and r(C6,G).",
+      "Erdős Problems #570 and arXiv:2601.10238 attribute the sufficiently-large q=5 case to the thesis.",
+      "arXiv:2606.11174v1 attributes the all-m connected |H|>=4 input to Theorem 4.5, but prints a false universal equality where only an upper bound can be intended."
+    ]
+  },
+  "blocking_reasons": [
+    "No fixed theorem page or proof text was available.",
+    "The only secondary source spelling out all desired hypotheses contains an incorrect equality sign.",
+    "The asymptotic secondary sources do not independently certify the small-m range.",
+    "No formally published self-contained replacement proof covering every m was found."
+  ],
+  "not_a_refutation": true,
+  "upgrade_condition": "Obtain a fixed scan containing the definitions, exact Theorem 4.5 statement, complete proof and invoked lemmas, and verify <=, connected H, |H|>=4, m=e(H), and absence of any sufficiently-large or exceptional-case restriction; alternatively obtain a formal self-contained all-m proof.",
+  "next_action": {
+    "preferred": "Request a targeted scan from University of Memphis Special Collections.",
+    "email": "specialcollections@memphis.edu",
+    "phone": "+1-901-678-2210",
+    "request_scope": [
+      "title/approval page",
+      "Chapter 4 table-of-contents page",
+      "graph conventions",
+      "Theorem 4.5 statement",
+      "complete proof and invoked adjacent lemmas",
+      "bibliography and library identifier"
+    ]
+  },
+  "central_files_modified": false,
+  "git_commit_created": false,
+  "details": "AUDIT.md",
+  "search_log": "SEARCH_LOG.md"
+}
+

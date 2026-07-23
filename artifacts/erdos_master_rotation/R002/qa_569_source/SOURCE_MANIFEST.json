@@ -1,0 +1,154 @@
+{
+  "schema_version": "amra.erdos569.source_qa_manifest.v1",
+  "problem_id": 569,
+  "retrieved_on": "2026-07-23",
+  "timezone": "Asia/Hong_Kong",
+  "sources": [
+    {
+      "id": "author_thesis_metadata",
+      "url": "https://www.res.cmb.ac.lk/mathematics/chula-jayawardene/pubs/p34/",
+      "representation": "HTML",
+      "sha256": "9b605df6b10a0293d345de8f295aa2493307c1de1e24e81c6df4372883337dae",
+      "result": "Confirms title, PhD thesis, University of Memphis, 1999; attachment area is empty."
+    },
+    {
+      "id": "author_publications_sitemap",
+      "url": "https://www.res.cmb.ac.lk/mathematics/chula-jayawardene/wp-sitemap-posts-publications-1.xml",
+      "representation": "XML",
+      "sha256": "75d3af3fd5a14427510b04118d8a15904f2276fb976b4c04e06572a9ca21cd0e",
+      "result": "58 publication URLs enumerated; 34 document attachment URLs extracted, none matching the thesis or JR5 preprint.",
+      "derived_attachment_inventory_sha256": "ba373b5492e1b8c0d63dbb02734b1c7737e4d92f8011897722e1fe2e6b0bb76d"
+    },
+    {
+      "id": "memphis_etd_scope",
+      "url": "https://digitalcommons.memphis.edu/etd/",
+      "representation": "HTML",
+      "sha256": "4e19af16dd102eba85470dbd06cfcfb5f7e67e5a14f3c2e3aad99661e40f1820",
+      "result": "Repository states coverage begins Spring/Summer 2010 with mandatory submission from Fall 2010."
+    },
+    {
+      "id": "memphis_digitalcommons_exact_title_search",
+      "url": "https://digitalcommons.memphis.edu/do/search/?q=%22Ramsey+Numbers+Related+to+Small+Cycles%22",
+      "representation": "HTML",
+      "sha256": "659410a4123b3e121801cd8804e803a1b4cf1abc78ca2237f098e8f07b6b1fe7",
+      "result": "No results matched."
+    },
+    {
+      "id": "memphis_digitalcommons_jr5_search",
+      "url": "https://digitalcommons.memphis.edu/do/search/?q=%22Sharp+Upper+Bounds+for+the+Ramsey+Numbers%22",
+      "representation": "HTML",
+      "sha256": "afca6a7abc4d78fbb1cf85b3bed10d77173115fc7d5a8c80b24488694d45e67b",
+      "result": "No results matched."
+    },
+    {
+      "id": "memphis_pre2010_holdings",
+      "url": "https://www.memphis.edu/libraries/special-collections/resources.php",
+      "representation": "HTML",
+      "sha256": "06e36e6c810a921037d9ed1f293d91f247e56c34649f77f6e5f9f20864f0c3e1",
+      "result": "States Special Collections holds an archival set of all University of Memphis theses and dissertations filed through 2010."
+    },
+    {
+      "id": "memphis_special_collections_contact",
+      "url": "https://www.memphis.edu/libraries/special-collections/",
+      "representation": "HTML",
+      "sha256": "841a06a981a35c863872681d5fd43f4c5e76c24ed9dc3a662990a45db0759c62",
+      "result": "Records specialcollections@memphis.edu and 901.678.2210."
+    },
+    {
+      "id": "memphis_reproduction_policy",
+      "url": "https://www.memphis.edu/libraries/special-collections/reproduction.php",
+      "representation": "HTML",
+      "sha256": "2d7563cbb0f73b800e4be01b5a1c2f548ead3dcc42b1927f88996abb6dae9d7a",
+      "result": "Confirms digital surrogate service for research and possible fees for non-affiliates."
+    },
+    {
+      "id": "radziszowski_ds1_revision_6",
+      "citation": "S. P. Radziszowski, Small Ramsey Numbers, Revision 6, July 5, 1999.",
+      "url": "https://www.combinatorics.org/files/Surveys/ds1/ds1v6-1999.pdf",
+      "representation": "PDF",
+      "sha256": "c6c6b28357d8ad6fcd6dbdc48592f15577fe8ef740f79f291c628d8662f440e1",
+      "result": "Lists JR5 Sharp Upper Bounds preprint; no theorem statement."
+    },
+    {
+      "id": "radziszowski_ds1_revision_7",
+      "citation": "S. P. Radziszowski, Small Ramsey Numbers, Revision 7, July 25, 2000.",
+      "url": "https://www.combinatorics.org/files/Surveys/ds1/ds1v7-2000.pdf",
+      "representation": "PDF",
+      "sha256": "9fea271a3a09b2a6fe240252c905ae526ea3d2fe9d622019e612e78008140234",
+      "result": "Lists JR5 Sharp Upper Bounds preprint; no theorem statement."
+    },
+    {
+      "id": "radziszowski_ds1_revision_8",
+      "citation": "S. P. Radziszowski, Small Ramsey Numbers, Revision 8, July 12, 2001.",
+      "url": "https://www.combinatorics.org/files/Surveys/ds1/ds1v8-2001.pdf",
+      "representation": "PDF",
+      "sha256": "dfd268471de30854dde494aead700c5800e0b872838c71c6c820ad6847140e16",
+      "result": "Lists JR5 Sharp Upper Bounds preprint; no theorem statement."
+    },
+    {
+      "id": "radziszowski_ds1_revision_9",
+      "citation": "S. P. Radziszowski, Small Ramsey Numbers, Revision 9, July 15, 2002.",
+      "url": "https://www.combinatorics.org/files/Surveys/ds1/ds1v9-2002.pdf",
+      "representation": "PDF",
+      "sha256": "eb6c8f2cca29854627a1d030c0c4e3c58a68e4c45865d0d55eccdb4d30061a3c",
+      "result": "JR5 entry no longer present; no published replacement identified."
+    },
+    {
+      "id": "cfmpp_2026_secondary",
+      "citation": "S. Cambie, A. Freschi, P. Morawski, K. Petrova, A. Pokrovskiy, Ramsey number of a cycle versus a graph of a given size, arXiv:2601.10238v1.",
+      "url": "https://arxiv.org/abs/2601.10238",
+      "representation": "extracted TeX main file",
+      "sha256": "e0c1d405cbd176004ecf0bc0094aadbf54edb0633a379fba984920cd3875845a",
+      "result": "Attributes k=5 sufficiently-large case to Jayawardene but does not restate Theorem 4.5."
+    },
+    {
+      "id": "cf_2026_all_m_candidate",
+      "citation": "S. Cambie and A. Freschi, A general bound on R(C_k,H), arXiv:2606.11174v1.",
+      "url": "https://arxiv.org/abs/2606.11174",
+      "version": "v1 only as of audit",
+      "pdf_sha256": "c575a6908cdf9474db4ba85933c461f2544fc312d80a1fa3c7666dc35ea4c539",
+      "extracted_tex_sha256": "b33010e10c4c42da6d4986bc89138d58a48da70cf0a82cb42613f560da4406dd",
+      "abs_html_sha256": "440450e300e96905002f87bd5d217491f33d1588503dff91ffd18d4ada274d84",
+      "result": "Cites Thesis Theorem 4.5 for connected H, |H|>=4, without a large-m restriction, but prints a false equality instead of the intended upper inequality."
+    },
+    {
+      "id": "erdos_570_forum",
+      "url": "https://www.erdosproblems.com/forum/thread/570?embed=1",
+      "representation": "HTML",
+      "sha256": "16ef002290b5bc0abb589824ab607a067ee93bb3e92f7b1040c3e5ea12824f10",
+      "result": "Identifies the k=5 result as Thesis Theorem 4.5, in the context of the sufficiently-large problem."
+    },
+    {
+      "id": "worldcat_exact_title",
+      "url": "https://search.worldcat.org/search?q=%22Ramsey%20Numbers%20Related%20to%20Small%20Cycles%22",
+      "representation": "HTML",
+      "sha256": "58349bd5ebf7d2e773cad3ab4a5cf08ba9a896a2719ea01eaf5fb41572045f41",
+      "result": "No public result found."
+    },
+    {
+      "id": "openlibrary_exact_title_author",
+      "url": "https://openlibrary.org/search.json?title=Ramsey%20Numbers%20Related%20to%20Small%20Cycles&author=Jayawardene",
+      "representation": "JSON",
+      "sha256": "a68a51a345fbaef76433e2dc9c3af3f7f73ee9f366a07aa6e9eec27944a0f069",
+      "result": "numFound=0."
+    },
+    {
+      "id": "openalex_title_author",
+      "url": "https://api.openalex.org/works?search=Ramsey%20Numbers%20Related%20to%20Small%20Cycles%20Jayawardene",
+      "representation": "JSON",
+      "sha256": "9d77b9c9c26e0ea6f7c6d22f9eebbd8644acc8c117b5f17267e11052f967aba4",
+      "result": "24 approximate results; zero exact-title matches."
+    },
+    {
+      "id": "internet_archive_title_author",
+      "url": "https://archive.org/advancedsearch.php?q=%28title%3A%22Ramsey%20Numbers%20Related%20to%20Small%20Cycles%22%20OR%20creator%3AJayawardene%29&output=json",
+      "representation": "JSON",
+      "sha256": "4b53f078f410c3f13d749949b6e89468fa3d52cb9cb1609bafddd8f95ececa83",
+      "result": "Three unrelated surname matches; no target."
+    }
+  ],
+  "primary_full_text_obtained": false,
+  "alternate_formal_all_m_source_obtained": false,
+  "manifest_note": "Hashes identify the exact response bytes or fixed files inspected. Negative public-index results do not prove absence from private, paywalled, or physical collections."
+}
+

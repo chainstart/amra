@@ -1,0 +1,29 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R002",
+  "problem_id": "52",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T19:39:00+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "active_seconds": 180,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "conservative minute-level accounting; unused budget is not counted"
+  },
+  "known_frontier": "The integer problem remains open with exponent 1962/1469-o(1); the 2026 disproof concerns the real-number version.",
+  "routes_tested": [
+    "high-multiplicity ratio-energy tails",
+    "integerization of the number-field counterexample by trace, norm, or a local ring embedding",
+    "polynomial specialization"
+  ],
+  "new_rigorous_output": [
+    "the generic energy route stalls at exponent 4/3",
+    "trace and norm preserve only one of the two operations",
+    "an exact degree-greater-than-one local ring embedding into Z is blocked by the minimal polynomial"
+  ],
+  "decision": "NO_PROMOTION__GLOBAL_INTEGER_MECHANISM_MISSING",
+  "closure_distance_before": 3,
+  "closure_distance_after": 5,
+  "publication_assessment": "No new bound or counterexample was obtained.",
+  "claim_guard": "The real counterexample does not disprove the integer conjecture."
+}

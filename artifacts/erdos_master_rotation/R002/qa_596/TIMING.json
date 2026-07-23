@@ -1,0 +1,9 @@
+{
+  "schema_version": "amra.erdos596.qa_timing.v1",
+  "timezone": "Asia/Hong_Kong",
+  "initial_audit_started_at": "2026-07-23T19:58:10+08:00",
+  "connection_interruption_recovery_observed_at": "2026-07-23T20:08:16+08:00",
+  "finished_at": "2026-07-23T20:14:27+08:00",
+  "elapsed_wall_seconds_including_interruption": 977,
+  "note": "The initial audit began before a connection interruption. The recovery timestamp is the first shell observation after resumption. Elapsed wall time is the exact difference between the recorded start and substantive-audit completion, and therefore includes the interruption."
+}

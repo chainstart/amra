@@ -1,0 +1,49 @@
+{
+  "problem_id": 809,
+  "audit_started_at": "2026-07-23T20:09:59+08:00",
+  "audit_completed_at": "2026-07-23T20:36:00+08:00",
+  "timezone": "Asia/Hong_Kong",
+  "official_status_snapshot": {
+    "status": "OPEN",
+    "page_last_edited": "2026-04-01",
+    "remaining_case": "k=3, C7"
+  },
+  "closure_verdict": "NOT_CLOSED",
+  "bcm26": {
+    "arxiv_id": "2603.18952v1",
+    "covered_k": "k>=4",
+    "top_level_original_parameter_is_case_2": true,
+    "one_deletion_stays_case_2_for_sufficiently_large_n": true,
+    "strong_induction_can_migrate_to_case_1": true,
+    "k3_case_2_stability_alone_closes_809": false,
+    "case_1_k3_breakpoint": "required P2 length is 1-l(P1), negative for l(P1)=2 or 3"
+  },
+  "local_model_lemma_audit": {
+    "exact_lemma": "VALID",
+    "robust_lemma": "VALID",
+    "robust_family_cardinality": "exactly sum_{y in B0}(d_A(y)-2)",
+    "displayed_robust_hypotheses_alone_force_quadratic_family": false
+  },
+  "stability_route_audit": {
+    "natural_low_cross_endpoint_implies_near_two_cliques_proposition": "REFUTED",
+    "counterexample": "balanced star-swap G_{m,floor(m/4)}",
+    "counterexample_edges": "m^2+1",
+    "counterexample_minimum_degree": "m-1",
+    "distance_from_displayed_Kmm": "2(m-floor(m/4))+1",
+    "lower_bound_distance_from_every_two_clique_graph": "floor((m-1)^2/4)"
+  },
+  "new_rigorous_result": {
+    "name": "fan C7 compatibility lemma",
+    "status": "PROVED",
+    "family_size_on_counterexample": "m(m-2)",
+    "full_809_closure": false
+  },
+  "machine_checks": {
+    "exact_model_enumeration": "PASS",
+    "robust_model_27_seed_suite": "PASS",
+    "fan_star_swap_m_values": [12, 16, 20, 24],
+    "fan_checked_edge_pairs": 235864,
+    "circulant_m_values": [12, 16, 20, 24, 32, 40],
+    "status": "PASS"
+  }
+}

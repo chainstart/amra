@@ -1,0 +1,31 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R002",
+  "problem_id": "521",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T19:32:39+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "focus_started_at": "2026-07-23T19:34:07+08:00",
+    "focus_ended_at": "2026-07-23T19:38:07+08:00",
+    "active_seconds": 240,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "minute-level, rounded down; quota was not booked as usage"
+  },
+  "known_frontier": "Do proves the almost-sure 1/pi law only on [-1,1]; the reciprocal sequence obstruction remains explicit in his Section 7.",
+  "routes_tested": [
+    "dyadic reciprocal root counts plus a summable reverse-block maximal inequality",
+    "scale-normalized two-parameter AR(1) field in degree and logarithmic distance from the unit points",
+    "deterministic small-perturbation interpolation, rejected"
+  ],
+  "candidate_closing_lemma": "For every eta>0, the dyadic-block oscillation probabilities for Z_n=N(g_n;(-1,1)) above eta*j are summable in j.",
+  "new_rigorous_output": [
+    "conditional implication from the block-maximal lemma to the full original statement",
+    "exact reciprocal recurrence g_(n+1)=epsilon_(n+1)+x*g_n",
+    "precise identification of why fixed-n symmetry and a union bound do not suffice"
+  ],
+  "decision": "PROMOTE_ONE_TARGETED_DEEP_ROUND",
+  "closure_distance": 3,
+  "publication_assessment": "Full closure or the required all-degree maximal inequality would be publishable; current intake output is not.",
+  "claim_guard": "No proof of the maximal inequality or of Erdős #521 is claimed."
+}

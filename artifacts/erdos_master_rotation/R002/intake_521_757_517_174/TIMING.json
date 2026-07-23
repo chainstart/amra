@@ -1,0 +1,20 @@
+{
+  "schema_version": "amra.erdos_rotation.timing.v1",
+  "cycle_id": "R002",
+  "task": "intake_521_757_517_174",
+  "started_at": "2026-07-23T19:32:39+08:00",
+  "ended_at": "2026-07-23T19:57:39+08:00",
+  "wall_seconds": 1500,
+  "problem_active_seconds": {
+    "521": 240,
+    "757": 300,
+    "517": 180,
+    "174": 240
+  },
+  "shared_source_report_and_qa_seconds": 540,
+  "total_active_agent_seconds": 1500,
+  "total_active_agent_hours": 0.416667,
+  "agents_used": 1,
+  "timing_note": "Minute-resolution conservative accounting from observed tool-clock checkpoints. No unused portion of any 90-minute cap is counted."
+}
+

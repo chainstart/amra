@@ -1,0 +1,66 @@
+{
+  "problem_id": 569,
+  "retrieved_at": "2026-07-23T19:57:01+08:00",
+  "sources": [
+    {
+      "role": "official_problem_record",
+      "url": "https://www.erdosproblems.com/569",
+      "version": "page accessed 2026-07-23",
+      "representation": "HTTP response body",
+      "sha256": "d9697c12747291c5527696cbd56fde83589553d2b261e7ff62a9e039489218c5"
+    },
+    {
+      "role": "official_forum_record",
+      "url": "https://www.erdosproblems.com/forum/thread/569",
+      "version": "page accessed 2026-07-23",
+      "representation": "HTTP response body",
+      "sha256": "9272d5a397393cb970644219e13323c35f19640998643601682a3af323f05a9f"
+    },
+    {
+      "role": "closing_candidate_pdf",
+      "url": "https://arxiv.org/pdf/2606.11174v1",
+      "version": "arXiv:2606.11174v1",
+      "representation": "PDF",
+      "sha256": "c575a6908cdf9474db4ba85933c461f2544fc312d80a1fa3c7666dc35ea4c539"
+    },
+    {
+      "role": "closing_candidate_source_archive",
+      "url": "https://export.arxiv.org/e-print/2606.11174v1",
+      "version": "arXiv:2606.11174v1",
+      "representation": "tar.gz",
+      "sha256": "aef476112f9a1dc76ebe1ed08911c14e43076799f0c7d8dbec96f8104255b9a2"
+    },
+    {
+      "role": "closing_candidate_primary_tex",
+      "url": "https://export.arxiv.org/e-print/2606.11174v1#EP569updated2__1_.tex",
+      "version": "arXiv:2606.11174v1",
+      "representation": "extracted TeX member",
+      "sha256": "b33010e10c4c42da6d4986bc89138d58a48da70cf0a82cb42613f560da4406dd"
+    },
+    {
+      "role": "published_q3_base_article_record",
+      "url": "https://www.sciencedirect.com/science/article/pii/0012365X94901589/pdfft",
+      "version": "Discrete Mathematics 125 (1994), 177-182; DOI 10.1016/0012-365X(94)90158-9; accessed 2026-07-23",
+      "representation": "publisher HTTP response body",
+      "sha256": "738ed8493fa3d03c1101a4f8ed0f4a0476e46b5c42189a566aa7791f6e1a033c"
+    },
+    {
+      "role": "jayawardene_dissertation_metadata_only",
+      "url": "https://www.res.cmb.ac.lk/mathematics/chula-jayawardene/pubs/p34/",
+      "version": "author institutional page accessed 2026-07-23",
+      "representation": "HTTP response body; no dissertation full text attached",
+      "sha256": "9b605df6b10a0293d345de8f295aa2493307c1de1e24e81c6df4372883337dae"
+    },
+    {
+      "role": "secondary_q5_attribution",
+      "url": "https://www.erdosproblems.com/570",
+      "version": "page accessed 2026-07-23",
+      "representation": "HTTP response body",
+      "sha256": "f4e2d3c2dc99a85506d3e70dbff5fe7a1cd5dd5d753f7837ee494da912d283ab"
+    }
+  ],
+  "unavailable_primary_dependency": {
+    "citation": "C. J. Jayawardene, Ramsey Numbers Related to Small Cycles, PhD thesis, University of Memphis, 1999, Theorem 4.5",
+    "impact": "Prevents first-source verification of the q=5 case and hence of all official k."
+  }
+}

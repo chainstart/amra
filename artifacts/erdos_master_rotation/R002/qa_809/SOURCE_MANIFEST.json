@@ -1,0 +1,61 @@
+{
+  "audit_time_basis": "Asia/Hong_Kong",
+  "sources": [
+    {
+      "name": "Erdos Problems #809 HTML",
+      "url": "https://www.erdosproblems.com/809",
+      "retrieved_at": "2026-07-23T20:10:13+08:00",
+      "local_ephemeral_path": "/tmp/ep809.html",
+      "bytes": 34145,
+      "sha256": "92166819f26ac970c313ccab0fa54902374c71aa139c39518a62ee576bf7f75d"
+    },
+    {
+      "name": "BCM26 arXiv abstract metadata",
+      "url": "https://arxiv.org/abs/2603.18952v1",
+      "checked_at": "2026-07-23T20:26:00+08:00",
+      "submission_time_reported_by_arxiv": "2026-03-19T14:23:47Z",
+      "version": "v1"
+    },
+    {
+      "name": "BCM26 PDF",
+      "url": "https://arxiv.org/pdf/2603.18952v1",
+      "retrieved_at": "2026-07-23T20:10:31+08:00",
+      "local_ephemeral_path": "/tmp/bcm809.bj2zfW/bcm26.pdf",
+      "bytes": 621626,
+      "sha256": "d994c64f8f1c5d4c844d886d50e3940392794630710f132ea72bb6b9d33d9dbb"
+    },
+    {
+      "name": "BCM26 arXiv source archive",
+      "url": "https://arxiv.org/e-print/2603.18952v1",
+      "retrieved_at": "2026-07-23T20:10:32+08:00",
+      "local_ephemeral_path": "/tmp/bcm809.bj2zfW/bcm26-source.tar",
+      "bytes": 120412,
+      "sha256": "318ac4a46734463528a0b8a7bb14aad2afed7128e5e3419a50262301da76388e"
+    },
+    {
+      "name": "BCM26 extracted main.tex",
+      "archive_member_mtime": "2026-03-19T22:15:18+08:00",
+      "local_ephemeral_path": "/tmp/bcm809.bj2zfW/main.tex",
+      "bytes": 57288,
+      "sha256": "c1097e145f71a24e0ef97be0eed1cc3bf329194e3b1b3dac059e1d3fef5af06d"
+    },
+    {
+      "name": "Local #809 bipartite model lemma snapshot",
+      "path": "artifacts/erdos_master_rotation/R002/core_809_592/809_BIPARTITE_MODEL_LEMMA.md",
+      "sha256_at_initial_audit": "8d8bc06781e5d1d62e4219adface579b91df85ef2d3d1bb71cb16af01b3ab858",
+      "sha256_at_freeze": "b4f17addcd61ec6243c9a3e99dd8171245a6e3eefbda21a41841841d457ad3eb",
+      "freeze_checked_at": "2026-07-23T20:34:37+08:00",
+      "note": "This shared central file was updated by its owning agent during the audit. Both observed hashes are recorded; the conclusions were rechecked against the freeze snapshot."
+    },
+    {
+      "name": "Exact model verifier snapshot",
+      "path": "artifacts/erdos_master_rotation/R002/core_809_592/verify_809_bipartite_model.py",
+      "sha256": "ac57d5c189b0b88287a80ca0c7fdff9786fe9cfff198447bb50250b268a799c1"
+    },
+    {
+      "name": "Robust model verifier snapshot",
+      "path": "artifacts/erdos_master_rotation/R002/core_809_592/verify_809_robust_model.py",
+      "sha256": "e3bb8dfbeeffe71c946d5686b8901a1ea730561a85c9db85d91f55de67739a1f"
+    }
+  ]
+}

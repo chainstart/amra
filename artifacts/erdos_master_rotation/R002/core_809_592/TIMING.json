@@ -1,0 +1,16 @@
+{
+  "schema_version": "amra.erdos_rotation.timing.v1",
+  "cycle_id": "R002",
+  "task": "core_809_592",
+  "started_at": "2026-07-23T19:45:55+08:00",
+  "ended_at": "2026-07-23T20:25:55+08:00",
+  "wall_seconds": 2400,
+  "problem_active_seconds": {
+    "809": 1680,
+    "592": 720
+  },
+  "total_active_agent_seconds": 2400,
+  "total_active_agent_hours": 0.666667,
+  "agents_used": 1,
+  "timing_note": "Foreground research allocation only. Independent #809 QA is accounted in its own package; unused four-hour caps are not counted."
+}

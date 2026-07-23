@@ -1,0 +1,41 @@
+{
+  "schema": "amra.source-manifest.v1",
+  "problem_id": "776",
+  "refreshed_at": "2026-07-23T19:34:00+08:00",
+  "sources": [
+    {
+      "url": "https://www.erdosproblems.com/776",
+      "type": "official_problem_page",
+      "role": "statement and open-status refresh",
+      "access_result": "search index metadata available; direct fetch returned HTTP 403",
+      "status_used": "OPEN"
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.09803v2",
+      "type": "primary_preprint",
+      "title": "An Erdős--Trotter problem on antichains with multiplicity r on each occurring level",
+      "authors": ["Yixin He", "Quanyu Tang"],
+      "submitted": "2026-02-10",
+      "revised": "2026-03-21",
+      "role": "current published-strength bounds for n0(r)"
+    },
+    {
+      "path": "artifacts/erdos_master_rotation/master_ledger.json",
+      "type": "central_ledger",
+      "role": "R002 closing lemma and budget",
+      "target": "E5-F5<=70500 / equivalent large-V rank-6 inequality"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260723_round12_original_targets_10h/work/macaulay_pte/REPORT.md",
+      "sha256": "36e043fa67020aad5b5d6406804c016e864d6924f5a7c372d4fdfb1b38c0a951",
+      "type": "inherited_frozen_evidence",
+      "role": "definitions and all-V rank-5/rank-6 reductions"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260723_round12_original_targets_10h/work/macaulay_pte/exact_original_targets.py",
+      "sha256": "6bf04fe5e81861f875c696f47f57c6ef465814f639c72d2bbbfeb41cb721d678",
+      "type": "inherited_frozen_code",
+      "role": "independent ordinary/lazy recurrence oracle"
+    }
+  ]
+}

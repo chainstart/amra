@@ -1,0 +1,552 @@
+{
+  "claim": "In K_{a,b}+pq, all cross-edges whose A-end is outside {p,q} are pairwise contained in a C7.",
+  "instances": [
+    {
+      "a_size": 4,
+      "b_size": 3,
+      "case_counts": {
+        "disjoint": 6,
+        "same_A": 6,
+        "same_B": 3
+      },
+      "checked_edge_pairs": 15,
+      "expected_family_size": 6,
+      "family_size": 6,
+      "passed": true
+    },
+    {
+      "a_size": 4,
+      "b_size": 4,
+      "case_counts": {
+        "disjoint": 12,
+        "same_A": 12,
+        "same_B": 4
+      },
+      "checked_edge_pairs": 28,
+      "expected_family_size": 8,
+      "family_size": 8,
+      "passed": true
+    },
+    {
+      "a_size": 4,
+      "b_size": 5,
+      "case_counts": {
+        "disjoint": 20,
+        "same_A": 20,
+        "same_B": 5
+      },
+      "checked_edge_pairs": 45,
+      "expected_family_size": 10,
+      "family_size": 10,
+      "passed": true
+    },
+    {
+      "a_size": 4,
+      "b_size": 6,
+      "case_counts": {
+        "disjoint": 30,
+        "same_A": 30,
+        "same_B": 6
+      },
+      "checked_edge_pairs": 66,
+      "expected_family_size": 12,
+      "family_size": 12,
+      "passed": true
+    },
+    {
+      "a_size": 4,
+      "b_size": 7,
+      "case_counts": {
+        "disjoint": 42,
+        "same_A": 42,
+        "same_B": 7
+      },
+      "checked_edge_pairs": 91,
+      "expected_family_size": 14,
+      "family_size": 14,
+      "passed": true
+    },
+    {
+      "a_size": 4,
+      "b_size": 8,
+      "case_counts": {
+        "disjoint": 56,
+        "same_A": 56,
+        "same_B": 8
+      },
+      "checked_edge_pairs": 120,
+      "expected_family_size": 16,
+      "family_size": 16,
+      "passed": true
+    },
+    {
+      "a_size": 4,
+      "b_size": 9,
+      "case_counts": {
+        "disjoint": 72,
+        "same_A": 72,
+        "same_B": 9
+      },
+      "checked_edge_pairs": 153,
+      "expected_family_size": 18,
+      "family_size": 18,
+      "passed": true
+    },
+    {
+      "a_size": 5,
+      "b_size": 3,
+      "case_counts": {
+        "disjoint": 18,
+        "same_A": 9,
+        "same_B": 9
+      },
+      "checked_edge_pairs": 36,
+      "expected_family_size": 9,
+      "family_size": 9,
+      "passed": true
+    },
+    {
+      "a_size": 5,
+      "b_size": 4,
+      "case_counts": {
+        "disjoint": 36,
+        "same_A": 18,
+        "same_B": 12
+      },
+      "checked_edge_pairs": 66,
+      "expected_family_size": 12,
+      "family_size": 12,
+      "passed": true
+    },
+    {
+      "a_size": 5,
+      "b_size": 5,
+      "case_counts": {
+        "disjoint": 60,
+        "same_A": 30,
+        "same_B": 15
+      },
+      "checked_edge_pairs": 105,
+      "expected_family_size": 15,
+      "family_size": 15,
+      "passed": true
+    },
+    {
+      "a_size": 5,
+      "b_size": 6,
+      "case_counts": {
+        "disjoint": 90,
+        "same_A": 45,
+        "same_B": 18
+      },
+      "checked_edge_pairs": 153,
+      "expected_family_size": 18,
+      "family_size": 18,
+      "passed": true
+    },
+    {
+      "a_size": 5,
+      "b_size": 7,
+      "case_counts": {
+        "disjoint": 126,
+        "same_A": 63,
+        "same_B": 21
+      },
+      "checked_edge_pairs": 210,
+      "expected_family_size": 21,
+      "family_size": 21,
+      "passed": true
+    },
+    {
+      "a_size": 5,
+      "b_size": 8,
+      "case_counts": {
+        "disjoint": 168,
+        "same_A": 84,
+        "same_B": 24
+      },
+      "checked_edge_pairs": 276,
+      "expected_family_size": 24,
+      "family_size": 24,
+      "passed": true
+    },
+    {
+      "a_size": 5,
+      "b_size": 9,
+      "case_counts": {
+        "disjoint": 216,
+        "same_A": 108,
+        "same_B": 27
+      },
+      "checked_edge_pairs": 351,
+      "expected_family_size": 27,
+      "family_size": 27,
+      "passed": true
+    },
+    {
+      "a_size": 6,
+      "b_size": 3,
+      "case_counts": {
+        "disjoint": 36,
+        "same_A": 12,
+        "same_B": 18
+      },
+      "checked_edge_pairs": 66,
+      "expected_family_size": 12,
+      "family_size": 12,
+      "passed": true
+    },
+    {
+      "a_size": 6,
+      "b_size": 4,
+      "case_counts": {
+        "disjoint": 72,
+        "same_A": 24,
+        "same_B": 24
+      },
+      "checked_edge_pairs": 120,
+      "expected_family_size": 16,
+      "family_size": 16,
+      "passed": true
+    },
+    {
+      "a_size": 6,
+      "b_size": 5,
+      "case_counts": {
+        "disjoint": 120,
+        "same_A": 40,
+        "same_B": 30
+      },
+      "checked_edge_pairs": 190,
+      "expected_family_size": 20,
+      "family_size": 20,
+      "passed": true
+    },
+    {
+      "a_size": 6,
+      "b_size": 6,
+      "case_counts": {
+        "disjoint": 180,
+        "same_A": 60,
+        "same_B": 36
+      },
+      "checked_edge_pairs": 276,
+      "expected_family_size": 24,
+      "family_size": 24,
+      "passed": true
+    },
+    {
+      "a_size": 6,
+      "b_size": 7,
+      "case_counts": {
+        "disjoint": 252,
+        "same_A": 84,
+        "same_B": 42
+      },
+      "checked_edge_pairs": 378,
+      "expected_family_size": 28,
+      "family_size": 28,
+      "passed": true
+    },
+    {
+      "a_size": 6,
+      "b_size": 8,
+      "case_counts": {
+        "disjoint": 336,
+        "same_A": 112,
+        "same_B": 48
+      },
+      "checked_edge_pairs": 496,
+      "expected_family_size": 32,
+      "family_size": 32,
+      "passed": true
+    },
+    {
+      "a_size": 6,
+      "b_size": 9,
+      "case_counts": {
+        "disjoint": 432,
+        "same_A": 144,
+        "same_B": 54
+      },
+      "checked_edge_pairs": 630,
+      "expected_family_size": 36,
+      "family_size": 36,
+      "passed": true
+    },
+    {
+      "a_size": 7,
+      "b_size": 3,
+      "case_counts": {
+        "disjoint": 60,
+        "same_A": 15,
+        "same_B": 30
+      },
+      "checked_edge_pairs": 105,
+      "expected_family_size": 15,
+      "family_size": 15,
+      "passed": true
+    },
+    {
+      "a_size": 7,
+      "b_size": 4,
+      "case_counts": {
+        "disjoint": 120,
+        "same_A": 30,
+        "same_B": 40
+      },
+      "checked_edge_pairs": 190,
+      "expected_family_size": 20,
+      "family_size": 20,
+      "passed": true
+    },
+    {
+      "a_size": 7,
+      "b_size": 5,
+      "case_counts": {
+        "disjoint": 200,
+        "same_A": 50,
+        "same_B": 50
+      },
+      "checked_edge_pairs": 300,
+      "expected_family_size": 25,
+      "family_size": 25,
+      "passed": true
+    },
+    {
+      "a_size": 7,
+      "b_size": 6,
+      "case_counts": {
+        "disjoint": 300,
+        "same_A": 75,
+        "same_B": 60
+      },
+      "checked_edge_pairs": 435,
+      "expected_family_size": 30,
+      "family_size": 30,
+      "passed": true
+    },
+    {
+      "a_size": 7,
+      "b_size": 7,
+      "case_counts": {
+        "disjoint": 420,
+        "same_A": 105,
+        "same_B": 70
+      },
+      "checked_edge_pairs": 595,
+      "expected_family_size": 35,
+      "family_size": 35,
+      "passed": true
+    },
+    {
+      "a_size": 7,
+      "b_size": 8,
+      "case_counts": {
+        "disjoint": 560,
+        "same_A": 140,
+        "same_B": 80
+      },
+      "checked_edge_pairs": 780,
+      "expected_family_size": 40,
+      "family_size": 40,
+      "passed": true
+    },
+    {
+      "a_size": 7,
+      "b_size": 9,
+      "case_counts": {
+        "disjoint": 720,
+        "same_A": 180,
+        "same_B": 90
+      },
+      "checked_edge_pairs": 990,
+      "expected_family_size": 45,
+      "family_size": 45,
+      "passed": true
+    },
+    {
+      "a_size": 8,
+      "b_size": 3,
+      "case_counts": {
+        "disjoint": 90,
+        "same_A": 18,
+        "same_B": 45
+      },
+      "checked_edge_pairs": 153,
+      "expected_family_size": 18,
+      "family_size": 18,
+      "passed": true
+    },
+    {
+      "a_size": 8,
+      "b_size": 4,
+      "case_counts": {
+        "disjoint": 180,
+        "same_A": 36,
+        "same_B": 60
+      },
+      "checked_edge_pairs": 276,
+      "expected_family_size": 24,
+      "family_size": 24,
+      "passed": true
+    },
+    {
+      "a_size": 8,
+      "b_size": 5,
+      "case_counts": {
+        "disjoint": 300,
+        "same_A": 60,
+        "same_B": 75
+      },
+      "checked_edge_pairs": 435,
+      "expected_family_size": 30,
+      "family_size": 30,
+      "passed": true
+    },
+    {
+      "a_size": 8,
+      "b_size": 6,
+      "case_counts": {
+        "disjoint": 450,
+        "same_A": 90,
+        "same_B": 90
+      },
+      "checked_edge_pairs": 630,
+      "expected_family_size": 36,
+      "family_size": 36,
+      "passed": true
+    },
+    {
+      "a_size": 8,
+      "b_size": 7,
+      "case_counts": {
+        "disjoint": 630,
+        "same_A": 126,
+        "same_B": 105
+      },
+      "checked_edge_pairs": 861,
+      "expected_family_size": 42,
+      "family_size": 42,
+      "passed": true
+    },
+    {
+      "a_size": 8,
+      "b_size": 8,
+      "case_counts": {
+        "disjoint": 840,
+        "same_A": 168,
+        "same_B": 120
+      },
+      "checked_edge_pairs": 1128,
+      "expected_family_size": 48,
+      "family_size": 48,
+      "passed": true
+    },
+    {
+      "a_size": 8,
+      "b_size": 9,
+      "case_counts": {
+        "disjoint": 1080,
+        "same_A": 216,
+        "same_B": 135
+      },
+      "checked_edge_pairs": 1431,
+      "expected_family_size": 54,
+      "family_size": 54,
+      "passed": true
+    },
+    {
+      "a_size": 9,
+      "b_size": 3,
+      "case_counts": {
+        "disjoint": 126,
+        "same_A": 21,
+        "same_B": 63
+      },
+      "checked_edge_pairs": 210,
+      "expected_family_size": 21,
+      "family_size": 21,
+      "passed": true
+    },
+    {
+      "a_size": 9,
+      "b_size": 4,
+      "case_counts": {
+        "disjoint": 252,
+        "same_A": 42,
+        "same_B": 84
+      },
+      "checked_edge_pairs": 378,
+      "expected_family_size": 28,
+      "family_size": 28,
+      "passed": true
+    },
+    {
+      "a_size": 9,
+      "b_size": 5,
+      "case_counts": {
+        "disjoint": 420,
+        "same_A": 70,
+        "same_B": 105
+      },
+      "checked_edge_pairs": 595,
+      "expected_family_size": 35,
+      "family_size": 35,
+      "passed": true
+    },
+    {
+      "a_size": 9,
+      "b_size": 6,
+      "case_counts": {
+        "disjoint": 630,
+        "same_A": 105,
+        "same_B": 126
+      },
+      "checked_edge_pairs": 861,
+      "expected_family_size": 42,
+      "family_size": 42,
+      "passed": true
+    },
+    {
+      "a_size": 9,
+      "b_size": 7,
+      "case_counts": {
+        "disjoint": 882,
+        "same_A": 147,
+        "same_B": 147
+      },
+      "checked_edge_pairs": 1176,
+      "expected_family_size": 49,
+      "family_size": 49,
+      "passed": true
+    },
+    {
+      "a_size": 9,
+      "b_size": 8,
+      "case_counts": {
+        "disjoint": 1176,
+        "same_A": 196,
+        "same_B": 168
+      },
+      "checked_edge_pairs": 1540,
+      "expected_family_size": 56,
+      "family_size": 56,
+      "passed": true
+    },
+    {
+      "a_size": 9,
+      "b_size": 9,
+      "case_counts": {
+        "disjoint": 1512,
+        "same_A": 252,
+        "same_B": 189
+      },
+      "checked_edge_pairs": 1953,
+      "expected_family_size": 63,
+      "family_size": 63,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

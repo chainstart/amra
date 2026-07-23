@@ -1,0 +1,30 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R002",
+  "wave": "standard-intake-root",
+  "as_of": "2026-07-23",
+  "problems": {
+    "536": [
+      "https://www.erdosproblems.com/536",
+      "https://www.erdosproblems.com/forum/thread/536",
+      "https://github.com/KitaKen1/erdos536-lean-five-six-bound"
+    ],
+    "596": [
+      "https://www.erdosproblems.com/596",
+      "https://www.erdosproblems.com/latex/596",
+      "https://arxiv.org/abs/2308.15589",
+      "https://www.math.uni-hamburg.de/en/personen/reiher/artikel/girth-final.pdf"
+    ],
+    "52": [
+      "https://www.erdosproblems.com/52",
+      "https://arxiv.org/abs/2512.13849",
+      "https://arxiv.org/abs/2605.28781",
+      "https://www.erdosproblems.com/forum/thread/52"
+    ],
+    "949": [
+      "https://www.erdosproblems.com/949",
+      "https://www.erdosproblems.com/forum/thread/949"
+    ]
+  },
+  "scope_note": "All official statuses and recent claims were refreshed. Web discussion is treated as a lead, not as proof; theorem-level claims are tied to primary papers or proved in the local reports."
+}

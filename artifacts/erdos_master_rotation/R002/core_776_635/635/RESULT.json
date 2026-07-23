@@ -1,0 +1,55 @@
+{
+  "schema": "amra.erdos-master-rotation.problem-result.v1",
+  "cycle_id": "R002",
+  "problem_id": "635",
+  "official_status_refreshed": "OPEN_exact_extremal_question; asymptotic_subquestion_affirmative",
+  "outcome": "strict_progress_no_closure",
+  "original_problem_closed": false,
+  "proof_or_disproof": false,
+  "q2_candidate": false,
+  "closure_distance_before": 2,
+  "closure_distance_after": 2,
+  "closure_distance_reduced": false,
+  "closure_distance_reason": "No arbitrary arithmetic bicyclic core was excluded or constructed, and the prime-square/higher-odd-part bridge remains.",
+  "new_results": [
+    "Uniform fixed-valuation lemma: any two distinct labels with the same positive 2-adic valuation are automatically nonconflicting for t=2.",
+    "The entire connected swap-graph component of the inherited six-cycle is exhaustively closed: 13 vertices, 13 edges, cyclomatic number one.",
+    "Complete fixed-A=2 multiplier enumeration extended from cycle length 12 to 14; no nonbacktracking cycle through length 14."
+  ],
+  "routes": [
+    {
+      "name": "exact_component_expansion_from_known_cycle",
+      "result": "the known mixed six-cycle component closes and has only one cycle; it cannot supply a bicyclic core"
+    },
+    {
+      "name": "fixed_valuation_multiplier_exclusion",
+      "result": "complete exclusion for A=2 and lengths at most 14; unbounded length remains"
+    },
+    {
+      "name": "local_conflict_at_branch_vertices",
+      "result": "closed as impossible in every fixed valuation layer by the new parity lemma"
+    }
+  ],
+  "first_unfixable_breakpoint": "Uniform path-level control of arbitrary fixed- or mixed-valuation theta, figure-eight and dumbbell cores; local conflict conditions and finite cycle lengths do not cover it.",
+  "route_killed": "Any attempt to force a conflict between fixed-valuation labels locally is impossible: equal positive 2-adic valuation makes every distinct pair automatically nonconflicting.",
+  "next_decidable_action": "Enumerate fixed-valuation short bicyclic cores directly (not merely cycles), where the parity lemma makes any found core an immediate proper-Hall counterexample.",
+  "quantifier_warning": "Even a complete semiprime proper-neighbour Hall proof would not settle the exact original extremal problem without prime-square, higher-odd-part and matching-union arguments.",
+  "timing": {
+    "started_at": "2026-07-23T19:32:51+08:00",
+    "research_frozen_at": "2026-07-23T20:12:20+08:00",
+    "active_agent_seconds": 919,
+    "active_agent_hours": 0.2553,
+    "budget_seconds": 14400,
+    "accounting": "single-agent foreground allocation; actual time only"
+  },
+  "artifacts": [
+    "REPORT.md",
+    "RESULT.json",
+    "COMPONENT_CERTIFICATE.json",
+    "A2_CYCLE_CERTIFICATE.json",
+    "verify_closed_component.py",
+    "verify_fixed_A2_cycles_14.cpp",
+    "SOURCE_MANIFEST.json",
+    "SHA256SUMS"
+  ]
+}

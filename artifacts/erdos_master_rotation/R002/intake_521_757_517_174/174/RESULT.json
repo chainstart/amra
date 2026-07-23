@@ -1,0 +1,31 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R002",
+  "problem_id": "174",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T19:32:39+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "focus_started_at": "2026-07-23T19:46:07+08:00",
+    "focus_ended_at": "2026-07-23T19:50:07+08:00",
+    "active_seconds": 240,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "minute-level, rounded down; quota was not booked as usage"
+  },
+  "known_frontier": "Ramsey implies spherical; Graham's spherical conjecture and the LRW subtransitive characterization remain open. Behague 2025 does not close the gap.",
+  "routes_tested": [
+    "the explicit LRW transcendental cyclic kite as the minimal discriminator",
+    "Kriz's soluble two-orbit theorem, rejected because the ambient set must still be transitive",
+    "uniform all-dimension colorings via the classical squared-norm obstruction, rejected because the spherical defect vanishes"
+  ],
+  "new_rigorous_output": [
+    "exact LRW affine parameters alpha=-1 and beta=a+1",
+    "exact check that the transcendental kite is cyclic but not a trapezoid",
+    "precise quantifier and hypothesis failure in the tempting two-orbit shortcut"
+  ],
+  "candidate_closing_lemma": "Every finite spherical set admitting a soluble isometry group with at most three orbits is Ramsey; alternatively, construct one fixed-k avoiding coloring in every dimension for the LRW kite.",
+  "decision": "AUDIT_RETAIN_HIGH_VALUE_DISCRIMINATOR__COOLDOWN_3_CYCLES",
+  "closure_distance": 5,
+  "publication_assessment": "Deciding the LRW kite would be major; no paper-level theorem was obtained in this intake.",
+  "claim_guard": "The LRW kite's Ramsey status and Erdős #174 remain open."
+}

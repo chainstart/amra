@@ -1,0 +1,40 @@
+{
+  "problem_id": 620,
+  "verdict": "verified_closed",
+  "closure_mode": "preprint_proof",
+  "peer_reviewed_closing_source": false,
+  "formal_proof_available": false,
+  "official_status_at_access": "OPEN",
+  "official_status_consistent_with_audit": false,
+  "closing_source": {
+    "title": "The Erdős--Rogers function",
+    "authors": [
+      "Robert Morris",
+      "Julian Sahasrabudhe",
+      "Jacques Verstraëte"
+    ],
+    "identifier": "arXiv:2607.16118v1",
+    "submitted": "2026-07-17"
+  },
+  "result": "For s=3, f_3(n)=Theta(sqrt(n log n)); equivalently every n-vertex K4-free graph has an induced triangle-free subgraph of order Omega(sqrt(n log n)), and this is best possible up to an absolute constant.",
+  "statement_mapping_verified": true,
+  "lower_bound_transfer_verified": true,
+  "lemma_2_3_verified": true,
+  "lemma_3_4_verified": true,
+  "lemma_3_5_verified": true,
+  "theorem_3_1_verified": true,
+  "all_required_asymptotic_quantifiers_verified": true,
+  "minor_nonfatal_omissions": [
+    "integer rounding of construction parameters is implicit",
+    "the exponentially small auxiliary-sampling tail in the final Lemma 3.5 expectation is compressed rather than displayed"
+  ],
+  "confidence": "high",
+  "timing": {
+    "start": "2026-07-23T19:33:14+08:00",
+    "end": "2026-07-23T19:37:50+08:00",
+    "active_seconds": 276,
+    "active_agent_hours": 0.076667,
+    "budget_agent_hours": 1.0
+  }
+}
+

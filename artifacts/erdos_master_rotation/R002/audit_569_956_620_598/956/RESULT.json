@@ -1,0 +1,43 @@
+{
+  "problem_id": 956,
+  "verdict": "verified_closed",
+  "closure_mode": "public_note_proof_plus_published_upper_bound",
+  "peer_reviewed_lower_bound_source": false,
+  "official_status_at_access": "OPEN",
+  "official_status_consistent_with_audit": false,
+  "result": "h(n)=Theta(n^(4/3)); in particular h(n)>n^(1+c) for every fixed c<1/3 and all sufficiently large n.",
+  "closing_lower_bound_source": {
+    "title": "Unit distances between disjoint convex translates",
+    "date": "2026-04-27",
+    "host": "Ulam AI",
+    "named_authors_in_pdf": []
+  },
+  "valtr_attribution_verified": true,
+  "valtr_2005_manuscript_alone_closes_problem": false,
+  "difference_body_mapping_verified": true,
+  "exact_unit_offset_verified": true,
+  "pairwise_disjointness_verified": true,
+  "pair_count_verified": true,
+  "all_sufficiently_large_n_verified": true,
+  "published_upper_bound_matches_official_problem_record": true,
+  "lean_artifact": {
+    "available": true,
+    "compiles": true,
+    "contains_sorry_admit_or_added_axiom": false,
+    "formalizes_full_problem": false,
+    "formal_proof_available": false,
+    "actual_scope": "Algebraic count and asymptotic comparison of M(k) with gridSize(k), plus individual offset-coordinate and spacing inequalities; no convex body, set distance, translates, disjointness, h(n), pair realization, or all-n padding.",
+    "checked_with": {
+      "lean": "4.27.0 db93fe1608548721853390a10cd40580fe7d22ae",
+      "mathlib": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+    }
+  },
+  "confidence": "high",
+  "timing": {
+    "start": "2026-07-23T19:59:46+08:00",
+    "end": "2026-07-23T20:07:19+08:00",
+    "active_seconds": 453,
+    "active_agent_hours": 0.125833,
+    "budget_agent_hours": 1.0
+  }
+}

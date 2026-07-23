@@ -1,0 +1,32 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R002",
+  "problem_id": "517",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T19:32:39+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "focus_started_at": "2026-07-23T19:43:07+08:00",
+    "focus_ended_at": "2026-07-23T19:46:07+08:00",
+    "active_seconds": 180,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "minute-level, rounded down; quota was not booked as usage"
+  },
+  "known_frontier": "Fejer gaps and the finite-order case are known; the infinite-order non-Fejer Fabry regime remains open.",
+  "routes_tested": [
+    "finite-fiber factorization f-w=P*exp(g) and Taylor-support rigidity",
+    "single dominant term / clustered Rouche comparison",
+    "deficiency-theory strengthening, rejected by Murai's Fabry-gap defect-one example"
+  ],
+  "route_audit": "A prior scout file incorrectly called absence of finite deficient values equivalent to the problem. It is only sufficient and is false under bare Fabry gaps.",
+  "candidate_closing_lemma": "Every nonpolynomial entire function whose nonzero Taylor support has natural density zero has infinitely many zeros.",
+  "new_rigorous_output": [
+    "correct finite-fiber factorization and sparse-support formulation",
+    "explicit disproof of the old deficiency equivalence",
+    "paired-factorial exponent family showing that Fabry gaps do not imply all adjacent gaps grow"
+  ],
+  "decision": "AUDIT_ROUTE_ERROR_THEN_COOLDOWN_3_CYCLES",
+  "closure_distance": 5,
+  "publication_assessment": "A general P*exp(g) support-rigidity theorem would be major; no paper-level new theorem was obtained.",
+  "claim_guard": "Neither the sparse-support lemma nor Erdős #517 is proved."
+}

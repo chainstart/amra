@@ -1,0 +1,55 @@
+{
+  "problem_id": 956,
+  "retrieved_at": "2026-07-23T20:00:15+08:00",
+  "sources": [
+    {
+      "role": "official_problem_record",
+      "url": "https://www.erdosproblems.com/956",
+      "version": "page accessed 2026-07-23",
+      "representation": "HTTP response body",
+      "sha256": "3f5cee9f61ca28c68e96f5b3a42559ae5277464ed791b2fd324612b427342e76"
+    },
+    {
+      "role": "official_forum_evidence_record",
+      "url": "https://www.erdosproblems.com/forum/thread/956",
+      "version": "page accessed 2026-07-23",
+      "representation": "HTTP response body",
+      "sha256": "89c652380c0a4a4e0f9a36c37cbcfc48444c0083db541b82fa811a904f574071"
+    },
+    {
+      "role": "closing_lower_bound_note",
+      "url": "https://www.ulam.ai/research/erdos956.pdf",
+      "version": "dated 2026-04-27; retrieved 2026-07-23",
+      "representation": "PDF",
+      "sha256": "1d86a438bd7b832692d5db7d079cc6bbead4584bc2450ec2b48c1d7375f17ca2"
+    },
+    {
+      "role": "partial_lean_artifact",
+      "url": "https://www.ulam.ai/research/erdos956.lean",
+      "version": "retrieved 2026-07-23",
+      "representation": "UTF-8 Lean source",
+      "sha256": "e1ef5d81f08bdbe98e8cf67d2ac1bac2d4b4ff4c1076d9127edb409779fd2a9e"
+    },
+    {
+      "role": "valtr_parabolic_norm_primary_manuscript",
+      "url": "https://kam.mff.cuni.cz/~valtr/n.pdf",
+      "version": "2005 manuscript; retrieved 2026-07-23",
+      "representation": "PDF",
+      "sha256": "8f290e74efe2fe60a2c93d39f2b0386afcf0e3a82db905e4b4795d1d26b9601f"
+    },
+    {
+      "role": "valtr_disjoint_translate_announcement",
+      "url": "https://ems.press/content/serial-article-files/45990",
+      "version": "Oberwolfach Report 17/2005, pp. 985-986; retrieved 2026-07-23",
+      "representation": "workshop report PDF",
+      "sha256": "f0200fe70e287441d0fd3dbb0b6b564f4ed5bbdc04eb7513612ad0edf7fa95dc"
+    },
+    {
+      "role": "published_upper_bound_article_record",
+      "url": "https://link.springer.com/article/10.1007/BF02122780",
+      "version": "Erdos-Pach, Combinatorica 10 (1990), 261-269; publisher page accessed 2026-07-23",
+      "representation": "publisher HTTP response body",
+      "sha256": "a0a640437fd6c0135fadbe22a991a7ce4f0f18434d938d6c367f903c96893b81"
+    }
+  ]
+}

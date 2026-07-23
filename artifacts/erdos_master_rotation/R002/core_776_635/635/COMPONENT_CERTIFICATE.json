@@ -1,0 +1,23 @@
+{
+  "schema": "amra.erdos635.r002-closed-component.summary.v1",
+  "status": "PASS",
+  "component_start": 29165,
+  "component_vertices": [
+    25619, 25709, 26253, 27131, 28943, 29149, 29165,
+    29181, 29211, 29359, 29391, 29419, 29469
+  ],
+  "vertex_count": 13,
+  "edge_count": 13,
+  "cyclomatic_number": 1,
+  "component_is_exhaustively_closed": true,
+  "closure_reason": "For every reached odd vertex, all distinct prime divisors were tested in the exact inversion b/r+1=A*s.",
+  "unique_cycle_vertices": [29149, 29165, 29181, 29391, 29419, 29469],
+  "unique_cycle_labels": [29184, 29252, 29432, 29472, 29488, 29492],
+  "unique_cycle_label_conflicts": [
+    [29184, 29488, 304],
+    [29472, 29488, 16],
+    [29488, 29492, 4]
+  ],
+  "fixed_valuation_pair_checks": 177309,
+  "scope": "Exhaustive for this finite component only; not a global pseudoforest theorem."
+}

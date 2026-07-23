@@ -1,0 +1,27 @@
+{
+  "schema": "amra.erdos635.fixed-A2-cycles-13-14.v1",
+  "status": "PASS",
+  "A": 2,
+  "audits": [
+    {
+      "length": 13,
+      "multiplier_tuples": 21939776,
+      "integral_closed_walks": 534,
+      "prime_closed_walks": 0,
+      "immediate_returns": 0,
+      "nonbacktracking_candidates": 0
+    },
+    {
+      "length": 14,
+      "multiplier_tuples": 97963582,
+      "integral_closed_walks": 6156,
+      "prime_closed_walks": 2,
+      "immediate_returns": 2,
+      "nonbacktracking_candidates": 0
+    }
+  ],
+  "inherited_complete_lengths": [2, 12],
+  "new_complete_lengths": [13, 14],
+  "combined_conclusion": "No non-backtracking fixed-A=2 cycle has length at most 14.",
+  "scope": "Complete multiplier enumeration at each listed length, but not an unbounded-length theorem."
+}

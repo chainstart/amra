@@ -1,0 +1,110 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R002",
+  "wave": "intake_521_757_517_174",
+  "as_of": "2026-07-23",
+  "retrieval_window": {
+    "started_at": "2026-07-23T19:32:39+08:00",
+    "ended_at": "2026-07-23T19:50:07+08:00"
+  },
+  "source_policy": "Official pages establish current status. Theorem-level claims use primary papers or the authors' exact verification repository. Search snippets and finite experiments are not treated as proofs.",
+  "problems": {
+    "521": [
+      {
+        "kind": "official_status",
+        "url": "https://www.erdosproblems.com/521",
+        "status_seen": "OPEN",
+        "page_last_edited": "2025-10-19"
+      },
+      {
+        "kind": "primary_preprint",
+        "url": "https://arxiv.org/abs/2403.06353",
+        "version": "v2, 2024-03-25",
+        "title": "A strong law of large numbers for real roots of random polynomials",
+        "downloaded_pdf_sha256": "9ecefd592d911a3c67dabb01fb4697c97a676434ff38a5ea0895a2508ec755dd"
+      },
+      {
+        "kind": "primary_preprint",
+        "url": "https://arxiv.org/abs/2311.15446",
+        "version": "v2, 2024-01-05",
+        "title": "Concentration inequalities for the number of real zeros of Kac polynomials",
+        "downloaded_pdf_sha256": "be0d7d4632eb22e1c6daf4077876859786433bcd39bd1aa225101776946808cb"
+      }
+    ],
+    "757": [
+      {
+        "kind": "official_status",
+        "url": "https://www.erdosproblems.com/757",
+        "status_seen": "OPEN",
+        "page_last_edited": "2026-04-10"
+      },
+      {
+        "kind": "primary_preprint",
+        "url": "https://arxiv.org/abs/2602.23282",
+        "version": "v2, 2026-03-06",
+        "title": "Largest Sidon subsets in weak Sidon sets",
+        "downloaded_pdf_sha256": "51929e5f6794f12b972e005cf7c57467a5ca7b121fd86b5b2be377b13f4ce374"
+      },
+      {
+        "kind": "author_verification_repository",
+        "url": "https://github.com/QuanyuTang/ep757-45set-base-block-verification",
+        "commit": "82c09570c2d1a7f7e6a64f36a0f944f8a2881da0",
+        "verification_script_sha256": "884a1542d5b802b8d56927ff8ba4bf9c3aa89022373ff87d3ab8394adf8fc714"
+      },
+      {
+        "kind": "primary_published_paper",
+        "url": "https://doi.org/10.1007/s00373-021-02285-x",
+        "title": "Affine Planes and Transversals in 3-Uniform Linear Hypergraphs"
+      }
+    ],
+    "517": [
+      {
+        "kind": "official_status",
+        "url": "https://www.erdosproblems.com/517",
+        "status_seen": "OPEN",
+        "page_last_edited": "2025-12-29"
+      },
+      {
+        "kind": "official_revision_history",
+        "url": "https://www.erdosproblems.com/history/517"
+      },
+      {
+        "kind": "primary_published_paper",
+        "url": "https://doi.org/10.5802/aif.930",
+        "title": "The deficiency of entire functions with Fejer gaps",
+        "downloaded_pdf_sha256": "a3873cf4dd748f31a705215ba1bd60a220787234fae373f6223999758e9e3cb5"
+      }
+    ],
+    "174": [
+      {
+        "kind": "official_status",
+        "url": "https://www.erdosproblems.com/174",
+        "status_seen": "OPEN",
+        "page_last_edited": "2025-10-16"
+      },
+      {
+        "kind": "primary_preprint",
+        "url": "https://arxiv.org/abs/1012.1350",
+        "title": "Transitive Sets in Euclidean Ramsey Theory",
+        "downloaded_pdf_sha256": "e6e2bd7bcd3ced9d2e4d3fff52d1c85a58c904e0fa7e8a4b67259415bc388cee"
+      },
+      {
+        "kind": "primary_preprint",
+        "url": "https://arxiv.org/abs/1012.5468",
+        "title": "Transitive Sets and Cyclic Quadrilaterals",
+        "downloaded_pdf_sha256": "3cbc3649ff8f4bbc746d4ea13778cb11446df24df24d5cb9894a57345aa510b1"
+      },
+      {
+        "kind": "primary_preprint",
+        "url": "https://arxiv.org/abs/2510.15677",
+        "version": "v3, 2025-12-04",
+        "title": "Nearly all known Euclidean Ramsey sets are subsoluble",
+        "downloaded_pdf_sha256": "f0ee8b166026281c106562102657a71a7be8a85db964e0b370244ddc4764fbfd"
+      }
+    ]
+  },
+  "local_route_audits": [
+    "artifacts/math_scout/active-math-scout-balanced-20260501-0831/problems/0028-517/probe_output.md",
+    "data/research_open/raw/formal_conjectures/FormalConjectures/ErdosProblems/757.lean"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "problem_id": 598,
+  "retrieved_at": "2026-07-23T19:46:39+08:00",
+  "sources": [
+    {
+      "role": "official_problem_record",
+      "url": "https://www.erdosproblems.com/598",
+      "version": "page accessed 2026-07-23",
+      "representation": "HTTP response body",
+      "sha256": "19b42085c4dcbb0929a6c4be8f594430f4b9606f9c8e940aade2d532f477d88c"
+    },
+    {
+      "role": "official_forum_evidence_context",
+      "url": "https://www.erdosproblems.com/forum/discuss/598",
+      "version": "page accessed 2026-07-23",
+      "representation": "HTTP response body",
+      "sha256": "66ffdd9fe714a50b9f8560082f015977ff97026855df03ca5e73a367bafcdb3c"
+    },
+    {
+      "role": "secondary_threshold_note",
+      "url": "https://www.ulam.ai/research/erdos598.pdf",
+      "version": "April 2026 fixed PDF as retrieved",
+      "representation": "PDF",
+      "sha256": "e31259dde8228e990aa76af3f0aa715aaf53c0446e9715b1044df513c5ab1c5c"
+    },
+    {
+      "role": "secondary_lean_boundary_check",
+      "url": "https://www.ulam.ai/research/Erdos598.lean",
+      "version": "file as retrieved 2026-07-23",
+      "representation": "Lean source",
+      "sha256": "6713ada199bf4683c8bacbe6f61ed2512a72071ce57da44a1b7614c390f8bc34"
+    },
+    {
+      "role": "primary_magidor_properties_pdf",
+      "url": "https://arxiv.org/pdf/1508.04903v2",
+      "version": "arXiv:1508.04903v2; published J. Math. Soc. Japan 70 (2018), 1-23",
+      "representation": "PDF",
+      "sha256": "ba227f8d30e9ea890c31eed10c77f77f60013e66019083472f8314e998507a28"
+    },
+    {
+      "role": "primary_magidor_properties_source_archive",
+      "url": "https://export.arxiv.org/e-print/1508.04903v2",
+      "version": "arXiv:1508.04903v2",
+      "representation": "tar.gz",
+      "sha256": "e381a5071bf227a30084086a76db424094d6e4047eb4826efe80e03e08064d11"
+    },
+    {
+      "role": "primary_magidor_properties_tex",
+      "url": "https://export.arxiv.org/e-print/1508.04903v2#i1.tex",
+      "version": "arXiv:1508.04903v2",
+      "representation": "extracted TeX member",
+      "sha256": "288f48a354dc89dd76eb8168fa90172eed0e8130e9cae34c2bf66a2013f16717"
+    },
+    {
+      "role": "primary_forcing_result_pdf",
+      "url": "https://arxiv.org/pdf/1801.00239v3",
+      "version": "arXiv:1801.00239v3; published Math. Log. Q. 65 (2019), 95-104",
+      "representation": "PDF",
+      "sha256": "7f9765212bf807be6d207bd3ffbb45c8938e77f36de0a56576be03ee75e68ce8"
+    },
+    {
+      "role": "primary_forcing_result_source",
+      "url": "https://export.arxiv.org/e-print/1801.00239v3",
+      "version": "arXiv:1801.00239v3",
+      "representation": "gzip-compressed TeX",
+      "sha256": "394b8f5496dd8828d9e6b8453fc7a2e10d02c18b4b801684514c905e397b5575"
+    },
+    {
+      "role": "primary_forcing_result_uncompressed_tex",
+      "url": "https://export.arxiv.org/e-print/1801.00239v3#am.tex",
+      "version": "arXiv:1801.00239v3",
+      "representation": "gunzipped TeX",
+      "sha256": "6723a1e0a171e2726d7aa5f68f3e76bde1a28cefa5b338e42ba4f38e4ef58fc9"
+    },
+    {
+      "role": "fixed_zero_sharp_theorem",
+      "url": "https://fa.ewi.tudelft.nl/~hart/onderwijs/set_theory/Jech/18-large_cardinals_and_L.pdf",
+      "version": "Jech Set Theory chapter 18, Theorem 18.27",
+      "representation": "PDF",
+      "sha256": "fa48beb31833c323688e4d0e4bb4c037947288e53d1056f0c5018f40d7e1f293"
+    },
+    {
+      "role": "mathoverflow_argument_record",
+      "url": "https://api.stackexchange.com/2.3/questions/511508/answers?site=mathoverflow&filter=withbody&order=asc&sort=creation",
+      "version": "API response retrieved 2026-07-23; answer 511626",
+      "representation": "JSON",
+      "sha256": "3430dff1a38d51d6dce4c0ad1d1fe41da3900b7fceb843b3056cc7a7b939f097"
+    }
+  ]
+}

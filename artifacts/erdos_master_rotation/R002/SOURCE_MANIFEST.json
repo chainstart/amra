@@ -1,9 +1,9 @@
 {
   "schema_version": "amra.erdos_rotation.source_manifest.v1",
   "cycle_id": "R002",
-  "wave": 1,
   "as_of": "2026-07-23",
-  "problems": {
+  "scope": "complete standard macrocycle",
+  "wave_1_sources": {
     "18": [
       "https://www.erdosproblems.com/18",
       "https://doi.org/10.1112/blms/17.1.21",
@@ -24,5 +24,24 @@
       "https://doi.org/10.2969/jmsj/07017327"
     ]
   },
-  "scope_note": "Wave 1 performs intake and evidence routing. Neither external resolution candidate is marked closed before independent QA."
+  "evidence_package_manifests": [
+    "core_776_635/SOURCE_MANIFEST.json",
+    "core_809_592/SOURCE_MANIFEST.json",
+    "intake_521_757_517_174/SOURCE_MANIFEST.json",
+    "intake_536_596_52_949/SOURCE_MANIFEST.json",
+    "audit_569_956_620_598/569/SOURCE_MANIFEST.json",
+    "audit_569_956_620_598/598/SOURCE_MANIFEST.json",
+    "audit_569_956_620_598/620/SOURCE_MANIFEST.json",
+    "audit_569_956_620_598/956/SOURCE_MANIFEST.json",
+    "qa_596/SOURCE_MANIFEST.json",
+    "qa_809/SOURCE_MANIFEST.json",
+    "qa_569_source/SOURCE_MANIFEST.json"
+  ],
+  "evidence_policy": [
+    "Official status and statement quantifiers were refreshed before each attack.",
+    "A public discussion or secondary source is a lead, not primary closure evidence.",
+    "Preprint, public-note, published, and formal-proof evidence classes are kept distinct.",
+    "Finite computations are scoped to formula checks, exhaustive finite components, or explicitly bounded enumerations.",
+    "Unused problem budgets are never recorded as elapsed research time."
+  ]
 }

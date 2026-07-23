@@ -1,0 +1,8 @@
+{
+  "schema_version": "amra.erdos569.source_qa_timing.v1",
+  "timezone": "Asia/Hong_Kong",
+  "started_at": "2026-07-23T20:16:57+08:00",
+  "finished_at": "2026-07-23T20:36:46+08:00",
+  "elapsed_wall_seconds": 1189,
+  "resource_note": "Single lightweight retrieval slot; no heavy computation."
+}

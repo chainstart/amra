@@ -1,0 +1,77 @@
+{
+  "schema_version": "amra.erdos596.independent_qa.v1",
+  "problem_id": 596,
+  "max_order": 6,
+  "method": "exhaustive enumeration of all labelled finite simple graphs",
+  "checks": [
+    "cyclic-graph girth trichotomy",
+    "edge-disjointness of triangles in C4-free graphs",
+    "absence of monochromatic triangles under the deterministic coloring"
+  ],
+  "rows": [
+    {
+      "order": 1,
+      "all_labelled_simple_graphs": 1,
+      "cyclic_graphs": 0,
+      "girth_3_class": 0,
+      "girth_4_class": 0,
+      "girth_at_least_5_class": 0,
+      "c4_free_graphs": 1,
+      "c4_free_triangle_bearing_graphs": 0
+    },
+    {
+      "order": 2,
+      "all_labelled_simple_graphs": 2,
+      "cyclic_graphs": 0,
+      "girth_3_class": 0,
+      "girth_4_class": 0,
+      "girth_at_least_5_class": 0,
+      "c4_free_graphs": 2,
+      "c4_free_triangle_bearing_graphs": 0
+    },
+    {
+      "order": 3,
+      "all_labelled_simple_graphs": 8,
+      "cyclic_graphs": 1,
+      "girth_3_class": 1,
+      "girth_4_class": 0,
+      "girth_at_least_5_class": 0,
+      "c4_free_graphs": 8,
+      "c4_free_triangle_bearing_graphs": 1
+    },
+    {
+      "order": 4,
+      "all_labelled_simple_graphs": 64,
+      "cyclic_graphs": 26,
+      "girth_3_class": 23,
+      "girth_4_class": 3,
+      "girth_at_least_5_class": 0,
+      "c4_free_graphs": 54,
+      "c4_free_triangle_bearing_graphs": 16
+    },
+    {
+      "order": 5,
+      "all_labelled_simple_graphs": 1024,
+      "cyclic_graphs": 733,
+      "girth_3_class": 636,
+      "girth_4_class": 85,
+      "girth_at_least_5_class": 12,
+      "c4_free_graphs": 548,
+      "c4_free_triangle_bearing_graphs": 245
+    },
+    {
+      "order": 6,
+      "all_labelled_simple_graphs": 32768,
+      "cyclic_graphs": 29836,
+      "girth_3_class": 26979,
+      "girth_4_class": 2365,
+      "girth_at_least_5_class": 492,
+      "c4_free_graphs": 7984,
+      "c4_free_triangle_bearing_graphs": 4560
+    }
+  ],
+  "counterexample_count": 0,
+  "counterexamples": [],
+  "passed": true,
+  "scope_note": "This finite search is a regression certificate for the elementary branches only; it does not replace either cited structural theorem."
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "amra.source-manifest.v1",
+  "problem_id": "635",
+  "refreshed_at": "2026-07-23T19:35:00+08:00",
+  "sources": [
+    {
+      "url": "https://www.erdosproblems.com/635",
+      "type": "official_problem_page",
+      "role": "statement, current OPEN label and remarks",
+      "page_last_edited": "2026-02-01",
+      "status_used": "Exact extremal question OPEN; second asymptotic question affirmative"
+    },
+    {
+      "url": "https://www.erdosproblems.com/forum/thread/635",
+      "type": "official_forum_thread",
+      "role": "scope clarification: only the second question is solved; exact error remains open"
+    },
+    {
+      "url": "https://doi.org/10.1006/jnth.1999.2395",
+      "type": "primary_published_source",
+      "citation": "I. Z. Ruzsa, Erdős and the Integers, J. Number Theory 79 (1999), 115--163",
+      "role": "official historical reference [Ru99]"
+    },
+    {
+      "url": "https://doi.org/10.1007/978-1-4612-9989-9",
+      "type": "primary_book",
+      "citation": "P. D. T. A. Elliott, Probabilistic Number Theory I (1979)",
+      "role": "source of the inequality cited by Tao for the asymptotic subquestion"
+    },
+    {
+      "url": "https://terrytao.wordpress.com/2019/11/12/254a-notes-9-second-moment-and-entropy-methods/",
+      "type": "authoritative_notes",
+      "role": "Elliott-inequality context referenced in the official discussion"
+    },
+    {
+      "path": "artifacts/erdos_master_rotation/master_ledger.json",
+      "type": "central_ledger",
+      "role": "R002 arithmetic bicyclic-core target and budget"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260723_round12_original_targets_10h/work/broad/635_SEMIPRIME_SWAP_GRAPH.md",
+      "sha256": "6cc859af57f33373d3365e7ad83b6dcb1f3fcdd0fab50b4f7434ee2317f563e0",
+      "type": "inherited_frozen_evidence",
+      "role": "swap graph, bicircular criterion and multiplier equations"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260723_round12_original_targets_10h/work/broad/verify_635_fixed_A2_cycles.py",
+      "sha256": "d18c6de956e4769589adb60a396e6495d92986231b0dc14fdc9ae5919d4164df",
+      "type": "inherited_frozen_code",
+      "role": "complete A=2 cycle audit for lengths 2 through 12"
+    }
+  ]
+}

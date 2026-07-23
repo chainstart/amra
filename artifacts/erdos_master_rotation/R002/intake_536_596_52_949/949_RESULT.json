@@ -1,0 +1,23 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R002",
+  "problem_id": "949",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T19:42:00+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "active_seconds": 180,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "conservative minute-level accounting; unused budget is not counted"
+  },
+  "new_rigorous_output": [
+    "if |S|=continuum but span_Q(S) is a proper subspace of R, the coset A=x+span_Q(S) solves the problem",
+    "together with the known small-cardinality case, the unresolved kernel is |S|=continuum and span_Q(S)=R",
+    "the maximality cover and the exact three-to-one obstruction for A=t-S were derived"
+  ],
+  "decision": "STRICT_SUBCASE_ADVANCE__RETAIN_WITHOUT_CORE_PROMOTION",
+  "closure_distance_before": 3,
+  "closure_distance_after": 3,
+  "publication_assessment": "The subcase is elementary and not independently paper-level.",
+  "claim_guard": "The full spanning case, and hence Erdős #949, remains open."
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "amra.erdos596.c4_triangle_coloring.v1",
+  "problem_id": "596",
+  "max_order": 6,
+  "rows": [
+    {
+      "order": 1,
+      "labelled_graph_count": 1,
+      "c4_free_graph_count": 1,
+      "c4_free_graphs_with_triangle": 0
+    },
+    {
+      "order": 2,
+      "labelled_graph_count": 2,
+      "c4_free_graph_count": 2,
+      "c4_free_graphs_with_triangle": 0
+    },
+    {
+      "order": 3,
+      "labelled_graph_count": 8,
+      "c4_free_graph_count": 8,
+      "c4_free_graphs_with_triangle": 1
+    },
+    {
+      "order": 4,
+      "labelled_graph_count": 64,
+      "c4_free_graph_count": 54,
+      "c4_free_graphs_with_triangle": 16
+    },
+    {
+      "order": 5,
+      "labelled_graph_count": 1024,
+      "c4_free_graph_count": 548,
+      "c4_free_graphs_with_triangle": 245
+    },
+    {
+      "order": 6,
+      "labelled_graph_count": 32768,
+      "c4_free_graph_count": 7984,
+      "c4_free_graphs_with_triangle": 4560
+    }
+  ],
+  "passed": true,
+  "scope_note": "Finite exhaustive confirmation only.  The general edge-disjointness and two-colouring arguments are proved directly in the report."
+}

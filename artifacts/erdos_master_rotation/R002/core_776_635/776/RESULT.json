@@ -1,0 +1,56 @@
+{
+  "schema": "amra.erdos-master-rotation.problem-result.v1",
+  "cycle_id": "R002",
+  "problem_id": "776",
+  "official_status_refreshed": "OPEN",
+  "outcome": "strict_progress_no_closure",
+  "original_problem_closed": false,
+  "proof_or_disproof": false,
+  "q2_candidate": false,
+  "closure_distance_before": 1,
+  "closure_distance_after": 1,
+  "closure_distance_reduced": false,
+  "closure_distance_reason": "The unique all-V closing lemma h(V)<=70500 remains unproved; the new shadow-loss target is a sharper interface, not its proof.",
+  "new_results": [
+    "An exact run-compressed evaluator for the original defect recurrence, crosschecked against ordinary canonical expansion for every 7<=V<=180.",
+    "Exact recomputation h(74997)=8, resolving the inherited finite M=75000 rank-5 state.",
+    "Strict coarse diagonal-route boundary: equality at V=66843 and failure by one at V=66844.",
+    "No counterexample at selected carry and reduction boundaries through V=200000."
+  ],
+  "routes": [
+    {
+      "name": "rank6_quadratic_barrier",
+      "attempted_target": "g(V)>=binom(V-4,2)-6, which would imply the inherited rank-6 target",
+      "result": "holds at all selected exact points, but no uniform successive-block invariant was proved"
+    },
+    {
+      "name": "parameter_diagonal_suspension",
+      "attempted_target": "G_V>=binom(V-1,2)-66846",
+      "result": "reduced to a quantitative rank-6 shadow loss; the available coarse bound first fails at V=66844"
+    },
+    {
+      "name": "exact_counterconfiguration_search",
+      "attempted_target": "find h(V)>=70501 or a rank-6 threshold violation",
+      "result": "none at the certified strategic values through V=200000; finite evidence only"
+    }
+  ],
+  "first_unfixable_breakpoint": "A uniform lower bound for the rank-6 shadow loss L_V (at least V-66843 on the observed h=8 branch), or an equivalent all-block invariant.",
+  "route_killed": "The coarse diagonal induction using only G>=P-1 is exactly sufficient at V=66843 and insufficient at V=66844.",
+  "next_decidable_action": "Prove or refute the capped shadow-loss inequality across the first parameter at which the coarse diagonal bound fails, then propagate it through a complete carry block.",
+  "timing": {
+    "started_at": "2026-07-23T19:32:51+08:00",
+    "research_frozen_at": "2026-07-23T20:12:20+08:00",
+    "active_agent_seconds": 1450,
+    "active_agent_hours": 0.4028,
+    "budget_seconds": 14400,
+    "accounting": "single-agent foreground allocation; actual time only"
+  },
+  "artifacts": [
+    "REPORT.md",
+    "RESULT.json",
+    "CERTIFICATE.json",
+    "verify_rank5_rotation.py",
+    "SOURCE_MANIFEST.json",
+    "SHA256SUMS"
+  ]
+}

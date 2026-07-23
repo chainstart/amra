@@ -1,0 +1,276 @@
+{
+  "claim": "robust near-bipartite C7 cycle templates",
+  "instances": [
+    {
+      "a_size": 12,
+      "b_size": 12,
+      "checked_edge_pairs": 3240,
+      "common_pq_neighborhood_size": 9,
+      "family_size": 81,
+      "minimum_A_to_B_degree": 10,
+      "minimum_B_to_A_degree": 9,
+      "passed": true
+    },
+    {
+      "a_size": 12,
+      "b_size": 12,
+      "checked_edge_pairs": 3916,
+      "common_pq_neighborhood_size": 10,
+      "family_size": 89,
+      "minimum_A_to_B_degree": 10,
+      "minimum_B_to_A_degree": 8,
+      "passed": true
+    },
+    {
+      "a_size": 12,
+      "b_size": 12,
+      "checked_edge_pairs": 3160,
+      "common_pq_neighborhood_size": 9,
+      "family_size": 80,
+      "minimum_A_to_B_degree": 10,
+      "minimum_B_to_A_degree": 10,
+      "passed": true
+    },
+    {
+      "a_size": 12,
+      "b_size": 14,
+      "checked_edge_pairs": 5671,
+      "common_pq_neighborhood_size": 12,
+      "family_size": 107,
+      "minimum_A_to_B_degree": 11,
+      "minimum_B_to_A_degree": 8,
+      "passed": true
+    },
+    {
+      "a_size": 12,
+      "b_size": 14,
+      "checked_edge_pairs": 2850,
+      "common_pq_neighborhood_size": 9,
+      "family_size": 76,
+      "minimum_A_to_B_degree": 11,
+      "minimum_B_to_A_degree": 6,
+      "passed": true
+    },
+    {
+      "a_size": 12,
+      "b_size": 14,
+      "checked_edge_pairs": 4851,
+      "common_pq_neighborhood_size": 11,
+      "family_size": 99,
+      "minimum_A_to_B_degree": 11,
+      "minimum_B_to_A_degree": 9,
+      "passed": true
+    },
+    {
+      "a_size": 12,
+      "b_size": 16,
+      "checked_edge_pairs": 7140,
+      "common_pq_neighborhood_size": 14,
+      "family_size": 120,
+      "minimum_A_to_B_degree": 12,
+      "minimum_B_to_A_degree": 8,
+      "passed": true
+    },
+    {
+      "a_size": 12,
+      "b_size": 16,
+      "checked_edge_pairs": 5460,
+      "common_pq_neighborhood_size": 12,
+      "family_size": 105,
+      "minimum_A_to_B_degree": 12,
+      "minimum_B_to_A_degree": 8,
+      "passed": true
+    },
+    {
+      "a_size": 12,
+      "b_size": 16,
+      "checked_edge_pairs": 6670,
+      "common_pq_neighborhood_size": 13,
+      "family_size": 116,
+      "minimum_A_to_B_degree": 12,
+      "minimum_B_to_A_degree": 9,
+      "passed": true
+    },
+    {
+      "a_size": 14,
+      "b_size": 12,
+      "checked_edge_pairs": 5886,
+      "common_pq_neighborhood_size": 10,
+      "family_size": 109,
+      "minimum_A_to_B_degree": 10,
+      "minimum_B_to_A_degree": 12,
+      "passed": true
+    },
+    {
+      "a_size": 14,
+      "b_size": 12,
+      "checked_edge_pairs": 4465,
+      "common_pq_neighborhood_size": 9,
+      "family_size": 95,
+      "minimum_A_to_B_degree": 10,
+      "minimum_B_to_A_degree": 10,
+      "passed": true
+    },
+    {
+      "a_size": 14,
+      "b_size": 12,
+      "checked_edge_pairs": 6328,
+      "common_pq_neighborhood_size": 10,
+      "family_size": 113,
+      "minimum_A_to_B_degree": 10,
+      "minimum_B_to_A_degree": 11,
+      "passed": true
+    },
+    {
+      "a_size": 14,
+      "b_size": 14,
+      "checked_edge_pairs": 5778,
+      "common_pq_neighborhood_size": 10,
+      "family_size": 108,
+      "minimum_A_to_B_degree": 11,
+      "minimum_B_to_A_degree": 10,
+      "passed": true
+    },
+    {
+      "a_size": 14,
+      "b_size": 14,
+      "checked_edge_pairs": 5671,
+      "common_pq_neighborhood_size": 10,
+      "family_size": 107,
+      "minimum_A_to_B_degree": 11,
+      "minimum_B_to_A_degree": 10,
+      "passed": true
+    },
+    {
+      "a_size": 14,
+      "b_size": 14,
+      "checked_edge_pairs": 6786,
+      "common_pq_neighborhood_size": 11,
+      "family_size": 117,
+      "minimum_A_to_B_degree": 11,
+      "minimum_B_to_A_degree": 11,
+      "passed": true
+    },
+    {
+      "a_size": 14,
+      "b_size": 16,
+      "checked_edge_pairs": 6328,
+      "common_pq_neighborhood_size": 11,
+      "family_size": 113,
+      "minimum_A_to_B_degree": 12,
+      "minimum_B_to_A_degree": 9,
+      "passed": true
+    },
+    {
+      "a_size": 14,
+      "b_size": 16,
+      "checked_edge_pairs": 8385,
+      "common_pq_neighborhood_size": 12,
+      "family_size": 130,
+      "minimum_A_to_B_degree": 12,
+      "minimum_B_to_A_degree": 11,
+      "passed": true
+    },
+    {
+      "a_size": 14,
+      "b_size": 16,
+      "checked_edge_pairs": 6441,
+      "common_pq_neighborhood_size": 11,
+      "family_size": 114,
+      "minimum_A_to_B_degree": 12,
+      "minimum_B_to_A_degree": 9,
+      "passed": true
+    },
+    {
+      "a_size": 16,
+      "b_size": 12,
+      "checked_edge_pairs": 5253,
+      "common_pq_neighborhood_size": 8,
+      "family_size": 103,
+      "minimum_A_to_B_degree": 10,
+      "minimum_B_to_A_degree": 11,
+      "passed": true
+    },
+    {
+      "a_size": 16,
+      "b_size": 12,
+      "checked_edge_pairs": 9870,
+      "common_pq_neighborhood_size": 11,
+      "family_size": 141,
+      "minimum_A_to_B_degree": 10,
+      "minimum_B_to_A_degree": 10,
+      "passed": true
+    },
+    {
+      "a_size": 16,
+      "b_size": 12,
+      "checked_edge_pairs": 6216,
+      "common_pq_neighborhood_size": 9,
+      "family_size": 112,
+      "minimum_A_to_B_degree": 10,
+      "minimum_B_to_A_degree": 13,
+      "passed": true
+    },
+    {
+      "a_size": 16,
+      "b_size": 14,
+      "checked_edge_pairs": 9045,
+      "common_pq_neighborhood_size": 11,
+      "family_size": 135,
+      "minimum_A_to_B_degree": 11,
+      "minimum_B_to_A_degree": 12,
+      "passed": true
+    },
+    {
+      "a_size": 16,
+      "b_size": 14,
+      "checked_edge_pairs": 7750,
+      "common_pq_neighborhood_size": 10,
+      "family_size": 125,
+      "minimum_A_to_B_degree": 11,
+      "minimum_B_to_A_degree": 11,
+      "passed": true
+    },
+    {
+      "a_size": 16,
+      "b_size": 14,
+      "checked_edge_pairs": 11476,
+      "common_pq_neighborhood_size": 12,
+      "family_size": 152,
+      "minimum_A_to_B_degree": 11,
+      "minimum_B_to_A_degree": 13,
+      "passed": true
+    },
+    {
+      "a_size": 16,
+      "b_size": 16,
+      "checked_edge_pairs": 10296,
+      "common_pq_neighborhood_size": 12,
+      "family_size": 144,
+      "minimum_A_to_B_degree": 12,
+      "minimum_B_to_A_degree": 12,
+      "passed": true
+    },
+    {
+      "a_size": 16,
+      "b_size": 16,
+      "checked_edge_pairs": 8128,
+      "common_pq_neighborhood_size": 10,
+      "family_size": 128,
+      "minimum_A_to_B_degree": 12,
+      "minimum_B_to_A_degree": 11,
+      "passed": true
+    },
+    {
+      "a_size": 16,
+      "b_size": 16,
+      "checked_edge_pairs": 8646,
+      "common_pq_neighborhood_size": 11,
+      "family_size": 132,
+      "minimum_A_to_B_degree": 12,
+      "minimum_B_to_A_degree": 11,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "amra.erdos_rotation.timing.v1",
+  "cycle_id": "R002",
+  "task": "intake_536_596_52_949",
+  "started_at": "2026-07-23T19:33:55+08:00",
+  "ended_at": "2026-07-23T19:45:55+08:00",
+  "wall_seconds": 720,
+  "problem_active_seconds": {
+    "536": 180,
+    "596": 180,
+    "52": 180,
+    "949": 180
+  },
+  "total_active_agent_seconds": 720,
+  "total_active_agent_hours": 0.2,
+  "agents_used": 1,
+  "timing_note": "Conservative minute-level accounting from the recorded start and handoff to core work. No unused portion of a 90-minute cap is counted."
+}

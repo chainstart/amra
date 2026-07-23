@@ -1,0 +1,32 @@
+{
+  "schema": "amra.source-manifest.aggregate.v1",
+  "cycle_id": "R002",
+  "scope": ["776", "635"],
+  "research_window": {
+    "started_at": "2026-07-23T19:32:51+08:00",
+    "research_frozen_at": "2026-07-23T20:12:20+08:00",
+    "active_agent_seconds": 2369,
+    "active_agent_hours": 0.6581
+  },
+  "problem_manifests": [
+    "776/SOURCE_MANIFEST.json",
+    "635/SOURCE_MANIFEST.json"
+  ],
+  "central_files_read_only": [
+    "artifacts/erdos_master_rotation/master_ledger.json",
+    "artifacts/erdos_master_rotation/rotation_queue.json",
+    "artifacts/erdos_master_rotation/R002/README.md"
+  ],
+  "external_refresh": {
+    "776": [
+      "https://www.erdosproblems.com/776",
+      "https://arxiv.org/abs/2602.09803v2"
+    ],
+    "635": [
+      "https://www.erdosproblems.com/635",
+      "https://www.erdosproblems.com/forum/thread/635",
+      "https://doi.org/10.1006/jnth.1999.2395",
+      "https://doi.org/10.1007/978-1-4612-9989-9"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": "amra.erdos_rotation_queue.v1",
-  "generated_at": "2026-07-23T11:26:24+00:00",
+  "generated_at": "2026-07-23T12:53:34+00:00",
   "policy_id": "erdos-portfolio-rotation-20260723-v1",
   "cycle_id": "R002",
   "queues": {
@@ -12,11 +12,11 @@
         "priority_score": 99,
         "closure_distance": 1,
         "budget_seconds": 14400,
-        "current_target_zh": "证明统一标量界 E_5-F_5<=70500；等价地完成大参数 rank-6 二次下界，从而闭合当前原端点。",
+        "current_target_zh": "证明或反驳带cap的shadow-loss不等式，并跨完整carry block传播；禁止继续用同一粗界逐点扫描。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "route_family_eliminated",
+        "attempt_count": 1
       },
       {
         "problem_id": "809",
@@ -25,11 +25,11 @@
         "priority_score": 98,
         "closure_distance": 2,
         "budget_seconds": 14400,
-        "current_target_zh": "定位BCM26证明第一次使用k>=4之处，为C_7建立替代路径延伸/稳定性引理或找到反配置。",
+        "current_target_zh": "证明鲁棒三分法并单独攻Case1距离2、3边对；任何稳定性陈述必须显式容纳star-swap族。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "route_family_eliminated",
+        "attempt_count": 2
       },
       {
         "problem_id": "592",
@@ -38,11 +38,11 @@
         "priority_score": 96,
         "closure_distance": 2,
         "budget_seconds": 14400,
-        "current_target_zh": "处理gamma恰为三个不可分序数之和的唯一剩余情形，明确第三块破坏Schipperus融合引理的首个位置。",
+        "current_target_zh": "形式化深度3的有限互动规格，先找有限不可满足核；若无则证明槽位同步的递归提升不变量。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "route_family_eliminated",
+        "attempt_count": 1
       },
       {
         "problem_id": "635",
@@ -51,11 +51,11 @@
         "priority_score": 94,
         "closure_distance": 2,
         "budget_seconds": 14400,
-        "current_target_zh": "排除或构造带算术标号的 theta、figure-eight、dumbbell 三类双圈核，并检查其向 prime-square 与高阶奇部的推广。",
+        "current_target_zh": "直接枚举/分类固定valuation短双圈核而非单圈；若仍排除，再寻找不依赖长度的乘子单调量。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "route_family_eliminated",
+        "attempt_count": 1
       }
     ],
     "intake": [
@@ -75,15 +75,15 @@
       {
         "problem_id": "620",
         "domain": "graph_theory",
-        "lane": "resolution_audit",
-        "priority_score": 100,
-        "closure_distance": 1,
+        "lane": "closed_watch",
+        "priority_score": 0,
+        "closure_distance": 0,
         "budget_seconds": 5400,
-        "current_target_zh": "转已有解核验；独立复核Lemma 3.4、3.5和Theorem 3.1，通过后标为预印本已闭合候选。",
+        "current_target_zh": "转closed_watch并监控官网、预印本修订与同行评审。",
         "mandatory_status_refresh": true,
         "cycle_progress": "completed",
-        "latest_outcome": "external_resolution_candidate",
-        "attempt_count": 1
+        "latest_outcome": "intake_closed_after_qa",
+        "attempt_count": 2
       },
       {
         "problem_id": "141",
@@ -101,15 +101,15 @@
       {
         "problem_id": "598",
         "domain": "ramsey_theory",
-        "lane": "resolution_audit",
-        "priority_score": 99,
-        "closure_distance": 1,
+        "lane": "closed_watch",
+        "priority_score": 0,
+        "closure_distance": 0,
         "budget_seconds": 5400,
-        "current_target_zh": "转独立性核验，逐项核对原始文献和一致性强度；在两方向完整后再决定如何记录闭合。",
+        "current_target_zh": "转closed_watch，不再按普通ZFC命题重复攻关。",
         "mandatory_status_refresh": true,
         "cycle_progress": "completed",
-        "latest_outcome": "relative_independence_candidate",
-        "attempt_count": 1
+        "latest_outcome": "intake_closed_after_qa",
+        "attempt_count": 2
       },
       {
         "problem_id": "521",
@@ -118,37 +118,37 @@
         "priority_score": 64,
         "closure_distance": 3,
         "budget_seconds": 5400,
-        "current_target_zh": "证明一个倒序块最大估计：对 dyadic 块 2^j≤n<2^{j+1}，控制 sup_n|N_{f_n^*}((-1,1))-(1/π)log n|，并使偏差 εj 的概率对 j 可求和。",
+        "current_target_zh": "只晋级一轮定向深攻，证明或反驳块最大振荡概率的可求和性。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "route_advanced",
+        "attempt_count": 1
       },
       {
         "problem_id": "757",
         "domain": "geometry",
         "lane": "discovery_standard",
         "priority_score": 60,
-        "closure_distance": 3,
+        "closure_distance": 4,
         "budget_seconds": 5400,
-        "current_target_zh": "从 Ma–Tang 的 9/17 证明中抽取一个可有限核验的结构引理：枚举一个顶点可参与的三项等差数列在“左端/中点/右端”三种角色下的允许交叠，并验证其加权删点递推是否确实给出 9/17。",
+        "current_target_zh": "改做全新有限AP超图精确搜索或证明带有序角色的稳定性加强，禁止重复直接扩块。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "finite_extension_route_eliminated",
+        "attempt_count": 1
       },
       {
         "problem_id": "536",
         "domain": "number_theory",
         "lane": "discovery_high",
         "priority_score": 66,
-        "closure_distance": 3,
+        "closure_distance": 4,
         "budget_seconds": 5400,
-        "current_target_zh": "建立由所有小型模板 \\(\\{txy,txz,tyz\\}\\) 生成的三均匀超图，对截断模板族计算分数匹配数；若能超过 \\(4N/225\\)，即可得到可检验的新密度常数。",
+        "current_target_zh": "不晋级；只在出现多素数加权投影或LCM三角超图容器定理时重开。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "projection_route_blocked_no_promotion",
+        "attempt_count": 1
       },
       {
         "problem_id": "596",
@@ -157,24 +157,24 @@
         "priority_score": 60,
         "closure_distance": 3,
         "budget_seconds": 5400,
-        "current_target_zh": "查明 Nešetřil–Rödl 定理是否逐字保证：对每个有限、含圈且 \\(C_3,C_4\\)-自由的 \\(F\\) 及每个 \\(n\\)，存在 \\(C_4\\)-自由 \\(H\\) 满足 \\(H\\to(F)^2_n\\)。若成立，即可严格扩张出一整族 \\((C_4,F)\\)。",
+        "current_target_zh": "做系统新颖性审计和推广搜索；不得标为原题闭合。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "intake_subclass_qa_complete",
+        "attempt_count": 2
       },
       {
         "problem_id": "52",
         "domain": "combinatorics",
         "lane": "discovery_standard",
         "priority_score": 60,
-        "closure_distance": 3,
+        "closure_distance": 5,
         "budget_seconds": 5400,
-        "current_target_zh": "在附加假设 |A+A|≤n^{2−ε} 下，检验是否能按乘法倍数类分层，把 E×(A) 的上界改写为 o(n⁴/|AA|)；具体先对高重数比值集合 {r:|A∩rA|≥τ} 建立依赖 doubling 常数的尾界。",
+        "current_target_zh": "进入深后备；仅在出现Z[X]构造或整数专属全局能量机制时重开。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "global_mechanism_missing_no_promotion",
+        "attempt_count": 1
       },
       {
         "problem_id": "949",
@@ -183,37 +183,37 @@
         "priority_score": 65,
         "closure_distance": 3,
         "budget_seconds": 5400,
-        "current_target_zh": "检验能否从任意连续统大小的 sum-free S 中抽取连续统大小的 Sidon 子集并保持平移构造对整个 S 的避让；若不能，构造使 (S-S) 或 (S-S-S)/2=ℝ 的 sum-free 候选以测试该策略的极限。",
+        "current_target_zh": "研究sum-free平移覆盖数或构造满张成极端例；暂不升入四题闭合核心。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "strict_subcase_advanced",
+        "attempt_count": 1
       },
       {
         "problem_id": "517",
         "domain": "analysis",
         "lane": "discovery_standard",
         "priority_score": 54,
-        "closure_distance": 3,
+        "closure_distance": 5,
         "budget_seconds": 5400,
-        "current_target_zh": "先检验可证的中间命题：若 Pe^g 的非零 Taylor 指数满足 n_k/k→∞，是否必有 g 为多项式；可从 g 为一次或有限次多项式的系数递推开始，确定有限阶证明究竟使用了哪一项增长估计。",
+        "current_target_zh": "冷却三周期；只有得到非多项式P exp(g)稀疏支撑刚性定理后重开。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "route_error_found_no_promotion",
+        "attempt_count": 1
       },
       {
         "problem_id": "174",
         "domain": "geometry",
         "lane": "discovery_high",
         "priority_score": 57,
-        "closure_distance": 3,
+        "closure_distance": 5,
         "budget_seconds": 5400,
-        "current_target_zh": "取 LRW 给出的显式“球面但非 subtransitive”循环四边形，核验其精确代数参数，并尝试把它嵌入现有已知 Ramsey 类。证明它 Ramsey 或非 Ramsey 将直接区分两套候选刻画，是当前路线最具体的判别任务。",
+        "current_target_zh": "冷却并保留该显式判别对象；只有出现三轨道Ramsey定理或统一避色不变量时重开。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
+        "cycle_progress": "completed",
+        "latest_outcome": "discriminator_retained_no_promotion",
+        "attempt_count": 1
       }
     ],
     "resolution_audit": [
@@ -224,23 +224,23 @@
         "priority_score": 98,
         "closure_distance": 1,
         "budget_seconds": 3600,
-        "current_target_zh": "逐定理核对CF26是否给出所有k及全部m范围的最佳c_k，而不只给渐近上界。",
+        "current_target_zh": "向University of Memphis Special Collections定向申请题名页、Theorem 4.5及完整依赖证明的数字复制；取得后逐量词复核。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
+        "cycle_progress": "completed",
+        "latest_outcome": "source_not_obtained",
         "attempt_count": 0
       },
       {
         "problem_id": "956",
         "domain": "geometry",
-        "lane": "resolution_audit",
-        "priority_score": 96,
-        "closure_distance": 1,
+        "lane": "closed_watch",
+        "priority_score": 0,
+        "closure_distance": 0,
         "budget_seconds": 3600,
-        "current_target_zh": "核对Valtr构造到两两不交凸平移及所有充分大n的转换；Lean未完成部分不得计作证据。",
+        "current_target_zh": "转closed_watch并监控正式发表；不得把局部Lean代码标为完整形式化闭合。",
         "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
+        "cycle_progress": "completed",
+        "latest_outcome": "closed_verified",
         "attempt_count": 0
       }
     ],

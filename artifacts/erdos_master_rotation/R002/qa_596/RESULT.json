@@ -1,0 +1,50 @@
+{
+  "schema_version": "amra.erdos596.independent_qa_result.v1",
+  "problem_id": 596,
+  "cycle_id": "R002",
+  "audited_claim": "For every finite simple cyclic graph F, (C4,F) has both properties in Erdős problem #596 if and only if girth(F) >= 5.",
+  "verdict": "PASS_WITH_PRECISION_CORRECTIONS",
+  "theorem_valid": true,
+  "fatal_error_found": false,
+  "assumptions": [
+    "Graphs are simple.",
+    "F is finite and contains at least one cycle.",
+    "The ambient set theory is ZFC, as in the cited arbitrary-cardinal graph result."
+  ],
+  "checks": {
+    "nesetril_rodl_input": {
+      "status": "PASS",
+      "finding": "Reiher-Rödl Theorem 2.1 states the required edge-Ramsey result for every graph F of girth >4 and every integer r>=2, with a host H of girth >4. The r=1 case is immediate with H=F."
+    },
+    "erdos_hajnal_decomposition": {
+      "status": "PASS_WITH_TERMINOLOGY_CORRECTION",
+      "finding": "Erdős-Hajnal Theorem 10 applies to graphs of arbitrary cardinality and gives a type-omega edge-decomposition into acyclic spanning subgraphs. Their word 'tree' means an acyclic graph, i.e. a modern forest; it is not merely a countable overlapping cover."
+    },
+    "triangle_obstruction": {
+      "status": "PASS",
+      "finding": "Triangles in a C4-free graph are pairwise edge-disjoint. Well-ordering the edges gives a conflict-free global two-coloring in which each triangle has one red and two blue edges."
+    },
+    "cyclic_trichotomy": {
+      "status": "PASS",
+      "finding": "The disjoint cases girth 3, girth 4, and girth at least 5 exhaust every finite cyclic simple graph."
+    }
+  },
+  "counterexample_search": {
+    "max_order": 6,
+    "all_labelled_simple_graphs_at_max_order": 32768,
+    "counterexample_count": 0,
+    "passed": true,
+    "artifact": "elementary_counterexample_search.json",
+    "scope": "Elementary triangle and trichotomy branches only; external structural theorems are source-audited rather than computationally tested."
+  },
+  "required_report_corrections": [
+    "Describe Erdős-Hajnal as an omega edge-decomposition into forests, not an overlapping cover by connected trees.",
+    "Cite Reiher-Rödl Theorem 2.1 exactly and handle r=1 separately.",
+    "Make the global triangle coloring explicit using a well-order.",
+    "State the cyclic split as the mutually exclusive girth 3 / girth 4 / girth >=5 trichotomy."
+  ],
+  "central_files_modified": false,
+  "git_commit_created": false,
+  "details": "AUDIT.md"
+}
+

@@ -1,0 +1,14 @@
+{
+  "schema_version": "amra.erdos_rotation.cycle_timing.v1",
+  "cycle_id": "R002",
+  "timezone": "Asia/Hong_Kong",
+  "macrocycle_envelope_started_at": "2026-07-23T17:29:24+08:00",
+  "macrocycle_completed_at": "2026-07-23T20:36:46+08:00",
+  "envelope_wall_seconds_including_pause": 11242,
+  "registered_active_agent_seconds_rounded": 14234,
+  "registered_active_agent_hours": 3.95389,
+  "wave_1_agent_hours": 0.47,
+  "post_wave_1_agent_hours": 3.48389,
+  "maximum_parallel_slots": 4,
+  "accounting_note": "Agent-hours are summed actual event time and may exceed wall time under parallel execution. The envelope includes the pause between wave 1 and continuation. Budget caps and unused quota are excluded."
+}

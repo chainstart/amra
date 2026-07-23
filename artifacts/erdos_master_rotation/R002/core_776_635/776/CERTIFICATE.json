@@ -1,0 +1,62 @@
+{
+  "schema": "amra.erdos776.r002-rank5-rotation.summary.v1",
+  "status": "PASS",
+  "ordinary_vs_run_compressed_crosschecks": 174,
+  "crosschecked_V_range": [7, 180],
+  "strategic_exact_values": [
+    {"V": 379, "h": 4, "g": 70224, "g_offset": 99, "endpoint_excess": 4},
+    {"V": 5668, "h": 4, "g": 16037616, "g_offset": 0, "endpoint_excess": 4},
+    {"V": 5669, "h": 6, "g": 16043279, "g_offset": -1, "endpoint_excess": 4},
+    {"V": 5670, "h": 6, "g": 16048944, "g_offset": -1, "endpoint_excess": 4},
+    {"V": 5671, "h": 7, "g": 16054609, "g_offset": -2, "endpoint_excess": 5},
+    {"V": 5701, "h": 7, "g": 16225053, "g_offset": -3, "endpoint_excess": 5},
+    {"V": 5702, "h": 8, "g": 16230749, "g_offset": -4, "endpoint_excess": 5},
+    {"V": 6328, "h": 8, "g": 19993320, "g_offset": -6, "endpoint_excess": 5},
+    {"V": 6329, "h": 8, "g": 19999644, "g_offset": -6, "endpoint_excess": 5},
+    {"V": 66843, "h": 8, "g": 2233692535, "g_offset": -6, "endpoint_excess": 5},
+    {"V": 66844, "h": 8, "g": 2233759374, "g_offset": -6, "endpoint_excess": 5},
+    {"V": 70500, "h": 8, "g": 2484807754, "g_offset": -6, "endpoint_excess": 5},
+    {
+      "V": 70501,
+      "h": 8,
+      "g": 2484878250,
+      "g_offset": -6,
+      "endpoint_excess": 5,
+      "rank6_threshold": 70496,
+      "rank6_margin": 2484807754
+    },
+    {
+      "V": 74997,
+      "h": 8,
+      "g": 2811937522,
+      "g_offset": -6,
+      "endpoint_excess": 5,
+      "rank6_margin": 2484807754
+    },
+    {
+      "V": 150000,
+      "h": 8,
+      "g": 11249325004,
+      "g_offset": -6,
+      "endpoint_excess": 5,
+      "rank6_margin": 2484807754
+    },
+    {
+      "V": 200000,
+      "h": 8,
+      "g": 19999100004,
+      "g_offset": -6,
+      "endpoint_excess": 5,
+      "rank6_margin": 2484807754
+    }
+  ],
+  "synthetic_rank5_boundary": {
+    "h_70500": {"d": 378, "endpoint_excess": 28},
+    "h_70501": {"d": 379, "endpoint_excess": 29}
+  },
+  "diagonal_coarse_boundary_on_h8_plateau": {
+    "V_66843_margin": 0,
+    "V_66844_margin": -1
+  },
+  "scope": "Exact finite certificate and implementation audit; no all-V conclusion."
+}

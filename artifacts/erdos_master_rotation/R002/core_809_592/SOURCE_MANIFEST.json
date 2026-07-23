@@ -1,0 +1,39 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R002",
+  "as_of": "2026-07-23",
+  "problems": {
+    "809": [
+      {
+        "url": "https://www.erdosproblems.com/809",
+        "role": "official statement and status"
+      },
+      {
+        "url": "https://arxiv.org/abs/2603.18952",
+        "role": "Bucic--Chen--Ma primary preprint",
+        "downloaded_pdf_sha256": "d994c64f8f1c5d4c844d886d50e3940392794630710f132ea72bb6b9d33d9dbb",
+        "downloaded_source_main_tex_sha256": "c1097e145f71a24e0ef97be0eed1cc3bf329194e3b1b3dac059e1d3fef5af06d"
+      }
+    ],
+    "592": [
+      {
+        "url": "https://www.erdosproblems.com/592",
+        "role": "official statement and current three-summand boundary"
+      },
+      {
+        "doi": "10.1016/j.apal.2009.12.007",
+        "role": "Schipperus primary classification source"
+      },
+      {
+        "title": "Partition Relations, Handbook of Set Theory, Section 10",
+        "authors": "Hajnal and Larson",
+        "role": "detailed proof architecture",
+        "downloaded_pdf_sha256": "13b2803ec467e2180c8879744206d0ff364a339fa36be9bd4f8ef0c9b286fe4e"
+      },
+      {
+        "url": "https://api.repository.cam.ac.uk/server/api/core/bitstreams/8ebcb085-66b0-4dbb-9b3b-b8d0d83b45cb/content",
+        "role": "formalisation reference for ordinal partition relations"
+      }
+    ]
+  }
+}

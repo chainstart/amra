@@ -1,0 +1,61 @@
+{
+  "schema_version": "amra.erdos596.qa_source_manifest.v1",
+  "problem_id": 596,
+  "audit_target": {
+    "path": "artifacts/erdos_master_rotation/R002/intake_536_596_52_949/596_REPORT.md",
+    "sha256": "f1cc9c33018c9bda9c95aa0a0fc3681f8ccd455e7b891dec37320967ba86621f"
+  },
+  "sources": [
+    {
+      "id": "official_problem_596",
+      "kind": "official_problem_page",
+      "url": "https://www.erdosproblems.com/596",
+      "retrieved_at": "2026-07-23T20:08:52+08:00",
+      "download_sha256": "1703182d08d02bb583e21f80a90ff82f7865664495b67986b2b6b49f4b48333a",
+      "used_for": "Exact two defining properties and their finite/arbitrary-host quantifiers.",
+      "locator": "Problem statement; HTML lines containing the two list items."
+    },
+    {
+      "id": "reiher_rodl_girth_ramsey",
+      "kind": "author_hosted_primary_paper",
+      "citation": "Christian Reiher and Vojtěch Rödl, The Girth Ramsey Theorem, arXiv:2308.15589.",
+      "url": "https://www.math.uni-hamburg.de/en/personen/reiher/artikel/girth-final.pdf",
+      "alternate_url": "https://arxiv.org/abs/2308.15589",
+      "retrieved_at": "2026-07-23T19:58:30+08:00",
+      "download_sha256": "87594ec71b606c96090452567a8fbad6dd65cdd31315e0ab7a2da6a348cb31c7",
+      "used_for": "Exact old graph girth-Ramsey theorem, edge-coloring convention, girth definition, original attribution.",
+      "locators": [
+        "Section 1.2 and its edge-coloring footnote",
+        "Definition 1.3",
+        "Theorem 2.1, article page 6",
+        "Reference [24], article page 140"
+      ]
+    },
+    {
+      "id": "nesetril_rodl_1987",
+      "kind": "original_bibliographic_record",
+      "citation": "J. Nešetřil and V. Rödl, Strong Ramsey theorems for Steiner systems, Transactions of the American Mathematical Society 303 (1987), no. 1, 183-192.",
+      "doi": "10.2307/2000786",
+      "url": "https://doi.org/10.2307/2000786",
+      "used_for": "Original source identified by Reiher-Rödl Theorem 2.1 and reference [24].",
+      "access_note": "The exact theorem statement was checked in the later authoritative restatement above; no local copy of the paywalled original was relied upon."
+    },
+    {
+      "id": "erdos_hajnal_1967",
+      "kind": "author_archive_primary_paper",
+      "citation": "P. Erdős and A. Hajnal, On decomposition of graphs, Acta Mathematica Academiae Scientiarum Hungaricae 18 (1967), 359-377.",
+      "doi": "10.1007/BF02280296",
+      "url": "https://www.renyi.hu/~p_erdos/1967-11.pdf",
+      "retrieved_at": "2026-07-23T20:08:51+08:00",
+      "download_sha256": "fb307caf453b3e6aa8872b4e083a26c828f6b24e9a68f858ddf3e8a13159e6d0",
+      "used_for": "Definition of edge-decomposition and tree; arbitrary-cardinal Theorems 9 and 10.",
+      "locators": [
+        "Definition 1.1, article page 359",
+        "Section 7 opening and Theorem 10, article page 373",
+        "Proofs of Theorems 9 and 10, article page 374"
+      ]
+    }
+  ],
+  "source_integrity_note": "Download hashes identify the exact bytes inspected. PDFs are not duplicated into this QA directory; stable authoritative URLs and byte hashes are recorded here."
+}
+

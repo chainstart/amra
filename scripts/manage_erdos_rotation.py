@@ -1020,7 +1020,7 @@ def materialise(
                 + float(
                     policy["legacy_deep_campaign"]["registered_agent_hours_lower_bound"]
                 ),
-                6,
+                2,
             ),
             "legacy_note_zh": policy["legacy_deep_campaign"][
                 "registered_hours_note_zh"

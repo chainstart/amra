@@ -1,0 +1,53 @@
+{
+  "schema_version": "amra.erdos_rotation.cycle_result.v1",
+  "cycle_id": "R002",
+  "status": "STANDARD_MACROCYCLE_COMPLETE",
+  "frozen_queue": {
+    "closure_core": [
+      "776",
+      "809",
+      "592",
+      "635"
+    ],
+    "intake": [
+      "18",
+      "620",
+      "141",
+      "598",
+      "521",
+      "757",
+      "536",
+      "596",
+      "52",
+      "949",
+      "517",
+      "174"
+    ],
+    "resolution_audit": [
+      "569",
+      "956"
+    ]
+  },
+  "queue_completion": {
+    "completed": 18,
+    "pending": 0
+  },
+  "externally_closed_after_qa": {
+    "620": "fixed preprint proof",
+    "598": "relative independence",
+    "956": "public-note lower proof plus published upper bound"
+  },
+  "unresolved_resolution_candidate": {
+    "569": "SOURCE_NOT_OBTAINED for the q=5 dissertation dependency"
+  },
+  "new_rigorous_stage_results": [
+    "Problem 596: complete classification of all finite cyclic targets F for the fixed pair form (C4,F).",
+    "Problem 809: exact and robust bipartite model lemmas, a star-swap counterexample to a natural stability dichotomy, and a fan compatibility lemma.",
+    "Problem 949: solution when span_Q(S) is a proper subspace of R.",
+    "Problem 635: a uniform fixed-positive-v2 nonconflict lemma and exact closure of the inherited 13-vertex component."
+  ],
+  "original_core_closures": [],
+  "q2_candidates_recorded": [],
+  "registered_cycle_agent_hours": 3.95389,
+  "claim_guard": "No closure-core problem was solved. The three cycle closures are verified external results, and the new local theorems do not close their full original problems."
+}

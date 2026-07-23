@@ -1,0 +1,28 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R002",
+  "problem_id": "596",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T19:36:00+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "active_seconds": 180,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "conservative minute-level accounting; unused budget is not counted"
+  },
+  "new_rigorous_output": [
+    "for every finite simple cyclic F, (C4,F) satisfies both requested properties iff girth(F)>=5",
+    "the sufficient direction combines the finite girth-Ramsey theorem with an arbitrary-cardinal omega edge-decomposition into forests",
+    "the girth-3 and girth-4 obstructions are explicit and exhaustive"
+  ],
+  "independent_qa": {
+    "verdict": "PASS_WITH_PRECISION_CORRECTIONS",
+    "artifact": "../qa_596/AUDIT.md",
+    "fatal_error_found": false
+  },
+  "decision": "SUBSTANTIVE_INFINITE_SUBCLASS__RETAIN_FOR_NOVELTY_SEARCH",
+  "closure_distance_before": 3,
+  "closure_distance_after": 3,
+  "publication_assessment": "A rigorous infinite subfamily is obtained, but novelty and breadth are not yet sufficient to claim a standalone paper.",
+  "claim_guard": "This does not classify arbitrary ordered pairs (G1,G2), so Erdős #596 remains open."
+}

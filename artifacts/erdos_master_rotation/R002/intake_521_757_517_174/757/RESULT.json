@@ -1,0 +1,31 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R002",
+  "problem_id": "757",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T19:32:39+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "focus_started_at": "2026-07-23T19:38:07+08:00",
+    "focus_ended_at": "2026-07-23T19:43:07+08:00",
+    "active_seconds": 300,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "minute-level, rounded down; quota was not booked as usage"
+  },
+  "known_frontier": "Ma--Tang 2026 proves 9/17 <= c_* <= 4/7.",
+  "routes_tested": [
+    "direct one- and two-point extension of the Ma--Tang 14-point block",
+    "new finite AP-hypergraph search followed by exact real-line realizability",
+    "stability strengthening of the Henning--Yeo transversal inequality using ordered AP roles"
+  ],
+  "new_rigorous_output": [
+    "any weak-Sidon one-point extension of the 14-point block has independence number at least 9",
+    "any weak-Sidon two-point extension has independence number at least 10",
+    "the local Lean statement uses equality 11 instead of the required lower bound 11"
+  ],
+  "candidate_closing_lemma": "A uniform stability gap tau(H) <= (8/17-delta)n+O(1) for AP-realizable (4,5)-hypergraphs, or one exact finite (4,5)-set with h(A)/|A|<4/7.",
+  "decision": "PROMOTE_STRUCTURAL_AND_EXACT_SEARCH",
+  "closure_distance": 4,
+  "publication_assessment": "A strict bound improvement with a reusable construction or stability mechanism may be publishable; the extension obstruction alone is not.",
+  "claim_guard": "The finite obstruction does not improve either published bound and is not a solution of Erdős #757."
+}

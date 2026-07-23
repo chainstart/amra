@@ -1,0 +1,30 @@
+{
+  "schema": "amra.erdos-master-rotation.problem-result.v1",
+  "cycle_id": "R002",
+  "problem_id": "809",
+  "official_status_refreshed": "OPEN_C7_CASE",
+  "outcome": "model_lemma_and_proof_boundary_audit_no_closure",
+  "original_problem_closed": false,
+  "proof_or_disproof": false,
+  "q2_candidate": false,
+  "closure_distance_before": 2,
+  "closure_distance_after": 2,
+  "new_results": [
+    "In K_{A,B}+pq, all cross edges whose A endpoint is outside {p,q} are pairwise contained in a C7.",
+    "A robust version holds over a dense bipartite core under explicit minimum-degree hypotheses.",
+    "The natural low-cross-endpoint / near-two-clique dichotomy is refuted by an exact star-swap construction.",
+    "A fan lemma supplies m(m-2) pairwise C7-compatible edges in that construction, exposing a necessary third stability mechanism.",
+    "The first BCM Case-1 failure for k=3 is exactly the negative extension length 1-ell(P1) when ell(P1) is 2 or 3.",
+    "The top-level exact-threshold instance being in Case 2 does not bypass Case 1 under BCM's all-e strong induction."
+  ],
+  "first_unfixable_breakpoint": "Prove the BCM Case-1 C7 conflict-graph chromatic lower bound, or find a replacement edge family of the required asymptotic size; the near-bipartite model lemma does not address this.",
+  "route_killed": "Both the assertion that top-level Case 2 alone closes the problem and the natural low-cross-endpoint implies near-two-cliques dichotomy.",
+  "next_decidable_action": "For Case 1, attack pairs whose Lemma-3.1 connecting distance is 2 or 3. For stability, prove a robust trichotomy accommodating high common cross degree, concentrated internal fans, and genuine internal density.",
+  "timing": {
+    "active_agent_seconds": 1680,
+    "active_agent_hours": 0.466667,
+    "budget_seconds": 14400,
+    "accounting": "single-agent foreground allocation; actual time only"
+  },
+  "claim_guard": "Neither the local model lemma nor the unpublished Case-2 stability assertion proves Erdős #809."
+}

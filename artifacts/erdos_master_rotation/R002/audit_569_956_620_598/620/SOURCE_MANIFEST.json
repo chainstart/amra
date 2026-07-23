@@ -1,0 +1,62 @@
+{
+  "problem_id": 620,
+  "retrieved_at": "2026-07-23T19:36:52+08:00",
+  "sources": [
+    {
+      "role": "official_problem_record",
+      "url": "https://www.erdosproblems.com/620",
+      "version": "page accessed 2026-07-23",
+      "representation": "HTTP response body",
+      "sha256": "fbe325fceeb5cb81cd2d577368715d8b544e22d511288857d66af087a5fe4f4d"
+    },
+    {
+      "role": "closing_preprint_pdf",
+      "url": "https://arxiv.org/pdf/2607.16118v1",
+      "version": "arXiv:2607.16118v1",
+      "representation": "PDF",
+      "sha256": "b2e140d9831b53fb1140735039fd1a02c60c93ec59c0ac5938ae95b4b25835a2"
+    },
+    {
+      "role": "closing_preprint_source_archive",
+      "url": "https://export.arxiv.org/e-print/2607.16118v1",
+      "version": "arXiv:2607.16118v1",
+      "representation": "tar.gz",
+      "sha256": "8b04102f789d44a4264784fd0a60f18215a6bd24abc5b3cfe6d7af64a5047228"
+    },
+    {
+      "role": "closing_preprint_primary_tex",
+      "url": "https://export.arxiv.org/e-print/2607.16118v1#Erdos_Rogers_July_2026.tex",
+      "version": "arXiv:2607.16118v1",
+      "representation": "extracted TeX member",
+      "sha256": "71fac891393a400d3ad02d982c2523f0136107d964b964336daf1b20bcb85450"
+    },
+    {
+      "role": "published_lower_bound_source",
+      "url": "https://www.combinatorics.org/ojs/index.php/eljc/article/download/v28i3p51/pdf/",
+      "version": "Electronic Journal of Combinatorics 28(3) (2021), P3.51",
+      "representation": "PDF",
+      "sha256": "d12e3f99bac8c2223904498de56dc4c50c1adfbe619284cf05f34b1418eb6cd8"
+    },
+    {
+      "role": "lower_bound_arxiv_crosscheck_pdf",
+      "url": "https://arxiv.org/pdf/2006.11353v2",
+      "version": "arXiv:2006.11353v2",
+      "representation": "PDF",
+      "sha256": "4f9103eb8b26e08acd2ae7c3d8e0e147544665f11857b7831a89e31bc31b48f5"
+    },
+    {
+      "role": "lower_bound_arxiv_crosscheck_source_archive",
+      "url": "https://export.arxiv.org/e-print/2006.11353v2",
+      "version": "arXiv:2006.11353v2",
+      "representation": "tar.gz",
+      "sha256": "3e528100f5546f62074dd2d01f6016fdfdb85d7986d10ce5226a525e2461affa"
+    },
+    {
+      "role": "lower_bound_arxiv_crosscheck_tex",
+      "url": "https://export.arxiv.org/e-print/2006.11353v2#E-JC_revised_arxiv_format.tex",
+      "version": "arXiv:2006.11353v2",
+      "representation": "extracted TeX member",
+      "sha256": "72300cb5042a9c7f1d6065e8f425bef5c7832728bb607d711572028f98eda91a"
+    }
+  ]
+}
