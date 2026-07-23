@@ -1,0 +1,265 @@
+{
+  "schema_version": "amra.erdos_rotation_policy.v1",
+  "policy_id": "erdos-portfolio-rotation-20260723-v1",
+  "as_of": "2026-07-23",
+  "cohort": {
+    "expected_problem_count": 630,
+    "source": "artifacts/erdos_630_initial_analysis/cohort.json",
+    "analysis_root": "artifacts/erdos_630_initial_analysis/results",
+    "status_snapshot_warning_zh": "630题 cohort 的批量状态快照生成于2026-07-19；每道题进入准入轮前必须重新核对官网、原论文和最新公开讨论。"
+  },
+  "resource_policy": {
+    "max_simultaneous_research_slots": 4,
+    "recommended_cpu_fraction_ceiling": 0.5,
+    "intake_budget_seconds_per_problem": 5400,
+    "deep_attack_budget_seconds_per_problem": 14400,
+    "independent_qa_budget_seconds_per_result": 3600,
+    "status_audit_budget_seconds_per_problem": 3600,
+    "paper_conversion_is_charged_separately": true
+  },
+  "rotation_policy": {
+    "current_cycle_id": "R001",
+    "intake_slots_per_cycle": 12,
+    "closure_core_slots_per_cycle": 4,
+    "resolution_audit_slots_per_cycle": 2,
+    "new_problem_share_target": 0.5,
+    "cooldown_cycles_after_two_stagnant_deep_rounds": 3,
+    "full_open_pool_coverage_target_cycles": 46,
+    "coverage_note_zh": "R001以强制队列中的2题做制度试运行；从R002起，每个宏周期准入12个此前未深挖的开放题，并用最多4个并行槽分三批执行，约46个宏周期可覆盖550题一次。"
+  },
+  "promotion_gates": [
+    "精确重述原题量词并完成最新状态与文献核对",
+    "给出一条若成立即可闭合原题或明确子问的 closing lemma",
+    "不存在已知深层定理被当作黑箱缺口而未说明",
+    "路线与此前失败路线实质不同，或已修复其首个严格断点",
+    "有限计算必须服务于可证明的统一命题，不能单独作为晋级理由"
+  ],
+  "progress_that_resets_stagnation": [
+    "原始命题完整证明或证否候选",
+    "把闭合距离严格减少至少一级",
+    "证明唯一明确的 closing lemma",
+    "改变公认主阶或主指数且通过独立数学QA",
+    "严格排除一个覆盖全部既有路线的障碍族"
+  ],
+  "non_reset_progress": [
+    "只改善固定常数但不改变主阶",
+    "只增加有限范围验证",
+    "只得到 another conditional theorem",
+    "重述既有归约或重复发现已知障碍",
+    "没有新量词控制的局部结构引理"
+  ],
+  "statement_type_rules": {
+    "binary_markers": [
+      "Is it true",
+      "Does there exist",
+      "Are there",
+      "Can one",
+      "Must "
+    ],
+    "open_ended_markers": [
+      "Estimate",
+      "Determine",
+      "What is",
+      "Give bounds",
+      "How fast",
+      "order of growth"
+    ]
+  },
+  "legacy_deep_campaign": {
+    "problem_ids": [
+      "25",
+      "143",
+      "148",
+      "256",
+      "301",
+      "325",
+      "332",
+      "377",
+      "539",
+      "635",
+      "679",
+      "686",
+      "776",
+      "788",
+      "827",
+      "934",
+      "950",
+      "952",
+      "963",
+      "1063",
+      "1083"
+    ],
+    "last_round": 12,
+    "registered_agent_hours_lower_bound": 60.68,
+    "registered_hours_note_zh": "这里只累计首轮、第二轮及第6至12轮的可直接核算账本，尚未计第3至5轮，且不能精确均摊到单题。",
+    "last_evidence_path": "artifacts/erdos_campaign_20260723_round12_original_targets_10h/ROUND12_SYNTHESIS.md",
+    "default_lane_after_round12": "cooldown",
+    "default_no_progress_streak": 2
+  },
+  "forced_cycle_queues": {
+    "R001": {
+      "closure_core": [
+        "776",
+        "635",
+        "809",
+        "592"
+      ],
+      "intake": [
+        "1056",
+        "327"
+      ],
+      "resolution_audit": [
+        "569",
+        "956"
+      ],
+      "paper_conversion": [
+        "301",
+        "1063"
+      ],
+      "status_refresh": [
+        "522",
+        "689",
+        "306",
+        "1039"
+      ]
+    }
+  },
+  "manual_overrides": {
+    "776": {
+      "lane": "closure_core",
+      "closure_distance": 1,
+      "closure_proximity_score": 9,
+      "priority_score": 99,
+      "current_target_zh": "证明统一标量界 E_5-F_5<=70500；等价地完成大参数 rank-6 二次下界，从而闭合当前原端点。",
+      "selection_reason_zh": "第十二轮已把全层carry问题压成一个显式统一不等式，是现有题池中最窄的闭合节点。"
+    },
+    "635": {
+      "lane": "closure_core",
+      "closure_distance": 2,
+      "closure_proximity_score": 7,
+      "priority_score": 94,
+      "current_target_zh": "排除或构造带算术标号的 theta、figure-eight、dumbbell 三类双圈核，并检查其向 prime-square 与高阶奇部的推广。",
+      "selection_reason_zh": "t=2 已归约为有限类型的算术双圈核；仍有扩展缺口，但路线比多数旧题更具体。"
+    },
+    "809": {
+      "lane": "closure_core",
+      "closure_distance": 2,
+      "closure_proximity_score": 8,
+      "priority_score": 98,
+      "current_target_zh": "定位BCM26证明第一次使用k>=4之处，为C_7建立替代路径延伸/稳定性引理或找到反配置。",
+      "selection_reason_zh": "k>=4已经解决，完整原题只剩C_7，是单一缺档型候选。"
+    },
+    "592": {
+      "lane": "closure_core",
+      "closure_distance": 2,
+      "closure_proximity_score": 7,
+      "priority_score": 96,
+      "current_target_zh": "处理gamma恰为三个不可分序数之和的唯一剩余情形，明确第三块破坏Schipperus融合引理的首个位置。",
+      "selection_reason_zh": "现有分类只留下三个不可分加项这一档，原题边界清楚且有奖金。"
+    },
+    "1056": {
+      "lane": "intake_active",
+      "closure_distance": 3,
+      "closure_proximity_score": 5,
+      "priority_score": 88,
+      "current_target_zh": "把原题严格等价为素数模阶乘前缀积的最大纤维无界，并寻找能迫使高重纤维而非仅产生碰撞的矩估计。",
+      "selection_reason_zh": "题面为清晰全称命题且已有k<=14见证；准入轮要判断有限规律能否提升为统一机制。"
+    },
+    "327": {
+      "lane": "intake_active",
+      "closure_distance": 3,
+      "closure_proximity_score": 6,
+      "priority_score": 87,
+      "current_target_zh": "只攻第二问：寻找a+b不整除2ab的正密度周期/2-adic模板以证否o(N)，或证明模板族不可能。",
+      "selection_reason_zh": "第二问可由一个正密度构造直接闭合；近期已有计算与新上界，需先隔离新颖性。"
+    },
+    "301": {
+      "lane": "paper_conversion",
+      "closure_distance": 4,
+      "closure_proximity_score": 3,
+      "priority_score": 82,
+      "current_target_zh": "停止微小常数改进，整理已有全局上界、独立复算、新颖性和投稿叙事；原题仅在出现新主阶机制时重启。",
+      "selection_reason_zh": "已有论文级阶段结果，但继续原路线不会自然闭合1/2主常数。"
+    },
+    "1063": {
+      "lane": "paper_conversion",
+      "closure_distance": 4,
+      "closure_proximity_score": 3,
+      "priority_score": 84,
+      "current_target_zh": "冻结逐次改界，完成上下界主定理、来源审计与论文版本；只有出现不同增长级的新机制才恢复闭合攻关。",
+      "selection_reason_zh": "已有通过内部QA的论文级界，继续提高一点会形成无终点循环。"
+    },
+    "1039": {
+      "lane": "resolution_ready",
+      "closure_distance": 0,
+      "closure_proximity_score": 10,
+      "priority_score": 100,
+      "current_target_zh": "维护固定提交的Lean复现证据，并等待/推动官网或正式论文状态更新。",
+      "selection_reason_zh": "固定提交已全量构建、无sorry或自定义公理，精确覆盖官网特别问题。"
+    },
+    "358": {
+      "lane": "closed_watch",
+      "closure_distance": 0,
+      "closure_proximity_score": 10,
+      "priority_score": 0,
+      "current_target_zh": "只维护已证明状态与论文证据，不再消耗证明预算。",
+      "selection_reason_zh": "cohort状态已为proved，历史候选修补不再属于开放题攻关。"
+    },
+    "569": {
+      "lane": "resolution_audit",
+      "closure_distance": 1,
+      "closure_proximity_score": 9,
+      "priority_score": 98,
+      "current_target_zh": "逐定理核对CF26是否给出所有k及全部m范围的最佳c_k，而不只给渐近上界。",
+      "selection_reason_zh": "公开讨论称CF26已解决，但官网仍OPEN，适合高收益证据核验。"
+    },
+    "956": {
+      "lane": "resolution_audit",
+      "closure_distance": 1,
+      "closure_proximity_score": 8,
+      "priority_score": 96,
+      "current_target_zh": "核对Valtr构造到两两不交凸平移及所有充分大n的转换；Lean未完成部分不得计作证据。",
+      "selection_reason_zh": "已有Theta(n^(4/3))完整解声明和人工标准检查，但形式化不完整。"
+    },
+    "522": {
+      "lane": "resolution_audit",
+      "closure_distance": 1,
+      "closure_proximity_score": 7,
+      "priority_score": 94,
+      "current_target_zh": "核验随机多项式稿件中整块n统一的小值控制与Borel-Cantelli可求和性。",
+      "selection_reason_zh": "已有完整解声明，但从依概率到几乎处处沿全部n正是高风险量词跳跃。"
+    },
+    "689": {
+      "lane": "resolution_audit",
+      "closure_distance": 1,
+      "closure_proximity_score": 7,
+      "priority_score": 93,
+      "current_target_zh": "独立审计双覆盖构造中的筛余量、两轮覆盖独立性和所有充分大n量词。",
+      "selection_reason_zh": "已有两份完整解声明，官网等待专家或同行评审确认。"
+    },
+    "306": {
+      "lane": "resolution_audit",
+      "closure_distance": 1,
+      "closure_proximity_score": 6,
+      "priority_score": 90,
+      "current_target_zh": "核验中心覆盖区引理能否对任意平方自由分母与任意正有理数统一成立，并保持分母为两不同素数。",
+      "selection_reason_zh": "近期出现完整解声明，关键覆盖引理适合独立拆解。"
+    },
+    "117": {
+      "lane": "cooldown",
+      "closure_distance": 5,
+      "closure_proximity_score": 1,
+      "priority_score": 20,
+      "current_target_zh": "只有出现不同于extraspecial群路线的新指数机制时重新准入。",
+      "selection_reason_zh": "原高优先路线已被严格反驳，不能靠重复同一构造继续投入。"
+    },
+    "1083": {
+      "lane": "cooldown",
+      "closure_distance": 4,
+      "closure_proximity_score": 3,
+      "priority_score": 70,
+      "current_target_zh": "等待能给出主指数节省的rich-motion或轴容量新输入；现有9/20浓缩保留为研究资产。",
+      "selection_reason_zh": "结构结果很强，但尚未改变主指数，继续同路线边际收益下降。"
+    }
+  }
+}

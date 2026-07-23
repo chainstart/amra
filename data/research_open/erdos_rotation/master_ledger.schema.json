@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AMRA Erdős master rotation ledger",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generated_at",
+    "policy_id",
+    "cycle_id",
+    "source_snapshot",
+    "statistics",
+    "effort_accounting",
+    "cycle_history",
+    "current_queue",
+    "problems"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "amra.erdos_master_ledger.v1"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "policy_id": {
+      "type": "string"
+    },
+    "cycle_id": {
+      "type": "string"
+    },
+    "source_snapshot": {
+      "type": "object"
+    },
+    "statistics": {
+      "type": "object"
+    },
+    "effort_accounting": {
+      "type": "object"
+    },
+    "cycle_history": {
+      "type": "array"
+    },
+    "current_queue": {
+      "type": "object"
+    },
+    "problems": {
+      "type": "array",
+      "minItems": 630,
+      "maxItems": 630,
+      "items": {
+        "type": "object",
+        "required": [
+          "problem_id",
+          "official_url",
+          "domain",
+          "status_snapshot",
+          "initial_assessment",
+          "portfolio"
+        ],
+        "properties": {
+          "problem_id": {
+            "type": "string",
+            "pattern": "^[0-9]+$"
+          },
+          "official_url": {
+            "type": "string"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "status_snapshot": {
+            "type": "object"
+          },
+          "initial_assessment": {
+            "type": "object"
+          },
+          "portfolio": {
+            "type": "object",
+            "required": [
+              "lane",
+              "lifecycle_state",
+              "closure_distance",
+              "closure_proximity_score",
+              "priority_score",
+              "current_target_zh",
+              "blocking_step_zh",
+              "next_action_zh",
+              "attempt_count",
+              "registered_agent_hours",
+              "no_progress_streak",
+              "evidence_paths"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R001",
+  "as_of": "2026-07-23",
+  "problems": {
+    "1056": [
+      {
+        "role": "official_statement_and_status",
+        "url": "https://www.erdosproblems.com/1056"
+      },
+      {
+        "role": "finite_witness_discussion",
+        "url": "https://www.erdosproblems.com/forum/thread/1056"
+      },
+      {
+        "role": "factorial_residue_literature",
+        "url": "https://arxiv.org/abs/1603.04086"
+      },
+      {
+        "role": "factorial_residue_literature",
+        "url": "https://jtnb.centre-mersenne.org/item/10.5802/jtnb.974.pdf"
+      },
+      {
+        "role": "factorial_residue_literature",
+        "url": "https://ems.press/journals/rmi/articles/10143992"
+      }
+    ],
+    "327": [
+      {
+        "role": "official_statement_and_status",
+        "url": "https://www.erdosproblems.com/327"
+      },
+      {
+        "role": "current_bounds_and_computation_discussion",
+        "url": "https://www.erdosproblems.com/forum/thread/327?order=newest"
+      },
+      {
+        "role": "divisors_in_short_intervals_background",
+        "url": "https://arxiv.org/abs/math/0401223"
+      },
+      {
+        "role": "multiplication_table_background",
+        "url": "https://arxiv.org/abs/math/0607473"
+      }
+    ]
+  },
+  "scope_note": "URLs establish the public problem/literature boundary. The symbolic reductions and finite recomputations are independently documented in this directory and do not claim that either original problem is closed."
+}

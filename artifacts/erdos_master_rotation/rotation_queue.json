@@ -1,0 +1,200 @@
+{
+  "schema_version": "amra.erdos_rotation_queue.v1",
+  "generated_at": "2026-07-23T08:41:06+00:00",
+  "policy_id": "erdos-portfolio-rotation-20260723-v1",
+  "cycle_id": "R001",
+  "queues": {
+    "closure_core": [
+      {
+        "problem_id": "776",
+        "domain": "combinatorics",
+        "lane": "closure_core",
+        "priority_score": 99,
+        "closure_distance": 1,
+        "budget_seconds": 14400,
+        "current_target_zh": "证明统一标量界 E_5-F_5<=70500；等价地完成大参数 rank-6 二次下界，从而闭合当前原端点。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "635",
+        "domain": "number_theory",
+        "lane": "closure_core",
+        "priority_score": 94,
+        "closure_distance": 2,
+        "budget_seconds": 14400,
+        "current_target_zh": "排除或构造带算术标号的 theta、figure-eight、dumbbell 三类双圈核，并检查其向 prime-square 与高阶奇部的推广。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "809",
+        "domain": "graph_theory",
+        "lane": "closure_core",
+        "priority_score": 98,
+        "closure_distance": 2,
+        "budget_seconds": 14400,
+        "current_target_zh": "定位BCM26证明第一次使用k>=4之处，为C_7建立替代路径延伸/稳定性引理或找到反配置。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "592",
+        "domain": "ramsey_theory",
+        "lane": "closure_core",
+        "priority_score": 96,
+        "closure_distance": 2,
+        "budget_seconds": 14400,
+        "current_target_zh": "处理gamma恰为三个不可分序数之和的唯一剩余情形，明确第三块破坏Schipperus融合引理的首个位置。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      }
+    ],
+    "intake": [
+      {
+        "problem_id": "1056",
+        "domain": "number_theory",
+        "lane": "intake_active",
+        "priority_score": 88,
+        "closure_distance": 3,
+        "budget_seconds": 5400,
+        "current_target_zh": "只在找到高阶碰撞矩、能量集中或可迭代区间乘积等于1的机制后重新晋级。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "completed",
+        "latest_outcome": "strict_reduction_no_promotion",
+        "attempt_count": 1
+      },
+      {
+        "problem_id": "327",
+        "domain": "number_theory",
+        "lane": "intake_active",
+        "priority_score": 87,
+        "closure_distance": 3,
+        "budget_seconds": 5400,
+        "current_target_zh": "安排一次4小时解析密度审计，连接乘法表/短区间除数分布；若筛集下密度为0，则寻找加权或多尺度改型。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "completed",
+        "latest_outcome": "route_advanced",
+        "attempt_count": 1
+      }
+    ],
+    "resolution_audit": [
+      {
+        "problem_id": "569",
+        "domain": "graph_theory",
+        "lane": "resolution_audit",
+        "priority_score": 98,
+        "closure_distance": 1,
+        "budget_seconds": 3600,
+        "current_target_zh": "逐定理核对CF26是否给出所有k及全部m范围的最佳c_k，而不只给渐近上界。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "956",
+        "domain": "geometry",
+        "lane": "resolution_audit",
+        "priority_score": 96,
+        "closure_distance": 1,
+        "budget_seconds": 3600,
+        "current_target_zh": "核对Valtr构造到两两不交凸平移及所有充分大n的转换；Lean未完成部分不得计作证据。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      }
+    ],
+    "paper_conversion": [
+      {
+        "problem_id": "301",
+        "domain": "number_theory",
+        "lane": "paper_conversion",
+        "priority_score": 82,
+        "closure_distance": 4,
+        "budget_seconds": null,
+        "current_target_zh": "停止微小常数改进，整理已有全局上界、独立复算、新颖性和投稿叙事；原题仅在出现新主阶机制时重启。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "1063",
+        "domain": "number_theory",
+        "lane": "paper_conversion",
+        "priority_score": 84,
+        "closure_distance": 4,
+        "budget_seconds": null,
+        "current_target_zh": "冻结逐次改界，完成上下界主定理、来源审计与论文版本；只有出现不同增长级的新机制才恢复闭合攻关。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      }
+    ],
+    "status_refresh": [
+      {
+        "problem_id": "522",
+        "domain": "analysis",
+        "lane": "resolution_audit",
+        "priority_score": 94,
+        "closure_distance": 1,
+        "budget_seconds": 3600,
+        "current_target_zh": "核验随机多项式稿件中整块n统一的小值控制与Borel-Cantelli可求和性。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "689",
+        "domain": "number_theory",
+        "lane": "resolution_audit",
+        "priority_score": 93,
+        "closure_distance": 1,
+        "budget_seconds": 3600,
+        "current_target_zh": "独立审计双覆盖构造中的筛余量、两轮覆盖独立性和所有充分大n量词。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "306",
+        "domain": "number_theory",
+        "lane": "resolution_audit",
+        "priority_score": 90,
+        "closure_distance": 1,
+        "budget_seconds": 3600,
+        "current_target_zh": "核验中心覆盖区引理能否对任意平方自由分母与任意正有理数统一成立，并保持分母为两不同素数。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "1039",
+        "domain": "analysis",
+        "lane": "resolution_ready",
+        "priority_score": 100,
+        "closure_distance": 0,
+        "budget_seconds": 3600,
+        "current_target_zh": "维护固定提交的Lean复现证据，并等待/推动官网或正式论文状态更新。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      }
+    ]
+  }
+}

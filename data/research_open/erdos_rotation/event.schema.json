@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AMRA Erdős rotation event",
+  "type": "object",
+  "required": [
+    "event_id",
+    "occurred_at",
+    "cycle_id",
+    "problem_id",
+    "phase",
+    "outcome",
+    "agent_hours",
+    "original_problem_closed",
+    "q2_candidate",
+    "closure_distance_before",
+    "closure_distance_after",
+    "summary_zh",
+    "blocker_zh",
+    "next_action_zh",
+    "evidence_paths"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cycle_id": {
+      "type": "string",
+      "pattern": "^R[0-9]{3,}$"
+    },
+    "problem_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9]+$"
+    },
+    "phase": {
+      "enum": [
+        "portfolio",
+        "status_refresh",
+        "intake",
+        "deep_attack",
+        "independent_qa",
+        "resolution_audit",
+        "paper_conversion",
+        "formalization",
+        "decision"
+      ]
+    },
+    "outcome": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agent_hours": {
+      "type": "number",
+      "minimum": 0
+    },
+    "original_problem_closed": {
+      "type": "boolean"
+    },
+    "q2_candidate": {
+      "type": "boolean"
+    },
+    "closure_distance_before": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 5
+    },
+    "closure_distance_after": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 5
+    },
+    "summary_zh": {
+      "type": "string"
+    },
+    "blocker_zh": {
+      "type": "string"
+    },
+    "next_action_zh": {
+      "type": "string"
+    },
+    "evidence_paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

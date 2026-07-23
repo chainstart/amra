@@ -1,0 +1,16 @@
+{
+  "schema_version": "amra.erdos_master_validation.v1",
+  "validated_at": "2026-07-23T08:41:06+00:00",
+  "valid": true,
+  "errors": [],
+  "problem_count": 630,
+  "unique_problem_count": 630,
+  "event_count": 3,
+  "queue_counts": {
+    "closure_core": 4,
+    "intake": 2,
+    "resolution_audit": 2,
+    "paper_conversion": 2,
+    "status_refresh": 4
+  }
+}

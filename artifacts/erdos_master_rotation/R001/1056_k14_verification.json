@@ -1,0 +1,118 @@
+{
+  "schema_version": "amra.erdos1056.k14_verification.v1",
+  "problem_id": "1056",
+  "prime": 10428007,
+  "prime_verified_by_trial_division": true,
+  "endpoint_count": 15,
+  "interval_count": 14,
+  "endpoints": [
+    816488,
+    1251081,
+    3384225,
+    4112650,
+    4237275,
+    4431559,
+    4467010,
+    4835062,
+    7328694,
+    7385077,
+    7415726,
+    8460938,
+    8689396,
+    9295594,
+    9661614
+  ],
+  "common_factorial_residue": 8978998,
+  "expected_residue": 8978998,
+  "all_endpoint_residues_equal": true,
+  "expected_residue_verified": true,
+  "all_interval_products_one": true,
+  "intervals": [
+    {
+      "left": 816489,
+      "right": 1251081,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 1251082,
+      "right": 3384225,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 3384226,
+      "right": 4112650,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 4112651,
+      "right": 4237275,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 4237276,
+      "right": 4431559,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 4431560,
+      "right": 4467010,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 4467011,
+      "right": 4835062,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 4835063,
+      "right": 7328694,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 7328695,
+      "right": 7385077,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 7385078,
+      "right": 7415726,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 7415727,
+      "right": 8460938,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 8460939,
+      "right": 8689396,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 8689397,
+      "right": 9295594,
+      "product_mod_p": 1,
+      "verified_one": true
+    },
+    {
+      "left": 9295595,
+      "right": 9661614,
+      "product_mod_p": 1,
+      "verified_one": true
+    }
+  ],
+  "passed": true,
+  "scope_note": "This verifies only the finite case k=14 and hence every 2<=k<=14 by truncation; it does not address arbitrary k."
+}

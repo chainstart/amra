@@ -1,0 +1,45 @@
+{
+  "schema_version": "amra.erdos327.near_square_sieve.v1",
+  "problem_id": "327",
+  "question": "second",
+  "limit": 1000000,
+  "forbidden_base_count": 131182,
+  "characterisation": "larger primitive endpoints are exactly r*s with gcd(r,s)=1, r<s<2r, and s odd",
+  "primitive_converse_verified": true,
+  "finite_independence_verified_through": 2000,
+  "finite_edge_implication_verified": true,
+  "densities": [
+    {
+      "N": 1000,
+      "independent_set_size": 608,
+      "density": 0.608
+    },
+    {
+      "N": 5000,
+      "independent_set_size": 2885,
+      "density": 0.577
+    },
+    {
+      "N": 20000,
+      "independent_set_size": 11203,
+      "density": 0.56015
+    },
+    {
+      "N": 100000,
+      "independent_set_size": 54262,
+      "density": 0.54262
+    },
+    {
+      "N": 500000,
+      "independent_set_size": 264661,
+      "density": 0.529322
+    },
+    {
+      "N": 1000000,
+      "independent_set_size": 523847,
+      "density": 0.523847
+    }
+  ],
+  "passed": true,
+  "scope_note": "The construction is rigorously independent for all N by the symbolic reduction, but the experiment does not prove that its lower asymptotic density is positive."
+}
