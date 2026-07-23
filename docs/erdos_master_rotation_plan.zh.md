@@ -1,6 +1,6 @@
 # Erdős 630题轮换攻关总计划与总台账
 
-> 台账版本：`erdos-portfolio-rotation-20260723-v1`；当前周期：`R001`；生成时间：`2026-07-23T08:41:06+00:00`。
+> 台账版本：`erdos-portfolio-rotation-20260723-v1`；当前周期：`R002`；生成时间：`2026-07-23T11:26:24+00:00`。
 
 ## 总目标与口径
 
@@ -33,28 +33,38 @@
 ## 当前总体统计
 
 - 总题数：630；状态分布：`disproved`=12、`disproved (Lean)`=8、`falsifiable`=2、`independent`=1、`open`=550、`proved`=12、`proved (Lean)`=22、`solved`=15、`solved (Lean)`=8。
-- 任务通道：`closed_watch`=78、`closure_core`=4、`cooldown`=18、`deep_backlog`=266、`discovery_high`=38、`discovery_standard`=175、`finite_resolution`=2、`intake_active`=2、`paper_conversion`=2、`resolution_audit`=29、`resolution_ready`=1、`statement_audit`=15。
-- 闭合距离：`0`=79、`1`=30、`2`=5、`3`=231、`4`=141、`5`=144。
-- 当前追加事件流：3条、覆盖2题、登记1.50 agent-hours。
-- 连同旧轮次，可直接核算的总投入下界为62.18 agent-hours；这里只累计首轮、第二轮及第6至12轮的可直接核算账本，尚未计第3至5轮，且不能精确均摊到单题。
+- 任务通道：`closed_watch`=78、`closure_core`=4、`cooldown`=18、`deep_backlog`=268、`discovery_high`=36、`discovery_standard`=173、`finite_resolution`=2、`intake_active`=2、`paper_conversion`=2、`resolution_audit`=31、`resolution_ready`=1、`statement_audit`=15。
+- 闭合距离：`0`=79、`1`=32、`2`=5、`3`=227、`4`=142、`5`=145。
+- 当前追加事件流：8条、覆盖6题、登记1.97 agent-hours。
+- 连同旧轮次，可直接核算的总投入下界为62.65 agent-hours；这里只累计首轮、第二轮及第6至12轮的可直接核算账本，尚未计第3至5轮，且不能精确均摊到单题。
 
-## 当前周期 R001
+## 当前周期 R002
 
 ### 原题闭合核心
 
 | # | 领域 | 闭合距离 | 预算 | 周期进度 | 当前精确目标 |
 |---:|---|---:|---:|---|---|
 | [776](https://www.erdosproblems.com/776) | combinatorics | 1 | 4h | pending | 证明统一标量界 E_5-F_5<=70500；等价地完成大参数 rank-6 二次下界，从而闭合当前原端点。 |
-| [635](https://www.erdosproblems.com/635) | number_theory | 2 | 4h | pending | 排除或构造带算术标号的 theta、figure-eight、dumbbell 三类双圈核，并检查其向 prime-square 与高阶奇部的推广。 |
 | [809](https://www.erdosproblems.com/809) | graph_theory | 2 | 4h | pending | 定位BCM26证明第一次使用k>=4之处，为C_7建立替代路径延伸/稳定性引理或找到反配置。 |
 | [592](https://www.erdosproblems.com/592) | ramsey_theory | 2 | 4h | pending | 处理gamma恰为三个不可分序数之和的唯一剩余情形，明确第三块破坏Schipperus融合引理的首个位置。 |
+| [635](https://www.erdosproblems.com/635) | number_theory | 2 | 4h | pending | 排除或构造带算术标号的 theta、figure-eight、dumbbell 三类双圈核，并检查其向 prime-square 与高阶奇部的推广。 |
 
 ### 新题准入
 
 | # | 领域 | 闭合距离 | 预算 | 周期进度 | 当前精确目标 |
 |---:|---|---:|---:|---|---|
-| [1056](https://www.erdosproblems.com/1056) | number_theory | 3 | 1.5h | completed | 只在找到高阶碰撞矩、能量集中或可迭代区间乘积等于1的机制后重新晋级。 |
-| [327](https://www.erdosproblems.com/327) | number_theory | 3 | 1.5h | completed | 安排一次4小时解析密度审计，连接乘法表/短区间除数分布；若筛集下密度为0，则寻找加权或多尺度改型。 |
+| [18](https://www.erdosproblems.com/18) | number_theory | 4 | 1.5h | completed | 仅在出现短Egyptian-fraction、统一因子子集和覆盖或真正节省数量级的块递推时重开。 |
+| [620](https://www.erdosproblems.com/620) | graph_theory | 1 | 1.5h | completed | 转已有解核验；独立复核Lemma 3.4、3.5和Theorem 3.1，通过后标为预印本已闭合候选。 |
+| [141](https://www.erdosproblems.com/141) | combinatorics | 5 | 1.5h | completed | 停止局部CRT搜索；只有出现超越Dickson障碍的统一同时素数机制时重新准入。 |
+| [598](https://www.erdosproblems.com/598) | ramsey_theory | 1 | 1.5h | completed | 转独立性核验，逐项核对原始文献和一致性强度；在两方向完整后再决定如何记录闭合。 |
+| [521](https://www.erdosproblems.com/521) | analysis | 3 | 1.5h | pending | 证明一个倒序块最大估计：对 dyadic 块 2^j≤n<2^{j+1}，控制 sup_n\|N_{f_n^*}((-1,1))-(1/π)log n\|，并使偏差 εj 的概率对 j 可求和。 |
+| [757](https://www.erdosproblems.com/757) | geometry | 3 | 1.5h | pending | 从 Ma–Tang 的 9/17 证明中抽取一个可有限核验的结构引理：枚举一个顶点可参与的三项等差数列在“左端/中点/右端”三种角色下的允许交叠，并验证其加权删点递推是否确实给出 9/17。 |
+| [536](https://www.erdosproblems.com/536) | number_theory | 3 | 1.5h | pending | 建立由所有小型模板 \(\{txy,txz,tyz\}\) 生成的三均匀超图，对截断模板族计算分数匹配数；若能超过 \(4N/225\)，即可得到可检验的新密度常数。 |
+| [596](https://www.erdosproblems.com/596) | graph_theory | 3 | 1.5h | pending | 查明 Nešetřil–Rödl 定理是否逐字保证：对每个有限、含圈且 \(C_3,C_4\)-自由的 \(F\) 及每个 \(n\)，存在 \(C_4\)-自由 \(H\) 满足 \(H\to(F)^2_n\)。若成立，即可严格扩张出一整族 \((C_4,F)\)。 |
+| [52](https://www.erdosproblems.com/52) | combinatorics | 3 | 1.5h | pending | 在附加假设 \|A+A\|≤n^{2−ε} 下，检验是否能按乘法倍数类分层，把 E×(A) 的上界改写为 o(n⁴/\|AA\|)；具体先对高重数比值集合 {r:\|A∩rA\|≥τ} 建立依赖 doubling 常数的尾界。 |
+| [949](https://www.erdosproblems.com/949) | ramsey_theory | 3 | 1.5h | pending | 检验能否从任意连续统大小的 sum-free S 中抽取连续统大小的 Sidon 子集并保持平移构造对整个 S 的避让；若不能，构造使 (S-S) 或 (S-S-S)/2=ℝ 的 sum-free 候选以测试该策略的极限。 |
+| [517](https://www.erdosproblems.com/517) | analysis | 3 | 1.5h | pending | 先检验可证的中间命题：若 Pe^g 的非零 Taylor 指数满足 n_k/k→∞，是否必有 g 为多项式；可从 g 为一次或有限次多项式的系数递推开始，确定有限阶证明究竟使用了哪一项增长估计。 |
+| [174](https://www.erdosproblems.com/174) | geometry | 3 | 1.5h | pending | 取 LRW 给出的显式“球面但非 subtransitive”循环四边形，核验其精确代数参数，并尝试把它嵌入现有已知 Ramsey 类。证明它 Ramsey 或非 Ramsey 将直接区分两套候选刻画，是当前路线最具体的判别任务。 |
 
 ### 已有解声明核验
 
@@ -67,17 +77,13 @@
 
 | # | 领域 | 闭合距离 | 预算 | 周期进度 | 当前精确目标 |
 |---:|---|---:|---:|---|---|
-| [301](https://www.erdosproblems.com/301) | number_theory | 4 | 独立计账 | pending | 停止微小常数改进，整理已有全局上界、独立复算、新颖性和投稿叙事；原题仅在出现新主阶机制时重启。 |
-| [1063](https://www.erdosproblems.com/1063) | number_theory | 4 | 独立计账 | pending | 冻结逐次改界，完成上下界主定理、来源审计与论文版本；只有出现不同增长级的新机制才恢复闭合攻关。 |
+| — | — | — | — | — | 本周期无任务 |
 
 ### 优先状态刷新
 
 | # | 领域 | 闭合距离 | 预算 | 周期进度 | 当前精确目标 |
 |---:|---|---:|---:|---|---|
-| [522](https://www.erdosproblems.com/522) | analysis | 1 | 1h | pending | 核验随机多项式稿件中整块n统一的小值控制与Borel-Cantelli可求和性。 |
-| [689](https://www.erdosproblems.com/689) | number_theory | 1 | 1h | pending | 独立审计双覆盖构造中的筛余量、两轮覆盖独立性和所有充分大n量词。 |
-| [306](https://www.erdosproblems.com/306) | number_theory | 1 | 1h | pending | 核验中心覆盖区引理能否对任意平方自由分母与任意正有理数统一成立，并保持分母为两不同素数。 |
-| [1039](https://www.erdosproblems.com/1039) | analysis | 0 | 1h | pending | 维护固定提交的Lean复现证据，并等待/推动官网或正式论文状态更新。 |
+| — | — | — | — | — | 本周期无任务 |
 
 ## 操作与证据规则
 
@@ -108,7 +114,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [12](https://www.erdosproblems.com/12) | open | number_theory | partial | 4 | binary_decision | deep_backlog | 3 | — | 0 | 0 |
 | [14](https://www.erdosproblems.com/14) | open | combinatorics | partial | 4 | binary_decision | deep_backlog | 3 | — | 0 | 0 |
 | [15](https://www.erdosproblems.com/15) | open | number_theory | partial | 4 | binary_decision | deep_backlog | 3 | — | 0 | 0 |
-| [18](https://www.erdosproblems.com/18) | open | number_theory | promising | 7 | binary_decision | discovery_high | 3 | — | 0 | 0 |
+| [18](https://www.erdosproblems.com/18) | open | number_theory | promising | 7 | binary_decision | deep_backlog | 4 | — | 1 | 0 |
 | [20](https://www.erdosproblems.com/20) | open | combinatorics | partial | 5 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
 | [25](https://www.erdosproblems.com/25) | open | number_theory | promising | 8 | binary_decision | cooldown | 4 | 12 | 0 | 2 |
 | [28](https://www.erdosproblems.com/28) | open | number_theory | blocked | 3 | mixed_or_unspecified | deep_backlog | 5 | — | 0 | 0 |
@@ -173,7 +179,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [132](https://www.erdosproblems.com/132) | open | number_theory | blocked | 4 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
 | [137](https://www.erdosproblems.com/137) | open | number_theory | blocked | 3 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
 | [138](https://www.erdosproblems.com/138) | open | combinatorics | partial | 5 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
-| [141](https://www.erdosproblems.com/141) | open | combinatorics | promising | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
+| [141](https://www.erdosproblems.com/141) | open | combinatorics | promising | 6 | binary_decision | deep_backlog | 5 | — | 1 | 0 |
 | [142](https://www.erdosproblems.com/142) | open | combinatorics | blocked | 4 | exact_or_characterisation | deep_backlog | 5 | — | 0 | 0 |
 | [143](https://www.erdosproblems.com/143) | open | number_theory | partial | 8 | mixed_or_unspecified | cooldown | 4 | 12 | 0 | 2 |
 | [145](https://www.erdosproblems.com/145) | open | number_theory | promising | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
@@ -426,7 +432,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [595](https://www.erdosproblems.com/595) | open | graph_theory | blocked | 3 | exact_or_characterisation | deep_backlog | 5 | — | 0 | 0 |
 | [596](https://www.erdosproblems.com/596) | open | graph_theory | partial | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
 | [597](https://www.erdosproblems.com/597) | open | graph_theory | blocked | 4 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
-| [598](https://www.erdosproblems.com/598) | open | ramsey_theory | promising | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
+| [598](https://www.erdosproblems.com/598) | open | ramsey_theory | promising | 6 | binary_decision | resolution_audit | 1 | — | 1 | 0 |
 | [600](https://www.erdosproblems.com/600) | open | graph_theory | blocked | 3 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
 | [601](https://www.erdosproblems.com/601) | open | graph_theory | partial | 4 | binary_decision | deep_backlog | 3 | — | 0 | 0 |
 | [602](https://www.erdosproblems.com/602) | open | combinatorics | blocked | 4 | mixed_or_unspecified | deep_backlog | 5 | — | 0 | 0 |
@@ -439,7 +445,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [614](https://www.erdosproblems.com/614) | open | graph_theory | promising | 7 | open_ended_estimate | discovery_high | 4 | — | 0 | 0 |
 | [616](https://www.erdosproblems.com/616) | open | graph_theory | partial | 5 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |
 | [619](https://www.erdosproblems.com/619) | solved (Lean) | graph_theory | counterexample | 9 | binary_decision | closed_watch | 0 | — | 0 | 0 |
-| [620](https://www.erdosproblems.com/620) | open | graph_theory | promising | 7 | binary_decision | discovery_high | 3 | — | 0 | 0 |
+| [620](https://www.erdosproblems.com/620) | open | graph_theory | promising | 7 | binary_decision | resolution_audit | 1 | — | 1 | 0 |
 | [623](https://www.erdosproblems.com/623) | open | number_theory | blocked | 3 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
 | [624](https://www.erdosproblems.com/624) | open | combinatorics | blocked | 4 | mixed_or_unspecified | deep_backlog | 5 | — | 0 | 0 |
 | [625](https://www.erdosproblems.com/625) | open | graph_theory | blocked | 3 | binary_decision | deep_backlog | 5 | — | 0 | 0 |

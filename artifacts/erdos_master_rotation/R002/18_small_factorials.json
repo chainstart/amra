@@ -1,0 +1,132 @@
+{
+  "schema_version": "amra.erdos18.small_factorials.v1",
+  "problem_id": "18",
+  "range": {
+    "first_n": 3,
+    "last_n": 10
+  },
+  "rows": [
+    {
+      "number": 6,
+      "divisor_count": 4,
+      "h": 2,
+      "least_missing_by_budget": [
+        1,
+        4,
+        null
+      ],
+      "complete": true,
+      "n": 3
+    },
+    {
+      "number": 24,
+      "divisor_count": 8,
+      "h": 3,
+      "least_missing_by_budget": [
+        1,
+        5,
+        17,
+        null
+      ],
+      "complete": true,
+      "n": 4
+    },
+    {
+      "number": 120,
+      "divisor_count": 16,
+      "h": 4,
+      "least_missing_by_budget": [
+        1,
+        7,
+        37,
+        97,
+        null
+      ],
+      "complete": true,
+      "n": 5
+    },
+    {
+      "number": 720,
+      "divisor_count": 30,
+      "h": 5,
+      "least_missing_by_budget": [
+        1,
+        7,
+        59,
+        299,
+        659,
+        null
+      ],
+      "complete": true,
+      "n": 6
+    },
+    {
+      "number": 5040,
+      "divisor_count": 60,
+      "h": 5,
+      "least_missing_by_budget": [
+        1,
+        11,
+        137,
+        1213,
+        3733,
+        null
+      ],
+      "complete": true,
+      "n": 7
+    },
+    {
+      "number": 40320,
+      "divisor_count": 96,
+      "h": 6,
+      "least_missing_by_budget": [
+        1,
+        11,
+        139,
+        2461,
+        13313,
+        33473,
+        null
+      ],
+      "complete": true,
+      "n": 8
+    },
+    {
+      "number": 362880,
+      "divisor_count": 160,
+      "h": 7,
+      "least_missing_by_budget": [
+        1,
+        11,
+        235,
+        5039,
+        59897,
+        181343,
+        362783,
+        null
+      ],
+      "complete": true,
+      "n": 9
+    },
+    {
+      "number": 3628800,
+      "divisor_count": 270,
+      "h": 7,
+      "least_missing_by_budget": [
+        1,
+        11,
+        311,
+        14111,
+        257561,
+        1164761,
+        2979161,
+        null
+      ],
+      "complete": true,
+      "n": 10
+    }
+  ],
+  "recurrence_h_next_at_most_h_plus_one_verified": true,
+  "passed": true,
+  "scope_note": "Exact finite subset-sum computation only; it provides no asymptotic upper bound for h(n!)."
+}

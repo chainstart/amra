@@ -1,0 +1,28 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R002",
+  "wave": 1,
+  "as_of": "2026-07-23",
+  "problems": {
+    "18": [
+      "https://www.erdosproblems.com/18",
+      "https://doi.org/10.1112/blms/17.1.21",
+      "https://math.dartmouth.edu/~carlp/factorial.pdf"
+    ],
+    "620": [
+      "https://www.erdosproblems.com/620",
+      "https://arxiv.org/abs/2607.16118",
+      "https://doi.org/10.37236/9659"
+    ],
+    "141": [
+      "https://www.erdosproblems.com/141",
+      "https://www.erdosproblems.com/forum/thread/141"
+    ],
+    "598": [
+      "https://www.erdosproblems.com/598",
+      "https://mathoverflow.net/questions/511508/on-erd%C5%91s-problem-598",
+      "https://doi.org/10.2969/jmsj/07017327"
+    ]
+  },
+  "scope_note": "Wave 1 performs intake and evidence routing. Neither external resolution candidate is marked closed before independent QA."
+}

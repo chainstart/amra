@@ -1,0 +1,988 @@
+{
+  "schema_version": "amra.erdos141.corrected_crt.v1",
+  "problem_id": "141",
+  "rows": [
+    {
+      "k": 3,
+      "difference": 6,
+      "gap_offset_count": 10,
+      "base": 623782828205107,
+      "slope": 1597116318411666,
+      "slope_decimal_digits": 16,
+      "gaps_verified": true,
+      "target_nonzero_at_fixed_moduli": true,
+      "locally_admissible_through": 500,
+      "local_admissibility_verified": true,
+      "local_rows": [
+        {
+          "prime": 2,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 3,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 5,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 7,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 11,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 13,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 17,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 19,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 23,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 29,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 31,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 37,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 41,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 43,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 47,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 53,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 59,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 61,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 67,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 71,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 73,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 79,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 83,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 89,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 97,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 101,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 103,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 107,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 109,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 113,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 127,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 131,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 137,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 139,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 149,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 151,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 157,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 163,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 167,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 173,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 179,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 181,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 191,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 193,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 197,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 199,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 211,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 223,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 227,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 229,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 233,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 239,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 241,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 251,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 257,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 263,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 269,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 271,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 277,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 281,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 283,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 293,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 307,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 311,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 313,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 317,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 331,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 337,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 347,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 349,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 353,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 359,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 367,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 373,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 379,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 383,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 389,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 397,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 401,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 409,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 419,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 421,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 431,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 433,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 439,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 443,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 449,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 457,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 461,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 463,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 467,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 479,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 487,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 491,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        },
+        {
+          "prime": 499,
+          "forbidden_parameter_count": 3,
+          "admissible": true
+        }
+      ],
+      "passed": true
+    },
+    {
+      "k": 4,
+      "difference": 6,
+      "gap_offset_count": 15,
+      "base": 8478858277740880201701403,
+      "slope": 37816827494160814572475578,
+      "slope_decimal_digits": 26,
+      "gaps_verified": true,
+      "target_nonzero_at_fixed_moduli": true,
+      "locally_admissible_through": 500,
+      "local_admissibility_verified": true,
+      "local_rows": [
+        {
+          "prime": 2,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 3,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 5,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 7,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 11,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 13,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 17,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 19,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 23,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 29,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 31,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 37,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 41,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 43,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 47,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 53,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 59,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 61,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 67,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 71,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 73,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 79,
+          "forbidden_parameter_count": 0,
+          "admissible": true
+        },
+        {
+          "prime": 83,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 89,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 97,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 101,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 103,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 107,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 109,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 113,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 127,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 131,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 137,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 139,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 149,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 151,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 157,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 163,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 167,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 173,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 179,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 181,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 191,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 193,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 197,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 199,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 211,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 223,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 227,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 229,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 233,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 239,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 241,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 251,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 257,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 263,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 269,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 271,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 277,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 281,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 283,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 293,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 307,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 311,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 313,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 317,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 331,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 337,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 347,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 349,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 353,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 359,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 367,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 373,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 379,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 383,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 389,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 397,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 401,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 409,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 419,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 421,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 431,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 433,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 439,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 443,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 449,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 457,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 461,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 463,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 467,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 479,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 487,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 491,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        },
+        {
+          "prime": 499,
+          "forbidden_parameter_count": 4,
+          "admissible": true
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "scope_note": "The CRT cover and local admissibility are unconditional. Infinitely many simultaneous prime values remain conditional on Hypothesis H."
+}

@@ -18,7 +18,7 @@
     "paper_conversion_is_charged_separately": true
   },
   "rotation_policy": {
-    "current_cycle_id": "R001",
+    "current_cycle_id": "R002",
     "intake_slots_per_cycle": 12,
     "closure_core_slots_per_cycle": 4,
     "resolution_audit_slots_per_cycle": 2,
@@ -122,6 +122,34 @@
         "306",
         "1039"
       ]
+    },
+    "R002": {
+      "closure_core": [
+        "776",
+        "809",
+        "592",
+        "635"
+      ],
+      "intake": [
+        "18",
+        "620",
+        "141",
+        "598",
+        "521",
+        "757",
+        "536",
+        "596",
+        "52",
+        "949",
+        "517",
+        "174"
+      ],
+      "resolution_audit": [
+        "569",
+        "956"
+      ],
+      "paper_conversion": [],
+      "status_refresh": []
     }
   },
   "manual_overrides": {
@@ -252,6 +280,38 @@
       "priority_score": 20,
       "current_target_zh": "只有出现不同于extraspecial群路线的新指数机制时重新准入。",
       "selection_reason_zh": "原高优先路线已被严格反驳，不能靠重复同一构造继续投入。"
+    },
+    "18": {
+      "lane": "deep_backlog",
+      "closure_distance": 4,
+      "closure_proximity_score": 2,
+      "priority_score": 55,
+      "current_target_zh": "只有出现分母都整除阶乘的短Egyptian-fraction定理、因子子集和统一覆盖结构或真正节省数量级的块递推时重新准入。",
+      "selection_reason_zh": "小规模结构可精确复算，但现有递推仍为线性；原90分钟路线没有产生渐近桥梁。"
+    },
+    "620": {
+      "lane": "resolution_audit",
+      "closure_distance": 1,
+      "closure_proximity_score": 9,
+      "priority_score": 100,
+      "current_target_zh": "逐行复核arXiv:2607.16118v1的Lemma 3.4与3.5、固定版本和全部量词；通过后把原题标记为预印本已闭合并等待官网更新。",
+      "selection_reason_zh": "2026-07-17新预印本Theorem 1.1逐字给出#620的精确Theta(sqrt(n log n))。"
+    },
+    "141": {
+      "lane": "deep_backlog",
+      "closure_distance": 5,
+      "closure_proximity_score": 1,
+      "priority_score": 30,
+      "current_target_zh": "停止优化CRT和有限搜索；只有出现超越Dickson/素数k元组parity barrier的统一同时素数机制时重开。",
+      "selection_reason_zh": "公开条件构造可修补，但最后一步正是一般素数k元组猜想，不适合继续局部深挖。"
+    },
+    "598": {
+      "lane": "resolution_audit",
+      "closure_distance": 1,
+      "closure_proximity_score": 8,
+      "priority_score": 99,
+      "current_target_zh": "核验V=L方向从可数指数到有限指数及0-sharp的精确引用，并核对Garti-Hayut模型中大小版分割关系的传递。",
+      "selection_reason_zh": "已发表Magidor基数结果加2026-05集合论讨论给出原题相对I1独立的强候选。"
     },
     "1083": {
       "lane": "cooldown",

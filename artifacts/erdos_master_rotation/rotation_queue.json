@@ -1,8 +1,8 @@
 {
   "schema_version": "amra.erdos_rotation_queue.v1",
-  "generated_at": "2026-07-23T08:41:06+00:00",
+  "generated_at": "2026-07-23T11:26:24+00:00",
   "policy_id": "erdos-portfolio-rotation-20260723-v1",
-  "cycle_id": "R001",
+  "cycle_id": "R002",
   "queues": {
     "closure_core": [
       {
@@ -13,19 +13,6 @@
         "closure_distance": 1,
         "budget_seconds": 14400,
         "current_target_zh": "证明统一标量界 E_5-F_5<=70500；等价地完成大参数 rank-6 二次下界，从而闭合当前原端点。",
-        "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
-      },
-      {
-        "problem_id": "635",
-        "domain": "number_theory",
-        "lane": "closure_core",
-        "priority_score": 94,
-        "closure_distance": 2,
-        "budget_seconds": 14400,
-        "current_target_zh": "排除或构造带算术标号的 theta、figure-eight、dumbbell 三类双圈核，并检查其向 prime-square 与高阶奇部的推广。",
         "mandatory_status_refresh": true,
         "cycle_progress": "pending",
         "latest_outcome": null,
@@ -56,34 +43,177 @@
         "cycle_progress": "pending",
         "latest_outcome": null,
         "attempt_count": 0
+      },
+      {
+        "problem_id": "635",
+        "domain": "number_theory",
+        "lane": "closure_core",
+        "priority_score": 94,
+        "closure_distance": 2,
+        "budget_seconds": 14400,
+        "current_target_zh": "排除或构造带算术标号的 theta、figure-eight、dumbbell 三类双圈核，并检查其向 prime-square 与高阶奇部的推广。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
       }
     ],
     "intake": [
       {
-        "problem_id": "1056",
+        "problem_id": "18",
         "domain": "number_theory",
-        "lane": "intake_active",
-        "priority_score": 88,
-        "closure_distance": 3,
+        "lane": "deep_backlog",
+        "priority_score": 55,
+        "closure_distance": 4,
         "budget_seconds": 5400,
-        "current_target_zh": "只在找到高阶碰撞矩、能量集中或可迭代区间乘积等于1的机制后重新晋级。",
+        "current_target_zh": "仅在出现短Egyptian-fraction、统一因子子集和覆盖或真正节省数量级的块递推时重开。",
         "mandatory_status_refresh": true,
         "cycle_progress": "completed",
-        "latest_outcome": "strict_reduction_no_promotion",
+        "latest_outcome": "route_blocked_no_promotion",
         "attempt_count": 1
       },
       {
-        "problem_id": "327",
-        "domain": "number_theory",
-        "lane": "intake_active",
-        "priority_score": 87,
-        "closure_distance": 3,
+        "problem_id": "620",
+        "domain": "graph_theory",
+        "lane": "resolution_audit",
+        "priority_score": 100,
+        "closure_distance": 1,
         "budget_seconds": 5400,
-        "current_target_zh": "安排一次4小时解析密度审计，连接乘法表/短区间除数分布；若筛集下密度为0，则寻找加权或多尺度改型。",
+        "current_target_zh": "转已有解核验；独立复核Lemma 3.4、3.5和Theorem 3.1，通过后标为预印本已闭合候选。",
         "mandatory_status_refresh": true,
         "cycle_progress": "completed",
-        "latest_outcome": "route_advanced",
+        "latest_outcome": "external_resolution_candidate",
         "attempt_count": 1
+      },
+      {
+        "problem_id": "141",
+        "domain": "combinatorics",
+        "lane": "deep_backlog",
+        "priority_score": 30,
+        "closure_distance": 5,
+        "budget_seconds": 5400,
+        "current_target_zh": "停止局部CRT搜索；只有出现超越Dickson障碍的统一同时素数机制时重新准入。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "completed",
+        "latest_outcome": "conditional_only_no_promotion",
+        "attempt_count": 1
+      },
+      {
+        "problem_id": "598",
+        "domain": "ramsey_theory",
+        "lane": "resolution_audit",
+        "priority_score": 99,
+        "closure_distance": 1,
+        "budget_seconds": 5400,
+        "current_target_zh": "转独立性核验，逐项核对原始文献和一致性强度；在两方向完整后再决定如何记录闭合。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "completed",
+        "latest_outcome": "relative_independence_candidate",
+        "attempt_count": 1
+      },
+      {
+        "problem_id": "521",
+        "domain": "analysis",
+        "lane": "discovery_standard",
+        "priority_score": 64,
+        "closure_distance": 3,
+        "budget_seconds": 5400,
+        "current_target_zh": "证明一个倒序块最大估计：对 dyadic 块 2^j≤n<2^{j+1}，控制 sup_n|N_{f_n^*}((-1,1))-(1/π)log n|，并使偏差 εj 的概率对 j 可求和。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "757",
+        "domain": "geometry",
+        "lane": "discovery_standard",
+        "priority_score": 60,
+        "closure_distance": 3,
+        "budget_seconds": 5400,
+        "current_target_zh": "从 Ma–Tang 的 9/17 证明中抽取一个可有限核验的结构引理：枚举一个顶点可参与的三项等差数列在“左端/中点/右端”三种角色下的允许交叠，并验证其加权删点递推是否确实给出 9/17。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "536",
+        "domain": "number_theory",
+        "lane": "discovery_high",
+        "priority_score": 66,
+        "closure_distance": 3,
+        "budget_seconds": 5400,
+        "current_target_zh": "建立由所有小型模板 \\(\\{txy,txz,tyz\\}\\) 生成的三均匀超图，对截断模板族计算分数匹配数；若能超过 \\(4N/225\\)，即可得到可检验的新密度常数。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "596",
+        "domain": "graph_theory",
+        "lane": "discovery_standard",
+        "priority_score": 60,
+        "closure_distance": 3,
+        "budget_seconds": 5400,
+        "current_target_zh": "查明 Nešetřil–Rödl 定理是否逐字保证：对每个有限、含圈且 \\(C_3,C_4\\)-自由的 \\(F\\) 及每个 \\(n\\)，存在 \\(C_4\\)-自由 \\(H\\) 满足 \\(H\\to(F)^2_n\\)。若成立，即可严格扩张出一整族 \\((C_4,F)\\)。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "52",
+        "domain": "combinatorics",
+        "lane": "discovery_standard",
+        "priority_score": 60,
+        "closure_distance": 3,
+        "budget_seconds": 5400,
+        "current_target_zh": "在附加假设 |A+A|≤n^{2−ε} 下，检验是否能按乘法倍数类分层，把 E×(A) 的上界改写为 o(n⁴/|AA|)；具体先对高重数比值集合 {r:|A∩rA|≥τ} 建立依赖 doubling 常数的尾界。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "949",
+        "domain": "ramsey_theory",
+        "lane": "discovery_standard",
+        "priority_score": 65,
+        "closure_distance": 3,
+        "budget_seconds": 5400,
+        "current_target_zh": "检验能否从任意连续统大小的 sum-free S 中抽取连续统大小的 Sidon 子集并保持平移构造对整个 S 的避让；若不能，构造使 (S-S) 或 (S-S-S)/2=ℝ 的 sum-free 候选以测试该策略的极限。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "517",
+        "domain": "analysis",
+        "lane": "discovery_standard",
+        "priority_score": 54,
+        "closure_distance": 3,
+        "budget_seconds": 5400,
+        "current_target_zh": "先检验可证的中间命题：若 Pe^g 的非零 Taylor 指数满足 n_k/k→∞，是否必有 g 为多项式；可从 g 为一次或有限次多项式的系数递推开始，确定有限阶证明究竟使用了哪一项增长估计。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
+      },
+      {
+        "problem_id": "174",
+        "domain": "geometry",
+        "lane": "discovery_high",
+        "priority_score": 57,
+        "closure_distance": 3,
+        "budget_seconds": 5400,
+        "current_target_zh": "取 LRW 给出的显式“球面但非 subtransitive”循环四边形，核验其精确代数参数，并尝试把它嵌入现有已知 Ramsey 类。证明它 Ramsey 或非 Ramsey 将直接区分两套候选刻画，是当前路线最具体的判别任务。",
+        "mandatory_status_refresh": true,
+        "cycle_progress": "pending",
+        "latest_outcome": null,
+        "attempt_count": 0
       }
     ],
     "resolution_audit": [
@@ -114,87 +244,7 @@
         "attempt_count": 0
       }
     ],
-    "paper_conversion": [
-      {
-        "problem_id": "301",
-        "domain": "number_theory",
-        "lane": "paper_conversion",
-        "priority_score": 82,
-        "closure_distance": 4,
-        "budget_seconds": null,
-        "current_target_zh": "停止微小常数改进，整理已有全局上界、独立复算、新颖性和投稿叙事；原题仅在出现新主阶机制时重启。",
-        "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
-      },
-      {
-        "problem_id": "1063",
-        "domain": "number_theory",
-        "lane": "paper_conversion",
-        "priority_score": 84,
-        "closure_distance": 4,
-        "budget_seconds": null,
-        "current_target_zh": "冻结逐次改界，完成上下界主定理、来源审计与论文版本；只有出现不同增长级的新机制才恢复闭合攻关。",
-        "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
-      }
-    ],
-    "status_refresh": [
-      {
-        "problem_id": "522",
-        "domain": "analysis",
-        "lane": "resolution_audit",
-        "priority_score": 94,
-        "closure_distance": 1,
-        "budget_seconds": 3600,
-        "current_target_zh": "核验随机多项式稿件中整块n统一的小值控制与Borel-Cantelli可求和性。",
-        "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
-      },
-      {
-        "problem_id": "689",
-        "domain": "number_theory",
-        "lane": "resolution_audit",
-        "priority_score": 93,
-        "closure_distance": 1,
-        "budget_seconds": 3600,
-        "current_target_zh": "独立审计双覆盖构造中的筛余量、两轮覆盖独立性和所有充分大n量词。",
-        "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
-      },
-      {
-        "problem_id": "306",
-        "domain": "number_theory",
-        "lane": "resolution_audit",
-        "priority_score": 90,
-        "closure_distance": 1,
-        "budget_seconds": 3600,
-        "current_target_zh": "核验中心覆盖区引理能否对任意平方自由分母与任意正有理数统一成立，并保持分母为两不同素数。",
-        "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
-      },
-      {
-        "problem_id": "1039",
-        "domain": "analysis",
-        "lane": "resolution_ready",
-        "priority_score": 100,
-        "closure_distance": 0,
-        "budget_seconds": 3600,
-        "current_target_zh": "维护固定提交的Lean复现证据，并等待/推动官网或正式论文状态更新。",
-        "mandatory_status_refresh": true,
-        "cycle_progress": "pending",
-        "latest_outcome": null,
-        "attempt_count": 0
-      }
-    ]
+    "paper_conversion": [],
+    "status_refresh": []
   }
 }
