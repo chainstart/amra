@@ -1,0 +1,27 @@
+{
+  "schema": "amra.erdos635.r004-exact-component-certificate.v1",
+  "status": "PASS",
+  "branch_vertex_limit": 2000000,
+  "undirected_branch_audit": {
+    "seed_count": 20516,
+    "distinct_closed_components": 18539,
+    "maximum_full_degree": 5,
+    "maximum_component_vertices": 22,
+    "maximum_component_edges": 21,
+    "maximum_vertex_reached": 2481129,
+    "cyclomatic_histogram": {"0": 18536, "1": 3},
+    "bicyclic_components": 0
+  },
+  "upward_orientation_audit": {
+    "identity": "mu=E-V+1=1-s+sum_(d_plus>=2)(d_plus-1)",
+    "seed_count": 3731,
+    "distinct_closed_components": 3651,
+    "maximum_upward_degree": 2,
+    "maximum_vertex_reached": 2362359,
+    "cyclomatic_histogram": {"0": 3645, "1": 6},
+    "bicyclic_components": 0
+  },
+  "strict_consequence": "Every all-prime swap-graph bicyclic core has all undirected and upward branch vertices greater than 2,000,000.",
+  "completeness": "Every seed's whole connected component was expanded by exact prime-divisor incident inversion; the 100,000-vertex safety limit was never reached.",
+  "scope": "Finite branch-vertex exclusion only; not an unbounded pseudoforest theorem."
+}

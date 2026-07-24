@@ -1,0 +1,139 @@
+{
+  "access_date": "2026-07-24",
+  "timezone": "Asia/Hong_Kong",
+  "sources": [
+    {
+      "id": "official_831",
+      "url": "https://www.erdosproblems.com/831",
+      "bytes": 33272,
+      "sha256": "f046ae21e85ea68e23c7e7812d156fd222087956ced60845c506b97b863497c9"
+    },
+    {
+      "id": "forum_831",
+      "url": "https://www.erdosproblems.com/forum/thread/831?order=oldest",
+      "bytes": 40168,
+      "sha256": "ab5084befc593687c6e76bf05b426e4d0141df552d5a79a276adddb07e55138c"
+    },
+    {
+      "id": "official_104",
+      "url": "https://www.erdosproblems.com/104",
+      "bytes": 35559,
+      "sha256": "0526299d38992b9a3309ff4806e28805b4fcc6344fed7f6e5421968f9cecebc1"
+    },
+    {
+      "id": "official_671",
+      "url": "https://www.erdosproblems.com/671",
+      "bytes": 34804,
+      "sha256": "d82fe96dc83327cc98d49cf38b5a440e1645ecfc9977b2a96099f6275947c577"
+    },
+    {
+      "id": "forum_671",
+      "url": "https://www.erdosproblems.com/forum/thread/671?order=oldest",
+      "bytes": 109382,
+      "sha256": "cc3347a6607bee038226eaab865c3d5885dce4f704227f503c4778cdb87be8e0"
+    },
+    {
+      "id": "claim_671",
+      "url": "https://www.erdosproblems.com/forum/thread/671/proof-claims",
+      "bytes": 44734,
+      "sha256": "3a4173e87ae0adea5ed5d6e8a1a4f02806e9d9c7ef7ee78ac62f7dd33e41e625"
+    },
+    {
+      "id": "claim_comments_671",
+      "url": "https://www.erdosproblems.com/forum/thread/671/proof-claims/61/comments",
+      "bytes": 86828,
+      "sha256": "ba7c20263d530635d5a832ad8b327aacf39247ab846c470ea6f34f54cfa4fc95"
+    },
+    {
+      "id": "official_838",
+      "url": "https://www.erdosproblems.com/838",
+      "bytes": 33212,
+      "sha256": "8eb4f8d50b5bb7ef4591f2742311fa87c5990318f7dd5fbcf3e0cdc4eb57b4dc"
+    },
+    {
+      "id": "forum_838",
+      "url": "https://www.erdosproblems.com/forum/thread/838?order=oldest",
+      "bytes": 43871,
+      "sha256": "fe219556a3fb488a29bdb0c03f129b7c9b0f473c1ccecb57a4cec0f7d5f1c524"
+    },
+    {
+      "id": "official_1040",
+      "url": "https://www.erdosproblems.com/1040",
+      "bytes": 34370,
+      "sha256": "b664a3f3a1644fd30eb53341bc55d36a4ae6b0d984abc1405ef4c601ea186598"
+    },
+    {
+      "id": "forum_1040",
+      "url": "https://www.erdosproblems.com/forum/thread/1040?order=oldest",
+      "bytes": 37791,
+      "sha256": "aedbfe1e5f198b2e77fd783025f4b0cfd82cbc4433858af69f40318c67b8c3bc"
+    },
+    {
+      "id": "erdos_1958_interpolation",
+      "url": "https://www.renyi.hu/~p_erdos/1958-14.pdf",
+      "bytes": 814771,
+      "sha256": "ee8e3b4bc595eb9cefee8e26ba20b44330709e49e187e13720703c47ba381d69"
+    },
+    {
+      "id": "erdos_1975_geometry",
+      "url": "https://www.renyi.hu/~p_erdos/1975-41.pdf",
+      "bytes": 260303,
+      "sha256": "90d7f2bc3783d9751b2924cc7db61783cb397d2d59bf0e9e86d72a1e7cc89e1f"
+    },
+    {
+      "id": "erdos_1978_geometry",
+      "url": "https://www.renyi.hu/~p_erdos/1978-44.pdf",
+      "bytes": 1150423,
+      "sha256": "bf252ec2e8310b33570d7b2c495d5f173e5f7527fcd8e05358456b3ed50e08d1"
+    },
+    {
+      "id": "martinez_roldan_2014",
+      "url": "https://arxiv.org/pdf/1402.6276",
+      "bytes": 98802,
+      "sha256": "f5cdb9d344cfd6b6a12494f8f2de1ae4e0f182a31bd70aca2e9c1efc737f59df"
+    },
+    {
+      "id": "suk_2016",
+      "url": "https://arxiv.org/pdf/1604.08657",
+      "bytes": 127243,
+      "sha256": "aedfe844afac6f993b6a1cca35696a3509bf68fef01f2f05a011bdcc3d89c74a"
+    },
+    {
+      "id": "ehp_1958",
+      "url": "https://www.renyi.hu/~p_erdos/1958-05.pdf",
+      "bytes": 4304732,
+      "sha256": "5d20ad770563e425ac3343e31581859a24facabf744f10489b8f8d201b0ec12a"
+    },
+    {
+      "id": "klr_2025",
+      "url": "https://arxiv.org/pdf/2503.18270",
+      "bytes": 879101,
+      "sha256": "49ada70f29f7fa035a2c993278f6d1e6df2ce02543ff02d02b6ff24d50f607f0"
+    },
+    {
+      "id": "ghosh_ramachandran_2026",
+      "url": "https://arxiv.org/pdf/2604.03036",
+      "bytes": 284417,
+      "sha256": "2646cf798aec63e9f97aa8b1585bdc449acafce9c09a077577072b29d3e8c07e"
+    },
+    {
+      "id": "pendyala_2026",
+      "url": "https://arxiv.org/pdf/2606.17097",
+      "bytes": 391245,
+      "sha256": "f55eceae1c50339c3d4068a31ebdb3bdbb47313f60dd3416e8de4ae51f69c94c"
+    },
+    {
+      "id": "lean_671_decoded_original",
+      "url": "embedded in claim_comments_671",
+      "bytes": 125059,
+      "sha256": "3854ae85aca322b5ad2c65fb9c7bae5ca19ed939ceca99521365d8690b8d8923"
+    },
+    {
+      "id": "lean_671_mathlib_4_27_compat",
+      "url": "local API-name-only rewrite",
+      "bytes": 125067,
+      "sha256": "2da73e90ffcde451b6479f8b63f81e2150c26c40e6e1002e71d2e4b596a045a6"
+    }
+  ],
+  "novelty_boundary": "Targeted current-source search only; #1040 strict partial is not asserted novel."
+}

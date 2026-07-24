@@ -1,0 +1,72 @@
+First public posting
+====================
+Discussion post:
+  https://www.erdosproblems.com/forum/thread/671#post-7142
+Posted:
+  2026-06-22 23:12
+Poster:
+  Liam Price
+Content:
+  “GPT Pro resolves both questions in the affirmative,” followed by the same
+  Overleaf and full Lean-live links audited below.
+Frozen discussion-thread HTML:
+  cc3347a6607bee038226eaab865c3d5885dce4f704227f503c4778cdb87be8e0
+HTML locator:
+  <li id="post-7142">; timestamp anchor `/forum/thread/671#post-7142`
+
+Later formal proof claim
+========================
+Official claim page:
+  https://www.erdosproblems.com/forum/thread/671/proof-claims
+Claim id:
+  61
+Submitted:
+  2026-07-15 13:26:03
+Claimant:
+  Liam Price (using GPT Pro and GPT-5.5)
+Paper:
+  https://www.overleaf.com/read/gqmfrhsprtqm#59ac11
+Lean:
+  the full 60,947-character live.lean-lang.org URL posted by Liam Price in
+  the comments on claim 61 (the claim-card copy is truncated to 2,048 chars)
+
+Chronology:
+  The proof and Lean code were first publicly available on 2026-06-22 23:12.
+  The date 2026-07-15 13:26:03 is only the later conversion into the site's
+  formal proof-claim record; it is not the proof's completion/publication date.
+
+Frozen hashes
+=============
+Overleaf source archive 671.zip:
+  a0cfa2e8b01daaa474796ea4cec912665eba99bd522c79f1eef831cc3dfd04ab
+Overleaf main.tex (14,330 bytes):
+  f23f4e93027fd9ad47677e914e533473534332a162579bb564f50e4e82aed1e0
+Decoded original Lean (125,059 bytes; 2,829 newline characters):
+  3854ae85aca322b5ad2c65fb9c7bae5ca19ed939ceca99521365d8690b8d8923
+Mathlib-4.27 compatibility copy:
+  2da73e90ffcde451b6479f8b63f81e2150c26c40e6e1002e71d2e4b596a045a6
+  125,067 bytes; this is the exact seven-identifier compatibility rewrite
+  plus one terminal LF added by apply_patch. The decoded original has no
+  terminal newline. With no newline normalisation, the exact rewrite would be
+  125,066 bytes with SHA-256
+  22760be7e4d811966c17ddd34f51753ab9098583b041a054b925a9d8fcb4e122.
+Official claim comments HTML:
+  ba7c20263d530635d5a832ad8b327aacf39247ab846c470ea6f34f54cfa4fc95
+Official proof-claim page HTML:
+  3a4173e87ae0adea5ed5d6e8a1a4f02806e9d9c7ef7ee78ac62f7dd33e41e625
+
+Static scan of decoded original Lean
+====================================
+Tokens `sorry`, `admit`, `sorryAx`: 0
+Top-level declarations beginning `axiom`: 0
+Top-level declarations beginning `opaque`: 0
+
+Compatibility rewrite counts
+============================
+continuous_finsetSum -> continuous_finset_sum: 2
+Polynomial.eval_finsetSum -> Polynomial.eval_finset_sum: 1
+tendsto_finsetProd -> tendsto_finset_prod: 3
+tendsto_finsetSum -> tendsto_finset_sum: 1
+Total changed identifiers: 7
+Byte-only normalisation: one terminal LF added.
+No terms, hypotheses, conclusions, tactics, or proof structure were changed.

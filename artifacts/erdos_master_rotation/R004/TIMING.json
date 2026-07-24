@@ -1,0 +1,45 @@
+{
+  "schema_version": "amra.erdos_rotation.cycle_timing.v1",
+  "cycle_id": "R004",
+  "timezone": "Asia/Hong_Kong",
+  "macrocycle_research_started_at": "2026-07-24T09:54:13+08:00",
+  "macrocycle_research_completed_at": "2026-07-24T11:05:50+08:00",
+  "envelope_wall_seconds": 4297,
+  "minimum_required_active_agent_seconds": 14400,
+  "registered_active_agent_seconds": 14896,
+  "registered_active_agent_hours": 4.137778,
+  "maximum_parallel_slots": 4,
+  "package_active_agent_seconds": {
+    "root_intake_audits": 1800,
+    "core_776_635": 4206,
+    "core_809_592": 4270,
+    "intake_831_671_838_1040": 4200,
+    "independent_qa_671": 420
+  },
+  "problem_active_agent_seconds": {
+    "187": 90,
+    "313": 240,
+    "323": 270,
+    "592": 1700,
+    "635": 1746,
+    "644": 120,
+    "671": 1800,
+    "689": 300,
+    "749": 150,
+    "776": 2460,
+    "809": 2570,
+    "811": 210,
+    "812": 90,
+    "831": 1560,
+    "838": 480,
+    "920": 180,
+    "949": 150,
+    "1040": 780
+  },
+  "sum_check": {
+    "package_seconds": 14896,
+    "problem_seconds": 14896,
+    "contract_margin_seconds": 496
+  },
+  "accounting_note": "Agent-hours are summed actual foreground source verification, mathematical research, adversarial analysis and substantive independent QA. Parallel work may exceed wall time. Waiting, idle wall time, setup, final packaging, repeated validation and unused budget are excluded."
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "amra.actual-timing.v1",
+  "problem_id": "635",
+  "started_at": "2026-07-24T09:54:13+08:00",
+  "research_frozen_at": "2026-07-24T11:04:19+08:00",
+  "active_agent_seconds": 1746,
+  "active_agent_hours": 0.485,
+  "budget_seconds": 14400,
+  "budget_hours": 4.0,
+  "budget_exhausted": false,
+  "accounting": "Non-overlapping foreground share; no wait, unused budget, repeated packing or post-freeze packaging time is charged.",
+  "phases": [
+    {"name": "inherited breakpoint and source refresh", "active_seconds": 180},
+    {"name": "shared-path gradient derivation and no-go", "active_seconds": 260},
+    {"name": "exact incident inversion and branch-component search", "active_seconds": 520},
+    {"name": "upward orientation potential and cycle extraction", "active_seconds": 260},
+    {"name": "parallel-cycle theorem and factor-pair search", "active_seconds": 526}
+  ],
+  "verification_runs": [
+    {"command": "python3 verify_shared_path_gradient.py", "elapsed_seconds": 0.02, "max_rss_kb": 11776, "status": "PASS"},
+    {"command": "python3 verify_parallel_cycle_family.py", "elapsed_seconds": 0.01, "max_rss_kb": 11392, "status": "PASS"},
+    {"command": "taskset -c 6 nice -n 10 python3 search_parallel_cycle_family.py", "elapsed_seconds": 2.35, "max_rss_kb": 49320, "status": "PASS"},
+    {"command": "python3 verify_targeted_cycle_components.py", "elapsed_seconds": 0.17, "max_rss_kb": 92288, "status": "PASS"},
+    {"command": "taskset -c 6 nice -n 10 python3 search_bicyclic_components.py --limit 2000000", "elapsed_seconds": 4.83, "max_rss_kb": 101116, "status": "PASS"}
+  ]
+}

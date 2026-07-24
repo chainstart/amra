@@ -1,0 +1,41 @@
+{
+  "schema": "amra.source-manifest.v1",
+  "problem_id": "635",
+  "refreshed_at": "2026-07-24T09:59:00+08:00",
+  "sources": [
+    {
+      "url": "https://www.erdosproblems.com/635",
+      "type": "official_problem_page",
+      "role": "statement and current status",
+      "access_result": "direct refresh returned HTTP 403; indexed official record refreshed",
+      "status_used": "exact extremal question OPEN; asymptotic second question affirmative; indexed page last edited 2026-02-01"
+    },
+    {
+      "url": "https://www.erdosproblems.com/forum/thread/635",
+      "type": "official_forum_thread",
+      "role": "scope clarification that only the asymptotic subquestion is solved"
+    },
+    {
+      "url": "https://doi.org/10.1006/jnth.1999.2395",
+      "type": "primary_published_source",
+      "citation": "I. Z. Ruzsa, Erdos and the Integers, Journal of Number Theory 79 (1999), 115--163",
+      "role": "official historical reference"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260723_round12_original_targets_10h/work/broad/635_SEMIPRIME_SWAP_GRAPH.md",
+      "sha256": "6cc859af57f33373d3365e7ad83b6dcb1f3fcdd0fab50b4f7434ee2317f563e0",
+      "type": "inherited_frozen_evidence",
+      "role": "swap graph, bicyclic Hall criterion and exact edge model"
+    },
+    {
+      "path": "artifacts/erdos_master_rotation/R003/core_776_635/635/REPORT.md",
+      "type": "inherited_frozen_evidence",
+      "role": "fixed-valuation cycle exclusions, first moment, Euler product and majorization crossing"
+    },
+    {
+      "path": "artifacts/erdos_master_rotation/R003/core_776_635/635/INVARIANT_CERTIFICATE.json",
+      "type": "inherited_frozen_evidence",
+      "role": "cycle invariant and composite counterwalk controls"
+    }
+  ]
+}

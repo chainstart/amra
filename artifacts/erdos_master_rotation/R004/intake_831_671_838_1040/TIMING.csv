@@ -1,0 +1,10 @@
+problem,phase,start,end,active_seconds,counts_as_foreground,notes
+831,official_statement_and_primary_source_freeze,2026-07-24T09:54:50+08:00,2026-07-24T09:56:50+08:00,120,yes,"Exact statement, status, original paper and #104 relation"
+671,public_claim_chronology_and_source_recovery,2026-07-24T09:56:50+08:00,2026-07-24T10:07:50+08:00,660,yes,"First-public post versus later claim date; Overleaf and full Lean URL recovery"
+671,natural_proof_quantifiers_and_lean_audit,2026-07-24T10:07:50+08:00,2026-07-24T10:19:50+08:00,720,yes,"Full-sequence convergence, exact theorem mapping, static scan and API-only compatibility verification"
+831,fixed_radius_hypergraph_and_local_models,2026-07-24T10:19:50+08:00,2026-07-24T10:29:50+08:00,600,yes,"Pair codegrees, orthocentric K4 and saturated twofold designs"
+831,circle_branch_realisability_and_public_upper_audit,2026-07-24T10:29:50+08:00,2026-07-24T10:35:50+08:00,360,yes,"#104 breakpoint, branch coherence, paraboloid projection and volume-chain audit"
+838,current_literature_and_two_multiscale_routes,2026-07-24T10:35:50+08:00,2026-07-24T10:43:50+08:00,480,yes,"Base-2 frontier, exact flag telescoping, separate-scale and recursive 1/4 barriers"
+1040,current_literature_and_two_potential_routes,2026-07-24T10:43:50+08:00,2026-07-24T10:51:50+08:00,480,yes,"Capacity frontier, Fekete route, continuum and finite-polynomial energy counterexamples"
+1040,latest_preprint_and_hull_area_refinement,2026-07-24T10:51:50+08:00,2026-07-24T10:56:50+08:00,300,yes,"June-2026 sharp disk result; general hull-area theorem and novelty guard"
+831,link_cycle_symbolic_realisability_obstruction,2026-07-24T10:56:50+08:00,2026-07-24T11:04:50+08:00,480,yes,"C5/C6 link structure and exact six-vertex non-realizability certificate"

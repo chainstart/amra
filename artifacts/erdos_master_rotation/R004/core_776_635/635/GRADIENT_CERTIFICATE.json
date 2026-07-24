@@ -1,0 +1,19 @@
+{
+  "schema": "amra.erdos635.r004-shared-path-gradient-certificate.v1",
+  "status": "PASS",
+  "edge_identities": [
+    "(x-q)-(x-p)=p-q",
+    "(1-1/(A*p))/(1-1/(A*q))=(x-q)/(x-p)"
+  ],
+  "path_identities": [
+    "sum_edges(p-q)=end-start",
+    "product_edges(f_A(p)/f_A(q))=end/start"
+  ],
+  "shared_endpoint_consequence": "Subtracting/dividing two paths gives 0 and 1 tautologically.",
+  "route_verdict": "The R003 first-moment and Euler-product identities are correct but cannot supply compatible-majorization coupling on shared paths.",
+  "controls": [
+    {"endpoints": [273, 275], "labels": [280, 286], "label_conflict": false},
+    {"endpoints": [5293, 5355], "labels": [5360, 5372], "label_conflict": false}
+  ],
+  "scope": "This kills the shared-path-invariant proof route; it does not prove the graph is a pseudoforest."
+}

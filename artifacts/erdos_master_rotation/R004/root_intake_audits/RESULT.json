@@ -1,0 +1,149 @@
+{
+  "schema_version": "amra.erdos_rotation.multi_intake_audit_result.v1",
+  "cycle_id": "R004",
+  "task": "root_intake_audits",
+  "as_of": "2026-07-24",
+  "all_official_statuses_refreshed": true,
+  "all_original_statements_verified": true,
+  "problems": {
+    "313": {
+      "official_status": "OPEN",
+      "outcome": "LATEST_FINITE_EXAMPLES_VERIFIED__INFINITUDE_STILL_OPEN",
+      "rigorous_findings": [
+        "Han Wang's arXiv:2605.21518 gives two further finite primary pseudoperfect numbers, not an unconditional infinitude proof.",
+        "The displayed factorizations, reciprocal identities, inheritance product, and primality of N9+1 were independently recomputed.",
+        "Two-prime inheritance is exactly parameterized by (q-M)(r-M)=M^2+1; this result already appears in the cited preprint."
+      ],
+      "first_breakpoint": "No unconditional mechanism forces infinitely many multi-prime port fillings; the preprint's infinitude criterion assumes an unproved five-variable prime-points hypothesis.",
+      "closure_distance_before": 3,
+      "closure_distance_after": 3,
+      "q2_candidate": false
+    },
+    "323": {
+      "official_status": "OPEN",
+      "outcome": "STRICT_QUANTITATIVE_PARTIAL",
+      "rigorous_findings": [
+        "For fixed k>=3, the fourth moment of the kth-power Weyl sum is O(X^(2+epsilon)) by a divisor injection.",
+        "Hua's eighth moment and Cauchy interpolation give the sixth moment O(X^(7/2+epsilon)).",
+        "Consequently f_(k,3)(x) is at least x^(5/(2k)-epsilon); in particular f_(4,3)(x) is at least x^(5/8-epsilon)."
+      ],
+      "first_breakpoint": "The original (4,3) exponent requires a sixth moment of diagonal size X^(3+epsilon), saving X^(1/2) beyond the Hua interpolation.",
+      "novelty_guard": "This is a direct classical-moment corollary and has not passed a dedicated priority search.",
+      "closure_distance_before": 3,
+      "closure_distance_after": 3,
+      "q2_candidate": false
+    },
+    "749": {
+      "official_status": "OPEN",
+      "outcome": "RIGOROUS_ALL_SCALES_NECESSARY_CONDITION",
+      "rigorous_findings": [
+        "Uniformly bounded representation and lower sumset density force Omega(sqrt(N)) new elements in every fixed multiplicative annulus (theta N,N], theta<(1-epsilon)/2.",
+        "This quantitatively rules out a direct sparse-good-scales upgrade of the known upper-density construction."
+      ],
+      "first_breakpoint": "Construct or rule out uniformly bounded cross-convolutions between square-root-sized Sidon-type shells at every scale.",
+      "closure_distance_before": 3,
+      "closure_distance_after": 3,
+      "q2_candidate": false
+    },
+    "811": {
+      "official_status": "OPEN",
+      "outcome": "SPECTRAL_SUFFICIENT_CONDITION_FOR_RAINBOW_C6",
+      "rigorous_findings": [
+        "A trace expansion gives at least 720(q^6-(n-1) product_i lambda_i) distinct-color closed six-walks.",
+        "At most 15n^5 such walks are vertex-degenerate.",
+        "A fixed spectral gap lambda_i <= theta q/(n-1)^(1/6), theta<1, therefore forces a rainbow C6 for large n."
+      ],
+      "first_breakpoint": "Balanced color classes can have nontrivial eigenvalue q; the large-spectrum inverse-structure regime remains.",
+      "closure_distance_before": 3,
+      "closure_distance_after": 3,
+      "q2_candidate": false
+    },
+    "949": {
+      "official_status": "OPEN",
+      "outcome": "HARD_KERNEL_REDUCTION_AND_ROUTE_COUNTEREXAMPLE",
+      "rigorous_findings": [
+        "If |S|=continuum but span_Q(S) is a proper subspace, a coset x+span_Q(S) solves the problem.",
+        "Together with the known small-cardinality case, the hard kernel is |S|=continuum and span_Q(S)=R.",
+        "A Q-linearly independent continuum set yields a sum-free S whose associated sum graph has a continuum clique, invalidating the no-large-clique Ramsey shortcut."
+      ],
+      "first_breakpoint": "Control overlaps of continuum-sized translates S-a in the full-Q-span kernel.",
+      "closure_distance_before": 3,
+      "closure_distance_after": 3,
+      "q2_candidate": false
+    },
+    "644": {
+      "official_status": "OPEN",
+      "outcome": "PROPOSED_DELETION_ROUTE_REFUTED",
+      "rigorous_findings": [
+        "C5 satisfies the local (3,2) condition on every three edges.",
+        "No choice deleting one endpoint from every edge leaves a 1-uniform family satisfying the same local condition, since tau(C5)=3."
+      ],
+      "first_breakpoint": "Any near-subadditivity construction must retain a bounded exceptional transversal or use a stable labelled product rather than edgewise deletion.",
+      "closure_distance_before": 3,
+      "closure_distance_after": 4,
+      "q2_candidate": false
+    },
+    "812": {
+      "official_status": "OPEN",
+      "outcome": "ONE_SIDED_BRIDGE_LEMMA",
+      "rigorous_findings": [
+        "The known two-step lower bound plus only Delta_(n+1)<=n^o(1)Delta_n already implies every Delta_n>=n^(2-o(1)); bidirectional comparability is unnecessary."
+      ],
+      "first_breakpoint": "No known Ramsey injection proves the required one-sided subpolynomial adjacent-difference comparison.",
+      "closure_distance_before": 3,
+      "closure_distance_after": 3,
+      "q2_candidate": false
+    },
+    "187": {
+      "official_status": "OPEN",
+      "outcome": "ROUTE_CLASS_LIMITATION",
+      "rigorous_findings": [
+        "Any proof using only one arbitrary pulled-back coloring block must use length at least W(2,k).",
+        "Scale-separated windows therefore inherit a ratio at least (W(2,k)-1)/(k-1), so endpoint tuning cannot improve the fivefold-log layer obtained in R003."
+      ],
+      "first_breakpoint": "A better bound must exploit correlations between overlapping scales or avoid disjoint difference windows.",
+      "closure_distance_before": 3,
+      "closure_distance_after": 3,
+      "q2_candidate": false
+    },
+    "920": {
+      "official_status": "OPEN",
+      "related_official_status": "#986 PROVED",
+      "outcome": "VERIFIED_CLOSED_BY_PUBLIC_PREPRINT",
+      "closure_evidence": "Domagoj Bradac, arXiv:2605.28793v3, revised 2026-06-16",
+      "rigorous_findings": [
+        "The v3 theorem gives r(s,t)>=c_s t^(s-1)/(log t)^(2s-4) for every fixed s>=3.",
+        "Direct monotone inversion yields g_s(n)>=n^(1-1/(s-1))/(log n)^(2(s-2)/(s-1)), exactly answering #920 for every fixed s>=4.",
+        "The official #920 OPEN label is inconsistent with the now-PROVED stronger #986 page."
+      ],
+      "original_problem_closed_mathematically": true,
+      "closure_evidence_tier": "public_complete_preprint_reduction_independently_checked",
+      "peer_review_confirmed": false,
+      "formal_proof_confirmed": false,
+      "closure_distance_before": 1,
+      "closure_distance_after": 0,
+      "q2_candidate": false
+    },
+    "689": {
+      "official_status": "OPEN",
+      "outcome": "TWO_FULL_PROOF_CLAIMS__NO_FATAL_GAP_FOUND_IN_FIRST_PASS",
+      "rigorous_findings": [
+        "Chojecki's 2026-04-27 working manuscript presents an unconditional complete route using fixed-modulus prime triples, Selberg degree bounds, and a greedy hypergraph matching.",
+        "The residual-demand identity, switched-prime local kernels, parameter surplus, and deterministic cleanup were independently replayed.",
+        "No explicit counterexample or fatal algebraic gap was found in this pass."
+      ],
+      "first_breakpoint": "Expert-level audit remains for the coefficient-summed singular products and the uniform Green-Tao/Selberg interfaces; the official forum explicitly awaits peer or expert review.",
+      "original_problem_closed_mathematically": "UNCONFIRMED",
+      "closure_distance_before": 1,
+      "closure_distance_after": 1,
+      "q2_candidate": false
+    }
+  },
+  "original_problem_closed_count": 1,
+  "new_original_problem_proof_by_amra_count": 0,
+  "paper_level_new_result_count": 0,
+  "overall_decision": "CLOSE_920_BY_PREPRINT_EVIDENCE__KEEP_689_UNCONFIRMED__NO_NEW_Q2_PROMOTION",
+  "claim_guard": "Only #920 is marked mathematically closed, conditionally on the cited public v3 theorem. The other nine problems remain open or administratively unverified; finite examples, conditional theorems, route counterexamples, and classical corollaries are not represented as original closure.",
+  "central_files_modified": false,
+  "git_commit_created": false
+}

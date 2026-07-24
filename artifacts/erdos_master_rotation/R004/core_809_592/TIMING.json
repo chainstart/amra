@@ -1,0 +1,60 @@
+{
+  "schema_version": "amra.erdos_rotation.timing.v1",
+  "cycle_id": "R004",
+  "task": "core_809_592",
+  "started_at": "2026-07-24T09:54:22+08:00",
+  "research_frozen_at": "2026-07-24T11:05:50+08:00",
+  "elapsed_to_research_freeze_seconds": 4288,
+  "active_research_seconds": 4270,
+  "active_agent_hours": 1.186111,
+  "unallocated_transition_seconds": 18,
+  "problem_active_seconds": {
+    "809": 2570,
+    "592": 1700
+  },
+  "sum_check": "2570 + 1700 = 4270 >= 4200",
+  "problem_budget_caps_seconds": {
+    "809": 14400,
+    "592": 14400
+  },
+  "budget_compliance": {
+    "809": true,
+    "592": true
+  },
+  "accounting_method": "Mutually exclusive retrospective attribution of the actual single-agent foreground session. Final packaging, checksum generation, validator reruns, waits, nominal budget, and repeated packaging are excluded.",
+  "execution": {
+    "mode": "sequential_single_agent",
+    "parallel_agents_used": false,
+    "cpu_policy": "Both certificate scripts are single-process; no multiprocessing or worker pool."
+  },
+  "events": [
+    {
+      "at": "2026-07-24T09:54:22+08:00",
+      "event": "R004 core task started"
+    },
+    {
+      "at": "2026-07-24T09:54:50+08:00",
+      "event": "official #809 OPEN snapshot retrieved"
+    },
+    {
+      "at": "2026-07-24T09:54:51+08:00",
+      "event": "official #592 OPEN snapshot and BCM primary PDF retrieved"
+    },
+    {
+      "at": "2026-07-24T10:10:54+08:00",
+      "event": "Alon--Moitra--Sudakov primary PDF retrieved; induced-matching shortcut rejected"
+    },
+    {
+      "at": "2026-07-24T10:49:51+08:00",
+      "event": "#809 thresholded core/hub verifier completed"
+    },
+    {
+      "at": "2026-07-24T10:53:41+08:00",
+      "event": "Galvin--Larson primary pinning PDF retrieved"
+    },
+    {
+      "at": "2026-07-24T11:05:50+08:00",
+      "event": "research frozen after reverse QA narrowed the #592 root-obstruction scope"
+    }
+  ]
+}

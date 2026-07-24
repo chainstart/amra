@@ -1,0 +1,29 @@
+command:
+  taskset -c 0 timeout 1200 lake env lean Erdos671.original.lean
+
+environment:
+  Lean toolchain: leanprover/lean4:v4.27.0
+  Mathlib git revision: a3a10db0e9
+
+exit_code: 1
+stdout_stderr:
+Erdos671.original.lean:501:8: error(lean.unknownIdentifier): Unknown identifier `continuous_finsetSum`
+Erdos671.original.lean:641:34: error(lean.unknownIdentifier): Unknown constant `Polynomial.eval_finsetSum`
+Erdos671.original.lean:640:40: error: unsolved goals
+n : ℕ
+X : Row n
+f : C(↑Interval, ℝ)
+x : ℝ
+⊢ interpolant X f x =
+    Polynomial.eval x (∑ i, Polynomial.C (f (X.node i)) * Lagrange.basis Finset.univ (fun i => ↑(X.node i)) i)
+Erdos671.original.lean:1107:2: error(lean.unknownIdentifier): Unknown identifier `tendsto_finsetProd`
+Erdos671.original.lean:1115:2: error(lean.unknownIdentifier): Unknown identifier `tendsto_finsetProd`
+Erdos671.original.lean:1232:2: error(lean.unknownIdentifier): Unknown identifier `tendsto_finsetProd`
+Erdos671.original.lean:1482:4: error(lean.unknownIdentifier): Unknown identifier `tendsto_finsetSum`
+Erdos671.original.lean:1766:2: error(lean.unknownIdentifier): Unknown identifier `continuous_finsetSum`
+'Erdos671.erdos_671' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+
+Interpretation:
+  All reported failures are missing identifiers whose names changed between
+  Mathlib versions. The displayed `sorryAx` is Lean's recovery after these
+  compile errors; the source itself contains no sorry/admit/axiom declaration.

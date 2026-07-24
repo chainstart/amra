@@ -1,0 +1,34 @@
+{
+  "schema": "amra.erdos776.r004-five-term-rank8-certificate.v1",
+  "status": "PASS",
+  "strict_identities": {
+    "top17_coupling": "For R=C(V-18,2)-s, 1<=s<=17, G9>=Delta_s iff Q'<=U2(C(V-17,2)-18) iff R'(V+1)<=C(V-16,2).",
+    "five_term_barrier": "H8^(5)(V)+C(V-8,3)-1=H8(V)+C(V-9,2)-1.",
+    "five_term_descent": "The barrier endpoint descends exactly to E5=F5(V)+10 for V>=15.",
+    "tail_complement": "D_(V-12)=0 and D_(q-1)=V+KK_q(D_q); reservoir survival iff D2<=C(V-9,2).",
+    "conditional_rank8_closure": "For every V>=40, D8<C(V-11,8) implies D2<=C(V-9,2).",
+    "remaining_entry": "For D8=C(V-12,8)+C(V-13,7)+W6, the rank-8 cap is exactly W6<C(V-13,6)."
+  },
+  "complete_small_range_audit": {
+    "V_range": [40, 999],
+    "checks": 960,
+    "minimum_conditional_descent_margin": 4,
+    "first_minimum_at_V": 40
+  },
+  "analytic_large_range": {
+    "V_range": "V>=1000",
+    "bounds": [
+      "KK_r(x)<=r*x",
+      "w5<=7V, w4<=36V, w3<=145V, w2<=436V",
+      "KK2(w2)<=sqrt(872V)+2<=V-21"
+    ]
+  },
+  "strategic_rank8_entry_margins": [
+    {"V": 40, "margin": 260272},
+    {"V": 100, "margin": 504971605},
+    {"V": 379, "margin": 3203798788714},
+    {"V": 1000, "margin": 1264613768009912},
+    {"V": 100000, "margin": 1387597721425102127105602470}
+  ],
+  "scope": "The displayed canonical/Galois identities and conditional rank-8 descent are exact. Strategic entry margins are finite evidence only; no all-V rank-8 entry theorem is claimed."
+}

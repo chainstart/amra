@@ -1,0 +1,447 @@
+{
+  "claim": "Arbitrary independent successor-slot extensions do not merge symmetrically; the source Cases instead admit unique ordered replay schedules.  The T(omega) limit root and T(3) successor root have different branching and label semantics.",
+  "finite_Gamma_root_guard": {
+    "Gamma": [
+      1,
+      2,
+      3
+    ],
+    "case4_case5_d_positive_coarsening_possible": false,
+    "conclusion": "A single finite-Gamma-free T(omega) builder family cannot retain pair histories with positive root labels, including the source Case-4/5 d>0 histories.  This blocks the literal root-coded transplant, but not a redesigned empty-root builder branch with signals at finite-rank nodes.",
+    "finite_Gamma_free_forces_empty_T_omega_root_label": true,
+    "passed": true,
+    "root_label_table": [
+      {
+        "allowed_in_locally_Gamma_free_T_omega": true,
+        "root_is_signal": false,
+        "root_label_size": 0
+      },
+      {
+        "allowed_in_locally_Gamma_free_T_omega": false,
+        "root_is_signal": true,
+        "root_label_size": 1
+      },
+      {
+        "allowed_in_locally_Gamma_free_T_omega": false,
+        "root_is_signal": true,
+        "root_label_size": 2
+      },
+      {
+        "allowed_in_locally_Gamma_free_T_omega": false,
+        "root_is_signal": true,
+        "root_label_size": 3
+      },
+      {
+        "allowed_in_locally_Gamma_free_T_omega": false,
+        "root_is_signal": true,
+        "root_label_size": 4
+      }
+    ]
+  },
+  "limit_successor_interface": {
+    "T_3_successor_root_example": {
+      "complete_child_count": 7,
+      "label_semantics": "finite set of child indices of partition nodes",
+      "rank": 3
+    },
+    "T_omega_limit_root": {
+      "complete_child_count": 1,
+      "label_semantics": "finite set of ranks of splitting nodes below it",
+      "rank": "omega"
+    },
+    "blind_symbol_substitution_preserves_interface": false,
+    "passed": true
+  },
+  "minimal_noncommutation_certificate": {
+    "base": "one successor-rank node with no constructed children",
+    "extension_A": {
+      "locally_required_label": [
+        1
+      ],
+      "new_child_coordinate": 10
+    },
+    "extension_B": {
+      "locally_required_label": [
+        1
+      ],
+      "new_child_coordinate": 20
+    },
+    "merged_children": [
+      10,
+      20
+    ],
+    "ordered_replay_A_then_B_uses_labels": [
+      [
+        1
+      ],
+      [
+        2
+      ]
+    ],
+    "passed": true,
+    "required_after_merge": {
+      "A": [
+        1
+      ],
+      "B": [
+        2
+      ]
+    },
+    "symmetric_merge_preserves_both_histories": false
+  },
+  "passed": true,
+  "scope_guard": "The counterexample refutes only the naive symmetric-union lemma.  It does not refute a pre-coordinated ordered-replay lemma and does not decide Erd\u0151s #592.",
+  "source_schedules": {
+    "case4_inside": {
+      "constraints": [
+        [
+          "SU",
+          "ST"
+        ],
+        [
+          "TU",
+          "ST"
+        ],
+        [
+          "TU",
+          "SU"
+        ]
+      ],
+      "passed": true,
+      "unique_ordered_replay": [
+        "TU",
+        "SU",
+        "ST"
+      ]
+    },
+    "case5_outside": {
+      "constraints": [
+        [
+          "ST",
+          "SU"
+        ],
+        [
+          "ST",
+          "TU"
+        ],
+        [
+          "SU",
+          "TU"
+        ]
+      ],
+      "passed": true,
+      "unique_ordered_replay": [
+        "ST",
+        "SU",
+        "TU"
+      ]
+    }
+  },
+  "successor_pushout_obstruction": {
+    "certificates": [
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 0,
+        "each_local_required_index": 1,
+        "independent_extensions": 2,
+        "indices_after_union": [
+          1,
+          2
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 0,
+        "each_local_required_index": 1,
+        "independent_extensions": 3,
+        "indices_after_union": [
+          1,
+          2,
+          3
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 0,
+        "each_local_required_index": 1,
+        "independent_extensions": 4,
+        "indices_after_union": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 0,
+        "each_local_required_index": 1,
+        "independent_extensions": 5,
+        "indices_after_union": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 1,
+        "each_local_required_index": 2,
+        "independent_extensions": 2,
+        "indices_after_union": [
+          2,
+          3
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 1,
+        "each_local_required_index": 2,
+        "independent_extensions": 3,
+        "indices_after_union": [
+          2,
+          3,
+          4
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 1,
+        "each_local_required_index": 2,
+        "independent_extensions": 4,
+        "indices_after_union": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 1,
+        "each_local_required_index": 2,
+        "independent_extensions": 5,
+        "indices_after_union": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 2,
+        "each_local_required_index": 3,
+        "independent_extensions": 2,
+        "indices_after_union": [
+          3,
+          4
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 2,
+        "each_local_required_index": 3,
+        "independent_extensions": 3,
+        "indices_after_union": [
+          3,
+          4,
+          5
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 2,
+        "each_local_required_index": 3,
+        "independent_extensions": 4,
+        "indices_after_union": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 2,
+        "each_local_required_index": 3,
+        "independent_extensions": 5,
+        "indices_after_union": [
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 3,
+        "each_local_required_index": 4,
+        "independent_extensions": 2,
+        "indices_after_union": [
+          4,
+          5
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 3,
+        "each_local_required_index": 4,
+        "independent_extensions": 3,
+        "indices_after_union": [
+          4,
+          5,
+          6
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 3,
+        "each_local_required_index": 4,
+        "independent_extensions": 4,
+        "indices_after_union": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 3,
+        "each_local_required_index": 4,
+        "independent_extensions": 5,
+        "indices_after_union": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 4,
+        "each_local_required_index": 5,
+        "independent_extensions": 2,
+        "indices_after_union": [
+          5,
+          6
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 4,
+        "each_local_required_index": 5,
+        "independent_extensions": 3,
+        "indices_after_union": [
+          5,
+          6,
+          7
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 4,
+        "each_local_required_index": 5,
+        "independent_extensions": 4,
+        "indices_after_union": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 4,
+        "each_local_required_index": 5,
+        "independent_extensions": 5,
+        "indices_after_union": [
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 5,
+        "each_local_required_index": 6,
+        "independent_extensions": 2,
+        "indices_after_union": [
+          6,
+          7
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 5,
+        "each_local_required_index": 6,
+        "independent_extensions": 3,
+        "indices_after_union": [
+          6,
+          7,
+          8
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 5,
+        "each_local_required_index": 6,
+        "independent_extensions": 4,
+        "indices_after_union": [
+          6,
+          7,
+          8,
+          9
+        ],
+        "locally_preserved_histories": 1
+      },
+      {
+        "all_final_indices_legal_standalone": false,
+        "base_child_count": 5,
+        "each_local_required_index": 6,
+        "independent_extensions": 5,
+        "indices_after_union": [
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "locally_preserved_histories": 1
+      }
+    ],
+    "conclusion": "The category of exact successor clear histories has no label-preserving symmetric pushout for two or more independently appended children.  Later children must be generated by pre-coordinated ordered replay.",
+    "configurations_checked": 24,
+    "passed": true
+  }
+}

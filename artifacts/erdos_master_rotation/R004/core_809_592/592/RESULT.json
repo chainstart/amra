@@ -1,0 +1,37 @@
+{
+  "schema_version": "amra.erdos_rotation.problem_result.v1",
+  "cycle_id": "R004",
+  "problem_id": 592,
+  "official_status_checked": "OPEN",
+  "official_status_checked_at": "2026-07-24T09:54:51+08:00",
+  "result_status": "exact_route_obstructions_original_open",
+  "original_closed": false,
+  "full_problem_closed": false,
+  "proof_or_disproof_of_original": false,
+  "minimal_open_test_case": "omega^(omega^3) -> (omega^(omega^3),3)^2",
+  "q2_candidate": false,
+  "q2_publishability": {
+    "assessment": "not_Q2_ready",
+    "reason": "This is a rigorous route audit and counterexample to a proposed interface, not a new ordinal partition relation or a proof/disproof of the open case."
+  },
+  "new_rigorous_results": [
+    "Exact successor pushout obstruction: two or more independently appended child histories cannot be merged while preserving every locally correct child-index label.",
+    "The source Case 4 and Case 5 precedence constraints each have a unique ordered replay, respectively TU<SU<ST and ST<SU<TU.",
+    "T(omega) limit-root labels encode ranks below the root, while T(3) successor-root labels encode actual child indices; blind substitution changes the interface.",
+    "For finite Gamma subset omega, every locally Gamma-free T(omega) family has empty root labels.",
+    "Consequently a single finite-Gamma-free T(omega) builder family cannot retain positive-root pair histories. This blocks the literal root-coded transplant but does not block a redesigned empty-root finite-rank builder branch.",
+    "A trace map satisfying the required order-type preservation is a Galvin--Larson pinning map, so constructing it is solution-level rather than a routine compression."
+  ],
+  "first_strict_breakpoint": "Build and prove an ordered, strategy-aware T(3) replay lemma that preserves actual child indices, convex partition nodes, critical/decision nodes, completion barriers, conservative bounds, and final clear coarsenings.",
+  "additional_builder_breakpoint": "Reprove the builder branch with empty T(omega) roots and signals at ranks 1,2,3, or work directly on T(3); the finite-Gamma root guard shows the original root-coded family cannot be reused verbatim.",
+  "next_decidable_action": "Formalize one source schedule on T(3) and either prove the first two-game ordered replay step including Definition 10.19 partition nodes, or exhibit its first strategy-dependent counterexample.",
+  "verification": {
+    "script": "verify_592_commutation_guard.py",
+    "certificate": "verification.json",
+    "successor_pushout_configurations_checked": 24,
+    "source_schedules_checked": 2,
+    "root_label_sizes_checked": 5,
+    "passed": true
+  },
+  "claim_guard": "The guards refute only symmetric union and a literal positive-root finite-Gamma transplant. They do not refute ordered replay or an empty-root redesign, and they do not decide Erdős #592."
+}

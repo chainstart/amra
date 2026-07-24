@@ -18,7 +18,7 @@
     "paper_conversion_is_charged_separately": true
   },
   "rotation_policy": {
-    "current_cycle_id": "R003",
+    "current_cycle_id": "R004",
     "intake_slots_per_cycle": 12,
     "closure_core_slots_per_cycle": 4,
     "resolution_audit_slots_per_cycle": 2,
@@ -175,6 +175,34 @@
       "resolution_audit": [
         "569",
         "522"
+      ],
+      "paper_conversion": [],
+      "status_refresh": []
+    },
+    "R004": {
+      "closure_core": [
+        "776",
+        "809",
+        "592",
+        "635"
+      ],
+      "intake": [
+        "313",
+        "749",
+        "811",
+        "831",
+        "671",
+        "949",
+        "323",
+        "644",
+        "812",
+        "838",
+        "1040",
+        "187"
+      ],
+      "resolution_audit": [
+        "920",
+        "689"
       ],
       "paper_conversion": [],
       "status_refresh": []

@@ -1,0 +1,38 @@
+{
+  "schema_version": "amra.erdos_rotation.problem_result.v1",
+  "cycle_id": "R004",
+  "problem_id": 809,
+  "official_status_checked": "OPEN",
+  "official_status_checked_at": "2026-07-24T09:54:50+08:00",
+  "result_status": "new_asymptotic_split_branch_lemma_original_open",
+  "original_closed": false,
+  "full_problem_closed": false,
+  "proof_or_disproof_of_original": false,
+  "q2_candidate": false,
+  "q2_publishability": {
+    "assessment": "not_currently_Q2_ready",
+    "reason": "The near-complete-split lemma is a substantial proof seed, but the original problem remains open, global novelty has not been exhaustively checked, and the result has not received independent graph-theory review.",
+    "possible_upgrade": "A publishable note may become plausible after independent proof audit, literature clearance, and a nontrivial global reduction or additional structural branch."
+  },
+  "new_rigorous_results": [
+    "Near-complete-split branch theorem: if V=C disjoint_union R, R is independent, |C| and |R| are (1/2+o(1))n, delta(G)>=n/2-o(n), and e(G)>floor(n^2/4), then at least n^2/8-o(n^2) edges are pairwise C7-compatible.",
+    "The core/hub union construction explicitly covers core-core, same-hub, cross-hub, and core-hub pairs, including equal-row and equal-column degeneracies.",
+    "A three-scale cleaning epsilon << rho << tau discards subthreshold low-degree hubs and subthreshold common kernels for only o(n^2) total loss.",
+    "The rectangle count reduces to xb+(b-x)(b-x-y)>=b^2/2 when x+y<=b, while x+y>=b is already handled by the hub term.",
+    "The induced-matching-only route is invalidated by the Alon--Moitra--Sudakov nearly-complete decomposition construction."
+  ],
+  "first_strict_breakpoint": "There is no proved global reduction taking every strong-induction subproblem of Erdős #809 into the near-complete-split hypotheses. BCM Case 1 can have minimum degree linearly below n/2, and the near-two-clique branch and induction interface remain.",
+  "next_decidable_action": "Prove a stability/reduction theorem that routes every k=3 induction subproblem either into this split lemma or into a separately controlled near-two-clique family, while preserving the n^2/8-o(n^2) color accounting.",
+  "verification": {
+    "script": "verify_809_split_union.py",
+    "certificate": "verification.json",
+    "dense_instances": 16,
+    "sparse_hub_adversarial_instances": 15,
+    "edge_pairs_checked": 1022637,
+    "detailed_template_classes_hit": 10,
+    "rational_optimization_pairs_checked": 80601,
+    "optimization_minimum": "1/2",
+    "passed": true
+  },
+  "claim_guard": "The finite verifier checks displayed C7 templates and arithmetic only. The report proves the asymptotic split lemma, but neither artifact proves the global reduction or closes Erdős #809."
+}

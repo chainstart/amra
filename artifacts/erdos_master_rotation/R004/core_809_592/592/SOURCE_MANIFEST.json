@@ -1,0 +1,54 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R004",
+  "problem_id": 592,
+  "as_of": "2026-07-24",
+  "sources": [
+    {
+      "name": "Erdos Problems #592",
+      "url": "https://www.erdosproblems.com/592",
+      "role": "official statement, current OPEN status, prize, and three-summand boundary",
+      "retrieved_at": "2026-07-24T09:54:51+08:00",
+      "ephemeral_path": "/tmp/amra_r004_core_809_592/592.html",
+      "bytes": 35123,
+      "sha256": "250ef1d74b19dcacffb2417174e64bc2ea91ed4f9b629da2155db4949de8dcf5",
+      "observed_status": "OPEN",
+      "observed_prize_usd": 1000,
+      "page_last_edited": "2026-01-23"
+    },
+    {
+      "name": "Partition Relations",
+      "authors": "Andras Hajnal, Jean A. Larson",
+      "container": "Handbook of Set Theory (2010), 129-213",
+      "doi": "10.1007/978-1-4020-5764-9_3",
+      "url": "https://www.researchgate.net/publication/226348391_Partition_Relations",
+      "role": "author-uploaded primary chapter; Definitions 10.19, 10.23, 10.41, 10.42 and Lemmas 10.14, 10.38, 10.43, 10.47",
+      "accessed_at": "2026-07-24T11:05:00+08:00",
+      "access_note": "Inspected through the web PDF renderer; no local full-file hash is claimed."
+    },
+    {
+      "name": "Countable partition ordinals",
+      "author": "Rene Schipperus",
+      "journal": "Annals of Pure and Applied Logic 161 (2010), 1195-1215",
+      "doi": "10.1016/j.apal.2009.12.007",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0168007209002188",
+      "role": "primary publisher record for the one/two-summand positive and four-or-more-summand negative boundary",
+      "accessed_date": "2026-07-24",
+      "access_note": "Publisher record inspected; no local full-text hash is claimed."
+    },
+    {
+      "name": "Pinning countable ordinals",
+      "authors": "Fred Galvin, Jean Larson",
+      "journal": "Fundamenta Mathematicae 82 (1975), 357-361",
+      "doi": "10.4064/fm-82-4-357-361",
+      "url": "https://matwbn.icm.edu.pl/ksiazki/fm/fm82/fm82124.pdf",
+      "publisher_url": "https://www.impan.pl/en/publishing-house/journals-and-series/fundamenta-mathematicae/all/82/4/100687/pinning-countable-ordinals",
+      "role": "primary definition of pinning and Specker transfer observation",
+      "retrieved_at": "2026-07-24T10:53:41+08:00",
+      "ephemeral_path": "/tmp/amra_r004_core_809_592/galvin_larson_pinning.pdf",
+      "bytes": 827935,
+      "sha256": "866bf2833856aa19b6d36d31d058dc513587f31d65b7331c0d844309f82ed74c"
+    }
+  ],
+  "integrity_note": "Ephemeral paths document the run and may disappear. Hashes are given only for locally downloaded files; no browser-rendered source is assigned an invented digest."
+}

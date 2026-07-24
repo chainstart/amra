@@ -1,0 +1,55 @@
+{
+  "schema": "amra.erdos-master-rotation.problem-result.v1",
+  "cycle_id": "R004",
+  "problem_id": "776",
+  "official_status_refreshed": "OPEN",
+  "outcome": "strict_progress_no_closure",
+  "original_problem_closed": false,
+  "proof_or_disproof": false,
+  "q2_candidate": false,
+  "closure_distance_before": 1,
+  "closure_distance_after": 1,
+  "closure_distance_reduced": false,
+  "closure_distance_reason": "The rank-8-to-rank-2 tail is now closed under a wider five-term barrier, but the shortened zero-seed orbit has not been proved to enter D8<C(V-11,8) for every V.",
+  "new_results": [
+    "All 17 R003 top-cap G9 conditions collapse exactly to the s-independent next residual condition R'(V+1)<=C(V-16,2).",
+    "The wider five-term barrier E8<=H8^(5)+C(V-8,3)-1=H8+C(V-9,2)-1 descends exactly to E5<=F5+10.",
+    "The first-carry I8 reservoir condition is tail-complement equivalent to D_(V-12)=0, D_(q-1)=V+KK_q(D_q), D2<=C(V-9,2).",
+    "For every V>=40, the single rank-8 condition D8<C(V-11,8) rigorously implies D2<=C(V-9,2); V>=1000 is analytic and 40<=V<=999 is exhaustively exact.",
+    "Strategic exact states have D8=C(V-12,8)+C(V-13,7)+W6 with W6<C(V-13,6), exposing the new entry potential."
+  ],
+  "routes": [
+    {
+      "name": "top17_real_G9_coupling",
+      "result": "completed as an exact s-independent equivalence; actual-orbit satisfaction remains open"
+    },
+    {
+      "name": "five_term_rank8_barrier_descent",
+      "result": "completed exactly through the endpoint"
+    },
+    {
+      "name": "all_V_rank8_entry_and_self_propagation",
+      "result": "not completed; reduced to D8<C(V-11,8), equivalently W6<C(V-13,6)"
+    }
+  ],
+  "first_unfixable_breakpoint": "Prove for every V that the shortened zero-seed defect orbit enters D8<C(V-11,8), or construct a coupled adjacent-parameter potential that self-propagates this rank-8 cap.",
+  "route_killed": "The 17 dangerous residuals cannot be excluded merely by saying they lack reverse preimages: their synthetic maximal reverse extensions are compatible with the seed. A finite list of positive margins also cannot prove the all-V entry.",
+  "next_decidable_action": "Establish the all-V bound W6<C(V-13,6) in D8=C(V-12,8)+C(V-13,7)+W6, preferably by a rank-8 adjacent-parameter loss potential.",
+  "timing": {
+    "started_at": "2026-07-24T09:54:13+08:00",
+    "research_frozen_at": "2026-07-24T11:04:19+08:00",
+    "active_agent_seconds": 2460,
+    "active_agent_hours": 0.6833,
+    "budget_seconds": 14400,
+    "accounting": "non-overlapping share of the 4206-second foreground research window; packaging excluded"
+  },
+  "artifacts": [
+    "REPORT.md",
+    "RESULT.json",
+    "CERTIFICATE.json",
+    "verify_rank8_five_term_barrier.py",
+    "SOURCE_MANIFEST.json",
+    "TIMING.json",
+    "SHA256SUMS"
+  ]
+}

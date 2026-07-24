@@ -1,0 +1,19 @@
+{
+  "schema_version": "amra.erdos_rotation.package_source_index.v1",
+  "cycle_id": "R004",
+  "package": "core_809_592",
+  "as_of": "2026-07-24",
+  "problem_manifests": {
+    "809": "809/SOURCE_MANIFEST.json",
+    "592": "592/SOURCE_MANIFEST.json"
+  },
+  "primary_source_count": {
+    "809": 3,
+    "592": 4
+  },
+  "official_status": {
+    "809": "OPEN",
+    "592": "OPEN"
+  },
+  "integrity_note": "Detailed URLs, retrieval times, file sizes, hashes, and no-hash browser access notes are stored in the per-problem manifests."
+}

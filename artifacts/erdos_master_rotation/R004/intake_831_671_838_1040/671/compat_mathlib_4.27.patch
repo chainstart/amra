@@ -1,0 +1,23 @@
+--- Erdos671.original.lean
++++ Erdos671.mathlib-4.27.lean
+@@
+-  exact continuous_finsetSum Finset.univ fun i _ ↦ (continuous_fundamental X i).abs
++  exact continuous_finset_sum Finset.univ fun i _ ↦ (continuous_fundamental X i).abs
+@@
+-  rw [Lagrange.interpolate_apply, Polynomial.eval_finsetSum]
++  rw [Lagrange.interpolate_apply, Polynomial.eval_finset_sum]
+@@
+-  tendsto_finsetProd _ fun b _ => d.continuousAt_leftFactor b hc
++  tendsto_finset_prod _ fun b _ => d.continuousAt_leftFactor b hc
+@@
+-  tendsto_finsetProd _ fun b _ => d.continuousAt_rightFactor b hc
++  tendsto_finset_prod _ fun b _ => d.continuousAt_rightFactor b hc
+@@
+-  tendsto_finsetProd _ fun b' hb' =>
++  tendsto_finset_prod _ fun b' hb' =>
+@@
+-    tendsto_finsetSum Finset.univ fun i _ ↦ hi i
++    tendsto_finset_sum Finset.univ fun i _ ↦ hi i
+@@
+-  continuous_finsetSum Finset.univ fun i _ =>
++  continuous_finset_sum Finset.univ fun i _ =>

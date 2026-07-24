@@ -1,0 +1,17 @@
+{
+  "schema_version": "amra.erdos_rotation.timing.v1",
+  "cycle_id": "R004",
+  "task": "independent_qa_671",
+  "timezone": "Asia/Hong_Kong",
+  "started_at": "2026-07-24T10:34:00+08:00",
+  "ended_at": "2026-07-24T10:42:00+08:00",
+  "wall_seconds": 480,
+  "active_agent_seconds": 420,
+  "active_agent_hours": 0.1166666667,
+  "allocations_seconds": {
+    "public_url_decode_and_byte_identity_replay": 120,
+    "exact_api_only_transform_and_independent_lean_compile": 180,
+    "original_statement_quantifier_mapping_and_adversarial_audit": 120
+  },
+  "accounting_note": "Only foreground independent source reconstruction, compilation, and theorem-to-original-statement audit is charged. Packaging and later central integration are excluded. This work was performed by root independently of the intake agent and is not double-counted in that agent's timing."
+}

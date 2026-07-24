@@ -1,0 +1,39 @@
+{
+  "schema_version": "amra.erdos_rotation.package_result.v1",
+  "cycle_id": "R004",
+  "package": "core_809_592",
+  "problems": [
+    809,
+    592
+  ],
+  "official_status_rechecked": {
+    "809": "OPEN",
+    "592": "OPEN"
+  },
+  "original_closed": {
+    "809": false,
+    "592": false
+  },
+  "full_closures": [],
+  "strict_partial_results": {
+    "809": "proved the near-complete-split branch lower bound n^2/8-o(n^2) with a thresholded core/hub union",
+    "592": "proved a successor-index symmetric-pushout obstruction and finite-Gamma root guard; isolated ordered T(3) replay"
+  },
+  "q2_assessment": {
+    "809": "not currently Q2-ready; potentially a proof seed after independent audit, novelty clearance, and a broader reduction",
+    "592": "not Q2-ready; rigorous route audit only"
+  },
+  "first_strict_breakpoints": {
+    "809": "global stability/induction reduction, including the near-two-clique branch and low-minimum-degree Case 1",
+    "592": "ordered strategy-aware T(3) replay preserving Definition 10.19 partition nodes and exact child-index labels"
+  },
+  "verification_summary": {
+    "809_edge_pairs_checked": 1022637,
+    "809_template_subclasses_hit": 10,
+    "592_pushout_configurations_checked": 24,
+    "592_source_schedules_checked": 2,
+    "all_passed": true
+  },
+  "central_ledger_modified_by_this_package": false,
+  "claim_guard": "Neither original problem is closed. The #809 theorem is conditional on a near-complete-split structure, and the #592 results are route obstructions rather than a new partition relation."
+}

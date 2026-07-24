@@ -1,0 +1,38 @@
+independent reviewer: root
+date: 2026-07-24
+
+public-source reconstruction:
+  input: the 60,947-character live.lean-lang.org URL frozen by the intake agent
+  decode: URI decode the codez fragment, then LZString decompressFromBase64
+  decoded bytes: 125059
+  decoded SHA-256: 3854ae85aca322b5ad2c65fb9c7bae5ca19ed939ceca99521365d8690b8d8923
+  decoded terminal newline: absent
+
+compatibility transformation:
+  continuous_finsetSum -> continuous_finset_sum (2 occurrences)
+  Polynomial.eval_finsetSum -> Polynomial.eval_finset_sum (1 occurrence)
+  tendsto_finsetProd -> tendsto_finset_prod (3 occurrences)
+  tendsto_finsetSum -> tendsto_finset_sum (1 occurrence)
+  other byte changes: none
+  transformed bytes: 125066
+  transformed SHA-256: 22760be7e4d811966c17ddd34f51753ab9098583b041a054b925a9d8fcb4e122
+
+command:
+  taskset -c 0 timeout 1200 lake env lean /tmp/Erdos671.compat-exact.qa.lean
+
+environment:
+  Lean toolchain: leanprover/lean4:v4.27.0
+  Mathlib revision: a3a10db0e9d66acbebf76c5e6a135066525ac900
+  working project: data/research_open/raw/formal_conjectures
+
+exit code:
+  0
+
+complete stdout/stderr:
+  'Erdos671.erdos_671' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+interpretation:
+  The exact seven-identifier compatibility transform compiles. The theorem has
+  no sorryAx dependency. This independent run used the no-terminal-newline
+  transform; the intake agent separately compiled a semantically identical
+  copy with one added terminal LF.

@@ -1,0 +1,74 @@
+{
+  "schema_version": "amra.erdos_rotation.cycle_result.v1",
+  "cycle_id": "R004",
+  "status": "STANDARD_MACROCYCLE_COMPLETE",
+  "queue": {
+    "closure_core": 4,
+    "intake": 12,
+    "resolution_audit": 2,
+    "completed": 18,
+    "total": 18
+  },
+  "budget_contract": {
+    "minimum_active_agent_seconds": 14400,
+    "registered_active_agent_seconds": 14896,
+    "registered_active_agent_hours": 4.137778,
+    "satisfied": true,
+    "waiting_packaging_and_unused_budget_excluded": true
+  },
+  "registered_event_count": 21,
+  "original_problem_closures": [
+    {
+      "problem_id": "671",
+      "evidence_tier": "public_natural_language_and_lean_proof_independently_compiled",
+      "claimant": "Liam Price",
+      "first_public_date": "2026-06-22",
+      "proof_claim_registered_date": "2026-07-15",
+      "new_amra_proof": false,
+      "peer_reviewed": false,
+      "journal_published": false,
+      "formalized": true,
+      "official_status_updated": false
+    },
+    {
+      "problem_id": "920",
+      "evidence_tier": "public_complete_preprint_theorem_with_independently_checked_reduction",
+      "author": "Domagoj Bradač",
+      "preprint": "arXiv:2605.28793v3",
+      "new_amra_proof": false,
+      "peer_reviewed": false,
+      "formalized": false,
+      "official_status_updated": false
+    }
+  ],
+  "new_amra_original_problem_proofs": [],
+  "q2_candidates": [],
+  "closure_core_results": {
+    "776": "top-17 coupling and a wider rank-8 barrier proved; all-V orbit entry open",
+    "809": "near-complete-split n^2/8-o(n^2) branch proved; global reduction open",
+    "592": "symmetric pushout refuted and ordered replay isolated; original partition relation open",
+    "635": "shared-path gradient route killed and finite bicyclic exclusions extended; original exact problem open"
+  },
+  "resolution_audits": {
+    "920": "VERIFIED_CLOSED_BY_PUBLIC_PREPRINT",
+    "689": "UNCONFIRMED_AFTER_FIRST_PASS; no fatal gap found but expert interfaces remain"
+  },
+  "intake_closures": {
+    "671": "VERIFIED_CLOSED_BY_PUBLIC_LEAN_PROOF after independent QA"
+  },
+  "strict_partial_highlights": {
+    "809": "conditional near-complete-split branch theorem",
+    "1040": "Fekete lemniscate hull-area upper bound and an energy-route counterexample",
+    "776": "single rank-8 entry reduction for the inherited colex route",
+    "831": "exact reduction to general-position #104 and a six-point realizability obstruction"
+  },
+  "paper_level_new_result_count": 0,
+  "claim_guard": "Cycle completion means that all 18 frozen actions have auditable evidence and the four-hour actual-effort floor was met. It does not mean that the 16 remaining original problems were solved or that any strict partial result has established global novelty.",
+  "validation": {
+    "master_problem_count": 630,
+    "master_unique_problem_count": 630,
+    "frozen_queue_completed": true,
+    "package_validators_passed": true,
+    "sha256_manifests_verified": true
+  }
+}

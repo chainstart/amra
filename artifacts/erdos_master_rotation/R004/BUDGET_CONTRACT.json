@@ -1,0 +1,28 @@
+{
+  "schema_version": "amra.erdos_rotation.actual_effort_contract.v1",
+  "cycle_id": "R004",
+  "started_at": "2026-07-24T09:53:00+08:00",
+  "minimum_registered_active_agent_seconds": 14400,
+  "minimum_registered_active_agent_hours": 4.0,
+  "completion_gate": "registered_actual_agent_seconds >= 14400 and all 18 frozen queue actions have auditable results",
+  "accounting_inclusions": [
+    "foreground source and statement verification",
+    "mathematical proof or disproof attempts",
+    "adversarial counterexample and breakpoint analysis",
+    "certificate construction and substantive independent QA"
+  ],
+  "accounting_exclusions": [
+    "waiting",
+    "idle wall time",
+    "unused budget",
+    "automatic budget booking",
+    "duplicate packaging",
+    "central integration"
+  ],
+  "resource_limits": {
+    "maximum_parallel_slots": 4,
+    "recommended_cpu_fraction_ceiling": 0.5,
+    "verification_processes": "single-process unless explicitly justified"
+  },
+  "claim_guard": "Meeting the effort floor does not prove any problem, create a Q2 result, or justify inflating a mathematical verdict."
+}

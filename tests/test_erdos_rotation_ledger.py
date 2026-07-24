@@ -143,6 +143,14 @@ def test_event_ordering_uses_absolute_time_across_offsets() -> None:
 
 def test_unforced_future_cycle_respects_new_problem_share(tmp_path: Path) -> None:
     output_dir = tmp_path / "ledger"
+    policy = json.loads(
+        (
+            REPO_ROOT
+            / "data/research_open/erdos_rotation/policy.json"
+        ).read_text(encoding="utf-8")
+    )
+    current_cycle = policy["rotation_policy"]["current_cycle_id"]
+    future_cycle = f"R{int(current_cycle[1:]) + 1:03d}"
     completed = subprocess.run(
         [
             sys.executable,
@@ -153,7 +161,7 @@ def test_unforced_future_cycle_respects_new_problem_share(tmp_path: Path) -> Non
             str(tmp_path / "plan.md"),
             "build",
             "--cycle",
-            "R004",
+            future_cycle,
         ],
         cwd=REPO_ROOT,
         text=True,

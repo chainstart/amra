@@ -1,0 +1,16 @@
+command:
+  taskset -c 0 timeout 1200 lake env lean Erdos671.mathlib-4.27.lean
+
+environment:
+  Lean toolchain: leanprover/lean4:v4.27.0
+  Mathlib git revision: a3a10db0e9
+
+exit_code: 0
+complete_stdout_stderr:
+'Erdos671.erdos_671' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+Interpretation:
+  VERIFIED_BY_LOCAL_LEAN. There is no `sorryAx` after the seven API-name-only
+  substitutions recorded in compat_mathlib_4.27.patch. The compiled copy also
+  has one terminal LF absent from the decoded original; this is byte-only
+  newline normalisation and is modelled by scripts/verify_671_sources.py.

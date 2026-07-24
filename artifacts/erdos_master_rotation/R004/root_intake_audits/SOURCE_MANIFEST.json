@@ -1,0 +1,215 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v2",
+  "cycle_id": "R004",
+  "task": "root_intake_audits",
+  "as_of": "2026-07-24",
+  "source_integrity_note": "Hashes identify the exact bytes inspected on 2026-07-24. External HTML, PDF, and arXiv source archives are not duplicated in this artifact directory.",
+  "problems": {
+    "187": [
+      {
+        "id": "official_187",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/187",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "d6f3e3b463d49ec64e4e7eca77a2578623bbb98efe4e8fec8f579a9368795af5",
+        "used_for": "OPEN status, exact statement, and Beck/van-der-Waerden context."
+      },
+      {
+        "id": "gowers_2001",
+        "kind": "primary_paper_citation",
+        "citation": "W. T. Gowers, A new proof of Szemeredi's theorem, Geom. Funct. Anal. 11 (2001), 465-588.",
+        "doi": "10.1007/s00039-001-0332-9",
+        "used_for": "The quantitative van der Waerden upper bound already applied and sourced in R003."
+      }
+    ],
+    "313": [
+      {
+        "id": "official_313",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/313",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "ed39e12d9612e2d40ec36c5706b00d49d396343c88ba815a851bff5ad3a239ff",
+        "used_for": "OPEN status and original infinitude statement."
+      },
+      {
+        "id": "official_forum_313",
+        "kind": "official_discussion",
+        "url": "https://www.erdosproblems.com/forum/thread/313?embed=1",
+        "retrieved_at": "2026-07-24T10:23:00+08:00",
+        "download_sha256": "96083672e3c72c18e4aa256b7eb4c6a92bfea8ef09ad67cce7e47444b0bead20",
+        "used_for": "Public notice of the two new finite examples and explicit non-closure claim."
+      },
+      {
+        "id": "wang_2026",
+        "kind": "primary_preprint_source_archive",
+        "citation": "Han Wang, Port Fillings for Primary Pseudoperfect Numbers, arXiv:2605.21518v1.",
+        "url": "https://arxiv.org/abs/2605.21518",
+        "retrieved_at": "2026-07-24T10:12:00+08:00",
+        "download_sha256": "0ee4fdebb63ab4fedd08576240b0bdf24e91c92ca8665f8fbc789fde45e34dd8",
+        "locators": [
+          "Corollary: two-prime inheritance",
+          "Theorems: N9, primality of N9+1, and N10",
+          "Section Scope"
+        ],
+        "used_for": "Exact finite claims, verification source, and the explicit boundary between unconditional examples and conditional infinitude."
+      }
+    ],
+    "323": [
+      {
+        "id": "official_323",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/323",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "2a0cd68150a7227a9029d69f6a0dabe0a3417f103f5791970c64f0f3f9597876",
+        "used_for": "OPEN status, exact f_(k,m) statement, and known Landau context."
+      },
+      {
+        "id": "hua_lemma",
+        "kind": "classical_primary_book_citation",
+        "citation": "L.-K. Hua, Additive Theory of Prime Numbers, AMS Translations of Mathematical Monographs 13 (1965).",
+        "used_for": "Classical 2^j-moment estimate at j=3; all remaining energy steps are derived in 323_REPORT.md."
+      }
+    ],
+    "644": [
+      {
+        "id": "official_644",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/644",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "7f19acae63987300e2abd12fa66840dd1621a587359fe571f85777c85811dfc9",
+        "used_for": "OPEN status, exact local-transversal statement, and current r=7 bounds."
+      },
+      {
+        "id": "fon_der_flaass_kostochka_woodall",
+        "kind": "primary_paper",
+        "citation": "D. G. Fon-Der-Flaass, A. V. Kostochka, and D. R. Woodall, Transversals of uniform hypergraphs with property (q,2), Discrete Math. 205 (1999), 67-78.",
+        "url": "https://kostochk.web.illinois.edu/docs/2000/dm1999FlaWoo.pdf",
+        "retrieved_at": "2026-07-24T10:23:00+08:00",
+        "download_sha256": "41c7f55e63bf17c7401d2478dfab1df9669470ddfc818f9298b1d27a82caa81e",
+        "used_for": "Historical bounds and scope; the C5 route counterexample is self-contained."
+      }
+    ],
+    "689": [
+      {
+        "id": "official_689",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/689",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "288a272ce8e42e9635cbfec9629597829e4d2a85043f67e3b399157cd368d257",
+        "used_for": "Current OPEN status and exact eventually-for-all statement."
+      },
+      {
+        "id": "official_forum_689",
+        "kind": "official_discussion",
+        "url": "https://www.erdosproblems.com/forum/thread/689?embed=1",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "4226f22f32a40dd0c61109a3f048e2d169c33676337a3fde73e358553d7a886f",
+        "used_for": "Pinned statement that two complete claims exist but expert or peer review is still awaited."
+      },
+      {
+        "id": "chojecki_689",
+        "kind": "public_working_manuscript",
+        "citation": "Przemek Chojecki, A greedy matching proof of Erdos's two-fold residue-class problem, working manuscript, 27 April 2026.",
+        "url": "https://www.ulam.ai/research/erdos689.pdf",
+        "retrieved_at": "2026-07-24T10:13:00+08:00",
+        "download_sha256": "a03f9fe887cdeb8f4e22919b7269a38904065b4f81cc919dbfa009589907e250",
+        "used_for": "Line-by-line first-pass audit of the residual, robust-prime, local-factor, degree, matching, and cleanup chain."
+      },
+      {
+        "id": "green_tao_2010",
+        "kind": "primary_paper_citation",
+        "citation": "B. Green and T. Tao, Linear equations in primes, Ann. of Math. 171 (2010), 1753-1850.",
+        "doi": "10.4007/annals.2010.171.1753",
+        "used_for": "The finite-complexity prime-triples input cited by the manuscript."
+      }
+    ],
+    "749": [
+      {
+        "id": "official_749",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/749",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "d65df879e67f093381e0ba541e404aa0c4f9afbc4c14467b0b586fc811471564",
+        "used_for": "OPEN lower-density status and the solved upper-density variant."
+      },
+      {
+        "id": "official_forum_749",
+        "kind": "official_discussion",
+        "url": "https://www.erdosproblems.com/forum/thread/749?embed=1",
+        "retrieved_at": "2026-07-24T10:23:00+08:00",
+        "download_sha256": "69bc4276cebfdecb3cddf290e94b4bd94a252188bc8e25f88ed5b6e35f44c97f",
+        "used_for": "Bhalla construction summary and its explicit sparse-scale/lower-density obstruction."
+      }
+    ],
+    "811": [
+      {
+        "id": "official_811",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/811",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "7d913b0e0774d89973ae5be68cd937b2d89ba00a462307c16f00b12419006d6d",
+        "used_for": "OPEN classification problem, C6 challenge, and known K4 counterexample."
+      },
+      {
+        "id": "official_forum_811",
+        "kind": "official_discussion",
+        "url": "https://www.erdosproblems.com/forum/thread/811?embed=1",
+        "retrieved_at": "2026-07-24T10:23:00+08:00",
+        "download_sha256": "670950c95d3ee9f083208032629962102f7424f98b26e37faea91ce4c281843c",
+        "used_for": "Current discussion state; the spectral criterion is self-contained."
+      }
+    ],
+    "812": [
+      {
+        "id": "official_812",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/812",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "1adcc730e9855288c7af32ec225b82b794473939c9d59c52a4dcb5670f37b75f",
+        "used_for": "Both OPEN questions, Delta_n>=4n-8, and the known two-step n^(2-o(1)) bound."
+      }
+    ],
+    "920": [
+      {
+        "id": "official_920",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/920",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "e3c50aa9efae77eb77bce18ea2a5e3f3b35f068d1d299a282893ddabd38b714e",
+        "used_for": "Still-OPEN label, exact chromatic-number statement, and the explicit implication from #986."
+      },
+      {
+        "id": "official_986",
+        "kind": "official_stronger_problem_page",
+        "url": "https://www.erdosproblems.com/986",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "b67be4511ccea246064463438fae82fc0c86be285fd4c876754a27bf2deba4ba",
+        "used_for": "PROVED status and attribution of the stronger Ramsey theorem to Bradac."
+      },
+      {
+        "id": "bradac_2026_v3",
+        "kind": "primary_preprint_source_archive",
+        "citation": "Domagoj Bradac, Off-diagonal Ramsey numbers, arXiv:2605.28793v3.",
+        "url": "https://arxiv.org/abs/2605.28793v3",
+        "retrieved_at": "2026-07-24T10:12:00+08:00",
+        "download_sha256": "88e394c75d8d336e600050af399b42f29d6d6fc9430cbd68071a7c68351e4261",
+        "locators": [
+          "Theorem 1, main.tex lines 288-291",
+          "Proof of Theorem 1, main.tex lines 625-630",
+          "Version history: revised 16 June 2026"
+        ],
+        "used_for": "Exact exponent and quantifiers in the theorem whose inversion closes #920."
+      }
+    ],
+    "949": [
+      {
+        "id": "official_949",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/949",
+        "retrieved_at": "2026-07-24T10:21:00+08:00",
+        "download_sha256": "7cb522ea426a78fa840733f49adbb8d9e63efa1ecce5bcdde74cfb94c60f9f61",
+        "used_for": "OPEN general case and known Sidon special case; the Q-span reduction and clique counterexample are self-contained."
+      }
+    ]
+  }
+}

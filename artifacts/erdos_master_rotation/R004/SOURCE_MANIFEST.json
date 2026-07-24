@@ -1,0 +1,53 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R004",
+  "as_of": "2026-07-24",
+  "scope": "complete standard macrocycle",
+  "evidence_package_manifests": [
+    "core_776_635/776/SOURCE_MANIFEST.json",
+    "core_776_635/635/SOURCE_MANIFEST.json",
+    "core_809_592/SOURCE_MANIFEST.json",
+    "intake_831_671_838_1040/SOURCE_MANIFEST.json",
+    "intake_831_671_838_1040/SOURCE_MANIFEST.md",
+    "root_intake_audits/SOURCE_MANIFEST.json",
+    "qa_671/RESULT.json"
+  ],
+  "closure_evidence": {
+    "671": {
+      "claimant": "Liam Price",
+      "first_public_posted_at": "2026-06-22T23:12:00",
+      "formal_claim_submitted_at": "2026-07-15T13:26:03",
+      "public_natural_proof": "https://www.overleaf.com/read/gqmfrhsprtqm#59ac11",
+      "original_lean_source_sha256": "3854ae85aca322b5ad2c65fb9c7bae5ca19ed939ceca99521365d8690b8d8923",
+      "exact_api_compat_sha256": "22760be7e4d811966c17ddd34f51753ab9098583b041a054b925a9d8fcb4e122",
+      "independent_qa": "qa_671/RESULT.json",
+      "official_status_at_audit": "OPEN",
+      "peer_review_confirmed": false,
+      "journal_publication_confirmed": false
+    },
+    "920": {
+      "author": "Domagoj Bradač",
+      "preprint": "https://arxiv.org/abs/2605.28793v3",
+      "source_archive_sha256": "88e394c75d8d336e600050af399b42f29d6d6fc9430cbd68071a7c68351e4261",
+      "reduction_audit": "root_intake_audits/920_AUDIT.md",
+      "official_problem_status_at_audit": "OPEN",
+      "stronger_problem_986_status_at_audit": "PROVED",
+      "peer_review_confirmed": false,
+      "formal_proof_confirmed": false
+    }
+  },
+  "unconfirmed_resolution_claims": {
+    "689": {
+      "audit": "root_intake_audits/689_AUDIT.md",
+      "decision": "UNCONFIRMED",
+      "reason": "Coefficient-summed Selberg singular products and uniform Green-Tao/fixed-modulus interfaces still require expert line-by-line audit."
+    }
+  },
+  "evidence_policy": [
+    "Official status, mathematical closure, peer review, publication and formalization are separate fields.",
+    "A primary full-solution audit is not upgraded until an independent reader checks the proof object and its match to the original statement.",
+    "External public proofs retain their original authorship and priority.",
+    "Finite computations are limited to their explicitly stated domains and never extrapolated to universal claims.",
+    "Unused budgets, waiting, setup and final packaging are not recorded as research time."
+  ]
+}

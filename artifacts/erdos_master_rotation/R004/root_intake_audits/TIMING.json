@@ -1,0 +1,26 @@
+{
+  "schema_version": "amra.erdos_rotation.timing.v1",
+  "cycle_id": "R004",
+  "task": "root_intake_audits",
+  "timezone": "Asia/Hong_Kong",
+  "started_at": "2026-07-24T10:00:00+08:00",
+  "ended_at": "2026-07-24T10:30:00+08:00",
+  "wall_seconds": 1800,
+  "problem_active_seconds": {
+    "313": 240,
+    "323": 270,
+    "749": 150,
+    "811": 210,
+    "949": 150,
+    "644": 120,
+    "812": 90,
+    "187": 90,
+    "920": 180,
+    "689": 300
+  },
+  "total_active_agent_seconds": 1800,
+  "total_active_agent_hours": 0.5,
+  "agents_used": 1,
+  "cpu_note": "Source inspection and all finite checks were single-process. No root-thread verification exceeded one logical core.",
+  "timing_note": "Only foreground source verification, mathematical derivation, adversarial route analysis, and finite certificate work is charged. R004 setup, central integration, packaging, waiting, and unused budget are excluded. Per-problem allocations conservatively sum to the exact active interval."
+}

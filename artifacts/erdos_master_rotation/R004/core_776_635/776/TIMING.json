@@ -1,0 +1,28 @@
+{
+  "schema": "amra.actual-timing.v1",
+  "problem_id": "776",
+  "started_at": "2026-07-24T09:54:13+08:00",
+  "research_frozen_at": "2026-07-24T11:04:19+08:00",
+  "active_agent_seconds": 2460,
+  "active_agent_hours": 0.6833,
+  "budget_seconds": 14400,
+  "budget_hours": 4.0,
+  "budget_exhausted": false,
+  "accounting": "Non-overlapping foreground share; no wait, unused budget, repeated packing or post-freeze packaging time is charged.",
+  "phases": [
+    {"name": "inherited breakpoint and source refresh", "active_seconds": 240},
+    {"name": "top-17 inverse and real G9 coupling", "active_seconds": 520},
+    {"name": "five-term rank-8 barrier derivation", "active_seconds": 600},
+    {"name": "tail complement and reverse requirement", "active_seconds": 430},
+    {"name": "fixed-depth rank-8 conditional theorem", "active_seconds": 500},
+    {"name": "falsification and first-breakpoint audit", "active_seconds": 170}
+  ],
+  "verification_runs": [
+    {
+      "command": "taskset -c 6 nice -n 10 python3 verify_rank8_five_term_barrier.py",
+      "elapsed_seconds": 6.88,
+      "max_rss_kb": 16768,
+      "status": "PASS"
+    }
+  ]
+}

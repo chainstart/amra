@@ -1,0 +1,98 @@
+{
+  "831": {
+    "official_status": "OPEN",
+    "official_snapshot_date": "2026-07-24",
+    "original_problem_closed": false,
+    "routes": [
+      {
+        "name": "fixed_radius_hypergraph_and_local_forbidden_patterns",
+        "outcome": "blocked",
+        "strict_result": "h(n) >= (n-2)/2; pair-codegree and K4^3-local information alone cannot improve this argument"
+      },
+      {
+        "name": "circle_branch_coherence_and_general_position",
+        "outcome": "strict_finite_obstruction_then_open_reduction",
+        "strict_result": "the saturated 2-(6,3,2) link-cycle model is non-realizable by equal-radius circumcircles",
+        "first_breakpoint": "global realizability of triple intersections of congruent circles, exactly the general-position form of Erdos #104"
+      }
+    ],
+    "current_bounds": {
+      "lower": "(n-2)/2",
+      "public_upper_posted_2026_06_16": "n^2 exp(O(sqrt(log n)))"
+    },
+    "q2_level": false,
+    "q2_note": "The intake produced rigorous obstructions and a roadmap, not a new asymptotic bound."
+  },
+  "671": {
+    "official_status": "OPEN",
+    "official_snapshot_date": "2026-07-24",
+    "original_problem_closed": true,
+    "mathematical_classification": "LOCALLY_VERIFIED_FULL_SOLUTION_CANDIDATE",
+    "administrative_classification": "NOT_OFFICIALLY_CLOSED",
+    "first_public_full_claim": "2026-06-22T23:12:00",
+    "formal_claim_submitted": "2026-07-15T13:26:03",
+    "claimant": "Liam Price",
+    "natural_language_audit": "PASS",
+    "covers_both_official_questions": true,
+    "full_sequence_convergence_checked": true,
+    "local_lean": {
+      "lean_version": "4.27.0",
+      "mathlib_revision": "a3a10db0e9",
+      "api_identifier_replacements": 7,
+      "proof_term_changes": 0,
+      "exit_code": 0,
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "has_sorry_admit_sorryAx": false
+    },
+    "priority_note": "The public proof and priority belong to the public claimant; this intake is verification."
+  },
+  "838": {
+    "official_status": "OPEN",
+    "official_snapshot_date": "2026-07-24",
+    "original_problem_closed": false,
+    "current_constants_base_2": {
+      "liminf_lower": "1/4",
+      "limsup_upper": "1"
+    },
+    "routes": [
+      {
+        "name": "nested_multiscale_flags",
+        "outcome": "rigorous_method_barrier",
+        "strict_result": "all intermediate scales telescope, leaving C(n,k)/C(m_terminal,k)"
+      },
+      {
+        "name": "separate_scales_and_recursive_witnesses",
+        "outcome": "rigorous_method_barrier",
+        "strict_result": "existence-only recursion remains alpha(1-alpha) <= 1/4"
+      }
+    ],
+    "first_breakpoint": "quasipolynomial witness supersaturation with controlled overlap, or sharper enumeration in an extremal Erdos-Szekeres order type",
+    "q2_level": false
+  },
+  "1040": {
+    "official_status": "OPEN",
+    "official_snapshot_date": "2026-07-24",
+    "original_problem_closed": false,
+    "current_frontier": "cap(K)>1 solved for arbitrary compact K; general cap(K)=1 remains open",
+    "routes": [
+      {
+        "name": "fekete_potential_outside_polynomial_hull",
+        "outcome": "strict_partial",
+        "strict_result": "limsup area{|p_n|<1} <= area(polynomial_hull(K)); zero hull area implies mu(K)=0"
+      },
+      {
+        "name": "energy_and_weak_convergence",
+        "outcome": "disproved_as_a_sufficient_route",
+        "counterexample": "explicit distinct-root polynomials have zero measures converging to equilibrium and asymptotically optimal energy, but lemniscates contain disks of radius 1-1/j"
+      }
+    ],
+    "partial_label": "STRICT_PARTIAL",
+    "novelty_established": false,
+    "first_breakpoint": "the equilibrium potential has a zero plateau on the polynomial hull, so energy control has no one-sided sign margin",
+    "q2_level": false
+  }
+}

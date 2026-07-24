@@ -1,0 +1,53 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R004",
+  "problem_id": 809,
+  "as_of": "2026-07-24",
+  "sources": [
+    {
+      "name": "Erdos Problems #809",
+      "url": "https://www.erdosproblems.com/809",
+      "role": "official statement, current OPEN status, and k=3 boundary",
+      "retrieved_at": "2026-07-24T09:54:50+08:00",
+      "ephemeral_path": "/tmp/amra_r004_core_809_592/809.html",
+      "bytes": 34145,
+      "sha256": "1f868e6d4c7424b25d5745a84b016ef62d51e154c94c97c60d6fb369ef89bdb7",
+      "observed_status": "OPEN",
+      "page_last_edited": "2026-04-01"
+    },
+    {
+      "name": "On a conjecture of Burr, Erdos, Graham and Sos",
+      "authors": "Matija Bucic, Patrick Chen, Jie Ma",
+      "url": "https://arxiv.org/abs/2603.18952",
+      "version": "arXiv:2603.18952v1",
+      "role": "primary proof for k>=4; Lemma 3.2, Cases 1/2, and stated k=3 boundary",
+      "retrieved_at": "2026-07-24T09:54:51+08:00",
+      "pdf": {
+        "ephemeral_path": "/tmp/amra_r004_core_809_592/2603.18952v1.pdf",
+        "bytes": 621626,
+        "sha256": "d994c64f8f1c5d4c844d886d50e3940392794630710f132ea72bb6b9d33d9dbb"
+      },
+      "source_archive": {
+        "url": "https://export.arxiv.org/e-print/2603.18952v1",
+        "ephemeral_path": "/tmp/amra_r004_core_809_592/2603.18952v1.tar",
+        "bytes": 120412,
+        "sha256": "318ac4a46734463528a0b8a7bb14aad2afed7128e5e3419a50262301da76388e",
+        "main_tex_sha256": "c1097e145f71a24e0ef97be0eed1cc3bf329194e3b1b3dac059e1d3fef5af06d"
+      }
+    },
+    {
+      "name": "Nearly Complete Graphs Decomposable into Large Induced Matchings",
+      "authors": "Noga Alon, Ankur Moitra, Benny Sudakov",
+      "journal": "Journal of the European Mathematical Society 15 (2013), 1575-1590",
+      "doi": "10.4171/JEMS/398",
+      "url": "https://web.math.princeton.edu/~nalon/PDFS/inducedmatch13.pdf",
+      "publisher_url": "https://ems.press/journals/jems/articles/11869",
+      "role": "primary source invalidating the induced-matching counting shortcut",
+      "retrieved_at": "2026-07-24T10:10:54+08:00",
+      "ephemeral_path": "/tmp/amra_r004_core_809_592/ams_inducedmatch13.pdf",
+      "bytes": 411464,
+      "sha256": "877adc3a56de87acee302858640884223a133472331963c04e71138480463f02"
+    }
+  ],
+  "integrity_note": "Ephemeral paths document the run and may disappear. Every listed file hash was recomputed locally; browser-only claims are not assigned invented hashes."
+}

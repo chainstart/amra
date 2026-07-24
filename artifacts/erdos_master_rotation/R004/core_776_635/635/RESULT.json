@@ -1,0 +1,62 @@
+{
+  "schema": "amra.erdos-master-rotation.problem-result.v1",
+  "cycle_id": "R004",
+  "problem_id": "635",
+  "official_status_refreshed": "OPEN_exact_extremal_question; asymptotic_subquestion_affirmative",
+  "outcome": "strict_progress_no_closure",
+  "original_problem_closed": false,
+  "proof_or_disproof": false,
+  "q2_candidate": false,
+  "closure_distance_before": 2,
+  "closure_distance_after": 2,
+  "closure_distance_reduced": false,
+  "closure_distance_reason": "Shared-path invariants are exact gradients and add no coupling; the exact component exclusions are finite and the parametric construction supplies genuine all-prime single cycles but no bicyclic core.",
+  "new_results": [
+    "For every mixed-valuation oriented path, sum(p-q)=v-u and product f_A(p)/f_A(q)=v/u; shared-path subtraction is tautological.",
+    "Exact full-component expansion from all 20,516 degree>=3 vertices <=2,000,000 yields 18,539 components, only three unicyclic and none bicyclic.",
+    "The increasing-orientation identity mu=1-s+sum_(d+>=2)(d+-1) gives an independent audit of 3,731 upward-branch seeds, with six unicyclic and no bicyclic component.",
+    "A parametric all-prime parallel-cycle construction follows from (hp-B)(hq-B)=cB^2-h; label conflict is exactly k|pq.",
+    "A complete search of 50,822 factor pairs in the stated family, with all factor bases and 159 distinct cycle primes proved prime by PARI/GP, finds 41 conflict-free all-prime single cycles, two with h>1, no shared endpoints, and no bicyclic core among twelve exactly closed small components."
+  ],
+  "routes": [
+    {
+      "name": "subtract_shared_path_invariants",
+      "result": "killed exactly; both proposed invariants are endpoint gradients"
+    },
+    {
+      "name": "all_prime_crossing_bicyclic_core_search",
+      "result": "no core found; branch vertices and upward-branch vertices are excluded through 2,000,000, and 41 parametric cycles have no shared endpoints"
+    },
+    {
+      "name": "primality_excludes_mixed_cycles",
+      "result": "refuted by an explicit parametric family of genuine all-prime conflict-free parallel cycles"
+    }
+  ],
+  "first_unfixable_breakpoint": "Prove an unbounded pseudoforest/label-conflict theorem for the all-prime swap graph or construct the first conflict-free all-prime bicyclic core; endpoint-gradient invariants cannot decide it.",
+  "route_killed": "First moment and Euler-product identities on two shared-endpoint paths telescope to 0 and 1 and therefore cannot force compatible majorization.",
+  "next_decidable_action": "Analyze how two parametric or nonparallel prime cycles can be connected in one component, using a non-gradient label-conflict or primality invariant.",
+  "quantifier_warning": "Even a complete semiprime proper-neighbour Hall theorem would not by itself settle the original exact extremal problem.",
+  "timing": {
+    "started_at": "2026-07-24T09:54:13+08:00",
+    "research_frozen_at": "2026-07-24T11:04:19+08:00",
+    "active_agent_seconds": 1746,
+    "active_agent_hours": 0.485,
+    "budget_seconds": 14400,
+    "accounting": "non-overlapping share of the 4206-second foreground research window; packaging excluded"
+  },
+  "artifacts": [
+    "REPORT.md",
+    "RESULT.json",
+    "GRADIENT_CERTIFICATE.json",
+    "COMPONENT_CERTIFICATE.json",
+    "PARALLEL_FAMILY_CERTIFICATE.json",
+    "verify_shared_path_gradient.py",
+    "search_bicyclic_components.py",
+    "verify_parallel_cycle_family.py",
+    "search_parallel_cycle_family.py",
+    "verify_targeted_cycle_components.py",
+    "SOURCE_MANIFEST.json",
+    "TIMING.json",
+    "SHA256SUMS"
+  ]
+}

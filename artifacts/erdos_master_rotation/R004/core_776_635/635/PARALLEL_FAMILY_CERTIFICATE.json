@@ -1,0 +1,30 @@
+{
+  "schema": "amra.erdos635.r004-parallel-family-certificate.v1",
+  "status": "PASS",
+  "theorem": {
+    "hypotheses": "B,c powers of two, c>=4, k|(c-1), h=(c-1)/k, t=kB, (hp-B)(hq-B)=cB^2-h, and p,q,p+t,q+t are odd primes",
+    "conclusion": "Edges (cB,p,q) and (B,p+t,q+t) have the same endpoints.",
+    "label_conflict_criterion": "k divides p*q"
+  },
+  "bounded_search": {
+    "B_domain": "2^b, 1<=b<=30",
+    "c_domain": "2^j, 2<=j<=15",
+    "parameter_pairs": 420,
+    "factor_pairs_checked": 50822,
+    "factorization_prime_bases_proved_by_PARI": 2356,
+    "distinct_cycle_primes_proved_by_PARI": 159,
+    "all_prime_conflict_free_cycles": 41,
+    "h_greater_than_one_cycles": 2,
+    "shared_endpoints": 0
+  },
+  "exact_component_controls": {
+    "listed_components_fully_closed": 12,
+    "cyclomatic_number_of_each": 1,
+    "bicyclic_components": 0
+  },
+  "h_greater_than_one_controls": [
+    {"B": 4, "c": 4096, "k": 455, "h": 9, "p": 3, "q": 317, "endpoints": [15580867, 15581181]},
+    {"B": 8192, "c": 64, "k": 9, "h": 7, "p": 2053, "q": 100469, "endpoints": [108141140670347, 108141140768763]}
+  ],
+  "scope": "Complete only in the displayed parametric domain; genuine all-prime single cycles are constructed, not a bicyclic Hall obstruction."
+}

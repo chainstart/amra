@@ -1,0 +1,41 @@
+{
+  "schema": "amra.source-manifest.v1",
+  "problem_id": "776",
+  "refreshed_at": "2026-07-24T09:58:00+08:00",
+  "sources": [
+    {
+      "url": "https://www.erdosproblems.com/776",
+      "type": "official_problem_page",
+      "role": "statement and current status",
+      "access_result": "direct refresh returned HTTP 403; indexed official record refreshed",
+      "status_used": "OPEN; indexed page last edited 2026-04-10"
+    },
+    {
+      "url": "https://arxiv.org/abs/2602.09803v2",
+      "type": "primary_preprint",
+      "title": "An Erdős--Trotter problem on antichains with multiplicity r on each occurring level",
+      "authors": ["Yixin He", "Quanyu Tang"],
+      "submitted": "2026-02-10",
+      "revised": "2026-03-21",
+      "access_result": "abstract page refreshed successfully on 2026-07-24; still version 2",
+      "role": "current public exact small cases and asymptotic bounds"
+    },
+    {
+      "path": "artifacts/erdos_campaign_20260723_round12_original_targets_10h/work/macaulay_pte/REPORT.md",
+      "sha256": "36e043fa67020aad5b5d6406804c016e864d6924f5a7c372d4fdfb1b38c0a951",
+      "type": "inherited_frozen_evidence",
+      "role": "original colex endpoint, first-carry partition and I8 normal form"
+    },
+    {
+      "path": "artifacts/erdos_master_rotation/R003/core_776_635/776/REPORT.md",
+      "type": "inherited_frozen_evidence",
+      "role": "six-term rank-8 cap, top-17 thresholds and prior breakpoint"
+    },
+    {
+      "path": "artifacts/erdos_master_rotation/R002/core_776_635/776/verify_rank5_rotation.py",
+      "sha256": "d6be09945080c3f4088f1d3512d3e7b6e1eeaa0f342c9a8d1d960a9c4e35f4f5",
+      "type": "inherited_frozen_code",
+      "role": "run-compressed exact defect engine used for finite falsifier checks"
+    }
+  ]
+}

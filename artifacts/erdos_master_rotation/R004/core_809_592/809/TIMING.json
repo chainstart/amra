@@ -1,0 +1,13 @@
+{
+  "schema_version": "amra.erdos_rotation.problem_timing.v1",
+  "cycle_id": "R004",
+  "problem_id": 809,
+  "task_started_at": "2026-07-24T09:54:22+08:00",
+  "research_frozen_at": "2026-07-24T11:05:50+08:00",
+  "active_agent_seconds": 2570,
+  "active_agent_hours": 0.713889,
+  "budget_cap_seconds": 14400,
+  "within_budget": true,
+  "accounting": "Retrospective mutually exclusive foreground attribution within the single-agent R004 session; excludes final packaging, checksum generation, validator reruns, waiting, and any double counting.",
+  "allocation_basis": "Primary-source refresh and BCM/AMS reading; construction and repeated adversarial repair of the core/hub proof; asymptotic cleaning/counting audit; million-pair verifier development and reverse QA."
+}

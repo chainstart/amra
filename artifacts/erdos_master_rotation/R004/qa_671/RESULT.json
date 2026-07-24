@@ -1,0 +1,33 @@
+{
+  "schema_version": "amra.erdos_rotation.independent_lean_audit.v1",
+  "cycle_id": "R004",
+  "problem_id": 671,
+  "official_status": "OPEN",
+  "first_public_posted_at": "2026-06-22T23:12:00",
+  "formal_claim_submitted_at": "2026-07-15T13:26:03",
+  "claimant": "Liam Price",
+  "claim_id": 61,
+  "original_source_sha256": "3854ae85aca322b5ad2c65fb9c7bae5ca19ed939ceca99521365d8690b8d8923",
+  "original_source_bytes": 125059,
+  "exact_api_compat_sha256": "22760be7e4d811966c17ddd34f51753ab9098583b041a054b925a9d8fcb4e122",
+  "exact_api_compat_bytes": 125066,
+  "api_identifier_replacements": 7,
+  "lean_toolchain": "leanprover/lean4:v4.27.0",
+  "mathlib_revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+  "independent_compile_exit_code": 0,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "sorry_ax_dependency": false,
+  "original_quantifiers_matched": true,
+  "answers_first_question": true,
+  "answers_second_question": true,
+  "original_problem_closed_mathematically": true,
+  "outcome": "VERIFIED_CLOSED_BY_PUBLIC_LEAN_PROOF",
+  "new_amra_proof": false,
+  "peer_review_confirmed": false,
+  "journal_publication_confirmed": false,
+  "claim_guard": "The public proof term closes the original statement after API-name-only compatibility edits. This audit does not attribute the proof to AMRA or claim peer-reviewed publication."
+}
