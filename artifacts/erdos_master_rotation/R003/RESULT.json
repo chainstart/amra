@@ -1,0 +1,42 @@
+{
+  "schema_version": "amra.erdos_rotation.cycle_result.v1",
+  "cycle_id": "R003",
+  "status": "STANDARD_MACROCYCLE_COMPLETE",
+  "queue": {
+    "closure_core": 4,
+    "intake": 12,
+    "resolution_audit": 2,
+    "completed": 18,
+    "total": 18
+  },
+  "registered_event_count": 21,
+  "registered_active_agent_hours": 2.406133,
+  "original_problem_closures": [
+    {
+      "problem_id": "522",
+      "evidence_tier": "public_signed_complete_preprint_independently_checked",
+      "peer_reviewed": false,
+      "formalized": false,
+      "official_status_updated": false
+    }
+  ],
+  "q2_candidates": [],
+  "closure_core_results": {
+    "776": "strict capped rank-8 carry progress; original open",
+    "809": "one-anchor fan and distance-two split reduction; original open",
+    "592": "static depth-three slot certificate; dynamic commutation open",
+    "635": "fixed-A finite exclusions and invariant counterroute; original open"
+  },
+  "resolution_audits": {
+    "522": "VERIFIED_CLOSED after independent second review",
+    "569": "SOURCE_NOT_OBTAINED; not a refutation"
+  },
+  "intake_original_closures": [],
+  "claim_guard": "Cycle completion means that every frozen queue action has an evidence package. It does not mean that all 18 original problems were solved.",
+  "validation": {
+    "master_problem_count": 630,
+    "master_unique_problem_count": 630,
+    "package_validators_passed": true,
+    "sha256_manifests_verified": true
+  }
+}

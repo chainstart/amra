@@ -1,0 +1,41 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R003",
+  "wave": "audit_522_569",
+  "as_of": "2026-07-23",
+  "problems": {
+    "522": [
+      {
+        "url": "https://www.erdosproblems.com/522",
+        "use": "official statement, status and solution-claim trail"
+      },
+      {
+        "url": "https://www.ulam.ai/research/erdos522.pdf",
+        "date": "2026-04-20",
+        "use": "superseded draft; contains the cross-degree reciprocal-polynomial coupling gap"
+      },
+      {
+        "url": "https://www.ulam.ai/research/erdos522-final.pdf",
+        "date": "2026-04-27",
+        "author": "Przemek Chojecki",
+        "use": "signed revised proof candidate subjected to primary audit"
+      },
+      {
+        "citation": "F. Nazarov, A. Nishry and M. Sodin, Log-integrability of Rademacher Fourier series, with applications to random analytic functions",
+        "url": "https://doi.org/10.1090/S0894-0347-2012-00766-2",
+        "use": "small-value/log-integrability input cited by the revised proof"
+      }
+    ],
+    "569": [
+      {
+        "path": "../../R002/qa_569_source/SOURCE_MANIFEST.json",
+        "use": "fixed manifest and hashes for the exhaustive R002 public-source search"
+      },
+      {
+        "url": "https://www.memphis.edu/libraries/special-collections/",
+        "use": "custodian and contact route for the pre-2010 dissertation"
+      }
+    ]
+  },
+  "scope_note": "The #522 verdict distinguishes the flawed superseded draft from the signed revision. The #569 source state is inherited without double-counting the R002 search."
+}

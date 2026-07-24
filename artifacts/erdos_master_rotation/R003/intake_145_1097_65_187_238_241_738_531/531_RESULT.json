@@ -1,0 +1,24 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R003",
+  "problem_id": "531",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T21:13:00+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "active_seconds": 180,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "conservative minute-level accounting; unused budget is not counted"
+  },
+  "outcome": "known_probability_route_proved_sharp",
+  "new_rigorous_output": [
+    "A_k={1,3,3*4,...,3*4^(k-2)} has distinct subset sums and exactly 2^(k-1) odd parts",
+    "the subset-sum set contains no x,2x pair",
+    "the BENTW single-event probability is exactly 2^(1-2^(k-1)) on this family"
+  ],
+  "decision": "NO_PROMOTION_ROUTE_FAMILY_ELIMINATED",
+  "closure_distance_before": 4,
+  "closure_distance_after": 4,
+  "q2_candidate": false,
+  "claim_guard": "The sharpness result does not improve either known bound for F(k)."
+}

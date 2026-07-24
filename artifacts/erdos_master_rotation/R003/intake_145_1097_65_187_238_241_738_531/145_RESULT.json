@@ -1,0 +1,24 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R003",
+  "problem_id": "145",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T21:07:00+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "active_seconds": 150,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "conservative minute-level accounting; unused budget is not counted"
+  },
+  "outcome": "endpoint_transition_window_isolated",
+  "new_rigorous_output": [
+    "Chan proves gamma<15/4, not the endpoint",
+    "at gamma=15/4 the two H regimes leave x^(3/17)/log^22(x) < H <= x^(3/17)log^7(x)",
+    "the missing transition has a net log^29 gap"
+  ],
+  "decision": "RETAIN_FOR_TARGETED_ENDPOINT_ATTACK",
+  "closure_distance_before": 3,
+  "closure_distance_after": 3,
+  "q2_candidate": false,
+  "claim_guard": "No estimate for the transition window is proved; the original problem remains open."
+}

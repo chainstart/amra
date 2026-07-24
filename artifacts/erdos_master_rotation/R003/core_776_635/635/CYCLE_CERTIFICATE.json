@@ -1,0 +1,55 @@
+{
+  "schema": "amra.erdos635.r003-fixed-A-cycle-certificate.v1",
+  "status": "PASS",
+  "fields_per_row": [
+    "length",
+    "multiplier_tuples",
+    "integral_closed_walks",
+    "prime_closed_walks",
+    "immediate_returns",
+    "nonbacktracking_candidates"
+  ],
+  "domains": {
+    "4": [
+      [2, 18, 7, 2, 2, 0],
+      [3, 188, 28, 3, 3, 0],
+      [4, 2150, 103, 2, 2, 0],
+      [5, 25137, 176, 0, 0, 0],
+      [6, 309132, 4840, 5, 5, 0],
+      [7, 3806784, 414, 0, 0, 0],
+      [8, 47516534, 5391, 2, 2, 0],
+      [9, 599502248, 121114, 3, 3, 0]
+    ],
+    "8": [
+      [2, 92, 11, 4, 4, 0],
+      [3, 2530, 13, 0, 0, 0],
+      [4, 76172, 731, 4, 4, 0],
+      [5, 2346639, 161, 0, 0, 0],
+      [6, 74270924, 12599, 4, 4, 0]
+    ],
+    "16": [
+      [2, 456, 17, 4, 4, 0],
+      [3, 31157, 190, 3, 3, 0],
+      [4, 2276664, 409, 4, 4, 0]
+    ],
+    "32": [
+      [2, 2168, 19, 4, 4, 0],
+      [3, 352210, 40, 3, 3, 0]
+    ],
+    "64": [
+      [2, 10108, 41, 6, 6, 0],
+      [3, 3789131, 292, 0, 0, 0]
+    ]
+  },
+  "total_multiplier_tuples": 734320442,
+  "total_prime_closed_walks": 53,
+  "total_nonbacktracking_candidates": 0,
+  "complete_bicyclic_core_exclusions_by_total_edges": {
+    "A=4": 9,
+    "A=8": 6,
+    "A=16": 4,
+    "A=32": 3,
+    "A=64": 3
+  },
+  "scope": "Complete only in the listed fixed-(A,length) multiplier domains. No prime or vertex cutoff is used."
+}

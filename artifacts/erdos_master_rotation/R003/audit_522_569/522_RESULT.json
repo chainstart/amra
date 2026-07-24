@@ -1,0 +1,35 @@
+{
+  "schema_version": "amra.erdos_rotation.resolution_audit_result.v1",
+  "cycle_id": "R003",
+  "problem_id": "522",
+  "official_status": "OPEN_WITH_SOLUTION_CLAIM",
+  "status_checked_at": "2026-07-23T21:20:15+08:00",
+  "verdict": "CANDIDATE_COMPLETE_AFTER_PRIMARY_AUDIT",
+  "source_type": "public_signed_proof_note",
+  "source_author": "Przemek Chojecki",
+  "source_date": "2026-04-27",
+  "peer_reviewed": false,
+  "formalized": false,
+  "independent_qa_complete": false,
+  "original_problem_closed": false,
+  "proof_or_disproof": false,
+  "q2_candidate": false,
+  "closure_distance_before": 1,
+  "closure_distance_after": 1,
+  "findings": [
+    "The 2026-04-20 draft has a fatal cross-degree coupling error: fixed-n equality in law for reciprocal polynomials does not imply the required blockwise coupling.",
+    "For m>n the expected normalized L2 distance between Q_m and Q_n on the unit circle is exactly 2.",
+    "The signed 2026-04-27 revision avoids that error by controlling one prefix polynomial P_n at the inner, unit and reciprocal radii.",
+    "The revised Borel--Cantelli exponents, small-value truncation and Jensen squeeze pass the primary recomputation."
+  ],
+  "claim_guard": "A primary audit is not an independent verification. Do not mark the original problem closed until a second reader has checked Lemma 2.2, Proposition 3.3, the NNS input and the final Jensen substitution.",
+  "next_action": "Run an independent line-by-line QA of the revised note and record either a precise fatal breakpoint or a verified-closure decision.",
+  "timing": {
+    "active_agent_seconds": 145,
+    "active_agent_hours": 0.040278,
+    "budget_seconds": 3600,
+    "accounting": "single-agent foreground allocation; actual time only"
+  },
+  "details": "522_AUDIT.md",
+  "verification_script": "verify_522_exponents.py"
+}

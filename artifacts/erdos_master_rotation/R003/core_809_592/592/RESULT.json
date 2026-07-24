@@ -1,0 +1,50 @@
+{
+  "schema_version": "amra.erdos_rotation.problem_result.v1",
+  "cycle_id": "R003",
+  "problem_id": 592,
+  "official_status_checked": "open",
+  "official_status_checked_at": "2026-07-23T21:05:26+08:00",
+  "result_status": "finite_static_block_spec_satisfiable_dynamic_extension_open",
+  "full_problem_closed": false,
+  "distance_before": 2,
+  "distance_after": 2,
+  "minimal_open_test_case": "omega^(omega^3) -> (omega^(omega^3),3)^2",
+  "new_rigorous_results": [
+    "The source-derived precedence constraints in Hajnal--Larson Lemma 10.38 Case 4 are acyclic with unique order TU<SU<ST.",
+    "The source-derived precedence constraints in Case 5 are acyclic with unique order ST<SU<TU.",
+    "A collision-free depth-three abstract slot-block skeleton exists in which every full successor label is the union of two incident nonempty blocks while every pair coarsening retains its own block.",
+    "Definition 10.23 allows finite sets of child indices at successor ranks, so arbitrary positive pair-label sizes have no immediate static obstruction; the T(omega) game theorems still require a finite-rank reproof.",
+    "A precise recursive invariant I(r,P) and its missing common-extension/commutation clause are isolated."
+  ],
+  "finite_unsat_core": {
+    "found_in_source_cases": false,
+    "case4_topological_orders": [
+      [
+        "TU",
+        "SU",
+        "ST"
+      ]
+    ],
+    "case5_topological_orders": [
+      [
+        "ST",
+        "SU",
+        "TU"
+      ]
+    ],
+    "guard_only": "Among all eight arbitrary orientations of the three task comparisons, two are cyclic, but they are not source-derived game positions."
+  },
+  "first_strict_breakpoint": "Prove that conservative extensions prescribed by different pair games on a shared T(r) tree commute in disjoint successor slots and have a common relaxed-tree extension preserving every pair history, critical/decision nodes, forecasting, signal size, and push-up.",
+  "additional_required_step": "Define the finite-rank T(3) version of the game and reprove the Ramsey dichotomy/uniformization interface because Definition 10.26 and Lemmas 10.38/10.47 are stated for T(omega).",
+  "verification": {
+    "script": "592/verify_592_depth3_slots.py",
+    "source_cases_checked": 2,
+    "local_block_size_assignments_checked_per_case_per_rank": 729,
+    "abstract_nodes_per_case": 63,
+    "fresh_codes_per_case": 252,
+    "pair_block_coarsenings_per_case": 126,
+    "passed": true
+  },
+  "source_correction": "The R002 local PDF with SHA-256 13b2803ec467e2180c8879744206d0ff364a339fa36be9bd4f8ef0c9b286fe4 is Infinite Combinatorics, not the Hajnal--Larson Partition Relations chapter, and is excluded as chapter evidence.",
+  "claim_guard": "The static finite block certificate does not formalize T(3), G(h,N), conservative play, the common-extension lemma, or the ordinal partition relation."
+}

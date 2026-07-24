@@ -1,0 +1,24 @@
+{
+  "schema_version": "amra.erdos_rotation.package_result.v1",
+  "cycle_id": "R003",
+  "package": "core_809_592",
+  "problems": [
+    809,
+    592
+  ],
+  "official_status_rechecked": {
+    "809": "open",
+    "592": "open"
+  },
+  "full_closures": [],
+  "strict_partial_results": {
+    "809": "one-anchor fan plus Case-1 edge-distance-two neighborhood reduction",
+    "592": "source-derived finite precedence SAT plus depth-three slot-block invariant"
+  },
+  "first_strict_breakpoints": {
+    "809": "robust near-complete-split branch with internal edges concentrated on cross-bad hubs",
+    "592": "common-extension/commutation of conservative pair-game extensions on a shared finite-rank tree"
+  },
+  "central_ledger_modified_by_this_package": false,
+  "claim_guard": "No full solution, disproof, publication-ready theorem, or status change is claimed for either problem."
+}

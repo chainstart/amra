@@ -1,0 +1,23 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R003",
+  "problem_id": "187",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T21:09:00+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "active_seconds": 150,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "conservative minute-level accounting; unused budget is not counted"
+  },
+  "outcome": "quantitative_van_der_waerden_lower_bound",
+  "new_rigorous_output": [
+    "a scale-separated step function is a valid universal lower bound",
+    "Gowers' quantitative bound yields f(d) >= log_2 iterated five times of d minus O(1)"
+  ],
+  "decision": "NO_PROMOTION_DIRECT_COROLLARY",
+  "closure_distance_before": 3,
+  "closure_distance_after": 3,
+  "q2_candidate": false,
+  "claim_guard": "This is far below the logarithmic upper bound and does not determine the best function."
+}

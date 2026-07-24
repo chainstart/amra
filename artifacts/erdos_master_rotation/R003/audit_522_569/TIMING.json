@@ -1,0 +1,16 @@
+{
+  "schema_version": "amra.erdos_rotation.timing.v1",
+  "cycle_id": "R003",
+  "task": "audit_522_569",
+  "started_at": "2026-07-23T21:20:15+08:00",
+  "ended_at": "2026-07-23T21:24:10+08:00",
+  "wall_seconds": 235,
+  "problem_active_seconds": {
+    "522": 145,
+    "569": 90
+  },
+  "total_active_agent_seconds": 235,
+  "total_active_agent_hours": 0.065278,
+  "agents_used": 1,
+  "timing_note": "R003 foreground audit time only. The prior R002 #569 source search is referenced, not counted again."
+}

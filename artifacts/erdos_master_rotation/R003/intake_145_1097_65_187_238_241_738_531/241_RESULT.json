@@ -1,0 +1,24 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R003",
+  "problem_id": "241",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T21:11:00+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "active_seconds": 75,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "conservative minute-level accounting; unused budget is not counted"
+  },
+  "outcome": "discrete_convolution_constraints_isolated",
+  "new_rigorous_output": [
+    "the ordered triple-sum representation function takes values only in {0,1,3,6}",
+    "its exact second moment is 6m^3-9m^2+4m",
+    "the B3 condition also forces the B2 Sidon value spectrum"
+  ],
+  "decision": "RETAIN_FOR_DISCRETE_RELAXATION_TEST",
+  "closure_distance_before": 3,
+  "closure_distance_after": 3,
+  "q2_candidate": false,
+  "claim_guard": "No upper-bound constant is improved."
+}

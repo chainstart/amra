@@ -1,0 +1,73 @@
+{
+  "schema_version": "amra.source_manifest.v1",
+  "cycle_id": "R003",
+  "problem_id": "522",
+  "retrieved_at": "2026-07-23T21:40:33+08:00",
+  "sources": [
+    {
+      "role": "revised_proof_under_audit",
+      "url": "https://www.ulam.ai/research/erdos522-final.pdf",
+      "media_type": "application/pdf",
+      "bytes": 455939,
+      "sha256": "7ab241bc56824740898e11bbe16acc71bd4b996563f061fae7e9b30ba4bb3dd8",
+      "identity_note": "Visible author: Przemek Chojecki; PDF metadata creation time: 2026-04-27 04:46:07 HKT; 10 pages."
+    },
+    {
+      "role": "superseded_old_proof_under_gap_check",
+      "url": "https://www.ulam.ai/research/erdos522.pdf",
+      "media_type": "application/pdf",
+      "bytes": 375548,
+      "sha256": "dd8871a50180b8b43b883988553b53eebb5ec37673fadcb90cc84ef36022b297",
+      "identity_note": "Visible date: 2026-04-20; PDF metadata creation time: 2026-04-20 20:21:42 HKT; 13 pages."
+    },
+    {
+      "role": "official_current_problem_page",
+      "url": "https://www.erdosproblems.com/522",
+      "media_type": "text/html",
+      "bytes": 34321,
+      "sha256": "b8773e7117a6337cbf0258568677474572d06b8c94f20b758ef1c05db65204d8",
+      "identity_note": "Current page remained labelled OPEN and states the closed-unit-disk almost-sure limit."
+    },
+    {
+      "role": "official_problem_revision_history",
+      "url": "https://www.erdosproblems.com/history/522",
+      "media_type": "text/html",
+      "bytes": 28110,
+      "sha256": "0f19ae3867f8ed45cc94c8e003e6c11bcbcd30b1eabebab52c2ca7403a492ca8",
+      "identity_note": "Used to freeze the exact current statement and status."
+    },
+    {
+      "role": "public_provenance_for_revised_proof",
+      "url": "https://www.erdosproblems.com/forum/thread/522?order=oldest",
+      "media_type": "text/html",
+      "bytes": 96412,
+      "sha256": "4c2b724c297b4e459cbf0891fa339ec8f5f453af972f88b34d5ccd3aed4fb32b",
+      "identity_note": "Przemek Chojecki's 2026-04-27 post links the streamlined revised PDF."
+    },
+    {
+      "role": "primary_erdos_statement",
+      "url": "https://www.renyi.hu/~p_erdos/1961-22.pdf",
+      "media_type": "application/pdf",
+      "bytes": 5669229,
+      "sha256": "60860c80588580d509a7af5ca6a771a700455508359816fb861e415bbf4f5a67",
+      "identity_note": "P. Erdos, Some unsolved problems, section V.2.2 on printed page 252."
+    },
+    {
+      "role": "external_theorem_checked",
+      "url": "https://arxiv.org/pdf/1301.0529",
+      "media_type": "application/pdf",
+      "bytes": 325710,
+      "sha256": "bd66ca349ca40c9724d942611252cf512db146297e7e87517b7b8e33e1834c20",
+      "identity_note": "Nazarov--Nishry--Sodin, Corollary 1.2; normalized Rademacher Fourier series logarithmic L^p bound."
+    },
+    {
+      "role": "prior_in_probability_result",
+      "url": "https://arxiv.org/pdf/2011.06234",
+      "media_type": "application/pdf",
+      "bytes": 207013,
+      "sha256": "5733fe94bbbb57352f8b934a248fe825b1c0ea64ec4da6ce2575a66716a37657",
+      "identity_note": "Oren Yakir, Approximately half of the roots of a random Littlewood polynomial are inside the disk."
+    }
+  ],
+  "source_storage_note": "Source bodies were inspected from temporary files outside this artifact directory; the manifest freezes URLs, byte sizes, and hashes without duplicating copyrighted PDFs."
+}

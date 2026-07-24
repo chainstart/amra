@@ -1,0 +1,109 @@
+{
+  "arbitrary_orientation_guard": {
+    "acyclic": 6,
+    "cyclic": 2,
+    "interpretation": "The two cyclic arbitrary orientations are not source-derived game positions.",
+    "specifications": 8
+  },
+  "cases": {
+    "case4_inside": {
+      "certificate_summary": {
+        "abstract_nodes": 63,
+        "block_size_in_recursive_certificate": 2,
+        "forecast_ranks_seen_per_tree": {
+          "S": [
+            3,
+            2,
+            1
+          ],
+          "T": [
+            3,
+            2,
+            1
+          ],
+          "U": [
+            3,
+            2,
+            1
+          ]
+        },
+        "fresh_codes": 252,
+        "pair_block_coarsenings_checked": 126,
+        "passed": true
+      },
+      "constraints": [
+        [
+          "SU",
+          "ST"
+        ],
+        [
+          "TU",
+          "ST"
+        ],
+        [
+          "TU",
+          "SU"
+        ]
+      ],
+      "local_positive_block_size_assignments_checked_per_rank": 729,
+      "topological_orders": [
+        [
+          "TU",
+          "SU",
+          "ST"
+        ]
+      ]
+    },
+    "case5_outside": {
+      "certificate_summary": {
+        "abstract_nodes": 63,
+        "block_size_in_recursive_certificate": 2,
+        "forecast_ranks_seen_per_tree": {
+          "S": [
+            3,
+            2,
+            1
+          ],
+          "T": [
+            3,
+            2,
+            1
+          ],
+          "U": [
+            3,
+            2,
+            1
+          ]
+        },
+        "fresh_codes": 252,
+        "pair_block_coarsenings_checked": 126,
+        "passed": true
+      },
+      "constraints": [
+        [
+          "ST",
+          "SU"
+        ],
+        [
+          "ST",
+          "TU"
+        ],
+        [
+          "SU",
+          "TU"
+        ]
+      ],
+      "local_positive_block_size_assignments_checked_per_rank": 729,
+      "topological_orders": [
+        [
+          "ST",
+          "SU",
+          "TU"
+        ]
+      ]
+    }
+  },
+  "claim": "The source-derived top-level precedence constraints in Lemma 10.38 Cases 4 and 5 are acyclic, and a collision-free depth-three two-block address skeleton exists.",
+  "passed": true,
+  "scope_guard": "This finite check does not prove the common-extension/commutation lemma, game legality, conservative play, critical-node compatibility, or push-up."
+}

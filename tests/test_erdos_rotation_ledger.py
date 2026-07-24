@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import importlib.util
 import json
 import subprocess
 import sys
@@ -16,6 +17,16 @@ ANALYSE_327 = (
     REPO_ROOT
     / "artifacts/erdos_master_rotation/R001/analyze_327_near_square_sieve.py"
 )
+
+
+def load_rotation_module():
+    spec = importlib.util.spec_from_file_location("manage_erdos_rotation", SCRIPT)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 VERIFY_18 = (
     REPO_ROOT
     / "artifacts/erdos_master_rotation/R002/verify_18_small_factorials.py"
@@ -97,7 +108,40 @@ def test_validate_command_passes(tmp_path: Path) -> None:
     assert "PASS: 630 unique problems" in completed.stdout
 
 
-def test_unforced_cycle_selects_twelve_new_intake_problems(tmp_path: Path) -> None:
+def test_event_ordering_uses_absolute_time_across_offsets() -> None:
+    rotation = load_rotation_module()
+    common = {
+        "problem_id": "569",
+        "phase": "resolution_audit",
+        "agent_hours": 0.0,
+        "original_problem_closed": False,
+        "q2_candidate": False,
+        "closure_distance_before": 1,
+        "closure_distance_after": 1,
+    }
+    events = [
+        {
+            **common,
+            "event_id": "older-local",
+            "cycle_id": "R002",
+            "occurred_at": "2026-07-23T20:36:46+08:00",
+            "outcome": "old",
+        },
+        {
+            **common,
+            "event_id": "newer-utc",
+            "cycle_id": "R003",
+            "occurred_at": "2026-07-23T13:27:40+00:00",
+            "outcome": "new",
+        },
+    ]
+
+    aggregate = rotation.aggregate_events(events, legacy_ids=set(), legacy_streak=0)
+
+    assert aggregate["569"]["last_event"]["event_id"] == "newer-utc"
+
+
+def test_unforced_future_cycle_respects_new_problem_share(tmp_path: Path) -> None:
     output_dir = tmp_path / "ledger"
     completed = subprocess.run(
         [
@@ -109,7 +153,7 @@ def test_unforced_cycle_selects_twelve_new_intake_problems(tmp_path: Path) -> No
             str(tmp_path / "plan.md"),
             "build",
             "--cycle",
-            "R003",
+            "R004",
         ],
         cwd=REPO_ROOT,
         text=True,
@@ -121,7 +165,7 @@ def test_unforced_cycle_selects_twelve_new_intake_problems(tmp_path: Path) -> No
     intake = ledger["current_queue"]["intake"]
     assert len(intake) == 12
     assert len({row["problem_id"] for row in intake}) == 12
-    assert all(row["attempt_count"] == 0 for row in intake)
+    assert sum(row["attempt_count"] == 0 for row in intake) >= 6
 
 
 def test_r002_queue_is_frozen_for_reproducibility(tmp_path: Path) -> None:

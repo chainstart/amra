@@ -1,0 +1,20 @@
+{
+  "schema_version": "amra.erdos_rotation.cycle_timing.v1",
+  "cycle_id": "R003",
+  "timezone": "Asia/Hong_Kong",
+  "macrocycle_envelope_started_at": "2026-07-23T21:03:11+08:00",
+  "macrocycle_research_completed_at": "2026-07-23T21:48:18+08:00",
+  "envelope_wall_seconds": 2707,
+  "registered_active_agent_seconds_rounded": 8662,
+  "registered_active_agent_hours": 2.406133,
+  "maximum_parallel_slots": 4,
+  "package_agent_hours": {
+    "root_intake_145_1097_65_187_238_241_738_531": 0.2375,
+    "root_audit_522_569": 0.065278,
+    "intake_193_91_509_1002": 0.494167,
+    "core_809_592": 0.721944,
+    "core_776_635": 0.7178,
+    "qa_522": 0.169444
+  },
+  "accounting_note": "Agent-hours are summed actual foreground research time and may exceed wall time under parallel execution. Budget caps, waiting, central integration and unused quota are excluded."
+}

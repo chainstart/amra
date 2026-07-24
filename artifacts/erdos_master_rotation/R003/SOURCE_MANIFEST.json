@@ -1,0 +1,38 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R003",
+  "as_of": "2026-07-23",
+  "scope": "complete standard macrocycle",
+  "evidence_package_manifests": [
+    "core_776_635/635/SOURCE_MANIFEST.json",
+    "core_776_635/776/SOURCE_MANIFEST.json",
+    "core_809_592/SOURCE_MANIFEST.json",
+    "intake_145_1097_65_187_238_241_738_531/SOURCE_MANIFEST.json",
+    "intake_193_91_509_1002/SOURCE_MANIFEST.json",
+    "audit_522_569/SOURCE_MANIFEST.json",
+    "qa_522/SOURCE_MANIFEST.json"
+  ],
+  "closure_evidence": {
+    "522": {
+      "revised_public_note": "https://www.ulam.ai/research/erdos522-final.pdf",
+      "author": "Przemek Chojecki",
+      "date": "2026-04-27",
+      "sha256": "7ab241bc56824740898e11bbe16acc71bd4b996563f061fae7e9b30ba4bb3dd8",
+      "independent_qa": "qa_522/RESULT.json"
+    }
+  },
+  "source_corrections": [
+    {
+      "problem_id": "592",
+      "excluded_sha256": "13b2803ec467e2180c8879744206d0ff364a339fa36be9bd4f8ef0c9b286fe4",
+      "reason": "The R002 file is Jean Larson's Infinite Combinatorics, not the Hajnal--Larson Partition Relations chapter.",
+      "replacement_evidence": "core_809_592/SOURCE_MANIFEST.json"
+    }
+  ],
+  "evidence_policy": [
+    "Official status, mathematical closure, peer review and formalization are separate fields.",
+    "A primary audit is not upgraded until an independent reader checks the proof.",
+    "Finite computations are limited to explicitly bounded certificates and route falsification.",
+    "Unused budgets and waiting time are never recorded as research time."
+  ]
+}

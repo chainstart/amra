@@ -102,6 +102,18 @@ EVENT_REQUIRED_FIELDS = {
 }
 
 
+def parse_event_time(value: Any) -> datetime:
+    """Return an aware UTC timestamp for chronological event ordering."""
+    text = str(value)
+    try:
+        parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError as error:
+        raise RuntimeError(f"invalid occurred_at timestamp: {text}") from error
+    if parsed.tzinfo is None:
+        raise RuntimeError(f"occurred_at timestamp must include a timezone: {text}")
+    return parsed.astimezone(timezone.utc)
+
+
 def read_json(path: Path, default: Any = None) -> Any:
     try:
         return json.loads(path.read_text(encoding="utf-8"))
@@ -143,6 +155,10 @@ def load_events(path: Path) -> list[dict[str, Any]]:
             raise RuntimeError(
                 f"{path}:{line_number}: missing={sorted(missing)} extra={sorted(extra)}"
             )
+        try:
+            parse_event_time(event["occurred_at"])
+        except RuntimeError as error:
+            raise RuntimeError(f"{path}:{line_number}: {error}") from error
         event_id = str(event["event_id"])
         if event_id in event_ids:
             raise RuntimeError(f"{path}:{line_number}: duplicate event_id {event_id}")
@@ -301,7 +317,10 @@ def aggregate_events(
             by_problem[str(problem_id)].append(event)
 
     for problem_id, problem_events in by_problem.items():
-        ordered = sorted(problem_events, key=lambda row: (row["occurred_at"], row["event_id"]))
+        ordered = sorted(
+            problem_events,
+            key=lambda row: (parse_event_time(row["occurred_at"]), row["event_id"]),
+        )
         streak = legacy_streak if problem_id in legacy_ids else 0
         attempts = 0
         hours = 0.0

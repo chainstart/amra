@@ -1,0 +1,102 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R003",
+  "package": "core_809_592",
+  "as_of": "2026-07-23",
+  "sources": {
+    "809": [
+      {
+        "name": "Erdos Problems #809 HTML",
+        "url": "https://www.erdosproblems.com/809",
+        "role": "official statement, open status, and current boundary",
+        "retrieved_at": "2026-07-23T21:05:25+08:00",
+        "local_ephemeral_path": "/tmp/amra_r003_sources/809.html",
+        "bytes": 34145,
+        "sha256": "8cf3af453266ea11aaabea3376804c7b6acc247b8969885970d72465355df355",
+        "observed_status": "OPEN",
+        "page_last_edited": "2026-04-01"
+      },
+      {
+        "name": "Bucic--Chen--Ma arXiv v1 PDF",
+        "url": "https://arxiv.org/abs/2603.18952",
+        "role": "primary proof for k>=4 and explicit k=3 bottleneck",
+        "retrieved_at": "2026-07-23T21:09:09+08:00",
+        "local_ephemeral_path": "/tmp/amra_r003_sources/2603.18952v1.pdf",
+        "bytes": 621626,
+        "sha256": "d994c64f8f1c5d4c844d886d50e3940392794630710f132ea72bb6b9d33d9dbb"
+      },
+      {
+        "name": "Bucic--Chen--Ma arXiv v1 source archive",
+        "url": "https://export.arxiv.org/e-print/2603.18952v1",
+        "role": "formula-level inspection of Lemma 3.2 and Cases 1/2",
+        "retrieved_at": "2026-07-23T21:09:11+08:00",
+        "local_ephemeral_path": "/tmp/amra_r003_sources/2603.18952v1.tar",
+        "bytes": 120412,
+        "sha256": "318ac4a46734463528a0b8a7bb14aad2afed7128e5e3419a50262301da76388e",
+        "extracted_main_tex_ephemeral_path": "/tmp/bcm809.bj2zfW/main.tex",
+        "extracted_main_tex_sha256": "c1097e145f71a24e0ef97be0eed1cc3bf329194e3b1b3dac059e1d3fef5af06d"
+      },
+      {
+        "name": "R002 #809 bipartite-model report",
+        "path": "artifacts/erdos_master_rotation/R002/core_809_592/809_BIPARTITE_MODEL_LEMMA.md",
+        "role": "prior local lemma and BCM Case-1 breakpoint",
+        "sha256": "b4f17addcd61ec6243c9a3e99dd8171245a6e3eefbda21a41841841d457ad3eb"
+      },
+      {
+        "name": "R002 #809 star-swap audit",
+        "path": "artifacts/erdos_master_rotation/R002/qa_809/STABILITY_COUNTEREXAMPLE.md",
+        "role": "counterexample family that the R003 lemma must contain",
+        "sha256": "dc9b130f3ba13774729b95e541bffd92a27de7ba6973ea4b6f614554a7ce5774"
+      }
+    ],
+    "592": [
+      {
+        "name": "Erdos Problems #592 HTML",
+        "url": "https://www.erdosproblems.com/592",
+        "role": "official statement, open status, prize, and three-summand boundary",
+        "retrieved_at": "2026-07-23T21:05:26+08:00",
+        "local_ephemeral_path": "/tmp/amra_r003_sources/592.html",
+        "bytes": 35123,
+        "sha256": "041a95349ed4b092e216ed9d630039e0f05d4e95004d91cb2f2dda81347f426e",
+        "observed_status": "OPEN",
+        "observed_prize_usd": 1000,
+        "page_last_edited": "2026-01-23"
+      },
+      {
+        "name": "Countable partition ordinals",
+        "authors": "Rene Schipperus",
+        "journal": "Annals of Pure and Applied Logic 161 (2010), 1195-1215",
+        "doi": "10.1016/j.apal.2009.12.007",
+        "url": "https://www.sciencedirect.com/science/article/pii/S0168007209002188",
+        "role": "primary positive theorem for one or two indecomposable summands",
+        "accessed_date": "2026-07-23",
+        "access_note": "Publisher abstract and theorem statement inspected; no local full-text snapshot claimed."
+      },
+      {
+        "name": "Partition Relations",
+        "authors": "Andras Hajnal and Jean A. Larson",
+        "container": "Handbook of Set Theory (2010), 129-213",
+        "doi": "10.1007/978-1-4020-5764-9_3",
+        "url": "https://www.researchgate.net/publication/226348391_Partition_Relations",
+        "role": "author-uploaded primary chapter; Definitions 10.21/10.23/10.26/10.42 and Lemmas 10.38/10.43/10.47",
+        "accessed_date": "2026-07-23",
+        "access_note": "The 85-page author-uploaded PDF was inspected through the web PDF renderer. Direct filesystem download returned HTTP 403, so no local PDF hash is claimed."
+      },
+      {
+        "name": "R002 #592 route audit",
+        "path": "artifacts/erdos_master_rotation/R002/core_809_592/592_ROUTE_AUDIT.md",
+        "role": "prior local route and proposed same-rank slots",
+        "sha256": "d91a1b4ebfb3822d8dae16453dfdd73f5f90650803068c5eae6d547bf5724eb8"
+      },
+      {
+        "name": "Excluded misidentified R002 local PDF",
+        "local_ephemeral_path": "/tmp/erdos_r002/hajnal_larson_partition.pdf",
+        "bytes": 1359236,
+        "sha256": "13b2803ec467e2180c8879744206d0ff364a339fa36be9bd4f8ef0c9b286fe4e",
+        "excluded": true,
+        "reason": "This 222-page file is Jean Larson's Infinite Combinatorics history, not the Hajnal--Larson Partition Relations chapter."
+      }
+    ]
+  },
+  "source_integrity_note": "Ephemeral paths document this run and may disappear. SHA-256 values identify only files actually downloaded or already present; no hash is invented for browser-rendered primary text."
+}

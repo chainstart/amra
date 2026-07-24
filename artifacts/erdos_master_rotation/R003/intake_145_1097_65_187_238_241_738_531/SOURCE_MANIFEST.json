@@ -1,0 +1,43 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v1",
+  "cycle_id": "R003",
+  "wave": "root-intake",
+  "as_of": "2026-07-23",
+  "problems": {
+    "145": [
+      "https://www.erdosproblems.com/145",
+      "https://arxiv.org/abs/2310.08448",
+      "https://doi.org/10.2140/moscow.2023.12.287"
+    ],
+    "1097": [
+      "https://www.erdosproblems.com/1097",
+      "https://www.erdosproblems.com/latex/1097",
+      "https://arxiv.org/abs/math/9906097"
+    ],
+    "65": [
+      "https://www.erdosproblems.com/65",
+      "https://arxiv.org/abs/2010.15802"
+    ],
+    "187": [
+      "https://www.erdosproblems.com/187",
+      "https://www.dpmms.cam.ac.uk/~wtg10/papers.html"
+    ],
+    "238": [
+      "https://www.erdosproblems.com/238"
+    ],
+    "241": [
+      "https://www.erdosproblems.com/241",
+      "https://doi.org/10.4153/S0008439523000714"
+    ],
+    "738": [
+      "https://www.erdosproblems.com/738",
+      "https://www.renyi.hu/~gyarfas/Cikkek/14_GyarfasSzemerediTuza_InducedSubtreesInGraphsOfLargeChromaticNumber.pdf"
+    ],
+    "531": [
+      "https://www.erdosproblems.com/531",
+      "https://arxiv.org/abs/1703.02473",
+      "https://doi.org/10.1112/blms.12058"
+    ]
+  },
+  "scope_note": "Official status pages were used for current labels; technical claims rely on primary papers or are proved in the local reports and checked by the bundled script."
+}

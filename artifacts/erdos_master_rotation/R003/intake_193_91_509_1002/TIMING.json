@@ -1,0 +1,21 @@
+{
+  "schema_version": "amra.erdos_rotation.timing.v1",
+  "cycle_id": "R003",
+  "task": "intake_193_91_509_1002",
+  "timezone": "Asia/Hong_Kong",
+  "started_at": "2026-07-23T21:04:27+08:00",
+  "ended_at": "2026-07-23T21:34:06+08:00",
+  "wall_seconds": 1779,
+  "problem_active_seconds": {
+    "193": 425,
+    "91": 420,
+    "509": 545,
+    "1002": 389
+  },
+  "total_active_agent_seconds": 1779,
+  "total_active_agent_hours": 0.494167,
+  "agents_used": 1,
+  "budget_cap_seconds_per_problem": 5400,
+  "cpu_note": "Single-agent, single-process verification on an 8-logical-CPU host; deliberate peak use stayed below one core and therefore below the 50% cap.",
+  "timing_note": "Start and end are exact wall-clock observations. Per-problem seconds are conservative estimates from the activity sequence and sum exactly to active wall time; unused budget is not counted."
+}

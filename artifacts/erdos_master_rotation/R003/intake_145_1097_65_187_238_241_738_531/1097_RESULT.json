@@ -1,0 +1,23 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R003",
+  "problem_id": "1097",
+  "official_status": "OPEN_MAIN_ORDER__O_N_3_OVER_2_DISPROVED",
+  "status_checked_at": "2026-07-23T21:08:00+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "active_seconds": 75,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "conservative minute-level accounting; unused budget is not counted"
+  },
+  "outcome": "ap_symmetry_shortcut_eliminated",
+  "new_rigorous_output": [
+    "every restricted sum-difference instance embeds into a three-term-AP difference instance with linear host-size loss",
+    "an exponent saving based only on AP-graph symmetry would improve the full Bourgain restricted sum-difference problem"
+  ],
+  "decision": "NO_PROMOTION_EQUIVALENT_HARD_CORE",
+  "closure_distance_before": 3,
+  "closure_distance_after": 3,
+  "q2_candidate": false,
+  "claim_guard": "The current exponent interval is not improved."
+}

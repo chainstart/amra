@@ -1,0 +1,69 @@
+{
+  "schema_version": "amra.erdos_rotation.timing.v1",
+  "cycle_id": "R003",
+  "task": "core_809_592",
+  "started_at": "2026-07-23T21:04:59+08:00",
+  "research_and_primary_packaging_ended_at": "2026-07-23T21:48:18+08:00",
+  "active_wall_seconds": 2599,
+  "active_agent_hours": 0.721944,
+  "problem_active_seconds": {
+    "809": 1193,
+    "592": 1406
+  },
+  "problem_active_seconds_basis": {
+    "method": "Retrospective mutually exclusive attribution from the actual sequential activity order and recorded event/file timestamps; no interval is counted twice.",
+    "809": "892 seconds through the first #809 verifier, 197 seconds for the #809 report pass, and 104 seconds as half of the final shared packaging interval.",
+    "592": "851 seconds for the initial finite-game/source analysis, 284 seconds for the #592 report pass, 167 seconds for the formula-level correction and block-certificate update, and 104 seconds as half of the final shared packaging interval.",
+    "sum_check": "1193 + 1406 = 2599"
+  },
+  "problem_budget_caps_seconds": {
+    "809": 14400,
+    "592": 14400
+  },
+  "budget_accounting_note": "Caps are maxima, not charges. The two source refreshes, mathematical analysis, correction pass, validators, and packaging shared one uninterrupted foreground session, so no fictitious four-hour per-problem usage is reported and the shared wall time is not double-counted.",
+  "execution": {
+    "mode": "sequential_single_agent",
+    "parallel_agent_used": false,
+    "parallel_attempt_note": "A delegation attempt found no free concurrency slot; the parent directed sequential work.",
+    "cpu_policy": "Both verifiers are single-process and use no multiprocessing or worker pool."
+  },
+  "measured_verifier_runtime_seconds": {
+    "809_verify_809_r003": 10.14,
+    "592_verify_592_depth3_slots": 0.03
+  },
+  "events": [
+    {
+      "at": "2026-07-23T21:04:59+08:00",
+      "event": "R003 core #809/#592 task started"
+    },
+    {
+      "at": "2026-07-23T21:05:25+08:00",
+      "event": "official #809 status snapshot retrieved"
+    },
+    {
+      "at": "2026-07-23T21:05:26+08:00",
+      "event": "official #592 status snapshot retrieved"
+    },
+    {
+      "at": "2026-07-23T21:09:09+08:00",
+      "event": "BCM primary PDF refreshed"
+    },
+    {
+      "at": "2026-07-23T21:09:11+08:00",
+      "event": "BCM primary source archive refreshed"
+    },
+    {
+      "at": "2026-07-23T21:34:02+08:00",
+      "event": "initial #809 and #592 finite certificates completed"
+    },
+    {
+      "at": "2026-07-23T21:42:42+08:00",
+      "event": "formula-level source correction completed: successor clear labels are finite child-index sets, so the #592 certificate was strengthened from singleton slots to arbitrary nonempty slot blocks"
+    },
+    {
+      "at": "2026-07-23T21:48:18+08:00",
+      "event": "research reports and primary package files completed"
+    }
+  ],
+  "timing_guard": "The short elapsed time is the actual activity recorded; unused portions of the two four-hour caps are not counted."
+}

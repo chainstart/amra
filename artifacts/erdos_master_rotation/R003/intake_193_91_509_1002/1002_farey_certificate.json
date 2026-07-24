@@ -1,0 +1,34 @@
+{
+  "problem_id": 1002,
+  "certificate_type": "exact_farey_cell_integrals",
+  "normalization": "S_n(alpha)=sum_{k=1}^n (1/2-{k alpha})",
+  "results": {
+    "64": {
+      "farey_cells": 1260,
+      "absolute_mean": 1.7191609543587907,
+      "absolute_mean_over_log_n": 0.4133708305572275,
+      "second_moment": 14.866077012953117,
+      "tail_probabilities_A_1_2_4_8_16": [0.08210749044456345, 0.03435474551261791, 0.014773526602462802, 0.0, 0.0]
+    },
+    "128": {
+      "farey_cells": 5022,
+      "absolute_mean": 2.104718319420048,
+      "absolute_mean_over_log_n": 0.4337809545564938,
+      "second_moment": 30.587030796338166,
+      "tail_probabilities_A_1_2_4_8_16": [0.08112128007563447, 0.03491835433971195, 0.01462391370573792, 0.00610071654279144, 0.0]
+    },
+    "256": {
+      "farey_cells": 19948,
+      "absolute_mean": 2.5395639812071353,
+      "absolute_mean_over_log_n": 0.4579770452134709,
+      "second_moment": 62.385413480517066,
+      "tail_probabilities_A_1_2_4_8_16": [0.08305371534460691, 0.034930520001115455, 0.013470005259653424, 0.006279010268015989, 0.0023879596843584022]
+    }
+  },
+  "exact_checks": [
+    "Integral mean is exactly zero.",
+    "Farey-cell second moment exactly equals (1/12) sum_{k,l<=n} gcd(k,l)^2/(kl).",
+    "The diagonal lower bound is second_moment >= n/12."
+  ],
+  "scope_guard": "Finite exact integration supports but does not prove a uniform weak-L1 tail bound or a limiting distribution."
+}

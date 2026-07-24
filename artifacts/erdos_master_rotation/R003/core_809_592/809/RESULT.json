@@ -1,0 +1,32 @@
+{
+  "schema_version": "amra.erdos_rotation.problem_result.v1",
+  "cycle_id": "R003",
+  "problem_id": 809,
+  "official_status_checked": "open",
+  "official_status_checked_at": "2026-07-23T21:05:25+08:00",
+  "result_status": "strict_partial_result_original_open",
+  "full_problem_closed": false,
+  "distance_before": 2,
+  "distance_after": 2,
+  "new_rigorous_results": [
+    "One-anchor fan lemma: after deleting the anchor column, (|A|-2)(|B|-1) cross edges are pairwise C7-compatible even when the defective center has only one cross neighbor.",
+    "The exact one-defective-row/star-row family above the Mantel threshold forces n^2/4-O(n) colors and therefore explicitly contains the R002 star-swap family.",
+    "Under BCM Case-1 property L4(2), same-color edges have edge-distance at least 2; if delta>n/3, every color class of size at least 3 contains a pair at edge-distance exactly 2.",
+    "A no-length-3-path certificate forced by a distance-2 same-color pair has an exact two-branch neighborhood decomposition: a near-two-clique core or a near-complete-split core."
+  ],
+  "first_strict_breakpoint": "In the split branch, internal edges may concentrate on a small set of vertices with low degree into the large independent side. Neither the common-kernel lemma nor the exact one-anchor fan currently converts this robust missing-cross-edge/internal-density tradeoff into n^2/8-o(n^2) colors.",
+  "next_lemma": "Normalize the split branch by a maximum cut and prove that either a large cross-good internal edge kernel exists, an approximate one-anchor fan exists, or the internal density supported by cross-bad hubs itself yields the required color lower bound.",
+  "verification": {
+    "script": "809/verify_809_r003.py",
+    "one_anchor_instances": 165,
+    "one_anchor_edge_pairs_checked": 39830,
+    "labelled_graphs_exhausted_for_obstruction": {
+      "4": 64,
+      "5": 1024,
+      "6": 32768
+    },
+    "no_length3_certificates_checked": 2754891,
+    "passed": true
+  },
+  "claim_guard": "The lemmas and finite checks do not prove the full asymptotic statement of Erdős #809 or the missing robust split-branch color bound."
+}

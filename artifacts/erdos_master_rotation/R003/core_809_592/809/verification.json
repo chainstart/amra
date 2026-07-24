@@ -1,0 +1,44 @@
+{
+  "claims": [
+    "one-anchor exact C7 fan lemma",
+    "length-three neighborhood obstruction bounds"
+  ],
+  "neighborhood_obstruction_instances": [
+    {
+      "checked_no_length3_certificates": 726,
+      "labelled_graphs": 64,
+      "n": 4,
+      "nonempty_intersection_certificates": 150,
+      "passed": true
+    },
+    {
+      "checked_no_length3_certificates": 35130,
+      "labelled_graphs": 1024,
+      "n": 5,
+      "nonempty_intersection_certificates": 9250,
+      "passed": true
+    },
+    {
+      "checked_no_length3_certificates": 2719035,
+      "labelled_graphs": 32768,
+      "n": 6,
+      "nonempty_intersection_certificates": 902355,
+      "passed": true
+    }
+  ],
+  "one_anchor_summary": {
+    "a_size_range": [
+      4,
+      8
+    ],
+    "all_passed": true,
+    "b_size_range": [
+      3,
+      8
+    ],
+    "checked_edge_pairs": 39830,
+    "instances": 165,
+    "p_cross_neighbor_range_for_each_b": "1..b"
+  },
+  "passed": true
+}

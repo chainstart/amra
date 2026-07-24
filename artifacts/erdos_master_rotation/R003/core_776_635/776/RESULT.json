@@ -1,0 +1,55 @@
+{
+  "schema": "amra.erdos-master-rotation.problem-result.v1",
+  "cycle_id": "R003",
+  "problem_id": "776",
+  "official_status_refreshed": "OPEN",
+  "outcome": "strict_progress_no_closure",
+  "original_problem_closed": false,
+  "proof_or_disproof": false,
+  "q2_candidate": false,
+  "closure_distance_before": 1,
+  "closure_distance_after": 1,
+  "closure_distance_reduced": false,
+  "closure_distance_reason": "The rank-8-to-rank-5 carry block is now exact, but the actual orbit has not been proved to enter and preserve the one-sided rank-8 barrier for every V.",
+  "new_results": [
+    "Uniform capped descent: for V>=40 and E8=H8(V)+R with 0<=R<C(V-18,2), the residual disappears by rank 6 and E5=F5+8.",
+    "One-sided sufficient barrier E8<=H8(V)+C(V-18,2)-1 implies E5<=F5+8.",
+    "Exact Galois thresholds: L6>=V+5 iff G7>=C(V-5,2)+10, and L7>=c+9 iff G8>=C(c+1,2)+8V-100.",
+    "Only the top 17 residual integers in the cap need positive L8 for the rank-6 propagation; the associated G9 threshold is at most 17V-476.",
+    "At the cap endpoint, self-propagation of the rank-8 barrier requires L8>=V+1 and a quadratic G9 threshold, refuting the nonquantitative positive-gap route."
+  ],
+  "routes": [
+    {
+      "name": "capped_rank8_to_rank5_descent",
+      "result": "completed exactly; all rank-8 residual digits under the cap give E5=F5+8"
+    },
+    {
+      "name": "quantitative_diagonal_shadow_loss",
+      "result": "completed through the two low-rank Galois thresholds and the 17-state cap boundary classification"
+    },
+    {
+      "name": "full_carry_block_barrier_propagation",
+      "result": "not completed; the cap endpoint needs linear L8 and a quadratic next-rank gap"
+    }
+  ],
+  "first_unfixable_breakpoint": "Prove that the actual diagonal orbit either avoids the top 17 cap states or pays their explicit G9 thresholds, and separately establish the all-V rank-8 barrier entrance/self-propagation.",
+  "route_killed": "A proof using only L8>=0 (or merely nonnegative next-rank diagonal gap) cannot preserve the rank-8 barrier: the legal cap endpoint requires L8>=V+1.",
+  "next_decidable_action": "Analyze the actual residual/G9 coupling on the 17 explicit top-cap states; a uniform G9 bound there would complete the current rank-6 parameter propagation.",
+  "timing": {
+    "started_at": "2026-07-23T21:03:58+08:00",
+    "research_frozen_at": "2026-07-23T21:47:02+08:00",
+    "active_agent_seconds": 1512,
+    "active_agent_hours": 0.42,
+    "budget_seconds": 14400,
+    "accounting": "single-agent foreground allocation; actual time only"
+  },
+  "artifacts": [
+    "REPORT.md",
+    "RESULT.json",
+    "CERTIFICATE.json",
+    "verify_rank8_capped_block.py",
+    "SOURCE_MANIFEST.json",
+    "TIMING.json",
+    "SHA256SUMS"
+  ]
+}

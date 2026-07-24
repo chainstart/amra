@@ -1,0 +1,19 @@
+{
+  "schema": "amra.actual-timing.v1",
+  "problem_id": "635",
+  "started_at": "2026-07-23T21:03:58+08:00",
+  "research_frozen_at": "2026-07-23T21:47:02+08:00",
+  "active_agent_seconds": 1072,
+  "active_agent_hours": 0.2978,
+  "budget_seconds": 14400,
+  "budget_hours": 4.0,
+  "budget_exhausted": false,
+  "accounting": "Actual single-agent foreground allocation only; unused budget and packaging time are not charged.",
+  "verification_runs": [
+    {
+      "command": "taskset -c 6 nice -n 10 python3 run_fixed_A_cycle_audit.py",
+      "elapsed_seconds": 75.62,
+      "max_rss_kb": 90256
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "schema": "amra.erdos-master-rotation.problem-result.v1",
+  "cycle_id": "R003",
+  "problem_id": "635",
+  "official_status_refreshed": "OPEN_exact_extremal_question; asymptotic_subquestion_affirmative",
+  "outcome": "strict_progress_no_closure",
+  "original_problem_closed": false,
+  "proof_or_disproof": false,
+  "q2_candidate": false,
+  "closure_distance_before": 2,
+  "closure_distance_after": 2,
+  "closure_distance_reduced": false,
+  "closure_distance_reason": "The new finite exclusions do not cover arbitrary A or length, and the length-independent invariants admit integral nonbacktracking composite closed walks.",
+  "new_results": [
+    "Complete enumeration of 734,320,442 multiplier tuples in the stated fixed-(A,length) domains, with no nonbacktracking prime closed walk.",
+    "Consequent exclusion of fixed-A bicyclic cores with total edges <=9 for A=4, <=6 for A=8, <=4 for A=16, and <=3 for A=32 or 64.",
+    "Length-independent fixed-A cycle identities sum p_i=sum q_i and equality of the two Euler products with product(h_i)/A^m.",
+    "Strict-concavity crossing lemma: unequal p/q multisets in a fixed-A cycle must be incomparable in majorization order.",
+    "Exact A=4 composite nonbacktracking counterwalk showing the new identities alone cannot exclude cycles."
+  ],
+  "routes": [
+    {
+      "name": "fixed_valuation_short_bicyclic_cores",
+      "result": "excluded in the certified total-edge domains because every such core contains a certified-forbidden nonbacktracking cycle"
+    },
+    {
+      "name": "length_independent_euler_first_moment_invariant",
+      "result": "proved, but insufficient without primality; an exact composite counterwalk survives"
+    },
+    {
+      "name": "majorization_monotone",
+      "result": "gives a necessary crossing condition, not an arbitrary-length exclusion"
+    }
+  ],
+  "first_unfixable_breakpoint": "Control two fixed- or mixed-valuation cycles simultaneously along their shared path; single-cycle Euler products and first moments permit crossing composite walks.",
+  "route_killed": "Euler-product equality, even when combined with the first moment, does not force an integral closed walk to backtrack.",
+  "next_decidable_action": "Subtract the two cycle identities on theta shared paths and test whether primality forces compatible majorization directions; otherwise construct the first all-prime crossing bicyclic core.",
+  "quantifier_warning": "Even a complete semiprime proper-neighbour Hall theorem would still require prime-square, higher-odd-part and matching-union arguments before settling the original exact extremal problem.",
+  "timing": {
+    "started_at": "2026-07-23T21:03:58+08:00",
+    "research_frozen_at": "2026-07-23T21:47:02+08:00",
+    "active_agent_seconds": 1072,
+    "active_agent_hours": 0.2978,
+    "budget_seconds": 14400,
+    "accounting": "single-agent foreground allocation; actual time only"
+  },
+  "artifacts": [
+    "REPORT.md",
+    "RESULT.json",
+    "CYCLE_CERTIFICATE.json",
+    "INVARIANT_CERTIFICATE.json",
+    "enumerate_fixed_A_cycles.cpp",
+    "run_fixed_A_cycle_audit.py",
+    "verify_cycle_invariants.py",
+    "SOURCE_MANIFEST.json",
+    "TIMING.json",
+    "SHA256SUMS"
+  ]
+}

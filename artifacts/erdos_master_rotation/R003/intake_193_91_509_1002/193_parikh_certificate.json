@@ -1,0 +1,12 @@
+{
+  "problem_id": 193,
+  "certificate_type": "exhaustive_ternary_abelian_square_threshold",
+  "alphabet": ["0", "1", "2"],
+  "abelian_square_free_counts_by_length_1_to_8": [3, 6, 12, 18, 30, 30, 18, 0],
+  "length_7_word_count": 18,
+  "sorted_length_7_words_sha256": "1978bcea27ea2211cca15cf9dd6dacde9a28e1507b50a4e625d9e713c7d16614",
+  "all_length_8_words_checked": 6561,
+  "claim": "Every ternary word of length 8 contains a nonempty abelian-square factor.",
+  "novelty_guard": "This is the finite combinatorial input already used in Gerver--Ramsey (1979), Theorem 3, via Brown's theorem.",
+  "scope_guard": "This finite certificate is combined with a rank argument in 193_REPORT.md; it does not address step sets of size at least four."
+}

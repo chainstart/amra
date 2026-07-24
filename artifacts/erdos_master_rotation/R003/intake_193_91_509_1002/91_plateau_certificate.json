@@ -1,0 +1,14 @@
+{
+  "problem_id": 91,
+  "certificate_type": "plateau_route_logic_checks",
+  "oeis_A186704_n_1_to_13": [0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 5, 6],
+  "similar_copy_upper_bound": "2*N*(N-1)",
+  "binomial_threshold": {
+    "inequality": "binom(N,3) > 2*N*(N-1)",
+    "first_strict_N": 15,
+    "equality_at_N": 14
+  },
+  "verified_public_partial_result": "All but the last three sizes of every sufficiently large plateau have at least two non-similar minimizers; hence the good sizes have natural density one.",
+  "countermodel": "A monotone integer o(n) function with increments on [2^(2k),2^(2k)+k-1] has unbounded strict-increase runs.",
+  "scope_guard": "Neither the small OEIS data nor density one proves the eventual-for-all statement."
+}

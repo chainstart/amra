@@ -1,0 +1,179 @@
+{
+  "schema_version": "amra.erdos_rotation.source_manifest.v2",
+  "cycle_id": "R003",
+  "task": "intake_193_91_509_1002",
+  "as_of": "2026-07-23",
+  "source_integrity_note": "Hashes identify the exact downloaded bytes inspected. External PDFs/HTML are not duplicated in this artifact directory.",
+  "problems": {
+    "193": [
+      {
+        "id": "official_193",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/193",
+        "retrieved_at": "2026-07-23T21:05:50+08:00",
+        "download_sha256": "9f3e403fc037a0fc4a0ab4b53c55dd618c04b726103d2956e2354052865d4072",
+        "used_for": "OPEN status, exact statement, official summary."
+      },
+      {
+        "id": "gerver_ramsey_1979",
+        "kind": "primary_paper",
+        "citation": "J. L. Gerver and L. T. Ramsey, On certain sequences of lattice points, Pacific J. Math. 83 (1979), 357-363.",
+        "url": "https://msp.org/pjm/1979/83-2/pjm-v83-n2-p08-s.pdf",
+        "retrieved_at": "2026-07-23T21:21:13+08:00",
+        "download_sha256": "20282a3ec0b59bc8536acfb781a79a053282baa5671c5a1029b9fdecc84db636",
+        "locators": ["Theorem 1, article p.357", "Theorem 2, article pp.360-363", "Theorem 3, article p.363"],
+        "used_for": "Planar theorem, three-dimensional construction, and the already-known three-step/length-nine theorem."
+      },
+      {
+        "id": "lidbetter_2023",
+        "kind": "primary_preprint",
+        "citation": "Thomas F. Lidbetter, Improved Bound for the Gerver-Ramsey Collinearity Problem, arXiv:2303.14579v2.",
+        "url": "https://arxiv.org/pdf/2303.14579",
+        "retrieved_at": "2026-07-23T21:21:15+08:00",
+        "download_sha256": "cc45a81eaa9e11be7fbee1800813a63268f585080c5496ecfe69a401527312d3",
+        "used_for": "The improved 189-point exclusion bound and its scope."
+      },
+      {
+        "id": "keranen_1992",
+        "kind": "primary_bibliographic_record",
+        "citation": "Veikko Keränen, Abelian Squares are Avoidable on 4 Letters, ICALP 1992, LNCS 623, 41-52.",
+        "doi": "10.1007/3-540-55719-9_62",
+        "url": "https://doi.org/10.1007/3-540-55719-9_62",
+        "used_for": "The sharp four-letter failure of ordinary abelian-square unavoidability."
+      }
+    ],
+    "91": [
+      {
+        "id": "official_91",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/91",
+        "retrieved_at": "2026-07-23T21:05:53+08:00",
+        "download_sha256": "a47d0dc73c4c7ffb9c227da74081d11510f5791bf88290e52a5454196cba6505",
+        "used_for": "OPEN status and exact eventual-for-all statement."
+      },
+      {
+        "id": "erdos_1987",
+        "kind": "primary_paper",
+        "citation": "P. Erdős, Some combinatorial and metric problems in geometry, Intuitive Geometry (1987), 167-177.",
+        "url": "https://www.renyi.hu/~p_erdos/1987-27.pdf",
+        "retrieved_at": "2026-07-23T21:21:16+08:00",
+        "download_sha256": "7637fce3170209f9d767d969d8c7c19b58144717f1a86798a4148aad2952a1f9",
+        "locator": "Problem 4, article pp.170-171.",
+        "used_for": "Original quantifier and small-n discussion."
+      },
+      {
+        "id": "official_91_forum",
+        "kind": "public_claim_with_local_reproof",
+        "url": "https://www.erdosproblems.com/forum/thread/91",
+        "retrieved_at": "2026-07-23T21:06:08+08:00",
+        "download_sha256": "d33a807ea6c9298c3f267d8c8b772ee6d6609e075fa2c549ebe9daa1f53f47f8",
+        "locator": "Post 6455 by FlaredRain, 14 May 2026.",
+        "used_for": "Lead for the density-one partial theorem; every proof step was independently rederived in 91_REPORT.md."
+      },
+      {
+        "id": "oeis_A186704",
+        "kind": "curated_small_data",
+        "url": "https://oeis.org/A186704",
+        "retrieved_at": "2026-07-23T21:25:42+08:00",
+        "download_sha256": "36ecf0d0842cf71efc91f97a0c39a6a969d03e47d9f7710daad5a9dacdb720fe",
+        "used_for": "Small values f(1),...,f(13), used only as a sanity check."
+      }
+    ],
+    "509": [
+      {
+        "id": "official_509",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/509",
+        "retrieved_at": "2026-07-23T21:05:59+08:00",
+        "download_sha256": "001cd28ccb23296fd44f922bf86bd3052fc65492affd34a5e1577b29fc3be1ea",
+        "used_for": "OPEN status, exact statement, 2e/2.59/connected-2 frontier."
+      },
+      {
+        "id": "erdos_1961",
+        "kind": "primary_paper",
+        "citation": "P. Erdős, Some unsolved problems, Magyar Tud. Akad. Mat. Kutató Int. Közl. 6 (1961), 221-254.",
+        "url": "https://www.renyi.hu/~p_erdos/1961-22.pdf",
+        "retrieved_at": "2026-07-23T21:21:18+08:00",
+        "download_sha256": "60860c80588580d509a7af5ca6a771a700455508359816fb861e415bbf4f5a67",
+        "locator": "Section IV.1, article pp.246-247.",
+        "used_for": "Original problem and historical constants."
+      },
+      {
+        "id": "official_1046",
+        "kind": "official_solved_companion_page",
+        "url": "https://www.erdosproblems.com/1046",
+        "retrieved_at": "2026-07-23T21:25:41+08:00",
+        "download_sha256": "00945c467df479ec352b4d328603703936af90fd3b0ba8920e8da798351e8b53",
+        "used_for": "Connectedness iff all critical points lie in the lemniscate, and the mean-centered radius-two connected theorem."
+      },
+      {
+        "id": "pommerenke_1959",
+        "kind": "primary_bibliographic_record",
+        "citation": "Ch. Pommerenke, On some problems by Erdős, Herzog and Piranian, Michigan Math. J. 6 (1959), 221-225.",
+        "doi": "10.1307/mmj/1028998227",
+        "url": "https://doi.org/10.1307/mmj/1028998227",
+        "access_note": "Publisher PDF was blocked by the serving layer; the exact theorem scope was checked through the official solved companion page and the original Erdős 1961 account."
+      },
+      {
+        "id": "forum_strategy_509",
+        "kind": "public_unverified_strategy",
+        "citation": "Boon Qing Hong, Strategy Proposal on Covering Lemniscates for Erdős Problem #509, 31 May 2026.",
+        "url": "https://drive.google.com/file/d/1RepW4A5-6gK83j4BcVSemqfpL3JnZjxM/view",
+        "discussion_url": "https://www.erdosproblems.com/forum/thread/509",
+        "retrieved_at": "2026-07-23T21:17:19+08:00",
+        "download_sha256": "92e3cf6628746c2b93ba36d1d1833fdc482f022008d746eeae7c92910198b06f",
+        "locator": "Claim 3.1 and Section 8.4 of the attached PDF.",
+        "used_for": "Verification that the public strategy explicitly leaves its central layer-cake bound unproved."
+      }
+    ],
+    "1002": [
+      {
+        "id": "official_1002",
+        "kind": "official_problem_page",
+        "url": "https://www.erdosproblems.com/1002",
+        "retrieved_at": "2026-07-23T21:06:03+08:00",
+        "download_sha256": "ea4cb96e402c36308f984d8a7d914b9e688fa680ae77a9bf43c1fdcf1bcacf73",
+        "used_for": "OPEN status, exact fixed-beta statement, and Kesten scope."
+      },
+      {
+        "id": "erdos_1964",
+        "kind": "primary_paper",
+        "citation": "P. Erdős, Problems and results on diophantine approximations, Compositio Math. 16 (1964), 52-65.",
+        "url": "https://www.numdam.org/item/CM_1964__16__52_0.pdf",
+        "retrieved_at": "2026-07-23T21:21:20+08:00",
+        "download_sha256": "94b593eda14d3a58487d575982f50323e236c301ceb523ff4d1323f73fe1d547",
+        "locator": "Problem 3, article p.64.",
+        "used_for": "Original limiting-distribution question and its quantifiers."
+      },
+      {
+        "id": "kesten_1960",
+        "kind": "primary_bibliographic_record",
+        "citation": "H. Kesten, Uniform distribution mod 1, Ann. of Math. (2) 71 (1960), 445-471.",
+        "doi": "10.2307/1969938",
+        "url": "https://doi.org/10.2307/1969938",
+        "access_note": "The publisher full text was not downloadable in this run. The spatially averaged (alpha,beta) scope was cross-checked in the official page and in the two primary later papers below."
+      },
+      {
+        "id": "fruehwirth_hauke_2024",
+        "kind": "primary_paper",
+        "citation": "L. Frühwirth and M. Hauke, On Birkhoff sums that satisfy no temporal distributional limit theorem for almost every irrational, Annales Henri Lebesgue 7 (2024), 251-265.",
+        "doi": "10.5802/ahl.200",
+        "url": "https://ahl.centre-mersenne.org/item/10.5802/ahl.200.pdf",
+        "retrieved_at": "2026-07-23T21:21:23+08:00",
+        "download_sha256": "4d0380d3fe398a865f66f117338c98115dab37c27cb4c93afa44eb81e99b5f91",
+        "locators": ["Introduction, article pp.252-254", "Equations (2.2)-(2.4), article pp.255-256"],
+        "used_for": "Distinguishing temporal/spatial averaging and the partial-quotient/Denjoy-Koksma bounds."
+      },
+      {
+        "id": "dolgopyat_sarig",
+        "kind": "primary_author_preprint",
+        "citation": "D. Dolgopyat and O. Sarig, Quenched and Annealed Temporal Limit Theorems for Circle Rotations.",
+        "url": "https://math.umd.edu/~dolgop/QARot13.pdf",
+        "retrieved_at": "2026-07-23T21:21:27+08:00",
+        "download_sha256": "03577b7bf8c048a994987d5d68176c9d7c0c72666375c0af95406c8799ce56e0",
+        "locator": "Abstract and Introduction.",
+        "used_for": "Exact temporal-randomization scope, which does not resolve fixed-n alpha averaging."
+      }
+    ]
+  }
+}

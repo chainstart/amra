@@ -1,6 +1,6 @@
 # Erdős 630题轮换攻关总计划与总台账
 
-> 台账版本：`erdos-portfolio-rotation-20260723-v1`；当前周期：`R002`；生成时间：`2026-07-23T12:53:34+00:00`。
+> 台账版本：`erdos-portfolio-rotation-20260723-v1`；当前周期：`R003`；生成时间：`2026-07-24T01:50:16+00:00`。
 
 ## 总目标与口径
 
@@ -33,45 +33,45 @@
 ## 当前总体统计
 
 - 总题数：630；状态分布：`disproved`=12、`disproved (Lean)`=8、`falsifiable`=2、`independent`=1、`open`=550、`proved`=12、`proved (Lean)`=22、`solved`=15、`solved (Lean)`=8。
-- 任务通道：`closed_watch`=81、`closure_core`=4、`cooldown`=18、`deep_backlog`=268、`discovery_high`=36、`discovery_standard`=173、`finite_resolution`=2、`intake_active`=2、`paper_conversion`=2、`resolution_audit`=28、`resolution_ready`=1、`statement_audit`=15。
-- 闭合距离：`0`=82、`1`=29、`2`=5、`3`=222、`4`=144、`5`=148。
-- 当前追加事件流：31条、覆盖20题、登记5.45 agent-hours。
-- 连同旧轮次，可直接核算的总投入下界为66.13 agent-hours；这里只累计首轮、第二轮及第6至12轮的可直接核算账本，尚未计第3至5轮，且不能精确均摊到单题。
+- 任务通道：`closed_watch`=82、`closure_core`=4、`cooldown`=18、`deep_backlog`=268、`discovery_high`=36、`discovery_standard`=173、`finite_resolution`=2、`intake_active`=2、`paper_conversion`=2、`resolution_audit`=27、`resolution_ready`=1、`statement_audit`=15。
+- 闭合距离：`0`=83、`1`=28、`2`=5、`3`=219、`4`=147、`5`=148。
+- 当前追加事件流：52条、覆盖33题、登记7.86 agent-hours。
+- 连同旧轮次，可直接核算的总投入下界为68.54 agent-hours；这里只累计首轮、第二轮及第6至12轮的可直接核算账本，尚未计第3至5轮，且不能精确均摊到单题。
 
-## 当前周期 R002
+## 当前周期 R003
 
 ### 原题闭合核心
 
 | # | 领域 | 闭合距离 | 预算 | 周期进度 | 当前精确目标 |
 |---:|---|---:|---:|---|---|
-| [776](https://www.erdosproblems.com/776) | combinatorics | 1 | 4h | completed | 证明或反驳带cap的shadow-loss不等式，并跨完整carry block传播；禁止继续用同一粗界逐点扫描。 |
-| [809](https://www.erdosproblems.com/809) | graph_theory | 2 | 4h | completed | 证明鲁棒三分法并单独攻Case1距离2、3边对；任何稳定性陈述必须显式容纳star-swap族。 |
-| [592](https://www.erdosproblems.com/592) | ramsey_theory | 2 | 4h | completed | 形式化深度3的有限互动规格，先找有限不可满足核；若无则证明槽位同步的递归提升不变量。 |
-| [635](https://www.erdosproblems.com/635) | number_theory | 2 | 4h | completed | 直接枚举/分类固定valuation短双圈核而非单圈；若仍排除，再寻找不依赖长度的乘子单调量。 |
+| [776](https://www.erdosproblems.com/776) | combinatorics | 1 | 4h | completed | 逐个分析17个顶部残差与G9的耦合；统一G9下界将闭合当前rank-6参数传播。 |
+| [809](https://www.erdosproblems.com/809) | graph_theory | 2 | 4h | completed | 最大割归一化后证明三分法：大交叉良内部核、近一锚点fan或坏hub内部密度本身给出颜色下界。 |
+| [592](https://www.erdosproblems.com/592) | ramsey_theory | 2 | 4h | completed | 证明不交后继槽位中的保守扩展可交换并有共同relaxed-tree扩展，同时保持全部critical/decision与push-up数据。 |
+| [635](https://www.erdosproblems.com/635) | number_theory | 2 | 4h | completed | 相减共享路径上的两组恒等式，检验素性是否强制相容majorization方向，或寻找首个全素交叉双圈核。 |
 
 ### 新题准入
 
 | # | 领域 | 闭合距离 | 预算 | 周期进度 | 当前精确目标 |
 |---:|---|---:|---:|---|---|
-| [18](https://www.erdosproblems.com/18) | number_theory | 4 | 1.5h | completed | 仅在出现短Egyptian-fraction、统一因子子集和覆盖或真正节省数量级的块递推时重开。 |
-| [620](https://www.erdosproblems.com/620) | graph_theory | 0 | 1.5h | completed | 转closed_watch并监控官网、预印本修订与同行评审。 |
-| [141](https://www.erdosproblems.com/141) | combinatorics | 5 | 1.5h | completed | 停止局部CRT搜索；只有出现超越Dickson障碍的统一同时素数机制时重新准入。 |
-| [598](https://www.erdosproblems.com/598) | ramsey_theory | 0 | 1.5h | completed | 转closed_watch，不再按普通ZFC命题重复攻关。 |
-| [521](https://www.erdosproblems.com/521) | analysis | 3 | 1.5h | completed | 只晋级一轮定向深攻，证明或反驳块最大振荡概率的可求和性。 |
-| [757](https://www.erdosproblems.com/757) | geometry | 4 | 1.5h | completed | 改做全新有限AP超图精确搜索或证明带有序角色的稳定性加强，禁止重复直接扩块。 |
-| [536](https://www.erdosproblems.com/536) | number_theory | 4 | 1.5h | completed | 不晋级；只在出现多素数加权投影或LCM三角超图容器定理时重开。 |
-| [596](https://www.erdosproblems.com/596) | graph_theory | 3 | 1.5h | completed | 做系统新颖性审计和推广搜索；不得标为原题闭合。 |
-| [52](https://www.erdosproblems.com/52) | combinatorics | 5 | 1.5h | completed | 进入深后备；仅在出现Z[X]构造或整数专属全局能量机制时重开。 |
-| [949](https://www.erdosproblems.com/949) | ramsey_theory | 3 | 1.5h | completed | 研究sum-free平移覆盖数或构造满张成极端例；暂不升入四题闭合核心。 |
-| [517](https://www.erdosproblems.com/517) | analysis | 5 | 1.5h | completed | 冷却三周期；只有得到非多项式P exp(g)稀疏支撑刚性定理后重开。 |
-| [174](https://www.erdosproblems.com/174) | geometry | 5 | 1.5h | completed | 冷却并保留该显式判别对象；只有出现三轨道Ramsey定理或统一避色不变量时重开。 |
+| [145](https://www.erdosproblems.com/145) | number_theory | 3 | 1.5h | completed | 针对端点过渡窗重做Type II/III分解并追踪全部对数损失。 |
+| [1097](https://www.erdosproblems.com/1097) | combinatorics | 3 | 1.5h | completed | 寻找只在AP差集中成立的纤维重合或高阶能量不等式。 |
+| [65](https://www.erdosproblems.com/65) | graph_theory | 3 | 1.5h | completed | 建立以最小岸大小floor(k)+1为极值候选的加权稳定性框架。 |
+| [193](https://www.erdosproblems.com/193) | geometry | 3 | 1.5h | completed | 直接攻四字母加权阿贝尔平方引理，避免把已知三步子情形误作新成果。 |
+| [509](https://www.erdosproblems.com/509) | analysis | 4 | 1.5h | completed | 改用根差(p,q)与临界值参数先闭合三次全区间，再寻找可推广的分量合并不变量。 |
+| [187](https://www.erdosproblems.com/187) | ramsey_theory | 4 | 1.5h | completed | 寻找利用约数/尺度结构的专用着色引理，绕开一般W(2,k)界。 |
+| [238](https://www.erdosproblems.com/238) | number_theory | 4 | 1.5h | completed | 计算三阶及更高阶相关，区分均匀稀疏坏集与真实素数事件。 |
+| [241](https://www.erdosproblems.com/241) | combinatorics | 3 | 1.5h | completed | 求解加入支持区间和一阶矩约束的离散极值问题，再证明可实现性或稳定性。 |
+| [738](https://www.erdosproblems.com/738) | graph_theory | 4 | 1.5h | completed | 构造带高色数reservoir的递归嵌入不变量，而非逐叶局部贪心。 |
+| [91](https://www.erdosproblems.com/91) | geometry | 3 | 1.5h | completed | 证明充分大平台的M(k)、M(k)-1、M(k)-2均有两个非相似极值配置。 |
+| [1002](https://www.erdosproblems.com/1002) | analysis | 3 | 1.5h | completed | 利用Ostrowski数字间抵消证明C/A尾界，再建立所有c的唯一极限。 |
+| [531](https://www.erdosproblems.com/531) | ramsey_theory | 3 | 1.5h | completed | 研究多次随机化的依赖结构或替换odd-part分割机制。 |
 
 ### 已有解声明核验
 
 | # | 领域 | 闭合距离 | 预算 | 周期进度 | 当前精确目标 |
 |---:|---|---:|---:|---|---|
-| [569](https://www.erdosproblems.com/569) | graph_theory | 1 | 1h | completed | 向University of Memphis Special Collections定向申请题名页、Theorem 4.5及完整依赖证明的数字复制；取得后逐量词复核。 |
-| [956](https://www.erdosproblems.com/956) | geometry | 0 | 1h | completed | 转closed_watch并监控正式发表；不得把局部Lean代码标为完整形式化闭合。 |
+| [569](https://www.erdosproblems.com/569) | graph_theory | 1 | 1h | completed | 用户授权外联后按草稿向Memphis Special Collections申请定向扫描。 |
+| [522](https://www.erdosproblems.com/522) | analysis | 0 | 1h | completed | 转closed_watch并监测官网、期刊或形式化记录，不再作为普通开放题重复攻关。 |
 
 ### 论文转化（独立预算）
 
@@ -135,7 +135,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [60](https://www.erdosproblems.com/60) | open | graph_theory | promising | 5 | mixed_or_unspecified | discovery_standard | 3 | — | 0 | 0 |
 | [61](https://www.erdosproblems.com/61) | open | graph_theory | promising | 4 | mixed_or_unspecified | deep_backlog | 3 | — | 0 | 0 |
 | [62](https://www.erdosproblems.com/62) | open | graph_theory | blocked | 3 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
-| [65](https://www.erdosproblems.com/65) | open | graph_theory | partial | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
+| [65](https://www.erdosproblems.com/65) | open | graph_theory | partial | 6 | binary_decision | discovery_standard | 3 | — | 1 | 0 |
 | [66](https://www.erdosproblems.com/66) | open | number_theory | promising | 5 | mixed_or_unspecified | discovery_standard | 3 | — | 0 | 0 |
 | [68](https://www.erdosproblems.com/68) | open | number_theory | blocked | 2 | mixed_or_unspecified | deep_backlog | 5 | — | 0 | 0 |
 | [70](https://www.erdosproblems.com/70) | open | graph_theory | partial | 4 | binary_decision | deep_backlog | 3 | — | 0 | 0 |
@@ -151,7 +151,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [87](https://www.erdosproblems.com/87) | open | graph_theory | promising | 5 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
 | [89](https://www.erdosproblems.com/89) | open | geometry | blocked | 3 | open_ended_estimate | deep_backlog | 5 | — | 0 | 0 |
 | [90](https://www.erdosproblems.com/90) | disproved (Lean) | geometry | known_resolution | 9 | exact_or_characterisation | closed_watch | 0 | — | 0 | 0 |
-| [91](https://www.erdosproblems.com/91) | open | geometry | partial | 6 | exact_or_characterisation | discovery_standard | 3 | — | 0 | 0 |
+| [91](https://www.erdosproblems.com/91) | open | geometry | partial | 6 | exact_or_characterisation | discovery_standard | 3 | — | 1 | 0 |
 | [92](https://www.erdosproblems.com/92) | disproved | geometry | known_resolution | 10 | binary_decision | closed_watch | 0 | — | 0 | 0 |
 | [96](https://www.erdosproblems.com/96) | open | geometry | blocked | 2 | exact_or_characterisation | deep_backlog | 5 | — | 0 | 0 |
 | [98](https://www.erdosproblems.com/98) | open | geometry | blocked | 2 | open_ended_estimate | deep_backlog | 5 | — | 0 | 0 |
@@ -182,7 +182,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [141](https://www.erdosproblems.com/141) | open | combinatorics | promising | 6 | binary_decision | deep_backlog | 5 | — | 1 | 0 |
 | [142](https://www.erdosproblems.com/142) | open | combinatorics | blocked | 4 | exact_or_characterisation | deep_backlog | 5 | — | 0 | 0 |
 | [143](https://www.erdosproblems.com/143) | open | number_theory | partial | 8 | mixed_or_unspecified | cooldown | 4 | 12 | 0 | 2 |
-| [145](https://www.erdosproblems.com/145) | open | number_theory | promising | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
+| [145](https://www.erdosproblems.com/145) | open | number_theory | promising | 6 | binary_decision | discovery_standard | 3 | — | 1 | 0 |
 | [146](https://www.erdosproblems.com/146) | open | graph_theory | blocked | 4 | mixed_or_unspecified | deep_backlog | 5 | — | 0 | 0 |
 | [148](https://www.erdosproblems.com/148) | open | number_theory | promising | 8 | open_ended_estimate | cooldown | 4 | 12 | 0 | 2 |
 | [149](https://www.erdosproblems.com/149) | open | graph_theory | blocked | 5 | mixed_or_unspecified | deep_backlog | 5 | — | 0 | 0 |
@@ -208,10 +208,10 @@ python3 scripts/manage_erdos_rotation.py validate
 | [181](https://www.erdosproblems.com/181) | open | graph_theory | partial | 4 | mixed_or_unspecified | deep_backlog | 3 | — | 0 | 0 |
 | [183](https://www.erdosproblems.com/183) | open | graph_theory | partial | 3 | open_ended_estimate | deep_backlog | 4 | — | 0 | 0 |
 | [184](https://www.erdosproblems.com/184) | open | graph_theory | partial | 5 | mixed_or_unspecified | discovery_standard | 3 | — | 0 | 0 |
-| [187](https://www.erdosproblems.com/187) | open | ramsey_theory | partial | 6 | mixed_or_unspecified | discovery_standard | 3 | — | 0 | 0 |
+| [187](https://www.erdosproblems.com/187) | open | ramsey_theory | partial | 6 | mixed_or_unspecified | discovery_standard | 4 | — | 1 | 0 |
 | [188](https://www.erdosproblems.com/188) | open | geometry | partial | 7 | open_ended_estimate | discovery_high | 4 | — | 0 | 0 |
 | [190](https://www.erdosproblems.com/190) | solved | combinatorics | known_resolution | 9 | open_ended_estimate | closed_watch | 0 | — | 0 | 0 |
-| [193](https://www.erdosproblems.com/193) | open | geometry | partial | 5 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
+| [193](https://www.erdosproblems.com/193) | open | geometry | partial | 5 | binary_decision | discovery_standard | 3 | — | 1 | 0 |
 | [195](https://www.erdosproblems.com/195) | open | number_theory | partial | 4 | open_ended_estimate | deep_backlog | 4 | — | 0 | 0 |
 | [196](https://www.erdosproblems.com/196) | open | number_theory | partial | 4 | binary_decision | deep_backlog | 3 | — | 0 | 0 |
 | [197](https://www.erdosproblems.com/197) | open | number_theory | blocked | 3 | exact_or_characterisation | deep_backlog | 5 | — | 0 | 0 |
@@ -229,8 +229,8 @@ python3 scripts/manage_erdos_rotation.py validate
 | [233](https://www.erdosproblems.com/233) | open | number_theory | partial | 4 | mixed_or_unspecified | deep_backlog | 3 | — | 0 | 0 |
 | [234](https://www.erdosproblems.com/234) | open | number_theory | blocked | 3 | exact_or_characterisation | deep_backlog | 5 | — | 0 | 0 |
 | [236](https://www.erdosproblems.com/236) | open | number_theory | blocked | 4 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
-| [238](https://www.erdosproblems.com/238) | open | number_theory | promising | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
-| [241](https://www.erdosproblems.com/241) | open | combinatorics | promising | 5 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
+| [238](https://www.erdosproblems.com/238) | open | number_theory | promising | 6 | binary_decision | discovery_standard | 4 | — | 1 | 0 |
+| [241](https://www.erdosproblems.com/241) | open | combinatorics | promising | 5 | binary_decision | discovery_standard | 3 | — | 1 | 0 |
 | [243](https://www.erdosproblems.com/243) | open | number_theory | blocked | 4 | mixed_or_unspecified | deep_backlog | 5 | — | 0 | 0 |
 | [244](https://www.erdosproblems.com/244) | open | number_theory | partial | 6 | mixed_or_unspecified | discovery_standard | 3 | — | 0 | 0 |
 | [247](https://www.erdosproblems.com/247) | open | number_theory | partial | 4 | mixed_or_unspecified | deep_backlog | 3 | — | 0 | 0 |
@@ -379,19 +379,19 @@ python3 scripts/manage_erdos_rotation.py validate
 | [501](https://www.erdosproblems.com/501) | open | combinatorics | partial | 3 | binary_decision | deep_backlog | 3 | — | 0 | 0 |
 | [503](https://www.erdosproblems.com/503) | open | geometry | promising | 5 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |
 | [507](https://www.erdosproblems.com/507) | open | geometry | partial | 4 | open_ended_estimate | deep_backlog | 4 | — | 0 | 0 |
-| [509](https://www.erdosproblems.com/509) | open | analysis | promising | 5 | mixed_or_unspecified | discovery_standard | 3 | — | 0 | 0 |
+| [509](https://www.erdosproblems.com/509) | open | analysis | promising | 5 | mixed_or_unspecified | discovery_standard | 4 | — | 1 | 0 |
 | [510](https://www.erdosproblems.com/510) | open | analysis | malformed | 8 | mixed_or_unspecified | statement_audit | 4 | — | 0 | 0 |
 | [513](https://www.erdosproblems.com/513) | open | analysis | partial | 5 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |
 | [514](https://www.erdosproblems.com/514) | open | analysis | partial | 4 | open_ended_estimate | deep_backlog | 4 | — | 0 | 0 |
 | [517](https://www.erdosproblems.com/517) | open | analysis | partial | 5 | binary_decision | discovery_standard | 5 | — | 1 | 0 |
 | [520](https://www.erdosproblems.com/520) | open | number_theory | known_resolution | 9 | binary_decision | resolution_audit | 1 | — | 0 | 0 |
 | [521](https://www.erdosproblems.com/521) | open | analysis | promising | 6 | binary_decision | discovery_standard | 3 | — | 1 | 0 |
-| [522](https://www.erdosproblems.com/522) | open | analysis | promising | 7 | binary_decision | resolution_audit | 1 | — | 0 | 0 |
+| [522](https://www.erdosproblems.com/522) | open | analysis | promising | 7 | binary_decision | closed_watch | 0 | — | 1 | 0 |
 | [524](https://www.erdosproblems.com/524) | open | analysis | promising | 5 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |
 | [528](https://www.erdosproblems.com/528) | open | geometry | partial | 3 | open_ended_estimate | deep_backlog | 4 | — | 0 | 0 |
 | [529](https://www.erdosproblems.com/529) | open | geometry | blocked | 2 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
 | [530](https://www.erdosproblems.com/530) | open | number_theory | promising | 6 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |
-| [531](https://www.erdosproblems.com/531) | open | ramsey_theory | promising | 7 | open_ended_estimate | discovery_high | 4 | — | 0 | 0 |
+| [531](https://www.erdosproblems.com/531) | open | ramsey_theory | promising | 7 | open_ended_estimate | discovery_high | 3 | — | 1 | 0 |
 | [533](https://www.erdosproblems.com/533) | disproved | graph_theory | known_resolution | 9 | mixed_or_unspecified | closed_watch | 0 | — | 0 | 0 |
 | [535](https://www.erdosproblems.com/535) | open | number_theory | promising | 6 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |
 | [536](https://www.erdosproblems.com/536) | open | number_theory | partial | 7 | binary_decision | discovery_high | 4 | — | 1 | 0 |
@@ -427,7 +427,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [588](https://www.erdosproblems.com/588) | open | geometry | blocked | 3 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
 | [589](https://www.erdosproblems.com/589) | open | geometry | promising | 6 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |
 | [591](https://www.erdosproblems.com/591) | proved | ramsey_theory | known_resolution | 9 | binary_decision | closed_watch | 0 | — | 0 | 0 |
-| [592](https://www.erdosproblems.com/592) | open | ramsey_theory | promising | 7 | open_ended_estimate | closure_core | 2 | — | 1 | 0 |
+| [592](https://www.erdosproblems.com/592) | open | ramsey_theory | promising | 7 | open_ended_estimate | closure_core | 2 | — | 2 | 0 |
 | [593](https://www.erdosproblems.com/593) | open | graph_theory | partial | 5 | exact_or_characterisation | discovery_standard | 3 | — | 0 | 0 |
 | [595](https://www.erdosproblems.com/595) | open | graph_theory | blocked | 3 | exact_or_characterisation | deep_backlog | 5 | — | 0 | 0 |
 | [596](https://www.erdosproblems.com/596) | open | graph_theory | partial | 6 | binary_decision | discovery_standard | 3 | — | 2 | 0 |
@@ -452,7 +452,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [626](https://www.erdosproblems.com/626) | open | graph_theory | blocked | 3 | open_ended_estimate | deep_backlog | 5 | — | 0 | 0 |
 | [627](https://www.erdosproblems.com/627) | open | graph_theory | blocked | 3 | mixed_or_unspecified | deep_backlog | 5 | — | 0 | 0 |
 | [629](https://www.erdosproblems.com/629) | open | graph_theory | promising | 6 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |
-| [635](https://www.erdosproblems.com/635) | open | number_theory | partial | 8 | binary_decision | closure_core | 2 | 12 | 1 | 0 |
+| [635](https://www.erdosproblems.com/635) | open | number_theory | partial | 8 | binary_decision | closure_core | 2 | 12 | 2 | 0 |
 | [638](https://www.erdosproblems.com/638) | open | graph_theory | counterexample | 10 | binary_decision | resolution_audit | 1 | — | 0 | 0 |
 | [640](https://www.erdosproblems.com/640) | open | graph_theory | blocked | 4 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
 | [642](https://www.erdosproblems.com/642) | open | graph_theory | partial | 4 | binary_decision | deep_backlog | 3 | — | 0 | 0 |
@@ -515,7 +515,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [730](https://www.erdosproblems.com/730) | open | number_theory | partial | 4 | binary_decision | deep_backlog | 3 | — | 0 | 0 |
 | [731](https://www.erdosproblems.com/731) | open | number_theory | partial | 5 | mixed_or_unspecified | discovery_standard | 3 | — | 0 | 0 |
 | [734](https://www.erdosproblems.com/734) | open | combinatorics | promising | 4 | mixed_or_unspecified | deep_backlog | 3 | — | 0 | 0 |
-| [738](https://www.erdosproblems.com/738) | open | graph_theory | partial | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
+| [738](https://www.erdosproblems.com/738) | open | graph_theory | partial | 6 | binary_decision | discovery_standard | 4 | — | 1 | 0 |
 | [740](https://www.erdosproblems.com/740) | open | graph_theory | blocked | 3 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
 | [741](https://www.erdosproblems.com/741) | solved (Lean) | combinatorics | known_resolution | 9 | binary_decision | closed_watch | 0 | — | 0 | 0 |
 | [749](https://www.erdosproblems.com/749) | open | combinatorics | promising | 5 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
@@ -528,7 +528,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [770](https://www.erdosproblems.com/770) | open | number_theory | promising | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
 | [773](https://www.erdosproblems.com/773) | open | number_theory | partial | 7 | open_ended_estimate | discovery_high | 4 | — | 0 | 0 |
 | [774](https://www.erdosproblems.com/774) | open | number_theory | blocked | 3 | mixed_or_unspecified | deep_backlog | 5 | — | 0 | 0 |
-| [776](https://www.erdosproblems.com/776) | open | combinatorics | promising | 8 | binary_decision | closure_core | 1 | 12 | 1 | 0 |
+| [776](https://www.erdosproblems.com/776) | open | combinatorics | promising | 8 | binary_decision | closure_core | 1 | 12 | 2 | 0 |
 | [778](https://www.erdosproblems.com/778) | open | graph_theory | promising | 5 | exact_or_characterisation | discovery_standard | 3 | — | 0 | 0 |
 | [782](https://www.erdosproblems.com/782) | open | number_theory | blocked | 3 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
 | [783](https://www.erdosproblems.com/783) | solved | number_theory | known_resolution | 9 | exact_or_characterisation | closed_watch | 0 | — | 0 | 0 |
@@ -543,7 +543,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [796](https://www.erdosproblems.com/796) | open | number_theory | counterexample | 8 | binary_decision | resolution_audit | 1 | — | 0 | 0 |
 | [802](https://www.erdosproblems.com/802) | open | graph_theory | blocked | 3 | binary_decision | deep_backlog | 5 | — | 0 | 0 |
 | [805](https://www.erdosproblems.com/805) | open | graph_theory | promising | 4 | exact_or_characterisation | deep_backlog | 3 | — | 0 | 0 |
-| [809](https://www.erdosproblems.com/809) | open | graph_theory | partial | 7 | binary_decision | closure_core | 2 | — | 2 | 0 |
+| [809](https://www.erdosproblems.com/809) | open | graph_theory | partial | 7 | binary_decision | closure_core | 2 | — | 3 | 0 |
 | [810](https://www.erdosproblems.com/810) | open | graph_theory | promising | 5 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
 | [811](https://www.erdosproblems.com/811) | open | graph_theory | partial | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
 | [812](https://www.erdosproblems.com/812) | open | graph_theory | promising | 5 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
@@ -664,7 +664,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [995](https://www.erdosproblems.com/995) | open | analysis | promising | 5 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |
 | [996](https://www.erdosproblems.com/996) | open | analysis | partial | 4 | mixed_or_unspecified | deep_backlog | 3 | — | 0 | 0 |
 | [997](https://www.erdosproblems.com/997) | proved (Lean) | analysis | known_resolution | 9 | binary_decision | closed_watch | 0 | — | 0 | 0 |
-| [1002](https://www.erdosproblems.com/1002) | open | analysis | partial | 5 | mixed_or_unspecified | discovery_standard | 3 | — | 0 | 0 |
+| [1002](https://www.erdosproblems.com/1002) | open | analysis | partial | 5 | mixed_or_unspecified | discovery_standard | 3 | — | 1 | 0 |
 | [1003](https://www.erdosproblems.com/1003) | open | number_theory | partial | 3 | binary_decision | deep_backlog | 3 | — | 0 | 0 |
 | [1004](https://www.erdosproblems.com/1004) | open | number_theory | promising | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
 | [1005](https://www.erdosproblems.com/1005) | open | number_theory | promising | 5 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |
@@ -719,7 +719,7 @@ python3 scripts/manage_erdos_rotation.py validate
 | [1094](https://www.erdosproblems.com/1094) | open | number_theory | blocked | 3 | mixed_or_unspecified | deep_backlog | 5 | — | 0 | 0 |
 | [1095](https://www.erdosproblems.com/1095) | open | number_theory | blocked | 4 | open_ended_estimate | deep_backlog | 5 | — | 0 | 0 |
 | [1096](https://www.erdosproblems.com/1096) | proved | number_theory | known_resolution | 10 | binary_decision | closed_watch | 0 | — | 0 | 0 |
-| [1097](https://www.erdosproblems.com/1097) | open | combinatorics | partial | 6 | binary_decision | discovery_standard | 3 | — | 0 | 0 |
+| [1097](https://www.erdosproblems.com/1097) | open | combinatorics | partial | 6 | binary_decision | discovery_standard | 3 | — | 1 | 0 |
 | [1100](https://www.erdosproblems.com/1100) | open | number_theory | promising | 5 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |
 | [1101](https://www.erdosproblems.com/1101) | open | number_theory | blocked | 4 | exact_or_characterisation | deep_backlog | 5 | — | 0 | 0 |
 | [1103](https://www.erdosproblems.com/1103) | open | number_theory | partial | 6 | open_ended_estimate | discovery_standard | 4 | — | 0 | 0 |

@@ -1,0 +1,18 @@
+{
+  "problem_id": 509,
+  "certificate_type": "cubic_mst_route_counterexample",
+  "common_mst_edge_lengths": ["1.5", "1.5"],
+  "equilateral_example": {
+    "polynomial_normal_form": "z^3-(d/sqrt(3))^3",
+    "critical_value_modulus": "0.64951905283832898507279237806470213760355197017889",
+    "lemniscate_connected": true
+  },
+  "collinear_example": {
+    "polynomial_normal_form": "z^3-d^2*z",
+    "critical_value_modulus": "1.2990381056766579701455847561294042752071039403578",
+    "lemniscate_connected": false
+  },
+  "close_pair_sufficient_threshold": "0.2202368503153805056983681781653149482892456058956",
+  "conclusion": "The two MST edge lengths alone do not determine cubic lemniscate topology; an angle/third-side or critical-value parameter is necessary.",
+  "scope_guard": "This is a route counterexample, not a counterexample to the Erdős covering conjecture."
+}

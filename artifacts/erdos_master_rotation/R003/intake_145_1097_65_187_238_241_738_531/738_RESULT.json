@@ -1,0 +1,23 @@
+{
+  "schema_version": "amra.erdos_rotation.intake_result.v1",
+  "cycle_id": "R003",
+  "problem_id": "738",
+  "official_status": "OPEN",
+  "status_checked_at": "2026-07-23T21:12:00+08:00",
+  "statement_quantifiers_verified": true,
+  "research_timing": {
+    "active_seconds": 75,
+    "budget_cap_seconds": 5400,
+    "timing_precision": "conservative minute-level accounting; unused budget is not counted"
+  },
+  "outcome": "naive_leaf_extension_eliminated",
+  "new_rigorous_output": [
+    "wrong neighborhood types are independent but chromatic boundedness cannot force a correct candidate inside N(p)",
+    "K_(m,m) supplies an arbitrarily high-degree bad induced-P3 embedding with no legal leaf extension"
+  ],
+  "decision": "NO_PROMOTION_NEEDS_CHROMATIC_RESERVOIR",
+  "closure_distance_before": 3,
+  "closure_distance_after": 3,
+  "q2_candidate": false,
+  "claim_guard": "The local counterexample is bipartite and does not disprove the original conjecture."
+}

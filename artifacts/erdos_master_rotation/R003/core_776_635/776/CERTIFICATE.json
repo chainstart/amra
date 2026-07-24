@@ -1,0 +1,62 @@
+{
+  "schema": "amra.erdos776.r003-capped-rank8-certificate.v1",
+  "status": "PASS",
+  "strict_identities": {
+    "rank8_window": "E8=H8(V)+R, 0<=R<C(V-18,2)",
+    "descent": "E5=F5(V)+8",
+    "rank6_loss": "L6>=V+5 iff G7>=C(V-5,2)+10",
+    "rank7_loss": "L7>=c+9 iff G8>=C(c+1,2)+8V-100; c=9+KK2(R)",
+    "rank6_top_cap_states": "R=C(V-18,2)-s, 1<=s<=17",
+    "rank6_next_gap": "G9>=C(V-18-s,2)-C(V-36,2), at most 17V-476",
+    "barrier_endpoint_loss": "R=C(V-18,2)-1 requires L8>=V+1",
+    "barrier_endpoint_next_gap": "G9>=C(V-19,2)+20V-590"
+  },
+  "synthetic_cap_endpoint_audits": [
+    {
+      "V": 40,
+      "R": 230,
+      "E5_minus_F5": 8,
+      "L8_needed_for_rank6": 17,
+      "G9_needed_for_rank6": 204,
+      "L8_needed_for_next_barrier": 41,
+      "G9_needed_for_next_barrier": 420
+    },
+    {
+      "V": 100,
+      "R": 3320,
+      "E5_minus_F5": 8,
+      "L8_needed_for_rank6": 17,
+      "G9_needed_for_rank6": 1224,
+      "L8_needed_for_next_barrier": 101,
+      "G9_needed_for_next_barrier": 4650
+    },
+    {
+      "V": 6328,
+      "R": 19904894,
+      "E5_minus_F5": 8,
+      "L8_needed_for_rank6": 17,
+      "G9_needed_for_rank6": 107100,
+      "L8_needed_for_next_barrier": 6329,
+      "G9_needed_for_next_barrier": 20024556
+    },
+    {
+      "V": 66843,
+      "R": 2232756899,
+      "E5_minus_F5": 8,
+      "L8_needed_for_rank6": 17,
+      "G9_needed_for_rank6": 1135855,
+      "L8_needed_for_next_barrier": 66844,
+      "G9_needed_for_next_barrier": 2234026346
+    }
+  ],
+  "strategic_finite_orbit_checks": [
+    {"V": 6328, "E8_minus_H8": 131, "barrier_margin": 19904763},
+    {"V": 6329, "E8_minus_H8": 6380, "barrier_margin": 19904824},
+    {"V": 66843, "E8_minus_H8": 1831856114, "barrier_margin": 400900785},
+    {"V": 66844, "E8_minus_H8": 1831916643, "barrier_margin": 400907081},
+    {"V": 70501, "E8_minus_H8": 2060024016, "barrier_margin": 423867386},
+    {"V": 74997, "E8_minus_H8": 2358718056, "barrier_margin": 452169674},
+    {"V": 200000, "E8_minus_H8": 18761110515, "barrier_margin": 1235189655}
+  ],
+  "scope": "The canonical/Galois identities are exact. Strategic orbit values are finite regression evidence only; no all-V barrier entrance theorem is claimed."
+}

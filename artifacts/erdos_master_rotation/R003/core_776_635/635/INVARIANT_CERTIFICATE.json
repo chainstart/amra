@@ -1,0 +1,37 @@
+{
+  "schema": "amra.erdos635.r003-cycle-invariant-certificate.v1",
+  "status": "PASS",
+  "necessary_invariants": [
+    "sum_i p_i = sum_i q_i",
+    "product_i(1-1/(A*p_i)) = product_i(h_i/A) = product_i(1-1/(A*q_i))"
+  ],
+  "composite_nonbacktracking_counterwalk": {
+    "A": 4,
+    "multipliers": [1, 3, 21],
+    "p_cycle": [23, 91, 121],
+    "q_cycle": [163, 41, 31],
+    "increments": [-2, -18, 20],
+    "common_sum": 235,
+    "common_euler_product": "63/64",
+    "sorted_prefix_sum_differences": [-42, 8],
+    "immediate_return": false
+  },
+  "prime_immediate_return_control": {
+    "A": 4,
+    "multipliers": [1, 1, 57],
+    "p_cycle": [3, 11, 43],
+    "q_cycle": [43, 11, 3],
+    "common_sum": 57,
+    "common_euler_product": "57/64",
+    "immediate_return": true
+  },
+  "euler_product_only_collision": {
+    "A": 4,
+    "p_multiset": [3, 11, 43],
+    "q_multiset": [5, 5, 19],
+    "common_euler_product": "57/64",
+    "sum_p": 57,
+    "sum_q": 29
+  },
+  "scope": "The identities are all-length necessary conditions. The exact counterwalks show that neither the Euler product alone nor Euler product plus first moment closes the fixed-A cycle problem."
+}

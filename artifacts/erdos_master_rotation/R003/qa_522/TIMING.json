@@ -1,0 +1,21 @@
+{
+  "schema_version": "amra.erdos_rotation.timing.v1",
+  "cycle_id": "R003",
+  "problem_id": "522",
+  "task": "independent_second_review",
+  "timezone": "Asia/Hong_Kong",
+  "started_at": "2026-07-23T21:35:49+08:00",
+  "ended_at": "2026-07-23T21:45:59+08:00",
+  "wall_seconds": 610,
+  "total_active_agent_seconds": 610,
+  "total_active_agent_hours": 0.169444,
+  "agents_used": 1,
+  "phase_active_seconds_estimate": {
+    "source_acquisition_and_statement_freeze": 130,
+    "independent_revised_proof_recalculation": 350,
+    "old_draft_coupling_gap_check": 60,
+    "artifact_and_validation_preparation": 70
+  },
+  "budget_accounting": "actual_elapsed_time_only; no unused allocation counted",
+  "cpu_note": "One agent; source extraction and standard-library checks were single-process. The verifier completes in well under one second on an 8-logical-CPU host."
+}

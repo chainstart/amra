@@ -1,0 +1,54 @@
+{
+  "schema_version": "amra.erdos_rotation.independent_qa_result.v1",
+  "cycle_id": "R003",
+  "problem_id": "522",
+  "audit_role": "independent_second_review",
+  "as_of": "2026-07-23",
+  "verdict": "VERIFIED_CLOSED",
+  "confidence": "high",
+  "official_status_at_audit": "OPEN",
+  "original_problem_closed_mathematically": true,
+  "closure_evidence_tier": "public_signed_complete_preprint_independently_checked",
+  "statement_match": {
+    "same_infinite_rademacher_sequence_across_n": true,
+    "almost_sure_full_sequence_limit": true,
+    "closed_unit_disk": true,
+    "multiplicity_counted": true,
+    "proved_rate": "R_n = n/2 + O_omega(n^(399/400))"
+  },
+  "revised_manuscript": {
+    "url": "https://www.ulam.ai/research/erdos522-final.pdf",
+    "author": "Przemek Chojecki",
+    "public_post_date": "2026-04-27",
+    "sha256": "7ab241bc56824740898e11bbe16acc71bd4b996563f061fae7e9b30ba4bb3dd8",
+    "fatal_gaps_found": [],
+    "component_verdicts": {
+      "lemma_2_2_block_interpolation": "VERIFIED",
+      "proposition_3_3_two_and_four_dimensional_covariance": "VERIFIED",
+      "nazarov_nishry_sodin_input": "VERIFIED_APPLICABLE",
+      "borel_cantelli_and_small_value_truncation": "VERIFIED",
+      "three_radius_jensen_and_outer_radius_substitution": "VERIFIED",
+      "closed_disk_boundary_handling": "VERIFIED"
+    }
+  },
+  "old_manuscript": {
+    "url": "https://www.ulam.ai/research/erdos522.pdf",
+    "sha256": "dd8871a50180b8b43b883988553b53eebb5ec37673fadcb90cc84ef36022b297",
+    "verdict": "FATAL_GAP",
+    "gap": "The proof transfers a block interpolation statement from P_n to reciprocal Q_n using only fixed-n equality in law. Under the actual shared coefficient coupling, E integral |q_m-q_n|^2 dmu = 2 for every m>n, so the required cross-n closeness fails.",
+    "repaired_in_revision": true
+  },
+  "exact_exponent_checks": {
+    "smooth_endpoint_borel_cantelli_in_j": "-43/25 < -1",
+    "small_value_borel_cantelli_in_j": "-8/5 < -1",
+    "block_lipschitz_error": "-23/200 < -1/50",
+    "jensen_amplified_log_error": "401/400 - 1/200 = 399/400"
+  },
+  "nonfatal_caveats": [
+    "The official problem page had not yet changed its OPEN label at audit time.",
+    "This audit verifies mathematical completeness of the supplied public manuscript; it does not certify journal peer review, publication, or formal proof."
+  ],
+  "recommended_registry_action": "record_mathematical_closure_by_public_signed_preprint_with_peer_review_and_formalization_fields_left_unconfirmed",
+  "central_files_modified": false,
+  "git_commit_created": false
+}

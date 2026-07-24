@@ -1,0 +1,28 @@
+{
+  "schema_version": "amra.erdos569.source_qa_result.v1",
+  "cycle_id": "R003",
+  "problem_id": "569",
+  "official_status": "OPEN_WITH_STRONG_SECONDARY_CLOSURE_CLAIM",
+  "verdict": "SOURCE_NOT_OBTAINED",
+  "source_obtained": false,
+  "fixed_dissertation_scan_obtained": false,
+  "alternate_formal_all_m_source_obtained": false,
+  "theorem_4_5_directly_verified": false,
+  "original_problem_closed": false,
+  "proof_or_disproof": false,
+  "q2_candidate": false,
+  "closure_distance_before": 1,
+  "closure_distance_after": 1,
+  "not_a_refutation": true,
+  "blocking_reason": "No primary theorem page or self-contained all-m replacement proof is available; the strongest all-quantifier secondary paraphrase contains an incorrect equality sign.",
+  "upgrade_condition": "Obtain and audit the fixed statement and proof of Thesis Theorem 4.5, or an independent self-contained proof covering every connected finite H with |H|>=4.",
+  "next_action": "Use 569_REQUEST_DRAFT.md to request a targeted scan from University of Memphis Special Collections after the user authorizes external contact.",
+  "timing": {
+    "active_agent_seconds": 90,
+    "active_agent_hours": 0.025,
+    "budget_seconds": 3600,
+    "accounting": "R003 status refresh only; R002 source-search time is not counted again"
+  },
+  "details": "569_AUDIT.md",
+  "request_draft": "569_REQUEST_DRAFT.md"
+}
