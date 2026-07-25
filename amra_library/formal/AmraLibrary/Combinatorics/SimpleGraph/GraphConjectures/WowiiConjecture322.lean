@@ -164,12 +164,33 @@ theorem isWellTotallyDominated_top_of_two_le_card
   rw [card_eq_two_of_isMinimalTotalDominatingSet_top (hcard := hcard) hS,
     card_eq_two_of_isMinimalTotalDominatingSet_top (hcard := hcard) hT]
 
+/-- Any total dominating set in a nonempty simple graph contains at least two
+vertices. -/
+theorem two_le_card_of_isTotalDominatingSet
+    (G : SimpleGraph α) [DecidableRel G.Adj] [Nonempty α] {S : Finset α}
+    (hS : IsTotalDominatingSet G S) :
+    2 ≤ S.card := by
+  classical
+  obtain ⟨v⟩ := (inferInstance : Nonempty α)
+  obtain ⟨w, hwS, _hvw⟩ := hS v
+  obtain ⟨z, hzS, hwz⟩ := hS w
+  have hw_ne_z : w ≠ z := G.ne_of_adj hwz
+  have hpair_subset : ({w, z} : Finset α) ⊆ S := by
+    intro u hu
+    simp only [Finset.mem_insert, Finset.mem_singleton] at hu
+    rcases hu with rfl | rfl
+    · exact hwS
+    · exact hzS
+  have hpair_card : ({w, z} : Finset α).card = 2 := by
+    simp [hw_ne_z]
+  simpa [hpair_card] using Finset.card_le_card hpair_subset
+
 /--
-WOWII Conjecture 322: a connected finite graph on at least five vertices whose
-every open neighbourhood has independence number at most one is well totally
-dominated.
+Auxiliary statement for the earlier, stronger-looking but different hypothesis:
+a connected finite graph on at least five vertices whose own open neighbourhoods
+all have independence number at most one is well totally dominated.
 -/
-theorem conjecture322 (G : SimpleGraph α) [DecidableRel G.Adj]
+theorem conjecture322_of_indepNeighborsCard_le_one (G : SimpleGraph α) [DecidableRel G.Adj]
     (hG : G.Connected)
     (hn : 5 ≤ Fintype.card α)
     (h : ∀ v : α, indepNeighborsCard G v ≤ 1) :
@@ -177,5 +198,105 @@ theorem conjecture322 (G : SimpleGraph α) [DecidableRel G.Adj]
   have htop : G = ⊤ := connected_eq_top_of_indepNeighborsCard_le_one (G := G) hG h
   subst htop
   exact isWellTotallyDominated_top_of_two_le_card (α := α) (by omega : 2 ≤ Fintype.card α)
+
+/-- Under the original WOWII 322 hypothesis, any edge of `G` is already a
+two-vertex total dominating set.  The hypothesis is local independence at most
+one in the complement graph. -/
+theorem isTotalDominatingSet_pair_of_adj_of_indepNeighborsCard_compl_le_one
+    (G : SimpleGraph α) [DecidableRel G.Adj]
+    (h : ∀ v : α, indepNeighborsCard (Gᶜ) v ≤ 1)
+    {x y : α} (hxy : G.Adj x y) :
+    IsTotalDominatingSet G ({x, y} : Finset α) := by
+  classical
+  intro z
+  by_cases hzx_eq : z = x
+  · subst hzx_eq
+    exact ⟨y, by simp, hxy⟩
+  by_cases hzy_eq : z = y
+  · subst hzy_eq
+    exact ⟨x, by simp, hxy.symm⟩
+  by_cases hzx : G.Adj z x
+  · exact ⟨x, by simp, hzx⟩
+  by_cases hzy : G.Adj z y
+  · exact ⟨y, by simp, hzy⟩
+  haveI : DecidableRel (Gᶜ).Adj := Classical.decRel _
+  have hzcx : (Gᶜ).Adj z x := by
+    rw [SimpleGraph.compl_adj]
+    exact ⟨hzx_eq, hzx⟩
+  have hzcy : (Gᶜ).Adj z y := by
+    rw [SimpleGraph.compl_adj]
+    exact ⟨hzy_eq, hzy⟩
+  have hxy_ne : x ≠ y := G.ne_of_adj hxy
+  have hcxy : (Gᶜ).Adj x y :=
+    locally_clique_of_indepNeighborsCard_le_one (G := Gᶜ) h
+      (v := z) (x := x) (y := y) hzcx hzcy hxy_ne
+  exact False.elim (((SimpleGraph.compl_adj G x y).1 hcxy).2 hxy)
+
+/-- Minimal total dominating sets have cardinality two under the original
+WOWII 322 complement-local-independence hypothesis. -/
+theorem card_eq_two_of_isMinimalTotalDominatingSet_of_indepNeighborsCard_compl_le_one
+    (G : SimpleGraph α) [DecidableRel G.Adj]
+    (hcard : 2 ≤ Fintype.card α)
+    (h : ∀ v : α, indepNeighborsCard (Gᶜ) v ≤ 1) {S : Finset α}
+    (hS : IsMinimalTotalDominatingSet G S) :
+    S.card = 2 := by
+  classical
+  haveI : Nonempty α := Fintype.card_pos_iff.mp (by omega : 0 < Fintype.card α)
+  have hS_ge : 2 ≤ S.card :=
+    two_le_card_of_isTotalDominatingSet (G := G) hS.1
+  have hS_le : S.card ≤ 2 := by
+    by_contra hnot
+    have hS_pos : 0 < S.card := by omega
+    obtain ⟨w, hwS⟩ := Finset.card_pos.mp hS_pos
+    obtain ⟨z, hzS, hwz⟩ := hS.1 w
+    let T : Finset α := {w, z}
+    have hTsub : T ⊆ S := by
+      intro u hu
+      simp only [T, Finset.mem_insert, Finset.mem_singleton] at hu
+      rcases hu with rfl | rfl
+      · exact hwS
+      · exact hzS
+    have hTcard : T.card = 2 := by
+      have hw_ne_z : w ≠ z := G.ne_of_adj hwz
+      simp [T, hw_ne_z]
+    have hTssub : T ⊂ S := by
+      rw [Finset.ssubset_iff_subset_ne]
+      refine ⟨hTsub, ?_⟩
+      intro hTS
+      have hScard : S.card = 2 := by
+        simpa [hTS] using hTcard
+      omega
+    exact hS.2 T hTssub
+      (isTotalDominatingSet_pair_of_adj_of_indepNeighborsCard_compl_le_one
+        (G := G) h hwz)
+  exact le_antisymm hS_le hS_ge
+
+/-- Graphs satisfying the original WOWII 322 complement-local-independence
+hypothesis are well totally dominated. -/
+theorem isWellTotallyDominated_of_indepNeighborsCard_compl_le_one
+    (G : SimpleGraph α) [DecidableRel G.Adj]
+    (hcard : 2 ≤ Fintype.card α)
+    (h : ∀ v : α, indepNeighborsCard (Gᶜ) v ≤ 1) :
+    IsWellTotallyDominated G := by
+  intro S T hS hT
+  rw [
+    card_eq_two_of_isMinimalTotalDominatingSet_of_indepNeighborsCard_compl_le_one
+      (G := G) hcard h hS,
+    card_eq_two_of_isMinimalTotalDominatingSet_of_indepNeighborsCard_compl_le_one
+      (G := G) hcard h hT]
+
+/--
+WOWII Conjecture 322 in its original complement formulation: if `G` is a
+connected finite graph on at least five vertices and the maximum local
+independence in the complement graph is at most one, then `G` is well totally
+dominated.
+-/
+theorem conjecture322 (G : SimpleGraph α) [DecidableRel G.Adj]
+    (_hG : G.Connected)
+    (hn : 5 ≤ Fintype.card α)
+    (h : ∀ v : α, indepNeighborsCard (Gᶜ) v ≤ 1) :
+    IsWellTotallyDominated G := by
+  exact isWellTotallyDominated_of_indepNeighborsCard_compl_le_one
+    (G := G) (by omega : 2 ≤ Fintype.card α) h
 
 end SimpleGraph
