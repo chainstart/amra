@@ -68,6 +68,17 @@ from amra.nontrivial_benchmark import (
 from amra.result_bundle import export_amra_result_bundle
 from amra.algorithms import run_algorithm_benchmark_fixture
 from amra.crypto import run_crypto_attack_search_fixture
+from amra.discovery.counterexample_campaign import run_counterexample_campaign
+from amra.discovery.first_batch_campaign import (
+    initialize_status_table as initialize_counterexample_status_table,
+    run_first_batch as run_counterexample_first_batch,
+    status_summary as counterexample_status_summary,
+)
+from amra.discovery.second_batch_campaign import (
+    initialize_second_batch as initialize_counterexample_second_batch,
+    run_second_batch as run_counterexample_second_batch,
+    second_batch_status as counterexample_second_batch_status,
+)
 from amra.discovery.conjecture_mining import run_conjecture_mining_fixture
 from amra.ml_theory import run_ml_theory_experiment_fixture
 from amra.modeling import run_model_validation_fixture
@@ -500,6 +511,90 @@ def build_parser() -> argparse.ArgumentParser:
     discovery_counterexample.add_argument("--fixture", type=Path, required=True)
     discovery_counterexample.add_argument("--out", type=Path, required=True)
     discovery_counterexample.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+    discovery_campaign = discovery_subparsers.add_parser(
+        "campaign-counterexamples",
+        help="Run resumable bounded counterexample screening over a natural-language problem bank.",
+    )
+    discovery_campaign.add_argument("--bank", type=Path, required=True)
+    discovery_campaign.add_argument("--out", type=Path, required=True)
+    discovery_campaign.add_argument("--rerun", action="store_true", help="Ignore matching saved results.")
+    discovery_campaign.add_argument("--max-problems", type=int)
+    discovery_campaign.add_argument("--max-integer", type=int, default=100_000)
+    discovery_campaign.add_argument("--max-steps", type=int, default=10_000)
+    discovery_campaign.add_argument("--max-square-base", type=int, default=2_000)
+    discovery_campaign.add_argument("--max-sequence-terms", type=int, default=1_000)
+    discovery_campaign.add_argument("--max-family-universe", type=int, default=4)
+    discovery_campaign.add_argument("--max-graph-vertices", type=int, default=5)
+    discovery_campaign.add_argument("--max-tree-vertices", type=int, default=7)
+    discovery_campaign.add_argument("--max-erdos-straus-n", type=int, default=500)
+    discovery_campaign.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+    discovery_status_init = discovery_subparsers.add_parser(
+        "counterexample-status-init",
+        help="Initialize the durable total-status table for a counterexample campaign.",
+    )
+    discovery_status_init.add_argument("--bank", type=Path, required=True)
+    discovery_status_init.add_argument("--out", type=Path, required=True)
+    discovery_status_init.add_argument("--reset-first-batch", action="store_true")
+    discovery_status_init.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+    discovery_status = discovery_subparsers.add_parser(
+        "counterexample-status",
+        help="Refresh and show the durable counterexample campaign status table.",
+    )
+    discovery_status.add_argument("--out", type=Path, required=True)
+    discovery_status.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+    discovery_first_batch = discovery_subparsers.add_parser(
+        "campaign-first-batch",
+        help="Run or resume the first 20 deterministic counterexample searches.",
+    )
+    discovery_first_batch.add_argument("--bank", type=Path, required=True)
+    discovery_first_batch.add_argument("--out", type=Path, required=True)
+    discovery_first_batch.add_argument("--rerun", action="store_true")
+    discovery_first_batch.add_argument("--max-problems", type=int)
+    discovery_first_batch.add_argument("--worker-id", default="first-batch-worker")
+    discovery_first_batch.add_argument("--lease-seconds", type=float, default=3_600)
+    discovery_first_batch.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+    discovery_batch2_init = discovery_subparsers.add_parser(
+        "batch2-init",
+        help="Initialize the isolated 100-problem second-batch strategy campaign.",
+    )
+    discovery_batch2_init.add_argument("--bank", type=Path, required=True)
+    discovery_batch2_init.add_argument("--out", type=Path, required=True)
+    discovery_batch2_init.add_argument("--screen-seconds", type=int, default=900)
+    discovery_batch2_init.add_argument("--deep-seconds", type=int, default=7_200)
+    discovery_batch2_init.add_argument("--screen-max-cases", type=int)
+    discovery_batch2_init.add_argument("--deep-max-cases", type=int)
+    discovery_batch2_init.add_argument("--memory-mb", type=int, default=1_024)
+    discovery_batch2_init.add_argument("--deep-launches", type=int, default=3)
+    discovery_batch2_init.add_argument("--seed", type=int, default=20_260_727)
+    discovery_batch2_init.add_argument(
+        "--json", action="store_true", help=argparse.SUPPRESS
+    )
+    discovery_batch2_run = discovery_subparsers.add_parser(
+        "batch2-run",
+        help="Run or resume second-batch strategy tasks from the isolated queue.",
+    )
+    discovery_batch2_run.add_argument("--out", type=Path, required=True)
+    discovery_batch2_run.add_argument("--worker-id", default="batch2-worker")
+    discovery_batch2_run.add_argument("--lease-seconds", type=float, default=300)
+    discovery_batch2_run.add_argument("--max-tasks", type=int)
+    discovery_batch2_run.add_argument("--max-attempts", type=int, default=3)
+    discovery_batch2_run.add_argument(
+        "--executor",
+        action="append",
+        dest="executors",
+        help="Restrict this worker to a registered executor ID; repeat as needed.",
+    )
+    discovery_batch2_run.add_argument(
+        "--json", action="store_true", help=argparse.SUPPRESS
+    )
+    discovery_batch2_status = discovery_subparsers.add_parser(
+        "batch2-status",
+        help="Refresh second-batch parent status exports and safe main-table sync.",
+    )
+    discovery_batch2_status.add_argument("--out", type=Path, required=True)
+    discovery_batch2_status.add_argument(
+        "--json", action="store_true", help=argparse.SUPPRESS
+    )
 
     algorithms = subparsers.add_parser(
         "algorithms",
@@ -1648,6 +1743,86 @@ def main(argv: list[str] | None = None) -> int:
                     fixture=args.fixture,
                     output_dir=args.out,
                 ),
+                args.json,
+            )
+            return 0
+        if args.discovery_command == "campaign-counterexamples":
+            _print(
+                run_counterexample_campaign(
+                    bank_path=args.bank,
+                    output_dir=args.out,
+                    resume=not args.rerun,
+                    max_problems=args.max_problems,
+                    max_integer=args.max_integer,
+                    max_steps=args.max_steps,
+                    max_square_base=args.max_square_base,
+                    max_sequence_terms=args.max_sequence_terms,
+                    max_family_universe=args.max_family_universe,
+                    max_graph_vertices=args.max_graph_vertices,
+                    max_tree_vertices=args.max_tree_vertices,
+                    max_erdos_straus_n=args.max_erdos_straus_n,
+                ),
+                args.json,
+            )
+            return 0
+        if args.discovery_command == "counterexample-status-init":
+            _print(
+                initialize_counterexample_status_table(
+                    bank_path=args.bank,
+                    campaign_dir=args.out,
+                    reset_first_batch=args.reset_first_batch,
+                ),
+                args.json,
+            )
+            return 0
+        if args.discovery_command == "counterexample-status":
+            _print(counterexample_status_summary(args.out), args.json)
+            return 0
+        if args.discovery_command == "campaign-first-batch":
+            _print(
+                run_counterexample_first_batch(
+                    bank_path=args.bank,
+                    campaign_dir=args.out,
+                    resume=not args.rerun,
+                    max_problems=args.max_problems,
+                    worker_id=args.worker_id,
+                    lease_seconds=args.lease_seconds,
+                ),
+                args.json,
+            )
+            return 0
+        if args.discovery_command == "batch2-init":
+            _print(
+                initialize_counterexample_second_batch(
+                    bank_path=args.bank,
+                    campaign_dir=args.out,
+                    screen_time_seconds=args.screen_seconds,
+                    deep_time_seconds=args.deep_seconds,
+                    screen_max_cases=args.screen_max_cases,
+                    deep_max_cases=args.deep_max_cases,
+                    memory_mb=args.memory_mb,
+                    deep_launches=args.deep_launches,
+                    global_seed=args.seed,
+                ),
+                args.json,
+            )
+            return 0
+        if args.discovery_command == "batch2-run":
+            _print(
+                run_counterexample_second_batch(
+                    campaign_dir=args.out,
+                    worker_id=args.worker_id,
+                    lease_seconds=args.lease_seconds,
+                    max_tasks=args.max_tasks,
+                    max_attempts=args.max_attempts,
+                    executor_ids=args.executors,
+                ),
+                args.json,
+            )
+            return 0
+        if args.discovery_command == "batch2-status":
+            _print(
+                counterexample_second_batch_status(campaign_dir=args.out),
                 args.json,
             )
             return 0
