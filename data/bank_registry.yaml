@@ -127,17 +127,6 @@
   - lean4
   - formal_statement_corpus
   synced_at: '2026-05-21T05:23:31+00:00'
-- name: unsolvedmath_index
-  path: /home/biostar/work/projects/amra/data/banks/unsolvedmath_index.yaml
-  description: UnsolvedMath browse-index import for large-scale natural-language open problem triage.
-  category: research_open_index
-  problem_count: 2033
-  provenance: https://www.unsolvedmath.com
-  focus_tags:
-  - unsolvedmath
-  - open_problem_index
-  - research_problem
-  synced_at: '2026-05-21T05:23:31+00:00'
 - name: aim_problem_lists
   path: /home/biostar/work/projects/amra/data/banks/aim_problem_lists.yaml
   description: AIM workshop problem-list source inventory for domain-specific research problem extraction.
@@ -149,3 +138,60 @@
   - problem_list_collection
   - research_problem
   synced_at: '2026-05-21T05:23:31+00:00'
+- name: unsolvedmath_index
+  path: /home/biostar/work/amra/data/banks/unsolvedmath_index.yaml
+  description: Compatibility alias for the full normalized UnsolvedMath concept snapshot.
+  category: research_open_natural_language
+  problem_count: 2077
+  provenance: https://www.unsolvedmath.com
+  focus_tags:
+  - unsolvedmath
+  - research_problem
+  - compatibility_alias
+  synced_at: '2026-07-26T15:38:23+00:00'
+- name: unsolvedmath_all
+  path: /home/biostar/work/amra/data/banks/unsolvedmath_all.yaml
+  description: Full UnsolvedMath snapshot with detail statements, source status, set membership, and data-quality
+    flags.
+  category: research_open_natural_language
+  problem_count: 2077
+  provenance: https://www.unsolvedmath.com
+  focus_tags:
+  - unsolvedmath
+  - detail_statement
+  - research_problem
+  synced_at: '2026-07-26T15:38:23+00:00'
+- name: unsolvedmath_open
+  path: /home/biostar/work/amra/data/banks/unsolvedmath_open.yaml
+  description: All records currently marked open by the UnsolvedMath detail snapshot.
+  category: research_open_natural_language
+  problem_count: 2068
+  provenance: https://www.unsolvedmath.com
+  focus_tags:
+  - unsolvedmath
+  - open_problem
+  - detail_statement
+  synced_at: '2026-07-26T15:38:23+00:00'
+- name: unsolvedmath_open_non_erdos
+  path: /home/biostar/work/amra/data/banks/unsolvedmath_open_non_erdos.yaml
+  description: Canonical open UnsolvedMath records excluding the Erdos set and normalized duplicate records.
+  category: research_open_natural_language
+  problem_count: 1332
+  provenance: https://www.unsolvedmath.com
+  focus_tags:
+  - unsolvedmath
+  - open_problem
+  - non_erdos
+  - counterexample_campaign
+  synced_at: '2026-07-26T15:38:23+00:00'
+- name: unsolvedmath_source_id_collisions
+  path: /home/biostar/work/amra/data/banks/unsolvedmath_source_id_collisions.yaml
+  description: Browse-index records whose source id resolves to a different UnsolvedMath detail-page problem.
+  category: research_open_natural_language
+  problem_count: 44
+  provenance: https://www.unsolvedmath.com
+  focus_tags:
+  - unsolvedmath
+  - source_id_collision
+  - source_audit
+  synced_at: '2026-07-26T15:38:23+00:00'

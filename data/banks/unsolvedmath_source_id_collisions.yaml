@@ -1,0 +1,3200 @@
+- problem_id: unsolvedmath-ag-001-collision-the-hodge-conjecture-75799f34
+  title: The Hodge Conjecture
+  source: UnsolvedMath
+  statement: On a projective algebraic variety, is every Hodge class a rational linear combination of
+    classes of algebraic cycles?
+  domain: algebraic_geometry
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=4
+  - https://www.unsolvedmath.com/problems/AG-001
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: AG-001
+    source_page: 4
+    source_pages:
+    - 4
+    source_url: https://www.unsolvedmath.com/problems/AG-001
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Algebraic Geometry
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: The Hodge Conjecture
+    index_statement: On a projective algebraic variety, is every Hodge class a rational linear combination
+      of classes of algebraic cycles?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-ag-001
+    source_id_index_title_groups:
+    - normalized_title: hodge
+      titles:
+      - The Hodge Conjecture
+      source_pages:
+      - 4
+    - normalized_title: standard conjectures on algebraic cycles
+      titles:
+      - The Standard Conjectures on Algebraic Cycles
+      source_pages:
+      - 1
+    content_fingerprint: e63340bb7db072434d01d79a70e0f37d1464ff6edb501a253e90d656046476b7
+    normalized_title_key: hodge
+    duplicate_of: unsolvedmath-mpp-006
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-alg-001-collision-birch-tate-conjecture-9dbcc61f
+  title: Birch-Tate Conjecture
+  source: UnsolvedMath
+  statement: Relate the order of the center of the Steinberg group of the ring of integers to the Dedekind
+    zeta function.
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=9
+  - https://www.unsolvedmath.com/problems/ALG-001
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-001
+    source_page: 9
+    source_pages:
+    - 7
+    - 9
+    source_url: https://www.unsolvedmath.com/problems/ALG-001
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Birch-Tate Conjecture
+    index_statement: Relate the order of the center of the Steinberg group of the ring of integers to
+      the Dedekind zeta function.
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-001
+    source_id_index_title_groups:
+    - normalized_title: birch tate
+      titles:
+      - Birch-Tate Conjecture
+      - Birch–Tate Conjecture
+      source_pages:
+      - 7
+      - 9
+    - normalized_title: inverse galois
+      titles:
+      - Inverse Galois Problem
+      source_pages:
+      - 1
+    content_fingerprint: 533dd74ebf5289ea0dd117e445d0795317e31064c8cfe14dc7183e8a20889d57
+    normalized_title_key: birch tate
+    duplicate_of: unsolvedmath-alg-017
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-alg-002-collision-casas-alvero-conjecture-3c22b991
+  title: Casas-Alvero Conjecture
+  source: UnsolvedMath
+  statement: If a polynomial of degree d over a field of characteristic 0 shares a factor with each of
+    its first d-1 derivatives, must it be $(x-a)^d$?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=9
+  - https://www.unsolvedmath.com/problems/ALG-002
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-002
+    source_page: 9
+    source_pages:
+    - 9
+    source_url: https://www.unsolvedmath.com/problems/ALG-002
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Casas-Alvero Conjecture
+    index_statement: If a polynomial of degree d over a field of characteristic 0 shares a factor with
+      each of its first d-1 derivatives, must it be $(x-a)^d$?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-002
+    source_id_index_title_groups: &id001
+    - normalized_title: casas alvero
+      titles:
+      - Casas-Alvero Conjecture
+      source_pages:
+      - 9
+    - normalized_title: hadamard
+      titles:
+      - Hadamard Conjecture
+      source_pages:
+      - 4
+    - normalized_title: kaplansky conjectures
+      titles:
+      - Kaplansky's Conjectures
+      source_pages:
+      - 1
+    content_fingerprint: 97452bd8e8dd6288559541fa517bd10fa4c743ac3f4aaa3954e3a9a2a6074138
+    normalized_title_key: casas alvero
+    duplicate_of: unsolvedmath-alg-007
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-alg-002-collision-hadamard-conjecture-46885be0
+  title: Hadamard Conjecture
+  source: UnsolvedMath
+  statement: For every positive integer $k$, does there exist a Hadamard matrix of order $4k$?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=4
+  - https://www.unsolvedmath.com/problems/ALG-002
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-002
+    source_page: 4
+    source_pages:
+    - 4
+    source_url: https://www.unsolvedmath.com/problems/ALG-002
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Hadamard Conjecture
+    index_statement: For every positive integer $k$, does there exist a Hadamard matrix of order $4k$?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-002
+    source_id_index_title_groups: *id001
+    content_fingerprint: ea3d73c4ef79f2477e4dedc629e30167262a02e4b2d6d3801e84b4b494d98f79
+    normalized_title_key: hadamard
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-alg-003-collision-connes-embedding-problem-bcf0f4a0
+  title: Connes Embedding Problem
+  source: UnsolvedMath
+  statement: Can every finite von Neumann algebra be embedded into an ultrapower of the hyperfinite II₁
+    factor?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=9
+  - https://www.unsolvedmath.com/problems/ALG-003
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-003
+    source_page: 9
+    source_pages:
+    - 9
+    source_url: https://www.unsolvedmath.com/problems/ALG-003
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Connes Embedding Problem
+    index_statement: Can every finite von Neumann algebra be embedded into an ultrapower of the hyperfinite
+      II₁ factor?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-003
+    source_id_index_title_groups:
+    - normalized_title: connes embedding
+      titles:
+      - Connes Embedding Problem
+      source_pages:
+      - 9
+    - normalized_title: kothe
+      titles:
+      - Köthe Conjecture
+      - The Köthe Conjecture
+      source_pages:
+      - 1
+      - 4
+    content_fingerprint: ea6ca66d0dc9d566be58fa341e6c8561b2a72f6e2043e191f164baf7d5b98204
+    normalized_title_key: connes embedding
+    duplicate_of: unsolvedmath-alg-004
+    duplicate_match: exact_content
+- problem_id: unsolvedmath-alg-004-collision-crouzeix-s-conjecture-368310b7
+  title: Crouzeix's Conjecture
+  source: UnsolvedMath
+  statement: Is $\|f(A)\| \leq 2\sup_{z \in W(A)} |f(z)|$ for all matrices $A$ and functions $f$ analytic
+    on the numerical range?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=7
+  - https://www.unsolvedmath.com/problems/ALG-004
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-004
+    source_page: 7
+    source_pages:
+    - 7
+    - 9
+    source_url: https://www.unsolvedmath.com/problems/ALG-004
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Crouzeix's Conjecture
+    index_statement: Is $\|f(A)\| \leq 2\sup_{z \in W(A)} |f(z)|$ for all matrices $A$ and functions $f$
+      analytic on the numerical range?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-004
+    source_id_index_title_groups:
+    - normalized_title: connes embedding
+      titles:
+      - Connes Embedding Problem
+      source_pages:
+      - 4
+    - normalized_title: crouzeix
+      titles:
+      - Crouzeix's Conjecture
+      source_pages:
+      - 7
+      - 9
+    content_fingerprint: f5f93f8df2d07e4e54e92a18cffaa7d5efc41ffc18f159495664d01243fbad97
+    normalized_title_key: crouzeix
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-alg-005-collision-determinantal-conjecture-20b46b10
+  title: Determinantal Conjecture
+  source: UnsolvedMath
+  statement: Characterize the determinant of the sum of two normal matrices.
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=9
+  - https://www.unsolvedmath.com/problems/ALG-005
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-005
+    source_page: 9
+    source_pages:
+    - 9
+    source_url: https://www.unsolvedmath.com/problems/ALG-005
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Determinantal Conjecture
+    index_statement: Characterize the determinant of the sum of two normal matrices.
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-005
+    source_id_index_title_groups:
+    - normalized_title: determinantal
+      titles:
+      - Determinantal Conjecture
+      source_pages:
+      - 9
+    - normalized_title: jacobson
+      titles:
+      - Jacobson's Conjecture
+      source_pages:
+      - 4
+    content_fingerprint: 2d8ddc0ed1432f5a15391fb9e5bab2a63e8e13e7f526b5e45b74ea7c81e9d09a
+    normalized_title_key: determinantal
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-alg-006-collision-eilenberg-ganea-conjecture-fcc35163
+  title: Eilenberg-Ganea Conjecture
+  source: UnsolvedMath
+  statement: Does every group with cohomological dimension 2 have a 2-dimensional Eilenberg-MacLane space
+    K(G,1)?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=9
+  - https://www.unsolvedmath.com/problems/ALG-006
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-006
+    source_page: 9
+    source_pages:
+    - 9
+    source_url: https://www.unsolvedmath.com/problems/ALG-006
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Eilenberg-Ganea Conjecture
+    index_statement: Does every group with cohomological dimension 2 have a 2-dimensional Eilenberg-MacLane
+      space K(G,1)?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-006
+    source_id_index_title_groups: &id002
+    - normalized_title: eilenberg ganea
+      titles:
+      - Eilenberg-Ganea Conjecture
+      source_pages:
+      - 9
+    - normalized_title: perfect cuboid
+      titles:
+      - Perfect Cuboid
+      source_pages:
+      - 7
+    - normalized_title: zauner
+      titles:
+      - Zauner's Conjecture
+      source_pages:
+      - 4
+    content_fingerprint: f49b4d73af51a3b146840b723fde8bd5f2add5f8f4e03bc844f9bdd69efc373e
+    normalized_title_key: eilenberg ganea
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-alg-006-collision-perfect-cuboid-3aa95e7a
+  title: Perfect Cuboid
+  source: UnsolvedMath
+  statement: Does there exist a rectangular cuboid with integer edges, face diagonals, and space diagonal?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L3
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=7
+  - https://www.unsolvedmath.com/problems/ALG-006
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-006
+    source_page: 7
+    source_pages:
+    - 7
+    source_url: https://www.unsolvedmath.com/problems/ALG-006
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 3
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Perfect Cuboid
+    index_statement: Does there exist a rectangular cuboid with integer edges, face diagonals, and space
+      diagonal?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-006
+    source_id_index_title_groups: *id002
+    content_fingerprint: a4beb1755ea9a81a3807cc6bc6042620c86a3254d66045ddde68c3e38184482c
+    normalized_title_key: perfect cuboid
+    duplicate_of: unsolvedmath-opg-37221
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-alg-007-collision-farrell-jones-conjecture-f0f7f225
+  title: Farrell-Jones Conjecture
+  source: UnsolvedMath
+  statement: Are the assembly maps in algebraic K-theory and L-theory isomorphisms?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=9
+  - https://www.unsolvedmath.com/problems/ALG-007
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-007
+    source_page: 9
+    source_pages:
+    - 9
+    source_url: https://www.unsolvedmath.com/problems/ALG-007
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Farrell-Jones Conjecture
+    index_statement: Are the assembly maps in algebraic K-theory and L-theory isomorphisms?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-007
+    source_id_index_title_groups:
+    - normalized_title: casas alvero
+      titles:
+      - Casas-Alvero Conjecture
+      source_pages:
+      - 4
+    - normalized_title: farrell jones
+      titles:
+      - Farrell-Jones Conjecture
+      source_pages:
+      - 9
+    content_fingerprint: cf1a1da2a30d4bc11193f3f028b555115a8d43063e9472e2fae2651ad671fd95
+    normalized_title_key: farrell jones
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-alg-008-collision-finite-lattice-representation-proble-e39baa4c
+  title: Finite Lattice Representation Problem
+  source: UnsolvedMath
+  statement: Is every finite lattice isomorphic to the congruence lattice of some finite algebra?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=9
+  - https://www.unsolvedmath.com/problems/ALG-008
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-008
+    source_page: 9
+    source_pages:
+    - 9
+    source_url: https://www.unsolvedmath.com/problems/ALG-008
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Finite Lattice Representation Problem
+    index_statement: Is every finite lattice isomorphic to the congruence lattice of some finite algebra?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-008
+    source_id_index_title_groups:
+    - normalized_title: andrews curtis
+      titles:
+      - Andrews-Curtis Conjecture
+      source_pages:
+      - 4
+    - normalized_title: finite lattice representation
+      titles:
+      - Finite Lattice Representation Problem
+      source_pages:
+      - 9
+    content_fingerprint: 56209c0323c6817258bc61a8ee8afe682667f3ac07a6947dc4cfb316fcdb3228
+    normalized_title_key: finite lattice representation
+    duplicate_of: unsolvedmath-opg-37283
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-alg-009-collision-hadamard-matrix-conjecture-ad3dcefe
+  title: Hadamard Matrix Conjecture
+  source: UnsolvedMath
+  statement: Does a Hadamard matrix of order 4k exist for every positive integer k?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=9
+  - https://www.unsolvedmath.com/problems/ALG-009
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-009
+    source_page: 9
+    source_pages:
+    - 9
+    source_url: https://www.unsolvedmath.com/problems/ALG-009
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Hadamard Matrix Conjecture
+    index_statement: Does a Hadamard matrix of order 4k exist for every positive integer k?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-009
+    source_id_index_title_groups: &id003
+    - normalized_title: bounded burnside
+      titles:
+      - Bounded Burnside Problem
+      source_pages:
+      - 4
+    - normalized_title: hadamard matrix
+      titles:
+      - Hadamard Matrix Conjecture
+      source_pages:
+      - 9
+    - normalized_title: zauner sic povm
+      titles:
+      - Zauner's Conjecture (SIC-POVM)
+      source_pages:
+      - 7
+    content_fingerprint: 050c491beafee8751940a80c23750d3eea2a07437f129405dd458293c916975e
+    normalized_title_key: hadamard matrix
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-alg-009-collision-zauner-s-conjecture-sic-povm-ec336fcc
+  title: Zauner's Conjecture (SIC-POVM)
+  source: UnsolvedMath
+  statement: Do symmetric informationally complete POVMs exist in all dimensions?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=7
+  - https://www.unsolvedmath.com/problems/ALG-009
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-009
+    source_page: 7
+    source_pages:
+    - 7
+    source_url: https://www.unsolvedmath.com/problems/ALG-009
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Zauner's Conjecture (SIC-POVM)
+    index_statement: Do symmetric informationally complete POVMs exist in all dimensions?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-009
+    source_id_index_title_groups: *id003
+    content_fingerprint: 494b2ad8ac67ea2dffdf2e1fdf9ea0f3435c68a2da0eb47e4ed023bb10d06c08
+    normalized_title_key: zauner sic povm
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-alg-010-collision-kothe-conjecture-0ed53a08
+  title: Köthe Conjecture
+  source: UnsolvedMath
+  statement: If a ring has no nil two-sided ideal besides {0}, does it also have no nil one-sided ideal
+    besides {0}?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=9
+  - https://www.unsolvedmath.com/problems/ALG-010
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-010
+    source_page: 9
+    source_pages:
+    - 9
+    source_url: https://www.unsolvedmath.com/problems/ALG-010
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Köthe Conjecture
+    index_statement: If a ring has no nil two-sided ideal besides {0}, does it also have no nil one-sided
+      ideal besides {0}?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-010
+    source_id_index_title_groups:
+    - normalized_title: herzog schonheim
+      titles:
+      - Herzog-Schönheim Conjecture
+      source_pages:
+      - 4
+    - normalized_title: kothe
+      titles:
+      - Köthe Conjecture
+      source_pages:
+      - 9
+    content_fingerprint: 99c2e53cd07bf70bcd3bc184c40440266ae318c5c033bebd4cc729fed5b4b4ac
+    normalized_title_key: kothe
+    duplicate_of: unsolvedmath-alg-003
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-alg-012-collision-andrews-curtis-conjecture-f45e5639
+  title: Andrews–Curtis Conjecture
+  source: UnsolvedMath
+  statement: Can every balanced presentation of the trivial group be transformed to a trivial presentation
+    by Nielsen moves?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=7
+  - https://www.unsolvedmath.com/problems/ALG-012
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-012
+    source_page: 7
+    source_pages:
+    - 7
+    source_url: https://www.unsolvedmath.com/problems/ALG-012
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Andrews–Curtis Conjecture
+    index_statement: Can every balanced presentation of the trivial group be transformed to a trivial
+      presentation by Nielsen moves?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-012
+    source_id_index_title_groups: &id004
+    - normalized_title: andrews curtis
+      titles:
+      - Andrews–Curtis Conjecture
+      source_pages:
+      - 7
+    - normalized_title: existence of perfect cuboids
+      titles:
+      - Existence of Perfect Cuboids
+      source_pages:
+      - 4
+    - normalized_title: rota basis
+      titles:
+      - Rota's Basis Conjecture
+      source_pages:
+      - 9
+    content_fingerprint: c77de53b567ab2cade424bd988331da7f6e5a77a7a40de1a839e90b2998ae674
+    normalized_title_key: andrews curtis
+    duplicate_of: unsolvedmath-alg-008
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-alg-012-collision-rota-s-basis-conjecture-5ad44b45
+  title: Rota's Basis Conjecture
+  source: UnsolvedMath
+  statement: Given n bases of an n-dimensional matroid, can we find n disjoint rainbow bases?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=9
+  - https://www.unsolvedmath.com/problems/ALG-012
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-012
+    source_page: 9
+    source_pages:
+    - 9
+    source_url: https://www.unsolvedmath.com/problems/ALG-012
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Rota's Basis Conjecture
+    index_statement: Given n bases of an n-dimensional matroid, can we find n disjoint rainbow bases?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-012
+    source_id_index_title_groups: *id004
+    content_fingerprint: 02b0a700d3fe2a34986fac8407ecf4fb64632e0f53ded50ce972029a9662bb0b
+    normalized_title_key: rota basis
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-alg-014-collision-herzog-schonheim-conjecture-c83bf401
+  title: Herzog–Schönheim Conjecture
+  source: UnsolvedMath
+  statement: Can a finite system of left cosets forming a partition of a group have distinct indices?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=7
+  - https://www.unsolvedmath.com/problems/ALG-014
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-014
+    source_page: 7
+    source_pages:
+    - 7
+    source_url: https://www.unsolvedmath.com/problems/ALG-014
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Herzog–Schönheim Conjecture
+    index_statement: Can a finite system of left cosets forming a partition of a group have distinct indices?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-014
+    source_id_index_title_groups: &id005
+    - normalized_title: herzog schonheim
+      titles:
+      - Herzog–Schönheim Conjecture
+      source_pages:
+      - 7
+    - normalized_title: mckay
+      titles:
+      - McKay Conjecture
+      source_pages:
+      - 4
+    - normalized_title: serre positivity
+      titles:
+      - Serre's Positivity Conjecture
+      source_pages:
+      - 10
+    content_fingerprint: c15414251558ce1e7349e8ebc771c099a947984067884bd38650cc4a8e969805
+    normalized_title_key: herzog schonheim
+    duplicate_of: unsolvedmath-alg-010
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-alg-014-collision-serre-s-positivity-conjecture-d5e5f832
+  title: Serre's Positivity Conjecture
+  source: UnsolvedMath
+  statement: If R is a regular local ring and P,Q are prime ideals with $\dim(R/P) + \dim(R/Q) = \dim(R)$,
+    is $\chi(R/P, R/Q) > 0$?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=10
+  - https://www.unsolvedmath.com/problems/ALG-014
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-014
+    source_page: 10
+    source_pages:
+    - 10
+    source_url: https://www.unsolvedmath.com/problems/ALG-014
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Serre's Positivity Conjecture
+    index_statement: If R is a regular local ring and P,Q are prime ideals with $\dim(R/P) + \dim(R/Q)
+      = \dim(R)$, is $\chi(R/P, R/Q) > 0$?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-014
+    source_id_index_title_groups: *id005
+    content_fingerprint: d86d74e1914f3264ed1d7ded3e834c1f272d6c37cfe306a2db9f604f1e420b5f
+    normalized_title_key: serre positivity
+    duplicate_of: unsolvedmath-alg-022
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-alg-015-collision-uniform-boundedness-conjecture-for-r-64984cbf
+  title: Uniform Boundedness Conjecture for Rational Points
+  source: UnsolvedMath
+  statement: Is there a bound N(g,d) such that all curves of genus g≥2 over degree d number fields have
+    at most N(g,d) rational points?
+  domain: algebra
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=10
+  - https://www.unsolvedmath.com/problems/ALG-015
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: ALG-015
+    source_page: 10
+    source_pages:
+    - 10
+    source_url: https://www.unsolvedmath.com/problems/ALG-015
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Algebra
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Uniform Boundedness Conjecture for Rational Points
+    index_statement: Is there a bound N(g,d) such that all curves of genus g≥2 over degree d number fields
+      have at most N(g,d) rational points?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-alg-015
+    source_id_index_title_groups:
+    - normalized_title: are all groups surjunctive
+      titles:
+      - Are All Groups Surjunctive?
+      source_pages:
+      - 4
+    - normalized_title: uniform boundedness for rational points
+      titles:
+      - Uniform Boundedness Conjecture for Rational Points
+      source_pages:
+      - 10
+    content_fingerprint: 6d17bebd51bedf571f7be1401f09fc5263e923eda2841b553164c809c6dc91c2
+    normalized_title_key: uniform boundedness for rational points
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-comb-001-collision-1-3-2-3-conjecture-3976e813
+  title: 1/3–2/3 Conjecture
+  source: UnsolvedMath
+  statement: Does every non-totally-ordered finite poset have two elements with probability between 1/3
+    and 2/3 in random linear extensions?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=7
+  - https://www.unsolvedmath.com/problems/COMB-001
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: COMB-001
+    source_page: 7
+    source_pages:
+    - 7
+    - 10
+    source_url: https://www.unsolvedmath.com/problems/COMB-001
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Combinatorics
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: 1/3–2/3 Conjecture
+    index_statement: Does every non-totally-ordered finite poset have two elements with probability between
+      1/3 and 2/3 in random linear extensions?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-comb-001
+    source_id_index_title_groups:
+    - normalized_title: 1 3 2 3 conjecture
+      titles:
+      - 1/3-2/3 Conjecture
+      - 1/3–2/3 Conjecture
+      source_pages:
+      - 7
+      - 10
+    - normalized_title: hadwiger nelson
+      titles:
+      - The Hadwiger-Nelson Problem
+      source_pages:
+      - 1
+    content_fingerprint: daada517781c1ca61fed138a183f4470f6e3cb5035b59afe66868889c01808be
+    normalized_title_key: null
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-comb-003-collision-sunflower-conjecture-6ebcd8d1
+  title: Sunflower Conjecture
+  source: UnsolvedMath
+  statement: Can the minimum size for sunflowers be bounded by an exponential (not super-exponential)
+    function of k?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=10
+  - https://www.unsolvedmath.com/problems/COMB-003
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: COMB-003
+    source_page: 10
+    source_pages:
+    - 10
+    source_url: https://www.unsolvedmath.com/problems/COMB-003
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Combinatorics
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Sunflower Conjecture
+    index_statement: Can the minimum size for sunflowers be bounded by an exponential (not super-exponential)
+      function of k?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-comb-003
+    source_id_index_title_groups: &id006
+    - normalized_title: ramsey number r 5 5
+      titles:
+      - Ramsey Number R(5,5)
+      source_pages:
+      - 1
+    - normalized_title: sunflower
+      titles:
+      - Sunflower Conjecture
+      source_pages:
+      - 10
+    - normalized_title: union closed sets
+      titles:
+      - The Union-Closed Sets Conjecture
+      - Union-Closed Sets Conjecture
+      source_pages:
+      - 4
+      - 7
+    content_fingerprint: 9ff4578bf8726ae5cd8d56216e8dad6604eb0ef33ee54b9f7895fc9988c265af
+    normalized_title_key: sunflower
+    duplicate_of: unsolvedmath-comb-006
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-comb-003-collision-the-union-closed-sets-conjecture-3866e1eb
+  title: The Union-Closed Sets Conjecture
+  source: UnsolvedMath
+  statement: For any finite family of finite sets that is closed under taking unions, must there exist
+    an element that belongs to at least half of the sets?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=4
+  - https://www.unsolvedmath.com/problems/COMB-003
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: COMB-003
+    source_page: 4
+    source_pages:
+    - 4
+    - 7
+    source_url: https://www.unsolvedmath.com/problems/COMB-003
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Combinatorics
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: The Union-Closed Sets Conjecture
+    index_statement: For any finite family of finite sets that is closed under taking unions, must there
+      exist an element that belongs to at least half of the sets?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-comb-003
+    source_id_index_title_groups: *id006
+    content_fingerprint: e18f44654e6f48145e90bdd07f4ef912d72d81695ca95efd58ca09be674b5e4a
+    normalized_title_key: union closed sets
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-comb-004-collision-no-three-in-line-problem-dad064d6
+  title: No-Three-in-Line Problem
+  source: UnsolvedMath
+  statement: What is the maximum number of points in an $n \times n$ grid with no three collinear?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L3
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=7
+  - https://www.unsolvedmath.com/problems/COMB-004
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: COMB-004
+    source_page: 7
+    source_pages:
+    - 7
+    source_url: https://www.unsolvedmath.com/problems/COMB-004
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 3
+    difficulty_name: null
+    category: Combinatorics
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: No-Three-in-Line Problem
+    index_statement: What is the maximum number of points in an $n \times n$ grid with no three collinear?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-comb-004
+    source_id_index_title_groups: &id007
+    - normalized_title: lonely runner
+      titles:
+      - The Lonely Runner Conjecture
+      source_pages:
+      - 1
+    - normalized_title: no three in line
+      titles:
+      - No-Three-in-Line Problem
+      source_pages:
+      - 7
+    - normalized_title: singmaster
+      titles:
+      - Singmaster's Conjecture
+      source_pages:
+      - 4
+    - normalized_title: union closed sets
+      titles:
+      - Union-Closed Sets Conjecture
+      source_pages:
+      - 10
+    content_fingerprint: 0e04a2a91be91537ddb3da53856c6f468b7d93ed2b72e6fe605639254179d4c6
+    normalized_title_key: no three in line
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-comb-004-collision-singmaster-s-conjecture-8874c3cc
+  title: Singmaster's Conjecture
+  source: UnsolvedMath
+  statement: Does there exist a finite upper bound on how many times a number (other than 1) can appear
+    in Pascal's triangle?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L3
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=4
+  - https://www.unsolvedmath.com/problems/COMB-004
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: COMB-004
+    source_page: 4
+    source_pages:
+    - 4
+    source_url: https://www.unsolvedmath.com/problems/COMB-004
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 3
+    difficulty_name: null
+    category: Combinatorics
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Singmaster's Conjecture
+    index_statement: Does there exist a finite upper bound on how many times a number (other than 1) can
+      appear in Pascal's triangle?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-comb-004
+    source_id_index_title_groups: *id007
+    content_fingerprint: 2e8107f9c5cdc9e4d3d01e9174df5a84b50c1c4b327e94bba5544191acd74a43
+    normalized_title_key: singmaster
+    duplicate_of: unsolvedmath-opg-60034
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-comb-004-collision-union-closed-sets-conjecture-71940e0a
+  title: Union-Closed Sets Conjecture
+  source: UnsolvedMath
+  statement: For any finite union-closed family of sets, does some element appear in at least half the
+    sets?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=10
+  - https://www.unsolvedmath.com/problems/COMB-004
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: COMB-004
+    source_page: 10
+    source_pages:
+    - 10
+    source_url: https://www.unsolvedmath.com/problems/COMB-004
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Combinatorics
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Union-Closed Sets Conjecture
+    index_statement: For any finite union-closed family of sets, does some element appear in at least
+      half the sets?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-comb-004
+    source_id_index_title_groups: *id007
+    content_fingerprint: edd14b1ba51fcfc4fc06cc8b32bdff0541bb6807ee391aaac3e69e62e37f4cae
+    normalized_title_key: union closed sets
+    duplicate_of: unsolvedmath-comb-003-collision-the-union-closed-sets-conjecture-3866e1eb
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-comb-005-collision-ramsey-number-r-5-5-ef38b6f0
+  title: Ramsey Number R(5,5)
+  source: UnsolvedMath
+  statement: What is the exact value of the Ramsey number R(5,5)?
+  domain: combinatorics
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=10
+  - https://www.unsolvedmath.com/problems/COMB-005
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: COMB-005
+    source_page: 10
+    source_pages:
+    - 10
+    source_url: https://www.unsolvedmath.com/problems/COMB-005
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Combinatorics
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Ramsey Number R(5,5)
+    index_statement: What is the exact value of the Ramsey number R(5,5)?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-comb-005
+    source_id_index_title_groups:
+    - normalized_title: frankl union closed sets
+      titles:
+      - Frankl's Union-Closed Sets Conjecture
+      source_pages:
+      - 1
+    - normalized_title: ramsey number r 5 5
+      titles:
+      - Ramsey Number R(5,5)
+      source_pages:
+      - 10
+    content_fingerprint: f6a7d79bce5b3ce882d19c55be1825a17f6c6e0bec73ff9dea8f183fd516d8bc
+    normalized_title_key: ramsey number r 5 5
+    duplicate_of: unsolvedmath-comb-003
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-dyn-002-collision-mlc-conjecture-0fb0feba
+  title: MLC Conjecture
+  source: UnsolvedMath
+  statement: Is the Mandelbrot set locally connected?
+  domain: partial_differential_equations
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=7
+  - https://www.unsolvedmath.com/problems/DYN-002
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: DYN-002
+    source_page: 7
+    source_pages:
+    - 7
+    source_url: https://www.unsolvedmath.com/problems/DYN-002
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Partial Differential Equations
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: MLC Conjecture
+    index_statement: Is the Mandelbrot set locally connected?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-dyn-002
+    source_id_index_title_groups:
+    - normalized_title: mlc conjecture
+      titles:
+      - MLC Conjecture
+      source_pages:
+      - 7
+    - normalized_title: painleve
+      titles:
+      - The Painlevé Conjecture
+      source_pages:
+      - 4
+    content_fingerprint: 7bdde5e56329eaad32e78ec6da6c986db0a8a54fa8089dd697e2f1749ff5ad2f
+    normalized_title_key: null
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-geo-002-collision-mahler-s-conjecture-16a8ebf7
+  title: Mahler's Conjecture
+  source: UnsolvedMath
+  statement: Among all centrally symmetric convex bodies in $\mathbb{R}^n$, does the cube (or cross-polytope)
+    minimize the product of the body's volume and the vol
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=4
+  - https://www.unsolvedmath.com/problems/GEO-002
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: GEO-002
+    source_page: 4
+    source_pages:
+    - 4
+    source_url: https://www.unsolvedmath.com/problems/GEO-002
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Geometry
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Mahler's Conjecture
+    index_statement: Among all centrally symmetric convex bodies in $\mathbb{R}^n$, does the cube (or
+      cross-polytope) minimize the product of the body's volume and the vol
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-geo-002
+    source_id_index_title_groups:
+    - normalized_title: mahler
+      titles:
+      - Mahler's Conjecture
+      source_pages:
+      - 4
+    - normalized_title: sphere packing in higher dimensions
+      titles:
+      - Sphere Packing in Higher Dimensions
+      source_pages:
+      - 1
+    content_fingerprint: f84562f2a6584e7fc276bee83dd0d159cba8861a19e67d5246c5edef9f6bebb5
+    normalized_title_key: mahler
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-geo-003-collision-the-illumination-conjecture-912ad359
+  title: The Illumination Conjecture
+  source: UnsolvedMath
+  statement: Can every convex body in $n$-dimensional space be illuminated by at most $2^n$ point light
+    sources?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=4
+  - https://www.unsolvedmath.com/problems/GEO-003
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: GEO-003
+    source_page: 4
+    source_pages:
+    - 4
+    source_url: https://www.unsolvedmath.com/problems/GEO-003
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Geometry
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: The Illumination Conjecture
+    index_statement: Can every convex body in $n$-dimensional space be illuminated by at most $2^n$ point
+      light sources?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-geo-003
+    source_id_index_title_groups:
+    - normalized_title: illumination
+      titles:
+      - The Illumination Conjecture
+      source_pages:
+      - 4
+    - normalized_title: kakeya
+      titles:
+      - The Kakeya Conjecture
+      source_pages:
+      - 1
+    content_fingerprint: bd1dcf323073d859b1254cfc1f548957c1a9ff73cb7bece66a5ace45821e4549
+    normalized_title_key: illumination
+    duplicate_of: unsolvedmath-geom-008
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-geo-004-collision-kakeya-needle-problem-52728097
+  title: Kakeya Needle Problem
+  source: UnsolvedMath
+  statement: What is the minimum area of a region in the plane in which a unit line segment can be continuously
+    rotated through 360 degrees?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=4
+  - https://www.unsolvedmath.com/problems/GEO-004
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: GEO-004
+    source_page: 4
+    source_pages:
+    - 4
+    source_url: https://www.unsolvedmath.com/problems/GEO-004
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Geometry
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Kakeya Needle Problem
+    index_statement: What is the minimum area of a region in the plane in which a unit line segment can
+      be continuously rotated through 360 degrees?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-geo-004
+    source_id_index_title_groups:
+    - normalized_title: kakeya needle
+      titles:
+      - Kakeya Needle Problem
+      source_pages:
+      - 4
+    - normalized_title: moving sofa
+      titles:
+      - The Moving Sofa Problem
+      source_pages:
+      - 1
+    content_fingerprint: 3fb1eae06ea5800846bf695a6bfc7ade9e2a2b7fc596f7544f623f618cf12f0f
+    normalized_title_key: kakeya needle
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-geo-005-collision-bellman-s-lost-in-a-forest-problem-0b26c4da
+  title: Bellman's Lost in a Forest Problem
+  source: UnsolvedMath
+  statement: What is the shortest path that guarantees escape from a forest of known shape and size, starting
+    from an unknown location?
+  domain: geometry
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L3
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=4
+  - https://www.unsolvedmath.com/problems/GEO-005
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: GEO-005
+    source_page: 4
+    source_pages:
+    - 4
+    source_url: https://www.unsolvedmath.com/problems/GEO-005
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 3
+    difficulty_name: null
+    category: Geometry
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Bellman's Lost in a Forest Problem
+    index_statement: What is the shortest path that guarantees escape from a forest of known shape and
+      size, starting from an unknown location?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-geo-005
+    source_id_index_title_groups:
+    - normalized_title: bellman lost in forest
+      titles:
+      - Bellman's Lost in a Forest Problem
+      source_pages:
+      - 4
+    - normalized_title: inscribed square toeplitz
+      titles:
+      - Inscribed Square Problem (Toeplitz Conjecture)
+      source_pages:
+      - 1
+    content_fingerprint: 27b6dfeac4a52756f3a8b1fa22f18355e3cd545fea7eaebcda9a49b2760c2943
+    normalized_title_key: bellman lost in forest
+    duplicate_of: unsolvedmath-geom-025
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-graph-003-collision-graham-s-pebbling-conjecture-f042e194
+  title: Graham's Pebbling Conjecture
+  source: UnsolvedMath
+  statement: Is the pebbling number of the Cartesian product of two graphs at least the product of their
+    pebbling numbers?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=8
+  - https://www.unsolvedmath.com/problems/GRAPH-003
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: GRAPH-003
+    source_page: 8
+    source_pages:
+    - 8
+    source_url: https://www.unsolvedmath.com/problems/GRAPH-003
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Graph Theory
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Graham's Pebbling Conjecture
+    index_statement: Is the pebbling number of the Cartesian product of two graphs at least the product
+      of their pebbling numbers?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-graph-003
+    source_id_index_title_groups:
+    - normalized_title: cycle double cover
+      titles:
+      - Cycle Double Cover Conjecture
+      source_pages:
+      - 7
+    - normalized_title: graham pebbling
+      titles:
+      - Graham's Pebbling Conjecture
+      source_pages:
+      - 8
+    content_fingerprint: 3253f4c315916de893d2bcf1210a47367412cafcace18112dd12eaf261c90edf
+    normalized_title_key: graham pebbling
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-graph-004-collision-meyniel-s-conjecture-on-cop-number-1bc75821
+  title: Meyniel's Conjecture on Cop Number
+  source: UnsolvedMath
+  statement: Is the cop number of a connected n-vertex graph $O(\sqrt{n})$?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=8
+  - https://www.unsolvedmath.com/problems/GRAPH-004
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: GRAPH-004
+    source_page: 8
+    source_pages:
+    - 8
+    source_url: https://www.unsolvedmath.com/problems/GRAPH-004
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Graph Theory
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Meyniel's Conjecture on Cop Number
+    index_statement: Is the cop number of a connected n-vertex graph $O(\sqrt{n})$?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-graph-004
+    source_id_index_title_groups:
+    - normalized_title: erdos hajnal
+      titles:
+      - Erdős–Hajnal Conjecture
+      source_pages:
+      - 7
+    - normalized_title: meyniel on cop number
+      titles:
+      - Meyniel's Conjecture on Cop Number
+      source_pages:
+      - 8
+    content_fingerprint: 8a29d7944c35d832da24c70e1c0c7710e8e944895a927b71fc81aa1d8a427209
+    normalized_title_key: meyniel on cop number
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-graph-005-collision-graph-coloring-game-monotonicity-889b40d5
+  title: Graph Coloring Game Monotonicity
+  source: UnsolvedMath
+  statement: If Alice has a winning strategy for the vertex coloring game with k colors, does she have
+    one for k+1 colors?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L3
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=8
+  - https://www.unsolvedmath.com/problems/GRAPH-005
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: GRAPH-005
+    source_page: 8
+    source_pages:
+    - 8
+    source_url: https://www.unsolvedmath.com/problems/GRAPH-005
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 3
+    difficulty_name: null
+    category: Graph Theory
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Graph Coloring Game Monotonicity
+    index_statement: If Alice has a winning strategy for the vertex coloring game with k colors, does
+      she have one for k+1 colors?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-graph-005
+    source_id_index_title_groups:
+    - normalized_title: graph coloring game monotonicity
+      titles:
+      - Graph Coloring Game Monotonicity
+      source_pages:
+      - 8
+    - normalized_title: lovasz
+      titles:
+      - Lovász Conjecture
+      source_pages:
+      - 7
+    content_fingerprint: 3645806bc0830d06e022ed3582b41c6979dc6d06185111ba2048f97688b2f5f5
+    normalized_title_key: graph coloring game monotonicity
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-graph-006-collision-1-factorization-conjecture-fba3cc9d
+  title: 1-Factorization Conjecture
+  source: UnsolvedMath
+  statement: Does every k-regular graph on 2n vertices admit a 1-factorization when k ≥ n (or k ≥ n-1
+    for even n)?
+  domain: graph_theory
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=8
+  - https://www.unsolvedmath.com/problems/GRAPH-006
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: GRAPH-006
+    source_page: 8
+    source_pages:
+    - 8
+    source_url: https://www.unsolvedmath.com/problems/GRAPH-006
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Graph Theory
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: 1-Factorization Conjecture
+    index_statement: Does every k-regular graph on 2n vertices admit a 1-factorization when k ≥ n (or
+      k ≥ n-1 for even n)?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-graph-006
+    source_id_index_title_groups:
+    - normalized_title: 1 factorization
+      titles:
+      - 1-Factorization Conjecture
+      source_pages:
+      - 8
+    - normalized_title: hadwiger nelson
+      titles:
+      - Hadwiger–Nelson Problem
+      source_pages:
+      - 7
+    content_fingerprint: 83b41dcb12256edddc0f1e52f8aa62c911c0bf7a33c60c1b7388cdb6ae729ce7
+    normalized_title_key: 1 factorization
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-pde-001-collision-navier-stokes-existence-and-smoothne-2ba7314e
+  title: Navier-Stokes Existence and Smoothness
+  source: UnsolvedMath
+  statement: Do smooth solutions to Navier-Stokes equations exist globally in 3D? Or do finite-time singularities
+    occur?
+  domain: partial_differential_equations
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=10
+  - https://www.unsolvedmath.com/problems/PDE-001
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: PDE-001
+    source_page: 10
+    source_pages:
+    - 10
+    source_url: https://www.unsolvedmath.com/problems/PDE-001
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Partial Differential Equations
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Navier-Stokes Existence and Smoothness
+    index_statement: Do smooth solutions to Navier-Stokes equations exist globally in 3D? Or do finite-time
+      singularities occur?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-pde-001
+    source_id_index_title_groups:
+    - normalized_title: navier stokes existence and smoothness
+      titles:
+      - Navier-Stokes Existence and Smoothness
+      source_pages:
+      - 10
+    - normalized_title: regularity for euler equations
+      titles:
+      - The Regularity Problem for Euler Equations
+      source_pages:
+      - 1
+    content_fingerprint: e12f1476f7e42a1603c475205209e85a8e8c08b1dfecfa2750b1a1ac2b7ecfde
+    normalized_title_key: navier stokes existence and smoothness
+    duplicate_of: unsolvedmath-mpp-004
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-set-002-collision-suslin-s-problem-b7b025a5
+  title: Suslin's Problem
+  source: UnsolvedMath
+  statement: If a dense linear order without endpoints is complete and has the countable chain condition,
+    must it be isomorphic to the real numbers?
+  domain: set_theory
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=5
+  - https://www.unsolvedmath.com/problems/SET-002
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: SET-002
+    source_page: 5
+    source_pages:
+    - 5
+    source_url: https://www.unsolvedmath.com/problems/SET-002
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Set Theory
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Suslin's Problem
+    index_statement: If a dense linear order without endpoints is complete and has the countable chain
+      condition, must it be isomorphic to the real numbers?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-set-002
+    source_id_index_title_groups:
+    - normalized_title: singular cardinals hypothesis
+      titles:
+      - Singular Cardinals Hypothesis
+      source_pages:
+      - 1
+    - normalized_title: suslin
+      titles:
+      - Suslin's Problem
+      source_pages:
+      - 5
+    content_fingerprint: 3cefaf9b867f732993cd6575e38a7f20ece2e4860dc4b8e0b283c82225d4ef72
+    normalized_title_key: suslin
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-top-001-collision-baum-connes-conjecture-459fc24f
+  title: Baum-Connes Conjecture
+  source: UnsolvedMath
+  statement: Is the assembly map in K-theory an isomorphism for all locally compact groups?
+  domain: topology
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=10
+  - https://www.unsolvedmath.com/problems/TOP-001
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: TOP-001
+    source_page: 10
+    source_pages:
+    - 10
+    source_url: https://www.unsolvedmath.com/problems/TOP-001
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Topology
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Baum-Connes Conjecture
+    index_statement: Is the assembly map in K-theory an isomorphism for all locally compact groups?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-top-001
+    source_id_index_title_groups: &id008
+    - normalized_title: baum connes
+      titles:
+      - Baum-Connes Conjecture
+      source_pages:
+      - 10
+    - normalized_title: smooth 4 dimensional poincare
+      titles:
+      - Smooth 4-Dimensional Poincaré Conjecture
+      source_pages:
+      - 1
+    - normalized_title: unknotting
+      titles:
+      - Unknotting Problem
+      source_pages:
+      - 7
+    content_fingerprint: 528a576e46cae939ee3fdc5970be038da16b25b21d1f31b85051b1b531113142
+    normalized_title_key: baum connes
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-top-001-collision-unknotting-problem-562d1eb8
+  title: Unknotting Problem
+  source: UnsolvedMath
+  statement: Can unknots be recognized in polynomial time?
+  domain: topology
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=7
+  - https://www.unsolvedmath.com/problems/TOP-001
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: TOP-001
+    source_page: 7
+    source_pages:
+    - 7
+    source_url: https://www.unsolvedmath.com/problems/TOP-001
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Topology
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Unknotting Problem
+    index_statement: Can unknots be recognized in polynomial time?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-top-001
+    source_id_index_title_groups: *id008
+    content_fingerprint: e4c60a6e58e31c64d69cc8d30845fe563caed718506754d53252d5ed95994276
+    normalized_title_key: unknotting
+    duplicate_of: unsolvedmath-top-006
+    duplicate_match: exact_content
+- problem_id: unsolvedmath-top-002-collision-berge-conjecture-41d72d92
+  title: Berge Conjecture
+  source: UnsolvedMath
+  statement: Are Berge knots the only knots in S³ admitting lens space surgeries?
+  domain: topology
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L4
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=10
+  - https://www.unsolvedmath.com/problems/TOP-002
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: TOP-002
+    source_page: 10
+    source_pages:
+    - 10
+    source_url: https://www.unsolvedmath.com/problems/TOP-002
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 4
+    difficulty_name: null
+    category: Topology
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Berge Conjecture
+    index_statement: Are Berge knots the only knots in S³ admitting lens space surgeries?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-top-002
+    source_id_index_title_groups: &id009
+    - normalized_title: berge
+      titles:
+      - Berge Conjecture
+      source_pages:
+      - 10
+    - normalized_title: borel
+      titles:
+      - Borel Conjecture
+      source_pages:
+      - 7
+    - normalized_title: volume
+      titles:
+      - The Volume Conjecture
+      source_pages:
+      - 1
+    content_fingerprint: 0f9034402fe144d7230ca4b769257a500fc259c6a40acf5344dc8a4b524c629c
+    normalized_title_key: berge
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-top-002-collision-borel-conjecture-0eb6cdd6
+  title: Borel Conjecture
+  source: UnsolvedMath
+  statement: Are aspherical closed manifolds determined up to homeomorphism by their fundamental groups?
+  domain: topology
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=7
+  - https://www.unsolvedmath.com/problems/TOP-002
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: TOP-002
+    source_page: 7
+    source_pages:
+    - 7
+    source_url: https://www.unsolvedmath.com/problems/TOP-002
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Topology
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Borel Conjecture
+    index_statement: Are aspherical closed manifolds determined up to homeomorphism by their fundamental
+      groups?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-top-002
+    source_id_index_title_groups: *id009
+    content_fingerprint: 6633ed5231eb9d793f33118335ad7f5214db86f624869da10fb4acaf4d98c4ce
+    normalized_title_key: borel
+    duplicate_of: null
+    duplicate_match: null
+- problem_id: unsolvedmath-top-003-collision-borel-conjecture-0eb6cdd6
+  title: Borel Conjecture
+  source: UnsolvedMath
+  statement: Are aspherical closed manifolds determined up to homeomorphism by their fundamental groups?
+  domain: topology
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=10
+  - https://www.unsolvedmath.com/problems/TOP-003
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: TOP-003
+    source_page: 10
+    source_pages:
+    - 10
+    source_url: https://www.unsolvedmath.com/problems/TOP-003
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Topology
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Borel Conjecture
+    index_statement: Are aspherical closed manifolds determined up to homeomorphism by their fundamental
+      groups?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-top-003
+    source_id_index_title_groups: &id010
+    - normalized_title: borel
+      titles:
+      - Borel Conjecture
+      source_pages:
+      - 10
+    - normalized_title: volume
+      titles:
+      - Volume Conjecture
+      source_pages:
+      - 7
+    - normalized_title: 'whitehead:'
+      titles:
+      - The Whitehead Conjecture
+      source_pages:
+      - 4
+    content_fingerprint: 6633ed5231eb9d793f33118335ad7f5214db86f624869da10fb4acaf4d98c4ce
+    normalized_title_key: borel
+    duplicate_of: unsolvedmath-top-002-collision-borel-conjecture-0eb6cdd6
+    duplicate_match: exact_content
+- problem_id: unsolvedmath-top-003-collision-volume-conjecture-34084fb8
+  title: Volume Conjecture
+  source: UnsolvedMath
+  statement: Do quantum invariants of knots relate asymptotically to hyperbolic volume?
+  domain: topology
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=7
+  - https://www.unsolvedmath.com/problems/TOP-003
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: TOP-003
+    source_page: 7
+    source_pages:
+    - 7
+    source_url: https://www.unsolvedmath.com/problems/TOP-003
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Topology
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Volume Conjecture
+    index_statement: Do quantum invariants of knots relate asymptotically to hyperbolic volume?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-top-003
+    source_id_index_title_groups: *id010
+    content_fingerprint: 39b378c2cced068de981ea23f74638238463cf342110c1ef64fedd28fe079b3d
+    normalized_title_key: volume
+    duplicate_of: unsolvedmath-top-002
+    duplicate_match: normalized_title
+- problem_id: unsolvedmath-top-004-collision-hilbert-smith-conjecture-0c267075
+  title: Hilbert-Smith Conjecture
+  source: UnsolvedMath
+  statement: If a locally compact group acts faithfully and continuously on a manifold, must it be a Lie
+    group?
+  domain: topology
+  tags:
+  - unsolvedmath
+  - research_problem
+  - difficulty_L5
+  - index_collision_variant
+  - source_data_conflict
+  - duplicate_record
+  open_problem: true
+  formalized: 'no'
+  notes: Imported from an UnsolvedMath browse-index card whose source id is also used by a different detail-page
+    problem. Recover an authoritative detail statement before attack.
+  references:
+  - https://www.unsolvedmath.com/problems?page=10
+  - https://www.unsolvedmath.com/problems/TOP-004
+  hypotheses:
+  - Treat a counterexample as provisional until its witness is checked by an independent verifier.
+  - A bounded search without a witness is evidence only for the stated finite range.
+  recommended_strategy:
+  - Normalize the exact quantifiers and definitions before executable search.
+  - Search the smallest admissible objects first and persist a reproducible witness certificate.
+  - If the full claim is not finitely refutable, isolate universal or equivalence subclaims.
+  metadata:
+    research_collection: research_open_problem_collections
+    source_catalog: unsolvedmath
+    source_id: TOP-004
+    source_page: 10
+    source_pages:
+    - 10
+    source_url: https://www.unsolvedmath.com/problems/TOP-004
+    source_internal_id: null
+    status: open
+    index_status: open
+    detail_status: null
+    published: true
+    difficulty_level: 5
+    difficulty_name: null
+    category: Topology
+    proposed_by: null
+    proposed_year: null
+    source_created_at: null
+    source_updated_at: null
+    detail_fetched_at: null
+    source_page_sha256: null
+    statement_quality: index_collision_snippet
+    index_title: Hilbert-Smith Conjecture
+    index_statement: If a locally compact group acts faithfully and continuously on a manifold, must it
+      be a Lie group?
+    source_consistency_flags:
+    - source_id_collision
+    - detail_statement_unavailable_for_index_variant
+    sets: []
+    erdos_set_member: false
+    source_id_collision: true
+    canonical_source_record_id: unsolvedmath-top-004
+    source_id_index_title_groups:
+    - normalized_title: hilbert smith
+      titles:
+      - Hilbert-Smith Conjecture
+      source_pages:
+      - 10
+    - normalized_title: novikov
+      titles:
+      - Novikov Conjecture
+      source_pages:
+      - 7
+    content_fingerprint: d37ef46ac397785ecf77115d57f7617abb937a28412b0664c6c1553f4180e786
+    normalized_title_key: hilbert smith
+    duplicate_of: unsolvedmath-opg-37297
+    duplicate_match: normalized_title

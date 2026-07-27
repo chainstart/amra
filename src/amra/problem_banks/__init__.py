@@ -17,6 +17,13 @@ from amra.problem_banks.registry import (
     save_bank_registry,
     save_problem_bank,
 )
+from amra.problem_banks.unsolvedmath import (
+    UnsolvedMathImporter,
+    import_unsolvedmath_snapshot,
+    parse_unsolvedmath_detail_page,
+    parse_unsolvedmath_index_page,
+    parse_unsolvedmath_sets_page,
+)
 
 __all__ = [
     "DEFAULT_BANK_PATH",
@@ -32,4 +39,9 @@ __all__ = [
     "resolve_bank_path",
     "save_bank_registry",
     "save_problem_bank",
+    "UnsolvedMathImporter",
+    "import_unsolvedmath_snapshot",
+    "parse_unsolvedmath_detail_page",
+    "parse_unsolvedmath_index_page",
+    "parse_unsolvedmath_sets_page",
 ]

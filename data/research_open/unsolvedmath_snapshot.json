@@ -1,0 +1,156 @@
+{
+  "schema_version": "amra.unsolvedmath_snapshot.v1",
+  "generated_at": "2026-07-26T15:38:23+00:00",
+  "source_url": "https://www.unsolvedmath.com",
+  "index_and_sets_refreshed_this_run": false,
+  "details_refreshed_this_run": false,
+  "last_index_and_sets_refresh_at": "2026-07-26T15:22:43+00:00",
+  "detail_fetch_window": {
+    "started_at": "2026-07-26T14:51:19+00:00",
+    "finished_at": "2026-07-26T14:56:19+00:00"
+  },
+  "counts": {
+    "index_records": 2033,
+    "index_page_count": 42,
+    "index_card_rows": 2084,
+    "index_unique_source_ids": 2033,
+    "index_title_concepts": 2077,
+    "index_duplicate_card_occurrences": 51,
+    "index_source_ids_repeated_across_pages": 35,
+    "source_ids_with_title_collisions": 33,
+    "source_id_collision_records": 44,
+    "detail_records": 2033,
+    "detail_errors": 0,
+    "all_records": 2077,
+    "open_records": 2068,
+    "erdos_open_records": 632,
+    "open_non_erdos_records": 1436,
+    "open_non_erdos_canonical": 1332,
+    "duplicate_records": 104,
+    "exact_content_duplicate_records": 6,
+    "normalized_title_duplicate_records": 98,
+    "source_conflict_records": 56,
+    "canonical_source_conflict_records": 12
+  },
+  "sets": [
+    {
+      "set_id": 1,
+      "name": "Millennium Prize Problems",
+      "description": "Seven problems selected by the Clay Mathematics Institute in 2000, each with a $1,000,000 prize for solution.",
+      "reported_problem_count": 6,
+      "downloaded_problem_count": 6,
+      "page_count": 1
+    },
+    {
+      "set_id": 2,
+      "name": "Hilbert's 23 Problems",
+      "description": "David Hilbert's list of 23 unsolved problems presented at the International Congress of Mathematicians in Paris in 1900.",
+      "reported_problem_count": 12,
+      "downloaded_problem_count": 12,
+      "page_count": 1
+    },
+    {
+      "set_id": 3,
+      "name": "Ben Green's 100 Open Problems",
+      "description": "A collection of 100 open problems in additive combinatorics and related areas, compiled by Ben Green.",
+      "reported_problem_count": 85,
+      "downloaded_problem_count": 85,
+      "page_count": 2
+    },
+    {
+      "set_id": 4,
+      "name": "DARPA's 23 Mathematical Challenges",
+      "description": "Mathematical challenges identified by DARPA to drive fundamental research in mathematics.",
+      "reported_problem_count": 17,
+      "downloaded_problem_count": 17,
+      "page_count": 1
+    },
+    {
+      "set_id": 5,
+      "name": "Smale's Problems",
+      "description": "Steve Smale's list of mathematical problems for the 21st century.",
+      "reported_problem_count": 8,
+      "downloaded_problem_count": 8,
+      "page_count": 1
+    },
+    {
+      "set_id": 6,
+      "name": "Landau's Problems",
+      "description": "Four basic problems about prime numbers posed by Edmund Landau at the 1912 International Congress of Mathematicians.",
+      "reported_problem_count": 1,
+      "downloaded_problem_count": 1,
+      "page_count": 1
+    },
+    {
+      "set_id": 7,
+      "name": "Hardy-Littlewood Conjectures",
+      "description": "A collection of fundamental conjectures on prime numbers, Goldbach-type problems, and Waring's problem from the \"Partitio Numerorum\" papers (1919-1923) by G.H. Hardy and J.E. Littlewood.",
+      "reported_problem_count": 3,
+      "downloaded_problem_count": 3,
+      "page_count": 1
+    },
+    {
+      "set_id": 8,
+      "name": "Erdős Problems",
+      "description": "A collection of open problems posed by Paul Erdős, one of the most prolific mathematicians of the 20th century. These problems span combinatorics, number theory, graph theory, and analysis.",
+      "reported_problem_count": 632,
+      "downloaded_problem_count": 632,
+      "page_count": 13
+    },
+    {
+      "set_id": 9,
+      "name": "Richard Guy - A: Prime Numbers",
+      "description": "Problems from Chapter A (Prime Numbers) of Richard Guy's \"Unsolved Problems in Number Theory\", a comprehensive collection of open questions in prime number theory.",
+      "reported_problem_count": 22,
+      "downloaded_problem_count": 22,
+      "page_count": 1
+    },
+    {
+      "set_id": 10,
+      "name": "Kourovka Notebook - New Problems, Issue 21",
+      "description": "New group theory problems from the 21st issue of the Kourovka Notebook, published in 2026.",
+      "reported_problem_count": 150,
+      "downloaded_problem_count": 150,
+      "page_count": 3
+    },
+    {
+      "set_id": 11,
+      "name": "Kirby's Problems in Low-Dimensional Topology",
+      "description": "Problems from Kirby-style notes on low-dimensional topology, including knot theory, 3-manifolds, 4-manifolds, and related invariants.",
+      "reported_problem_count": 366,
+      "downloaded_problem_count": 366,
+      "page_count": 8
+    },
+    {
+      "set_id": 12,
+      "name": "OpenGarden",
+      "description": "Problems imported from the Open Problem Garden collection, using source statements, discussion notes, and subject metadata.",
+      "reported_problem_count": 422,
+      "downloaded_problem_count": 422,
+      "page_count": 9
+    }
+  ],
+  "artifacts": {
+    "raw_index_root": "/home/biostar/work/amra/data/research_open/raw/unsolvedmath",
+    "detail_snapshot": "/home/biostar/work/amra/data/research_open/raw/unsolvedmath/problem_details.jsonl",
+    "detail_errors": "/home/biostar/work/amra/data/research_open/raw/unsolvedmath/problem_detail_errors.json",
+    "all_bank": "/home/biostar/work/amra/data/banks/unsolvedmath_all.yaml",
+    "open_bank": "/home/biostar/work/amra/data/banks/unsolvedmath_open.yaml",
+    "open_non_erdos_bank": "/home/biostar/work/amra/data/banks/unsolvedmath_open_non_erdos.yaml",
+    "source_id_collisions_bank": "/home/biostar/work/amra/data/banks/unsolvedmath_source_id_collisions.yaml"
+  },
+  "checksums_sha256": {
+    "detail_snapshot": "39c7020520aed0ff037774e936689ce4d6a78987153c8bebe1efe4fa3f558700",
+    "all_bank": "6fc934dfcd8503c476d925d75825af927649b566a319c604589c6bb6608e45fb",
+    "open_bank": "4c87842470c10503a78a3af2bf4ca24aed46afb8e7ce6484eb1891dd8616a0d4",
+    "open_non_erdos_bank": "5c42d5ea3675dd39e7e48a0d53a49344eb78076cae946962c5bad2763a3a0631",
+    "source_id_collisions_bank": "e6ac7534c345682f444517e6dcd0493ec2db5ee8e30cef77f5380dd4287cb96a"
+  },
+  "policy": {
+    "open_status_source": "detail page when available; browse index fallback otherwise",
+    "erdos_exclusion": "membership in UnsolvedMath set 8 or EP-{number} source id",
+    "deduplication": "exact normalized title-plus-statement fingerprint plus conservative normalized-title aliases; the canonical record is chosen by source-consistency quality",
+    "source_id_collisions": "Distinct browse-index titles sharing one source id are preserved as index-collision records; they require statement recovery because the shared detail URL is ambiguous",
+    "detail_storage": "extracted Next.js problem payload plus source page SHA-256; raw detail HTML is not redistributed"
+  }
+}

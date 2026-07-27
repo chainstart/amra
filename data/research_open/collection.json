@@ -1,13 +1,17 @@
 {
   "collection_id": "research_open_problem_collections",
-  "generated_at": "2026-05-21T05:23:31+00:00",
+  "generated_at": "2026-07-26T15:38:23+00:00",
   "purpose": "Provide high-priority research-level open problem collections for AMRA triage, proof discovery, and Lean/formalization research planning.",
   "raw_root": "data/research_open/raw",
   "banks": {
     "formal_conjectures_open_research": "data/banks/formal_conjectures_open_research.yaml",
     "formal_conjectures_all": "data/banks/formal_conjectures_all.yaml",
     "unsolvedmath_index": "data/banks/unsolvedmath_index.yaml",
-    "aim_problem_lists": "data/banks/aim_problem_lists.yaml"
+    "aim_problem_lists": "data/banks/aim_problem_lists.yaml",
+    "unsolvedmath_all": "data/banks/unsolvedmath_all.yaml",
+    "unsolvedmath_open": "data/banks/unsolvedmath_open.yaml",
+    "unsolvedmath_open_non_erdos": "data/banks/unsolvedmath_open_non_erdos.yaml",
+    "unsolvedmath_source_id_collisions": "data/banks/unsolvedmath_source_id_collisions.yaml"
   },
   "sources": [
     {
@@ -35,21 +39,47 @@
       "id": "unsolvedmath",
       "name": "UnsolvedMath",
       "source_url": "https://www.unsolvedmath.com",
-      "license": "Source-specific; verify before redistribution of detail pages",
+      "synced_at": "2026-07-26T15:38:23+00:00",
+      "license": "Source-specific; raw detail HTML is not redistributed by this snapshot",
       "local_path": "data/research_open/raw/unsolvedmath",
       "formats": [
-        "html_index"
+        "html_index",
+        "nextjs_problem_payload",
+        "jsonl",
+        "yaml"
       ],
       "modalities": [
-        "natural_language_problem_index",
+        "natural_language_problem_statement",
         "difficulty_metadata",
-        "category_metadata"
+        "category_metadata",
+        "problem_set_membership",
+        "source_consistency_audit"
       ],
       "difficulty": "advanced_to_millennium",
       "counts": {
-        "index_records": 2033
+        "index_records": 2033,
+        "index_page_count": 42,
+        "index_card_rows": 2084,
+        "index_unique_source_ids": 2033,
+        "index_title_concepts": 2077,
+        "index_duplicate_card_occurrences": 51,
+        "index_source_ids_repeated_across_pages": 35,
+        "source_ids_with_title_collisions": 33,
+        "source_id_collision_records": 44,
+        "detail_records": 2033,
+        "detail_errors": 0,
+        "all_records": 2077,
+        "open_records": 2068,
+        "erdos_open_records": 632,
+        "open_non_erdos_records": 1436,
+        "open_non_erdos_canonical": 1332,
+        "duplicate_records": 104,
+        "exact_content_duplicate_records": 6,
+        "normalized_title_duplicate_records": 98,
+        "source_conflict_records": 56,
+        "canonical_source_conflict_records": 12
       },
-      "recommended_use": "Large triage index; fetch and validate detail pages before proof work."
+      "recommended_use": "Use the canonical non-Erdos open bank for counterexample campaigns; reconcile records with title conflicts before mathematical attack."
     },
     {
       "id": "aim_problem_lists",

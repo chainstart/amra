@@ -7,6 +7,7 @@ import json
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import time
 from dataclasses import dataclass
@@ -20,6 +21,13 @@ import yaml
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+SRC_ROOT = REPO_ROOT / "src"
+if str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from amra.problem_banks.unsolvedmath import UnsolvedMathImporter
+
+
 DATA_ROOT = REPO_ROOT / "data"
 RESEARCH_OPEN_ROOT = DATA_ROOT / "research_open"
 RAW_ROOT = RESEARCH_OPEN_ROOT / "raw"
@@ -47,6 +55,9 @@ class ImportCounts:
     formal_conjectures_total: int = 0
     formal_conjectures_open_research: int = 0
     unsolvedmath_total: int = 0
+    unsolvedmath_open: int = 0
+    unsolvedmath_open_non_erdos: int = 0
+    unsolvedmath_source_id_collisions: int = 0
     aim_problem_lists_total: int = 0
 
 
@@ -383,20 +394,12 @@ def parse_unsolvedmath_card(card_id: str, block: str, *, page: int) -> dict[str,
 
 
 def import_unsolvedmath(*, refresh: bool, delay: float) -> list[dict[str, Any]]:
-    paths = fetch_unsolvedmath_pages(refresh=refresh, delay=delay)
-    records: dict[str, dict[str, Any]] = {}
-    for path in paths:
-        page_match = re.search(r"(\d+)", path.stem)
-        page = int(page_match.group(1)) if page_match else 0
-        text = path.read_text(encoding="utf-8", errors="ignore")
-        for card_id, block in re.findall(r'<a href="/problems/([^"]+)"[^>]*>(.*?)</a>', text, re.DOTALL):
-            record = parse_unsolvedmath_card(card_id, block, page=page)
-            if record:
-                records[record["problem_id"]] = record
-    ordered = [records[key] for key in sorted(records)]
-    ensure_unique_problem_ids(ordered)
-    write_yaml(BANK_ROOT / "unsolvedmath_index.yaml", ordered)
-    return ordered
+    UnsolvedMathImporter(
+        repo_root=REPO_ROOT,
+        workers=6,
+        request_delay=delay,
+    ).run(refresh=refresh, refresh_details=refresh)
+    return list(read_yaml(BANK_ROOT / "unsolvedmath_all.yaml"))
 
 
 def fetch_aim_problem_lists(*, refresh: bool) -> Path:
@@ -479,6 +482,10 @@ def update_collection_json(
             "formal_conjectures_open_research": "data/banks/formal_conjectures_open_research.yaml",
             "formal_conjectures_all": "data/banks/formal_conjectures_all.yaml",
             "unsolvedmath_index": "data/banks/unsolvedmath_index.yaml",
+            "unsolvedmath_all": "data/banks/unsolvedmath_all.yaml",
+            "unsolvedmath_open": "data/banks/unsolvedmath_open.yaml",
+            "unsolvedmath_open_non_erdos": "data/banks/unsolvedmath_open_non_erdos.yaml",
+            "unsolvedmath_source_id_collisions": "data/banks/unsolvedmath_source_id_collisions.yaml",
             "aim_problem_lists": "data/banks/aim_problem_lists.yaml",
         },
         "sources": [
@@ -504,11 +511,25 @@ def update_collection_json(
                 "source_url": UNSOLVEDMATH_BASE,
                 "license": "Source-specific; verify before redistribution of detail pages",
                 "local_path": str(UNSOLVEDMATH_RAW.relative_to(REPO_ROOT)),
-                "formats": ["html_index"],
-                "modalities": ["natural_language_problem_index", "difficulty_metadata", "category_metadata"],
+                "formats": ["html_index", "nextjs_problem_payload", "jsonl", "yaml"],
+                "modalities": [
+                    "natural_language_problem_statement",
+                    "difficulty_metadata",
+                    "category_metadata",
+                    "problem_set_membership",
+                    "source_consistency_audit",
+                ],
                 "difficulty": "advanced_to_millennium",
-                "counts": {"index_records": counts.unsolvedmath_total},
-                "recommended_use": "Large triage index; fetch and validate detail pages before proof work.",
+                "counts": {
+                    "all_records": counts.unsolvedmath_total,
+                    "open_records": counts.unsolvedmath_open,
+                    "open_non_erdos_canonical": counts.unsolvedmath_open_non_erdos,
+                    "source_id_collision_records": counts.unsolvedmath_source_id_collisions,
+                },
+                "recommended_use": (
+                    "Use the canonical non-Erdos bank for counterexample campaigns and reconcile "
+                    "index/detail title conflicts before mathematical attack."
+                ),
             },
             {
                 "id": "aim_problem_lists",
@@ -556,7 +577,10 @@ AMRA bank records under `data/banks/`.
 | --- | --- | ---: | --- |
 | Formal Conjectures | `formal_conjectures_open_research` | {counts.formal_conjectures_open_research} | Lean 4 formal research conjecture proof targets |
 | Formal Conjectures | `formal_conjectures_all` | {counts.formal_conjectures_total} | Full formal statement corpus, including solved/textbook/test categories |
-| UnsolvedMath | `unsolvedmath_index` | {counts.unsolvedmath_total} | Large natural-language open problem triage index |
+| UnsolvedMath | `unsolvedmath_all` | {counts.unsolvedmath_total} | Full normalized snapshot and source audit |
+| UnsolvedMath | `unsolvedmath_open` | {counts.unsolvedmath_open} | Records currently marked open |
+| UnsolvedMath | `unsolvedmath_open_non_erdos` | {counts.unsolvedmath_open_non_erdos} | Canonical non-Erdos counterexample queue |
+| UnsolvedMath | `unsolvedmath_source_id_collisions` | {counts.unsolvedmath_source_id_collisions} | Ambiguous index records requiring source recovery |
 | AIM Problem Lists | `aim_problem_lists` | {counts.aim_problem_lists_total} | Curated research problem-list source inventory |
 
 Formal Conjectures revision: `{formal_revision}`
@@ -565,16 +589,36 @@ Formal Conjectures revision: `{formal_revision}`
 
 - Formal Conjectures records are the best immediate research targets because the
   theorem statements are already Lean 4 declarations.
-- UnsolvedMath records are imported from browse-index pages and may contain
-  shortened statements. Fetch the detail page and validate status before proof
-  search.
+- UnsolvedMath detail statements, statuses, set memberships, and source-page
+  hashes are stored locally. Records with index/detail title conflicts require
+  source reconciliation before proof or counterexample work.
 - AIM records point to problem-list collections, not single theorem statements.
   Extract individual problems into curated sub-banks before running agents.
+
+## Counterexample Campaign
+
+The resumable first-pass campaign writes one result per canonical non-Erdos
+problem under `unsolvedmath_counterexample_campaign/`. Re-run it with:
+
+```bash
+python3 run.py discovery campaign-counterexamples \\
+  --bank data/banks/unsolvedmath_open_non_erdos.yaml \\
+  --out data/research_open/unsolvedmath_counterexample_campaign
+```
+
+Only replayable finite witnesses may be promoted to counterexample candidates.
+A search that exhausts its recorded bound is not a proof of the conjecture.
 
 ## Refresh
 
 ```bash
 python3 scripts/import_research_open_sources.py --refresh
+```
+
+Refresh only UnsolvedMath:
+
+```bash
+python3 scripts/import_unsolvedmath.py --refresh
 ```
 """
     RESEARCH_OPEN_ROOT.mkdir(parents=True, exist_ok=True)
@@ -661,7 +705,7 @@ def existing_collection_timestamp() -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Import high-priority research open problem collections into AMRA banks.")
     parser.add_argument("--refresh", action="store_true", help="Refetch raw sources before parsing.")
-    parser.add_argument("--delay", type=float, default=0.25, help="Delay between UnsolvedMath index page requests.")
+    parser.add_argument("--delay", type=float, default=0.25, help="Delay after each UnsolvedMath request per worker.")
     args = parser.parse_args()
     generated_at = utc_now_iso() if args.refresh else (existing_collection_timestamp() or utc_now_iso())
 
@@ -672,6 +716,19 @@ def main() -> None:
         formal_conjectures_total=len(formal_records),
         formal_conjectures_open_research=sum(1 for record in formal_records if record["open_problem"]),
         unsolvedmath_total=len(unsolved_records),
+        unsolvedmath_open=sum(1 for record in unsolved_records if record["open_problem"]),
+        unsolvedmath_open_non_erdos=sum(
+            1
+            for record in unsolved_records
+            if record["open_problem"]
+            and not record.get("metadata", {}).get("erdos_set_member")
+            and not record.get("metadata", {}).get("duplicate_of")
+        ),
+        unsolvedmath_source_id_collisions=sum(
+            1
+            for record in unsolved_records
+            if record.get("metadata", {}).get("source_id_collision")
+        ),
         aim_problem_lists_total=len(aim_records),
     )
     update_collection_json(counts=counts, formal_revision=formal_revision, generated_at=generated_at)
