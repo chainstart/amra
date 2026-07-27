@@ -1,0 +1,51 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v2",
+  "search_engine_version": "amra.counterexample_first_batch.engine.v2",
+  "search_config_fingerprint": "19eb55b50034d819186591c1b01491bf895365c4af52671f3e934b3340bd2802",
+  "search_generation": 2,
+  "problem_id": "unsolvedmath-opg-145",
+  "source_id": "OPG-145",
+  "title": "Acyclic edge-colouring",
+  "statement_hash": "0be045ea4c70b436c937ce5f0e6e9e58a9109039fa1192985cd30bbb4a12bbd1",
+  "generated_at": "2026-07-27T00:56:46+00:00",
+  "duration_seconds": 2.268829,
+  "outcome": "no_candidate_in_bounded_range",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": {
+    "hypothesis": "G is a finite simple graph of maximum degree Delta.",
+    "conclusion": "G has a proper (Delta+2)-edge-coloring with no bichromatic cycle.",
+    "counterexample_condition": "G is a finite simple graph of maximum degree Delta. and NOT (G has a proper (Delta+2)-edge-coloring with no bichromatic cycle.)",
+    "witness": "A canonical graph plus an exhaustive finite edge-coloring CSP failure certificate."
+  },
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "executor_id": "first_batch.opg-145.v1",
+    "status": "bounded_search_no_counterexample",
+    "outcome": "no_candidate_in_bounded_range",
+    "bounds": {
+      "max_vertices": 6,
+      "max_cases": 0,
+      "max_cases_per_checkpoint": 50000
+    },
+    "checked_cases": 33867,
+    "candidate": null,
+    "notes": [
+      "A finite search without a candidate is not a proof of the original unbounded statement.",
+      "Any candidate must be replayed by an independent implementation before promotion."
+    ],
+    "deterministic": true,
+    "replayable": true,
+    "model_contract": {
+      "hypothesis": "G is a finite simple graph of maximum degree Delta.",
+      "conclusion": "G has a proper (Delta+2)-edge-coloring with no bichromatic cycle.",
+      "counterexample_condition": "G is a finite simple graph of maximum degree Delta. and NOT (G has a proper (Delta+2)-edge-coloring with no bichromatic cycle.)",
+      "witness": "A canonical graph plus an exhaustive finite edge-coloring CSP failure certificate."
+    },
+    "checkpoint": {
+      "next_case": 33867
+    }
+  },
+  "attempt_artifact": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/attempts/unsolvedmath-opg-145/attempt-000042.json"
+}

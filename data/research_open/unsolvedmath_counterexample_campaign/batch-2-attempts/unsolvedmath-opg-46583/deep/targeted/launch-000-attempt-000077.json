@@ -1,0 +1,62 @@
+{
+  "attempt_id": 77,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 9
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "889e6244cdf5d50e8e1d75025bb7fc8a26e1222f26e8dcebd65d16475cbd8738",
+  "deterministic_seed": 5914717059502708346,
+  "duration_seconds": 600.244282,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 9,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 7,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 9,
+        "time_seconds": 600
+      },
+      "next_case": 7,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 8,
+      "premise_cases": 7,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "E(G) partitions into at most floor((n+1)/2) nonempty simple paths",
+      "counterexample": "G is simple and connected and NOT (E(G) partitions into at most floor((n+1)/2) nonempty simple paths)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is simple and connected"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-46583",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-889e6244cdf5d50e8e1d75025bb7fc8a26e1222f",
+  "worker_id": "batch2-worker-15"
+}

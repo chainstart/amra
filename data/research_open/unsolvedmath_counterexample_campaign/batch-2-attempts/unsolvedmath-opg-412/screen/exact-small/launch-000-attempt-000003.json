@@ -1,0 +1,85 @@
+{
+  "attempt_id": 3,
+  "budget": {
+    "max_cases": 10000,
+    "memory_mb": 1024,
+    "parameters": {
+      "k_values": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "max_vertices": 7
+    },
+    "time_seconds": 60
+  },
+  "config_fingerprint": "7a18bb9d30ebe1544a24a3ac43bdf483b06f4563bd7654e3ba9d11f4b7e94f39",
+  "deterministic_seed": 5166948637950610600,
+  "duration_seconds": 2.860486,
+  "executor_result": {
+    "bounds": {
+      "k_values": [
+        2,
+        3,
+        4,
+        5
+      ],
+      "max_cases": 10000,
+      "max_vertices": 7,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 1252,
+    "checkpoint": {
+      "bounds": {
+        "k_values": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "max_cases": 10000,
+        "max_vertices": 7,
+        "time_seconds": 60
+      },
+      "next_case": 1252,
+      "strategy_id": "exact-small"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "frontier_premise_cases": 0,
+      "generated_cases": 1252,
+      "known_frontier_exceeded": false,
+      "max_graph_edge_count_seen": 21,
+      "max_graph_order_seen": 7,
+      "premise_cases": 79,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "G has a graph homomorphism to the cycle C_(2k+1)",
+      "counterexample": "G is planar and has girth at least 4k for one of k in {2,3,4,5} and NOT (G has a graph homomorphism to the cycle C_(2k+1))",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is planar and has girth at least 4k for one of k in {2,3,4,5}",
+      "source_statement": "Every planar graph of girth at least 4k has a homomorphism to C_(2k+1)."
+    },
+    "outcome": "no_candidate",
+    "stop_reason": "finite_bound_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-412",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-7a18bb9d30ebe1544a24a3ac43bdf483b06f4563",
+  "worker_id": "batch2-worker-6"
+}

@@ -1,0 +1,58 @@
+{
+  "attempt": {
+    "artifact_canonical_json_sha256": "4ca2da7b509d8e266a2b8edb0f139e9d1ea5a9056e1fa87463505a11c4be6b93",
+    "artifact_path": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/batch-2-attempts/unsolvedmath-kou-21.137/deep/p-groups/launch-000-attempt-000173.json",
+    "artifact_sha256": "4a0186096508cd98075faa31207269f4a6227bde007a724b62613aa2fca6e3fe",
+    "attempt_id": 173,
+    "checked_cases": 2196,
+    "config_fingerprint": "3ca1e2a0ec33a375b6b0340cde66a2ce6b2924a210d1ed48901374dff50a215f",
+    "task_id": "batch-task-3ca1e2a0ec33a375b6b0340cde66a2ce6b2924a2"
+  },
+  "candidate_binding": {
+    "canonical_json_sha256": "80248557557a07705eeac1d49f65c048e52933fdee1212a7d45b2530c2fa39cd",
+    "group_catalog": "GAP SmallGroups",
+    "group_id": [
+      128,
+      928
+    ],
+    "group_index": 928,
+    "group_order": 128,
+    "matches_certificate_catalog": true,
+    "matches_database_fingerprint": true,
+    "matches_database_producer": true,
+    "prime": 2
+  },
+  "candidate_fingerprint": "80248557557a07705eeac1d49f65c048e52933fdee1212a7d45b2530c2fa39cd",
+  "certificate": {
+    "embedded_payload_compressed_sha256": "f6bfda3fd57c1c462f384e10abb69fe04a863ef447cb77cd409fb86cc8c8d3de",
+    "embedded_payload_uncompressed_sha256": "73007ea549c2026b0553477b2e9c8b5e45ffa59315501ce84509150b36679af4",
+    "exporter_sha256": "c9e0eaff5f5563f9a404bc1c64072a26017dadb55a5066ba02760a1a77452d92",
+    "path": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/candidate_audits/kou-21.137-smallgroup-128-928/certificate.json",
+    "pipeline_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "sha256": "d9ecca5e40d88a890ea103acbbe9efda354c9219ebc79e4d7908b5c74cf64bf5",
+    "verifier_sha256": "7a2f19f7c387547128c9e0d4f34316e58a5bd29b07cee6c9da704c127b7d9540"
+  },
+  "conclusion": "verified_counterexample_to_explicit_subclaim",
+  "direct_gap_replay": {
+    "gap_version": "4.12.1",
+    "output": "VERIFY|true|128|928|128|2|8|16|16|false|96",
+    "output_sha256": "7363433e2c64425ce9bb091a76cc9376c1a0cc2d5f6a456f1e715eaf3ace5f4f",
+    "smallgrp_version": "1.5.3"
+  },
+  "independence": "The Cayley-table verifier imports no AMRA executor or candidate-verifier code.",
+  "problem_id": "unsolvedmath-kou-21.137",
+  "producer_worker_id": "batch2-worker-28-arithmetic-v4",
+  "schema_version": "amra.independent_candidate_verification.evidence.v1",
+  "source_binding": {
+    "bank_content_fingerprint": "130f1e813257c7a72dd4f35ea90f0bf4363f61232349f55aa2913798cf1fb617",
+    "claim_scope": "explicit_subclaim",
+    "scope_limitation": "Verified only for the exponent-8 2-group abelian-square-subgroup subclaim.",
+    "source_page_sha256": "9953da0dfbb22c9b6934429334fb27e795e0889f4b4a800669467d790eb94d30",
+    "statement_hash": "ea168b9d5b53e82cb3375dfb2de468373e8fea1c8442a37a3d728e8de2e54006"
+  },
+  "verification_method": "GAP Cayley-table export followed by a standalone Python standard-library exhaustive verifier, plus a separate direct GAP predicate replay"
+}

@@ -1,0 +1,77 @@
+{
+  "attempt_id": 158,
+  "budget": {
+    "max_cases": 10000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_g_vertices": 4,
+      "max_h_vertices": 4,
+      "max_vertices": 4
+    },
+    "time_seconds": 60
+  },
+  "config_fingerprint": "883807163eba7dcf2f4319c74dfbcc8d90e72cf7f60becb663ddf0aa9ab7aad4",
+  "deterministic_seed": 5339283182985902756,
+  "duration_seconds": 0.158784,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 10000,
+      "max_g_vertices": 4,
+      "max_h_vertices": 4,
+      "max_vertices": 4,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 252,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 10000,
+        "max_g_vertices": 4,
+        "max_h_vertices": 4,
+        "max_vertices": 4,
+        "time_seconds": 60
+      },
+      "next_case": 252,
+      "strategy_id": "exact-small"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "filtered_family_source_cases": 252,
+      "general_source_cases": 0,
+      "generated_cases": 252,
+      "known_frontier_exceeded": false,
+      "max_g_order_seen": 4,
+      "max_h_edge_count_seen": 4,
+      "max_h_order_seen": 4,
+      "pair_cases": 252,
+      "premise_cases": 252,
+      "premise_pair_cases": 252,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "hom(H,G) * |V(G)|^(2|E(H)|) >= (2|E(G)|)^|E(H)| * |V(G)|^|V(H)|",
+      "counterexample": "H is a finite simple bipartite graph and G is a finite simple graph with at least one vertex and NOT (hom(H,G) * |V(G)|^(2|E(H)|) >= (2|E(G)|)^|E(H)| * |V(G)|^|V(H)|)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "H is a finite simple bipartite graph and G is a finite simple graph with at least one vertex",
+      "source_statement": "For every bipartite graph H and graph G, hom(H,G) is at least (2|E(G)|/|V(G)|^2)^|E(H)| |V(G)|^|V(H)|."
+    },
+    "outcome": "no_candidate",
+    "stop_reason": "finite_bound_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-60039",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-883807163eba7dcf2f4319c74dfbcc8d90e72cf7",
+  "worker_id": "batch2-worker-2"
+}

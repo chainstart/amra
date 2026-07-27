@@ -1,0 +1,51 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v2",
+  "search_engine_version": "amra.counterexample_first_batch.engine.v2",
+  "search_config_fingerprint": "a6a2f180cddbe96594182322b947e41ff8de962b436c9e160f85ca937ff4fb35",
+  "search_generation": 2,
+  "problem_id": "unsolvedmath-opg-1808",
+  "source_id": "OPG-1808",
+  "title": "Monochromatic reachability or rainbow triangles",
+  "statement_hash": "f1ee9a389753be4c5238a44aa3893a5f5e95e630e3667994549b529d54a816fc",
+  "generated_at": "2026-07-27T00:55:46+00:00",
+  "duration_seconds": 0.391189,
+  "outcome": "no_candidate_in_bounded_range",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": {
+    "hypothesis": "D is a tournament whose arcs use three colors.",
+    "conclusion": "D has a rainbow directed triangle or a vertex that reaches every vertex by monochromatic directed paths.",
+    "counterexample_condition": "D is a tournament whose arcs use three colors. and NOT (D has a rainbow directed triangle or a vertex that reaches every vertex by monochromatic directed paths.)",
+    "witness": "A sorted colored-arc list and exhaustive reachability and triangle tables."
+  },
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "executor_id": "first_batch.opg-1808.v1",
+    "status": "bounded_search_no_counterexample",
+    "outcome": "no_candidate_in_bounded_range",
+    "bounds": {
+      "max_vertices": 4,
+      "max_cases": 0,
+      "max_cases_per_checkpoint": 50000
+    },
+    "checked_cases": 46879,
+    "candidate": null,
+    "notes": [
+      "A finite search without a candidate is not a proof of the original unbounded statement.",
+      "Any candidate must be replayed by an independent implementation before promotion."
+    ],
+    "deterministic": true,
+    "replayable": true,
+    "model_contract": {
+      "hypothesis": "D is a tournament whose arcs use three colors.",
+      "conclusion": "D has a rainbow directed triangle or a vertex that reaches every vertex by monochromatic directed paths.",
+      "counterexample_condition": "D is a tournament whose arcs use three colors. and NOT (D has a rainbow directed triangle or a vertex that reaches every vertex by monochromatic directed paths.)",
+      "witness": "A sorted colored-arc list and exhaustive reachability and triangle tables."
+    },
+    "checkpoint": {
+      "next_case": 46879
+    }
+  },
+  "attempt_artifact": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/attempts/unsolvedmath-opg-1808/attempt-000033.json"
+}

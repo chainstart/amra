@@ -1,0 +1,9 @@
+{
+  "attempt_id": 117,
+  "problem_id": "unsolvedmath-opg-37413",
+  "retryable": true,
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stop_reason": "SecondBatchExecutionError: executor result identity mismatch for batch-task-7a360a2f2d3cffc56b155448a369565a9ca0fd84: model_contract is missing or not a mapping",
+  "task_id": "batch-task-7a360a2f2d3cffc56b155448a369565a9ca0fd84",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_campaign.py\", line 1289, in run_second_batch\n    result = _execute_claim(\n             ^^^^^^^^^^^^^^^\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_campaign.py\", line 1158, in _execute_claim\n    _validate_runner_result_identity(\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_campaign.py\", line 1065, in _validate_runner_result_identity\n    raise SecondBatchExecutionError(\namra.discovery.second_batch_campaign.SecondBatchExecutionError: executor result identity mismatch for batch-task-7a360a2f2d3cffc56b155448a369565a9ca0fd84: model_contract is missing or not a mapping\n"
+}

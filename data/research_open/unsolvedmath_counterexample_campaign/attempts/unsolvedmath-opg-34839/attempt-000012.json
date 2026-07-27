@@ -1,0 +1,47 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-opg-34839",
+  "source_id": "OPG-34839",
+  "title": "Double-critical graph conjecture",
+  "statement_hash": "45e1e11a7ebf69adb756008c87d1ab3b01699017cc9343c22df6182c425da1f5",
+  "generated_at": "2026-07-27T00:39:43+00:00",
+  "duration_seconds": 0.492732,
+  "outcome": "no_candidate_in_bounded_range",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": {
+    "hypothesis": "G is connected, k-chromatic, and deleting both ends of every edge lowers chi by two.",
+    "conclusion": "G is the complete graph K_k.",
+    "counterexample_condition": "G is connected, k-chromatic, and deleting both ends of every edge lowers chi by two. and NOT (G is the complete graph K_k.)",
+    "witness": "A noncomplete adjacency list, its exact chromatic number, and all edge-deletion chromatic numbers."
+  },
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "executor_id": "first_batch.opg-34839.v1",
+    "status": "bounded_search_no_counterexample",
+    "outcome": "no_candidate_in_bounded_range",
+    "bounds": {
+      "max_vertices": 6,
+      "max_cases": 0,
+      "max_cases_per_checkpoint": 50000
+    },
+    "checked_cases": 33867,
+    "candidate": null,
+    "notes": [
+      "A finite search without a candidate is not a proof of the original unbounded statement.",
+      "Any candidate must be replayed by an independent implementation before promotion."
+    ],
+    "deterministic": true,
+    "replayable": true,
+    "model_contract": {
+      "hypothesis": "G is connected, k-chromatic, and deleting both ends of every edge lowers chi by two.",
+      "conclusion": "G is the complete graph K_k.",
+      "counterexample_condition": "G is connected, k-chromatic, and deleting both ends of every edge lowers chi by two. and NOT (G is the complete graph K_k.)",
+      "witness": "A noncomplete adjacency list, its exact chromatic number, and all edge-deletion chromatic numbers."
+    },
+    "checkpoint": {
+      "next_case": 33867
+    }
+  }
+}

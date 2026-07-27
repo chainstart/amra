@@ -1,0 +1,62 @@
+{
+  "attempt_id": 71,
+  "budget": {
+    "max_cases": 10000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 10
+    },
+    "time_seconds": 60
+  },
+  "config_fingerprint": "f4976338a97d24d21e74e7c16acdb283eda8b994afb403a6fa4253c5af985f9e",
+  "deterministic_seed": 7146231035559092960,
+  "duration_seconds": 4.209773,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 10000,
+      "max_vertices": 10,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 10000,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 10000,
+        "max_vertices": 10,
+        "time_seconds": 60
+      },
+      "next_case": 10000,
+      "strategy_id": "exact-small"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 10000,
+      "premise_cases": 12,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "G does not have exactly one undirected Hamiltonian cycle",
+      "counterexample": "G is r-regular for r>2 and NOT (G does not have exactly one undirected Hamiltonian cycle)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is r-regular for r>2"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "max_cases_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-480",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-f4976338a97d24d21e74e7c16acdb283eda8b994",
+  "worker_id": "batch2-worker-4"
+}

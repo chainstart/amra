@@ -1,0 +1,31 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-opg-2108",
+  "source_id": "OPG-2108",
+  "title": "Frankl's union-closed sets conjecture",
+  "statement_hash": "a92c9cd469e1666c8c60b4c25b04a7a972663a5bf849d387470b7d116f2bd445",
+  "generated_at": "2026-07-27T00:34:01+00:00",
+  "duration_seconds": 0.106245,
+  "outcome": "no_counterexample_within_bound",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": "Find a nonempty union-closed finite family in which every element occurs in fewer than half of the members.",
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "search_template": "union_closed",
+    "executor_id": "classical.union_closed_family_scan.v1",
+    "status": "completed",
+    "outcome": "no_counterexample_within_bound",
+    "bounds": {
+      "universe_size": 4,
+      "candidate_families": 65535
+    },
+    "checked_cases": 4958,
+    "unresolved_cases": 0,
+    "candidate": null,
+    "notes": [],
+    "deterministic": true,
+    "replayable": true
+  }
+}

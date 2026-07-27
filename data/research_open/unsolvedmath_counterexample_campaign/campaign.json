@@ -1,0 +1,71 @@
+{
+  "schema_version": "amra.counterexample_campaign.v1",
+  "status": "succeeded",
+  "generated_at": "2026-07-26T15:32:08+00:00",
+  "bank": "/home/biostar/work/amra/data/banks/unsolvedmath_open_non_erdos.yaml",
+  "bank_sha256": "5c42d5ea3675dd39e7e48a0d53a49344eb78076cae946962c5bad2763a3a0631",
+  "output_dir": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign",
+  "budget": {
+    "max_integer": 100000,
+    "max_steps": 10000,
+    "max_square_base": 2000,
+    "max_sequence_terms": 1000,
+    "max_family_universe": 4,
+    "max_graph_vertices": 5,
+    "max_tree_vertices": 7,
+    "max_erdos_straus_n": 500
+  },
+  "search_config_fingerprint": "38a6045a0fbe7aa8ceb17ecc1e3c29dc4b84863e4ce0b7000915701398ffd911",
+  "engine_version": "amra.counterexample_campaign.engine.v2",
+  "resume": true,
+  "counts": {
+    "input_problems": 1332,
+    "result_records": 1332,
+    "reused_results": 1332,
+    "executed_builtin_searches": 8,
+    "candidate_counterexamples": 0,
+    "modeling_queue": 1324,
+    "statuses": {
+      "bounded_domain_scan_completed": 7,
+      "bounded_search_no_counterexample": 8,
+      "decomposition_required": 85,
+      "manual_modeling_required": 1076,
+      "not_finitely_refutable": 133,
+      "statement_recovery_required": 23
+    },
+    "claim_kinds": {
+      "classification_or_optimization": 87,
+      "equivalence_claim": 141,
+      "existence_claim": 136,
+      "mixed_quantifiers": 162,
+      "unclassified_question": 302,
+      "universal_claim": 504
+    },
+    "executors": {
+      "classical.collatz_cycle_scan.v1": 1,
+      "classical.erdos_straus_exact_scan.v1": 1,
+      "classical.gilbreath_difference_scan.v1": 1,
+      "classical.goldbach_exact_scan.v1": 1,
+      "classical.graceful_tree_scan.v1": 1,
+      "classical.graph_reconstruction_scan.v1": 1,
+      "classical.legendre_interval_scan.v1": 1,
+      "classical.union_closed_family_scan.v1": 1
+    }
+  },
+  "artifacts": {
+    "results": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/results.jsonl",
+    "candidate_counterexamples": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/candidate_counterexamples.json",
+    "modeling_queue": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/modeling_queue.jsonl",
+    "report": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/REPORT.md"
+  },
+  "checksums_sha256": {
+    "results": "99b606c43e80821c876f2831a9665d08ea036cf0cf9f9baa849585b0de60cd4a",
+    "candidate_counterexamples": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "modeling_queue": "6b39190a2d20bdecdbc8030ed1bff63ae4493e52e809cf83908bd194a8a9352c"
+  },
+  "interpretation": [
+    "candidate_counterexample means a deterministic bounded checker found a witness candidate; it is not yet a published refutation.",
+    "bounded_search_no_counterexample means only that the recorded finite range was exhausted.",
+    "manual_modeling_required means the source statement was classified and assigned a witness contract but no sound executable predicate is registered."
+  ]
+}

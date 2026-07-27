@@ -1,0 +1,30 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-guy-a10",
+  "source_id": "GUY-A10",
+  "title": "Gilbreath's Conjecture",
+  "statement_hash": "47fa10647bbb4051e943d7544ca84a5fb0747f7e1291ae21c273d1124270335d",
+  "generated_at": "2026-07-27T00:34:00+00:00",
+  "duration_seconds": 0.334825,
+  "outcome": "no_counterexample_within_bound",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": "Repeated prime differences have first entry 1 in every generated row.",
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "search_template": "gilbreath",
+    "executor_id": "classical.gilbreath_difference_scan.v1",
+    "status": "completed",
+    "outcome": "no_counterexample_within_bound",
+    "bounds": {
+      "prime_terms": 5000
+    },
+    "checked_cases": 4999,
+    "unresolved_cases": 0,
+    "candidate": null,
+    "notes": [],
+    "deterministic": true,
+    "replayable": true
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "attempt_id": 101,
+  "budget": {
+    "max_cases": 1000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_order": 63
+    },
+    "time_seconds": 60
+  },
+  "config_fingerprint": "a23983ebecec5167afc7e7346eba9d550ad6997bb9648ba19868742ad4b17516",
+  "deterministic_seed": 759155940662092795,
+  "duration_seconds": 3.238056,
+  "executor_result": {
+    "budget": {
+      "max_cases": 1000,
+      "max_order": 63,
+      "memory_mb": 1024,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 2,
+    "checkpoint": {
+      "bounded_scope_exhausted": true,
+      "checked_cases": 2,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 1000,
+        "max_order": 63,
+        "memory_mb": 1024,
+        "time_seconds": 60
+      },
+      "cursor_kind": "gap_smallgroup",
+      "effective_strategy_id": "exact-small",
+      "launch_seed": 0,
+      "metrics": {
+        "a5_reached": false,
+        "chunks_completed": 1,
+        "coverage_kind": "odd_17_divisible_smallgroups",
+        "eligible_catalog_groups": 2,
+        "last_group_id": [
+          51,
+          1
+        ],
+        "nonabelian_groups_checked": 0,
+        "search_order": "order_then_catalog_index",
+        "unavailable_orders": []
+      },
+      "next_group_index": null,
+      "next_group_position": 2,
+      "next_order": null,
+      "phase": "complete",
+      "problem_id": "unsolvedmath-kou-21.88",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "block_cursor",
+        "note": "The next block cursor is durable; at most the active unfinished block is replayed."
+      },
+      "search_completed": true,
+      "strategy_id": "exact-small"
+    },
+    "effective_strategy_id": "exact-small",
+    "executor_id": "second_batch.arithmetic.kou_21_88.v1",
+    "metrics": {
+      "a5_reached": false,
+      "chunks_completed": 1,
+      "coverage_kind": "odd_17_divisible_smallgroups",
+      "eligible_catalog_groups": 2,
+      "last_group_id": [
+        51,
+        1
+      ],
+      "nonabelian_groups_checked": 0,
+      "search_order": "order_then_catalog_index",
+      "unavailable_orders": []
+    },
+    "model_contract": {
+      "claim_scope": "witness_search",
+      "counterexample_condition": "A witness is an odd-order nonabelian GAP SmallGroup G whose exact conjugacy-class count k(G) satisfies 17*k(G)=|G|. Catalog enumeration first applies the necessary odd-order and 17-divisibility filters, and the deep order schedule prioritizes semidirect-factor structure.",
+      "scope_limitation": "A witness settles existence, while nonfinding in GAP SmallGroups cannot prove nonexistence.",
+      "source_statement": "Is there a finite non-abelian group G of odd order, with k(G) conjugacy classes, such that k(G)/|G|=1/17?"
+    },
+    "outcome": "no_candidate",
+    "stop_reason": "bounded_scope_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-kou-21.88",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-a23983ebecec5167afc7e7346eba9d550ad6997b",
+  "worker_id": "batch2-worker-19-arithmetic"
+}

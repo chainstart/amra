@@ -1,0 +1,63 @@
+{
+  "attempt_id": 166,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 9
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "5ca3e75f74194bb637be627c9692fdae42407ee41d3220c9ff99d53ea31f2b10",
+  "deterministic_seed": 1070751942678531520,
+  "duration_seconds": 600.008786,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 9,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 33882,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 9,
+        "time_seconds": 600
+      },
+      "next_case": 37482,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 33883,
+      "premise_cases": 28168,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "chi((G^(1/3))^3) <= 2 Delta(G)+1",
+      "counterexample": "Delta(G)>=2 and NOT (chi((G^(1/3))^3) <= 2 Delta(G)+1)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "Delta(G)>=2"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 2,
+  "parent_problem_id": "unsolvedmath-opg-60055",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-5ca3e75f74194bb637be627c9692fdae42407ee4",
+  "worker_id": "batch2-worker-22-graph-v2"
+}

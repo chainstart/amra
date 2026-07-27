@@ -1,0 +1,73 @@
+{
+  "attempt_id": 203,
+  "budget": {
+    "max_cases": 500,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_n": 500
+    },
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "7a360a2f2d3cffc56b155448a369565a9ca0fd842b888e4c1142729129beaf8a",
+  "deterministic_seed": 563327890263847723,
+  "duration_seconds": 1.051716,
+  "executor_result": {
+    "budget": {
+      "max_cases": 500,
+      "max_n": 500,
+      "memory_mb": 1024,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 493,
+    "checkpoint": {
+      "bounded_scope_exhausted": true,
+      "checked_cases": 493,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 500,
+        "max_n": 500,
+        "memory_mb": 1024,
+        "time_seconds": 60
+      },
+      "effective_strategy_id": "exact-small",
+      "launch_seed": 0,
+      "metrics": {},
+      "phase": "complete",
+      "problem_id": "unsolvedmath-opg-37413",
+      "resume": {
+        "checkpoint_received": true,
+        "intra_bound_cursor_restored": false,
+        "mode": "atomic_bound_restart",
+        "note": "This bounded generator does not expose an intra-bound cursor."
+      },
+      "search_completed": true,
+      "strategy_id": "exact-small"
+    },
+    "effective_strategy_id": "exact-small",
+    "executor_id": "second_batch.arithmetic.opg_37413.v1",
+    "metrics": {},
+    "model_contract": "A witness is p>=8 for which primality disagrees with the stated exact modular-residue sum test.",
+    "outcome": "no_candidate",
+    "stop_reason": "bounded_scope_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-37413",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-7a360a2f2d3cffc56b155448a369565a9ca0fd84",
+  "worker_id": "batch2-worker-34-arithmetic-v5"
+}

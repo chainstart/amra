@@ -1,0 +1,63 @@
+{
+  "attempt_id": 169,
+  "budget": {
+    "max_cases": 1000000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "13e42dd410a500372b01f51e6e921e61397f731be338c02b790a83dabeda619e",
+  "deterministic_seed": 5790579218077926694,
+  "duration_seconds": 600.343003,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 1787,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {},
+      "next_case": 1787,
+      "seed": 5790579218077926694,
+      "strategy_id": "deep-diversified",
+      "stratum": 48
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "atomic_cases": 1787,
+      "claim_scope": "witness_search",
+      "elapsed_seconds": 600.3209173169962,
+      "finite_catalogue_exhausted": false,
+      "timed_out_mid_case": true
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "witness_search",
+      "counterexample_or_witness": "an exact additional pair (n,m)",
+      "objects": "positive integers n, excluding the source-known solutions n=4,5,7",
+      "premise": "n!+1 is an integer square",
+      "scope_limitation": "The source is existential or asks for additional solutions. The executor can certify a new witness but bounded absence has no negative force.",
+      "source_quantifiers_preserved": true,
+      "source_statement": "Find all integer solutions to $n! + 1 = m^2$."
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "deep-diversified",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 2,
+  "parent_problem_id": "unsolvedmath-nt-010",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "deep-diversified",
+  "task_id": "batch-task-13e42dd410a500372b01f51e6e921e61397f731b",
+  "worker_id": "batch2-worker-26-finite-v2"
+}

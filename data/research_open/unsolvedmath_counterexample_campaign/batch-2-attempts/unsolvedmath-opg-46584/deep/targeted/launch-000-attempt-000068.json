@@ -1,0 +1,62 @@
+{
+  "attempt_id": 68,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 9
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "f3c78d4ec4fa63aee60b7a8fe6b5980ae72a9e8b9ddca487659b0bed7121f306",
+  "deterministic_seed": 8659874005397093406,
+  "duration_seconds": 600.062052,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 9,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 47,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 9,
+        "time_seconds": 600
+      },
+      "next_case": 47,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 48,
+      "premise_cases": 31,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "E(G) partitions into at most floor((n-1)/2) simple cycles",
+      "counterexample": "G is simple, connected, and every degree is even and NOT (E(G) partitions into at most floor((n-1)/2) simple cycles)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is simple, connected, and every degree is even"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-46584",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-f3c78d4ec4fa63aee60b7a8fe6b5980ae72a9e8b",
+  "worker_id": "batch2-worker-8"
+}

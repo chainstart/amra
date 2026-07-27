@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "database": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/status.sqlite3",
+  "generated_at": "2026-07-27T00:57:11.906879Z",
+  "total_problems": 1332,
+  "status_counts": {
+    "completed": 20,
+    "parked": 1312
+  },
+  "domain_counts": {
+    "algebra": 64,
+    "algebraic_geometry": 6,
+    "analysis": 5,
+    "combinatorics": 93,
+    "computer_science": 24,
+    "dynamical_systems": 2,
+    "geometry": 89,
+    "graph_theory": 279,
+    "group_theory": 146,
+    "logic": 10,
+    "mathematical_physics": 6,
+    "miscellaneous": 1,
+    "number_theory": 170,
+    "partial_differential_equations": 6,
+    "probability": 1,
+    "set_theory": 14,
+    "topology": 416
+  },
+  "collection_counts": {
+    "backlog": 1312,
+    "first-batch-20": 20
+  },
+  "stage_counts": {
+    "G0": 1312,
+    "G2": 20
+  },
+  "attempts": 42,
+  "checkpoints": 148,
+  "expired_active_leases": 0
+}

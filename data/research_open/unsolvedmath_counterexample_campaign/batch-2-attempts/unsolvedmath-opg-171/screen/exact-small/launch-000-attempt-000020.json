@@ -1,0 +1,62 @@
+{
+  "attempt_id": 20,
+  "budget": {
+    "max_cases": 10000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 7
+    },
+    "time_seconds": 60
+  },
+  "config_fingerprint": "eca0a7c4cb4e50314e617f54ec69f2b719611c7fe6ae695e52eaa5e68c4d4482",
+  "deterministic_seed": 5233418645267771421,
+  "duration_seconds": 4.052885,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 10000,
+      "max_vertices": 7,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 1252,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 10000,
+        "max_vertices": 7,
+        "time_seconds": 60
+      },
+      "next_case": 1252,
+      "strategy_id": "exact-small"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 1252,
+      "premise_cases": 1245,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "for every partition into blocks of size at most q, a proper q-coloring is injective on each block",
+      "counterexample": "G is a finite graph and q=2 Delta(G) and NOT (for every partition into blocks of size at most q, a proper q-coloring is injective on each block)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is a finite graph and q=2 Delta(G)"
+    },
+    "outcome": "no_candidate",
+    "stop_reason": "finite_bound_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-171",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-eca0a7c4cb4e50314e617f54ec69f2b719611c7f",
+  "worker_id": "batch2-worker-8"
+}

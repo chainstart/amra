@@ -1,0 +1,33 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-nt-002",
+  "source_id": "NT-002",
+  "title": "Collatz Conjecture",
+  "statement_hash": "24991ea2c85d2a57898ae1f065ced0ca18cd23e6d6a3e2a4836c24dabe0bde37",
+  "generated_at": "2026-07-27T00:34:01+00:00",
+  "duration_seconds": 1.124976,
+  "outcome": "no_counterexample_within_bound",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": "A finite refutation is a nontrivial exact cycle; a step timeout is unknown.",
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "search_template": "collatz",
+    "executor_id": "classical.collatz_cycle_scan.v1",
+    "status": "completed",
+    "outcome": "no_counterexample_within_bound",
+    "bounds": {
+      "max_start": 1000000,
+      "max_steps_per_start": 20000
+    },
+    "checked_cases": 1000000,
+    "unresolved_cases": 0,
+    "candidate": null,
+    "notes": [
+      "Maximum intermediate value observed: 56991483520."
+    ],
+    "deterministic": true,
+    "replayable": true
+  }
+}

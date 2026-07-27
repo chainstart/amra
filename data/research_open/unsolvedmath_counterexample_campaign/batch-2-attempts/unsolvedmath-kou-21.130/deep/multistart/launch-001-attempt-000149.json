@@ -1,0 +1,76 @@
+{
+  "attempt_id": 149,
+  "budget": {
+    "max_cases": 2000000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_order": 127,
+      "max_subset": 16
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "14cecd10df037dd14e27b6987de396285b8af0af225b1e2ddedded5111b800d3",
+  "deterministic_seed": 4134256580925773705,
+  "duration_seconds": 601.41932,
+  "executor_result": {
+    "budget": {
+      "max_cases": 2000000,
+      "max_order": 127,
+      "max_subset": 16,
+      "memory_mb": 1024,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 0,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 0,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 2000000,
+        "max_order": 127,
+        "max_subset": 16,
+        "memory_mb": 1024,
+        "time_seconds": 600
+      },
+      "effective_strategy_id": "multistart",
+      "launch_seed": 4134256580925773705,
+      "metrics": {},
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-kou-21.130",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "atomic_bound_restart",
+        "note": "This bounded generator does not expose an intra-bound cursor."
+      },
+      "search_completed": false,
+      "strategy_id": "multistart"
+    },
+    "effective_strategy_id": "multistart",
+    "executor_id": "second_batch.arithmetic.kou_21_130.v1",
+    "metrics": {},
+    "model_contract": "A witness is an odd cyclic group and a subset of size greater than two for which exhaustive cyclic orderings never have distinct adjacent sums. The negative search scope is explicitly the cyclic subgroup family.",
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "multistart",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 1,
+  "parent_problem_id": "unsolvedmath-kou-21.130",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "multistart",
+  "task_id": "batch-task-14cecd10df037dd14e27b6987de396285b8af0af",
+  "worker_id": "batch2-worker-20-arithmetic-v3"
+}

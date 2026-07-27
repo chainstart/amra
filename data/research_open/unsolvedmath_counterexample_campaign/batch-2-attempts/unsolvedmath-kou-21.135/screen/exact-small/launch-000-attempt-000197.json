@@ -1,0 +1,73 @@
+{
+  "attempt_id": 197,
+  "budget": {
+    "max_cases": 200,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_order": 16
+    },
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "0bb5137d730539d848039c7eec013fa0133500367cd49443a7bc55f0000e0be0",
+  "deterministic_seed": 5222865219086000713,
+  "duration_seconds": 1.016362,
+  "executor_result": {
+    "budget": {
+      "max_cases": 200,
+      "max_order": 16,
+      "memory_mb": 1024,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 42,
+    "checkpoint": {
+      "bounded_scope_exhausted": true,
+      "checked_cases": 42,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 200,
+        "max_order": 16,
+        "memory_mb": 1024,
+        "time_seconds": 60
+      },
+      "effective_strategy_id": "exact-small",
+      "launch_seed": 0,
+      "metrics": {},
+      "phase": "complete",
+      "problem_id": "unsolvedmath-kou-21.135",
+      "resume": {
+        "checkpoint_received": true,
+        "intra_bound_cursor_restored": false,
+        "mode": "atomic_bound_restart",
+        "note": "This bounded generator does not expose an intra-bound cursor."
+      },
+      "search_completed": true,
+      "strategy_id": "exact-small"
+    },
+    "effective_strategy_id": "exact-small",
+    "executor_id": "second_batch.arithmetic.kou_21_135.v1",
+    "metrics": {},
+    "model_contract": "A witness is a pair of finite SmallGroups with the same multiset of irreducible character degrees, where the first has trivial solvable radical and the second does not.",
+    "outcome": "no_candidate",
+    "stop_reason": "bounded_scope_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-kou-21.135",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-0bb5137d730539d848039c7eec013fa013350036",
+  "worker_id": "batch2-worker-27-arithmetic-v4"
+}

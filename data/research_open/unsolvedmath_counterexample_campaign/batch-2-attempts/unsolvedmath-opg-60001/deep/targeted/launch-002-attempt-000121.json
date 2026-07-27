@@ -1,0 +1,65 @@
+{
+  "attempt_id": 121,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "k": 3,
+      "max_vertices": 11
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "dc0b44083d07be28ba61c0752f4a3080a1c8789dc286b813a128d5501d34e11e",
+  "deterministic_seed": 6455533468632142842,
+  "duration_seconds": 601.235515,
+  "executor_result": {
+    "bounds": {
+      "k": 3,
+      "max_cases": 100000,
+      "max_vertices": 11,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 113,
+    "checkpoint": {
+      "bounds": {
+        "k": 3,
+        "max_cases": 100000,
+        "max_vertices": 11,
+        "time_seconds": 600
+      },
+      "next_case": 113,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 114,
+      "premise_cases": 71,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "G has at least ceil((k+1)(k-1)!/2) simple cycles whose length is divisible by k",
+      "counterexample": "chi(G)>k for the bounded integer k and NOT (G has at least ceil((k+1)(k-1)!/2) simple cycles whose length is divisible by k)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "chi(G)>k for the bounded integer k"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 2,
+  "parent_problem_id": "unsolvedmath-opg-60001",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-dc0b44083d07be28ba61c0752f4a3080a1c8789d",
+  "worker_id": "batch2-worker-15"
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v2",
+  "search_engine_version": "amra.counterexample_first_batch.engine.v2",
+  "search_config_fingerprint": "ac5327f6f7c301704e43816f983215d9518cb3cee0b85e4517469f71dbdf832d",
+  "search_generation": 2,
+  "problem_id": "unsolvedmath-opg-37271",
+  "source_id": "OPG-37271",
+  "title": "Star chromatic index of cubic graphs",
+  "statement_hash": "0cb6da1a0640a2a2b50aeaa15dcc929252da420b4b880606f9c2fb125e9e13d0",
+  "generated_at": "2026-07-27T00:55:48+00:00",
+  "duration_seconds": 1.090522,
+  "outcome": "no_candidate_in_bounded_range",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": {
+    "hypothesis": "G is a simple graph of maximum degree at most three.",
+    "conclusion": "G has a proper six-edge-coloring with no bichromatic four-edge path or cycle.",
+    "counterexample_condition": "G is a simple graph of maximum degree at most three. and NOT (G has a proper six-edge-coloring with no bichromatic four-edge path or cycle.)",
+    "witness": "A canonical graph plus an exhaustive finite CSP failure certificate."
+  },
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "executor_id": "first_batch.opg-37271.v1",
+    "status": "bounded_search_no_counterexample",
+    "outcome": "no_candidate_in_bounded_range",
+    "bounds": {
+      "max_vertices": 6,
+      "colors": 6,
+      "max_cases": 0,
+      "max_cases_per_checkpoint": 50000
+    },
+    "checked_cases": 33867,
+    "candidate": null,
+    "notes": [
+      "A finite search without a candidate is not a proof of the original unbounded statement.",
+      "Any candidate must be replayed by an independent implementation before promotion."
+    ],
+    "deterministic": true,
+    "replayable": true,
+    "model_contract": {
+      "hypothesis": "G is a simple graph of maximum degree at most three.",
+      "conclusion": "G has a proper six-edge-coloring with no bichromatic four-edge path or cycle.",
+      "counterexample_condition": "G is a simple graph of maximum degree at most three. and NOT (G has a proper six-edge-coloring with no bichromatic four-edge path or cycle.)",
+      "witness": "A canonical graph plus an exhaustive finite CSP failure certificate."
+    },
+    "checkpoint": {
+      "next_case": 33867
+    }
+  },
+  "attempt_artifact": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/attempts/unsolvedmath-opg-37271/attempt-000035.json"
+}

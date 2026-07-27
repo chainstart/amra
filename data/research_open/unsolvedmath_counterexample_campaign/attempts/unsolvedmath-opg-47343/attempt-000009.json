@@ -1,0 +1,47 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-opg-47343",
+  "source_id": "OPG-47343",
+  "title": "Turán's problem for hypergraphs",
+  "statement_hash": "71dbb52e64ce88c4211c27180a7d788da6f156eb50ad8323e92e1145bb0f5215",
+  "generated_at": "2026-07-27T00:39:38+00:00",
+  "duration_seconds": 0.751291,
+  "outcome": "no_candidate_in_bounded_range",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": {
+    "hypothesis": "The 3-uniform hypergraph has the required number of vertices and no forbidden complete subhypergraph.",
+    "conclusion": "Its edge count is at most the stated extremal bound.",
+    "counterexample_condition": "The 3-uniform hypergraph has the required number of vertices and no forbidden complete subhypergraph. and NOT (Its edge count is at most the stated extremal bound.)",
+    "witness": "A sorted list of triples, together with the checked forbidden subsets and edge count."
+  },
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "executor_id": "first_batch.opg-47343.v1",
+    "status": "bounded_search_no_counterexample",
+    "outcome": "no_candidate_in_bounded_range",
+    "bounds": {
+      "vertices": 6,
+      "max_cases": 0,
+      "max_cases_per_checkpoint": 50000
+    },
+    "checked_cases": 1048576,
+    "candidate": null,
+    "notes": [
+      "A finite search without a candidate is not a proof of the original unbounded statement.",
+      "Any candidate must be replayed by an independent implementation before promotion."
+    ],
+    "deterministic": true,
+    "replayable": true,
+    "model_contract": {
+      "hypothesis": "The 3-uniform hypergraph has the required number of vertices and no forbidden complete subhypergraph.",
+      "conclusion": "Its edge count is at most the stated extremal bound.",
+      "counterexample_condition": "The 3-uniform hypergraph has the required number of vertices and no forbidden complete subhypergraph. and NOT (Its edge count is at most the stated extremal bound.)",
+      "witness": "A sorted list of triples, together with the checked forbidden subsets and edge count."
+    },
+    "checkpoint": {
+      "next_case": 1048576
+    }
+  }
+}

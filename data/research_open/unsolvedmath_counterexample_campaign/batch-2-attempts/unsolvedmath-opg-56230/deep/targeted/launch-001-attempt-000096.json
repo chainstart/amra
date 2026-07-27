@@ -1,0 +1,62 @@
+{
+  "attempt_id": 96,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 11
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "11b290bcb8faa11e5368c54c8fed63263b122f8c15354fe6f1db942a5d3c4fc3",
+  "deterministic_seed": 8997627397075064699,
+  "duration_seconds": 600.067539,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 11,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 79,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 11,
+        "time_seconds": 600
+      },
+      "next_case": 79,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 80,
+      "premise_cases": 65,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "G has a two-vertex-coloring with no monochromatic maximum clique",
+      "counterexample": "G has at least one edge and has no induced odd cycle of length at least five and NOT (G has a two-vertex-coloring with no monochromatic maximum clique)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G has at least one edge and has no induced odd cycle of length at least five"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 1,
+  "parent_problem_id": "unsolvedmath-opg-56230",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-11b290bcb8faa11e5368c54c8fed63263b122f8c",
+  "worker_id": "batch2-worker-13"
+}

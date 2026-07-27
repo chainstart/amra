@@ -1,0 +1,31 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-opg-439",
+  "source_id": "OPG-439",
+  "title": "Graceful Tree Conjecture",
+  "statement_hash": "2399e37d1a678a40cfa97217195396491cf0b07677d1c775852453d858747002",
+  "generated_at": "2026-07-27T00:34:10+00:00",
+  "duration_seconds": 3.914721,
+  "outcome": "no_counterexample_within_bound",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": "Find a finite tree for which every bijective vertex labeling misses an edge difference.",
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "search_template": "graceful_tree",
+    "executor_id": "classical.graceful_tree_scan.v1",
+    "status": "completed",
+    "outcome": "no_counterexample_within_bound",
+    "bounds": {
+      "min_vertices": 2,
+      "max_vertices": 8
+    },
+    "checked_cases": 47,
+    "unresolved_cases": 0,
+    "candidate": null,
+    "notes": [],
+    "deterministic": true,
+    "replayable": true
+  }
+}

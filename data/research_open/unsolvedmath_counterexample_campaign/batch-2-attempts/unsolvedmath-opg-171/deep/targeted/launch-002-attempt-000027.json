@@ -1,0 +1,62 @@
+{
+  "attempt_id": 27,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 9
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "eed3e35653c0482f3d136c79604456a0d9c55e05e97306fa52f4ba4fe71198b4",
+  "deterministic_seed": 2665336862822227639,
+  "duration_seconds": 600.001842,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 9,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 12696,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 9,
+        "time_seconds": 600
+      },
+      "next_case": 12696,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 12697,
+      "premise_cases": 11784,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "for every partition into blocks of size at most q, a proper q-coloring is injective on each block",
+      "counterexample": "G is a finite graph and q=2 Delta(G) and NOT (for every partition into blocks of size at most q, a proper q-coloring is injective on each block)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is a finite graph and q=2 Delta(G)"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 2,
+  "parent_problem_id": "unsolvedmath-opg-171",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-eed3e35653c0482f3d136c79604456a0d9c55e05",
+  "worker_id": "batch2-worker-12"
+}

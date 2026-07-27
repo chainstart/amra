@@ -1,0 +1,47 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-opg-46538",
+  "source_id": "OPG-46538",
+  "title": "Do any three longest paths in a connected graph have a vertex in common?",
+  "statement_hash": "9806b42876c11534427acf1445bbc5fceec1046384396f5386a4af16dd772615",
+  "generated_at": "2026-07-27T00:39:44+00:00",
+  "duration_seconds": 0.100381,
+  "outcome": "no_candidate_in_bounded_range",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": {
+    "hypothesis": "G is a finite connected graph and P1,P2,P3 are longest paths.",
+    "conclusion": "P1, P2, and P3 share a vertex.",
+    "counterexample_condition": "G is a finite connected graph and P1,P2,P3 are longest paths. and NOT (P1, P2, and P3 share a vertex.)",
+    "witness": "A canonical graph and three maximum-length paths with empty triple intersection."
+  },
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "executor_id": "first_batch.opg-46538.v1",
+    "status": "bounded_search_no_counterexample",
+    "outcome": "no_candidate_in_bounded_range",
+    "bounds": {
+      "max_vertices": 5,
+      "max_cases": 0,
+      "max_cases_per_checkpoint": 50000
+    },
+    "checked_cases": 1099,
+    "candidate": null,
+    "notes": [
+      "A finite search without a candidate is not a proof of the original unbounded statement.",
+      "Any candidate must be replayed by an independent implementation before promotion."
+    ],
+    "deterministic": true,
+    "replayable": true,
+    "model_contract": {
+      "hypothesis": "G is a finite connected graph and P1,P2,P3 are longest paths.",
+      "conclusion": "P1, P2, and P3 share a vertex.",
+      "counterexample_condition": "G is a finite connected graph and P1,P2,P3 are longest paths. and NOT (P1, P2, and P3 share a vertex.)",
+      "witness": "A canonical graph and three maximum-length paths with empty triple intersection."
+    },
+    "checkpoint": {
+      "next_case": 1099
+    }
+  }
+}

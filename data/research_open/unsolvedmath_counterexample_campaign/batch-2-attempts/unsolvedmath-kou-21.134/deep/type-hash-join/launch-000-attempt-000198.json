@@ -1,0 +1,73 @@
+{
+  "attempt_id": 198,
+  "budget": {
+    "max_cases": 500000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_order": 2000
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "85b0615887d224faa2fd70b292917a667b8545896065268ac1fc306dc090aa2e",
+  "deterministic_seed": 5242483785650854886,
+  "duration_seconds": 120.936765,
+  "executor_result": {
+    "budget": {
+      "max_cases": 500000,
+      "max_order": 2000,
+      "memory_mb": 1024,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 0,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 0,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 500000,
+        "max_order": 2000,
+        "memory_mb": 1024,
+        "time_seconds": 600
+      },
+      "effective_strategy_id": "type-hash-join",
+      "launch_seed": 0,
+      "metrics": {},
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-kou-21.134",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "atomic_bound_restart",
+        "note": "This bounded generator does not expose an intra-bound cursor."
+      },
+      "search_completed": false,
+      "strategy_id": "type-hash-join"
+    },
+    "effective_strategy_id": "type-hash-join",
+    "executor_id": "second_batch.arithmetic.kou_21_134.v1",
+    "metrics": {},
+    "model_contract": "A witness is a pair of non-isomorphic finite SmallGroups with identical power-equation type, where the reference group has trivial solvable radical or is almost simple and the comparison violates the conclusion.",
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "type-hash-join",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-kou-21.134",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "type-hash-join",
+  "task_id": "batch-task-85b0615887d224faa2fd70b292917a667b854589",
+  "worker_id": "batch2-worker-27-arithmetic-v4"
+}

@@ -1,0 +1,9 @@
+{
+  "attempt_id": 125,
+  "problem_id": "unsolvedmath-kou-21.2",
+  "retryable": true,
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stop_reason": "ValueError: not enough values to unpack (expected 5, got 3)",
+  "task_id": "batch-task-83cdbf299a8d14895cdfec7bff5e05af24cf446c",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_campaign.py\", line 1290, in run_second_batch\n    result = _execute_claim(\n             ^^^^^^^^^^^^^^^\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_campaign.py\", line 1148, in _execute_claim\n    raw_result = runner(\n                 ^^^^^^^\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_arithmetic.py\", line 6399, in run_second_batch_arithmetic_search\n    candidate, checked, exhausted = _execute(\n                                    ^^^^^^^^^\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_arithmetic.py\", line 6193, in _execute\n    return _search_kou_21_2(budget)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_arithmetic.py\", line 1996, in _search_kou_21_2\n    profiles = _gap_order_profiles(max_order, max_cases)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_arithmetic.py\", line 1950, in _gap_order_profiles\n    _, order, index, simple, orders = line.split(\"|\", 4)\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: not enough values to unpack (expected 5, got 3)\n"
+}

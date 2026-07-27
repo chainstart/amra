@@ -1,0 +1,47 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-opg-46824",
+  "source_id": "OPG-46824",
+  "title": "Odd-cycle transversal in triangle-free graphs",
+  "statement_hash": "4293af715a2b561dd2b88788fd77817ed82086fecd1374b5ed5d7e1d569bb0ba",
+  "generated_at": "2026-07-27T00:39:44+00:00",
+  "duration_seconds": 0.25601,
+  "outcome": "no_candidate_in_bounded_range",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": {
+    "hypothesis": "G is a simple triangle-free n-vertex graph.",
+    "conclusion": "At most floor(n^2/25) edges can be deleted to make G bipartite.",
+    "counterexample_condition": "G is a simple triangle-free n-vertex graph. and NOT (At most floor(n^2/25) edges can be deleted to make G bipartite.)",
+    "witness": "A canonical graph and the exact value |E|-maxcut."
+  },
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "executor_id": "first_batch.opg-46824.v1",
+    "status": "bounded_search_no_counterexample",
+    "outcome": "no_candidate_in_bounded_range",
+    "bounds": {
+      "max_vertices": 6,
+      "max_cases": 0,
+      "max_cases_per_checkpoint": 50000
+    },
+    "checked_cases": 33867,
+    "candidate": null,
+    "notes": [
+      "A finite search without a candidate is not a proof of the original unbounded statement.",
+      "Any candidate must be replayed by an independent implementation before promotion."
+    ],
+    "deterministic": true,
+    "replayable": true,
+    "model_contract": {
+      "hypothesis": "G is a simple triangle-free n-vertex graph.",
+      "conclusion": "At most floor(n^2/25) edges can be deleted to make G bipartite.",
+      "counterexample_condition": "G is a simple triangle-free n-vertex graph. and NOT (At most floor(n^2/25) edges can be deleted to make G bipartite.)",
+      "witness": "A canonical graph and the exact value |E|-maxcut."
+    },
+    "checkpoint": {
+      "next_case": 33867
+    }
+  }
+}

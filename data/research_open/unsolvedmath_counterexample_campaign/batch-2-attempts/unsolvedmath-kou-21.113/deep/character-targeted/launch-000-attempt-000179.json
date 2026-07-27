@@ -1,0 +1,73 @@
+{
+  "attempt_id": 179,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_order": 512
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "d496c5bd040167fb57e373c2c886bf223477984615dad919a9c5bbc780d1b6a8",
+  "deterministic_seed": 572769708665444175,
+  "duration_seconds": 120.759052,
+  "executor_result": {
+    "budget": {
+      "max_cases": 100000,
+      "max_order": 512,
+      "memory_mb": 1024,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 0,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 0,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 100000,
+        "max_order": 512,
+        "memory_mb": 1024,
+        "time_seconds": 600
+      },
+      "effective_strategy_id": "character-targeted",
+      "launch_seed": 0,
+      "metrics": {},
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-kou-21.113",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "atomic_bound_restart",
+        "note": "This bounded generator does not expose an intra-bound cursor."
+      },
+      "search_completed": false,
+      "strategy_id": "character-targeted"
+    },
+    "effective_strategy_id": "character-targeted",
+    "executor_id": "second_batch.arithmetic.kou_21_113.v1",
+    "metrics": {},
+    "model_contract": "The executable target is part (a). A witness is a finite SmallGroup G and p dividing |G| for which the explicitly defined class function Psi_(p,G) has a negative or non-integral irreducible multiplicity.",
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "character-targeted",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-kou-21.113",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "character-targeted",
+  "task_id": "batch-task-d496c5bd040167fb57e373c2c886bf2234779846",
+  "worker_id": "batch2-worker-20-arithmetic-v3"
+}

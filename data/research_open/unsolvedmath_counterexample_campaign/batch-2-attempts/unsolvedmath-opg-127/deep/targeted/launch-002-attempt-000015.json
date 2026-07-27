@@ -1,0 +1,62 @@
+{
+  "attempt_id": 15,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 9
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "cec555653f2c451d83737c1dc0401d498d7c1c59ad517645110ac800405ecccf",
+  "deterministic_seed": 9093239591662298079,
+  "duration_seconds": 600.002004,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 9,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 44421,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 9,
+        "time_seconds": 600
+      },
+      "next_case": 44421,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 44422,
+      "premise_cases": 36204,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "G has a nowhere-zero 4-flow",
+      "counterexample": "G is bridgeless and has no Petersen minor; the screen restricts |V(G)|<10, where the minor exclusion is automatic and NOT (G has a nowhere-zero 4-flow)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is bridgeless and has no Petersen minor; the screen restricts |V(G)|<10, where the minor exclusion is automatic"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 2,
+  "parent_problem_id": "unsolvedmath-opg-127",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-cec555653f2c451d83737c1dc0401d498d7c1c59",
+  "worker_id": "batch2-worker-6"
+}

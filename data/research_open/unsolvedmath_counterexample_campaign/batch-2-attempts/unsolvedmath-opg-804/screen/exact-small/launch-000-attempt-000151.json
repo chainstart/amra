@@ -1,0 +1,5171 @@
+{
+  "attempt_id": 151,
+  "budget": {
+    "max_cases": 10000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 7
+    },
+    "time_seconds": 60
+  },
+  "config_fingerprint": "bbe9950bded5961ced633644537c883f27a90e47b45125b6102bb50074d7c022",
+  "deterministic_seed": 7733944399755614035,
+  "duration_seconds": 60.001531,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 10000,
+      "max_vertices": 7,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 421,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 10000,
+        "max_vertices": 7,
+        "time_seconds": 60
+      },
+      "edge_reconstruction_state": {
+        "decks": [
+          {
+            "canonical_edge_deck": [
+              7,
+              11,
+              13,
+              13
+            ],
+            "representative_edge_mask": 58,
+            "vertex_count": 4
+          },
+          {
+            "canonical_edge_deck": [
+              13,
+              13,
+              13,
+              13
+            ],
+            "representative_edge_mask": 30,
+            "vertex_count": 4
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              15,
+              15,
+              15,
+              30
+            ],
+            "representative_edge_mask": 62,
+            "vertex_count": 4
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              31,
+              31,
+              31,
+              31,
+              31
+            ],
+            "representative_edge_mask": 63,
+            "vertex_count": 4
+          },
+          {
+            "canonical_edge_deck": [
+              7,
+              11,
+              13,
+              13
+            ],
+            "representative_edge_mask": 712,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              7,
+              76,
+              76,
+              76
+            ],
+            "representative_edge_mask": 338,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              11,
+              11,
+              11,
+              11
+            ],
+            "representative_edge_mask": 960,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              11,
+              13,
+              13,
+              76
+            ],
+            "representative_edge_mask": 456,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              13,
+              13,
+              13,
+              13
+            ],
+            "representative_edge_mask": 216,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              13,
+              13,
+              76,
+              76
+            ],
+            "representative_edge_mask": 210,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              15,
+              15,
+              15,
+              30
+            ],
+            "representative_edge_mask": 728,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              15,
+              75,
+              77,
+              77
+            ],
+            "representative_edge_mask": 968,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              15,
+              77,
+              77,
+              86
+            ],
+            "representative_edge_mask": 856,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              77,
+              86,
+              86,
+              116
+            ],
+            "representative_edge_mask": 466,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              30,
+              77,
+              77,
+              86,
+              86
+            ],
+            "representative_edge_mask": 472,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              31,
+              31,
+              31,
+              31,
+              31
+            ],
+            "representative_edge_mask": 874,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              79,
+              79,
+              87,
+              87,
+              94
+            ],
+            "representative_edge_mask": 984,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              87,
+              87,
+              94,
+              117,
+              117
+            ],
+            "representative_edge_mask": 490,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              63,
+              95,
+              95,
+              95,
+              119,
+              119,
+              119
+            ],
+            "representative_edge_mask": 1002,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              79,
+              79,
+              117,
+              117,
+              117,
+              117
+            ],
+            "representative_edge_mask": 978,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              86,
+              86,
+              86,
+              86,
+              86
+            ],
+            "representative_edge_mask": 410,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              87,
+              94,
+              94,
+              117,
+              117,
+              236
+            ],
+            "representative_edge_mask": 474,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              94,
+              94,
+              94,
+              94,
+              94
+            ],
+            "representative_edge_mask": 504,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              95,
+              95,
+              95,
+              95,
+              95,
+              222
+            ],
+            "representative_edge_mask": 1016,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              95,
+              119,
+              119,
+              235,
+              237,
+              237
+            ],
+            "representative_edge_mask": 986,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              119,
+              119,
+              222,
+              237,
+              237,
+              237,
+              237
+            ],
+            "representative_edge_mask": 478,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              127,
+              127,
+              223,
+              239,
+              239,
+              239,
+              239,
+              254
+            ],
+            "representative_edge_mask": 1018,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              239,
+              239,
+              239,
+              239,
+              254,
+              254,
+              254,
+              254
+            ],
+            "representative_edge_mask": 990,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              255,
+              255,
+              255,
+              255,
+              255,
+              255,
+              507,
+              507,
+              507
+            ],
+            "representative_edge_mask": 1022,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              511,
+              511,
+              511,
+              511,
+              511,
+              511,
+              511,
+              511,
+              511,
+              511
+            ],
+            "representative_edge_mask": 1023,
+            "vertex_count": 5
+          },
+          {
+            "canonical_edge_deck": [
+              7,
+              11,
+              13,
+              13
+            ],
+            "representative_edge_mask": 19520,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              7,
+              76,
+              76,
+              76
+            ],
+            "representative_edge_mask": 9352,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              11,
+              11,
+              11,
+              11
+            ],
+            "representative_edge_mask": 15360,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              11,
+              13,
+              13,
+              76
+            ],
+            "representative_edge_mask": 7232,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              11,
+              76,
+              76,
+              76
+            ],
+            "representative_edge_mask": 14400,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              13,
+              13,
+              13,
+              13
+            ],
+            "representative_edge_mask": 3264,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              13,
+              13,
+              76,
+              76
+            ],
+            "representative_edge_mask": 3208,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              13,
+              76,
+              76,
+              1184
+            ],
+            "representative_edge_mask": 5256,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              15,
+              15,
+              15,
+              30
+            ],
+            "representative_edge_mask": 19648,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              15,
+              75,
+              77,
+              77
+            ],
+            "representative_edge_mask": 23616,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              15,
+              77,
+              77,
+              86
+            ],
+            "representative_edge_mask": 21696,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              77,
+              86,
+              86,
+              116
+            ],
+            "representative_edge_mask": 11400,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              116,
+              1100,
+              1185,
+              1185
+            ],
+            "representative_edge_mask": 13448,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              30,
+              77,
+              77,
+              86,
+              86
+            ],
+            "representative_edge_mask": 7360,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              30,
+              1185,
+              1185,
+              1185,
+              1185
+            ],
+            "representative_edge_mask": 6536,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              31,
+              31,
+              31,
+              31,
+              31
+            ],
+            "representative_edge_mask": 26184,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              79,
+              79,
+              87,
+              87,
+              94
+            ],
+            "representative_edge_mask": 23744,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              87,
+              87,
+              94,
+              117,
+              117
+            ],
+            "representative_edge_mask": 19656,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              1194,
+              1194,
+              1194,
+              1194,
+              1456
+            ],
+            "representative_edge_mask": 22920,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              63,
+              95,
+              95,
+              95,
+              119,
+              119,
+              119
+            ],
+            "representative_edge_mask": 28232,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              63,
+              1460,
+              1460,
+              1460,
+              1460,
+              1460,
+              1460
+            ],
+            "representative_edge_mask": 21842,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              75,
+              75,
+              75,
+              75,
+              75
+            ],
+            "representative_edge_mask": 31744,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              75,
+              77,
+              77,
+              77,
+              1100
+            ],
+            "representative_edge_mask": 15424,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              76,
+              76,
+              76,
+              76
+            ],
+            "representative_edge_mask": 12480,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              77,
+              77,
+              77,
+              77,
+              1108
+            ],
+            "representative_edge_mask": 28864,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              77,
+              77,
+              86,
+              1185,
+              1185
+            ],
+            "representative_edge_mask": 7304,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              77,
+              86,
+              86,
+              1100,
+              1108
+            ],
+            "representative_edge_mask": 13504,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              79,
+              79,
+              79,
+              1099,
+              1101,
+              1101
+            ],
+            "representative_edge_mask": 31808,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              79,
+              79,
+              117,
+              117,
+              117,
+              117
+            ],
+            "representative_edge_mask": 27784,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              79,
+              87,
+              87,
+              1101,
+              1109,
+              1110
+            ],
+            "representative_edge_mask": 29888,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              79,
+              117,
+              1101,
+              1187,
+              1187,
+              1194
+            ],
+            "representative_edge_mask": 15496,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              86,
+              86,
+              86,
+              86,
+              86
+            ],
+            "representative_edge_mask": 10440,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              86,
+              86,
+              1108,
+              1185,
+              1185
+            ],
+            "representative_edge_mask": 3464,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              87,
+              87,
+              87,
+              1187,
+              1187,
+              1187
+            ],
+            "representative_edge_mask": 21704,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              87,
+              94,
+              94,
+              117,
+              117,
+              236
+            ],
+            "representative_edge_mask": 11464,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              87,
+              117,
+              1110,
+              1187,
+              1194,
+              1196
+            ],
+            "representative_edge_mask": 19848,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              94,
+              94,
+              94,
+              94,
+              94
+            ],
+            "representative_edge_mask": 7616,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              94,
+              1101,
+              1101,
+              1110,
+              1110
+            ],
+            "representative_edge_mask": 15552,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              94,
+              1109,
+              1187,
+              1187,
+              1196
+            ],
+            "representative_edge_mask": 7368,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              94,
+              1110,
+              1110,
+              1110,
+              1110
+            ],
+            "representative_edge_mask": 11712,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              1187,
+              1187,
+              1196,
+              1196,
+              1456
+            ],
+            "representative_edge_mask": 7560,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              95,
+              95,
+              95,
+              95,
+              95,
+              222
+            ],
+            "representative_edge_mask": 24000,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              95,
+              119,
+              119,
+              235,
+              237,
+              237
+            ],
+            "representative_edge_mask": 27848,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              95,
+              1103,
+              1103,
+              1111,
+              1111,
+              1118
+            ],
+            "representative_edge_mask": 31936,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              95,
+              1111,
+              1111,
+              1111,
+              1111,
+              1182
+            ],
+            "representative_edge_mask": 28096,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              119,
+              1111,
+              1191,
+              1195,
+              1197,
+              1198
+            ],
+            "representative_edge_mask": 23752,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              1195,
+              1195,
+              1198,
+              1198,
+              1457,
+              1460
+            ],
+            "representative_edge_mask": 23944,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              116,
+              116,
+              1108,
+              1108,
+              1108
+            ],
+            "representative_edge_mask": 9608,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              117,
+              117,
+              1109,
+              1110,
+              1110,
+              1140
+            ],
+            "representative_edge_mask": 25992,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              117,
+              1110,
+              1140,
+              1194,
+              1196,
+              1196
+            ],
+            "representative_edge_mask": 11656,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              119,
+              119,
+              222,
+              237,
+              237,
+              237,
+              237
+            ],
+            "representative_edge_mask": 11480,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              119,
+              119,
+              1111,
+              1111,
+              1118,
+              1141,
+              1141
+            ],
+            "representative_edge_mask": 15944,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              119,
+              119,
+              1182,
+              1198,
+              1198,
+              1198,
+              1198
+            ],
+            "representative_edge_mask": 25944,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              119,
+              1198,
+              1198,
+              1268,
+              1268,
+              1457,
+              1460
+            ],
+            "representative_edge_mask": 7506,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              127,
+              127,
+              223,
+              239,
+              239,
+              239,
+              239,
+              254
+            ],
+            "representative_edge_mask": 28360,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              127,
+              127,
+              1119,
+              1119,
+              1119,
+              1143,
+              1143,
+              1143
+            ],
+            "representative_edge_mask": 32328,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              127,
+              127,
+              1183,
+              1199,
+              1199,
+              1199,
+              1199,
+              1214
+            ],
+            "representative_edge_mask": 30408,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              127,
+              1461,
+              1461,
+              1461,
+              1468,
+              1468,
+              1468,
+              1972
+            ],
+            "representative_edge_mask": 23890,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              222,
+              1118,
+              1118,
+              1118,
+              1182,
+              1182,
+              1182
+            ],
+            "representative_edge_mask": 15808,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              222,
+              1197,
+              1197,
+              1197,
+              1197,
+              1457,
+              1457
+            ],
+            "representative_edge_mask": 7384,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              223,
+              1119,
+              1119,
+              1119,
+              1183,
+              1183,
+              1183,
+              1246
+            ],
+            "representative_edge_mask": 32192,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              223,
+              1199,
+              1199,
+              1199,
+              1199,
+              1459,
+              1461,
+              1461
+            ],
+            "representative_edge_mask": 24008,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              235,
+              1103,
+              1103,
+              1195,
+              1195,
+              1195,
+              1195
+            ],
+            "representative_edge_mask": 31880,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              235,
+              1111,
+              1141,
+              1195,
+              1198,
+              1198,
+              1268
+            ],
+            "representative_edge_mask": 28040,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              236,
+              1110,
+              1110,
+              1187,
+              1196,
+              1196
+            ],
+            "representative_edge_mask": 14536,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              237,
+              1111,
+              1118,
+              1195,
+              1197,
+              1198,
+              1260
+            ],
+            "representative_edge_mask": 15560,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              237,
+              1141,
+              1182,
+              1197,
+              1198,
+              1260,
+              1268
+            ],
+            "representative_edge_mask": 26968,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              237,
+              1191,
+              1198,
+              1198,
+              1260,
+              1457,
+              1457
+            ],
+            "representative_edge_mask": 13656,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              239,
+              239,
+              239,
+              239,
+              254,
+              254,
+              254,
+              254
+            ],
+            "representative_edge_mask": 27864,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              239,
+              1119,
+              1119,
+              1199,
+              1199,
+              1259,
+              1261,
+              1261
+            ],
+            "representative_edge_mask": 31944,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              239,
+              1143,
+              1183,
+              1199,
+              1199,
+              1261,
+              1269,
+              1270
+            ],
+            "representative_edge_mask": 28104,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              239,
+              1199,
+              1214,
+              1269,
+              1270,
+              1461,
+              1465,
+              1468
+            ],
+            "representative_edge_mask": 27992,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              254,
+              1143,
+              1214,
+              1246,
+              1261,
+              1261,
+              1270,
+              1270
+            ],
+            "representative_edge_mask": 16072,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              254,
+              1199,
+              1199,
+              1261,
+              1261,
+              1459,
+              1465,
+              1465
+            ],
+            "representative_edge_mask": 15576,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              254,
+              1270,
+              1270,
+              1270,
+              1270,
+              1459,
+              1468,
+              1468
+            ],
+            "representative_edge_mask": 11736,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              255,
+              255,
+              255,
+              255,
+              255,
+              255,
+              507,
+              507,
+              507
+            ],
+            "representative_edge_mask": 28376,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              255,
+              1151,
+              1215,
+              1247,
+              1263,
+              1263,
+              1271,
+              1271,
+              1278
+            ],
+            "representative_edge_mask": 32456,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              255,
+              1215,
+              1215,
+              1271,
+              1271,
+              1463,
+              1467,
+              1469,
+              1469
+            ],
+            "representative_edge_mask": 30424,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              255,
+              1463,
+              1469,
+              1469,
+              1469,
+              1469,
+              1532,
+              1973,
+              1973
+            ],
+            "representative_edge_mask": 24018,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              507,
+              1263,
+              1263,
+              1263,
+              1263,
+              1467,
+              1467,
+              1467,
+              1467
+            ],
+            "representative_edge_mask": 31960,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              507,
+              1271,
+              1271,
+              1278,
+              1278,
+              1467,
+              1469,
+              1469,
+              1532
+            ],
+            "representative_edge_mask": 16088,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              511,
+              511,
+              511,
+              511,
+              511,
+              511,
+              511,
+              511,
+              511,
+              511
+            ],
+            "representative_edge_mask": 30570,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              511,
+              1279,
+              1279,
+              1279,
+              1279,
+              1471,
+              1471,
+              1531,
+              1533,
+              1533
+            ],
+            "representative_edge_mask": 32472,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              511,
+              1471,
+              1471,
+              1471,
+              1533,
+              1533,
+              1533,
+              1975,
+              1975,
+              1975
+            ],
+            "representative_edge_mask": 16234,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1023,
+              1535,
+              1535,
+              1535,
+              1535,
+              1535,
+              1535,
+              1983,
+              1983,
+              1983,
+              1983
+            ],
+            "representative_edge_mask": 32618,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1118,
+              1195,
+              1195,
+              1268,
+              1268,
+              1457,
+              1457
+            ],
+            "representative_edge_mask": 15752,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1119,
+              1259,
+              1259,
+              1269,
+              1269,
+              1461,
+              1461,
+              3306
+            ],
+            "representative_edge_mask": 32136,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1140,
+              1140,
+              1140,
+              1140,
+              1140,
+              1140
+            ],
+            "representative_edge_mask": 10578,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1141,
+              1141,
+              1268,
+              1268,
+              1268,
+              1268,
+              3873
+            ],
+            "representative_edge_mask": 11602,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1143,
+              1269,
+              1269,
+              1468,
+              1468,
+              3306,
+              3875,
+              3875
+            ],
+            "representative_edge_mask": 15698,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1151,
+              1973,
+              1973,
+              3307,
+              3307,
+              3307,
+              3879,
+              3879,
+              3879
+            ],
+            "representative_edge_mask": 32082,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1182,
+              1260,
+              1260,
+              1260,
+              1260,
+              1457,
+              1457
+            ],
+            "representative_edge_mask": 14792,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1183,
+              1261,
+              1261,
+              1261,
+              1261,
+              1461,
+              1461,
+              3308
+            ],
+            "representative_edge_mask": 31176,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1196,
+              1196,
+              1196,
+              1196,
+              1196,
+              1196
+            ],
+            "representative_edge_mask": 6488,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1197,
+              1197,
+              1457,
+              1457,
+              1457,
+              1457,
+              3440
+            ],
+            "representative_edge_mask": 7512,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1198,
+              1198,
+              1260,
+              1260,
+              1268,
+              1268,
+              3440
+            ],
+            "representative_edge_mask": 14680,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1199,
+              1261,
+              1461,
+              1465,
+              1468,
+              3306,
+              3441,
+              3448
+            ],
+            "representative_edge_mask": 15704,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1214,
+              1468,
+              1468,
+              3308,
+              3441,
+              3441,
+              3441,
+              3441
+            ],
+            "representative_edge_mask": 11674,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1215,
+              1973,
+              1973,
+              3309,
+              3449,
+              3449,
+              3449,
+              3449,
+              3948
+            ],
+            "representative_edge_mask": 30162,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1246,
+              1246,
+              1246,
+              1246,
+              1246,
+              1246,
+              1246,
+              1246
+            ],
+            "representative_edge_mask": 16320,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1246,
+              1261,
+              1261,
+              1270,
+              1270,
+              1459,
+              3306,
+              3308
+            ],
+            "representative_edge_mask": 15816,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1247,
+              1247,
+              1247,
+              1247,
+              1247,
+              1247,
+              1247,
+              1247,
+              3294
+            ],
+            "representative_edge_mask": 32704,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1247,
+              1263,
+              1263,
+              1271,
+              1271,
+              1463,
+              3307,
+              3309,
+              3310
+            ],
+            "representative_edge_mask": 32200,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1261,
+              1261,
+              1269,
+              1269,
+              1270,
+              1270,
+              3441,
+              3441
+            ],
+            "representative_edge_mask": 31064,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1263,
+              1263,
+              1469,
+              1469,
+              3307,
+              3307,
+              3443,
+              3449,
+              3449
+            ],
+            "representative_edge_mask": 32088,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1270,
+              1270,
+              1270,
+              1270,
+              3441,
+              3441,
+              3875,
+              3875
+            ],
+            "representative_edge_mask": 11730,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1270,
+              1270,
+              1465,
+              1465,
+              3308,
+              3308,
+              3441,
+              3448
+            ],
+            "representative_edge_mask": 7578,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1271,
+              1271,
+              1271,
+              1271,
+              1271,
+              1271,
+              3443,
+              3443,
+              3443
+            ],
+            "representative_edge_mask": 31576,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1271,
+              1271,
+              1469,
+              1469,
+              3449,
+              3449,
+              3879,
+              3879,
+              3885
+            ],
+            "representative_edge_mask": 28114,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1271,
+              1278,
+              1467,
+              1469,
+              3309,
+              3310,
+              3443,
+              3449,
+              3452
+            ],
+            "representative_edge_mask": 16216,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1278,
+              1278,
+              1278,
+              1278,
+              3294,
+              3310,
+              3310,
+              3310,
+              3310
+            ],
+            "representative_edge_mask": 16328,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1278,
+              1532,
+              3310,
+              3443,
+              3443,
+              3879,
+              3885,
+              3885,
+              3948
+            ],
+            "representative_edge_mask": 15826,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1279,
+              1279,
+              1279,
+              1279,
+              3295,
+              3311,
+              3311,
+              3311,
+              3311,
+              3326
+            ],
+            "representative_edge_mask": 32712,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1279,
+              1279,
+              1471,
+              1471,
+              3311,
+              3311,
+              3447,
+              3451,
+              3453,
+              3453
+            ],
+            "representative_edge_mask": 32600,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1279,
+              1975,
+              3311,
+              3451,
+              3451,
+              3887,
+              3887,
+              3947,
+              3949,
+              3950
+            ],
+            "representative_edge_mask": 32210,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1459,
+              1459,
+              1459,
+              1459,
+              3448,
+              3448,
+              3448,
+              3448
+            ],
+            "representative_edge_mask": 7640,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1463,
+              1463,
+              1467,
+              1467,
+              3449,
+              3449,
+              3449,
+              3449,
+              3576
+            ],
+            "representative_edge_mask": 24024,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1467,
+              1532,
+              3310,
+              3310,
+              3449,
+              3449,
+              3452,
+              3452,
+              3576
+            ],
+            "representative_edge_mask": 15832,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1469,
+              1469,
+              3443,
+              3449,
+              3449,
+              3452,
+              3452,
+              3948,
+              3948
+            ],
+            "representative_edge_mask": 15770,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1471,
+              1471,
+              1471,
+              1471,
+              3577,
+              3577,
+              3887,
+              3887,
+              3887,
+              3887
+            ],
+            "representative_edge_mask": 24042,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1471,
+              1975,
+              3453,
+              3453,
+              3577,
+              3578,
+              3950,
+              3950,
+              3958,
+              3958
+            ],
+            "representative_edge_mask": 15850,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1531,
+              1533,
+              3311,
+              3311,
+              3451,
+              3451,
+              3453,
+              3453,
+              3577,
+              3578
+            ],
+            "representative_edge_mask": 32216,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1533,
+              1533,
+              3326,
+              3326,
+              3453,
+              3453,
+              3453,
+              3453,
+              3578,
+              3578
+            ],
+            "representative_edge_mask": 28152,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1533,
+              1533,
+              3447,
+              3453,
+              3453,
+              3887,
+              3887,
+              3949,
+              3949,
+              3958
+            ],
+            "representative_edge_mask": 28122,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1535,
+              1535,
+              3327,
+              3327,
+              3455,
+              3455,
+              3455,
+              3455,
+              3579,
+              3579,
+              3582
+            ],
+            "representative_edge_mask": 32728,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1535,
+              1983,
+              3455,
+              3455,
+              3579,
+              3903,
+              3951,
+              3951,
+              3959,
+              3959,
+              3966
+            ],
+            "representative_edge_mask": 32234,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              1983,
+              1983,
+              3582,
+              3582,
+              3582,
+              3966,
+              3966,
+              3966,
+              3966,
+              3966,
+              3966
+            ],
+            "representative_edge_mask": 24030,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              2047,
+              2047,
+              3583,
+              3583,
+              3583,
+              3967,
+              3967,
+              3967,
+              3967,
+              3967,
+              3967,
+              4094
+            ],
+            "representative_edge_mask": 32746,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3326,
+              3326,
+              3949,
+              3949,
+              3949,
+              3949,
+              3949,
+              3949,
+              3949,
+              3949
+            ],
+            "representative_edge_mask": 16338,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3327,
+              3327,
+              3951,
+              3951,
+              3951,
+              3951,
+              3951,
+              3951,
+              3951,
+              3951,
+              7902
+            ],
+            "representative_edge_mask": 32722,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3451,
+              3451,
+              3451,
+              3451,
+              3451,
+              3958,
+              3958,
+              3958,
+              3958,
+              3958
+            ],
+            "representative_edge_mask": 32154,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3452,
+              3452,
+              3452,
+              3452,
+              3452,
+              3452,
+              3885,
+              3885,
+              3885
+            ],
+            "representative_edge_mask": 14810,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3453,
+              3453,
+              3578,
+              3578,
+              3887,
+              3949,
+              3949,
+              3958,
+              3958,
+              7916
+            ],
+            "representative_edge_mask": 15834,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3455,
+              3579,
+              3579,
+              3951,
+              3951,
+              3959,
+              3966,
+              3966,
+              7915,
+              7917,
+              7917
+            ],
+            "representative_edge_mask": 32218,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3576,
+              3576,
+              3576,
+              3576,
+              3576,
+              3576,
+              3576,
+              3576,
+              3576
+            ],
+            "representative_edge_mask": 7672,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3577,
+              3577,
+              3577,
+              3578,
+              3578,
+              3578,
+              3578,
+              3578,
+              3578,
+              7672
+            ],
+            "representative_edge_mask": 15864,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3579,
+              3579,
+              3579,
+              3579,
+              3579,
+              3579,
+              3582,
+              3582,
+              3582,
+              7673,
+              7673
+            ],
+            "representative_edge_mask": 32248,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3582,
+              3582,
+              3959,
+              3959,
+              3959,
+              3959,
+              7902,
+              7917,
+              7917,
+              7917,
+              7917
+            ],
+            "representative_edge_mask": 15838,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3583,
+              3583,
+              3583,
+              3583,
+              3583,
+              3583,
+              3583,
+              3583,
+              3583,
+              7675,
+              7675,
+              7675
+            ],
+            "representative_edge_mask": 32760,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3583,
+              3583,
+              3967,
+              3967,
+              3967,
+              3967,
+              7903,
+              7919,
+              7919,
+              7919,
+              7919,
+              7934
+            ],
+            "representative_edge_mask": 32730,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3903,
+              3966,
+              3966,
+              3966,
+              3966,
+              7673,
+              7673,
+              7917,
+              7917,
+              7917,
+              7917
+            ],
+            "representative_edge_mask": 30174,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              3967,
+              3967,
+              4094,
+              7675,
+              7919,
+              7919,
+              7919,
+              7919,
+              7934,
+              7934,
+              8185,
+              8185
+            ],
+            "representative_edge_mask": 32222,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              4095,
+              4095,
+              4095,
+              7679,
+              7935,
+              7935,
+              7935,
+              7935,
+              7935,
+              7935,
+              8187,
+              8187,
+              8187
+            ],
+            "representative_edge_mask": 32762,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              7934,
+              7934,
+              7934,
+              7934,
+              7934,
+              7934,
+              7934,
+              7934,
+              7934,
+              7934,
+              7934,
+              7934
+            ],
+            "representative_edge_mask": 16350,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              7935,
+              7935,
+              7935,
+              7935,
+              8187,
+              8187,
+              8187,
+              8187,
+              8187,
+              8187,
+              8187,
+              8187,
+              16350
+            ],
+            "representative_edge_mask": 32734,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              8191,
+              8191,
+              8191,
+              8191,
+              8191,
+              8191,
+              8191,
+              8191,
+              16351,
+              16351,
+              16351,
+              16351,
+              16351,
+              16351
+            ],
+            "representative_edge_mask": 32766,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              16383,
+              16383,
+              16383,
+              16383,
+              16383,
+              16383,
+              16383,
+              16383,
+              16383,
+              16383,
+              16383,
+              16383,
+              16383,
+              16383,
+              16383
+            ],
+            "representative_edge_mask": 32767,
+            "vertex_count": 6
+          },
+          {
+            "canonical_edge_deck": [
+              7,
+              11,
+              13,
+              13
+            ],
+            "representative_edge_mask": 1147904,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              7,
+              76,
+              76,
+              76
+            ],
+            "representative_edge_mask": 559168,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              11,
+              11,
+              11,
+              11
+            ],
+            "representative_edge_mask": 491520,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              11,
+              13,
+              13,
+              76
+            ],
+            "representative_edge_mask": 230400,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              11,
+              76,
+              76,
+              76
+            ],
+            "representative_edge_mask": 459776,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              13,
+              13,
+              13,
+              13
+            ],
+            "representative_edge_mask": 101376,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              13,
+              13,
+              76,
+              76
+            ],
+            "representative_edge_mask": 100416,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              13,
+              76,
+              76,
+              1184
+            ],
+            "representative_edge_mask": 165952,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              15,
+              15,
+              15,
+              30
+            ],
+            "representative_edge_mask": 1149952,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              15,
+              75,
+              77,
+              77
+            ],
+            "representative_edge_mask": 1278976,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              15,
+              77,
+              77,
+              86
+            ],
+            "representative_edge_mask": 1215488,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              77,
+              86,
+              86,
+              116
+            ],
+            "representative_edge_mask": 624704,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              15,
+              116,
+              1100,
+              1185,
+              1185
+            ],
+            "representative_edge_mask": 690240,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              30,
+              77,
+              77,
+              86,
+              86
+            ],
+            "representative_edge_mask": 232448,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              30,
+              1185,
+              1185,
+              1185,
+              1185
+            ],
+            "representative_edge_mask": 202816,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              31,
+              31,
+              31,
+              31,
+              31
+            ],
+            "representative_edge_mask": 1623104,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              79,
+              79,
+              87,
+              87,
+              94
+            ],
+            "representative_edge_mask": 1281024,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              87,
+              87,
+              94,
+              117,
+              117
+            ],
+            "representative_edge_mask": 1150016,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              31,
+              1194,
+              1194,
+              1194,
+              1194,
+              1456
+            ],
+            "representative_edge_mask": 1251392,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              63,
+              95,
+              95,
+              95,
+              119,
+              119,
+              119
+            ],
+            "representative_edge_mask": 1688640,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              75,
+              75,
+              75,
+              75,
+              75
+            ],
+            "representative_edge_mask": 1015808,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              75,
+              77,
+              77,
+              77,
+              1100
+            ],
+            "representative_edge_mask": 492544,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              75,
+              1100,
+              1100,
+              1100,
+              1100
+            ],
+            "representative_edge_mask": 984064,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              76,
+              76,
+              76,
+              76
+            ],
+            "representative_edge_mask": 396288,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              76,
+              76,
+              1184,
+              1184
+            ],
+            "representative_edge_mask": 395328,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              77,
+              77,
+              77,
+              77,
+              1108
+            ],
+            "representative_edge_mask": 1444864,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              77,
+              77,
+              86,
+              1185,
+              1185
+            ],
+            "representative_edge_mask": 231488,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              77,
+              86,
+              86,
+              1100,
+              1108
+            ],
+            "representative_edge_mask": 429056,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              77,
+              1100,
+              1185,
+              1185,
+              33952
+            ],
+            "representative_edge_mask": 428096,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              79,
+              79,
+              79,
+              1099,
+              1101,
+              1101
+            ],
+            "representative_edge_mask": 1541120,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              79,
+              79,
+              117,
+              117,
+              117,
+              117
+            ],
+            "representative_edge_mask": 1673280,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              79,
+              87,
+              87,
+              1101,
+              1109,
+              1110
+            ],
+            "representative_edge_mask": 1477632,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              79,
+              117,
+              1101,
+              1187,
+              1187,
+              1194
+            ],
+            "representative_edge_mask": 755776,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              79,
+              1194,
+              1194,
+              33868,
+              33953,
+              33953
+            ],
+            "representative_edge_mask": 952384,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              86,
+              86,
+              86,
+              86,
+              86
+            ],
+            "representative_edge_mask": 592960,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              86,
+              86,
+              1108,
+              1185,
+              1185
+            ],
+            "representative_edge_mask": 104512,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              87,
+              87,
+              87,
+              1187,
+              1187,
+              1187
+            ],
+            "representative_edge_mask": 1215552,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              87,
+              94,
+              94,
+              117,
+              117,
+              236
+            ],
+            "representative_edge_mask": 625728,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              87,
+              117,
+              1110,
+              1187,
+              1194,
+              1196
+            ],
+            "representative_edge_mask": 1153088,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              87,
+              1194,
+              1194,
+              33953,
+              33953,
+              35040
+            ],
+            "representative_edge_mask": 1382464,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              94,
+              94,
+              94,
+              94,
+              94
+            ],
+            "representative_edge_mask": 236544,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              94,
+              1101,
+              1101,
+              1110,
+              1110
+            ],
+            "representative_edge_mask": 494592,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              94,
+              1109,
+              1187,
+              1187,
+              1196
+            ],
+            "representative_edge_mask": 232512,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              94,
+              1110,
+              1110,
+              1110,
+              1110
+            ],
+            "representative_edge_mask": 367616,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              1187,
+              1187,
+              1196,
+              1196,
+              1456
+            ],
+            "representative_edge_mask": 235584,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              94,
+              1456,
+              33953,
+              33953,
+              35040,
+              35040
+            ],
+            "representative_edge_mask": 464960,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              95,
+              95,
+              95,
+              95,
+              95,
+              222
+            ],
+            "representative_edge_mask": 1285120,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              95,
+              119,
+              119,
+              235,
+              237,
+              237
+            ],
+            "representative_edge_mask": 1674304,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              95,
+              1103,
+              1103,
+              1111,
+              1111,
+              1118
+            ],
+            "representative_edge_mask": 1543168,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              95,
+              1111,
+              1111,
+              1111,
+              1111,
+              1182
+            ],
+            "representative_edge_mask": 1416192,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              119,
+              1111,
+              1191,
+              1195,
+              1197,
+              1198
+            ],
+            "representative_edge_mask": 1281088,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              1195,
+              1195,
+              1198,
+              1198,
+              1457,
+              1460
+            ],
+            "representative_edge_mask": 1284160,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              95,
+              1460,
+              33962,
+              33962,
+              35041,
+              35041,
+              35176
+            ],
+            "representative_edge_mask": 1513536,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              116,
+              116,
+              1108,
+              1108,
+              1108
+            ],
+            "representative_edge_mask": 563264,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              117,
+              117,
+              1109,
+              1110,
+              1110,
+              1140
+            ],
+            "representative_edge_mask": 1611840,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              117,
+              1110,
+              1140,
+              1194,
+              1196,
+              1196
+            ],
+            "representative_edge_mask": 628800,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              119,
+              119,
+              222,
+              237,
+              237,
+              237,
+              237
+            ],
+            "representative_edge_mask": 625856,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              119,
+              119,
+              1111,
+              1111,
+              1118,
+              1141,
+              1141
+            ],
+            "representative_edge_mask": 771136,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              119,
+              119,
+              1182,
+              1198,
+              1198,
+              1198,
+              1198
+            ],
+            "representative_edge_mask": 1610944,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              127,
+              127,
+              223,
+              239,
+              239,
+              239,
+              239,
+              254
+            ],
+            "representative_edge_mask": 1690688,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              127,
+              127,
+              1119,
+              1119,
+              1119,
+              1143,
+              1143,
+              1143
+            ],
+            "representative_edge_mask": 1819712,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              127,
+              127,
+              1183,
+              1199,
+              1199,
+              1199,
+              1199,
+              1214
+            ],
+            "representative_edge_mask": 1756224,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              222,
+              1118,
+              1118,
+              1118,
+              1182,
+              1182,
+              1182
+            ],
+            "representative_edge_mask": 498688,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              222,
+              1197,
+              1197,
+              1197,
+              1197,
+              1457,
+              1457
+            ],
+            "representative_edge_mask": 232640,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              222,
+              35176,
+              35176,
+              35176,
+              35176,
+              35176,
+              35176
+            ],
+            "representative_edge_mask": 473152,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              223,
+              1119,
+              1119,
+              1119,
+              1183,
+              1183,
+              1183,
+              1246
+            ],
+            "representative_edge_mask": 1547264,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              223,
+              1199,
+              1199,
+              1199,
+              1199,
+              1459,
+              1461,
+              1461
+            ],
+            "representative_edge_mask": 1285184,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              223,
+              35178,
+              35178,
+              35178,
+              35178,
+              35178,
+              35178,
+              39344
+            ],
+            "representative_edge_mask": 1521728,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              235,
+              1103,
+              1103,
+              1195,
+              1195,
+              1195,
+              1195
+            ],
+            "representative_edge_mask": 1804352,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              235,
+              1111,
+              1141,
+              1195,
+              1198,
+              1198,
+              1268
+            ],
+            "representative_edge_mask": 1677376,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              236,
+              1110,
+              1110,
+              1187,
+              1196,
+              1196
+            ],
+            "representative_edge_mask": 724032,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              237,
+              1111,
+              1118,
+              1195,
+              1197,
+              1198,
+              1260
+            ],
+            "representative_edge_mask": 756800,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              237,
+              1141,
+              1182,
+              1197,
+              1198,
+              1260,
+              1268
+            ],
+            "representative_edge_mask": 1643712,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              237,
+              1191,
+              1198,
+              1198,
+              1260,
+              1457,
+              1457
+            ],
+            "representative_edge_mask": 693440,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              239,
+              239,
+              239,
+              239,
+              254,
+              254,
+              254,
+              254
+            ],
+            "representative_edge_mask": 1674432,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              239,
+              1119,
+              1119,
+              1199,
+              1199,
+              1259,
+              1261,
+              1261
+            ],
+            "representative_edge_mask": 1805376,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              239,
+              1143,
+              1183,
+              1199,
+              1199,
+              1261,
+              1269,
+              1270
+            ],
+            "representative_edge_mask": 1678400,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              239,
+              1199,
+              1214,
+              1269,
+              1270,
+              1461,
+              1465,
+              1468
+            ],
+            "representative_edge_mask": 1676480,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              254,
+              1143,
+              1214,
+              1246,
+              1261,
+              1261,
+              1270,
+              1270
+            ],
+            "representative_edge_mask": 773184,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              254,
+              1199,
+              1199,
+              1261,
+              1261,
+              1459,
+              1465,
+              1465
+            ],
+            "representative_edge_mask": 756928,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              255,
+              1151,
+              1215,
+              1247,
+              1263,
+              1263,
+              1271,
+              1271,
+              1278
+            ],
+            "representative_edge_mask": 1821760,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              507,
+              1263,
+              1263,
+              1263,
+              1263,
+              1467,
+              1467,
+              1467,
+              1467
+            ],
+            "representative_edge_mask": 1805504,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1099,
+              1099,
+              1099,
+              1099,
+              1099,
+              1099
+            ],
+            "representative_edge_mask": 2064384,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1099,
+              1101,
+              1101,
+              1101,
+              1101,
+              33868
+            ],
+            "representative_edge_mask": 1016832,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1100,
+              1100,
+              1108,
+              1108,
+              1108
+            ],
+            "representative_edge_mask": 920576,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1101,
+              1101,
+              1109,
+              1109,
+              1109,
+              33876
+            ],
+            "representative_edge_mask": 1969152,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1101,
+              1101,
+              1187,
+              1187,
+              33953,
+              33953
+            ],
+            "representative_edge_mask": 493632,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1101,
+              1110,
+              1110,
+              1110,
+              33868,
+              33876
+            ],
+            "representative_edge_mask": 953344,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1103,
+              1103,
+              1103,
+              1103,
+              33867,
+              33869,
+              33869
+            ],
+            "representative_edge_mask": 2065408,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1103,
+              1111,
+              1111,
+              1111,
+              33869,
+              33877,
+              33878
+            ],
+            "representative_edge_mask": 2001920,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1103,
+              1195,
+              1195,
+              33869,
+              33955,
+              33955,
+              33962
+            ],
+            "representative_edge_mask": 1017920,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1108,
+              1108,
+              1185,
+              1185,
+              33952
+            ],
+            "representative_edge_mask": 301120,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1109,
+              1110,
+              1187,
+              1187,
+              33953,
+              33956
+            ],
+            "representative_edge_mask": 1349696,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1110,
+              1110,
+              1110,
+              1110,
+              33876,
+              33876
+            ],
+            "representative_edge_mask": 826368,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1110,
+              1187,
+              1196,
+              33953,
+              33956,
+              35040
+            ],
+            "representative_edge_mask": 366656,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1110,
+              1196,
+              1196,
+              33876,
+              33953,
+              33956
+            ],
+            "representative_edge_mask": 461888,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1111,
+              1111,
+              1111,
+              1111,
+              33877,
+              33877,
+              33942
+            ],
+            "representative_edge_mask": 1874944,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1111,
+              1111,
+              1191,
+              1191,
+              33955,
+              33957,
+              33957
+            ],
+            "representative_edge_mask": 1477696,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1111,
+              1195,
+              1198,
+              33955,
+              33957,
+              35041,
+              35042
+            ],
+            "representative_edge_mask": 1415232,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1111,
+              1198,
+              1198,
+              33878,
+              33957,
+              33962,
+              33964
+            ],
+            "representative_edge_mask": 953408,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1118,
+              1118,
+              1118,
+              33869,
+              33869,
+              33878,
+              33878
+            ],
+            "representative_edge_mask": 1018880,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1118,
+              1182,
+              1182,
+              33878,
+              33878,
+              33942,
+              33942
+            ],
+            "representative_edge_mask": 891904,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1118,
+              1195,
+              1195,
+              1268,
+              1268,
+              1457,
+              1457
+            ],
+            "representative_edge_mask": 759872,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1118,
+              1197,
+              1197,
+              33877,
+              33955,
+              33957,
+              33964
+            ],
+            "representative_edge_mask": 494656,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1118,
+              1457,
+              33955,
+              33955,
+              35042,
+              35042,
+              35176
+            ],
+            "representative_edge_mask": 497728,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1119,
+              1119,
+              1119,
+              33871,
+              33871,
+              33879,
+              33879,
+              33886
+            ],
+            "representative_edge_mask": 2067456,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1119,
+              1183,
+              1183,
+              33879,
+              33879,
+              33943,
+              33943,
+              33950
+            ],
+            "representative_edge_mask": 1940480,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1119,
+              1199,
+              1199,
+              33879,
+              33959,
+              33963,
+              33965,
+              33966
+            ],
+            "representative_edge_mask": 1543232,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1119,
+              1259,
+              1259,
+              1269,
+              1269,
+              1461,
+              1461,
+              3306
+            ],
+            "representative_edge_mask": 1808448,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1119,
+              1461,
+              33963,
+              33963,
+              35043,
+              35043,
+              35177,
+              35178
+            ],
+            "representative_edge_mask": 1546304,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1140,
+              1140,
+              1140,
+              33876,
+              33876,
+              33876
+            ],
+            "representative_edge_mask": 476224,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1140,
+              1194,
+              1194,
+              33876,
+              33956,
+              33956
+            ],
+            "representative_edge_mask": 825408,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1141,
+              1141,
+              1141,
+              33877,
+              33878,
+              33878,
+              33908
+            ],
+            "representative_edge_mask": 508992,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1141,
+              1195,
+              1195,
+              33877,
+              33957,
+              33957,
+              33972
+            ],
+            "representative_edge_mask": 1873984,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1143,
+              1143,
+              1143,
+              33879,
+              33879,
+              33886,
+              33909,
+              33909
+            ],
+            "representative_edge_mask": 1033280,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1143,
+              1199,
+              1199,
+              33943,
+              33959,
+              33965,
+              33973,
+              33974
+            ],
+            "representative_edge_mask": 1875008,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1143,
+              1214,
+              1214,
+              33950,
+              33966,
+              33966,
+              33974,
+              33974
+            ],
+            "representative_edge_mask": 969792,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1151,
+              1151,
+              1151,
+              33887,
+              33887,
+              33887,
+              33911,
+              33911,
+              33911
+            ],
+            "representative_edge_mask": 2081856,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1151,
+              1215,
+              1215,
+              33951,
+              33967,
+              33967,
+              33975,
+              33975,
+              33982
+            ],
+            "representative_edge_mask": 2018368,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1182,
+              1197,
+              1197,
+              33957,
+              33957,
+              35042,
+              35042
+            ],
+            "representative_edge_mask": 1840320,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1182,
+              1260,
+              1260,
+              1260,
+              1260,
+              1457,
+              1457
+            ],
+            "representative_edge_mask": 728128,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1182,
+              1457,
+              33964,
+              33964,
+              35042,
+              35042,
+              35176
+            ],
+            "representative_edge_mask": 243776,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1183,
+              1199,
+              1199,
+              33959,
+              33959,
+              35043,
+              35043,
+              35046
+            ],
+            "representative_edge_mask": 1416256,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1183,
+              1261,
+              1261,
+              1261,
+              1261,
+              1461,
+              1461,
+              3308
+            ],
+            "representative_edge_mask": 1776704,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1183,
+              1461,
+              33966,
+              33966,
+              35043,
+              35043,
+              35178,
+              35180
+            ],
+            "representative_edge_mask": 1292352,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1195,
+              1268,
+              33878,
+              33962,
+              33972,
+              35042,
+              35042
+            ],
+            "representative_edge_mask": 890944,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1196,
+              1196,
+              1196,
+              1196,
+              1196,
+              1196
+            ],
+            "representative_edge_mask": 201920,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1197,
+              1197,
+              1457,
+              1457,
+              1457,
+              1457,
+              3440
+            ],
+            "representative_edge_mask": 234688,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1198,
+              1198,
+              1260,
+              1260,
+              1268,
+              1268,
+              3440
+            ],
+            "representative_edge_mask": 726208,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1199,
+              1199,
+              1214,
+              35043,
+              35043,
+              35046,
+              35129,
+              35129
+            ],
+            "representative_edge_mask": 1873088,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1199,
+              1261,
+              1461,
+              1465,
+              1468,
+              3306,
+              3441,
+              3448
+            ],
+            "representative_edge_mask": 758976,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1199,
+              1468,
+              33966,
+              35050,
+              35129,
+              35178,
+              35186,
+              35192
+            ],
+            "representative_edge_mask": 890048,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1246,
+              1246,
+              1246,
+              1246,
+              1246,
+              1246,
+              1246,
+              1246
+            ],
+            "representative_edge_mask": 506880,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1246,
+              1246,
+              33886,
+              33886,
+              33886,
+              33950,
+              33950,
+              33950
+            ],
+            "representative_edge_mask": 1022976,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1246,
+              1246,
+              33950,
+              33950,
+              33950,
+              33950,
+              33950,
+              33950
+            ],
+            "representative_edge_mask": 769024,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1246,
+              1261,
+              1261,
+              1270,
+              1270,
+              1459,
+              3306,
+              3308
+            ],
+            "representative_edge_mask": 760896,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1246,
+              1459,
+              33965,
+              33965,
+              35046,
+              35046,
+              35177,
+              35180
+            ],
+            "representative_edge_mask": 498752,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1246,
+              35177,
+              35177,
+              35177,
+              35180,
+              35180,
+              35180,
+              39344
+            ],
+            "representative_edge_mask": 505920,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1247,
+              1247,
+              1247,
+              1247,
+              1247,
+              1247,
+              1247,
+              1247,
+              3294
+            ],
+            "representative_edge_mask": 1555456,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1247,
+              1247,
+              33887,
+              33887,
+              33887,
+              33951,
+              33951,
+              33951,
+              34014
+            ],
+            "representative_edge_mask": 2071552,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1247,
+              1247,
+              33951,
+              33951,
+              33951,
+              33951,
+              33951,
+              33951,
+              35038
+            ],
+            "representative_edge_mask": 1817600,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1247,
+              1263,
+              1263,
+              1271,
+              1271,
+              1463,
+              3307,
+              3309,
+              3310
+            ],
+            "representative_edge_mask": 1809472,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1247,
+              1463,
+              33967,
+              33967,
+              35047,
+              35047,
+              35179,
+              35181,
+              35182
+            ],
+            "representative_edge_mask": 1547328,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1247,
+              35179,
+              35179,
+              35179,
+              35182,
+              35182,
+              35182,
+              39345,
+              39348
+            ],
+            "representative_edge_mask": 1554496,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1259,
+              1259,
+              33871,
+              33871,
+              33963,
+              33963,
+              33963,
+              33963
+            ],
+            "representative_edge_mask": 2066496,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1259,
+              1269,
+              33879,
+              33963,
+              33973,
+              35043,
+              35043,
+              35050
+            ],
+            "representative_edge_mask": 1939520,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1260,
+              1260,
+              33878,
+              33878,
+              33955,
+              33964,
+              33964
+            ],
+            "representative_edge_mask": 986176,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1260,
+              1260,
+              33942,
+              33964,
+              33964,
+              35042,
+              35042
+            ],
+            "representative_edge_mask": 859200,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1260,
+              1260,
+              33957,
+              33957,
+              35042,
+              35042,
+              35184
+            ],
+            "representative_edge_mask": 922816,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1261,
+              1261,
+              1269,
+              1269,
+              1270,
+              1270,
+              3441,
+              3441
+            ],
+            "representative_edge_mask": 1774784,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1261,
+              1261,
+              33879,
+              33886,
+              33963,
+              33965,
+              33966,
+              34028
+            ],
+            "representative_edge_mask": 1018944,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1261,
+              1261,
+              33943,
+              33965,
+              33965,
+              35043,
+              35043,
+              35052
+            ],
+            "representative_edge_mask": 1907776,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1261,
+              1270,
+              33950,
+              33966,
+              33974,
+              35046,
+              35050,
+              35052
+            ],
+            "representative_edge_mask": 891968,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1261,
+              1270,
+              33965,
+              33973,
+              35043,
+              35046,
+              35185,
+              35186
+            ],
+            "representative_edge_mask": 1905856,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1261,
+              1465,
+              33959,
+              35043,
+              35129,
+              35177,
+              35185,
+              35192
+            ],
+            "representative_edge_mask": 955584,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1263,
+              1263,
+              1469,
+              1469,
+              3307,
+              3307,
+              3443,
+              3449,
+              3449
+            ],
+            "representative_edge_mask": 1807552,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1263,
+              1263,
+              33887,
+              33887,
+              33967,
+              33967,
+              34027,
+              34029,
+              34029
+            ],
+            "representative_edge_mask": 2067520,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1263,
+              1271,
+              33951,
+              33967,
+              33975,
+              35047,
+              35051,
+              35053,
+              35054
+            ],
+            "representative_edge_mask": 1940544,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1263,
+              1469,
+              33967,
+              35051,
+              35131,
+              35179,
+              35187,
+              35193,
+              35194
+            ],
+            "representative_edge_mask": 1938624,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1268,
+              1268,
+              33908,
+              33942,
+              33964,
+              33964,
+              33972
+            ],
+            "representative_edge_mask": 636992,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1269,
+              1269,
+              33909,
+              33943,
+              33966,
+              33966,
+              33973,
+              34036
+            ],
+            "representative_edge_mask": 1685568,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1270,
+              1270,
+              33909,
+              33950,
+              33965,
+              33974,
+              34028,
+              34036
+            ],
+            "representative_edge_mask": 511040,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1271,
+              1271,
+              33911,
+              33951,
+              33967,
+              33975,
+              34029,
+              34037,
+              34038
+            ],
+            "representative_edge_mask": 1559616,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1278,
+              1278,
+              1278,
+              1278,
+              3294,
+              3310,
+              3310,
+              3310,
+              3310
+            ],
+            "representative_edge_mask": 777280,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1278,
+              1278,
+              33911,
+              33982,
+              34014,
+              34029,
+              34029,
+              34038,
+              34038
+            ],
+            "representative_edge_mask": 1035328,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1278,
+              1278,
+              33982,
+              33982,
+              35038,
+              35054,
+              35054,
+              35054,
+              35054
+            ],
+            "representative_edge_mask": 908352,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1279,
+              1279,
+              1279,
+              1279,
+              3295,
+              3311,
+              3311,
+              3311,
+              3311,
+              3326
+            ],
+            "representative_edge_mask": 1825856,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1279,
+              1279,
+              33919,
+              33983,
+              34015,
+              34031,
+              34031,
+              34039,
+              34039,
+              34046
+            ],
+            "representative_edge_mask": 2083904,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1279,
+              1279,
+              33983,
+              33983,
+              35039,
+              35055,
+              35055,
+              35055,
+              35055,
+              35070
+            ],
+            "representative_edge_mask": 1956928,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1459,
+              1459,
+              33965,
+              33965,
+              33965,
+              33965,
+              34225,
+              34225
+            ],
+            "representative_edge_mask": 494784,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1465,
+              1465,
+              33959,
+              33966,
+              33966,
+              34028,
+              34225,
+              34225
+            ],
+            "representative_edge_mask": 953536,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1467,
+              1467,
+              33967,
+              33967,
+              34029,
+              34029,
+              34227,
+              34233,
+              34233
+            ],
+            "representative_edge_mask": 1019072,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              1531,
+              1531,
+              34031,
+              34031,
+              34031,
+              34031,
+              34235,
+              34235,
+              34235,
+              34235
+            ],
+            "representative_edge_mask": 2067648,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3294,
+              34014,
+              34014,
+              34014,
+              34014,
+              35038,
+              35038,
+              35038,
+              35038
+            ],
+            "representative_edge_mask": 1031168,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3294,
+              35181,
+              35181,
+              35181,
+              35181,
+              35181,
+              35181,
+              39345,
+              39345
+            ],
+            "representative_edge_mask": 506944,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3295,
+              34015,
+              34015,
+              34015,
+              34015,
+              35039,
+              35039,
+              35039,
+              35039,
+              36062
+            ],
+            "representative_edge_mask": 2079744,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3295,
+              35183,
+              35183,
+              35183,
+              35183,
+              35183,
+              35183,
+              39347,
+              39349,
+              39349
+            ],
+            "representative_edge_mask": 1555520,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3306,
+              33886,
+              33963,
+              33963,
+              35050,
+              35050,
+              35177,
+              35177
+            ],
+            "representative_edge_mask": 1022016,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3306,
+              33950,
+              34036,
+              34036,
+              35050,
+              35050,
+              35180,
+              35180
+            ],
+            "representative_edge_mask": 768064,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3307,
+              33887,
+              34027,
+              34027,
+              35051,
+              35051,
+              35179,
+              35179,
+              36074
+            ],
+            "representative_edge_mask": 2070592,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3307,
+              33951,
+              34037,
+              34037,
+              35051,
+              35051,
+              35182,
+              35182,
+              36084
+            ],
+            "representative_edge_mask": 1816640,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3308,
+              33950,
+              34028,
+              34028,
+              35052,
+              35052,
+              35177,
+              35180
+            ],
+            "representative_edge_mask": 990272,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3309,
+              33951,
+              34029,
+              34029,
+              35053,
+              35053,
+              35179,
+              35182,
+              36076
+            ],
+            "representative_edge_mask": 2038848,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3310,
+              34014,
+              34029,
+              34029,
+              35054,
+              35054,
+              35181,
+              36074,
+              36076
+            ],
+            "representative_edge_mask": 1023040,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3310,
+              34038,
+              34038,
+              35038,
+              35054,
+              35054,
+              35181,
+              36076,
+              36084
+            ],
+            "representative_edge_mask": 769088,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3311,
+              34015,
+              34031,
+              34031,
+              35055,
+              35055,
+              35183,
+              36075,
+              36077,
+              36078
+            ],
+            "representative_edge_mask": 2071616,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3311,
+              34039,
+              34039,
+              35039,
+              35055,
+              35055,
+              35183,
+              36077,
+              36085,
+              36086
+            ],
+            "representative_edge_mask": 1817664,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3326,
+              34046,
+              34046,
+              35070,
+              35070,
+              36062,
+              36078,
+              36078,
+              36086,
+              36086
+            ],
+            "representative_edge_mask": 1039424,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3327,
+              34047,
+              34047,
+              35071,
+              35071,
+              36063,
+              36079,
+              36079,
+              36087,
+              36087,
+              36094
+            ],
+            "representative_edge_mask": 2088000,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3440,
+              33964,
+              33964,
+              35042,
+              35042,
+              35184,
+              35184
+            ],
+            "representative_edge_mask": 464064,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3441,
+              33966,
+              34028,
+              35043,
+              35050,
+              35185,
+              35186,
+              36208
+            ],
+            "representative_edge_mask": 988352,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3443,
+              34029,
+              34029,
+              35051,
+              35051,
+              35187,
+              35187,
+              36209,
+              36209
+            ],
+            "representative_edge_mask": 2036928,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3448,
+              33965,
+              33965,
+              35177,
+              35177,
+              35192,
+              35192,
+              36208
+            ],
+            "representative_edge_mask": 496832,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              3449,
+              33967,
+              34029,
+              35179,
+              35193,
+              35194,
+              36074,
+              36209,
+              36216
+            ],
+            "representative_edge_mask": 1021120,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              34014,
+              36074,
+              36074,
+              36074,
+              36084,
+              36084,
+              36084,
+              39345,
+              39345
+            ],
+            "representative_edge_mask": 1030208,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              34015,
+              36075,
+              36075,
+              36075,
+              36085,
+              36085,
+              36085,
+              39349,
+              39349,
+              101610
+            ],
+            "representative_edge_mask": 2078784,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              35038,
+              36076,
+              36076,
+              36076,
+              36076,
+              36076,
+              36076,
+              39345,
+              39345
+            ],
+            "representative_edge_mask": 998464,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              35039,
+              36077,
+              36077,
+              36077,
+              36077,
+              36077,
+              36077,
+              39349,
+              39349,
+              101612
+            ],
+            "representative_edge_mask": 2047040,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              36062,
+              36062,
+              36062,
+              36062,
+              36062,
+              36062,
+              36062,
+              36062,
+              36062,
+              36062
+            ],
+            "representative_edge_mask": 1047552,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              36062,
+              36078,
+              36078,
+              36078,
+              36086,
+              36086,
+              36086,
+              39347,
+              101610,
+              101612
+            ],
+            "representative_edge_mask": 1031232,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              36063,
+              36063,
+              36063,
+              36063,
+              36063,
+              36063,
+              36063,
+              36063,
+              36063,
+              36063,
+              101598
+            ],
+            "representative_edge_mask": 2096128,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              36063,
+              36079,
+              36079,
+              36079,
+              36087,
+              36087,
+              36087,
+              39351,
+              101611,
+              101613,
+              101614
+            ],
+            "representative_edge_mask": 2079808,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              36094,
+              36094,
+              36094,
+              36094,
+              36094,
+              36094,
+              101598,
+              101614,
+              101614,
+              101614,
+              101614
+            ],
+            "representative_edge_mask": 1047616,
+            "vertex_count": 7
+          },
+          {
+            "canonical_edge_deck": [
+              36095,
+              36095,
+              36095,
+              36095,
+              36095,
+              36095,
+              101599,
+              101615,
+              101615,
+              101615,
+              101615,
+              101630
+            ],
+            "representative_edge_mask": 2096192,
+            "vertex_count": 7
+          }
+        ],
+        "replay_next_case": 421,
+        "version": 1
+      },
+      "next_case": 421,
+      "strategy_id": "exact-small"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 422,
+      "premise_cases": 381,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "their multisets of edge-deleted unlabeled subgraphs differ",
+      "counterexample": "G and H are nonisomorphic simple graphs with at least four edges and NOT (their multisets of edge-deleted unlabeled subgraphs differ)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G and H are nonisomorphic simple graphs with at least four edges"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-804",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-bbe9950bded5961ced633644537c883f27a90e47",
+  "worker_id": "batch2-worker-13"
+}

@@ -1,0 +1,62 @@
+{
+  "attempt_id": 22,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 12
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "e335f63d38e40ff168564f09d043643c08cba441d0e0a4448b448624b578e30a",
+  "deterministic_seed": 3120387153008000648,
+  "duration_seconds": 101.754331,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 12,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 100000,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 12,
+        "time_seconds": 600
+      },
+      "next_case": 100000,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 100000,
+      "premise_cases": 66304,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "G has a Hamiltonian path",
+      "counterexample": "G is connected and vertex-transitive and NOT (G has a Hamiltonian path)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is connected and vertex-transitive"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "targeted_sample_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 1,
+  "parent_problem_id": "unsolvedmath-opg-161",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-e335f63d38e40ff168564f09d043643c08cba441",
+  "worker_id": "batch2-worker-12"
+}

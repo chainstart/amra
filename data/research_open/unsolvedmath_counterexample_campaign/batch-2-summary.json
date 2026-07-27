@@ -1,0 +1,44 @@
+{
+  "batch": {
+    "batch_id": "counterexample-batch-2",
+    "collection": "counterexample-batch-2-100",
+    "model_audit_status_counts": {
+      "approved": 100
+    },
+    "plan_fingerprint": "e3407edd9edf8de95335018410650794c222516ce3605587f4265ead89f5de4a",
+    "problem_count": 100,
+    "schema_version": "amra.batch_campaign.v1",
+    "stop_reason_counts": {
+      "bounded_scope_exhausted": 14,
+      "campaign_adapter_fix_interrupted_for_checkpoint_resume": 1,
+      "campaign_adapter_unified_restart_from_checkpoint": 2,
+      "candidate_passed_internal_verification": 1,
+      "case_budget_exhausted": 12,
+      "finite_bound_exhausted": 9,
+      "max_cases_exhausted": 20,
+      "predicate_time_budget_exhausted": 43,
+      "targeted_sample_exhausted": 38,
+      "time_budget_exhausted": 16
+    },
+    "task_count": 315,
+    "task_status_counts": {
+      "completed": 153,
+      "parked": 86,
+      "queued": 59,
+      "running": 17
+    },
+    "verification_status_counts": {
+      "not_required": 99,
+      "verified": 1
+    }
+  },
+  "final_parent_count": 38,
+  "main_sync": {},
+  "parent_status_counts": {
+    "bounded_search_completed": 37,
+    "candidate_verified": 1,
+    "queued": 52,
+    "running": 10
+  },
+  "schema_version": "amra.second_batch_campaign.v1"
+}

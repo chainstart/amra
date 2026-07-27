@@ -1,0 +1,31 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-opg-658",
+  "source_id": "OPG-658",
+  "title": "Reconstruction conjecture",
+  "statement_hash": "7ada6585f12767bf3f8af43159dd6c543e4b83c596a41b07cf9236996d54861a",
+  "generated_at": "2026-07-27T00:35:10+00:00",
+  "duration_seconds": 59.951286,
+  "outcome": "no_counterexample_within_bound",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": "Find two nonisomorphic finite graphs with identical vertex-deleted decks.",
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "search_template": "graph_reconstruction",
+    "executor_id": "classical.graph_reconstruction_scan.v1",
+    "status": "completed",
+    "outcome": "no_counterexample_within_bound",
+    "bounds": {
+      "min_vertices": 3,
+      "max_vertices": 6
+    },
+    "checked_cases": 205,
+    "unresolved_cases": 0,
+    "candidate": null,
+    "notes": [],
+    "deterministic": true,
+    "replayable": true
+  }
+}

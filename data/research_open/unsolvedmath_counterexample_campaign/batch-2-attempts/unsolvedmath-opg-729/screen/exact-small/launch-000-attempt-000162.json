@@ -1,0 +1,67 @@
+{
+  "attempt_id": 162,
+  "budget": {
+    "max_cases": 10000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 6
+    },
+    "time_seconds": 60
+  },
+  "config_fingerprint": "d29e0981233e9644ed1b713d01885cc58d20d59ab3db6e5cfa0e8e78806afac8",
+  "deterministic_seed": 6072284396609060333,
+  "duration_seconds": 0.070554,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 10000,
+      "max_vertices": 6,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 208,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 10000,
+        "max_vertices": 6,
+        "time_seconds": 60
+      },
+      "next_case": 208,
+      "strategy_id": "exact-small"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "frontier_premise_cases": 0,
+      "generated_cases": 208,
+      "known_frontier_exceeded": false,
+      "max_graph_edge_count_seen": 15,
+      "max_graph_order_seen": 6,
+      "premise_cases": 65,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "G has a complete minor of order at least ceil(|V(G)|/2)",
+      "counterexample": "G has no independent set of size three and NOT (G has a complete minor of order at least ceil(|V(G)|/2))",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G has no independent set of size three",
+      "source_statement": "Every n-vertex graph with no independent set of size three has a complete graph on at least n/2 vertices as a minor."
+    },
+    "outcome": "no_candidate",
+    "stop_reason": "finite_bound_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-729",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-d29e0981233e9644ed1b713d01885cc58d20d59a",
+  "worker_id": "batch2-worker-12"
+}

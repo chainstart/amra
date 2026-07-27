@@ -1,0 +1,62 @@
+{
+  "attempt_id": 63,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 10
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "440c5329910abde9727798219ad7fb0356aea662281bbb9ec2b263fc4bc8b100",
+  "deterministic_seed": 4818663257705359961,
+  "duration_seconds": 207.79247,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 10,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 100000,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 10,
+        "time_seconds": 600
+      },
+      "next_case": 100000,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 100000,
+      "premise_cases": 100000,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "the strong chromatic index obeys the stated parity-dependent bound in Delta",
+      "counterexample": "G is a finite simple graph and NOT (the strong chromatic index obeys the stated parity-dependent bound in Delta)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is a finite simple graph"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "targeted_sample_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-46475",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-440c5329910abde9727798219ad7fb0356aea662",
+  "worker_id": "batch2-worker-10"
+}

@@ -1,0 +1,63 @@
+{
+  "attempt_id": 165,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 12
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "cd09df4314b2796574dd2bcb975d9f6568e93fe2e9b40899390d9d6b0f4b6154",
+  "deterministic_seed": 4457492333472686905,
+  "duration_seconds": 600.010063,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 12,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 2661,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 12,
+        "time_seconds": 600
+      },
+      "next_case": 4061,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 2662,
+      "premise_cases": 1390,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "G has a cycle double cover containing every cycle of S",
+      "counterexample": "G is 2-connected and cubic, S is 2-regular, and G-E(S) is connected and NOT (G has a cycle double cover containing every cycle of S)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is 2-connected and cubic, S is 2-regular, and G-E(S) is connected"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 2,
+  "parent_problem_id": "unsolvedmath-opg-60029",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-cd09df4314b2796574dd2bcb975d9f6568e93fe2",
+  "worker_id": "batch2-worker-21-graph-v2"
+}

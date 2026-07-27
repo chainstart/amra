@@ -1,0 +1,47 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-opg-47294",
+  "source_id": "OPG-47294",
+  "title": "4-connected graphs are not uniquely hamiltonian",
+  "statement_hash": "52694caa03999c30ba4e05db42c9f28e390f74c8b5a088d94dcd655e5a99f0f1",
+  "generated_at": "2026-07-27T00:39:45+00:00",
+  "duration_seconds": 0.066167,
+  "outcome": "no_candidate_in_bounded_range",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": {
+    "hypothesis": "G is 4-vertex-connected and Hamiltonian.",
+    "conclusion": "G has at least two distinct undirected Hamiltonian cycles.",
+    "counterexample_condition": "G is 4-vertex-connected and Hamiltonian. and NOT (G has at least two distinct undirected Hamiltonian cycles.)",
+    "witness": "A canonical graph and its complete Hamiltonian-cycle list."
+  },
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "executor_id": "first_batch.opg-47294.v1",
+    "status": "bounded_search_no_counterexample",
+    "outcome": "no_candidate_in_bounded_range",
+    "bounds": {
+      "max_vertices": 6,
+      "max_cases": 0,
+      "max_cases_per_checkpoint": 50000
+    },
+    "checked_cases": 33792,
+    "candidate": null,
+    "notes": [
+      "A finite search without a candidate is not a proof of the original unbounded statement.",
+      "Any candidate must be replayed by an independent implementation before promotion."
+    ],
+    "deterministic": true,
+    "replayable": true,
+    "model_contract": {
+      "hypothesis": "G is 4-vertex-connected and Hamiltonian.",
+      "conclusion": "G has at least two distinct undirected Hamiltonian cycles.",
+      "counterexample_condition": "G is 4-vertex-connected and Hamiltonian. and NOT (G has at least two distinct undirected Hamiltonian cycles.)",
+      "witness": "A canonical graph and its complete Hamiltonian-cycle list."
+    },
+    "checkpoint": {
+      "next_case": 33792
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-opg-706",
+  "source_id": "OPG-706",
+  "title": "Goldbach conjecture",
+  "statement_hash": "35ccb16383cadda7c25625ee35a3097fc17109c6b15e5a6ae3f26bc6f074e496",
+  "generated_at": "2026-07-27T00:35:10+00:00",
+  "duration_seconds": 0.402227,
+  "outcome": "no_counterexample_within_bound",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": "Find an even n>2 with no representation as a sum of two primes.",
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "search_template": "goldbach",
+    "executor_id": "classical.goldbach_exact_scan.v1",
+    "status": "completed",
+    "outcome": "no_counterexample_within_bound",
+    "bounds": {
+      "min_even": 4,
+      "max_even": 1000000
+    },
+    "checked_cases": 499999,
+    "unresolved_cases": 0,
+    "candidate": null,
+    "notes": [],
+    "deterministic": true,
+    "replayable": true
+  }
+}

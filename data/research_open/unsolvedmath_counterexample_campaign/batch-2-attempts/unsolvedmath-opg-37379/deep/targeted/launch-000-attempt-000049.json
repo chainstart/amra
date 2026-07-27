@@ -1,0 +1,62 @@
+{
+  "attempt_id": 49,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 12
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "71e6e5e450ddef8d85c657cbde25d08b36357272b079d06633defed64d9f1f80",
+  "deterministic_seed": 8726638650851858392,
+  "duration_seconds": 119.211016,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 12,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 100000,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 12,
+        "time_seconds": 600
+      },
+      "next_case": 100000,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 100000,
+      "premise_cases": 25978,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "G has a K6 minor",
+      "counterexample": "G has minimum degree at least seven, or G is 7-connected and NOT (G has a K6 minor)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G has minimum degree at least seven, or G is 7-connected"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "targeted_sample_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-37379",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-71e6e5e450ddef8d85c657cbde25d08b36357272",
+  "worker_id": "batch2-worker-7"
+}

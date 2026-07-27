@@ -1,0 +1,47 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-opg-37305",
+  "source_id": "OPG-37305",
+  "title": "Extremal problem on the number of tree endomorphism",
+  "statement_hash": "be5fbcc62b1325200604ffcc4f79cae4615755375bbe617ed2c3fff108529ae9",
+  "generated_at": "2026-07-27T00:39:42+00:00",
+  "duration_seconds": 3.024886,
+  "outcome": "no_candidate_in_bounded_range",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": {
+    "hypothesis": "T is a finite tree on n vertices.",
+    "conclusion": "hom(P_n,P_n) <= hom(T,T) <= hom(K_{1,n-1},K_{1,n-1}).",
+    "counterexample_condition": "T is a finite tree on n vertices. and NOT (hom(P_n,P_n) <= hom(T,T) <= hom(K_{1,n-1},K_{1,n-1}).)",
+    "witness": "A canonical tree edge list and exact dynamic-programming endomorphism counts."
+  },
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "executor_id": "first_batch.opg-37305.v1",
+    "status": "bounded_search_no_counterexample",
+    "outcome": "no_candidate_in_bounded_range",
+    "bounds": {
+      "max_vertices": 8,
+      "max_cases": 0,
+      "max_cases_per_checkpoint": 50000
+    },
+    "checked_cases": 47,
+    "candidate": null,
+    "notes": [
+      "A finite search without a candidate is not a proof of the original unbounded statement.",
+      "Any candidate must be replayed by an independent implementation before promotion."
+    ],
+    "deterministic": true,
+    "replayable": true,
+    "model_contract": {
+      "hypothesis": "T is a finite tree on n vertices.",
+      "conclusion": "hom(P_n,P_n) <= hom(T,T) <= hom(K_{1,n-1},K_{1,n-1}).",
+      "counterexample_condition": "T is a finite tree on n vertices. and NOT (hom(P_n,P_n) <= hom(T,T) <= hom(K_{1,n-1},K_{1,n-1}).)",
+      "witness": "A canonical tree edge list and exact dynamic-programming endomorphism counts."
+    },
+    "checkpoint": {
+      "next_case": 47
+    }
+  }
+}

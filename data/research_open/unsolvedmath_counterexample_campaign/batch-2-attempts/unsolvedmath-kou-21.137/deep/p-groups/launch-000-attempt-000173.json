@@ -1,0 +1,87 @@
+{
+  "attempt_id": 173,
+  "budget": {
+    "max_cases": 500000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_order": 4096
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "3ca1e2a0ec33a375b6b0340cde66a2ce6b2924a210d1ed48901374dff50a215f",
+  "deterministic_seed": 341209807522279329,
+  "duration_seconds": 3.284022,
+  "executor_result": {
+    "budget": {
+      "max_cases": 500000,
+      "max_order": 4096,
+      "memory_mb": 1024,
+      "time_seconds": 600
+    },
+    "candidate": {
+      "group_catalog": "GAP SmallGroups",
+      "group_id": [
+        128,
+        928
+      ],
+      "group_index": 928,
+      "group_order": 128,
+      "internal_verification": {
+        "independence": "internal_only_external_campaign_verification_required",
+        "status": "passed",
+        "verifier": "second_batch.arithmetic.kou_21_137.v1.same_module_replay"
+      },
+      "prime": 2
+    },
+    "checked_cases": 2196,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 2196,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 500000,
+        "max_order": 4096,
+        "memory_mb": 1024,
+        "time_seconds": 600
+      },
+      "effective_strategy_id": "p-groups",
+      "launch_seed": 0,
+      "metrics": {},
+      "phase": "complete",
+      "problem_id": "unsolvedmath-kou-21.137",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "atomic_bound_restart",
+        "note": "This bounded generator does not expose an intra-bound cursor."
+      },
+      "search_completed": true,
+      "strategy_id": "p-groups"
+    },
+    "effective_strategy_id": "p-groups",
+    "executor_id": "second_batch.arithmetic.kou_21_137.v1",
+    "metrics": {},
+    "model_contract": "The executable target is the explicit subclaim: for odd p and exponent p^2, or p=2 and exponent 8, if p-th powers form a subgroup then it is abelian. A witness is a SmallGroup violating that implication.",
+    "outcome": "candidate",
+    "stop_reason": "candidate_passed_internal_verification",
+    "strategy_id": "p-groups",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-kou-21.137",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "p-groups",
+  "task_id": "batch-task-3ca1e2a0ec33a375b6b0340cde66a2ce6b2924a2",
+  "worker_id": "batch2-worker-28-arithmetic-v4"
+}

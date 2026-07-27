@@ -1,0 +1,62 @@
+{
+  "attempt_id": 84,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 14
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "38831f176312f4608ff961abb27e1677ca79e063ae969653f7b0d57ab26f1a90",
+  "deterministic_seed": 5793077133689129414,
+  "duration_seconds": 600.049575,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 14,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 47562,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 14,
+        "time_seconds": 600
+      },
+      "next_case": 47562,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 47563,
+      "premise_cases": 24630,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "two perfect matchings have an intersection containing no odd edge cut",
+      "counterexample": "G is bridgeless and cubic and NOT (two perfect matchings have an intersection containing no odd edge cut)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is bridgeless and cubic"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 1,
+  "parent_problem_id": "unsolvedmath-opg-543",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-38831f176312f4608ff961abb27e1677ca79e063",
+  "worker_id": "batch2-worker-4"
+}

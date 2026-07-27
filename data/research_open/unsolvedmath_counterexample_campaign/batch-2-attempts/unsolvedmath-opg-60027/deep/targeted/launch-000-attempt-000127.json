@@ -1,0 +1,62 @@
+{
+  "attempt_id": 127,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 14
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "d82adddc8754c3efa95d93ec9bf6000cf3052fb760fa7f44b29715f442ebffa8",
+  "deterministic_seed": 533324082545244803,
+  "duration_seconds": 600.01712,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 14,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 4703,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 14,
+        "time_seconds": 600
+      },
+      "next_case": 4703,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 4704,
+      "premise_cases": 2444,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "E(G) partitions into a spanning tree, a vertex-disjoint cycle family, and a matching",
+      "counterexample": "G is connected and cubic and NOT (E(G) partitions into a spanning tree, a vertex-disjoint cycle family, and a matching)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is connected and cubic"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-60027",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-d82adddc8754c3efa95d93ec9bf6000cf3052fb7",
+  "worker_id": "batch2-worker-10"
+}

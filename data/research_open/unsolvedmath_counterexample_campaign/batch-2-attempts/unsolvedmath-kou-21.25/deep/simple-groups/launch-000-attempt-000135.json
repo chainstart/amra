@@ -1,0 +1,72 @@
+{
+  "attempt_id": 135,
+  "budget": {
+    "max_cases": 20000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_order": 2000
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "7d5799338854d5e161090c7c76b5e0873c7ad078f99b5c59d0758cf72e77501b",
+  "deterministic_seed": 3828596396947455609,
+  "duration_seconds": 13.43338,
+  "executor_result": {
+    "budget": {
+      "max_cases": 20000,
+      "max_order": 2000,
+      "memory_mb": 1024,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 20000,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 20000,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 20000,
+        "max_order": 2000,
+        "memory_mb": 1024,
+        "time_seconds": 600
+      },
+      "effective_strategy_id": "simple-groups",
+      "launch_seed": 0,
+      "metrics": {},
+      "phase": "complete",
+      "problem_id": "unsolvedmath-kou-21.25",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "atomic_bound_restart",
+        "note": "This bounded generator does not expose an intra-bound cursor."
+      },
+      "search_completed": true,
+      "strategy_id": "simple-groups"
+    },
+    "effective_strategy_id": "simple-groups",
+    "executor_id": "second_batch.arithmetic.kou_21_25.v1",
+    "metrics": {},
+    "model_contract": "A witness is a finite simple SmallGroup G and primes p,q dividing |G| such that no pair of Sylow p- and q-subgroups generates G.",
+    "outcome": "inconclusive",
+    "stop_reason": "case_budget_exhausted",
+    "strategy_id": "simple-groups",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-kou-21.25",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "simple-groups",
+  "task_id": "batch-task-7d5799338854d5e161090c7c76b5e0873c7ad078",
+  "worker_id": "batch2-worker-19-arithmetic-v2"
+}

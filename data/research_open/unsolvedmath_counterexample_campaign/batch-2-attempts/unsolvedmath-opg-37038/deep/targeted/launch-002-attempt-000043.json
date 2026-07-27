@@ -1,0 +1,62 @@
+{
+  "attempt_id": 43,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 14
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "6afbf2d87699772e2f13d97ee73a1331755bd257bc3d22612c88a8c350d1e0a5",
+  "deterministic_seed": 6507583560097216143,
+  "duration_seconds": 102.492645,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 14,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 100000,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 14,
+        "time_seconds": 600
+      },
+      "next_case": 100000,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 100000,
+      "premise_cases": 51873,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "the domination number is at most ceil(|V(G)|/3)",
+      "counterexample": "G is 3-connected and cubic and NOT (the domination number is at most ceil(|V(G)|/3))",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is 3-connected and cubic"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "targeted_sample_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 2,
+  "parent_problem_id": "unsolvedmath-opg-37038",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-6afbf2d87699772e2f13d97ee73a1331755bd257",
+  "worker_id": "batch2-worker-6"
+}

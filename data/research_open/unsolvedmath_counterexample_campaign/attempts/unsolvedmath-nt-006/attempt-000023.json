@@ -1,0 +1,36 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v2",
+  "search_engine_version": "amra.counterexample_first_batch.engine.v2",
+  "search_config_fingerprint": "c528e3fc261ded3592492b2777c462531700e2f91c458c95b3b593e75e94c862",
+  "search_generation": 2,
+  "problem_id": "unsolvedmath-nt-006",
+  "source_id": "NT-006",
+  "title": "Legendre's Conjecture",
+  "statement_hash": "35bc339dc1c96f6cb6bea4023074712d287d4c198575830d987a56b41c5ae807",
+  "generated_at": "2026-07-27T00:48:13+00:00",
+  "duration_seconds": 0.0722,
+  "outcome": "no_counterexample_within_bound",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": "Find n whose open interval (n^2,(n+1)^2) contains no prime.",
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "search_template": "legendre",
+    "executor_id": "classical.legendre_interval_scan.v1",
+    "status": "completed",
+    "outcome": "no_counterexample_within_bound",
+    "bounds": {
+      "min_n": 1,
+      "max_n": 5000,
+      "strict_intervals": true
+    },
+    "checked_cases": 5000,
+    "unresolved_cases": 0,
+    "candidate": null,
+    "notes": [],
+    "deterministic": true,
+    "replayable": true
+  },
+  "attempt_artifact": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/attempts/unsolvedmath-nt-006/attempt-000023.json"
+}

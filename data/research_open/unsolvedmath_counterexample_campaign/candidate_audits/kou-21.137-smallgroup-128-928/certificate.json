@@ -1,0 +1,103 @@
+{
+  "candidate": {
+    "catalog": {
+      "constructor": "SmallGroup(128,928)",
+      "gap_version": "4.12.1",
+      "id": [
+        128,
+        928
+      ],
+      "name": "GAP SmallGroups Library",
+      "smallgrp_package_version": "1.5.3",
+      "structure_description": "(C4 x C4) : D8"
+    },
+    "catalog_id": [
+      128,
+      928
+    ],
+    "order": 128,
+    "prime": 2
+  },
+  "conclusion": {
+    "scope": "This refutes the explicit exponent-8 2-group subclaim. It does not separately decide the broader powerful-subgroup question or the odd-prime exponent-p^2 subclaim.",
+    "statement": "SmallGroup(128,928) is a 2-group of exponent exactly 8; its squares form a 16-element subgroup that is not abelian.",
+    "status": "verified_counterexample_to_explicit_subclaim"
+  },
+  "evidence_payload": {
+    "compressed_bytes": 8561,
+    "compressed_sha256": "f6bfda3fd57c1c462f384e10abb69fe04a863ef447cb77cd409fb86cc8c8d3de",
+    "data": "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",
+    "encoding": "zlib level 9 + base64",
+    "format": "canonical JSON",
+    "uncompressed_bytes": 52440,
+    "uncompressed_sha256": "73007ea549c2026b0553477b2e9c8b5e45ffa59315501ce84509150b36679af4"
+  },
+  "problem": {
+    "bank_content_fingerprint": "130f1e813257c7a72dd4f35ea90f0bf4363f61232349f55aa2913798cf1fb617",
+    "problem_id": "unsolvedmath-kou-21.137",
+    "source_id": "KOU-21.137",
+    "source_page_sha256": "9953da0dfbb22c9b6934429334fb27e795e0889f4b4a800669467d790eb94d30",
+    "source_statement": "If the $p$-th powers in a finite $p$-group form a subgroup, must that subgroup be powerful? That is, for $p\\ne 2$, if the $p$-th powers in a $p$-group of exponent $p^2$ form a subgroup, must that subgroup be abelian? For a 2-group of exponent 8, if the squares form a subgroup, must that subgroup be abelian?",
+    "source_url": "https://www.unsolvedmath.com/problems/KOU-21.137",
+    "tested_subclaim": "For a finite 2-group of exponent 8, if its set of squares is a subgroup, then that subgroup is abelian."
+  },
+  "schema": "amra.kou-21.137.cayley-certificate.v1",
+  "verification": {
+    "element_order_histogram": {
+      "1": 1,
+      "2": 43,
+      "4": 68,
+      "8": 16
+    },
+    "exponent": 8,
+    "generated_subgroup_size": 16,
+    "group_axioms": {
+      "associativity": true,
+      "associativity_triples_checked": 2097152,
+      "closure": true,
+      "identity_index_zero_based": 0,
+      "inverse_count_checked": 128,
+      "unique_identity": true,
+      "unique_two_sided_inverse_for_every_element": true
+    },
+    "group_order": 128,
+    "group_order_2_valuation": 7,
+    "group_order_is_power_of_2": true,
+    "has_element_of_order_8": true,
+    "implementation": "standalone Python standard-library checker over the exported Cayley table; no AMRA executor/verifier imports",
+    "noncommuting_squares": {
+      "left_preimage_squared_index_zero_based": 4,
+      "left_square_index_zero_based": 4,
+      "left_square_preimage_index_zero_based": 8,
+      "left_times_right_index_zero_based": 23,
+      "right_preimage_squared_index_zero_based": 5,
+      "right_square_index_zero_based": 5,
+      "right_square_preimage_index_zero_based": 9,
+      "right_times_left_index_zero_based": 61
+    },
+    "square_map_matches_table_diagonal": true,
+    "square_set_equals_generated_subgroup": true,
+    "square_set_indices_zero_based": [
+      0,
+      4,
+      5,
+      6,
+      7,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      60,
+      61,
+      62,
+      63,
+      98
+    ],
+    "square_set_inverse_closed": true,
+    "square_set_multiplication_closed": true,
+    "square_set_size": 16,
+    "square_subgroup_abelian": false
+  }
+}

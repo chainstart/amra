@@ -1,0 +1,36 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v2",
+  "search_engine_version": "amra.counterexample_first_batch.engine.v2",
+  "search_config_fingerprint": "168a3ed0a58baa57945d5d9cc65dd274f2b31a1e7b54cc99f54f98347a50fb3c",
+  "search_generation": 2,
+  "problem_id": "unsolvedmath-opg-37397",
+  "source_id": "OPG-37397",
+  "title": "Erdős–Straus conjecture",
+  "statement_hash": "d1ea9d60f2d07319146cae5f2893907fec53fd3cc67fd284faea3d606318be4d",
+  "generated_at": "2026-07-27T00:55:39+00:00",
+  "duration_seconds": 4.038742,
+  "outcome": "no_counterexample_within_bound",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": "Find n>2 with no exact positive unit-fraction decomposition of 4/n.",
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "search_template": "erdos_straus",
+    "executor_id": "classical.erdos_straus_exact_scan.v1",
+    "status": "completed",
+    "outcome": "no_counterexample_within_bound",
+    "bounds": {
+      "min_n": 3,
+      "max_n": 5000,
+      "ordered_denominators": true
+    },
+    "checked_cases": 4998,
+    "unresolved_cases": 0,
+    "candidate": null,
+    "notes": [],
+    "deterministic": true,
+    "replayable": true
+  },
+  "attempt_artifact": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/attempts/unsolvedmath-opg-37397/attempt-000028.json"
+}

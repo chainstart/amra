@@ -1,0 +1,62 @@
+{
+  "attempt_id": 37,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 11
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "f58607b9ca87e8eb5b401f39dfb166826b793ce01a949d68e9e7b15aec1cf698",
+  "deterministic_seed": 6351140229059989311,
+  "duration_seconds": 601.152175,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 11,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 467,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 11,
+        "time_seconds": 600
+      },
+      "next_case": 467,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 468,
+      "premise_cases": 360,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "chi(G) <= ceil(Delta(G)/2)+2",
+      "counterexample": "G is triangle-free and NOT (chi(G) <= ceil(Delta(G)/2)+2)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is triangle-free"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-36907",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-f58607b9ca87e8eb5b401f39dfb166826b793ce0",
+  "worker_id": "batch2-worker-14"
+}

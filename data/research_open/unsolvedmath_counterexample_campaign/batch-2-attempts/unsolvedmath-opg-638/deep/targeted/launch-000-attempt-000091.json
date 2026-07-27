@@ -1,0 +1,63 @@
+{
+  "attempt_id": 91,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 9
+    },
+    "time_seconds": 600
+  },
+  "config_fingerprint": "d74e7e68e9d21f6e952a387ed35d04386052c2f8accdb94eebe69070acd1ae0f",
+  "deterministic_seed": 5758394666116024665,
+  "duration_seconds": 51.730359,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 9,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 11834,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 9,
+        "time_seconds": 600
+      },
+      "next_case": 87834,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 11834,
+      "premise_cases": 11834,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "cc(G) <= 2 cp(G), where cp is maximum vertex-disjoint cycle packing and cc is minimum feedback vertex set",
+      "counterexample": "G is a finite simple planar graph and NOT (cc(G) <= 2 cp(G), where cp is maximum vertex-disjoint cycle packing and cc is minimum feedback vertex set)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is a finite simple planar graph",
+      "source_statement": "For every planar graph G, cc(G) <= 2 cp(G), where cp(G) is the maximum number of vertex-disjoint cycles and cc(G) is the minimum size of a vertex set whose deletion makes G acyclic."
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "targeted_sample_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-638",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-d74e7e68e9d21f6e952a387ed35d04386052c2f8",
+  "worker_id": "batch2-worker-5"
+}

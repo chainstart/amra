@@ -1,0 +1,47 @@
+{
+  "schema_version": "amra.counterexample_first_batch.v1",
+  "problem_id": "unsolvedmath-opg-646",
+  "source_id": "OPG-646",
+  "title": "Seymour's Second Neighbourhood Conjecture",
+  "statement_hash": "614f373f71441efcb169b1865a55bf32c62392458e086d72d28abe0efebc2aa5",
+  "generated_at": "2026-07-27T00:39:45+00:00",
+  "duration_seconds": 0.094196,
+  "outcome": "no_candidate_in_bounded_range",
+  "evidence_level": "scoped_null_result",
+  "candidate_counterexample": null,
+  "independently_verified": false,
+  "model_contract": {
+    "hypothesis": "D is a finite oriented graph.",
+    "conclusion": "Some vertex has outdegree at most its number of vertices at directed distance exactly two.",
+    "counterexample_condition": "D is a finite oriented graph. and NOT (Some vertex has outdegree at most its number of vertices at directed distance exactly two.)",
+    "witness": "A normalized arc list and exact first and second out-neighbourhoods for every vertex."
+  },
+  "verification_boundary": "A candidate requires an independent verifier and a source-statement audit. No candidate within the recorded finite scope does not prove the conjecture.",
+  "execution": {
+    "executor_id": "first_batch.opg-646.v1",
+    "status": "bounded_search_no_counterexample",
+    "outcome": "no_candidate_in_bounded_range",
+    "bounds": {
+      "max_vertices": 5,
+      "max_cases": 0,
+      "max_cases_per_checkpoint": 50000
+    },
+    "checked_cases": 59809,
+    "candidate": null,
+    "notes": [
+      "A finite search without a candidate is not a proof of the original unbounded statement.",
+      "Any candidate must be replayed by an independent implementation before promotion."
+    ],
+    "deterministic": true,
+    "replayable": true,
+    "model_contract": {
+      "hypothesis": "D is a finite oriented graph.",
+      "conclusion": "Some vertex has outdegree at most its number of vertices at directed distance exactly two.",
+      "counterexample_condition": "D is a finite oriented graph. and NOT (Some vertex has outdegree at most its number of vertices at directed distance exactly two.)",
+      "witness": "A normalized arc list and exact first and second out-neighbourhoods for every vertex."
+    },
+    "checkpoint": {
+      "next_case": 59809
+    }
+  }
+}
