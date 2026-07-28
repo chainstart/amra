@@ -80,6 +80,9 @@ from amra.discovery.second_batch_campaign import (
     second_batch_status as counterexample_second_batch_status,
 )
 from amra.discovery.conjecture_mining import run_conjecture_mining_fixture
+from amra.discovery.targetability_screen import (
+    screen_problem_banks_targetability,
+)
 from amra.ml_theory import run_ml_theory_experiment_fixture
 from amra.modeling import run_model_validation_fixture
 from amra.research.experiments import run_research_executor_fixture
@@ -528,6 +531,30 @@ def build_parser() -> argparse.ArgumentParser:
     discovery_campaign.add_argument("--max-tree-vertices", type=int, default=7)
     discovery_campaign.add_argument("--max-erdos-straus-n", type=int, default=500)
     discovery_campaign.add_argument("--json", action="store_true", help=argparse.SUPPRESS)
+    discovery_targetability = discovery_subparsers.add_parser(
+        "screen-targetability",
+        help="Rank canonical open-problem records by finite-counterexample targetability.",
+    )
+    discovery_targetability.add_argument(
+        "--bank",
+        type=Path,
+        action="append",
+        required=True,
+        dest="banks",
+        help="Input problem bank; repeat to screen a canonical multi-bank universe.",
+    )
+    discovery_targetability.add_argument(
+        "--campaign-dir",
+        type=Path,
+        required=True,
+        help="Existing counterexample campaign directory used as empirical evidence.",
+    )
+    discovery_targetability.add_argument("--out", type=Path, required=True)
+    discovery_targetability.add_argument("--shortlist-size", type=int, default=25)
+    discovery_targetability.add_argument("--max-per-cluster", type=int, default=2)
+    discovery_targetability.add_argument(
+        "--json", action="store_true", help=argparse.SUPPRESS
+    )
     discovery_status_init = discovery_subparsers.add_parser(
         "counterexample-status-init",
         help="Initialize the durable total-status table for a counterexample campaign.",
@@ -1761,6 +1788,18 @@ def main(argv: list[str] | None = None) -> int:
                     max_graph_vertices=args.max_graph_vertices,
                     max_tree_vertices=args.max_tree_vertices,
                     max_erdos_straus_n=args.max_erdos_straus_n,
+                ),
+                args.json,
+            )
+            return 0
+        if args.discovery_command == "screen-targetability":
+            _print(
+                screen_problem_banks_targetability(
+                    bank_paths=args.banks,
+                    campaign_dir=args.campaign_dir,
+                    output_dir=args.out,
+                    shortlist_size=args.shortlist_size,
+                    max_per_cluster=args.max_per_cluster,
                 ),
                 args.json,
             )

@@ -1,0 +1,103 @@
+{
+  "engine_version": "cets.local.v1",
+  "generated_at": "2026-07-28T14:37:55+00:00",
+  "input_files": [
+    {
+      "exists": true,
+      "path": "/home/biostar/work/amra/data/banks/formal_conjectures_open_research.yaml",
+      "sha256": "6ed88fd6ef5bebbb522cbce301785263c46d441896806544d4643351870dce86",
+      "size_bytes": 2000317
+    },
+    {
+      "exists": true,
+      "path": "/home/biostar/work/amra/data/banks/unsolvedmath_open.yaml",
+      "sha256": "4c87842470c10503a78a3af2bf4ca24aed46afb8e7ce6484eb1891dd8616a0d4",
+      "size_bytes": 5540698
+    },
+    {
+      "exists": true,
+      "path": "/home/biostar/work/amra/data/banks/erdos_open_637.yaml",
+      "sha256": "b6aec51cdfd922b3c1f16a083072148fa6b2443d658f65dc83a66a9dd8f9f12e",
+      "size_bytes": 557648
+    },
+    {
+      "exists": true,
+      "path": "/home/biostar/work/amra/data/banks/aim_problem_lists.yaml",
+      "sha256": "2776a2f88b6c16999bab867694e705b7f07fa6cfa00062d4e16738e1a0827acc",
+      "size_bytes": 205004
+    },
+    {
+      "exists": true,
+      "path": "/home/biostar/work/amra/data/banks/triangle_dissection_track.yaml",
+      "sha256": "7af3c98c9a163a90d5ddc299670eae73fbc067de1b8099e17cd95db9367df722",
+      "size_bytes": 3409
+    },
+    {
+      "exists": true,
+      "path": "/home/biostar/work/amra/data/banks/weird_numbers_track.yaml",
+      "sha256": "a07f52cfd3648d89d95a3da2e2dc75f0476198f46fc7e59b7df135b56052ddbd",
+      "size_bytes": 1453
+    },
+    {
+      "exists": true,
+      "path": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/results.jsonl",
+      "sha256": "99b606c43e80821c876f2831a9665d08ea036cf0cf9f9baa849585b0de60cd4a",
+      "size_bytes": 3339538
+    },
+    {
+      "exists": true,
+      "path": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/BATCH2_STATUS.jsonl",
+      "sha256": "6b8a6553cf94055a62ab95cb8e5b583b89ac7966f41611c61bc97f489ce49227",
+      "size_bytes": 4002330
+    }
+  ],
+  "rules": {
+    "allowed_statement_quality": [
+      "detail_page",
+      "formal_lean4",
+      "curated",
+      "exact",
+      "verified"
+    ],
+    "difficulty_penalties": {
+      "1": 0,
+      "2": 1,
+      "3": 3,
+      "4": 7,
+      "5": 12
+    },
+    "known_resolved_overrides": {
+      "unsolvedmath-kou-21.134": "Kourovka Notebook v45 marks both parts resolved with negative answers (arXiv:1401.0300v45, updated 2026-07-03)",
+      "unsolvedmath-nt-008": "Fibonacci perfect powers were determined in 2006",
+      "unsolvedmath-opg-130": "Jaeger's modular orientation conjecture was disproved in 2018",
+      "unsolvedmath-opg-16555": "nonexistence of Diophantine quintuples was proved",
+      "unsolvedmath-opg-2226": "Seymour's r-graph conjecture follows from the Goldberg-Seymour theorem",
+      "unsolvedmath-opg-2242": "the Goldberg-Seymour conjecture has been proved",
+      "unsolvedmath-opg-2359": "a complete proof preprint appeared in July 2026; excluded conservatively",
+      "unsolvedmath-opg-37402": "the Lucas residue classification was completed",
+      "unsolvedmath-opg-46432": "Adam's conjecture was disproved",
+      "unsolvedmath-opg-47028": "Guninski gives the non-Hamiltonian 3-diregular oriented graph Cay(Z_12; {2,3,8}), with 12 <= 4*3+1, disproving Jackson's conjecture (arXiv:1602.06380; non-Hamiltonicity proved by Locke-Witte, J. Graph Theory 1999)",
+      "unsolvedmath-opg-59994": "Mattiolo-Steffen disprove the circular-flow conjecture for (2t+1)-regular class 1 graphs (J. Graph Theory 2022, doi:10.1002/jgt.22746; arXiv:2001.02484)",
+      "unsolvedmath-opg-655": "Snevily's conjecture was proved in 2011",
+      "unsolvedmath-opg-732": "the Frobenius conjecture was proved in 1991",
+      "unsolvedmath-opg-824": "the strongly regular graph core conjecture was proved"
+    },
+    "known_statement_repair_overrides": {
+      "erdos-825-weird": "Erdos #825's absolute-constant question is proved, while the local record conflates the stronger C=3 language with the bound sigma(n)/n<4; recover the exact strengthened claim and status",
+      "triangle-dissection-13": "The cited Erdos #634 source asks which n admit some triangle tiled by n congruent triangles; it does not currently substantiate this stronger equilateral-triangle record or its open status for n=13",
+      "triangle-dissection-17": "The cited Erdos #634 source asks which n admit some triangle tiled by n congruent triangles; it does not currently substantiate this stronger equilateral-triangle record or its open status for n=17",
+      "triangle-dissection-19": "Erdos #634 still highlights n=19 for some triangle, while this local record requires an equilateral outer triangle; recover and cite the exact stronger statement before modeling"
+    },
+    "max_per_cluster": 2,
+    "ranking_key": [
+      "score_lower_bound desc",
+      "targetability_score desc",
+      "gross desc",
+      "impact_score desc (tie-break only)",
+      "problem_id asc"
+    ],
+    "shortlist_size": 50,
+    "unknown_difficulty_penalty": 4
+  },
+  "schema_version": "amra.counterexample_target_screen.v1"
+}
