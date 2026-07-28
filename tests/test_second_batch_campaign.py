@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+import time
 from pathlib import Path
 
 import pytest
@@ -22,6 +23,7 @@ from amra.discovery.second_batch_campaign import (
     SecondBatchConfigurationError,
     SecondBatchExecutorFamily,
     SecondBatchRegistry,
+    _memory_safe_addition_chain_length,
     _runner_compatibility_shims,
     build_second_batch_plan,
     initialize_second_batch,
@@ -30,7 +32,7 @@ from amra.discovery.second_batch_campaign import (
     second_batch_status,
     validate_second_batch_registry,
 )
-from amra.discovery import second_batch_arithmetic
+from amra.discovery import second_batch_arithmetic, second_batch_finite
 from amra.cli import build_parser
 
 
@@ -805,6 +807,94 @@ def test_kou_21_2_gap_protocol_shim_is_scoped_and_restored(
         ("SizeScreen([1000000,1000000]);;\nPrint(1);", 17)
     ]
     assert second_batch_arithmetic._run_gap is fake_run_gap
+
+
+def test_memory_safe_addition_chain_matches_small_reference_bfs() -> None:
+    def reference_length(target: int) -> int:
+        if target <= 1:
+            return 0
+        frontier = {(1,)}
+        for depth in range(1, target):
+            next_frontier: set[tuple[int, ...]] = set()
+            for chain in frontier:
+                additions = {
+                    chain[left] + chain[right]
+                    for left in range(len(chain))
+                    for right in range(left, len(chain))
+                    if chain[-1] < chain[left] + chain[right] <= target
+                }
+                if target in additions:
+                    return depth
+                next_frontier.update((*chain, value) for value in additions)
+            frontier = next_frontier
+        raise RuntimeError(f"reference search failed for {target}")
+
+    for target in range(1, 65):
+        assert _memory_safe_addition_chain_length(
+            target,
+            None,
+            check_deadline=lambda _deadline: None,
+        ) == reference_length(target)
+
+
+def test_nt_039_addition_chain_shim_is_exact_scoped_and_restored() -> None:
+    original = second_batch_finite._addition_chain_length
+    claim = type(
+        "Claim",
+        (),
+        {
+            "parent_problem_id": "unsolvedmath-nt-039",
+            "executor_id": "second_batch.finite.exact_search.v1",
+        },
+    )()
+
+    with _runner_compatibility_shims(
+        claim,
+        second_batch_finite.run_second_batch_finite_search,
+    ) as shims:
+        patched = second_batch_finite._addition_chain_length
+        assert shims == ["nt-039-addition-chain-iddfs-v1"]
+        assert patched is not original
+        assert patched(127) == 10
+        assert patched(255) == 10
+        assert patched(511) == 12
+        assert patched(1_023) == 13
+        with pytest.raises(second_batch_finite._DeadlineExceeded):
+            patched(2_047, time.monotonic() - 1)
+
+    assert second_batch_finite._addition_chain_length is original
+
+
+def test_nt_039_shim_advances_the_previously_ooming_atomic_case() -> None:
+    claim = type(
+        "Claim",
+        (),
+        {
+            "parent_problem_id": "unsolvedmath-nt-039",
+            "executor_id": "second_batch.finite.exact_search.v1",
+        },
+    )()
+    checkpoint = {
+        "next_case": 7,
+        "strategy_id": "screen-exact",
+        "seed": 5,
+    }
+
+    with _runner_compatibility_shims(
+        claim,
+        second_batch_finite.run_second_batch_finite_search,
+    ):
+        result = second_batch_finite.run_second_batch_finite_search(
+            "unsolvedmath-nt-039",
+            strategy_id="screen-exact",
+            budget={"max_cases": 1, "time_seconds": 5},
+            seed=5,
+            checkpoint=checkpoint,
+        )
+
+    assert result["checked_cases"] == 1
+    assert result["checkpoint"]["next_case"] == 8
+    assert result["stop_reason"] == "case_budget_exhausted"
 
 
 def test_runner_identity_mismatch_is_failed_against_frozen_claim(

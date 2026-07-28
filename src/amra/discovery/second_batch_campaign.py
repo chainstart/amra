@@ -1069,6 +1069,58 @@ def _validate_runner_result_identity(
         )
 
 
+def _memory_safe_addition_chain_length(
+    target: int,
+    deadline: float | None,
+    *,
+    check_deadline: Callable[[float | None], None],
+) -> int:
+    """Compute an exact shortest addition-chain length without a BFS frontier."""
+
+    target = int(target)
+    if target <= 1:
+        return 0
+
+    # Repeated doubling gives the lower bound.  The usual binary method gives
+    # a concrete chain and therefore a safe inclusive upper bound.
+    lower_bound = (target - 1).bit_length()
+    upper_bound = target.bit_length() - 1 + target.bit_count() - 1
+    chain = [1]
+
+    def reaches_target(remaining: int) -> bool:
+        check_deadline(deadline)
+        largest = chain[-1]
+        if largest == target:
+            return True
+        if remaining <= 0 or largest << remaining < target:
+            return False
+
+        additions: set[int] = set()
+        for left in range(len(chain) - 1, -1, -1):
+            check_deadline(deadline)
+            for right in range(left, -1, -1):
+                value = chain[left] + chain[right]
+                if (
+                    largest < value <= target
+                    and value << (remaining - 1) >= target
+                ):
+                    additions.add(value)
+
+        for value in sorted(additions, reverse=True):
+            chain.append(value)
+            try:
+                if reaches_target(remaining - 1):
+                    return True
+            finally:
+                chain.pop()
+        return False
+
+    for depth in range(lower_bound, upper_bound + 1):
+        if reaches_target(depth):
+            return depth
+    raise RuntimeError(f"addition-chain search failed for {target}")
+
+
 @contextmanager
 def _runner_compatibility_shims(
     claim: BatchClaim,
@@ -1100,6 +1152,37 @@ def _runner_compatibility_shims(
 
             def restore() -> None:
                 second_batch_arithmetic._run_gap = original_run_gap
+
+    elif (
+        claim.parent_problem_id == "unsolvedmath-nt-039"
+        and claim.executor_id == "second_batch.finite.exact_search.v1"
+    ):
+        from amra.discovery import second_batch_finite
+
+        if runner is second_batch_finite.run_second_batch_finite_search:
+            original_addition_chain_length = (
+                second_batch_finite._addition_chain_length
+            )
+
+            def memory_safe_addition_chain_length(
+                target: int,
+                deadline: float | None = None,
+            ) -> int:
+                return _memory_safe_addition_chain_length(
+                    target,
+                    deadline,
+                    check_deadline=second_batch_finite._check_deadline,
+                )
+
+            second_batch_finite._addition_chain_length = (
+                memory_safe_addition_chain_length
+            )
+            shims.append("nt-039-addition-chain-iddfs-v1")
+
+            def restore() -> None:
+                second_batch_finite._addition_chain_length = (
+                    original_addition_chain_length
+                )
 
     try:
         yield shims
