@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "database": "/home/biostar/work/amra/data/research_open/unsolvedmath_counterexample_campaign/status.sqlite3",
-  "generated_at": "2026-07-27T00:57:11.906879Z",
+  "generated_at": "2026-07-28T00:28:25.142647Z",
   "total_problems": 1332,
   "status_counts": {
-    "completed": 20,
-    "parked": 1312
+    "completed": 63,
+    "parked": 1269
   },
   "domain_counts": {
     "algebra": 64,
@@ -27,14 +27,16 @@
     "topology": 416
   },
   "collection_counts": {
-    "backlog": 1312,
+    "backlog": 1269,
+    "counterexample-batch-2-100": 43,
     "first-batch-20": 20
   },
   "stage_counts": {
-    "G0": 1312,
-    "G2": 20
+    "G0": 1269,
+    "G2": 20,
+    "batch2-final": 43
   },
-  "attempts": 42,
+  "attempts": 85,
   "checkpoints": 148,
   "expired_active_leases": 0
 }

@@ -1,0 +1,63 @@
+{
+  "attempt_id": 211,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 10
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "b91bfab3637f25a468b7a2af3934b812910e6ba2f56b99482d4a6d679eea9576",
+  "deterministic_seed": 3752659573635487924,
+  "duration_seconds": 600.002028,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 10,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 26,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 10,
+        "time_seconds": 600
+      },
+      "next_case": 226,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "generated_cases": 27,
+      "premise_cases": 26,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "the total chromatic number is at most Delta(G)+2",
+      "counterexample": "G is a finite simple graph and NOT (the total chromatic number is at most Delta(G)+2)",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G is a finite simple graph"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "predicate_time_budget_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 1,
+  "parent_problem_id": "unsolvedmath-opg-815",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-b91bfab3637f25a468b7a2af3934b812910e6ba2",
+  "worker_id": "batch2-resume-graph-20260727-r2-02"
+}

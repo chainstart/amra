@@ -11,34 +11,40 @@
     "stop_reason_counts": {
       "bounded_scope_exhausted": 14,
       "campaign_adapter_fix_interrupted_for_checkpoint_resume": 1,
-      "campaign_adapter_unified_restart_from_checkpoint": 2,
+      "campaign_adapter_unified_restart_from_checkpoint": 1,
       "candidate_passed_internal_verification": 1,
       "case_budget_exhausted": 12,
       "finite_bound_exhausted": 9,
+      "lease expired": 10,
       "max_cases_exhausted": 20,
-      "predicate_time_budget_exhausted": 43,
+      "predicate_time_budget_exhausted": 47,
       "targeted_sample_exhausted": 38,
-      "time_budget_exhausted": 16
+      "time_budget_exhausted": 21
     },
     "task_count": 315,
     "task_status_counts": {
-      "completed": 153,
+      "completed": 162,
       "parked": 86,
-      "queued": 59,
-      "running": 17
+      "queued": 67
     },
     "verification_status_counts": {
       "not_required": 99,
       "verified": 1
     }
   },
-  "final_parent_count": 38,
-  "main_sync": {},
+  "final_parent_count": 43,
+  "main_sync": {
+    "skipped_active_problem_ids": [],
+    "skipped_existing_completed_problem_ids": [],
+    "status": "completed",
+    "synced_problem_ids": [],
+    "total_after": 1332,
+    "total_before": 1332
+  },
   "parent_status_counts": {
-    "bounded_search_completed": 37,
+    "bounded_search_completed": 42,
     "candidate_verified": 1,
-    "queued": 52,
-    "running": 10
+    "queued": 57
   },
   "schema_version": "amra.second_batch_campaign.v1"
 }

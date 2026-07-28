@@ -3,8 +3,8 @@
 The task SQLite database is authoritative. This report aggregates 100 parent problems; it does not claim that a bounded null result proves an unbounded conjecture.
 
 - Parent problems: 100
-- Final parents: 38
-- Statuses: `{"bounded_search_completed": 37, "candidate_verified": 1, "queued": 52, "running": 10}`
+- Final parents: 43
+- Statuses: `{"bounded_search_completed": 42, "candidate_verified": 1, "queued": 57}`
 
 | Problem | Domain | Scope | Status | Verification | Progress | Checked | Attempts |
 | --- | --- | --- | --- | --- | ---: | ---: | ---: |
@@ -35,9 +35,9 @@ The task SQLite database is authoritative. This report aggregates 100 parent pro
 | `unsolvedmath-opg-60027` 3-Decomposition Conjecture | graph_theory | `full_claim` | `bounded_search_completed` | `not_required` | 4/4 | 25197 | 4 |
 | `unsolvedmath-opg-60029` Cycle Double Covers Containing Predefined 2-Regular Subgraphs | graph_theory | `full_claim` | `bounded_search_completed` | `not_required` | 4/4 | 18446 | 5 |
 | `unsolvedmath-opg-60046` 3-Edge-Coloring Conjecture | graph_theory | `full_claim` | `bounded_search_completed` | `not_required` | 4/4 | 310000 | 4 |
-| `unsolvedmath-opg-60055` Chromatic number of $\frac{3}{3}$-power of graph | graph_theory | `full_claim` | `running` | `not_required` | 3/4 | 97695 | 7 |
-| `unsolvedmath-opg-804` Edge Reconstruction Conjecture | graph_theory | `full_claim` | `running` | `not_required` | 1/2 | 1421 | 3 |
-| `unsolvedmath-opg-815` Total Colouring Conjecture | graph_theory | `full_claim` | `running` | `not_required` | 1/4 | 10200 | 6 |
+| `unsolvedmath-opg-60055` Chromatic number of $\frac{3}{3}$-power of graph | graph_theory | `full_claim` | `bounded_search_completed` | `not_required` | 4/4 | 150312 | 8 |
+| `unsolvedmath-opg-804` Edge Reconstruction Conjecture | graph_theory | `full_claim` | `bounded_search_completed` | `not_required` | 2/2 | 1965 | 4 |
+| `unsolvedmath-opg-815` Total Colouring Conjecture | graph_theory | `full_claim` | `queued` | `not_required` | 3/4 | 10237 | 8 |
 | `unsolvedmath-opg-60039` Sidorenko's Conjecture | graph_theory | `full_claim` | `queued` | `not_required` | 1/4 | 4152 | 2 |
 | `unsolvedmath-opg-729` Seagull problem | graph_theory | `full_claim` | `queued` | `not_required` | 1/2 | 208 | 1 |
 | `unsolvedmath-kou-21.87` Kourovka Notebook Problem 21.87 | group_theory | `restricted_family` | `bounded_search_completed` | `not_required` | 2/2 | 90 | 3 |
@@ -49,10 +49,10 @@ The task SQLite database is authoritative. This report aggregates 100 parent pro
 | `unsolvedmath-kou-21.137` Kourovka Notebook Problem 21.137 | group_theory | `explicit_subclaim` | `candidate_verified` | `verified` | 2/2 | 2340 | 3 |
 | `unsolvedmath-kou-21.35` Kourovka Notebook Problem 21.35 | group_theory | `restricted_family` | `bounded_search_completed` | `not_required` | 2/2 | 42 | 3 |
 | `unsolvedmath-kou-21.113` Kourovka Notebook Problem 21.113 | group_theory | `explicit_subclaim` | `bounded_search_completed` | `not_required` | 2/2 | 42 | 3 |
-| `unsolvedmath-kou-21.115` Kourovka Notebook Problem 21.115 | group_theory | `restricted_family` | `running` | `not_required` | 1/4 | 848464 | 5 |
-| `unsolvedmath-kou-21.134` Kourovka Notebook Problem 21.134 | group_theory | `full_claim` | `running` | `not_required` | 1/2 | 42 | 3 |
-| `unsolvedmath-kou-21.135` Kourovka Notebook Problem 21.135 | group_theory | `full_claim` | `running` | `not_required` | 1/2 | 42 | 3 |
-| `unsolvedmath-opg-37396` 3 is a primitive root modulo primes of the form 16 q^4 + 1, where q>3 is prime | number_theory | `full_claim` | `queued` | `not_required` | 1/2 | 166 | 2 |
+| `unsolvedmath-kou-21.115` Kourovka Notebook Problem 21.115 | group_theory | `restricted_family` | `bounded_search_completed` | `not_required` | 4/4 | 4189584 | 8 |
+| `unsolvedmath-kou-21.134` Kourovka Notebook Problem 21.134 | group_theory | `full_claim` | `bounded_search_completed` | `not_required` | 2/2 | 42 | 3 |
+| `unsolvedmath-kou-21.135` Kourovka Notebook Problem 21.135 | group_theory | `full_claim` | `bounded_search_completed` | `not_required` | 2/2 | 42 | 4 |
+| `unsolvedmath-opg-37396` 3 is a primitive root modulo primes of the form 16 q^4 + 1, where q>3 is prime | number_theory | `full_claim` | `queued` | `not_required` | 1/2 | 19878 | 3 |
 | `unsolvedmath-opg-37413` Alexa's Conjecture on Primality | number_theory | `full_claim` | `queued` | `not_required` | 1/2 | 493 | 2 |
 | `unsolvedmath-alg-012-collision-rota-s-basis-conjecture-5ad44b45` Rota's Basis Conjecture | algebra | `restricted_family` | `queued` | `not_required` | 1/4 | 887 | 2 |
 | `unsolvedmath-kou-21.89` Kourovka Notebook Problem 21.89 | group_theory | `full_claim` | `queued` | `not_required` | 1/2 | 461 | 1 |
@@ -76,10 +76,10 @@ The task SQLite database is authoritative. This report aggregates 100 parent pro
 | `unsolvedmath-nt-058` Lander-Parkin-Selfridge Conjecture | number_theory | `restricted_family` | `queued` | `not_required` | 0/2 | 0 | 0 |
 | `unsolvedmath-comb-003` Ramsey Number R(5,5) | combinatorics | `witness_search` | `bounded_search_completed` | `not_required` | 4/4 | 91 | 4 |
 | `unsolvedmath-nt-010` Brocard's Problem | number_theory | `witness_search` | `bounded_search_completed` | `not_required` | 4/4 | 7170 | 4 |
-| `unsolvedmath-nt-026` The Odd Perfect Number Conjecture | number_theory | `witness_search` | `running` | `not_required` | 3/4 | 2261200 | 4 |
-| `unsolvedmath-nt-027` Firoozbakht's Conjecture | number_theory | `full_claim` | `running` | `not_required` | 1/4 | 3300 | 4 |
-| `unsolvedmath-nt-033` Grimm's Conjecture | number_theory | `full_claim` | `running` | `not_required` | 1/4 | 210000 | 4 |
-| `unsolvedmath-nt-039` Scholz Conjecture | number_theory | `full_claim` | `running` | `not_required` | 1/2 | 7 | 2 |
+| `unsolvedmath-nt-026` The Odd Perfect Number Conjecture | number_theory | `witness_search` | `queued` | `not_required` | 3/4 | 2295400 | 4 |
+| `unsolvedmath-nt-027` Firoozbakht's Conjecture | number_theory | `full_claim` | `queued` | `not_required` | 1/4 | 3300 | 4 |
+| `unsolvedmath-nt-033` Grimm's Conjecture | number_theory | `full_claim` | `queued` | `not_required` | 1/4 | 281100 | 4 |
+| `unsolvedmath-nt-039` Scholz Conjecture | number_theory | `full_claim` | `queued` | `not_required` | 1/2 | 7 | 2 |
 | `unsolvedmath-nt-043` Quasiperfect Numbers | number_theory | `witness_search` | `queued` | `not_required` | 1/4 | 2000 | 1 |
 | `unsolvedmath-nt-044` Almost Perfect Numbers Beyond Powers of 2 | number_theory | `witness_search` | `queued` | `not_required` | 0/4 | 0 | 0 |
 | `unsolvedmath-nt-046` Amicable Numbers of Opposite Parity | number_theory | `witness_search` | `queued` | `not_required` | 0/4 | 0 | 0 |

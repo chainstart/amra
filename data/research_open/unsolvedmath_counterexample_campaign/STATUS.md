@@ -1,15 +1,15 @@
 # UnsolvedMath Counterexample Campaign Status
 
-Generated: 2026-07-27T00:57:11.906879Z
+Generated: 2026-07-28T00:28:25.142647Z
 
 The SQLite database is authoritative. CSV, JSONL, and this report are derived views.
 
 ## Totals
 
 - Problems: 1332
-- Attempts: 42
+- Attempts: 85
 - Checkpoints: 148
-- Statuses: `{"completed": 20, "parked": 1312}`
+- Statuses: `{"completed": 63, "parked": 1269}`
 
 ## First Batch
 
