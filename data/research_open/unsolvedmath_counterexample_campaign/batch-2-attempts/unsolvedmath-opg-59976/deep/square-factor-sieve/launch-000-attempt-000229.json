@@ -1,0 +1,76 @@
+{
+  "attempt_id": 229,
+  "budget": {
+    "max_cases": 100000000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_exponent": 10000000,
+      "max_factor": 10000000
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "e4be9c63a89c82ba464109d130a56aab56c0f607dd0a62c0456cfb7eea003a80",
+  "deterministic_seed": 6251145433529891881,
+  "duration_seconds": 600.021249,
+  "executor_result": {
+    "budget": {
+      "max_cases": 100000000,
+      "max_exponent": 10000000,
+      "max_factor": 10000000,
+      "memory_mb": 1024,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 0,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 0,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 100000000,
+        "max_exponent": 10000000,
+        "max_factor": 10000000,
+        "memory_mb": 1024,
+        "time_seconds": 600
+      },
+      "effective_strategy_id": "square-factor-sieve",
+      "launch_seed": 0,
+      "metrics": {},
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-opg-59976",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "atomic_bound_restart",
+        "note": "This bounded generator does not expose an intra-bound cursor."
+      },
+      "search_completed": false,
+      "strategy_id": "square-factor-sieve"
+    },
+    "effective_strategy_id": "square-factor-sieve",
+    "executor_id": "second_batch.arithmetic.opg_59976.v1",
+    "metrics": {},
+    "model_contract": "A witness is primes p,r with r^2 dividing 2^p-1, checked by exact modular exponentiation.",
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "square-factor-sieve",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-59976",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "square-factor-sieve",
+  "task_id": "batch-task-e4be9c63a89c82ba464109d130a56aab56c0f607",
+  "worker_id": "batch2-arithmetic-20260728-full57-02"
+}

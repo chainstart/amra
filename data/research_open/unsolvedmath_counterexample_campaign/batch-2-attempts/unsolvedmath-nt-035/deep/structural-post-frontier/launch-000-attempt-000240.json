@@ -1,0 +1,131 @@
+{
+  "attempt_id": 240,
+  "budget": {
+    "max_cases": 10000000,
+    "memory_mb": 1024,
+    "parameters": {
+      "minimum_n": 1000000000000000000000000000001,
+      "minimum_prime_factors": 15,
+      "subset_block_size": 256
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "446c520dfcf0c50efaae8f36ad2ccbd19ebb64cb3bd8d8d9c517a9a2456ce3d3",
+  "deterministic_seed": 4834927123213105702,
+  "duration_seconds": 101.014869,
+  "executor_result": {
+    "budget": {
+      "max_cases": 10000000,
+      "max_n": 1000,
+      "memory_mb": 1024,
+      "minimum_n": 1000000000000000000000000000001,
+      "minimum_prime_factors": 15,
+      "subset_block_size": 256,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 3562496,
+    "checkpoint": {
+      "bounded_scope_exhausted": true,
+      "checked_cases": 3562496,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 10000000,
+        "max_n": 1000,
+        "memory_mb": 1024,
+        "minimum_n": 1000000000000000000000000000001,
+        "minimum_prime_factors": 15,
+        "subset_block_size": 256,
+        "time_seconds": 600
+      },
+      "cursor_kind": "lehmer_korselt_subset",
+      "effective_strategy_id": "structural-post-frontier",
+      "launch_seed": 0,
+      "metrics": {
+        "all_tested_structures_squarefree": true,
+        "coverage_kind": "post_frontier_korselt_compatible_subsets",
+        "factor_counts": [
+          16
+        ],
+        "family_moduli": [
+          627264,
+          836352,
+          1254528,
+          1881792,
+          4599936,
+          6899904
+        ],
+        "korselt_candidates": 38,
+        "korselt_filter_exact": true,
+        "lehmer_tested": 33,
+        "max_tested_n": 4134958847090639048784269404756859905,
+        "min_tested_n": 2639073487824736953770914035265,
+        "minimum_n": 1000000000000000000000000000001,
+        "minimum_prime_factors": 15,
+        "post_frontier_candidates": 34,
+        "quotient_feasible_candidates": 33,
+        "subsets_enumerated": 3562496
+      },
+      "next_case": 3562496,
+      "phase": "complete",
+      "problem_id": "unsolvedmath-nt-035",
+      "resume": {
+        "checkpoint_received": true,
+        "intra_bound_cursor_restored": true,
+        "mode": "block_cursor",
+        "note": "The next block cursor is durable; at most the active unfinished block is replayed."
+      },
+      "search_completed": true,
+      "strategy_id": "structural-post-frontier"
+    },
+    "effective_strategy_id": "structural-post-frontier",
+    "executor_id": "second_batch.arithmetic.nt_035.v1",
+    "metrics": {
+      "all_tested_structures_squarefree": true,
+      "coverage_kind": "post_frontier_korselt_compatible_subsets",
+      "factor_counts": [
+        16
+      ],
+      "family_moduli": [
+        627264,
+        836352,
+        1254528,
+        1881792,
+        4599936,
+        6899904
+      ],
+      "korselt_candidates": 38,
+      "korselt_filter_exact": true,
+      "lehmer_tested": 33,
+      "max_tested_n": 4134958847090639048784269404756859905,
+      "min_tested_n": 2639073487824736953770914035265,
+      "minimum_n": 1000000000000000000000000000001,
+      "minimum_prime_factors": 15,
+      "post_frontier_candidates": 34,
+      "quotient_feasible_candidates": 33,
+      "subsets_enumerated": 3562496
+    },
+    "model_contract": "A witness is a composite squarefree n with phi(n) dividing n-1. Deep search enumerates factor subsets that satisfy Korselt's condition before applying the exact Lehmer divisibility test.",
+    "outcome": "no_candidate",
+    "stop_reason": "bounded_scope_exhausted",
+    "strategy_id": "structural-post-frontier",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-nt-035",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "structural-post-frontier",
+  "task_id": "batch-task-446c520dfcf0c50efaae8f36ad2ccbd19ebb64cb",
+  "worker_id": "batch2-arithmetic-20260728-full57-01"
+}

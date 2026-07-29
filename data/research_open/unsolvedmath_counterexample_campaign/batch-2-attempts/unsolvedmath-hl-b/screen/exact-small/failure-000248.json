@@ -1,0 +1,9 @@
+{
+  "attempt_id": 248,
+  "problem_id": "unsolvedmath-hl-b",
+  "retryable": true,
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stop_reason": "OperationalError: database is locked",
+  "task_id": "batch-task-1a9b3b01627c3e309d6457911e6c48d821a4debd",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_campaign.py\", line 1416, in run_second_batch\n    result = _execute_claim(\n             ^^^^^^^^^^^^^^^\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_campaign.py\", line 1322, in _execute_claim\n    _auto_advance(coordinator, claim.parent_problem_id)\n  File \"/home/biostar/work/amra/src/amra/discovery/second_batch_campaign.py\", line 1364, in _auto_advance\n    return coordinator.activate_stage(problem_id, \"deep\")\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/biostar/work/amra/src/amra/discovery/batch_campaign.py\", line 695, in activate_stage\n    self.store.upsert_problem(\n  File \"/home/biostar/work/amra/src/amra/discovery/campaign_status.py\", line 289, in upsert_problem\n    with self._write_transaction() as connection:\n  File \"/usr/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n           ^^^^^^^^^^^^^^\n  File \"/home/biostar/work/amra/src/amra/discovery/campaign_status.py\", line 117, in _write_transaction\n    connection.execute(\"BEGIN IMMEDIATE\")\nsqlite3.OperationalError: database is locked\n"
+}

@@ -1,0 +1,119 @@
+{
+  "attempt_id": 236,
+  "budget": {
+    "max_cases": 100,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_antipodal_pairs": 7,
+      "max_dimension": 4
+    },
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "0026bb2734534c42378a708874817599846020a1873e5efd98c2d58748c10e6c",
+  "deterministic_seed": 1903709372504755159,
+  "duration_seconds": 0.112818,
+  "executor_result": {
+    "budget": {
+      "max_antipodal_pairs": 7,
+      "max_cases": 100,
+      "max_dimension": 4,
+      "memory_mb": 1024,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 8,
+    "checkpoint": {
+      "bounded_scope_exhausted": true,
+      "checked_cases": 8,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_antipodal_pairs": 7,
+        "max_cases": 100,
+        "max_dimension": 4,
+        "memory_mb": 1024,
+        "time_seconds": 60
+      },
+      "cursor_kind": "kalai_small_named_polytope",
+      "effective_strategy_id": "exact-small",
+      "launch_seed": 0,
+      "metrics": {
+        "coverage_kind": "exact_named_cs_polytope_replication",
+        "dimensions": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "double_lattice_cross_check": true,
+        "exact_polytopes": 8,
+        "face_convention": "sum_f_0_through_f_d_includes_P_excludes_empty",
+        "facet_cap_skips": 0,
+        "families": [
+          "cross_polytope",
+          "cube"
+        ],
+        "minimum_face_surplus": 0,
+        "non_simple_non_simplicial": 0
+      },
+      "next_case": 8,
+      "phase": "complete",
+      "problem_id": "unsolvedmath-geo-025",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "block_cursor",
+        "note": "The next block cursor is durable; at most the active unfinished block is replayed."
+      },
+      "search_completed": true,
+      "strategy_id": "exact-small"
+    },
+    "effective_strategy_id": "exact-small",
+    "executor_id": "second_batch.arithmetic.geo_025.v1",
+    "metrics": {
+      "coverage_kind": "exact_named_cs_polytope_replication",
+      "dimensions": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "double_lattice_cross_check": true,
+      "exact_polytopes": 8,
+      "face_convention": "sum_f_0_through_f_d_includes_P_excludes_empty",
+      "facet_cap_skips": 0,
+      "families": [
+        "cross_polytope",
+        "cube"
+      ],
+      "minimum_face_surplus": 0,
+      "non_simple_non_simplicial": 0
+    },
+    "model_contract": {
+      "claim_scope": "restricted_family",
+      "counterexample_condition": "A counterexample is a full-dimensional centrally symmetric d-polytope with fewer than 3^d nonempty faces. Face counting includes the polytope itself and excludes the empty face, so the d-cube has exactly 3^d faces. The exact-small screen replays cubes and cross-polytopes through d=4. The deep executable family consists of centrally symmetric subpolytopes of the d-cube, represented as conv(+-v_i) for sign vectors v_i in {+-1}^d.",
+      "scope_limitation": "A witness in either executable family refutes the full conjecture; nonfinding covers only the named d<=4 cube/cross-polytope screen and the recorded deep sign-vector conv(+-v_i), v_i in {+-1}^d, strata.",
+      "source_statement": "Does every centrally symmetric d-dimensional polytope have at least 3^d nonempty faces, counting the polytope itself and excluding the empty face?"
+    },
+    "outcome": "no_candidate",
+    "stop_reason": "bounded_scope_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-geo-025",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-0026bb2734534c42378a708874817599846020a1",
+  "worker_id": "batch2-arithmetic-20260728-full57-01"
+}

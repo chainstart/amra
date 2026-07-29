@@ -1,0 +1,68 @@
+{
+  "attempt_id": 232,
+  "budget": {
+    "max_cases": 100000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_vertices": 16
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "10e44fc0ccfd3522f6ee0a0aa4a2acd18275f2801e9e34490314de924cfd8ae1",
+  "deterministic_seed": 1107973444424315843,
+  "duration_seconds": 281.538021,
+  "executor_result": {
+    "bounds": {
+      "max_cases": 100000,
+      "max_vertices": 16,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 25706,
+    "checkpoint": {
+      "bounds": {
+        "max_cases": 100000,
+        "max_vertices": 16,
+        "time_seconds": 600
+      },
+      "next_case": 25706,
+      "strategy_id": "targeted"
+    },
+    "executor_id": "amra.second_batch_graphs",
+    "executor_version": "v2",
+    "metrics": {
+      "frontier_premise_cases": 25706,
+      "generated_cases": 25706,
+      "known_frontier_exceeded": true,
+      "max_graph_edge_count_seen": 96,
+      "max_graph_order_seen": 16,
+      "premise_cases": 25706,
+      "replayed_cases": 0
+    },
+    "model_contract": {
+      "acceptance": "The finite premise and failed conclusion are recomputed from the serialized adjacency certificate by a same-executor replay. This is a consistency check, not independent verification.",
+      "conclusion": "G has a complete minor of order at least ceil(|V(G)|/2)",
+      "counterexample": "G has no independent set of size three and NOT (G has a complete minor of order at least ceil(|V(G)|/2))",
+      "limitations": "No candidate in a finite corpus is not a proof of the unbounded claim.",
+      "objects": "finite simple graphs, with any auxiliary finite data stated below",
+      "premise": "G has no independent set of size three",
+      "source_statement": "Every n-vertex graph with no independent set of size three has a complete graph on at least n/2 vertices as a minor."
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "targeted_sample_exhausted",
+    "strategy_id": "targeted",
+    "tool_versions": {
+      "executor": "v2",
+      "nauty_geng": "Usage: geng [-cCmtfkbd#D#] [-kTSPF] [-uygsnh] [-lvq] [-x#X#] n [mine[:maxe]] [res/mod] [file]",
+      "python": "3.12.3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-729",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "targeted",
+  "task_id": "batch-task-10e44fc0ccfd3522f6ee0a0aa4a2acd18275f280",
+  "worker_id": "batch2-graph-20260728-full57-01"
+}

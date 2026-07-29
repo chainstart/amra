@@ -1,0 +1,73 @@
+{
+  "attempt_id": 262,
+  "budget": {
+    "max_cases": 10000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_row": 100
+    },
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "ff92cafc6902b4fb8497309441a3437622ff93147d4c06d2d17f3d96a92ad1a8",
+  "deterministic_seed": 8905102138272872176,
+  "duration_seconds": 0.015937,
+  "executor_result": {
+    "budget": {
+      "max_cases": 10000,
+      "max_row": 100,
+      "memory_mb": 1024,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 5151,
+    "checkpoint": {
+      "bounded_scope_exhausted": true,
+      "checked_cases": 5151,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 10000,
+        "max_row": 100,
+        "memory_mb": 1024,
+        "time_seconds": 60
+      },
+      "effective_strategy_id": "exact-small",
+      "launch_seed": 0,
+      "metrics": {},
+      "phase": "complete",
+      "problem_id": "unsolvedmath-opg-60034",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "atomic_bound_restart",
+        "note": "This bounded generator does not expose an intra-bound cursor."
+      },
+      "search_completed": true,
+      "strategy_id": "exact-small"
+    },
+    "effective_strategy_id": "exact-small",
+    "executor_id": "second_batch.arithmetic.opg_60034.v1",
+    "metrics": {},
+    "model_contract": "The executable target is the widely discussed candidate upper bound 8, not the finiteness conjecture itself. A witness is a Pascal-triangle value other than 1 occurring at least nine times within the complete rows through the recorded bound.",
+    "outcome": "no_candidate",
+    "stop_reason": "bounded_scope_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-60034",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-ff92cafc6902b4fb8497309441a3437622ff9314",
+  "worker_id": "batch2-arithmetic-20260728-full57-01"
+}

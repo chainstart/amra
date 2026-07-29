@@ -1,0 +1,73 @@
+{
+  "attempt_id": 216,
+  "budget": {
+    "max_cases": 100000000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_n": 100000000
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "2fa8fec8ec68563a797ba4aa6569a61d349156cd6f572cc76f3b76966304ec34",
+  "deterministic_seed": 8597005490396980008,
+  "duration_seconds": 601.213405,
+  "executor_result": {
+    "budget": {
+      "max_cases": 100000000,
+      "max_n": 100000000,
+      "memory_mb": 1024,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 0,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 0,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 100000000,
+        "max_n": 100000000,
+        "memory_mb": 1024,
+        "time_seconds": 600
+      },
+      "effective_strategy_id": "composite-targeted",
+      "launch_seed": 0,
+      "metrics": {},
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-opg-37413",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "atomic_bound_restart",
+        "note": "This bounded generator does not expose an intra-bound cursor."
+      },
+      "search_completed": false,
+      "strategy_id": "composite-targeted"
+    },
+    "effective_strategy_id": "composite-targeted",
+    "executor_id": "second_batch.arithmetic.opg_37413.v1",
+    "metrics": {},
+    "model_contract": "A witness is p>=8 for which primality disagrees with the stated exact modular-residue sum test.",
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "composite-targeted",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-37413",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "composite-targeted",
+  "task_id": "batch-task-2fa8fec8ec68563a797ba4aa6569a61d349156cd",
+  "worker_id": "batch2-arithmetic-20260728-full57-02"
+}

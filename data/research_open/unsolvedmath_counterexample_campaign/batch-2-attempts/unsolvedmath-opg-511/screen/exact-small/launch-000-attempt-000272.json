@@ -1,0 +1,114 @@
+{
+  "attempt_id": 272,
+  "budget": {
+    "max_cases": 50000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_n": 100000,
+      "segment_size": 4096,
+      "start_n": 3
+    },
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "ac8bf2d0ecfc1811ba4c82215cbf3881b497bba073457f9a78a266c70d7e9e0f",
+  "deterministic_seed": 1075285368696721638,
+  "duration_seconds": 0.387677,
+  "executor_result": {
+    "budget": {
+      "max_cases": 50000,
+      "max_n": 100000,
+      "memory_mb": 1024,
+      "segment_size": 4096,
+      "start_n": 3,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 40408,
+    "checkpoint": {
+      "bounded_scope_exhausted": true,
+      "checked_cases": 40408,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 50000,
+        "max_n": 100000,
+        "memory_mb": 1024,
+        "segment_size": 4096,
+        "start_n": 3,
+        "time_seconds": 60
+      },
+      "cursor_kind": "bpsw_replication_segment",
+      "effective_strategy_id": "exact-small",
+      "launch_seed": 0,
+      "metrics": {
+        "coverage_kind": "published_range_replication",
+        "family_sample_counts": {
+          "sequential_composite_replication": 40408
+        },
+        "known_exhaustive_lower_bound": 18446744073709551616,
+        "last_interval": [
+          98307,
+          100000
+        ],
+        "lucas_variant": "Method_A_Selfridge_strong",
+        "max_tested_n": 99999,
+        "min_tested_n": 9,
+        "segments_completed": 25
+      },
+      "next_n": 100001,
+      "phase": "complete",
+      "problem_id": "unsolvedmath-opg-511",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "block_cursor",
+        "note": "The next block cursor is durable; at most the active unfinished block is replayed."
+      },
+      "search_completed": true,
+      "strategy_id": "exact-small"
+    },
+    "effective_strategy_id": "exact-small",
+    "executor_id": "second_batch.arithmetic.opg_511.v1",
+    "metrics": {
+      "coverage_kind": "published_range_replication",
+      "family_sample_counts": {
+        "sequential_composite_replication": 40408
+      },
+      "known_exhaustive_lower_bound": 18446744073709551616,
+      "last_interval": [
+        98307,
+        100000
+      ],
+      "lucas_variant": "Method_A_Selfridge_strong",
+      "max_tested_n": 99999,
+      "min_tested_n": 9,
+      "segments_completed": 25
+    },
+    "model_contract": {
+      "claim_scope": "witness_search",
+      "counterexample_condition": "Only Part (1) is searched. A witness is an odd composite n that passes both strong Miller-Rabin to base 2 and the Method A/Selfridge strong Lucas probable-prime test, accompanied by a replayable nontrivial factor. The bounded screen is replication below the published exhaustive lower bound 2^64; discovery uses two structurally different families whose every tested integer is strictly greater than 2^64.",
+      "scope_limitation": "Only Part (1), the Baillie-PSW counterexample search, is covered; Part (2) is excluded.",
+      "source_statement": "Problem (1) Find a counterexample to Baillie-PSW primality test or prove that there is no one. Problem (2) Find a composite n congruent to 3 or 7 modulo 10 which divides both 2^(n-1)-1 and F_(n+1), or prove that there is no such n."
+    },
+    "outcome": "no_candidate",
+    "stop_reason": "bounded_scope_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-511",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-ac8bf2d0ecfc1811ba4c82215cbf3881b497bba0",
+  "worker_id": "batch2-arithmetic-20260728-full57-02"
+}

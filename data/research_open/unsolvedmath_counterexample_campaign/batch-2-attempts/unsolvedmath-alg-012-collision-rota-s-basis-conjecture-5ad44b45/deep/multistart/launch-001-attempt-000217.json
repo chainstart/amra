@@ -1,0 +1,195 @@
+{
+  "attempt_id": 217,
+  "budget": {
+    "max_cases": 1000000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_field_prime": 5,
+      "max_rank": 7,
+      "minimum_rank": 5,
+      "solver_node_limit": 5000000
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "010654c060e36c667cb03afc8e96355ab1cfbfb483d434c5a9e38197ce7c9031",
+  "deterministic_seed": 1921454406469183181,
+  "duration_seconds": 600.022031,
+  "executor_result": {
+    "budget": {
+      "max_cases": 1000000,
+      "max_field_prime": 5,
+      "max_rank": 7,
+      "memory_mb": 1024,
+      "minimum_rank": 5,
+      "solver_node_limit": 5000000,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 571,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 571,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 1000000,
+        "max_field_prime": 5,
+        "max_rank": 7,
+        "memory_mb": 1024,
+        "minimum_rank": 5,
+        "solver_node_limit": 5000000,
+        "time_seconds": 600
+      },
+      "cursor_kind": "rota_stratified_instance",
+      "effective_strategy_id": "multistart",
+      "launch_seed": 1921454406469183181,
+      "metrics": {
+        "coverage_kind": "independent_stratified_prime_field_vector_matroids",
+        "decomposition_cases": 571,
+        "exact_solver_cases": 571,
+        "generator_templates": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "independent_restarts": true,
+        "label_semantics": "row-index and within-row index are disjoint element labels",
+        "rank_field_strata": [
+          [
+            5,
+            2
+          ],
+          [
+            5,
+            3
+          ],
+          [
+            5,
+            5
+          ],
+          [
+            6,
+            2
+          ],
+          [
+            6,
+            3
+          ],
+          [
+            6,
+            5
+          ],
+          [
+            7,
+            2
+          ],
+          [
+            7,
+            3
+          ],
+          [
+            7,
+            5
+          ]
+        ],
+        "search_completeness": "exact_decision_per_instance_unless_node_limit_recorded",
+        "solver_cutoff_cases": 0,
+        "solver_nodes": 10485
+      },
+      "next_case": 571,
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-alg-012-collision-rota-s-basis-conjecture-5ad44b45",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "block_cursor",
+        "note": "The next block cursor is durable; at most the active unfinished block is replayed."
+      },
+      "search_completed": false,
+      "strategy_id": "multistart"
+    },
+    "effective_strategy_id": "multistart",
+    "executor_id": "second_batch.arithmetic.opg_rotas_basis.v1",
+    "metrics": {
+      "coverage_kind": "independent_stratified_prime_field_vector_matroids",
+      "decomposition_cases": 571,
+      "exact_solver_cases": 571,
+      "generator_templates": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "independent_restarts": true,
+      "label_semantics": "row-index and within-row index are disjoint element labels",
+      "rank_field_strata": [
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          5
+        ],
+        [
+          6,
+          2
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          3
+        ],
+        [
+          7,
+          5
+        ]
+      ],
+      "search_completeness": "exact_decision_per_instance_unless_node_limit_recorded",
+      "solver_cutoff_cases": 0,
+      "solver_nodes": 10485
+    },
+    "model_contract": {
+      "claim_scope": "restricted_family",
+      "counterexample_condition": "Let M be a rank-n matroid and let B_1,...,B_n be pairwise-disjoint labelled copies of bases of M. A counterexample is such finite data for which no partition into n disjoint transversal bases exists. The executable family uses vector matroids over prime fields; row labels keep equal vectors in different input bases disjoint.",
+      "scope_limitation": "A counterexample over a prime field refutes the full matroid conjecture; nonfinding covers only the recorded representable instances.",
+      "source_statement": "Let M be a matroid of rank n and let B_1,...,B_n be pairwise-disjoint labelled bases of M. Can their elements always be rearranged into n disjoint transversal bases?"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "multistart",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 1,
+  "parent_problem_id": "unsolvedmath-alg-012-collision-rota-s-basis-conjecture-5ad44b45",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "multistart",
+  "task_id": "batch-task-010654c060e36c667cb03afc8e96355ab1cfbfb4",
+  "worker_id": "batch2-arithmetic-20260728-full57-01"
+}

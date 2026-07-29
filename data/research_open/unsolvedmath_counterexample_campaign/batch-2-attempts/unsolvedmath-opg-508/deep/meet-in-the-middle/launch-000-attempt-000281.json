@@ -1,0 +1,83 @@
+{
+  "attempt_id": 281,
+  "budget": {
+    "max_cases": 100000000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_base": 100000
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "07e9bb414f79b53cc521499ab0de02c0a68e0fd6541973a776df1ffad07d0f25",
+  "deterministic_seed": 684721876253938364,
+  "duration_seconds": 600.017048,
+  "executor_result": {
+    "budget": {
+      "max_base": 100000,
+      "max_cases": 100000000,
+      "memory_mb": 1024,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 4569920,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 4569920,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_base": 100000,
+        "max_cases": 100000000,
+        "memory_mb": 1024,
+        "time_seconds": 600
+      },
+      "cursor_kind": "sextic_power_completion_case",
+      "effective_strategy_id": "meet-in-the-middle",
+      "launch_seed": 0,
+      "metrics": {
+        "coverage_kind": "random_four_plus_exact_sixth_root",
+        "max_target_base": 100000,
+        "min_target_base": 2
+      },
+      "next_case": 4569920,
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-opg-508",
+      "resume": {
+        "checkpoint_received": true,
+        "intra_bound_cursor_restored": true,
+        "mode": "block_cursor",
+        "note": "The next block cursor is durable; at most the active unfinished block is replayed."
+      },
+      "search_completed": false,
+      "strategy_id": "meet-in-the-middle"
+    },
+    "effective_strategy_id": "meet-in-the-middle",
+    "executor_id": "second_batch.arithmetic.opg_508.v1",
+    "metrics": {
+      "coverage_kind": "random_four_plus_exact_sixth_root",
+      "max_target_base": 100000,
+      "min_target_base": 2
+    },
+    "model_contract": "A witness is six positive integers satisfying the displayed exact five-versus-one sixth-power identity. Failure to find one is reported only as a bounded witness search, never as nonexistence.",
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "meet-in-the-middle",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-508",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "meet-in-the-middle",
+  "task_id": "batch-task-07e9bb414f79b53cc521499ab0de02c0a68e0fd6",
+  "worker_id": "batch2-arithmetic-20260728-full57-02"
+}

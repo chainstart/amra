@@ -1,0 +1,273 @@
+{
+  "attempt_id": 239,
+  "budget": {
+    "max_cases": 1000000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_antipodal_pairs": 12,
+      "max_dimension": 7,
+      "max_facet_subsets": 2000000,
+      "minimum_dimension": 5
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "df4114c3f5af9d434dc312f766f7e0953a5f25d70e013fdd3a4b85fea979e05b",
+  "deterministic_seed": 292792288573601053,
+  "duration_seconds": 600.014359,
+  "executor_result": {
+    "budget": {
+      "max_antipodal_pairs": 12,
+      "max_cases": 1000000,
+      "max_dimension": 7,
+      "max_facet_subsets": 2000000,
+      "memory_mb": 1024,
+      "minimum_dimension": 5,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 140,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 140,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_antipodal_pairs": 12,
+        "max_cases": 1000000,
+        "max_dimension": 7,
+        "max_facet_subsets": 2000000,
+        "memory_mb": 1024,
+        "minimum_dimension": 5,
+        "time_seconds": 600
+      },
+      "cursor_kind": "kalai_cs_polytope_stratum",
+      "effective_strategy_id": "multistart",
+      "launch_seed": 292792288573601053,
+      "metrics": {
+        "coverage_kind": "exact_sign_vector_cube_subpolytope_independent_strata",
+        "dimension_pair_strata": [
+          [
+            5,
+            6
+          ],
+          [
+            5,
+            7
+          ],
+          [
+            5,
+            8
+          ],
+          [
+            5,
+            9
+          ],
+          [
+            5,
+            10
+          ],
+          [
+            5,
+            11
+          ],
+          [
+            5,
+            12
+          ],
+          [
+            6,
+            7
+          ],
+          [
+            6,
+            8
+          ],
+          [
+            6,
+            9
+          ],
+          [
+            6,
+            10
+          ],
+          [
+            6,
+            11
+          ],
+          [
+            6,
+            12
+          ],
+          [
+            7,
+            8
+          ],
+          [
+            7,
+            9
+          ],
+          [
+            7,
+            10
+          ],
+          [
+            7,
+            11
+          ],
+          [
+            7,
+            12
+          ]
+        ],
+        "exact_facets_and_face_lattice": true,
+        "exact_polytopes": 140,
+        "face_convention": "sum_f_0_through_f_d_includes_P_excludes_empty",
+        "facet_cap_skips": 0,
+        "independent_restarts": true,
+        "known_dimension_frontier": 4,
+        "minimum_face_surplus": 0,
+        "minimum_search_dimension": 5,
+        "non_simple_non_simplicial": 140,
+        "templates": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "vertex_family": "antipodally_closed_subsets_of_{-1,+1}^d"
+      },
+      "next_case": 140,
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-geo-025",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "block_cursor",
+        "note": "The next block cursor is durable; at most the active unfinished block is replayed."
+      },
+      "search_completed": false,
+      "strategy_id": "multistart"
+    },
+    "effective_strategy_id": "multistart",
+    "executor_id": "second_batch.arithmetic.geo_025.v1",
+    "metrics": {
+      "coverage_kind": "exact_sign_vector_cube_subpolytope_independent_strata",
+      "dimension_pair_strata": [
+        [
+          5,
+          6
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          5,
+          8
+        ],
+        [
+          5,
+          9
+        ],
+        [
+          5,
+          10
+        ],
+        [
+          5,
+          11
+        ],
+        [
+          5,
+          12
+        ],
+        [
+          6,
+          7
+        ],
+        [
+          6,
+          8
+        ],
+        [
+          6,
+          9
+        ],
+        [
+          6,
+          10
+        ],
+        [
+          6,
+          11
+        ],
+        [
+          6,
+          12
+        ],
+        [
+          7,
+          8
+        ],
+        [
+          7,
+          9
+        ],
+        [
+          7,
+          10
+        ],
+        [
+          7,
+          11
+        ],
+        [
+          7,
+          12
+        ]
+      ],
+      "exact_facets_and_face_lattice": true,
+      "exact_polytopes": 140,
+      "face_convention": "sum_f_0_through_f_d_includes_P_excludes_empty",
+      "facet_cap_skips": 0,
+      "independent_restarts": true,
+      "known_dimension_frontier": 4,
+      "minimum_face_surplus": 0,
+      "minimum_search_dimension": 5,
+      "non_simple_non_simplicial": 140,
+      "templates": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "vertex_family": "antipodally_closed_subsets_of_{-1,+1}^d"
+    },
+    "model_contract": {
+      "claim_scope": "restricted_family",
+      "counterexample_condition": "A counterexample is a full-dimensional centrally symmetric d-polytope with fewer than 3^d nonempty faces. Face counting includes the polytope itself and excludes the empty face, so the d-cube has exactly 3^d faces. The exact-small screen replays cubes and cross-polytopes through d=4. The deep executable family consists of centrally symmetric subpolytopes of the d-cube, represented as conv(+-v_i) for sign vectors v_i in {+-1}^d.",
+      "scope_limitation": "A witness in either executable family refutes the full conjecture; nonfinding covers only the named d<=4 cube/cross-polytope screen and the recorded deep sign-vector conv(+-v_i), v_i in {+-1}^d, strata.",
+      "source_statement": "Does every centrally symmetric d-dimensional polytope have at least 3^d nonempty faces, counting the polytope itself and excluding the empty face?"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "multistart",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-geo-025",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "multistart",
+  "task_id": "batch-task-df4114c3f5af9d434dc312f766f7e0953a5f25d7",
+  "worker_id": "batch2-arithmetic-20260728-full57-02"
+}

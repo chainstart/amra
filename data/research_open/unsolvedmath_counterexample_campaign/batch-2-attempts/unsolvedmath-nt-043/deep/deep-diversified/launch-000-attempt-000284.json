@@ -1,0 +1,63 @@
+{
+  "attempt_id": 284,
+  "budget": {
+    "max_cases": 1000000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "4cba1aecaad7e852bbfcd7def85d1922da2cdf75951229a7decf71513ffc4a33",
+  "deterministic_seed": 1597052117613533723,
+  "duration_seconds": 602.455638,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 700300,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {},
+      "next_case": 777300,
+      "seed": 1597052117613533723,
+      "strategy_id": "deep-diversified",
+      "stratum": 39
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "atomic_cases": 700300,
+      "claim_scope": "witness_search",
+      "elapsed_seconds": 602.4551417679977,
+      "finite_catalogue_exhausted": false,
+      "timed_out_mid_case": true
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "witness_search",
+      "counterexample_or_witness": "a quasiperfect integer and exact divisor sum",
+      "objects": "positive integers n",
+      "premise": "sigma(n)=2n+1",
+      "scope_limitation": "The source is existential or asks for additional solutions. The executor can certify a new witness but bounded absence has no negative force.",
+      "source_quantifiers_preserved": true,
+      "source_statement": "Do quasiperfect numbers exist?"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "deep-diversified",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-nt-043",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "deep-diversified",
+  "task_id": "batch-task-4cba1aecaad7e852bbfcd7def85d1922da2cdf75",
+  "worker_id": "batch2-finite-20260728-full57-01"
+}

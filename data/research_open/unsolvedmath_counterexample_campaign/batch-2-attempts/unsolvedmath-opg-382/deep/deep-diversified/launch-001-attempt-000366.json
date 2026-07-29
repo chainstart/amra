@@ -1,0 +1,63 @@
+{
+  "attempt_id": 366,
+  "budget": {
+    "max_cases": 1000000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "9626893d76e5008cf9147c522c6ed60e65c29abf78f0fcd516df0155ed848040",
+  "deterministic_seed": 6923719774564435217,
+  "duration_seconds": 228.461418,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 1000000,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {},
+      "next_case": 1000000,
+      "seed": 6923719774564435217,
+      "strategy_id": "deep-diversified",
+      "stratum": 52
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "atomic_cases": 1000000,
+      "claim_scope": "restricted_family",
+      "elapsed_seconds": 228.46095080900704,
+      "finite_catalogue_exhausted": false,
+      "timed_out_mid_case": false
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "restricted_family",
+      "counterexample_or_witness": "all block/capacity data, every partition rank sum, and every ell-subset independence result",
+      "objects": "small explicitly encoded partition matroids on a common labelled ground set",
+      "premise": "every ordered k-partition passes the rank premise but no ell-set is independent in every matroid",
+      "scope_limitation": "The executor enumerates the explicitly named finite subfamily in model_contract.objects. A failure inside it is a valid source-level counterexample; no failure says nothing about objects outside it.",
+      "source_quantifiers_preserved": false,
+      "source_statement": "Conjecture If $M_1,\\ldots,M_k$ are matroids on $E$ and $\\sum_{i=1}^k rk_{M_i}(X_i) \\ge \\ell (k-1)$ for every partition $\\{X_1,\\ldots,X_k\\}$ of $E$, then there exists $X \\subseteq E$ with $|X| = \\ell$ which is independent in every $M_i$."
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "case_budget_exhausted",
+    "strategy_id": "deep-diversified",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 1,
+  "parent_problem_id": "unsolvedmath-opg-382",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "deep-diversified",
+  "task_id": "batch-task-9626893d76e5008cf9147c522c6ed60e65c29abf",
+  "worker_id": "batch2-finite-20260728-full57-01"
+}

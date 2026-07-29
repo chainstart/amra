@@ -1,0 +1,63 @@
+{
+  "attempt_id": 334,
+  "budget": {
+    "max_cases": 2000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "4188ccb705e6ea29d28d6abf118a08eb0870c8e5aaf0814e6f9ac78bb52bce82",
+  "deterministic_seed": 29530570850398877,
+  "duration_seconds": 0.222084,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 2000,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {},
+      "next_case": 2000,
+      "seed": 29530570850398877,
+      "strategy_id": "screen-exact",
+      "stratum": 0
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "atomic_cases": 2000,
+      "claim_scope": "restricted_family",
+      "elapsed_seconds": 0.22169123999628937,
+      "finite_catalogue_exhausted": false,
+      "timed_out_mid_case": false
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "restricted_family",
+      "counterexample_or_witness": "the arc set, all cycles, beta, gamma, and exact deletion exhaustion",
+      "objects": "finite simple digraphs with no directed cycle of length at most three",
+      "premise": "the minimum feedback-edge-set size beta exceeds half the nonedge count gamma",
+      "scope_limitation": "The executor enumerates the explicitly named finite subfamily in model_contract.objects. A failure inside it is a valid source-level counterexample; no failure says nothing about objects outside it.",
+      "source_quantifiers_preserved": false,
+      "source_statement": "For any simple digraph $G$, we let $\\gamma(G)$ be the number of unordered pairs of nonadjacent vertices (i.e. the number of non-edges), and $\\beta(G)$ be the size of the smallest feedback edge set.\n\nConjecture If $G$ is a simple digraph without directed cycles of length $\\le 3$, then $\\beta(G) \\le \\frac{1}{2} \\gamma(G)$."
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "case_budget_exhausted",
+    "strategy_id": "screen-exact",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-1793",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "screen-exact",
+  "task_id": "batch-task-4188ccb705e6ea29d28d6abf118a08eb0870c8e5",
+  "worker_id": "batch2-finite-20260728-full57-01"
+}

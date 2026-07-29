@@ -1,0 +1,63 @@
+{
+  "attempt_id": 247,
+  "budget": {
+    "max_cases": 1000000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "e2caf87456004421d77928402f08df1ba11910bfd6df6c28ac898c6b401e15ee",
+  "deterministic_seed": 151878088395120621,
+  "duration_seconds": 1389.930925,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 437,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {},
+      "next_case": 937,
+      "seed": 151878088395120621,
+      "strategy_id": "deep-diversified",
+      "stratum": 8
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "atomic_cases": 437,
+      "claim_scope": "full_claim",
+      "elapsed_seconds": 1389.929149951,
+      "finite_catalogue_exhausted": false,
+      "timed_out_mid_case": true
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "full_claim",
+      "counterexample_or_witness": "the exact integer inequality p_n^(n+1) <= p_(n+1)^n",
+      "objects": "consecutive prime indices n and n+1",
+      "premise": "p_n^(1/n) is not strictly greater than p_(n+1)^(1/(n+1))",
+      "scope_limitation": "The mathematical predicate matches the full source claim; only the finite search range is bounded.",
+      "source_quantifiers_preserved": true,
+      "source_statement": "Is the sequence $p_n^{1/n}$ strictly decreasing, where $p_n$ is the $n$-th prime?"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "deep-diversified",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 2,
+  "parent_problem_id": "unsolvedmath-nt-027",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "deep-diversified",
+  "task_id": "batch-task-e2caf87456004421d77928402f08df1ba11910bf",
+  "worker_id": "batch2-finite-20260728-full57-01"
+}

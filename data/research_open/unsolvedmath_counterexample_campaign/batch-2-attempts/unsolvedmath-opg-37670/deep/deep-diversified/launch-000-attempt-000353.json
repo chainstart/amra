@@ -1,0 +1,63 @@
+{
+  "attempt_id": 353,
+  "budget": {
+    "max_cases": 1000000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "326ab0e8ca30f0dbcb3b16bbf92408d3ec8d16ec5872813ea5dbf69315fbc801",
+  "deterministic_seed": 4684748103367114353,
+  "duration_seconds": 299.163487,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 1000000,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {},
+      "next_case": 1000000,
+      "seed": 4684748103367114353,
+      "strategy_id": "deep-diversified",
+      "stratum": 0
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "atomic_cases": 1000000,
+      "claim_scope": "restricted_family",
+      "elapsed_seconds": 299.1631201409982,
+      "finite_catalogue_exhausted": false,
+      "timed_out_mid_case": false
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "restricted_family",
+      "counterexample_or_witness": "the edge set plus exact maximum degree, clique number, and chromatic number",
+      "objects": "simple labelled graphs on ten vertices, searched from dense graphs downward",
+      "premise": "maximum degree Delta>=9 and chi(G)>max(Delta-1,omega(G))",
+      "scope_limitation": "The executor enumerates the explicitly named finite subfamily in model_contract.objects. A failure inside it is a valid source-level counterexample; no failure says nothing about objects outside it.",
+      "source_quantifiers_preserved": false,
+      "source_statement": "Conjecture Every graph with maximum degree $\\Delta \\geq 9$ has chromatic number at most $\\max\\{\\Delta-1, \\omega\\}$."
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "case_budget_exhausted",
+    "strategy_id": "deep-diversified",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-37670",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "deep-diversified",
+  "task_id": "batch-task-326ab0e8ca30f0dbcb3b16bbf92408d3ec8d16ec",
+  "worker_id": "batch2-finite-20260728-full57-01"
+}

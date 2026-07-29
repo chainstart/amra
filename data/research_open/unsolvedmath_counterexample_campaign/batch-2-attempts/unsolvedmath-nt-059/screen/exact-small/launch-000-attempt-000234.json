@@ -1,0 +1,95 @@
+{
+  "attempt_id": 234,
+  "budget": {
+    "max_cases": 500,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_n": 1000
+    },
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "668e7d24df4d7fd971e46d5e04571faadc0981cc38b6518b51d17f8c3d4e64b8",
+  "deterministic_seed": 4083159214744973399,
+  "duration_seconds": 0.111255,
+  "executor_result": {
+    "budget": {
+      "max_cases": 500,
+      "max_n": 1000,
+      "memory_mb": 1024,
+      "time_seconds": 60
+    },
+    "candidate": null,
+    "checked_cases": 497,
+    "checkpoint": {
+      "bounded_scope_exhausted": true,
+      "checked_cases": 497,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 500,
+        "max_n": 1000,
+        "memory_mb": 1024,
+        "time_seconds": 60
+      },
+      "cursor_kind": "prime_semiprime_n_block",
+      "effective_strategy_id": "exact-small",
+      "launch_seed": 0,
+      "metrics": {
+        "blocks_completed": 8,
+        "coverage_kind": "segmented_n_blocks_with_global_prime_flags",
+        "max_tested_n": 999,
+        "min_tested_n": 7,
+        "precomputation_limit": 1000,
+        "prime_flag_bytes": 1001,
+        "prime_storage_bytes": 672,
+        "representation_type": "odd_prime_plus_twice_prime",
+        "semiprime_flag_bytes": 0
+      },
+      "next_n": 1001,
+      "phase": "complete",
+      "problem_id": "unsolvedmath-nt-059",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "block_cursor",
+        "note": "The next block cursor is durable; at most the active unfinished block is replayed."
+      },
+      "search_completed": true,
+      "strategy_id": "exact-small"
+    },
+    "effective_strategy_id": "exact-small",
+    "executor_id": "second_batch.arithmetic.nt_059.v1",
+    "metrics": {
+      "blocks_completed": 8,
+      "coverage_kind": "segmented_n_blocks_with_global_prime_flags",
+      "max_tested_n": 999,
+      "min_tested_n": 7,
+      "precomputation_limit": 1000,
+      "prime_flag_bytes": 1001,
+      "prime_storage_bytes": 672,
+      "representation_type": "odd_prime_plus_twice_prime",
+      "semiprime_flag_bytes": 0
+    },
+    "model_contract": "A witness is an odd n>5 for which exhaustive odd primes p leave no even semiprime n-p.",
+    "outcome": "no_candidate",
+    "stop_reason": "bounded_scope_exhausted",
+    "strategy_id": "exact-small",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-nt-059",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "exact-small",
+  "task_id": "batch-task-668e7d24df4d7fd971e46d5e04571faadc0981cc",
+  "worker_id": "batch2-arithmetic-20260728-full57-02"
+}

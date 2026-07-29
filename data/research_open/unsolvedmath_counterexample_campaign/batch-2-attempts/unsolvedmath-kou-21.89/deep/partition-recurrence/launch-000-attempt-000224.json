@@ -1,0 +1,96 @@
+{
+  "attempt_id": 224,
+  "budget": {
+    "max_cases": 999961,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_n": 1000000
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "aaa3f5f6e6adb8695f43fb9f123f5cce35bb1aaa16b5023ee0b832ce2f8f9317",
+  "deterministic_seed": 211729261267674911,
+  "duration_seconds": 600.015597,
+  "executor_result": {
+    "budget": {
+      "max_cases": 999961,
+      "max_n": 1000000,
+      "memory_mb": 1024,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 79456,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 79456,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 999961,
+        "max_n": 1000000,
+        "memory_mb": 1024,
+        "time_seconds": 600
+      },
+      "cursor_kind": "partition_n_block",
+      "effective_strategy_id": "partition-recurrence",
+      "launch_seed": 0,
+      "metrics": {
+        "blocks_completed": 4966,
+        "divisibility_method": "iterated_modular_product",
+        "max_tested_n": 79495,
+        "min_tested_n": 40,
+        "partition_method": "generalized_pentagonal_recurrence",
+        "replay_seconds": 2.4e-05,
+        "replayed_partition_terms": 39
+      },
+      "next_n": 79496,
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-kou-21.89",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "block_cursor",
+        "note": "The next block cursor is durable; at most the active unfinished block is replayed."
+      },
+      "search_completed": false,
+      "strategy_id": "partition-recurrence"
+    },
+    "effective_strategy_id": "partition-recurrence",
+    "executor_id": "second_batch.arithmetic.kou_21_89.v1",
+    "metrics": {
+      "blocks_completed": 4966,
+      "divisibility_method": "iterated_modular_product",
+      "max_tested_n": 79495,
+      "min_tested_n": 40,
+      "partition_method": "generalized_pentagonal_recurrence",
+      "replay_seconds": 2.4e-05,
+      "replayed_partition_terms": 39
+    },
+    "model_contract": {
+      "claim_scope": "full_claim",
+      "counterexample_condition": "For every n>39 through the bound, compute p(n) by the exact generalized-pentagonal recurrence. A witness has n! mod p(n)=0, computed without constructing n!.",
+      "scope_limitation": "The full partition-divisibility predicate is checked, but nonfinding covers only n through the recorded bound.",
+      "source_statement": "For n>39, is it true that the number of conjugacy classes in the symmetric group S_n of degree n is never a divisor of the order of S_n? In other words, is it true that, for n>39, the number p(n) of integer partitions of n is never a divisor of n!?"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "partition-recurrence",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-kou-21.89",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "partition-recurrence",
+  "task_id": "batch-task-aaa3f5f6e6adb8695f43fb9f123f5cce35bb1aaa",
+  "worker_id": "batch2-arithmetic-20260728-full57-02"
+}

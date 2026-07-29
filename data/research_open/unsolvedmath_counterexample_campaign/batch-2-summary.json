@@ -9,42 +9,67 @@
     "problem_count": 100,
     "schema_version": "amra.batch_campaign.v1",
     "stop_reason_counts": {
-      "bounded_scope_exhausted": 14,
-      "campaign_adapter_fix_interrupted_for_checkpoint_resume": 1,
-      "campaign_adapter_unified_restart_from_checkpoint": 1,
+      "bounded_scope_exhausted": 35,
       "candidate_passed_internal_verification": 1,
-      "case_budget_exhausted": 12,
+      "case_budget_exhausted": 70,
       "finite_bound_exhausted": 9,
-      "lease expired": 10,
+      "finite_catalogue_exhausted": 6,
       "max_cases_exhausted": 20,
-      "predicate_time_budget_exhausted": 47,
-      "targeted_sample_exhausted": 38,
-      "time_budget_exhausted": 21
+      "predicate_time_budget_exhausted": 48,
+      "targeted_sample_exhausted": 42,
+      "time_budget_exhausted": 83
     },
     "task_count": 315,
     "task_status_counts": {
-      "completed": 162,
-      "parked": 86,
-      "queued": 67
+      "completed": 314,
+      "parked": 1
     },
     "verification_status_counts": {
       "not_required": 99,
       "verified": 1
     }
   },
-  "final_parent_count": 43,
+  "final_parent_count": 99,
   "main_sync": {
     "skipped_active_problem_ids": [],
     "skipped_existing_completed_problem_ids": [],
     "status": "completed",
-    "synced_problem_ids": [],
+    "synced_problem_ids": [
+      "unsolvedmath-alg-007",
+      "unsolvedmath-comb-001-collision-1-3-2-3-conjecture-3976e813",
+      "unsolvedmath-guy-a12b",
+      "unsolvedmath-guy-a19a",
+      "unsolvedmath-guy-a7b",
+      "unsolvedmath-kou-21.26",
+      "unsolvedmath-kou-21.99",
+      "unsolvedmath-nt-044",
+      "unsolvedmath-nt-046",
+      "unsolvedmath-nt-050",
+      "unsolvedmath-nt-053",
+      "unsolvedmath-nt-078",
+      "unsolvedmath-nt-086",
+      "unsolvedmath-opg-148",
+      "unsolvedmath-opg-151",
+      "unsolvedmath-opg-16570",
+      "unsolvedmath-opg-169",
+      "unsolvedmath-opg-1793",
+      "unsolvedmath-opg-369",
+      "unsolvedmath-opg-37221",
+      "unsolvedmath-opg-37670",
+      "unsolvedmath-opg-382",
+      "unsolvedmath-opg-404",
+      "unsolvedmath-opg-46385",
+      "unsolvedmath-opg-48264",
+      "unsolvedmath-opg-600",
+      "unsolvedmath-opg-636"
+    ],
     "total_after": 1332,
     "total_before": 1332
   },
   "parent_status_counts": {
-    "bounded_search_completed": 42,
+    "bounded_search_completed": 98,
     "candidate_verified": 1,
-    "queued": 57
+    "parked": 1
   },
   "schema_version": "amra.second_batch_campaign.v1"
 }

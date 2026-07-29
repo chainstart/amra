@@ -1,0 +1,136 @@
+{
+  "attempt_id": 277,
+  "budget": {
+    "max_cases": 100000000,
+    "memory_mb": 1024,
+    "parameters": {
+      "discovery_min_n": 18446744073709551617,
+      "max_n": 1000000000000000000000000000,
+      "remote_block_size": 32,
+      "remote_layers": 24,
+      "structure_block_size": 256
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "fe9702e38f180b67a8a54077d8cb7db7197385aaad43fcbd4fffdfe22624efad",
+  "deterministic_seed": 6938288603384664172,
+  "duration_seconds": 600.020092,
+  "executor_result": {
+    "budget": {
+      "discovery_min_n": 18446744073709551617,
+      "max_cases": 100000000,
+      "max_n": 1000000000000000000000000000,
+      "memory_mb": 1024,
+      "remote_block_size": 32,
+      "remote_layers": 24,
+      "segment_size": 4096,
+      "start_n": 3,
+      "structure_block_size": 256,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 4853504,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 4853504,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "discovery_min_n": 18446744073709551617,
+        "max_cases": 100000000,
+        "max_n": 1000000000000000000000000000,
+        "memory_mb": 1024,
+        "remote_block_size": 32,
+        "remote_layers": 24,
+        "segment_size": 4096,
+        "start_n": 3,
+        "structure_block_size": 256,
+        "time_seconds": 600
+      },
+      "cursor_kind": "bpsw_structure_parameter",
+      "effective_strategy_id": "chernick-korselt",
+      "launch_seed": 0,
+      "metrics": {
+        "blocks_completed": 18959,
+        "coverage_kind": "post_2^64_discovery",
+        "discovery_min_n_exclusive": 18446744073709551616,
+        "family_sample_counts": {
+          "chernick_korselt_form": 4853504
+        },
+        "known_exhaustive_lower_bound": 18446744073709551616,
+        "korselt_certified_samples": 17208,
+        "last_parameter_interval": [
+          5095596,
+          5095851
+        ],
+        "lucas_variant": "Method_A_Selfridge_strong",
+        "max_structure_parameter": 5095851,
+        "max_tested_n": 171496472102474599220329,
+        "min_structure_parameter": 242348,
+        "min_tested_n": 18446920204523810545,
+        "structure": "(6m+1)(12m+1)(18m+1)",
+        "structure_parameters_scanned": 4853504
+      },
+      "next_structure_parameter": 5095852,
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-opg-511",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "block_cursor",
+        "note": "The next block cursor is durable; at most the active unfinished block is replayed."
+      },
+      "search_completed": false,
+      "strategy_id": "chernick-korselt"
+    },
+    "effective_strategy_id": "chernick-korselt",
+    "executor_id": "second_batch.arithmetic.opg_511.v1",
+    "metrics": {
+      "blocks_completed": 18959,
+      "coverage_kind": "post_2^64_discovery",
+      "discovery_min_n_exclusive": 18446744073709551616,
+      "family_sample_counts": {
+        "chernick_korselt_form": 4853504
+      },
+      "known_exhaustive_lower_bound": 18446744073709551616,
+      "korselt_certified_samples": 17208,
+      "last_parameter_interval": [
+        5095596,
+        5095851
+      ],
+      "lucas_variant": "Method_A_Selfridge_strong",
+      "max_structure_parameter": 5095851,
+      "max_tested_n": 171496472102474599220329,
+      "min_structure_parameter": 242348,
+      "min_tested_n": 18446920204523810545,
+      "structure": "(6m+1)(12m+1)(18m+1)",
+      "structure_parameters_scanned": 4853504
+    },
+    "model_contract": {
+      "claim_scope": "witness_search",
+      "counterexample_condition": "Only Part (1) is searched. A witness is an odd composite n that passes both strong Miller-Rabin to base 2 and the Method A/Selfridge strong Lucas probable-prime test, accompanied by a replayable nontrivial factor. The bounded screen is replication below the published exhaustive lower bound 2^64; discovery uses two structurally different families whose every tested integer is strictly greater than 2^64.",
+      "scope_limitation": "Only Part (1), the Baillie-PSW counterexample search, is covered; Part (2) is excluded.",
+      "source_statement": "Problem (1) Find a counterexample to Baillie-PSW primality test or prove that there is no one. Problem (2) Find a composite n congruent to 3 or 7 modulo 10 which divides both 2^(n-1)-1 and F_(n+1), or prove that there is no such n."
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "chernick-korselt",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-511",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "chernick-korselt",
+  "task_id": "batch-task-fe9702e38f180b67a8a54077d8cb7db7197385aa",
+  "worker_id": "batch2-arithmetic-20260728-full57-02"
+}

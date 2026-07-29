@@ -1,0 +1,63 @@
+{
+  "attempt_id": 324,
+  "budget": {
+    "max_cases": 2000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "e88d0b0285d14e544f387920d590a1fba5c293f1458ee0d2f49db17e3338d858",
+  "deterministic_seed": 4084787006528252625,
+  "duration_seconds": 0.250565,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 2000,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {},
+      "next_case": 2000,
+      "seed": 4084787006528252625,
+      "strategy_id": "screen-exact",
+      "stratum": 0
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "atomic_cases": 2000,
+      "claim_scope": "witness_search",
+      "elapsed_seconds": 0.250173079999513,
+      "finite_catalogue_exhausted": false,
+      "timed_out_mid_case": false
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "witness_search",
+      "counterexample_or_witness": "the edges and four exact squared-length certificates",
+      "objects": "positive integer edge triples",
+      "premise": "all three face diagonals and the space diagonal are integers",
+      "scope_limitation": "The source is existential or asks for additional solutions. The executor can certify a new witness but bounded absence has no negative force.",
+      "source_quantifiers_preserved": true,
+      "source_statement": "Conjecture Does a perfect cuboid exist?"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "case_budget_exhausted",
+    "strategy_id": "screen-exact",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-37221",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "screen-exact",
+  "task_id": "batch-task-e88d0b0285d14e544f387920d590a1fba5c293f1",
+  "worker_id": "batch2-finite-20260728-full57-01"
+}

@@ -1,0 +1,63 @@
+{
+  "attempt_id": 332,
+  "budget": {
+    "max_cases": 2000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "4222ca147c0af5473de6cdc996cd49646aed191a1afbf865163995aeaae8df6f",
+  "deterministic_seed": 5402011597368032853,
+  "duration_seconds": 2.077701,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 2000,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {},
+      "next_case": 2000,
+      "seed": 5402011597368032853,
+      "strategy_id": "screen-exact",
+      "stratum": 0
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "atomic_cases": 2000,
+      "claim_scope": "restricted_family",
+      "elapsed_seconds": 2.0772268869986874,
+      "finite_catalogue_exhausted": false,
+      "timed_out_mid_case": false
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "restricted_family",
+      "counterexample_or_witness": "the graph, weights, every spanning-forest base, S, H, cosets, preimage ranks, and both sides",
+      "objects": "graphic matroids of small labelled multigraph-free graphs with weights in composite cyclic groups Z_m",
+      "premise": "S, its stabilizer H, all quotient-coset preimages, and their graphic ranks violate the displayed inequality",
+      "scope_limitation": "The executor enumerates the explicitly named finite subfamily in model_contract.objects. A failure inside it is a valid source-level counterexample; no failure says nothing about objects outside it.",
+      "source_quantifiers_preserved": false,
+      "source_statement": "Let $G$ be an (additive) abelian group, and for every $S \\subseteq G$ let ${\\mathit stab}(S) = \\{ g \\in G: g + S = S \\}$.\n\nConjecture Let $M$ be a matroid on $E$, let $w: E \\rightarrow G$ be a map, put $S = \\{ \\sum_{b \\in B} w(b): B \\mbox{ is a base} \\}$ and $H = {\\mathit stab}(S)$. Then $$|S| \\ge |H| \\left( 1 - rk(M) + \\sum_{Q \\in G/H} rk(w^{-1}(Q)) \\right).$$"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "case_budget_exhausted",
+    "strategy_id": "screen-exact",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-369",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "screen-exact",
+  "task_id": "batch-task-4222ca147c0af5473de6cdc996cd49646aed191a",
+  "worker_id": "batch2-finite-20260728-full57-01"
+}

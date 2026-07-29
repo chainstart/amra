@@ -1,0 +1,73 @@
+{
+  "attempt_id": 269,
+  "budget": {
+    "max_cases": 100000000,
+    "memory_mb": 1024,
+    "parameters": {
+      "max_row": 1000000
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "33c9b02443f579e8f10ce04b618c3f9a88822a3a5e9aeac97b60112e4d3c237c",
+  "deterministic_seed": 4586239399332648101,
+  "duration_seconds": 616.711835,
+  "executor_result": {
+    "budget": {
+      "max_cases": 100000000,
+      "max_row": 1000000,
+      "memory_mb": 1024,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 0,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 0,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "max_cases": 100000000,
+        "max_row": 1000000,
+        "memory_mb": 1024,
+        "time_seconds": 600
+      },
+      "effective_strategy_id": "multiplicity-targeted",
+      "launch_seed": 0,
+      "metrics": {},
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-opg-60034",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "atomic_bound_restart",
+        "note": "This bounded generator does not expose an intra-bound cursor."
+      },
+      "search_completed": false,
+      "strategy_id": "multiplicity-targeted"
+    },
+    "effective_strategy_id": "multiplicity-targeted",
+    "executor_id": "second_batch.arithmetic.opg_60034.v1",
+    "metrics": {},
+    "model_contract": "The executable target is the widely discussed candidate upper bound 8, not the finiteness conjecture itself. A witness is a Pascal-triangle value other than 1 occurring at least nine times within the complete rows through the recorded bound.",
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "multiplicity-targeted",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-60034",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "multiplicity-targeted",
+  "task_id": "batch-task-33c9b02443f579e8f10ce04b618c3f9a88822a3a",
+  "worker_id": "batch2-arithmetic-20260728-full57-01"
+}

@@ -1,0 +1,63 @@
+{
+  "attempt_id": 320,
+  "budget": {
+    "max_cases": 2000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "ffdd04ce0d896378e4572fc68b7b3306786d40998910263bef6b53b47f2c5e24",
+  "deterministic_seed": 5600061802757147782,
+  "duration_seconds": 0.220674,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 2000,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {},
+      "next_case": 2000,
+      "seed": 5600061802757147782,
+      "strategy_id": "screen-exact",
+      "stratum": 0
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "atomic_cases": 2000,
+      "claim_scope": "restricted_family",
+      "elapsed_seconds": 0.2203125939995516,
+      "finite_catalogue_exhausted": false,
+      "timed_out_mid_case": false
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "restricted_family",
+      "counterexample_or_witness": "p, A, determinant, and all exact permanents",
+      "objects": "invertible matrices over prime fields",
+      "premise": "every n-column submatrix of [A A] has zero permanent",
+      "scope_limitation": "The executor enumerates the explicitly named finite subfamily in model_contract.objects. A failure inside it is a valid source-level counterexample; no failure says nothing about objects outside it.",
+      "source_quantifiers_preserved": false,
+      "source_statement": "Conjecture If $A$ is an invertible $n \\times n$ matrix, then there is an $n \\times n$ submatrix $B$ of $[A A]$ so that $perm(B)$ is nonzero."
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "case_budget_exhausted",
+    "strategy_id": "screen-exact",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-151",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "screen-exact",
+  "task_id": "batch-task-ffdd04ce0d896378e4572fc68b7b3306786d4099",
+  "worker_id": "batch2-finite-20260728-full57-01"
+}

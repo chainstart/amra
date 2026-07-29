@@ -1,0 +1,172 @@
+{
+  "attempt_id": 356,
+  "budget": {
+    "max_cases": 2000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "58ec19b891d743585f62510de968189c1aa46f9df34ec18079c6e08bc899a505",
+  "deterministic_seed": 2301649508351864467,
+  "duration_seconds": 1.167879,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 2000,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {
+        "action_catalogue_shard": null,
+        "action_catalogue_shard_position": null,
+        "action_catalogue_shard_size": null,
+        "action_catalogue_size": null,
+        "action_degrees_tested": [
+          3,
+          4,
+          5,
+          6,
+          10
+        ],
+        "action_faithful": true,
+        "action_families_tested": [
+          "alternating",
+          "dihedral",
+          "symmetric"
+        ],
+        "action_group_orders_tested": [
+          6,
+          12,
+          20,
+          24,
+          60
+        ],
+        "action_hashes_tested": [
+          "14aedb6e90c5baaae764ba4fc888528332e09bfcbe5454aa2a23d76ef18f3a77",
+          "181b8fc64be19afda4d1d2eaffc5f0d09751760dbf82722dc77314a765a7fe30",
+          "848e5c40addbd24dde0ccc0da936a6aa9697e98f746e7e7055eb3ded214c4bb3",
+          "8d3414b624a2f3d418e260d1aea7edf55a30426a03768e3288dd36c109f3882d",
+          "a4a32fac11bcfe27057925004b421c1969d5237843d0920ea0fd07a8ac758a43",
+          "d4bb9e6c9340f455e5092be08fe6bcf005cf31205379f8be1834965aa44409c4"
+        ],
+        "action_labels_tested": [
+          "A4/C3",
+          "A5/A4",
+          "D12/C2",
+          "D20/C2",
+          "S3/C2",
+          "S4/S3"
+        ],
+        "action_nonregular": true,
+        "source_group_orders_tested": [
+          6,
+          12,
+          20,
+          24,
+          60
+        ],
+        "subgroup_orders_tested": [
+          2,
+          3,
+          6,
+          12
+        ]
+      },
+      "next_case": 2000,
+      "seed": 2301649508351864467,
+      "strategy_id": "screen-exact",
+      "stratum": 0
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "action_catalogue_shard": null,
+      "action_catalogue_shard_position": null,
+      "action_catalogue_shard_size": null,
+      "action_catalogue_size": null,
+      "action_degrees_tested": [
+        3,
+        4,
+        5,
+        6,
+        10
+      ],
+      "action_faithful": true,
+      "action_families_tested": [
+        "alternating",
+        "dihedral",
+        "symmetric"
+      ],
+      "action_group_orders_tested": [
+        6,
+        12,
+        20,
+        24,
+        60
+      ],
+      "action_hashes_tested": [
+        "14aedb6e90c5baaae764ba4fc888528332e09bfcbe5454aa2a23d76ef18f3a77",
+        "181b8fc64be19afda4d1d2eaffc5f0d09751760dbf82722dc77314a765a7fe30",
+        "848e5c40addbd24dde0ccc0da936a6aa9697e98f746e7e7055eb3ded214c4bb3",
+        "8d3414b624a2f3d418e260d1aea7edf55a30426a03768e3288dd36c109f3882d",
+        "a4a32fac11bcfe27057925004b421c1969d5237843d0920ea0fd07a8ac758a43",
+        "d4bb9e6c9340f455e5092be08fe6bcf005cf31205379f8be1834965aa44409c4"
+      ],
+      "action_labels_tested": [
+        "A4/C3",
+        "A5/A4",
+        "D12/C2",
+        "D20/C2",
+        "S3/C2",
+        "S4/S3"
+      ],
+      "action_nonregular": true,
+      "atomic_cases": 2000,
+      "claim_scope": "restricted_family",
+      "elapsed_seconds": 1.167360307998024,
+      "finite_catalogue_exhausted": false,
+      "source_group_orders_tested": [
+        6,
+        12,
+        20,
+        24,
+        60
+      ],
+      "subgroup_orders_tested": [
+        2,
+        3,
+        6,
+        12
+      ],
+      "timed_out_mid_case": false
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "restricted_family",
+      "counterexample_or_witness": "the source group, subgroup, induced coset action, and exhaustive mapper fixed-point counts",
+      "objects": "nonregular transitive coset actions from diversified symmetric, alternating, and dihedral groups with many nonconjugate subgroup types",
+      "premise": "some ordered alpha!=beta has only mapping elements with exactly one fixed point",
+      "scope_limitation": "The executor enumerates the explicitly named finite subfamily in model_contract.objects. A failure inside it is a valid source-level counterexample; no failure says nothing about objects outside it.",
+      "source_quantifiers_preserved": false,
+      "source_statement": "Conjecture: If $G$ is a transitive permutation group on a finite set $\\Omega$, then for any distinct $\\alpha,\\beta\\in\\Omega$ there is an element $g\\in G$ with $\\alpha^g=\\beta$ whose number of fixed points is different from 1."
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "case_budget_exhausted",
+    "strategy_id": "screen-exact",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-kou-21.99",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "screen-exact",
+  "task_id": "batch-task-58ec19b891d743585f62510de968189c1aa46f9d",
+  "worker_id": "batch2-finite-20260728-full57-01"
+}

@@ -1,0 +1,63 @@
+{
+  "attempt_id": 286,
+  "budget": {
+    "max_cases": 2000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "7565a7d8bcc3405f8a9f4142686cb2f77fa6a7d6bb8d5c9112d5a6a0653bdeb5",
+  "deterministic_seed": 2351025800683096312,
+  "duration_seconds": 0.21537,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 2000,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {},
+      "next_case": 2000,
+      "seed": 2351025800683096312,
+      "strategy_id": "screen-exact",
+      "stratum": 0
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "atomic_cases": 2000,
+      "claim_scope": "witness_search",
+      "elapsed_seconds": 0.2150211769985617,
+      "finite_catalogue_exhausted": false,
+      "timed_out_mid_case": false
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "witness_search",
+      "counterexample_or_witness": "an exact opposite-parity amicable pair",
+      "objects": "unordered positive integer pairs of opposite parity",
+      "premise": "each integer is the sum of the other's proper divisors",
+      "scope_limitation": "The source is existential or asks for additional solutions. The executor can certify a new witness but bounded absence has no negative force.",
+      "source_quantifiers_preserved": true,
+      "source_statement": "Do any pairs of amicable numbers exist where one is odd and one is even?"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "case_budget_exhausted",
+    "strategy_id": "screen-exact",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-nt-046",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "screen-exact",
+  "task_id": "batch-task-7565a7d8bcc3405f8a9f4142686cb2f77fa6a7d6",
+  "worker_id": "batch2-finite-20260728-full57-01"
+}

@@ -1,0 +1,96 @@
+{
+  "attempt_id": 231,
+  "budget": {
+    "max_cases": 100000000,
+    "memory_mb": 1024,
+    "parameters": {
+      "checkpoint_block_size": 128,
+      "known_computational_lower_bound": 146000000000000000,
+      "max_prime": 100000000000000000000,
+      "start_prime": 200000000000000003
+    },
+    "time_seconds": 600
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "1db382e1eddfda7f3273d73965ec0abd1b6d2ff00b75fabdcf4223a2483c2fa3",
+  "deterministic_seed": 2289259597355929879,
+  "duration_seconds": 600.019224,
+  "executor_result": {
+    "budget": {
+      "checkpoint_block_size": 128,
+      "known_computational_lower_bound": 146000000000000000,
+      "max_cases": 100000000,
+      "max_prime": 100000000000000000000,
+      "memory_mb": 1024,
+      "start_prime": 200000000000000003,
+      "time_seconds": 600
+    },
+    "candidate": null,
+    "checked_cases": 2767232,
+    "checkpoint": {
+      "bounded_scope_exhausted": false,
+      "checked_cases": 2767232,
+      "checked_cases_exact": true,
+      "completed_budget": {
+        "checkpoint_block_size": 128,
+        "known_computational_lower_bound": 146000000000000000,
+        "max_cases": 100000000,
+        "max_prime": 100000000000000000000,
+        "memory_mb": 1024,
+        "start_prime": 200000000000000003,
+        "time_seconds": 600
+      },
+      "cursor_kind": "wall_sun_sun_prime_stream",
+      "effective_strategy_id": "post-frontier-prime-stream",
+      "launch_seed": 0,
+      "metrics": {
+        "blocks_completed": 21619,
+        "coverage_kind": "post_frontier_streamed_primes",
+        "known_computational_lower_bound": 146000000000000000,
+        "max_tested_prime": 200000000110247807,
+        "min_tested_prime": 200000000000000003
+      },
+      "next_prime_candidate": 200000000110247863,
+      "phase": "time_budget_exhausted",
+      "problem_id": "unsolvedmath-opg-822",
+      "resume": {
+        "checkpoint_received": false,
+        "intra_bound_cursor_restored": false,
+        "mode": "block_cursor",
+        "note": "The next block cursor is durable; at most the active unfinished block is replayed."
+      },
+      "search_completed": false,
+      "strategy_id": "post-frontier-prime-stream"
+    },
+    "effective_strategy_id": "post-frontier-prime-stream",
+    "executor_id": "second_batch.arithmetic.opg_822.v1",
+    "metrics": {
+      "blocks_completed": 21619,
+      "coverage_kind": "post_frontier_streamed_primes",
+      "known_computational_lower_bound": 146000000000000000,
+      "max_tested_prime": 200000000110247807,
+      "min_tested_prime": 200000000000000003
+    },
+    "model_contract": "A witness is a prime p>5 for which p^2 divides F_(p-(p/5)), verified by fast doubling modulo p^2.",
+    "outcome": "inconclusive",
+    "stop_reason": "time_budget_exhausted",
+    "strategy_id": "post-frontier-prime-stream",
+    "tool_versions": {
+      "gap": "4.12.1",
+      "pari_gp": "2.15.4",
+      "primecount": "7.10",
+      "primesieve": "12",
+      "python_sympy": "1.12",
+      "smallgrp": "bundled with isolated GAP 4.12.1",
+      "z3_cli": "/usr/bin/z3"
+    },
+    "version": "amra.second_batch_arithmetic.v2"
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-opg-822",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "deep",
+  "strategy_id": "post-frontier-prime-stream",
+  "task_id": "batch-task-1db382e1eddfda7f3273d73965ec0abd1b6d2ff0",
+  "worker_id": "batch2-arithmetic-20260728-full57-01"
+}

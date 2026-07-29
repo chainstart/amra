@@ -1,0 +1,94 @@
+{
+  "attempt_id": 342,
+  "budget": {
+    "max_cases": 2000,
+    "memory_mb": 1024,
+    "parameters": {},
+    "time_seconds": 60
+  },
+  "compatibility_shims": [],
+  "config_fingerprint": "bf6b8676812a95a4e1a85cc6bb3483f0f534b8848ded036a5654b8ce97100275",
+  "deterministic_seed": 5884846119096547461,
+  "duration_seconds": 45.25823,
+  "executor_result": {
+    "candidate": null,
+    "checked_cases": 2000,
+    "checkpoint": {
+      "atomic_boundary": "one complete finite case",
+      "coverage": {
+        "catalogue_size": 6,
+        "group_families_tested": [
+          "alternating",
+          "dihedral",
+          "symmetric"
+        ],
+        "group_orders_tested": [
+          6,
+          12,
+          20,
+          24,
+          60
+        ],
+        "group_solvable": null,
+        "prime_divisor_count": 2
+      },
+      "next_case": 2000,
+      "seed": 5884846119096547461,
+      "strategy_id": "screen-exact",
+      "stratum": 0
+    },
+    "executor_id": "second_batch.finite.exact_search.v1",
+    "executor_version": "amra.second_batch_finite.v3",
+    "metrics": {
+      "atomic_cases": 2000,
+      "catalogue_size": 6,
+      "claim_scope": "restricted_family",
+      "elapsed_seconds": 45.25781204899977,
+      "finite_catalogue_exhausted": false,
+      "group_families_tested": [
+        "alternating",
+        "dihedral",
+        "symmetric"
+      ],
+      "group_orders_tested": [
+        6,
+        12,
+        20,
+        24,
+        60
+      ],
+      "group_solvable": null,
+      "prime_divisor_count": 2,
+      "timed_out_mid_case": false
+    },
+    "model_contract": {
+      "bounded_result_semantics": "No witness means only that the explicitly enumerated finite cases were checked; it never proves the unbounded source statement.",
+      "candidate_policy": "Source-listed or otherwise encoded known examples are excluded from candidate output.",
+      "claim_scope": "restricted_family",
+      "counterexample_or_witness": "the SmallGroup identifier, chosen Sylow subgroups, all conjugate-intersection orders, inclusion-minimality flags, and exact GAP replay",
+      "objects": "six named permutation-group screen cases and a GAP SmallGroups deep catalogue of nonabelian groups of orders 62 through 255",
+      "premise": "no group element simultaneously makes every chosen Sylow intersection inclusion-minimal",
+      "scope_limitation": "The executor enumerates the explicitly named finite subfamily in model_contract.objects. A failure inside it is a valid source-level counterexample; no failure says nothing about objects outside it.",
+      "source_quantifiers_preserved": false,
+      "source_statement": "Let $G$ be a non-trivial finite group and let $p_1,\\ldots,p_k$ be the distinct prime divisors of $|G|$. For each $i$, let $H_i$ be a Sylow $p_i$-subgroup of $G$. Is it true that there exists an element $x\\in G$ such that for all $i$ the subgroup $H_i\\cap H_i^x$ is inclusion-minimal in $\\{H_i\\cap H_i^g:g\\in G\\}$?"
+    },
+    "outcome": "inconclusive",
+    "stop_reason": "case_budget_exhausted",
+    "strategy_id": "screen-exact",
+    "tool_versions": {
+      "executor": "amra.second_batch_finite.v3",
+      "gap_binary": "/home/biostar/.cache/amra/tools/gap-4.12.1/usr/lib/x86_64-linux-gnu/gap/gap",
+      "numpy": "2.3.5",
+      "python": "3.12.3",
+      "sympy": "1.12",
+      "z3_cli": "/usr/bin/z3"
+    }
+  },
+  "launch_index": 0,
+  "parent_problem_id": "unsolvedmath-kou-21.26",
+  "schema_version": "amra.second_batch_campaign.v1",
+  "stage_id": "screen",
+  "strategy_id": "screen-exact",
+  "task_id": "batch-task-bf6b8676812a95a4e1a85cc6bb3483f0f534b884",
+  "worker_id": "batch2-finite-20260728-full57-01"
+}
