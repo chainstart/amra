@@ -80,10 +80,12 @@
       "stages": [
         {"name": "orientation-and-pack4-model", "cpu_hours": 8, "implementation_status": "completed"},
         {"name": "triangle-and-four-cycle-lift-filters", "cpu_hours": 48, "implementation_status": "completed"},
-        {"name": "complete-n16-cegar-and-proofs", "cpu_hours": 160, "implementation_status": "running_shards_0_and_1"},
+        {"name": "complete-n16-cegar-and-proofs", "cpu_hours": 120, "implementation_status": "running_all_four_shards"},
+        {"name": "hard-queue-symmetry-orbit-residual-pass", "cpu_hours": 40, "implementation_status": "implemented_first_pass_completed_timeouts_retained"},
         {"name": "random-oriented-orders-17-to-24", "cpu_hours": 128, "implementation_status": "planned_no_runner"}
       ],
-      "command_template": "PYTHONPATH=src python3 -m amra.discovery.opg_directed_cycles_search --wall-seconds 144000 --per-missing-graph-seconds 3600 --max-cegar-iterations 1000000 --proofs --shard {index}/4 --output artifacts/opg_breakthrough/opg611-shard-{index}"
+      "command_template": "PYTHONPATH=src python3 -m amra.discovery.opg_directed_cycles_search --wall-seconds 144000 --per-missing-graph-seconds 3600 --max-cegar-iterations 1000000 --proofs --shard {index}/4 --output artifacts/opg_breakthrough/opg611-shard-{index}",
+      "hard_command_template": "PYTHONPATH=src AMRA_PYSAT_SOLVER={solver} python3 -m amra.discovery.opg_directed_cycles_hard_search --catalogue-index {index} --wall-seconds 1200 --short-batch-size 1024 --short-seed-count 4 --residual-batch-size 2 --residual-scan-limit 10000 --proofs --output artifacts/opg_breakthrough/opg611-hard-{index}-{solver}"
     }
   ]
 }

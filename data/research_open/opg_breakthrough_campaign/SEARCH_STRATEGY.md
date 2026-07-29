@@ -147,6 +147,43 @@ CEGAR 每次对一个定向精确查找四个点不交圈。找到 packing 就�
 类非空，所选点在本色中恰有一入一出，且顶点至多属于一个颜色，因此 SAT 当且
 仅当存在四个点不交有向圈。`PACK4(D)` UNSAT 才是候选。
 
+### OPG-611 hard-pass 升级
+
+首批 hard queue 的剖析显示，绝大多数时间耗在 master SAT，而不是 `PACK4`、
+短圈枚举或 proof：不少实例在任何 CEGAR cut 之前就耗尽一小时。已新增不改动
+原四分片源码哈希的独立 hard runner，使用以下可验证增强：
+
+- 对缺边图 `H` 的 automorphism 群递归取逐点稳定子；每一步只在存在显式
+  automorphism 交换允许边两端时固定该边方向。497 个 `H` 均可安全固定 3–8
+  条单位弧，中位数 5 条；每条 witness permutation 均写入元数据并独立验证。
+- `PACK4` 的四个颜色类按最小顶点严格递增，消去恰好 `4!` 个颜色标号，不改变
+  SAT/UNSAT；候选仍由未加颜色破缺的原始 `PACK4` 公式独立重放。
+- 每个 packing block 沿 `Aut(H)` 轨道作受限 BFS。每个轨道像本身仍是四个
+  点不交有向圈的阻断，因而是逻辑有效 cut，而不只是 WLOG 约束；跨轮全局去重，
+  每个 master 模型至多加入 1,024 条。
+- 若已有 `t=1,2,3` 个点不交圈、顶点并为 `S`，任何反例必须有某个
+  `x∉S` 满足 `|N⁺(x)∩S|≥2t+1`。否则 `D-S` 的最小出度分别至少为
+  `5,3,1`，可由已知 `k=3`、`k=2` 和基本有向圈定理补足四个圈。hard runner
+  对短圈二/三 packing lazy 加入精确 reified-threshold CNF，并同时限制完整
+  packing 数和 DFS 节点数。
+- 精确出度 7 给出
+  `a(S,V-S)=7|S|-binom(|S|,2)+e_H(S)`。除目录 index 0 的
+  `K1,8 ⊔ 7K1` 外，所有对象的任意度数可行定向都自动强连通；hard runner
+  只接收 `Δ(H)≤7`，index 0 留给原始已认证流程。
+
+120 秒 A/B 中，index 2 获得 7 个 master 模型并加入 7,168 个轨道 packing
+cuts、28 个 residual cuts；公式为约 1.67 万变量、19.5 万子句。旧流程在同一
+对象累计 458,752 个简单 packing cuts 后仍 timeout。index 13 取得一个模型并
+加入 1,024 个轨道 cuts；index 12 和 20 即使加入 6/7 条单位弧，Glucose 与
+MiniSat 在 120 秒内仍卡在首个 master，因此后两类必须用长时 solver portfolio，
+不能把短基准误报成排除。
+
+首轮 20 分钟长跑随后完成：index 2 取得 15 个 master 模型，加入 15,360 个
+packing 轨道 cuts、60 个 residual cuts 和 1 个 4-cycle cut；index 32 取得
+3 个 master 模型，加入 3,072 个 packing 轨道 cuts、12 个 residual cuts 和
+1 个 4-cycle cut。两者均在预算耗尽后保留为 timeout，没有反例候选；这验证了
+增强 cut 的低膨胀特性，但尚未形成排除结论。
+
 ## 证书和停止规则
 
 结果分三级：
@@ -163,7 +200,7 @@ CEGAR 每次对一个定向精确查找四个点不交圈。找到 packing 就�
 
 ## 首轮执行快照
 
-更新时间：2026-07-29 00:42（Asia/Hong_Kong）。
+更新时间：2026-07-29 10:10（Asia/Hong_Kong）。
 
 - 三个新 runner 的专项回归 30 项、连同既有首批图测试共 47 项通过；软件测试
   只证明实现通过已写 oracle，不构成数学负边界。其中 OPG-611 的真实 CaDiCaL
@@ -181,9 +218,11 @@ CEGAR 每次对一个定向精确查找四个点不交圈。找到 packing 就�
 - `OPG-348` 的 girth≥6、3-edge-connected cubic 图已完整跑完 14–22 阶：
   各阶 `1,1,5,32,385` 个，共 424 个，全部精确 `N(G)>0` 且无 timeout；
   当前 evaluator 已对 424 个 numerator、cycle rank 和图族条件全量重放一致。
-- `OPG-611` 的 497 项有序缺边图目录及四分片合同已闭合。shard 0 与 shard 1
-  各自前三项、共 6 个互异实例已由 master CNF 排除，六份 DRAT 均独立验证；
-  两个 worker 正在各自第四项上运行。当前无反例候选，shard 2、3 尚未启动。
+- `OPG-611` 的 497 项有序缺边图目录及四分片合同已闭合，四个 worker 均已
+  启动。当前完成 `14/13/1/3` 项，共 31 项：11 项由 master CNF 排除，20 项
+  进入 hard queue；当前无反例候选。第二代 hard runner 的 32 项专项回归通过；
+  index 2 与 32 的首轮 20 分钟 orbit/residual 长跑均完成并仍为 timeout。
+  telemetry 只用于状态观测，不冒充可恢复 checkpoint。
 
 “历史校准边界”与“证书边界”严格分开：旧进程的实现指纹与当前源码不同，
 且部分事件没有持久化见证；它们可以指导选题和吞吐估计，但不会被包装成最终
