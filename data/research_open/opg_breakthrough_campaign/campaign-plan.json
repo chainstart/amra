@@ -1,0 +1,89 @@
+{
+  "campaign_id": "opg-five-breakthrough-2026-07-28",
+  "created_at": "2026-07-28",
+  "worker_limit": 4,
+  "memory_alert_per_worker_gib": 1.2,
+  "system_memory_headroom_gib": 2.0,
+  "total_cpu_hours": 892,
+  "budget_policy": {
+    "kind": "cumulative scheduling allocation",
+    "accounting_gate_hours": 24,
+    "runner_wall_seconds_role": "per-invocation fail-safe, not additive budget authority",
+    "enforcement": "operator reconciles process CPU time and does not release the next stage after its allocation is exhausted"
+  },
+  "result_policy": {
+    "candidate": "pause expansion; require independent encoding, solver, proof checker, hashes, and minimization",
+    "negative_bound": "within the explicitly declared input family, all generator shards reconcile, every accepted instance has a verified witness, and hard queue is empty",
+    "timeout": "retain in hard queue; never count as colorable or positive"
+  },
+  "problems": [
+    {
+      "id": "OPG-37271",
+      "cpu_hours": 120,
+      "wall_clock_target_hours": 48,
+      "stages": [
+        {"name": "model-and-literature-audit", "cpu_hours": 8, "implementation_status": "completed"},
+        {"name": "cnf-and-dual-verifier", "cpu_hours": 12, "implementation_status": "partial", "remaining": "independent second encoding/backtracker is required only after an UNSAT candidate"},
+        {"name": "all-subcubic-multigraphs-through-order-12", "cpu_hours": 8, "implementation_status": "completed_historical_calibration"},
+        {"name": "cubic-multigraphs-through-order-20", "cpu_hours": 20, "implementation_status": "running_through_order_18"},
+        {"name": "critical-filtered-orders-13-to-16", "cpu_hours": 48, "implementation_status": "planned_no_runner"},
+        {"name": "hard-instance-mutation", "cpu_hours": 24, "implementation_status": "planned_no_runner"}
+      ],
+      "commands": [
+        "PYTHONPATH=src python3 -m amra.discovery.opg_coloring_search opg37271 --lane all-subcubic --min-order 2 --max-order 12 --wall-seconds 28800 --per-instance-seconds 30 --output artifacts/opg_breakthrough/opg37271-all",
+        "PYTHONPATH=src python3 -m amra.discovery.opg_coloring_search opg37271 --lane cubic --min-order 2 --max-order 20 --wall-seconds 72000 --per-instance-seconds 30 --output artifacts/opg_breakthrough/opg37271-cubic"
+      ]
+    },
+    {
+      "id": "OPG-401",
+      "cpu_hours": 70,
+      "wall_clock_target_hours": 48,
+      "stages": [
+        {"name": "model-and-regression", "cpu_hours": 4, "implementation_status": "completed"},
+        {"name": "complete-through-order-14", "cpu_hours": 6, "implementation_status": "completed_historical_calibration"},
+        {"name": "complete-orders-15-to-17", "cpu_hours": 12, "implementation_status": "running_order_17"},
+        {"name": "sharded-order-18", "cpu_hours": 24, "implementation_status": "implemented_not_started"},
+        {"name": "planarity-preserving-structural-mutation", "cpu_hours": 24, "implementation_status": "planned_no_runner"}
+      ],
+      "command_template": "PYTHONPATH=src python3 -m amra.discovery.opg_coloring_search opg401 --min-order 6 --max-order 18 --wall-seconds 21600 --per-instance-seconds 30 --shard {index}/4 --output artifacts/opg_breakthrough/opg401-shard-{index}"
+    },
+    {
+      "id": "OPG-145",
+      "cpu_hours": 134,
+      "wall_clock_target_hours": 72,
+      "stages": [
+        {"name": "lazy-cycle-cut-model", "cpu_hours": 6, "implementation_status": "completed"},
+        {"name": "complete-orders-7-to-9", "cpu_hours": 8, "implementation_status": "completed_witness_audited"},
+        {"name": "complete-order-10", "cpu_hours": 24, "implementation_status": "implemented_not_started"},
+        {"name": "five-regular-through-order-14", "cpu_hours": 24, "implementation_status": "planned_no_runner"},
+        {"name": "minimum-degree-four-through-order-11", "cpu_hours": 24, "implementation_status": "planned_no_runner"},
+        {"name": "hard-seed-and-two-switch", "cpu_hours": 48, "implementation_status": "planned_no_runner"}
+      ],
+      "command_template": "PYTHONPATH=src python3 -m amra.discovery.opg_coloring_search opg145 --min-order 7 --max-order 10 --wall-seconds 21600 --per-instance-seconds 30 --shard {index}/4 --output artifacts/opg_breakthrough/opg145-shard-{index}"
+    },
+    {
+      "id": "OPG-348",
+      "cpu_hours": 224,
+      "wall_clock_target_hours": 144,
+      "stages": [
+        {"name": "integer-evaluator-and-two-oracle-tests", "cpu_hours": 8, "implementation_status": "completed"},
+        {"name": "girth-six-cubic-through-order-22", "cpu_hours": 8, "implementation_status": "completed_and_replayed"},
+        {"name": "named-snarks-and-random-cubic", "cpu_hours": 64, "implementation_status": "planned_no_runner"},
+        {"name": "generalized-petersen-transfer-dp", "cpu_hours": 144, "implementation_status": "planned_no_runner"}
+      ],
+      "command_template": "PYTHONPATH=src python3 -m amra.discovery.opg_flow_search --min-order 14 --max-order 22 --wall-seconds 7200 --per-graph-seconds 30 --max-states 2000000 --shard {index}/4 --output artifacts/opg_breakthrough/opg348-shard-{index}"
+    },
+    {
+      "id": "OPG-611",
+      "cpu_hours": 344,
+      "wall_clock_target_hours": 240,
+      "stages": [
+        {"name": "orientation-and-pack4-model", "cpu_hours": 8, "implementation_status": "completed"},
+        {"name": "triangle-and-four-cycle-lift-filters", "cpu_hours": 48, "implementation_status": "completed"},
+        {"name": "complete-n16-cegar-and-proofs", "cpu_hours": 160, "implementation_status": "running_shards_0_and_1"},
+        {"name": "random-oriented-orders-17-to-24", "cpu_hours": 128, "implementation_status": "planned_no_runner"}
+      ],
+      "command_template": "PYTHONPATH=src python3 -m amra.discovery.opg_directed_cycles_search --wall-seconds 144000 --per-missing-graph-seconds 3600 --max-cegar-iterations 1000000 --proofs --shard {index}/4 --output artifacts/opg_breakthrough/opg611-shard-{index}"
+    }
+  ]
+}
