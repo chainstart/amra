@@ -1,13 +1,16 @@
 from __future__ import annotations
 
+import copy
 import time
 
 import pytest
 from sympy import nextprime
 from sympy.ntheory.primetest import is_strong_lucas_prp, mr
 
+import amra.discovery.second_batch_arithmetic as arithmetic
 from amra.discovery.second_batch_arithmetic import (
     _BPSW_KNOWN_EXHAUSTIVE_LOWER_BOUND,
+    _KOU_21_137_ODD_POWER_EVIDENCE_SCHEMA,
     _SearchTimeLimit,
     GAP_BINARY,
     GAP_ROOT,
@@ -24,6 +27,7 @@ from amra.discovery.second_batch_arithmetic import (
     _native_selfridge_strong_lucas_prp,
     _native_strong_miller_rabin_base_2,
     _partition_number,
+    _parse_odd_power_gap_result,
     _passes_bpsw_part_one,
     _remote_bpsw_layers,
     _remote_semiprime_streams,
@@ -32,6 +36,7 @@ from amra.discovery.second_batch_arithmetic import (
     _run_gap,
     _runner_has_lonely_time,
     _verify_candidate,
+    _validate_odd_power_candidate_shape,
     _zero_sum_free,
     run_second_batch_arithmetic_search,
 )
@@ -1123,6 +1128,249 @@ def test_targeted_group_searches_filter_catalog_before_expensive_predicates() ->
     ]
 
 
+def test_odd_power_gap_protocol_preserves_complete_candidate_evidence() -> None:
+    output = "\n".join(
+        [
+            "CAND|243|9|3|9|3|3",
+            "POWERS|1,2,3",
+            "ROOTS|1,4,5",
+            "INVERSES|1,3,2",
+            "PRODUCTS|1|1,2,3",
+            "PRODUCTS|2|2,3,2",
+            "PRODUCTS|3|3,3,2",
+            "WITNESS|4|5|2|3|2|3",
+            "METRICS|1|1|3|0",
+            "DONE|1",
+        ]
+    )
+
+    candidate, checked, metrics = _parse_odd_power_gap_result(output)
+
+    assert checked == 1
+    assert metrics == {
+        "exponent_p2_groups": 1,
+        "power_image_subgroups": 1,
+        "max_power_image_size": 3,
+        "min_closure_defect": 0,
+    }
+    assert candidate is not None
+    assert (
+        candidate["evidence_schema"]
+        == _KOU_21_137_ODD_POWER_EVIDENCE_SCHEMA
+    )
+    assert candidate["power_image_indices"] == [1, 2, 3]
+    assert candidate["power_root_indices"] == [1, 4, 5]
+    assert candidate["power_product_indices"][1][2] == 2
+    assert candidate["noncommuting_witness"] == {
+        "left_root_index": 4,
+        "right_root_index": 5,
+        "left_power_index": 2,
+        "right_power_index": 3,
+        "left_then_right_index": 2,
+        "right_then_left_index": 3,
+    }
+    assert _validate_odd_power_candidate_shape(candidate)
+
+    malformed = dict(candidate)
+    malformed["power_inverse_indices"] = [1, 2]
+    assert not _validate_odd_power_candidate_shape(malformed)
+
+
+@pytest.mark.parametrize(
+    "protocol",
+    (
+        "DONE|16\n",
+        "UNKNOWN|payload\nMETRICS|0|0|0|-1\nDONE|16\n",
+        "POWERS|1\nMETRICS|0|0|0|-1\nDONE|16\n",
+        "METRICS|99|99|0|-1\nDONE|16\n",
+        "METRICS|0|0|0|-1\nMETRICS|0|0|0|-1\nDONE|16\n",
+        "METRICS|0|0|0|-1\nDONE|16\nDONE|16\n",
+    ),
+)
+def test_odd_power_gap_protocol_rejects_incomplete_or_inconsistent_output(
+    protocol: str,
+) -> None:
+    with pytest.raises(RuntimeError):
+        _parse_odd_power_gap_result(protocol)
+
+
+def test_odd_power_gap_protocol_binds_the_requested_chunk() -> None:
+    protocol = (
+        "CHUNK|3|2|243|1|243|2\n"
+        "METRICS|0|0|0|-1\n"
+        "DONE|2\n"
+    )
+    candidate, checked, metrics = _parse_odd_power_gap_result(
+        protocol,
+        expected_chunk=(3, 2, 243, 1, 243, 2),
+    )
+    assert candidate is None
+    assert checked == 2
+    assert metrics["exponent_p2_groups"] == 0
+    with pytest.raises(RuntimeError, match="does not match"):
+        _parse_odd_power_gap_result(
+            protocol,
+            expected_chunk=(3, 2, 243, 1, 243, 3),
+        )
+
+
+def test_odd_power_smallgroups_scan_is_exact_and_resumable() -> None:
+    if not (GAP_BINARY.exists() and GAP_ROOT.exists()):
+        pytest.skip("isolated GAP/SmallGrp is not installed")
+
+    first = run_second_batch_arithmetic_search(
+        "unsolvedmath-kou-21.137",
+        strategy_id="odd-p-smallgroups",
+        budget={
+            "prime": 3,
+            "target_orders": [243],
+            "max_cases": 5,
+            "group_chunk_size": 2,
+            "time_seconds": 60,
+        },
+        seed=0,
+    )
+
+    assert first["candidate"] is None
+    assert first["checked_cases"] == 5
+    assert first["checkpoint"]["next_group_position"] == 5
+    assert first["checkpoint"]["next_group_index"] == 6
+    assert first["checkpoint"]["resume"]["mode"] == "block_cursor"
+    assert first["model_contract"]["claim_scope"] == "explicit_subclaim"
+    assert "odd prime" in first["model_contract"]["source_statement"]
+    assert first["metrics"]["groups_checked_by_order"] == {"243": 5}
+
+    malformed = copy.deepcopy(first["checkpoint"])
+    malformed["checked_cases"] = 0
+    malformed["next_group_position"] = 999_999
+    rejected = run_second_batch_arithmetic_search(
+        "unsolvedmath-kou-21.137",
+        strategy_id="odd-p-smallgroups",
+        budget={
+            "prime": 3,
+            "target_orders": [243],
+            "max_cases": 67,
+            "group_chunk_size": 16,
+            "time_seconds": 60,
+        },
+        seed=0,
+        checkpoint=malformed,
+    )
+    assert rejected["outcome"] == "inconclusive"
+    assert rejected["stop_reason"] == "search_engine_error"
+    assert "outside the catalogue" in rejected["engine_error"]
+    assert not rejected["checkpoint"]["bounded_scope_exhausted"]
+
+    resumed = run_second_batch_arithmetic_search(
+        "unsolvedmath-kou-21.137",
+        strategy_id="odd-p-smallgroups",
+        budget={
+            "prime": 3,
+            "target_orders": [243],
+            "max_cases": 67,
+            "group_chunk_size": 16,
+            "time_seconds": 120,
+        },
+        seed=0,
+        checkpoint=first["checkpoint"],
+    )
+
+    assert resumed["candidate"] is None
+    assert resumed["outcome"] == "no_counterexample_within_bound"
+    assert resumed["checked_cases"] == 67
+    assert resumed["checkpoint"]["bounded_scope_exhausted"]
+    assert resumed["checkpoint"]["resume"]["intra_bound_cursor_restored"]
+    assert resumed["metrics"]["catalog_groups"] == 67
+    assert resumed["metrics"]["groups_checked_by_order"] == {"243": 67}
+    assert resumed["metrics"]["exponent_p2_groups_checked"] == 49
+    assert resumed["metrics"]["power_image_subgroups_checked"] == 39
+    assert resumed["metrics"]["last_group_id"] == [243, 67]
+
+
+def test_odd_power_candidate_chunk_is_not_committed_before_verification(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        arithmetic,
+        "_odd_power_gap_coordinates",
+        lambda prime, target_orders: (((243, 1), (243, 2)), ()),
+    )
+    monkeypatch.setattr(arithmetic, "_gap_version", lambda: "test-gap")
+    monkeypatch.setattr(
+        arithmetic, "_gap_package_version", lambda package: "test-smallgrp"
+    )
+    monkeypatch.setattr(
+        arithmetic,
+        "_odd_power_gap_chunk",
+        lambda coordinates, prime: (
+            {"group_order": 243, "group_index": 1, "prime": 3},
+            1,
+            {
+                "exponent_p2_groups": 1,
+                "power_image_subgroups": 1,
+                "max_power_image_size": 3,
+                "min_closure_defect": 0,
+            },
+        ),
+    )
+    monkeypatch.setattr(arithmetic, "_verify_candidate", lambda *args: False)
+
+    result = arithmetic.run_second_batch_arithmetic_search(
+        "unsolvedmath-kou-21.137",
+        strategy_id="odd-p-smallgroups",
+        budget={
+            "prime": 3,
+            "target_orders": [243],
+            "max_cases": 2,
+            "group_chunk_size": 2,
+            "time_seconds": 60,
+        },
+        seed=0,
+    )
+
+    assert result["outcome"] == "inconclusive"
+    assert result["stop_reason"] == "candidate_failed_internal_verification"
+    assert result["checked_cases"] == 0
+    assert result["checkpoint"]["next_group_position"] == 0
+    assert result["checkpoint"]["next_group_index"] == 1
+    assert result["metrics"]["groups_checked_by_order"] == {}
+
+
+@pytest.mark.parametrize(
+    "protocol",
+    (
+        "COUNT|243|0\nCATALOG_DONE|1\n",
+        "COUNT|243|-1\nCATALOG_DONE|1\n",
+        "UNAVAILABLE|243\nUNAVAILABLE|243\nCATALOG_DONE|1\n",
+    ),
+)
+def test_odd_power_catalogue_protocol_rejects_empty_or_duplicate_markers(
+    monkeypatch: pytest.MonkeyPatch,
+    protocol: str,
+) -> None:
+    arithmetic._odd_power_gap_coordinates.cache_clear()
+    monkeypatch.setattr(arithmetic, "_run_gap", lambda script, timeout: protocol)
+    try:
+        with pytest.raises(RuntimeError):
+            arithmetic._odd_power_gap_coordinates(3, (243,))
+    finally:
+        arithmetic._odd_power_gap_coordinates.cache_clear()
+
+
+def test_odd_power_smallgroups_rejects_even_prime() -> None:
+    with pytest.raises(ValueError, match="odd prime"):
+        run_second_batch_arithmetic_search(
+            "unsolvedmath-kou-21.137",
+            strategy_id="odd-p-smallgroups",
+            budget={
+                "prime": 2,
+                "target_orders": [128],
+                "max_cases": 1,
+            },
+            seed=0,
+        )
+
+
 @pytest.mark.parametrize(
     ("problem_id", "strategy_id", "budget", "time_seconds"),
     [
@@ -1194,5 +1442,15 @@ def test_time_budget_interrupts_python_and_gap_searches(
     assert result["stop_reason"] == "time_budget_exhausted"
     assert result["checkpoint"]["phase"] == "time_budget_exhausted"
     assert not result["checkpoint"]["bounded_scope_exhausted"]
-    assert result["checked_cases"] > 0
+    # A GAP catalogue query can consume the whole wall-clock budget before
+    # the first atomic group chunk commits.  Zero progress is therefore a
+    # valid fail-closed timeout, provided the exact counter and start cursor
+    # remain durable for replay.
+    assert result["checked_cases"] >= 0
+    assert result["checkpoint"]["checked_cases"] == result["checked_cases"]
+    assert result["checkpoint"]["checked_cases_exact"]
+    if result["checked_cases"] == 0:
+        assert not result["checkpoint"]["search_completed"]
+        assert result["checkpoint"].get("next_group_position", 0) == 0
+        assert result["metrics"].get("chunks_completed", 0) == 0
     assert result["checkpoint"]["resume"]["mode"] == "block_cursor"

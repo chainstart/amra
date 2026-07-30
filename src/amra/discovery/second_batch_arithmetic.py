@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from array import array
 import copy
+import hashlib
 import itertools
 import math
 import random
@@ -41,6 +42,44 @@ NUMBER_THEORY_BIN = Path("/home/biostar/.cache/amra/tools/number-theory/usr/bin"
 _RUNTIME_STATE = threading.local()
 _ANSI_ESCAPE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 _BPSW_KNOWN_EXHAUSTIVE_LOWER_BOUND = 1 << 64
+_KOU_21_137_ODD_POWER_EVIDENCE_SCHEMA = (
+    "amra.kou_21_137.odd_power_candidate.v1"
+)
+_KOU_21_137_ODD_POWER_CHECKPOINT_SCHEMA = (
+    "amra.kou_21_137.odd_power_checkpoint.v2"
+)
+_KOU_21_137_ODD_POWER_MODEL_CONTRACT = {
+    "source_statement": (
+        "For an odd prime p, if the p-th powers in a finite p-group of "
+        "exponent p^2 form a subgroup, must that subgroup be abelian?"
+    ),
+    "counterexample_condition": (
+        "Fix an odd prime p and enumerate the requested GAP SmallGroups of "
+        "p-power order. A witness has exponent exactly p^2, its complete set "
+        "of p-th powers is closed under multiplication and inverses, and two "
+        "members of that set do not commute."
+    ),
+    "claim_scope": "explicit_subclaim",
+    "scope_limitation": (
+        "The odd-p strategy excludes the already-refuted exponent-8 2-group "
+        "subclaim; nonfinding covers only the recorded SmallGroups orders."
+    ),
+}
+
+
+@lru_cache(maxsize=1)
+def _odd_power_implementation_sha256() -> str:
+    digest = hashlib.sha256()
+    for path in (Path(__file__).resolve(), GAP_BINARY.resolve()):
+        digest.update(str(path).encode("utf-8"))
+        digest.update(b"\0")
+        with path.open("rb") as handle:
+            for block in iter(lambda: handle.read(1 << 20), b""):
+                digest.update(block)
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
 _RESUMABLE_PROBLEMS = frozenset(
     {
         "unsolvedmath-kou-21.87",
@@ -415,13 +454,21 @@ SECOND_BATCH_ARITHMETIC_SPECS: tuple[dict[str, Any], ...] = (
         "Kourovka Notebook Problem 21.137",
         domain="group_theory",
         model_contract=(
-            "The executable target is the explicit subclaim: for odd p and exponent "
-            "p^2, or p=2 and exponent 8, if p-th powers form a subgroup then it is "
-            "abelian. A witness is a SmallGroup violating that implication."
+            "The legacy strategies test the explicit odd-p exponent-p^2 and "
+            "exponent-8 2-group subclaims together. The odd-p-smallgroups "
+            "strategy has a separate runtime contract: p is an odd prime, the "
+            "group exponent is exactly p^2, and a witness records the complete "
+            "p-th-power image, closure data, and a noncommuting pair."
         ),
-        strategies=("exact-small", "p-groups"),
+        strategies=("exact-small", "p-groups", "odd-p-smallgroups"),
         screen_bounds={"max_order": 32, "max_cases": 200},
-        deep_bounds={"max_order": 4_096, "max_cases": 500_000},
+        deep_bounds={
+            "max_order": 4_096,
+            "max_cases": 500_000,
+            "prime": 3,
+            "min_order": 243,
+        },
+        deep_search_role="odd_prime_exponent_p2_smallgroups_exact",
     ),
     _spec(
         "unsolvedmath-kou-21.35",
@@ -1158,11 +1205,33 @@ def _gap_version() -> str | None:
     return completed.stdout.strip().splitlines()[0] if completed.stdout.strip() else None
 
 
+@lru_cache(maxsize=16)
+def _gap_package_version(package: str) -> str | None:
+    if _gap_version() is None:
+        return None
+    completed = subprocess.run(
+        [str(GAP_BINARY), "-l", str(GAP_ROOT), "-q"],
+        input=(
+            f'info:=PackageInfo("{package}");; '
+            'if Length(info)>0 then Print(info[1].Version,"\\n"); fi;; '
+            "QUIT;\n"
+        ),
+        text=True,
+        capture_output=True,
+        timeout=20,
+        check=False,
+    )
+    if completed.returncode or completed.stderr.strip():
+        return None
+    lines = completed.stdout.strip().splitlines()
+    return lines[-1] if lines else None
+
+
 def _tool_versions() -> dict[str, Any]:
     return {
         "python_sympy": sympy.__version__,
         "gap": _gap_version(),
-        "smallgrp": "bundled with isolated GAP 4.12.1" if _gap_version() else None,
+        "smallgrp": _gap_package_version("smallgrp"),
         "pari_gp": "2.15.4" if (NUMBER_THEORY_BIN / "gp").exists() else None,
         "primesieve": "12" if (NUMBER_THEORY_BIN / "primesieve").exists() else None,
         "primecount": "7.10" if (NUMBER_THEORY_BIN / "primecount").exists() else None,
@@ -1218,6 +1287,659 @@ def _parse_gap_result(output: str) -> tuple[dict[str, Any] | None, int]:
     if checked is None:
         raise RuntimeError("GAP search protocol ended without a DONE marker")
     return candidate, checked
+
+
+def _parse_gap_int_list(line: str, prefix: str) -> list[int]:
+    if not line.startswith(prefix):
+        raise ValueError(f"expected GAP protocol prefix {prefix!r}")
+    payload = line[len(prefix) :]
+    return [int(value) for value in payload.split(",") if value]
+
+
+def _parse_odd_power_gap_result(
+    output: str,
+    *,
+    expected_chunk: tuple[int, int, int, int, int, int] | None = None,
+) -> tuple[dict[str, Any] | None, int, dict[str, int]]:
+    candidate: dict[str, Any] | None = None
+    checked: int | None = None
+    chunk_marker: tuple[int, int, int, int, int, int] | None = None
+    power_indices: list[int] | None = None
+    root_indices: list[int] | None = None
+    inverse_indices: list[int] | None = None
+    product_rows: dict[int, list[int]] = {}
+    witness: list[int] | None = None
+    metrics: dict[str, int] | None = None
+
+    for raw in output.splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith("CHUNK|"):
+            if chunk_marker is not None:
+                raise RuntimeError("duplicate odd-power GAP chunk marker")
+            fields = [int(value) for value in line.split("|")[1:]]
+            if len(fields) != 6:
+                raise RuntimeError("malformed odd-power GAP chunk marker")
+            chunk_marker = tuple(fields)  # type: ignore[assignment]
+        elif line.startswith("CAND|"):
+            if candidate is not None:
+                raise RuntimeError("duplicate odd-power GAP candidate header")
+            fields = [int(value) for value in line.split("|")[1:]]
+            if len(fields) != 6:
+                raise RuntimeError(
+                    "odd-power GAP candidate header has the wrong field count"
+                )
+            candidate = {
+                "group_order": fields[0],
+                "group_index": fields[1],
+                "prime": fields[2],
+                "group_exponent": fields[3],
+                "power_image_size": fields[4],
+                "power_subgroup_size": fields[5],
+            }
+        elif line.startswith("POWERS|"):
+            if power_indices is not None:
+                raise RuntimeError("duplicate odd-power GAP POWERS marker")
+            power_indices = _parse_gap_int_list(line, "POWERS|")
+        elif line.startswith("ROOTS|"):
+            if root_indices is not None:
+                raise RuntimeError("duplicate odd-power GAP ROOTS marker")
+            root_indices = _parse_gap_int_list(line, "ROOTS|")
+        elif line.startswith("INVERSES|"):
+            if inverse_indices is not None:
+                raise RuntimeError("duplicate odd-power GAP INVERSES marker")
+            inverse_indices = _parse_gap_int_list(line, "INVERSES|")
+        elif line.startswith("PRODUCTS|"):
+            fields = line.split("|", 2)
+            if len(fields) != 3:
+                raise RuntimeError("malformed odd-power product row")
+            row_index = int(fields[1])
+            if row_index in product_rows:
+                raise RuntimeError("duplicate odd-power GAP product row")
+            product_rows[row_index] = [
+                int(value) for value in fields[2].split(",") if value
+            ]
+        elif line.startswith("WITNESS|"):
+            if witness is not None:
+                raise RuntimeError("duplicate odd-power GAP WITNESS marker")
+            witness = [int(value) for value in line.split("|")[1:]]
+        elif line.startswith("METRICS|"):
+            if metrics is not None:
+                raise RuntimeError("duplicate odd-power GAP metrics marker")
+            fields = [int(value) for value in line.split("|")[1:]]
+            if len(fields) != 4:
+                raise RuntimeError(
+                    "odd-power GAP metrics have the wrong field count"
+                )
+            metrics = {
+                "exponent_p2_groups": fields[0],
+                "power_image_subgroups": fields[1],
+                "max_power_image_size": fields[2],
+                "min_closure_defect": fields[3],
+            }
+        elif line.startswith("DONE|"):
+            if checked is not None:
+                raise RuntimeError("duplicate odd-power GAP DONE marker")
+            checked = int(line.split("|", 1)[1])
+        else:
+            raise RuntimeError(
+                f"unexpected odd-power GAP protocol line: {line!r}"
+            )
+
+    if checked is None or metrics is None:
+        raise RuntimeError(
+            "odd-power GAP search requires exactly one METRICS and DONE marker"
+        )
+    if expected_chunk is not None and chunk_marker != expected_chunk:
+        raise RuntimeError("odd-power GAP chunk marker does not match request")
+    exponent_groups = metrics["exponent_p2_groups"]
+    subgroup_images = metrics["power_image_subgroups"]
+    maximum_image = metrics["max_power_image_size"]
+    minimum_defect = metrics["min_closure_defect"]
+    if (
+        checked < 0
+        or not 0 <= subgroup_images <= exponent_groups <= checked
+        or (
+            exponent_groups == 0
+            and (maximum_image != 0 or minimum_defect != -1)
+        )
+        or (
+            exponent_groups > 0
+            and (maximum_image < 1 or minimum_defect < 0)
+        )
+        or (subgroup_images > 0 and minimum_defect != 0)
+        or (subgroup_images == 0 and exponent_groups > 0 and minimum_defect == 0)
+    ):
+        raise RuntimeError("odd-power GAP aggregate metrics are inconsistent")
+    if candidate is None:
+        if any(
+            value is not None
+            for value in (
+                power_indices,
+                root_indices,
+                inverse_indices,
+                witness,
+            )
+        ) or product_rows:
+            raise RuntimeError(
+                "odd-power GAP emitted orphaned candidate evidence"
+            )
+        return None, checked, metrics
+    if (
+        power_indices is None
+        or root_indices is None
+        or inverse_indices is None
+        or witness is None
+    ):
+        raise RuntimeError("odd-power GAP candidate evidence is incomplete")
+
+    image_size = int(candidate["power_image_size"])
+    if (
+        image_size < 1
+        or int(candidate["power_subgroup_size"]) != image_size
+        or exponent_groups < 1
+        or subgroup_images < 1
+    ):
+        raise RuntimeError("odd-power GAP candidate contradicts aggregate metrics")
+    expected_rows = list(range(1, image_size + 1))
+    if sorted(product_rows) != expected_rows:
+        raise RuntimeError("odd-power GAP candidate product rows are incomplete")
+    product_indices = [product_rows[row] for row in expected_rows]
+    if (
+        len(power_indices) != image_size
+        or len(root_indices) != image_size
+        or len(inverse_indices) != image_size
+        or any(len(row) != image_size for row in product_indices)
+    ):
+        raise RuntimeError("odd-power GAP candidate evidence has inconsistent sizes")
+    if len(witness) != 6:
+        raise RuntimeError("odd-power GAP noncommuting witness is malformed")
+
+    candidate.update(
+        {
+            "evidence_schema": _KOU_21_137_ODD_POWER_EVIDENCE_SCHEMA,
+            "group_catalog": "GAP SmallGroups",
+            "group_id": [
+                int(candidate["group_order"]),
+                int(candidate["group_index"]),
+            ],
+            "element_index_basis": "GAP Elements(G), one-based",
+            "power_image_indices": power_indices,
+            "power_root_indices": root_indices,
+            "power_inverse_indices": inverse_indices,
+            "power_product_indices": product_indices,
+            "closure": {
+                "closed_under_multiplication": True,
+                "closed_under_inverses": True,
+                "image_size": image_size,
+                "generated_subgroup_size": int(
+                    candidate["power_subgroup_size"]
+                ),
+            },
+            "noncommuting_witness": {
+                "left_root_index": witness[0],
+                "right_root_index": witness[1],
+                "left_power_index": witness[2],
+                "right_power_index": witness[3],
+                "left_then_right_index": witness[4],
+                "right_then_left_index": witness[5],
+            },
+        }
+    )
+    return candidate, checked, metrics
+
+
+def _is_power_of(value: int, base: int) -> bool:
+    if value < 1 or base < 2:
+        return False
+    while value % base == 0:
+        value //= base
+    return value == 1
+
+
+def _odd_power_target_orders(
+    budget: Mapping[str, Any],
+    *,
+    prime: int,
+) -> tuple[int, ...]:
+    configured = budget.get("target_orders")
+    if configured is not None:
+        if isinstance(configured, (str, bytes)) or not isinstance(
+            configured, (list, tuple)
+        ):
+            raise ValueError("target_orders must be a list or tuple of p-powers")
+        orders = tuple(sorted({int(value) for value in configured}))
+    else:
+        minimum = _positive_int(budget, "min_order", prime**5)
+        maximum = _positive_int(budget, "max_order", prime**6)
+        orders_list: list[int] = []
+        order = prime
+        while order <= maximum:
+            if order >= minimum:
+                orders_list.append(order)
+            order *= prime
+        orders = tuple(orders_list)
+    if not orders:
+        raise ValueError("odd-p SmallGroups search has no target orders")
+    if any(order <= 1 or not _is_power_of(order, prime) for order in orders):
+        raise ValueError("every odd-p target order must be a power of prime")
+    return orders
+
+
+@lru_cache(maxsize=32)
+def _odd_power_gap_coordinates(
+    prime: int,
+    target_orders: tuple[int, ...],
+) -> tuple[tuple[tuple[int, int], ...], tuple[int, ...]]:
+    order_literal = "[" + ",".join(str(order) for order in target_orders) + "]"
+    script = f"""
+for o in {order_literal} do
+ if SmallGroupsAvailable(o) then
+  Print("COUNT|",o,"|",NumberSmallGroups(o),"\\n");
+  for idx in [1..NumberSmallGroups(o)] do
+   Print("ID|",o,"|",idx,"\\n");
+  od;
+ else
+  Print("UNAVAILABLE|",o,"\\n");
+ fi;
+od;
+Print("CATALOG_DONE|",{len(target_orders)},"\\n");
+"""
+    coordinates: list[tuple[int, int]] = []
+    unavailable: list[int] = []
+    counts: dict[int, int] = {}
+    done_orders: int | None = None
+    for raw in _run_gap(script, timeout=60).splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith("COUNT|"):
+            _, order, count = line.split("|")
+            parsed_order = int(order)
+            if parsed_order in counts:
+                raise RuntimeError("duplicate SmallGroups catalogue COUNT")
+            parsed_count = int(count)
+            if parsed_count < 1:
+                raise RuntimeError(
+                    "available SmallGroups catalogue count must be positive"
+                )
+            counts[parsed_order] = parsed_count
+        elif line.startswith("ID|"):
+            _, order, index = line.split("|")
+            coordinates.append((int(order), int(index)))
+        elif line.startswith("UNAVAILABLE|"):
+            parsed_order = int(line.split("|", 1)[1])
+            if parsed_order in unavailable:
+                raise RuntimeError(
+                    "duplicate SmallGroups catalogue UNAVAILABLE marker"
+                )
+            unavailable.append(parsed_order)
+        elif line.startswith("CATALOG_DONE|"):
+            if done_orders is not None:
+                raise RuntimeError("duplicate SmallGroups catalogue terminator")
+            done_orders = int(line.split("|", 1)[1])
+        else:
+            raise RuntimeError(
+                f"unexpected SmallGroups catalogue protocol line: {line!r}"
+            )
+    if done_orders != len(target_orders):
+        raise RuntimeError("SmallGroups catalogue ended without a valid terminator")
+    if set(counts) | set(unavailable) != set(target_orders):
+        raise RuntimeError("SmallGroups catalogue did not account for every order")
+    if set(counts) & set(unavailable):
+        raise RuntimeError("SmallGroups catalogue marked an order twice")
+    expected_coordinates = tuple(
+        (order, index)
+        for order in target_orders
+        if order in counts
+        for index in range(1, counts[order] + 1)
+    )
+    if tuple(coordinates) != expected_coordinates:
+        raise RuntimeError("SmallGroups catalogue coordinates are not exact")
+    return tuple(coordinates), tuple(unavailable)
+
+
+def _odd_power_gap_chunk(
+    coordinates: tuple[tuple[int, int], ...],
+    *,
+    prime: int,
+) -> tuple[dict[str, Any] | None, int, dict[str, int]]:
+    if not coordinates:
+        raise ValueError("odd-power GAP chunk must not be empty")
+    coordinate_literal = "[" + ",".join(
+        f"[{order},{index}]" for order, index in coordinates
+    ) + "]"
+    first_order, first_index = coordinates[0]
+    last_order, last_index = coordinates[-1]
+    chunk_marker = (
+        prime,
+        len(coordinates),
+        first_order,
+        first_index,
+        last_order,
+        last_index,
+    )
+    script = f"""
+RunOddPowerChunk:=function()
+local coordinates,p,checked,found,exponentP2,subgroupImages,maxImage,minDefect,
+      id,o,idx,G,exponentValue,els,vals,H,imageSize,subgroupSize,defect,
+      i,j,leftProduct,rightProduct,roots,powerIndices,inverseIndices,row;
+coordinates:={coordinate_literal};
+p:={prime};
+Print("CHUNK|",p,"|",Length(coordinates),"|",coordinates[1][1],"|",
+      coordinates[1][2],"|",coordinates[Length(coordinates)][1],"|",
+      coordinates[Length(coordinates)][2],"\\n");
+checked:=0; found:=false; exponentP2:=0; subgroupImages:=0;
+maxImage:=0; minDefect:=-1;
+for id in coordinates do
+ o:=id[1]; idx:=id[2]; G:=SmallGroup(o,idx); checked:=checked+1;
+ exponentValue:=Exponent(G);
+ if exponentValue=p^2 then
+  exponentP2:=exponentP2+1;
+  els:=Elements(G);
+  vals:=Set(List(els,x->x^p));
+  H:=Group(vals);
+  imageSize:=Length(vals); subgroupSize:=Size(H);
+  defect:=subgroupSize-imageSize;
+  maxImage:=Maximum(maxImage,imageSize);
+  if minDefect=-1 or defect<minDefect then minDefect:=defect; fi;
+  if defect=0 then
+   subgroupImages:=subgroupImages+1;
+   if not IsAbelian(H) then
+    for i in [1..imageSize-1] do
+     for j in [i+1..imageSize] do
+      if vals[i]*vals[j]<>vals[j]*vals[i] then
+       leftProduct:=vals[i]*vals[j]; rightProduct:=vals[j]*vals[i];
+       roots:=List(vals,v->PositionProperty(els,x->x^p=v));
+       powerIndices:=List(vals,v->Position(els,v));
+       inverseIndices:=List(vals,v->Position(els,v^-1));
+       Print("CAND|",o,"|",idx,"|",p,"|",exponentValue,"|",
+             imageSize,"|",subgroupSize,"\\n");
+       Print("POWERS|",JoinStringsWithSeparator(
+             List(powerIndices,String),","),"\\n");
+       Print("ROOTS|",JoinStringsWithSeparator(
+             List(roots,String),","),"\\n");
+       Print("INVERSES|",JoinStringsWithSeparator(
+             List(inverseIndices,String),","),"\\n");
+       for row in [1..imageSize] do
+        Print("PRODUCTS|",row,"|",JoinStringsWithSeparator(
+              List(vals,v->String(Position(els,vals[row]*v))),","),"\\n");
+       od;
+       Print("WITNESS|",roots[i],"|",roots[j],"|",powerIndices[i],"|",
+             powerIndices[j],"|",Position(els,leftProduct),"|",
+             Position(els,rightProduct),"\\n");
+       found:=true; break;
+      fi;
+     od;
+     if found then break; fi;
+    od;
+   fi;
+  fi;
+ fi;
+ if found then break; fi;
+od;
+Print("METRICS|",exponentP2,"|",subgroupImages,"|",maxImage,"|",
+      minDefect,"\\n");
+Print("DONE|",checked,"\\n");
+end;;
+RunOddPowerChunk();;
+"""
+    candidate, checked, metrics = _parse_odd_power_gap_result(
+        _run_gap(script, timeout=120),
+        expected_chunk=chunk_marker,
+    )
+    if candidate is not None and (
+        (
+            int(candidate["group_order"]),
+            int(candidate["group_index"]),
+        )
+        not in coordinates
+        or int(candidate["prime"]) != prime
+    ):
+        raise RuntimeError("odd-power GAP candidate is outside the requested chunk")
+    return candidate, checked, metrics
+
+
+def _merge_odd_power_metrics(
+    current: Mapping[str, Any],
+    chunk_metrics: Mapping[str, int],
+    processed: tuple[tuple[int, int], ...],
+) -> dict[str, Any]:
+    checked_by_order = {
+        str(key): int(value)
+        for key, value in dict(current.get("groups_checked_by_order") or {}).items()
+    }
+    for order, _ in processed:
+        key = str(order)
+        checked_by_order[key] = checked_by_order.get(key, 0) + 1
+    old_min = int(current.get("min_closure_defect", -1))
+    new_min = int(chunk_metrics.get("min_closure_defect", -1))
+    minimum_defect = (
+        new_min
+        if old_min < 0
+        else old_min
+        if new_min < 0
+        else min(old_min, new_min)
+    )
+    return {
+        **dict(current),
+        "chunks_completed": int(current.get("chunks_completed", 0)) + 1,
+        "exponent_p2_groups_checked": int(
+            current.get("exponent_p2_groups_checked", 0)
+        )
+        + int(chunk_metrics.get("exponent_p2_groups", 0)),
+        "power_image_subgroups_checked": int(
+            current.get("power_image_subgroups_checked", 0)
+        )
+        + int(chunk_metrics.get("power_image_subgroups", 0)),
+        "max_power_image_size": max(
+            int(current.get("max_power_image_size", 0)),
+            int(chunk_metrics.get("max_power_image_size", 0)),
+        ),
+        "min_closure_defect": minimum_defect,
+        "groups_checked_by_order": checked_by_order,
+        "last_group_id": list(processed[-1]) if processed else None,
+    }
+
+
+def _search_kou_21_137_odd_power(
+    budget: Mapping[str, Any],
+    *,
+    state: _SearchProgressState,
+) -> tuple[dict[str, Any] | None, int, bool]:
+    try:
+        prime = int(budget.get("prime", 3))
+    except (TypeError, ValueError) as exc:
+        raise ValueError(
+            "odd-p SmallGroups search requires an odd prime"
+        ) from exc
+    if prime % 2 == 0 or not isprime(prime):
+        raise ValueError("odd-p SmallGroups search requires an odd prime")
+    target_orders = _odd_power_target_orders(budget, prime=prime)
+    gap_version = _gap_version()
+    smallgrp_version = _gap_package_version("smallgrp")
+    if gap_version is None or smallgrp_version is None:
+        raise RuntimeError(
+            "certified odd-p search requires exact GAP and SmallGrp versions"
+        )
+    coordinates, unavailable = _odd_power_gap_coordinates(prime, target_orders)
+    catalogue_sha256 = hashlib.sha256(
+        "\n".join(
+            f"{order}:{index}" for order, index in coordinates
+        ).encode("ascii")
+    ).hexdigest()
+    implementation_sha256 = _odd_power_implementation_sha256()
+    signature = "|".join(
+        (
+            _KOU_21_137_ODD_POWER_CHECKPOINT_SCHEMA,
+            f"p={prime}",
+            "orders=" + ",".join(str(order) for order in target_orders),
+            f"coordinates={catalogue_sha256}",
+            f"implementation={implementation_sha256}",
+            f"gap={gap_version}",
+            f"smallgrp={smallgrp_version}",
+        )
+    )
+    restored_signature = state.cursor.get("odd_power_catalog_signature")
+    if state.restored and restored_signature != signature:
+        raise RuntimeError(
+            "odd-p checkpoint does not match the catalogue/runtime signature"
+        )
+
+    raw_position = state.cursor.get("next_group_position", 0)
+    if isinstance(raw_position, bool):
+        raise RuntimeError("odd-p checkpoint position is invalid")
+    try:
+        position = int(raw_position)
+    except (TypeError, ValueError) as exc:
+        raise RuntimeError("odd-p checkpoint position is invalid") from exc
+    if not 0 <= position <= len(coordinates):
+        raise RuntimeError("odd-p checkpoint position is outside the catalogue")
+
+    expected_counts: dict[str, int] = {}
+    for order, _ in coordinates[:position]:
+        key = str(order)
+        expected_counts[key] = expected_counts.get(key, 0) + 1
+    if state.restored:
+        restored_metrics = dict(state.metrics)
+        actual_counts = {
+            str(key): int(value)
+            for key, value in dict(
+                restored_metrics.get("groups_checked_by_order") or {}
+            ).items()
+        }
+        expected_next = (
+            coordinates[position] if position < len(coordinates) else None
+        )
+        expected_last = list(coordinates[position - 1]) if position else None
+        if (
+            state.checked != position
+            or actual_counts != expected_counts
+            or int(restored_metrics.get("catalog_groups", -1))
+            != len(coordinates)
+            or restored_metrics.get("catalogue_sha256") != catalogue_sha256
+            or restored_metrics.get("implementation_sha256")
+            != implementation_sha256
+            or list(restored_metrics.get("target_orders") or [])
+            != list(target_orders)
+            or list(restored_metrics.get("unavailable_orders") or [])
+            != list(unavailable)
+            or restored_metrics.get("last_group_id") != expected_last
+            or state.cursor.get("next_order")
+            != (None if expected_next is None else expected_next[0])
+            or state.cursor.get("next_group_index")
+            != (None if expected_next is None else expected_next[1])
+        ):
+            raise RuntimeError(
+                "odd-p checkpoint counts, metrics, and cursor are inconsistent"
+            )
+        exponent_groups = int(
+            restored_metrics.get("exponent_p2_groups_checked", -1)
+        )
+        subgroup_images = int(
+            restored_metrics.get("power_image_subgroups_checked", -1)
+        )
+        if not 0 <= subgroup_images <= exponent_groups <= state.checked:
+            raise RuntimeError("odd-p checkpoint aggregate metrics are invalid")
+
+    max_cases = _positive_int(budget, "max_cases", len(coordinates))
+    chunk_size = min(_positive_int(budget, "group_chunk_size", 8), 32)
+    metrics = {
+        **state.metrics,
+        "checkpoint_schema": _KOU_21_137_ODD_POWER_CHECKPOINT_SCHEMA,
+        "coverage_kind": "odd_prime_exponent_p2_smallgroups_exact",
+        "odd_prime": prime,
+        "target_orders": list(target_orders),
+        "catalog_groups": len(coordinates),
+        "catalogue_sha256": catalogue_sha256,
+        "implementation_sha256": implementation_sha256,
+        "unavailable_orders": list(unavailable),
+        "chunks_completed": int(state.metrics.get("chunks_completed", 0)),
+        "exponent_p2_groups_checked": int(
+            state.metrics.get("exponent_p2_groups_checked", 0)
+        ),
+        "power_image_subgroups_checked": int(
+            state.metrics.get("power_image_subgroups_checked", 0)
+        ),
+        "max_power_image_size": int(
+            state.metrics.get("max_power_image_size", 0)
+        ),
+        "min_closure_defect": int(
+            state.metrics.get("min_closure_defect", -1)
+        ),
+        "groups_checked_by_order": dict(
+            state.metrics.get("groups_checked_by_order") or {}
+        ),
+        "last_group_id": state.metrics.get("last_group_id"),
+    }
+    state.metrics = metrics
+    if not state.restored:
+        next_pair = coordinates[0] if coordinates else None
+        state.commit(
+            cursor={
+                "cursor_kind": "odd_prime_gap_smallgroup",
+                "odd_power_catalog_signature": signature,
+                "odd_prime": prime,
+                "target_orders": list(target_orders),
+                "next_group_position": 0,
+                "next_order": None if next_pair is None else next_pair[0],
+                "next_group_index": None if next_pair is None else next_pair[1],
+            },
+            metrics=metrics,
+        )
+
+    while position < len(coordinates) and state.checked < max_cases:
+        remaining = max_cases - state.checked
+        chunk = coordinates[position : position + min(chunk_size, remaining)]
+        candidate, checked, chunk_metrics = _odd_power_gap_chunk(
+            chunk,
+            prime=prime,
+        )
+        if checked < 1 or checked > len(chunk):
+            raise RuntimeError(
+                "odd-p GAP chunk returned an invalid checked-case count"
+            )
+        if candidate is not None:
+            # Keep the durable cursor at the start of this chunk until the
+            # independently replayed candidate has passed verification.  If
+            # verification times out, crashes, or fails, resuming replays the
+            # whole bounded chunk and cannot skip the candidate.
+            candidate["search_contract"] = copy.deepcopy(
+                _KOU_21_137_ODD_POWER_MODEL_CONTRACT
+            )
+            candidate["pending_catalogue_position"] = position + checked - 1
+            candidate["uncommitted_chunk_cases"] = checked
+            candidate["checkpoint_policy"] = (
+                "candidate_chunk_replayed_until_verification_passes"
+            )
+            return candidate, state.checked, False
+        if checked != len(chunk):
+            raise RuntimeError(
+                "odd-p GAP chunk stopped early without returning a candidate"
+            )
+        processed = chunk[:checked]
+        position += checked
+        metrics = _merge_odd_power_metrics(metrics, chunk_metrics, processed)
+        next_pair = coordinates[position] if position < len(coordinates) else None
+        state.commit(
+            checked_increment=checked,
+            cursor={
+                "cursor_kind": "odd_prime_gap_smallgroup",
+                "odd_power_catalog_signature": signature,
+                "odd_prime": prime,
+                "target_orders": list(target_orders),
+                "next_group_position": position,
+                "next_order": None if next_pair is None else next_pair[0],
+                "next_group_index": None if next_pair is None else next_pair[1],
+            },
+            metrics=metrics,
+        )
+
+    # Missing SmallGroups data is not an exhausted mathematical scope.  Keep
+    # the run inconclusive even if every available coordinate was consumed.
+    exhausted = position >= len(coordinates) and not unavailable
+    return None, state.checked, exhausted
 
 
 def _semidirect_factor_score(order: int) -> tuple[int, int, int]:
@@ -1502,6 +2224,19 @@ def _gap_group_scan(
     strategy_id: str = "exact-small",
     state: _SearchProgressState | None = None,
 ) -> tuple[dict[str, Any] | None, int, bool]:
+    if (
+        problem_id == "unsolvedmath-kou-21.137"
+        and strategy_id == "odd-p-smallgroups"
+    ):
+        if state is None:
+            state = _SearchProgressState(
+                problem_id=problem_id,
+                strategy_id=strategy_id,
+                checkpoint=None,
+                progress=None,
+                resumable=True,
+            )
+        return _search_kou_21_137_odd_power(budget, state=state)
     if problem_id in {"unsolvedmath-kou-21.87", "unsolvedmath-kou-21.88"}:
         if state is None:
             state = _SearchProgressState(
@@ -1784,7 +2519,144 @@ RunSearch();;
     return candidate, checked, exhausted
 
 
+def _validate_odd_power_candidate_shape(candidate: Mapping[str, Any]) -> bool:
+    try:
+        order = int(candidate["group_order"])
+        index = int(candidate["group_index"])
+        prime = int(candidate["prime"])
+        exponent = int(candidate["group_exponent"])
+        image_size = int(candidate["power_image_size"])
+        subgroup_size = int(candidate["power_subgroup_size"])
+        powers = [int(value) for value in candidate["power_image_indices"]]
+        roots = [int(value) for value in candidate["power_root_indices"]]
+        inverses = [
+            int(value) for value in candidate["power_inverse_indices"]
+        ]
+        products = [
+            [int(value) for value in row]
+            for row in candidate["power_product_indices"]
+        ]
+        closure = dict(candidate["closure"])
+        closure_image_size = int(closure["image_size"])
+        closure_subgroup_size = int(closure["generated_subgroup_size"])
+        witness = {
+            str(key): int(value)
+            for key, value in dict(
+                candidate["noncommuting_witness"]
+            ).items()
+        }
+    except (KeyError, TypeError, ValueError):
+        return False
+    if (
+        candidate.get("evidence_schema")
+        != _KOU_21_137_ODD_POWER_EVIDENCE_SCHEMA
+        or candidate.get("group_catalog") != "GAP SmallGroups"
+        or list(candidate.get("group_id", ())) != [order, index]
+        or candidate.get("element_index_basis")
+        != "GAP Elements(G), one-based"
+        or prime < 3
+        or prime % 2 == 0
+        or not isprime(prime)
+        or not _is_power_of(order, prime)
+        or exponent != prime**2
+        or image_size < 1
+        or subgroup_size != image_size
+        or len(powers) != image_size
+        or len(set(powers)) != image_size
+        or len(roots) != image_size
+        or len(inverses) != image_size
+        or len(products) != image_size
+        or any(len(row) != image_size for row in products)
+        or any(
+            value < 1 or value > order
+            for value in (*powers, *roots, *inverses)
+        )
+        or any(
+            value < 1 or value > order
+            for row in products
+            for value in row
+        )
+        or any(value not in powers for value in inverses)
+        or any(value not in powers for row in products for value in row)
+        or closure.get("closed_under_multiplication") is not True
+        or closure.get("closed_under_inverses") is not True
+        or closure_image_size != image_size
+        or closure_subgroup_size != subgroup_size
+    ):
+        return False
+    required_witness = {
+        "left_root_index",
+        "right_root_index",
+        "left_power_index",
+        "right_power_index",
+        "left_then_right_index",
+        "right_then_left_index",
+    }
+    if set(witness) != required_witness:
+        return False
+    if (
+        witness["left_root_index"] not in roots
+        or witness["right_root_index"] not in roots
+        or witness["left_power_index"] not in powers
+        or witness["right_power_index"] not in powers
+        or witness["left_then_right_index"] not in powers
+        or witness["right_then_left_index"] not in powers
+        or witness["left_then_right_index"]
+        == witness["right_then_left_index"]
+    ):
+        return False
+    left_position = powers.index(witness["left_power_index"])
+    right_position = powers.index(witness["right_power_index"])
+    return (
+        roots[left_position] == witness["left_root_index"]
+        and roots[right_position] == witness["right_root_index"]
+        and products[left_position][right_position]
+        == witness["left_then_right_index"]
+        and products[right_position][left_position]
+        == witness["right_then_left_index"]
+    )
+
+
+def _verify_odd_power_candidate(candidate: Mapping[str, Any]) -> bool:
+    if not _validate_odd_power_candidate_shape(candidate):
+        return False
+    order = int(candidate["group_order"])
+    index = int(candidate["group_index"])
+    prime = int(candidate["prime"])
+    replay, checked, _ = _odd_power_gap_chunk(
+        ((order, index),),
+        prime=prime,
+    )
+    if checked != 1 or replay is None:
+        return False
+    evidence_keys = {
+        "group_order",
+        "group_index",
+        "prime",
+        "group_exponent",
+        "power_image_size",
+        "power_subgroup_size",
+        "evidence_schema",
+        "group_catalog",
+        "group_id",
+        "element_index_basis",
+        "power_image_indices",
+        "power_root_indices",
+        "power_inverse_indices",
+        "power_product_indices",
+        "closure",
+        "noncommuting_witness",
+    }
+    return all(candidate.get(key) == replay.get(key) for key in evidence_keys)
+
+
 def _gap_verify_candidate(problem_id: str, candidate: Mapping[str, Any]) -> bool:
+    if (
+        problem_id == "unsolvedmath-kou-21.137"
+        and candidate.get("evidence_schema")
+        == _KOU_21_137_ODD_POWER_EVIDENCE_SCHEMA
+    ):
+        return _verify_odd_power_candidate(candidate)
     o = int(candidate["group_order"])
     idx = int(candidate["group_index"])
     if problem_id in {"unsolvedmath-kou-21.87", "unsolvedmath-kou-21.88"}:
@@ -6378,12 +7250,16 @@ def run_second_batch_arithmetic_search(
         )
     effective_seed = int(seed) if effective_strategy_id == "multistart" else 0
     normalized_budget = {**spec["screen_bounds"], **_budget_dict(budget)}
+    resumable = problem_id in _RESUMABLE_PROBLEMS or (
+        problem_id == "unsolvedmath-kou-21.137"
+        and effective_strategy_id == "odd-p-smallgroups"
+    )
     state = _SearchProgressState(
         problem_id=problem_id,
         strategy_id=effective_strategy_id,
         checkpoint=checkpoint,
         progress=progress,
-        resumable=problem_id in _RESUMABLE_PROBLEMS,
+        resumable=resumable,
     )
     candidate: dict[str, Any] | None = None
     checked = state.checked
@@ -6471,7 +7347,12 @@ def run_second_batch_arithmetic_search(
         "checked_cases": checked,
         "stop_reason": stop_reason,
         "checkpoint": next_checkpoint,
-        "model_contract": spec["model_contract"],
+        "model_contract": (
+            copy.deepcopy(_KOU_21_137_ODD_POWER_MODEL_CONTRACT)
+            if problem_id == "unsolvedmath-kou-21.137"
+            and effective_strategy_id == "odd-p-smallgroups"
+            else spec["model_contract"]
+        ),
         "tool_versions": _tool_versions(),
         "executor_id": spec["executor_id"],
         "version": spec["version"],
