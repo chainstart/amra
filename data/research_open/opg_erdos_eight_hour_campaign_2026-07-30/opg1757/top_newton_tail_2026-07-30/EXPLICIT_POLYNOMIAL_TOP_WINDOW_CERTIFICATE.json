@@ -1,0 +1,28 @@
+{
+  "schema": "amra.opg1757.explicit-polynomial-window-certificate.v1",
+  "date": "2026-07-30",
+  "proved_eta": "1/8",
+  "profile_norm_bound": "(2^16*(ell+1)^5)^ell",
+  "ordinary_coefficient_bound": "(2^320)^j*j^(6j)*k^j",
+  "ledger": {
+    "difference_checks": 256,
+    "fixed_offset_absorption_checks": 256,
+    "exact_profile_norm_checks": 72,
+    "maximum_profile_loss": 24
+  },
+  "exact_polynomial_experiment": {
+    "maximum_depth": 40,
+    "leading_checks": 40,
+    "subleading_checks": 40,
+    "interpolation_holdouts_per_depth": 2
+  },
+  "weighted_C_equals_3": {
+    "status": "finite_evidence_only",
+    "checks": 820,
+    "worst_ratio": "23/24",
+    "worst_depth": 2,
+    "worst_rank": 1
+  },
+  "eta_one_third": "open",
+  "status": "explicit_eta_certificate_passed"
+}

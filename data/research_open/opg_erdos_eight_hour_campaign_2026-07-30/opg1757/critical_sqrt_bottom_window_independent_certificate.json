@@ -1,0 +1,187 @@
+{
+  "boundary_cases": [
+    {
+      "N": 1297036692682702857,
+      "R": 14,
+      "corollary_4_condition_2^54": false,
+      "depth": 6,
+      "earlier_terms_checked": 7,
+      "equation_39_condition_2^52": true,
+      "equation_39_geometric_upper": "73016674573146059492199701386625416/186922686907253768974594390349578053",
+      "k": 2594073385365405696,
+      "positive": true,
+      "x": "25/144115188075855873"
+    },
+    {
+      "N": 1297036692682702857,
+      "R": 13,
+      "corollary_4_condition_2^54": false,
+      "depth": 6,
+      "earlier_terms_checked": 7,
+      "equation_39_condition_2^52": true,
+      "equation_39_geometric_upper": "286225364326732556913723594940351985/841152091082641977895670107789589808",
+      "k": 2594073385365405697,
+      "positive": true,
+      "x": "196/1297036692682702857"
+    },
+    {
+      "N": 5188146770730811407,
+      "R": 26,
+      "corollary_4_condition_2^54": false,
+      "depth": 12,
+      "earlier_terms_checked": 13,
+      "equation_39_condition_2^52": true,
+      "equation_39_geometric_upper": "218376023646455306333309133624705544/690176074734475463455366130219815603",
+      "k": 10376293541461622784,
+      "positive": true,
+      "x": "243/1729382256910270469"
+    },
+    {
+      "N": 129703669268270284863,
+      "R": 121,
+      "corollary_4_condition_2^54": false,
+      "depth": 60,
+      "earlier_terms_checked": 61,
+      "equation_39_condition_2^52": true,
+      "equation_39_geometric_upper": "2173560368693412185343062307750703665935/8411520910826419816895024338864963124793",
+      "k": 259407338536540569601,
+      "positive": true,
+      "x": "14884/129703669268270284863"
+    }
+  ],
+  "classification": {
+    "fixed_window": "explicit reparameterization and sharper error-budget specialization of Growing Depth equation (39); not a literal consequence of Corollary 4 and not a new heat or Newton estimate",
+    "main_model_scaling": "new explicit resummation of the already available leading-term model; not an exact-coefficient limit"
+  },
+  "dominated_convergence_samples": [
+    {
+      "sequence": [
+        {
+          "N": 2000,
+          "R": 13,
+          "absolute_error": 0.002443526207042579,
+          "lambda": 0.0845,
+          "model": 0.9910728353451801,
+          "prediction": 0.9886293091381375
+        },
+        {
+          "N": 8000,
+          "R": 20,
+          "absolute_error": 0.0009680344380150752,
+          "lambda": 0.05,
+          "model": 0.994224113271367,
+          "prediction": 0.9932560788333519
+        },
+        {
+          "N": 32000,
+          "R": 32,
+          "absolute_error": 0.00039431788931632017,
+          "lambda": 0.032,
+          "model": 0.9960729529102078,
+          "prediction": 0.9956786350208915
+        }
+      ],
+      "target_lambda": "0"
+    },
+    {
+      "sequence": [
+        {
+          "N": 2000,
+          "R": 22,
+          "absolute_error": 0.00405774642282708,
+          "lambda": 0.242,
+          "model": 0.9718371190305467,
+          "prediction": 0.9677793726077196
+        },
+        {
+          "N": 8000,
+          "R": 45,
+          "absolute_error": 0.0021125706157133495,
+          "lambda": 0.253125,
+          "model": 0.9684359460893136,
+          "prediction": 0.9663233754736003
+        },
+        {
+          "N": 32000,
+          "R": 89,
+          "absolute_error": 0.0010565768833543654,
+          "lambda": 0.24753125,
+          "model": 0.9681117667923044,
+          "prediction": 0.96705518990895
+        }
+      ],
+      "target_lambda": "1/4"
+    },
+    {
+      "sequence": [
+        {
+          "N": 2000,
+          "R": 45,
+          "absolute_error": 0.006947379080037286,
+          "lambda": 1.0125,
+          "model": 0.8788940847628949,
+          "prediction": 0.8719467056828576
+        },
+        {
+          "N": 8000,
+          "R": 89,
+          "absolute_error": 0.0035243875667227975,
+          "lambda": 0.990125,
+          "model": 0.8781154602977915,
+          "prediction": 0.8745910727310687
+        },
+        {
+          "N": 32000,
+          "R": 179,
+          "absolute_error": 0.0017855725357359686,
+          "lambda": 1.00128125,
+          "model": 0.8750571540644618,
+          "prediction": 0.8732715815287259
+        }
+      ],
+      "target_lambda": "1"
+    },
+    {
+      "sequence": [
+        {
+          "N": 2000,
+          "R": 89,
+          "absolute_error": 0.006167824146367518,
+          "lambda": 3.9605,
+          "model": 0.5912544354149137,
+          "prediction": 0.5850866112685462
+        },
+        {
+          "N": 8000,
+          "R": 179,
+          "absolute_error": 0.0032169549110208084,
+          "lambda": 4.005125,
+          "model": 0.5847806796088029,
+          "prediction": 0.5815637246977821
+        },
+        {
+          "N": 32000,
+          "R": 358,
+          "absolute_error": 0.0016477809470878402,
+          "lambda": 4.005125,
+          "model": 0.5832115056448699,
+          "prediction": 0.5815637246977821
+        }
+      ],
+      "target_lambda": "4"
+    }
+  ],
+  "exact_equation_35_checks_on_actual_support": 3555,
+  "schema": "amra.opg1757.critical-sqrt-bottom-window-independent.v1",
+  "small_N_out_of_scope_counterexample": {
+    "N": 3,
+    "R": 3,
+    "actual_ratio": "9/8",
+    "earlier_power_exponent": -4,
+    "ell": 1,
+    "equation_35_rhs": "1",
+    "inequality_fails_outside_scope": true
+  },
+  "status": "all_independent_checks_passed",
+  "verdict": "PASS_WITH_SCOPE_CLARIFICATION"
+}

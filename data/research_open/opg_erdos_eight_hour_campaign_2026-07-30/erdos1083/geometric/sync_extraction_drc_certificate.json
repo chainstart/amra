@@ -1,0 +1,135 @@
+{
+  "claim_labels": {
+    "source_rectangle_optimality_from_marginals": "human_proof",
+    "split_abstract_extremizer": "human_proof_and_finite_regression",
+    "unconditional_f3_improvement": "open_gap",
+    "weighted_rotation_drc": "human_proof"
+  },
+  "drc_examples": [
+    {
+      "angle_count": 20,
+      "chosen_angles": 2,
+      "common_mass_lower_bound": "12/19",
+      "density": "9/10",
+      "threshold": "1/2"
+    },
+    {
+      "angle_count": 20,
+      "chosen_angles": 3,
+      "common_mass_lower_bound": "28/57",
+      "density": "9/10",
+      "threshold": "1/2"
+    },
+    {
+      "angle_count": 50,
+      "chosen_angles": 4,
+      "common_mass_lower_bound": "9139/23030",
+      "density": "9/10",
+      "threshold": "1/2"
+    }
+  ],
+  "exhaustive_binary_drc": {
+    "minimum_slack_denominator": 1,
+    "minimum_slack_numerator": 0,
+    "weighted_binary_graph_checks": 3200
+  },
+  "exponent_ledger": {
+    "active_angles_M": "N^(1/5)",
+    "critical_D": "N^(3/5)",
+    "fixed_h_rotation_common_fibres": "N^(2/5-o(1))",
+    "forced_source_rectangle": "one angle x Omega(Q) fibres; no two-angle common fibre",
+    "global_source_incidence_mass": "N^(4/5)",
+    "resulting_unconditional_distance_exponent": "does_not_exceed_3/5",
+    "source_degree_Q": "N^(3/5)",
+    "unconditional_same_radius_sparse_certificate": "O(1)"
+  },
+  "schema": "amra.erdos1083.sync_extraction_drc.v1",
+  "scope": "Exact marginal-only synchronization audit.  The split extremizer is an abstract angular-fibre construction, not a few-distance Euclidean point set.",
+  "sha256_payload": "a502b59207e978477f123a2f105d80f70867a51246e290faf4de78cd27d139dc",
+  "split_extremizer_rows": [
+    {
+      "active_angle_count": 3,
+      "common_rotation_reservoir_fibres": 18,
+      "common_rotation_reservoir_mass": 162,
+      "critical_distance_parameter": 27,
+      "joint_moment": 7290,
+      "maximum_per_fibre_chord_labels": 8,
+      "maximum_source_fibre_angle_degree": 1,
+      "maximum_two_angle_source_codegree": 0,
+      "minimum_rotation_success": 54,
+      "minimum_rotation_success_over_n": "2/9",
+      "points": 243,
+      "reservoir_fibre_count": 18,
+      "reservoir_fibre_size": 9,
+      "rotation_success_sum": 270,
+      "scale": 3,
+      "source_count_per_angle": 27,
+      "source_fibre_count": 81,
+      "source_incidence_sum": 81,
+      "total_fibre_count": 99
+    },
+    {
+      "active_angle_count": 4,
+      "common_rotation_reservoir_fibres": 48,
+      "common_rotation_reservoir_mass": 768,
+      "critical_distance_parameter": 64,
+      "joint_moment": 135168,
+      "maximum_per_fibre_chord_labels": 15,
+      "maximum_source_fibre_angle_degree": 1,
+      "maximum_two_angle_source_codegree": 0,
+      "minimum_rotation_success": 384,
+      "minimum_rotation_success_over_n": "3/8",
+      "points": 1024,
+      "reservoir_fibre_count": 48,
+      "reservoir_fibre_size": 16,
+      "rotation_success_sum": 2112,
+      "scale": 4,
+      "source_count_per_angle": 64,
+      "source_fibre_count": 256,
+      "source_incidence_sum": 256,
+      "total_fibre_count": 304
+    },
+    {
+      "active_angle_count": 7,
+      "common_rotation_reservoir_fibres": 294,
+      "common_rotation_reservoir_mass": 14406,
+      "critical_distance_parameter": 343,
+      "joint_moment": 28941654,
+      "maximum_per_fibre_chord_labels": 48,
+      "maximum_source_fibre_angle_degree": 1,
+      "maximum_two_angle_source_codegree": 0,
+      "minimum_rotation_success": 10290,
+      "minimum_rotation_success_over_n": "30/49",
+      "points": 16807,
+      "reservoir_fibre_count": 294,
+      "reservoir_fibre_size": 49,
+      "rotation_success_sum": 84378,
+      "scale": 7,
+      "source_count_per_angle": 343,
+      "source_fibre_count": 2401,
+      "source_incidence_sum": 2401,
+      "total_fibre_count": 2695
+    },
+    {
+      "active_angle_count": 12,
+      "common_rotation_reservoir_fibres": 1584,
+      "common_rotation_reservoir_mass": 228096,
+      "critical_distance_parameter": 1728,
+      "joint_moment": 4302802944,
+      "maximum_per_fibre_chord_labels": 143,
+      "maximum_source_fibre_angle_degree": 1,
+      "maximum_two_angle_source_codegree": 0,
+      "minimum_rotation_success": 190080,
+      "minimum_rotation_success_over_n": "55/72",
+      "points": 248832,
+      "reservoir_fibre_count": 1584,
+      "reservoir_fibre_size": 144,
+      "rotation_success_sum": 2490048,
+      "scale": 12,
+      "source_count_per_angle": 1728,
+      "source_fibre_count": 20736,
+      "source_incidence_sum": 20736,
+      "total_fibre_count": 22320
+    }
+  ]
+}

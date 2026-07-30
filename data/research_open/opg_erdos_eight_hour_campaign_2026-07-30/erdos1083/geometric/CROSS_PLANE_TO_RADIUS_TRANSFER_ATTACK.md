@@ -1,0 +1,591 @@
+# Cross-plane distance codegree to radius–angle energy: transfer attack
+
+Date: 2026-07-30
+
+## 1. Outcome
+
+This note directly attacks transfer (27) from
+`ANGULAR_STARVATION_BRANCH_ATTACK.md`.
+
+The main conclusion is negative but sharp:
+
+> A universal Euclidean estimate
+> \[
+> \mathfrak C_{\rm plane}
+> \ll S^{3/2-\varepsilon}\mathfrak E_{\rho\angle},
+> \qquad \varepsilon>0,
+> \]
+> is false without an additional small-distance or non-ruled hypothesis.
+
+Here \(S=\sum_\alpha q_\alpha\) is the total source mass.  The explicit
+family
+\[
+\boxed{
+p_{j,a,z}=(a,ja,z)
+}
+\tag{1}
+\]
+is supported on axial planes of slopes \(j\), has essentially no radius
+reuse between different planes, and nevertheless reaches
+\[
+\mathfrak C_{\rm plane}
+\ge S^{3/2-o(1)}\mathfrak E_{\rho\angle}.
+\tag{2}
+\]
+It is a genuine Euclidean power-scale counterexample to any unconditional
+fixed saving in the transfer coefficient.
+
+The family contains only the \(N^{4/5-o(1)}\)-point source subsystem of the
+inherited node and does not supply the required rotation marginals on the
+remaining points.  It therefore is not an Erdős counterexample.  In fact,
+the same family provably determines \(t^{4-o(1)}\), rather than merely
+\(t^{3+o(1)}\), distances.  It identifies the exact remaining inverse
+problem:
+
+\[
+\boxed{
+\text{transfer near equality}
+\Longrightarrow
+\text{vertical Cartesian / ruled quadratic structure}
+\Longrightarrow
+\text{distance expansion or incompatibility with the rotation reservoir}.
+}
+\tag{3}
+\]
+
+Straight point--circle and point--sphere incidence estimates do not prove
+the required saving.  Their exact exponent deficit and the relevant ruled
+degeneracies are recorded below.
+
+## 2. The four-plane quadratic
+
+Use signed cylindrical coordinates in an axial plane:
+\[
+p=(x\cos\alpha,x\sin\alpha,z),\qquad x\in\mathbb R.
+\tag{4}
+\]
+The ordinary cylindrical radius is \(|x|\).  For
+\[
+\begin{aligned}
+p&=(x\cos\alpha,x\sin\alpha,z),\\
+q&=(y\cos\beta,y\sin\beta,w),\\
+r&=(u\cos\gamma,u\sin\gamma,s),\\
+v&=(v\cos\delta,v\sin\delta,t),
+\end{aligned}
+\]
+the equal-distance equation \(|p-q|=|r-v|\) is
+\[
+\boxed{
+\begin{aligned}
+&x^2+y^2-2xy\cos(\alpha-\beta)+(z-w)^2\\
+&\qquad =
+u^2+v^2-2uv\cos(\gamma-\delta)+(s-t)^2.
+\end{aligned}
+}
+\tag{5}
+\]
+This is the explicit quadratic surface to be counted.
+
+The three pieces in (5) already show why radius energy alone is
+insufficient:
+
+1. the radial squares \(x^2+y^2\);
+2. the radial product \(xy\) coupled to the angular label;
+3. the axial squared difference \((z-w)^2\).
+
+Repeated individual radii control only part 1.  High multiplicative energy
+of the products and high squared-difference energy of the heights can
+saturate (5) even when no radius is shared by different source angles.
+
+## 3. Repeated-radius versus nonrepeated-radius split
+
+Let
+\[
+I_\rho=|\{p:|x(p)|=\rho\}|,\qquad
+\mathfrak E_{\rho\angle}=\sum_\rho I_\rho^2.
+\tag{6}
+\]
+
+### 3.1 Repeated-radius branch
+
+If
+\[
+\mathfrak E_{\rho\angle}\ge N^{7/5+\eta-o(1)},
+\]
+then Proposition 4 of `ANGULAR_STARVATION_BRANCH_ATTACK.md` already gives
+\[
+\Xi\ge N^{3/5+\eta-o(1)}
+\]
+when the anchored height-overlap statistic is \(N^{o(1)}\).
+
+Thus only
+\[
+\mathfrak E_{\rho\angle}\le N^{7/5+o(1)}
+\tag{7}
+\]
+needs a new transfer.
+
+### 3.2 Why distinct radii do not make (5) generic
+
+Even if the four radii in (5) are pairwise distinct, the equation can
+remain an integral quadratic form with large representation energy.  The
+counterexample in Section 6 has, after removing subpolynomial collisions,
+one private radius for every pair \((j,a)\), but its distance form is
+\[
+(a-b)^2+(ja-kb)^2+(z-w)^2.
+\tag{8}
+\]
+For fixed planes \(j,k\), the horizontal binary part is
+\[
+Q_{j,k}(a,b)
+=(a-b)^2+(ja-kb)^2.
+\tag{9}
+\]
+Its coefficient determinant is exactly
+\[
+\boxed{\det Q_{j,k}=(j-k)^2.}
+\tag{10}
+\]
+Hence the nonrepeated-radius branch still contains a family of integral
+quadrics with a common axial square variable.  These are the relevant
+ruled/arithmetic degeneracies.
+
+## 4. Point--circle incidence attempt
+
+Fix a target axial plane \(\Pi_\beta\), a source point
+\[
+p=(x\cos\alpha,x\sin\alpha,z),
+\]
+and a squared distance \(d\).  The possible targets
+\[
+q=(y\cos\beta,y\sin\beta,w)
+\]
+lie on the circle
+\[
+\boxed{
+(y-x\cos(\alpha-\beta))^2+(w-z)^2
+=d-x^2\sin^2(\alpha-\beta)
+}
+\tag{11}
+\]
+inside \(\Pi_\beta\).
+
+### 4.1 Circle coincidence
+
+For fixed \(\beta,d\), equality of two circles in (11) forces equality of
+their centers and radii:
+\[
+z=z',\qquad
+x\cos(\alpha-\beta)=x'\cos(\alpha'-\beta),
+\tag{12}
+\]
+\[
+x^2\sin^2(\alpha-\beta)
+=x'^2\sin^2(\alpha'-\beta).
+\tag{13}
+\]
+Adding the squares in (12)--(13) gives
+\[
+x^2=x'^2.
+\tag{14}
+\]
+Thus coincident-circle multiplicity is controlled by equal radii together
+with an angular reflection.  This is the part that
+\(\mathfrak E_{\rho\angle}\) can see.
+
+### 4.2 The two-target degeneracy
+
+Two target points \(q,q'\) lie on the circles generated by precisely those
+source centers \(p\) satisfying
+\[
+|p-q|^2=|p-q'|^2=d.
+\tag{15}
+\]
+The centers lie on the intersection of two spheres, a circle in
+\(\mathbb R^3\).  A generic such circle intersects each active axial plane
+in at most two points, giving codegree \(O(M)\).  The exceptional case is
+when the center circle lies inside an active axial plane; then it can
+contain an entire source subset from that plane.
+
+Consequently the direct crossing-lemma estimate, after summing over target
+planes, is no better at power scale than
+\[
+R(d)
+\ll M^2Q^{4/3}+MQ
+\tag{16}
+\]
+outside the contained-circle term.  At
+\[
+M=N^{1/5},\qquad Q=N^{3/5},
+\]
+the first term has exponent \(6/5\).  Since the total number of ordered
+source pairs is \(S^2=N^{8/5}\), the estimate
+\[
+\sum_dR(d)^2\le\max_dR(d)\sum_dR(d)
+\]
+only gives exponent
+\[
+\frac65+\frac85=\frac{14}{5},
+\tag{17}
+\]
+whereas the forced cross-plane energy has exponent \(13/5\).
+
+Thus the elementary circle incidence route misses by a full
+\(N^{1/5}\).  Removing coincident circles is not enough.
+
+## 5. Point--sphere and lifted point--plane attempts
+
+For fixed \(p\) and \(d\), all possible \(q\)'s lie on a sphere.  Standard
+point--sphere bounds in three dimensions have ruled-circle exceptional
+terms; in the present geometry these are exactly the contained-circle
+configurations described above.  The generic \(S^{3/2}\) unit-distance
+scale is already the coefficient that transfer (27) tries to improve, so
+this formulation supplies no fixed saving.
+
+There is also an exact lifting.  Put
+\[
+\Phi(q,v)=(q,v,|q|^2-|v|^2)\in\mathbb R^7.
+\]
+For fixed \(p,r\), equation (5) is the hyperplane
+\[
+2p\cdot q-2r\cdot v-|q|^2+|v|^2
+=|p|^2-|r|^2.
+\tag{18}
+\]
+This gives \(S^2\) lifted points and \(S^2\) hyperplanes.  Without using
+the axial-plane product structure, high-dimensional point--hyperplane
+incidence is much weaker than the target.  Its large complete bipartite
+subgraphs correspond to:
+
+1. common axial squared differences;
+2. common radial products;
+3. circles or lines contained in one of the quadratic level surfaces.
+
+The lift is exact but does not remove the same ruled degeneracies.
+
+## 6. A genuine Euclidean power-sharp family
+
+Let \(t\to\infty\).  Choose a set
+\[
+\mathcal J_t\subseteq\{1,\ldots,t\}
+\tag{19}
+\]
+of size \(t^{1-o(1)}\) such that the squarefree kernels of
+\[
+1+j^2,\qquad j\in\mathcal J_t,
+\]
+are distinct.  Such a set exists: for a fixed squarefree \(d\), the
+equation
+\[
+j^2-ds^2=-1
+\]
+is a Pell equation and has \(O(\log t)\) solutions with \(j\le t\).
+Selecting one representative per kernel loses only a logarithmic factor.
+
+Set
+\[
+M=|\mathcal J_t|=t^{1-o(1)},\qquad
+R=t,\qquad H=t^2,\qquad Q=RH=t^3,
+\tag{20}
+\]
+and define
+\[
+\boxed{
+P_t=\{(a,ja,z):
+j\in\mathcal J_t,\ 1\le a\le R,\ 0\le z<H\}.
+}
+\tag{21}
+\]
+
+### 6.1 Axial-plane and radius ledger
+
+For fixed \(j\), all \(Q=t^3\) points lie in the axial plane of angle
+\(\arctan j\).  The source mass is
+\[
+S=|P_t|=MRH=t^{4-o(1)}.
+\tag{22}
+\]
+
+The cylindrical squared radius of \((a,ja,z)\) is
+\[
+\rho_{j,a}^2=a^2(1+j^2).
+\tag{23}
+\]
+Distinct squarefree kernels make all radii belonging to different \(j\)'s
+distinct.  For fixed \(j\), different \(a\)'s are also distinct.  Every
+radius therefore supports exactly the \(H\) height points with that
+\((j,a)\).  Hence
+\[
+\boxed{
+\mathfrak E_{\rho\angle}
+=MRH^2=t^{6-o(1)}.
+}
+\tag{24}
+\]
+In particular, there is no cross-angle radius reuse.
+
+### 6.2 Distance labels
+
+For two points of (21),
+\[
+|(a,ja,z)-(b,kb,w)|^2
+=(a-b)^2+(ja-kb)^2+(z-w)^2.
+\tag{25}
+\]
+Every value is an integer in \([0,O(t^4)]\).  Therefore
+\[
+|\Delta^2(P_t)|\le O(t^4).
+\tag{26}
+\]
+There are \(S^2=t^{8-o(1)}\) ordered point pairs, so their total distance
+energy is at least
+\[
+\frac{S^4}{|\Delta^2(P_t)|}
+\ge t^{12-o(1)}.
+\tag{27}
+\]
+
+The contributions in which both representations use the same ordered
+axial-plane pair are lower order.  For fixed \(j\ne k\), equality of two
+values in (25) becomes
+\[
+Q_{j,k}(a,b)-Q_{j,k}(a',b')
+= (z'-w')^2-(z-w)^2.
+\tag{28}
+\]
+If the left side is nonzero, the right side factors into two integers and
+has only \(t^{o(1)}\) choices of the two height differences.  If it is
+zero, injectivity of
+\[
+(a,b)\mapsto(a-b,ja-kb)
+\]
+up to sum-of-two-squares divisor multiplicity gives
+\[
+E(Q_{j,k})\le t^{2+o(1)}.
+\]
+Including the height-pair multiplicities gives at most \(t^{8+o(1)}\)
+energy for one ordered plane pair.  Summing \(M^2=t^{2-o(1)}\) pairs gives
+\[
+\mathfrak E_{\rm diag}\le t^{10+o(1)}.
+\tag{29}
+\]
+For the \(M\) pairs with \(j=k\), the horizontal form has rank one; its
+energy is \(t^{3+o(1)}\), so after the height factor their total is again
+at most \(t^{10+o(1)}\).
+Equations (27)--(29) yield
+\[
+\boxed{
+\mathfrak C_{\rm plane}(P_t)
+\ge t^{12-o(1)}.
+}
+\tag{30}
+\]
+
+Finally,
+\[
+S^{3/2}\mathfrak E_{\rho\angle}
+=t^{6-o(1)}t^{6-o(1)}
+=t^{12-o(1)}.
+\tag{31}
+\]
+Thus for every fixed \(\varepsilon>0\),
+\[
+\mathfrak C_{\rm plane}(P_t)
+\not\ll
+S^{3/2-\varepsilon}\mathfrak E_{\rho\angle}.
+\tag{32}
+\]
+This disproves a universal fixed-power saving even in a literal Euclidean
+family with essentially disjoint radii across active planes.
+
+### 6.3 The ruled model itself has near-maximal distance expansion
+
+The upper bound (26) is sharp up to subpolynomial factors:
+\[
+\boxed{
+|\Delta^2(P_t)|=t^{4-o(1)}.
+}                                                     \tag{32a}
+\]
+
+To prove the lower bound, let \(k_0=\min\mathcal J_t\) and put
+\[
+\mathcal L=\{j-k_0:j\in\mathcal J_t,\ j>k_0\}.
+\]
+Thus \(|\mathcal L|=M-1=t^{1-o(1)}\).  In (25), retain only pairs
+having the same radial parameter \(a=b\), with slopes \(j\) and
+\(k_0\).  Their squared distances are
+\[
+(a(j-k_0))^2+(z-w)^2.                               \tag{32b}
+\]
+The product set
+\[
+\mathcal X=\{a\ell:1\le a\le t,\ \ell\in\mathcal L\}
+\]
+satisfies
+\[
+|\mathcal X|
+\ge\frac{t|\mathcal L|}{\max_{n\le t^2}\tau(n)}
+=t^{2-o(1)},                                        \tag{32c}
+\]
+because every integer \(n\) has at most \(\tau(n)=t^{o(1)}\)
+factorizations \(n=a\ell\).  Every difference
+\(u=|z-w|\in\{0,\ldots,H-1\}\) occurs.  Hence the distance set contains
+\[
+\{x^2+u^2:x\in\mathcal X,\ 0\le u<H\}.
+\]
+For each nonzero integer \(n=O(t^4)\), the number of representations
+as \(x^2+u^2\) is at most
+\[
+r_2(n)\le4\tau(n)=t^{o(1)}.
+\]
+There are \(|\mathcal X|H=t^{4-o(1)}\) input pairs \((x,u)\).
+Cauchy counting by the maximum fibre therefore gives the lower bound
+in (32a), while (26) gives the matching upper bound.
+
+This is a useful positive conclusion: the exact Cartesian model that
+saturates the unsaved transfer already yields a full factor
+\(M^{1-o(1)}\) more distances than the critical target \(Q=t^3\).
+What remains open is an inverse theorem showing that every
+near-equality ruled branch contains a quantitatively comparable
+submodel.
+
+### 6.4 Why this is not an Erdős counterexample
+
+In the original normalization \(N=t^5\),
+\[
+|P_t|=N^{4/5-o(1)}.
+\]
+Equation (32a) gives
+\[
+|\Delta(P_t)|=t^{4-o(1)}=N^{4/5-o(1)},
+\]
+already a fixed \(1/5-o(1)\) improvement over the critical
+\(N^{3/5}\) target.
+
+Its active angles \(\arctan j\) also do not automatically support the
+near-invariant rotation reservoir from the inherited \(r_\alpha\)
+marginals.  Hence (32) refutes transfer as a stand-alone Euclidean
+inequality, but does not refute a theorem that simultaneously assumes:
+
+1. \(D\le t^{3+o(1)}\);
+2. the inherited near-maximal rotation codegree; and
+3. exclusion of the ruled Cartesian structure (21).
+
+## 7. Exact degeneration classification
+
+The attacks above leave three classes.
+
+### A. Radius-concentrated
+
+\[
+\mathfrak E_{\rho\angle}\ge N^{7/5+\eta}.
+\]
+This is already the Xi success branch.
+
+### B. Nonconcentrated and incidence-generic
+
+Circle coincidences are controlled by equal radii, no center circle is
+contained in an active plane, and no integral/product ruling carries a
+positive proportion of the energy.  A polynomial-partitioning or
+point--surface theorem with a fixed saving may be possible here, but the
+elementary point--circle exponent (17) is insufficient.
+
+### C. Ruled Cartesian/arithmetic
+
+A positive proportion of the energy is supported on forms equivalent to
+\[
+Q_{j,k}(a,b)+(z-w)^2,
+\]
+with common height-difference sets and low-determinant binary forms.
+Family (21) proves that this class can saturate the unsaved transfer while
+having distinct radii.  It must be discharged either by direct
+sumset/lattice expansion or by proving that its active angles cannot carry
+the inherited rotation reservoir at total mass \(N\); radius concentration
+alone cannot discharge it.
+
+The classification shows that “repeated versus nonrepeated radii” alone is
+not enough.  The nonrepeated branch must be split once more according to
+whether the equal-distance quadrics carry a common axial ruling.
+
+## 8. Minimum viable missing lemma
+
+The universal transfer (27) must be replaced by the following
+distance-sensitive inverse statement.
+
+> **Ruled-transfer dichotomy.**  For the inherited source set with
+> \[
+> M=N^{1/5-o(1)},\quad Q=N^{3/5-o(1)},\quad
+> S=MQ=N^{4/5-o(1)},
+> \]
+> either
+> \[
+> \mathfrak C_{\rm plane}
+> \ll S^{3/2}M^{-\eta}
+> \mathfrak E_{\rho\angle}
+> \tag{33}
+> \]
+> for some fixed \(\eta>0\), or a positive proportion of the energy lies
+> on a common ruled Cartesian family, and that family alone determines
+> at least
+> \[
+> Q M^\eta
+> \tag{34}
+> \]
+> distances, or cannot coexist with
+> \(\mathfrak C_{\rm rot}=N^{7/5-o(1)}\) within total mass \(N\).
+
+Either conclusion closes the critical node:
+
+* (33), combined with
+  \(\mathfrak C_{\rm plane}\ge N^{13/5-o(1)}\), forces a fixed gain in
+  \(\mathfrak E_{\rho\angle}\), hence in Xi;
+* (34) directly improves \(N^{3/5}\), while rotation incompatibility
+  eliminates the inherited branch.
+
+The model (21) demonstrates why a structural outcome is indispensable:
+it saturates the coefficient in (33) without saving, while (32a) proves
+that its ruled structure directly supplies
+\(QM^{1-o(1)}=t^{4-o(1)}\) distances.  The missing inverse theorem only
+needs to retain a fixed positive part of this power gain, or prove
+rotation incompatibility.
+
+## 9. Exponent ledger
+
+Use \(N=t^5\).
+
+| Quantity | Critical inherited node | Ruled family (21) |
+|---|---:|---:|
+| active planes \(M\) | \(t=N^{1/5}\) | \(t^{1-o(1)}\) |
+| points per plane \(Q\) | \(t^3=N^{3/5}\) | \(t^3\) |
+| source mass \(S\) | \(t^4=N^{4/5}\) | \(t^{4-o(1)}\) |
+| radius–angle energy | target \(t^{7+\eta}\) | \(t^{6-o(1)}\) |
+| \(S^{3/2}\mathfrak E_{\rho\angle}\) | — | \(t^{12-o(1)}\) |
+| cross-plane codegree | forced \(t^{13-o(1)}\) | \(t^{12-o(1)}\) |
+| distance count | assumed \(t^{3+o(1)}\) | \(t^{4-o(1)}\) |
+
+The extra factor \(t=N^{1/5}\) between the ruled model and the inherited
+forced energy is exactly what the missing inverse theorem must convert
+either into radius reuse or into distance expansion.
+
+## 10. Claim status
+
+### Proved
+
+* the four-plane quadratic (5);
+* the circle-coincidence criterion (12)--(14);
+* the explicit Euclidean ruled family and its radius ledger;
+* the power-sharp obstruction (30)--(32), using elementary divisor bounds
+  for sums and differences of two squares;
+* the matching distance count \(|\Delta^2(P_t)|=t^{4-o(1)}\);
+* the failure of any unconditional fixed-power transfer.
+
+### Finite exact evidence
+
+The verifier enumerates the full distance and plane-pair energies for
+small \(t\), checks the determinant (10), and checks the squarefree-kernel
+radius separation.
+
+### Open
+
+* the distance-sensitive ruled-transfer dichotomy (33)--(34);
+* an unconditional improvement of \(f_3(N)\).

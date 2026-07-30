@@ -1,0 +1,169 @@
+{
+  "audit": {
+    "audited_claim_labels": {
+      "all_q_all_k_untagged_injection": "open_gap",
+      "full_first_coefficient_positivity": "open_gap",
+      "protected_basis_exchange_forest_preservation": "human_proof",
+      "q2_k5_expanded_untagged_injection": "finite_evidence",
+      "two_stage_tagged_reversibility": "human_proof"
+    },
+    "collision_component_sizes": [
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "hash_scope": "sha256_payload authenticates scope, layer, and hall_kernel; it does not include schema, claim_labels, or the hash field.",
+    "human_proof_audit": {
+      "colored_copy_count_preservation": "valid",
+      "forest_preservation": "valid",
+      "tagged_inverse": "valid",
+      "union_symmetric_difference_subset_of_two_edges": "valid",
+      "untagged_all_parameter_injection": "not_proved"
+    },
+    "independent_layer_summary": {
+      "base_to_expanded_completion": {
+        "augmenting_path_count": 6,
+        "augmenting_path_length_histogram": {
+          "2": 6
+        },
+        "augmenting_paths_sha256": "3e03181da7a9acfc5fb4bda79cb15080bd1ef023c4820a748597c52887c09f51",
+        "first_augmenting_paths": [
+          [
+            [
+              13929,
+              4141
+            ],
+            [
+              13353,
+              5281
+            ]
+          ],
+          [
+            [
+              13956,
+              4144
+            ],
+            [
+              13640,
+              5824
+            ]
+          ],
+          [
+            [
+              15899,
+              7788
+            ],
+            [
+              15844,
+              19888
+            ]
+          ],
+          [
+            [
+              15966,
+              6817
+            ],
+            [
+              15908,
+              8182
+            ]
+          ],
+          [
+            [
+              40081,
+              34978
+            ],
+            [
+              39951,
+              35126
+            ]
+          ],
+          [
+            [
+              40093,
+              34981
+            ],
+            [
+              40015,
+              35055
+            ]
+          ]
+        ],
+        "matching_size": 43648,
+        "new_edges_per_path_histogram": {
+          "2": 6
+        }
+      },
+      "direct_or_single_adjacency_sha256": "35b46e1a0860356582fa5b0b3084bd58d39c487c0a64ce7620ded38724c04405",
+      "direct_or_single_deficiency": 6,
+      "direct_or_single_edge_count": 112556,
+      "direct_or_single_hall_source_count": 12,
+      "direct_or_single_hall_target_count": 6,
+      "direct_or_single_matching_sha256": "a2d327ebcee03b6fdc7582c91da25e5b2a1f6595b64b792faf6ad8a767f8b497",
+      "direct_or_single_matching_size": 43642,
+      "expanded_adjacency_sha256": "b9e6d009ea3fb154d9926e83996817c87b557059c716b2f9b8be87436b1633cd",
+      "expanded_deficiency": 0,
+      "expanded_edge_count": 1987196,
+      "expanded_hall_source_count": 0,
+      "expanded_hall_target_count": 0,
+      "expanded_matching_sha256": "3652c16ffac120ae6c57554229c93729efe681e06a3adfa5c181006d10cd1eb3",
+      "expanded_matching_size": 43648,
+      "k": 5,
+      "negative_count": 43648,
+      "positive_count": 45620
+    },
+    "precision_notes": [
+      "The canonical 12-to-6 witness is not inclusion-minimal; it is the union of six inclusion-minimal 2-to-1 components.",
+      "The stored payload hash is not a hash of the complete JSON certificate.",
+      "Full candidate adjacency and the 43648-entry matching are reconstructible but not serialized in the old certificate."
+    ],
+    "recomputed_payload_sha256": "648d0237235a5e40ebf85a9251172feed5ae232f7b003396266c173abd1c56a6",
+    "reserve_matching_target_count": 12,
+    "same_union_source_target_deficiency_rows": [
+      [
+        8,
+        4,
+        4
+      ],
+      [
+        4,
+        6,
+        0
+      ]
+    ],
+    "saved_file_sha256": "817915a3868d7d9288e9ca2297162751bddafe4b4c3cbe6812d764edd3417916",
+    "saved_payload_sha256": "648d0237235a5e40ebf85a9251172feed5ae232f7b003396266c173abd1c56a6",
+    "saved_schema": "amra.opg1757.multiedge_recoloring_attack.v1"
+  },
+  "claim_labels": {
+    "all_q_all_k_injection": "open_gap",
+    "k5_definition_and_counts": "independently_reproduced",
+    "k5_expanded_perfect_matching": "finite_evidence",
+    "protected_basis_exchange": "human_proof_audited"
+  },
+  "forest_count": 2932,
+  "schema": "amra.opg1757.independent_multiedge_audit.v1",
+  "scope": "Independent bit-mask reconstruction of the complete q=2,k=5 candidate graph and audit of the saved multiedge certificate.",
+  "sha256_payload": "5666fdbe7c4f64e97fb9b5930cf203fec9f44fdc73837ef1ddd5ba1b6d196cc1"
+}

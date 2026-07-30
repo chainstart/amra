@@ -1,0 +1,17 @@
+{
+  "schema": "amra.opg1757.ordinary-real-rootedness-finite.v1",
+  "date": "2026-07-30",
+  "maximum_depth": 40,
+  "exact_sturm_root_checks": 40,
+  "strict_alternating_coefficient_checks": 860,
+  "weighted_C3_checks": 860,
+  "forced_boundary_root_checks": 420,
+  "roots_are_simple_in_tested_range": true,
+  "roots_are_positive_in_tested_range": true,
+  "three_term_even_obstruction": "2148751/12",
+  "three_term_odd_obstruction": "55578361/48",
+  "hessenberg_negative_minor": "-125667",
+  "weighted_C3_conditional_on_real_rootedness": "proved",
+  "real_rooted_all_d": "open",
+  "status": "finite_real_root_search_passed"
+}

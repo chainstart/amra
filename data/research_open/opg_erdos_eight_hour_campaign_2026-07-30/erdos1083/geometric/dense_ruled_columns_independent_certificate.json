@@ -1,0 +1,39 @@
+{
+  "common_denominator": {
+    "coordinate_scale": 36,
+    "denominator": 6,
+    "scaled_points": 36,
+    "squared_distance_scale": 1296
+  },
+  "critical_exponents": {
+    "distance_exponent": "4",
+    "divisor_loss": "t^o(1) on fixed polynomial ranges",
+    "radial_second_moment_exponent": "3"
+  },
+  "exhaustive_occupancy_patterns": 64,
+  "primary": {
+    "actual_distance_labels": 3173,
+    "base": -4,
+    "base_star": 12,
+    "left_star": 0,
+    "moment_bound_sharpened": "7/720",
+    "occupied_columns": 16,
+    "original_bound": "7/1440",
+    "positive_products": 12,
+    "positive_selected_inputs": 84,
+    "product_bound": 12,
+    "psi": 48,
+    "radial_parameters": 4,
+    "retained_side": 12,
+    "right_star": 12,
+    "sharpened_bound": "7/720",
+    "signed_products": 12,
+    "signed_selected_inputs": 84,
+    "slopes": 5,
+    "star_sum": 48,
+    "two_square_bound": 576
+  },
+  "schema": "amra.erdos1083.dense-ruled-columns-independent.v1",
+  "scope": "Independent finite red-team audit of the integer theorem. The original one-sided bound is valid; signed products remove its factor 2. The asymptotic common-denominator observation requires a single polynomially bounded denominator.",
+  "verdict": "PASS_WITH_SHARPENING"
+}

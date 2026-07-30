@@ -1,0 +1,189 @@
+{
+  "claim_labels": {
+    "full_first_coefficient_positivity": "open_gap",
+    "protected_basis_exchange": "human_proof",
+    "q2_k7_candidate_graph_completeness": "finite_exhaustion",
+    "q2_k7_expanded_untagged_injection": "finite_evidence",
+    "q2_uniform_hall_theorem": "open_gap"
+  },
+  "layer": {
+    "base_to_expanded_completion": {
+      "augmenting_path_count": 5312,
+      "augmenting_path_length_histogram": {
+        "1": 667,
+        "2": 4557,
+        "3": 88
+      },
+      "augmenting_paths_sha256": "998d82b5c3eca4323c7790fa54d551856e89398ca351e54e1d47d777037b9322",
+      "first_augmenting_paths": [
+        [
+          [
+            1297,
+            1
+          ],
+          [
+            145,
+            1153
+          ]
+        ],
+        [
+          [
+            1301,
+            7
+          ],
+          [
+            149,
+            1159
+          ]
+        ],
+        [
+          [
+            1305,
+            15
+          ],
+          [
+            153,
+            1167
+          ]
+        ],
+        [
+          [
+            1309,
+            25
+          ],
+          [
+            157,
+            1177
+          ]
+        ],
+        [
+          [
+            1313,
+            33
+          ],
+          [
+            161,
+            1185
+          ]
+        ],
+        [
+          [
+            1319,
+            45
+          ],
+          [
+            167,
+            1197
+          ]
+        ],
+        [
+          [
+            1325,
+            57
+          ],
+          [
+            173,
+            1209
+          ]
+        ],
+        [
+          [
+            1330,
+            66
+          ],
+          [
+            178,
+            1218
+          ]
+        ],
+        [
+          [
+            1337,
+            81
+          ],
+          [
+            185,
+            1233
+          ]
+        ],
+        [
+          [
+            1345,
+            97
+          ],
+          [
+            193,
+            1249
+          ]
+        ],
+        [
+          [
+            1351,
+            109
+          ],
+          [
+            199,
+            1261
+          ]
+        ],
+        [
+          [
+            1357,
+            121
+          ],
+          [
+            205,
+            1273
+          ]
+        ]
+      ],
+      "matching_size": 172800,
+      "new_edges_per_path_histogram": {
+        "1": 715,
+        "2": 4510,
+        "3": 87
+      }
+    },
+    "direct_or_single_adjacency_sha256": "76050fe93551c56957defe1902d636002de5fec4503f6eb229ded3517eb498b7",
+    "direct_or_single_deficiency": 5312,
+    "direct_or_single_degree_profile": {
+      "maximum_left_degree": 5,
+      "maximum_right_degree": 4,
+      "minimum_left_degree": 1,
+      "minimum_right_degree": 0,
+      "zero_right_degree_count": 1844
+    },
+    "direct_or_single_edge_count": 306408,
+    "direct_or_single_hall_source_count": 17656,
+    "direct_or_single_hall_target_count": 12344,
+    "direct_or_single_matching_sha256": "93c9fd9f07fee9b1b7216d3a210f5a0f7955b485c2e51e2b042fcc270d17a564",
+    "direct_or_single_matching_size": 167488,
+    "expanded_adjacency_sha256": "fc8eeaeb6ef1a362fd5a7c808f5c732c2483932f73a52c9b1a067721a4567611",
+    "expanded_deficiency": 0,
+    "expanded_degree_profile": {
+      "maximum_left_degree": 60,
+      "maximum_right_degree": 142,
+      "minimum_left_degree": 38,
+      "minimum_right_degree": 6,
+      "zero_right_degree_count": 0
+    },
+    "expanded_edge_count": 8160144,
+    "expanded_hall_source_count": 0,
+    "expanded_hall_target_count": 0,
+    "expanded_matching_sha256": "1609b01783f1d5760375e37404836006d9f2b9509d7cca0d14bff3ea1913a69c",
+    "expanded_matching_size": 172800,
+    "k": 7,
+    "negative_count": 172800,
+    "positive_count": 177984
+  },
+  "resource_accounting": {
+    "base_csr_bytes": 2608040,
+    "combined_csr_bytes": 36631024,
+    "expanded_csr_bytes": 34022984,
+    "python_list_adjacency_not_materialized": true,
+    "representation": "uint64 row offsets plus uint32 target indices"
+  },
+  "schema": "amra.opg1757.q2_k7_extension.v1",
+  "scope": "Complete q=2,k=7 K6 candidate graph stored in compact CSR. Edges are every valid direct/single E exchange plus every protected one-basis reserve after deterministic opening.",
+  "sha256_payload": "d43580171d6336c9f8095d8848b40f0a7937faea601f2650862eedd15d81818f"
+}

@@ -1,0 +1,119 @@
+{
+  "H4": "t**5*(2389*t**7 - 14334*t**6 + 34245*t**5 - 40008*t**4 + 22152*t**3 - 5400*t**2 + 3672*t + 144)/(36*(1 - t)**7)",
+  "maximum_depth": 22,
+  "maximum_loss": 34,
+  "ordinary_polynomial_checks": 21,
+  "quadratic_discriminant": "(33*d**6 + 487*d**5 + 2662*d**4 + 7299*d**3 + 6050*d**2 - 20569*d - 23766)/216",
+  "rank_four_profile_checks": 93,
+  "rows": [
+    {
+      "depth": 2,
+      "second_symbol": "42",
+      "spare_checks": 2
+    },
+    {
+      "depth": 3,
+      "second_symbol": "557/2",
+      "spare_checks": 2
+    },
+    {
+      "depth": 4,
+      "second_symbol": "2527/2",
+      "spare_checks": 2
+    },
+    {
+      "depth": 5,
+      "second_symbol": "12025/3",
+      "spare_checks": 2
+    },
+    {
+      "depth": 6,
+      "second_symbol": "245663/24",
+      "spare_checks": 2
+    },
+    {
+      "depth": 7,
+      "second_symbol": "543403/24",
+      "spare_checks": 2
+    },
+    {
+      "depth": 8,
+      "second_symbol": "3253987/72",
+      "spare_checks": 2
+    },
+    {
+      "depth": 9,
+      "second_symbol": "6010207/72",
+      "spare_checks": 2
+    },
+    {
+      "depth": 10,
+      "second_symbol": "5222135/36",
+      "spare_checks": 2
+    },
+    {
+      "depth": 11,
+      "second_symbol": "2879219/12",
+      "spare_checks": 2
+    },
+    {
+      "depth": 12,
+      "second_symbol": "4571549/12",
+      "spare_checks": 2
+    },
+    {
+      "depth": 13,
+      "second_symbol": "7012487/12",
+      "spare_checks": 2
+    },
+    {
+      "depth": 14,
+      "second_symbol": "20887489/24",
+      "spare_checks": 2
+    },
+    {
+      "depth": 15,
+      "second_symbol": "30321805/24",
+      "spare_checks": 2
+    },
+    {
+      "depth": 16,
+      "second_symbol": "14347221/8",
+      "spare_checks": 2
+    },
+    {
+      "depth": 17,
+      "second_symbol": "179697529/72",
+      "spare_checks": 2
+    },
+    {
+      "depth": 18,
+      "second_symbol": "61426183/18",
+      "spare_checks": 2
+    },
+    {
+      "depth": 19,
+      "second_symbol": "41335844/9",
+      "spare_checks": 2
+    },
+    {
+      "depth": 20,
+      "second_symbol": "18281590/3",
+      "spare_checks": 2
+    },
+    {
+      "depth": 21,
+      "second_symbol": "47888897/6",
+      "spare_checks": 2
+    },
+    {
+      "depth": 22,
+      "second_symbol": "247951763/24",
+      "spare_checks": 2
+    }
+  ],
+  "schema": "amra.opg1757.ordinary-second-subleading-symbol.v1",
+  "scope": "Exact finite certificate. It verifies the rank-four profile formula through the requested loss, the H4 rational identity, and exact ordinary polynomials through the requested depth. An all-d theorem still requires a written proof of the rank-four profile-resummation lemma.",
+  "second_symbol_generating_function": "z**2*(2389*z**6 - 13818*z**5 + 31221*z**4 - 32952*z**3 + 14112*z**2 - 1116*z + 3024)/(72*(1 - z)**7)",
+  "status": "finite_certificate_passed"
+}

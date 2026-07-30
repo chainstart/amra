@@ -1,0 +1,170 @@
+{
+  "candidate_move_family": {
+    "base": "all valid direct and single E<->x exchanges",
+    "reserve": "one protected forest basis exchange after deterministic global cycle opening, with active vertex set preserved"
+  },
+  "claim_labels": {
+    "all_q_all_k_injection": "open_gap",
+    "full_first_coefficient_positivity": "open_gap",
+    "protected_basis_exchange": "human_proof",
+    "q2_k6_candidate_graph_completeness": "finite_exhaustion",
+    "q2_k6_expanded_untagged_injection": "finite_evidence"
+  },
+  "layer": {
+    "base_to_expanded_completion": {
+      "augmenting_path_count": 856,
+      "augmenting_path_length_histogram": {
+        "1": 169,
+        "2": 687
+      },
+      "augmenting_paths_sha256": "9eedc3220276ced6f7415130f83a1ebdec85ee6d5c02873b3edc56be19d24b00",
+      "first_augmenting_paths": [
+        [
+          [
+            2305,
+            1
+          ],
+          [
+            577,
+            1729
+          ]
+        ],
+        [
+          [
+            2309,
+            7
+          ],
+          [
+            581,
+            1735
+          ]
+        ],
+        [
+          [
+            2313,
+            15
+          ],
+          [
+            585,
+            1743
+          ]
+        ],
+        [
+          [
+            2317,
+            25
+          ],
+          [
+            589,
+            1753
+          ]
+        ],
+        [
+          [
+            2321,
+            33
+          ],
+          [
+            593,
+            1761
+          ]
+        ],
+        [
+          [
+            2327,
+            45
+          ],
+          [
+            599,
+            1773
+          ]
+        ],
+        [
+          [
+            2333,
+            57
+          ],
+          [
+            605,
+            1785
+          ]
+        ],
+        [
+          [
+            2338,
+            66
+          ],
+          [
+            610,
+            1794
+          ]
+        ],
+        [
+          [
+            2345,
+            81
+          ],
+          [
+            617,
+            1809
+          ]
+        ],
+        [
+          [
+            2353,
+            97
+          ],
+          [
+            625,
+            1825
+          ]
+        ],
+        [
+          [
+            2354,
+            2592
+          ],
+          [
+            2304,
+            2594
+          ]
+        ],
+        [
+          [
+            2359,
+            109
+          ],
+          [
+            631,
+            1837
+          ]
+        ]
+      ],
+      "matching_size": 112200,
+      "new_edges_per_path_histogram": {
+        "1": 184,
+        "2": 672
+      }
+    },
+    "direct_or_single_adjacency_sha256": "c652ecb052eb7aa73e69aa7058536f0d8cd64ecef1c69c81053e19a8b82c622e",
+    "direct_or_single_deficiency": 856,
+    "direct_or_single_edge_count": 257996,
+    "direct_or_single_hall_source_count": 4168,
+    "direct_or_single_hall_target_count": 3312,
+    "direct_or_single_matching_sha256": "174a6722660b53ce4d122ff74f64c9942c643805da6a0f803a9fcf6036a1a514",
+    "direct_or_single_matching_size": 111344,
+    "expanded_adjacency_sha256": "0088bf748db7c925d38b98d4adf2c356a7cace555a7c374b9724713f764a6b96",
+    "expanded_deficiency": 0,
+    "expanded_edge_count": 5470120,
+    "expanded_hall_source_count": 0,
+    "expanded_hall_target_count": 0,
+    "expanded_matching_sha256": "81318bd622364836c689cbb4feeb4d0f01de983ff0db0cc617b581bd0561cca6",
+    "expanded_matching_size": 112200,
+    "k": 6,
+    "negative_count": 112200,
+    "positive_count": 117384
+  },
+  "schema": "amra.opg1757.q2_k6_extension.v1",
+  "scope": "Complete q=2,k=6 enumeration on K6 using every valid direct/single E-exchange and every protected one-basis reserve after deterministic global cycle opening.",
+  "sha256_payload": "a46bf616725d5aed1a690afd4370c5f45defa8cab0e4ad2319e67b50a61be578"
+}

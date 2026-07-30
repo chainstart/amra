@@ -1,0 +1,33 @@
+{
+  "exhaustive": {
+    "nonvacuous_profiles": 680,
+    "profiles": 729
+  },
+  "primary": {
+    "Omega": 38,
+    "U": 12,
+    "actual_distance_labels": 1141,
+    "anchored_inputs": 12,
+    "base": 1,
+    "base_star_weight": 19,
+    "constant_two_removed": true,
+    "dyadic_levels": 4,
+    "layer_product": 12,
+    "layer_sum": 26,
+    "ordered_overlap_tokens": 38,
+    "product_bound": 18,
+    "selected_H": 2,
+    "selected_distance_labels": 12,
+    "selected_pairs": 6,
+    "signed_negative_pairs": 3,
+    "signed_positive_pairs": 3,
+    "signed_products": 6,
+    "star_sum": 38,
+    "status": "nonvacuous_checks_passed",
+    "theorem_bound": "19/172800",
+    "two_square_bound": 960
+  },
+  "schema": "amra.erdos1083.weighted-ruled-layer-cake-independent.v1",
+  "scope": "Independent exact finite audit. Signed products retain both sides with no factor 2; r2 already counts both signs. The proof requires finite integer height sets, positive integer radii, and bounded ranges.",
+  "verdict": "PASS"
+}

@@ -1,0 +1,72 @@
+{
+  "ideal_local_envelopes": 20,
+  "missing_conjugate_height_obstruction": {
+    "bounded_distinguished_coordinates": true,
+    "constant_norm_equation": "x_m^2+y_m^2=4",
+    "last_sample": {
+      "distinguished_x_abs": 0.5003657846049889,
+      "distinguished_y_abs": 1.9363971910733175,
+      "other_conjugate_x_abs": 462703.5003657843,
+      "power": 24
+    },
+    "powers_checked": 24,
+    "salem_polynomial": "X**4 - X**3 - X**2 - X + 1",
+    "unbounded_other_conjugate": true
+  },
+  "rational_two_square_checks": 500,
+  "schema": "amra.erdos1083.fixed-number-field-weighted-chart.v1",
+  "theorem_scope": "Fixed K, nonzero labels, algebraic-integral scaled chord and height coordinates, and polynomial bounds at every embedding. The fibre is t^o(1).",
+  "unit_log_lattice": [
+    {
+      "counts": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "growth": "O((log B)^0)",
+      "rank": 0
+    },
+    {
+      "counts": [
+        3,
+        5,
+        9,
+        17
+      ],
+      "growth": "O((log B)^1)",
+      "rank": 1
+    },
+    {
+      "counts": [
+        9,
+        25,
+        81,
+        289
+      ],
+      "growth": "O((log B)^2)",
+      "rank": 2
+    },
+    {
+      "counts": [
+        27,
+        125,
+        729,
+        4913
+      ],
+      "growth": "O((log B)^3)",
+      "rank": 3
+    },
+    {
+      "counts": [
+        81,
+        625,
+        6561,
+        83521
+      ],
+      "growth": "O((log B)^4)",
+      "rank": 4
+    }
+  ],
+  "verdict": "PASS"
+}

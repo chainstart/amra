@@ -1,0 +1,1775 @@
+{
+  "claim_labels": {
+    "all_q_all_k_untagged_injection": "open_gap",
+    "bounded_congestion_weight_compensation": "open_gap",
+    "full_first_coefficient_positivity": "open_gap",
+    "opg_unit_weights_satisfy_compensation_hypothesis": "open_gap",
+    "protected_basis_exchange_forest_preservation": "human_proof",
+    "q2_k5_expanded_untagged_injection": "finite_evidence",
+    "six_inclusion_minimal_two_to_one_hall_components": "finite_evidence",
+    "strict_union_preserving_repair_of_eight_source_block": "refuted",
+    "two_stage_tagged_reversibility": "human_proof",
+    "weighted_fibre_compensation_lemma": "human_proof"
+  },
+  "hall_kernel": {
+    "collision_buckets": [
+      {
+        "source_indices": [
+          518,
+          3645
+        ],
+        "target_index": 3043
+      },
+      {
+        "source_indices": [
+          584,
+          3718
+        ],
+        "target_index": 3670
+      },
+      {
+        "source_indices": [
+          433,
+          11159
+        ],
+        "target_index": 9460
+      },
+      {
+        "source_indices": [
+          499,
+          11232
+        ],
+        "target_index": 10102
+      },
+      {
+        "source_indices": [
+          16918,
+          19639
+        ],
+        "target_index": 16754
+      },
+      {
+        "source_indices": [
+          16782,
+          25258
+        ],
+        "target_index": 21736
+      }
+    ],
+    "deficiency": 6,
+    "reserve_graph_matching_size": 12,
+    "reserve_matching": [
+      {
+        "opening_tag": [
+          0,
+          2
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            2
+          ],
+          "edge_out": [
+            1,
+            2
+          ]
+        },
+        "source_index": 433,
+        "target": {
+          "blue": [
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "index": 298,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ]
+          ]
+        }
+      },
+      {
+        "opening_tag": [
+          0,
+          2
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            2
+          ],
+          "edge_out": [
+            1,
+            2
+          ]
+        },
+        "source_index": 499,
+        "target": {
+          "blue": [
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "index": 1155,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ]
+        }
+      },
+      {
+        "opening_tag": [
+          0,
+          3
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            3
+          ],
+          "edge_out": [
+            1,
+            3
+          ]
+        },
+        "source_index": 518,
+        "target": {
+          "blue": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "index": 323,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ]
+          ]
+        }
+      },
+      {
+        "opening_tag": [
+          0,
+          3
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            3
+          ],
+          "edge_out": [
+            1,
+            3
+          ]
+        },
+        "source_index": 584,
+        "target": {
+          "blue": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "index": 1165,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ]
+        }
+      },
+      {
+        "opening_tag": [
+          1,
+          2
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            4
+          ],
+          "edge_out": [
+            1,
+            3
+          ]
+        },
+        "source_index": 3645,
+        "target": {
+          "blue": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "index": 1278,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              4
+            ]
+          ]
+        }
+      },
+      {
+        "opening_tag": [
+          1,
+          2
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            4
+          ],
+          "edge_out": [
+            1,
+            3
+          ]
+        },
+        "source_index": 3718,
+        "target": {
+          "blue": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              2
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "index": 2119,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              4,
+              5
+            ]
+          ]
+        }
+      },
+      {
+        "opening_tag": [
+          1,
+          3
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            4
+          ],
+          "edge_out": [
+            1,
+            2
+          ]
+        },
+        "source_index": 11159,
+        "target": {
+          "blue": [
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "index": 7687,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ]
+          ]
+        }
+      },
+      {
+        "opening_tag": [
+          1,
+          3
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            4
+          ],
+          "edge_out": [
+            1,
+            2
+          ]
+        },
+        "source_index": 11232,
+        "target": {
+          "blue": [
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "index": 8551,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              4
+            ],
+            [
+              4,
+              5
+            ]
+          ]
+        }
+      },
+      {
+        "opening_tag": [
+          0,
+          4
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            2
+          ],
+          "edge_out": [
+            1,
+            4
+          ]
+        },
+        "source_index": 16782,
+        "target": {
+          "blue": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "index": 2286,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              5
+            ]
+          ]
+        }
+      },
+      {
+        "opening_tag": [
+          0,
+          5
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            2
+          ],
+          "edge_out": [
+            1,
+            5
+          ]
+        },
+        "source_index": 16918,
+        "target": {
+          "blue": [
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "index": 1352,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              0,
+              4
+            ]
+          ]
+        }
+      },
+      {
+        "opening_tag": [
+          1,
+          4
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            2
+          ],
+          "edge_out": [
+            0,
+            4
+          ]
+        },
+        "source_index": 19639,
+        "target": {
+          "blue": [
+            [
+              0,
+              5
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "index": 4586,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              5
+            ]
+          ]
+        }
+      },
+      {
+        "opening_tag": [
+          1,
+          5
+        ],
+        "reserve": {
+          "color": "red",
+          "edge_in": [
+            0,
+            2
+          ],
+          "edge_out": [
+            0,
+            5
+          ]
+        },
+        "source_index": 25258,
+        "target": {
+          "blue": [
+            [
+              0,
+              4
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              2,
+              3
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "index": 3829,
+          "red": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ],
+            [
+              1,
+              4
+            ]
+          ]
+        }
+      }
+    ],
+    "same_union_blocks": [
+      {
+        "all_same_union_target_count": 4,
+        "all_same_union_target_indices": [
+          3043,
+          3670,
+          9460,
+          10102
+        ],
+        "hall_deficiency_with_arbitrary_recoloring": 4,
+        "source_count": 8,
+        "source_indices": [
+          433,
+          499,
+          518,
+          584,
+          3645,
+          3718,
+          11159,
+          11232
+        ],
+        "union_edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      },
+      {
+        "all_same_union_target_count": 6,
+        "all_same_union_target_indices": [
+          16754,
+          19696,
+          21736,
+          24673,
+          36706,
+          39466
+        ],
+        "hall_deficiency_with_arbitrary_recoloring": 0,
+        "source_count": 4,
+        "source_indices": [
+          16782,
+          16918,
+          19639,
+          25258
+        ],
+        "union_edges": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      }
+    ],
+    "source_count": 12,
+    "source_rows": [
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "deterministic_target_index": 9460,
+        "direct_or_single_neighbor_indices": [
+          9460
+        ],
+        "index": 433,
+        "opening_tag": [
+          0,
+          2
+        ],
+        "red": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        "reserve_neighbor_count": 41
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "deterministic_target_index": 10102,
+        "direct_or_single_neighbor_indices": [
+          10102
+        ],
+        "index": 499,
+        "opening_tag": [
+          0,
+          2
+        ],
+        "red": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "reserve_neighbor_count": 41
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "deterministic_target_index": 3043,
+        "direct_or_single_neighbor_indices": [
+          3043
+        ],
+        "index": 518,
+        "opening_tag": [
+          0,
+          3
+        ],
+        "red": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "reserve_neighbor_count": 41
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "deterministic_target_index": 3670,
+        "direct_or_single_neighbor_indices": [
+          3670
+        ],
+        "index": 584,
+        "opening_tag": [
+          0,
+          3
+        ],
+        "red": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "reserve_neighbor_count": 41
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "deterministic_target_index": 3043,
+        "direct_or_single_neighbor_indices": [
+          3043
+        ],
+        "index": 3645,
+        "opening_tag": [
+          1,
+          2
+        ],
+        "red": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "reserve_neighbor_count": 41
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "deterministic_target_index": 3670,
+        "direct_or_single_neighbor_indices": [
+          3670
+        ],
+        "index": 3718,
+        "opening_tag": [
+          1,
+          2
+        ],
+        "red": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "reserve_neighbor_count": 41
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "deterministic_target_index": 9460,
+        "direct_or_single_neighbor_indices": [
+          9460
+        ],
+        "index": 11159,
+        "opening_tag": [
+          1,
+          3
+        ],
+        "red": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "reserve_neighbor_count": 41
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "deterministic_target_index": 10102,
+        "direct_or_single_neighbor_indices": [
+          10102
+        ],
+        "index": 11232,
+        "opening_tag": [
+          1,
+          3
+        ],
+        "red": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "reserve_neighbor_count": 41
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "deterministic_target_index": 21736,
+        "direct_or_single_neighbor_indices": [
+          21736
+        ],
+        "index": 16782,
+        "opening_tag": [
+          0,
+          4
+        ],
+        "red": [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "reserve_neighbor_count": 51
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "deterministic_target_index": 16754,
+        "direct_or_single_neighbor_indices": [
+          16754
+        ],
+        "index": 16918,
+        "opening_tag": [
+          0,
+          5
+        ],
+        "red": [
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        "reserve_neighbor_count": 51
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "deterministic_target_index": 16754,
+        "direct_or_single_neighbor_indices": [
+          16754
+        ],
+        "index": 19639,
+        "opening_tag": [
+          1,
+          4
+        ],
+        "red": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        "reserve_neighbor_count": 51
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "deterministic_target_index": 21736,
+        "direct_or_single_neighbor_indices": [
+          21736
+        ],
+        "index": 25258,
+        "opening_tag": [
+          1,
+          5
+        ],
+        "red": [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ],
+        "reserve_neighbor_count": 51
+      }
+    ],
+    "target_count": 6,
+    "target_rows": [
+      {
+        "blue": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "index": 3043,
+        "red": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ]
+        ]
+      },
+      {
+        "blue": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "index": 3670,
+        "red": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      },
+      {
+        "blue": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "index": 9460,
+        "red": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      },
+      {
+        "blue": [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "index": 10102,
+        "red": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            4,
+            5
+          ]
+        ]
+      },
+      {
+        "blue": [
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            4
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "index": 16754,
+        "red": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            5
+          ]
+        ]
+      },
+      {
+        "blue": [
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "index": 21736,
+        "red": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            5
+          ],
+          [
+            1,
+            4
+          ]
+        ]
+      }
+    ]
+  },
+  "layer": {
+    "augmenting_path_count": 6,
+    "augmenting_path_lengths": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "augmenting_paths": [
+      [
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "red",
+            "edge_in": [
+              0,
+              3
+            ],
+            "edge_out": [
+              1,
+              3
+            ]
+          },
+          "source_index": 3645,
+          "target_index": 323
+        },
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "red",
+            "edge_in": [
+              1,
+              2
+            ],
+            "edge_out": [
+              0,
+              2
+            ]
+          },
+          "source_index": 422,
+          "target_index": 9485
+        }
+      ],
+      [
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "red",
+            "edge_in": [
+              0,
+              3
+            ],
+            "edge_out": [
+              1,
+              3
+            ]
+          },
+          "source_index": 3718,
+          "target_index": 1165
+        },
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "red",
+            "edge_in": [
+              0,
+              4
+            ],
+            "edge_out": [
+              0,
+              2
+            ]
+          },
+          "source_index": 495,
+          "target_index": 8561
+        }
+      ],
+      [
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "red",
+            "edge_in": [
+              0,
+              2
+            ],
+            "edge_out": [
+              1,
+              2
+            ]
+          },
+          "source_index": 11159,
+          "target_index": 298
+        },
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "red",
+            "edge_in": [
+              1,
+              3
+            ],
+            "edge_out": [
+              0,
+              3
+            ]
+          },
+          "source_index": 507,
+          "target_index": 3018
+        }
+      ],
+      [
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "red",
+            "edge_in": [
+              0,
+              2
+            ],
+            "edge_out": [
+              1,
+              2
+            ]
+          },
+          "source_index": 11232,
+          "target_index": 1155
+        },
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "red",
+            "edge_in": [
+              0,
+              4
+            ],
+            "edge_out": [
+              0,
+              3
+            ]
+          },
+          "source_index": 580,
+          "target_index": 2109
+        }
+      ],
+      [
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "blue",
+            "edge_in": [
+              0,
+              2
+            ],
+            "edge_out": [
+              4,
+              5
+            ]
+          },
+          "source_index": 19639,
+          "target_index": 16608
+        },
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "blue",
+            "edge_in": [
+              1,
+              3
+            ],
+            "edge_out": [
+              1,
+              4
+            ]
+          },
+          "source_index": 16866,
+          "target_index": 16607
+        }
+      ],
+      [
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "blue",
+            "edge_in": [
+              0,
+              2
+            ],
+            "edge_out": [
+              4,
+              5
+            ]
+          },
+          "source_index": 25258,
+          "target_index": 21612
+        },
+        {
+          "is_new_reserve_edge": true,
+          "reserve": {
+            "color": "red",
+            "edge_in": [
+              1,
+              3
+            ],
+            "edge_out": [
+              1,
+              5
+            ]
+          },
+          "source_index": 25232,
+          "target_index": 29723
+        }
+      ]
+    ],
+    "direct_or_single_deficiency": 6,
+    "direct_or_single_edge_count": 112556,
+    "direct_or_single_matching_size": 43642,
+    "expanded_deficiency": 0,
+    "expanded_edge_count": 1987196,
+    "expanded_matching_size": 43648,
+    "k": 5,
+    "negative_count": 43648,
+    "positive_count": 45620
+  },
+  "schema": "amra.opg1757.multiedge_recoloring_attack.v1",
+  "scope": "Exact q=2,k=5 enumeration on K6.  The expanded graph is the union of every valid direct/single E-exchange edge and every target obtained by one protected forest basis exchange after the deterministic global cycle-opening map.",
+  "sha256_payload": "648d0237235a5e40ebf85a9251172feed5ae232f7b003396266c173abd1c56a6"
+}

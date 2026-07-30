@@ -1,0 +1,851 @@
+{
+  "claim_labels": {
+    "forced_edge_obstruction": "human_proof",
+    "full_first_coefficient_positivity": "open_gap",
+    "outside_fixed_local_injection_for_all_contexts": "refuted",
+    "partition_repair_theorem": "human_proof",
+    "partition_state_hall_lifting": "human_proof",
+    "partition_state_rows": "finite_evidence",
+    "q2_k3_hall_partition_audit": "finite_evidence",
+    "safe_coarsening_quotient_criterion": "human_proof",
+    "split_then_merge_normal_form": "human_proof"
+  },
+  "partition_state_rows": [
+    {
+      "boundary_size": 1,
+      "compatible_local_external_pairs": 1,
+      "context_safe_but_not_universal_triples": 0,
+      "context_safe_ordered_replacements": 1,
+      "partition_count": 1,
+      "split_then_merge_checks": 1,
+      "universally_safe_ordered_partition_replacements": 1
+    },
+    {
+      "boundary_size": 2,
+      "compatible_local_external_pairs": 3,
+      "context_safe_but_not_universal_triples": 1,
+      "context_safe_ordered_replacements": 5,
+      "partition_count": 2,
+      "split_then_merge_checks": 6,
+      "universally_safe_ordered_partition_replacements": 3
+    },
+    {
+      "boundary_size": 3,
+      "compatible_local_external_pairs": 15,
+      "context_safe_but_not_universal_triples": 25,
+      "context_safe_ordered_replacements": 53,
+      "partition_count": 5,
+      "split_then_merge_checks": 75,
+      "universally_safe_ordered_partition_replacements": 12
+    },
+    {
+      "boundary_size": 4,
+      "compatible_local_external_pairs": 107,
+      "context_safe_but_not_universal_triples": 675,
+      "context_safe_ordered_replacements": 965,
+      "partition_count": 15,
+      "split_then_merge_checks": 1605,
+      "universally_safe_ordered_partition_replacements": 60
+    },
+    {
+      "boundary_size": 5,
+      "compatible_local_external_pairs": 1003,
+      "context_safe_but_not_universal_triples": 22486,
+      "context_safe_ordered_replacements": 26515,
+      "partition_count": 52,
+      "split_then_merge_checks": 52156,
+      "universally_safe_ordered_partition_replacements": 358
+    },
+    {
+      "boundary_size": 6,
+      "compatible_local_external_pairs": 11735,
+      "context_safe_but_not_universal_triples": 949303,
+      "context_safe_ordered_replacements": 1020131,
+      "partition_count": 203,
+      "split_then_merge_checks": 2382205,
+      "universally_safe_ordered_partition_replacements": 2471
+    }
+  ],
+  "q2_k3_hall_partition_audit": {
+    "active_active_escape_count": 8,
+    "conclusion": "Every active-active escape in this minimal finite Hall core is unsafe in some future context, but remains safe in a nonempty explicitly enumerable set of partition contexts. Thus an inductive rule must carry the external partition state; the unconditioned fourth orbit cannot be the induction.",
+    "escape_partition_profile_rows": [
+      {
+        "blue_joint_safe_external_partition_count": 63,
+        "blue_relation": "mixed_split_merge",
+        "multiplicity": 2,
+        "red_joint_safe_external_partition_count": 26,
+        "red_relation": "equal"
+      },
+      {
+        "blue_joint_safe_external_partition_count": 9,
+        "blue_relation": "equal",
+        "multiplicity": 2,
+        "red_joint_safe_external_partition_count": 114,
+        "red_relation": "mixed_split_merge"
+      },
+      {
+        "blue_joint_safe_external_partition_count": 18,
+        "blue_relation": "mixed_split_merge",
+        "multiplicity": 4,
+        "red_joint_safe_external_partition_count": 43,
+        "red_relation": "mixed_split_merge"
+      }
+    ],
+    "escape_rows": [
+      {
+        "blue_joint_safe_external_partition_count": 63,
+        "blue_relation": "mixed_split_merge",
+        "blue_source_external_partition_count": 94,
+        "blue_universal_merge_witness": [
+          4,
+          5
+        ],
+        "colored_joint_safe_context_count": 1638,
+        "colored_source_context_count": 2444,
+        "red_joint_safe_external_partition_count": 26,
+        "red_relation": "equal",
+        "red_source_external_partition_count": 26,
+        "red_universal_merge_witness": null,
+        "source_blue_partition": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "source_index": 483,
+        "source_red_partition": [
+          [
+            0,
+            1,
+            4,
+            5
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "target_blue_partition": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "target_index": 479,
+        "target_red_partition": [
+          [
+            0,
+            1,
+            4,
+            5
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      {
+        "blue_joint_safe_external_partition_count": 18,
+        "blue_relation": "mixed_split_merge",
+        "blue_source_external_partition_count": 36,
+        "blue_universal_merge_witness": [
+          1,
+          4
+        ],
+        "colored_joint_safe_context_count": 774,
+        "colored_source_context_count": 2772,
+        "red_joint_safe_external_partition_count": 43,
+        "red_relation": "mixed_split_merge",
+        "red_source_external_partition_count": 77,
+        "red_universal_merge_witness": [
+          0,
+          1
+        ],
+        "source_blue_partition": [
+          [
+            0,
+            1,
+            5
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        "source_index": 544,
+        "source_red_partition": [
+          [
+            0,
+            4,
+            5
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "target_blue_partition": [
+          [
+            0
+          ],
+          [
+            1,
+            4,
+            5
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "target_index": 420,
+        "target_red_partition": [
+          [
+            0,
+            1,
+            4
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            5
+          ]
+        ]
+      },
+      {
+        "blue_joint_safe_external_partition_count": 63,
+        "blue_relation": "mixed_split_merge",
+        "blue_source_external_partition_count": 94,
+        "blue_universal_merge_witness": [
+          4,
+          5
+        ],
+        "colored_joint_safe_context_count": 1638,
+        "colored_source_context_count": 2444,
+        "red_joint_safe_external_partition_count": 26,
+        "red_relation": "equal",
+        "red_source_external_partition_count": 26,
+        "red_universal_merge_witness": null,
+        "source_blue_partition": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "source_index": 635,
+        "source_red_partition": [
+          [
+            0,
+            1,
+            4,
+            5
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "target_blue_partition": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "target_index": 630,
+        "target_red_partition": [
+          [
+            0,
+            1,
+            4,
+            5
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ]
+      },
+      {
+        "blue_joint_safe_external_partition_count": 18,
+        "blue_relation": "mixed_split_merge",
+        "blue_source_external_partition_count": 36,
+        "blue_universal_merge_witness": [
+          1,
+          5
+        ],
+        "colored_joint_safe_context_count": 774,
+        "colored_source_context_count": 2772,
+        "red_joint_safe_external_partition_count": 43,
+        "red_relation": "mixed_split_merge",
+        "red_source_external_partition_count": 77,
+        "red_universal_merge_witness": [
+          0,
+          1
+        ],
+        "source_blue_partition": [
+          [
+            0,
+            1,
+            4
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            5
+          ]
+        ],
+        "source_index": 703,
+        "source_red_partition": [
+          [
+            0,
+            4,
+            5
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "target_blue_partition": [
+          [
+            0
+          ],
+          [
+            1,
+            4,
+            5
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "target_index": 588,
+        "target_red_partition": [
+          [
+            0,
+            1,
+            5
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ]
+        ]
+      },
+      {
+        "blue_joint_safe_external_partition_count": 18,
+        "blue_relation": "mixed_split_merge",
+        "blue_source_external_partition_count": 36,
+        "blue_universal_merge_witness": [
+          0,
+          4
+        ],
+        "colored_joint_safe_context_count": 774,
+        "colored_source_context_count": 2772,
+        "red_joint_safe_external_partition_count": 43,
+        "red_relation": "mixed_split_merge",
+        "red_source_external_partition_count": 77,
+        "red_universal_merge_witness": [
+          0,
+          1
+        ],
+        "source_blue_partition": [
+          [
+            0,
+            1,
+            5
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        "source_index": 1010,
+        "source_red_partition": [
+          [
+            0
+          ],
+          [
+            1,
+            4,
+            5
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "target_blue_partition": [
+          [
+            0,
+            4,
+            5
+          ],
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "target_index": 903,
+        "target_red_partition": [
+          [
+            0,
+            1,
+            4
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            5
+          ]
+        ]
+      },
+      {
+        "blue_joint_safe_external_partition_count": 18,
+        "blue_relation": "mixed_split_merge",
+        "blue_source_external_partition_count": 36,
+        "blue_universal_merge_witness": [
+          0,
+          5
+        ],
+        "colored_joint_safe_context_count": 774,
+        "colored_source_context_count": 2772,
+        "red_joint_safe_external_partition_count": 43,
+        "red_relation": "mixed_split_merge",
+        "red_source_external_partition_count": 77,
+        "red_universal_merge_witness": [
+          0,
+          1
+        ],
+        "source_blue_partition": [
+          [
+            0,
+            1,
+            4
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            5
+          ]
+        ],
+        "source_index": 1123,
+        "source_red_partition": [
+          [
+            0
+          ],
+          [
+            1,
+            4,
+            5
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "target_blue_partition": [
+          [
+            0,
+            4,
+            5
+          ],
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "target_index": 1032,
+        "target_red_partition": [
+          [
+            0,
+            1,
+            5
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ]
+        ]
+      },
+      {
+        "blue_joint_safe_external_partition_count": 9,
+        "blue_relation": "equal",
+        "blue_source_external_partition_count": 9,
+        "blue_universal_merge_witness": null,
+        "colored_joint_safe_context_count": 1026,
+        "colored_source_context_count": 1359,
+        "red_joint_safe_external_partition_count": 114,
+        "red_relation": "mixed_split_merge",
+        "red_source_external_partition_count": 151,
+        "red_universal_merge_witness": [
+          0,
+          1
+        ],
+        "source_blue_partition": [
+          [
+            0,
+            1,
+            4,
+            5
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "source_index": 1538,
+        "source_red_partition": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "target_blue_partition": [
+          [
+            0,
+            1,
+            4,
+            5
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "target_index": 76,
+        "target_red_partition": [
+          [
+            0,
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ]
+      },
+      {
+        "blue_joint_safe_external_partition_count": 9,
+        "blue_relation": "equal",
+        "blue_source_external_partition_count": 9,
+        "blue_universal_merge_witness": null,
+        "colored_joint_safe_context_count": 1026,
+        "colored_source_context_count": 1359,
+        "red_joint_safe_external_partition_count": 114,
+        "red_relation": "mixed_split_merge",
+        "red_source_external_partition_count": 151,
+        "red_universal_merge_witness": [
+          0,
+          1
+        ],
+        "source_blue_partition": [
+          [
+            0,
+            1,
+            4,
+            5
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "source_index": 1546,
+        "source_red_partition": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "target_blue_partition": [
+          [
+            0,
+            1,
+            4,
+            5
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "target_index": 98,
+        "target_red_partition": [
+          [
+            0,
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ]
+      }
+    ],
+    "hall_deficiency": 2,
+    "hall_source_count": 8,
+    "hall_target_count": 6,
+    "negative_count": 1585,
+    "partition_restricted_hall_kernel": {
+      "colored_external_partition_context_count": 41209,
+      "contexts_with_nonempty_hall_source_subset": 7394,
+      "first_four_rule_context_hall_witness": {
+        "all_compatible_negative_count": 120,
+        "all_compatible_positive_count": 0,
+        "available_neighbor_indices": [],
+        "blue_external_partition": [
+          [
+            0,
+            2
+          ],
+          [
+            1
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "deficiency": 2,
+        "neighbor_count": 0,
+        "red_external_partition": [
+          [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "source_count": 2,
+        "source_indices": [
+          1538,
+          1546
+        ],
+        "source_rows": [
+          {
+            "blue": [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                4
+              ],
+              [
+                1,
+                5
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            "index": 1538,
+            "red": [
+              [
+                4,
+                5
+              ]
+            ],
+            "unrestricted_four_rule_neighbor_indices": [
+              76,
+              1541
+            ]
+          },
+          {
+            "blue": [
+              [
+                0,
+                1
+              ],
+              [
+                0,
+                5
+              ],
+              [
+                1,
+                4
+              ],
+              [
+                2,
+                3
+              ]
+            ],
+            "index": 1546,
+            "red": [
+              [
+                4,
+                5
+              ]
+            ],
+            "unrestricted_four_rule_neighbor_indices": [
+              98,
+              1549
+            ]
+          }
+        ]
+      },
+      "four_rule_closes_three_deficit_context_count": 3042,
+      "four_rule_deficient_context_count": 1710,
+      "maximum_four_rule_deficiency": 6,
+      "maximum_three_rule_deficiency": 6,
+      "scope": "Finite matching on every context-restricted subset of the old 8-source Hall kernel, using all of each source's three/four-rule neighbors. A displayed deficit is therefore a Hall witness against the full context-restricted graph; absence of a deficit in this kernel does not certify the full graph.",
+      "three_rule_deficient_context_count": 4752
+    },
+    "positive_count": 1589,
+    "scope": "Exact finite reconstruction of the q=2,k=3 Hall core in the old three-rule graph; external contexts are all 203 set partitions of the six current vertices, independently by color.",
+    "three_rule_matching_size": 1583
+  },
+  "schema": "amra.opg1757.partition_aware_hall.v1",
+  "sha256_payload": "5addbba53c7514b1d49e93b8578a90ff203ccc0121dfa7674ac543fc5ea6e371"
+}

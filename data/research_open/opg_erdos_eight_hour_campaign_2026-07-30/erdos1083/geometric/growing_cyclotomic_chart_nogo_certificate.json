@@ -1,0 +1,117 @@
+{
+  "circular_unit_regulator_checks": [
+    {
+      "absolute_log_determinant": "0.481211825059603447497758913424368423135184334385660519661018168840163867608221774412009429122723475",
+      "prime": 5,
+      "rank": 1
+    },
+    {
+      "absolute_log_determinant": "0.5254546821225723883388260454483245095410550460117947850676492724203110593549975930800866136421569826",
+      "prime": 7,
+      "rank": 2
+    },
+    {
+      "absolute_log_determinant": "1.635694125589697174263040903804735142523515766052553633232862274142578404416043677790688479865732405",
+      "prime": 11,
+      "rank": 4
+    },
+    {
+      "absolute_log_determinant": "3.774500980083009772791174460622276768252504875771551026199585645578829413614958103002856756377949166",
+      "prime": 13,
+      "rank": 5
+    }
+  ],
+  "conditional_palette_ledger": {
+    "chord_multiplicity_exponent": "1/4",
+    "distance_exponent": "41/12",
+    "overlap_exponent": "5",
+    "palette_exponent": "1/3",
+    "ray_exponent": "1"
+  },
+  "critical_local_ledgers": [
+    {
+      "Omega": 500,
+      "bounded_degree_chart_overlap": 0,
+      "chord_squared_field_degree": 2,
+      "chord_types": 2,
+      "distance_upper": 74,
+      "height": 25,
+      "points": 125,
+      "prime": 5,
+      "separated_cross_labels": 46,
+      "separated_ordered_energy": 3459200
+    },
+    {
+      "Omega": 2058,
+      "bounded_degree_chart_overlap": 0,
+      "chord_squared_field_degree": 3,
+      "chord_types": 3,
+      "distance_upper": 195,
+      "height": 49,
+      "points": 343,
+      "prime": 7,
+      "separated_cross_labels": 141,
+      "separated_ordered_energy": 84013440
+    },
+    {
+      "Omega": 13310,
+      "bounded_degree_chart_overlap": 0,
+      "chord_squared_field_degree": 5,
+      "chord_types": 5,
+      "distance_upper": 725,
+      "height": 121,
+      "points": 1331,
+      "prime": 11,
+      "separated_cross_labels": 595,
+      "separated_ordered_energy": 5506177600
+    },
+    {
+      "Omega": 26364,
+      "bounded_degree_chart_overlap": 0,
+      "chord_squared_field_degree": 6,
+      "chord_types": 6,
+      "distance_upper": 1182,
+      "height": 169,
+      "points": 2197,
+      "prime": 13,
+      "separated_cross_labels": 1002,
+      "separated_ordered_energy": 25414247040
+    }
+  ],
+  "finite_distance_enumerations": [
+    {
+      "distinct_labels": 23,
+      "height": 8,
+      "prime": 5,
+      "separated_labels": 12
+    },
+    {
+      "distinct_labels": 31,
+      "height": 8,
+      "prime": 7,
+      "separated_labels": 18
+    },
+    {
+      "distinct_labels": 47,
+      "height": 8,
+      "prime": 11,
+      "separated_labels": 30
+    },
+    {
+      "distinct_labels": 55,
+      "height": 8,
+      "prime": 13,
+      "separated_labels": 36
+    }
+  ],
+  "minimal_polynomial_checks": 10,
+  "rank_capture_sample": {
+    "captured_chord_types": 4,
+    "captured_overlap_fraction": "2/25",
+    "multiplicative_rank": 3,
+    "prime": 101
+  },
+  "schema": "amra.erdos1083.growing-cyclotomic-chart-nogo.v1",
+  "scope": "Rigorous local no-go: distance-label cardinality and weighted overlap do not force a bounded-degree or subpolynomial-rank number-field chart. This is not an N=t^5 global few-distance configuration.",
+  "verdict": "PASS"
+}
