@@ -1,0 +1,620 @@
+{
+  "active_handoff_scope": "The natural fifth orbit (2,4)->(2,5), handing an F-active edge from the first active vertex to the second, adds 37040 edges and closes k=6. At k=7 it adds 30528 edges but does not increase the matching size 172768. A fixed local handoff is therefore not the missing uniform potential.",
+  "fourth_rule_scope": "Within the nested base-plus-fundamental rule family, the active-active exchange is unnecessary for q=2,k<=2, first necessary at q=2,k=3, and closes the matching through k=5. The four-rule graph leaves deficits 4 and 32 at k=6 and k=7. Thus it is the required fourth orbit for this first failure, but not a uniform q=2 solution.",
+  "minimal_fourth_rule_hall_witness": {
+    "active_active_escape_rows": [
+      [
+        483,
+        479
+      ],
+      [
+        544,
+        420
+      ],
+      [
+        635,
+        630
+      ],
+      [
+        703,
+        588
+      ],
+      [
+        1010,
+        903
+      ],
+      [
+        1123,
+        1032
+      ],
+      [
+        1538,
+        76
+      ],
+      [
+        1546,
+        98
+      ]
+    ],
+    "deficiency": 2,
+    "first_escape_target": {
+      "blue": [
+        [
+          2,
+          3
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "index": 479,
+      "red": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          5
+        ]
+      ]
+    },
+    "first_source": {
+      "blue": [
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "index": 483,
+      "red": [
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          5
+        ],
+        [
+          4,
+          5
+        ]
+      ]
+    },
+    "fourth_rule": "When x joins the first two active vertices, swap the colors of E and x: (R,B)->(R-x+E,B-E+x).",
+    "shortest_augmentation_length_counts": {
+      "3": 2
+    },
+    "source_count": 8,
+    "source_indices": [
+      483,
+      544,
+      635,
+      703,
+      1010,
+      1123,
+      1538,
+      1546
+    ],
+    "target_count": 6,
+    "target_indices": [
+      545,
+      695,
+      1003,
+      1117,
+      1541,
+      1549
+    ],
+    "unmatched_source_indices": [
+      1538,
+      1546
+    ]
+  },
+  "next_lemma": "Test a phase-aware first-active-block routing state (matching phase, BFS distance to a free image, active-block index, transition tag). Prove BFS distance strictly falls within a phase and unmatched-source count falls between phases, or replace it by a whole-chain/global Hall argument. Then classify the four-rule graph residuals at q=2,k=6 and k=7; the tested handoff closes k=6 but not k=7.",
+  "q1_static_source_potential_obstruction": {
+    "common_blue_merge_edge": [
+      1,
+      4
+    ],
+    "common_component_partitions": [
+      [
+        [
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          4
+        ]
+      ],
+      [
+        [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      ]
+    ],
+    "common_first_active_vertex": 4,
+    "common_target": {
+      "blue": [
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          4
+        ]
+      ],
+      "red": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    "common_target_index": 903,
+    "conclusion": "The deterministic shortest-chain conflict relation contains both 1054->1174 and 1174->1054. Hence no potential depending only on the current negative source can strictly decrease at every conflict step. A phase/matching-state coordinate is necessary, even before q=2.",
+    "directed_cycle_occurrences": [
+      [
+        317,
+        2,
+        1054,
+        1174,
+        903
+      ],
+      [
+        349,
+        2,
+        1174,
+        1054,
+        903
+      ]
+    ],
+    "k": 5,
+    "move_rows_to_common_target": [
+      {
+        "added": [
+          [
+            0,
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            1,
+            [
+              1,
+              4
+            ]
+          ]
+        ],
+        "removed": [
+          [
+            0,
+            [
+              1,
+              2
+            ]
+          ],
+          [
+            1,
+            [
+              0,
+              1
+            ]
+          ]
+        ]
+      },
+      {
+        "added": [
+          [
+            0,
+            [
+              0,
+              1
+            ]
+          ],
+          [
+            1,
+            [
+              1,
+              4
+            ]
+          ]
+        ],
+        "removed": [
+          [
+            0,
+            [
+              1,
+              3
+            ]
+          ],
+          [
+            1,
+            [
+              0,
+              1
+            ]
+          ]
+        ]
+      }
+    ],
+    "q": 1,
+    "source_indices": [
+      1054,
+      1174
+    ],
+    "source_rows": [
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "red": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      },
+      {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            4
+          ]
+        ],
+        "red": [
+          [
+            0,
+            3
+          ],
+          [
+            1,
+            3
+          ],
+          [
+            2,
+            3
+          ]
+        ]
+      }
+    ]
+  },
+  "q2_k7_single_signature_completion": {
+    "added_edge_count": 55296,
+    "added_target_count": 26496,
+    "definition": "Remove a red core-cross edge x, add E to red; remove E from blue and add the active-active edge 45.",
+    "four_rule_hall_deficiency": 32,
+    "four_rule_hall_escape_edge_count": 25296,
+    "four_rule_hall_escape_signature_orbit_count": 20,
+    "four_rule_hall_source_count": 2272,
+    "four_rule_hall_target_count": 2240,
+    "local_inverse_boundary": "The image contains the unique q=2 active-active edge 45, so the added blue edge is visible, but the removed core-cross edge is not: target indegree reaches 4. A recoverable x-tag or the global matching is required.",
+    "matching_size": 172800,
+    "maximum_added_source_outdegree": 2,
+    "maximum_added_target_indegree": 4,
+    "maximum_augmentation_length": 10,
+    "minimum_additional_signature_orbit_count": 1,
+    "outside_stability_counterexample": {
+      "created_cycle": [
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          6
+        ]
+      ],
+      "q": 3,
+      "source": {
+        "blue": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "red": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            3
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ]
+      },
+      "source_index_q2_k7": 1,
+      "source_red_extension_is_forest": true,
+      "target": {
+        "blue": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "red": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            4
+          ],
+          [
+            0,
+            5
+          ]
+        ]
+      },
+      "target_index_q2_k7": 7890,
+      "target_red_extension_is_forest": false,
+      "unchanged_red_extension": [
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          6
+        ]
+      ]
+    },
+    "rule_signature": [
+      [
+        0,
+        2
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "shortest_augmentation_length_counts": {
+      "10": 1,
+      "4": 3,
+      "5": 17,
+      "6": 7,
+      "7": 1,
+      "8": 1,
+      "9": 2
+    }
+  },
+  "q2_layer_columns": [
+    "k",
+    "negative_count",
+    "positive_count",
+    "base_plus_three_edge_count",
+    "base_plus_four_edge_count",
+    "base_plus_three_matching_size",
+    "base_plus_four_matching_size",
+    "full_balanced_matching_size",
+    "active_handoff_added_edge_count",
+    "base_plus_four_plus_handoff_matching_size",
+    "core_to_active_pair_added_edge_count",
+    "base_plus_four_plus_core_pair_matching_size"
+  ],
+  "q2_layer_rows_k1_to_k7": [
+    [
+      1,
+      2,
+      2,
+      2,
+      3,
+      2,
+      2,
+      2,
+      0,
+      2,
+      0,
+      2
+    ],
+    [
+      2,
+      115,
+      115,
+      203,
+      228,
+      115,
+      115,
+      115,
+      0,
+      115,
+      4,
+      115
+    ],
+    [
+      3,
+      1585,
+      1589,
+      3479,
+      3755,
+      1583,
+      1585,
+      1585,
+      0,
+      1585,
+      328,
+      1585
+    ],
+    [
+      4,
+      10730,
+      11024,
+      27072,
+      28764,
+      10692,
+      10730,
+      10730,
+      0,
+      10730,
+      4016,
+      10730
+    ],
+    [
+      5,
+      43648,
+      45620,
+      130976,
+      137028,
+      43488,
+      43648,
+      43648,
+      0,
+      43648,
+      20744,
+      43648
+    ],
+    [
+      6,
+      112200,
+      117384,
+      470296,
+      482120,
+      111960,
+      112196,
+      112200,
+      37040,
+      112200,
+      52544,
+      112196
+    ],
+    [
+      7,
+      172800,
+      177984,
+      1233264,
+      1242672,
+      172536,
+      172768,
+      172800,
+      30528,
+      172768,
+      55296,
+      172800
+    ]
+  ],
+  "revised_potential_requirement": "A source-only lexicographic potential cannot strictly decrease along the current deterministic Round-21 routing because its q=1 conflict graph contains directed cycles. This does not exclude a different routing, a whole-chain potential, a nonstrict potential with tie-breaking, or a global Hall proof. A dynamic phase coordinate such as alternating BFS layer plus a first-active-block tag is one supported repair direction. Within the tested nested rule family, q=2 also needs an active-active fourth tag and higher-k rerouting.",
+  "schema": "amra.complete_split.f_leading_first_active_potential.v1",
+  "sha256_payload": "40741ced1e777b8b32595ec399627c185d4839afb0c93baf59cb325b3d07fafe",
+  "status": "static_potential_refuted_fourth_rule_finite_audited",
+  "two_signature_small_completion": "For q=2,k<=7 in the tested nested family, two complementary non-fundamental signatures suffice beyond the four-rule graph: (2,4)->(2,5) closes k=6 but not k=7, while (0,2)->(4,5) closes k=7 but not k=6. This is a finite two-layer completion, not an outside-stable general rule."
+}

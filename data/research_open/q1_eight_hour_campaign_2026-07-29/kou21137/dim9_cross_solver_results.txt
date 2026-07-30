@@ -1,0 +1,6 @@
+SOLVER|name=Z3|version=4.8.12
+PROFILE|2,2,2,1,1,1|sha256=88c1c37c45083469fa8ceb7d9d008688def27471573c1feb897b9b453fd193de|z3=unsat|cvc5_eager=unsat|cvc5_seconds=3.44|cvc5_maxrss_kb=212944
+PROFILE|2,2,1,1,1,1,1|sha256=ce150591bbb66d3b03faf32f51dc1a64deda79d67147a50598d5ca82918bcb9c|z3=unsat|cvc5_eager=unsat|cvc5_seconds=1.25|cvc5_maxrss_kb=182512
+PROFILE|3,1,1,1,1,1,1|sha256=d7838ce3a4e12d19db07ee136e087cb0ef889c890d0c2f7f5d380e8113c1d5bc|z3=unsat|cvc5_eager=unsat|cvc5_seconds=1.65|cvc5_maxrss_kb=217044
+PROFILE|2,1,1,1,1,1,1,1|sha256=f9ab4206a3f6657068e4f8e23622eb8a6195439a0f4f32fd9c6bfe91939d8a04|z3=unsat|cvc5_eager=unsat|cvc5_seconds=4.02|cvc5_maxrss_kb=210164
+SOLVER|name=cvc5|version=1.3.3|git=8ff882e|mode=bitblast_eager|binary_sha256=d9948d67e1a86f38a7bf1565a974fc49b103da153360930085fd4f09a55bdd55|release_zip_sha256=39a5674b01e31cf0d8545db12f55d9bb4aaa7738ee1d113f261da110bfe7c8c1

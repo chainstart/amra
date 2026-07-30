@@ -1,0 +1,11 @@
+ORDER6561_WILSON_SCAN|range=1..261686|groups=261686|nonabelian_agemo=221|nonpowerful_agemo=63|closed_nonpowerful=0|runtime_ms=632719
+ELAPSED|seconds=638.29|maxrss_kb=329216
+ORDER6561_WILSON_SCAN|range=261687..802107|groups=540421|nonabelian_agemo=0|nonpowerful_agemo=0|closed_nonpowerful=0|runtime_ms=1177118
+ELAPSED|seconds=1185.79|maxrss_kb=820736
+ORDER6561_WILSON_SCAN|range=802108..1396077|groups=593970|nonabelian_agemo=0|nonpowerful_agemo=0|closed_nonpowerful=0|runtime_ms=1058201
+ELAPSED|seconds=1061.57|maxrss_kb=824064
+TOTAL|range=1..1396077|groups=1396077|nonabelian_agemo=221|nonpowerful_agemo=63|closed_nonpowerful=0
+ORDER6561_NONPOWERFUL_CANDIDATES|count=63|all_nonabelian=true|all_nonpowerful_native=true|all_derived_not_in_cube_power=true|raw_closed=0
+INVARIANT_ROWS_COLLECTED|[[6,6,9,115,243,2,3,3,1],1];[[6,6,9,117,243,2,3,3,1],17];[[6,6,9,133,243,2,3,3,1],2];[[6,6,9,135,243,2,3,3,1],16];[[6,6,9,163,243,2,3,3,1],3];[[6,6,9,165,243,2,3,3,1],7];[[6,6,9,169,243,2,3,3,1],3];[[6,6,9,171,243,2,3,3,1],14]
+CLOSED_IDS|[]
+CANDIDATE_AUDIT_ELAPSED|seconds=1.95|maxrss_kb=141824

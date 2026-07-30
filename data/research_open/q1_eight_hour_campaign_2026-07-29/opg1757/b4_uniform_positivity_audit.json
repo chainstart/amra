@@ -1,0 +1,149 @@
+{
+  "amgm_strengthening_failure": {
+    "attempt": "A*C>=B^2, which would imply A-2B+C>=0",
+    "exact_coefficient": "-60",
+    "minimal_checked_parameters": {
+      "beta_degree": 4,
+      "s": 5
+    }
+  },
+  "first_nonzero_coefficient": "(s-4)*(s^3+6s^2-10s-141), positive for s>=5",
+  "positive_base": "L_5=12beta^4(1+5beta)^2(7+40beta+75beta^2)",
+  "positive_recurrence": "L_(s+1)=(1+4beta)^2 L_s+R_s; after z=1+2beta, R_s=z^(2s-10) I_s + sum_(r=3)^(2s-8) C(2s-8,r) beta^r z^(2s-8-r) A_(s,r), where I_s=2beta^4 i_(s-5), A_(s,r)=beta^2(q_(s-5)+(2^r-1)d_(s-5)), and every coefficient of i,q,d in beta and n=s-5 is a nonnegative integer.",
+  "regression_rows_s_first_coefficient_nonzero_count": [
+    [
+      5,
+      "84",
+      5
+    ],
+    [
+      6,
+      "462",
+      7
+    ],
+    [
+      7,
+      "1278",
+      9
+    ],
+    [
+      8,
+      "2700",
+      11
+    ],
+    [
+      9,
+      "4920",
+      13
+    ],
+    [
+      10,
+      "8154",
+      15
+    ],
+    [
+      11,
+      "12642",
+      17
+    ],
+    [
+      12,
+      "18648",
+      19
+    ],
+    [
+      13,
+      "26460",
+      21
+    ],
+    [
+      14,
+      "36390",
+      23
+    ],
+    [
+      15,
+      "48774",
+      25
+    ],
+    [
+      16,
+      "63972",
+      27
+    ],
+    [
+      17,
+      "82368",
+      29
+    ],
+    [
+      18,
+      "104370",
+      31
+    ],
+    [
+      19,
+      "130410",
+      33
+    ],
+    [
+      20,
+      "160944",
+      35
+    ],
+    [
+      21,
+      "196452",
+      37
+    ],
+    [
+      22,
+      "237438",
+      39
+    ],
+    [
+      23,
+      "284430",
+      41
+    ],
+    [
+      24,
+      "337980",
+      43
+    ],
+    [
+      25,
+      "398664",
+      45
+    ],
+    [
+      26,
+      "467082",
+      47
+    ],
+    [
+      27,
+      "543858",
+      49
+    ],
+    [
+      28,
+      "629640",
+      51
+    ],
+    [
+      29,
+      "725100",
+      53
+    ],
+    [
+      30,
+      "830934",
+      55
+    ]
+  ],
+  "schema": "amra.complete_split.b4_uniform_positivity_audit.v2",
+  "sha256_rows": "3a6c7a796bc73819fc7901840cc73e5d42a40c7d10ff979422cd055388067890",
+  "status": "proved by a manifestly coefficientwise positive s-recurrence",
+  "theorem": "For every integer s>=5, L_s is coefficientwise nonnegative. Hence B4>=0 for beta>=0."
+}
