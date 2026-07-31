@@ -1,0 +1,37 @@
+{
+  "schema_version": "amra.q1_four_problem_campaign.result.v1",
+  "campaign_date": "2026-07-30",
+  "problem_id": 809,
+  "problem_label": "Erdos #809, C7 maximal anti-Ramsey case",
+  "original_problem_closed": false,
+  "result_status": "new_near_dirac_theorem_and_case2_closure__case1_open",
+  "strongest_proved_result": "For every n-vertex graph sequence with e(G)>floor(n^2/4) and delta(G)>=n/2-o(n), every edge-colouring in which all C7 copies are rainbow uses at least n^2/8-o(n^2) colours.",
+  "new_proved_components": [
+    "Quantified exact-four-path obstruction stability: at near-Dirac minimum degree, failure for one endpoint pair forces O((N-2delta+1)N) edit distance from balanced two-clique or complete-bipartite structure.",
+    "Closure of the R003 empty-common-neighbourhood near-two-clique branch.",
+    "Maximum-cut core/hub theorem for near-complete-bipartite graphs without an independent-side assumption.",
+    "Uniform epsilon-eta interface closing the BCM-style k=3 Case-2 induction step.",
+    "Exact reduction of the remaining Case 1 to distance-two/no-three-step or distance-three/disjoint-neighbourhood obstruction profiles."
+  ],
+  "remaining_bottleneck": "Prove the parameterized Case-1 colour bound when delta is approximately (1/2-s)n for fixed s>0. Equivalently, close the two obstruction profiles at target (1/8+s/2+s^2/2-o(1))n^2 colours.",
+  "verification": {
+    "unit_tests": 5,
+    "unit_tests_passed": true,
+    "labelled_graphs_exhausted": 33864,
+    "four_path_obstructed_profiles": 212888,
+    "four_path_property_pairs_checked": 384432,
+    "distance_two_pairs_checked": 1630,
+    "actual_c7_splices_checked": 728,
+    "nonindependent_core_hub_family_edges": 32,
+    "nonindependent_core_hub_pairs_checked": 496,
+    "nonindependent_core_hub_pairs_covered": 496,
+    "optimization_profiles_checked": 80601,
+    "optimization_minimum": "1/2",
+    "inherited_r004_edge_pairs_rechecked": 1022637
+  },
+  "publication_guard": {
+    "q1_ready": false,
+    "reason": "The result is a substantial unbounded stability theorem, but the headline problem remains open, BCM26 announces an unspecified Case-2 argument, and exhaustive novelty plus specialist proof audits are still missing."
+  },
+  "scope_guard": "Finite checks guard formulas and templates only. They do not prove the asymptotic theorem or the original problem."
+}
