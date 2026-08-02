@@ -1,0 +1,15 @@
+# Claim ledger — Erdős #809 ten-proofs transfer
+
+| ID | Claim | Status | Firewall |
+|---|---|---|---|
+| 809T-1 | In every \(L_4(2)\), minimum-degree-at-least-three graph with rainbow \(C_7\), each entire colour graph is an induced matching and hence properly two-labelled | **PROVED** | This is a consequence of the standing normal-form hypotheses, not an additional restriction |
+| 809T-2 | The sharp even/odd endpoint graphs admit a noninjective rainbow-\(C_7\) recolouring whose repeated colour graphs are all \(2K_2\) | **PROVED / EXECUTABLE GUARD** | For \(g\ge5\) these lie inside the audited \(L_4(2)\) family; \(g=4\) is retained only as a graph/colour boundary row |
+| 809T-3 | The recolouring has exact defect \(D_B=g\), and its actual missing-star reserve has \(\delta+2\kappa-g-5\ge g\) tokens, giving an explicit injection from doubled colours to reserve pairs | **PROVED / EXECUTABLE GUARD** | This is the reserve-paid branch, not a hard reserve obstruction |
+| 809T-3a | A bare per-colour chromatic bound, including the two-label state used in the Ramsey proof, is vacuous on the \(L_4(2)\) normal form and cannot alone force injective colouring | **PROVED ROUTE OBSTRUCTION** | Does not rule out fixed-label arguments augmented by cross-block agreement and reserve incidence |
+| 809T-3b | A colour class with \(t\) matching edges has a full \(2^t\) independent edge-flip gauge, and its outer-endpoint label word can be arbitrary | **PROVED / EXECUTABLE GUARD** | An existential proper labeling cannot canonically choose roots or Hall witnesses; a cross-colour/block gauge-fixing rule is required |
+| 809T-4 | The label--reserve Hall condition (LRH) holds for every hard maximum-witness configuration | **OPEN TARGET** | It is verified only on the explicit sharp family, where every legal-token set may be the common reserve |
+| 809T-4a | The vertex deficit below either parity-sharp B-opposite bound dominates an explicit sum of parameter-shift, residual-gap, and centre-position energies, equations (E)--(O) | **PROVED CONDITIONAL STABILITY THEOREM** | Retains both the parity remainder and the exact concavity remainder discarded in the headline square-root bound |
+| 809T-4b | Inside the stated fixed-width near-sharp bands, \((a,h)\) equals the baseline profile and the common residual has its exact equality-core size | **PROVED CONDITIONAL COROLLARY / 10,323,118-PROFILE GUARD** | Does not imply graph isomorphism or close reserve failure |
+| 809T-4c | A genuine one-leaf near-sharp reserve obstruction must have unpaid defect \(Z\ge g-3\) (even) or \(Z\ge g-2\) (odd) | **PROVED CONDITIONAL COROLLARY** | Uses the inherited one-leaf defect-slack theorem |
+| 809T-4d | At arbitrary vertex deficit \(T\), the residual shift obeys \(a+1\le\sqrt{2T+9}\) or \(\sqrt{2T+4}\), and an interior centre is within \(T/h\) of an admissible endpoint | **PROVED CONDITIONAL COROLLARY** | Parameter localization only; it does not classify graphs or colours |
+| 809T-5 | Erdős #809 is proved or refuted | **OPEN / NOT CLAIMED** | Branch A, B-same, general B-opposite LRH, and other BCM branches remain |

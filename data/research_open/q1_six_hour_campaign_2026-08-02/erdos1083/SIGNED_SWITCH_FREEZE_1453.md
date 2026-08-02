@@ -1,0 +1,51 @@
+# Erdős #1083 signed-switch freeze
+
+Frozen: 2026-08-02 14:53:23 HKT
+
+## Scope and status
+
+- Erdős #1083 remains open.
+- The cyclotomic, finite-shadow, transverse-fibre, and transverse
+  binary-box theorems are proved in their stated models and remain
+  pending independent cross-audit.
+- The tensor manuscript is a positive-multiple normal-form barrier only.
+  It fails both centre--leaf transversality and common-\(X\) scalar-copy;
+  it is not an exact-block countermodel.
+- The newest exact model closure is restricted to binary-box centres and
+  independent \(\Phi_6\) switch patterns. Arbitrary \(X\), arbitrary
+  residual divisors, and outer stability remain open.
+
+## Verification
+
+~~~text
+python3 -m py_compile erdos1083/*.py
+python3 -m unittest discover -q -s erdos1083 -p 'test_*.py'
+
+Ran 64 tests in 34.219s
+OK
+~~~
+
+## SHA-256
+
+~~~text
+37424af1c86a8394c9e27bcb2b2f59d5307b153d438bf6c634a083ce9bb9ce17  CYCLOTOMIC_SIMULTANEOUS_POSITIVE_MULTIPLE_BOUND.md
+0d2ab8e24e56eb1b6c812abc981e7d19e7e73ed013ef55432270d32925a2e93d  verify_cyclotomic_simultaneous_positive_multiple_bound.py
+c35ba4919e79640b2c10c0a06d1f7f92b2867193857ab3a9e549ecd9a6368594  test_cyclotomic_simultaneous_positive_multiple_bound.py
+4d3a9c2c77b7b9cf7ee87c526870213cc5c21f91bcb559b6e4f5bb7087855b4d  FINITE_QUOTIENT_SHADOW_ESCAPE.md
+41807df6302eb4f643da5485cba2830341fa7cceed7fecf597fa92777e939a4d  verify_finite_quotient_shadow_escape.py
+5c1187b4248c34735842cbc2e457e0d4ecdb298d47c89da8672e9c8cfa5a42a9  test_finite_quotient_shadow_escape.py
+6a93d718d704bae18fa97558985eaa0b58178d91427dc6fa991e9ee1759bea04  MULTIDIRECTIONAL_TENSOR_SWITCH_BARRIER.md
+1369a5d29eae257dbdb97146725131d2fb4ade4a0add910f65f703f0ea154d55  verify_multidirectional_tensor_switch_barrier.py
+964d23bbe151c805ada39a70271daaa1a00dc2d669a5161ad6283ccf3bacabc3  test_multidirectional_tensor_switch_barrier.py
+ab1894a4ec01b65432b92b1a470595b2d33732910e65b849af9c49ad966f6549  PHI6_SWITCH_CUBE_TRANSVERSE_FIBER_RIGIDITY.md
+80f64fff5c0df7e77c5ef0f281e3be6bd756f846b33d81a0fa8add462f25c863  verify_phi6_switch_cube_transverse_fiber_rigidity.py
+c59c74eadbab04351f2206655ff7cea96d12a53d9af4fdee5ba6159ac74b1a12  test_phi6_switch_cube_transverse_fiber_rigidity.py
+39397b561c7cebcfdcd7c118c0518c5cf17e96277448decff47ba3b4796a11d3  TRANSVERSE_BINARY_BOX_PHI6_SWITCH_BOUND.md
+67ef0895b6532d0bb2fe76200a577060cc8afc3dd4302b76d301fa6fe0f8ebff  verify_transverse_binary_box_phi6_switch_bound.py
+822e834ae24d1dbda460bcf402835dec81739f8ed2d7b9fe630de8421527d0cd  test_transverse_binary_box_phi6_switch_bound.py
+31a291514758f68045d70360efbd243c4dab8119217b3e86c7abca4df2781a95  SIGNED_SWITCH_RESULT_DEPENDENCY_MAP.md
+8e4dacd0b52a0591063e1c5cd43d668b18781dff66e4f8466a7576854075d9c7  POWER_LARGE_SIMULTANEOUS_SWITCH_CORE.md
+f7a755b3b5f869fa071f272ef5c073dd75fd5fd24a6fdb0133f76c7b31264ca0  README.md
+db87695ef20e8bd9c92e930d9b12124fcbab2948d9fb559baf8df5a598326f55  CLAIM_LEDGER.md
+d7449651737edcbd09394c749ae2150423c81128eb3b9a8e45134ad5b835675e  RESEARCH_LOG.md
+~~~
