@@ -1,5 +1,5 @@
 {
-  "schema": "amra.opg1757.round7.falsification-witnesses-evidence.v1",
+  "schema": "amra.opg1757.round7.falsification-witnesses-evidence.v2",
   "mathematical_status": "exact negative route evidence; full transverse component question open",
   "statement_match": "two local lift mechanisms only; no global OPG claim",
   "M702": {
@@ -32,6 +32,24 @@
     "classification": "P plus all eight first-edge derivative signs do not exclude xi<0",
     "scope": "higher mixed-derivative nesting and exact component membership remain open"
   },
+  "M712_cycle_cone": {
+    "edge_weights_01_02_04_12_13_14_23_24": [
+      "-1/10", "0", "-2/5", "1/5", "-3/5", "7/5", "19/10", "4/5"
+    ],
+    "P": "17/78125",
+    "xi": "-559/15625",
+    "edge_floors_positive": 8,
+    "simple_cycle_derivatives_positive": 12,
+    "minimum_cycle_margin": "11/250",
+    "all_mixed_derivatives_checked": 256,
+    "negative_mixed_derivatives": 24,
+    "minimum_mixed_derivative": {
+      "edges": ["02", "13"],
+      "value": "-54491/62500"
+    },
+    "classification": "P, edge floors, and all simple-cycle derivatives do not exclude xi<0",
+    "scope": "M712 must use genuinely non-circuit mixed derivatives; the full derivative-cone mechanism remains open"
+  },
   "full_edge_floor": {
     "identity": "partial_(E\\{e}) P = 1+w_e for every deletion edge e",
     "component_consequence": "w_e>-1 for all eight edges by derivative-component nesting",
@@ -40,7 +58,7 @@
   "machine_reproduced": {
     "command": "ulimit -v 524288 && timeout 120s python3 evidence/verify_falsification_witnesses.py",
     "dependencies": "Python standard library only",
-    "verifier_sha256": "706c37836599bd6a8d7cbb52c8dd54643c70cda73274ba713a96968a362e846b",
+    "verifier_sha256": "d3b98ed5b36ed7bb44c579ec6f74504aedefd518192cb8bdfe8e0efab56f25c4",
     "result": "PASS"
   },
   "independent_reconstruction": false,

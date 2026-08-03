@@ -1,0 +1,57 @@
+{
+  "schema": "amra.opg1757.round7.b-rayleigh-reduction-evidence.v1",
+  "created_at": "2026-08-03T21:33:02+08:00",
+  "statement_match": "all-eight-variable b=w04 fibre of the local K5-minus-34 marked-03 host",
+  "mathematical_status": "exact reduction and three proved coordinate walls; generic determinant sign open",
+  "proved": [
+    "A=partial_b(P)>0 throughout C_P",
+    "D=partial_b(xi_03)>0 throughout C_P via the C-Garding K4 parallel-series deletion host",
+    "the local theorem is reduced to Delta_b=A*E-D*C>=0 on the seven-variable projected component",
+    "Delta_b is nonnegative on c=0, x01=0, and x02=0, so xi_03 is positive on all three component walls"
+  ],
+  "exact_ledger": {
+    "P": "A*b+C",
+    "xi": "D*b+E",
+    "term_counts": {"A": 81, "C": 47, "D": 34, "E": 24, "Delta_b": 178},
+    "Delta_b_total_degree": 12,
+    "Delta_b_sha256": "6404115ba1022c3ba448466729639d75f1a3e59c1efa9fe75061b14052124b6e",
+    "Delta_b_original_coefficients_strictly_positive": true
+  },
+  "three_terminal_partition": {
+    "term_counts": {"t": 23, "x03": 12, "y04": 12, "z34": 12, "u": 22},
+    "identities": {
+      "A": "t+x03+y04+z34+u",
+      "A-D": "t+y04+z34",
+      "C": "t+x03+z34",
+      "C-E": "t",
+      "Delta_b": "(x03+z34)*(y04+z34)+t*(z34-u)"
+    },
+    "interpretation": "the sole explicit subtractive channel is -t*u; sign control remains open"
+  },
+  "component_dependency": {
+    "graph": "(K5 minus 34) minus 04 is K4 on 0,1,2,3 plus a subdivided parallel copy 1-4-2 of edge 12",
+    "source": "Fang--Ma, Garding polynomials, arXiv:2604.27755v2, Theorem 1.1, Proposition 13.7, Proposition 13.9 proof, Proposition 13.12, and the at-most-six-element theorem",
+    "consequence": "D triangleleft A and C_P subset C_A, hence D>0 on C_P"
+  },
+  "coordinate_walls": {
+    "c=0": "x01^2*x02^2*(x13+x23)*(x14+x24)*q3*q4",
+    "x01=0": "c^2*x02^2*x13^2*x14^2*(1+x23)*(1+x24)",
+    "x02=0": "c^2*x01^2*x23^2*x24^2*(1+x13)*(1+x14)"
+  },
+  "machine_reproduced": {
+    "command": "ulimit -v 524288 && timeout 120s python3 evidence/verify_b_rayleigh_reduction.py",
+    "working_directory": "amra-research-loop/campaigns/opg-1757-transverse-lift-round7",
+    "environment": "Python 3.12.3; Linux 6.6.87.2-microsoft-standard-WSL2 x86_64",
+    "verifier_sha256": "79b167a7c102ad9bd199552d2e38de11d3a413c8b88ea31aea873c570ab7bbdb",
+    "result": "PASS"
+  },
+  "remaining_gaps": [
+    "prove or refute (x03+z34)*(y04+z34)+t*(z34-u)>=0 on the generic projected distinguished component",
+    "classify contact strata away from c*x01*x02=0",
+    "independent reconstruction and novelty checks"
+  ],
+  "independent_reconstruction": false,
+  "novelty_check": "not_started",
+  "publication_state": "private_note",
+  "public_problem_changed": false
+}

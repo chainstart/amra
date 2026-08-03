@@ -81,11 +81,18 @@ of `D0`.  Exact restriction and factorization give
 D0 = 4 d e (a^2-u^2)^2 (b+1) (v^2-d^2-2d).
 ```
 
-Thus this exceptional wall no longer requires a general CAD: after the proved
-`b+1>0` edge floor, its nontrivial sign data reduce to
-`d e (v^2-d^2-2d)` plus the explicit zero strata `a=+/-u`.  Determining which
-of those signs and strata occur in the projected distinguished component is
-still open.
+The subsequent independent forest ledger `C_ZERO_FIBRE_THEOREM.md` closes
+this entire wall.  Three fifth derivatives give the pair polynomials
+
+```text
+x01*x02+x01+x02,  x13*x23+x13+x23,  x14*x24+x14+x24
+```
+
+as positive on the component.  Together with the edge floors, they imply
+`a,d,e>0` and `d^2+2d-v^2>0`.  Hence the endpoint determinant has the correct
+sign, while `X2=-4ad(b+1)<0` makes `xi` strictly concave between the two `P`
+roots.  Therefore the complete component `q`-interval is contained in
+`xi>0` on `c=0`, including `a=+/-u`.
 
 ## Candidate decisive lemma
 
@@ -97,8 +104,8 @@ eight-variable marked host.  It remains conditional on:
 1. sign classification of `D0^2-D1D2` on every projected distinguished
    chamber;
 2. correct root order on the resultant-zero contact strata;
-3. classify the reduced `c=0` factors and propagate across `u=0` and the
-   remaining displayed linear-factor walls.
+3. propagate from the now-closed `c=0` wall across `u=0` and the remaining
+   displayed linear-factor walls.
 
 No item is discharged merely by the coefficient ledger.
 

@@ -93,6 +93,41 @@ the feasible derivative chamber.  This witness does not certify distinguished
 component membership and does not rule out a stronger higher-mixed-derivative
 nesting certificate.
 
+## M712 narrowing: the circuit-derivative cone is insufficient
+
+In edge order `01,02,04,12,13,14,23,24`, take the exact activities
+
+```text
+(-1/10, 0, -2/5, 1/5, -3/5, 7/5, 19/10, 4/5).
+```
+
+Every edge floor `1+w_e` is positive.  For each of the 12 simple cycles `C`,
+the exact graph identity
+
+```text
+partial_(E\C) P = product_(e in C)(1+w_e)-1
+```
+
+is positive; the smallest of these circuit-derivative margins is `11/250`.
+Nevertheless
+
+```text
+P  = 17/78125 > 0,
+xi = -559/15625 < 0.
+```
+
+An exhaustive replay of all 256 mixed edge derivatives finds 24 negative
+ones; the minimum is
+
+```text
+partial_(02,13) P = -54491/62500.
+```
+
+Thus edge floors plus every simple-cycle derivative still form too weak an
+outer cone.  This does not kill M712: it sharply narrows that route to a
+certificate using genuinely non-circuit mixed derivatives (or equivalent
+component information).
+
 ## Reproduction
 
 ```sh

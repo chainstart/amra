@@ -1,0 +1,28 @@
+{
+  "round_id": "round-2026-08-03-10h-opg1757",
+  "wall_clock_budget_hours": 10,
+  "persistent_goal_status": "active",
+  "persistent_goal_thread_id": "019fc6c5-5e90-7cd0-9ac0-dae9ccc8d166",
+  "started_at": "2026-08-03T21:02:38+08:00",
+  "planned_end_at": "2026-08-04T07:02:38+08:00",
+  "inherits_commit": "a9e9431",
+  "campaigns": [
+    "opg-1757-transverse-lift-round7"
+  ],
+  "priority": [
+    {
+      "campaign_id": "opg-1757-transverse-lift-round7",
+      "share": 1.0
+    }
+  ],
+  "resource_policy": {
+    "wsl_ram_gib": 31,
+    "heavy_probe_virtual_memory_gib": 1,
+    "heavy_probe_timeout_seconds": 240,
+    "max_concurrent_heavy_probes": 1,
+    "process_priority": "nice +10 for discovery-only numerical searches",
+    "evidence_dependencies": "Python standard library only"
+  },
+  "audit_policy": "Same-thread reconstruction is not an independent audit. Require a separate implementation or reviewer before any public promotion.",
+  "promotion_policy": "Do not advance past survivor_deepening or change the public OPG status without the exact generic determinant sign, contact-stratum closure, and independent audit. Preserve exact negative route evidence."
+}

@@ -39,12 +39,17 @@
     "terms": 18,
     "total_degree": 9,
     "canonical_sha256": "63b5f75cfe09b3b7c97a39aa582763341d388358ece4cea5ee4dd6b973b3d2f8",
-    "status": "exact reduction; projected-component sign classification open"
+    "status": "closed on the projected distinguished component by evidence/C_ZERO_FIBRE_THEOREM.md",
+    "closure_evidence": [
+      "evidence/C_ZERO_FIBRE_THEOREM.md",
+      "evidence/c_zero_fibre.json",
+      "evidence/verify_c_zero_fibre.py"
+    ]
   },
   "dependency_gaps": [
     "resultant sign chambers on the projected distinguished component",
     "root order on resultant-zero contact strata",
-    "classification of the reduced c=0 factors and propagation across u=0 and the remaining q-linear factor walls"
+    "propagation from the closed c=0 wall across u=0 and the remaining q-linear factor walls"
   ],
   "machine_reproduced": {
     "command": "ulimit -v 524288 && timeout 120s python3 evidence/verify_q_fibre_ledger.py",

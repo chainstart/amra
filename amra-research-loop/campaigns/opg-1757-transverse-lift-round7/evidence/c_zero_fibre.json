@@ -1,0 +1,43 @@
+{
+  "schema": "amra.opg1757.round7.c-zero-fibre-evidence.v1",
+  "created_at": "2026-08-03T21:11:36+08:00",
+  "statement_match": "complete q-fibre containment only over projected distinguished-component bases with c=0",
+  "mathematical_status": "author-verified exact theorem with named external Garding derivative-nesting dependency",
+  "proved": [
+    "on c=0 three fifth-derivative identities and edge floors imply a,d,e>0",
+    "on c=0 the q-boundary determinant is nonpositive while P2 and xi2 are strictly negative",
+    "every nonempty distinguished-component P-positive q-interval on c=0 is contained in xi_03>0"
+  ],
+  "exact_identities": {
+    "A_pair": "partial_(04,13,14,23,24)P|c=0=w01*w02+w01+w02",
+    "D_pair": "partial_(01,02,04,14,24)P|c=0=w13*w23+w13+w23",
+    "E_pair": "partial_(01,02,04,13,23)P|c=0=w14*w24+w14+w24",
+    "P1": "0",
+    "xi1": "0",
+    "xi2": "-4*a*d*(b+1)",
+    "boundary_determinant": "-4*d*e*(a^2-u^2)^2*(b+1)*(d^2+2*d-v^2)"
+  },
+  "dependency": {
+    "internal": [
+      "evidence/Q_FIBRE_LEDGER.md",
+      "evidence/FALSIFICATION_WITNESSES.md"
+    ],
+    "external": "Fang--Ma, Garding polynomials, arXiv:2604.27755v2, via the round-6 C-Garding and derivative-component nesting reduction"
+  },
+  "machine_reproduced": {
+    "command": "ulimit -v 524288 && timeout 120s python3 evidence/verify_c_zero_fibre.py",
+    "working_directory": "amra-research-loop/campaigns/opg-1757-transverse-lift-round7",
+    "environment": "Python 3.12.3; Linux 6.6.87.2-microsoft-standard-WSL2 x86_64",
+    "verifier_sha256": "97960fbbd285f93a67e7e811bc8aa83a6f4a45aee1d4cf98e2fa4dc01c2ec351",
+    "result": "PASS"
+  },
+  "remaining_gaps": [
+    "general resultant sign chambers on the projected distinguished component",
+    "root order on non-c=0 resultant-zero contact strata",
+    "u=0 and the remaining P1/X1 linear-factor walls"
+  ],
+  "independent_reconstruction": false,
+  "novelty_check": "not_started",
+  "publication_state": "private_note",
+  "public_problem_changed": false
+}

@@ -97,6 +97,31 @@ def derivative_residuals(complements, differentiated_edges):
     return residuals
 
 
+def evaluate_residual_polynomial(residuals, weights):
+    total = Fraction(0)
+    for residual, coefficient in residuals.items():
+        term = Fraction(coefficient)
+        for edge in residual:
+            term *= weights[edge]
+        total += term
+    return total
+
+
+def simple_cycles():
+    cycles = []
+    for size in range(3, len(EDGES) + 1):
+        for subset in combinations(EDGES, size):
+            degrees = {vertex: 0 for vertex in VERTICES}
+            for left, right in subset:
+                degrees[left] += 1
+                degrees[right] += 1
+            if all(degree in (0, 2) for degree in degrees.values()) and sum(
+                degree == 2 for degree in degrees.values()
+            ) == size:
+                cycles.append(subset)
+    return cycles
+
+
 def transverse_weights(u, v, q):
     return {
         (0, 1): 1 + u,
@@ -198,8 +223,62 @@ def main():
     )
     assert all(value > 0 for value in first_partials.values())
 
+    # M712 route narrowing: even every simple-cycle derivative inequality,
+    # together with P>0 and all edge floors, is too weak.  The simple-cycle
+    # identity is partial_(E\C) P = product_(e in C)(1+w_e)-1.
+    cycle_point = (
+        Fraction(-1, 10),
+        Fraction(0),
+        Fraction(-2, 5),
+        Fraction(1, 5),
+        Fraction(-3, 5),
+        Fraction(7, 5),
+        Fraction(19, 10),
+        Fraction(4, 5),
+    )
+    cycle_weights = dict(zip(EDGES, cycle_point))
+    cycle_p = evaluate(deletion, cycle_weights)
+    cycle_xi = evaluate(connected, cycle_weights)
+    assert cycle_p == Fraction(17, 78125) > 0
+    assert cycle_xi == Fraction(-559, 15625) < 0
+    assert all(1 + cycle_weights[edge] > 0 for edge in EDGES)
+
+    cycles = simple_cycles()
+    assert len(cycles) == 12
+    cycle_margins = {}
+    for cycle in cycles:
+        product_margin = Fraction(1)
+        for edge in cycle:
+            product_margin *= 1 + cycle_weights[edge]
+        product_margin -= 1
+        differentiated = set(EDGES) - set(cycle)
+        derivative_value = evaluate_residual_polynomial(
+            derivative_residuals(deletion, differentiated), cycle_weights
+        )
+        assert derivative_value == product_margin > 0
+        cycle_margins[cycle] = product_margin
+    assert min(cycle_margins.values()) == Fraction(11, 250)
+
+    all_derivatives = {}
+    for size in range(len(EDGES) + 1):
+        for differentiated in combinations(EDGES, size):
+            all_derivatives[differentiated] = evaluate_residual_polynomial(
+                derivative_residuals(deletion, differentiated), cycle_weights
+            )
+    nonpositive_derivatives = {
+        differentiated: value
+        for differentiated, value in all_derivatives.items()
+        if value <= 0
+    }
+    assert len(all_derivatives) == 256
+    assert len(nonpositive_derivatives) == 24
+    assert min(nonpositive_derivatives.items(), key=lambda item: item[1]) == (
+        ((0, 2), (1, 3)),
+        Fraction(-54491, 62500),
+    )
+
     print(json.dumps({
-        "schema": "amra.opg1757.round7.falsification-witnesses.v1",
+        "schema": "amra.opg1757.round7.falsification-witnesses.v2",
         "M702": {
             "transverse_point": [fraction_text(value) for value in correction_point],
             "even_P_ray_bernstein": [fraction_text(value) for value in bernstein_coefficients],
@@ -220,9 +299,27 @@ def main():
             },
             "classification": "P plus all eight first-edge derivative signs do not exclude xi<0",
         },
+        "M712_cycle_cone": {
+            "edge_weights": {
+                str(edge): fraction_text(cycle_weights[edge]) for edge in EDGES
+            },
+            "P": fraction_text(cycle_p),
+            "xi": fraction_text(cycle_xi),
+            "edge_floors_positive": 8,
+            "simple_cycle_derivatives_positive": len(cycle_margins),
+            "minimum_cycle_margin": fraction_text(min(cycle_margins.values())),
+            "all_mixed_derivatives_checked": len(all_derivatives),
+            "nonpositive_mixed_derivatives": len(nonpositive_derivatives),
+            "minimum_mixed_derivative": {
+                "edges": [str(edge) for edge in ((0, 2), (1, 3))],
+                "value": "-54491/62500",
+            },
+            "classification": "P, edge floors, and all simple-cycle derivatives do not exclude xi<0",
+        },
         "scope": {
             "M702": "does not exclude a correction estimate restricted by additional full-P component inequalities",
             "M703": "does not exclude higher mixed-derivative nesting or prove component membership",
+            "M712_cycle_cone": "narrows M712 to genuinely non-circuit mixed derivatives; it does not refute the full derivative-cone mechanism",
             "public_problem_changed": False,
         },
         "full_edge_floor": {

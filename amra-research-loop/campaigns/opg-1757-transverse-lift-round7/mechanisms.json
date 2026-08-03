@@ -74,8 +74,8 @@
       ],
       "kill_test": "classify all leading-sign and resultant chambers and find a reversed root order",
       "status": "surviving",
-      "status_evidence": "Retained all-base proof route: exact q-fibre wall order has the correct quantifiers and a finite resultant-chamber kill test.",
-      "updated_at": "2026-08-03T12:34:54+00:00"
+      "status_evidence": "Retained all-base proof route: evidence/C_ZERO_FIBRE_THEOREM.md closes the full c=0 fibre, while evidence/B_RAYLEIGH_REDUCTION.md gives an equivalent 178-term boundary determinant and closes x01=0 and x02=0.",
+      "updated_at": "2026-08-03T14:04:58+00:00"
     },
     {
       "id": "M707",
@@ -151,8 +151,8 @@
       ],
       "kill_test": "factor each of the seven nonconstant transverse channels and test sign compatibility on derivative-feasible points",
       "status": "surviving",
-      "status_evidence": "Retained algebraic route: higher mixed-derivative nesting is not excluded by the first-derivative witness.",
-      "updated_at": "2026-08-03T12:34:54+00:00"
+      "status_evidence": "Retained algebraic route: the exact b-Rayleigh reduction compresses the obstruction to (x03+z34)(y04+z34)+t(z34-u). The exact circuit-cone witness in evidence/FALSIFICATION_WITNESSES.md shows that genuinely non-circuit mixed derivatives are necessary but does not refute the full derivative-cone route.",
+      "updated_at": "2026-08-03T14:04:58+00:00"
     }
   ]
 }
