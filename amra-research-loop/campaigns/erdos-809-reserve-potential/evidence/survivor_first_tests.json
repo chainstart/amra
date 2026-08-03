@@ -1,0 +1,29 @@
+{
+  "survivors": [
+    {
+      "mechanism_id": "M809-06",
+      "result": "survives first test",
+      "reason": "Typed capacities distinguish actual B reserve from A rectangles and residual defect, while max-flow/min-cut exposes rather than hides a deficient colour subset. The sharp comparator routes all repeated demand. It remains open whether every low cut is one of the three canonical branches."
+    },
+    {
+      "mechanism_id": "M809-11",
+      "result": "survives first test",
+      "reason": "For any inclusion-minimal Hall-deficient colour set S, elementary deletion gives |N(S)|=|S|-1 and N(S\\{c})=N(S) for every c in S. Thus a minimal obstruction is a tight transversal circuit, a substantially narrower object than an arbitrary deficient family. Geometric coherence and typed-budget charging remain unproved."
+    }
+  ],
+  "frozen_after_deepening": [
+    {
+      "mechanism_id": "M809-01",
+      "reason": "The graph-generated Hall statement would be sufficient but is not decisive: GLOBAL_RESERVE_UNION_REDUCTION proves that the weaker root-free cardinality |Q|>=D_B already closes the B defect. Fixed-endpoint incidence is retained only as a probe of the complementary global obstruction."
+    }
+  ],
+  "inconclusive": [
+    {
+      "mechanism_id": "M809-08",
+      "reason": "Abstract overlapping-token systems defeat naive scalar ascent, but no graph-realizable hard configuration or all-parameter ascent proof has been established. Retained as candidate, not survivor."
+    }
+  ],
+  "minimal_deficiency_lemma_proof": "Let S be inclusion-minimal with |N(S)|<|S|. For c in S, minimality gives |N(S\\{c})|>=|S|-1. Since N(S\\{c}) is contained in N(S) and |N(S)|<=|S|-1, both have size |S|-1 and are equal. Hence |N(S)|=|S|-1 and deletion of any colour leaves the same token neighbourhood.",
+  "evidence_level": "author-verified natural proof plus finite comparator",
+  "independent_reconstruction": "not_performed"
+}

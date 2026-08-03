@@ -1,0 +1,82 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M01-fixed-post-carry-rank",
+      "outcome": "killed",
+      "evidence": "The proved b=L/2+5 canonical recurrence has first seed rank growing like log_2 log h, hence no fixed post-carry rank works. Sources: data/research_open/q1_six_hour_campaign_2026-08-02/erdos776/README.md and CLAIM_LEDGER.md.",
+      "mathematical_status": "refuted",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "M02-rank-five-no-borrow",
+      "outcome": "killed",
+      "evidence": "The actual dyadic K=6,r=10,u=15 family has q=(448*2^s-2)/5 for s=2 mod 4 and gamma5=4302695-6q<0 from s=14. It passes the no-borrow antecedent and was independently replayed in FINAL_CHAMBER_COUNTERFAMILY_BLIND_AUDIT.md.",
+      "mathematical_status": "refuted",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "M03-finite-K-reduction",
+      "outcome": "killed",
+      "evidence": "For every fixed K>=4, the all-parameter relaxed construction produces infinitely many one-promotion antecedents with gamma3,gamma4<0; recorded in the six-hour CLAIM_LEDGER.md and RESEARCH_LOG.md.",
+      "mathematical_status": "refuted_as_proof_route",
+      "statement_match": "relaxed_bridge_only"
+    },
+    {
+      "mechanism_id": "M04-immediate-first-cap-recovery",
+      "outcome": "killed",
+      "evidence": "The exact first-cap falsifier found five negative first-cap states. The next row is positive, which supports delayed recovery but directly refutes immediate positivity. Source: NEGATIVE_CAP_RECOVERY.md and its focused verifier.",
+      "mathematical_status": "refuted",
+      "statement_match": "negative_side_route"
+    },
+    {
+      "mechanism_id": "M05-leading-only-superadditivity",
+      "outcome": "killed",
+      "evidence": "The exact (--)->(++) family gives gamma5=4302695-6q<0. Retaining full-block loss closes five chambers but cannot make this sixth chamber positive. Source: FINAL_CHAMBER_COUNTERFAMILY.md and blind audit.",
+      "mathematical_status": "refuted",
+      "statement_match": "conditional_six_chamber_route"
+    },
+    {
+      "mechanism_id": "M06-multicap-transport-alone",
+      "outcome": "killed",
+      "evidence": "In the frozen 85,278-state atlas, the coarse forward/multi-cap deficit certificates cover only 53,343 states in union, leaving 31,935 exact admissible misses. Source: MULTI_PROMOTION_NO_BORROW_ATLAS.md section 5.",
+      "mathematical_status": "refuted_as_universal_certificate",
+      "statement_match": "relaxed_bridge_only"
+    },
+    {
+      "mechanism_id": "M07-second-level-coarse-bound",
+      "outcome": "killed",
+      "evidence": "The exact admissible rows (36,2,35,12,51,281) and (38,2,37,13,54,320) give bound (2.6) values -3 and -51, while exact gamma4 values are 354 and 489. Source: MULTI_PROMOTION_NO_BORROW_ATLAS.md equations (5.2)-(5.5).",
+      "mathematical_status": "refuted_as_universal_certificate",
+      "statement_match": "relaxed_bridge_only"
+    },
+    {
+      "mechanism_id": "M08-uniform-three-cap-gap",
+      "outcome": "killed",
+      "evidence": "The independent fixed-c=2 audit reconstructs 1,218 rigid m=2 rows. Exact cap-depth equations force k=1 and h_D=h_E in that phase, so m>=3 is false. Source: CRITICAL_ELLIPSE_CROSS_AUDIT_BY_OPG1757.md.",
+      "mathematical_status": "refuted",
+      "statement_match": "fixed_c2_boundary"
+    },
+    {
+      "mechanism_id": "M09-finite-promotion-alphabet",
+      "outcome": "killed",
+      "evidence": "A bounded exact scan finds admissible states with c=6,7,8,9. The first c=6 witness is (q,c,r,u,b,h,gamma3,x,y)=(79,6,77,0,413,40755,-68314,85,16849). Artifact: evidence/growing_promotions_probe.json, SHA-256 e3bc5b8598e83c997c346465c26853afb65bb8d04b38aa106959b961b71dd4a4.",
+      "mathematical_status": "finite_exact_refutation",
+      "statement_match": "route_claim_exact",
+      "machine_reproduced": "env AMRA_MEMORY_KIB=1048576 AMRA_TIMEOUT_SECONDS=300 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-adaptive-uniformity/evidence/probe_growing_promotions.py --q-max 220 --c-max 24 --output amra-research-loop/campaigns/erdos-776-adaptive-uniformity/evidence/growing_promotions_probe.json"
+    },
+    {
+      "mechanism_id": "M10-sign-only-potential",
+      "outcome": "killed",
+      "evidence": "Within the same exact K=6,r=10,u=15 (--)->(++) family, early dyadic members seed by rank five whereas members from s=14 have gamma5<0 and recover only at rank six. Borrow signs therefore do not determine the exit; cap depths and magnitudes are indispensable. Source: FINAL_CHAMBER_COUNTERFAMILY.md.",
+      "mathematical_status": "refuted_as_state_quotient",
+      "statement_match": "adaptive_seed_route"
+    },
+    {
+      "mechanism_id": "M12-borrow-aware-capacity-flow",
+      "outcome": "killed",
+      "evidence": "Reconstruction of the original Macaulay orbit shows that each M is checked independently through Gamma_r(M)=g_(r+1)-S_r(f_r); there is no shared token-to-rank capacity graph. The proposed Hall flow therefore acts on an abstract information-loss model rather than the actual proof object. The actual no-borrow bridge is the exact c=1 chamber recovery problem. Artifacts: evidence/LEGAL_RANK_ADJACENCY_AND_NEXT_LEMMA.json and evidence/ACTUAL_ORBIT_COVERAGE_CASE_TABLE.json.",
+      "mathematical_status": "refuted_as_actual_interface",
+      "statement_match": "route_claim_exact"
+    }
+  ]
+}

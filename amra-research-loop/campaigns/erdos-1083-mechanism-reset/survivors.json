@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M1083-01",
+    "M1083-09",
+    "M1083-10"
+  ],
+  "selection_rationale": "These are the only candidates that jointly preserve unsigned Euclidean realizability, simultaneous multiscale/second-row information, and an explicit route to a fixed improvement over the dimension-three 3/5 exponent. M1083-01 owns the geometric exponent ledger, M1083-09 owns cancellation-stable reconstruction, and M1083-10 owns extraction from the original near-extremal configuration. None is yet proved."
+}

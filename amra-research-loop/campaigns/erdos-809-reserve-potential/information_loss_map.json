@@ -1,0 +1,28 @@
+{
+  "inherited_methods": [
+    {
+      "method": "parity-sharp degree-spread potential",
+      "loss_step": "aggregate the hard branch to scalar degree defect",
+      "lost_information": "which endpoints retain compatible unused colours and reserve paths",
+      "consequence": "sharp scalar stability does not force a repeated-colour C7"
+    },
+    {
+      "method": "bare two-colour label invariant",
+      "loss_step": "record only induced-matching colour labels up to edge-flip gauge",
+      "lost_information": "precommitted endpoint-reserve incidence",
+      "consequence": "the invariant is gauge-trivial and cannot distinguish the obstruction from the target configuration"
+    },
+    {
+      "method": "global reserve-union reduction",
+      "loss_step": "replace every token-to-reserve relation by the cardinality of the root-free union Q",
+      "lost_information": "individual token provenance and typed interaction with the outer-A residue",
+      "consequence": "the loss is harmless for proving D_B<=M_B when |Q|>=D_B, but the scalar union alone neither controls R_A nor explains the structured branch |Q|<=D_B-1"
+    }
+  ],
+  "required_new_information": [
+    "fixed-endpoint colour-reserve incidence before path selection",
+    "a Hall-type deficit or bounded potential stable under the equality cases",
+    "one interface joining B-opposite, B-same, and A branches",
+    "a typed cut that couples the root-free global reserve obstruction to the anchored outer-A residue"
+  ]
+}

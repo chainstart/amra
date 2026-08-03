@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M01-fixed-post-carry-rank",
+      "representation_id": "R02-full-macaulay-word",
+      "family": "canonical_combinatorics",
+      "decisive_claim": "There is one fixed post-carry rank p, independent of the strip and offset, at which every legal diagonal state has nonnegative surplus.",
+      "would_close": [
+        "uniform adaptive seed theorem and hence the rank-42 interface"
+      ],
+      "kill_test": "Replay the exact b=L/2+5 infinite family and test every proposed fixed p.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:05+00:00",
+      "status_evidence": "PROVED route obstruction: the infinite b=L/2+5 family has no fixed post-carry seed rank; see six-hour README and inherited claim ledger.",
+      "updated_at": "2026-08-02T14:50:57+00:00"
+    },
+    {
+      "id": "M02-rank-five-no-borrow",
+      "representation_id": "R06-signature-transition-graph",
+      "family": "finite_state_dynamics",
+      "decisive_claim": "Every actual-lattice initial no-borrow state with gamma3<0 has gamma5>0.",
+      "would_close": [
+        "the complementary no-borrow chamber"
+      ],
+      "kill_test": "Replay the K=6,r=10,u=15 dyadic family in the residue class s=2 mod 4.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:05+00:00",
+      "status_evidence": "Exact actual-lattice counterfamily K=6,r=10,u=15 has gamma3,gamma4,gamma5<0 from s=14 onward; independently replayed.",
+      "updated_at": "2026-08-02T14:50:57+00:00"
+    },
+    {
+      "id": "M03-finite-K-reduction",
+      "representation_id": "R01-promotion-coordinates",
+      "family": "canonical_combinatorics",
+      "decisive_claim": "All no-borrow antecedents relevant to closure have K=b-q in a fixed finite set.",
+      "would_close": [
+        "a finite exhaustive proof of the complementary no-borrow chamber"
+      ],
+      "kill_test": "For each fixed K>=4, solve the relaxed antecedent as q tends to infinity and check whether infinitely many legal tuples persist.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:05+00:00",
+      "status_evidence": "All-parameter relaxed construction gives infinitely many antecedents for every fixed K>=4, so K is not confined to a finite list.",
+      "updated_at": "2026-08-02T14:50:57+00:00"
+    },
+    {
+      "id": "M04-immediate-first-cap-recovery",
+      "representation_id": "R06-signature-transition-graph",
+      "family": "finite_state_dynamics",
+      "decisive_claim": "Every first noncanonical cap transition in the negative-side chamber is immediately positive.",
+      "would_close": [
+        "the negative-side adaptive bridge without delayed states"
+      ],
+      "kill_test": "Replay all exact first-cap states and search for gamma at the first cap <=0.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:05+00:00",
+      "status_evidence": "Exact first-cap scan contains five negative first-cap surpluses; all recover only at the next row.",
+      "updated_at": "2026-08-02T14:50:57+00:00"
+    },
+    {
+      "id": "M05-leading-only-superadditivity",
+      "representation_id": "R05-shadow-loss-dual",
+      "family": "convex_duality",
+      "decisive_claim": "Leading blocks plus pure superadditivity certify strict positivity in every one-promotion rank-five chamber.",
+      "would_close": [
+        "the old six-chamber no-borrow bridge"
+      ],
+      "kill_test": "Evaluate the claimed lower bound on the actual (--)->(++) K=6,r=10 family.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:05+00:00",
+      "status_evidence": "Actual (--)->(++) dyadic family has gamma5=4302695-6q<0; leading-only positivity is false.",
+      "updated_at": "2026-08-02T14:50:57+00:00"
+    },
+    {
+      "id": "M06-multicap-transport-alone",
+      "representation_id": "R05-shadow-loss-dual",
+      "family": "convex_duality",
+      "decisive_claim": "The multi-cap transport inequality (3.8) alone is strictly positive on every admissible multi-promotion no-borrow state.",
+      "would_close": [
+        "uniform gamma4 positivity in the relaxed multi-promotion chamber"
+      ],
+      "kill_test": "Evaluate (3.8) on the frozen q<=60,c<=14 atlas and count admissible states where its hypotheses or sign fail.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:05+00:00",
+      "status_evidence": "Frozen exact atlas leaves 31,935 states uncertified by the union containing the multi-cap transport bound.",
+      "updated_at": "2026-08-02T14:50:58+00:00"
+    },
+    {
+      "id": "M07-second-level-coarse-bound",
+      "representation_id": "R05-shadow-loss-dual",
+      "family": "convex_duality",
+      "decisive_claim": "The second-level remainder bound (2.6), with rho replaced by its worst case, is strictly positive on every admissible multi-promotion state.",
+      "would_close": [
+        "uniform gamma4 positivity in the relaxed multi-promotion chamber"
+      ],
+      "kill_test": "Evaluate (2.6) exactly at every frozen atlas state and freeze the smallest nonpositive lower-bound row.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:05+00:00",
+      "status_evidence": "Exact states (q,c,r,u)=(36,2,35,12) and (38,2,37,13) give lower bounds -3 and -51 although exact gamma4 is positive.",
+      "updated_at": "2026-08-02T14:50:58+00:00"
+    },
+    {
+      "id": "M08-uniform-three-cap-gap",
+      "representation_id": "R03-cap-depth-vector",
+      "family": "deficit_geometry",
+      "decisive_claim": "Every asymptotically critical two-promotion boundary state has coupled cap gap m at least 3.",
+      "would_close": [
+        "fixed-c=2 eventual positivity directly from the cap-gap estimate"
+      ],
+      "kill_test": "Solve the exact minimal-correction equations and search for m=2 phases.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:05+00:00",
+      "status_evidence": "Independent critical-ellipse audit finds 1,218 rigid m=2 rows; exact equations force k=1 and equal corrections.",
+      "updated_at": "2026-08-02T14:50:58+00:00"
+    },
+    {
+      "id": "M09-finite-promotion-alphabet",
+      "representation_id": "R01-promotion-coordinates",
+      "family": "canonical_combinatorics",
+      "decisive_claim": "Every admissible no-borrow state has promotion count c<=5.",
+      "would_close": [
+        "removal of all growing-c regimes by a finite type classification"
+      ],
+      "kill_test": "Scan exact integer promotion coordinates beyond q=60 with parity and all admissibility guards.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:05+00:00",
+      "status_evidence": "Bounded exact probe finds admissible c=6,7,8,9 states; first c=6 witness is (q,r,u,b,h)=(79,77,0,413,40755).",
+      "updated_at": "2026-08-02T14:50:58+00:00"
+    },
+    {
+      "id": "M10-sign-only-potential",
+      "representation_id": "R07-bounded-potential",
+      "family": "finite_state_dynamics",
+      "decisive_claim": "Promotion count and the two borrow signs alone determine a strictly improving bounded potential at every negative transition.",
+      "would_close": [
+        "a finite sign automaton proving an adaptive seed before rank 42"
+      ],
+      "kill_test": "Compare exact states in the same sign chamber that have positive rank five against the infinite K=6,r=10 family with negative rank five.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:06+00:00",
+      "status_evidence": "The same exact (--)->(++) symbolic family is rank-five positive at early lattice points and negative from s=14, so borrow signs alone do not determine exit.",
+      "updated_at": "2026-08-02T14:50:58+00:00"
+    },
+    {
+      "id": "M11-growing-c-cap-depth",
+      "representation_id": "R04-scaled-phase-compactification",
+      "family": "asymptotic_geometry",
+      "decisive_claim": "For every admissible sequence with q tending to infinity and c=c(q) tending to infinity, gamma4 is eventually positive, with the proof split by c/sqrt(q) and exact coupled cap depths.",
+      "would_close": [
+        "the missing uniform growing-promotion theorem; combined with fixed-c eventual positivity it closes the relaxed no-borrow interface"
+      ],
+      "kill_test": "Search exact states up to the bounded resource limit for gamma4<=0 at increasing c; then derive separate coercive inequalities in the c=o(sqrt(q)), c comparable to sqrt(q), and x-boundary regimes.",
+      "status": "surviving",
+      "created_at": "2026-08-02T14:50:06+00:00",
+      "status_evidence": "Survives first falsification: exact promotion scan refutes finite-c shortcuts but supplies no gamma4 counterexample; unlike fixed-c compactness, the claim retains c/sqrt(q) and cap depths.",
+      "updated_at": "2026-08-02T14:50:58+00:00"
+    },
+    {
+      "id": "M12-borrow-aware-capacity-flow",
+      "representation_id": "R08-rank-slot-flow",
+      "family": "matching_duality",
+      "decisive_claim": "Every relaxed adaptive seed sequence satisfying the exact transition certificate admits a Hall-feasible assignment to distinct legal ranks before rank 42, with actual seed and borrow capacities respected.",
+      "would_close": [
+        "the relaxed-to-actual global interface required by the closure contract"
+      ],
+      "kill_test": "Generate the smallest relaxed-positive certificates, construct the exact rank-slot network, and either find a Hall-deficient cut or prove a symbolic cut lower bound.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:06+00:00",
+      "status_evidence": "evidence/LEGAL_RANK_ADJACENCY_AND_NEXT_LEMMA.json",
+      "updated_at": "2026-08-02T15:39:28+00:00"
+    }
+  ]
+}

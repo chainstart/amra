@@ -1,0 +1,149 @@
+{
+  "host": "W4 (wheel on five vertices, eight edges)",
+  "scope": "Exact stabilizer-orbit specializations and rigorous one-coordinate component channels only; no full domination claim.",
+  "spoke_orbit": {
+    "marked_edge": [
+      0,
+      1
+    ],
+    "variable_classes": {
+      "a": [
+        "02",
+        "04"
+      ],
+      "b": [
+        "03"
+      ],
+      "c": [
+        "12",
+        "14"
+      ],
+      "d": [
+        "23",
+        "34"
+      ]
+    },
+    "C_delete": "a**2*b*c**2*d**2 + 2*a**2*b*c**2*d + a**2*b*c**2 + 2*a**2*b*c*d**2 + 4*a**2*b*c*d + 2*a**2*b*c + a**2*b*d**2 + 2*a**2*b*d + a**2*c**2*d**2 + 2*a**2*c**2*d + a**2*c**2 + 2*a**2*c*d**2 + 4*a**2*c*d + 2*a**2*c + a**2*d**2 + 2*a**2*d + 2*a*b*c**2*d**2 + 4*a*b*c**2*d + 2*a*b*c**2 + 4*a*b*c*d**2 + 8*a*b*c*d + 4*a*b*c + 2*a*b*d**2 + 4*a*b*d + 2*a*c**2*d**2 + 2*a*c**2*d + 4*a*c*d**2 + 4*a*c*d + 2*a*d**2 + b*c**2*d**2 + 2*b*c**2*d + 2*b*c*d**2 + 4*b*c*d + c**2*d**2 + 2*c*d**2",
+    "xi": "2*a**2*c*d + 2*a**2*c + 2*a**2*d + 2*a*b*c*d**2 + 4*a*b*c*d + 4*a*b*c + 2*a*b*d**2 + 4*a*b*d + 2*a*c*d**2 + 4*a*c*d + 2*a*d**2 + 2*b*c*d**2 + 4*b*c*d + 2*c*d**2",
+    "C_delete_at_ones": 86,
+    "xi_at_ones": 38,
+    "one_coordinate_channels": [
+      {
+        "variable": "a",
+        "C_delete": "2*(15*t**2 + 22*t + 6)",
+        "xi": "2*(3*t**2 + 12*t + 4)",
+        "distinguished_interval": "t > (-11 + sqrt(31))/15",
+        "xi_boundary": "largest xi root = -2 + 2*sqrt(6)/3 < C_delete boundary",
+        "exact_conclusion": "xi > 0 throughout the distinguished interval",
+        "membership_reason": "The interval is the C_delete>0 component containing t>0; varying t inside it is an explicit path to the positive orthant."
+      },
+      {
+        "variable": "b",
+        "C_delete": "2*(27*t + 16)",
+        "xi": "2*(11*t + 8)",
+        "distinguished_interval": "t > -16/27",
+        "xi_boundary": "xi root = -8/11 < -16/27",
+        "exact_conclusion": "xi > 0 throughout the distinguished interval",
+        "membership_reason": "The interval is the C_delete>0 component containing t>0; varying t inside it is an explicit path to the positive orthant."
+      },
+      {
+        "variable": "c",
+        "C_delete": "2*(12*t**2 + 24*t + 7)",
+        "xi": "2*(14*t + 5)",
+        "distinguished_interval": "t > -1 + sqrt(15)/6",
+        "xi_boundary": "xi root = -5/14 < C_delete boundary",
+        "exact_conclusion": "xi > 0 throughout the distinguished interval",
+        "membership_reason": "The interval is the C_delete>0 component containing t>0; varying t inside it is an explicit path to the positive orthant."
+      },
+      {
+        "variable": "d",
+        "C_delete": "2*(15*t**2 + 22*t + 6)",
+        "xi": "2*(6*t**2 + 10*t + 3)",
+        "distinguished_interval": "t > (-11 + sqrt(31))/15",
+        "xi_boundary": "largest xi root = (-5 + sqrt(7))/6 < C_delete boundary",
+        "exact_conclusion": "xi > 0 throughout the distinguished interval",
+        "membership_reason": "The interval is the C_delete>0 component containing t>0; varying t inside it is an explicit path to the positive orthant."
+      }
+    ],
+    "natural_two_variable": {
+      "substitution": "b=a, d=c",
+      "C_delete": "c*(a**3*c**3 + 4*a**3*c**2 + 6*a**3*c + 4*a**3 + 3*a**2*c**3 + 12*a**2*c**2 + 18*a**2*c + 12*a**2 + 3*a*c**3 + 10*a*c**2 + 10*a*c + c**3 + 2*c**2)",
+      "xi": "2*c*(a**2*c**2 + 4*a**2*c + 6*a**2 + 2*a*c**2 + 5*a*c + c**2)",
+      "boundary_identity": "(a+1) P - (a^2*c+2*a*c+3*a+c+2) Q = a^2*(4*a^2-2*a-c), where C_delete=c*P and xi=2*c*Q",
+      "component_claim": "none beyond explicitly pathed channels"
+    }
+  },
+  "rim_orbit": {
+    "marked_edge": [
+      1,
+      2
+    ],
+    "variable_classes": {
+      "a": [
+        "01",
+        "02"
+      ],
+      "b": [
+        "03",
+        "04"
+      ],
+      "c": [
+        "23",
+        "14"
+      ],
+      "d": [
+        "34"
+      ]
+    },
+    "C_delete": "a**2*b**2*c**2*d + a**2*b**2*c**2 + 2*a**2*b**2*c*d + 2*a**2*b**2*c + a**2*b**2*d + a**2*b**2 + 2*a**2*b*c**2*d + 2*a**2*b*c**2 + 4*a**2*b*c*d + 4*a**2*b*c + 2*a**2*b*d + 2*a**2*b + a**2*c**2*d + 2*a**2*c*d + a**2*d + 2*a*b**2*c**2*d + 2*a*b**2*c**2 + 4*a*b**2*c*d + 4*a*b**2*c + 2*a*b**2*d + 2*a*b**2 + 4*a*b*c**2*d + 4*a*b*c**2 + 6*a*b*c*d + 4*a*b*c + 2*a*b*d + 2*a*c**2*d + 2*a*c*d + b**2*c**2*d + b**2*c**2 + 2*b**2*c*d + 2*b**2*c + b**2*d + 2*b*c**2*d + 2*b*c**2 + 2*b*c*d + c**2*d",
+    "xi": "a**2*b**2 + 2*a**2*b + a**2*d + 2*a*b**2 + 2*a*b*c*d + 4*a*b*c + 2*a*b*d + 2*a*c*d + b**2*c**2*d + b**2*c**2 + 2*b**2*c*d + 2*b**2*c + b**2*d + 2*b*c**2*d + 2*b*c**2 + 2*b*c*d + c**2*d",
+    "C_delete_at_ones": 82,
+    "xi_at_ones": 30,
+    "one_coordinate_channels": [
+      {
+        "variable": "a",
+        "C_delete": "2*(14*t**2 + 20*t + 7)",
+        "xi": "2*(2*t**2 + 6*t + 7)",
+        "distinguished_interval": "t > (-10 + sqrt(2))/14",
+        "xi_boundary": "xi has negative discriminant and positive leading coefficient",
+        "exact_conclusion": "xi > 0 throughout the distinguished interval",
+        "membership_reason": "The interval is the C_delete>0 component containing t>0; varying t inside it is an explicit path to the positive orthant."
+      },
+      {
+        "variable": "b",
+        "C_delete": "31*t**2 + 42*t + 9",
+        "xi": "2*(5*t**2 + 8*t + 2)",
+        "distinguished_interval": "t > (-21 + 9*sqrt(2))/31",
+        "xi_boundary": "largest xi root = (-4 + sqrt(6))/5 < C_delete boundary",
+        "exact_conclusion": "xi > 0 throughout the distinguished interval",
+        "membership_reason": "The interval is the C_delete>0 component containing t>0; varying t inside it is an explicit path to the positive orthant."
+      },
+      {
+        "variable": "c",
+        "C_delete": "2*(14*t**2 + 20*t + 7)",
+        "xi": "7*t**2 + 14*t + 9",
+        "distinguished_interval": "t > (-10 + sqrt(2))/14",
+        "xi_boundary": "xi has negative discriminant and positive leading coefficient",
+        "exact_conclusion": "xi > 0 throughout the distinguished interval",
+        "membership_reason": "The interval is the C_delete>0 component containing t>0; varying t inside it is an explicit path to the positive orthant."
+      },
+      {
+        "variable": "d",
+        "C_delete": "49*t + 33",
+        "xi": "2*(8*t + 7)",
+        "distinguished_interval": "t > -33/49",
+        "xi_boundary": "xi root = -7/8 < -33/49",
+        "exact_conclusion": "xi > 0 throughout the distinguished interval",
+        "membership_reason": "The interval is the C_delete>0 component containing t>0; varying t inside it is an explicit path to the positive orthant."
+      }
+    ],
+    "natural_two_variable": {
+      "substitution": "b=a, d=c",
+      "C_delete": "a**4*c**3 + 3*a**4*c**2 + 3*a**4*c + a**4 + 4*a**3*c**3 + 12*a**3*c**2 + 12*a**3*c + 4*a**3 + 6*a**2*c**3 + 15*a**2*c**2 + 10*a**2*c + 4*a*c**3 + 6*a*c**2 + c**3",
+      "xi": "a**4 + 4*a**3 + a**2*c**3 + 5*a**2*c**2 + 10*a**2*c + 2*a*c**3 + 6*a*c**2 + c**3",
+      "boundary_identity": "P-(a+1)^2 Q = -a^2 R, where Q=xi and R=a^4+6*a^3+2*a^2*c^2+7*a^2*c+8*a^2+4*a*c^2+8*a*c+2*c^2",
+      "component_claim": "none beyond explicitly pathed channels"
+    }
+  },
+  "disposition": "Neither edge orbit is killed.  xi is exactly positive on every audited distinguished one-coordinate channel.  The two boundary identities are candidates for a later SOS/component argument."
+}

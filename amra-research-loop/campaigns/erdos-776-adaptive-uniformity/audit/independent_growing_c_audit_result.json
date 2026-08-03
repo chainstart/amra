@@ -1,0 +1,31 @@
+{
+  "schema": "amra.erdos776.independent-growing-c-audit.v1",
+  "implementation_independent_of_author_probe": true,
+  "command": "AMRA_MEMORY_KIB=1048576 AMRA_TIMEOUT_SECONDS=300 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-adaptive-uniformity/audit/independent_growing_c_audit.py",
+  "resource_limits": {
+    "virtual_memory_kib": 1048576,
+    "timeout_seconds": 300,
+    "threads": 2
+  },
+  "script_sha256": "fb740bde0c91aa03275bbcc064573e44aa03027c6f04696cff1724d769fdc0f4",
+  "finite_guard": {
+    "q_range": [24, 100],
+    "c_range": [2, 13],
+    "admissible_negative_gamma3_rows": 585588,
+    "nonpositive_gamma4_rows": 0
+  },
+  "slow_growing_c_samples": [
+    {"q": 256, "c": 4, "delta_ratio_numerator_denominator": [264200, 262144], "gamma4_positive": true},
+    {"q": 1024, "c": 5, "delta_ratio_numerator_denominator": [5258260, 5242880], "gamma4_positive": true},
+    {"q": 4096, "c": 8, "delta_ratio_numerator_denominator": [134414446, 134217728], "gamma4_positive": true},
+    {"q": 16384, "c": 11, "delta_ratio_numerator_denominator": [2954412360, 2952790016], "gamma4_positive": true}
+  ],
+  "sqrt_scale_samples": [
+    {"q": 256, "c": 4, "delta_ratio_numerator_denominator": [264200, 262144], "gamma4_positive": true},
+    {"q": 1024, "c": 8, "delta_ratio_numerator_denominator": [8437870, 8388608], "gamma4_positive": true},
+    {"q": 4096, "c": 16, "delta_ratio_numerator_denominator": [269354078, 268435456], "gamma4_positive": true},
+    {"q": 16384, "c": 32, "delta_ratio_numerator_denominator": [8605673150, 8589934592], "gamma4_positive": true}
+  ],
+  "unbounded_inference_from_computation": false,
+  "public_problem_closed": false
+}

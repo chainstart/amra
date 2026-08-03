@@ -1,0 +1,18 @@
+{
+  "statement": "For a fixed finite graph G, q^(-|V|) times the multivariate random-cluster polynomial with edge activities q*x_e equals sum_A q^(|A|-|V|+k(A)) x^A; its q=0 sector is exactly the forest polynomial, and every marked Rayleigh difference converges coefficientwise to the forest Rayleigh difference as q tends to zero from above.",
+  "status": "proved",
+  "closes": [
+    "the exact q-to-zero representation and derivative passage for survivor M008"
+  ],
+  "evidence": [
+    "evidence/RANDOM_CLUSTER_BOUNDARY_LEMMA.md",
+    "evidence/opg_triangle_random_cluster_probe.lean",
+    "evidence/random_cluster_boundary_probe.py",
+    "evidence/random_cluster_boundary_probe.json"
+  ],
+  "dependency_gaps": [
+    "no finite-q negative-dependence theorem uniform near q=0 is proved",
+    "the lemma does not connect the old complete-split coefficient rows to arbitrary hosts",
+    "the campaign success condition global_interface_closed is not met"
+  ]
+}

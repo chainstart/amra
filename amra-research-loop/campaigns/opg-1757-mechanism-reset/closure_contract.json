@@ -1,0 +1,20 @@
+{
+  "exact_statement": "For every finite simple graph G and every pair of distinct edges e,f, if F is a uniformly random forest of G, then Pr(e in F | f in F) <= Pr(e in F).",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/opg1757/ORIGINAL_PROBLEM_FIREWALL.md",
+  "success_conditions": [
+    "global_interface_closed"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Fresh control state; prior mathematical artifacts are read-only evidence, not inherited progress credit.",
+    "Global interface closed means a proved route from the controlled coefficient model through every relevant row to arbitrary finite simple host graphs; otherwise this campaign does not promote.",
+    "Reuse the proved complete equal-height aggregation and eventual third-active coefficient positivity from data/research_open/q1_two_hour_ten_proofs_transfer_2026-08-02.",
+    "Do not continue the finite-s third-active log strip unless a representation also exposes later rows and arbitrary-host transfer."
+  ]
+}

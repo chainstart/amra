@@ -1,0 +1,59 @@
+{
+  "chargeable_instance": {
+    "Hall": true,
+    "full_set_pair_capacity": 3,
+    "maximum_matching_size": 3,
+    "new_A_atom": "a1",
+    "owner_neighbourhood_in_S": [
+      "c2"
+    ]
+  },
+  "classification": "sharp_abstract_indistinguishability_no_go",
+  "coverage_rank_submodular_on_both_instances": true,
+  "distinguishing_datum": "owner neighbourhood of each actual A/B/slack resource atom inside the circuit",
+  "graph_realizability_claimed": false,
+  "public_problem_changed": false,
+  "same_existing_scalar_ledger": {
+    "B_union_size": 2,
+    "E_A_incidence_deficit": 1,
+    "Hall_deficiency": 1,
+    "S_m": 0,
+    "branch": "B-opposite",
+    "circuit_size": 3,
+    "colour_B_degrees": [
+      1,
+      2,
+      1
+    ],
+    "mu_algebraic_occurrences": 2,
+    "mu_distinct_B_atoms": 1,
+    "rectangle_product_atoms": 1,
+    "rectangle_side_sizes": [
+      1,
+      1
+    ],
+    "token_S_degrees": [
+      2,
+      2
+    ]
+  },
+  "same_tight_B_circuit": {
+    "c1": [
+      "q1"
+    ],
+    "c2": [
+      "q1",
+      "q2"
+    ],
+    "c3": [
+      "q2"
+    ]
+  },
+  "unchargeable_instance": {
+    "Hall": false,
+    "full_set_pair_capacity": 2,
+    "maximum_matching_size": 2,
+    "new_A_atom": "a1",
+    "owner_neighbourhood_in_S": []
+  }
+}

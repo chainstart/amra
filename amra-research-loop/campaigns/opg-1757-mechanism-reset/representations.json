@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R001",
+      "name": "multivariate Rayleigh coefficient lattice",
+      "family": "algebraic-coefficient",
+      "new_information": "retains every remaining edge variable and exposes cancellations between equal exponent vectors",
+      "first_test": "compute the complete coefficient dictionary of Delta for K4 with a disjoint marked pair"
+    },
+    {
+      "id": "R002",
+      "name": "rank-homogenized graphic independence polynomial",
+      "family": "geometric-polynomial",
+      "new_information": "retains forest cardinality through a homogenizing variable and permits stability or Lorentzian tests",
+      "first_test": "test the real-stability Rayleigh criterion on the triangle homogenization"
+    },
+    {
+      "id": "R003",
+      "name": "rooted matrix-forest determinant with component correction",
+      "family": "determinantal",
+      "new_information": "packages all rooted forests in one Laplacian determinant while displaying component-size multiplicities",
+      "first_test": "compare two P4 forests with the same component count but component-size products 3 and 4"
+    },
+    {
+      "id": "R004",
+      "name": "fermionic arboreal-gas correlation observable",
+      "family": "supersymmetric-analytic",
+      "new_information": "keeps the unrooted forest weight and both marked-edge insertions inside one cancellation identity",
+      "first_test": "derive the exact two-edge Ward observable on C3 and K4 before attempting a positivity square"
+    },
+    {
+      "id": "R005",
+      "name": "component partition followed by blockwise uniform spanning trees",
+      "family": "probabilistic-mixture",
+      "new_information": "separates negative correlation inside a component from covariance created by the random component partition",
+      "first_test": "compute covariance of conditional edge means for adjacent edges of K3"
+    },
+    {
+      "id": "R006",
+      "name": "cycle-exchange transport graph between the four Rayleigh cells",
+      "family": "combinatorial-transport",
+      "new_information": "retains provenance of both forests and all admissible alternating exchanges instead of one canonical toggle",
+      "first_test": "test Hall deficits and single-edge-transfer failure on K4 marked forests"
+    },
+    {
+      "id": "R007",
+      "name": "deletion-contraction quadratic in a pivot activity",
+      "family": "structural-recursion",
+      "new_information": "isolates the exact mixed coefficient lost by minor-only induction",
+      "first_test": "search small graphs for a negative mixed coefficient while both endpoint minors remain valid instances"
+    },
+    {
+      "id": "R008",
+      "name": "q-to-zero random-cluster regularization",
+      "family": "rare-event-conditioning",
+      "new_information": "embeds unrooted forests as the lowest q-order sector while retaining a finite-q probability measure",
+      "first_test": "verify the scaled triangle identity and determine whether negative dependence is uniform as q decreases to zero"
+    },
+    {
+      "id": "R009",
+      "name": "auxiliary-root basis lift",
+      "family": "matroidal-lift",
+      "new_information": "turns forests into spanning-tree bases but records the root-attachment fiber multiplicity of each component",
+      "first_test": "solve the singleton and two-vertex component equations for fixed positive root-edge weights"
+    },
+    {
+      "id": "R010",
+      "name": "cardinality and Tutte-activity filtration",
+      "family": "filtered-combinatorics",
+      "new_information": "retains forest size, activity order, and the positive between-layer covariance discarded by layerwise arguments",
+      "first_test": "decompose the K3 covariance by forest size and test coefficientwise activity-channel positivity on K4"
+    }
+  ]
+}

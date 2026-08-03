@@ -1,0 +1,21 @@
+{
+  "purpose": "First comparator test for M809-01 and flow feasibility check for M809-06 on inherited sharp reserve-paid cores.",
+  "command": "AMRA_MEMORY_KIB=1048576 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 data/research_open/q1_two_hour_ten_proofs_transfer_2026-08-02/erdos809/verify_palette_reserve_transfer.py",
+  "limits": {
+    "virtual_memory_kib": 1048576,
+    "timeout_seconds": 180,
+    "threads": 1
+  },
+  "result": {
+    "pass": true,
+    "parameter_rows": 34,
+    "max_g": 20,
+    "vertices_rebuilt": 10455,
+    "edges_rebuilt": 1250945,
+    "repeated_classes_checked": 408,
+    "reserve_injections_checked": 408,
+    "matching_gauge_words_checked": 2047
+  },
+  "script_sha256": "81a4efe3b83bd4c0f7002849653cf90a0352a4dadae6fced03b1bc7c3958f9fe",
+  "mathematical_scope": "finite executable comparator only; the all-parameter sharp-core theorem is in the cited inherited natural proof, and general Hall expansion remains open"
+}

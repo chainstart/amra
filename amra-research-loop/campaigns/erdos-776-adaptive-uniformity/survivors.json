@@ -1,0 +1,6 @@
+{
+  "mechanism_ids": [
+    "M11-growing-c-cap-depth"
+  ],
+  "selection_rationale": "M11 is the only surviving original mechanism: it attacks the missing quantifier c=c(q) while retaining full cap-depth information, and its relaxed c>=2 theorem passed independent audit. M12 was killed after reconstructing the actual Macaulay orbit interface: ranks are checked independently and there is no shared token-to-rank capacity graph on which its Hall formulation could act. The actual remaining bridge is the c=1 chamber recovery lemma recorded in evidence/C1_TWO_ROW_RECOVERY_NORMAL_FORM.json, not a capacity-flow theorem."
+}

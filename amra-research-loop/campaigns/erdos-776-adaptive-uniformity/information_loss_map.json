@@ -1,0 +1,21 @@
+{
+  "inherited_methods": [
+    {
+      "method": "fixed-promotion-count positivity",
+      "loss_step": "hold c fixed while the ambient scale q tends to infinity",
+      "lost_information": "uniform dependence when the required promotion count c=c(q) grows",
+      "consequence": "all fixed-c cases may hold while the range needed for n-3 occupied ranks still fails"
+    },
+    {
+      "method": "relaxed no-borrow Macaulay model",
+      "loss_step": "suppress borrow interactions and actual seed/rank-42 capacity constraints",
+      "lost_information": "adaptive feasibility of the promoted family in the original Boolean lattice",
+      "consequence": "positivity in the relaxation does not construct or certify the required antichain"
+    }
+  ],
+  "required_new_information": [
+    "a potential uniform for growing promotion count",
+    "borrow-aware adaptive coupling",
+    "a quantitative bridge to actual seed and rank-capacity feasibility"
+  ]
+}

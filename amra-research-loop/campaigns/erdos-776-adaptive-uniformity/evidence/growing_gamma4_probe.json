@@ -1,0 +1,57 @@
+{
+  "classification": "finite_exact_survivor_falsifier",
+  "counts_by_c": {
+    "6": 451115,
+    "7": 131117,
+    "8": 661
+  },
+  "domain": {
+    "c_max": 10,
+    "c_min": 6,
+    "output": "amra-research-loop/campaigns/erdos-776-adaptive-uniformity/evidence/growing_gamma4_probe.json",
+    "q_max": 160,
+    "q_min": 61
+  },
+  "first_nonpositive": [],
+  "minimum_gamma4_by_c": {
+    "6": {
+      "b": 413,
+      "c": 6,
+      "gamma3": -68314,
+      "gamma4": 103379,
+      "h": 40755,
+      "q": 79,
+      "r": 77,
+      "u": 0,
+      "x": 85,
+      "y": 16849
+    },
+    "7": {
+      "b": 702,
+      "c": 7,
+      "gamma3": -205564,
+      "gamma4": 379483,
+      "h": 119456,
+      "q": 113,
+      "r": 112,
+      "u": 1,
+      "x": 741,
+      "y": 41228
+    },
+    "8": {
+      "b": 1103,
+      "c": 8,
+      "gamma3": -521715,
+      "gamma4": 1087369,
+      "h": 297437,
+      "q": 153,
+      "r": 151,
+      "u": 1,
+      "x": 627,
+      "y": 86665
+    }
+  },
+  "nonpositive_count_capped_at_20": 0,
+  "retained": 582893,
+  "unbounded_claim_made": false
+}

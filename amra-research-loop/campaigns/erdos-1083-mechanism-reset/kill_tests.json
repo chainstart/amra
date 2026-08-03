@@ -1,0 +1,74 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M1083-03",
+      "outcome": "killed",
+      "evidence_level": 4,
+      "evidence": "COHERENT_THETA_EUCLIDEAN_NO_GO.md constructs genuine points in R^3 satisfying the complete stated theta record with K<=S-1 arms and at most 2S^2+S local distances. A rank-three PSD/Gram formulation cannot recover information absent from this realized configuration.",
+      "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/COHERENT_THETA_EUCLIDEAN_NO_GO.md",
+      "source_sha256": "ebfd88a86ce1721a9229682218fe26acb69c0e03597774906808c60d6827ac7e",
+      "leaves_open": "PSD stress using the full U-cell partitions and a power-large global core"
+    },
+    {
+      "mechanism_id": "M1083-04",
+      "outcome": "killed",
+      "evidence_level": 4,
+      "evidence": "FULL_EUCLIDEAN_INTERVAL_MULTIROW_NO_GO.md gives arbitrarily many genuine Euclidean rows with complete common-spectrum cell partitions and shared tangents. Hence no fixed forbidden-biclique or bounded-codegree assertion follows from the Euclidean row-cell interface alone.",
+      "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/FULL_EUCLIDEAN_INTERVAL_MULTIROW_NO_GO.md",
+      "source_sha256": "0b49747b104f89a2c07696595235764242f57a20ee9711a4c9ecc4b019722833",
+      "leaves_open": "an incidence theorem whose bound depends quantitatively on the power-large row scale and exceptional geometry"
+    },
+    {
+      "mechanism_id": "M1083-05",
+      "outcome": "killed",
+      "evidence_level": 4,
+      "evidence": "The audited factorial-energy ledger has exact minimum-debt signed Euclidean examples, while mask rows have delta=0; therefore delta alone is blind both to fully positive multirow families and to the geometric information needed to convert a row count into a distance exponent. The exact identity is retained, but the claimed standalone closure effect is false.",
+      "source": "data/research_open/q1_two_hour_ten_proofs_transfer_2026-08-02/erdos1083/SIGNED_RESIDUAL_FACTORIAL_ENERGY.md",
+      "leaves_open": "factorial energy coupled to a new outer Euclidean or common-mask complexity inequality"
+    },
+    {
+      "mechanism_id": "M1083-06",
+      "outcome": "killed",
+      "evidence_level": 4,
+      "evidence": "For P=1+x+x^3+x^5+x^6, APERIODIC_SMALL_DIVISOR_NO_GO.md proves no torsion zero but finite-cyclic minimum singular value O(1/n), infinitely often O(1/n^2), and supplies an actual signed positive quotient. Aperiodicity gives invertibility, not uniform conditioning.",
+      "source": "data/research_open/q1_two_hour_ten_proofs_transfer_2026-08-02/erdos1083/APERIODIC_SMALL_DIVISOR_NO_GO.md",
+      "source_sha256": "1b2f8abcaac34f3922e7b0b2a9f308e8a6c03972c01407707ce6067791065892",
+      "leaves_open": "mass-preserving reconstruction that avoids the minimum singular value"
+    },
+    {
+      "mechanism_id": "M1083-07",
+      "outcome": "killed",
+      "evidence_level": 3,
+      "evidence": "The exact 0/1 non-cyclotomic source A(x)=(1+x+x^3+x^5+x^6)(1+x^20) satisfies gcd(A(x),A(x^3))=1+x^20. Thus source non-cyclotomicity does not imply scalar-copy coprimality; reducible cyclotomic cargo survives distinct scales.",
+      "source": "amra-research-loop/campaigns/erdos-1083-mechanism-reset/evidence/scalar_copy_gcd_counterexample_result.json",
+      "leaves_open": "irreducible source masks and explicit source-specific Galois pair-flip criteria"
+    },
+    {
+      "mechanism_id": "M1083-08",
+      "outcome": "killed",
+      "evidence_level": 4,
+      "evidence": "SIMULTANEOUS_POSITIVE_COMPLEMENT_NO_GO.md gives Q_S=x+y-xy+xy^S+x^Sy with a negative coefficient although multiplication by either transverse interval source and by both produces 0/1 masks. It realizes the reverse-circle two-row Euclidean interface for every S>=4.",
+      "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/SIMULTANEOUS_POSITIVE_COMPLEMENT_NO_GO.md",
+      "source_sha256": "48b99c448677c41abeb3409bbe38f0231eeef385ac370edf177cfb4e37ee540f",
+      "leaves_open": "a genuinely power-large simultaneous reconstruction theorem"
+    },
+    {
+      "mechanism_id": "M1083-11",
+      "outcome": "killed",
+      "evidence_level": 4,
+      "evidence": "MULTIDIRECTIONAL_TENSOR_SWITCH_BARRIER.md produces exponentially many algebraic switches only by losing centre-leaf transversality and the common-X scalar-copy interface; its homothety classes have size at most k+1. The binary-box Phi6 theorem further bounds the transverse common-X repair below the required power.",
+      "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/MULTIDIRECTIONAL_TENSOR_SWITCH_BARRIER.md",
+      "source_sha256": "13fdf2510bf421239fb5952864523b18f21f12de148e823d432b75b5b4683ce7",
+      "leaves_open": "non-product amplification that preserves a single source X and exact Euclidean transversality"
+    },
+    {
+      "mechanism_id": "M1083-12",
+      "outcome": "killed",
+      "evidence_level": 4,
+      "evidence": "The coherent-theta Euclidean no-go realizes K up to S-1 arms with the fixed tangent, endpoints, orientation, and anchor label while the whole local point set has at most 2S^2+S distances. The theta record alone has no global budget force.",
+      "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/COHERENT_THETA_EUCLIDEAN_NO_GO.md",
+      "source_sha256": "ebfd88a86ce1721a9229682218fe26acb69c0e03597774906808c60d6827ac7e",
+      "leaves_open": "use of the full exact cell partitions plus outer stability"
+    }
+  ]
+}

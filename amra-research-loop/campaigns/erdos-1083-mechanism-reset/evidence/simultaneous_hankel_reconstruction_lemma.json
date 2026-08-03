@@ -1,0 +1,37 @@
+{
+  "schema": "amra.erdos1083.simultaneous-hankel-reconstruction.v1",
+  "title": "Simultaneous cancellation-stable support reconstruction",
+  "mathematical_status": "proved",
+  "evidence_level": 4,
+  "statement": "Let Gamma be a finitely generated torsion-free abelian group and q_1,...,q_K nonzero finitely supported functions Gamma->Q. There is one homomorphism ell:Gamma->Z that is injective on the union of their supports. For q_j=sum_{a in A_j} c_{j,a}[a], define m_{j,k}=sum_a c_{j,a} ell(a)^k. If r_j=|A_j|, then det(m_{j,u+v})_{0<=u,v<r_j}=(prod_{a in A_j} c_{j,a})(prod_{a<b}(ell(b)-ell(a))^2), which is nonzero. Hence the Hankel rank is exactly r_j and the support values and weights are reconstructed from moments through order 2r_j-1.",
+  "proof": [
+    "Choose coordinates on Gamma itself, Gamma isomorphic to Z^d. For each distinct pair x,y in the finite union of supports, x-y is a nonzero integer vector. The product over these pairs of the linear forms v dot (x-y) is a nonzero polynomial over Q, hence does not vanish on all v in Z^d. Choose an integer v at which it is nonzero and define ell(x)=v dot x on all of Gamma. For d=0 the union has at most one point and the zero homomorphism suffices.",
+    "For a fixed row with distinct projected atoms alpha_1,...,alpha_r and nonzero weights c_1,...,c_r, let V be the r by r Vandermonde matrix V[u,i]=alpha_i^u and C=diag(c_i). The moment Hankel matrix satisfies H=VCV^T.",
+    "Taking determinants gives det(H)=det(V)^2 prod_i c_i=(prod_i c_i)(prod_{i<j}(alpha_j-alpha_i)^2), nonzero over Q. Every finite Hankel block factors through the r atom columns, so its rank is at most r; the nonsingular leading r by r block gives the reverse inequality. Thus the infinite Hankel rank is exactly r despite arbitrary signs of the weights.",
+    "The monic annihilator A(T)=prod_i(T-alpha_i) gives the standard moment recurrence. The nonsingular leading Hankel block determines its coefficients; its roots recover the alpha_i, and the first r moments solve a nonsingular Vandermonde system for the c_i."
+  ],
+  "machine_reproduced": {
+    "scope": "exact finite probes of the determinant-rank consequence on all inherited explicit signed escapes, not a formal proof of the universal statement",
+    "command": "AMRA_MEMORY_KIB=1048576 AMRA_TIMEOUT_SECONDS=120 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-mechanism-reset/evidence/hankel_probe.py",
+    "result": "fixed six-atom escape profile [1,2,3,4,5,6]; every five-atom Q_S for 4<=S<=12 profile [1,2,3,4,5]",
+    "artifact": "evidence/hankel_probe_result.json"
+  },
+  "closure_effect": "Proves that signed cancellation does not obstruct exact simultaneous support reconstruction once enough moments are retained; the M1083-09 bottleneck is therefore the missing charge of rowwise support/Hankel complexity against the one common quotient B, not reconstruction itself.",
+  "dependency_gaps": [
+    "No bound is proved on the moments or Hankel ranks from the support or factor complexity of B.",
+    "The separating homomorphism may have large coefficients; no polynomial-height or Euclidean denominator control is proved.",
+    "No power-large exact-block family is extracted from an arbitrary near-extremal point configuration.",
+    "No ruled-locus distance lower bound is connected to the reconstructed atoms.",
+    "No dimension-three exponent greater than 3/5 follows."
+  ],
+  "projection_height_claimed": false,
+  "author_repairs_after_independent_audit": [
+    "The separating homomorphism is now constructed directly on Gamma isomorphic to Z^d, avoiding the invalid implicit extension of a subgroup homomorphism.",
+    "The upper bound rank<=r from the atom-column factorization is now explicit.",
+    "No quantitative bound on the integer vector v or on projection height is claimed."
+  ],
+  "statement_match": "This is an auxiliary exact algebraic lemma, not Erdős #1083.",
+  "independent_reconstruction": "not_started",
+  "novelty_check": "standard Prony/Vandermonde reconstruction; no novelty claimed",
+  "public_exponent_changed": false
+}

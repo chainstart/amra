@@ -1,0 +1,55 @@
+{
+  "schema": "amra.erdos1083.projection-free-moment-independent-audit.v1",
+  "audited_artifact": "evidence/PROJECTION_FREE_MULTIVARIATE_MOMENT_NO_GO.json",
+  "verdict": "pass_with_mandatory_scope_restriction; reject_promotion",
+  "rank_lower_bound": {
+    "result": "passed",
+    "factorization": "H=E diag(c) E^T",
+    "conclusion": "rank(H)=r forces feature dimension m>=r; rectangular full rank forces both feature dimensions >=r",
+    "does_not_prove": "a bit-complexity lower bound against tensor/circuit/formula descriptions"
+  },
+  "phi6_counts": {
+    "result": "passed",
+    "k": "floor(d/2)",
+    "rows_K": "binomial(d,k)",
+    "one_row_r": "2*3^k",
+    "union_R": "2 sum_(s=0)^k binomial(d,s)2^s",
+    "finite_reconstruction": "exact enumeration for 2<=d<=10"
+  },
+  "exponent_ledger": {
+    "normalization": "t=K^(9/5), so K=t^(5/9)",
+    "row_dimension_limit": "(5/18)log_2(3)=0.44026736131143224...",
+    "common_union_limit": "5/6=0.8333333333333333...",
+    "separate_row_dimension_sum_limit": "5/9+(5/18)log_2(3)=0.9958229168669879...",
+    "result": "passed",
+    "proof_note": "binomial(d,floor(d/2))=2^(d-o(d)); the truncated weighted sum is within a polynomial factor of its s=floor(d/2) term"
+  },
+  "scope_restriction": {
+    "one_row_full_rank": "requires dimension at least r, exponential in displayed factor count",
+    "simultaneous_rowwise_full_rank": "rank alone requires common feature dimension at least max row support r, not union support R",
+    "separate_row_charge": "K*r applies only when full-rank row matrices are charged separately",
+    "aggregate_arbitrary_union_reconstruction": "R scalar tests are necessary; m(m+1)/2>=R if only symmetric matrix entries are exposed; full union rank requires m>=R",
+    "critical_finding": "R=t^(5/6+o(1)) is correct but is not an automatic cost of the original simultaneous rowwise Hankel mechanism",
+    "overbroad_claims_rejected": [
+      "all compact projection-free multivariate certificates are impossible",
+      "tensor- or circuit-compressed rank proofs have exponential description length",
+      "the Phi6 family satisfies the actual scalar-copy/positivity/Euclidean interface",
+      "moment rank itself changes the Euclidean distance exponent"
+    ]
+  },
+  "closure_contract": {
+    "main_exponent_improved": false,
+    "public_problem_changed": false,
+    "promotion": "reject"
+  },
+  "bounded_reproduction": {
+    "author_script": "evidence/multivariate_moment_dimension_no_go.py",
+    "author_script_sha256": "f155b2b07a6b26456c074ff889704521250684051c7af39b30f3690d5a8423d9",
+    "independent_script": "audit/verify_projection_free_multivariate_moment_no_go.py",
+    "independent_script_sha256": "2fb3f14c300eaf93c3d884724f52b48d953adb65c2c6674419b0b4a470c56f9c",
+    "memory_kib": 524288,
+    "timeout_seconds": 120,
+    "result": "both passed",
+    "lean_used": false
+  }
+}

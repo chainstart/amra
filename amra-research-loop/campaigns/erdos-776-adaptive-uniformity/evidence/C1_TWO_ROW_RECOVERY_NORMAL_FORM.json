@@ -1,0 +1,106 @@
+{
+  "schema": "amra.erdos776.c1-two-row-recovery-normal-form.v1",
+  "title": "Exact normalized recurrence and adversarial evidence for the actual c=1 gap",
+  "mathematical_status": "exact chamber identities plus finite adversarial evidence; universal sign lemma open",
+  "evidence_level": 4,
+  "notation": {
+    "macaulay_upper": "U_d(N) is the d-th Macaulay upper shadow: if N=sum_i binom(t_i,i) is its canonical d-binomial expansion, then U_d(N)=sum_i binom(t_i,i+1).",
+    "actual_c1_parameters": "For c=1 write b=q+k and u=r+k-1. The dyadic equation is (k-1)q+binom(k-1,2)+2-r=2h, with h=112*2^(j-1).",
+    "wall_offset": "tau=H-n=kq+binom(k,2)+1-r.",
+    "unnormalized_first_tails": {
+      "A": "binom(r+1,2)-kq-binom(k,2)",
+      "B": "A+binom(u,2)-binom(r,2)-1"
+    }
+  },
+  "first_normalization": {
+    "common_form": "On either target chamber write x=binom(a,3)+alpha and y=binom(a+1,3)+beta, with 0<=alpha<binom(a,2) and 0<=beta<binom(a+1,2).",
+    "++ -> ++": "a=q, alpha=A, beta=B.",
+    "-- -> ++": "a=q-1, alpha=A+binom(q-1,2), beta=B+binom(q,2).",
+    "second_tails": {
+      "p": "U_2(alpha)-tau+1",
+      "v": "U_2(beta)-tau"
+    },
+    "target_condition": "The arrow target ++ is exactly p>=0 and v>=0.",
+    "gamma4": "U_2(beta)-U_2(alpha)-alpha-tau = v-p-alpha-tau+1."
+  },
+  "two_row_recurrence": {
+    "definition": "Set A_0=alpha, B_0=beta and, whenever both new tails are nonnegative, A_(s+1)=U_(s+2)(A_s)-tau+1 and B_(s+1)=U_(s+2)(B_s)-tau.",
+    "surplus_identity": "gamma_(s+4)=B_(s+1)-A_(s+1)-A_s-tau+1.",
+    "rank_five_instance": {
+      "A_1": "p=U_2(alpha)-tau+1",
+      "B_1": "v=U_2(beta)-tau",
+      "gamma5": "U_3(v)-U_3(p)-U_2(alpha)-1"
+    },
+    "rank_six_instance_when_P_V_nonnegative": {
+      "P": "A_2=U_3(p)-tau+1",
+      "V": "B_2=U_3(v)-tau",
+      "gamma6": "U_4(V)-U_4(P)-U_3(p)-1"
+    },
+    "borrow_caveat": "If P<0 or V<0, the displayed no-borrow gamma6 formula is not valid. This does not obstruct a row already recovered by gamma5>=0; any proof that reaches rank six must split this sign wall explicitly."
+  },
+  "piecewise_polynomial_realization": {
+    "coordinate_rule": "On a fixed Macaulay chamber, introduce canonical coordinates N=sum_(i=1)^d binom(t_i,i), t_d>...>t_1>=0. Then U_d(N)=sum_(i=1)^d binom(t_i,i+1), so every displayed recurrence is an explicit binomial polynomial in the chamber coordinates.",
+    "gamma5_cell": "If alpha=sum_(i=1)^2 binom(a_i,i), p=sum_(i=1)^3 binom(p_i,i), and v=sum_(i=1)^3 binom(v_i,i), then gamma5=sum_(i=1)^3[binom(v_i,i+1)-binom(p_i,i+1)]-sum_(i=1)^2 binom(a_i,i+1)-1.",
+    "gamma6_cell": "If P=sum_(i=1)^4 binom(P_i,i) and V=sum_(i=1)^4 binom(V_i,i), then gamma6=sum_(i=1)^4[binom(V_i,i+1)-binom(P_i,i+1)]-sum_(i=1)^3 binom(p_i,i+1)-1.",
+    "interpretation": "The remaining proof problem is a finite-pattern inequality problem only after the order relations among these chamber coordinates have been exhaustively partitioned; the formulas alone do not establish their signs."
+  },
+  "strongest_supported_invariant": {
+    "candidate": "For every actual c=1 state in either (++ -> ++) or (-- -> ++) with gamma4<0: gamma5>=0, or else P>=0, V>=0, and gamma6>=0.",
+    "equivalent_recovery_claim": "max(gamma5,gamma6)>=0, with rank six invoked only in the gamma5<0 branch.",
+    "status": "not proved",
+    "why_this_form": "The earliest actual (++ -> ++) state has P<0 but gamma5=89319>0. All adversarial gamma5-negative states found are (-- -> ++) states with P,V>=0 and positive gamma6."
+  },
+  "adversarial_search": {
+    "parameter_domain": {
+      "j": [2, 30],
+      "k": [2, 2000],
+      "r_strategy": [
+        "all divisibility-compatible r in [0,2000]",
+        "49 divisibility-compatible probes around the A=0 first-tail sign wall for every (j,k)"
+      ],
+      "tested_parameter_triples": 2392996
+    },
+    "accepted_target_states": {
+      "++ -> ++": 3288,
+      "-- -> ++": 42730
+    },
+    "first_gamma5_negative": {
+      "transition": "-- -> ++",
+      "parameters": {"j": 15, "h": 1835008, "b": 1223344, "q": 1223340, "k": 4, "r": 9, "u": 12},
+      "values": {"gamma4": -4892030, "gamma5": -3610173, "gamma6": 752229963982}
+    },
+    "minimum_observed_gamma5": {
+      "++ -> ++": 89319,
+      "-- -> ++": -160342585963
+    },
+    "minimum_observed_gamma6_with_P_V_nonnegative": {
+      "++ -> ++": 2835153,
+      "-- -> ++": 1884549
+    },
+    "observed_gamma5_negative_region": {
+      "state_count": 292,
+      "transition": "-- -> ++ only",
+      "k_range": [4, 17],
+      "r_range": [9, 46],
+      "comment": "Author-search domain only. Independent audit extended the box and found gamma5-negative states at least through k=43,r=133 by j=40, so this concentration is not stable and must not be used for a finite-fibre reduction."
+    },
+    "double_negative_count": 0,
+    "negative_gamma5_with_rank6_borrow_count": 0,
+    "candidate_invariant_failure_count": 0,
+    "interpretation": "No counterexample to the candidate invariant was found. This is adversarial finite evidence, not exhaustive in unbounded r and not a proof. The search harness was repaired after independent audit so gamma5<0 with P<0 or V<0 is counted as a failure rather than silently skipped."
+  },
+  "proof_obligations": [
+    "Prove gamma5>=0 throughout the actual (++ -> ++) chamber, including all Macaulay subchambers, or exhibit and repair a negative subchamber.",
+    "In the actual (-- -> ++) chamber prove that gamma5<0 forces P,V>=0 and gamma6>=0; the known fixed-(k,r) family is only one subfamily.",
+    "Do not assume bounded k and r: the independent audit disproved stability of the original k<=17,r<=46 search box. Seek a scale-uniform chamber inequality instead.",
+    "Exhaust the Macaulay coordinate order types needed by the two explicit cell polynomials; do not infer universality from the bounded search."
+  ],
+  "bounded_guard": {
+    "script": "evidence/search_c1_two_row_recovery.py",
+    "command": "AMRA_MEMORY_KIB=5242880 AMRA_TIMEOUT_SECONDS=1800 LEAN_NUM_THREADS=2 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-adaptive-uniformity/evidence/search_c1_two_row_recovery.py",
+    "script_sha256": "64ac8e1b4286856838a0d7588b6a184d96551b2856725d4da658e6ffa21f8171",
+    "result": "2392996 parameter triples tested; 46018 target states accepted; no gamma5/gamma6 double-negative state and no gamma5-negative rank-six-borrow state. Independent wider audit found the negative k,r box grows with scale."
+  },
+  "route_frozen": false,
+  "public_problem_closed": false
+}

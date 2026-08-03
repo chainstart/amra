@@ -1,0 +1,73 @@
+{
+  "schema": "amra.erdos1083.projection-free-multivariate-moment-no-go.v1",
+  "title": "Projection-free moment matrices remove height but not exponential atom dimension",
+  "mathematical_status": "proved lower bound for full-support moment/Hankel reconstruction; not a no-go for all structured symbolic certificates",
+  "evidence_level": 4,
+  "setup": {
+    "feature_moment_matrix": "For q=sum_(x in A)c_x[x] over a characteristic-zero field and feature functions phi_1,...,phi_m on A, define H_q(i,j)=sum_x c_x phi_i(x)phi_j(x). If E(i,x)=phi_i(x) and C=diag(c_x), then H_q=ECE^T.",
+    "projection_free": "The features may be arbitrary multivariate monomials or polynomials in the exponent coordinates. No homomorphism Gamma->Z and no one-variable height is used.",
+    "full_support_certificate": "The analogue of the proved one-variable Hankel route asks rank(H_q)=|A| so that signed cancellation cannot hide any support atom."
+  },
+  "rank_lower_bound": {
+    "statement": "If r=|A| and every c_x is nonzero, then rank(H_q)<=min(m,r). Consequently every square or rectangular feature-moment matrix certifying full support rank r has at least r row features and r column features.",
+    "proof": "The factorization H_q=ECE^T factors through the r atom columns. Matrix rank is at most m and at most r. Equality to r therefore forces m>=r. The same argument for E_F C E_G^T forces both feature-set sizes to be at least r.",
+    "scope": "This is independent of feature degree, coordinate height, signs of c_x, and whether the features are stored as monomials or general polynomials."
+  },
+  "phi6_family": {
+    "definition": "For d>=2 and k=floor(d/2), let B=(1+Y)prod_(i=1)^d(1-X_i+X_i^2) and Q_A=(1+Y)prod_(i in A)(1-X_i+X_i^2), where |A|=k.",
+    "common_object_complexity": "B has f=d+1 displayed irreducible factors and K=binom(d,k) equal-augmentation divisor rows.",
+    "one_row_atoms": "Every Q_A has exactly r=2*3^k support atoms, with nonzero weights plus or minus one.",
+    "union_atoms": "The support union has exactly R=2 sum_(s=0)^k binom(d,s)2^s atoms.",
+    "exact_no_go": [
+      "Every projection-free multivariate moment/Hankel block whose rank certifies all atoms of even one Q_A has matrix dimension m>=2*3^floor(d/2), exponential in f.",
+      "A common feature list whose scalar moments uniquely determine arbitrary signed coefficients on the union has length at least R, because its evaluation map from the R-dimensional coefficient space must be injective.",
+      "If only the symmetric entries of one m by m moment matrix are used as scalar tests on arbitrary union weights, then m(m+1)/2>=R is necessary. Thus m>=ceil((sqrt(1+8R)-1)/2), and the number of exposed entries remains at least R.",
+      "If the common matrix itself is required to have union rank R, then its dimension is at least R."
+    ],
+    "matching_projection_free_upper_bound": "For one row, tensor-product Lagrange functions on {0,1} times {0,1,2}^A give exactly r features and diagonalize the moment matrix. For the union, multivariate interpolation gives R delta features. Hence the atom-dimension lower bounds are sharp for unrestricted explicit feature spaces; projection height is genuinely avoided, but dimension is not."
+  },
+  "asymptotic_lower_bounds": {
+    "factor_count_form": {
+      "row_matrix_dimension": "m>=2*3^floor(d/2)>=2*3^((d-1)/2), exponential in f=d+1.",
+      "common_union_feature_dimension": "R>=2^(k+1)binom(d,k)>=2^((3d+1)/2)/(d+1), exponential in f.",
+      "separate_full_rank_rows": "The sum of the row matrix dimensions is at least 2*3^k binom(d,k), also exponential in f. This is a dimension ledger, not a Turing bit-complexity lower bound for tensor-compressed symbolic proofs."
+    },
+    "proof": [
+      "The s=k term in R is 2^(k+1)binom(d,k).",
+      "The largest binomial coefficient satisfies binom(d,k)>=2^d/(d+1), and k>= (d-1)/2.",
+      "The row support formula is the direct product of two Y digits and three digits in each of k selected X coordinates."
+    ]
+  },
+  "closure_contract_exponent_ledger": {
+    "required_campaign_scale": "The unresolved exact-block hub has K=t^(5/9-o(1)) rows and native cell count U=t^(5/6+o(1)); promotion requires a rigorous dimension-three distance exponent strictly greater than 3/5.",
+    "normalization": "Along the Phi6 family set t=K^(9/5), so K=t^(5/9) exactly up to the harmless real normalization.",
+    "row_dimension": "Since log_2 K=d-o(d), r=2*3^(d/2+O(1))=t^((5/18)log_2(3)+o(1))=t^(0.4402673613...+o(1)).",
+    "common_union_dimension": "The terms binom(d,s)2^s increase through s=floor(d/2), so R is within a polynomial factor of 2^(d/2)binom(d,floor(d/2)). Hence R=2^(3d/2-o(d))=t^(5/6+o(1)).",
+    "meaning": "A common explicit union-reconstruction feature space consumes exactly the native U exponent 5/6 rather than producing a saving. Separate full-rank row dimensions sum to t^(5/9+(5/18)log_2(3)+o(1))=t^(0.9958229169...+o(1)).",
+    "exponent_changing_quantity": "The closure contract concerns the number of distinct Euclidean distance labels, not computational matrix rank or certificate storage. No implication from these moment ranks to more than t^(3+o(1)) labels is proved. Therefore this construction changes neither the inherited N^(3/5-o(1)) bound nor the public exponent.",
+    "verdict": "Projection-free multivariate full-support Hankel reconstruction is not a polynomial-in-factor-count replacement for the failed projection route, and at the power-large endpoint it offers no exponent gain by itself."
+  },
+  "what_is_refuted": [
+    "A dense full-support multivariate Hankel certificate of dimension polynomial in the displayed common-quotient factor count f.",
+    "A claim that removing the one-variable projection automatically makes simultaneous exact atom reconstruction polynomial size.",
+    "Any use of moment-matrix full rank as the exponent-changing conclusion without an additional Euclidean distance-label inequality."
+  ],
+  "what_remains_open": [
+    "A tensor-compressed or circuit-style symbolic certificate may have a short description even when the represented matrix is exponentially large; the rank argument does not prove a bit-complexity lower bound against such certificates.",
+    "The actual scalar-copy, mask-positivity, and Euclidean transversality interfaces could restrict the admissible divisor rows enough to avoid the Phi6 family.",
+    "Low-order multivariate moments might certify a weaker property sufficient for a geometric ruled-locus theorem without reconstructing every support atom.",
+    "A direct inequality charging a low-degree moment defect to distinct Euclidean distance labels remains absent."
+  ],
+  "next_legal_attempt": {
+    "statement": "Abandon full-support reconstruction as the certificate target. Seek a polynomial number of low-degree multivariate tests whose failure forces an explicit bounded-degree reciprocal ruled locus, and whose success directly yields a fixed positive distance-exponent gain.",
+    "mandatory_kill_test": "Apply the tests to the Phi6 divisor family and to tensor-compressed variants. The tests must either use an actual scalar-copy/positivity hypothesis that those families violate or provide a distance-label inequality; merely representing an exponential moment matrix implicitly is not closure."
+  },
+  "bounded_guard": {
+    "script": "evidence/multivariate_moment_dimension_no_go.py",
+    "command": "AMRA_MEMORY_KIB=524288 AMRA_TIMEOUT_SECONDS=120 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-mechanism-reset/evidence/multivariate_moment_dimension_no_go.py",
+    "script_sha256": "f155b2b07a6b26456c074ff889704521250684051c7af39b30f3690d5a8423d9",
+    "result": "Exact row and union support counts passed for 2<=d<=10; normalized exponents converge to row 0.4402673613... and common union 5/6."
+  },
+  "public_exponent_changed": false,
+  "public_problem_closed": false
+}

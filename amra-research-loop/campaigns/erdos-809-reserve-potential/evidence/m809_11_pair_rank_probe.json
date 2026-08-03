@@ -1,0 +1,156 @@
+{
+  "classification": "exact_typed_submodular_rank_falsifier",
+  "hard_local_same_A_rank_different_B_reserve": {
+    "distinguishing_change": "replace B edge bz by A edge x1x2",
+    "paid_B_instance": {
+      "B_reserve_bc": [
+        [
+          "b",
+          "c"
+        ],
+        [
+          "b",
+          "z"
+        ],
+        [
+          "c",
+          "z"
+        ]
+      ],
+      "B_reserve_size": 3,
+      "D_B": 3,
+      "L4_2": true,
+      "M_B": 3,
+      "degrees": {
+        "b": 4,
+        "c": 4,
+        "r1": 10,
+        "r2": 10,
+        "v": 10,
+        "x1": 8,
+        "x2": 8,
+        "x3": 8,
+        "x4": 8,
+        "y1": 6,
+        "y2": 6,
+        "y3": 7,
+        "y4": 7,
+        "z": 4
+      },
+      "edge_count": 50,
+      "owned_A_rank": 3,
+      "rainbow_C7": true
+    },
+    "same_D_B": 3,
+    "same_n_e_A_B_hence_same_graph_scalar_S_m": true,
+    "same_owned_A_rank": 3,
+    "tight_B_instance": {
+      "B_reserve_bc": [
+        [
+          "b",
+          "c"
+        ],
+        [
+          "c",
+          "z"
+        ]
+      ],
+      "B_reserve_size": 2,
+      "D_B": 3,
+      "L4_2": true,
+      "M_B": 2,
+      "degrees": {
+        "b": 5,
+        "c": 4,
+        "r1": 10,
+        "r2": 10,
+        "v": 10,
+        "x1": 7,
+        "x2": 7,
+        "x3": 8,
+        "x4": 8,
+        "y1": 6,
+        "y2": 6,
+        "y3": 7,
+        "y4": 7,
+        "z": 5
+      },
+      "edge_count": 50,
+      "owned_A_rank": 3,
+      "rainbow_C7": true
+    }
+  },
+  "killed_scalar_claims": [
+    "sum of per-star owned diagonal counts equals distinct global A capacity",
+    "owned A atoms may be added to B reserve atoms to certify D_B<=M_B",
+    "the graph scalar S_m canonically decomposes into the owned A diagonals"
+  ],
+  "minimal_cross_star_overlap": {
+    "coverage_rank_submodular": true,
+    "disjoint_colouring": {
+      "global_A_coverage_rank": 2,
+      "owners": {
+        "delta": [
+          "x2",
+          "y2"
+        ],
+        "gamma": [
+          "x1",
+          "y1"
+        ]
+      },
+      "sum_of_per_star_owned_counts": 2
+    },
+    "full_hard_BCM_claimed": false,
+    "overlap_colouring": {
+      "global_A_coverage_rank": 1,
+      "owners": {
+        "delta": [
+          "x1",
+          "y1"
+        ],
+        "gamma": [
+          "x1",
+          "y1"
+        ]
+      },
+      "sum_of_per_star_owned_counts": 2
+    },
+    "rainbow_C7_vacuous_in_local_graph": true,
+    "same_D_B": 2,
+    "same_graph_scalar_S_m": true,
+    "same_repeated_colour_count": 2,
+    "same_underlying_graph_edges": [
+      [
+        "b1",
+        "x1"
+      ],
+      [
+        "b2",
+        "x1"
+      ],
+      [
+        "b2",
+        "x2"
+      ],
+      [
+        "c1",
+        "y1"
+      ],
+      [
+        "c2",
+        "y1"
+      ],
+      [
+        "c2",
+        "y2"
+      ]
+    ]
+  },
+  "public_problem_changed": false,
+  "sound_rank": {
+    "A": "rho_A(T)=number of distinct owned missing-A diagonals",
+    "B": "rho_B(T)=size of the union of actual B reserve neighbourhoods",
+    "typed_pair_not_untyped_sum": true
+  }
+}

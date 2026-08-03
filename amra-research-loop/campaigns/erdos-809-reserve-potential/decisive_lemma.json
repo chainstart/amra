@@ -1,0 +1,13 @@
+{
+  "statement": "The existing A/B/opposite-star quantities do not define a sound ordinary additive three-budget max-flow: the coarse A/B network has only the four cuts restating R_A versus S_m and D_B versus |Q|; in the opposite-star conservation law the one set of mu missing leaf pairs appears with coefficient two, while E_A yields missing-A capacity only through a nonlinear rectangle product. Counting mu once makes the flow incomplete by mu, and counting it twice permits double spending of the same missing B-edge.",
+  "status": "proved",
+  "closes": ["refutes the current ordinary additive instantiation of M809-06 and isolates the missing shared-capacity/S_m-provenance interface"],
+  "evidence": ["evidence/typed_three_budget_mincut_no_go.json", "evidence/typed_cut_probe.py"],
+  "dependency_gaps": [
+    "No polymatroidal or submodular-flow rank for overlapping Q reserves has been proved.",
+    "No colour-level ownership decomposition of S_m connects I_mix and N_int to spendable slack.",
+    "No transference map turns E_A and its anticomplete rectangle into distinct target-budget charges without nonlinear reuse.",
+    "The sole remaining M809-11 circuit probe does not close global reserve failure or any outer-A branch.",
+    "Branch A, B-same, B-opposite, and the public n^2/8 asymptotic remain open."
+  ]
+}

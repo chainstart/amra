@@ -1,0 +1,82 @@
+{
+  "schema": "amra.erdos776.actual-orbit-coverage-case-table.v1",
+  "title": "Exact initial-wall map and the missing one-promotion chamber",
+  "mathematical_status": "partial coverage theorem plus smallest bounded actual gap",
+  "evidence_level": 4,
+  "source_coordinates": {
+    "actual_dyadic_state": "h=112*2^(j-1), 5<=b<h, n=binom(b-1,2)+2-2h>=0, m=b-1, H=binom(b,2)+1",
+    "rank_two_shadows": "z=U_2(n), w=U_2(n+m)",
+    "initial_surplus": "gamma3=w-z-H",
+    "rank_four_tails": "x=n+z-H+1, y=n+w-H=x+(w-z-1)",
+    "unresolved_no_borrow_antecedent": "gamma3<0 and x>=0"
+  },
+  "canonical_target_map": {
+    "definition": "Write uniquely n=binom(q,2)+r and n+b-1=binom(q+c,2)+u with 0<=r<q and 0<=u<q+c.",
+    "exact_parameter_identity": "b=cq+binom(c,2)+u-r+1.",
+    "parity_and_range": "The remainder ranges are canonical by construction. The actual dyadic definition gives 2h=binom(b-1,2)+2-n, so the relaxed parity, h>=224, and b<h conditions hold identically.",
+    "x_condition": "x>=0 is exactly the source no-borrow antecedent, not an added relaxed hypothesis.",
+    "surplus_identity": "The actual next diagonal surplus equals U_3(y)-U_3(x)-z-1, exactly the relaxed gamma4.",
+    "promotion_lower_bound": "Actual states always have c>=1. Since integer h>b gives n<=binom(b-1,2)-2b=binom(b-3,2)-5, the leading index q of n satisfies q<=b-4. Hence adding b-1 crosses at least the next triangular cap."
+  },
+  "source_to_target_cases": [
+    {
+      "source_case": "x<y<0",
+      "borrow_chamber": "double borrow",
+      "target": "NEGATIVE_PRECAP_ATLAS plus NEGATIVE_CAP_RECOVERY",
+      "status": "closed for sufficiently large h with exact finite bases as stated in the inherited files",
+      "relaxed_map_needed": false
+    },
+    {
+      "source_case": "x<0<=y",
+      "borrow_chamber": "x-only initial borrow",
+      "target": "NEGATIVE_INITIAL_CHAMBERS Proposition 1.1",
+      "status": "closed by rank three when q_borrow>=2 and by rank four on the q_borrow=1 boundary",
+      "relaxed_map_needed": false
+    },
+    {
+      "source_case": "0<=x<y and c>=2",
+      "borrow_chamber": "actual no-borrow, multi-promotion",
+      "target": "GROWING_C_UNIFORMITY relaxed theorem",
+      "status": "exactly mapped; gamma4 equals the next actual surplus. Eventual positivity is uniform in c, but an effective/explicit finite completion below its existential Q is still absent.",
+      "map_checks": ["parity automatic", "remainder ranges canonical", "x>=0 by source", "c>=2 by case", "surplus equality exact"]
+    },
+    {
+      "source_case": "0<=x<y and c=1",
+      "borrow_chamber": "actual no-borrow, one promotion",
+      "target": "ONE_PROMOTION_RANK_FIVE_CHART and later recovery",
+      "status": "not exhausted by the inherited six observed transition types",
+      "exact_relations": "Writing b=q+k gives u=r+k-1. The first rank-two tail normalization and the next raw rank-three tails determine a sign transition. Five inherited types have proved rank-five positivity; (--)->(++) can be rank-five negative but has a proved rank-six repair only on one explicit family. The actual (++ )->(++ ) type below was absent from the old finite atlas and has no all-parameter chamber theorem."
+    }
+  ],
+  "smallest_new_actual_chamber_in_complete_bounded_search": {
+    "scope": "All actual dyadic states on strips 2<=j<=6 were enumerated in increasing (j,b); this is the first (++ )->(++ ) row with gamma3<0 and gamma4<0.",
+    "parameters": {"j": 6, "h": 3584, "b": 2440, "q": 2436, "c": 1, "k": 4, "r": 145, "u": 148},
+    "first_tail": {"r_tail": 835, "s_tail": 1272, "sign": "++"},
+    "second_raw_tail": {"p_raw": 1160, "q_raw": 11075, "sign": "++"},
+    "surpluses": {"gamma4": -525, "gamma5": 89319, "gamma6": 6580211},
+    "force": "This is an actual dyadic Macaulay transition, not an abstract completion. It refutes use of the old six-row observed atlas as an exhaustive one-promotion case partition. It does not refute adaptive seeding because gamma5 is positive."
+  },
+  "bounded_case_census": {
+    "domain": "complete dyadic strips 2<=j<=10",
+    "actual_no_borrow_gamma3_negative_states": 112835,
+    "promotion_counts": {"1": 111765, "2": 972, "3": 72, "4": 21, "5": 5},
+    "negative_gamma4_counts": {"1": 167, "2": 0, "3": 0, "4": 0, "5": 0},
+    "c1_negative_gamma4_transitions": {"++ -> ++": 21, "++ -> -+": 12, "++ -> --": 16, "-- -> ++": 118},
+    "negative_gamma5_rows": 0,
+    "interpretation": "Finite data support a one-promotion two-row recovery, but are not an unbounded proof."
+  },
+  "refined_exact_next_lemma": {
+    "name": "One-promotion two-row recovery with complete chamber exhaustion",
+    "statement": "For every actual dyadic no-borrow state with canonical promotion count c=1, gamma3<0, x>=0, and gamma4<0, the exact normalized transition belongs to a proved chamber and max(gamma5,gamma6)>=0. The proof must include the newly observed (++ )->(++ ) chamber and a universal treatment of the (--)->(++) chamber, not merely the existing counterfamily.",
+    "additional_completion": "For c>=2, make the existential uniform threshold Q effective or prove the finitely many q<Q actual states positive without assuming a numerical value of Q.",
+    "closure_effect": "Together with the already closed initial borrow chambers, exact c>=2 mapping, uniform relaxed positivity, and suffix persistence, this would establish actual-orbit coverage and the rank-42 seed gate.",
+    "status": "open"
+  },
+  "bounded_guard": {
+    "script": "evidence/extract_actual_no_borrow_coverage.py",
+    "command": "AMRA_MEMORY_KIB=524288 AMRA_TIMEOUT_SECONDS=120 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-adaptive-uniformity/evidence/extract_actual_no_borrow_coverage.py",
+    "script_sha256": "17f7eb3b237edf626f9efaed5d14ba3afe05890e0fe7f33a597c89c2ae4fe45f",
+    "result": "112835 actual source states mapped with exact surplus equality; first omitted actual chamber at (j,h,b)=(6,3584,2440)"
+  },
+  "public_problem_closed": false
+}

@@ -1,0 +1,20 @@
+{
+  "exact_statement": "For every fixed integer d >= 3, every N-point subset of R^d determines N^(2/d-o(1)) distinct distances as N tends to infinity.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/README.md",
+  "success_conditions": [
+    "main_exponent_improved"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Cold strategy restart with warm inheritance of counterexamples, obstruction certificates, and exact algebraic lemmas.",
+    "Promotion requires a rigorous dimension-three distance exponent strictly greater than 3/5, with every Euclidean realization and stability bridge proved.",
+    "Reuse factorial-energy identities, the aperiodic-mask torsion result, and gcd(P(x^r),P(x^s))=1 for P=1+x+x^3+x^5+x^6 as kill-test evidence.",
+    "Signed-switch and single-row cyclotomic constructions have no priority unless they supply both power-large conditioning and a second-row Euclidean consequence."
+  ]
+}

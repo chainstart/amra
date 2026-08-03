@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R01-promotion-coordinates",
+      "name": "Exact promotion-coordinate lattice",
+      "family": "canonical_combinatorics",
+      "new_information": "Retains the exact promotion count c and both rank-two remainders r,u through b=cq+binom(c,2)+u-r+1, instead of fixing c before q grows.",
+      "first_test": "Enumerate exact admissible tuples beyond c=5 and verify parity, b<h, gamma3<0, and x>=0 without extrapolating the finite box."
+    },
+    {
+      "id": "R02-full-macaulay-word",
+      "name": "Full borrow-aware Macaulay word",
+      "family": "canonical_combinatorics",
+      "new_information": "Keeps every leading index, lower remainder, borrow depth, and wall crossing in the two low blocks; it distinguishes states having the same borrow signs but different recovery behavior.",
+      "first_test": "Replay the K=6,r=10 dyadic family and the five positive rank-five chambers with one engine and check that their full words, not merely their signs, separate them."
+    },
+    {
+      "id": "R03-cap-depth-vector",
+      "name": "Coupled cap-depth coordinates",
+      "family": "deficit_geometry",
+      "new_information": "Represents each deficit by its least cap depth and canonical remainder, retaining the relative correction h_D-h_E that controlled the fixed-c=2 critical ellipse.",
+      "first_test": "Compute exact depth gaps on all frozen multi-promotion states and search for m=2 or reversed-depth phases when c grows."
+    },
+    {
+      "id": "R04-scaled-phase-compactification",
+      "name": "Growing-c normalized phase space",
+      "family": "asymptotic_geometry",
+      "new_information": "Tracks c/sqrt(q), r/q, u/(q+c), leading-index ratios, and lower-order boundary scales, so sequences with c=c(q) are not discarded by fixed-c compactness.",
+      "first_test": "Derive all subsequential regimes c=o(sqrt(q)), c comparable to sqrt(q), and the x-boundary, and test whether gamma4 can have a nonpositive limiting profile."
+    },
+    {
+      "id": "R05-shadow-loss-dual",
+      "name": "Primal/dual full-block loss cone",
+      "family": "convex_duality",
+      "new_information": "Keeps both the positive remainder and the complementary full-block deficit, allowing matching lower certificates rather than one lossy superadditivity projection.",
+      "first_test": "Form the exact gamma4 comparator in both remainder and deficit coordinates and solve for an inequality combination that stays positive on the two old residual rows and c>=6 witnesses."
+    },
+    {
+      "id": "R06-signature-transition-graph",
+      "name": "Borrow-aware transition graph",
+      "family": "finite_state_dynamics",
+      "new_information": "Encodes a state by promotion count, ordered cap depths, leading gaps, and normalized remainders, with edges given by exact raising; negative rows can be followed adaptively rather than forced positive immediately.",
+      "first_test": "Build the reachable graph through the first three transitions for exact counterfamilies and reject any signature quotient that merges states with different exits."
+    },
+    {
+      "id": "R07-bounded-potential",
+      "name": "Lexicographic recovery potential",
+      "family": "finite_state_dynamics",
+      "new_information": "Records ordered borrow depth together with normalized deficit per leading gap, so a negative transition may still certify strict improvement before rank 42.",
+      "first_test": "Evaluate the potential on b=5, b=L/2+5, and K=6,r=10 families; require strict ascent at every negative step and a uniform upper bound."
+    },
+    {
+      "id": "R08-rank-slot-flow",
+      "name": "Seed-to-rank capacity flow network",
+      "family": "matching_duality",
+      "new_information": "Represents each candidate diagonal seed as supply and each legal occupied rank as capacity, explicitly retaining collisions and borrow-induced demand omitted by the relaxed no-borrow model.",
+      "first_test": "Construct the smallest exact relaxed-positive instances whose seed assignment violates actual rank capacity, then compute the Hall-deficient cut."
+    },
+    {
+      "id": "R09-exception-injection",
+      "name": "Exceptional-signature injection",
+      "family": "matching_duality",
+      "new_information": "Treats each nonpositive signature as an object that must be injected into a distinct later legal rank, preserving the global rank budget instead of proving a false fixed-delay statement.",
+      "first_test": "On all known infinite counterfamilies, map each negative signature to its first recovery rank and test injectivity and rank-42 compatibility."
+    },
+    {
+      "id": "R10-executable-comparator",
+      "name": "Exact transition comparator interface",
+      "family": "formal_reconstruction",
+      "new_information": "Separates original-lattice membership, canonical signature, exact transition, and claimed exit, so Python or Lean probes cannot silently replace the public bridge by a relaxed statement.",
+      "first_test": "Reproduce a frozen counterexample and a positive chamber with independent canonical engines under bounded resources and compare every interface predicate."
+    }
+  ]
+}

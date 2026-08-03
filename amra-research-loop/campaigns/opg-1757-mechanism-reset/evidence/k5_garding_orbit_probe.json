@@ -1,0 +1,67 @@
+{
+  "host": "K5",
+  "marked_edge": [
+    0,
+    1
+  ],
+  "orbit_specialization": {
+    "a": "six unmarked edges incident with 0 or 1",
+    "b": "three edges induced by vertices 2,3,4"
+  },
+  "C_delete": "a**6*b**3 + 3*a**6*b**2 + 3*a**6*b + 6*a**5*b**3 + 18*a**5*b**2 + 18*a**5*b + 15*a**4*b**3 + 39*a**4*b**2 + 27*a**4*b + 20*a**3*b**3 + 36*a**3*b**2 + 12*a**2*b**3",
+  "xi": "3*a**4*b**3 + 15*a**4*b**2 + 27*a**4*b + 12*a**3*b**3 + 36*a**3*b**2 + 12*a**2*b**3",
+  "C_delete_diagonal": "t**9 + 9*t**8 + 36*t**7 + 77*t**6 + 75*t**5",
+  "xi_diagonal": "3*t**7 + 27*t**6 + 75*t**5",
+  "C_delete_real_roots_numeric": [
+    0.0
+  ],
+  "xi_real_roots_numeric": [
+    0.0
+  ],
+  "distinguished_diagonal_interval": "t > 0.0",
+  "rational_sign_samples": [
+    {
+      "t": "-1/2",
+      "f": "-711/512",
+      "xi": "-249/128",
+      "in_distinguished_diagonal_interval": false
+    },
+    {
+      "t": "-1/4",
+      "f": "-14813/262144",
+      "xi": "-1095/16384",
+      "in_distinguished_diagonal_interval": false
+    },
+    {
+      "t": "-1/8",
+      "f": "-270009/134217728",
+      "xi": "-4587/2097152",
+      "in_distinguished_diagonal_interval": false
+    },
+    {
+      "t": "-1/16",
+      "f": "-4608881/68719476736",
+      "xi": "-18771/268435456",
+      "in_distinguished_diagonal_interval": false
+    },
+    {
+      "t": "-1/32",
+      "f": "-76156641/35184372088832",
+      "xi": "-75939/34359738368",
+      "in_distinguished_diagonal_interval": false
+    },
+    {
+      "t": "-1/64",
+      "f": "-1238252993/18014398509481984",
+      "xi": "-305475/4398046511104",
+      "in_distinguished_diagonal_interval": false
+    },
+    {
+      "t": "-1/128",
+      "f": "-19971767169/9223372036854775808",
+      "xi": "-1225347/562949953421312",
+      "in_distinguished_diagonal_interval": false
+    }
+  ],
+  "interpretation": "A negative xi sample only matters when in_distinguished_diagonal_interval is true. The listed negative-t samples are outside t>0 and are neither certificates nor kill evidence; absence of a valid sample is only routing evidence."
+}

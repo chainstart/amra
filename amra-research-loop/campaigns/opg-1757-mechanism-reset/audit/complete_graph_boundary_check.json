@@ -1,0 +1,101 @@
+{
+  "all_orbits_nonnegative_for_0_le_q_le_1": true,
+  "classification": "finite_exact_corroboration_not_a_reduction",
+  "complete_graphs": {
+    "K3": [
+      {
+        "quotient_by_1_minus_q_low_to_high": [
+          2
+        ],
+        "quotient_strictly_positive": true,
+        "rayleigh_coefficients_low_to_high": [
+          2,
+          -2
+        ]
+      }
+    ],
+    "K4": [
+      {
+        "quotient_by_1_minus_q_low_to_high": [
+          44,
+          38,
+          13,
+          1
+        ],
+        "quotient_strictly_positive": true,
+        "rayleigh_coefficients_low_to_high": [
+          44,
+          -6,
+          -25,
+          -12,
+          -1
+        ]
+      },
+      {
+        "quotient_by_1_minus_q_low_to_high": [
+          6,
+          19,
+          7
+        ],
+        "quotient_strictly_positive": true,
+        "rayleigh_coefficients_low_to_high": [
+          6,
+          13,
+          -12,
+          -7
+        ]
+      }
+    ],
+    "K5": [
+      {
+        "quotient_by_1_minus_q_low_to_high": [
+          1956,
+          4151,
+          4548,
+          3163,
+          1476,
+          464,
+          99,
+          14,
+          1
+        ],
+        "quotient_strictly_positive": true,
+        "rayleigh_coefficients_low_to_high": [
+          1956,
+          2195,
+          397,
+          -1385,
+          -1687,
+          -1012,
+          -365,
+          -85,
+          -13,
+          -1
+        ]
+      },
+      {
+        "quotient_by_1_minus_q_low_to_high": [
+          210,
+          1085,
+          1579,
+          1156,
+          471,
+          99,
+          8
+        ],
+        "quotient_strictly_positive": true,
+        "rayleigh_coefficients_low_to_high": [
+          210,
+          875,
+          494,
+          -423,
+          -685,
+          -372,
+          -91,
+          -8
+        ]
+      }
+    ]
+  },
+  "universal_finite_q_negative_dependence_proved": false
+}

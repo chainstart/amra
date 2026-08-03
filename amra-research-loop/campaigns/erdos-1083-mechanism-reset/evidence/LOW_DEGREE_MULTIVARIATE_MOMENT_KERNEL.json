@@ -1,0 +1,68 @@
+{
+  "schema": "amra.erdos1083.low-degree-multivariate-moment-kernel.v1",
+  "title": "Low-total-degree moments have a large arbitrary-weight kernel on the Phi6 union, but degree one separates the structured Phi6 rows",
+  "mathematical_status": "proved linear-algebra and finite-difference kill test with an exact signed certificate; not a Euclidean or structured-divisor no-go",
+  "evidence_level": 4,
+  "setup": {
+    "phi6_union": "For d>=2 and k=floor(d/2), U consists of exponent vectors (y,x_1,...,x_d) with y in {0,1}, x_i in {0,1,2}, and at most k nonzero x_i. Thus R=|U|=2 sum_(s=0)^k binom(d,s)2^s.",
+    "moment_map": "For a rational signed weight w on U and multiindex alpha, m_alpha(w)=sum_(u in U)w(u)u^alpha. Let M_L retain every alpha of total degree |alpha|<=L.",
+    "feature_count": "There are F(d,L)=binom(d+1+L,L) formal monomials in d+1 variables of total degree at most L. Polynomial relations on U can only lower the evaluation rank, so rank(M_L)<=F(d,L)."
+  },
+  "kernel_lower_bound": {
+    "exact": "dim ker(M_L)>=R-F(d,L)=2 sum_(s=0)^k binom(d,s)2^s-binom(d+1+L,L).",
+    "fixed_L": "For every fixed L, F(d,L)=Theta(d^L) while R=2^(3d/2-o(d)); hence dim ker(M_L)=R(1-o(1)).",
+    "logarithmic_L": "For L<=C log d with fixed C, log F<=L log(e(d+1+L)/L)=O((log d)^2)=o(d), while log R=(3/2+o(1))d log 2. Hence again dim ker(M_L)=R(1-o(1)).",
+    "interpretation": "Both L=O(1) and L=O(log f), with displayed factor count f=d+1, necessarily leave an exponentially large linear kernel on arbitrary signed weights supported in U."
+  },
+  "explicit_all_parameter_kernel_vector": {
+    "range": "0<=L<=floor(d/2)-1",
+    "definition": "Let m=L+1 and, with y and all unused x-coordinates fixed to zero, set mu=product_(i=1)^m(delta_(x_i=1)-delta_(x_i=0)). Its coefficient at the Boolean point 1_S is (-1)^(m-|S|).",
+    "support_in_U": "Every Boolean support point has at most m<=k nonzero x-coordinates, so supp(mu) is contained in U.",
+    "moment_vanishing": "A monomial of total degree at most L has positive exponent in at most L<m of the active coordinates. It misses some active coordinate j, and summation against delta_1-delta_0 in that coordinate is zero. Thus m_alpha(mu)=0 for every |alpha|<=L.",
+    "positive_negative_split": "Writing mu=mu_plus-mu_minus, both mu_plus and mu_minus are 0/1 rows with 2^L atoms and identical total-degree-at-most-L moments. Exactly one of their supports contains the origin. This already gives different support properties invisible to the retained moments."
+  },
+  "equal_augmentation_signed_rows": {
+    "general_construction": "For L>=2, let z=(y=1,x_1=...=x_d=0) and define q_plus=mu_plus-(2^L-2)delta_z and q_minus=mu_minus-(2^L-2)delta_z. Both are genuinely signed rational/integer rows supported in U, both have augmentation 2, and all moments of total degree <=L agree because their difference remains mu.",
+    "different_support_property": "Exactly one row contains the origin; their Boolean parts are opposite Hamming-parity classes.",
+    "exact_certificate": {
+      "parameters": {"d": 8, "k": 4, "L": 3, "active_boolean_coordinates": 4},
+      "common_negative_atom": "(y,x_1,...,x_8)=(1,0,0,0,0,0,0,0,0)",
+      "common_negative_coefficient": -6,
+      "augmentation_each": 2,
+      "support_size_each": 9,
+      "row_plus": "coefficient +1 on the even-cardinality subsets of {x_1,x_2,x_3,x_4}, coefficient -6 at the common y atom, zero elsewhere",
+      "row_minus": "coefficient +1 on the odd-cardinality subsets of {x_1,x_2,x_3,x_4}, coefficient -6 at the common y atom, zero elsewhere",
+      "moment_identity": "m_alpha(q_plus)=m_alpha(q_minus) for all alpha with total degree <=3",
+      "support_difference": "q_plus contains the all-zero exponent vector; q_minus does not"
+    }
+  },
+  "structured_phi6_boundary": {
+    "actual_rows": "Q_A=(1+Y)prod_(i in A)(1-X_i+X_i^2), |A|=k.",
+    "degree_one_fingerprint": "The constant moment is 2, the Y first moment is 1, and the X_i first moment is 2 if i in A and 0 otherwise.",
+    "consequence": "The labelled total-degree-at-most-one moments already recover A and distinguish all binom(d,k) actual Q_A rows.",
+    "kill_test_boundary": "The large-kernel theorem applies to arbitrary signed weights on the Phi6 union. It does not produce two actual divisor rows Q_A with equal low moments and does not refute a method that exploits their factorized coefficient pattern."
+  },
+  "scope_and_closure": {
+    "what_is_killed": [
+      "Universal reconstruction of an arbitrary signed weight on U from all total-degree-at-most-L moments when L=O(1) or O(log f).",
+      "Any assertion that a polynomial or quasipolynomial number of low-degree linear moments determines support properties such as origin membership for arbitrary equal-augmentation signed rows on U."
+    ],
+    "what_is_not_killed": [
+      "Low-degree tests tailored to the structured Phi6 divisor rows; degree one already distinguishes those rows.",
+      "Nonlinear, tensor-compressed, factor-aware, scalar-copy or positivity certificates.",
+      "A low-order moment defect theorem whose conclusion is a Euclidean ruled locus rather than complete support reconstruction.",
+      "The actual exact-block family, because q_plus and q_minus are not proved to divide B, become masks after the required source multiplications, or arise from scalar copies of one Euclidean source."
+    ],
+    "euclidean_status": "The certificate lives only in the abstract exponent-support union. It is not an N-point Euclidean configuration, supplies no distance-label count, and is not a counterexample to Erdős #1083.",
+    "public_exponent_changed": false,
+    "public_problem_closed": false
+  },
+  "next_legal_attempt": "Use the actual factorized coefficient fingerprints and scalar-copy/positive-multiple constraints. A viable low-degree invariant must exploit relations among rows or imply a bounded-degree Euclidean ruled locus; arbitrary-weight support reconstruction is now frozen.",
+  "bounded_guard": {
+    "script": "evidence/low_degree_multivariate_moment_kernel.py",
+    "command": "AMRA_MEMORY_KIB=5242880 AMRA_TIMEOUT_SECONDS=1800 LEAN_NUM_THREADS=2 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-mechanism-reset/evidence/low_degree_multivariate_moment_kernel.py",
+    "script_sha256": "7627500964559923fd2c07c34724b9392764027f0d60b4ef56d5287bd565b5fd",
+    "result": "Exact parity certificates passed for 4<=d<=12 and every 0<=L<floor(d/2); the d=8,L=3 equal-augmentation signed certificate passed; degree-one fingerprints were distinct for all structured Phi6 rows through d=10; dimension ledgers passed through d=256.",
+    "lean_used": false
+  }
+}

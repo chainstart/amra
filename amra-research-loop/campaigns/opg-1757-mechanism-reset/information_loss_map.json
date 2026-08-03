@@ -1,0 +1,21 @@
+{
+  "inherited_methods": [
+    {
+      "method": "complete-split host coefficient transport",
+      "loss_step": "specialize the host and inspect the selected alpha and third-active coefficient rows",
+      "lost_information": "arbitrary-host structure and compatibility among all later coefficient rows",
+      "consequence": "positivity in the proved row cannot imply the forest Rayleigh inequality for every finite simple graph"
+    },
+    {
+      "method": "eventual log-expansion positivity",
+      "loss_step": "replace exact finite-s signs by the dominant asymptotic coefficient beyond an explicit threshold",
+      "lost_information": "the complete finite-s range and cancellation near the threshold",
+      "consequence": "even the selected transport remains incomplete for all parameter values"
+    }
+  ],
+  "required_new_information": [
+    "a representation retaining arbitrary-host deletion-contraction compatibility",
+    "simultaneous control of the full coefficient-row hierarchy",
+    "an exact finite-parameter sign mechanism rather than threshold-only positivity"
+  ]
+}

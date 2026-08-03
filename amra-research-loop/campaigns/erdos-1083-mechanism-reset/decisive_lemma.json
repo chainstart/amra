@@ -1,0 +1,19 @@
+{
+  "statement": "For every finite family of nonzero finitely supported Q-valued functions on a finitely generated torsion-free abelian group Gamma (equivalently, nonzero elements of Q[Gamma]), one homomorphism ell:Gamma->Z separates the finite union of supports. Each projected function has infinite Hankel rank exactly equal to its support size: every Hankel block has rank at most that support size, while the leading square block has determinant equal to the product of its nonzero weights times the squared Vandermonde product. This existential projection has no polynomial height bound from common-quotient factor count and equal augmentation alone: the Phi6 divisor family B=(1+Y)prod_i(1-X_i+X_i^2) has d+1 factors, binom(d,floor(d/2)) equal-augmentation-two divisor rows, and forces common projection L1 height exponential in d.",
+  "status": "proved",
+  "closes": [
+    "signed_residual_reconstruction_subinterface",
+    "naive_factor_count_to_projection_height_route_refuted"
+  ],
+  "evidence": [
+    "evidence/simultaneous_hankel_reconstruction_lemma.json",
+    "evidence/hankel_probe_result.json",
+    "evidence/PROJECTION_HEIGHT_AND_COMMON_QUOTIENT_NO_GO.json"
+  ],
+  "dependency_gaps": [
+    "Need a common-quotient complexity inequality charging the Hankel/support ranks of power-many Q_j against B.",
+    "The Phi6 divisor family proves projection height cannot be controlled from factor count and equal augmentation alone; any repair must use actual mask positivity/common-X scalar-copy geometry or be projection-free and multivariate.",
+    "Need a Euclidean ruled-locus consequence that yields more than t^3=N^(3/5) labels.",
+    "Need quantitative outer stability stronger than the endpoint Folner counterexample."
+  ]
+}

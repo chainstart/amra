@@ -1,0 +1,174 @@
+{
+  "mechanisms": [
+    {
+      "id": "M1083-01",
+      "representation_id": "R1083-02",
+      "family": "geometric_partitioning",
+      "decisive_claim": "There exists epsilon>0 such that any N-point subset of R^3 with at most N^(3/5+epsilon) distances has a power-large subset contained in a bounded-degree ruled exceptional locus, and each possible locus either already determines N^(3/5+epsilon) distances or reduces to a proved lower-dimensional distance bound.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Run a complete exponent ledger and test Cartesian grids, planar layers, sphere clusters, helices, and reciprocal ruled charts; any uncharged exceptional family kills the claim.",
+      "status": "surviving",
+      "created_at": "2026-08-02T14:48:04+00:00",
+      "status_evidence": "No existing countermodel kills a partition theorem that explicitly isolates all ruled exceptional loci; retained only with a mandatory complete exponent ledger and Euclidean stability interface.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    },
+    {
+      "id": "M1083-02",
+      "representation_id": "R1083-03",
+      "family": "positive_energy",
+      "decisive_claim": "A scale-sensitive positive distance-energy inequality gains a fixed N^epsilon over the inherited three-dimensional 3/5 exponent while remaining valid under arbitrarily nonuniform dyadic shell mass.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Evaluate the claimed gain on anisotropic grids, planar stacks, two-scale clusters, and exact interval blocks with all mass concentrated in a small number of shells.",
+      "status": "frozen",
+      "created_at": "2026-08-02T14:48:04+00:00",
+      "status_evidence": "No precise scale-sensitive inequality was obtained. Raw positive energy preserves realizability but currently has no demonstrated fixed exponent gain; do not allocate until M1083-01 supplies the exceptional-locus ledger.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    },
+    {
+      "id": "M1083-03",
+      "representation_id": "R1083-04",
+      "family": "rigidity_psd",
+      "decisive_claim": "The PSD rank-three Gram constraint plus the coherent-theta incidence record alone forces more than N^(3/5+epsilon) squared-distance labels for some fixed epsilon>0.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Apply the implication to the genuine Euclidean coherent-theta family with S-1 arms and only O(S^2) complete local distances.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:48:04+00:00",
+      "status_evidence": "Genuine rank-three coherent-theta Euclidean countermodel, COHERENT_THETA_EUCLIDEAN_NO_GO.md.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    },
+    {
+      "id": "M1083-04",
+      "representation_id": "R1083-01",
+      "family": "semialgebraic_incidence",
+      "decisive_claim": "A fixed forbidden-biclique or bounded-codegree property of the point-sphere row-cell incidence graph yields the required exponent improvement without a separate power-large hypothesis.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Search the full Euclidean interval multirow exact blocks for arbitrarily large common-spectrum bicliques and high codegrees.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:48:04+00:00",
+      "status_evidence": "Arbitrarily many complete Euclidean interval rows refute fixed forbidden-biclique/bounded-codegree input.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    },
+    {
+      "id": "M1083-05",
+      "representation_id": "R1083-05",
+      "family": "signed_common_object",
+      "decisive_claim": "The factorial residual energy delta(q) alone has a power-saving upper bound on every exact-block row family large enough to improve the 3/5 exponent.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Test the full-transverse Euclidean signed switch with minimum debt delta=1 and the reciprocal-frame equality example; check whether exact identities alone control the sum over rows.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:48:04+00:00",
+      "status_evidence": "Factorial energy alone is blind to mask rows and minimum-debt signed Euclidean rows; it has no standalone exponent closure effect.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    },
+    {
+      "id": "M1083-06",
+      "representation_id": "R1083-05",
+      "family": "fourier_conditioning",
+      "decisive_claim": "Every fixed aperiodic 0/1 source mask has a scale-uniform positive lower bound for its nontrivial finite-shadow Fourier singular values.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Use P=1+x+x^3+x^5+x^6 and roots near a non-torsion unit-circle zero to seek singular values tending to zero.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:48:04+00:00",
+      "status_evidence": "Fixed aperiodic five-point mask has finite-shadow singular values tending to zero and an actual signed quotient.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    },
+    {
+      "id": "M1083-07",
+      "representation_id": "R1083-07",
+      "family": "scalar_copy_algebra",
+      "decisive_claim": "Distinct nonassociate scalar copies of every non-cyclotomic 0/1 source mask are pairwise coprime, so augmentation alone forbids a power-large common complement.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Test centrally symmetric, cyclotomic, reducible, and interval sources; one shared nonunit factor for distinct scales kills universality.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:48:04+00:00",
+      "status_evidence": "Exact bounded SymPy certificate: A=P(1+x^20) is 0/1 and non-cyclotomic but gcd(A(x),A(x^3))=1+x^20.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    },
+    {
+      "id": "M1083-08",
+      "representation_id": "R1083-05",
+      "family": "positivity_reconstruction",
+      "decisive_claim": "If a signed quotient becomes a 0/1 mask after multiplication by two transverse positive source masks and their total product is a mask, then the quotient is coefficientwise nonnegative.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Apply Q_S=x+y-xy+xy^S+x^Sy for S>=4 with the two interval source masks.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:48:04+00:00",
+      "status_evidence": "Explicit Q_S is signed while both transverse source multiples and total product are masks.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    },
+    {
+      "id": "M1083-09",
+      "representation_id": "R1083-06",
+      "family": "algebraic_reconstruction",
+      "decisive_claim": "For a common scalar-copy exact-block datum, either the truncated Hankel ranks of the signed Q_j spend Omega(log K) independent factor complexity in the single common quotient B, or a power-large subfamily reconstructs from one bounded root set and is confined to a bounded-degree reciprocal ruled locus.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Search exact positive-multiple quotients with many atoms but vanishing initial moments, and test whether row-dependent supports evade any common-root reconstruction while B remains low-complexity.",
+      "status": "surviving",
+      "created_at": "2026-08-02T14:48:04+00:00",
+      "status_evidence": "Known signed escapes have exact full eventual Hankel rank in the bounded probe; no known countermodel defeats common-root reconstruction charged to B. General complexity lemma remains open.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    },
+    {
+      "id": "M1083-10",
+      "representation_id": "R1083-08",
+      "family": "outer_stability",
+      "decisive_claim": "An exact conserved row-cell defect measure and bounded coarea potential select, from every near-extremal three-dimensional configuration, one power-large common core satisfying the exact-block interfaces with total discarded mass N^(-epsilon).",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Construct distributed-defect arrays with good rows but empty global intersection; require and verify the precise conservation or overlap inequality that excludes them.",
+      "status": "surviving",
+      "created_at": "2026-08-02T14:48:05+00:00",
+      "status_evidence": "Only retained candidate that addresses the unproved near-extremal-to-exact-block extraction. Distributed-defect test has not yet been excluded; exact overlap hypothesis remains the decisive gap.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    },
+    {
+      "id": "M1083-11",
+      "representation_id": "R1083-09",
+      "family": "tensor_amplification",
+      "decisive_claim": "Independent repetition of signed switches yields exponentially many homothetically distinct common-X scalar-copy rows while preserving all exact-block positivity and transversality interfaces.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Compare the multidirectional tensor switch construction with the common-X test and apply the binary-box Phi6 homothety-class and transverse-shadow bounds.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:48:05+00:00",
+      "status_evidence": "Tensor cube loses common-X/transversality and has only k+1 homothety-class size; binary-box transverse repair is quantitatively too small.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    },
+    {
+      "id": "M1083-12",
+      "representation_id": "R1083-10",
+      "family": "local_geometric_budget",
+      "decisive_claim": "A coherent theta with a fixed tangent difference, fixed endpoints, fixed orientation, and one common anchor-distance label already exceeds the global distance budget when it has a power number of arms.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Use the explicit genuine R^3 coherent-theta construction with K<=S-1 arms and at most 2S^2+S complete local distances.",
+      "status": "killed",
+      "created_at": "2026-08-02T14:48:05+00:00",
+      "status_evidence": "Explicit genuine R3 theta construction has S-1 arms but only O(S^2) local distances.",
+      "updated_at": "2026-08-02T14:51:11+00:00"
+    }
+  ]
+}

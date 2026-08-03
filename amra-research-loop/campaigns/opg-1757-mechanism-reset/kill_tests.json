@@ -1,0 +1,64 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M001",
+      "test": "exact multivariate K4 coefficient dictionary",
+      "outcome": "killed",
+      "evidence": "evidence/falsification_exact.json: M001_and_M012 gives coefficient -2"
+    },
+    {
+      "mechanism_id": "M002",
+      "test": "real-stability Rayleigh criterion for the homogenized triangle",
+      "outcome": "killed",
+      "evidence": "evidence/falsification_exact.json: Delta_xy=z(t+z)=-1 at t=-2,z=1"
+    },
+    {
+      "mechanism_id": "M003",
+      "test": "rooted determinant fiber multiplicities at fixed component count",
+      "outcome": "killed",
+      "evidence": "evidence/falsification_exact.json: P4 component products 3 and 4 cannot share one scalar correction"
+    },
+    {
+      "mechanism_id": "M005",
+      "test": "conditional-mean covariance over K3 component partitions",
+      "outcome": "killed",
+      "evidence": "evidence/falsification_exact.json: covariance is positive 1/147"
+    },
+    {
+      "mechanism_id": "M006",
+      "test": "single-marked-edge transfer on a K4 domain pair",
+      "outcome": "killed",
+      "evidence": "evidence/falsification_exact.json: either marked addition creates a cycle"
+    },
+    {
+      "mechanism_id": "M007",
+      "test": "exact deletion-contraction mixed coefficient search",
+      "outcome": "killed",
+      "evidence": "evidence/falsification_exact.json: a five-vertex host has mixed coefficient -2"
+    },
+    {
+      "mechanism_id": "M009",
+      "test": "fixed auxiliary-root fiber equations",
+      "outcome": "killed",
+      "evidence": "evidence/falsification_exact.json: singleton equations force a_v=1 while a two-vertex component requires a_u+a_v=1"
+    },
+    {
+      "mechanism_id": "M010",
+      "test": "law of total covariance by K3 forest size",
+      "outcome": "killed",
+      "evidence": "evidence/falsification_exact.json: omitted between-size covariance is positive 8/147"
+    },
+    {
+      "mechanism_id": "M011",
+      "test": "fiber-preserving full cycle-exchange Hall flow",
+      "outcome": "killed",
+      "evidence": "evidence/falsification_exact.json: the K4 multiset fiber has Rayleigh coefficient -2, so no unit-capacity flow confined to every coefficient fiber can exist"
+    },
+    {
+      "mechanism_id": "M012",
+      "test": "coefficientwise positive complete activity channels",
+      "outcome": "killed",
+      "evidence": "evidence/falsification_exact.json: their sum has a K4 coefficient -2, impossible for coefficientwise nonnegative channels"
+    }
+  ]
+}

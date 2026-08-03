@@ -1,0 +1,86 @@
+{
+  "schema": "amra.erdos809.typed-pair-rank-independent-audit.v1",
+  "audited_artifacts": [
+    "evidence/M809_11_TYPED_PAIR_RANK_NO_GO.md",
+    "evidence/m809_11_pair_rank_probe.py",
+    "evidence/m809_11_pair_rank_probe.json"
+  ],
+  "verdict": "pass_with_machine_evidence_scope_note; reject_promotion",
+  "author_probe_reproduction": {
+    "method": "ran a byte-identical temporary copy so the author artifact was not rewritten",
+    "memory_kib": 524288,
+    "timeout_seconds": 120,
+    "lean_threads_environment": 1,
+    "output_sha256": "8e7f518a5ae2813648bb9528107effc5ad84ebf73cb036e8acb61b7bf6c8027e",
+    "matches_author_output": true
+  },
+  "submodularity_reconstruction": {
+    "rho_A": "passed: coverage by singleton owned-A atoms",
+    "rho_B": "passed: coverage by actual B-reserve sets K(e_gamma)",
+    "natural_proof": "each atom contributes a submodular indicator that the selected colour set meets its owner set; summing over atoms preserves submodularity",
+    "handles_overlap": true,
+    "independent_finite_check": {
+      "arbitrary_three_colour_three_atom_set_valued_maps": 512,
+      "singleton_owner_maps": 27,
+      "result": "pass"
+    },
+    "author_probe_scope_note": "The author probe invokes its submodularity checker only for the two A singleton-owner maps. It does not explicitly enumerate a B reserve-union system, despite the prose saying both ranks are checked. The universal coverage proof is correct and the independent checker covers arbitrary set-valued maps."
+  },
+  "n14_swap_pair": {
+    "common": {
+      "n": 14,
+      "edge_count": 50,
+      "B_size": 3,
+      "rho_A": 3,
+      "D_B": 3,
+      "minimum_degree": 4,
+      "A_is_closed_neighbourhood_of_v": true,
+      "L4_2": true,
+      "all_C7_rainbow": true,
+      "same_S_m_reason": "S_m depends here on the unchanged n, e, and |B|"
+    },
+    "tight": {
+      "C7_count": 11136,
+      "B_reserve_bc": ["bc", "cz"],
+      "rho_B": 2,
+      "M_B": 2,
+      "B_demand_paid": false
+    },
+    "paid": {
+      "change": "delete bz and add x1x2",
+      "C7_count": 11892,
+      "B_reserve_bc": ["bc", "bz", "cz"],
+      "rho_B": 3,
+      "M_B": 3,
+      "B_demand_paid": true
+    },
+    "result": "passed independent reconstruction"
+  },
+  "untyped_capacity_scope": {
+    "counterexample_values": "D_B=3, rho_A=3, rho_B=2, rho_A+rho_B=5, M_B=2",
+    "killed_inference": "D_B<=rho_A+rho_B therefore D_B<=M_B",
+    "reason": "rho_A atoms are missing A edges, not missing B edges",
+    "formal_sum_is_submodular": true,
+    "failure_type": "semantic budget typing",
+    "not_refuted": [
+      "a genuinely typed combined-demand theorem",
+      "a proved injective A-to-B or A-to-slack conversion",
+      "a graph-dependent S_m atomization using more than the unchanged scalars",
+      "the complete hard BCM outer-A gate",
+      "the public 1/8 asymptotic"
+    ]
+  },
+  "closure_contract": {
+    "global_interface_closed": false,
+    "main_coefficient_changed": false,
+    "public_problem_changed": false,
+    "promotion": "reject"
+  },
+  "independent_guard": {
+    "script": "audit/verify_typed_pair_rank_no_go.py",
+    "command": "AMRA_MEMORY_KIB=524288 AMRA_TIMEOUT_SECONDS=120 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-809-reserve-potential/audit/verify_typed_pair_rank_no_go.py",
+    "script_sha256": "a69a313b32d839e0716510871cfcd914a557a4d94a3f0eac545b5ee4149b51e3",
+    "result": "pass_with_scope_caveat",
+    "lean_used": false
+  }
+}

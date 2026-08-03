@@ -1,0 +1,167 @@
+{
+  "mechanisms": [
+    {
+      "id": "M809-01",
+      "representation_id": "R809-01",
+      "family": "incidence-combinatorial",
+      "decisive_claim": "In every hard maximum-witness configuration, the canonically defined fixed-endpoint legal-token sets Q_gamma satisfy |union_{gamma in S} Q_gamma| >= |S| for every repeated-colour set S.",
+      "would_close": [
+        "B-opposite label--reserve interface",
+        "repeated-colour defect payment"
+      ],
+      "kill_test": "Verify every subset on the sharp parity recolourings, then seek a two-star graph-realizable deficient set rather than choosing orientations after the set is known.",
+      "status": "frozen",
+      "status_evidence": "evidence/survivor_deepening.json#route_dominance",
+      "updated_at": "2026-08-02T14:54:49+00:00"
+    },
+    {
+      "id": "M809-02",
+      "representation_id": "R809-01",
+      "family": "incidence-combinatorial",
+      "decisive_claim": "The inequalities |Q| >= D_B and E_0 <= 4f(D_B-1) alone imply the full label--reserve Hall inequalities for all repeated-colour subfamilies.",
+      "would_close": [
+        "Branch A/B reserve payment from inherited scalars"
+      ],
+      "kill_test": "Give two colours the same singleton legal set while adding unused tokens to the global union so all total-cardinality inequalities still hold.",
+      "status": "killed",
+      "status_evidence": "evidence/initial_falsification.json#M809-02",
+      "updated_at": "2026-08-02T14:51:23+00:00"
+    },
+    {
+      "id": "M809-03",
+      "representation_id": "R809-03",
+      "family": "algebraic-symmetry",
+      "decisive_claim": "Existential proper two-label words of the induced-matching colour graphs force a common endpoint agreement that bounds repeated-colour defect.",
+      "would_close": [
+        "colour-defect interface without reserve incidence"
+      ],
+      "kill_test": "Use the full 2^t independent edge-flip gauge and the sharp 2K2 recolouring to realize every outer-endpoint word at fixed defect.",
+      "status": "killed",
+      "status_evidence": "evidence/initial_falsification.json#M809-03",
+      "updated_at": "2026-08-02T14:51:23+00:00"
+    },
+    {
+      "id": "M809-04",
+      "representation_id": "R809-03",
+      "family": "algebraic-symmetry",
+      "decisive_claim": "An unrooted matching colour graph admits an automorphism-equivariant canonical orientation, yielding precommitted endpoint labels with no extra geometric input.",
+      "would_close": [
+        "edge-flip gauge fixing"
+      ],
+      "kill_test": "Apply the endpoint-swap automorphism of a single K2: equivariance would have to preserve and reverse the chosen orientation simultaneously.",
+      "status": "killed",
+      "status_evidence": "evidence/initial_falsification.json#M809-04",
+      "updated_at": "2026-08-02T14:51:24+00:00"
+    },
+    {
+      "id": "M809-05",
+      "representation_id": "R809-04",
+      "family": "hypergraph-structural",
+      "decisive_claim": "If every selected coherent star has at least as many incident legal reserve tokens as repeated colours on that star, then the union over all selected stars has a simultaneous system of distinct representatives.",
+      "would_close": [
+        "composition of coherent-star branches"
+      ],
+      "kill_test": "Use two one-colour stars sharing their sole legal token; each star passes locally but their union has matching number one.",
+      "status": "killed",
+      "status_evidence": "evidence/initial_falsification.json#M809-05",
+      "updated_at": "2026-08-02T14:51:24+00:00"
+    },
+    {
+      "id": "M809-06",
+      "representation_id": "R809-05",
+      "family": "network-flow-dual",
+      "decisive_claim": "For the exact typed three-budget network, every minimum cut of capacity below the repeated-colour demand induces one of the already isolated A, B-same, or B-opposite scalar obstruction inequalities.",
+      "would_close": [
+        "one interface joining A, B-same, and B-opposite",
+        "global reserve/outer-residue closure"
+      ],
+      "kill_test": "Encode the sharp reserve-paid family and all minimal two-colour overlapping-token cuts; reject the claim if a new cut type is not represented by the canonical branches.",
+      "status": "killed",
+      "status_evidence": "evidence/typed_three_budget_mincut_no_go.json",
+      "updated_at": "2026-08-02T15:08:34+00:00"
+    },
+    {
+      "id": "M809-07",
+      "representation_id": "R809-06",
+      "family": "potential-stability",
+      "decisive_claim": "The parity stability energy E(a,h,u,T) by itself forces label--reserve Hall expansion whenever the scalar B-opposite constraints are feasible.",
+      "would_close": [
+        "general B-opposite branch"
+      ],
+      "kill_test": "Keep (a,h,u,T,D_B,|Q|) fixed but replace the colour-token incidence by two identical singleton neighbourhoods; scalar energy is unchanged while Hall fails.",
+      "status": "killed",
+      "status_evidence": "evidence/initial_falsification.json#M809-07",
+      "updated_at": "2026-08-02T14:51:24+00:00"
+    },
+    {
+      "id": "M809-08",
+      "representation_id": "R809-07",
+      "family": "dynamical-potential",
+      "decisive_claim": "Every alternation from a deficient colour family to a coherent star and then to a new deficient family strictly increases the scalar pair (number of exposed reserve tokens, degree-spread energy).",
+      "would_close": [
+        "termination of reserve-deficiency recursion"
+      ],
+      "kill_test": "Run the abstract four-cycle c1--q1--c2--q2 with alternating witness choices and test whether the claimed scalar state returns unchanged.",
+      "status": "candidate"
+    },
+    {
+      "id": "M809-09",
+      "representation_id": "R809-08",
+      "family": "analytic-local-density",
+      "decisive_claim": "A fixed finite list of bounded-radius rooted coloured densities determines whether the global colour--token incidence system satisfies Hall.",
+      "would_close": [
+        "finite local certificate for all hard branches"
+      ],
+      "kill_test": "Compare long even incidence cycles with a disjoint union containing one over-demanded component; match all fixed-radius neighbourhood frequencies while changing global Hall deficit.",
+      "status": "killed",
+      "status_evidence": "evidence/initial_falsification.json#M809-09",
+      "updated_at": "2026-08-02T14:51:24+00:00"
+    },
+    {
+      "id": "M809-10",
+      "representation_id": "R809-10",
+      "family": "information-theoretic",
+      "decisive_claim": "Positive marginal token entropy for every repeated colour, together with total reserve size at least D_B, implies a collision-free reserve assignment.",
+      "would_close": [
+        "entropy-to-Hall reserve payment"
+      ],
+      "kill_test": "Take two colours both uniformly supported on the same singleton token and add unused reserve tokens outside their supports.",
+      "status": "killed",
+      "status_evidence": "evidence/initial_falsification.json#M809-10",
+      "updated_at": "2026-08-02T14:51:24+00:00"
+    },
+    {
+      "id": "M809-11",
+      "representation_id": "R809-02",
+      "family": "matroidal-dual",
+      "decisive_claim": "Any minimum-rank deficient repeated-colour set can be uncrossed to a geometrically coherent zero-shore family whose deficit is charged injectively to the audited A/B/residual budgets.",
+      "would_close": [
+        "Hall-deficient alternative",
+        "reduction to one auditable coherent obstruction"
+      ],
+      "kill_test": "Enumerate minimal abstract deficient families of size at most four and test whether uncrossing preserves fixed endpoints and typed token provenance; then require graph realizability for survivors.",
+      "status": "surviving",
+      "status_evidence": "evidence/M809_11_OWNERSHIP_NO_GO.md and evidence/m809_11_ownership_probe.json",
+      "updated_at": "2026-08-02T15:17:00+00:00",
+      "second_wave_result": "The current ownership-blind ledger is insufficient. A three-colour tight circuit has two realizations with identical mu, E_A, rectangle-product, S_m, degree, and branch scalars: one is completed by an A atom owned by a circuit colour and one is not. This is a sharp abstract indistinguishability result, not a graph-realizable counterexample.",
+      "survives_only_as": "a graph-specific ownership or C7-exit theorem showing that every hard tight circuit receives one genuinely new actual resource atom with owner neighbourhood meeting the circuit, plus a distinctness theorem across simultaneous circuits",
+      "minimal_sound_capacity": "rho(T)=number of actual A/B/slack atoms whose precommitted owner neighbourhood intersects T; this coverage rank is submodular and prevents double spending of mu",
+      "graph_realizability_result": "Empty A ownership is impossible: every repeated colour bx_gamma,cy_gamma owns the missing A edge x_gamma y_gamma, and these diagonal atoms are distinct within one coherent opposite star. The earlier path-shaped B incidence also cannot be a canonical full-reserve system because base pairs belong to their own reserves and equal bases have equal reserves.",
+      "exact_surviving_obstruction": "A 14-vertex graph with 50 edges, minimum degree 4, L4(2), rainbow C7, and a maximum-witness B-opposite pair realizes three repeated colours sharing the two-token full reserve {bc,cz}; its three owned A diagonal atoms are distinct. Hence tight circuits do not themselves force a C7.",
+      "survives_only_as_after_graph_probe": "a typed nonlinear conversion from the injective A diagonal ownership/whole anticomplete rectangle to S_m or additional B reserve, together with cross-star overlap control; not an ownership-existence conjecture"
+    },
+    {
+      "id": "M809-12",
+      "representation_id": "R809-09",
+      "family": "graph-transform",
+      "decisive_claim": "A large matching or chromatic lower bound in the colour-conflict auxiliary graph forces the required number of distinct reserve tokens.",
+      "would_close": [
+        "repeated-colour defect payment from conflict structure"
+      ],
+      "kill_test": "Use the sharp 2K2 recolouring, where repeated colours may share a common reserve neighbourhood while the actual token injection depends on capacity not conflict adjacency.",
+      "status": "killed",
+      "status_evidence": "evidence/initial_falsification.json#M809-12",
+      "updated_at": "2026-08-02T14:51:24+00:00"
+    }
+  ]
+}

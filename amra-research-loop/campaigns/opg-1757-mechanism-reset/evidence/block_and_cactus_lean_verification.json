@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-08-02",
+  "lean_project": "amra_library/formal",
+  "lean_version_policy": "use existing pinned project; no rebuild",
+  "resource_policy": {
+    "virtual_memory_kib": 12582912,
+    "timeout_seconds_each": 300,
+    "threads": 2,
+    "serialized": true
+  },
+  "checks": [
+    {
+      "file": "evidence/opg_one_sum_block_probe.lean",
+      "exit_code": 0,
+      "claim_scope": "algebraic one-sum/block factorization identity only"
+    },
+    {
+      "file": "evidence/opg_cactus_cycle_probe.lean",
+      "exit_code": 0,
+      "claim_scope": "weighted cycle/cactus algebraic inequality only"
+    }
+  ],
+  "promotion_effect": "none",
+  "literature_boundary": "Both results are contained in stronger known series-parallel results; these checks are validation probes, not novelty evidence."
+}

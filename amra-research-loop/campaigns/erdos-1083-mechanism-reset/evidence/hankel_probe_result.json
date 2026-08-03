@@ -1,0 +1,25 @@
+{
+  "schema": "amra.erdos1083.hankel-probe.v1",
+  "evidence_level": 6,
+  "scope": "finite exact route-search probe only",
+  "command": "AMRA_MEMORY_KIB=1048576 AMRA_TIMEOUT_SECONDS=120 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-mechanism-reset/evidence/hankel_probe.py",
+  "resource_limits": {
+    "virtual_memory_kib": 1048576,
+    "timeout_seconds": 120,
+    "lean_threads": 2
+  },
+  "script_sha256": "e74991cb442932e358ec58728354d32dbfc5035b2c51c921354da74080c54a46",
+  "fixed_five_point_escape": {
+    "support": 6,
+    "augmentation": 2,
+    "hankel_rank_profile": [1, 2, 3, 4, 5, 6]
+  },
+  "simultaneous_positive_QS": {
+    "parameter_range": "4 <= S <= 12",
+    "support": 5,
+    "augmentation": 3,
+    "hankel_rank_profile_for_every_S": [1, 2, 3, 4, 5]
+  },
+  "interpretation": "Known signed escapes have full eventual Hankel rank equal to support size; this keeps moment reconstruction alive but supplies no common-mask complexity theorem.",
+  "public_exponent_changed": false
+}

@@ -1,0 +1,18 @@
+{
+  "complete_graphs": {
+    "K3": [
+      "-2*(q - 1)"
+    ],
+    "K4": [
+      "-(q - 1)*(q**3 + 13*q**2 + 38*q + 44)",
+      "-(q - 1)*(7*q**2 + 19*q + 6)"
+    ],
+    "K5": [
+      "-(q - 1)*(q**8 + 14*q**7 + 99*q**6 + 464*q**5 + 1476*q**4 + 3163*q**3 + 4548*q**2 + 4151*q + 1956)",
+      "-(q - 1)*(8*q**6 + 99*q**5 + 471*q**4 + 1156*q**3 + 1579*q**2 + 1085*q + 210)"
+    ]
+  },
+  "q_zero_sector": "|A|-|V|+k(A)=0 iff A is a forest",
+  "scaled_weight_identity": "q^(-|V|) q^k(A) product(q*x_e) = q^(|A|-|V|+k(A)) product(x_e)",
+  "scope": "finite unweighted corroboration and exact boundary identity only"
+}

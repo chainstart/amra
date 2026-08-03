@@ -1,0 +1,61 @@
+{
+  "schema": "amra.erdos776.borrow-aware-capacity-flow.v1",
+  "title": "Minimal flow contract and aggregate-surplus obstruction",
+  "mathematical_status": "proved route obstruction; actual bridge open",
+  "evidence_level": 4,
+  "flow_system": {
+    "left_objects": "Seed-demand types i, split into d_i indistinguishable unit tokens when d_i>1.",
+    "right_objects": "Legal rank slots j before rank 42 with effective integral capacity C_j=C_j^raw-beta_j after borrow reservations beta_j.",
+    "incidence": "An edge i~j means the exact Macaulay transition, cap depth, and borrow state permit seed type i to exit at rank slot j.",
+    "variables": "f_ij in Z_{>=0} on legal edges.",
+    "constraints": [
+      "sum_(j in N(i)) f_ij = d_i for every demand type i",
+      "sum_i f_ij <= C_j for every legal rank slot j",
+      "f_ij=0 whenever the exact borrow/cap transition forbids i~j"
+    ],
+    "hall_equivalent": "After splitting demands and capacities into unit copies, feasibility is equivalent to |X|<=sum_(j in N(X))C_j for every set X of demand tokens."
+  },
+  "relation_to_relaxed_gamma4": {
+    "relaxed_quantity": "gamma4=U_3(y)-U_3(x)-z-1",
+    "information_retained": "one scalar aggregate raised-capacity surplus",
+    "information_missing": [
+      "which demand token can use which rank slot",
+      "rankwise capacities after earlier seed choices",
+      "borrow reservations beta_j and collisions between seed types",
+      "all proper Hall-cut neighbourhood capacities"
+    ],
+    "conclusion": "Uniform gamma4>0 can at most certify an aggregate/full-set capacity inequality after an additional identification theorem. It cannot by itself imply the proper-subset Hall cuts."
+  },
+  "inherited_interface_mismatch": {
+    "actual_rank42_gate": "The inherited public-problem route asks for E_42<binom(M,42). Its proved propagation input is one adjacent-parameter diagonal surplus Gamma_r=g_(r+1)-S_r(f_r)>=0 before the endpoint.",
+    "relaxed_result": "The new uniform theorem proves gamma4=U_3(y)-U_3(x)-z-1>0 for individual admissible relaxed no-borrow states parameterized by (q,c,r,u).",
+    "missing_identification": "No inherited theorem maps every required adjacent orbit pair (f^M,f^(M+1)) to one of these relaxed states while preserving borrow legality, nor identifies gamma4 with Gamma_r or with the full-set capacity of a rank-slot flow network.",
+    "consequence": "The proposed Hall system is the minimum data structure an actual bridge would have to construct, not an already proved reformulation of E_42<binom(M,42). There are two obligations before Hall can help: derive the token-slot incidence from the Macaulay orbit, then prove its proper cut inequalities."
+  },
+  "audited_minimum_gamma_anchor": {
+    "parameters": {"q": 16, "c": 2, "r": 0, "u": 3, "b": 37, "h": 256},
+    "exact_values": {"n": 120, "z": 560, "w": 819, "x": 14, "y": 272, "gamma4": 69},
+    "source_status": "This is the minimum-gamma4 row in the previously independently audited finite census; the present guard recomputes it directly."
+  },
+  "abstract_nonidentifiability_certificate": {
+    "aggregate_data": "two unit demands, three unit-capacity rank slots, total surplus one",
+    "feasible_completion": "N(i_1)={j_1}, N(i_2)={j_2}",
+    "infeasible_completion": "N(i_1)=N(i_2)={j_1}; the cut {i_1,i_2} has demand 2 and neighbourhood capacity 1",
+    "force": "Both completions have identical relaxed parameters and identical aggregate capacity. Therefore no argument using only gamma4 or the tuple (q,c,r,u,b,h,x,y) can determine Hall feasibility.",
+    "scope_firewall": "The infeasible completion is an abstract information-loss witness, not a realized Boolean-lattice counterexample and not a counterexample to Erdős #776."
+  },
+  "required_new_statistic": {
+    "full_form": "The borrow-aware neighbourhood-capacity profile kappa(X)=sum_(j in N(X))(C_j^raw-beta_j) for demand-token subsets X.",
+    "compressed_target": "Prove that exact legal rank sets are intervals or form a laminar family. Then retain, for every rank interval I subseteq {4,...,42}, the trapped demand D(I)=sum_{i:N(i) subseteq I}d_i and effective capacity C(I)=sum_{j in I}(C_j^raw-beta_j); the bridge reduces to D(I)<=C(I) for all critical intervals.",
+    "unproved_step": "No inherited theorem shows interval/laminar accessibility or derives these cut inequalities from Macaulay surplus persistence."
+  },
+  "bounded_guard": {
+    "script": "evidence/verify_borrow_capacity_flow.py",
+    "command": "AMRA_MEMORY_KIB=524288 AMRA_TIMEOUT_SECONDS=120 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-adaptive-uniformity/evidence/verify_borrow_capacity_flow.py",
+    "script_sha256": "828b52b6258577cd0c215c182d265fe1e0b18b0ff07f73fb3ae79f9d1e3fba6c",
+    "result": "pass; exact gamma4=69 anchor reproduced, feasible network has no Hall-deficient subset, infeasible network has the two-token cut 2>1",
+    "scope": "exact recomputation of the relaxed anchor and exhaustive Hall cuts of the two-token abstract networks"
+  },
+  "claim_effect": "Refutes the scalar relaxed-positive-to-Hall inference and specifies the minimum missing incidence statistic. It does not refute the enriched M12 capacity-flow mechanism.",
+  "public_problem_closed": false
+}

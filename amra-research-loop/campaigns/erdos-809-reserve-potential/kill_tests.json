@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {"mechanism_id": "M809-02", "test": "total reserve versus subfamily Hall", "outcome": "killed", "evidence": "evidence/initial_falsification.json#M809-02"},
+    {"mechanism_id": "M809-03", "test": "induced-matching edge-flip gauge and sharp 2K2 core", "outcome": "killed", "evidence": "evidence/initial_falsification.json#M809-03"},
+    {"mechanism_id": "M809-04", "test": "K2 endpoint-swap equivariance", "outcome": "killed", "evidence": "evidence/initial_falsification.json#M809-04"},
+    {"mechanism_id": "M809-05", "test": "two locally paid stars sharing one token", "outcome": "killed", "evidence": "evidence/initial_falsification.json#M809-05"},
+    {"mechanism_id": "M809-07", "test": "same scalar energy, different incidence rank", "outcome": "killed", "evidence": "evidence/initial_falsification.json#M809-07"},
+    {"mechanism_id": "M809-09", "test": "locally indistinguishable alternating paths with different Hall status", "outcome": "killed", "evidence": "evidence/initial_falsification.json#M809-09"},
+    {"mechanism_id": "M809-10", "test": "positive marginal entropy with three colours on two legal tokens", "outcome": "killed", "evidence": "evidence/initial_falsification.json#M809-10"},
+    {"mechanism_id": "M809-12", "test": "complete conflict graph with singleton token capacity", "outcome": "killed", "evidence": "evidence/initial_falsification.json#M809-12"},
+    {"mechanism_id": "M809-06", "test": "enumerate coarse A/B cuts and instantiate opposite-star quantities as additive capacities", "outcome": "killed", "evidence": "evidence/typed_three_budget_mincut_no_go.json"}
+  ]
+}

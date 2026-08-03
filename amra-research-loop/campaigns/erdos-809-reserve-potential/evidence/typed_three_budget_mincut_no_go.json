@@ -1,0 +1,53 @@
+{
+  "schema": "amra.erdos809.typed-three-budget-mincut-no-go.v1",
+  "date": "2026-08-02",
+  "mechanism_id": "M809-06",
+  "mathematical_status": "proved route obstruction for the ordinary additive-network instantiation",
+  "attempted_exact_network": {
+    "nodes": ["source", "outer-A residual demand", "outer-B defect demand", "sink"],
+    "arcs": [
+      "source -> A with capacity R_A",
+      "A -> sink with capacity S_m",
+      "source -> B with capacity D_B",
+      "B -> sink with capacity |Q| (or M_B after reserve closure)"
+    ],
+    "all_cut_types": [
+      {"source_side_demands": [], "capacity": "R_A+D_B"},
+      {"source_side_demands": ["A"], "capacity": "S_m+D_B"},
+      {"source_side_demands": ["B"], "capacity": "R_A+|Q|"},
+      {"source_side_demands": ["A", "B"], "capacity": "S_m+|Q|"}
+    ],
+    "conclusion": "This network exactly restates the two scalar shortages (R_A-S_m)_+ and (D_B-|Q|)_+. It has no node or cut capable of distinguishing B-same from B-opposite; those are conditionally selected geometric witnesses, not scalar cut types."
+  },
+  "no_go_lemma": {
+    "statement": "The existing opposite-star conservation quantities cannot be the capacities of an ordinary additive resource network whose flow certifies distinct budget payment. In A_L+ell(t-1)=2mu+E_A+E_B, the mu missing leaf pairs are one set of actual Q edges but occur with coefficient two, E_A is an incidence deficit whose consequence is a nonlinear anticomplete-rectangle lower bound, and the left side is synchronization defect plus an isolated-leaf correction rather than repeated-colour demand.",
+    "proof": [
+      "The actual B-reserve theorem gives |Q|>=mu+E_B because the missing leaf pairs and external B incidences are disjoint actual missing B-edges. It does not give two disjoint copies of the mu leaf pairs.",
+      "If an additive network gives these existing distinct resources their literal capacities, its total on the right is mu+E_A+E_B, which is smaller than the conserved quantity 2mu+E_A+E_B by exactly mu whenever mu>0.",
+      "If the network instead places two capacity-one arcs for each missing leaf pair, a two-unit flow may use two copies of the same edge of Q. Such a flow is not an injection into missing edges and cannot certify D_B<=M_B.",
+      "The published elimination avoids this double spending by the nonlinear inequality Q+min(Q,binom(ell,2))+E_A >= A_L+ell(t-1). The second Q term is a bound on the same mu, not new reserve capacity.",
+      "E_A=sum_(c in L)|Y\\N(c)| is also not a set of missing-A tokens. It first forces |Y|>=(H+eta)/ell; together with |N_A(b)|>=H/alpha this yields the product M_A>=ceil(H/alpha)ceil((H+eta)/ell). This product transference is not additive flow conservation.",
+      "Finally S_m=e-binomial(|B|,2)-Phi(n,e) is a global numerical slack with no inherited colour-by-colour or witness-by-witness ownership map. Connecting every A-residual unit to a generic S_m pool merely assumes the absorption R_A<=S_m that the proof needs to establish."
+    ],
+    "minimal_leaf_ledger": "Take two isolated leaves: ell=2, t=2, mu=1, E_A=E_B=A_L=0. The exact conservation identity reads 0+2(2-1)=2*1. There is one actual missing leaf pair, not two reserve tokens; moreover the left-hand 2 includes the isolated-leaf correction and is not two units of D_A or D_B.",
+    "scope": "This refutes the proposed ordinary additive max-flow/min-cut realization from existing branch quantities. It does not rule out a polymatroidal/submodular-flow certificate after new ownership and overlap data are proved."
+  },
+  "missing_coupling_information": [
+    "A colour-level ownership decomposition of the global slack S_m, especially for the anchors counted by I_mix and the credits N_int.",
+    "A shared-capacity rule preventing the second algebraic use of mu from becoming a second spend of the same Q edge.",
+    "A submodular rank/capacity function for actual unions of Q reserves, rather than only |Q|.",
+    "A transference object that records how E_A-induced Y vertices generate distinct missing-A rectangle edges and how those M_A edges subsequently pay a target budget.",
+    "Compatibility data showing that the selected same/opposite coherent star and the outer-A mixed colours refer to one common witness rather than separately optimized certificates."
+  ],
+  "bounded_probe": {
+    "command": "AMRA_MEMORY_KIB=524288 AMRA_TIMEOUT_SECONDS=120 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-809-reserve-potential/evidence/typed_cut_probe.py",
+    "limits": {"virtual_memory_kib": 524288, "timeout_seconds": 120, "threads": 1},
+    "result": "pass; exact leaf graphs through ell=6 produced 541776 conservation profiles with mu>0; every literal distinct-capacity ledger had gap exactly mu; maximum sampled gap 15",
+    "script_sha256": "7a9c3355d991a42a617cc54e72b9e0df4a453f8687a816b84af9b1b187d84141",
+    "scope": "finite guard of the identity and cut taxonomy only; the proof of the no-go is the displayed all-parameter accounting"
+  },
+  "closure_effect": "Freezes M809-06 in its current ordinary-network form and identifies the exact new datum needed before a cut method can be sound: shared-resource/submodular provenance plus an S_m ownership rule.",
+  "public_problem_changed": false,
+  "main_term_changed": false,
+  "independent_reconstruction": "not_performed"
+}

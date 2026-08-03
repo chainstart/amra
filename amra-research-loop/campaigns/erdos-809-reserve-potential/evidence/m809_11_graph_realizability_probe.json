@@ -1,0 +1,83 @@
+{
+  "classification": "bounded_real_graph_necessary_condition_probe",
+  "exact_full_reserve_translation": {
+    "constraints": [
+      "each colour base pair belongs to its own reserve neighbourhood",
+      "colours with the same base pair have identical full reserve neighbourhoods"
+    ],
+    "models_for_path_neighbourhoods": [],
+    "path_pattern_realisable": false
+  },
+  "full_hard_BCM_realisation_claimed": false,
+  "opposite_star_inner_endpoint_translation": {
+    "assignments_at_minimum": 36,
+    "colour_count": 3,
+    "distinct_owned_diagonal_atoms": 3,
+    "minimum_X_size": 3,
+    "minimum_Y_size": 3,
+    "minimum_missing_A_rectangle_atoms": 9,
+    "one_by_one_rectangle_feasible": false
+  },
+  "public_problem_changed": false,
+  "relaxed_B_graph_scan": {
+    "B_graphs_checked": 33866,
+    "first_exact_path_target": null,
+    "first_three_colour_tight_full_reserve_circuit": {
+      "B_edges": [
+        [
+          0,
+          1
+        ]
+      ],
+      "base_pairs": [
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "n_B": 3,
+      "reserve_neighbourhoods": [
+        [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ],
+        [
+          [
+            0,
+            2
+          ],
+          [
+            1,
+            2
+          ]
+        ]
+      ]
+    },
+    "n_B_max": 6,
+    "zero_shore_B_pairs_checked": 78008
+  }
+}

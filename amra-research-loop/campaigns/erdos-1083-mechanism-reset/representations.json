@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R1083-01",
+      "name": "Euclidean point-sphere incidence hypergraph",
+      "family": "semialgebraic_incidence_geometry",
+      "new_information": "Retains the actual point coordinates, positive squared-distance labels, sphere centres, multiplicities, and simultaneous incidences across every row instead of replacing them by independent Laurent identities.",
+      "first_test": "Test whether anisotropic grids, Cartesian products, sphere clusters, and the full-Euclidean interval multirow model create the forbidden bicliques or ruled components that the incidence estimate must isolate."
+    },
+    {
+      "id": "R1083-02",
+      "name": "Polynomial-partition cells with ruled exceptional locus",
+      "family": "semialgebraic_incidence_geometry",
+      "new_information": "Retains ambient dimension three and the location and scale of incidences; separates generic cells from planes, spheres, cylinders, and doubly ruled exceptional surfaces where distance coincidences concentrate.",
+      "first_test": "Perform the exponent ledger for a partition degree D and verify that all Cartesian-grid and ruled-surface examples are charged to an explicit exceptional branch rather than hidden in an O-term."
+    },
+    {
+      "id": "R1083-03",
+      "name": "Positive dyadic distance-energy ledger",
+      "family": "positive_energy_and_harmonic_analysis",
+      "new_information": "Keeps unsigned pair counts, dyadic spatial scale, distance-shell scale, and cross-scale mass, so cancellation in signed quotients cannot erase Euclidean realizability.",
+      "first_test": "Compute the ledger on cubic grids, planar layers, two-scale clusters, and interval exact blocks; reject any inequality that gains only by assuming uniform shell mass."
+    },
+    {
+      "id": "R1083-04",
+      "name": "Gram PSD and equilibrium-stress certificate",
+      "family": "rigidity_and_psd_geometry",
+      "new_information": "Encodes squared distances through a positive-semidefinite Gram matrix of rank at most three and retains compatibility among all labelled edges, which abstract row graphs and group-ring masks forget.",
+      "first_test": "Test the proposed stress-rank implication on flexible frameworks, cospherical configurations, the coherent-theta Euclidean no-go, and exact interval multirow realizations."
+    },
+    {
+      "id": "R1083-05",
+      "name": "Simultaneous Laurent common-object datum",
+      "family": "algebraic_common_object",
+      "new_information": "Retains in one object F_j=GR_j, P_A0=GB, B=R_jQ_j, P_Aj=F_0Q_j, scalar copies of one X, and height/tangent parameters; this is stronger than rowwise factorization.",
+      "first_test": "Replay the simultaneous-positive, multidirectional-tensor, binary-box Phi6, interval-multirow, and fixed-five-point coprimality countermodels at their exact hypothesis levels."
+    },
+    {
+      "id": "R1083-06",
+      "name": "Truncated moment and Hankel reconstruction",
+      "family": "algebraic_reconstruction",
+      "new_information": "Retains signed coefficient locations and multiplicities through moments m_k(Q_j), while Hankel rank measures the number of exponential atoms without requiring coefficientwise positivity or Fourier conditioning.",
+      "first_test": "Compute exact Hankel ranks for the known signed escapes and search for positive-multiple quotients with many support atoms but anomalously small initial Hankel rank."
+    },
+    {
+      "id": "R1083-07",
+      "name": "Scalar-copy Jacobian and transcendence ledger",
+      "family": "algebraic_reconstruction",
+      "new_information": "Keeps the common source X and all scalar parameters lambda_j in a single coefficient map; Jacobian rank can distinguish genuine scalar copies from tensor switches built from unrelated sources.",
+      "first_test": "Check rank on binary boxes, cyclotomic same-line families, the five-point aperiodic source, and mixed-source tensor switches; reject it if translation, reflection, or scaling symmetries consume the claimed rank."
+    },
+    {
+      "id": "R1083-08",
+      "name": "Row-cell defect measure and bounded coarea potential",
+      "family": "stability_and_information",
+      "new_information": "Retains where near-equality defects occur across rows, tangent cells, labels, and scales; a normalized bounded potential can select one coherent power-large core without a union bound over rare bad cells.",
+      "first_test": "Construct distributed-defect arrays in which every row is individually good but no common core survives, and determine the exact overlap or conservation hypothesis needed for coarea selection."
+    },
+    {
+      "id": "R1083-09",
+      "name": "Multilinear row-cell-distance tensor",
+      "family": "tensor_and_rank_complexity",
+      "new_information": "Records simultaneous dependence among row, tangent cell, source pair, and distance label; slice or partition rank is sensitive to shared labels that disappear after rowwise projection.",
+      "first_test": "Evaluate rank on tensor switch cubes and interval multirow exact blocks, checking whether low rank follows from product structure without implying few Euclidean distances."
+    },
+    {
+      "id": "R1083-10",
+      "name": "Multiscale tangent-cone and reciprocal-chart atlas",
+      "family": "geometric_lift_and_multiscale",
+      "new_information": "Retains the reciprocal ruled-chart parameters, sign, denominator scale, and nesting of tangent directions across scales, rather than only a common Newton direction.",
+      "first_test": "Place the full interval and coherent-theta constructions in the atlas and test whether bounded chart multiplicity fails before the required t^(5/9-o(1)) scale."
+    }
+  ]
+}

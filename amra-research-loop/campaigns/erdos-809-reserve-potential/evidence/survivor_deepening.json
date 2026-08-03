@@ -1,0 +1,25 @@
+{
+  "date": "2026-08-02",
+  "phase": "survivor_deepening",
+  "route_dominance": {
+    "statement": "Let Q be the union of all valid reserves R(e) over active base pairs. Since Q is a subset of the M_B missing B-edges, |Q|>=D_B implies D_B<=M_B without a token matching, a root choice, or endpoint labels.",
+    "proof": "Immediate from D_B<=|Q|<=M_B.",
+    "source": "data/research_open/q1_six_hour_campaign_2026-07-31/erdos809/GLOBAL_RESERVE_UNION_REDUCTION.md#Theorem-1.1",
+    "effect": "Freezes fixed-endpoint LRH as the primary target. The complementary hard B branch is exactly |Q|<=D_B-1."
+  },
+  "tight_deficiency_lemma": {
+    "statement": "In any finite colour-token incidence graph, if S is inclusion-minimal with |N(S)|<|S|, then |N(S)|=|S|-1 and N(S\\{c})=N(S) for every c in S. Consequently every token of N(S) has at least two neighbours in S.",
+    "proof": "For c in S, minimality gives |N(S\\{c})|>=|S|-1. But N(S\\{c}) is contained in N(S), while deficiency gives |N(S)|<=|S|-1. Equality holds throughout. The final assertion follows because deleting any one colour does not remove any token from the neighbourhood.",
+    "effect": "Any Hall-style probe inside the root-free obstruction may restrict to a deficiency-one transversal circuit with no degree-one token.",
+    "mathematical_status": "proved",
+    "evidence_level": "author-verified natural proof"
+  },
+  "actual_remaining_interface": {
+    "branch_A": "R_A=e(G[A_<q*])+I_mix(q*)-N_int(q*) must be absorbed by S_m or directly yield the colour target.",
+    "branch_B": "Under |Q|<=D_B-1, the B-same and B-opposite normal-form regions remain live; Hall incidence is only auxiliary structure.",
+    "unified_target": "Show that every typed cut with demand D_A-(M_B+S_m)>0 either violates a proved A/B budget or supplies Phi(n,e) pairwise-C7-compatible colours."
+  },
+  "public_problem_changed": false,
+  "main_term_changed": false,
+  "independent_reconstruction": "not_performed"
+}

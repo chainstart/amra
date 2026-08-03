@@ -1,0 +1,7 @@
+{
+  "mechanism_ids": [
+    "M004",
+    "M008"
+  ],
+  "selection_rationale": "M004 has been sharpened to the literature-backed C-Gårding moving-edge domination route: it survives independent audits and exact W4 component-slice probes, but full four-variable domination is open. M008 retains only the exact q-to-0 representation bridge; a finite-q negative-dependence certificate is itself conjectural. All fixed coefficient, fixed channel, scalar-mixture, and fiber-preserving exchange mechanisms have exact counterevidence. Surviving means unrefuted, not proved."
+}

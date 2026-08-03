@@ -1,0 +1,27 @@
+{
+  "statement": "Along every admissible relaxed no-borrow sequence with q tending to infinity and promotion count c=c(q) tending to infinity, gamma4 is eventually positive. Combined with the independently audited eventual theorem for every fixed c>=2, there exists one Q such that gamma4>0 for every q>=Q and every admissible c>=2.",
+  "status": "proved",
+  "closes": [
+    "growing-promotion uniformity in the relaxed no-borrow comparator",
+    "the non-effective eventual relaxed no-borrow gamma4 interface"
+  ],
+  "evidence": [
+    "evidence/GROWING_C_UNIFORMITY.md",
+    "evidence/growing_gamma4_probe.json (finite falsifier only; SHA-256 7f640db91f4d9e4c461c0f7f28e1a9011ab8edfcec9f96e8aca6cebe947e16fa)",
+    "data/research_open/q1_two_hour_ten_proofs_transfer_2026-08-02/erdos776/ROOT_INDEPENDENT_CROSS_AUDIT.md",
+    "data/research_open/q1_two_hour_ten_proofs_transfer_2026-08-02/erdos776/CRITICAL_ELLIPSE_CROSS_AUDIT_BY_OPG1757.md"
+  ],
+  "dependency_gaps": [
+    "independent reconstruction of the new growing-c asymptotic argument",
+    "an effective treatment or finite completion below the nonconstructive threshold if required by the final construction",
+    "borrow-aware bridge from relaxed no-borrow positivity to actual seed and rank-capacity feasibility",
+    "statement and dependency audit against the full inherited construction"
+  ],
+  "evidence_classification": {
+    "statement_match": "exact for relaxed no-borrow comparator, not the public problem",
+    "mathematical_status": "proved_by_author_natural_proof",
+    "independent_reconstruction": "pending",
+    "machine_reproduced": "env AMRA_MEMORY_KIB=1048576 AMRA_TIMEOUT_SECONDS=300 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-adaptive-uniformity/evidence/probe_growing_gamma4.py --q-min 61 --q-max 160 --c-min 6 --c-max 10 --output amra-research-loop/campaigns/erdos-776-adaptive-uniformity/evidence/growing_gamma4_probe.json; 582893 retained states, no nonpositive gamma4",
+    "publication_state": "private_research_artifact"
+  }
+}

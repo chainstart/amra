@@ -1,0 +1,34 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos776_lane (author-swapped independent reconstruction)",
+    "evidence": [
+      "audit/RANDOM_CLUSTER_BOUNDARY_INDEPENDENT_AUDIT.md",
+      "audit/opg_triangle_random_cluster_independent.lean (SHA-256 f7c85b813ace5769f635c628038817888b0bcc93ae7f1ea1d0a7889aa57e845e)",
+      "audit/complete_graph_boundary_check.json (SHA-256 08f4a0296ee2cb1e6fc4682eaa26eb35efd1318652a9b5ffc626ccf03ce90df8)"
+    ]
+  },
+  "statement_match": "failed_global_interface",
+  "dependency_check": "failed_open_finite_q_negative_dependence_premise",
+  "novelty_check": "priority_uncertain",
+  "audited_claim": {
+    "q_scaling_for_positive_q": "passed",
+    "polynomial_extension_at_q_zero": "passed",
+    "cyclomatic_exponent_nonnegative": "passed",
+    "cyclomatic_exponent_zero_iff_forest": "passed",
+    "marked_derivative_and_rayleigh_passage": "passed",
+    "author_lean_artifact": "failed_at_final_positivity_tactic",
+    "independent_lean_repair": "passed",
+    "independent_K3_to_K5_corroboration": "passed_finite_unweighted_only"
+  },
+  "survivor_dependency_audit": {
+    "M008": "the q-to-zero passage is valid, but the required finite-q negative-dependence certificate for 0<q<=1 remains open",
+    "arbitrary_host_interface": "no connection to all coefficient rows or arbitrary-host closure was proved"
+  },
+  "promotion_audit": {
+    "decision": "reject",
+    "reason": "The result is a conditional representation bridge whose finite-q sign antecedent is the surviving open direction; global_interface_closed is not met.",
+    "original_problem_changed": false,
+    "global_interface_closed": false
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "classification": "finite_sanity_check_not_unbounded_evidence",
+  "counterexamples": [],
+  "domain": "all bipartite incidence graphs with 1..4 colours and 0..4 tokens",
+  "graphs_checked": 74958,
+  "inclusion_minimal_deficient_sets_checked": 39253,
+  "lemma_verified_in_domain": true
+}

@@ -1,0 +1,14 @@
+{
+  "K3": {
+    "checked_pairs": 3,
+    "summed_positive_defects": 3
+  },
+  "K4": {
+    "checked_pairs": 15,
+    "summed_positive_defects": 78
+  },
+  "K5": {
+    "checked_pairs": 45,
+    "summed_positive_defects": 2130
+  }
+}

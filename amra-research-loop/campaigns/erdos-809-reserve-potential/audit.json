@@ -1,0 +1,31 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos776_lane (author-swapped independent reconstruction)",
+    "evidence": [
+      "audit/TIGHT_DEFICIENCY_INDEPENDENT_AUDIT.md",
+      "audit/tight_deficiency_finite_check.json (SHA-256 b0232ef560793cbfa799c9f097a9772d3b39dc26255ac4a116dda486429f45ff)"
+    ]
+  },
+  "statement_match": "failed_global_interface",
+  "dependency_check": "failed_open_geometry_and_typed_budget_dependencies",
+  "novelty_check": "not_novel_elementary_hall_consequence",
+  "audited_claim": {
+    "abstract_lemma": "passed",
+    "inclusion_minimal_definition": "S is deficient and every strict subset is nondeficient",
+    "deficiency_exactly_one": "passed",
+    "single_colour_deletion_preserves_full_neighbourhood": "passed",
+    "every_incident_token_has_S_degree_at_least_two": "passed"
+  },
+  "survivor_dependency_audit": {
+    "M809-11": "lemma supports only the tight transversal-circuit reduction; geometric uncrossing and injective typed-budget charging remain unproved",
+    "M809-06": "lemma does not classify typed capacitated minimum cuts or reduce them to the A, B-same, and B-opposite scalar branches"
+  },
+  "promotion_audit": {
+    "decision": "reject",
+    "reason": "Only an abstract structural subinterface is closed; the frozen global interface and the n^2/8 main term are unchanged.",
+    "original_problem_changed": false,
+    "main_term_changed": false,
+    "main_coefficient_changed": false
+  }
+}

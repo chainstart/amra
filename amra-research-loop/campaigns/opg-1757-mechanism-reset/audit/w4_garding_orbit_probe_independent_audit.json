@@ -1,0 +1,97 @@
+{
+  "schema": "amra.opg1757.w4-garding-orbit-independent-audit.v1",
+  "audited_artifacts": [
+    "evidence/W4_GARDING_ORBIT_PROBE.md",
+    "evidence/w4_garding_orbit_probe.py",
+    "evidence/w4_garding_orbit_probe.json",
+    "evidence/W4_SPOKE_NATURAL_SLICE_COMPONENT_PROOF.md",
+    "evidence/w4_spoke_c_component_proof.py",
+    "evidence/w4_spoke_c_component_proof.json"
+  ],
+  "verdict": "pass_as_exact_one_coordinate_and_spoke_natural_slice_routing_evidence; reject_promotion",
+  "author_reproduction": {
+    "method": "byte-identical temporary copy; author output not rewritten",
+    "memory_kib": 524288,
+    "timeout_seconds": 120,
+    "script_sha256": "028c9f3e73d955fb3fe37252d77ae99bdad94cee4a796ada3f5d8914f6444b1b",
+    "output_sha256": "ac7bdf2036609dcdf197a1d277bf062b3ef454e26a4d3905e8bfce537fcb2ea2",
+    "matches_author_output": true
+  },
+  "definition_reconstruction": {
+    "C_delete": "sum over deletion forests I of the complement monomial on E-e-I",
+    "xi": "same sum restricted to forests connecting the marked endpoints",
+    "reason": "I is independent in M/e iff I union {e} is a forest",
+    "result": "passed"
+  },
+  "exact_counts": {
+    "spoke": {"deletion_forests": 86, "connected_endpoint_forests": 38, "C_at_ones": 86, "xi_at_ones": 38},
+    "rim": {"deletion_forests": 82, "connected_endpoint_forests": 30, "C_at_ones": 82, "xi_at_ones": 30}
+  },
+  "deletion_C_garding": {
+    "spoke": "suppress degree-two vertex 1 to K4; reverse is one series extension",
+    "rim": "suppress degree-two vertices 1 and 2 to a triangle with two doubled edges; reverse uses two parallel and two series extensions",
+    "base": "K4 has six elements and triangle has three; Fang-Ma at-most-six-element theorem plus series/parallel closure applies",
+    "result": "passed",
+    "scope": "proves only that the deletion distinguished components are legitimate, not W4 domination"
+  },
+  "channels": {
+    "count": 8,
+    "exact_polynomials_reproduced": true,
+    "six_real_root_orderings": "passed",
+    "two_negative_discriminant_cases": "passed with positive leading coefficients",
+    "component_membership": "passed by one-coordinate path inside C_delete>0 to t=1",
+    "conclusion": "xi>0 throughout all eight audited one-coordinate distinguished intervals",
+    "scope": "no conclusion for arbitrary two- or four-variable component points"
+  },
+  "boundary_identities": {
+    "spoke": "passed; applies to Q_s=0 away from a=-1 and does not cover the separate c=0 factor of xi=2cQ_s",
+    "rim": "passed; no global sign of the remainder R is inferred",
+    "domination_certificate": false
+  },
+  "spoke_natural_slice_component": {
+    "coordinates": "b=a, d=c, x=a+1; C_delete=cP(x,c), xi=2cQ(x,c)",
+    "discriminants": {
+      "P": "4c^2(c+2)(c^2+2c+2)(8c^4+69c^3+204c^2+206c+36)>0 for c>0",
+      "Q": "c^2(4c+1)>0 for c>0",
+      "result": "passed"
+    },
+    "resultant": "Res_x(P,Q)=-c^7(c^2+2c+2), nonzero for c>0",
+    "root_order": {
+      "base": "at c=1, q2=(15+sqrt(5))/22 and P(q2)=(95-56sqrt(5))/1331<0, so p2<q2<p3",
+      "continuation": "all roots are simple and continuous; nonzero resultant prevents P-Q crossings",
+      "conclusion": "q2(c)<p3(c) for every c>0",
+      "result": "passed"
+    },
+    "component": {
+      "description": "S={(x,c):c>0,x>p3(c)} is the sliced positive component containing positive activities",
+      "p3_below_one": "P(1,c)=c^2(c+2)>0 and partial_x P>=c(3c^2+10c+10)>0 on x>=1",
+      "full_component_path": "(x,c)->(1,c)->(1,1)->(2,1) inside C_delete>0",
+      "strict_sign": "x>p3>q2 implies Q>0 and xi=2cQ>0",
+      "result": "passed"
+    },
+    "scope": "complete for the sliced component S, but not full four-variable domination, not equality with the full-component intersection, and not a rim two-variable proof",
+    "author_reproduction": {
+      "script_sha256": "6046a420eb2db33841df5b5a5e339ea4d644b496fcb34ffbf86873307d9af046",
+      "json_sha256": "562dee561634c8e44e9486059157429346aa61c2b0bee31067c8688bd49f648b",
+      "matches": true
+    },
+    "independent_script": {
+      "path": "audit/verify_w4_spoke_natural_slice_component.py",
+      "sha256": "f1f72c3f50672f53a1c5c67b4b35cdbccc2c772383dc88dbcbc46422a4fd662c",
+      "result": "pass"
+    }
+  },
+  "promotion": {
+    "full_spoke_domination_proved": false,
+    "full_rim_domination_proved": false,
+    "public_problem_changed": false,
+    "decision": "reject"
+  },
+  "independent_guard": {
+    "script": "audit/verify_w4_garding_orbit_probe.py",
+    "script_sha256": "e8ab60c22288ed059c99a5a8191b6931f77058da9e692f0dd42924908fd3e509",
+    "command": "AMRA_MEMORY_KIB=524288 AMRA_TIMEOUT_SECONDS=120 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/opg-1757-mechanism-reset/audit/verify_w4_garding_orbit_probe.py",
+    "result": "pass in approximately 0.5 seconds",
+    "lean_used": false
+  }
+}

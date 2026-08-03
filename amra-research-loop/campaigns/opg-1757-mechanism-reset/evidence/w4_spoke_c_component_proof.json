@@ -1,0 +1,27 @@
+{
+  "host": "W4",
+  "marked_orbit": "spoke",
+  "slice": "b=a, d=c, with x=a+1",
+  "C_delete": "c*P(x,c)",
+  "xi": "2*c*Q(x,c)",
+  "P": "c**3*x**3 + 4*c**2*x**3 - 2*c**2*x + 6*c*x**3 - 8*c*x + 2*c + 4*x**3 - 12*x + 8",
+  "Q": "c**2*x**2 + 4*c*x**2 - 3*c*x - c + 6*x**2 - 12*x + 6",
+  "discriminant_P": "4*c**2*(c + 2)*(c**2 + 2*c + 2)*(8*c**4 + 69*c**3 + 204*c**2 + 206*c + 36)",
+  "discriminant_Q": "c**2*(4*c + 1)",
+  "resultant_x_P_Q": "-c**7*(c**2 + 2*c + 2)",
+  "base_parameter": {
+    "c": 1,
+    "P": "15*x**3 - 22*x + 10",
+    "Q": "11*x**2 - 15*x + 5",
+    "largest_Q_root": "(15+sqrt(5))/22",
+    "P_at_largest_Q_root": "(95-56*sqrt(5))/1331 < 0"
+  },
+  "component": {
+    "description": "c>0 and x>p3(c), where p3 is the largest P root",
+    "explicit_path": "move x to 1 at fixed c; vary c to 1 at x=1; then increase x to 2",
+    "path_signs": "P stays positive in the rightmost root interval; at x=1, C_delete=c^3*(c+2)>0"
+  },
+  "root_order": "q2(c) < p3(c) for every c>0",
+  "conclusion": "Q>0 and hence xi>0 on the entire connected two-variable C_delete-positive slice component containing the positive orthant",
+  "scope_limit": "This proves the natural two-variable slice survivor only, not full four-variable domination and not equality with the entire intersection of the full distinguished component and the slice."
+}

@@ -1,0 +1,28 @@
+{
+  "inherited_methods": [
+    {
+      "method": "signed-switch residual energy",
+      "loss_step": "encode distance coincidences by signed convolutions and aggregate them into factorial energy",
+      "lost_information": "positive Euclidean realizability, cross-row geometry, and stability of the outer near-extremal configuration",
+      "consequence": "a strong one-row energy estimate need not improve the dimension-three distance exponent"
+    },
+    {
+      "method": "fixed aperiodic or coprime polynomial mask",
+      "loss_step": "use absence of torsion zeros or pairwise gcd(P(x^r),P(x^s))=1 as the escape certificate",
+      "lost_information": "quantitative conditioning at power-large scale and a mechanism producing a second independent row",
+      "consequence": "algebraic nonvanishing alone gives no exponent gain"
+    },
+    {
+      "method": "qualitative exact-block stability",
+      "loss_step": "replace exact common spectra by rowwise symmetric-difference error o(SU) without retaining the location, direction, and overlap pattern of boundary defects",
+      "lost_information": "a quantitative error scale below the directional Folner boundary and a common conserved defect measure across rows",
+      "consequence": "arbitrarily many transverse endpoint rows can near-tile the same two-dimensional box, so qualitative o(1) error cannot extract a bounded-rank or exact common core"
+    }
+  ],
+  "required_new_information": [
+    "power-large quantitative conditioning for a common mask",
+    "a second-row mechanism compatible with unsigned Euclidean distances",
+    "outer exact-block or near-extremal stability with an explicit exponent calculation",
+    "a defect overlap or conservation inequality quantitatively stronger than the endpoint Folner boundary counterexample"
+  ]
+}

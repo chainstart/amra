@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M001",
+      "representation_id": "R001",
+      "family": "algebraic-coefficient",
+      "decisive_claim": "Every coefficient of the fully multivariate Rayleigh difference of a graphic forest polynomial is nonnegative.",
+      "would_close": [
+        "all positive activities and hence the arbitrary-host interface"
+      ],
+      "kill_test": "exact coefficient scan on K4 with disjoint marked edges",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "evidence/falsification_exact.json",
+      "updated_at": "2026-08-02T14:52:04+00:00"
+    },
+    {
+      "id": "M002",
+      "representation_id": "R002",
+      "family": "geometric-polynomial",
+      "decisive_claim": "The rank-homogenized independence polynomial of every graphic matroid is real stable.",
+      "would_close": [
+        "strong Rayleigh and therefore the target inequality"
+      ],
+      "kill_test": "triangle real-assignment Rayleigh criterion",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "evidence/falsification_exact.json",
+      "updated_at": "2026-08-02T14:52:04+00:00"
+    },
+    {
+      "id": "M003",
+      "representation_id": "R003",
+      "family": "determinantal",
+      "decisive_claim": "A positive scalar mixture in the root activity converts the matrix-forest determinant into the uniform unrooted forest polynomial.",
+      "would_close": [
+        "determinantal negative dependence for the exact target measure"
+      ],
+      "kill_test": "same-component-count forests of P4 with unequal root multiplicities",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "evidence/falsification_exact.json",
+      "updated_at": "2026-08-02T14:52:04+00:00"
+    },
+    {
+      "id": "M004",
+      "representation_id": "R004",
+      "family": "supersymmetric-analytic",
+      "decisive_claim": "The exact two-edge fermionic Ward observable for the unrooted arboreal gas admits a positive square or reflection-positive representation on every finite graph.",
+      "would_close": [
+        "the full arbitrary-host Rayleigh difference without row decomposition"
+      ],
+      "kill_test": "derive and sign-test the exact observable on C3, C4, and K4",
+      "status": "surviving",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "evidence/GARDING_MOVING_CERTIFICATE_ROUTE.md",
+      "updated_at": "2026-08-02T15:52:08+00:00"
+    },
+    {
+      "id": "M005",
+      "representation_id": "R005",
+      "family": "probabilistic-mixture",
+      "decisive_claim": "The covariance of the two conditional edge-inclusion means over the random component partition is always nonpositive.",
+      "would_close": [
+        "combine partition covariance with spanning-tree negative correlation"
+      ],
+      "kill_test": "adjacent marked edges in K3",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "evidence/falsification_exact.json",
+      "updated_at": "2026-08-02T14:52:04+00:00"
+    },
+    {
+      "id": "M006",
+      "representation_id": "R006",
+      "family": "combinatorial-transport",
+      "decisive_claim": "A canonical proof can transfer one marked edge from the both-cell forest to the neither-cell forest in every domain pair.",
+      "would_close": [
+        "an injection from both-times-neither to the two one-edge cells"
+      ],
+      "kill_test": "K4 domain pair whose neither forest already connects both marked endpoint pairs",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "evidence/falsification_exact.json",
+      "updated_at": "2026-08-02T14:52:04+00:00"
+    },
+    {
+      "id": "M007",
+      "representation_id": "R007",
+      "family": "structural-recursion",
+      "decisive_claim": "In deletion-contraction on any third edge, the mixed coefficient of the marked Rayleigh difference is nonnegative.",
+      "would_close": [
+        "minor induction from deletion and contraction endpoints"
+      ],
+      "kill_test": "exhaustive unweighted search through graphs on at most five vertices",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "evidence/falsification_exact.json",
+      "updated_at": "2026-08-02T14:52:04+00:00"
+    },
+    {
+      "id": "M008",
+      "representation_id": "R008",
+      "family": "rare-event-conditioning",
+      "decisive_claim": "A finite-q random-cluster negative-dependence certificate can be made uniform under the forest scaling q to zero.",
+      "would_close": [
+        "pass a finite-q certificate to the exact weighted forest Rayleigh inequality"
+      ],
+      "kill_test": "triangle and K4 scaled polynomials plus uniform-in-q conditioning audit",
+      "status": "surviving",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "survived exact first-host falsification; no universal claim proved",
+      "updated_at": "2026-08-02T14:52:05+00:00"
+    },
+    {
+      "id": "M009",
+      "representation_id": "R009",
+      "family": "matroidal-lift",
+      "decisive_claim": "Fixed positive auxiliary-root edge weights give every unrooted forest exactly the same spanning-tree lift multiplicity.",
+      "would_close": [
+        "project spanning-tree negative dependence to uniform unrooted forests"
+      ],
+      "kill_test": "singleton and two-vertex component fiber equations",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "evidence/falsification_exact.json",
+      "updated_at": "2026-08-02T14:52:04+00:00"
+    },
+    {
+      "id": "M010",
+      "representation_id": "R010",
+      "family": "filtered-combinatorics",
+      "decisive_claim": "Averaging negative correlations proved separately on every forest-cardinality layer preserves negative correlation without an additional term.",
+      "would_close": [
+        "reduce the uniform forest measure to fixed-rank graphic truncations"
+      ],
+      "kill_test": "law-of-total-covariance decomposition for K3",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "evidence/falsification_exact.json",
+      "updated_at": "2026-08-02T14:52:04+00:00"
+    },
+    {
+      "id": "M011",
+      "representation_id": "R006",
+      "family": "fractional-transport",
+      "decisive_claim": "The full cycle-exchange transport graph admits a fractional Hall flow of value one from every both-times-neither pair to the two one-edge cells.",
+      "would_close": [
+        "a weighted counting certificate for every host without choosing a canonical exchange"
+      ],
+      "kill_test": "solve exact Hall linear programs for all marked graphs through five vertices and extract the first symbolic obstruction",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "evidence/falsification_exact.json: any fiber-preserving cycle-exchange Hall flow contradicts the K4 coefficient -2",
+      "updated_at": "2026-08-02T14:54:02+00:00"
+    },
+    {
+      "id": "M012",
+      "representation_id": "R010",
+      "family": "activity-channel",
+      "decisive_claim": "For one fixed edge order, the complete Tutte-activity channel decomposition of the Rayleigh difference is coefficientwise nonnegative channel by channel.",
+      "would_close": [
+        "a bounded positive potential summing to the arbitrary-host Rayleigh difference"
+      ],
+      "kill_test": "K4 disjoint-pair negative coefficient and activity-order permutations",
+      "status": "killed",
+      "created_at": "2026-08-02T14:50:23+00:00",
+      "status_evidence": "evidence/falsification_exact.json",
+      "updated_at": "2026-08-02T14:52:04+00:00"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "Erdos-1083 lane (independent of the Erdos-776 author lane)",
+    "evidence": [
+      "audit/INDEPENDENT_GROWING_C_AUDIT.md",
+      "audit/independent_growing_c_audit_result.json",
+      "audit/independent_growing_c_audit.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "scope": "Passes the growing-c and uniform-Q theorem only for admissible relaxed no-borrow states; does not match or close the public Erdos #776 statement.",
+  "promotion_blocker": "The frozen success condition requires a borrow-aware adaptive bridge to actual seed and rank-capacity feasibility. No such bridge is present, so decision.json must not be changed to promote."
+}

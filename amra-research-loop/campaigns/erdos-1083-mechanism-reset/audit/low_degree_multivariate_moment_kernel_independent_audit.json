@@ -1,0 +1,58 @@
+{
+  "schema": "amra.erdos1083.low-degree-multivariate-moment-kernel-independent-audit.v1",
+  "date": "2026-08-02",
+  "auditor": "/root/erdos809_lane",
+  "verdict": "PASS_WITH_SCOPE_BOUNDARY",
+  "audited_artifacts": {
+    "evidence/low_degree_multivariate_moment_kernel.py": {
+      "sha256": "7627500964559923fd2c07c34724b9392764027f0d60b4ef56d5287bd565b5fd"
+    },
+    "evidence/LOW_DEGREE_MULTIVARIATE_MOMENT_KERNEL.json": {
+      "sha256": "18da2545b16424b5282cb20928f4cb3fb55b12598877f778fb888dd4454ebf30"
+    }
+  },
+  "feature_count_and_kernel_bound": {
+    "verdict": "PASS",
+    "check": "There are d+1 labelled coordinates (y,x_1,...,x_d). Stars and bars gives exactly F(d,L)=binom(d+1+L,L) formal monomials of total degree at most L. The evaluation rank on U is at most F, even when polynomial relations lower it. Since |U|=R=2 sum_{s=0}^{floor(d/2)} binom(d,s)2^s, rank-nullity gives dim ker(M_L)>=R-F; replacing this by max(0,R-F) in the finite ledger is the corresponding nonnegative numerical lower bound.",
+    "union_count": "Choose y in two ways, choose the s nonzero x coordinates, and choose exponent 1 or 2 independently at each of them. The support strata are disjoint, so the stated R is exact."
+  },
+  "asymptotics": {
+    "verdict": "PASS",
+    "R_growth": "For k=floor(d/2), the summands binom(d,s)2^s increase through s=k. The k term is 2^(3d/2-O(log d)), while at most k+1 terms give the matching upper exponent. Hence R=2^(3d/2-o(d)).",
+    "logarithmic_degree": "For L<=C log d, binom(d+1+L,L)<=(e(d+1+L)/L)^L, so log F=O((log d)^2)=o(d). Therefore F/R tends to zero and dim ker(M_L)=R(1-o(1)). Since the displayed factor count is f=d+1, O(log f) and O(log d) are equivalent here.",
+    "scope": "C must be fixed. The argument does not cover degrees growing on a linear-in-d scale."
+  },
+  "explicit_parity_kernel": {
+    "verdict": "PASS",
+    "range": "For 0<=L<=floor(d/2)-1, m=L+1 active Boolean x coordinates fit in U.",
+    "coefficient_check": "The coefficient at 1_S is (-1)^(m-|S|), exactly the expansion of product_i(delta_1-delta_0). Each sign class has 2^(m-1)=2^L atoms, and exactly one class contains the origin.",
+    "moment_check": "A monomial of total degree at most L has positive exponent in at most L active coordinates, so it omits at least one of the m=L+1 coordinates. Summation against delta_1-delta_0 in that coordinate is zero. Thus every retained labelled multivariate moment vanishes on mu, including the constant moment.",
+    "support_check": "Every atom has at most m<=floor(d/2) nonzero x coordinates, y=0, and Boolean exponents, hence lies in U."
+  },
+  "augmentation_two_rows": {
+    "verdict": "PASS",
+    "general_check": "mu_plus and mu_minus each have mass 2^L. Adding the same coefficient -(2^L-2) at z=(1,0,...,0) gives each row augmentation 2 and leaves their difference equal to mu, so all moments through total degree L remain equal. For L>=2 both rows contain positive Boolean atoms and the common negative atom and are genuinely signed.",
+    "d8_L3_certificate": "Here m=4. The positive class is the eight even-cardinality Boolean subsets and contains the origin; the negative class is the eight odd-cardinality subsets and does not. Adding coefficient -6 at z gives two supports of size 9 and augmentation 8-6=2. The script checks every one of binom(8+1+3,3)=220 moments exactly."
+  },
+  "actual_Q_A_reverse_boundary": {
+    "verdict": "PASS_AND_ESSENTIAL",
+    "definition": "Q_A=(1+Y) product_{i in A}(1-X_i+X_i^2), with |A|=floor(d/2).",
+    "direct_calculation": "At all variables equal to 1, each cyclotomic factor has augmentation 1 and 1+Y has augmentation 2. Thus m_0(Q_A)=2. Also m_y=Y partial_Y Q_A evaluated at 1 equals 1. For i in A, X_i partial_{X_i}(1-X_i+X_i^2) at 1 equals 1, and multiplication by the Y-factor gives m_{x_i}=2; for i not in A the moment is 0.",
+    "consequence": "The labelled degree-at-most-one fingerprint (2,1,(2*1_{i in A})_i) recovers A exactly, so all binom(d,floor(d/2)) actual rows are distinct already in degree one.",
+    "boundary": "The parity and augmentation-two rows are arbitrary signed weights on the union U, not actual factorized divisor rows Q_A. Consequently the large arbitrary-weight kernel does not yield two structured Q_A with equal low moments and does not kill a method that exploits the factorization. The separation statement also depends on retaining the labelled X_i moments; it is not a claim about a permutation-invariant compression."
+  },
+  "bounded_replay": {
+    "command": "AMRA_MEMORY_KIB=524288 AMRA_TIMEOUT_SECONDS=120 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-mechanism-reset/evidence/low_degree_multivariate_moment_kernel.py",
+    "exit_code": 0,
+    "result": "pass",
+    "finite_checks": "20 parity certificates for d in {4,6,8,10,12}; the d=8,L=3 augmentation-two certificate; distinct structured degree-one fingerprints through d=10 (252 of 252 at d=10); and dimension ledgers through d=256.",
+    "memory_limit": "512 MiB",
+    "timeout": "120 seconds",
+    "lean_used": false
+  },
+  "promotion": {
+    "erdos_1083_closed": false,
+    "public_exponent_changed": false,
+    "reason": "The audited result is an arbitrary-signed-weight information-loss theorem with a sharp structured-row reverse boundary, not a Euclidean construction or a structured divisor no-go."
+  }
+}

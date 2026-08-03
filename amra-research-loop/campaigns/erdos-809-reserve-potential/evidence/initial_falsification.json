@@ -1,0 +1,59 @@
+{
+  "campaign": "erdos-809-reserve-potential",
+  "date": "2026-08-02",
+  "scope": "First kill tests only. These refute proposed bridge mechanisms, not Erdős #809.",
+  "evidence_level": "author-verified natural proof or exact inherited computation",
+  "kills": [
+    {
+      "mechanism_id": "M809-02",
+      "mathematical_status": "refuted",
+      "certificate": "Let repeated colours be c1,c2 with legal sets Q(c1)=Q(c2)={q1}. Let the global reserve be {q1,q2}, set D_B=E_0=2 and f=1. Then |Q|=D_B and E_0<=4f(D_B-1), but |Q({c1,c2})|=1<2. Thus total reserve and scalar mass inequalities do not imply subfamily Hall inequalities.",
+      "leaves_open": "Graph geometry could force additional incidence constraints not present in the inherited scalars."
+    },
+    {
+      "mechanism_id": "M809-03",
+      "mathematical_status": "refuted",
+      "certificate": "The inherited automatic-two-label theorem makes every colour graph an induced matching, and a t-edge colour class realizes all 2^t endpoint words by independent edge flips. The audited sharp cores have g repeated 2K2 colours and defect D_B=g while preserving the two-label condition.",
+      "source": "data/research_open/q1_two_hour_ten_proofs_transfer_2026-08-02/erdos809/TEN_PROOFS_PALETTE_RESERVE_TRANSFER.md",
+      "leaves_open": "Labels augmented by fixed endpoint/reserve provenance remain viable."
+    },
+    {
+      "mechanism_id": "M809-04",
+      "mathematical_status": "refuted",
+      "certificate": "For the unrooted graph K2, let tau swap its endpoints. If an orientation were canonical and automorphism-equivariant, tau would preserve the chosen oriented edge. But tau reverses the only orientation, a contradiction. A geometric root external to the colour graph is necessary.",
+      "leaves_open": "Maximum-witness geometry may supply a precommitted root, but the colour graph alone cannot."
+    },
+    {
+      "mechanism_id": "M809-05",
+      "mathematical_status": "refuted",
+      "certificate": "Take two selected stars s1,s2, one repeated colour ci on si, and one common legal token q with Q(c1)=Q(c2)={q}. Each star separately has one token for one colour, while their union has two colours and matching number one. Starwise cardinality does not compose without cross-star subfamily inequalities.",
+      "leaves_open": "A laminarity or disjoint-budget theorem could make starwise expansion composable."
+    },
+    {
+      "mechanism_id": "M809-07",
+      "mathematical_status": "refuted",
+      "certificate": "The energy E(a,h,u,T) depends only on scalar graph coordinates. Decorate one fixed feasible scalar profile with either Q(c1)={q1}, Q(c2)={q2} or Q(c1)=Q(c2)={q1}, leaving (a,h,u,T,D_B,|Q|) unchanged after adding unused q2. The first incidence has an SDR and the second does not. Therefore scalar energy by itself cannot imply Hall; a graph-specific incidence lemma is indispensable.",
+      "leaves_open": "A reserve-decorated energy retaining subfamily rank could still work."
+    },
+    {
+      "mechanism_id": "M809-09",
+      "mathematical_status": "refuted",
+      "certificate": "Fix any radius R and choose m>2R+2. System A is the disjoint union of an alternating path P_(2m+1) with both endpoints colours and an alternating P_(2m+1) with both endpoints tokens. System B is the disjoint union of balanced alternating paths P_(2m) and P_(2m+2). Both have 2m+1 vertices on each shore. Their multisets of rooted radius-R neighbourhoods agree: each has two endpoints of each shore, identical nonoverlapping boundary rays, and the same number of deep degree-two roots of each shore. B has a colour-saturating matching in each component; A fails Hall on its colour-ended component. Hence no fixed bounded-radius density list determines Hall in unrestricted incidence systems.",
+      "leaves_open": "An unbounded hierarchy or a theorem imposing special global structure on graph-generated incidence systems remains possible."
+    },
+    {
+      "mechanism_id": "M809-10",
+      "mathematical_status": "refuted",
+      "certificate": "Take three colours, each uniformly supported on {q1,q2}, and add unused reserve token q3. Every marginal token entropy is one bit and total reserve size equals D_B=3, but the three-colour union has size two and admits no injection. Marginal entropy plus total capacity does not imply Hall.",
+      "leaves_open": "Conditional entropy inequalities for every subfamily would merely restate a rank/Hall condition and may still be useful if graph geometry proves them."
+    },
+    {
+      "mechanism_id": "M809-12",
+      "mathematical_status": "refuted",
+      "certificate": "For t>=2 colours with identical singleton legal support {q}, the natural token-competition graph is K_t, so its chromatic number is t and its matching number is floor(t/2), while the reserve union has size one. Large conflict complexity measures collision; it does not supply capacity.",
+      "leaves_open": "A capacitated bipartite flow representation, rather than an uncapacitated colour-conflict graph, remains viable."
+    }
+  ],
+  "statement_match": "All certificates concern only the stated bridge claims. None constructs or excludes an n-vertex rainbow-C7 extremal graph for all n.",
+  "independent_reconstruction": "not_performed"
+}

@@ -1,0 +1,46 @@
+{
+  "schema": "amra.erdos776.independent-c1-two-row-audit-summary.v1",
+  "formula_verdict": "PASS",
+  "candidate_invariant_verdict": "no counterexample in the finite domain",
+  "author_harness_warning": "gamma5<0 with P<0 or V<0 is not counted as a failure by the original searcher",
+  "domain": {
+    "j": [2, 32],
+    "k": [2, 3000],
+    "low_r": [0, 3000],
+    "parameter_probes": 4092931,
+    "wall_probes": "51 compatible points centered at each exact A=0 and B=0 wall"
+  },
+  "counts": {
+    "target_rows": 74749,
+    "++ -> ++": 4593,
+    "-- -> ++": 70156,
+    "gamma5_negative": 433,
+    "gamma5_negative_with_rank6_borrow": 0,
+    "gamma5_gamma6_double_negative": 0,
+    "unexpected_sources_reaching_target_pp": 0
+  },
+  "minimum_gamma5_pp_to_pp": {
+    "j": 6,
+    "q": 2436,
+    "k": 4,
+    "r": 145,
+    "gamma4": -525,
+    "gamma5": 89319,
+    "P": -4730,
+    "V": 95354,
+    "sufficient_gate_margin": 80701
+  },
+  "negative_region": {
+    "principal_scan_k_range": [4, 24],
+    "principal_scan_r_range": [9, 58],
+    "forward_probe_domain": {"j": [31, 40], "k": [2, 100], "r": [0, 200]},
+    "j40_k_range": [4, 43],
+    "j40_r_range": [10, 133],
+    "conclusion": "the earlier observed k<=17,r<=46 box is not stable as j grows"
+  },
+  "first_pp_gate": "If e=v-p>=0 and U_3(e)>=U_2(alpha)+1, Macaulay superadditivity gives gamma5>=0.",
+  "script": "audit/independent_c1_two_row_audit.py",
+  "script_sha256": "be92313e194eb1ac21d56493d02d505d536730f1ea92fe89e813f478a9e42c8f",
+  "finite_search_only": true,
+  "public_problem_closed": false
+}

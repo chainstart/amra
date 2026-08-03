@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R809-01",
+      "name": "fixed-endpoint colour--reserve incidence graph",
+      "family": "incidence-combinatorial",
+      "new_information": "For every repeated colour, retain its zero-shore endpoints and the individual missing-pair tokens legal for that colour before any deficient family is selected.",
+      "first_test": "Rebuild the sharp parity cores: all g repeated colours must have legal neighbourhoods satisfying Hall, even when their token sets overlap maximally."
+    },
+    {
+      "id": "R809-02",
+      "name": "transversal-matroid rank profile",
+      "family": "matroidal-dual",
+      "new_information": "Retain every subfamily rank r(S)=|N(S)| rather than only the total reserve-union cardinality; deficient sets become exact dual certificates.",
+      "first_test": "Compare two incidence systems with the same total token union and colour count but different minimum Hall slack."
+    },
+    {
+      "id": "R809-03",
+      "name": "precommitted gauge-fixed endpoint word",
+      "family": "algebraic-symmetry",
+      "new_information": "Quotient the independent edge-flip gauge only after adjoining a root/orientation chosen from maximum-witness geometry, preserving cross-colour endpoint agreement.",
+      "first_test": "Test equivariance on one K2 colour class and on the 2K2 sharp recolouring under endpoint-swap automorphisms."
+    },
+    {
+      "id": "R809-04",
+      "name": "coherent-star colour-token hypergraph",
+      "family": "hypergraph-structural",
+      "new_information": "Record each repeated colour together with all coherent zero shores and reserve tokens, so alternative star witnesses are not collapsed to one selected star.",
+      "first_test": "Construct the smallest two-star configuration whose legal token sets overlap and ask whether starwise expansion composes globally."
+    },
+    {
+      "id": "R809-05",
+      "name": "three-budget capacitated flow network",
+      "family": "network-flow-dual",
+      "new_information": "Keep A-missing rectangles, B-reserve pairs, and residual defect as typed capacities with colour demand nodes, preventing charges in different budgets from being silently reused.",
+      "first_test": "Feed the audited sharp core and the zero-star defect ledger into the network and verify that g units route only through actual reserve capacity."
+    },
+    {
+      "id": "R809-06",
+      "name": "reserve-decorated parity stability energy",
+      "family": "potential-stability",
+      "new_information": "Adjoin unpaid colour defect and Hall slack coordinates to the exact (a,h,u,T) parity remainder instead of discarding colour provenance after scalar optimization.",
+      "first_test": "Hold the scalar equality profile fixed while adversarially varying legal-token incidence; determine whether the energy detects Hall failure."
+    },
+    {
+      "id": "R809-07",
+      "name": "alternating obstruction-chain state",
+      "family": "dynamical-potential",
+      "new_information": "Track successive deficient colour sets, their coherent-star replacements, newly exposed reserve tokens, and a bounded lexicographic potential across witness changes.",
+      "first_test": "Search the two-colour/two-token incidence cycle for a return to the initial state without net potential increase."
+    },
+    {
+      "id": "R809-08",
+      "name": "bounded-type local density profile",
+      "family": "analytic-local-density",
+      "new_information": "Record densities of rooted coloured subgraphs around zero shores, including missing-pair incidences, as a possible flag-algebra certificate for branch infeasibility.",
+      "first_test": "Produce incidence decorations with identical bounded rooted densities but different global Hall deficit, or show the normal form forbids them."
+    },
+    {
+      "id": "R809-09",
+      "name": "colour-conflict auxiliary graph",
+      "family": "graph-transform",
+      "new_information": "Represent repeated colours as vertices and join colours whose endpoint geometry forces competition for the same reserve tokens.",
+      "first_test": "On the sharp 2K2 recolouring, compare the auxiliary graph with the actual reserve matching number."
+    },
+    {
+      "id": "R809-10",
+      "name": "entropy of token provenance",
+      "family": "information-theoretic",
+      "new_information": "Measure how much endpoint-conditioned reserve choice remains for each repeated colour and how conditioning on other colours reduces it.",
+      "first_test": "Test two colours with identical singleton token support, where positive marginal information does not yield a joint injection."
+    }
+  ]
+}

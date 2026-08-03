@@ -1,0 +1,58 @@
+{
+  "A_equals_closed_neighbourhood_of_v": true,
+  "B_opposite_pair_bc": true,
+  "B_reserve_bc": [
+    [
+      "b",
+      "c"
+    ],
+    [
+      "c",
+      "z"
+    ]
+  ],
+  "C7_count": 11136,
+  "L4_2": true,
+  "L4_2_failures_capped_at_20": [],
+  "classification": "exact_full_hard_local_realisation_probe",
+  "degrees": {
+    "b": 5,
+    "c": 4,
+    "r1": 10,
+    "r2": 10,
+    "v": 10,
+    "x1": 7,
+    "x2": 7,
+    "x3": 8,
+    "x4": 8,
+    "y1": 6,
+    "y2": 6,
+    "y3": 7,
+    "y4": 7,
+    "z": 5
+  },
+  "edge_count": 50,
+  "maximum_degree": 10,
+  "minimum_degree": 4,
+  "n": 14,
+  "nonrainbow_C7_capped_at_20": [],
+  "owned_A_atoms": [
+    [
+      "x1",
+      "y1"
+    ],
+    [
+      "x2",
+      "y2"
+    ],
+    [
+      "x3",
+      "y3"
+    ]
+  ],
+  "owned_A_atoms_distinct_and_missing": true,
+  "public_problem_counterexample_claimed": false,
+  "rainbow_C7": true,
+  "required_edge_count": 50,
+  "three_colour_full_reserve_tight_circuit": true
+}

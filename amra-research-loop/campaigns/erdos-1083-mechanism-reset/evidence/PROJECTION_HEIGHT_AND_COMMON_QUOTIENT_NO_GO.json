@@ -1,0 +1,33 @@
+{
+  "schema": "amra.erdos1083.projection-height-common-quotient-no-go.v1",
+  "title": "Phi6 divisor families force exponential projection height",
+  "mathematical_status": "proved_by_author_natural_proof",
+  "evidence_level": 4,
+  "statement": "For every d>=2 and k=floor(d/2), in Q[Z^(d+1)] with variables Y,X_1,...,X_d put Phi_i=1-X_i+X_i^2, B=(1+Y)prod_i Phi_i, and Q_A=(1+Y)prod_(i in A)Phi_i for every k-subset A. Then B=R_A Q_A, every Q_A has augmentation 2, B has d+1 displayed irreducible factors, and there are binom(d,k) distinct divisor rows. The union U of the supports of the Q_A has size 2 sum_(s=0)^k binom(d,s)2^s. Every integer homomorphism ell:Z^(d+1)->Z injective on U, represented by weights v_0,...,v_d, satisfies sum_i |v_i| >= (|U|-1)/2. Consequently both the number of equal-augmentation divisor rows and the minimum common separating-projection height grow exponentially in the displayed factor count.",
+  "proof": [
+    "The variables are independent, so every product expansion has no monomial collisions. Each Phi_i has support digits {0,1,2}, nonzero coefficients {1,-1,1}, and augmentation 1. Thus B=R_AQ_A with R_A=prod_(i notin A)Phi_i, while Q_A(1)=2.",
+    "Across all k-subsets A, a support vector occurs exactly when its Y digit is 0 or 1 and at most k of its d X-digits are nonzero; every nonzero X-digit has two choices. Hence |U|=2 sum_(s=0)^k binom(d,s)2^s.",
+    "If ell has integer weights v_0,...,v_d, every value on U lies in an integer interval of length at most |v_0|+2 sum_(i=1)^d|v_i| <= 2 sum_(i=0)^d|v_i|. Injectivity requires an interval containing |U| distinct integers, hence 2 sum_i|v_i|+1>=|U|.",
+    "For k=floor(d/2), already the s=k summand is exponential in d, and binom(d,k) is exponential in d. Thus no polynomial bound in the displayed factor count can control either all divisor rows or the L1 height of a common separating projection from divisibility and equal augmentation alone."
+  ],
+  "bounded_guard": {
+    "script": "evidence/projection_height_no_go.py",
+    "command": "AMRA_MEMORY_KIB=524288 AMRA_TIMEOUT_SECONDS=120 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-mechanism-reset/evidence/projection_height_no_go.py",
+    "script_sha256": "95c04291525e858eb5aa3b101f6e5853978c9e496ff4ffbbd2581cec78d1e1e9",
+    "result": "pass for 2<=d<=10; at d=10 there are 252 equal-augmentation rows, union support 25170, and every common injective integer projection has L1 height at least 12585",
+    "scope": "exact support counts and an explicit injective base-three projection for 2<=d<=10; the universal proof is the counting argument"
+  },
+  "refutes": [
+    "a polynomial common-projection-height bound depending only on common-quotient factor count",
+    "a polynomial bound on the number of equal-augmentation divisor rows depending only on common-quotient factor count",
+    "an additive charge of rowwise Hankel/support complexity against factor count using only B=R_jQ_j and Q_j(1)=C"
+  ],
+  "leaves_open": [
+    "bounds using coefficientwise mask positivity after multiplication by the actual source factors",
+    "the common-X scalar-copy interface",
+    "Euclidean transversality and the outer near-extremal geometry",
+    "projection-free multivariate reconstruction coupled to scalar-copy rigidity"
+  ],
+  "novelty_check": "priority_uncertain; the construction is an elementary Phi6 tensor obstruction",
+  "public_exponent_changed": false
+}

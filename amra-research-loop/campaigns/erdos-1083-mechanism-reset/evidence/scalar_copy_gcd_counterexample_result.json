@@ -1,0 +1,19 @@
+{
+  "schema": "amra.erdos1083.scalar-copy-gcd-counterexample.v1",
+  "evidence_level": 3,
+  "command": "AMRA_MEMORY_KIB=1048576 AMRA_TIMEOUT_SECONDS=120 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-mechanism-reset/evidence/scalar_copy_gcd_counterexample.py",
+  "resource_limits": {
+    "virtual_memory_kib": 1048576,
+    "timeout_seconds": 120,
+    "lean_threads": 2
+  },
+  "source_mask": "x^26+x^25+x^23+x^21+x^20+x^6+x^5+x^3+x+1",
+  "factorization_used": "(1+x+x^3+x^5+x^6)(1+x^20)",
+  "source_is_zero_one": true,
+  "source_has_aperiodic_factor": true,
+  "scales": [1, 3],
+  "exact_gcd": "1+x^20",
+  "refutes": "universal pairwise coprimality of distinct scalar copies for every non-cyclotomic 0/1 source",
+  "leaves_open": "irreducible sources and source-specific Galois criteria",
+  "public_exponent_changed": false
+}

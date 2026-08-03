@@ -1,0 +1,72 @@
+{
+  "round_id": "round-2026-08-02-8h",
+  "wall_clock_budget_hours": 8,
+  "resource_policy": {
+    "wsl_ram_gib": 31,
+    "max_concurrent_heavy_processes": 4,
+    "default_process_virtual_memory_gib": 5,
+    "mathlib_lean_virtual_memory_gib": 12,
+    "max_concurrent_mathlib_lean_probes": 1,
+    "default_process_timeout_minutes": 30,
+    "lean_threads_per_probe": 2,
+    "lean_project": "amra_library/formal",
+    "lean_role": "bounded proof, disproof, and example probes; no full rebuild",
+    "lean_memory_note": "5 GiB starts Lean but Mathlib probe compilation exits 139; use 12 GiB for one globally serialized Mathlib probe while keeping all other lanes light"
+  },
+  "schedule": [
+    {
+      "elapsed_hours": "0-2",
+      "phase": "representation_search",
+      "deliverable": "at least 8 genuine representations and 10 decisive mechanisms per problem"
+    },
+    {
+      "elapsed_hours": "2-4",
+      "phase": "mechanism_falsification",
+      "deliverable": "adversarial paper, Python, or bounded-Lean kill tests with evidence"
+    },
+    {
+      "elapsed_hours": "4-6.5",
+      "phase": "survivor_deepening",
+      "deliverable": "at most 3 survivors and one strongest decisive lemma per viable problem"
+    },
+    {
+      "elapsed_hours": "6.5-7.5",
+      "phase": "independent_audit",
+      "deliverable": "cross-agent blind reconstruction where a lemma passes the deepening gate"
+    },
+    {
+      "elapsed_hours": "7.5-8",
+      "phase": "integration",
+      "deliverable": "validated campaign states, exact claim ledger, promotion or freeze decisions"
+    }
+  ],
+  "lane_priority": [
+    {
+      "problem_id": "Erdos-809",
+      "share": 0.30,
+      "strategy": "strong warm restart; endpoint-reserve and Hall-type mechanisms"
+    },
+    {
+      "problem_id": "Erdos-776",
+      "share": 0.25,
+      "strategy": "warm restart; growing-c potential and adaptive feasibility bridge"
+    },
+    {
+      "problem_id": "Erdos-1083",
+      "share": 0.25,
+      "strategy": "cold representation search; exponent-changing routes only"
+    },
+    {
+      "problem_id": "OPG-1757",
+      "share": 0.20,
+      "strategy": "medium-cold restart; full-row and arbitrary-host information"
+    }
+  ],
+  "stop_rules": [
+    "Do not rebuild Lean or Mathlib.",
+    "Do not run more than one heavy probe per lane.",
+    "Kill a probe on timeout or memory-limit failure and retain that outcome as operational evidence only.",
+    "Do not weaken a mathematical gate to fit the clock.",
+    "Unused time from a frozen lane is reassigned to the strongest surviving lane."
+  ]
+}

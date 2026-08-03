@@ -1,0 +1,20 @@
+{
+  "exact_statement": "Determine how large n must be as a function of r >= 2 so that there is an antichain in 2^[n] occupying n-3 distinct ranks and containing at least r members on every occupied rank.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos776/README.md",
+  "success_conditions": [
+    "global_interface_closed"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Warm restart: retain the Macaulay and cap-depth machinery, but reset candidate ranking and proof credit.",
+    "Global interface closed means one uniform growing-promotion potential together with a proved adaptive bridge to the actual seed and rank-capacity constraints.",
+    "Reuse fixed-rank bridge counterfamilies, adaptive recovery, and positivity for every fixed promotion count c>=2.",
+    "No further fixed-c slice counts as progress unless it yields a potential uniform for growing c and closes the no-borrow-to-actual bridge."
+  ]
+}

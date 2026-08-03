@@ -1,0 +1,153 @@
+{
+  "A_equals_closed_neighbourhood_of_v": true,
+  "B_opposite_pair_bc": true,
+  "B_reserve_bc": [
+    [
+      "b",
+      "c"
+    ],
+    [
+      "c",
+      "z"
+    ]
+  ],
+  "C7_count": 2556,
+  "L4_2_failures_capped_at_20": [
+    {
+      "end": "b",
+      "forbidden": [
+        "x2",
+        "x3"
+      ],
+      "start": "x1"
+    },
+    {
+      "end": "z",
+      "forbidden": [
+        "x2",
+        "x3"
+      ],
+      "start": "x1"
+    },
+    {
+      "end": "b",
+      "forbidden": [
+        "x1",
+        "x3"
+      ],
+      "start": "x2"
+    },
+    {
+      "end": "z",
+      "forbidden": [
+        "x1",
+        "x3"
+      ],
+      "start": "x2"
+    },
+    {
+      "end": "b",
+      "forbidden": [
+        "x1",
+        "x2"
+      ],
+      "start": "x3"
+    },
+    {
+      "end": "z",
+      "forbidden": [
+        "x1",
+        "x2"
+      ],
+      "start": "x3"
+    },
+    {
+      "end": "c",
+      "forbidden": [
+        "y2",
+        "y3"
+      ],
+      "start": "y1"
+    },
+    {
+      "end": "c",
+      "forbidden": [
+        "y1",
+        "y3"
+      ],
+      "start": "y2"
+    },
+    {
+      "end": "c",
+      "forbidden": [
+        "y1",
+        "y2"
+      ],
+      "start": "y3"
+    },
+    {
+      "end": "z",
+      "forbidden": [
+        "x1",
+        "x2"
+      ],
+      "start": "b"
+    },
+    {
+      "end": "z",
+      "forbidden": [
+        "x1",
+        "x3"
+      ],
+      "start": "b"
+    },
+    {
+      "end": "z",
+      "forbidden": [
+        "x2",
+        "x3"
+      ],
+      "start": "b"
+    }
+  ],
+  "classification": "exact_small_graph_realisation_probe",
+  "degrees": {
+    "b": 4,
+    "c": 3,
+    "r1": 8,
+    "r2": 8,
+    "v": 8,
+    "x1": 7,
+    "x2": 7,
+    "x3": 7,
+    "y1": 6,
+    "y2": 6,
+    "y3": 6,
+    "z": 4
+  },
+  "edge_count": 37,
+  "full_hard_BCM_claimed": false,
+  "maximum_degree": 8,
+  "minimum_degree": 3,
+  "n": 12,
+  "nonrainbow_C7": [],
+  "owned_A_atoms": [
+    [
+      "x1",
+      "y1"
+    ],
+    [
+      "x2",
+      "y2"
+    ],
+    [
+      "x3",
+      "y3"
+    ]
+  ],
+  "owned_A_atoms_distinct_and_missing": true,
+  "rainbow_C7": true,
+  "required_edge_count": 37,
+  "three_repeated_colours_share_full_reserve": true,
+  "tight_circuit_deficiency": 1
+}

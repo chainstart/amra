@@ -1,0 +1,51 @@
+{
+  "schema": "amra.erdos776.legal-rank-adjacency.v1",
+  "title": "The inherited rank-42 route has suffix seed sets, not a Hall assignment",
+  "mathematical_status": "proved model correction and exact next-lemma isolation",
+  "evidence_level": 4,
+  "repository_definition_audit": {
+    "sources_searched": [
+      "data/research_open/q1_breakthrough_campaign_2026-07-31/erdos776/BREAKTHROUGH_ATTACK.md",
+      "data/research_open/q1_breakthrough_campaign_2026-07-31/erdos776/verify_rank248_compression.py",
+      "data/research_open/q1_six_hour_campaign_2026-08-02/erdos776/README.md",
+      "data/research_open/q1_six_hour_campaign_2026-08-02/erdos776/LEFT_OFFSET_FIVE_OBSTRUCTION.md",
+      "data/research_open/q1_six_hour_campaign_2026-08-02/erdos776/NEGATIVE_PRECAP_ATLAS.md",
+      "data/research_open/q1_two_hour_ten_proofs_transfer_2026-08-02/erdos776/MULTI_PROMOTION_NO_BORROW_ATLAS.md"
+    ],
+    "result": "No inherited token-to-rank bipartite graph, distinct-rank assignment, rank-slot capacity vector, or Hall condition is defined. The word 'legal row' means a row where the single canonical orbit/chart remains nonnegative and its displayed recurrence is valid.",
+    "actual_object": "For each ambient parameter M, two adjacent scalar Macaulay orbits f^M and f^(M+1) define one diagonal surplus Gamma_r(M)=g_(r+1)-S_r(f_r) at every legal row r. Different M are independent proof parameters and are not competing for a shared rank resource."
+  },
+  "suffix_interval_theorem": {
+    "definition": "N(M)={r: 1<=r<=M-42, row r is legal and Gamma_r(M)>=0}.",
+    "statement": "Within the legal-row domain, N(M) is empty or a suffix interval. If p=min N(M), then every later legal r<=M-42 also lies in N(M).",
+    "proof": "This is exactly the inherited one-positive-seed persistence lemma: Gamma_r>=0 and M+221>=r+2 imply Gamma_(r+1)>=0. The side inequality is automatic for r<=M-42. Induction gives the suffix property.",
+    "capacity_interpretation": "There is one unit existence demand for each M and no shared right-side capacity. Thus the artificial Hall system collapses to the scalar condition N(M) nonempty; no proper-subset Hall cuts remain."
+  },
+  "compressed_potential": {
+    "one_dimensional_state": "sigma(M)=min N(M), with sigma(M)=infinity when N(M) is empty.",
+    "equivalent_endpoint_form": "By persistence, proving sigma(M)<infinity before M-42 is equivalent to producing one r<=M-42 with Gamma_r(M)>=0; after this point the endpoint capacity follows.",
+    "dyadic_coordinates": "On A_(j-1)<M<=A_j, write M=A_(j-1)+b. The exact low-tail localization gives Gamma_(j+p-2)(M)=gamma_p(L,b). The genuine adaptive potential is therefore the first nonnegative low-tail rank p_*(L,b), not a neighbourhood profile kappa(X)."
+  },
+  "why_uniform_relaxed_gamma4_does_not_yet_close": {
+    "proved_relaxed_fact": "Every sufficiently large admissible no-borrow tuple (q,c,r,u) has gamma4>0 uniformly in c>=2.",
+    "missing_exact_map": "It is not proved that every unresolved actual dyadic low tail gamma_p(L,b)<0, after its next normalization, lands in the admissible relaxed no-borrow coordinates with the same surplus and with all borrow/cap legality preserved.",
+    "no_borrow_is_not_enough": "The actual orbit can cross x-only, y-only, both, or later multiple canonical walls. Existing chamber theorems close many such transitions, but there is no exhaustion theorem routing every positive-side first unresolved wall either to an already closed chamber or to the uniform relaxed gamma4 theorem.",
+    "conclusion": "The exact bridge gap is phase exhaustiveness/transition identification, not Hall expansion."
+  },
+  "exact_next_lemma": {
+    "name": "Actual-orbit coverage by closed chambers",
+    "statement": "For every dyadic strip A_(j-1)<M<=A_j and every first unresolved legal low-tail row gamma_p(L,b)<0 before M-42, the exact next Macaulay normalization satisfies one of: (i) an already proved borrow/cap recovery chamber; (ii) an admissible relaxed no-borrow tuple (q,c,r,u) with c>=2 whose gamma4 equals the next actual diagonal surplus Gamma_(j+p-1)(M); or (iii) a finite explicit exceptional base. All parameter maps, parity/range conditions, wall counts, and cap legality must be displayed.",
+    "closure_effect": "Together with the audited uniform relaxed gamma4 theorem and the inherited chamber results, this gives N(M) nonempty for every M, hence the rank-42 capacity gate by suffix persistence.",
+    "first_kill_test": "Extract every actual first-wall transition for bounded dyadic strips without using the relaxed-state generator. For each row, solve the proposed (q,c,r,u) map and record failures of parity, remainder ranges, x>=0, surplus equality, or single-wall exhaustiveness. One failure is a genuine crossing-neighbourhood counterexample to the coverage lemma.",
+    "status": "open"
+  },
+  "bounded_guard": {
+    "script": "evidence/verify_legal_seed_suffix.py",
+    "command": "AMRA_MEMORY_KIB=524288 AMRA_TIMEOUT_SECONDS=120 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-adaptive-uniformity/evidence/verify_legal_seed_suffix.py",
+    "script_sha256": "bd4fc9e4ad4a14c5bfd7e14935b237ff38596e435eb501e971c8b876e3d1f66c",
+    "result": "pass; for every 67<=M<=160 the exact seed set is a nonempty suffix, with first seed rank 3 or 4",
+    "scope": "independent exact Macaulay implementation; verifies nonempty suffix seed sets for 67<=M<=160 only"
+  },
+  "correction_to_prior_evidence": "BORROW_AWARE_CAPACITY_FLOW.json is retained as a generic information-loss illustration, but its Hall graph is not an inherited #776 object. It must not be treated as the exact public bridge.",
+  "public_problem_closed": false
+}

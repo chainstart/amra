@@ -1,0 +1,40 @@
+{
+  "round_id": "round-2026-08-02-8h",
+  "checkpoint_status": "paused_before_full_budget_consumption",
+  "pause_reason": "The persistent goal was automatically paused when the user supplied the Lean resource-policy correction. Research continued during the current turn, but this checkpoint does not claim that eight wall-clock hours were consumed.",
+  "resource_status": {
+    "wsl_available_memory_gib_at_check": 28,
+    "mathlib_probes_serialized": true,
+    "mathlib_virtual_memory_cap_gib": 12,
+    "light_probe_cap_gib": 5,
+    "lean_rebuilt": false
+  },
+  "lanes": {
+    "OPG-1757": {
+      "phase": "independent_audit",
+      "public_problem_closed": false,
+      "strongest_progress": "Fang-Ma moving-edge C-Garding route isolated; W4 spoke natural two-variable distinguished slice proved xi_e>0 and independently audited.",
+      "next_interface": "full four-variable W4 domination, beginning with component control transverse to the proved slice"
+    },
+    "Erdos-776": {
+      "phase": "independent_audit",
+      "public_problem_closed": false,
+      "strongest_progress": "Relaxed c>=2 uniform theorem audited; actual gap reduced to c=1 two-row recovery; gamma5/gamma6 normal form audited with no bounded counterexample.",
+      "next_interface": "prove the scale-uniform (++ -> ++) gate e>=C(a-1,3), then close the (-- -> ++) gamma5-negative rank-six branch"
+    },
+    "Erdos-809": {
+      "phase": "independent_audit",
+      "public_problem_closed": false,
+      "strongest_progress": "Canonical ownership forces distinct missing-A diagonals, but an exact n=14 hard-local pair proves A-rank and B-reserve are typed resources and cannot be added as one capacity.",
+      "next_interface": "construct an actual A-to-B/slack conversion theorem or a direct owned-rank implication for the outer-A gate"
+    },
+    "Erdos-1083": {
+      "phase": "independent_audit",
+      "public_problem_closed": false,
+      "strongest_progress": "Simultaneous signed Hankel reconstruction proved; projection height, dense multivariate full-support reconstruction, and arbitrary-weight low-degree reconstruction received exact scoped no-go results.",
+      "next_interface": "factor-aware labelled low-degree tests coupled directly to scalar-copy positivity and a Euclidean ruled-locus/distance-label inequality"
+    }
+  },
+  "promotion_decision": "none",
+  "state_policy": "Campaigns remain unpromoted and unfrozen because the requested eight-hour round is paused rather than integrated."
+}

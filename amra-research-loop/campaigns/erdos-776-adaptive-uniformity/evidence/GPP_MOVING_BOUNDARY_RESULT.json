@@ -1,0 +1,28 @@
+{
+  "schema": "amra.erdos776.gpp-moving-boundary-result.v1",
+  "target": "For actual (++ -> ++) states with gamma4<0, e=v-p>=0 and U_3(e)>=U_2(alpha)+1.",
+  "domain": {
+    "j": "all integers 6 through 60, together with 70,80,90,100",
+    "k": [4, 300],
+    "sampling": "304 consecutive compatible r values centered on the first p,v>=0 target boundary"
+  },
+  "accepted_pp_to_pp_rows": 1381142,
+  "counterexample_count": 0,
+  "minimum_margin": {
+    "margin": 80701,
+    "j": 6,
+    "q": 2436,
+    "k": 4,
+    "r": 145,
+    "alpha": 835,
+    "beta": 1272,
+    "p": 1160,
+    "v": 11075,
+    "e": 9915,
+    "gamma4": -525
+  },
+  "interpretation": "No counterexample was found, but the moving-boundary sample is not an exhaustive proof.",
+  "bounded_command": "AMRA_MEMORY_KIB=2097152 AMRA_TIMEOUT_SECONDS=600 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-adaptive-uniformity/evidence/search_gpp_moving_boundary.py",
+  "script_sha256": "5a482d1584a6b51cc857cfdcfc1839a21aa56de6e5200b6ec780e6e10c9f37bb",
+  "public_problem_closed": false
+}
