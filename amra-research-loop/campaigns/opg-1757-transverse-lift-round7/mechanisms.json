@@ -1,0 +1,158 @@
+{
+  "mechanisms": [
+    {
+      "id": "M701",
+      "representation_id": "R705",
+      "family": "polarization_lift",
+      "decisive_claim": "The full eight-variable P and xi are the independent symmetric polarizations of their five-variable restrictions.",
+      "would_close": [
+        "lift fixed-space domination by the Garding polarization theorem"
+      ],
+      "kill_test": "compare exact transverse supports for monomials odd in one coordinate",
+      "status": "killed",
+      "status_evidence": "evidence/TRANSVERSE_EXPANSION_LEDGER.md has nonzero uq, uv, vq and higher mixed terms; independent pair polarization would be even in each transverse coordinate."
+    },
+    {
+      "id": "M702",
+      "representation_id": "R705",
+      "family": "polarization_correction",
+      "decisive_claim": "The graph-specific difference from symmetric polarization is dominated by the fixed-space xi margin throughout the polarized component.",
+      "would_close": [
+        "eight-variable marked-host theorem"
+      ],
+      "kill_test": "find a component-certified point where the correction exceeds the polarized margin",
+      "status": "killed",
+      "status_evidence": "Exact independently symmetrized anchor-ray witness in evidence/FALSIFICATION_WITNESSES.md: polarized P stays positive, but the mixed correction overturns the positive xi margin.",
+      "updated_at": "2026-08-03T12:32:27+00:00"
+    },
+    {
+      "id": "M703",
+      "representation_id": "R706",
+      "family": "derivative_chamber",
+      "decisive_claim": "The eight full edge-level first-derivative inequalities force every transverse xi-negative point outside C_P.",
+      "would_close": [
+        "eight-variable marked-host theorem"
+      ],
+      "kill_test": "solve the eight first-derivative sign inequalities together with P>0 and xi<0 over exact rationals",
+      "status": "killed",
+      "status_evidence": "Exact rational witness in evidence/FALSIFICATION_WITNESSES.md has P>0, xi<0, and all eight first edge partials of P positive.",
+      "updated_at": "2026-08-03T12:32:27+00:00"
+    },
+    {
+      "id": "M704",
+      "representation_id": "R704",
+      "family": "ray_order",
+      "decisive_claim": "On every transverse ray from the positive anchor, the first P wall occurs no later than the first xi wall.",
+      "would_close": [
+        "complete anchor-ray domination"
+      ],
+      "kill_test": "find an exact rational direction whose xi root precedes every positive P root",
+      "status": "killed",
+      "status_evidence": "Closure audit: a ray theorem at a=b=c=d=e=1 does not quantify the other fixed-base fibres.",
+      "updated_at": "2026-08-03T12:34:54+00:00"
+    },
+    {
+      "id": "M705",
+      "representation_id": "R704",
+      "family": "ray_exhaustion",
+      "decisive_claim": "The full distinguished transverse fibre is star-shaped about the fixed positive anchor.",
+      "would_close": [
+        "upgrade M704 from rays to the full anchor transverse fibre"
+      ],
+      "kill_test": "find a P-positive point whose anchor segment crosses P=0 and certify another P-positive path",
+      "status": "killed",
+      "status_evidence": "Closure audit: star-shapedness of the single positive-anchor fibre cannot transport domination across the full fixed component.",
+      "updated_at": "2026-08-03T12:34:54+00:00"
+    },
+    {
+      "id": "M706",
+      "representation_id": "R703",
+      "family": "quadratic_fibre",
+      "decisive_claim": "The q-quadratic xi boundary lies outside the P-positive anchor q-interval over every u,v base point in the projected component.",
+      "would_close": [
+        "complete transverse fibre domination"
+      ],
+      "kill_test": "classify all leading-sign and resultant chambers and find a reversed root order",
+      "status": "surviving",
+      "status_evidence": "Retained all-base proof route: exact q-fibre wall order has the correct quantifiers and a finite resultant-chamber kill test.",
+      "updated_at": "2026-08-03T12:34:54+00:00"
+    },
+    {
+      "id": "M707",
+      "representation_id": "R707",
+      "family": "sos_boundary",
+      "decisive_claim": "There are low-degree polynomial multipliers giving an exact nonnegative certificate for xi on the relevant P boundary and its inward derivative.",
+      "would_close": [
+        "eight-variable marked-host theorem"
+      ],
+      "kill_test": "solve the bounded-degree multiplier system and inspect any indefinite residual",
+      "status": "killed",
+      "status_evidence": "Falsifiability audit: low-degree multipliers have no frozen degree, support, or ansatz, so bounded failure cannot kill the stated existential.",
+      "updated_at": "2026-08-03T12:34:54+00:00"
+    },
+    {
+      "id": "M708",
+      "representation_id": "R708",
+      "family": "equivariant_retraction",
+      "decisive_claim": "Every point of C_P admits a P-positive involution-equivariant path to its orbit average in the five-variable fixed space.",
+      "would_close": [
+        "reduce the full theorem to the proved fixed-space theorem"
+      ],
+      "kill_test": "certify an asymmetric component point whose entire admissible averaging homotopy is blocked",
+      "status": "killed",
+      "status_evidence": "Dependency audit: a P-positive retraction supplies no monotonicity or nonvanishing invariant transporting xi sign from the fixed endpoint.",
+      "updated_at": "2026-08-03T12:34:54+00:00"
+    },
+    {
+      "id": "M709",
+      "representation_id": "R709",
+      "family": "counterexample_path",
+      "decisive_claim": "There is an exact xi<=0 asymmetric point joined to the positive anchor by a certified P-positive path.",
+      "would_close": [
+        "refute the eight-variable marked-host theorem"
+      ],
+      "kill_test": "bounded rational path search followed by exact segment certification",
+      "status": "surviving",
+      "status_evidence": "Retained refutation route: an exact xi-negative endpoint plus certified P-positive path would directly settle the local eight-variable statement.",
+      "updated_at": "2026-08-03T12:34:54+00:00"
+    },
+    {
+      "id": "M710",
+      "representation_id": "R702",
+      "family": "hessian_control",
+      "decisive_claim": "The transverse Hessians of P and xi have a common negative-semidefinite ordering throughout the fixed component.",
+      "would_close": [
+        "local-to-global transverse concavity comparison"
+      ],
+      "kill_test": "compute the exact anchor Hessians and their generalized eigenvalue signs",
+      "status": "killed",
+      "status_evidence": "evidence/TRANSVERSE_EXPANSION_LEDGER.md gives an indefinite xi Hessian already at the positive anchor, while the P Hessian is negative definite."
+    },
+    {
+      "id": "M711",
+      "representation_id": "R710",
+      "family": "roadmap",
+      "decisive_claim": "A finite exact roadmap of the simultaneous-involution quotient certifies xi>0 on every cell of C_P.",
+      "would_close": [
+        "eight-variable marked-host theorem"
+      ],
+      "kill_test": "locate the first unresolved positive-dimensional resultant intersection under bounded CAD",
+      "status": "killed",
+      "status_evidence": "Falsifiability audit: no projection order, cell bound, exceptional-section policy, or component-completeness certificate is frozen.",
+      "updated_at": "2026-08-03T12:34:54+00:00"
+    },
+    {
+      "id": "M712",
+      "representation_id": "R701",
+      "family": "mixed_term_factorization",
+      "decisive_claim": "All mixed transverse corrections factor through P-boundary channels with signs fixed by full derivative nesting.",
+      "would_close": [
+        "eight-variable marked-host theorem"
+      ],
+      "kill_test": "factor each of the seven nonconstant transverse channels and test sign compatibility on derivative-feasible points",
+      "status": "surviving",
+      "status_evidence": "Retained algebraic route: higher mixed-derivative nesting is not excluded by the first-derivative witness.",
+      "updated_at": "2026-08-03T12:34:54+00:00"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema": "amra.opg1757.round7.transverse-expansion-evidence.v1",
+  "mathematical_status": "exact finite reconstruction plus open global transverse question",
+  "statement_match": "local eight-variable marked-host setup; no global OPG claim",
+  "reconstruction": {
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "expanded_P_terms": 155,
+    "expanded_xi_terms": 38,
+    "transverse_support_P": 10,
+    "transverse_support_xi": 8,
+    "P_canonical_sha256": "3dbf82a5f6695dfc3ab59175af2c072868173f14054e4ef41bc81509fe3b7064",
+    "xi_canonical_sha256": "47b1cb59051687dd7ab0ddad03e2da4056fd8d4d9fdf212b36e098904943274a"
+  },
+  "exact_findings": [
+    "only simultaneous (u,v,q) sign reversal is a symmetry",
+    "mixed transverse terms survive",
+    "the P transverse Hessian at the anchor is negative definite",
+    "the xi transverse Hessian at the anchor is indefinite",
+    "the symmetric-ray resultant has the displayed squared contact factor"
+  ],
+  "finite_routing": {
+    "random_directions": 100000000,
+    "counterexample_found": false,
+    "role": "discovery only; not proof and not machine-reproduction evidence"
+  },
+  "machine_reproduced": {
+    "command": "ulimit -v 524288 && timeout 120s python3 evidence/verify_transverse_expansion.py",
+    "dependencies": "Python standard library only",
+    "verifier_sha256": "86e3b27500fadeaadc1e39f908cdfad33e366f8bc8687a54f9879747bc4c3d95",
+    "result": "PASS"
+  },
+  "independent_reconstruction": false,
+  "novelty_check": "not_started",
+  "public_problem_changed": false
+}

@@ -1,0 +1,67 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M701",
+      "outcome": "killed",
+      "classification": "only simultaneous, not independent-pair, symmetry",
+      "evidence": "evidence/TRANSVERSE_EXPANSION_LEDGER.md#coordinates-and-reconstruction",
+      "scope": "kills literal equality with the three-pair symmetric polarization; a polarization comparator plus controlled correction remains open"
+    },
+    {
+      "mechanism_id": "M710",
+      "outcome": "killed",
+      "classification": "xi transverse Hessian is indefinite at the positive anchor",
+      "evidence": "evidence/TRANSVERSE_EXPANSION_LEDGER.md#positive-anchor-transverse-fibre",
+      "scope": "kills common negative-semidefinite Hessian ordering; nonlinear boundary/SOS control remains open"
+    },
+    {
+      "mechanism_id": "M702",
+      "outcome": "killed",
+      "classification": "the genuine mixed correction overturns a positive independently polarized xi margin",
+      "evidence": "evidence/FALSIFICATION_WITNESSES.md#m702-unconditional-polarization-correction-domination",
+      "scope": "kills unconditional domination throughout the polarized component; a bound restricted by extra full-P component inequalities remains open"
+    },
+    {
+      "mechanism_id": "M703",
+      "outcome": "killed",
+      "classification": "all eight first edge derivatives of P can be positive at a P-positive xi-negative rational point",
+      "evidence": "evidence/FALSIFICATION_WITNESSES.md#m703-first-edge-derivative-chamber",
+      "scope": "kills the first-derivative chamber; higher mixed-derivative nesting and exact component membership remain open"
+    },
+    {
+      "mechanism_id": "M704",
+      "outcome": "killed",
+      "classification": "single-anchor ray order is underquantified relative to the frozen all-base statement",
+      "evidence": "evidence/MECHANISM_SCOPE_AUDIT.md#m704-one-fixed-anchor-is-underquantified",
+      "scope": "kills the route's claimed closure effect, not the mathematical anchor-ray claim"
+    },
+    {
+      "mechanism_id": "M705",
+      "outcome": "killed",
+      "classification": "single-anchor fibre star-shapedness cannot transport domination across the fixed component",
+      "evidence": "evidence/MECHANISM_SCOPE_AUDIT.md#m705-anchor-fibre-star-shapedness-has-the-same-mismatch",
+      "scope": "kills the route's claimed closure effect; anchor-fibre star-shapedness remains open"
+    },
+    {
+      "mechanism_id": "M707",
+      "outcome": "killed",
+      "classification": "the multiplier degree and ansatz are not frozen, so the proposed kill test has no finite complement",
+      "evidence": "evidence/MECHANISM_SCOPE_AUDIT.md#m707-low-degree-has-no-finite-complement",
+      "scope": "kills the current mechanism specification; a new bounded-degree ansatz may be opened"
+    },
+    {
+      "mechanism_id": "M708",
+      "outcome": "killed",
+      "classification": "P-positive retraction alone has no invariant transporting xi sign",
+      "evidence": "evidence/MECHANISM_SCOPE_AUDIT.md#m708-a-p-positive-retraction-does-not-transport-xi-sign",
+      "scope": "kills the stated closure bridge, not the possible existence of an equivariant retraction"
+    },
+    {
+      "mechanism_id": "M711",
+      "outcome": "killed",
+      "classification": "the CAD route has no frozen projection, resource, exceptional-section, or completeness certificate",
+      "evidence": "evidence/MECHANISM_SCOPE_AUDIT.md#m711-the-cad-promise-is-not-yet-a-bounded-mechanism",
+      "scope": "kills the current mechanism specification; a concrete finite CAD certificate may be proposed later"
+    }
+  ]
+}

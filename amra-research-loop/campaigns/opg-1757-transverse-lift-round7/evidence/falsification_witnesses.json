@@ -1,0 +1,49 @@
+{
+  "schema": "amra.opg1757.round7.falsification-witnesses-evidence.v1",
+  "mathematical_status": "exact negative route evidence; full transverse component question open",
+  "statement_match": "two local lift mechanisms only; no global OPG claim",
+  "M702": {
+    "transverse_point": [
+      "-11/10",
+      "-4/5",
+      "-37/25"
+    ],
+    "even_P_ray_bernstein": [
+      "128",
+      "122788/1875",
+      "478091/18750",
+      "975607/781250"
+    ],
+    "even_xi_margin": "523/250",
+    "xi_mixed_correction": "-119992/15625",
+    "full_xi": "-174609/31250",
+    "classification": "unconditional polarization-correction domination is false",
+    "scope": "a correction estimate restricted by additional full-P component inequalities remains open"
+  },
+  "M703": {
+    "transverse_point": [
+      "59/22",
+      "-21/11",
+      "29/11"
+    ],
+    "P": "22107148/1771561",
+    "xi": "-256198/14641",
+    "first_edge_partials_positive": 8,
+    "classification": "P plus all eight first-edge derivative signs do not exclude xi<0",
+    "scope": "higher mixed-derivative nesting and exact component membership remain open"
+  },
+  "full_edge_floor": {
+    "identity": "partial_(E\\{e}) P = 1+w_e for every deletion edge e",
+    "component_consequence": "w_e>-1 for all eight edges by derivative-component nesting",
+    "q_fibre_consequence": "b+1>0; the b=-1 resultant stratum is disjoint from C_P"
+  },
+  "machine_reproduced": {
+    "command": "ulimit -v 524288 && timeout 120s python3 evidence/verify_falsification_witnesses.py",
+    "dependencies": "Python standard library only",
+    "verifier_sha256": "706c37836599bd6a8d7cbb52c8dd54643c70cda73274ba713a96968a362e846b",
+    "result": "PASS"
+  },
+  "independent_reconstruction": false,
+  "novelty_check": "not_started",
+  "public_problem_changed": false
+}

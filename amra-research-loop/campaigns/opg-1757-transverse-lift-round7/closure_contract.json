@@ -1,0 +1,21 @@
+{
+  "exact_statement": "For the eight independent unmarked-edge variables of K5 minus edges 34 and marked 03, prove that the endpoint-connectivity polynomial xi_03 is positive on the distinguished Garding component of the deletion polynomial P, or give an exact point in that component with xi_03<=0.",
+  "source": "amra-research-loop/campaigns/opg-1757-full-b-elimination-round6/evidence/FULL_FIXED_SPACE_DOMINATION.md",
+  "success_conditions": [
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "another stabilizer-fixed theorem",
+    "finite transverse sampling",
+    "a P>0 point without exact component membership",
+    "local Hessian sign without global continuation",
+    "conditional transverse bridge",
+    "file or test volume"
+  ],
+  "scope_notes": [
+    "The inherited five-variable theorem proves xi_03>0 only after equalizing edge pairs {01,02}, {13,23}, and {14,24}.",
+    "The vertex swap 1<->2 reverses all three transverse differences simultaneously; it does not give independent pairwise symmetries.",
+    "A full eight-variable marked-host theorem would be a standalone local lemma, not OPG-1757 or global_interface_closed.",
+    "A negative xi point counts only with an exact path or complete chamber proof placing it in the distinguished component of P>0."
+  ]
+}

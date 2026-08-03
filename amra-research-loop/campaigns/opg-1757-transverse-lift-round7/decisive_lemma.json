@@ -1,0 +1,24 @@
+{
+  "statement": "For every base point (a,b,c,d,e,u,v) in the projection of the distinguished Garding component C_P, the connected q-interval cut out by P>0 is contained in the q-set where xi_03>0.",
+  "status": "conditional",
+  "closes": [
+    "full eight-variable marked-host theorem for K5 minus edges 34 and marked 03",
+    "M706 all-base quadratic-fibre wall order",
+    "the local transverse lift target frozen by this campaign"
+  ],
+  "evidence": [
+    "evidence/Q_FIBRE_LEDGER.md",
+    "evidence/q_fibre_ledger.json",
+    "evidence/verify_q_fibre_ledger.py",
+    "evidence/TRANSVERSE_EXPANSION_LEDGER.md",
+    "../opg-1757-full-b-elimination-round6/evidence/GARDING_PRT_COMPONENT_FIREWALL.md",
+    "../opg-1757-full-b-elimination-round6/evidence/garding_prt_component_firewall.json"
+  ],
+  "dependency_gaps": [
+    "classify the sign chambers of D0^2-D1D2 on the exact projected distinguished component",
+    "prove the correct P/xi root order on every resultant-zero contact stratum",
+    "classify d*e*(v^2-d^2-2d) and a=+/-u on c=0, then propagate through u=0 and the remaining P1/X1 factor walls without deleting component branches",
+    "independent reconstruction and novelty checks have not started",
+    "OPG-1757 remains open"
+  ]
+}

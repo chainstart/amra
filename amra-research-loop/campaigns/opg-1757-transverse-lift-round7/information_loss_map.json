@@ -1,0 +1,32 @@
+{
+  "inherited_from": [
+    "opg-1757-full-b-elimination-round6"
+  ],
+  "inherited_methods": [
+    {
+      "method": "five-variable stabilizer equalization",
+      "loss_step": "set w_01=w_02=a, w_13=w_23=d, and w_14=w_24=e",
+      "lost_information": "the three antisymmetric coordinates u=(w_01-w_02)/2, v=(w_13-w_23)/2, q=(w_14-w_24)/2",
+      "consequence": "the proved fixed-space inequality has no sign control over mixed transverse terms such as u*q and u*v"
+    },
+    {
+      "method": "positive-orthant Rayleigh consequence",
+      "loss_step": "restrict all independent activities to nonnegative values",
+      "lost_information": "the distinguished Garding component contains negative activities",
+      "consequence": "ordinary weighted negative correlation does not classify the full real component needed by the moving certificate"
+    },
+    {
+      "method": "straight transverse rays from the positive anchor",
+      "loss_step": "replace full component connectivity by one-dimensional root order",
+      "lost_information": "curved paths around P=0 walls and possible non-star-shaped component geometry",
+      "consequence": "even a complete anchor-ray theorem would not alone prove the eight-variable component statement"
+    }
+  ],
+  "required_new_information": [
+    "the exact full P and xi transverse expansion under the simultaneous stabilizer involution",
+    "a component-complete transverse barrier or domination identity",
+    "separate treatment of mixed u*v, u*q, and v*q channels and all degenerate walls",
+    "an exact path certificate for any proposed asymmetric counterexample"
+  ],
+  "forbidden_shortcut": "Do not infer an eight-variable theorem from fixed-space positivity, finite rays, or group averaging without a component-preserving lift theorem."
+}

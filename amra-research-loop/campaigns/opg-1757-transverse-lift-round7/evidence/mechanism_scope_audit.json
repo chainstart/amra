@@ -1,0 +1,40 @@
+{
+  "schema": "amra.opg1757.round7.mechanism-scope-audit.v1",
+  "mathematical_status": "route triage; surviving claims remain open",
+  "statement_match": "checked against closure_contract.json",
+  "killed_routes": {
+    "M704": {
+      "classification": "underquantified fixed-anchor claim",
+      "claim_refuted": false,
+      "scope": "does not quantify the other fixed-base fibres"
+    },
+    "M705": {
+      "classification": "underquantified fixed-anchor fibre",
+      "claim_refuted": false,
+      "scope": "star-shapedness at one base would not transport the theorem across the fixed component"
+    },
+    "M707": {
+      "classification": "unfrozen multiplier ansatz",
+      "claim_refuted": false,
+      "scope": "no degree or support bound makes the proposed kill test incomplete"
+    },
+    "M708": {
+      "classification": "missing xi sign-transport invariant",
+      "claim_refuted": false,
+      "scope": "P-positive homotopy alone is a conditional bridge"
+    },
+    "M711": {
+      "classification": "unfrozen CAD certificate and resource envelope",
+      "claim_refuted": false,
+      "scope": "a future bounded complete CAD schema is not excluded"
+    }
+  },
+  "survivors": [
+    "M706",
+    "M709",
+    "M712"
+  ],
+  "independent_reconstruction": false,
+  "novelty_check": "not_started",
+  "public_problem_changed": false
+}

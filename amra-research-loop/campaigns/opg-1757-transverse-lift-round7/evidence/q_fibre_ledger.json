@@ -1,0 +1,58 @@
+{
+  "schema": "amra.opg1757.round7.q-fibre-ledger-evidence.v1",
+  "mathematical_status": "exact algebraic reduction; projected-component wall order conditional",
+  "statement_match": "all-base q-fibre of the local eight-variable marked host",
+  "q_linear_factors": {
+    "P1": "2*c*u*(v^2-d^2-2*d)",
+    "xi1": "2*c*(v*(a^2-u^2)-2*d*u)"
+  },
+  "q_quadratic_factors": {
+    "P2": "-(b+1)*H_P2",
+    "P2_inner_terms": 24,
+    "P2_inner_sha256": "91407289979a3a8d958c1e18cc858b68ca9387cb4848da81eef94b0dd1873750",
+    "xi2": "-2*(b+1)*(a*c*d+a*c+2*a*d+c*d+c*u*v)"
+  },
+  "proved_component_fact": {
+    "statement": "P2=-partial_14(partial_24(P))<0 throughout the distinguished component",
+    "reason": "the derivative is nonzero, equals 48 at the positive anchor, and derivative-component nesting contains C_P in its positive component",
+    "inherited_evidence": [
+      "../opg-1757-full-b-elimination-round6/evidence/GARDING_PRT_COMPONENT_FIREWALL.md",
+      "../opg-1757-full-b-elimination-round6/evidence/garding_prt_component_firewall.json",
+      "evidence/FALSIFICATION_WITNESSES.md",
+      "evidence/verify_falsification_witnesses.py"
+    ],
+    "external_dependency": "Fang--Ma, Garding polynomials, arXiv:2604.27755v2, Theorem 1.1 plus the round-6 C-Garding matroid reduction",
+    "edge_floor": "partial_(E\\{e})P=1+w_e gives every w_e>-1 and excludes b=-1"
+  },
+  "resultant": {
+    "identity": "Res_q(P,xi)=D0^2-D1*D2",
+    "D0_terms": 264,
+    "D1_terms": 118,
+    "D2_terms": 242,
+    "expanded_terms": 7063,
+    "total_degree": 22,
+    "canonical_sha256": "4268ccdeea5ebcba73016693a4d9dca59276656e3c433fe78176c211293a2f9d",
+    "sylvester_crosscheck": "PASS"
+  },
+  "c_zero_wall": {
+    "identity": "D0=4*d*e*(a^2-u^2)^2*(b+1)*(v^2-d^2-2*d)",
+    "terms": 18,
+    "total_degree": 9,
+    "canonical_sha256": "63b5f75cfe09b3b7c97a39aa582763341d388358ece4cea5ee4dd6b973b3d2f8",
+    "status": "exact reduction; projected-component sign classification open"
+  },
+  "dependency_gaps": [
+    "resultant sign chambers on the projected distinguished component",
+    "root order on resultant-zero contact strata",
+    "classification of the reduced c=0 factors and propagation across u=0 and the remaining q-linear factor walls"
+  ],
+  "machine_reproduced": {
+    "command": "ulimit -v 524288 && timeout 120s python3 evidence/verify_q_fibre_ledger.py",
+    "dependencies": "Python standard library only",
+    "verifier_sha256": "82b27f9207fe6ad2e070e4ea9df80bd951abab615018d816014e30697bb7d427",
+    "result": "PASS"
+  },
+  "independent_reconstruction": false,
+  "novelty_check": "not_started",
+  "public_problem_changed": false
+}
