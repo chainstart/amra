@@ -1,0 +1,94 @@
+{
+  "schema": "amra.evidence.base-leading-top-index-search.v1",
+  "claim_tested": "For actual (++ -> ++) states with gamma3<0 and gamma4<0, C(d,4)-C(c+1,4) >= C(a+1,3).",
+  "independence": "Fresh normal-form and Macaulay implementation; imports no existing campaign probe.",
+  "parameters": {
+    "output": "amra-research-loop/campaigns/erdos-776-c1-round3/evidence/base_leading_top_index_search.json",
+    "max_j": 10,
+    "max_k": 8,
+    "radius": 8,
+    "seed": 776043
+  },
+  "counts": {
+    "fibres_considered": 50,
+    "fibres_with_target_in_sample": 27,
+    "distinct_compatible_points": 58026,
+    "actual_double_positive_points": 57976,
+    "target_points": 18081,
+    "carry_adjacent_target_points_newly_added": 2620,
+    "negative_candidate_points": 0
+  },
+  "minimum_candidate_margin": {
+    "j": 6,
+    "k": 4,
+    "r": 145,
+    "q": 2436,
+    "alpha": 835,
+    "beta": 1272,
+    "tau": 9606,
+    "p": 1160,
+    "v": 11075,
+    "gamma3": -9169,
+    "gamma4": -525,
+    "gamma5": 89319,
+    "a": 41,
+    "c": 20,
+    "d": 41,
+    "alpha_word": [
+      41,
+      15
+    ],
+    "p_word": [
+      20,
+      6,
+      5
+    ],
+    "v_word": [
+      41,
+      29,
+      9
+    ],
+    "candidate_margin": 83805
+  },
+  "minimum_gamma5": {
+    "j": 6,
+    "k": 4,
+    "r": 145,
+    "q": 2436,
+    "alpha": 835,
+    "beta": 1272,
+    "tau": 9606,
+    "p": 1160,
+    "v": 11075,
+    "gamma3": -9169,
+    "gamma4": -525,
+    "gamma5": 89319,
+    "a": 41,
+    "c": 20,
+    "d": 41,
+    "alpha_word": [
+      41,
+      15
+    ],
+    "p_word": [
+      20,
+      6,
+      5
+    ],
+    "v_word": [
+      41,
+      29,
+      9
+    ],
+    "candidate_margin": 83805
+  },
+  "counterexamples": [],
+  "top_gap_partitions": {
+    "hard_multi_cap_cell:c<a_and_c+2<=d<=a+1": {
+      "count": 18081,
+      "min_margin": 83805
+    }
+  },
+  "elapsed_seconds": 31.107300281524658,
+  "scope_warning": "Finite carry-aware sampling only; absence is not a proof and binary centres do not exhaust fibres."
+}

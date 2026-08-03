@@ -1,0 +1,345 @@
+{
+  "constraint_matrix": [
+    [
+      1,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      1,
+      -1,
+      0,
+      -1,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      0,
+      -1,
+      0,
+      -1
+    ]
+  ],
+  "fixed_X_adversary_search": {
+    "all_normalized_data_equal": true,
+    "all_source_complement_units_equal": true,
+    "collision_label_counts_for_shifts_0_and_1_4": [
+      127,
+      127
+    ],
+    "common_X": [
+      "0",
+      "1"
+    ],
+    "completeness_scope": "With fixed X and normalized data alone there is one observable common-spectrum translation plus gauge. Fixing the absolute 12-label row spectrum removes that observable direction, leaving only gauge.",
+    "delta_interval": [
+      -32,
+      32
+    ],
+    "different_absolute_distance_label_sets_found_before_spectrum_fixing": true,
+    "different_distance_label_profiles_found": false,
+    "gauge_representatives_checked": 65
+  },
+  "fixed_X_normalized_only_system": {
+    "complement_product_shift": [
+      "1",
+      "1",
+      "1"
+    ],
+    "kernel_basis": [
+      [
+        "1",
+        "0",
+        "-1",
+        "-1",
+        "-1",
+        "0",
+        "0"
+      ],
+      [
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "1",
+        "1"
+      ]
+    ],
+    "kernel_rank": 2,
+    "matrix_rank": 5,
+    "meaning": "At fixed X, this direction preserves normalized quotients and factor identities but translates every absolute row spectrum together.",
+    "observable_spectrum_shift_generator": [
+      "0",
+      "0",
+      "1",
+      "0",
+      "0",
+      "1",
+      "1"
+    ]
+  },
+  "fixed_geometry": {
+    "collision_profile_hash": "a6f1f2791a602a418c6c2d53d3437c02855eac5cca678e890692322b61ec31ba",
+    "common_X": [
+      "0",
+      "1"
+    ],
+    "common_spectrum_shift": "0",
+    "distinct_target_target_labels": 127,
+    "row_spectra": {
+      "1": [
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110",
+        "111"
+      ],
+      "2": [
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110",
+        "111"
+      ],
+      "3": [
+        "100",
+        "101",
+        "102",
+        "103",
+        "104",
+        "105",
+        "106",
+        "107",
+        "108",
+        "109",
+        "110",
+        "111"
+      ]
+    },
+    "target_count": 18
+  },
+  "gauge_fixed_slice": "u(G)=a forces delta=0 and gives one representative",
+  "gauge_generator": [
+    "1",
+    "0",
+    "-1",
+    "-1",
+    "-1",
+    "0",
+    "0"
+  ],
+  "general_solution": "(a,2a,-3a,0,2a,-3a,-5a)+delta*(1,0,-1,-1,-1,0,0)",
+  "matrix_rank": 6,
+  "observable_product_units": [
+    "u(GR1)",
+    "u(F0)",
+    "u(GR3)",
+    "u(F0Q1)",
+    "u(GB)",
+    "u(F0Q3)"
+  ],
+  "observable_quotient_rank_before_fixing_absolute_spectrum": 1,
+  "observable_quotient_rank_for_exact_block": 0,
+  "primitive_full_rank_minor": {
+    "columns": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      6
+    ],
+    "determinant": -1,
+    "rows": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "public_exponent_changed": false,
+  "raw_kernel_rank": 1,
+  "raw_unit_progression": {
+    "observable_profiles": 1,
+    "ordered_additive_quadruples": 183105,
+    "size": 65,
+    "target_collision_profiles": 1
+  },
+  "schema": "amra.erdos1083.relative_unit_round5.fixed_X_rank.v1",
+  "shifted_fixed_X_geometry": {
+    "collision_profile_hash": "cfbc9cf9a3f4a79a4f163ef90692a1c695a64be5bb51e5c0b2f43ba302057486",
+    "common_X": [
+      "0",
+      "1"
+    ],
+    "common_spectrum_shift": "1/4",
+    "distinct_target_target_labels": 127,
+    "row_spectra": {
+      "1": [
+        "401/4",
+        "405/4",
+        "409/4",
+        "413/4",
+        "417/4",
+        "421/4",
+        "425/4",
+        "429/4",
+        "433/4",
+        "437/4",
+        "441/4",
+        "445/4"
+      ],
+      "2": [
+        "401/4",
+        "405/4",
+        "409/4",
+        "413/4",
+        "417/4",
+        "421/4",
+        "425/4",
+        "429/4",
+        "433/4",
+        "437/4",
+        "441/4",
+        "445/4"
+      ],
+      "3": [
+        "401/4",
+        "405/4",
+        "409/4",
+        "413/4",
+        "417/4",
+        "421/4",
+        "425/4",
+        "429/4",
+        "433/4",
+        "437/4",
+        "441/4",
+        "445/4"
+      ]
+    },
+    "target_count": 18
+  },
+  "tests": {
+    "M1083U5-01": {
+      "outcome": "killed",
+      "reason": "the raw character selecting u(G) is nonconstant on gauge while all geometry is constant"
+    },
+    "M1083U5-02": {
+      "outcome": "killed",
+      "reason": "fixed X and normalized data admit infinitely many rational and integer gauge representatives"
+    },
+    "M1083U5-03": {
+      "outcome": "killed",
+      "reason": "individual factor valuations are unbounded along gauge while every product support is fixed"
+    },
+    "M1083U5-04": {
+      "outcome": "killed",
+      "reason": "nonzero gauge displacement crosses no observable Newton or target wall"
+    },
+    "M1083U5-05": {
+      "outcome": "killed",
+      "reason": "unboundedly many unit representatives give one exact target collision profile"
+    },
+    "M1083U5-06": {
+      "outcome": "killed",
+      "reason": "a long gauge arithmetic progression has high raw additive energy with constant collision geometry"
+    },
+    "M1083U5-07": {
+      "outcome": "survived",
+      "reason": "exact block has kernel rank one, primitive quotient and a unique u(G)=a gauge slice"
+    },
+    "M1083U5-08": {
+      "outcome": "killed",
+      "reason": "before fixing the absolute row spectrum, the exact fixed-X normalized-data quotient has one genuine observable translation direction"
+    },
+    "M1083U5-09": {
+      "outcome": "killed",
+      "reason": "raw conditional entropy grows on bounded gauge samples while observable entropy and labels remain zero/constant"
+    },
+    "M1083U5-10": {
+      "outcome": "killed",
+      "reason": "arbitrarily many gauge representatives occupy one target-order and collision chamber"
+    }
+  },
+  "torsion_in_observable_quotient_for_exact_block": "none (primitive rank minor)",
+  "unit_variables": [
+    "g",
+    "f",
+    "b",
+    "r1",
+    "r3",
+    "q1",
+    "q3"
+  ]
+}

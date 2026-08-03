@@ -1,0 +1,22 @@
+{
+  "statement": "Complete K5-e high-triangle 2,4,2 stabilizer-slice domination theorem. With the three unmarked-edge orbit activities a,b,c, the deletion and marked-endpoint-connected forest polynomials factor as P=bF and xi=bG. After y=b+1 and z=c+1, the distinguished component is exactly y>1, z>sqrt(2/(y^2+1)), and a>r_F^+(y,z), the epigraph above the upper a-root of F. On this epigraph G is an upward quadratic; its roots can neither be born above the F wall nor cross the upper F root. Since G has no real root on the anchor base fibre, G>0 throughout, and therefore xi=bG>0.",
+  "status": "proved",
+  "closes": [
+    "proves G215 for the complete three-variable K5-e high-triangle 2,4,2 stabilizer specialization",
+    "establishes the exact upper-root epigraph description of its distinguished component",
+    "extends the independently audited local domination certificates beyond W4 to a nine-edge 3-connected host"
+  ],
+  "evidence": [
+    "evidence/K5_MINUS_EDGE_UPPER_ROOT_THEOREM.md",
+    "evidence/K5_MINUS_EDGE_UPPER_ROOT_THEOREM.json",
+    "evidence/verify_k5_minus_edge_upper_root.py",
+    "audit/K5_MINUS_EDGE_UPPER_ROOT_INDEPENDENT_AUDIT.md",
+    "audit/K5_MINUS_EDGE_UPPER_ROOT_INDEPENDENT_AUDIT.json",
+    "audit/verify_k5_minus_edge_upper_root_independent.py"
+  ],
+  "dependency_gaps": [
+    "the five transverse directions of the eight independent unmarked-edge variables are not controlled by orbit equalization",
+    "the other K5-e marked-edge orbit and the full triangular-prism triangle-edge component remain open",
+    "G201, a minor-adaptive edge-selection theorem, and the global OPG-1757 closure remain open"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "mechanism_ids": ["M1083U5-07"],
+  "selection_rationale": "Independent audit certifies eight strict gauge-based kills and downgrades M1083U5-08 to an inconclusive finite route obstruction: its literal statement concerns every power-large block, while the evidence is one three-row block. Fixed X plus normalized data gives a rank-five system with pure gauge (1,0,-1,-1,-1,0,0) and one observable common-spectrum translation (0,0,1,0,0,1,1); the latter changes absolute label sets but gives 127 labels at both tested shifts, hence no gain. Adding the fixed absolute 12-label spectrum raises rank to six and removes the observable direction. M1083U5-07 alone survives and is locally proved because u(G)=a selects its unique representative. No exponent changes.",
+  "shared_dependency_gaps": [
+    "define the complete unit constraint matrix for a general actual paired-positive common-X block, including every factor occurrence and target product",
+    "prove every kernel direction is geometrically gauge rather than an omitted observable",
+    "bound the rank, range and torsion of observable translations after identifying the allowed absolute spectra, or prove a uniform distance-count gain from positive observable rank",
+    "propagate the unit conclusion to an actual all-target pair domain with t^(28/9-o(1)) occurrence mass and fibre below 1/9-epsilon",
+    "transfer through outer stability with only subpower loss"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "arithmetic": "exact SymPy",
+  "command": "ulimit -v 3145728; timeout 180s python3 evidence/verify_k5_cross_ab_component.py",
+  "checks": [
+    "affine decompositions",
+    "determinant identity",
+    "resultant factorization",
+    "upper wall sign",
+    "quadratic discriminant",
+    "D-root ordering",
+    "anchor values",
+    "a=0 boundary contact"
+  ]
+}

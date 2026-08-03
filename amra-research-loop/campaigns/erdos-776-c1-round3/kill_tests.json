@@ -1,0 +1,24 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M303-nested-binomial-envelope",
+      "outcome": "killed",
+      "evidence": "evidence/GPP_PFREE_COUNTEREXAMPLE.md and .json: the actual (++ -> ++) state (j,h,q,k,r,u,b)=(21,117440512,78302495,4,26466,26469,78302499) has e-binom(t(a),3)<0 and p-free margin U_3(e)-U_2(alpha)-1=-136419183, while exact gamma5=859354068710>0."
+    },
+    {
+      "mechanism_id": "M305-rank6-deficit-domination",
+      "outcome": "killed",
+      "evidence": "evidence/K4_R9_RANK6_COUNTERFAMILY.md and .json: the actual dyadic family with odd j>=33, q=(2h+4)/3 and (k,r,u,b)=(4,9,12,q+4) has gamma5=1283187-4q<0 and gamma6=869828292418-4q<0. The j=33 full-orbit witness has gamma6=-412935273326 and gamma7>0."
+    },
+    {
+      "mechanism_id": "M309-binomial-basis-positive",
+      "outcome": "killed",
+      "evidence": "The same stable actual order cell has gamma6=869828292418-4q. Its coefficient in the unbounded translated q direction is -4, and the value is negative for every odd j>=33; hence no all-nonnegative translated binomial-basis certificate exists for this cell."
+    },
+    {
+      "mechanism_id": "M311-total-coverage-tree",
+      "outcome": "killed",
+      "evidence": "The proposed tree routes c=1 leaves to a two-row recovery theorem. The actual K4,r9 family is negative at gamma5 and gamma6, so that leaf and hence the stated total routing claim are false. It recovers at gamma7 for the first witness, leaving an adaptive tree open."
+    }
+  ]
+}

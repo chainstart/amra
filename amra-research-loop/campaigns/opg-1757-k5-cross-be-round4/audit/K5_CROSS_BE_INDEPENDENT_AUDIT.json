@@ -1,0 +1,44 @@
+{
+  "schema": "amra.opg1757.k5-cross-be.blind-audit.v1",
+  "source": "A,C,D,E formulas reconstructed without importing author verifier",
+  "polynomials": {
+    "A": "24*e**2 + 48*e + 9",
+    "C": "24*e**2 + 20*e + 3",
+    "D": "5*e**2 + 10*e + 2",
+    "E": "5*e**2 + 6*e + 1",
+    "P": "24*b*e**2 + 48*b*e + 9*b + 24*e**2 + 20*e + 3",
+    "xi": "10*b*e**2 + 20*b*e + 4*b + 10*e**2 + 12*e + 2"
+  },
+  "anchor": {
+    "P": 128,
+    "xi": 58,
+    "u": "128/81"
+  },
+  "alpha_wall": {
+    "alpha": "-1+sqrt(10)/4",
+    "C_alpha": "22-7sqrt(10)",
+    "sign": "negative",
+    "consequence": "entire vertical line excluded from P>0"
+  },
+  "component": {
+    "exact": "e>alpha and b>-C(e)/A(e)",
+    "homeomorphism": "(e,b)->(e,b+C/A) onto (alpha,infinity)x(0,infinity)"
+  },
+  "determinant": {
+    "identity": "A*xi/2=D*P+Q",
+    "Q": "44*e**3 + 94*e**2 + 32*e + 3",
+    "disc_Q": -9552,
+    "Q_alpha": "(-22+7sqrt(10))/8",
+    "real_root_isolation": [
+      "-34367/19738",
+      "-18956/10887"
+    ]
+  },
+  "D_order": {
+    "upper_root": "-1+sqrt(15)/5",
+    "relation": "upper_root(D)<alpha"
+  },
+  "conclusion": "A,D,P,Q>0 on the complete distinguished component, hence xi>0",
+  "scope": "a=c=d=1 two-variable (b,e) slice only; not five-variable stabilizer, transverse directions, G201, or OPG-1757",
+  "public_one_eighth_changed": false
+}

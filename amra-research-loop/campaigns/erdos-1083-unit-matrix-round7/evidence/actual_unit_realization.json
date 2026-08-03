@@ -1,0 +1,54 @@
+{
+  "schema": "amra.erdos1083.unit-matrix-round7.actual-realization.v1",
+  "minimal_actual_block": {
+    "source": "POWER_LARGE_SIMULTANEOUS_SWITCH_CORE.md (0.3), one centre and one leaf",
+    "ambient_ring": "Z[Gamma], Gamma finitely generated torsion-free",
+    "aggregate_variables": ["g","f","b","r_j","q_j"],
+    "actual_row_matrix": [
+      [1,0,0,1,0],
+      [0,1,0,0,0],
+      [0,1,0,0,1],
+      [1,0,1,0,0],
+      [0,0,1,-1,-1]
+    ],
+    "formal_m1_coefficient_match": true,
+    "rank": 4,
+    "unit_maximal_minor_determinant": -1,
+    "primitive_kernel": [1,0,-1,-1,0]
+  },
+  "all_m_aggregate_realization": {
+    "status": "proved_by_stacking_actual_identities",
+    "identity_row_dependency": "PA0+F0-Fj-PAj",
+    "coefficient_matrix": "exactly the round-six formal all-m matrix",
+    "affine_right_sides": "actual product-unit exponent vectors, not automatically the special finite scalar multiples",
+    "normalization_cocycles": "zero for representatives compatible with literal quotient definitions; fixed right-side constants under independent canonical normalization; coefficient matrix and kernel unchanged"
+  },
+  "observable_rows": {
+    "fixed_for_full_primitive_conclusion": ["unit(F_j)","unit(F_0)","unit(P_Aj)","unit(P_A0)"],
+    "automatic_relation": "unit(P_A0)+unit(F_0)=unit(F_j)+unit(P_Aj)",
+    "power_large_joint_profile_fixed_at_subpower_cost": false,
+    "source_only_extra_spectrum_shift": [0,0,1,0,1]
+  },
+  "ambient_unit_audit": {
+    "Gamma": "Z^r",
+    "matrix_action": "coordinatewise tensor",
+    "extra_observable_kernel_from_tensoring": false,
+    "aggregate_sign_units": "fixed by positive nonzero augmentation"
+  },
+  "raw_occurrence_refinement": {
+    "aggregate_matrix_is_raw_complete": false,
+    "k_occurrence_one_leaf_kernel_dimension": "k-1",
+    "internal_projection_kernel_dimension": "k-2",
+    "remaining_aggregate_gauge_dimension": 1,
+    "internal_directions_geometric": false,
+    "interpretation": "associate-normalization gauge removed by canonical occurrence representatives"
+  },
+  "classification": {
+    "aggregate_realization_lemma": "proved",
+    "complete_raw_occurrence_realization": "refuted_without_normalization_quotient",
+    "power_large_absolute_spectrum_conditioning": "open",
+    "all_target_bridge": "open",
+    "public_exponent_changed": false
+  },
+  "lean_used": false
+}

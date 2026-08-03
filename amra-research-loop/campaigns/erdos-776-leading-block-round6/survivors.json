@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M609", "M610"],
+  "selection_rationale": "The slope lemma kills every subcritical switch but does not decide whether the Macaulay/canonical constraints realize a supercritical or critical switch. Exact word construction and critical constant control are the only retained local mechanisms."
+}

@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M809C-01",
+      "representation_id": "R809C-01",
+      "family": "typed-injection",
+      "decisive_claim": "For every minimal B-reserve tight circuit T, the conversion graph from its distinct owned A diagonals to actual B edges outside the already occupied reserve has a matching of size |T|-rho_B(T).",
+      "would_close": [
+        "the B-reserve deficit in every tight circuit"
+      ],
+      "kill_test": "Run the exact n=14 three-colour common-two-token circuit. Enumerate all target B edges licensed by the rectangle forcing rule; kill if no third distinct B atom is adjacent to an owned diagonal.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:40:10+00:00",
+      "status_evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md and evidence/minimal_conversion_falsification.json",
+      "updated_at": "2026-08-03T01:47:23+00:00"
+    },
+    {
+      "id": "M809C-02",
+      "representation_id": "R809C-04",
+      "family": "typed-injection",
+      "decisive_claim": "There is an absolute congestion constant C such that every coherent family of distinct owned A diagonals can be mapped through the two-sided degree transport relation to actual missing B edges, with every B edge receiving at most C preimages and with the resulting quantitative bound sufficient for the 1/8 budget.",
+      "would_close": [
+        "a quantitative A-to-B conversion after bounded congestion"
+      ],
+      "kill_test": "Use rectangular blow-ups with common B neighbourhoods. Measure maximum preimage multiplicity and kill if it grows with the number of owned diagonals or if the C-loss is too large for the frozen 1/8 inequality.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:40:10+00:00",
+      "status_evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md and evidence/minimal_conversion_falsification.json",
+      "updated_at": "2026-08-03T01:47:23+00:00"
+    },
+    {
+      "id": "M809C-03",
+      "representation_id": "R809C-02",
+      "family": "typed-injection",
+      "decisive_claim": "Whenever a minimal reserve circuit has one owned A atom whose conversion neighbourhood meets an unused B atom or an alternating reserve component with surplus one, an explicit alternating path increases the number of served colours by one without reusing any typed atom.",
+      "would_close": [
+        "iterative payment of every B tight circuit"
+      ],
+      "kill_test": "On the n=14 tight circuit add each possible single conversion arc in turn; reject any purported augmentation that returns to an occupied token or changes the canonical full reserve K(e).",
+      "status": "killed",
+      "created_at": "2026-08-03T01:40:10+00:00",
+      "status_evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md and evidence/minimal_conversion_falsification.json",
+      "updated_at": "2026-08-03T01:47:24+00:00"
+    },
+    {
+      "id": "M809C-04",
+      "representation_id": "R809C-03",
+      "family": "typed-injection",
+      "decisive_claim": "After quotienting identical A diagonals, the owned rectangles of a family of coherent stars admit either a transversal into distinct conversion witnesses or a merged rectangle whose direct transference inequality pays the total unresolved B deficit.",
+      "would_close": [
+        "cross-star overlap control for A-to-B conversion"
+      ],
+      "kill_test": "Glue two stars along one diagonal and then along an entire rectangle side. Kill if both the transversal and merged transference can fail while all inherited hard constraints remain feasible.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:40:10+00:00",
+      "status_evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md and evidence/minimal_conversion_falsification.json",
+      "updated_at": "2026-08-03T01:47:24+00:00"
+    },
+    {
+      "id": "M809C-05",
+      "representation_id": "R809C-05",
+      "family": "owned-slack-atomization",
+      "decisive_claim": "For every hard maximum-witness graph there is a canonical set Sigma of exactly S_m nonnegative combinatorial slack atoms, each with an actual edge or missing-pair carrier, whose disjoint use reconstructs the maximum-witness edge ledger.",
+      "would_close": [
+        "a carrier-level interpretation of the S_m budget"
+      ],
+      "kill_test": "Apply the construction to the audited tight and paid n=14 swap pair with identical S_m. Kill if an atom changes type from A to B without a bijection, a negative atom remains, or |Sigma| differs from S_m.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:40:10+00:00",
+      "status_evidence": "evidence/SURVIVOR_FIRST_PROOF_ATTEMPTS.md",
+      "updated_at": "2026-08-03T01:52:54+00:00"
+    },
+    {
+      "id": "M809C-06",
+      "representation_id": "R809C-06",
+      "family": "owned-slack-atomization",
+      "decisive_claim": "The colourwise low-edge cancellation ledger admits an injection from every uncancelled outer-A atom contributing to R_A into a canonical slack carrier, and the injections for different colours have disjoint images.",
+      "would_close": [
+        "the outer-A gate R_A<=S_m"
+      ],
+      "kill_test": "Enumerate pairs of mixed-high and internal-only-low colour profiles sharing endpoints and anchors. Kill if two uncancelled atoms demand the same carrier or cancellation depends on processing order.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:40:10+00:00",
+      "status_evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md and evidence/minimal_conversion_falsification.json",
+      "updated_at": "2026-08-03T01:47:24+00:00"
+    },
+    {
+      "id": "M809C-07",
+      "representation_id": "R809C-07",
+      "family": "owned-slack-atomization",
+      "decisive_claim": "For the canonical slack atomization, every outer-A demand set T satisfies rho_S(T)>=d_A(T), where d_A is the number of uncancelled colour-owned residue atoms, so Hall gives a simultaneous owned slack assignment.",
+      "would_close": [
+        "overlap-safe outer-A payment"
+      ],
+      "kill_test": "Use two tight circuits and two low colour classes all requesting one slack atom. The rank inequality must fail rather than allowing four local payments from one carrier.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:40:10+00:00",
+      "status_evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md and evidence/minimal_conversion_falsification.json",
+      "updated_at": "2026-08-03T01:47:24+00:00"
+    },
+    {
+      "id": "M809C-08",
+      "representation_id": "R809C-08",
+      "family": "outer-gate-direct",
+      "decisive_claim": "If the anchored outer-A residue exceeds S_m, the labelled complex contains at least Phi(n,e) pairwise C7-compatible edges of distinct colours; hence the public colour target closes directly without converting A units into B units.",
+      "would_close": [
+        "a direct Branch-A and outer-gate exit"
+      ],
+      "kill_test": "Test the three-clique-chain and n=14 hard-local models. Kill if R_A-S_m can be positive while every compatible labelled edge family stays below Phi and no inherited hypothesis is violated.",
+      "status": "surviving",
+      "created_at": "2026-08-03T01:40:10+00:00",
+      "status_evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md#survivors",
+      "updated_at": "2026-08-03T01:47:24+00:00"
+    },
+    {
+      "id": "M809C-09",
+      "representation_id": "R809C-08",
+      "family": "outer-gate-direct",
+      "decisive_claim": "Every owned diagonal belonging to a B tight circuit and lying outside A_<q* forces either a new mixed-high anchor of a previously unused colour or a direct non-rainbow C7; inside A_<q* the diagonal is charged injectively to the internal-low term of R_A.",
+      "would_close": [
+        "a common-witness bridge from B circuits to the exact outer-A coordinate"
+      ],
+      "kill_test": "Place all owned diagonals of the n=14 circuit on each side of the q* threshold under degree-preserving perturbations. Kill if the same high anchor serves two diagonals or if a diagonal is invisible to both alternatives.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:40:10+00:00",
+      "status_evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md and evidence/minimal_conversion_falsification.json",
+      "updated_at": "2026-08-03T01:47:24+00:00"
+    },
+    {
+      "id": "M809C-10",
+      "representation_id": "R809C-09",
+      "family": "outer-gate-direct",
+      "decisive_claim": "Every inclusion-minimal blocker to R_A<=S_m contains an owned anticomplete rectangle whose exact low-edge or compatible-colour output strictly exceeds the blocker deficit.",
+      "would_close": [
+        "elimination of all outer-A blockers"
+      ],
+      "kill_test": "Enumerate typed blockers of size at most four, preserving colour and high-anchor labels. Kill on a blocker whose only rectangles reuse one missing edge or whose output lies outside the blocker owner set.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:40:10+00:00",
+      "status_evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md and evidence/minimal_conversion_falsification.json",
+      "updated_at": "2026-08-03T01:47:24+00:00"
+    },
+    {
+      "id": "M809C-11",
+      "representation_id": "R809C-10",
+      "family": "submodular-circuit",
+      "decisive_claim": "The typed conversion system satisfies a min-max theorem in which every dual deficient set is bounded by rho_B plus the rank of an explicit A-to-B conversion relation plus rho_S, with separate target constraints; every hard graph meets all such inequalities.",
+      "would_close": [
+        "simultaneous B and outer-A payment without scalar rank addition"
+      ],
+      "kill_test": "Instantiate the three-colour two-token circuit with three A owners but no conversion arcs. The oracle must report deficit one; kill if the formulation declares feasibility from rho_A+rho_B alone.",
+      "status": "surviving",
+      "created_at": "2026-08-03T01:40:11+00:00",
+      "status_evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md#survivors",
+      "updated_at": "2026-08-03T01:47:24+00:00"
+    },
+    {
+      "id": "M809C-12",
+      "representation_id": "R809C-11",
+      "family": "submodular-circuit",
+      "decisive_claim": "Typed circuit elimination can be chosen so that each step either adds a genuinely new B or slack carrier, merges two overlapping owned rectangles, or reduces the lexicographic pair of unresolved demand and distinct owner atoms; therefore the process terminates at a paid system or a direct outer-gate exit.",
+      "would_close": [
+        "global conversion across overlapping tight circuits"
+      ],
+      "kill_test": "Run the abstract pair of crossing circuits sharing one B token and one A diagonal. Kill if elimination cycles, loses an owner label, or decreases scalar deficit only by spending the shared atom twice.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:40:11+00:00",
+      "status_evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md and evidence/minimal_conversion_falsification.json",
+      "updated_at": "2026-08-03T01:47:24+00:00"
+    }
+  ]
+}

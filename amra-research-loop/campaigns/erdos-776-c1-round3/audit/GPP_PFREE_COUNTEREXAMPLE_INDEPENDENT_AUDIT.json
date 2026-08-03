@@ -1,0 +1,80 @@
+{
+  "schema": "amra.erdos776.gpp-pfree-counterexample-independent-audit.v1",
+  "command": "ulimit -v 2097152; timeout 120s python3 audit/verify_gpp_pfree_counterexample_independent.py",
+  "resource_observation": {
+    "wall_seconds": 0.02,
+    "max_rss_kib": 11904,
+    "exit_code": 0,
+    "virtual_memory_limit_kib": 2097152
+  },
+  "engine": "new greedy canonical Macaulay engine; no author-verifier import",
+  "parameters": {
+    "j": 21,
+    "h": 117440512,
+    "q": 78302495,
+    "k": 4,
+    "r": 26466,
+    "u": 26469,
+    "b": 78302499
+  },
+  "actuality": {
+    "identity": "C(b-1,2)+2-(C(q,2)+r)=2h",
+    "dyadic_left": 234881024,
+    "dyadic_right": 234881024,
+    "range_checks": true
+  },
+  "transition": {
+    "first": "++",
+    "second": "++",
+    "combined": "++ -> ++",
+    "alpha": 37027825,
+    "beta": 37107225,
+    "p": 105881285695,
+    "v": 106217638624,
+    "e": 336352929
+  },
+  "surpluses": {
+    "gamma3": -313130586,
+    "gamma4_full": -13858416,
+    "gamma4_chart": -13858416,
+    "p_free_margin": -136419183,
+    "gamma5_normalized": 859354068710,
+    "gamma5_full_unnormalized_orbit": 859354068710,
+    "base_cross_term_gain": 859490487893
+  },
+  "m303": {
+    "alpha_scale": 8606,
+    "least_t_with_C_t_4_at_least_C_alpha_scale_plus_1_3": 1266,
+    "required_e_threshold": 337380560,
+    "actual_e_minus_threshold": -1027631,
+    "killed": true
+  },
+  "canonical_words": {
+    "n": [[78302495, 2], [26466, 1]],
+    "n_plus_b_minus_1": [[78302496, 2], [26469, 1]],
+    "left3": [[78302495, 3], [8606, 2], [510, 1]],
+    "right3": [[78302496, 3], [8615, 2], [2420, 1]],
+    "alpha": [[8606, 2], [510, 1]],
+    "beta": [[8615, 2], [2420, 1]],
+    "p": [[8597, 3], [6294, 2], [934, 1]],
+    "v": [[8606, 3], [6826, 2], [5479, 1]],
+    "e": [[1264, 3], [1068, 2], [287, 1]],
+    "left4": [[78302495, 4], [8597, 3], [6294, 2], [934, 1]],
+    "right4": [[78302496, 4], [8606, 3], [6826, 2], [5479, 1]]
+  },
+  "verdict": "pass_scoped_counterexample_to_universal_p_free_coverage_gate_and_M303",
+  "scope": {
+    "refutes": [
+      "the assertion that every actual G++ state passes U3(e)>=U2(alpha)+1",
+      "M303-nested-binomial-envelope"
+    ],
+    "does_not_refute": [
+      "the conditional implication from the p-free inequality when its antecedent holds",
+      "exact base-retaining rank-five recovery",
+      "the public Erdos-776 problem"
+    ],
+    "reason_exact_rank5_survives": "the independently reconstructed exact gamma5 is strictly positive"
+  },
+  "lean_used": false,
+  "public_problem_changed": false
+}

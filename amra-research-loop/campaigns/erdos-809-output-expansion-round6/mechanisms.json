@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M809O6-01",
+      "representation_id": "R809O6-01",
+      "family": "typed-matching",
+      "decisive_claim": "In any fixed graph and fixed recolouring model with disjoint repeated-colour classes, two switches using distinct output edges and disjoint colour classes are jointly rainbow-C7 whenever the base state and both singleton states are rainbow-C7.",
+      "would_close": [
+        "joint legality from typed singleton legality"
+      ],
+      "kill_test": "Enumerate C7 colour repetitions by colour class; kill if a joint-only bad cycle exists despite both singleton states passing.",
+      "status": "proved",
+      "created_at": "2026-08-03T04:18:08+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.md#joint-legality-lemma",
+      "updated_at": "2026-08-03T04:38:40+00:00"
+    },
+    {
+      "id": "M809O6-02",
+      "representation_id": "R809O6-02",
+      "family": "finite-extremal-model",
+      "decisive_claim": "There exists an n=16 exact-threshold extension of the locked n=14 graph, obtained by adding B vertices w,u and fifteen incident edges without deleting an old edge, in which natural switches b-x1 to w-x1 and b-x2 to u-x2 are singleton-legal, jointly legal, and expose distinct outputs wz and uz.",
+      "would_close": [
+        "smallest two-output legal-switch witness"
+      ],
+      "kill_test": "Exhaust the symmetric subfamily containing w-X and u-X and test threshold, rainbow C7, L4(2), reserves, singleton and joint states.",
+      "status": "killed",
+      "created_at": "2026-08-03T04:18:08+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#symmetric_no_deletion_search",
+      "updated_at": "2026-08-03T04:38:40+00:00"
+    },
+    {
+      "id": "M809O6-03",
+      "representation_id": "R809O6-02",
+      "family": "finite-extremal-model",
+      "decisive_claim": "If the pure fifteen-edge addition model has no witness, one old-edge deletion and sixteen new incident edges suffice to produce the same two-output legal-switch witness while preserving A=N[v], threshold density, L4(2), and the base colouring.",
+      "would_close": [
+        "one-edge-exchange witness"
+      ],
+      "kill_test": "Search edge deletions only after extracting the exact C7 obstruction cores of the addition model; reject any candidate failing a named predicate.",
+      "status": "killed",
+      "created_at": "2026-08-03T04:18:08+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#general_one_exchange_search",
+      "updated_at": "2026-08-03T04:38:40+00:00"
+    },
+    {
+      "id": "M809O6-04",
+      "representation_id": "R809O6-03",
+      "family": "constraint-duality",
+      "decisive_claim": "Every failed natural switch in the two-new-vertex model contains a bad C7 whose new-edge trace meets a bounded obstruction-core list independent of the untouched old graph.",
+      "would_close": [
+        "finite obstruction-core reduction"
+      ],
+      "kill_test": "Enumerate minimal new-edge traces of bad C7s for w-x1/c-y1 and u-x2/c-y2; kill if unboundedly many old-dependent traces are essential.",
+      "status": "surviving",
+      "created_at": "2026-08-03T04:18:08+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.md#exact-finite-searches",
+      "updated_at": "2026-08-03T04:38:40+00:00"
+    },
+    {
+      "id": "M809O6-05",
+      "representation_id": "R809O6-04",
+      "family": "constraint-duality",
+      "decisive_claim": "The exact Boolean clauses for threshold degree, base rainbow legality, two singleton switches, joint legality and two distinct canonical outputs are jointly satisfiable in the two-new-vertex one-edge-exchange model.",
+      "would_close": [
+        "SAT-level two-output witness"
+      ],
+      "kill_test": "Encode every bad C7 as a forbidden edge conjunction and replay a satisfying assignment as a labelled graph.",
+      "status": "killed",
+      "created_at": "2026-08-03T04:18:09+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#general_one_exchange_search",
+      "updated_at": "2026-08-03T04:38:41+00:00"
+    },
+    {
+      "id": "M809O6-06",
+      "representation_id": "R809O6-05",
+      "family": "typed-matching",
+      "decisive_claim": "Whenever two individually legal natural switches change bases bc to cw and cu and wz,uz lie in the respective new reserves but outside the old reserve, the augmented demand-output graph has matching rank at least two.",
+      "would_close": [
+        "two-output rank gain"
+      ],
+      "kill_test": "Compute old and new canonical reserves and run exact matching; kill if distinct named outputs nevertheless refer to one edge or one demand.",
+      "status": "proved",
+      "created_at": "2026-08-03T04:18:09+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#conditional_output_rank",
+      "updated_at": "2026-08-03T04:38:41+00:00"
+    },
+    {
+      "id": "M809O6-07",
+      "representation_id": "R809O6-06",
+      "family": "bounded-overlap",
+      "decisive_claim": "A first two-output witness has output codegree one and no indispensable old edge is used by both switch certificates.",
+      "would_close": [
+        "resource-disjoint local absorbers"
+      ],
+      "kill_test": "Extract all bad-cycle avoidance and recolouring resources for the two switches; kill if distinct outputs hide a shared capacity-one resource.",
+      "status": "frozen",
+      "created_at": "2026-08-03T04:18:09+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#classification",
+      "updated_at": "2026-08-03T04:38:41+00:00"
+    },
+    {
+      "id": "M809O6-08",
+      "representation_id": "R809O6-09",
+      "family": "bounded-overlap",
+      "decisive_claim": "In every scalable hard-branch extension, at most O(1) legal switch certificates use any one external output or exceptional endpoint.",
+      "would_close": [
+        "uniform bounded output overlap"
+      ],
+      "kill_test": "Blow up the first exact witness while retaining threshold and hard predicates; kill if output codegree grows with the locked class.",
+      "status": "surviving",
+      "created_at": "2026-08-03T04:18:10+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.md#status",
+      "updated_at": "2026-08-03T04:38:41+00:00"
+    },
+    {
+      "id": "M809O6-09",
+      "representation_id": "R809O6-07",
+      "family": "cut-expansion",
+      "decisive_claim": "Adding two distinct legal output arcs for two different locked demands reduces the maximum Hall deficiency of the four-demand K(4,2) circuit from two to zero.",
+      "would_close": [
+        "two local outputs saturate the locked cut"
+      ],
+      "kill_test": "Enumerate every demand cut and exact matching after adding the two arcs.",
+      "status": "proved",
+      "created_at": "2026-08-03T04:18:10+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#conditional_output_rank",
+      "updated_at": "2026-08-03T04:38:41+00:00"
+    },
+    {
+      "id": "M809O6-10",
+      "representation_id": "R809O6-10",
+      "family": "cut-expansion",
+      "decisive_claim": "If every inclusion-minimal deficient cut receives delta(T) distinct compatible external outputs owned inside T, then the augmented typed carrier graph satisfies all Hall cuts.",
+      "would_close": [
+        "minimal-cut expansion implies Hall"
+      ],
+      "kill_test": "Test arbitrary finite carrier graphs and prove or refute the submodular uncrossing step with occupied outputs retained.",
+      "status": "surviving",
+      "created_at": "2026-08-03T04:18:10+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.md#conditional-rank-ledger",
+      "updated_at": "2026-08-03T04:38:41+00:00"
+    },
+    {
+      "id": "M809O6-11",
+      "representation_id": "R809O6-08",
+      "family": "constraint-duality",
+      "decisive_claim": "Deleting one old edge from each minimal bad-C7 obstruction core can preserve L4(2) while making both natural switches legal at exact threshold after replacement by new incident edges.",
+      "would_close": [
+        "obstruction-hitting exchange"
+      ],
+      "kill_test": "Compute a minimum hitting set of bad-cycle cores and exactly replay all L4 endpoint/deletion cases after each edge exchange.",
+      "status": "killed",
+      "created_at": "2026-08-03T04:18:10+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#general_one_exchange_search",
+      "updated_at": "2026-08-03T04:38:41+00:00"
+    },
+    {
+      "id": "M809O6-12",
+      "representation_id": "R809O6-06",
+      "family": "bounded-overlap",
+      "decisive_claim": "Distinct output edges and distinct colour owners are sufficient compatibility resources for natural fixed-graph recolouring switches; no additional capacity-one witness resource is consumed.",
+      "would_close": [
+        "resource ledger simplification"
+      ],
+      "kill_test": "Compare singleton and joint recolourings and identify whether legality is a static property rather than a consumable witness.",
+      "status": "proved",
+      "created_at": "2026-08-03T04:18:10+00:00",
+      "status_evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.md#joint-legality-lemma",
+      "updated_at": "2026-08-03T04:38:41+00:00"
+    }
+  ]
+}

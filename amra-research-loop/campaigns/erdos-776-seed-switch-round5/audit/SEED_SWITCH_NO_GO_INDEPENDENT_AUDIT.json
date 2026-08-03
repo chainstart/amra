@@ -1,0 +1,40 @@
+{
+  "schema": "amra.erdos776.seed-switch-round5.independent-audit.v1",
+  "statement_match": "passed after explicit narrowing of M505, M509, M511 and M512",
+  "independent_reconstruction": {
+    "status": "passed",
+    "surplus_identity": "gamma_n=C(B_n,2)-C(A_n+1,2)+2-4q",
+    "A_transfer": "A_(n+1)=C(A_n,2)-(20n-49)",
+    "B_transfer": "B_(n+1)=C(B_n,2)-(20n-52)",
+    "one_step_bound": "gamma_n<-3q+15n-39",
+    "one_step_threshold": "q>=5n-13",
+    "actual_pre_rank42_check": "q>=q_3=300>=5*42-13=197"
+  },
+  "finite_menu_quantifier": {
+    "proved": "forall fixed R forall fixed finite q-independent profile menu S exists actual odd j(R,S) defeating every profile/rank choice simultaneously",
+    "controller_corollary": "valid only for finitely many reachable q-independent lower-tail profiles/times retaining the same leading staircase",
+    "not_covered": "q-dependent menu values"
+  },
+  "mechanism_review": {
+    "M505": "strictly killed after narrowing to same-staircase one-step lower-tail choices at 4<=n<=42",
+    "M512": "strictly killed after identical narrowing; pointwise inequality makes growing cardinality irrelevant",
+    "M509_M511": "strictly killed after explicit q-independent profile and unchanged-staircase scope",
+    "M506": "survives: leading-block or bottom-transfer switch is outside the theorem",
+    "M510": "frozen: persistence and public composition absent"
+  },
+  "dependency_check": "passed within the stated route scope",
+  "promotion": {
+    "decision": "freeze",
+    "public_problem_closed": false,
+    "main_term_changed": false,
+    "main_exponent_changed": false,
+    "global_interface_closed": false
+  },
+  "machine_reproduced": {
+    "command": "ulimit -v 3145728; timeout 180s python3 audit/verify_seed_switch_no_go_independent.py",
+    "result": "pass",
+    "sha256": "e362c80379f1adcd4bdd07d65618ca1ddf0348d94b5f13dfa4d44c218cef0c2c"
+  },
+  "novelty_check": "priority_uncertain",
+  "lean_used": false
+}

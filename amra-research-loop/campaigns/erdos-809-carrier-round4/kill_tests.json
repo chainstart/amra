@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {"mechanism_id":"M809R4-01","outcome":"killed","classification":"terminal actual root-state component","evidence":"evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md and JSON M809R4-01"},
+    {"mechanism_id":"M809R4-02","outcome":"inconclusive","classification":"qualified intended-route obstruction; literal ownership-state statement not typed","evidence":"audit/CARRIER_ROUND4_INDEPENDENT_AUDIT.md: the same reserve is revisited under another root state, but the claim never defines root state as part of ownership state."},
+    {"mechanism_id":"M809R4-03","outcome":"killed","classification":"owned A diagonals create no B edge","evidence":"evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md and JSON M809R4-03"},
+    {"mechanism_id":"M809R4-04","outcome":"survived","classification":"bounded-overlap actual absorber theorem unrefuted","evidence":"Exact n=14 graph has no absorber catalogue, so it misses the mechanism's conditional graph-derived absorber hypothesis."},
+    {"mechanism_id":"M809R4-05","outcome":"inconclusive","classification":"qualified intended-route obstruction; A-to-B extension map not typed","evidence":"audit/CARRIER_ROUND4_INDEPENDENT_AUDIT.md: the intended A-owner to B-rank-gain inference fails, but the literal B-ground matroid augmentation statement is not refuted."},
+    {"mechanism_id":"M809R4-06","outcome":"killed","classification":"positive Hall deficit but zero free-carrier path cut","evidence":"evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md and JSON M809R4-06"},
+    {"mechanism_id":"M809R4-07","outcome":"killed","classification":"all actual root rotations rank-neutral","evidence":"evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md and JSON M809R4-07"},
+    {"mechanism_id":"M809R4-08","outcome":"killed","classification":"crossing circuits have no lossless rank-releasing uncrossing","evidence":"evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md and JSON M809R4-08"},
+    {"mechanism_id":"M809R4-09","outcome":"killed","classification":"pair codegree equals degree","evidence":"evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md and JSON M809R4-09"},
+    {"mechanism_id":"M809R4-10","outcome":"survived","classification":"actual-carrier-rich nibble regime unrefuted","evidence":"Exact n=14 graph has two actual carriers for four demands and therefore does not meet the mechanism antecedent; no dummy was substituted."}
+  ]
+}

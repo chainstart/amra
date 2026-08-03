@@ -1,0 +1,21 @@
+{
+  "inherited_methods": [
+    {
+      "method": "round7 transversal cardinality certificate",
+      "loss_step": "deduplicate traces and retain only their sizes and the resulting number tau=21",
+      "lost_information": "which vertex blocks generate the forced singleton edges and how the 72 triples meet those blocks",
+      "consequence": "the unique obstruction is numerically exact but supplies no structural pattern to test in another model"
+    },
+    {
+      "method": "three-deletion bit-mask intersection",
+      "loss_step": "collapse an empty intersection to candidate_count=0",
+      "lost_information": "the local certificates forcing every admissible repair edge",
+      "consequence": "protected-cycle and high-transversal failures are separated, but the latter is opaque"
+    }
+  ],
+  "required_new_information": [
+    "an exact vertex-block formula for all singleton traces",
+    "the intersection and block-signature profile of every three-edge trace",
+    "a fail-closed finite scope statement excluding arbitrary hard graphs"
+  ]
+}

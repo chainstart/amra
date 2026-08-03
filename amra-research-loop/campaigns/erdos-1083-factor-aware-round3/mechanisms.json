@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M1083R3-01",
+      "representation_id": "R1083R3-01",
+      "family": "factor_labelled_low_moments",
+      "decisive_claim": "Bounded factor-labelled moments on normalized Boolean quotient coordinates either compress the actual row set below t^(5/9-epsilon) or force a quotient profile class with a proved off-diagonal Euclidean fibre saving.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Apply the complete Phi6 middle layer. Kill if labelled subset recovery alone is treated as compression, scalar-copy rigidity, or a distance-label gain.",
+      "status": "surviving",
+      "created_at": "2026-08-03T02:55:56+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md survivor boundary",
+      "updated_at": "2026-08-03T02:57:39+00:00"
+    },
+    {
+      "id": "M1083R3-02",
+      "representation_id": "R1083R3-02",
+      "family": "factor_labelled_low_moments",
+      "decisive_claim": "Paired-positive factor valuations impose t^epsilon cross-row cancellation debt unless the quotients form a bounded-complexity scalar family whose off-diagonal distances exceed t^(3+epsilon).",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Replay the signed two-positive-multiple escape and reusable Phi6 factors. Kill if the same carrier can pay independently in different products or rows.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:55:56+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md and evidence/ROUND3_MINIMAL_FALSIFICATION.json",
+      "updated_at": "2026-08-03T02:57:38+00:00"
+    },
+    {
+      "id": "M1083R3-03",
+      "representation_id": "R1083R3-03",
+      "family": "typed_quotient_parameterization",
+      "decisive_claim": "The universal Boolean divisor family Q(y) has effective dimension o(log t) on every actual power-large row set, or its factor-coordinate expansion forces a fixed Euclidean label gain.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Use D independent formal factor occurrences. Kill if coordinatewise multilinearity is mistaken for bounded total complexity despite 2^D distinct Boolean specializations.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:55:56+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md and evidence/ROUND3_MINIMAL_FALSIFICATION.json",
+      "updated_at": "2026-08-03T02:57:39+00:00"
+    },
+    {
+      "id": "M1083R3-04",
+      "representation_id": "R1083R3-04",
+      "family": "typed_quotient_parameterization",
+      "decisive_claim": "The exact-block hypotheses force a lambda-indexed family Q(T) of degree and pole complexity t^o(1) interpolating all Q_j, with t^o(1) fibres modulo symmetries.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Use K scalar nodes with a delta coefficient sequence. Kill any conclusion based on interpolation existence when degree K-1 is allowed or when compatibility with actual quotients is unproved.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:55:57+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md and evidence/ROUND3_MINIMAL_FALSIFICATION.json",
+      "updated_at": "2026-08-03T02:57:39+00:00"
+    },
+    {
+      "id": "M1083R3-05",
+      "representation_id": "R1083R3-05",
+      "family": "typed_scalar_bridge",
+      "decisive_claim": "The exact divisor-width morphism plus two additional bounded factor moments gives a bounded-to-one map from actual quotient profiles to scalar-copy distance charts and produces more than t^(3+epsilon) labels.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Check whether every asserted output is already implied by the single width b_j and K distinct scalars. Kill if no new actual point-pair label map appears.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:55:57+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md and evidence/ROUND3_MINIMAL_FALSIFICATION.json",
+      "updated_at": "2026-08-03T02:57:39+00:00"
+    },
+    {
+      "id": "M1083R3-06",
+      "representation_id": "R1083R3-06",
+      "family": "typed_scalar_bridge",
+      "decisive_claim": "Paired positivity forces bounded divided-difference rank for the legal sample graph (lambda_j,Q_j); high rank instead yields t^epsilon independent actual distance directions.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Use a delta coefficient sample of length K and the Phi6 family. Kill automatic low rank or any conversion of coefficient rank directly into Euclidean labels.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:55:57+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md and evidence/ROUND3_MINIMAL_FALSIFICATION.json",
+      "updated_at": "2026-08-03T02:57:39+00:00"
+    },
+    {
+      "id": "M1083R3-07",
+      "representation_id": "R1083R3-07",
+      "family": "actual_distance_incidence",
+      "decisive_claim": "The reciprocal defining-cell map has collision energy small enough that its K*S incidences already create more than t^(3+epsilon) actual distance labels.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Apply the exact common-spectrum identity: all defining cells lie in V with |V|=SU. Kill if K is counted again.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:55:57+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md and evidence/ROUND3_MINIMAL_FALSIFICATION.json",
+      "updated_at": "2026-08-03T02:57:39+00:00"
+    },
+    {
+      "id": "M1083R3-08",
+      "representation_id": "R1083R3-08",
+      "family": "actual_distance_incidence",
+      "decisive_claim": "A genuine off-diagonal incidence set with row, cell and two independent source indices has exponent 11/3-o(1), and every actual squared-distance fibre has exponent at most 2/3-epsilon.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "First require an explicit coordinate map proving every tuple is one actual point pair; then test interval, grid, circle and same-line reciprocal degeneracies for large fibres.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:55:57+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md corrected actual point-pair ledger",
+      "updated_at": "2026-08-03T03:00:54+00:00"
+    },
+    {
+      "id": "M1083R3-09",
+      "representation_id": "R1083R3-09",
+      "family": "collision_fibre_geometry",
+      "decisive_claim": "A pinned graph from the K reciprocal targets to an independent point reservoir has enough genuine incidences and maximum same-label codegree small enough to exceed t^(3+epsilon) labels.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Test collinear symmetric and Cartesian-grid reservoirs. Kill any ledger multiplying reservoir factors not present in the same point-pair graph.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:55:57+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md and evidence/ROUND3_MINIMAL_FALSIFICATION.json",
+      "updated_at": "2026-08-03T02:57:39+00:00"
+    },
+    {
+      "id": "M1083R3-10",
+      "representation_id": "R1083R3-10",
+      "family": "collision_fibre_geometry",
+      "decisive_claim": "Every high-multiplicity fibre of the off-diagonal squared-distance polynomial lies in a bounded list of ruled degeneracy strata, each of which has a proved fixed distance-exponent gain.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Intervals, circles, grids, coherent theta and same-line cyclotomic charts must be assigned to a named stratum with a complete bound; kill a generic-only incidence estimate.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:55:57+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md and evidence/ROUND3_MINIMAL_FALSIFICATION.json",
+      "updated_at": "2026-08-03T02:57:39+00:00"
+    },
+    {
+      "id": "M1083R3-11",
+      "representation_id": "R1083R3-11",
+      "family": "collision_fibre_geometry",
+      "decisive_claim": "A second-moment bound on actual off-diagonal label fibres is t^(1/3-epsilon) stronger than the trivial bound over a domain of exponent 11/3, yielding more than t^(3+epsilon) labels.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Construct repeated-distance product grids and clustered reciprocal parameters. Kill if the energy estimate assumes independent native indices.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:55:57+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md and evidence/ROUND3_MINIMAL_FALSIFICATION.json",
+      "updated_at": "2026-08-03T02:57:39+00:00"
+    },
+    {
+      "id": "M1083R3-12",
+      "representation_id": "R1083R3-11",
+      "family": "stability_and_conditioning",
+      "decisive_claim": "A conserved off-diagonal incidence coarea extracts the exact reciprocal core from every near-extremal configuration with only t^o(1) loss in domain size and fibre saving.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Use distributed-defect arrays. Kill any theorem derived from rowwise goodness without conservation of the same genuine point-pair incidence set.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:55:57+00:00",
+      "status_evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md and evidence/ROUND3_MINIMAL_FALSIFICATION.json",
+      "updated_at": "2026-08-03T02:57:39+00:00"
+    }
+  ]
+}

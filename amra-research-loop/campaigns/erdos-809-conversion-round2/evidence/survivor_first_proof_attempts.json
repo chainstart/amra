@@ -1,0 +1,111 @@
+{
+  "schema": "amra.erdos809.conversion-round2.survivor-first-attempts.v1",
+  "M809C-05": {
+    "outcome": "refuted_in_exact_unweighted_cardinality_form",
+    "all_parameter_argument": "For odd n and e=floor(n^2/4)+1, e-n^2/4=3/4, so Phi=e/2+n*sqrt(3)/4 and S_m=e-C(|B|,2)-Phi is irrational. No finite unweighted set can have cardinality S_m.",
+    "finite_guard": [
+      {
+        "n": 5,
+        "e": 7,
+        "Phi": "5*sqrt(3)/4 + 7/2",
+        "S_m_form": "integer - (5*sqrt(3)/4 + 7/2)",
+        "unweighted_cardinality_possible": false
+      },
+      {
+        "n": 7,
+        "e": 13,
+        "Phi": "7*sqrt(3)/4 + 13/2",
+        "S_m_form": "integer - (7*sqrt(3)/4 + 13/2)",
+        "unweighted_cardinality_possible": false
+      },
+      {
+        "n": 9,
+        "e": 21,
+        "Phi": "9*sqrt(3)/4 + 21/2",
+        "S_m_form": "integer - (9*sqrt(3)/4 + 21/2)",
+        "unweighted_cardinality_possible": false
+      },
+      {
+        "n": 11,
+        "e": 31,
+        "Phi": "11*sqrt(3)/4 + 31/2",
+        "S_m_form": "integer - (11*sqrt(3)/4 + 31/2)",
+        "unweighted_cardinality_possible": false
+      },
+      {
+        "n": 13,
+        "e": 43,
+        "Phi": "13*sqrt(3)/4 + 43/2",
+        "S_m_form": "integer - (13*sqrt(3)/4 + 43/2)",
+        "unweighted_cardinality_possible": false
+      },
+      {
+        "n": 15,
+        "e": 57,
+        "Phi": "15*sqrt(3)/4 + 57/2",
+        "S_m_form": "integer - (15*sqrt(3)/4 + 57/2)",
+        "unweighted_cardinality_possible": false
+      },
+      {
+        "n": 17,
+        "e": 73,
+        "Phi": "17*sqrt(3)/4 + 73/2",
+        "S_m_form": "integer - (17*sqrt(3)/4 + 73/2)",
+        "unweighted_cardinality_possible": false
+      },
+      {
+        "n": 19,
+        "e": 91,
+        "Phi": "19*sqrt(3)/4 + 91/2",
+        "S_m_form": "integer - (19*sqrt(3)/4 + 91/2)",
+        "unweighted_cardinality_possible": false
+      }
+    ],
+    "n14_pair": {
+      "Phi": 32,
+      "S_m": 15,
+      "role": "carrier-provenance warning only"
+    },
+    "repair": "weighted nonnegative atoms with total mass S_m, or an integer floor/ceiling ledger with an exact error term"
+  },
+  "M809C-08": {
+    "outcome": "conditional_survivor",
+    "proved_channel": "The I_mix unique high internal anchors are injective by colour and pairwise C7-compatible; I_mix>=ceil(Phi) closes directly.",
+    "exact_remaining_identity": "R_A=e(G[A_<q*])+I_mix-N_int",
+    "ledger_counterprofile": {
+      "Phi": 32,
+      "S_m": 15,
+      "e_internal_low": 8,
+      "I_mix": 8,
+      "N_int": 0,
+      "R_A": 16
+    },
+    "scope": "The profile proves only that the identity and thresholds do not imply the direct exit.  It is not asserted graph-realizable.",
+    "missing_lemma": "A cross-channel compatibility theorem combining internal-low edges and mixed-high anchors, or a direct graph proof R_A<=S_m."
+  },
+  "M809C-11": {
+    "outcome": "proved_conditional_bookkeeping",
+    "theorem": "For an explicitly given typed carrier universe and legal neighbourhoods, all demands can be paid iff every demand subset has at least as many distinct legal carriers; maximum unpaid demand equals max_T(|T|-|N(T)|).",
+    "tight_instance": {
+      "matching_rank": 2,
+      "hall_deficiency": 1,
+      "deficient_sets": [
+        [
+          "c1",
+          "c2",
+          "c3"
+        ]
+      ],
+      "A_owner_count_is_irrelevant_without_arcs": 3
+    },
+    "after_one_owned_slack_arc": {
+      "matching_rank": 3,
+      "hall_deficiency": 0,
+      "deficient_sets": []
+    },
+    "boundary": "Hall proves allocation after carriers and arcs exist; it creates neither."
+  },
+  "global_result": "M809C-05 requires repair to weighted atoms; M809C-08 retains the only graph-specific direct exit; M809C-11 is an exact conditional host whose missing inputs are precisely the conversion/slack maps.",
+  "public_problem_changed": false,
+  "main_term_changed": false
+}

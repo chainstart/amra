@@ -1,0 +1,43 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "root first audit plus erdos776_lane second independent representative/minor/subsystem/projection review",
+    "evidence": [
+      "audit/ACTUAL_UNIT_REALIZATION_INDEPENDENT_AUDIT.md",
+      "audit/ACTUAL_UNIT_REALIZATION_INDEPENDENT_AUDIT.json",
+      "audit/verify_actual_unit_realization_independent.py",
+      "audit/ACTUAL_UNIT_REALIZATION_SECOND_REVIEW.md",
+      "audit/ACTUAL_UNIT_REALIZATION_SECOND_REVIEW.json",
+      "audit/verify_actual_unit_realization_second_review.py"
+    ]
+  },
+  "statement_match": "passed for aggregate associate units after normalization quotient; complete raw multi-leaf occurrence realization and exponent improvement excluded",
+  "dependency_check": "passed: compatible representatives give zero cocycle, independent canonical representatives may give fixed affine cocycles without changing homogeneous rank/kernel",
+  "novelty_check": "local realization and raw-occurrence firewall only; public exponent unchanged",
+  "aggregate_matrix": {
+    "status": "passed",
+    "all_m_unit_minor": true,
+    "rank": "2m+2",
+    "kernel": "primitive common gauge"
+  },
+  "source_identity_subsystem": {
+    "status": "passed",
+    "selected_rows": "F0, all Fj, all quotient identity rows",
+    "rank": "2m+1",
+    "kernel": "aggregate gauge plus common spectrum shift"
+  },
+  "raw_occurrence_projection": {
+    "status": "passed for every one-leaf nonempty R/Q split",
+    "raw_kernel": "k-1",
+    "internal_normalization_kernel": "k-2",
+    "aggregate_gauge": 1,
+    "multi_leaf_completeness": false
+  },
+  "kill_gate": {
+    "ratio": "7/9",
+    "minimum": "4/5",
+    "passed": false
+  },
+  "decision_recommendation": "freeze_without_promotion",
+  "public_exponent_changed": false
+}

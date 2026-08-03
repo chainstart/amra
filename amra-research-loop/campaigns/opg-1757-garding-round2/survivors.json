@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["G201"],
+  "selection_rationale": "G201 remains the sole unresolved global existential fixed-edge quantifier. Independently audited local certificates now cover both full W4 stabilizer orbits, the K3,3 stabilizer slice, the prism vertical slice, the complete K5-e high-triangle 2,4,2 slice, and only the z=1 component of a coarsened prism triangle-edge slice. None supplies a minor-adaptive edge for every graphic matroid or controls independent edge activities. G203 is subsumed by G204; barrier, SOS, minor-tree and recursive-fibration routes remain frozen rather than being counted cosmetically."
+}

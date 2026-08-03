@@ -1,0 +1,7 @@
+{
+  "mechanism_ids": [
+    "M809C-08",
+    "M809C-11"
+  ],
+  "selection_rationale": "M809C-05 is now killed in its exact unweighted-cardinality form because S_m is irrational for odd n at e=floor(n^2/4)+1; weighted atomization would be a new mechanism. M809C-08 survives conditionally because its mixed-high-anchor channel gives an exact direct exit when I_mix>=ceil(Phi), while the remaining cross-channel graph lemma is neither proved nor refuted by the scalar counterprofile. M809C-11 survives as the exact Hall/min-max host only after typed carriers and legal arcs are constructed. The other nine mechanisms retain their earlier exact kills. No remaining survivor proves the public theorem."
+}

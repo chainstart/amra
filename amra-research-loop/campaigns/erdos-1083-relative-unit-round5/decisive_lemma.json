@@ -1,0 +1,23 @@
+{
+  "statement": "Fixed-X two-stage unit-rank lemma for the exact three-row paired-positive block. With common X_a={a,a+1}, normalized factor/quotient data, quotient identities and scalar source copies fixed, the seven-unit integer system has rank five and two primitive directions: gauge v_g=(1,0,-1,-1,-1,0,0), which annihilates every actual product unit, and observable common-spectrum translation v_s=(0,0,1,0,0,1,1), which translates all complements and changes absolute distance-label sets but gives 127 labels at both tested shifts. Fixing the absolute 12-label row spectrum removes v_s, raises rank to six, and leaves exactly the primitive gauge line. The projective condition u(G)=a selects one unique lossless representative.",
+  "status": "proved",
+  "closes": [
+    "separates raw fixed-X unit entropy into pure gauge and observable spectrum translation in the exact block",
+    "refutes raw-unit subpower, Fourier, valuation, energy and entropy claims that do not quotient gauge",
+    "proves a unique lossless projective gauge slice after the absolute row spectrum is fixed",
+    "shows fixed common X alone does not imply observable unit rank zero or a distance-count gain"
+  ],
+  "evidence": [
+    "evidence/FIXED_X_TWO_STAGE_UNIT_RANK_LEMMA.md",
+    "evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md",
+    "evidence/fixed_X_unit_rank_falsification.py",
+    "evidence/fixed_X_unit_rank_falsification.json"
+  ],
+  "dependency_gaps": [
+    "construct the complete integer unit matrix for every actual power-large paired-positive common-X block",
+    "prove every raw kernel direction is geometrically gauge and identify every observable spectrum direction",
+    "bound the range and torsion of observable units by t^o(1), or prove a uniform distance-count gain as they vary",
+    "propagate any unit conclusion to an actual all-target pair domain with t^(28/9-o(1)) occurrence mass and fibre exponent below 1/9-epsilon",
+    "transfer through outer near-extremal stability with only subpower loss"
+  ]
+}

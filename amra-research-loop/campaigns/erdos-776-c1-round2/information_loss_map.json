@@ -1,0 +1,46 @@
+{
+  "inherited_methods": [
+    {
+      "method": "G++ superadditivity gate from commit ab4b524",
+      "loss_step": "replace the exact increment U_3(p+e)-U_3(p) by the p-free lower bound U_3(e), then reduce positivity to e>=binom(a-1,3)",
+      "lost_information": "the coupled degree-two canonical digits of alpha and beta, their carries, and the dyadic relation tying those digits to k,r,q",
+      "consequence": "the resulting sufficient gate is scale-uniform if true, but the inherited work supplies only moving-boundary evidence and not a proof that every actual (++ -> ++) cell satisfies the cubic increment bound"
+    },
+    {
+      "method": "finite moving-boundary falsification of G++",
+      "loss_step": "sample 304 compatible r-values near the first p,v>=0 boundary for bounded k and selected dyadic scales",
+      "lost_information": "unbounded k, all interior r-values, and possible new canonical carry patterns between the target and gamma4 walls",
+      "consequence": "the minimum observed margin 80701 cannot be promoted to an all-parameter inequality"
+    },
+    {
+      "method": "c=1 two-row recovery normal form from commit ab4b524",
+      "loss_step": "invoke gamma6 only after assuming P=U_3(p)-tau+1 and V=U_3(v)-tau are nonnegative",
+      "lost_information": "the exact borrow normalization and leading-block correction when gamma5<0 reaches P<0 or V<0",
+      "consequence": "finite absence of a borrowed gamma5-negative row does not prove that the rank-six formula covers every actual (-- -> ++) state"
+    },
+    {
+      "method": "bounded negative-fibre classification",
+      "loss_step": "infer a candidate small (k,r) box from gamma5-negative states at j<=30",
+      "lost_information": "scale dependence of the negative chamber as j grows",
+      "consequence": "the box k<=17,r<=46 fails by j=31 and expands at least to k=43,r=133 by j=40, so a proof cannot reduce to those finitely many fibres"
+    },
+    {
+      "method": "borrow-sign transition quotient",
+      "loss_step": "retain only (++), (--), and target-sign labels after each Macaulay raise",
+      "lost_information": "top indices and lower canonical digits controlling the size of U_d increments",
+      "consequence": "states with identical sign transitions can have opposite gamma5 signs; sign chambers alone cannot prove recovery"
+    },
+    {
+      "method": "relaxed c>=2 uniform theorem plus isolated c=1 analysis",
+      "loss_step": "prove positivity/recovery inside normalized recurrence coordinates without a single exhaustive actual-state interface",
+      "lost_information": "coverage of every legal c=1 chamber and the final passage from local surplus recovery to the public n-3-rank antichain threshold",
+      "consequence": "even complete local inequalities would remain non-promotional until actual chamber exhaustion and the global interface are certified"
+    }
+  ],
+  "required_new_information": [
+    "a scale-uniform relation between the degree-two canonical digits of alpha and beta strong enough to prove or refute e>=binom(a-1,3)",
+    "a borrow-complete rank-six normalization for every gamma5-negative (-- -> ++) state, or a theorem that gamma5 negativity forces P,V>=0",
+    "an unbounded chamber partition whose cases are indexed by canonical order type rather than a fixed numerical (k,r) box",
+    "an explicit actual-state coverage argument connecting c=1 and inherited c>=2 recovery certificates to the public antichain construction"
+  ]
+}

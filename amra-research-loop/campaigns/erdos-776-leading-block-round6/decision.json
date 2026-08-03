@@ -1,0 +1,9 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "The affine model has an independently audited necessary combined slope budget alpha+delta>=3, but no legal Macaulay switch at or above that budget, equality control, suffix persistence or public composition is constructed.",
+  "evidence": [
+    "evidence/LEADING_BOTTOM_SLOPE_BUDGET.md",
+    "audit/SLOPE_BUDGET_INDEPENDENT_AUDIT.md"
+  ]
+}

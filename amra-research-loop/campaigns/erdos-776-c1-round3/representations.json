@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R301-based-increment-word",
+      "name": "Base-retaining Macaulay increment word",
+      "family": "coupled_increment_geometry",
+      "new_information": "Represents the exact G++ quantity as U_3(p+e)-U_3(p)-U_2(alpha)-1 and retains the base word of p together with every carry crossed by the increment e.",
+      "first_test": "Replay the audited cubic-gap counterexample and compare the exact cross-term against p-free bounds; reject any representation that again collapses to U_3(e)."
+    },
+    {
+      "id": "R302-cap-complement-pair",
+      "name": "Coupled cap-complement pair",
+      "family": "coupled_increment_geometry",
+      "new_information": "Stores p and p+e by their distances to the same next cubic cap, so large base-dependent gains and carry discontinuities are explicit.",
+      "first_test": "At target-wall endpoints, test monotonicity of the two complement coordinates under one compatible r-step and kill it at the first reversed order."
+    },
+    {
+      "id": "R303-signed-full-orbit",
+      "name": "Signed full-word orbit",
+      "family": "borrow_complete_dynamics",
+      "new_information": "Keeps the complete Macaulay word on both sides of zero at every row and defines the next actual diagonal surplus from the original orbit rather than a partial nonnegative-tail chart.",
+      "first_test": "Construct nearest actual rows around P=0 and V=0 and verify that the signed normalization agrees with direct full-orbit evaluation."
+    },
+    {
+      "id": "R304-deficit-recovery-vector",
+      "name": "Two-row deficit recovery vector",
+      "family": "borrow_complete_dynamics",
+      "new_information": "Tracks (-gamma5)_+, distances of P and V from zero, and the exact gamma6 gain, separating applicability of rank six from its positivity.",
+      "first_test": "Evaluate componentwise monotonicity on every known gamma5-negative fibre and search for a row where deficit grows or a borrow wall is reached first."
+    },
+    {
+      "id": "R305-residue-exact-phase",
+      "name": "Residue-exact dyadic phase space",
+      "family": "actual_lattice_asymptotics",
+      "new_information": "Eliminates q with the dyadic equation while retaining divisibility classes and scales k/sqrt(h), r/kq, so asymptotic limits cannot use nonactual real points.",
+      "first_test": "For each proposed limiting bad phase, solve the exact congruence and produce an infinite actual subsequence or discard the phase."
+    },
+    {
+      "id": "R306-moving-wall-blowup",
+      "name": "Moving-wall blow-up coordinates",
+      "family": "actual_lattice_asymptotics",
+      "new_information": "Centers at gamma4=0, gamma5=0, P=0 and V=0 walls using the compatible-r lattice step, retaining relative wall order as h and k co-grow.",
+      "first_test": "Compute exact wall separations in fixed-k, k~h^(1/4), k~sqrt(h), and boundary regimes; kill any claimed uniform ordering on one actual reversed pair."
+    },
+    {
+      "id": "R307-order-cell-polynomial",
+      "name": "Canonical order-cell polynomial system",
+      "family": "semialgebraic_certificates",
+      "new_information": "On each realized ordering of canonical indices, converts gamma5, P, V and gamma6 into exact binomial polynomials with all chamber inequalities attached.",
+      "first_test": "Ask an exact symbolic solver for a rational or integer feasible point with gamma5<0 and either a borrow or gamma6<0 before attempting positivity certificates."
+    },
+    {
+      "id": "R308-finite-difference-certificate",
+      "name": "Discrete finite-difference certificate",
+      "family": "semialgebraic_certificates",
+      "new_information": "Represents chamber polynomials in a binomial basis based at their wall minima, where nonnegative forward differences can certify an unbounded integer cone.",
+      "first_test": "Expand the known K=6,r=10 chamber and the G++ witness cell at their minimal legal parameters; reject if any required coefficient is negative without a compensating domain inequality."
+    },
+    {
+      "id": "R309-coverage-transition-tree",
+      "name": "Actual-orbit coverage transition tree",
+      "family": "interface_composition",
+      "new_information": "Starts from each actual dyadic low tail and branches on every literal canonical wall until it reaches a proved chamber or a named unresolved leaf; no relaxed state is admitted without an equality map.",
+      "first_test": "Replay complete strips j<=10 and demand that every enumerated row follows exactly one branch and preserves the direct surplus at each edge."
+    },
+    {
+      "id": "R310-suffix-seed-certificate",
+      "name": "Seed-to-suffix proof object",
+      "family": "interface_composition",
+      "new_information": "Pairs an actual nonnegative low-tail witness with the exact localization into Gamma_r(M) and the inherited persistence hypotheses through M-42.",
+      "first_test": "Instantiate the certificate for the smallest states recovering at ranks 4,5,6 and reject if any index shift or legality inequality fails."
+    }
+  ]
+}

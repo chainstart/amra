@@ -1,0 +1,256 @@
+{
+  "mechanisms": [
+    {
+      "id": "M1083S8-01",
+      "representation_id": "R1083S8-01",
+      "family": "affine_profile_interface",
+      "decisive_claim": "For fixed total unit T, the complete leaf profile Psi(j)=(phi_j,alpha_j) has exactly the same fibres and range cardinality as phi_j.",
+      "would_close": [
+        "exact absolute-profile counting interface"
+      ],
+      "kill_test": "Prove alpha_j=T-phi_j and construct the inverse graph map.",
+      "status": "proved",
+      "created_at": "2026-08-03T06:10:06+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#exact-one-coordinate-counting-interface",
+      "updated_at": "2026-08-03T06:14:59+00:00"
+    },
+    {
+      "id": "M1083S8-02",
+      "representation_id": "R1083S8-02",
+      "family": "affine_profile_interface",
+      "decisive_claim": "The four product-unit observables provide two or more independent leaf-varying profile coordinates after fixing the common total spectrum.",
+      "would_close": [
+        "higher-dimensional conditioning entropy"
+      ],
+      "kill_test": "Compute the affine graph dimension and kill if alpha_j is determined by phi_j.",
+      "status": "killed",
+      "created_at": "2026-08-03T06:10:06+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#exact-one-coordinate-counting-interface",
+      "updated_at": "2026-08-03T06:14:59+00:00"
+    },
+    {
+      "id": "M1083S8-03",
+      "representation_id": "R1083S8-03",
+      "family": "normalization_sections",
+      "decisive_claim": "Least-support normalization in an ordered torsion-free Gamma is multiplicative and yields phi_j=v(P_{lambda_j X}).",
+      "would_close": [
+        "canonical exact unit section"
+      ],
+      "kill_test": "Prove v(PQ)=v(P)+v(Q), including the no-cancellation leading term.",
+      "status": "proved",
+      "created_at": "2026-08-03T06:10:06+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#scope-and-canonical-observable",
+      "updated_at": "2026-08-03T06:14:59+00:00"
+    },
+    {
+      "id": "M1083S8-04",
+      "representation_id": "R1083S8-04",
+      "family": "normalization_sections",
+      "decisive_claim": "The cardinality of the raw absolute-unit profile range is invariant under independent choices of normalized representatives for distinct associate classes.",
+      "would_close": [
+        "section-independent raw profile entropy"
+      ],
+      "kill_test": "Compare a section containing each P_{lambda_j X} with least-support normalization.",
+      "status": "killed",
+      "created_at": "2026-08-03T06:10:06+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#normalization-firewall",
+      "updated_at": "2026-08-03T06:14:59+00:00"
+    },
+    {
+      "id": "M1083S8-05",
+      "representation_id": "R1083S8-05",
+      "family": "scalar_copy_geometry",
+      "decisive_claim": "For the natural minimum-support profile on a same-sign class, phi_j equals lambda_j times the relevant fixed endpoint; it is injective exactly when that endpoint is nonzero.",
+      "would_close": [
+        "power-large profile lower bound"
+      ],
+      "kill_test": "Use distinct lambda_j and torsion-freeness to test equality of two phi values.",
+      "status": "proved",
+      "created_at": "2026-08-03T06:10:06+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#exact-zero-anchorinjective-dichotomy",
+      "updated_at": "2026-08-03T06:14:59+00:00"
+    },
+    {
+      "id": "M1083S8-06",
+      "representation_id": "R1083S8-06",
+      "family": "scalar_copy_geometry",
+      "decisive_claim": "For the fixed natural order, every same-sign class obeys an exact dichotomy: relevant endpoint zero gives profile range one, while relevant endpoint nonzero gives an injective profile.",
+      "would_close": [
+        "remove zero-extremum degeneracy"
+      ],
+      "kill_test": "Keep the natural order fixed and split on whether the sign-relevant endpoint is zero.",
+      "status": "proved",
+      "created_at": "2026-08-03T06:10:06+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#exact-zero-anchorinjective-dichotomy",
+      "updated_at": "2026-08-03T06:14:59+00:00"
+    },
+    {
+      "id": "M1083S8-07",
+      "representation_id": "R1083S8-07",
+      "family": "conditioning_entropy",
+      "decisive_claim": "The legal power-large block has a complete absolute-profile fibre of size t^(5/9-o(1)) under every fixed normalization section.",
+      "would_close": [
+        "entropy-free conditioning"
+      ],
+      "kill_test": "Test the ordered normalization, where injectivity would leave fibres of size one.",
+      "status": "killed",
+      "created_at": "2026-08-03T06:10:06+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#exact-zero-anchorinjective-dichotomy",
+      "updated_at": "2026-08-03T06:14:59+00:00"
+    },
+    {
+      "id": "M1083S8-08",
+      "representation_id": "R1083S8-08",
+      "family": "conditioning_entropy",
+      "decisive_claim": "The complete absolute-profile range is uniformly t^o(1) on every legal power-large same-sign block.",
+      "would_close": [
+        "uniform subpower range"
+      ],
+      "kill_test": "Apply the scalar valuation orbit to J_sigma of size at least K/2.",
+      "status": "killed",
+      "created_at": "2026-08-03T06:10:06+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#exact-zero-anchorinjective-dichotomy",
+      "updated_at": "2026-08-03T06:14:59+00:00"
+    },
+    {
+      "id": "M1083S8-09",
+      "representation_id": "R1083S8-07",
+      "family": "conditioning_entropy",
+      "decisive_claim": "On the actual same-sign power-large block, literal minimum-support profile conditioning has exact all-or-nothing cost: range one in the zero-anchor branch and range |J_sigma|>=K/2=t^(5/9-o(1)) in the nonzero-anchor branch; after subtracting the known scalar-source unit the residual profile is identically zero.",
+      "would_close": [
+        "exact power-large conditioning no-go"
+      ],
+      "kill_test": "Combine the exact fibre interface with scalar-copy injectivity on the actual selected family.",
+      "status": "proved",
+      "created_at": "2026-08-03T06:10:06+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#exact-conclusion-and-remaining-gaps",
+      "updated_at": "2026-08-03T06:14:59+00:00"
+    },
+    {
+      "id": "M1083S8-10",
+      "representation_id": "R1083S8-09",
+      "family": "invariant_quotients",
+      "decisive_claim": "Passing to normalized associate shapes preserves the absolute monomial profile needed by the round-seven primitive-kernel argument.",
+      "would_close": [
+        "free invariant replacement for absolute rows"
+      ],
+      "kill_test": "Apply arbitrary section changes and test whether the quotient recovers phi_j.",
+      "status": "killed",
+      "created_at": "2026-08-03T06:10:06+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#normalization-firewall",
+      "updated_at": "2026-08-03T06:14:59+00:00"
+    },
+    {
+      "id": "M1083S8-11",
+      "representation_id": "R1083S8-09",
+      "family": "invariant_quotients",
+      "decisive_claim": "After quotienting monomial sections, normalized source/complement shapes and their incidence remain legitimate section-invariant data but do not fix absolute right sides.",
+      "would_close": [
+        "scope-correct invariant interface"
+      ],
+      "kill_test": "Verify section changes preserve shapes and common-spectrum identity but translate raw units.",
+      "status": "proved",
+      "created_at": "2026-08-03T06:10:06+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#normalization-firewall",
+      "updated_at": "2026-08-03T06:15:00+00:00"
+    },
+    {
+      "id": "M1083S8-12",
+      "representation_id": "R1083S8-10",
+      "family": "invariant_quotients",
+      "decisive_claim": "The local power-large profile-range obstruction alone improves the dimension-three distance exponent above 3/5.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Require all-target occurrence, collision-fibre and outer-stability inequalities on the same domain.",
+      "status": "killed",
+      "created_at": "2026-08-03T06:10:07+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#exact-conclusion-and-remaining-gaps",
+      "updated_at": "2026-08-03T06:15:00+00:00"
+    },
+    {
+      "id": "M1083S8-13",
+      "representation_id": "R1083S8-07",
+      "family": "conditioning_entropy",
+      "decisive_claim": "The literal complete-profile range is always bounded by Omega(B), hence logarithmic in t.",
+      "would_close": [
+        "logarithmic profile conditioning"
+      ],
+      "kill_test": "Compare the source endpoint orbit, which is indexed by distinct lambda_j rather than factor-count coordinates.",
+      "status": "killed",
+      "created_at": "2026-08-03T06:14:40+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#exact-zero-anchorinjective-dichotomy",
+      "updated_at": "2026-08-03T06:15:00+00:00"
+    },
+    {
+      "id": "M1083S8-14",
+      "representation_id": "R1083S8-01",
+      "family": "affine_profile_interface",
+      "decisive_claim": "The positive augmentations S and U determine the minimum-support units phi_j and alpha_j.",
+      "would_close": [
+        "augmentation-determined absolute profile"
+      ],
+      "kill_test": "Translate a positive mask without changing augmentation and observe its minimum support changes.",
+      "status": "killed",
+      "created_at": "2026-08-03T06:14:40+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#scope-and-canonical-observable",
+      "updated_at": "2026-08-03T06:15:00+00:00"
+    },
+    {
+      "id": "M1083S8-15",
+      "representation_id": "R1083S8-04",
+      "family": "normalization_sections",
+      "decisive_claim": "One common aggregate gauge can make all distinct natural source units phi_j equal simultaneously.",
+      "would_close": [
+        "gauge alignment of absolute profiles"
+      ],
+      "kill_test": "Apply a common translation and test differences phi_j-phi_k.",
+      "status": "killed",
+      "created_at": "2026-08-03T06:14:40+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#normalization-firewall",
+      "updated_at": "2026-08-03T06:15:01+00:00"
+    },
+    {
+      "id": "M1083S8-16",
+      "representation_id": "R1083S8-05",
+      "family": "scalar_copy_geometry",
+      "decisive_claim": "Restricting to one scalar sign incurs a power loss t^epsilon rather than a constant factor.",
+      "would_close": [
+        "same-sign exponent barrier"
+      ],
+      "kill_test": "Use |J_sigma|>=ceil(K/2).",
+      "status": "killed",
+      "created_at": "2026-08-03T06:14:40+00:00",
+      "status_evidence": "POWER_LARGE_SIMULTANEOUS_SWITCH_CORE.md gives |J_sigma|>=ceil(K/2)",
+      "updated_at": "2026-08-03T06:15:01+00:00"
+    },
+    {
+      "id": "M1083S8-17",
+      "representation_id": "R1083S8-10",
+      "family": "invariant_quotients",
+      "decisive_claim": "Power-large variation of literal minimum-support profiles automatically gives the same number of distinct target-target squared distances.",
+      "would_close": [
+        "direct profile-to-distance injection"
+      ],
+      "kill_test": "Use the round-five fixed-X firewall and require a proved injective distance map.",
+      "status": "killed",
+      "created_at": "2026-08-03T06:14:40+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#exact-conclusion-and-remaining-gaps; round5 fixed-X firewall",
+      "updated_at": "2026-08-03T06:15:01+00:00"
+    },
+    {
+      "id": "M1083S8-18",
+      "representation_id": "R1083S8-06",
+      "family": "scalar_copy_geometry",
+      "decisive_claim": "For positive lambda_j the natural minimum-support profile is always injective whenever |X|>=2.",
+      "would_close": [
+        "unconditional positive-sign injectivity"
+      ],
+      "kill_test": "Take min X=0 and distinct positive scalars.",
+      "status": "killed",
+      "created_at": "2026-08-03T06:14:40+00:00",
+      "status_evidence": "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md; evidence/verify_absolute_profile_range.py#exact-zero-anchorinjective-dichotomy",
+      "updated_at": "2026-08-03T06:15:01+00:00"
+    }
+  ]
+}

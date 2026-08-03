@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent audit confirms only exact rounding and conditional carrier-creation reductions; the actual exchange certificate, graph-realizable carriers, and global 1/8 interface remain open, so no frozen success condition is met.",
+  "evidence": [
+    "audit/EXACT_REDUCTION_INDEPENDENT_AUDIT.md"
+  ]
+}

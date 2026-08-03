@@ -1,0 +1,20 @@
+{
+  "exact_statement": "For k >= 3, let F_k(n) be the minimum number of colours needed to colour an n-vertex graph with floor(n^2/4)+1 edges so that every C_(2k+1) is rainbow. For k=3, prove or refute that F_3(n) is asymptotic to n^2/8.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos809/README.md",
+  "success_conditions": [
+    "global_interface_closed"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "The public statement, source, sole success condition, and all non-success conditions are copied exactly from erdos-809-conversion-round3; that campaign remains frozen and read-only.",
+    "Round four inherits only the independently audited exact integer-rounding reduction, typed Hall boundary, and negative carrier evidence. It does not inherit any actual carrier-creation theorem.",
+    "A carrier is actual only when it is a concrete missing B-edge in the original graph and a legal arc is derived from that graph's canonical reserve or an explicitly proved graph operation. Universal dummy carriers are comparison objects only.",
+    "No conditional Hall reduction, finite absence of counterexamples, or the previously conjectured coefficient 1/8 counts as promotion."
+  ]
+}

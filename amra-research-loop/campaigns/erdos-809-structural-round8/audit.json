@@ -1,0 +1,22 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "root, author-swapped exhaustive canonical-cycle enumeration",
+    "evidence": [
+      "audit/TRACE_BLOCKS_INDEPENDENT_AUDIT.md",
+      "audit/verify_trace_blocks_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "independent_counts": {
+    "canonical_seven_cycles": 68508,
+    "traces": 93,
+    "singletons": 21,
+    "triples": 72,
+    "triple_forced_intersections": {"2": 12, "3": 60},
+    "transversal_number": 21
+  },
+  "scope": "locked 16-vertex natural-switch assignment only; no arbitrary-hard-graph lift or public constant change"
+}

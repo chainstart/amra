@@ -1,0 +1,21 @@
+{
+  "statement": "Fixed-graph two-output theorem and one-exchange firewall. For recolourings of disjoint repeated-colour classes on one fixed graph, rainbow legality of the base state and each singleton switch implies rainbow legality of their joint state. If two different locked demands obtain legal arcs to two distinct outputs outside the old K(4,2) neighbourhood, the explicit matching using those outputs and the two old carriers has rank four and deficiency zero. However, in the complete displayed natural-switch model on the locked n=14 graph, adding w,u at n=16 and exact threshold by sixteen new incident edges and one admissible old-edge deletion yields no two-output witness among all 11628 assignments.",
+  "status": "proved",
+  "closes": [
+    "removes joint rainbow legality as an additional resource cost for disjoint fixed-graph recolourings",
+    "proves exact allocation closure after two distinct legal outputs have been constructed",
+    "rules out the complete natural-switch one-old-edge-exchange model on the locked graph"
+  ],
+  "evidence": [
+    "evidence/TWO_OUTPUT_EXCHANGE_RESULT.md",
+    "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json",
+    "evidence/two_vertex_output_expansion_search.py",
+    "evidence/general_one_exchange_search.py"
+  ],
+  "dependency_gaps": [
+    "No two-output legal witness was constructed.",
+    "At least two old-edge deletions with seventeen replacements, a non-natural switch, and larger extensions remain unsearched.",
+    "The bounded obstruction-core, scalable overlap, and all-minimal-cut composition mechanisms remain unproved.",
+    "No theorem supplies legal output arcs in every public hard branch, so the frozen 1/8 statement is unchanged."
+  ]
+}

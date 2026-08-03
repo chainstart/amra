@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent audit validates the locked-circuit external-carrier theorem but downgrades two claimed kills for statement/type mismatch, leaving only six strict kills and no proved absorber or carrier-rich nibble theorem; the 80 percent gate and global 1/8 interface are not met.",
+  "evidence": [
+    "audit/CARRIER_ROUND4_INDEPENDENT_AUDIT.md"
+  ]
+}

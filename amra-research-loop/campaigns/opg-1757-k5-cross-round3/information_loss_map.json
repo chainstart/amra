@@ -1,0 +1,34 @@
+{
+  "inherited_methods": [
+    {
+      "method": "K5-e high-triangle upper-root component theorem",
+      "loss_step": "transfer the 2,4,2 marked-edge stabilizer coordinates to the cross-edge orbit without recomputing the stabilizer",
+      "lost_information": "the cross edge has a different stabilizer and five distinct unmarked-edge orbits",
+      "consequence": "the previous three-variable P, xi, walls and root ordering do not apply"
+    },
+    {
+      "method": "positive-orthant forest Rayleigh checks",
+      "loss_step": "test P and xi only at nonnegative activities",
+      "lost_information": "the distinguished Garding component contains negative coordinates and is defined by connectivity inside P>0",
+      "consequence": "orthant positivity cannot prove domination or classify a negative point as a true counterexample"
+    },
+    {
+      "method": "resultant-only wall detection",
+      "loss_step": "infer a sign theorem from the projection of P=xi=0",
+      "lost_information": "root sheet, leading-coefficient walls, double-root births and component membership",
+      "consequence": "a resultant factor can describe competing components rather than the anchor component"
+    },
+    {
+      "method": "stabilizer orbit equalization",
+      "loss_step": "identify all activities in each marked-edge stabilizer orbit",
+      "lost_information": "the independent transverse edge directions of the full deletion polynomial",
+      "consequence": "even a complete five-variable cross-orbit theorem remains local and cannot close global G201 or OPG-1757"
+    }
+  ],
+  "required_new_information": [
+    "exact cross-edge stabilizer and complete unmarked-edge orbit ledger",
+    "independently enumerated forest deletion polynomial P and endpoint-connected polynomial xi",
+    "a natural low-dimensional slice retaining a genuine distinguished-component path or a complete component wall certificate",
+    "strict separation between stabilizer-slice conclusions and the eight-independent-variable/global statement"
+  ]
+}

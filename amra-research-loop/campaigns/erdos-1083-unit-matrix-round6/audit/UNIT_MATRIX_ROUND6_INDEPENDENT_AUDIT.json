@@ -1,0 +1,54 @@
+{
+  "schema": "amra.erdos1083.unit-matrix-round6.independent-audit.v1",
+  "formal_reconstruction": {
+    "status": "passed",
+    "full_rank": "2m+2",
+    "full_kernel": "Z*(1,0,-1,-1_i,0_i)",
+    "full_smith": "all 2m+2 nonzero factors equal 1",
+    "source_identity_rank": "2m+1",
+    "source_identity_kernel": "Z*gauge direct-sum Z*(0,0,1,0_i,1_i)",
+    "source_identity_smith": "all 2m+1 nonzero factors equal 1",
+    "proof_basis": "two symbolic unit maximal minors plus direct integer substitution"
+  },
+  "independent_guard": {
+    "checked_m": [1, 12],
+    "memory_limit_kib": 3145728,
+    "timeout_seconds": 180,
+    "lean_used": false,
+    "checker_sha256": "31b54f47c3129c6697aa503949061e3fb51052299cd946e964c9af251f90a50f",
+    "result_sha256": "6fa0e18e04172fbd27fd1d01975b5d0f885d17c60915a398a782ad6011baead5"
+  },
+  "kill_audit": {
+    "strict_kills_passed": [
+      "M1083U6-02",
+      "M1083U6-03",
+      "M1083U6-04",
+      "M1083U6-05",
+      "M1083U6-07",
+      "M1083U6-08",
+      "M1083U6-09"
+    ],
+    "scope_note": "M07 is killed as an ambient-independent inference by an explicit unrecorded-unit zero-column countermodel. M08 is killed only as the written automatic label-count implication; 127/127 is not an asymptotic theorem."
+  },
+  "survivor_audit": {
+    "proved_local_lemma": "M1083U6-01",
+    "unproved_surviving_routes_only": ["M1083U6-06", "M1083U6-10"],
+    "status": "passed",
+    "reason": "M06 and M10 have missing theorems but no counterexamples; neither is proved or exponent-changing."
+  },
+  "actual_block_firewall": {
+    "formal_rows_realized_conditionally": true,
+    "complete_actual_matrix_proved": false,
+    "power_large_absolute_spectrum_fibre_proved": false,
+    "ambient_unit_lattice_controlled": false,
+    "all_target_28_9_occurrence_proved": false,
+    "fibre_below_1_9_epsilon_proved": false,
+    "outer_stability_proved": false
+  },
+  "promotion": {
+    "decision": "reject",
+    "main_exponent_changed": false,
+    "three_fifths_changed": false,
+    "reason": "Only a formal local integer-matrix theorem is proved; the sole closure condition main_exponent_improved is unmet."
+  }
+}

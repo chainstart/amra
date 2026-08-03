@@ -1,0 +1,60 @@
+{
+  "schema_version": "amra-research-loop.v1",
+  "campaign_id": "opg-1757-garding-round2",
+  "problem_id": "OPG-1757",
+  "title": "Negative correlation via moving Gårding certificates",
+  "phase": "frozen",
+  "created_at": "2026-08-03T01:32:35+00:00",
+  "updated_at": "2026-08-03T05:35:39+00:00",
+  "gates": {
+    "min_representation_families": 4,
+    "min_representations": 8,
+    "min_mechanism_families": 4,
+    "min_mechanisms": 10,
+    "min_kill_ratio": 0.8,
+    "max_survivors": 3
+  },
+  "artifacts": {
+    "closure_contract": "closure_contract.json",
+    "information_loss_map": "information_loss_map.json",
+    "representations": "representations.json",
+    "mechanisms": "mechanisms.json",
+    "kill_tests": "kill_tests.json",
+    "survivors": "survivors.json",
+    "decisive_lemma": "decisive_lemma.json",
+    "audit": "audit.json",
+    "decision": "decision.json"
+  },
+  "history": [
+    {
+      "at": "2026-08-03T01:32:35+00:00",
+      "event": "initialized",
+      "phase": "target_selection"
+    },
+    {
+      "at": "2026-08-03T01:34:30+00:00",
+      "event": "advanced",
+      "from": "target_selection",
+      "phase": "obstruction_analysis"
+    },
+    {
+      "at": "2026-08-03T01:35:45+00:00",
+      "event": "advanced",
+      "from": "obstruction_analysis",
+      "phase": "representation_search"
+    },
+    {
+      "at": "2026-08-03T01:38:27+00:00",
+      "event": "advanced",
+      "from": "representation_search",
+      "phase": "mechanism_falsification"
+    },
+    {
+      "at": "2026-08-03T05:35:39+00:00",
+      "event": "frozen",
+      "from": "mechanism_falsification",
+      "phase": "frozen",
+      "reason": "Freeze after independently audited local progress. The strongest result is G215: complete K5-e high-triangle 2,4,2 stabilizer-slice domination. G202, G203, G204, G213, G214, and G216 provide further strictly scoped local certificates. G201 remains the sole surviving global existential mechanism; orbit equalization does not control independent transverse edge directions, the other K5-e orbit and the full prism triangle-edge component remain open, and the OPG-1757 global closure contract is not met."
+    }
+  ]
+}

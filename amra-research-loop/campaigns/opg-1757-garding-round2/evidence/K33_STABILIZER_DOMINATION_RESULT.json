@@ -1,0 +1,17 @@
+{
+  "schema": "amra.opg1757.k33-two-orbit-domination.v1",
+  "host": "K3,3",
+  "marked_edge": [0,3],
+  "unmarked_edge_orbits": {"incident_to_marked_endpoint":4,"other":4},
+  "reconstruction": {"forests":194,"endpoint_connected_forests":60},
+  "shift": "x=a+1,y=b+1",
+  "P": "(y-1)*F",
+  "xi": "4*(y-1)*G",
+  "pseudo_remainder": "prem_y(F,G)=-x^4*(x-1)^4*(y-1)",
+  "component_argument": "anchor component has y>1 and F>0; G=0 forces F<=0, including x=0 separately, so G keeps its positive anchor sign",
+  "conclusion": "xi>0 on the distinguished component in the complete marked-edge stabilizer-variable specialization",
+  "mathematical_status": "proved_and_independently_audited",
+  "scope": "two stabilizer variables only; not eight independent unmarked-edge variables",
+  "public_problem_closed": false,
+  "lean_used": false
+}

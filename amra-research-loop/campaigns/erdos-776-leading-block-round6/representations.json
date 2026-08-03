@@ -1,0 +1,12 @@
+{
+  "representations": [
+    {"id":"R601","name":"Two-slope transfer normal form","family":"coefficient_geometry","new_information":"Separates leading-surplus gain delta from bottom-transfer subtraction alpha.","first_test":"Eliminate C(B,2) using the next-word recurrence."},
+    {"id":"R602","name":"Canonical next-digit cone","family":"canonical_geometry","new_information":"Encodes legality only through B_next<q-c_n, avoiding unproved digit formulas.","first_test":"Derive a strict upper bound for gamma."},
+    {"id":"R603","name":"Actual-strip asymptotic ray","family":"quantifier_geometry","new_information":"Uses the unbounded actual odd K4,r9 recurrence q_next=4q-4.","first_test":"Check that every fixed negative slope is eventually negative on actual q."},
+    {"id":"R604","name":"Leading-only face alpha=0","family":"coefficient_geometry","new_information":"Measures the minimum leading-block improvement without bottom help.","first_test":"Solve delta-3>=0."},
+    {"id":"R605","name":"Bottom-only face delta=0","family":"transfer_geometry","new_information":"Measures the minimum q-linear subtraction in the bottom recurrence.","first_test":"Solve alpha-3>=0."},
+    {"id":"R606","name":"Mixed-switch budget simplex","family":"transfer_geometry","new_information":"Allows leading and bottom changes to share the cost.","first_test":"Classify alpha+delta below, at, and above three."},
+    {"id":"R607","name":"Equality-boundary ledger","family":"canonical_geometry","new_information":"Distinguishes cancellation of the leading obstruction from positivity.","first_test":"Keep the constant term at alpha+delta=3."},
+    {"id":"R608","name":"Legal-identity witness slot","family":"construction_interface","new_information":"Requires an actual canonical Macaulay transition rather than coefficient bookkeeping.","first_test":"Demand explicit before/after words and Pascal equality."}
+  ]
+}

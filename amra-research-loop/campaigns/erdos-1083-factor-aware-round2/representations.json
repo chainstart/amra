@@ -1,0 +1,112 @@
+{
+  "representations": [
+    {
+      "id": "R1083R2-01",
+      "name": "Factor-labelled low-moment incidence tensor",
+      "family": "factor_labelled_algebra",
+      "new_information": "Retains the irreducible-factor occurrence producing each coefficient contribution, the row index, complement choice R_j/Q_j, and a bounded multiindex alpha instead of summing all atoms into an unlabelled moment.",
+      "repairs_loss": "Prevents the arbitrary-weight moment kernel from mixing atoms with incompatible divisor labels and exposes reuse of one factor across power-many rows.",
+      "first_test": "Compute labelled degree-one and degree-two tensors for the Phi6 divisor lattice; reject any rank/entropy claim that turns mere recovery of A into Euclidean rigidity.",
+      "exponent_interface": "A useful rank must either bound the K=t^(5/9-o(1)) hub by t^(5/9-epsilon) or create more than t^(3+epsilon) actual distance labels."
+    },
+    {
+      "id": "R1083R2-02",
+      "name": "Factor logarithmic-jet profile",
+      "family": "factor_labelled_algebra",
+      "new_information": "Records labelled logarithmic derivatives and mixed jets of B,R_j,Q_j at several positive characters, making multiplication additive while retaining which factor supplies each pole/zero contribution.",
+      "repairs_loss": "Avoids full atomic reconstruction and keeps factor incidence that ordinary moments and a single projection erase.",
+      "first_test": "On Phi6, verify that the profile sees every chosen subset A but does not by itself distinguish scalar copies or produce distance labels.",
+      "exponent_interface": "The number of synchronized jet profiles must be t^o(1); any pigeonhole loss of t^eta must leave enough of K=t^(5/9-o(1)) to force a fixed distance-exponent gain."
+    },
+    {
+      "id": "R1083R2-03",
+      "name": "Divisor-lattice omission code",
+      "family": "divisor_lattice_combinatorics",
+      "new_information": "Represents every row by the labelled multiplicity vector of factors assigned to R_j versus Q_j, with augmentation weights and common-factor intersections retained.",
+      "repairs_loss": "Replaces factor count by the actual row-by-factor incidence code and distinguishes binomial divisor families from geometrically coherent scalar-copy families.",
+      "first_test": "The complete middle layer of the Phi6 Boolean divisor lattice must attain the extremal code size and therefore kill any incidence-only bound.",
+      "exponent_interface": "A valid theorem must use extra geometry to compress the code below t^(5/9-epsilon) or extract t^(3+epsilon) labels; logarithmic factor count alone is insufficient."
+    },
+    {
+      "id": "R1083R2-04",
+      "name": "Factor-row expansion hypergraph",
+      "family": "divisor_lattice_combinatorics",
+      "new_information": "Builds a bipartite hypergraph between labelled factor occurrences and rows, decorated by low-moment signatures, scalar parameters, and positive-multiple witnesses.",
+      "repairs_loss": "Retains overlap, expansion, and concentration patterns that disappear in rowwise support rank or total factor count.",
+      "first_test": "Measure expansion on Phi6, where excellent Boolean expansion coexists with no scalar-copy geometry, to prevent an expansion-only conclusion.",
+      "exponent_interface": "Expansion must force either a t^(5/9-epsilon) row bound or at least t^(epsilon) independent label families whose Euclidean product exceeds t^3."
+    },
+    {
+      "id": "R1083R2-05",
+      "name": "Common-X scalar-copy jet and Jacobian",
+      "family": "scalar_copy_rigidity",
+      "new_information": "Places all coefficient maps Q_j(lambda_j X), their factor-labelled jets, and the common source X in one Jacobian/transcendence ledger modulo translation, reflection, and global scaling.",
+      "repairs_loss": "Directly distinguishes genuine scalar copies from multidirectional tensor switches whose labelled divisor patterns look rich but use unrelated coordinate sources.",
+      "first_test": "Phi6 must fail the common-X Jacobian hypothesis; binary boxes, cyclotomic same-line rows, and the inherited aperiodic signed escape are regression tests.",
+      "exponent_interface": "After symmetry losses the Jacobian codimension must remove t^epsilon from a K=t^(5/9-o(1)) family or force a bounded-degree one-parameter ruled locus with a proved >t^3 label count."
+    },
+    {
+      "id": "R1083R2-06",
+      "name": "Homothety cross-ratio and factor-label atlas",
+      "family": "scalar_copy_rigidity",
+      "new_information": "Records translation/scale-invariant ratios among labelled exponent differences together with which irreducible factors realize them across rows.",
+      "repairs_loss": "Retains common-X homothety while discarding irrelevant absolute exponent height, avoiding the exponential separating-projection obstruction.",
+      "first_test": "Confirm that Phi6 coordinate switches have many factor labels but fail a common cross-ratio atlas; test same-line cyclotomic families as the nearest easy comparator.",
+      "exponent_interface": "A bounded atlas must contain t^(5/9-o(1)) rows without polynomial loss and feed a ruled-chart theorem that yields t^(3+epsilon) labels."
+    },
+    {
+      "id": "R1083R2-07",
+      "name": "Paired positive-multiple localizing matrices",
+      "family": "positivity_and_convexity",
+      "new_information": "Uses both coefficientwise nonnegative masks F_0Q_j and R_jQ_j to form labelled localizing moment matrices, rather than treating Q_j as an arbitrary signed measure.",
+      "repairs_loss": "Makes signed cancellations pay simultaneously in two positive products and can exclude parity-kernel perturbations that do not preserve either mask identity.",
+      "first_test": "Run the simultaneous-positive two-row escape and Phi6 products; reject any PSD claim implied by only one positive multiplier or by augmentation.",
+      "exponent_interface": "The localizing rank/debt bound must save t^epsilon over the t^(5/9) row hub and preserve enough rows to create >t^(3+epsilon) labels."
+    },
+    {
+      "id": "R1083R2-08",
+      "name": "Two-product cancellation transport network",
+      "family": "positivity_and_convexity",
+      "new_information": "Models each negative coefficient of Q_j as debt transported to distinct positive coefficients in both F_0Q_j and R_jQ_j, with factor labels and source directions attached to every route.",
+      "repairs_loss": "Replaces scalar factorial energy by a typed flow that cannot count the same cancellation payment independently in both products or across rows.",
+      "first_test": "The inherited Q_S transverse signed escape and the Phi6 tensor switch must saturate or violate the proposed capacities before any global claim survives.",
+      "exponent_interface": "Total reusable debt capacity in B must be o(t^(5/9)) per coherent label class, or the uncancelled routes must inject into >t^(3+epsilon) Euclidean labels."
+    },
+    {
+      "id": "R1083R2-09",
+      "name": "Factor-row-cell-distance incidence tensor",
+      "family": "euclidean_label_geometry",
+      "new_information": "Indexes each retained factor moment simultaneously by row, tangent cell, height/sign chart, source pair, and actual squared-distance label.",
+      "repairs_loss": "Stops algebraically distinct factors from being counted as distinct distances unless their Euclidean labels are genuinely distinct, and preserves collisions shared across rows.",
+      "first_test": "Phi6 has no Euclidean label tensor and must be rejected at the representation gate; interval blocks and coherent-theta models test whether tensor rank can stay low with few labels.",
+      "exponent_interface": "A slice/partition-rank inequality must turn K=t^(5/9), S=t^(7/9), U=t^(5/6) into more than t^(3+epsilon) distance labels after all multiplicity losses."
+    },
+    {
+      "id": "R1083R2-10",
+      "name": "Factor-labelled reciprocal ruled-chart atlas",
+      "family": "euclidean_label_geometry",
+      "new_information": "Adds factor labels and low jets to the reciprocal chart z_j=h/(2rho w_j), retaining which common factor fixes h and which residual controls each w_j and distance cell.",
+      "repairs_loss": "Connects scalar-copy factor rigidity to an explicit semialgebraic Euclidean locus rather than ending at a Laurent identity.",
+      "first_test": "Place interval, coherent-theta, same-line cyclotomic, and Phi6 models in the atlas; Phi6 must fail the common Euclidean chart rather than merely have high complexity.",
+      "exponent_interface": "The bounded-degree chart must either determine t^(3+epsilon) labels or reduce to a lower-dimensional theorem while retaining a t^(5/9-o(1)) row core."
+    },
+    {
+      "id": "R1083R2-11",
+      "name": "Factor-aware defect coarea potential",
+      "family": "multiscale_stability",
+      "new_information": "Tracks exact-block defects by row, factor label, tangent cell, scale, and distance label in a normalized conserved measure before any pigeonhole step.",
+      "repairs_loss": "Prevents distributed near-equality errors from leaving every row individually good but destroying all common factor-aware cores.",
+      "first_test": "Construct distributed-defect arrays and a Phi6-labelled abstract array; require a conservation hypothesis coming from Euclidean incidence, not factor labels alone.",
+      "exponent_interface": "Coarea selection must discard at most t^(-epsilon) mass and retain K=t^(5/9-o(1)) up to subpower loss, otherwise no fixed improvement over t^3 is possible."
+    },
+    {
+      "id": "R1083R2-12",
+      "name": "Factor-aware tensor-circuit complexity",
+      "family": "factor_labelled_algebra",
+      "new_information": "Measures the circuit size of a simultaneous labelled moment tensor while preserving its multiplicative factor network, rather than charging the exponentially large expanded matrix dimension.",
+      "repairs_loss": "Addresses the gap left by the projection-free dimension no-go, which does not rule out short tensor or circuit certificates.",
+      "first_test": "Phi6 has an O(d)-size product circuit despite exponential support and must kill every claim equating expanded rank with circuit complexity.",
+      "exponent_interface": "A target-specific circuit lower bound must separate the actual scalar-copy exact block from Phi6 by t^epsilon and then imply >t^(3+epsilon) Euclidean labels."
+    }
+  ]
+}

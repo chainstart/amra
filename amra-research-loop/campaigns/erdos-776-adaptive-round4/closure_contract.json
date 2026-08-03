@@ -1,0 +1,25 @@
+{
+  "exact_statement": "Determine how large n must be as a function of r >= 2 so that there is an antichain in 2^[n] occupying n-3 distinct ranks and containing at least r members on every occupied rank.",
+  "source": "amra-research-loop/campaigns/erdos-776-c1-round3/decision.json",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round four starts after the independently audited closure of the actual (++ -> ++) gamma4-negative rank-five branch in erdos-776-c1-round3.",
+    "The immediate unresolved target is adaptive recovery of actual (--)->(++) states that may remain negative at ranks five and six.",
+    "The K4,r9 odd-j family is a calibration theorem: proving rank-seven recovery for that one family is additional_local_branch and cannot promote the public problem.",
+    "Standalone success requires a uniform fixed-(k,r) recovery-rank theorem or an actual infinite nonrecovery counterfamily with a precise interface consequence.",
+    "Global success additionally requires a uniform pre-rank-42 seed, persistence/suffix composition, and the explicit public antichain-threshold implication."
+  ]
+}

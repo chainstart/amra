@@ -1,0 +1,695 @@
+{
+  "author_checker_imported": false,
+  "capacity_ledger": {
+    "U": "5/6",
+    "all_target_pair_capacity": "28/9",
+    "capacity_minus_goal": "1/9",
+    "q": "13/18",
+    "qU": "14/9",
+    "target_label_goal": "3"
+  },
+  "capacity_precision": "28/9 is an all-target pair capacity. A fibre implication additionally needs an actual occurrence domain of size t^(28/9-o(1)); the upper bound |targets|<=qU alone is insufficient.",
+  "common_X_scalar_copies": {
+    "-1/4": {
+      "1": {
+        "complement_unit": "1/4",
+        "scalar_source": [
+          "-1/4",
+          "3/4"
+        ],
+        "spectrum": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11"
+        ]
+      },
+      "2": {
+        "complement_unit": "1/2",
+        "scalar_source": [
+          "-1/2",
+          "3/2"
+        ],
+        "spectrum": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11"
+        ]
+      },
+      "3": {
+        "complement_unit": "3/4",
+        "scalar_source": [
+          "-3/4",
+          "9/4"
+        ],
+        "spectrum": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11"
+        ]
+      }
+    },
+    "0": {
+      "1": {
+        "complement_unit": "0",
+        "scalar_source": [
+          "0",
+          "1"
+        ],
+        "spectrum": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11"
+        ]
+      },
+      "2": {
+        "complement_unit": "0",
+        "scalar_source": [
+          "0",
+          "2"
+        ],
+        "spectrum": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11"
+        ]
+      },
+      "3": {
+        "complement_unit": "0",
+        "scalar_source": [
+          "0",
+          "3"
+        ],
+        "spectrum": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11"
+        ]
+      }
+    }
+  },
+  "factorization": {
+    "B_equals_H1H2H3": true,
+    "B_equals_R1Q1_equals_R3Q3": true,
+    "boolean_vectors": {
+      "row_1": [
+        1,
+        1,
+        1
+      ],
+      "row_3": [
+        0,
+        1,
+        1
+      ]
+    },
+    "paired_positive_masks": {
+      "F0Q1": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10
+      ],
+      "F0Q3": [
+        0,
+        1,
+        2,
+        6,
+        7,
+        8
+      ],
+      "GB": [
+        0,
+        1,
+        4,
+        5,
+        8,
+        9
+      ]
+    }
+  },
+  "normalized_data": {
+    "lost_unit_vectors": {
+      "-1/4": {
+        "B": "3/4",
+        "F0": "-1/2",
+        "G": "-1/4",
+        "Q1": "3/4",
+        "Q3": "5/4",
+        "R1": "0",
+        "R3": "-1/2"
+      },
+      "0": {
+        "B": "0",
+        "F0": "0",
+        "G": "0",
+        "Q1": "0",
+        "Q3": "0",
+        "R1": "0",
+        "R3": "0"
+      }
+    },
+    "normalized_laurent_polynomials": {
+      "-1/4": {
+        "B": [
+          [
+            0,
+            "1"
+          ],
+          [
+            4,
+            "1"
+          ],
+          [
+            8,
+            "1"
+          ]
+        ],
+        "F0": [
+          [
+            0,
+            "1"
+          ],
+          [
+            2,
+            "1"
+          ]
+        ],
+        "G": [
+          [
+            0,
+            "1"
+          ],
+          [
+            1,
+            "1"
+          ]
+        ],
+        "Q1": [
+          [
+            0,
+            "1"
+          ],
+          [
+            4,
+            "1"
+          ],
+          [
+            8,
+            "1"
+          ]
+        ],
+        "Q3": [
+          [
+            0,
+            "1"
+          ],
+          [
+            1,
+            "1"
+          ],
+          [
+            3,
+            "-1"
+          ],
+          [
+            5,
+            "1"
+          ],
+          [
+            6,
+            "1"
+          ]
+        ],
+        "R1": [
+          [
+            0,
+            "1"
+          ]
+        ],
+        "R3": [
+          [
+            0,
+            "1"
+          ],
+          [
+            1,
+            "-1"
+          ],
+          [
+            2,
+            "1"
+          ]
+        ]
+      },
+      "0": {
+        "B": [
+          [
+            0,
+            "1"
+          ],
+          [
+            4,
+            "1"
+          ],
+          [
+            8,
+            "1"
+          ]
+        ],
+        "F0": [
+          [
+            0,
+            "1"
+          ],
+          [
+            2,
+            "1"
+          ]
+        ],
+        "G": [
+          [
+            0,
+            "1"
+          ],
+          [
+            1,
+            "1"
+          ]
+        ],
+        "Q1": [
+          [
+            0,
+            "1"
+          ],
+          [
+            4,
+            "1"
+          ],
+          [
+            8,
+            "1"
+          ]
+        ],
+        "Q3": [
+          [
+            0,
+            "1"
+          ],
+          [
+            1,
+            "1"
+          ],
+          [
+            3,
+            "-1"
+          ],
+          [
+            5,
+            "1"
+          ],
+          [
+            6,
+            "1"
+          ]
+        ],
+        "R1": [
+          [
+            0,
+            "1"
+          ]
+        ],
+        "R3": [
+          [
+            0,
+            "1"
+          ],
+          [
+            1,
+            "-1"
+          ],
+          [
+            2,
+            "1"
+          ]
+        ]
+      }
+    },
+    "normalized_log_derivative_data": {
+      "B": {
+        "denominator": [
+          [
+            0,
+            "1"
+          ],
+          [
+            4,
+            "1"
+          ],
+          [
+            8,
+            "1"
+          ]
+        ],
+        "numerator": [
+          [
+            3,
+            "4"
+          ],
+          [
+            7,
+            "8"
+          ]
+        ]
+      },
+      "F0": {
+        "denominator": [
+          [
+            0,
+            "1"
+          ],
+          [
+            2,
+            "1"
+          ]
+        ],
+        "numerator": [
+          [
+            1,
+            "2"
+          ]
+        ]
+      },
+      "G": {
+        "denominator": [
+          [
+            0,
+            "1"
+          ],
+          [
+            1,
+            "1"
+          ]
+        ],
+        "numerator": [
+          [
+            0,
+            "1"
+          ]
+        ]
+      },
+      "Q1": {
+        "denominator": [
+          [
+            0,
+            "1"
+          ],
+          [
+            4,
+            "1"
+          ],
+          [
+            8,
+            "1"
+          ]
+        ],
+        "numerator": [
+          [
+            3,
+            "4"
+          ],
+          [
+            7,
+            "8"
+          ]
+        ]
+      },
+      "Q3": {
+        "denominator": [
+          [
+            0,
+            "1"
+          ],
+          [
+            1,
+            "1"
+          ],
+          [
+            3,
+            "-1"
+          ],
+          [
+            5,
+            "1"
+          ],
+          [
+            6,
+            "1"
+          ]
+        ],
+        "numerator": [
+          [
+            0,
+            "1"
+          ],
+          [
+            2,
+            "-3"
+          ],
+          [
+            4,
+            "5"
+          ],
+          [
+            5,
+            "6"
+          ]
+        ]
+      },
+      "R1": {
+        "denominator": [
+          [
+            0,
+            "1"
+          ]
+        ],
+        "numerator": []
+      },
+      "R3": {
+        "denominator": [
+          [
+            0,
+            "1"
+          ],
+          [
+            1,
+            "-1"
+          ],
+          [
+            2,
+            "1"
+          ]
+        ],
+        "numerator": [
+          [
+            0,
+            "-1"
+          ],
+          [
+            1,
+            "2"
+          ]
+        ]
+      }
+    },
+    "normalized_root_multiplicity_data_equal": true,
+    "translation_blocks_equal_after_unit_removal": true
+  },
+  "public_exponent_changed": false,
+  "required_fibre": "< t^(1/9-epsilon+o(1)) on that same actual all-target occurrence domain to obtain >t^(3+epsilon-o(1)) labels",
+  "schema": "amra.erdos1083.moment_round4.independent_audit.v1",
+  "translation_blocks": {
+    "-1/4": {
+      "distinct_target_target_labels": 145,
+      "minimum_tau_by_scalar": {
+        "1": "99",
+        "2": "197/2",
+        "3": "195/2"
+      },
+      "positive_tangent_squares": true,
+      "row_spectra": {
+        "1": [
+          "100",
+          "101",
+          "102",
+          "103",
+          "104",
+          "105",
+          "106",
+          "107",
+          "108",
+          "109",
+          "110",
+          "111"
+        ],
+        "2": [
+          "100",
+          "101",
+          "102",
+          "103",
+          "104",
+          "105",
+          "106",
+          "107",
+          "108",
+          "109",
+          "110",
+          "111"
+        ],
+        "3": [
+          "100",
+          "101",
+          "102",
+          "103",
+          "104",
+          "105",
+          "106",
+          "107",
+          "108",
+          "109",
+          "110",
+          "111"
+        ]
+      },
+      "source": [
+        "-1/4",
+        "3/4"
+      ],
+      "source_in_unit_interval": true,
+      "target_count": 18,
+      "target_pair_occurrences": 153,
+      "translation": "-1/4"
+    },
+    "0": {
+      "distinct_target_target_labels": 127,
+      "minimum_tau_by_scalar": {
+        "1": "395/4",
+        "2": "98",
+        "3": "387/4"
+      },
+      "positive_tangent_squares": true,
+      "row_spectra": {
+        "1": [
+          "100",
+          "101",
+          "102",
+          "103",
+          "104",
+          "105",
+          "106",
+          "107",
+          "108",
+          "109",
+          "110",
+          "111"
+        ],
+        "2": [
+          "100",
+          "101",
+          "102",
+          "103",
+          "104",
+          "105",
+          "106",
+          "107",
+          "108",
+          "109",
+          "110",
+          "111"
+        ],
+        "3": [
+          "100",
+          "101",
+          "102",
+          "103",
+          "104",
+          "105",
+          "106",
+          "107",
+          "108",
+          "109",
+          "110",
+          "111"
+        ]
+      },
+      "source": [
+        "0",
+        "1"
+      ],
+      "source_in_unit_interval": true,
+      "target_count": 18,
+      "target_pair_occurrences": 153,
+      "translation": "0"
+    }
+  },
+  "unit_firewall": {
+    "normalized_unit_blind_determination_refuted": true,
+    "reason": "The pair changes the common source translation and is distinguished by retained units; it does not exhibit many relative unit vectors after one common X is fixed.",
+    "relative_unit_aware_route_refuted": false
+  }
+}

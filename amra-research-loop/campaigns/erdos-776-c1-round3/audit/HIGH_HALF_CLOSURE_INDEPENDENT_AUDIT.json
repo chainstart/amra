@@ -1,0 +1,13 @@
+{
+  "schema": "amra.erdos776.c1-round3.high-half-independent-audit.v1",
+  "status": "passed_with_domain_count_correction",
+  "scope": "a>=3, 3<=c<=a, 2c>=a",
+  "B_integer_rounding": "passed: 3rho>=4a+4 and B>=a+4",
+  "q_range": [1, 9],
+  "lambda_by_q": {"3":"4/5","4":"7/10","5":"2/3","6":"3/5","7":"14/25","8":"8/15"},
+  "q9": {"parity_reduction":"passed","only_tail_chamber":"a even,c=a/2","first_tail_a":70,"E9_at_70":24},
+  "finite_base": {"a_range":[3,68],"c_range":"max(3,ceil(a/2))..a","pairs":1219,"failures":0},
+  "conclusion": "high-half two-variable kernel closure verified",
+  "public_problem_changed": false
+}
+

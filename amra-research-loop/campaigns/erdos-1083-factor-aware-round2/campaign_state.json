@@ -1,0 +1,72 @@
+{
+  "schema_version": "amra-research-loop.v1",
+  "campaign_id": "erdos-1083-factor-aware-round2",
+  "problem_id": "Erdos-1083",
+  "title": "Distinct distances via factor-aware low moments",
+  "phase": "frozen",
+  "created_at": "2026-08-03T01:32:35+00:00",
+  "updated_at": "2026-08-03T02:00:03+00:00",
+  "gates": {
+    "min_representation_families": 4,
+    "min_representations": 8,
+    "min_mechanism_families": 4,
+    "min_mechanisms": 10,
+    "min_kill_ratio": 0.8,
+    "max_survivors": 3
+  },
+  "artifacts": {
+    "closure_contract": "closure_contract.json",
+    "information_loss_map": "information_loss_map.json",
+    "representations": "representations.json",
+    "mechanisms": "mechanisms.json",
+    "kill_tests": "kill_tests.json",
+    "survivors": "survivors.json",
+    "decisive_lemma": "decisive_lemma.json",
+    "audit": "audit.json",
+    "decision": "decision.json"
+  },
+  "history": [
+    {
+      "at": "2026-08-03T01:32:35+00:00",
+      "event": "initialized",
+      "phase": "target_selection"
+    },
+    {
+      "at": "2026-08-03T01:34:30+00:00",
+      "event": "advanced",
+      "from": "target_selection",
+      "phase": "obstruction_analysis"
+    },
+    {
+      "at": "2026-08-03T01:36:29+00:00",
+      "event": "advanced",
+      "from": "obstruction_analysis",
+      "phase": "representation_search"
+    },
+    {
+      "at": "2026-08-03T01:41:16+00:00",
+      "event": "advanced",
+      "from": "representation_search",
+      "phase": "mechanism_falsification"
+    },
+    {
+      "at": "2026-08-03T01:47:34+00:00",
+      "event": "advanced",
+      "from": "mechanism_falsification",
+      "phase": "survivor_deepening"
+    },
+    {
+      "at": "2026-08-03T01:54:35+00:00",
+      "event": "advanced",
+      "from": "survivor_deepening",
+      "phase": "independent_audit"
+    },
+    {
+      "at": "2026-08-03T02:00:03+00:00",
+      "event": "frozen",
+      "from": "independent_audit",
+      "phase": "frozen",
+      "reason": "Independent audit confirms the M01-to-M05 typed-chain no-go and exponent ledger, but no distance-label amplification or exponent improvement is proved."
+    }
+  ]
+}

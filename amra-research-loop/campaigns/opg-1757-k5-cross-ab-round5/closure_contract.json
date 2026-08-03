@@ -1,0 +1,23 @@
+{
+  "exact_statement": "For the marked edge 03 in K5 minus edge 34, on the stabilizer slice c=d=e=1 with free real orbit weights (a,b), classify the connected component of P(a,b)>0 containing (1,1), and determine the sign of xi(a,b) throughout that component.",
+  "source": "Local exact orbit polynomial derived in amra-research-loop/campaigns/opg-1757-k5-cross-round3; scoped continuation of OPG problem 1757.",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "This is the complete real connected-component question only on c=d=e=1 with free (a,b).",
+    "The anchor is (a,b)=(1,1), where P=128 and xi=58.",
+    "No claim is made about the other three stabilizer variables, the transverse directions, G201, or OPG-1757."
+  ]
+}

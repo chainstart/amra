@@ -1,0 +1,13 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "root, independent symbolic elimination",
+    "evidence": ["audit/SLOPE_BUDGET_INDEPENDENT_AUDIT.md", "audit/SLOPE_BUDGET_INDEPENDENT_AUDIT.json", "audit/verify_slope_budget_independent.py"]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "wording_repair": "Explicitly recorded that A,B are integer lower digits.",
+  "scope": "necessary slope budget inside the stated one-step affine model only",
+  "excluded_claims": ["sufficiency at budget three", "legal switch construction", "suffix persistence", "public Erdos-776 closure"]
+}

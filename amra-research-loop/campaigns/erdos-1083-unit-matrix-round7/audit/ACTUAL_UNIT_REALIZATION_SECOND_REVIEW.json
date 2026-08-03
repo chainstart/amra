@@ -1,0 +1,27 @@
+{
+  "schema": "amra.erdos1083.unit-matrix-round7.actual-realization-second-review.v1",
+  "status": "passed",
+  "representatives": {
+    "compatible_quotient_choice": "zero quotient-identity RHS",
+    "independent_canonical_choice": "fixed normalization cocycle constants allowed",
+    "coefficient_rank_kernel_invariant": true
+  },
+  "aggregate_minor": "explicit unit (2m+2)-minor for every m by deleting g and retaining all product rows",
+  "source_subsystem": {
+    "rows": "F0, all Fj, all quotient identity rows",
+    "rank": "2m+1",
+    "kernel": "aggregate gauge plus common spectrum shift"
+  },
+  "raw_occurrences": {
+    "scope": "one leaf, every k>=2 and every nonempty R/Q split",
+    "product_row_rank": 3,
+    "raw_kernel_dimension": "k-1",
+    "projection_rank": 2,
+    "internal_projection_kernel": "k-2 within-group difference directions",
+    "remaining_direction": "aggregate gauge"
+  },
+  "public_exponent_changed": false,
+  "kill_ratio": "7/9",
+  "decision_recommendation": "freeze_without_promotion"
+}
+

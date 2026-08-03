@@ -1,0 +1,10 @@
+{
+  "mechanism_ids": ["M809R3-01", "M809R3-05", "M809R3-08"],
+  "selection_rationale": "Exactly one narrow survivor remains from each user-prioritized direction. M809R3-01 retains one global irrational remainder and therefore avoids the disproved unweighted and per-cut rounding formulations. M809R3-05 asks for rank in the actual graph-realizable low/high exchange graph, so the round-two scalar counterprofile is a hypothesis miss. M809R3-08 is the only carrier-creation proposal not already reduced to a false one-step map: it requires a genuine alternating path to a new carrier. None is proved, and none changes the 1/8 main term.",
+  "chain_firewall": [
+    "M809R3-01 must prove one strict integer margin globally, not once per circuit.",
+    "M809R3-05 must construct actual exchange arcs and distinct C7-compatible outputs.",
+    "M809R3-08 must terminate at a previously unused actual carrier and prove nonreuse across circuits.",
+    "Even all three conditional statements together do not count until every hard public branch is composed."
+  ]
+}

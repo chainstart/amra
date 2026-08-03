@@ -1,0 +1,12 @@
+{
+  "inherited_methods": [
+    {"method":"finite constant-tail repair","loss_step":"chooses reset constants without recording their q-scaling","lost_information":"whether the reset can change the leading surplus slope","consequence":"every q-independent choice retains gamma_n=C_n-4q"},
+    {"method":"fixed finite-state controller","loss_step":"uses finitely many reset states and times below a fixed R","lost_information":"menu growth with q","consequence":"the controller unrolls to a finite menu and can be diagonalized"},
+    {"method":"same-orbit waiting","loss_step":"changes rank but not the H/q leading staircase","lost_information":"alternative leading blocks","consequence":"round4 already rules out every uniform finite waiting rank"}
+  ],
+  "required_new_information": [
+    "whether a reset changes the -4q leading surplus slope",
+    "whether the reset menu grows with q or changes H/q leading blocks",
+    "how a switched seed persists into the public suffix construction"
+  ]
+}

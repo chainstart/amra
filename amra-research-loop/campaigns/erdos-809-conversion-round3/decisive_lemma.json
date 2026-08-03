@@ -1,0 +1,20 @@
+{
+  "statement": "Exact typed reduction for every hard maximum-witness graph G: because R_A is integral, the outer gate R_A<=S_m is exactly R_A<=floor(S_m), so the irrational remainder supplies no integral carrier capacity. If the graph-realizable low-edge/high-anchor exchange graph has matching rank at least ceil(Phi(n,e)), its matched outputs give the direct distinct-colour C7-compatible exit. Otherwise a carrier proof must construct previously unused actual carriers Z whose legal neighbourhoods eliminate every augmented Hall deficit |T|-|N(T)|, with a global ownership map preventing reuse across circuits. Merely producing delta carriers is sufficient only for universal adjacency; Hall and alternating-path bookkeeping do not create Z.",
+  "status": "conditional",
+  "closes": [
+    "exact rounding ambiguity in the outer-A gate",
+    "precise separation between graph-realizable exchange exit and carrier creation",
+    "necessary and sufficient Hall condition after actual carriers are constructed"
+  ],
+  "evidence": [
+    "evidence/SURVIVOR_DEEPENING_EXACT_REDUCTION.md",
+    "evidence/SURVIVOR_DEEPENING_EXACT_REDUCTION.json",
+    "evidence/survivor_deepening_exact_reduction.py"
+  ],
+  "dependency_gaps": [
+    "Construct the actual low-edge/high-anchor exchange graph and prove matching rank at least ceil(Phi) from graph hypotheses, not the scalar residue identity.",
+    "Or prove that every maximum matching deficit has a graph-derived alternating creation path ending at a previously unused actual carrier.",
+    "Prove all created carrier neighbourhoods satisfy every augmented Hall cut and remain nonreused across overlapping circuits.",
+    "Compose the resulting outer-A closure with every hard public branch and the frozen 1/8 budget."
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {"mechanism_id":"M1083S8-02","outcome":"killed","classification":"fixed-total affine graph has one, not several, varying coordinates","evidence":"evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md#1-exact-one-coordinate-counting-interface"},
+    {"mechanism_id":"M1083S8-04","outcome":"killed","classification":"raw factor-unit range changes with associate sections and cocycles","evidence":"evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md#3-normalization-firewall"},
+    {"mechanism_id":"M1083S8-07","outcome":"killed","classification":"nonzero-anchor natural profile has singleton fibres","evidence":"evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md#2-exact-zero-anchorinjective-dichotomy"},
+    {"mechanism_id":"M1083S8-08","outcome":"killed","classification":"existing hypotheses do not force the zero-anchor branch; the nonzero branch has power-large range","evidence":"evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md#2-exact-zero-anchorinjective-dichotomy"},
+    {"mechanism_id":"M1083S8-10","outcome":"killed","classification":"normalized associate shapes omit absolute monomial right sides","evidence":"evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md#3-normalization-firewall"},
+    {"mechanism_id":"M1083S8-12","outcome":"killed","classification":"no all-target occurrence, collision-fibre or stability inequality follows","evidence":"evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md#4-exact-conclusion-and-remaining-gaps"},
+    {"mechanism_id":"M1083S8-13","outcome":"killed","classification":"literal range is indexed by scalar endpoints, not bounded by factor count","evidence":"evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md#2-exact-zero-anchorinjective-dichotomy"},
+    {"mechanism_id":"M1083S8-14","outcome":"killed","classification":"augmentation is translation-blind while minimum support is not","evidence":"translate any positive mask; augmentation stays fixed and u_- changes"},
+    {"mechanism_id":"M1083S8-15","outcome":"killed","classification":"one common gauge preserves all pairwise source-unit differences","evidence":"evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md#3-normalization-firewall"},
+    {"mechanism_id":"M1083S8-16","outcome":"killed","classification":"sign pigeonhole costs at most the constant factor two","evidence":"POWER_LARGE_SIMULTANEOUS_SWITCH_CORE.md gives |J_sigma|>=ceil(K/2)"},
+    {"mechanism_id":"M1083S8-17","outcome":"killed","classification":"absolute unit variation has no proved injective map to Euclidean labels","evidence":"evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md#4-exact-conclusion-and-remaining-gaps"},
+    {"mechanism_id":"M1083S8-18","outcome":"killed","classification":"positive-sign zero anchor gives constant profile for arbitrarily many distinct scalars","evidence":"evidence/verify_absolute_profile_range.py positive X containing zero"}
+  ]
+}

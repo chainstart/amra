@@ -1,0 +1,20 @@
+{
+  "exact_statement": "For k >= 3, let F_k(n) be the minimum number of colours needed to colour an n-vertex graph with floor(n^2/4)+1 edges so that every C_(2k+1) is rainbow. For k=3, prove or refute that F_3(n) is asymptotic to n^2/8.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos809/README.md",
+  "success_conditions": [
+    "global_interface_closed"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "The public contract and sole success condition are copied from round five; the frozen round-five package is negative evidence only.",
+    "Round six begins after the exact n=15 firewall: 736 paths over one output and four natural switches do not create one legal absorber.",
+    "The first target is the smallest exact graph extension with at least two distinct external outputs and two pairwise compatible legal switches, not another path catalogue.",
+    "Finite construction, conditional expansion, or a local output-rank lemma alone cannot promote the public 1/8 statement."
+  ]
+}

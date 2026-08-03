@@ -1,0 +1,18 @@
+{
+  "exact_statement": "For every finite simple graph G and every pair of distinct edges e,f, if F is a uniformly random forest of G, then Pr(e in F | f in F) <= Pr(e in F).",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/opg1757/ORIGINAL_PROBLEM_FIREWALL.md",
+  "success_conditions": ["global_interface_closed"],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round three inherits the independently audited K5-e high-triangle stabilizer-slice theorem but claims no new credit for it.",
+    "The immediate target is the previously unattacked cross-edge orbit of K5 minus the low-low edge, first on its complete stabilizer specialization.",
+    "Orbit equalization is a local mechanism test: it loses transverse independent-edge directions and cannot alone prove OPG-1757.",
+    "A negative xi point counts only if an exact path or complete chamber argument places it in the distinguished component of P>0 containing the positive anchor."
+  ]
+}

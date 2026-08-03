@@ -1,0 +1,340 @@
+{
+  "actual_block_realization_proved": false,
+  "checked_m": [
+    1,
+    32
+  ],
+  "finite_guards": [
+    {
+      "full_rank": 4,
+      "full_rows": 5,
+      "full_unit_minor_determinant": -1,
+      "m": 1,
+      "source_identity_rank": 3,
+      "source_identity_rows": 3,
+      "source_unit_minor_determinant": 1,
+      "variables": 5
+    },
+    {
+      "full_rank": 6,
+      "full_rows": 8,
+      "full_unit_minor_determinant": 1,
+      "m": 2,
+      "source_identity_rank": 5,
+      "source_identity_rows": 5,
+      "source_unit_minor_determinant": 1,
+      "variables": 7
+    },
+    {
+      "full_rank": 8,
+      "full_rows": 11,
+      "full_unit_minor_determinant": -1,
+      "m": 3,
+      "source_identity_rank": 7,
+      "source_identity_rows": 7,
+      "source_unit_minor_determinant": 1,
+      "variables": 9
+    },
+    {
+      "full_rank": 10,
+      "full_rows": 14,
+      "full_unit_minor_determinant": 1,
+      "m": 4,
+      "source_identity_rank": 9,
+      "source_identity_rows": 9,
+      "source_unit_minor_determinant": 1,
+      "variables": 11
+    },
+    {
+      "full_rank": 12,
+      "full_rows": 17,
+      "full_unit_minor_determinant": -1,
+      "m": 5,
+      "source_identity_rank": 11,
+      "source_identity_rows": 11,
+      "source_unit_minor_determinant": 1,
+      "variables": 13
+    },
+    {
+      "full_rank": 14,
+      "full_rows": 20,
+      "full_unit_minor_determinant": 1,
+      "m": 6,
+      "source_identity_rank": 13,
+      "source_identity_rows": 13,
+      "source_unit_minor_determinant": 1,
+      "variables": 15
+    },
+    {
+      "full_rank": 16,
+      "full_rows": 23,
+      "full_unit_minor_determinant": -1,
+      "m": 7,
+      "source_identity_rank": 15,
+      "source_identity_rows": 15,
+      "source_unit_minor_determinant": 1,
+      "variables": 17
+    },
+    {
+      "full_rank": 18,
+      "full_rows": 26,
+      "full_unit_minor_determinant": 1,
+      "m": 8,
+      "source_identity_rank": 17,
+      "source_identity_rows": 17,
+      "source_unit_minor_determinant": 1,
+      "variables": 19
+    },
+    {
+      "full_rank": 20,
+      "full_rows": 29,
+      "full_unit_minor_determinant": -1,
+      "m": 9,
+      "source_identity_rank": 19,
+      "source_identity_rows": 19,
+      "source_unit_minor_determinant": 1,
+      "variables": 21
+    },
+    {
+      "full_rank": 22,
+      "full_rows": 32,
+      "full_unit_minor_determinant": 1,
+      "m": 10,
+      "source_identity_rank": 21,
+      "source_identity_rows": 21,
+      "source_unit_minor_determinant": 1,
+      "variables": 23
+    },
+    {
+      "full_rank": 24,
+      "full_rows": 35,
+      "full_unit_minor_determinant": -1,
+      "m": 11,
+      "source_identity_rank": 23,
+      "source_identity_rows": 23,
+      "source_unit_minor_determinant": 1,
+      "variables": 25
+    },
+    {
+      "full_rank": 26,
+      "full_rows": 38,
+      "full_unit_minor_determinant": 1,
+      "m": 12,
+      "source_identity_rank": 25,
+      "source_identity_rows": 25,
+      "source_unit_minor_determinant": 1,
+      "variables": 27
+    },
+    {
+      "full_rank": 28,
+      "full_rows": 41,
+      "full_unit_minor_determinant": -1,
+      "m": 13,
+      "source_identity_rank": 27,
+      "source_identity_rows": 27,
+      "source_unit_minor_determinant": 1,
+      "variables": 29
+    },
+    {
+      "full_rank": 30,
+      "full_rows": 44,
+      "full_unit_minor_determinant": 1,
+      "m": 14,
+      "source_identity_rank": 29,
+      "source_identity_rows": 29,
+      "source_unit_minor_determinant": 1,
+      "variables": 31
+    },
+    {
+      "full_rank": 32,
+      "full_rows": 47,
+      "full_unit_minor_determinant": -1,
+      "m": 15,
+      "source_identity_rank": 31,
+      "source_identity_rows": 31,
+      "source_unit_minor_determinant": 1,
+      "variables": 33
+    },
+    {
+      "full_rank": 34,
+      "full_rows": 50,
+      "full_unit_minor_determinant": 1,
+      "m": 16,
+      "source_identity_rank": 33,
+      "source_identity_rows": 33,
+      "source_unit_minor_determinant": 1,
+      "variables": 35
+    },
+    {
+      "full_rank": 36,
+      "full_rows": 53,
+      "full_unit_minor_determinant": -1,
+      "m": 17,
+      "source_identity_rank": 35,
+      "source_identity_rows": 35,
+      "source_unit_minor_determinant": 1,
+      "variables": 37
+    },
+    {
+      "full_rank": 38,
+      "full_rows": 56,
+      "full_unit_minor_determinant": 1,
+      "m": 18,
+      "source_identity_rank": 37,
+      "source_identity_rows": 37,
+      "source_unit_minor_determinant": 1,
+      "variables": 39
+    },
+    {
+      "full_rank": 40,
+      "full_rows": 59,
+      "full_unit_minor_determinant": -1,
+      "m": 19,
+      "source_identity_rank": 39,
+      "source_identity_rows": 39,
+      "source_unit_minor_determinant": 1,
+      "variables": 41
+    },
+    {
+      "full_rank": 42,
+      "full_rows": 62,
+      "full_unit_minor_determinant": 1,
+      "m": 20,
+      "source_identity_rank": 41,
+      "source_identity_rows": 41,
+      "source_unit_minor_determinant": 1,
+      "variables": 43
+    },
+    {
+      "full_rank": 44,
+      "full_rows": 65,
+      "full_unit_minor_determinant": -1,
+      "m": 21,
+      "source_identity_rank": 43,
+      "source_identity_rows": 43,
+      "source_unit_minor_determinant": 1,
+      "variables": 45
+    },
+    {
+      "full_rank": 46,
+      "full_rows": 68,
+      "full_unit_minor_determinant": 1,
+      "m": 22,
+      "source_identity_rank": 45,
+      "source_identity_rows": 45,
+      "source_unit_minor_determinant": 1,
+      "variables": 47
+    },
+    {
+      "full_rank": 48,
+      "full_rows": 71,
+      "full_unit_minor_determinant": -1,
+      "m": 23,
+      "source_identity_rank": 47,
+      "source_identity_rows": 47,
+      "source_unit_minor_determinant": 1,
+      "variables": 49
+    },
+    {
+      "full_rank": 50,
+      "full_rows": 74,
+      "full_unit_minor_determinant": 1,
+      "m": 24,
+      "source_identity_rank": 49,
+      "source_identity_rows": 49,
+      "source_unit_minor_determinant": 1,
+      "variables": 51
+    },
+    {
+      "full_rank": 52,
+      "full_rows": 77,
+      "full_unit_minor_determinant": -1,
+      "m": 25,
+      "source_identity_rank": 51,
+      "source_identity_rows": 51,
+      "source_unit_minor_determinant": 1,
+      "variables": 53
+    },
+    {
+      "full_rank": 54,
+      "full_rows": 80,
+      "full_unit_minor_determinant": 1,
+      "m": 26,
+      "source_identity_rank": 53,
+      "source_identity_rows": 53,
+      "source_unit_minor_determinant": 1,
+      "variables": 55
+    },
+    {
+      "full_rank": 56,
+      "full_rows": 83,
+      "full_unit_minor_determinant": -1,
+      "m": 27,
+      "source_identity_rank": 55,
+      "source_identity_rows": 55,
+      "source_unit_minor_determinant": 1,
+      "variables": 57
+    },
+    {
+      "full_rank": 58,
+      "full_rows": 86,
+      "full_unit_minor_determinant": 1,
+      "m": 28,
+      "source_identity_rank": 57,
+      "source_identity_rows": 57,
+      "source_unit_minor_determinant": 1,
+      "variables": 59
+    },
+    {
+      "full_rank": 60,
+      "full_rows": 89,
+      "full_unit_minor_determinant": -1,
+      "m": 29,
+      "source_identity_rank": 59,
+      "source_identity_rows": 59,
+      "source_unit_minor_determinant": 1,
+      "variables": 61
+    },
+    {
+      "full_rank": 62,
+      "full_rows": 92,
+      "full_unit_minor_determinant": 1,
+      "m": 30,
+      "source_identity_rank": 61,
+      "source_identity_rows": 61,
+      "source_unit_minor_determinant": 1,
+      "variables": 63
+    },
+    {
+      "full_rank": 64,
+      "full_rows": 95,
+      "full_unit_minor_determinant": -1,
+      "m": 31,
+      "source_identity_rank": 63,
+      "source_identity_rows": 63,
+      "source_unit_minor_determinant": 1,
+      "variables": 65
+    },
+    {
+      "full_rank": 66,
+      "full_rows": 98,
+      "full_unit_minor_determinant": 1,
+      "m": 32,
+      "source_identity_rank": 65,
+      "source_identity_rows": 65,
+      "source_unit_minor_determinant": 1,
+      "variables": 67
+    }
+  ],
+  "formula": {
+    "full_kernel": "Z*(1,0,-1,-1_i,0_i)",
+    "full_rank": "2m+2",
+    "smith_nonzero_invariants": "all 1, because each matrix has a maximal minor of determinant plus or minus 1",
+    "source_identity_kernel": "Z*gauge direct-sum Z*(0,0,1,0_i,1_i)",
+    "source_identity_rank": "2m+1",
+    "variables": "2m+3"
+  },
+  "lean_used": false,
+  "public_exponent_changed": false,
+  "schema": "amra.erdos1083.unit-matrix-round6.general-m.v1"
+}

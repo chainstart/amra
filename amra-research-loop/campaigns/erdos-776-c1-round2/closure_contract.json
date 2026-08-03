@@ -1,0 +1,17 @@
+{
+  "exact_statement": "Determine how large n must be as a function of r >= 2 so that there is an antichain in 2^[n] occupying n-3 distinct ranks and containing at least r members on every occupied rank.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos776/README.md",
+  "success_conditions": ["global_interface_closed"],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round-two warm restart from commit ab4b524; the relaxed c>=2 theorem and c=1 normal form are inherited evidence.",
+    "Global closure requires the actual c=1 chamber exhaustion, effective completion of c>=2, and a valid passage to the public antichain threshold.",
+    "Priority target is the scale-uniform G++ inequality e>=binom(a-1,3), followed by the gamma5-negative rank-six branch."
+  ]
+}

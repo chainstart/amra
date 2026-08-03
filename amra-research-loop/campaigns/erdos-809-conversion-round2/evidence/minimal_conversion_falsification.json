@@ -1,0 +1,127 @@
+{
+  "schema": "amra.erdos809.conversion-round2.minimal-falsification.v1",
+  "inherited_exact_graph": {
+    "source": "ab4b524 audited n=14 tight instance",
+    "colours": [
+      "c1",
+      "c2",
+      "c3"
+    ],
+    "full_B_reserve": [
+      "bc",
+      "cz"
+    ],
+    "B_matching_rank": 2,
+    "D_B": 3,
+    "owned_A_atoms": [
+      "x1y1",
+      "x2y2",
+      "x3y3"
+    ],
+    "new_B_atoms_outside_full_reserve": []
+  },
+  "tests": {
+    "M809C-01": {
+      "outcome": "killed",
+      "reason": "required conversion matching has size 0 but circuit deficit is 1"
+    },
+    "M809C-02": {
+      "outcome": "killed_in_coherence_only_form",
+      "reason": "t distinct owners with one common carrier force congestion t",
+      "finite_guard": [
+        {
+          "owners": 2,
+          "targets": 1,
+          "forced_congestion": 2
+        },
+        {
+          "owners": 3,
+          "targets": 1,
+          "forced_congestion": 3
+        },
+        {
+          "owners": 4,
+          "targets": 1,
+          "forced_congestion": 4
+        },
+        {
+          "owners": 5,
+          "targets": 1,
+          "forced_congestion": 5
+        },
+        {
+          "owners": 6,
+          "targets": 1,
+          "forced_congestion": 6
+        },
+        {
+          "owners": 7,
+          "targets": 1,
+          "forced_congestion": 7
+        },
+        {
+          "owners": 8,
+          "targets": 1,
+          "forced_congestion": 8
+        },
+        {
+          "owners": 9,
+          "targets": 1,
+          "forced_congestion": 9
+        },
+        {
+          "owners": 10,
+          "targets": 1,
+          "forced_congestion": 10
+        },
+        {
+          "owners": 11,
+          "targets": 1,
+          "forced_congestion": 11
+        },
+        {
+          "owners": 12,
+          "targets": 1,
+          "forced_congestion": 12
+        }
+      ],
+      "all_parameter_model": "owners a_1,...,a_t all have the singleton target {q}"
+    },
+    "M809C-03": {
+      "outcome": "killed_as_closure_mechanism",
+      "reason": "the conditional augmenting-path fact has no unused-carrier or conversion-arc trigger on the tight circuit"
+    },
+    "M809C-04": {
+      "outcome": "killed",
+      "reason": "no new-B transversal exists and actual merged endpoint remains M_B=2<D_B=3"
+    },
+    "M809C-06": {
+      "outcome": "killed_without_new_slack_geometry",
+      "reason": "two uncancelled demands can request one carrier; disjoint-image assertion is not supplied by the colourwise ledger"
+    },
+    "M809C-07": {
+      "outcome": "killed_without_new_slack_geometry",
+      "reason": "rho_S({u1,u2})=1<2 although both singleton tests pass"
+    },
+    "M809C-09": {
+      "outcome": "killed_in_direct-charge_form",
+      "reason": "owned diagonal is a missing A edge while the internal-low term consists of present A edges; no injection is defined"
+    },
+    "M809C-10": {
+      "outcome": "killed_from_current_normal_form",
+      "reason": "a minimal outer-A blocker datum need not contain any repeated-B owned rectangle"
+    },
+    "M809C-12": {
+      "outcome": "killed_as_typed-incidence_recursion",
+      "reason": "crossing circuits share their only A and B carriers; merging leaves deficit 2 and only one owner"
+    }
+  },
+  "survivor_boundaries": {
+    "M809C-05": "No countermodel to a genuinely new graph-specific S_m atomization was found.",
+    "M809C-08": "No graph satisfying the complete hard outer-A gate was found against the direct compatible-edge exit.",
+    "M809C-11": "A typed min-max framework remains sound only if explicit conversion and slack ranks are first constructed."
+  },
+  "scope": "The n=14 statements use inherited independently audited graph evidence. The remaining models are exact typed-incidence obstructions and kill claims from current data alone; they do not refute strengthened theorems that add new graph-specific conversion or slack geometry.",
+  "public_problem_changed": false,
+  "main_term_changed": false
+}

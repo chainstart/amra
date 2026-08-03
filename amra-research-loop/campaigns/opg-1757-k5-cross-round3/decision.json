@@ -1,0 +1,9 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent reconstruction proves the complete distinguished component only on the natural a=d=e=1 cross-edge slice. The five-variable stabilizer component, transverse directions, G201, and OPG-1757 remain open, so no public promotion is justified.",
+  "evidence": [
+    "evidence/K5_CROSS_BC_COMPONENT_THEOREM.md",
+    "audit/K5_CROSS_BC_INDEPENDENT_AUDIT.md"
+  ]
+}

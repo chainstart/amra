@@ -1,0 +1,94 @@
+{
+  "representations": [
+    {
+      "id": "R1083M4-01",
+      "name": "Boolean Fourier spectrum of the actual quotient code",
+      "family": "boolean_fourier_noise",
+      "new_information": "Treats the row set as a measure on normalized divisor vectors y in {0,1}^D and records Walsh coefficients decorated by factor augmentations, widths and paired-positive carrier counts.",
+      "repairs_loss": "Can detect correlations among rows that pointwise subset recovery erases.",
+      "first_test": "The uniform cube and middle layers have explicit low-degree spectra while supporting exponentially many rows; kill any compression from Fourier degree alone.",
+      "exponent_interface": "A theorem must force a fixed-power row saving or an all-target fibre saving, not merely reconstruct y."
+    },
+    {
+      "id": "R1083M4-02",
+      "name": "Noise stability and factor influence profile",
+      "family": "boolean_fourier_noise",
+      "new_information": "Records noise stability, coordinate influences and paired-product carrier sensitivity under one-factor switches.",
+      "repairs_loss": "Tests whether paired positivity makes the actual quotient code less cube-like than Phi6.",
+      "first_test": "Use subcubes, Hamming balls and the small-D translation pair; reject low influence or high stability as rigidity without common-X/unit input.",
+      "exponent_interface": "Any junta dimension and exceptional mass must be o(log t) while retaining K=t^(5/9-o(1)) rows."
+    },
+    {
+      "id": "R1083M4-03",
+      "name": "Unit-aware logarithmic derivative moments",
+      "family": "log_derivative_root_moments",
+      "new_information": "Records Q'_j/Q_j at controlled positive characters together with the Laurent unit exponent, poles, zeros and factor labels, so multiplication is additive without discarding translation.",
+      "repairs_loss": "Restores the unit parameter missing from normalized root data and can compare factor shapes beyond width.",
+      "first_test": "Test characters at zeros and near-collisions; require a t^o(1) exceptional-set proof and replay translated interval blocks.",
+      "exponent_interface": "The number of characters, singular patterns and unit fibres must be t^o(1), followed by a proved Euclidean consequence."
+    },
+    {
+      "id": "R1083M4-04",
+      "name": "Common-root multiplicity and resultant incidence",
+      "family": "log_derivative_root_moments",
+      "new_information": "Builds a row-by-root multiplicity matrix for Q_j, R_j and both positive products, retaining resultants with scalar-copy masks.",
+      "repairs_loss": "Distinguishes factor occurrence equality from analytic coincidence after scaling and exposes shared cyclotomic or noncyclotomic roots.",
+      "first_test": "Independent formal factors and same-line cyclotomic rows must show that root multiplicity alone need not control Euclidean labels.",
+      "exponent_interface": "A surviving resultant gap must exclude t^(5/9-o(1)) rows or propagate to full qU target fibres."
+    },
+    {
+      "id": "R1083M4-05",
+      "name": "Subset-poset shadows with paired-positive decoration",
+      "family": "subset_poset_correlation",
+      "new_information": "Places quotient vectors in the divisor poset and decorates covers, shadows and diamonds by whether both F_0Q and RQ remain collision-free masks.",
+      "repairs_loss": "Uses correlations between neighbouring divisor choices rather than unlabelled code size.",
+      "first_test": "Phi6 middle layers and direct-product masks realize large shadows and many diamonds; kill incidence-only shadow bounds.",
+      "exponent_interface": "A forbidden-pattern theorem must use common-X anchoring and save a fixed power over K, not a logarithmic factor."
+    },
+    {
+      "id": "R1083M4-06",
+      "name": "Four-row poset cumulants",
+      "family": "subset_poset_correlation",
+      "new_information": "Measures signed four-row cumulants on Boolean rectangles together with coefficient-carrier overlap in both positive products.",
+      "repairs_loss": "Can detect reuse or incompatibility invisible to one-row moments and pairwise factor overlap.",
+      "first_test": "Tensor-product Boolean rectangles have nontrivial cumulants but no common-X geometry; translated exact blocks test unit sensitivity.",
+      "exponent_interface": "A cumulant lower bound must convert to scarce actual carriers or distance fibres with a complete multiplicity ledger."
+    },
+    {
+      "id": "R1083M4-07",
+      "name": "Laurent-unit augmented Boolean host",
+      "family": "unit_translation_adversaries",
+      "new_information": "Extends y by the exact Laurent monomial/sign unit of Q_j and the compensating units of R_j, G and F_0, preserving absolute coefficient locations.",
+      "repairs_loss": "Makes coefficient moments and paired-positive products reconstructible from the normalized host.",
+      "first_test": "The length-12 exact interval block under source translations must be represented with distinct units although its normalized Boolean vectors are identical.",
+      "exponent_interface": "Common-X must bound unit entropy by t^o(1) or show that unit variation itself forces a full-target distance gain."
+    },
+    {
+      "id": "R1083M4-08",
+      "name": "Normalized-data collision adversary pair",
+      "family": "unit_translation_adversaries",
+      "new_information": "Compares exact blocks with identical normalized quotient vectors, factor roots and per-row spectra but different source translations and target-target collision sets.",
+      "repairs_loss": "Directly tests whether a proposed moment conclusion is invariant under the data forgotten by normalization.",
+      "first_test": "Use X_t={t,t+1}, scalars 1,2,3 and a length-12 common spectrum; exact target-label counts are 127 at t=0 and 145 at t=-1/4.",
+      "exponent_interface": "A theorem surviving this pair must either include units or prove a conclusion uniform across every unit fibre."
+    },
+    {
+      "id": "R1083M4-09",
+      "name": "Moment-to-full-target collision energy",
+      "family": "collision_fibre_transfer",
+      "new_information": "Couples a factor moment statistic on the selected K rows to the energy of the actual squared-distance map on all qU targets.",
+      "repairs_loss": "Prevents a selected-chart statistic from being declared useful before propagation to the only pair domain above exponent three.",
+      "first_test": "The unit-translation pair has identical normalized moments but different finite collision energy; require the exact propagation map.",
+      "exponent_interface": "Must prove all-target average fibre exponent below 1/9-epsilon; selected-to-all capacity 53/18 cannot close."
+    },
+    {
+      "id": "R1083M4-10",
+      "name": "Conditional moment profile versus distance-fibre duality",
+      "family": "collision_fibre_transfer",
+      "new_information": "Forms a primal quotient-profile partition and a dual certificate charging every large distance fibre to a bounded number of unit-aware moment profiles.",
+      "repairs_loss": "Creates a single ledger in which row compression and collision control are alternative outcomes.",
+      "first_test": "Small-D translated blocks and Phi6 must expose profiles that are algebraically identical yet have unrelated collision fibres unless the dual uses actual coordinates.",
+      "exponent_interface": "Profile ambiguity times fibre size must be t^(1/9-epsilon), with every factor derived on the full target graph."
+    }
+  ]
+}

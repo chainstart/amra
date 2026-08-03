@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {"id":"K501","mechanism_id":"M501","outcome":"killed","evidence":"evidence/FINITE_MENU_STABLE_TAIL_NO_GO.md"},
+    {"id":"K502","mechanism_id":"M502","outcome":"killed","evidence":"evidence/FINITE_MENU_STABLE_TAIL_NO_GO.md"},
+    {"id":"K503","mechanism_id":"M503","outcome":"killed","evidence":"evidence/verify_finite_menu_stable_tail.py"},
+    {"id":"K504","mechanism_id":"M504","outcome":"killed","evidence":"evidence/FINITE_MENU_STABLE_TAIL_NO_GO.md"},
+    {"id":"K505","mechanism_id":"M505","outcome":"killed","evidence":"audit/SEED_SWITCH_NO_GO_INDEPENDENT_AUDIT.md: after explicit same-staircase narrowing, every arbitrary q-dependent choice has gamma_n<0 for actual 4<=n<=42."},
+    {"id":"K507","mechanism_id":"M507","outcome":"killed","evidence":"evidence/FINITE_MENU_STABLE_TAIL_NO_GO.md"},
+    {"id":"K508","mechanism_id":"M508","outcome":"killed","evidence":"evidence/verify_finite_menu_stable_tail.py"},
+    {"id":"K509","mechanism_id":"M509","outcome":"killed","evidence":"audit/SEED_SWITCH_NO_GO_INDEPENDENT_AUDIT.md: a fixed-R controller unrolls to finitely many q-independent same-staircase profiles defeated simultaneously."},
+    {"id":"K511","mechanism_id":"M511","outcome":"killed","evidence":"audit/SEED_SWITCH_NO_GO_INDEPENDENT_AUDIT.md: finitely many q-independent reset profiles/times admit one common actual-q threshold."},
+    {"id":"K512","mechanism_id":"M512","outcome":"killed","evidence":"audit/SEED_SWITCH_NO_GO_INDEPENDENT_AUDIT.md: after explicit same-staircase narrowing, the no-go is pointwise and menu cardinality is irrelevant."}
+  ]
+}

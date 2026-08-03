@@ -1,0 +1,20 @@
+{
+  "exact_statement": "For k >= 3, let F_k(n) be the minimum number of colours needed to colour an n-vertex graph with floor(n^2/4)+1 edges so that every C_(2k+1) is rainbow. For k=3, prove or refute that F_3(n) is asymptotic to n^2/8.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos809/README.md",
+  "success_conditions": [
+    "global_interface_closed"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round three starts fresh; round two is read-only inherited negative evidence and is not reopened.",
+    "Global closure requires an actual conversion theorem from owned A structure to outer-A slack or new B reserve, joined to every hard branch with an explicit 1/8 consequence.",
+    "Any scalar addition of A and B capacities is forbidden unless an injective conversion map or owned slack atomization is constructed.",
+    "Weighted or rounded carriers must retain their exact rounding error; graph-realizable mixed-anchor compatibility and carrier creation are separate proof obligations."
+  ]
+}

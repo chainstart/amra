@@ -1,0 +1,44 @@
+{
+  "schema":"amra.opg1757.full-rim-independent-audit.v1",
+  "verdict":"pass",
+  "independence":{
+    "imports_author_polynomials":false,
+    "reconstruction":"enumerated all forests of W4 minus marked rim edge 12; xi subfamily consists of forests connecting endpoints 1 and 2",
+    "script":"audit/verify_full_rim_distinguished_component_independent.py",
+    "script_sha256":"6afb6f7597495e1aaef67b16c012b8fe2c6e98c18a34818e852849cc89a7c54d",
+    "resource_limit":"2 GiB virtual memory; 120 seconds",
+    "wall_time_seconds":0.6
+  },
+  "reconstruction":{
+    "deletion_forests":82,
+    "endpoint_connected_forests":30,
+    "P_at_ones":82,
+    "Q_at_ones":30
+  },
+  "identity_checks":{
+    "shift":"x=a+1,y=b+1,z=c+1,w=d+1",
+    "P":"w*(xyz-1)^2-(xz+y-2)^2",
+    "Q":"w*(x+yz-2)^2+Q0",
+    "boundary":"T^2*Q_boundary=(x-1)^2*(y-1)^2*B/(x^2*y^2)",
+    "A_leading_coefficient":"(y+1)^2",
+    "A_discriminant":"-16*(y^3+y+1)"
+  },
+  "component_check":{
+    "distinguished_open_component":"x,y,z>0; xyz>1; w>(xz+y-2)^2/(xyz-1)^2",
+    "denominators":"T,x,y are strictly positive before division",
+    "connectedness":"logarithmic base half-space plus interval fibres",
+    "maximality":"T sign and x,y,z sign pattern cannot change inside P>0 from the positive anchor"
+  },
+  "strictness_check":{
+    "boundary_nonnegative":true,
+    "boundary_equality":"only x=1 or y=1",
+    "x_equals_1":"K=T>0",
+    "y_equals_1":"K=x+z-2 is nonzero because xz>1 and x+z=2 would imply xz<=1",
+    "interior_conclusion":"Q>0"
+  },
+  "coarse_negative_endpoint":{"T":"-679/250","anchor_T":"7","classification":"different P-positive components"},
+  "scope":"W4 rim orbit in the full four stabilizer variables only; no spoke, global moving-edge, graphic-matroid, or OPG theorem conclusion",
+  "exact_gaps":[],
+  "public_problem_closed":false,
+  "novelty_check":"not_performed"
+}

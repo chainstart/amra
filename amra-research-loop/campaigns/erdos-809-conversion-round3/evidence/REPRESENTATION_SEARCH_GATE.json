@@ -1,0 +1,18 @@
+{
+  "schema": "amra.erdos809.round3.representation-gate.v1",
+  "representation_count": 10,
+  "mechanism_count": 10,
+  "families": {
+    "weighted_rounded_carrier": ["R809R3-01", "R809R3-02", "R809R3-03"],
+    "graph_realizable_anchor": ["R809R3-04", "R809R3-05", "R809R3-06"],
+    "carrier_creation": ["R809R3-07", "R809R3-08", "R809R3-09"],
+    "overlap_uncrossing": ["R809R3-10"]
+  },
+  "independence": [
+    "Weighted/rounded mechanisms may fail before any graph compatibility question is asked.",
+    "Mixed-anchor mechanisms use actual C7 path compatibility but do not assume slack carriers exist.",
+    "Carrier-creation mechanisms must output new target-shore atoms, not merely compatible colours.",
+    "Overlap uncrossing tests whether separately valid local outputs can be reused globally."
+  ],
+  "closure_firewall": "Every mechanism still needs an all-hard-branches composition proving the frozen 1/8 statement; conditional or finite results do not count."
+}

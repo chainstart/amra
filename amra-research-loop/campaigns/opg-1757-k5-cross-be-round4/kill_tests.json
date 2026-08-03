@@ -1,0 +1,11 @@
+{"tests":[
+ {"mechanism_id":"M401-A-never-zero","outcome":"killed","evidence":"disc(A)=1440 and roots -1 plus or minus sqrt(10)/4."},
+ {"mechanism_id":"M402-both-walls-crossable","outcome":"killed","evidence":"C(alpha)=22-7sqrt(10)<0."},
+ {"mechanism_id":"M403-P-positive-connected","outcome":"killed","evidence":"The entire vertical line e=alpha is outside P>0 and separates the plane."},
+ {"mechanism_id":"M404-Q-all-real-positive","outcome":"killed","evidence":"Exact evaluation Q(-2)=-37."},
+ {"mechanism_id":"M405-Q-three-real-walls","outcome":"killed","evidence":"Exact discriminant -9552<0 gives one real root."},
+ {"mechanism_id":"M406-D-sign-change-in-anchor","outcome":"killed","evidence":"The upper D-root is strictly below alpha."},
+ {"mechanism_id":"M407-common-zero-in-anchor","outcome":"killed","evidence":"The unique Q-root is below alpha; proof in evidence/K5_CROSS_BE_COMPONENT_THEOREM.md."},
+ {"mechanism_id":"M408-bounded-positive-fibers","outcome":"killed","evidence":"Exact affine solution gives the unbounded half-line b>-C/A at every e>alpha."},
+ {"mechanism_id":"M409-orthant-exhausts-component","outcome":"killed","evidence":"e=-1/10 is allowed and a sufficiently large b makes P>0."}
+]}

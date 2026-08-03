@@ -1,0 +1,37 @@
+{
+  "inherited_methods": [
+    {
+      "method": "one-vertex threshold expansion",
+      "loss_step": "stop at the first external missing edge or count all paths to it",
+      "lost_information": "distinct output rank and simultaneous rainbow legality",
+      "exact_witness": "the frozen n=15 graph has 736 paths to wz but zero legal natural switches",
+      "consequence": "search and proofs must quotient by named outputs before counting"
+    },
+    {
+      "method": "individual switch testing",
+      "loss_step": "treat individually rainbow recolourings as simultaneously compatible",
+      "lost_information": "two switches may create a bichromatic C7 together or consume one owner/output",
+      "consequence": "every candidate pair needs full subset replay and resource ownership"
+    },
+    {
+      "method": "large-output average degree",
+      "loss_step": "replace every deficient cut by a global average",
+      "lost_information": "all outputs may avoid one locked demand class",
+      "consequence": "the eventual theorem must be an every-cut expansion statement"
+    },
+    {
+      "method": "arbitrary added edges",
+      "loss_step": "search graphs outside the exact floor(n^2/4)+1 density or without L4(2)/rainbow C7",
+      "lost_information": "the public hard branch and its colour legality",
+      "consequence": "every finite witness must be an exact threshold graph with all inherited predicates replayed"
+    }
+  ],
+  "required_new_information": [
+    "one exact threshold graph with two named outputs outside the old K(e)",
+    "two replayable original-graph switches whose singleton and joint states are rainbow C7",
+    "an explicit ownership ledger showing distinct outputs and disjoint indispensable resources",
+    "a scalable graph lemma turning local output rank into every-cut expansion",
+    "composition with the outer-A gate and every public hard branch"
+  ],
+  "forbidden_shortcut": "Path multiplicity, one output, singleton-only legality, abstract dummy carriers, and finite absence are not output-expansion progress."
+}

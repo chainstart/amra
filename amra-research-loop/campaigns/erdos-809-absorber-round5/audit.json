@@ -1,0 +1,47 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos1083_lane (author-swapped blind independent reconstruction)",
+    "evidence": [
+      "audit/SMALLEST_EXPANSION_INDEPENDENT_AUDIT.md",
+      "audit/SMALLEST_EXPANSION_INDEPENDENT_AUDIT.json (SHA-256 b3c1cfcd772f4b1e3710b84e95ee30f752dd8ab9a09494c2938d737cb1230a22)",
+      "audit/verify_small_expansion_independent.py (SHA-256 15126732f4102de5ef773a31265f31507ee3e638b8af9313d163f313bdc3cbb6)"
+    ]
+  },
+  "statement_match": "passed_after_nine_claimed_kills_were_downgraded_to_frozen",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "audited_claim": {
+    "named_n15_graph": "passed",
+    "path_projection_128_plus_608": "passed",
+    "all_15_nonempty_switch_subsets_illegal": "passed",
+    "all_1716_expansions_no_two_switch_target": "passed",
+    "literal_strict_kills": 0,
+    "qualified_route_obstructions": [
+      "M809R5-01",
+      "M809R5-03",
+      "M809R5-08",
+      "M809R5-10"
+    ],
+    "unmet_conditional_or_asymptotic_antecedent": [
+      "M809R5-02",
+      "M809R5-05",
+      "M809R5-07",
+      "M809R5-09",
+      "M809R5-12"
+    ],
+    "survivors": [
+      "M809R5-04",
+      "M809R5-06",
+      "M809R5-11"
+    ],
+    "mechanism_gate": "failed: scoped route obstructions do not meet the strict-kill wording of the decisive claims"
+  },
+  "promotion_audit": {
+    "decision": "reject",
+    "reason": "Finite natural-switch firewall only; mechanism kill statuses require repair, all survivors remain conditional, and no global interface closes.",
+    "original_problem_changed": false,
+    "main_term_changed": false,
+    "main_coefficient_changed": false
+  }
+}

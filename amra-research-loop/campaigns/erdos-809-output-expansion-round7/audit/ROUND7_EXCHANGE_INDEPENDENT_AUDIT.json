@@ -1,0 +1,59 @@
+{
+  "schema": "amra.erdos809.output-expansion-round7.independent-audit.v1",
+  "status": "passed_finite_no_go",
+  "scope": "displayed locked n=16,e=65 natural-switch model only",
+  "independent_implementation": "audit/verify_exchange_round7_independent.py; no import of author search",
+  "domain": {
+    "new_incident_edges_before_constraints": 27,
+    "required_edges": 2,
+    "forbidden_edges": 6,
+    "optional_edges": 19,
+    "old_edges": 50,
+    "frozen_v_incident_edges": 10,
+    "frozen_repeated_colour_edges": 8,
+    "deletable_old_edges": 32,
+    "cross_edge_scope": "wy1 and uy2 are excluded by L4(2) plus switch legality; cw,cu,wz,uz are omissions of the frozen typed model"
+  },
+  "hitting_equivalence": {
+    "status": "passed",
+    "statement": "a deletion set is colour-safe iff it intersects every bad-C7 trace on the deletable-old domain",
+    "reason": "edge deletion creates no cycles; OR per trace and AND across traces exactly encode intersection"
+  },
+  "mode2": {
+    "assignments": 3876,
+    "deletion_sets_per_assignment": 496,
+    "protected_assignments": 3860,
+    "candidates": 0
+  },
+  "mode3": {
+    "assignments": 969,
+    "deletion_sets_per_assignment": 4960,
+    "protected_assignments": 968,
+    "candidates": 0
+  },
+  "unique_unprotected_mode3": {
+    "omitted_optional_edges": [["b", "u"], ["b", "w"], ["u", "w"]],
+    "distinct_traces": 93,
+    "trace_size_distribution": {"1": 21, "3": 72},
+    "forced_singleton_edges": 21,
+    "exact_transversal_number": 21
+  },
+  "kill_gate": {
+    "killed": 6,
+    "mechanisms": 12,
+    "selected_survivors": 3,
+    "denominator": 9,
+    "ratio": "6/9",
+    "minimum": "4/5",
+    "passed": false
+  },
+  "decision_recommendation": "freeze",
+  "promotion": false,
+  "excluded_claims": [
+    "all threshold-preserving exchanges",
+    "four-old-deletion exchanges",
+    "non-natural switches",
+    "scalable output expansion",
+    "F_3(n) asymptotic to n^2/8"
+  ]
+}

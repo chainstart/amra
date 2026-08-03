@@ -1,0 +1,14 @@
+{
+  "inherited_methods": [
+    {"method":"round3 (b,c) affine-bilinear normalization","loss_step":"reuse xy-1 topology after changing the free pair to (b,e)","lost_information":"A(e) vanishes on two vertical lines and the P-boundary has asymptotes","consequence":"the distinguished component must be separated using the A=0 barriers"},
+    {"method":"resultant sign alone","loss_step":"use EA-DC without orienting the P-positive component","lost_information":"the sign of A and which side of the upper vertical barrier contains the anchor","consequence":"a cubic sign calculation alone cannot establish component-wide positivity"},
+    {"method":"numerical root isolation","loss_step":"infer global cubic positivity from decimal roots","lost_information":"exact root count and exact ordering against -1+sqrt(10)/4","consequence":"the claimed universal real-domain inequality would remain unaudited"},
+    {"method":"positive orthant check","loss_step":"restrict b,e to nonnegative values","lost_information":"the distinguished component contains allowed negative coordinates above its rational graph","consequence":"orthant coefficients do not classify the complete component"}
+  ],
+  "required_new_information": [
+    "exact connected-component classification of P>0 through the anchor",
+    "exact sign and ordering of A,D and Q=EA-DC on that component",
+    "an algebraic identity transferring P>0 and Q>0 to xi>0",
+    "an explicit statement of all directions erased by the slice"
+  ]
+}

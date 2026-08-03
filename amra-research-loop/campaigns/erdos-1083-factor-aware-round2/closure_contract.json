@@ -1,0 +1,17 @@
+{
+  "exact_statement": "For every fixed integer d >= 3, every N-point subset of R^d determines N^(2/d-o(1)) distinct distances as N tends to infinity.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/README.md",
+  "success_conditions": ["main_exponent_improved"],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round-two warm restart from commit ab4b524; Hankel reconstruction and scoped moment no-go results are inherited evidence.",
+    "Promotion requires a rigorous dimension-three exponent strictly greater than 3/5 with Euclidean realization and stability bridges proved.",
+    "Priority target is a factor-aware labelled low-degree certificate coupled directly to positivity/scalar-copy rigidity and a distance-label inequality; arbitrary-weight support reconstruction is frozen."
+  ]
+}

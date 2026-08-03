@@ -1,0 +1,56 @@
+{
+  "inherited_commit": "ab4b524",
+  "inherited_methods": [
+    {
+      "method": "simultaneous one-variable Hankel reconstruction",
+      "readonly_evidence": "erdos-1083-mechanism-reset/evidence/simultaneous_hankel_reconstruction_lemma.json",
+      "loss_step": "project every exponent atom through one homomorphism ell:Gamma->Z and retain only the projected atom values and signed weights",
+      "lost_information": "which irreducible factor occurrence generated each atom, the incidence of one factor across different Q_j, coefficientwise positivity after multiplication by the source masks, and the original Euclidean row/cell/distance labels",
+      "consequence": "Prony reconstruction recovers each projected signed support exactly but supplies neither a charge against the common quotient B nor a distance-label inequality; the public 3/5 exponent does not move"
+    },
+    {
+      "method": "common separating projection with bounded height",
+      "readonly_evidence": "erdos-1083-mechanism-reset/evidence/PROJECTION_HEIGHT_AND_COMMON_QUOTIENT_NO_GO.json",
+      "loss_step": "encode a multivariate support union by one integer linear form before measuring complexity",
+      "lost_information": "coordinate factor labels and tensor product structure; injectivity forces the projection to encode the entire union into integer height",
+      "consequence": "the Phi6 family has only d+1 displayed factors but forces exponential common projection height and exponentially many equal-augmentation divisor rows, killing factor-count-only height control"
+    },
+    {
+      "method": "projection-free full-support multivariate moment/Hankel rank",
+      "readonly_evidence": "erdos-1083-mechanism-reset/evidence/PROJECTION_FREE_MULTIVARIATE_MOMENT_NO_GO.json and its independent audit",
+      "loss_step": "treat each Q_j as an arbitrary signed atomic measure and demand full support rank or aggregate union reconstruction",
+      "lost_information": "compact factorized descriptions, labelled factor incidence, scalar-copy relations, and the distinction between rowwise reconstruction and arbitrary union-weight reconstruction",
+      "consequence": "one-row full rank has exponential explicit matrix dimension; the stronger union cost R=t^(5/6+o(1)) is not an automatic cost of simultaneous rowwise reconstruction and yields no Euclidean exponent gain"
+    },
+    {
+      "method": "unlabelled low-total-degree multivariate moments on the Phi6 union",
+      "readonly_evidence": "erdos-1083-mechanism-reset/evidence/LOW_DEGREE_MULTIVARIATE_MOMENT_KERNEL.json and its independent audit",
+      "loss_step": "apply the same monomial tests to arbitrary signed weights on the union support without retaining the factorized coefficient law of Q_A",
+      "lost_information": "factor labels, divisor membership, the positive-multiple constraints F_0Q_j and R_jQ_j, and common-X scalar-copy geometry",
+      "consequence": "for L=O(1) or O(log f) the arbitrary-weight map has an exponential kernel, yet the actual labelled Phi6 rows are already separated by degree-one moments; arbitrary-weight no-go arguments cannot decide the structured route"
+    },
+    {
+      "method": "factor-count or augmentation-only charging in B=R_jQ_j",
+      "readonly_evidence": "the Phi6 divisor family and POWER_LARGE_SIMULTANEOUS_SWITCH_CORE inherited at ab4b524",
+      "loss_step": "replace the labelled divisor lattice and scalar-copy identities by only the number of displayed factors, Q_j(1)=C, or row count",
+      "lost_information": "which factors are omitted by each R_j, how factor labels correlate with lambda_j, and which signed cancellations survive both positive source multiplications",
+      "consequence": "binomially many equal-augmentation rows coexist with only linearly many factors, so no additive rowwise support/factor charge is possible without the omitted interfaces"
+    },
+    {
+      "method": "exact common-quotient algebra detached from the outer geometry",
+      "readonly_evidence": "erdos-1083-mechanism-reset/decisive_lemma.json and inherited exact-block normal form",
+      "loss_step": "stop after F_j=GR_j, P_A0=GB, B=R_jQ_j, P_Aj=F_0Q_j and do not carry the tangent cell, height, distance label, PSD/Euclidean realization, or discarded near-extremal mass",
+      "lost_information": "the map from a factor-aware algebraic defect to distinct global Euclidean distances and the stability needed to extract the exact block from every near-extremal point set",
+      "consequence": "even a correct structured algebraic rigidity lemma remains conditional and cannot improve the dimension-three exponent until the distance-label and outer-stability bridges are quantified"
+    }
+  ],
+  "required_new_information": [
+    "label every retained low-degree moment contribution by irreducible factor occurrence and by row complement R_j/Q_j membership",
+    "retain the two positive-multiple identities and distinguish actual mask coefficients from arbitrary signed weights",
+    "retain the common source X and scalar parameter lambda_j so a factor pattern can force scalar-copy rigidity rather than an anisotropic tensor switch",
+    "attach each algebraic row to its tangent cell, height/sign chart, and actual Euclidean distance labels",
+    "give an exponent ledger starting from K=t^(5/9-o(1)), S=t^(7/9+o(1)), U=t^(5/6+o(1)), q=t^(13/18+o(1)) and ending in strictly more than t^(3+epsilon) distance labels for some fixed epsilon>0",
+    "supply a quantitative outer stability/coarea theorem extracting the structured core with only t^(-epsilon) loss",
+    "make every proposed invariant survive the Phi6 arbitrary-divisor kill test or explicitly use a scalar-copy/positivity/Euclidean hypothesis that Phi6 violates"
+  ]
+}

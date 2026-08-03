@@ -1,0 +1,70 @@
+{
+  "schema": "amra.erdos1083.factor-aware-round2.typed-chain-independent-audit.v1",
+  "audited_artifacts": [
+    "decisive_lemma.json",
+    "evidence/M01_M05_M10_TYPED_CHAIN_NO_GO.md",
+    "evidence/TYPED_CHAIN_EXPONENT_AUDIT.json"
+  ],
+  "verdict": "pass_scoped_no_go; reject_exponent_promotion",
+  "type_reconstruction": {
+    "ambient_ring": "Z[Gamma], a Laurent-polynomial domain",
+    "F_j": "the positive 0/1 source mask P_(lambda_j X), hence a scalar copy of one common X",
+    "Q_j": "the rowwise Laurent quotient B/R_j determined by B=R_j Q_j; it may be signed",
+    "normal_form": [
+      "F_j=G R_j",
+      "P_A0=G B",
+      "B=R_j Q_j",
+      "P_Aj=F_0 Q_j"
+    ],
+    "Q_j_lambda_j_X_defined_by_frozen_data": false,
+    "finding": "The frozen hypotheses define neither a family Q(T) nor a substitution/evaluation operation with T=lambda_j X. A coefficient Jacobian of Q_j(lambda_j X) is therefore ill-typed until new data are supplied."
+  },
+  "F_j_replacement": {
+    "result": "passed_with_scope",
+    "reconstruction": [
+      "G divides F_j=P_(lambda_j X)",
+      "dir(Newt G) is contained in lambda_j W",
+      "a fixed nonzero Newton direction has h=lambda_j w_j",
+      "z_j=h/(2 rho w_j), giving the inherited reciprocal chart"
+    ],
+    "scope": "This absorbs the advertised common-X-to-reciprocal-chart conclusion. It does not prove that every conceivable invariant or Jacobian built from F_j is redundant if that invariant yields information strictly beyond the existing chart."
+  },
+  "exponent_ledger": {
+    "native_exponents": {
+      "K_rows": "5/9",
+      "S": "7/9",
+      "U": "5/6",
+      "q": "13/18"
+    },
+    "heavy_factor_and_sign_losses": "division by log_2(U) and by 2 are t^o(1), so the row exponent remains 5/9-o(1)",
+    "actual_chart_labels": "On the same-sign width class, equation (2.7) and a fixed extreme b_j give K-1 distinct target-target squared-distance labels, hence exponent 5/9-o(1).",
+    "chart_to_target_gap": "3-5/9=22/9",
+    "formal_tuple_capacity": "5/9+7/9+5/6+13/18=26/9",
+    "capacity_to_target_gap": "3-26/9=1/9",
+    "scope": "The 26/9 sum is a deliberately optimistic product-of-native-cardinalities warning. The factors are not proved independent, and the product is neither an incidence upper bound nor a count of distinct Euclidean labels."
+  },
+  "dependency_check": {
+    "result": "passed",
+    "open_inputs": [
+      "a newly defined compatible Q(T) if a quotient Jacobian route is revived",
+      "a collision-controlled actual distance-label theorem on the reciprocal chart",
+      "an outer stability reduction from near-extremal configurations to the exact block"
+    ]
+  },
+  "closure_contract": {
+    "main_exponent_improved": false,
+    "public_problem_changed": false,
+    "promotion": "reject",
+    "reason": "The result is a valid scoped route no-go, not the frozen success condition main_exponent_improved."
+  },
+  "bounded_reproduction": {
+    "author_script": "evidence/typed_chain_exponent_audit.py",
+    "author_script_sha256": "a456a808f7816d2cd121c7a187ea1123e12ae50600caca79cc69f2a2e3762f9b",
+    "independent_script": "audit/verify_typed_chain_scoped_no_go.py",
+    "independent_script_sha256": "7e6d05dfb24fe63ac6090f70626287cc69bae63e3a824eaeda0bfea46ee4407c",
+    "memory_kib": 524288,
+    "timeout_seconds": 120,
+    "result": "passed",
+    "lean_used": false
+  }
+}

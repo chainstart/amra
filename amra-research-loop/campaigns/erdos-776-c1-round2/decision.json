@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent audit confirms the cubic strengthening is false on an actual c=1 state; weaker G++ and rank-six recovery remain open, so no frozen success condition is met.",
+  "evidence": [
+    "audit/M01_CUBIC_GAP_COUNTEREXAMPLE_INDEPENDENT.md"
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "representations": [
+    {
+      "id": "R809R5-01",
+      "name": "typed one-demand local switch gadget",
+      "family": "local_switch_gadget",
+      "new_information": "Stores the old base e, old K(e), a complete original-graph switch, new base e', and one named output f in K(e') minus K(e).",
+      "repairs_loss": "It distinguishes an external missing edge from a graph-proved legal arc to that edge.",
+      "first_test": "On the n=15 one-vertex expansion test all four replacements b-x_i by w-x_i; reject any switch producing a non-rainbow C7.",
+      "public_effect": "One compatible switch per locked deficit could increase actual carrier rank."
+    },
+    {
+      "id": "R809R5-02",
+      "name": "multi-demand switch compatibility complex",
+      "family": "local_switch_gadget",
+      "new_information": "Records which individually legal switches may coexist, including shared recoloured edges, C7 witnesses, outputs and owners.",
+      "repairs_loss": "Individual switch counts no longer imply simultaneous cut expansion.",
+      "first_test": "Enumerate every subset of the four natural n=15 switches and compare catalogue size with distinct external outputs.",
+      "public_effect": "A compatible switch packing saturating each deficient cut would be an actual absorber theorem."
+    },
+    {
+      "id": "R809R5-03",
+      "name": "output-projected DRC reservoir",
+      "family": "dependent_random_choice_reservoir",
+      "new_information": "DRC is performed on distinct external missing B-edge outputs after projection, with every output fibre size retained.",
+      "repairs_loss": "Large path or C7-witness common neighbourhoods cannot masquerade as many carriers.",
+      "first_test": "The n=15 expansion has 736 length-four/five path witnesses but one external output; any pre-projection DRC bound must fail this test.",
+      "public_effect": "A post-projection common reservoir with small fibres could supply many actual outputs."
+    },
+    {
+      "id": "R809R5-04",
+      "name": "cut-conditioned absorber reservoir",
+      "family": "dependent_random_choice_reservoir",
+      "new_information": "For every deficient demand cut T it retains the number of distinct outside outputs adjacent to many members of T and not occupied outside T.",
+      "repairs_loss": "Global reservoir abundance cannot hide one locked cut with no expansion.",
+      "first_test": "Use the four-demand locked cut and the n=15 single-output expansion; reject a reservoir theorem whose cut image has size one.",
+      "public_effect": "Uniform projected expansion could feed Hall after construction."
+    },
+    {
+      "id": "R809R5-05",
+      "name": "absorber hypergraph with output and witness codegrees",
+      "family": "hypergraph_matching_codegree",
+      "new_information": "Each hyperedge contains a demand, external output, and every graph resource consumed; degrees and all pair codegrees are explicit.",
+      "repairs_loss": "Parallel certificates sharing an output or indispensable witness are recognized as high-codegree edges.",
+      "first_test": "Project the 736 n=15 path witnesses to wz; their output codegree equals catalogue size and matching rank is at most one.",
+      "public_effect": "A graph-derived low-codegree nibble plus cleanup could allocate a sparse residue."
+    },
+    {
+      "id": "R809R5-06",
+      "name": "all-cut nibble deficiency potential",
+      "family": "hypergraph_matching_codegree",
+      "new_information": "Tracks maximum Hall deficiency over all cuts together with untouched actual outputs after each nibble round.",
+      "repairs_loss": "Expected certificate or matching count cannot hide a persistent correlated cut.",
+      "first_test": "Exact outcome enumeration on a many-certificate one-output hypergraph must retain deficiency three for four demands.",
+      "public_effect": "Contraction followed by deterministic compatible-switch cleanup could globalize the absorber."
+    },
+    {
+      "id": "R809R5-07",
+      "name": "actual-output matroid parity system",
+      "family": "matroid_parity_linkage",
+      "new_information": "Ground elements are concrete missing B-edges paired with exclusive switch-owner resources; feasibility is replayed in the original graph.",
+      "repairs_loss": "A-side owners and certificate copies cannot be added to B-output rank on different grounds.",
+      "first_test": "Test augmentation on four switch candidates sharing wz and on the locked four-owner/two-output graph.",
+      "public_effect": "A valid parity augmentation axiom could turn local switches into nonreused outputs."
+    },
+    {
+      "id": "R809R5-08",
+      "name": "vertex-capacitated C7 linkage network",
+      "family": "matroid_parity_linkage",
+      "new_information": "Paths begin at named demands, traverse complete legal switch gadgets, and end at distinct external outputs; every internal graph resource has capacity one.",
+      "repairs_loss": "Abstract connectivity is separated from disjoint graph-realizable linkage.",
+      "first_test": "The n=15 candidate paths all terminate at wz and every proposed first switch fails rainbow-C7 legality.",
+      "public_effect": "A min-cut theorem in a genuinely represented network could certify cut expansion."
+    },
+    {
+      "id": "R809R5-09",
+      "name": "absorber-preserving stability core",
+      "family": "stability_decomposition",
+      "new_information": "The typical/exceptional split records, for each demand cut, how many external outputs and switch witnesses lie in every part.",
+      "repairs_loss": "A small exceptional set cannot silently contain all rank-increasing outputs.",
+      "first_test": "Place w and the sole external output wz in the exceptional part of the n=15 expansion; typical path abundance must not count as output expansion.",
+      "public_effect": "A stability theorem preserving output rank could reduce the global proof to finitely many core switch types."
+    },
+    {
+      "id": "R809R5-10",
+      "name": "locked-core plus exceptional-link decomposition",
+      "family": "stability_decomposition",
+      "new_information": "Contracts each identical-base locked class to its exact deficiency and records every exceptional legal arc leaving the class.",
+      "repairs_loss": "The core's large internal catalogue is replaced by the correct rank deficit, so only external links can pay it.",
+      "first_test": "Contract the n=14 class and its one-vertex expansion; the four natural links must be deleted when their switch is non-rainbow.",
+      "public_effect": "A lower bound on distinct exceptional links per contracted deficiency would give the required carrier creation."
+    }
+  ]
+}

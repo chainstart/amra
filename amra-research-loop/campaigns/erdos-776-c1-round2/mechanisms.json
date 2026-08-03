@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M01-cubic-digit-gap",
+      "representation_id": "R01-two-digit-pair",
+      "family": "canonical_digit_geometry",
+      "decisive_claim": "Every actual (++ -> ++) state with gamma4<0 satisfies e>=C(a-1,3), where alpha=C(a,2)+s and e=U_2(beta)-U_2(alpha)-1.",
+      "would_close": [
+        "the scale-uniform G++ inequality and hence rank-five recovery of the entire (++ -> ++) chamber"
+      ],
+      "kill_test": "At each exact target-wall endpoint, compute e-C(a-1,3); kill on the first negative value.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:37:39+00:00",
+      "status_evidence": "evidence/M01_CUBIC_GAP_COUNTEREXAMPLE.json: exact actual row j=7,q=4845,k=4,r=204 has cubic gap -6448 while G++ remains positive.",
+      "updated_at": "2026-08-03T01:46:16+00:00"
+    },
+    {
+      "id": "M02-carry-budget",
+      "representation_id": "R02-carry-path",
+      "family": "canonical_digit_geometry",
+      "decisive_claim": "The interval from alpha to beta contains enough weighted degree-two carry increments that their exact U_2 gain is at least C(a-1,3)+1.",
+      "would_close": [
+        "M01 by a local carry-count inequality uniform in scale"
+      ],
+      "kill_test": "Partition the minimum-margin row alpha=835,beta=1272 into unit increments and kill if the proposed carry budget already exceeds the exact available carry contribution.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:37:39+00:00",
+      "status_evidence": "evidence/MECHANISM_MIN_KILL_TESTS.json: exact telescoping reduces the mechanism identically to M01, so it supplies no independent inequality.",
+      "updated_at": "2026-08-03T01:42:02+00:00"
+    },
+    {
+      "id": "M03-leading-gap-only",
+      "representation_id": "R01-two-digit-pair",
+      "family": "canonical_digit_geometry",
+      "decisive_claim": "The leading digit gap b0-a alone forces C(b0,3)-C(a+1,3)-1>=C(a-1,3) on every actual (++ -> ++) state.",
+      "would_close": [
+        "G++ without using lower canonical digits"
+      ],
+      "kill_test": "Evaluate the inequality at the exact minimum-margin state (j,q,k,r)=(6,2436,4,145).",
+      "status": "killed",
+      "created_at": "2026-08-03T01:37:39+00:00",
+      "status_evidence": "evidence/MECHANISM_MIN_KILL_TESTS.json: exact actual counterexample has 8119<9880.",
+      "updated_at": "2026-08-03T01:42:02+00:00"
+    },
+    {
+      "id": "M04-cap-deficit-domination",
+      "representation_id": "R03-complementary-deficits",
+      "family": "deficit_duality",
+      "decisive_claim": "The beta cap deficit is no larger than the alpha cap deficit after transport across the leading gap, and this domination implies e>=C(a-1,3).",
+      "would_close": [
+        "the G++ cubic increment gate through one cap-deficit comparison"
+      ],
+      "kill_test": "Compute both transported deficits on the earliest target row and kill on reversed domination.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:37:39+00:00",
+      "status_evidence": "evidence/MECHANISM_MIN_KILL_TESTS.json: actual row j=7,k=4,r=207 reverses cap-deficit domination 7<14.",
+      "updated_at": "2026-08-03T01:42:02+00:00"
+    },
+    {
+      "id": "M05-shadow-defect-bound",
+      "representation_id": "R04-shadow-defect-dual",
+      "family": "deficit_duality",
+      "decisive_claim": "The exact leading-block gain in U_2 from alpha to beta exceeds C(a-1,3)+1 plus the net shadow-defect loss on every actual target cell.",
+      "would_close": [
+        "G++ while retaining both lower digits"
+      ],
+      "kill_test": "Minimize the defect-corrected gap on all exact j<=20 target rows and kill at the first negative cell.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:37:39+00:00",
+      "status_evidence": "evidence/MECHANISM_MIN_KILL_TESTS.json: exact expansion is circular and reduces to M01.",
+      "updated_at": "2026-08-03T01:42:02+00:00"
+    },
+    {
+      "id": "M06-wall-separation",
+      "representation_id": "R05-dyadic-elimination",
+      "family": "dyadic_asymptotics",
+      "decisive_claim": "Uniformly in h and k, the p=0 target wall lies beyond the unique r-wall where e=C(a-1,3), so every (++ -> ++) target state satisfies M01.",
+      "would_close": [
+        "the scale-uniform G++ inequality using actual dyadic arithmetic"
+      ],
+      "kill_test": "Locate both exact compatible-r walls for k=4 at j=6 and kill if their order is reversed or interlaced by a canonical carry.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:37:39+00:00",
+      "status_evidence": "evidence/MECHANISM_MIN_KILL_TESTS.json: canonical carry makes cubic gap drop 3834 to 35 on consecutive compatible r.",
+      "updated_at": "2026-08-03T01:42:02+00:00"
+    },
+    {
+      "id": "M07-positive-normalized-margin",
+      "representation_id": "R06-multiscale-phase",
+      "family": "dyadic_asymptotics",
+      "decisive_claim": "After normalization at the p=0 wall, the G++ margin has a positive scale-independent lower profile in every co-growth regime of h and k.",
+      "would_close": [
+        "G++ by compactness plus finitely many exact boundary scales"
+      ],
+      "kill_test": "Search paths with k proportional to h^theta for theta in {0,1/4,1/2,3/4}; kill if the normalized margin tends to zero or negative.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:37:40+00:00",
+      "status_evidence": "evidence/MECHANISM_MIN_KILL_TESTS.json: unspecified normalization makes the claim non-falsifiable.",
+      "updated_at": "2026-08-03T01:42:02+00:00"
+    },
+    {
+      "id": "M08-negative-forces-no-borrow",
+      "representation_id": "R08-negative-fibre-recurrence",
+      "family": "borrow_dynamics",
+      "decisive_claim": "Every actual (-- -> ++) state with gamma4<0 and gamma5<0 satisfies P>=0 and V>=0.",
+      "would_close": [
+        "the missing applicability premise for the inherited rank-six recovery formula"
+      ],
+      "kill_test": "Search exact low-r fibres and both P=0,V=0 moving walls through increasing j; kill on the first gamma5-negative borrowed row.",
+      "status": "surviving",
+      "created_at": "2026-08-03T01:37:40+00:00",
+      "status_evidence": "evidence/MECHANISM_MIN_KILL_TESTS.json: inherited expanded audit finds zero borrow violations among 433 gamma5-negative rows; finite evidence only.",
+      "updated_at": "2026-08-03T01:42:02+00:00"
+    },
+    {
+      "id": "M09-rank6-positive",
+      "representation_id": "R08-negative-fibre-recurrence",
+      "family": "borrow_dynamics",
+      "decisive_claim": "On every actual (-- -> ++) no-borrow row with gamma4<0 and gamma5<0, gamma6=U_4(V)-U_4(P)-U_3(p)-1 is nonnegative.",
+      "would_close": [
+        "two-row recovery of the full gamma5-negative (-- -> ++) branch once M08 holds"
+      ],
+      "kill_test": "Minimize exact gamma6 on each expanding negative fibre; kill on the first negative value.",
+      "status": "surviving",
+      "created_at": "2026-08-03T01:37:40+00:00",
+      "status_evidence": "evidence/MECHANISM_MIN_KILL_TESTS.json: inherited expanded audit finds zero double-negative rows and minimum gamma6 549137400978 after gamma5<0; finite evidence only.",
+      "updated_at": "2026-08-03T01:42:02+00:00"
+    },
+    {
+      "id": "M10-borrowed-rank6-recovery",
+      "representation_id": "R07-rank6-full-word",
+      "family": "borrow_dynamics",
+      "decisive_claim": "If an actual gamma5-negative target row reaches P<0 or V<0, its correctly renormalized full rank-six surplus is nevertheless nonnegative.",
+      "would_close": [
+        "the rank-six branch without needing M08"
+      ],
+      "kill_test": "Construct the nearest integral states on both sides of P=0 and V=0, retain only actual states, and kill on a negative full-orbit surplus.",
+      "status": "frozen",
+      "created_at": "2026-08-03T01:37:40+00:00",
+      "status_evidence": "Excluded from survivors: no actual gamma5-negative borrowed antecedent is known, and surviving M08 would make the conditional branch vacuous.",
+      "updated_at": "2026-08-03T01:46:16+00:00"
+    },
+    {
+      "id": "M11-finite-order-types",
+      "representation_id": "R09-order-type-complex",
+      "family": "finite_chamber_complex",
+      "decisive_claim": "Only finitely many canonical digit order types occur among all actual c=1 target states, and each realized cell has a polynomial certificate for M01 or M09.",
+      "would_close": [
+        "an exhaustive symbolic proof of both two-row recovery branches"
+      ],
+      "kill_test": "Enumerate realized order types at successive dyadic scales and kill finite stabilization when a new relative digit ordering appears.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:37:40+00:00",
+      "status_evidence": "evidence/MECHANISM_MIN_KILL_TESTS.json: exact leading gap is unbounded through selected j<=100.",
+      "updated_at": "2026-08-03T01:42:02+00:00"
+    },
+    {
+      "id": "M12-two-step-potential",
+      "representation_id": "R10-recovery-potential",
+      "family": "finite_chamber_complex",
+      "decisive_claim": "Every actual row with gamma4<0 has gamma5>=0 or strictly increases a bounded lexicographic borrow-gap potential before a nonnegative gamma6.",
+      "would_close": [
+        "a uniform two-row recovery lemma across (++ -> ++) and (-- -> ++) target chambers"
+      ],
+      "kill_test": "Evaluate the potential on the known gamma5-negative k=4,r=9 fibre and kill at the first nonincrease or unbounded coordinate.",
+      "status": "killed",
+      "created_at": "2026-08-03T01:37:40+00:00",
+      "status_evidence": "evidence/MECHANISM_MIN_KILL_TESTS.json: potential has no evaluable definition.",
+      "updated_at": "2026-08-03T01:42:02+00:00"
+    }
+  ]
+}

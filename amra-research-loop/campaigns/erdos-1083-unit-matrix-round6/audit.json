@@ -1,0 +1,26 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos776_lane (author-swapped blind reconstruction)",
+    "evidence": [
+      "audit/UNIT_MATRIX_ROUND6_INDEPENDENT_AUDIT.md",
+      "audit/UNIT_MATRIX_ROUND6_INDEPENDENT_AUDIT.json",
+      "audit/verify_general_unit_matrix_independent.py",
+      "audit/general_unit_matrix_independent.json"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "mechanism_audit": {
+    "seven_literal_kills": "passed",
+    "proved_local_mechanism": "M1083U6-01",
+    "only_unproved_survivors": ["M1083U6-06", "M1083U6-10"]
+  },
+  "promotion_audit": {
+    "decision": "reject",
+    "reason": "The formal all-m primitive matrix theorem is local. Complete actual-block realization, charged absolute-spectrum conditioning, ambient-unit control, all-target occurrence/fibre estimates and stability remain open.",
+    "main_exponent_changed": false,
+    "three_fifths_changed": false
+  }
+}

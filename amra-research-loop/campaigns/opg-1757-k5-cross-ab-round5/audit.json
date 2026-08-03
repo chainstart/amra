@@ -1,0 +1,12 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "root, author-swapped graph-definition reconstruction",
+    "evidence": ["audit/K5_CROSS_AB_INDEPENDENT_AUDIT.md", "audit/verify_k5_cross_ab_independent.py"]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "scope": "complete distinguished component on c=d=e=1 only",
+  "excluded_claims": ["full five-variable stabilizer component","transverse directions","G201","OPG-1757"]
+}

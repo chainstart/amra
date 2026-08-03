@@ -1,0 +1,145 @@
+{
+  "schema": "amra.erdos776.gamma4-feedback-reduction-audit.v1",
+  "proved_reduction": "Every relaxed s>=3 state has C(r,2)>=a^2+3a and r>=rho(a,c), hence A>=B(a,c).",
+  "exact_state_guard": {
+    "max_r": 120,
+    "exact_relaxed_s_ge_3_states": 365,
+    "minimum_feedback_slack": 4236,
+    "minimum_feedback_witness": {
+      "r": 104,
+      "s": 3,
+      "a": 32,
+      "e": 0,
+      "A": 40,
+      "E": 30,
+      "c": 9,
+      "gamma4": -2,
+      "feedback_slack": 4236,
+      "B": 40
+    }
+  },
+  "finite_two_variable_kernel": {
+    "domain": {
+      "a": [
+        3,
+        1000
+      ],
+      "c": "3..a"
+    },
+    "pairs_checked": 498501,
+    "active_rho_branch": {
+      "gamma": 3001,
+      "p": 495491,
+      "tie": 9
+    },
+    "failures": 0,
+    "first_failure": null,
+    "minimum_gap": 0,
+    "minimum_witness": {
+      "a": 6,
+      "c": 3,
+      "rho": 11,
+      "B": 10,
+      "A_star": 10,
+      "gap": 0
+    },
+    "high_half_explicit_D_certificate": {
+      "failures": 13,
+      "last_failure": {
+        "a": 16,
+        "c": 8,
+        "q0": 9,
+        "B": 21,
+        "D0": 18,
+        "certificate_gap": -110
+      },
+      "scope_warning": "finite observation only; q0<=9 is proved, but eventual success of the certificate is not yet proved"
+    },
+    "low_half_fourth_root_certificate": {
+      "failures": 6,
+      "failure_points": [
+        [
+          7,
+          3
+        ],
+        [
+          8,
+          3
+        ],
+        [
+          9,
+          3
+        ],
+        [
+          9,
+          4
+        ],
+        [
+          10,
+          3
+        ],
+        [
+          10,
+          4
+        ]
+      ],
+      "last_failure": {
+        "a": 10,
+        "c": 4,
+        "B": 14,
+        "L": 12,
+        "D": 10,
+        "certificate_gap": -17
+      },
+      "scope_warning": "D<=L is proved; finite eventual success of the resulting target certificate is not an infinite proof"
+    },
+    "scope_warning": "finite rectangular check only; not an infinite proof"
+  },
+  "high_half_infinite_closure": {
+    "theorem_scope": "all a>=3 and 2c>=a",
+    "exact_base": {
+      "a": [
+        3,
+        68
+      ],
+      "pairs": 1219,
+      "failures": 0
+    },
+    "polynomial_branches_at_first_a": {
+      "3": {
+        "lambda": "4/5",
+        "domain_margin_times_6_at_69": "980352/125",
+        "E_lower_at_69": "28428/25"
+      },
+      "4": {
+        "lambda": "7/10",
+        "domain_margin_times_6_at_69": "9450861/1000",
+        "E_lower_at_69": "50061/40"
+      },
+      "5": {
+        "lambda": "2/3",
+        "domain_margin_times_6_at_69": "60720",
+        "E_lower_at_69": "536"
+      },
+      "6": {
+        "lambda": "3/5",
+        "domain_margin_times_6_at_69": "653568/25",
+        "E_lower_at_69": "17441/25"
+      },
+      "7": {
+        "lambda": "14/25",
+        "domain_margin_times_6_at_69": "273074676/15625",
+        "E_lower_at_69": "312776/625"
+      },
+      "8": {
+        "lambda": "8/15",
+        "domain_margin_times_6_at_69": "2519328/125",
+        "E_lower_at_69": "2968/25"
+      }
+    },
+    "q9_first_even_a": 70,
+    "q9_E_at_first_even_a": "24",
+    "verdict": "high-half chamber closed by finite base plus symbolic polynomial branches"
+  },
+  "verdict": "reduction and high-half 2c>=a closure verified; low-half 2c<a remains an unproved infinite discrete kernel"
+}

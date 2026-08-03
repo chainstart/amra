@@ -1,0 +1,14 @@
+{
+  "schema": "amra.opg1757.full-w4-spoke-domination.v1",
+  "shift": "x=a+1,y=b+1,z=c+1,w=d+1",
+  "P_identity": "P=A*z^2-H",
+  "xi_identity": "xi=C*z+E",
+  "boundary_identity": "H*C^2-A*E^2=4*(w-1)^2*(x-1)^4*(y-1)^2*J",
+  "distinguished_component": "x,w,z>0; w*x>1; y*(w*x+1)>2; z>sqrt(H/A)",
+  "conclusion": "xi>0 on the full four-variable distinguished spoke component",
+  "mathematical_status": "proved_and_independently_audited",
+  "scope": "W4 marked-spoke stabilizer specialization only",
+  "global_interface_closed": false,
+  "public_problem_changed": false,
+  "lean_used": false
+}

@@ -1,0 +1,34 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos776_lane (author-swapped blind independent reconstruction)",
+    "evidence": [
+      "audit/EXACT_REDUCTION_INDEPENDENT_AUDIT.md",
+      "audit/independent_verify_exact_reduction.py (SHA-256 d0a8adb1d6033b08d1d22d3ef09467bb2fa661c54303d03f7473329e3c2d508f)",
+      "audit/independent_verify_exact_reduction_result.json (SHA-256 1169ee53ed248a63b3762ea9594baed042e1d8458a7f4096e8aa86a1a7e8b7f8)"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "audited_claim": {
+    "integer_rounding_equivalence": "passed",
+    "odd_row_irrationality_and_count": "passed_independently_122_rows",
+    "exchange_rank_direct_exit": "passed_only_conditional_on_a_correctly_typed_actual_certificate_graph",
+    "hall_deficiency_identity": "passed",
+    "universal_delta_carriers": "passed_necessary_and_sufficient",
+    "arbitrary_actual_delta_carriers": "count_only_sufficiency_refuted",
+    "labelled_bipartite_graph_count": "passed_74963"
+  },
+  "evidence_quality_notes": {
+    "author_rounding_guard": "nearby-residue assertion compares residue<=floor_slack with itself; independent audit repairs this using direct exact Q(sqrt(3)) comparison",
+    "author_json_wording": "delta distinct legal actual carriers is not sufficient by count alone; every augmented Hall cut and global ownership must also pass"
+  },
+  "promotion_audit": {
+    "decision": "reject",
+    "reason": "Actual exchange-graph construction and rank, graph-derived carrier creation, per-cut legal neighbourhoods, and global nonreuse remain unproved.",
+    "original_problem_changed": false,
+    "main_term_changed": false,
+    "main_coefficient_changed": false
+  }
+}

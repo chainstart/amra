@@ -1,0 +1,12 @@
+{
+  "inherited_methods": [
+    {"method":"round-five same-interface no-go","loss_step":"freezes both the -4q surplus coefficient and the q-free bottom transfer","lost_information":"how leading-block and bottom-transfer changes share the required slope gain","consequence":"it identifies an escape interface but gives no quantitative target for it"},
+    {"method":"leading-block enumeration proposal","loss_step":"names changed Macaulay digits without first extracting their q-coefficient contribution","lost_information":"whether a candidate can possibly overcome canonical next-word pressure","consequence":"large exact searches may test candidates that fail by slope alone"},
+    {"method":"terminal positive seed","loss_step":"drops the canonical next-word requirement","lost_information":"whether the seed persists into the suffix construction","consequence":"terminal recovery cannot yet close the public interface"}
+  ],
+  "required_new_information": [
+    "the exact sum of surplus-slope improvement and bottom-transfer q-slope",
+    "a canonical Macaulay identity realizing a slope budget at least three",
+    "a persistence theorem from any realized switch to the public suffix"
+  ]
+}

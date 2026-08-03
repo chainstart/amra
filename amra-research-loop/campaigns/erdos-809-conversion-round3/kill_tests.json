@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {"mechanism_id":"M809R3-01","outcome":"survived","classification":"global single-remainder repair unrefuted","evidence":"Odd-n irrationality forces a remainder but does not refute one globally owned remainder plus a strict integer margin."},
+    {"mechanism_id":"M809R3-02","outcome":"killed","classification":"fractional mass is not integral carrier capacity","evidence":"evidence/ROUND3_MECHANISM_FALSIFICATION.json M809R3-02"},
+    {"mechanism_id":"M809R3-03","outcome":"killed","classification":"zero-surplus Hall cut","evidence":"evidence/ROUND3_MECHANISM_FALSIFICATION.json M809R3-03"},
+    {"mechanism_id":"M809R3-04","outcome":"killed","classification":"disjoint-certificate overclaim","evidence":"evidence/ROUND3_MECHANISM_FALSIFICATION.json M809R3-04"},
+    {"mechanism_id":"M809R3-05","outcome":"survived","classification":"actual exchange-rank theorem open","evidence":"Round-two scalar profile is explicitly not graph-realizable and therefore misses this mechanism's actual joint hypothesis."},
+    {"mechanism_id":"M809R3-06","outcome":"killed","classification":"no sublinear conflict-degree input","evidence":"evidence/ROUND3_MECHANISM_FALSIFICATION.json M809R3-06"},
+    {"mechanism_id":"M809R3-07","outcome":"killed","classification":"actual one-step carrier-creation failure","evidence":"evidence/ROUND3_MECHANISM_FALSIFICATION.json M809R3-07 and inherited round2 graph-realizable three-demand/two-token circuit"},
+    {"mechanism_id":"M809R3-08","outcome":"survived","classification":"long alternating creation path open","evidence":"The inherited circuit kills one-step output but supplies no proof that every graph-derived longer alternating creation path is terminal."},
+    {"mechanism_id":"M809R3-09","outcome":"killed","classification":"unbounded boundary-map fibre","evidence":"evidence/ROUND3_MECHANISM_FALSIFICATION.json M809R3-09"},
+    {"mechanism_id":"M809R3-10","outcome":"killed","classification":"lossless uncrossing lacks exchange axiom","evidence":"evidence/ROUND3_MECHANISM_FALSIFICATION.json M809R3-10"}
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "statement":"K5-e marked-cross-edge (b,e) component theorem. On the stabilizer slice a=c=d=1, let alpha=-1+sqrt(10)/4. The complete component of P>0 containing (1,1) is exactly e>alpha and b>-C(e)/A(e); xi is strictly positive throughout it.",
+  "status":"proved",
+  "closes":["complete distinguished-component classification and strict xi positivity on the natural a=c=d=1, free-(b,e) slice"],
+  "evidence":["evidence/K5_CROSS_BE_COMPONENT_THEOREM.md","evidence/verify_k5_cross_be_component.py","evidence/verify_k5_cross_be_component.json"],
+  "dependency_gaps":["free c or other released stabilizer variables","full five-variable stabilizer component","three transverse independent-edge directions","G201","OPG-1757"]
+}

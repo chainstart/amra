@@ -1,0 +1,29 @@
+{
+  "schema":"amra.opg1757.g201-fixed-edge-falsification.v1",
+  "definition":{
+    "global_good_edge":"ordinary e with xi_e>0 on the entire distinguished component of C_(M\\e)",
+    "G201":"after separate loop/coloop reductions, every connected graphic matroid has at least one global good edge",
+    "pointwise_gap":"forall p exists e is only a component cover; G201 requires exists e forall p",
+    "strict_two_point_kill":"two simultaneously component-valid points whose strict-good edge sets have empty intersection"
+  },
+  "search":{
+    "graphs":"all connected bridgeless labelled simple graphs on at most five vertices",
+    "graph_count":264,
+    "certified_rational_points":1781,
+    "path_certificate":"for every marked e, affine P_e(t)>0 on the full segment from rational t to 1",
+    "resource_limit":"2 GiB virtual memory; 120 seconds",
+    "wall_time_seconds":0.8
+  },
+  "result":{
+    "exact_two_point_falsifier":null,
+    "graphs_with_shrunk_good_edge_set":0,
+    "minimum_common_edge_intersection":3,
+    "minimum_role":"triangle has three edges and all three remain good",
+    "classification":"finite one-coordinate absence only"
+  },
+  "missing_reduction":"No theorem reduces a full distinguished component to coordinate lines through the positive anchor; multicoordinate exact path certification remains necessary.",
+  "script":"evidence/g201_fixed_edge_quantifier_falsification.py",
+  "script_sha256":"881a8abc645bc047440aead1e9a82d955ff7afe9d4e8e8cd513aaef8e6a5eaa1",
+  "G201_killed":false,
+  "public_problem_changed":false
+}

@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {"mechanism_id":"M401-k4r9-rank7-words","outcome":"killed","evidence":"j35 B-word carry differs from the claimed j33 cell; see evidence/K4_R9_RANK7_RANK8_CELL_SPLIT.json"},
+    {"mechanism_id":"M402-k4r9-gamma7-polynomial","outcome":"killed","evidence":"the quadratic formula is a single-cell identity and the stable formula is linear; see audit/K4_R9_RANK7_RANK8_CELL_SPLIT_INDEPENDENT_AUDIT.md"},
+    {"mechanism_id":"M403-k4r9-threshold-j33","outcome":"killed","evidence":"canonical stability begins in a different cell at j35; see evidence/K4_R9_RANK7_RANK8_CELL_SPLIT.md"},
+    {"mechanism_id":"M404-k4r9-uniform-rank7-recovery","outcome":"killed","evidence":"actual j73 has gamma7<0; see evidence/K4_R9_RANK7_RANK8_CELL_SPLIT.json"},
+    {"mechanism_id":"M406-uniform-fixed-parameter-recovery","outcome":"killed","evidence":"fixed K4,r9 first-recovery ranks are unbounded; see evidence/K4_R9_NO_FIXED_RANK_RECOVERY.md"},
+    {"mechanism_id":"M408-positive-leading-surplus","outcome":"killed","evidence":"the stable surplus leading coefficient is -4; see evidence/K4_R9_NO_FIXED_RANK_RECOVERY.json"},
+    {"mechanism_id":"M409-nearby-family-robustness","outcome":"killed","evidence":"the named recovery mechanism fails within its base family; see audit/K4_R9_RANK7_RANK8_CELL_SPLIT_INDEPENDENT_AUDIT.md"},
+    {"mechanism_id":"M412-rank42-seed-composition","outcome":"killed","evidence":"the R=42 instance has one actual member negative at all ranks 3..42; see evidence/K4_R9_NO_FIXED_RANK_RECOVERY.md"}
+  ]
+}

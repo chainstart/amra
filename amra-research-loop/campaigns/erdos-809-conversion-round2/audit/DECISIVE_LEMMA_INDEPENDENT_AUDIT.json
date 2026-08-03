@@ -1,0 +1,56 @@
+{
+  "schema": "amra.erdos809.conversion-round2.independent-audit.v1",
+  "verdict": "pass_with_conditional_boundaries_preserved",
+  "independence": {
+    "imports_author_evidence": false,
+    "starting_definitions": [
+      "Phi(n,e)=e/2+(n/2)sqrt(e-n^2/4)",
+      "S_m=e-C(|B|,2)-Phi(n,e)",
+      "R_A=e(G[A_<q*])+I_mix-N_int"
+    ],
+    "script_sha256": "e6e4004252d332989819f453ccdcdb5774b671ca42614583e6d5d93abec13ed6",
+    "resource_limit": "512 MiB virtual memory; 120 seconds",
+    "wall_time_seconds": 1.4
+  },
+  "M809C-05": {
+    "verdict": "refutation_passes_in_exact_unweighted_cardinality_form",
+    "derivation": [
+      "For odd n, floor(n^2/4)=(n^2-1)/4 and e=(n^2+3)/4.",
+      "Therefore e-n^2/4=3/4 and Phi=e/2+n sqrt(3)/4.",
+      "For every integer |B|, S_m has nonzero sqrt(3) coefficient -n/4, hence is irrational.",
+      "A finite unweighted set has integer cardinality, so it cannot have cardinality exactly S_m."
+    ],
+    "scope": "This does not refute weighted nonnegative atoms of total mass S_m or an integer floor/ceiling ledger with an explicit rounding term."
+  },
+  "M809C-08": {
+    "verdict": "direct_subcase_passes_conditionally_on_the_inherited_anchor_interface",
+    "proof": "I_mix counts distinct mixed colours. Choosing each colour's unique high internal anchor is injective by colour, and the inherited rich-outer theorem places all selected high edges in one pairwise-C7-compatible family. Since I_mix is integral, I_mix>=ceil(Phi) supplies at least Phi compatible edges of distinct colours.",
+    "n14_counterprofile": {
+      "Phi": 32,
+      "S_m": 15,
+      "e(G[A_<q*])": 8,
+      "I_mix": 8,
+      "N_int": 0,
+      "R_A": 16
+    },
+    "boundary": "The profile verifies that the scalar identity plus R_A>S_m does not force either displayed channel to reach Phi. It is not a graph-realizable counterexample and therefore does not refute a future cross-channel compatibility theorem."
+  },
+  "M809C-11": {
+    "verdict": "conditional_Hall_theorem_passes",
+    "statement": "For a finite demand-to-carrier bipartite graph, the minimum number unpaid is |D|-nu=max_T(|T|-|N(T)|). Full payment is equivalent to every Hall inequality |N(T)|>=|T|.",
+    "proof_boundary": "The lower bound follows because at most |N(T)| members of T can be matched. For the upper bound, adjoin delta=max_T(|T|-|N(T)|) universal dummy carriers, apply Hall, and delete the dummy carriers.",
+    "finite_guard": {
+      "bipartite_graphs_exhausted": 74963,
+      "maximum_left_size": 4,
+      "maximum_right_size": 4,
+      "tight_three_demands_two_carriers": {"matching_rank": 2, "deficiency": 1},
+      "one_proved_owned_slack_arc_added": {"matching_rank": 3, "deficiency": 0}
+    },
+    "scope": "Hall allocates already constructed typed carriers along already proved legal arcs. It does not construct carriers, arcs, ownership maps, or graph-specific expansion."
+  },
+  "promotion": {
+    "public_problem_changed": false,
+    "main_term_changed": false,
+    "reason": "The result refutes one exact formulation and proves two conditional interfaces, but does not cover every public-theorem branch."
+  }
+}

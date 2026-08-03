@@ -1,0 +1,12 @@
+{
+  "scope": "K5-e high-triangle 2,4,2 stabilizer slice only",
+  "status": "proved_pending_independent_audit",
+  "anchor": {"a": 1, "b": 1, "c": 1, "P": 134, "xi": 70},
+  "component_coordinates": {"y": "b+1", "z": "c+1"},
+  "component": ["y>1", "z>sqrt(2/(y^2+1))", "a>upper_root_a(F)"],
+  "root_birth_walls": ["z=1", "L=0", "N=0"],
+  "root_crossing_walls": ["L=0", "H=0"],
+  "conclusion": "G>0 and xi=bG>0 on the distinguished stabilizer component",
+  "global_promotion": false,
+  "audit_required": true
+}

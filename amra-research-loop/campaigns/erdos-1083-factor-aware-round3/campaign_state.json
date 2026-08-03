@@ -1,0 +1,72 @@
+{
+  "schema_version": "amra-research-loop.v1",
+  "campaign_id": "erdos-1083-factor-aware-round3",
+  "problem_id": "Erdos-1083",
+  "title": "Factor-aware quotient families and reciprocal-chart incidence",
+  "phase": "frozen",
+  "created_at": "2026-08-03T02:51:10+00:00",
+  "updated_at": "2026-08-03T03:13:40+00:00",
+  "gates": {
+    "min_representation_families": 4,
+    "min_representations": 8,
+    "min_mechanism_families": 4,
+    "min_mechanisms": 10,
+    "min_kill_ratio": 0.8,
+    "max_survivors": 3
+  },
+  "artifacts": {
+    "closure_contract": "closure_contract.json",
+    "information_loss_map": "information_loss_map.json",
+    "representations": "representations.json",
+    "mechanisms": "mechanisms.json",
+    "kill_tests": "kill_tests.json",
+    "survivors": "survivors.json",
+    "decisive_lemma": "decisive_lemma.json",
+    "audit": "audit.json",
+    "decision": "decision.json"
+  },
+  "history": [
+    {
+      "at": "2026-08-03T02:51:10+00:00",
+      "event": "initialized",
+      "phase": "target_selection"
+    },
+    {
+      "at": "2026-08-03T02:51:47+00:00",
+      "event": "advanced",
+      "from": "target_selection",
+      "phase": "obstruction_analysis"
+    },
+    {
+      "at": "2026-08-03T02:52:29+00:00",
+      "event": "advanced",
+      "from": "obstruction_analysis",
+      "phase": "representation_search"
+    },
+    {
+      "at": "2026-08-03T02:56:06+00:00",
+      "event": "advanced",
+      "from": "representation_search",
+      "phase": "mechanism_falsification"
+    },
+    {
+      "at": "2026-08-03T02:58:28+00:00",
+      "event": "advanced",
+      "from": "mechanism_falsification",
+      "phase": "survivor_deepening"
+    },
+    {
+      "at": "2026-08-03T03:02:51+00:00",
+      "event": "advanced",
+      "from": "survivor_deepening",
+      "phase": "independent_audit"
+    },
+    {
+      "at": "2026-08-03T03:13:40+00:00",
+      "event": "frozen",
+      "from": "independent_audit",
+      "phase": "frozen",
+      "reason": "Independent audit confirms the normalized quotient host and corrected point-pair ledger only; no factor-moment positivity theorem or fibre bound is proved and the public 3/5 exponent is unchanged, so no frozen success condition is met."
+    }
+  ]
+}

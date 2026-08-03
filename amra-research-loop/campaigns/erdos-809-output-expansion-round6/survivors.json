@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M809O6-04",
+    "M809O6-08",
+    "M809O6-10"
+  ],
+  "selection_rationale": "These are the three genuinely unrefuted scale interfaces. M809O6-04 asks whether the exact bad-C7 traces admit an old-graph-independent finite reduction; M809O6-08 asks for uniform overlap control after leaving the failed one-exchange model; and M809O6-10 asks for an all-cut composition theorem once legal outputs exist. The proved mechanisms settle only joint legality and conditional allocation, while the finite witness claims are killed."
+}

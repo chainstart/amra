@@ -1,0 +1,36 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex spectrum_profile_counterfamily; natural min-support reconstruction without importing author checker",
+    "evidence": [
+      "audit/ABSOLUTE_PROFILE_RANGE_INDEPENDENT_AUDIT.md",
+      "audit/ABSOLUTE_PROFILE_RANGE_INDEPENDENT_AUDIT.json",
+      "audit/verify_absolute_profile_range_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "scope_review": {
+    "proved": [
+      "exact natural-minimum profile graph, range equality and fibre equality",
+      "same-sign zero-endpoint range-one versus nonzero-endpoint injectivity dichotomy",
+      "conditional power-large literal range in the nonzero branch",
+      "identically zero affine residual after subtracting known scalar-source data"
+    ],
+    "not_proved": [
+      "an unconditional choice of branch for near-extremal configurations",
+      "a newly constructed legal power-large Euclidean counterfamily",
+      "cross-row rigidity from the zero residual",
+      "an all-target distance interface or public exponent improvement"
+    ],
+    "reverse_order": "normalization firewall only; never used to choose the actual natural-profile branch",
+    "stale_overclaims": "resolved in representations; stronger claims remain only as explicitly killed mechanisms"
+  },
+  "machine_reproduced": {
+    "command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-spectrum-conditioning-round8/audit/verify_absolute_profile_range_independent.py",
+    "result": "pass; 39 independent checks",
+    "sha256": "172c7d863550063827b8a9f8a554680eaa3c92c4108515c9a9c96c90eb09d0fa"
+  },
+  "decision_recommendation": "freeze_without_public_promotion: the exact local conditioning interface is proved, but neither an unconditional power-large counterfamily nor the downstream all-target distance bridge is supplied."
+}

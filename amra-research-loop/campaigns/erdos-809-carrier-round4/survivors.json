@@ -1,0 +1,10 @@
+{
+  "mechanism_ids": ["M809R4-04", "M809R4-10"],
+  "selection_rationale": "Eight universal carrier-creation or exchange claims are strictly killed on one exact full graph: n=14, e=50, rainbow C7, L4(2), A=N[v], four repeated colours, four distinct owned A diagonals, but only K(bc)={bc,cz}. M809R4-04 remains only as a theorem that would first derive a large bounded-overlap catalogue of actual absorbers; none has been constructed. M809R4-10 remains only in the separate actual-carrier-rich regime where total carrier count is at least demand count; the countergraph does not meet that antecedent. Neither survivor may use universal dummies, and neither is evidence for 1/8.",
+  "chain_firewall": [
+    "M809R4-04 must derive concrete absorber certificates from the original graph, prove output edges are actual and unused, and prove a hypergraph matching covering every leftover cut.",
+    "M809R4-10 must establish its actual-carrier-rich antecedent in a hard public branch, retain canonical-reserve codegrees, contract maximum Hall deficiency rather than expected matched size, and give deterministic cleanup.",
+    "Finite B-side enumeration and conditional Hall allocation are not promotion evidence.",
+    "Any deepening must still compose with the exact outer-A gate and all frozen public branches."
+  ]
+}

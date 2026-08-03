@@ -1,0 +1,14 @@
+{
+  "representations": [
+    {"id":"R501-affine-b-fibers","name":"P-affine fibers in b","family":"fiber-geometry","new_information":"retains the orientation changes at the two zeros of A(a)","first_test":"factor A and evaluate C at both A-walls"},
+    {"id":"R502-anchor-epigraph","name":"anchor epigraph coordinates","family":"component-topology","new_information":"identifies every point connected to the anchor, not sampled paths","first_test":"prove the region a>beta,b>-C/A is connected"},
+    {"id":"R503-vertical-barriers","name":"vertical A-wall ledger","family":"component-topology","new_information":"distinguishes the traversable lower wall from the empty upper wall","first_test":"compute C(-1+sqrt(10)/4) exactly"},
+    {"id":"R504-affine-determinant","name":"two-affine-form determinant identity","family":"algebraic-certificate","new_information":"expresses xi using positive P plus a univariate remainder","first_test":"expand A*(xi/2)-D*P"},
+    {"id":"R505-resultant","name":"exact b-resultant","family":"algebraic-certificate","new_information":"locates every possible P/xi contact on the boundary","first_test":"factor resultant_b(P,xi)"},
+    {"id":"R506-quadratic-sos","name":"positive quadratic certificate","family":"real-algebra","new_information":"proves 120a^2+48a+5 is strictly positive over R","first_test":"compute discriminant -96 and leading coefficient"},
+    {"id":"R507-root-order","name":"algebraic barrier ordering","family":"real-algebra","new_information":"places the D sign wall below beta","first_test":"prove -3/14<beta exactly"},
+    {"id":"R508-boundary-sign","name":"xi restricted to P=0","family":"sign-certificates","new_information":"gives the limiting xi sign on the complete anchor boundary","first_test":"substitute b=-C/A and factor"},
+    {"id":"R509-exact-replay","name":"bounded exact symbolic replay","family":"machine-evidence","new_information":"checks identities and algebraic wall signs with exact arithmetic","first_test":"run SymPy verifier under 3GiB/180s"},
+    {"id":"R510-scope-ledger","name":"stabilizer release ledger","family":"scope-control","new_information":"separates this complete two-variable result from the five-variable and transverse problems","first_test":"record fixed variables and omitted directions"}
+  ]
+}

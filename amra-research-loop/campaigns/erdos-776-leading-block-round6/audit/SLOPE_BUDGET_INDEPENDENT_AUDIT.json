@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "reconstructed_bound": "gamma < (alpha+delta-3)q + (beta+v+2-c_n)",
+  "actual_q_check": "q_t-4/3 = 4^t(q_0-4/3), hence unbounded for q_0>4/3",
+  "quantifiers": "fixed rank and fixed alpha,delta,beta,v,c_n; nonnegative surplus on arbitrarily large actual strips",
+  "equality_case": "necessary_not_sufficient",
+  "excluded_claims": [
+    "legal Macaulay switch existence",
+    "equality-case nonnegative surplus",
+    "suffix persistence",
+    "public Erdos-776 closure"
+  ],
+  "independent_second_check": "opg_cross_be_round4 independently confirmed the root audit algebra and quantifiers"
+}

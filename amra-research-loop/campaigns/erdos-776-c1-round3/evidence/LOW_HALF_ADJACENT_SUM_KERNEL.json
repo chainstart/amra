@@ -1,0 +1,27 @@
+{
+  "schema": "amra.erdos776.c1-round3.low-half-adjacent-sum-kernel.v1",
+  "status": "proved",
+  "scope": "two-variable kernel a>=3, 3<=c, 2c<a",
+  "target": "B(a,c)>=A_*(a,c)",
+  "infinite_tail": {
+    "a_min": 2401,
+    "B_lower_increment": "floor(4*sqrt(a)/3)",
+    "left_adjacent_sum_lower_bound": "(7/12)*a^(5/2)",
+    "split": "c<=a^(3/4) versus c>a^(3/4)",
+    "quartic_root_D_certificate": "D<=3+ceil((24*(C(c+1,4)+C(a+1,3)))^(1/4))",
+    "small_c_right_bound": "(256/375)*a^(9/4)",
+    "large_c_right_bound": "(3971/1024)*a^(9/4)"
+  },
+  "finite_base": {
+    "a_range": [3, 2400],
+    "condition": "3<=c and 2c<a",
+    "pairs_checked": 1434006,
+    "failures": 0,
+    "minimum_gap": 0,
+    "first_minimum": {"a": 8, "c": 3, "rho": 14, "D": 9, "B": 12, "A_star": 12}
+  },
+  "conclusion": "the strict low-half two-variable kernel is closed",
+  "combined_with_prior_high_half": "full B>=A_* two-variable kernel",
+  "public_problem_changed": false
+}
+

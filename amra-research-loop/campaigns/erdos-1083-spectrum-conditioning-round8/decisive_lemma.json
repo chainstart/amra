@@ -1,0 +1,25 @@
+{
+  "statement": "Exact actual positive-product profile theorem. With u_-(P_A)=min A in the natural real order and Pi_j=(u_-(F_j),u_-(F_0),u_-(P_Aj),u_-(P_A0)), every exact common-spectrum leaf satisfies Pi_j=(phi_j,phi_0,v-phi_j,alpha_0), where phi_j=min(lambda_j X). Thus Pi and phi have exactly identical ranges and fibres, while the residual delta_j=alpha_j+phi_j-v is identically zero. On a same-sign class of distinct scalars, phi_j=lambda_j min(X) for positive scalars and phi_j=lambda_j max(X) for negative scalars. Hence the literal profile range is exactly one when the relevant endpoint is zero and is injective otherwise; on the selected power-large class the latter range is |J_sigma|>=K/2=t^(5/9-o(1)).",
+  "status": "proved",
+  "closes": [
+    "supplies the exact count and fibre interface missing from round seven",
+    "reduces the four literal absolute product observables to one varying scalar coordinate",
+    "proves the exhaustive zero-anchor range-one versus nonzero-anchor power-large injectivity dichotomy",
+    "identifies an entropy-free residual affine profile after subtracting known scalar-copy data",
+    "refutes unconditional entropy-free conditioning on the complete literal profile from the aggregate matrix alone"
+  ],
+  "evidence": [
+    "evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md",
+    "evidence/absolute_profile_range.json",
+    "evidence/verify_absolute_profile_range.py",
+    "../erdos-1083-unit-matrix-round7/evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md",
+    "../../../data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/POWER_LARGE_SIMULTANEOUS_SWITCH_CORE.md"
+  ],
+  "dependency_gaps": [
+    "the existing hypotheses do not decide which endpoint branch every near-extremal configuration occupies",
+    "no new unconditional legal power-large Euclidean counterfamily is constructed",
+    "the zero residual does not by itself prove the cross-row rigidity later arguments need",
+    "no all-target occurrence, distance-fibre or outer-stability interface is closed",
+    "no public distance exponent changes"
+  ]
+}

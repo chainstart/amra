@@ -1,0 +1,19 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex erdos776_lane; generic stable words and quantifiers reconstructed without importing author verifiers",
+    "evidence": ["audit/SEED_SWITCH_NO_GO_INDEPENDENT_AUDIT.md","audit/SEED_SWITCH_NO_GO_INDEPENDENT_AUDIT.json","audit/verify_seed_switch_no_go_independent.py"]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "wording_repairs": {
+    "M505": "explicit same H/q leading staircase and surplus identity; rank 4<=n<=42",
+    "M512": "same pointwise hypotheses for every growing-menu choice",
+    "M509_M511": "explicit q-independent finite profiles/reset times and unchanged staircase"
+  },
+  "scope": {
+    "proved": "finite q-independent profile-menu diagonal no-go and arbitrary q-dependent pointwise same-interface one-step no-go",
+    "not_proved": ["leading-block switch no-go","different bottom recurrence no-go","terminal recovery no-go","suffix persistence","public Erdos-776 closure"]
+  }
+}

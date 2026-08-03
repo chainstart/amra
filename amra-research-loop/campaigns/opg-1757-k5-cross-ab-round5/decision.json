@@ -1,0 +1,9 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "The complete c=d=e=1 anchor component is independently proved safe, but the remaining fixed variables, transverse directions, G201 and OPG-1757 remain open.",
+  "evidence": [
+    "evidence/K5_CROSS_AB_COMPONENT_THEOREM.md",
+    "audit/K5_CROSS_AB_INDEPENDENT_AUDIT.md"
+  ]
+}

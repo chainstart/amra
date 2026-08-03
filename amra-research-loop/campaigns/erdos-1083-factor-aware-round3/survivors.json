@@ -1,0 +1,12 @@
+{
+  "mechanism_ids": [
+    "M1083R3-01"
+  ],
+  "selection_rationale": "M1083R3-01 retains the round-two M01 objective but now has a legal host Q(y) on normalized Boolean divisor coordinates; it survives only because the first tests do not refute a theorem using paired positivity and common-X information beyond subset recovery and width. Survivor deepening killed M1083R3-08: KS^2Uq is not a genuine point-pair domain because a source-target pair carries only one X index. The repaired M10 target must use all qU targets, whose pair capacity is 28/9, prove distance-label fibre exponent below 1/9-epsilon, and propagate information beyond the selected K chart rows; chart-selected cross pairs have capacity only 53/18<3. Eleven mechanisms are now killed. The sole survivor is not proved and no public exponent changed.",
+  "shared_dependency_gaps": [
+    "prove that factor-labelled moments on Q(y) yield information not already contained in the omission vector and scalar width",
+    "construct a repaired M10 theorem on all target-target pairs and propagate factor/chart control from the selected K rows to the remaining rows",
+    "prove a maximum- or energy-fibre exponent strictly below 1/9 on the all-target-pair domain",
+    "handle all degenerate components and transfer the exact-block result through outer stability with only subpower loss"
+  ]
+}

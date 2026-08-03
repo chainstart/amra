@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {"mechanism_id":"M1083U7-01","outcome":"proved","classification":"actual aggregate coefficient realization","evidence":"evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#minimal-actual-block"},
+    {"mechanism_id":"M1083U7-02","outcome":"killed","classification":"identity row is PA0+F0-Fj-PAj and adds no rank","evidence":"evidence/actual_unit_realization.json#all_m_aggregate_realization"},
+    {"mechanism_id":"M1083U7-03","outcome":"killed","classification":"actual right sides are absolute product units with only one automatic common-spectrum relation","evidence":"evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#what-is-and-is-not-fixed; round-five fixed-X spectrum-shift witness supplies a positive algebraic counterexample to free determination"},
+    {"mechanism_id":"M1083U7-04","outcome":"killed","classification":"positive nonzero augmentations orient every aggregate associate sign","evidence":"evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#full-laurent-unit-lattice-and-signs"},
+    {"mechanism_id":"M1083U7-05","outcome":"killed","classification":"primitive scalar matrix tensors coordinatewise over Gamma=Z^r with gauge kernel only","evidence":"evidence/actual_unit_realization.json#ambient_unit_audit"},
+    {"mechanism_id":"M1083U7-06","outcome":"killed","classification":"k-2 internal occurrence redistributions annihilate every product row and are normalization gauges","evidence":"evidence/actual_unit_realization.json#raw_occurrence_refinement"},
+    {"mechanism_id":"M1083U7-07","outcome":"killed","classification":"Omega(B)>1 introduces raw occurrence coordinates omitted by the five aggregate variables","evidence":"evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#raw-factor-occurrence-refinement"},
+    {"mechanism_id":"M1083U7-08","outcome":"proved","classification":"one actual centre-leaf identity block has exactly five aggregate factors","evidence":"evidence/actual_unit_realization.json#minimal_actual_block"},
+    {"mechanism_id":"M1083U7-09","outcome":"survived","classification":"archive supplies no charged joint absolute-unit profile fibre and no legal counterfamily refutes its possible existence","evidence":"evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#exact-conclusion-and-remaining-gap"},
+    {"mechanism_id":"M1083U7-10","outcome":"killed","classification":"source-identity subsystem has an independent common spectrum-shift kernel","evidence":"evidence/actual_unit_realization.json#observable_rows"},
+    {"mechanism_id":"M1083U7-11","outcome":"proved","classification":"fixed full actual aggregate observables give a unit maximal minor and primitive gauge","evidence":"evidence/actual_unit_realization.json#minimal_actual_block"},
+    {"mechanism_id":"M1083U7-12","outcome":"inconclusive","classification":"type-invalid as a current inference but no public counterexample is known","evidence":"evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#exact-conclusion-and-remaining-gap"}
+  ]
+}

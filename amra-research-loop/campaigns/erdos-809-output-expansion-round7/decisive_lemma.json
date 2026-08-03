@@ -1,0 +1,25 @@
+{
+  "statement": "Exact triple-exchange firewall for the locked n=14 graph. In the displayed n=16 natural-switch model, require wx1 and ux2, omit cw,cu,wz,uz,wy1,uy2, add eighteen incident edges, and delete three of the thirty-two admissible old edges so that e=65. Across all C(19,16)=969 new-edge assignments and C(32,3)=4960 deletion triples per assignment, the exact bad-C7 hitting-triple intersection is empty. In 968 assignments a bad C7 contains no admissible old edge; the unique remaining assignment omits bu,bw,uw and has exact bad-C7 transversal number twenty-one, certified by twenty-one forced singleton traces that hit all ninety-three distinct traces.",
+  "status": "proved",
+  "closes": [
+    "rules out the complete displayed threshold-preserving three-old-edge natural-switch exchange model",
+    "separates protected-cycle failures from the unique finite transversal-number-at-least-four failure",
+    "confirms that no candidate in this domain reaches L4, reserve, output or rank replay"
+  ],
+  "evidence": [
+    "evidence/exchange_search.py",
+    "evidence/verify_transversal_masks.py",
+    "evidence/BINARY_START_RESULT.json",
+    "evidence/TRIPLE_EXCHANGE_RESULT.json",
+    "evidence/EXCHANGE_RESULT.md",
+    "evidence/BAD_C7_TRANSVERSAL_LEMMA.md",
+    "evidence/transversal_certificate.py",
+    "evidence/TRANSVERSAL_CERTIFICATE.json"
+  ],
+  "dependency_gaps": [
+    "This is a finite no-go for one fixed natural-switch model, not a theorem for arbitrary hard graphs.",
+    "Four old deletions with nineteen replacements, non-natural switches, and larger extensions remain unsearched.",
+    "No legal two-output witness is constructed.",
+    "No scalable bounded-overlap or every-cut expansion theorem is composed with all public hard branches; the public 1/8 question is unchanged."
+  ]
+}

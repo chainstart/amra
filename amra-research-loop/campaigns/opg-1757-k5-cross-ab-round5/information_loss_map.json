@@ -1,0 +1,28 @@
+{
+  "inherited_methods": [
+    {
+      "method": "positive-orthant coefficient inspection",
+      "loss_step": "restricting a,b to nonnegative values discards the negative-coordinate portion of the real anchor component",
+      "lost_information": "the exact vertical barrier and the complete epigraph fiber",
+      "consequence": "coefficient positivity cannot certify the full distinguished component"
+    },
+    {
+      "method": "sampling paths from the anchor",
+      "loss_step": "finitely many paths replace connected-component classification by local observations",
+      "lost_information": "whether every point of the component lies above the same P=0 graph",
+      "consequence": "a missed corridor could contain xi<=0"
+    },
+    {
+      "method": "resultant nonvanishing alone",
+      "loss_step": "the resultant locates common zeros but forgets the orientation of P and xi between boundary curves",
+      "lost_information": "the signs of A,D and the boundary value of xi",
+      "consequence": "nonintersection alone does not identify the anchor chamber or its xi sign"
+    }
+  ],
+  "required_new_information": [
+    "the exact upper root beta=-1+sqrt(10)/4 of the b-coefficient A(a)",
+    "the sign of C on the vertical A=0 walls",
+    "a connected epigraph description of the anchor component",
+    "the determinant identity A*(xi/2)=D*P+(EA-DC) and a strict sign chain"
+  ]
+}

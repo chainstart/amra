@@ -1,0 +1,69 @@
+{
+  "inherited_negative_evidence_only": true,
+  "inherited_from": "erdos-1083-moment-round4",
+  "frozen_facts": [
+    "At source translations 0 and -1/4, identical normalized Boolean/factor/root/log data and identical row spectra can yield 127 versus 145 target-target labels.",
+    "This kills unit-blind normalized determination but does not produce multiple unit vectors after fixing one common source X.",
+    "All-target pair capacity is 28/9 only when the qU target occurrence mass is retained; a distance gain additionally needs fibre exponent below 1/9-epsilon on that same domain.",
+    "The public 3/5 exponent is unchanged."
+  ],
+  "unit_coordinates": {
+    "raw_variables": ["u(G)", "u(F0)", "u(B)", "u(R1)", "u(R3)", "u(Q1)", "u(Q3)"],
+    "fixed_X_observables": [
+      "source product units u(GR1), u(F0), u(GR3)",
+      "complement product units u(F0Q1), u(GB), u(F0Q3)",
+      "identity units u(B)-u(Rj)-u(Qj)",
+      "actual source-target spectrum and target tangent-square positions"
+    ],
+    "gauge_direction": "A simultaneous shift u(G)+=delta, u(B)-=delta, u(R1)-=delta, u(R3)-=delta, with F0,Q1,Q3 fixed, leaves all source and complement product units invariant in the exact three-row block.",
+    "firewall": "A large raw unit fibre is not evidence of geometric variation until it survives quotient by the kernel of every actual product/identity observable."
+  },
+  "inherited_methods": [
+    {
+      "method": "reuse the round-four source-translation pair",
+      "loss_step": "vary X_t while claiming a fibre over fixed common X",
+      "lost_information": "the base point of the fibre",
+      "exact_witness": "the retained unit vector separates t=0 from t=-1/4",
+      "consequence": "round five must hold X literally fixed in every adversarial comparison"
+    },
+    {
+      "method": "count all Laurent exponent vectors",
+      "loss_step": "count the kernel of the product-unit map as distinct structure",
+      "lost_information": "gauge-equivalent factorizations have identical positive masks, spectra, tangent squares and distances",
+      "consequence": "subpower control is meaningful only for observable units modulo gauge"
+    },
+    {
+      "method": "normalize every factor independently",
+      "loss_step": "remove both observable translations and harmless gauge directions without recording the quotient map",
+      "lost_information": "which unit combinations move actual target positions",
+      "consequence": "a correct normalization must prove that its kernel is geometrically invisible"
+    },
+    {
+      "method": "torus characters on raw unit coordinates",
+      "loss_step": "Fourier analyze a lattice containing a positive-rank gauge sublattice",
+      "lost_information": "character mass along the gauge orbit has no distance consequence",
+      "consequence": "characters must annihilate gauge or be paired with a proof that gauge affects geometry"
+    },
+    {
+      "method": "Newton width or valuation of normalized factors",
+      "loss_step": "infer absolute coefficient positions from widths after independent monomial translation",
+      "lost_information": "absolute product units and cancellations among factor units",
+      "consequence": "valuation constraints must be assembled into one integer linear system tied to fixed X"
+    },
+    {
+      "method": "distance collision energy from normalized profiles",
+      "loss_step": "charge collisions before proving that the retained unit direction changes target coordinates",
+      "lost_information": "pure gauge fibres have constant collision graph",
+      "consequence": "energy arguments must be functions on the observable quotient lattice"
+    }
+  ],
+  "required_new_information": [
+    "The exact integer matrix sending factor units to all fixed-X source, complement and identity units.",
+    "Its kernel, rank, torsion and a proof that every kernel direction is geometrically gauge.",
+    "Either a subpower bound for the image/observable unit fibre in every actual block or a uniform distance-label gain as an observable unit direction varies.",
+    "An exact fixed-X adversary if the observable quotient has positive rank and can change target-target labels.",
+    "Propagation from any unit conclusion to the actual all-target pair domain with t^(28/9-o(1)) mass and fibre below 1/9-epsilon.",
+    "Outer near-extremal stability with subpower loss."
+  ],
+  "forbidden_shortcut": "Do not count gauge orbits, the round-four moving-X pair, normalized profile injectivity, 28/9 capacity alone, or finite label variation as a 3/5 improvement."
+}

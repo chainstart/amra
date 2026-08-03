@@ -1,0 +1,7 @@
+{
+  "statement": "In the one-step affine slope model gamma=C(B,2)-C(A+1,2)+2-(4-delta)q+v and B_next=C(B,2)-alpha q-beta, with fixed n, alpha, delta, beta, v and canonical B_next<q-c_n, one has gamma<(alpha+delta-3)q+(beta+v+2-c_n). Hence alpha+delta<3 forces gamma<0 on all sufficiently large actual K4,r9 odd strips. Consequently any asymptotically viable canonical local switch in this model must spend combined slope budget alpha+delta>=3; equality is necessary, not sufficient.",
+  "status": "proved",
+  "closes": ["subcritical affine leading-block and bottom-transfer switches"],
+  "evidence": ["evidence/LEADING_BOTTOM_SLOPE_BUDGET.md", "evidence/verify_slope_budget.py", "audit/SLOPE_BUDGET_INDEPENDENT_AUDIT.md", "audit/verify_slope_budget_independent.py"],
+  "dependency_gaps": ["an exact legal Macaulay transition realizing alpha+delta>=3", "control of the equality-case constant", "suffix persistence", "public Erdos-776 composition"]
+}

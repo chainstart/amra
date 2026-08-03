@@ -1,0 +1,19 @@
+{
+  "schema": "amra.erdos809.output-expansion-round7.transversal-certificate.v1",
+  "assignment_index": 964,
+  "omitted_optional_edges": [["b","u"],["b","w"],["u","w"]],
+  "distinct_bad_C7_traces": 93,
+  "trace_size_distribution": {"1":21,"3":72},
+  "forced_singleton_edges": [
+    ["r1","x1"],["r1","x2"],["r1","y1"],["r1","y2"],
+    ["r1","y3"],["r1","y4"],["r2","x1"],["r2","x2"],
+    ["r2","y1"],["r2","y2"],["r2","y3"],["r2","y4"],
+    ["x1","x3"],["x1","x4"],["x2","x3"],["x2","x4"],
+    ["y1","y3"],["y1","y4"],["y2","y3"],["y2","y4"],
+    ["y3","y4"]
+  ],
+  "all_traces_hit_by_forced_singletons": true,
+  "exact_transversal_number": 21,
+  "proof": "Each singleton trace forces its unique edge, so tau is at least 21; the set of all twenty-one forced edges hits every trace, so tau is at most 21.",
+  "finite_result_only": true
+}

@@ -1,0 +1,24 @@
+{
+  "statement": "K4,r9 no-fixed-rank recovery theorem. For every fixed integer R>=4 there exists an odd actual dyadic member j_R of the fixed (k,r)=(4,9) family such that the same member has gamma_m<0 simultaneously for every 3<=m<=R. Equivalently, first-recovery ranks in this family have no uniform finite upper bound. This does not assert one finite member is negative at every rank.",
+  "status": "proved",
+  "closes": [
+    "refutes every recovery bound depending only on the fixed pair (k,r)",
+    "refutes the uniform pre-rank42 waiting-for-positive-surplus route by taking R=42",
+    "supplies an exact stable affine-tail recurrence for the K4,r9 family"
+  ],
+  "evidence": [
+    "evidence/K4_R9_NO_FIXED_RANK_RECOVERY.md",
+    "evidence/K4_R9_NO_FIXED_RANK_RECOVERY.json",
+    "evidence/verify_k4r9_no_fixed_rank.py",
+    "evidence/K4_R9_RANK7_RANK8_CELL_SPLIT.md",
+    "audit/K4_R9_RANK7_RANK8_CELL_SPLIT_INDEPENDENT_AUDIT.md",
+    "audit/K4_R9_NO_FIXED_RANK_RECOVERY_INDEPENDENT_AUDIT.md",
+    "audit/K4_R9_NO_FIXED_RANK_RECOVERY_INDEPENDENT_AUDIT.json",
+    "audit/verify_stable_tail_recurrence_independent.py"
+  ],
+  "dependency_gaps": [
+    "this theorem does not produce one state negative at every rank",
+    "it does not classify arbitrary fixed (k,r) transducers",
+    "it does not by itself refute the public antichain statement via a different construction"
+  ]
+}

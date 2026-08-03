@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M405-fixed-parameter-eventual-polynomial",
+    "M407-constant-order-induction",
+    "M410-infinite-nonrecovery-counterfamily"
+  ],
+  "selection_rationale": "The corrected K4,r9 cell split kills the proposed uniform rank-seven recovery and its stability/robustness variants. The stable-tail induction then proves that for every fixed R one later actual member is negative throughout ranks 3..R, killing any fixed-(k,r) recovery bound and the uniform pre-rank42 waiting route. What survives is deliberately narrower: classify eventual polynomial transducers for arbitrary fixed pairs, generalize the constant-order induction beyond K4,r9, or strengthen diagonal unbounded negativity to a correctly quantified all-rank obstruction. M411 is frozen because unbounded recovery depth does not decide finite recovery of each individual state."
+}

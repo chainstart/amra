@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {"id":"K601","mechanism_id":"M601","outcome":"killed","evidence":"evidence/LEADING_BOTTOM_SLOPE_BUDGET.md"},
+    {"id":"K602","mechanism_id":"M602","outcome":"killed","evidence":"evidence/LEADING_BOTTOM_SLOPE_BUDGET.md"},
+    {"id":"K603","mechanism_id":"M603","outcome":"killed","evidence":"evidence/verify_slope_budget.py"},
+    {"id":"K604","mechanism_id":"M604","outcome":"killed","evidence":"evidence/LEADING_BOTTOM_SLOPE_BUDGET.md"},
+    {"id":"K605","mechanism_id":"M605","outcome":"killed","evidence":"evidence/LEADING_BOTTOM_SLOPE_BUDGET.md"},
+    {"id":"K606","mechanism_id":"M606","outcome":"killed","evidence":"evidence/verify_slope_budget.py"},
+    {"id":"K607","mechanism_id":"M607","outcome":"killed","evidence":"evidence/LEADING_BOTTOM_SLOPE_BUDGET.md"},
+    {"id":"K608","mechanism_id":"M608","outcome":"killed","evidence":"evidence/verify_slope_budget.py"}
+  ]
+}

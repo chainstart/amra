@@ -1,0 +1,13 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Freeze after independently audited local progress. The strongest result is G215: complete K5-e high-triangle 2,4,2 stabilizer-slice domination. G202, G203, G204, G213, G214, and G216 provide further strictly scoped local certificates. G201 remains the sole surviving global existential mechanism; orbit equalization does not control independent transverse edge directions, the other K5-e orbit and the full prism triangle-edge component remain open, and the OPG-1757 global closure contract is not met.",
+  "evidence": [
+    "evidence/K5_MINUS_EDGE_UPPER_ROOT_THEOREM.md",
+    "evidence/K5_MINUS_EDGE_UPPER_ROOT_THEOREM.json",
+    "audit/K5_MINUS_EDGE_UPPER_ROOT_INDEPENDENT_AUDIT.md",
+    "audit/K5_MINUS_EDGE_UPPER_ROOT_INDEPENDENT_AUDIT.json",
+    "audit.json",
+    "evidence/NEXT_HOST_LEDGER.md"
+  ]
+}

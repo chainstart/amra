@@ -1,0 +1,77 @@
+{
+  "component_checks": {
+    "A_zero_exception": "barrier plus T>0 forces B=0 and y=1 or z=1; A=0 then forces y=z=1, contradicting T>0",
+    "V_strict_AM_GM": "V=y^2+z-2 >= 2*y*sqrt(z)-2 >0 because y^2*z>1",
+    "anchor": {
+      "P": 180,
+      "T": 7,
+      "V": 4,
+      "x": 2,
+      "xi": 46,
+      "y": 2,
+      "z": 2
+    },
+    "anchor_branch": "x*T>|V|",
+    "base_connectedness": "in (log y,log z), y,z>0 and T>0 is the open half-space 2 log y+log z>0",
+    "component_equality": "the connected epigraph x>V/T over that base equals the distinguished component",
+    "sign_propagation": "on its P-positive component x*T>|V| persists; x,T stay positive, T>0 forces z>0 and y nonzero, so anchor sign gives y>0",
+    "xi_strictness": "x>V/T, A!=0 and (V/T)A^2-B^2>=0 imply xA^2-B^2>0"
+  },
+  "engine": "blind complement-of-forest reconstruction; no author verifier import",
+  "forest_reconstruction": {
+    "connected_by_selected_edge_count": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 2,
+      "4": 14,
+      "5": 30,
+      "6": 0,
+      "7": 0,
+      "8": 0
+    },
+    "connected_polynomial_abc": "2*(a*b**2*c**2 + 4*a*b**2*c + 4*a*b**2 + 2*a*b*c**2 + 4*a*b*c + a*c**2 + b**2*c**2 + 4*b**2*c + 2*b*c**2)",
+    "deletion_forests": 180,
+    "deletion_polynomial_abc": "(a*b**2*c + a*b**2 + 2*a*b*c + 2*a*b + a*c + b**2*c + 2*b*c)*(a*b**2*c + a*b**2 + 2*a*b*c + 2*a*b + a*c + b**2*c + 2*b**2 + 2*b*c + 4*b + 2*c)",
+    "endpoint_connected_forests": 46,
+    "forests_by_selected_edge_count": {
+      "0": 1,
+      "1": 8,
+      "2": 28,
+      "3": 54,
+      "4": 59,
+      "5": 30,
+      "6": 0,
+      "7": 0,
+      "8": 0
+    }
+  },
+  "graph": {
+    "marked_edge": [
+      0,
+      3
+    ],
+    "stabilizer_orbits": {
+      "incident_triangle": 4,
+      "opposite_triangle": 2,
+      "other_vertical": 2
+    },
+    "unmarked_edges": 8,
+    "vertices": 6
+  },
+  "identities": {
+    "A": "y*(z + 1) - 2",
+    "B": "2*y + z - 3",
+    "P": "(x*T)^2-V^2",
+    "T": "y**2*z - 1",
+    "V": "y**2 + z - 2",
+    "all_verified": true,
+    "barrier": "V*A^2-T*B^2=(y-1)^4*(z-1)^2",
+    "xi": "2*(x*A^2-B^2)"
+  },
+  "lean_used": false,
+  "public_problem_closed": false,
+  "schema": "amra.opg1757.triangular-prism-vertical-independent-audit.v1",
+  "scope": "not the triangle-edge orbit, not eight independent variables, not G201/global/OPG-1757",
+  "statement_match": "marked-vertical-edge three-variable stabilizer slice only"
+}

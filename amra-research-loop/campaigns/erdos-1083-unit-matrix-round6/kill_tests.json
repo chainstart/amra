@@ -1,0 +1,46 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M1083U6-02", "outcome": "killed",
+      "test": "explicit maximal Smith minor after deleting g",
+      "evidence": "evidence/GENERAL_M_UNIT_MATRIX_THEOREM.md#proof",
+      "scope": "the determinant is plus or minus one for every m, so all nonzero Smith factors are one"
+    },
+    {
+      "mechanism_id": "M1083U6-03", "outcome": "killed",
+      "test": "symbolic substitution into every identity row",
+      "evidence": "evidence/GENERAL_M_UNIT_MATRIX_THEOREM.md#proof",
+      "scope": "b-r_i-q_i reduces identically to zero from the observable equations"
+    },
+    {
+      "mechanism_id": "M1083U6-04", "outcome": "killed",
+      "test": "all-m common gauge vector",
+      "evidence": "evidence/general_unit_matrix.json",
+      "scope": "the same nonzero primitive vector is annihilated for every m"
+    },
+    {
+      "mechanism_id": "M1083U6-05", "outcome": "killed",
+      "test": "source-identity unit minor and two kernel generators",
+      "evidence": "evidence/GENERAL_M_UNIT_MATRIX_THEOREM.md#formal-theorem",
+      "scope": "exact rank is 2m+1 and the spectrum shift is independent of gauge"
+    },
+    {
+      "mechanism_id": "M1083U6-07", "outcome": "killed",
+      "test": "type audit of scalar incidence versus ambient unit lattice",
+      "evidence": "evidence/GENERAL_M_UNIT_MATRIX_THEOREM.md#actual-block-audit",
+      "scope": "a primitive scalar matrix controls its recorded tensor coordinates only; an unrecorded coefficient unit is outside its domain"
+    },
+    {
+      "mechanism_id": "M1083U6-08", "outcome": "killed",
+      "test": "fixed-X spectrum shifts zero and one quarter",
+      "evidence": "erdos-1083-relative-unit-round5/evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md",
+      "scope": "observable label sets change while both exact distinct-label counts remain 127"
+    },
+    {
+      "mechanism_id": "M1083U6-09", "outcome": "killed",
+      "test": "arbitrary source-only spectrum-shift kernel",
+      "evidence": "evidence/GENERAL_M_UNIT_MATRIX_THEOREM.md#formal-theorem",
+      "scope": "the formal source-identity data leave one free integer spectrum translation and therefore do not determine complement spectra"
+    }
+  ]
+}

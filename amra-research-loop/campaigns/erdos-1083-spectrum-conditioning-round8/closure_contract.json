@@ -1,0 +1,22 @@
+{
+  "exact_statement": "For every fixed integer d >= 3, every N-point subset of R^d determines N^(2/d-o(1)) distinct distances as N tends to infinity.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/README.md",
+  "success_conditions": [
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round seven proves the aggregate normalized unit matrix but leaves absolute product-unit profile conditioning uncharged.",
+    "Round eight must define the profile map only after a fixed associate-normalization section and count its range exactly.",
+    "A scoped success is either a uniform subpower range theorem on the actual power-large block or a legal power-large counterfamily/range theorem showing t^c profiles and refuting entropy-free conditioning.",
+    "A normalization-dependent raw-unit count is not geometric rigidity; the result must state its section dependence and gauge-invariant content.",
+    "No profile count, finite example, or local no-go changes the public distance exponent without the all-target occurrence, fibre and outer-stability interfaces.",
+    "No broad parameter scan is permitted; symbolic identities and small bounded witnesses only."
+  ]
+}

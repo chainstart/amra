@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M506"],
+  "selection_rationale": "The one-step canonical inequality also eliminates q-dependent and growing-menu resets pointwise. A leading-block or bottom-recurrence change is the sole retained local escape interface."
+}

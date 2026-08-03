@@ -1,0 +1,29 @@
+{
+  "statement": "The proposed scale-uniform strengthening M01, namely that every actual c=1 (++ -> ++) state with gamma4<0 satisfies e>=binom(a-1,3) when alpha=binom(a,2)+s, is false. The actual state (j,h,q,k,r,u,b)=(7,7168,4845,4,204,207,4849) has alpha=1524=binom(55,2)+39 and e=18356<binom(54,3)=24804. At the same state the weaker G++ margin U_3(e)-U_2(alpha)-1 is 183083 and gamma5 is 245481, so the counterexample kills only the cubic strengthening, not G++ or two-row recovery.",
+  "status": "refuted",
+  "closes": [
+    "the M01 cubic-digit-gap route to a scale-uniform proof of G++",
+    "the inherited proposed reduction from G++ to e>=binom(a-1,3)"
+  ],
+  "evidence": [
+    "evidence/M01_CUBIC_GAP_COUNTEREXAMPLE.json",
+    "evidence/verify_m01_cubic_gap_counterexample.py",
+    "evidence/MECHANISM_MIN_KILL_TESTS.json"
+  ],
+  "dependency_gaps": [
+    "G++ itself remains open because the nonlinear raise U_3(e) can dominate U_2(alpha) even when e<binom(a-1,3)",
+    "M08 remains unproved: gamma5 negativity has not been shown universally to force P,V>=0",
+    "M09 remains unproved: gamma6 positivity has only finite evidence on the no-borrow negative branch",
+    "actual c=1 chamber exhaustion and the public antichain interface remain open"
+  ],
+  "evidence_classification": {
+    "statement_match": "exact refutation of route claim M01 on an actual dyadic (++ -> ++) state",
+    "mathematical_status": "refuted",
+    "machine_reproduced": "AMRA_MEMORY_KIB=1048576 AMRA_TIMEOUT_SECONDS=60 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-c1-round2/evidence/verify_m01_cubic_gap_counterexample.py; script SHA-256 85bf723196bab7af95dfd7c7f1bac5db5bf72a401236c88403184c2ef8f8e1a6; result SHA-256 3cec11324d1bd30f6cfa8b0c598460be29d52e9f11cc2de43774f75c04b0045e",
+    "independent_reconstruction": "pending",
+    "novelty_check": "priority_uncertain",
+    "publication_state": "private_research_artifact",
+    "promotion_effect": "none; negative route closure only",
+    "public_problem_closed": false
+  }
+}

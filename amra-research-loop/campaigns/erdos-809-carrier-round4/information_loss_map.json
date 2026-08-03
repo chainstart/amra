@@ -1,0 +1,82 @@
+{
+  "inherited_from": {
+    "campaign": "amra-research-loop/campaigns/erdos-809-conversion-round3",
+    "mode": "read-only frozen inheritance",
+    "exact_reductions": [
+      "For integral R_A, R_A<=S_m iff R_A<=floor(S_m); the irrational remainder has no integral carrier capacity.",
+      "For an already constructed typed carrier graph C_G, payment is equivalent to all Hall cuts, and the deficit is |D|-nu(C_G).",
+      "Exactly delta universal dummy carriers repair deficiency delta, but delta arbitrary actual carriers need not repair any deficient cut."
+    ],
+    "negative_evidence": [
+      "The exact n=14 rainbow-C7 L4(2) maximum-witness graph has three repeated-colour demands, three distinct owned A diagonals, and only the two actual full-reserve carriers K(bc)={bc,cz}.",
+      "One-step rectangle naming, anonymous fractional slack, lossless circuit uncrossing without an exchange axiom, and unbounded-fibre boundary maps are invalid.",
+      "The scalar profile R_A>S_m alone gives no matching-rank bound in an actual exchange graph."
+    ]
+  },
+  "actual_carrier_firewall": {
+    "demand": "A concrete defect token (gamma,b) obtained from a repeated colour's independent outer endpoint set Y_gamma after choosing root r_gamma.",
+    "base_pair": "The missing B-edge {r_gamma,b}.",
+    "old_actual_carrier": "A concrete missing B-edge belonging to the canonical reserve K({r_gamma,b}) in the same original graph, after already committed carriers are removed.",
+    "created_actual_carrier": "A previously unused concrete missing B-edge of that same graph which becomes legally adjacent to a demand through an explicitly described root rotation, alternating exchange, absorber, or C7-derived switch.",
+    "universal_dummy": "A formal new right vertex adjacent to every demand. It proves only the min-max identity and is forbidden as positive carrier evidence.",
+    "graph_realizable_certificate": "The original labelled graph, A/B partition, repeated-colour endpoint data, canonical reserve calculation, before/after legal arcs, and ownership/nonreuse map must all be replayable."
+  },
+  "inherited_methods": [
+    {
+      "method": "Hall after postulated augmentation",
+      "loss_step": "Add delta anonymous right vertices and apply Hall.",
+      "lost_information": "Whether a missing B-edge exists in the original graph, which operation licenses it, and which deficient cuts it neighbours.",
+      "exact_witness": "Two demands with two new actual carriers both adjacent only to the first demand; the second singleton cut remains deficient.",
+      "consequence": "Every mechanism must construct cut-specific legal neighbourhoods before invoking Hall."
+    },
+    {
+      "method": "one-step rectangle conversion",
+      "loss_step": "Call an owned missing A diagonal a new B token without changing a base pair or reserve.",
+      "lost_information": "Carrier shore type and the existence of a new missing B-edge.",
+      "exact_witness": "The n=14 tight circuit has three distinct A diagonals but K(bc)={bc,cz} and no third missing B-edge.",
+      "consequence": "A successful operation must modify the actual reserve incidence, not merely relabel an A atom."
+    },
+    {
+      "method": "abstract alternating augmentation",
+      "loss_step": "Assume an unmatched demand can leave a terminal alternating component.",
+      "lost_information": "A graph-derived switch changing a root/base/reserve and a genuinely free endpoint carrier.",
+      "exact_witness": "The three-demand/two-carrier n=14 circuit is a terminal component under every root reversal because each Y_gamma={b,c} has the same base bc.",
+      "consequence": "Alternation rearranges existing carriers unless a rank-increasing graph move is exhibited."
+    },
+    {
+      "method": "transversal or matroid rank addition",
+      "loss_step": "Add owned-A rank to B-reserve transversal rank.",
+      "lost_information": "An exchange axiom whose fundamental circuit outputs remain legal missing B-edges.",
+      "exact_witness": "The n=14 circuit has A coverage rank three and B matching rank two but no B rank increase.",
+      "consequence": "Any matroidal route must first prove a common ground set and graph-realizable basis exchange."
+    },
+    {
+      "method": "local absorber or reservoir count",
+      "loss_step": "Count many potential missing pairs without reserving distinct graph-derived absorption patterns.",
+      "lost_information": "Which demand is absorbable, whether the output is outside the occupied reserve, and overlap between absorbers.",
+      "exact_witness": "All three n=14 demands share the same two-token full reserve despite distinct owners.",
+      "consequence": "Reservoir size is irrelevant without cut expansion and bounded overlap."
+    },
+    {
+      "method": "rotation or uncrossing by set algebra",
+      "loss_step": "Replace crossing tight demand sets by unions/intersections while assuming reserve incidence is preserved.",
+      "lost_information": "Root choice, base determinism K(e), and colour-specific C7 legality.",
+      "consequence": "Uncrossing must be implemented as an actual odd-cycle/root rotation with a rank comparison."
+    },
+    {
+      "method": "probabilistic independent carrier sampling",
+      "loss_step": "Treat candidate arcs or carriers as independent trials from their total count.",
+      "lost_information": "Perfect correlation caused by identical base pairs and identical canonical reserves.",
+      "exact_witness": "Three n=14 colours all have base bc and identical reserve {bc,cz}; random root reversal changes nothing.",
+      "consequence": "A nibble requires graph-proved codegree bounds and a deterministic cleanup of every leftover cut."
+    }
+  ],
+  "required_new_information": [
+    "A legal graph operation which changes at least one demand's canonical reserve neighbourhood and provably increases matching rank.",
+    "For every deficient cut, an actual missing B-edge reached by that operation and not already occupied outside the cut.",
+    "An exchange-rank theorem on a common graph-realizable ground set, not the scalar sum of A and B ranks.",
+    "An overlap or ownership invariant preventing one created edge, absorber, or rotation certificate from being reused.",
+    "Composition of the carrier theorem with the exact outer-A gate and every public hard branch to obtain the frozen 1/8 conclusion."
+  ],
+  "forbidden_shortcut": "No universal dummy, formal Hall completion, finite absence of a blocker, or scalar A+B/slack total is evidence of actual carrier creation."
+}

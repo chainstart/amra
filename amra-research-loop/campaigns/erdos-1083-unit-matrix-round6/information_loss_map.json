@@ -1,0 +1,55 @@
+{
+  "inherited_from": "erdos-1083-relative-unit-round5 (frozen; negative evidence and local lemma only)",
+  "frozen_facts": [
+    "The exact displayed finite block has a primitive gauge line after absolute spectrum fixing and one observable spectrum-shift direction before that fixing.",
+    "The frozen audit explicitly did not establish a complete unit matrix for every actual power-large block.",
+    "The all-target occurrence domain must retain t^(28/9-o(1)) mass and a distance fibre below t^(1/9-epsilon); the public 3/5 exponent is unchanged."
+  ],
+  "inherited_methods": [
+    {
+      "method": "extrapolate the three-row rank-six computation by row count",
+      "loss_step": "replace the actual factor-incidence system by one formal variable pair (r_i,q_i) per row without deriving that this is the complete variable and equation list",
+      "lost_information": "extra shared factors, repeated rows, independent unit-lattice coordinates, absent absolute observables, and cross-row relations",
+      "consequence": "prove the formal all-m matrix theorem, then keep actual-block realization as a separate gate"
+    },
+    {
+      "method": "treat the identity rows b-r_i-q_i=0 as new independent constraints",
+      "loss_step": "ignore that the source/complement equations and b+g+f=0 already imply them",
+      "lost_information": "the exact row dependencies and true Smith rank",
+      "consequence": "give an explicit unimodular minor and exact kernel rather than a numerical rank extrapolation"
+    },
+    {
+      "method": "fix every absolute row spectrum inside a power-large block",
+      "loss_step": "condition on m row spectra without charging the number of possible spectra or proving a power-large common fibre",
+      "lost_information": "the observable common-spectrum translation and the mass discarded by conditioning",
+      "consequence": "the primitive gauge theorem is conditional on absolute observables and supplies no subpower spectrum theorem"
+    },
+    {
+      "method": "apply a scalar one-coordinate matrix to the full Laurent unit group",
+      "loss_step": "suppress the rank and torsion of the ambient exponent lattice and the units of coefficient rings",
+      "lost_information": "coordinate coupling, signs, torsion, and varying Laurent supports",
+      "consequence": "a real theorem must tensor the incidence matrix with the actual unit lattice and account for every non-monomial unit"
+    },
+    {
+      "method": "deduce distance growth from observable quotient rank",
+      "loss_step": "count algebraic directions before proving that they create distinct distance labels with bounded fibre",
+      "lost_information": "collision chambers, target multiplicity and all-target occurrence mass",
+      "consequence": "positive observable rank alone is not an exponent improvement"
+    },
+    {
+      "method": "use the formal matrix on the selected reciprocal chart only",
+      "loss_step": "stop before propagating from selected rows to every qU target and before outer stability",
+      "lost_information": "the only point-pair domain reaching exponent 28/9",
+      "consequence": "even a uniform chart-level matrix theorem remains a non-promotable local bridge"
+    }
+  ],
+  "required_new_information": [
+    "An all-m integer proof of ranks 2m+2 and 2m+1, both kernels, and primitive Smith factors.",
+    "A derivation showing exactly when the actual simultaneous identities F_i=GR_i, B=R_iQ_i, P_Ai=F0Q_i and absolute spectra instantiate that matrix without extra variables or missing rows.",
+    "A power-large conditioning theorem retaining the absolute observable data with only t^o(1) loss, or a distance gain as those data vary.",
+    "A bound for the observable unit range/torsion in the real Laurent unit lattice.",
+    "Full-target propagation retaining t^(28/9-o(1)) occurrence mass and distance fibre below t^(1/9-epsilon).",
+    "Outer near-extremal stability with subpower loss."
+  ],
+  "forbidden_shortcut": "Do not identify the formal m-row matrix with an actual power-large block, or the primitive local quotient with a main-exponent gain."
+}

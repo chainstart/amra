@@ -1,0 +1,38 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos776_lane independent full-domain trace-hypergraph reconstruction",
+    "evidence": [
+      "audit/ROUND7_EXCHANGE_INDEPENDENT_AUDIT.md",
+      "audit/ROUND7_EXCHANGE_INDEPENDENT_AUDIT.json",
+      "audit/verify_exchange_round7_independent.py"
+    ]
+  },
+  "statement_match": "passed only for the displayed locked n=16,e=65 natural-switch finite domain",
+  "dependency_check": "passed; cross-edge and deletable-edge exclusions are complete only under the frozen L4, A=N[v], colour-class and typed-output interface",
+  "novelty_check": "finite no-go only; no public-problem or global closure change",
+  "mode2": {
+    "assignments": 3876,
+    "deletion_pairs": 496,
+    "protected": 3860,
+    "candidates": 0
+  },
+  "mode3": {
+    "assignments": 969,
+    "deletion_triples": 4960,
+    "protected": 968,
+    "candidates": 0
+  },
+  "unique_unprotected_mode3": {
+    "omitted": ["bu", "bw", "uw"],
+    "traces": 93,
+    "singletons": 21,
+    "tau": 21
+  },
+  "kill_gate": {
+    "ratio": "6/9",
+    "minimum": "4/5",
+    "passed": false
+  },
+  "decision_recommendation": "freeze_without_promotion"
+}

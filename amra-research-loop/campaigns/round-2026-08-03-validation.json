@@ -1,0 +1,31 @@
+{
+  "round_id": "round-2026-08-03-4h",
+  "validation_status": "passed_at_final_close",
+  "campaigns_created_on_2026_08_03": 23,
+  "campaign_validators_passed": 23,
+  "campaign_json_files_parsed_before_this_record": 407,
+  "research_loop_tests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "late_decisive_checks": [
+    "independent K5-e cross (b,c) graph reconstruction",
+    "independent K5-e cross (b,e) graph reconstruction",
+    "independent K5-e cross (a,b) graph reconstruction",
+    "finite-menu and canonical one-step Erdos-776 no-go",
+    "affine Erdos-776 slope-budget elimination",
+    "canonical-cycle Erdos-809 trace-block reconstruction",
+    "Erdos-1083 absolute-profile range reconstruction"
+  ],
+  "resource_observation": {
+    "wsl_total_memory_gib": 31,
+    "wsl_used_memory_gib_at_final_audit": 3.0,
+    "heavy_probe_virtual_memory_limit_gib": 3,
+    "heavy_probe_timeout_seconds": 180,
+    "lean_rebuilt": false,
+    "lean_used": false
+  },
+  "public_promotions": 0,
+  "repository_commit_at_round_start": "ab4b524",
+  "round_outputs_committed": false
+}

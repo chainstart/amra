@@ -1,0 +1,144 @@
+{
+  "mechanisms": [
+    {
+      "id": "M809R3-01",
+      "representation_id": "R809R3-01",
+      "family": "weighted_rounded_carrier",
+      "decisive_claim": "Every hard graph admits floor(S_m) owned unit carriers and one global remainder omega; the integer deficit is at most floor(S_m), while omega is discharged once by the strict extremal edge inequality.",
+      "would_close": [
+        "outer-A gate R_A<=S_m with exact rounding"
+      ],
+      "kill_test": "Odd-n examples and two disjoint tight circuits: kill if omega is charged twice or no strict integer margin absorbs it.",
+      "status": "surviving",
+      "created_at": "2026-08-03T02:53:14+00:00",
+      "status_evidence": "Odd-n rounding kill does not refute a single globally owned remainder discharged by a strict integer margin; such a margin remains unproved.",
+      "updated_at": "2026-08-03T02:55:21+00:00"
+    },
+    {
+      "id": "M809R3-02",
+      "representation_id": "R809R3-02",
+      "family": "weighted_rounded_carrier",
+      "decisive_claim": "The weighted carrier incidence matrix is totally unimodular on every hard maximum-witness graph, so every feasible S_m-mass fractional payment has an integral demand-covering vertex.",
+      "would_close": [
+        "weighted-to-integral slack conversion"
+      ],
+      "kill_test": "Search the smallest odd cycle minor and three-demand/two-carrier fractional instance; any nonintegral vertex or unmatched integral demand kills universality.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:53:14+00:00",
+      "status_evidence": "evidence/ROUND3_MECHANISM_FALSIFICATION.json: one demand split over two half-capacity carriers is fractionally feasible but has no integral carrier assignment.",
+      "updated_at": "2026-08-03T02:55:21+00:00"
+    },
+    {
+      "id": "M809R3-03",
+      "representation_id": "R809R3-03",
+      "family": "weighted_rounded_carrier",
+      "decisive_claim": "All integer Hall cuts have one common strict surplus exceeding the single global rounding error 1-{S_m}; hence floor(S_m) carriers suffice simultaneously.",
+      "would_close": [
+        "rounded Hall cuts without local error accumulation"
+      ],
+      "kill_test": "Glue many locally tight cuts sharing global slack; kill if any cut has surplus zero or if strictness depends on the chosen circuit.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:53:14+00:00",
+      "status_evidence": "evidence/ROUND3_MECHANISM_FALSIFICATION.json: exact Hall cuts can have zero surplus, so no common strict margin absorbs a positive rounding error.",
+      "updated_at": "2026-08-03T02:55:21+00:00"
+    },
+    {
+      "id": "M809R3-04",
+      "representation_id": "R809R3-04",
+      "family": "graph_realizable_anchor",
+      "decisive_claim": "The union of internal-low edges and mixed high anchors in one hard graph contains ceil(Phi(n,e)) edges of distinct colours with pairwise internally vertex-disjoint C7 completion certificates whenever R_A>S_m.",
+      "would_close": [
+        "direct graph-realizable outer-A colour exit"
+      ],
+      "kill_test": "Test common-bottleneck path complexes and the n=14 hard graph; reused completion vertices or edges kill the disjoint-certificate claim.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:53:14+00:00",
+      "status_evidence": "evidence/ROUND3_MECHANISM_FALSIFICATION.json: compatible outputs may share one path bottleneck; disjoint completion certificates are not inherited.",
+      "updated_at": "2026-08-03T02:55:21+00:00"
+    },
+    {
+      "id": "M809R3-05",
+      "representation_id": "R809R3-05",
+      "family": "graph_realizable_anchor",
+      "decisive_claim": "The low-edge/high-anchor exchange graph has matching number at least ceil(Phi(n,e)) whenever R_A>S_m; matched outputs are distinct-colour pairwise-C7-compatible edges.",
+      "would_close": [
+        "cross-channel compatibility theorem"
+      ],
+      "kill_test": "Use an exchange graph with a common anchor bottleneck; kill if scalar R_A excess coexists with matching rank below ceil(Phi).",
+      "status": "surviving",
+      "created_at": "2026-08-03T02:53:14+00:00",
+      "status_evidence": "The scalar counterprofile is not graph-realizable; a matching theorem in the actual low-edge/high-anchor exchange graph remains unrefuted.",
+      "updated_at": "2026-08-03T02:55:21+00:00"
+    },
+    {
+      "id": "M809R3-06",
+      "representation_id": "R809R3-06",
+      "family": "graph_realizable_anchor",
+      "decisive_claim": "The anchor-conflict graph has maximum degree o(I_mix) in every hard branch, while I_mix plus the dense internal-low alternative forces an independent compatible family of size ceil(Phi).",
+      "would_close": [
+        "graph-realizable mixed-anchor compatibility"
+      ],
+      "kill_test": "Clique-chain and shared-completion bottleneck models; a linear-size conflict clique kills the degree claim.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:53:14+00:00",
+      "status_evidence": "evidence/ROUND3_MECHANISM_FALSIFICATION.json: no inherited hypothesis bounds the conflict graph degree; a common-bottleneck clique has linear degree.",
+      "updated_at": "2026-08-03T02:55:21+00:00"
+    },
+    {
+      "id": "M809R3-07",
+      "representation_id": "R809R3-07",
+      "family": "carrier_creation",
+      "decisive_claim": "Every minimal Hall-deficient B circuit owns an A diagonal whose anticomplete rectangle forces one previously unused actual B-reserve pair adjacent to that circuit.",
+      "would_close": [
+        "one-carrier creation for every minimal deficit"
+      ],
+      "kill_test": "Replay the graph-realizable three-colour/two-token circuit and enumerate licensed rectangle outputs; kill if all outputs are occupied or shared.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:53:14+00:00",
+      "status_evidence": "Inherited graph-realizable three-demand/two-token circuit has no new licensed one-step output; see round2 evidence and evidence/ROUND3_MECHANISM_FALSIFICATION.json.",
+      "updated_at": "2026-08-03T02:55:21+00:00"
+    },
+    {
+      "id": "M809R3-08",
+      "representation_id": "R809R3-08",
+      "family": "carrier_creation",
+      "decisive_claim": "From every unmatched demand, the typed alternating creation graph reaches a free actual carrier; alternating cycles admit an ownership-preserving uncrossing that strictly shortens the path.",
+      "would_close": [
+        "augmenting carrier-creation algorithm"
+      ],
+      "kill_test": "Crossing circuits and closed two-token alternating cycles; kill on a terminal strongly connected component with no free carrier.",
+      "status": "surviving",
+      "created_at": "2026-08-03T02:53:14+00:00",
+      "status_evidence": "One-step creation is killed, but no theorem or actual countermodel excludes a longer graph-derived alternating path ending at a free carrier.",
+      "updated_at": "2026-08-03T02:55:21+00:00"
+    },
+    {
+      "id": "M809R3-09",
+      "representation_id": "R809R3-09",
+      "family": "carrier_creation",
+      "decisive_claim": "The boundary missing-pair map from mixed anchors has fibre size one after quotienting identical A diagonals, and its image avoids the already occupied canonical B reserve.",
+      "would_close": [
+        "injective anchor-to-carrier conversion"
+      ],
+      "kill_test": "Rectangular blow-ups and shared-boundary anchors; two distinct owners mapping to one B pair or an occupied image kills the claim.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:53:14+00:00",
+      "status_evidence": "evidence/ROUND3_MECHANISM_FALSIFICATION.json: rectangular blow-up data allow arbitrarily many owners to share one boundary pair absent a uniqueness hypothesis.",
+      "updated_at": "2026-08-03T02:55:21+00:00"
+    },
+    {
+      "id": "M809R3-10",
+      "representation_id": "R809R3-10",
+      "family": "overlap_uncrossing",
+      "decisive_claim": "The typed circuit-overlap hypergraph can be uncrossed to a forest without changing any demand neighbourhood, carrier ownership, or use of the one global rounding cell; local creation then globalizes without reuse.",
+      "would_close": [
+        "global nonreuse across all tight circuits"
+      ],
+      "kill_test": "Two crossing circuits sharing one A owner and one B carrier; kill if every forest replacement loses a legal arc or duplicates an atom.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:53:15+00:00",
+      "status_evidence": "evidence/ROUND3_MECHANISM_FALSIFICATION.json: crossing circuits share an owner and carrier; lossless forest uncrossing has no exchange axiom.",
+      "updated_at": "2026-08-03T02:55:21+00:00"
+    }
+  ]
+}

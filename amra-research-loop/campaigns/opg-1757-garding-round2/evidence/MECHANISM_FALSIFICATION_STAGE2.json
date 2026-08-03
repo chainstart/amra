@@ -1,0 +1,79 @@
+{
+  "schema": "amra.opg1757.round2-mechanism-falsification-stage2.v1",
+  "tests": [
+    {
+      "mechanism_id": "G201",
+      "test_family": "global_fixed_edge_quantifier",
+      "exact_test": "Apply the existential fixed-edge quantifier to W4 after proving one entire edge orbit.",
+      "outcome": "survives_not_proved",
+      "evidence": "FULL_RIM_DOMINATION_THEOREM.md proves that every rim edge works on its full distinguished component, so W4 does not refute the existential edge claim. This gives no information for arbitrary 3-connected hosts.",
+      "mathematical_status": "open"
+    },
+    {
+      "mechanism_id": "G202",
+      "test_family": "broken_symmetry_spoke_fibration",
+      "exact_test": "Use the full spoke polynomial, not b=a,d=c, and seek a rational P>0,xi<0 point with an exact positive path or a resultant root-order reversal.",
+      "outcome": "survives_exact_negative_point_outside_component",
+      "evidence": "G202_SPOKE_EXACT_NEGATIVE_ISLAND.md reconstructs the full polynomial and finds P(-8,1/8,8,7)=294896 with xi=-16. The point is rigorously outside the full distinguished component: at t=1/5 its segment to (1,1,1,1) has P=-1009646/78125, contradicting convexity of the established Gårding component if both endpoints belonged. This classifies one exact negative island but does not prove full spoke domination.",
+      "mathematical_status": "exact_local_exclusion; global_claim_open"
+    },
+    {
+      "mechanism_id": "G203",
+      "test_family": "natural_slice_sturm_resultant",
+      "exact_test": "Classify the exact P>0,xi<0 point (-1,10) by the c-fibre Sturm decomposition.",
+      "outcome": "proved_as_subcase",
+      "evidence": "RIM_NATURAL_SLICE_COMPONENT_AUDIT.md proves the negative island is the nondistinguished middle component; FULL_RIM_DOMINATION_THEOREM.md then proves positivity on the larger full rim component.",
+      "mathematical_status": "proved"
+    },
+    {
+      "mechanism_id": "G204",
+      "test_family": "full_four_variable_component",
+      "exact_test": "Derive the component exactly and minimize xi on the P=0 boundary algebraically.",
+      "outcome": "proved_for_rim_orbit",
+      "evidence": "After x=a+1,y=b+1,z=c+1,w=d+1, P=w(xyz-1)^2-(xz+y-2)^2 and the boundary xi numerator has the positive certificate in FULL_RIM_DOMINATION_THEOREM.md. Thus the bad locus is empty for the rim orbit.",
+      "mathematical_status": "proved"
+    },
+    {
+      "mechanism_id": "G205",
+      "test_family": "barrier_derivative",
+      "exact_test": "Differentiate xi along the canonical rim fibre w decreasing to the exact P-boundary.",
+      "outcome": "subsumed_not_killed",
+      "evidence": "The exact derivative is (x+yz-2)^2>=0, so the rim barrier test supports monotonicity. No barrier was defined for general hosts or the spoke orbit; the broad mechanism is frozen as underspecified rather than killed.",
+      "mathematical_status": "conditional"
+    },
+    {
+      "mechanism_id": "G206",
+      "test_family": "coefficient_support_constraint",
+      "exact_test": "Test literal SOS positivity against the exact natural-slice point P(-1,10)=7,xi(-1,10)=-3, then inspect the proposed component module.",
+      "outcome": "underspecified_not_killed",
+      "evidence": "The point rules out an unconditional SOS for xi. A component-relative Positivstellensatz could exclude it, but no degree bound, generators, or quadratic module were specified, so the stated mechanism has no finite exact feasibility problem.",
+      "mathematical_status": "open"
+    },
+    {
+      "mechanism_id": "G207",
+      "test_family": "two_sum_support_constraint",
+      "exact_test": "Demand an explicit 2-sum identity preserving the distinguished-component domination relation, not only polynomial factorization on direct sums.",
+      "outcome": "missing_bridge_not_killed",
+      "evidence": "No 2-sum component map or edge-domination transport is stated. Strong induction covers proper minors but does not imply 2-sum closure. The route is frozen until that exact support/interface formula exists.",
+      "mathematical_status": "open"
+    },
+    {
+      "mechanism_id": "G210",
+      "test_family": "resultant_fibration",
+      "exact_test": "Use disc_c(P) and Res_c(P,dP/dc) on the rim base, including the degree-drop fibre a=-1.",
+      "outcome": "subsumed_not_killed",
+      "evidence": "The exact critical factors a^6(a+1)^8(27a^2-32) yield a valid Sturm decomposition, not a root-order counterexample. The rim case is proved by the stronger Lorentz certificate; no recursive spoke certificate is yet specified.",
+      "mathematical_status": "conditional"
+    }
+  ],
+  "gate_accounting": {
+    "mechanisms_total": 12,
+    "evidenced_killed": 3,
+    "proposed_survivors": ["G201", "G202", "G204"],
+    "non_survivor_denominator": 9,
+    "kill_ratio": "1/3",
+    "required_kill_ratio": "4/5",
+    "gate_result": "FAIL honestly; remain in mechanism_falsification"
+  },
+  "public_problem_closed": false
+}

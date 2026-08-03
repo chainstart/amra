@@ -1,0 +1,67 @@
+{
+  "inherited_from": {
+    "campaign": "amra-research-loop/campaigns/erdos-809-carrier-round4",
+    "mode": "frozen read-only negative evidence only",
+    "retained_exact_results": [
+      "Typed Hall allocation is exact only after concrete missing B-edge carriers and graph-proved legal arcs have been constructed.",
+      "In a locked d-demand circuit with common two-point support and common reserve K(e), matching rank is min(d,|K(e)|), and any saturation needs at least d-|K(e)| distinct external actual carriers.",
+      "The n=14 threshold graph is rainbow-C7 and L4(2), has four locked demands and K(bc)={bc,cz}, hence carrier rank two and deficiency two."
+    ],
+    "not_inherited": [
+      "No actual absorber, external legal arc, codegree theorem, nibble cleanup, or 1/8 implication is inherited.",
+      "Round-four mechanisms M809R4-02 and M809R4-05 were not strictly refuted after audit and are not promoted as theorems."
+    ]
+  },
+  "absorber_type_firewall": {
+    "demand": "A concrete repeated-colour defect with its labelled original-graph endpoints, chosen root, base e and canonical reserve K(e).",
+    "external_output": "A concrete missing B-edge f in the same original graph with f not in K(e) before the switch.",
+    "legal_arc": "A replayable original-graph operation proving that this named demand may use f; membership of f in the global missing-edge set or appearance in an abstract catalogue is insufficient.",
+    "certificate": "The demand, original base and reserve, complete switch gadget, output f, all C7 witnesses, and ownership resources used by the switch.",
+    "output_rank": "Maximum number of demands assigned distinct output B-edges by pairwise compatible certificates; certificate multiplicity is not rank.",
+    "cut_expansion": "For every demand cut T, the union of old canonical neighbours and legal external outputs has size at least |T| after occupied outputs and ownership conflicts are removed."
+  },
+  "inherited_methods": [
+    {
+      "method": "large local absorber catalogue",
+      "loss_step": "Count graph paths, C7 witnesses, root labels or source rectangles as separate absorbers before projecting to named output missing B-edges.",
+      "lost_information": "Many certificates may share one output or one indispensable witness, so their compatible matching rank can remain one.",
+      "exact_witness": "The locked n=14 graph already has many graph paths and cycle witnesses but only two actual outputs in K(bc); witness multiplicity cannot exceed output rank two.",
+      "consequence": "Every count must be accompanied by maximum output codegree and ownership-codegree bounds."
+    },
+    {
+      "method": "dependent-random-choice reservoir",
+      "loss_step": "Use large common neighbourhoods of local witnesses as though they contained many distinct external missing B-edges.",
+      "lost_information": "DRC preserves common witness multiplicity but can concentrate all witnesses on the same output fibre.",
+      "exact_witness": "All locked demands have identical canonical neighbourhood {bc,cz}; arbitrary multiplicity of source witnesses leaves the same two-edge image.",
+      "consequence": "DRC must be applied after the output projection or prove a bound on every projected fibre."
+    },
+    {
+      "method": "hypergraph nibble from certificate degree",
+      "loss_step": "Take certificate degree as the hypergraph vertex degree without retaining pair codegrees on output edges and switch resources.",
+      "lost_information": "A large multi-hypergraph of certificates can have pair codegree equal to degree and matching number one.",
+      "exact_witness": "The n=14 identical-base class has demand pair codegree equal to individual output degree.",
+      "consequence": "A nibble needs graph-derived output and resource codegrees plus deterministic all-cut cleanup."
+    },
+    {
+      "method": "matroid parity or linkage abstraction",
+      "loss_step": "Declare switch certificates independent or linkable before proving that exchange paths preserve their concrete B-edge outputs and C7 legality.",
+      "lost_information": "The exchange may end at an old reserve edge, reuse one output, or change only an A-side owner.",
+      "exact_witness": "Four distinct owned A diagonals coexist with B-output rank two in the locked graph.",
+      "consequence": "Any parity/linkage theorem must use a common ground set of actual missing B-edges and replay every exchange."
+    },
+    {
+      "method": "stability decomposition into typical and exceptional vertices",
+      "loss_step": "Discard a small exceptional set before verifying which vertices carry all external absorber outputs.",
+      "lost_information": "All rank-increasing outputs may be concentrated on the exceptional set, while the typical graph has a huge but rank-neutral catalogue.",
+      "consequence": "The decomposition must preserve each deficient cut's output neighbourhood and codegree ledger."
+    }
+  ],
+  "required_new_information": [
+    "An explicit local switch in the original hard graph that takes a named demand to a missing B-edge outside its original K(e).",
+    "A proof that the switch is C7-legal and retains all required hard-branch hypotheses.",
+    "A bounded-overlap theorem for both output B-edges and every internal switch resource.",
+    "A matching or linkage theorem whose conclusion is expansion for every demand cut, not merely many certificates or large expected matching.",
+    "Composition with the outer-A gate and all public hard branches before any 1/8 claim."
+  ],
+  "forbidden_shortcut": "Abstract dummies, conditional Hall, path multiplicity, certificates lacking an external output, and finite absence of a blocker are not actual-absorber progress."
+}

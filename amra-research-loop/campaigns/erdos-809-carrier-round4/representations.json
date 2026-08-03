@@ -1,0 +1,94 @@
+{
+  "representations": [
+    {
+      "id": "R809R4-01",
+      "name": "root-state alternating reserve digraph",
+      "family": "alternating_path_augmentation",
+      "new_information": "A state records the chosen root of every repeated colour, its concrete base pairs, exact canonical reserves K(e), current matching, and graph-legal root switches.",
+      "repairs_loss": "It distinguishes rearrangement inside a fixed two-token reserve from a switch that reaches a previously unused missing B-edge.",
+      "first_test": "Replay all root choices on the n=14 tight graph; reject every purported augmentation that ends at bc or cz or at a formal dummy.",
+      "public_effect": "A rank-increasing reachable state for every deficient cut could create the missing B capacity."
+    },
+    {
+      "id": "R809R4-02",
+      "name": "cut-labelled augmenting forest",
+      "family": "alternating_path_augmentation",
+      "new_information": "Every tree is rooted at a minimal deficient demand cut and labels each transition by the actual missing edge newly entering that cut's neighbourhood.",
+      "repairs_loss": "It forces augmentation to address the witnessing cut rather than only increase a global candidate count.",
+      "first_test": "Search for terminal strongly connected cut states on small canonical-reserve graphs and the exact n=14 model.",
+      "public_effect": "Absence of terminal deficient components would imply iterative full payment."
+    },
+    {
+      "id": "R809R4-03",
+      "name": "owned rectangle absorber catalogue",
+      "family": "absorbing_reservoir_gadgets",
+      "new_information": "An absorber stores an owned A diagonal, its anticomplete rectangle, a concrete unused missing B-edge, and the C7 switch proving that edge legal for one named demand.",
+      "repairs_loss": "It prevents an A atom or a merely missing pair from being counted without a conversion certificate.",
+      "first_test": "Enumerate whether any owned diagonal of the n=14 circuit has an absorber output outside {bc,cz}.",
+      "public_effect": "A disjoint absorber for every residual demand would close each Hall cut."
+    },
+    {
+      "id": "R809R4-04",
+      "name": "reserved absorber hypergraph",
+      "family": "absorbing_reservoir_gadgets",
+      "new_information": "Hyperedges join a demand, its source A rectangle, all C7 witness edges, and one output missing B-edge; overlap degree is retained explicitly.",
+      "repairs_loss": "It separates raw reservoir size from a matching of vertex-disjoint, nonreused actual absorbers.",
+      "first_test": "Shared-output and shared-witness blow-ups test whether a large catalogue can still have absorber matching rank one.",
+      "public_effect": "A bounded-codegree absorber matching theorem could pay the sparse leftover after a partial allocation."
+    },
+    {
+      "id": "R809R4-05",
+      "name": "common-ground transversal exchange system",
+      "family": "matroid_transversal_exchange",
+      "new_information": "The ground elements are concrete missing B-edges; one independence system is reserve-matchability and another encodes exclusive ownership of the graph operation producing each legal arc.",
+      "repairs_loss": "A and B ranks are never added across different shores; any gain is a genuine basis exchange on B-edge elements.",
+      "first_test": "Check basis exchange and augmentation on the n=14 tight graph and all small B-reserve systems; kill if A owners raise formal rank but no B element enters.",
+      "public_effect": "A verified matroid-intersection rank inequality could preserve exchange rank globally."
+    },
+    {
+      "id": "R809R4-06",
+      "name": "gammoid of C7 switch paths",
+      "family": "matroid_transversal_exchange",
+      "new_information": "Sources are unmatched demands, sinks are unused actual missing B-edges, and directed paths are explicit graph operations with vertex capacities for ownership and C7 witnesses.",
+      "repairs_loss": "It makes exchange rank equal to a disjoint path packing only when each path has an original-graph realization.",
+      "first_test": "The n=14 graph must have no sink beyond its occupied full reserve; a dummy sink is disallowed.",
+      "public_effect": "A min-cut lower bound in this gammoid could yield the required rank."
+    },
+    {
+      "id": "R809R4-07",
+      "name": "odd-cycle root-rotation complex",
+      "family": "odd_cycle_rotation_uncrossing",
+      "new_information": "Cells are root choices in independent outer endpoint sets Y_gamma; faces record simultaneous rotations whose base pairs and C7 completion witnesses remain legal.",
+      "repairs_loss": "It realizes uncrossing as changes of concrete base pairs rather than union/intersection of abstract Hall sets.",
+      "first_test": "On two-endpoint colours in the n=14 graph, verify that root reversal leaves base bc and K(bc) unchanged and hence creates no carrier.",
+      "public_effect": "A rotation escaping every tight reserve circuit would enlarge cut neighbourhoods."
+    },
+    {
+      "id": "R809R4-08",
+      "name": "laminar rotation-circuit ledger",
+      "family": "odd_cycle_rotation_uncrossing",
+      "new_information": "Crossing deficient cuts may be uncrossed only when one explicit simultaneous root rotation preserves every demand incidence and releases a new edge with a unique owner.",
+      "repairs_loss": "It exposes precisely where ordinary submodular uncrossing lacks a graph exchange axiom.",
+      "first_test": "Enumerate crossing cuts with identical bases; kill lossless laminarization if their deficits persist under all legal rotations.",
+      "public_effect": "A laminar family with one distinct escape edge per leaf could globalize carrier creation."
+    },
+    {
+      "id": "R809R4-09",
+      "name": "canonical-reserve nibble with codegrees",
+      "family": "probabilistic_nibble",
+      "new_information": "The probability space samples actual demand-to-reserve incidences; degrees, pair codegrees, identical-base classes, and occupied edges are retained.",
+      "repairs_loss": "It blocks independence heuristics when many demands have the same K(e).",
+      "first_test": "The n=14 triple has pair codegree two equal to degree two, so any claimed low-codegree nibble must reject it.",
+      "public_effect": "Graph-derived low codegrees could match most demands while preserving a deterministic cleanup reservoir."
+    },
+    {
+      "id": "R809R4-10",
+      "name": "nibble leftover cut potential",
+      "family": "probabilistic_nibble",
+      "new_information": "Tracks the maximum remaining Hall deficiency over all cuts after each semi-random round, together with an untouched set of concrete missing B-edges.",
+      "repairs_loss": "Expected matched size cannot hide one unserved correlated deficient component.",
+      "first_test": "Run exact outcome enumeration on the three-demand/two-carrier circuit; maximum cut deficiency must remain at least one in every outcome.",
+      "public_effect": "A contraction of maximum cut deficiency plus actual cleanup would close the payment interface."
+    }
+  ]
+}

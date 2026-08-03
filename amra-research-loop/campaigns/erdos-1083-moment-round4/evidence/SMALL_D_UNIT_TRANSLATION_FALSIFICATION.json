@@ -1,0 +1,55 @@
+{
+  "schema": "amra.erdos1083.moment-round4.small-d-falsification.v1",
+  "exact_block": {
+    "G": "1+x",
+    "F0": "1+x^2",
+    "B": "1+x^4+x^8",
+    "R1": "1",
+    "R3": "1-x+x^2",
+    "Q1": "B",
+    "Q3": "B/R3",
+    "boolean_vectors": {
+      "lambda_1": [1, 1, 1],
+      "lambda_3": [0, 1, 1]
+    },
+    "paired_positive": true,
+    "common_X_scalar_copies": true,
+    "common_spectrum_size": 12
+  },
+  "unit_translation_pair": {
+    "translations": ["0", "-1/4", "-1/2"],
+    "target_count": 18,
+    "target_target_distance_label_counts": {
+      "0": 127,
+      "-1/4": 145,
+      "-1/2": 138
+    },
+    "same_normalized_boolean_and_root_data": true,
+    "same_per_row_source_target_spectrum": true,
+    "different_target_collision_behaviour": true
+  },
+  "boolean_fourier_guard": {
+    "dimensions": [2, 4, 6, 8, 10],
+    "middle_layer_rows": [2, 6, 20, 70, 252],
+    "degree_one_walsh_moments": 0,
+    "conclusion": "low-degree Fourier cancellation is not row compression"
+  },
+  "killed": [
+    "M1083M4-02",
+    "M1083M4-03",
+    "M1083M4-04",
+    "M1083M4-05",
+    "M1083M4-06",
+    "M1083M4-08",
+    "M1083M4-09",
+    "M1083M4-11",
+    "M1083M4-12"
+  ],
+  "survivors": [
+    "M1083M4-01",
+    "M1083M4-07",
+    "M1083M4-10"
+  ],
+  "public_exponent_changed": false,
+  "lean_used": false
+}

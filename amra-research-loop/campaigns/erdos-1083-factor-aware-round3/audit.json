@@ -1,0 +1,25 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex audit, 2026-08-03",
+    "evidence": [
+      "audit/TYPED_QUOTIENT_AND_POINT_PAIR_LEDGER_INDEPENDENT_AUDIT.md",
+      "audit/TYPED_QUOTIENT_AND_POINT_PAIR_LEDGER_INDEPENDENT_AUDIT.json",
+      "audit/verify_typed_quotient_and_pair_ledger_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "scope": {
+    "verdict": "The decisive lemma passes as a normalized-quotient and point-pair capacity firewall.",
+    "required_precision": "Any repaired M10 theorem must retain an actual t^(28/9-o(1)) occurrence domain as well as prove fibre exponent below 1/9-epsilon.",
+    "not_proved": [
+      "paired-positivity M01 compression",
+      "propagation from K selected rows to all targets",
+      "all-target fibre theorem",
+      "outer stability",
+      "any improvement of the public 3/5 exponent"
+    ]
+  }
+}

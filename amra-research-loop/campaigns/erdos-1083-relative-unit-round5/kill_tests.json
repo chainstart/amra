@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {"mechanism_id":"M1083U5-01","outcome":"killed","classification":"raw torus character detects pure gauge","evidence":"evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md and JSON M1083U5-01"},
+    {"mechanism_id":"M1083U5-02","outcome":"killed","classification":"infinite fixed-X raw gauge fibre","evidence":"evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md and JSON M1083U5-02"},
+    {"mechanism_id":"M1083U5-03","outcome":"killed","classification":"unbounded factor valuation on fixed product support","evidence":"evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md and JSON M1083U5-03"},
+    {"mechanism_id":"M1083U5-04","outcome":"killed","classification":"nonzero gauge displacement crosses no observable wall","evidence":"evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md and JSON M1083U5-04"},
+    {"mechanism_id":"M1083U5-05","outcome":"killed","classification":"unbounded representatives share one collision profile","evidence":"evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md and JSON M1083U5-05"},
+    {"mechanism_id":"M1083U5-06","outcome":"killed","classification":"raw additive energy lies entirely in gauge","evidence":"evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md and JSON M1083U5-06"},
+    {"mechanism_id":"M1083U5-07","outcome":"survived","classification":"exact projective gauge slice passes","evidence":"Exact rank-six primitive system has one gauge generator; fixing u(G)=a produces the unique representative and preserves all labels."},
+    {"mechanism_id":"M1083U5-08","outcome":"inconclusive","classification":"finite local rank obstruction does not literally refute the power-large universal claim","evidence":"audit/RELATIVE_UNIT_ROUND5_INDEPENDENT_AUDIT.md: the three-row block has observable rank one before absolute-spectrum fixing, but no power-large actual block is constructed."},
+    {"mechanism_id":"M1083U5-09","outcome":"killed","classification":"raw entropy has no carrier or label charge","evidence":"evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md and JSON M1083U5-09"},
+    {"mechanism_id":"M1083U5-10","outcome":"killed","classification":"many representatives occupy one collision chamber","evidence":"evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md and JSON M1083U5-10"}
+  ]
+}

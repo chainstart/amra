@@ -1,0 +1,226 @@
+{
+  "mechanisms": [
+    {
+      "id": "G201",
+      "representation_id": "R2-01",
+      "family": "positivity-geometry",
+      "decisive_claim": "For every loopless graphic matroid there is an edge e for which xi_e is positive on the distinguished component of C_delete.",
+      "would_close": [
+        "all graphic matroids are C-Garding and OPG-1757 follows"
+      ],
+      "kill_test": "W4 full component counterexample search across both edge orbits",
+      "status": "surviving",
+      "created_at": "2026-08-03T01:36:57+00:00",
+      "status_evidence": "evidence/G201_MULTICOORDINATE_EXACT.md: exact two-coordinate denominator-eight tests on K4 and W4 admit points only after every P_e has a strictly positive Bernstein path to ones; all admitted points retain the full strict-good edge set. Finite absence only; no completeness reduction.",
+      "updated_at": "2026-08-03T03:22:38+00:00"
+    },
+    {
+      "id": "G202",
+      "representation_id": "R2-02",
+      "family": "elimination-algebra",
+      "decisive_claim": "For the W4 spoke orbit, subresultant root ordering proves xi_e positive on the entire four-variable distinguished component.",
+      "would_close": [
+        "the first unresolved 3-connected host for the moving-edge induction"
+      ],
+      "kill_test": "exact rational specialization breaking b=a and d=c",
+      "status": "proved",
+      "created_at": "2026-08-03T01:36:57+00:00",
+      "status_evidence": "evidence/FULL_SPOKE_DOMINATION_THEOREM.md plus audit/FULL_SPOKE_DISTINGUISHED_COMPONENT_INDEPENDENT_AUDIT.md and its independent verifier",
+      "updated_at": "2026-08-03T04:15:35+00:00"
+    },
+    {
+      "id": "G203",
+      "representation_id": "R2-02",
+      "family": "elimination-algebra",
+      "decisive_claim": "For the W4 rim orbit, the natural two-variable boundary identity forces xi_e positive on its distinguished slice component.",
+      "would_close": [
+        "a second edge orbit certificate and an edge-selection comparator"
+      ],
+      "kill_test": "derive discriminants/resultant and search for a component-valid negative point",
+      "status": "proved",
+      "created_at": "2026-08-03T01:36:57+00:00",
+      "status_evidence": "audit/RIM_NATURAL_SLICE_COMPONENT_AUDIT.md and evidence/FULL_RIM_DOMINATION_THEOREM.md.",
+      "updated_at": "2026-08-03T03:01:36+00:00"
+    },
+    {
+      "id": "G204",
+      "representation_id": "R2-03",
+      "family": "real-algebraic-geometry",
+      "decisive_claim": "The semialgebraic set C_delete>0, xi_e<=0 connected to the positive orthant is empty for at least one W4 edge orbit.",
+      "would_close": [
+        "a complete W4 moving-edge certificate"
+      ],
+      "kill_test": "CAD or rational-univariate certificate with explicit component path",
+      "status": "proved",
+      "created_at": "2026-08-03T01:36:57+00:00",
+      "status_evidence": "evidence/FULL_RIM_DOMINATION_THEOREM.md: exact full four-variable rim bad-locus emptiness proof.",
+      "updated_at": "2026-08-03T03:01:36+00:00"
+    },
+    {
+      "id": "G205",
+      "representation_id": "R2-04",
+      "family": "convex-analytic",
+      "decisive_claim": "Along the deletion-component barrier flow toward the positive orthant, xi_e cannot cross from positive to nonpositive.",
+      "would_close": [
+        "domination from boundary and one positive anchor"
+      ],
+      "kill_test": "differentiate xi_e along the exact W4 barrier and test sign at the closest spoke-c gap",
+      "status": "frozen",
+      "created_at": "2026-08-03T01:36:59+00:00",
+      "status_evidence": "Rim barrier derivative is a square and is subsumed by G204; no general/spoke barrier flow is specified.",
+      "updated_at": "2026-08-03T03:01:36+00:00"
+    },
+    {
+      "id": "G206",
+      "representation_id": "R2-05",
+      "family": "sos-algebraic",
+      "decisive_claim": "W4 xi_e admits an exact low-degree SOS certificate modulo positive-ray component inequalities.",
+      "would_close": [
+        "W4 domination without coefficientwise positivity"
+      ],
+      "kill_test": "degree-bounded SDP routing followed by exact rational identity check",
+      "status": "frozen",
+      "created_at": "2026-08-03T01:36:59+00:00",
+      "status_evidence": "Exact negative xi point rules out unconditional SOS, while the component module and degree bound are unspecified.",
+      "updated_at": "2026-08-03T03:01:36+00:00"
+    },
+    {
+      "id": "G207",
+      "representation_id": "R2-06",
+      "family": "minor-structural",
+      "decisive_claim": "Every minimal graphic counterexample to C-Garding is simple and 3-connected, and all proper deletion pieces are covered by strong induction and 2-sum closure.",
+      "would_close": [
+        "reduces the global moving-edge lemma to 3-connected hosts"
+      ],
+      "kill_test": "test the claimed decomposition on bridges, articulation blocks, and nontrivial 2-separations",
+      "status": "frozen",
+      "created_at": "2026-08-03T01:36:59+00:00",
+      "status_evidence": "No exact 2-sum component map or domination-transport identity is stated; strong induction alone does not supply closure.",
+      "updated_at": "2026-08-03T03:01:36+00:00"
+    },
+    {
+      "id": "G208",
+      "representation_id": "R2-07",
+      "family": "moving-certificate",
+      "decisive_claim": "A computable edge score always selects an edge satisfying xi_e triangleleft C_delete in every 3-connected graphic matroid.",
+      "would_close": [
+        "the existential edge needed by Proposition 13.9"
+      ],
+      "kill_test": "enumerate the score on W4, K5, and asymmetric small 3-connected graphs",
+      "status": "frozen",
+      "created_at": "2026-08-03T01:36:59+00:00",
+      "status_evidence": "mechanism claim is tautological until an edge score independent of the target domination predicate is specified",
+      "updated_at": "2026-08-03T01:49:17+00:00"
+    },
+    {
+      "id": "G209",
+      "representation_id": "R2-08",
+      "family": "oriented-combinatorial",
+      "decisive_claim": "Cycle-cocircuit elimination pairs every potential negative boundary sign vector with a positive endpoint-connection vector.",
+      "would_close": [
+        "a combinatorial domination certificate"
+      ],
+      "kill_test": "K4 negative coefficient and W4 asymmetric sign-vector fibers",
+      "status": "killed",
+      "created_at": "2026-08-03T01:36:59+00:00",
+      "status_evidence": "../opg-1757-mechanism-reset/evidence/falsification_exact.json",
+      "updated_at": "2026-08-03T01:49:17+00:00"
+    },
+    {
+      "id": "G210",
+      "representation_id": "R2-09",
+      "family": "univariate-fibration",
+      "decisive_claim": "A recursive Sturm certificate in one activity proves proper root ordering over the entire lower-dimensional distinguished base component.",
+      "would_close": [
+        "full W4 domination by certified fibrations"
+      ],
+      "kill_test": "find a base point where root order reverses or a resultant vanishes",
+      "status": "frozen",
+      "created_at": "2026-08-03T01:37:00+00:00",
+      "status_evidence": "Rim Sturm fibration is subsumed by the exact Lorentz proof; no recursive spoke certificate is specified.",
+      "updated_at": "2026-08-03T03:01:36+00:00"
+    },
+    {
+      "id": "G211",
+      "representation_id": "R2-10",
+      "family": "determinantal-lift",
+      "decisive_claim": "A joint rooted determinant observable represents the unrooted C_delete and xi_e with a positive measure independent of component sizes.",
+      "would_close": [
+        "a PSD proof of general domination"
+      ],
+      "kill_test": "P4 same-component-count unequal-root-multiplicity obstruction",
+      "status": "killed",
+      "created_at": "2026-08-03T01:37:00+00:00",
+      "status_evidence": "../opg-1757-mechanism-reset/evidence/falsification_exact.json",
+      "updated_at": "2026-08-03T01:49:17+00:00"
+    },
+    {
+      "id": "G212",
+      "representation_id": "R2-01",
+      "family": "quantifier-diagonalization",
+      "decisive_claim": "If no fixed edge works on W4, a component-dependent moving edge cover has a finite overlap certificate that still yields global C-Garding.",
+      "would_close": [
+        "repairs failure of one globally fixed edge orbit"
+      ],
+      "kill_test": "search for two component points requiring incompatible spoke and rim choices",
+      "status": "killed",
+      "created_at": "2026-08-03T01:37:00+00:00",
+      "status_evidence": "kill_tests.json",
+      "updated_at": "2026-08-03T01:49:17+00:00"
+    },
+    {
+      "id": "G213",
+      "representation_id": "R2-11",
+      "family": "zero-locus-elimination",
+      "decisive_claim": "For the complete two-variable marked-edge stabilizer specialization of K3,3, the xi-zero locus is disjoint from the distinguished deletion-positive component, hence xi is positive there.",
+      "would_close": [
+        "the K3,3 marked-edge stabilizer-variable instance and a reusable zero-locus barrier mechanism"
+      ],
+      "kill_test": "independently reconstruct P and xi and seek a point with y>1,F>0,G=0 or a failure of the pseudo-remainder identity",
+      "status": "proved",
+      "created_at": "2026-08-03T04:28:00+00:00",
+      "status_evidence": "evidence/K33_STABILIZER_DOMINATION_THEOREM.md plus audit/K33_STABILIZER_DOMINATION_INDEPENDENT_AUDIT.md and independent verifier",
+      "updated_at": "2026-08-03T04:34:00+00:00"
+    },
+    {
+      "id": "G214",
+      "representation_id": "R2-11",
+      "family": "lorentz-boundary-elimination",
+      "decisive_claim": "For the complete three-variable marked-vertical-edge stabilizer specialization of the triangular prism, the exact Lorentz boundary identity forces xi positive on the distinguished deletion-positive component.",
+      "would_close": ["the triangular-prism vertical-edge stabilizer-variable instance"],
+      "kill_test": "independently reconstruct the 180/46 forest polynomials and test the component equality, strict V sign and A=0 boundary case",
+      "status": "proved",
+      "created_at": "2026-08-03T04:42:00+00:00",
+      "status_evidence": "evidence/TRIANGULAR_PRISM_VERTICAL_STABILIZER_THEOREM.md plus audit/TRIANGULAR_PRISM_VERTICAL_STABILIZER_INDEPENDENT_AUDIT.md and independent verifier",
+      "updated_at": "2026-08-03T04:42:00+00:00"
+    },
+    {
+      "id": "G215",
+      "representation_id": "R2-11",
+      "family": "upper-root-fibration",
+      "decisive_claim": "For the complete K5-e high-triangle 2,4,2 stabilizer specialization, the deletion-positive anchor component is an upper-root epigraph into which no xi root can be born or cross.",
+      "would_close": [
+        "the K5-e high-triangle stabilizer-variable instance"
+      ],
+      "kill_test": "independently reconstruct the 134/70 forest polynomials and audit every F-leading, G-discriminant, and F/G-resultant wall of the upper-root epigraph",
+      "status": "proved",
+      "created_at": "2026-08-03T05:18:00+00:00",
+      "status_evidence": "evidence/K5_MINUS_EDGE_UPPER_ROOT_THEOREM.md plus audit/K5_MINUS_EDGE_UPPER_ROOT_INDEPENDENT_AUDIT.md and independent verifier",
+      "updated_at": "2026-08-03T05:18:00+00:00"
+    },
+    {
+      "id": "G216",
+      "representation_id": "R2-11",
+      "family": "root-order-fibration",
+      "decisive_claim": "On the z=1 plane of the triangular-prism marked-triangle-edge three-variable coarsening, the C/D resultant preserves strict upper-root order and forces xi positive on the complete anchor component.",
+      "would_close": [
+        "the z=1 two-variable component of that coarsening"
+      ],
+      "kill_test": "independently reconstruct the z=1 factors and test both discriminants, the C/D resultant, component equality, and root orientation",
+      "status": "proved",
+      "created_at": "2026-08-03T05:31:00+00:00",
+      "status_evidence": "evidence/PRISM_TRIANGLE_Z1_COMPONENT_THEOREM.md plus audit/PRISM_TRIANGLE_Z1_COMPONENT_INDEPENDENT_AUDIT.md and independent verifier",
+      "updated_at": "2026-08-03T05:31:00+00:00"
+    }
+  ]
+}

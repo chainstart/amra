@@ -1,0 +1,45 @@
+{
+  "schema": "amra.opg1757.prism-triangle-z1-component-independent-audit.v1",
+  "auditor": "independent Codex lane",
+  "verdict": "passed_with_required_proof_repair",
+  "independent_reconstruction": {
+    "status": "passed",
+    "forest_count": 190,
+    "endpoint_connected_count": 66,
+    "z1_factorization": "passed",
+    "C_discriminant": "8*(x-1)^3*(x+1)",
+    "D_discriminant": "(x-1)^3*(x^3+5*x^2+11*x-1)",
+    "resultant": "-2*(x-1)^7*(x+1)*(x+3)^2"
+  },
+  "component_check": {
+    "anchor_component": ["x>1", "y>r_C^+(x)"],
+    "connected": true,
+    "maximal_in_z1_plane": true,
+    "reason": "x=1 is a P-zero wall and the two C-positive root regions are disjoint connected hypo/epigraphs"
+  },
+  "root_order_check": {
+    "D_has_distinct_real_roots_for_all_x_gt_1": true,
+    "resultant_prevents_C_D_root_crossing": true,
+    "orientation_at_x2": "r_D^+=1/2 < r_C^+=2/5+sqrt(6)/15",
+    "global_order": "r_D^+<r_C^+ for all x>1"
+  },
+  "double_root_wording": {
+    "candidate_parenthetical_sufficient": false,
+    "issue": "nonnegative at a double root does not imply the strict xi>0 conclusion",
+    "repair": "disc_y(D)>0 for every x>1, so no D double-root fibre occurs in the domain"
+  },
+  "negative_point": {
+    "below_lower_C_root_in_z1_plane": true,
+    "separated_from_anchor_component_in_z1_plane": true,
+    "separated_in_three_variable_space": "not_established"
+  },
+  "recommended_status": "proved_local_z1_component_after_discriminant_repair",
+  "excluded_scope": ["z!=1", "five stabilizer variables", "G201", "OPG-1757"],
+  "public_problem_changed": false,
+  "evidence": [
+    "audit/verify_prism_triangle_z1_component_independent.py",
+    "evidence/verify_prism_triangle_z1_component.py",
+    "evidence/PRISM_TRIANGLE_Z1_COMPONENT_THEOREM.md",
+    "evidence/PRISM_TRIANGLE_Z1_COMPONENT_THEOREM.json"
+  ]
+}

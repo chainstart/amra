@@ -1,0 +1,25 @@
+{
+  "schema": "amra.opg1757.full-w4-rim-domination.v1",
+  "host": "W4 rim edge orbit",
+  "specialization": "full four stabilizer variables",
+  "shift": "x=a+1,y=b+1,z=c+1,w=d+1",
+  "P_identity": "P=w*(x*y*z-1)^2-(x*z+y-2)^2",
+  "distinguished_component": "x,y,z>0; x*y*z>1; w>(x*z+y-2)^2/(x*y*z-1)^2",
+  "xi_identity": "xi=w*(x+y*z-2)^2+Q0",
+  "boundary_certificate": "After u=x*y*z-1 and z=(u+1)/(x*y), (x*y*z-1)^2*Q_boundary=(x-1)^2*(y-1)^2*B/(x^2*y^2), where B=2u^3+A*u^2+2u*((x-1)^2+(y-1)^2)+(x-1)^2*(y-1)^2.",
+  "A_positivity": "A is quadratic in x with leading coefficient (y+1)^2 and discriminant -16*(y^3+y+1)<0 for y>0.",
+  "conclusion": "xi>0 on the full four-variable distinguished component of P>0.",
+  "coarse_endpoint_classification": {
+    "T_endpoint": "-679/250",
+    "T_positive_anchor": "7",
+    "result": "different P>0 components"
+  },
+  "mathematical_status": "proved",
+  "statement_match": "exact W4 rim-orbit domination, not the global problem",
+  "independent_reconstruction": "pending",
+  "novelty_check": "priority_uncertain",
+  "publication_state": "private_research_artifact",
+  "machine_reproduced": "AMRA_MEMORY_KIB=1048576 AMRA_TIMEOUT_SECONDS=120 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/opg-1757-garding-round2/evidence/verify_full_rim_domination.py",
+  "verifier_sha256": "e48c0ab119d684441382922045887338e397da41ba4cb090b7604f30c2e8844b",
+  "public_problem_closed": false
+}

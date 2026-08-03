@@ -1,0 +1,104 @@
+{
+  "schema": "amra.erdos809.carrier-round4-independent-audit.v1",
+  "command": "ulimit -v 2097152; timeout 120s python3 audit/verify_carrier_round4_independent.py",
+  "resource_observation": {
+    "wall_seconds": 1.27,
+    "max_rss_kib": 14336,
+    "exit_code": 0,
+    "virtual_memory_limit_kib": 2097152
+  },
+  "engine": "independent reconstruction from prose; no author-checker import",
+  "full_graph": {
+    "n": 14,
+    "edges": 50,
+    "threshold": 50,
+    "degrees": {
+      "b": 5,
+      "c": 4,
+      "r1": 10,
+      "r2": 10,
+      "v": 10,
+      "x1": 7,
+      "x2": 7,
+      "x3": 8,
+      "x4": 8,
+      "y1": 6,
+      "y2": 6,
+      "y3": 7,
+      "y4": 7,
+      "z": 5
+    },
+    "minimum_degree": 4,
+    "maximum_degree": 10,
+    "A_is_closed_neighbourhood": true,
+    "L4_2": true,
+    "L4_2_cases": 7189,
+    "C7_count": 11136,
+    "rainbow_C7": true,
+    "repeated_colours": 4,
+    "colour_count": 46,
+    "owned_A_diagonals": [["x1", "y1"], ["x2", "y2"], ["x3", "y3"], ["x4", "y4"]],
+    "missing_B_edges": [["b", "c"], ["c", "z"]],
+    "K_bc": [["b", "c"], ["c", "z"]]
+  },
+  "locked_realization": {
+    "demands": 4,
+    "rank": 2,
+    "deficiency": 2,
+    "root_states": 16,
+    "minimal_deficient_triples": [[0, 1, 2], [0, 1, 3], [0, 2, 3], [1, 2, 3]],
+    "pair_codegrees": [2, 2, 2, 2, 2, 2],
+    "external_actual_B_edges": []
+  },
+  "locked_theorem": {
+    "status": "passed",
+    "finite_parameter_pairs_checked": 81,
+    "rank_formula": "min(d,|K(e)|)",
+    "deficiency_formula": "max(0,d-|K(e)|)",
+    "external_necessity": "a perfect matching uses d distinct right vertices, at most |K(e)| internal, hence at least d-|K(e)| external",
+    "legality_boundary": "external objects count only after graph-proved arcs exist; saturation is equivalent to every augmented Hall cut"
+  },
+  "strict_kill_statement_match": {
+    "M809R4-01": {
+      "verdict": "passed",
+      "reason": "minimal deficient triples have no actual B-edge outside their common full reserve, so no root-state path can reach a free sink"
+    },
+    "M809R4-02": {
+      "verdict": "qualified",
+      "reason": "root reversal revisits the identical reserve with a different root state; this kills the claim only if root state is explicitly part of the asserted ownership state"
+    },
+    "M809R4-03": {
+      "verdict": "passed",
+      "reason": "four owned A diagonals exist but the original graph has no missing B-edge outside K(bc)"
+    },
+    "M809R4-05": {
+      "verdict": "qualified",
+      "reason": "the intended A-owner-to-new-B-element rank gain is impossible, but literal matroid augmentation on the two-element B ground set is not refuted and the A-to-B extension map is ill-typed"
+    },
+    "M809R4-06": {
+      "verdict": "passed",
+      "reason": "deficiency two coexists with no free actual B-edge sink, hence source-to-free-sink capacity zero"
+    },
+    "M809R4-07": {
+      "verdict": "passed",
+      "reason": "all 16 root states preserve base and reserve, so every minimal deficient triple is rank-neutral under root rotation"
+    },
+    "M809R4-08": {
+      "verdict": "passed",
+      "reason": "crossing minimal deficient triples exist and no root rotation can release an external actual edge"
+    },
+    "M809R4-09": {
+      "verdict": "passed",
+      "reason": "every pair codegree is two while every individual degree is two, contradicting the at-most-half premise"
+    }
+  },
+  "survivor_boundaries": {
+    "M809R4-04": "not killed by this graph because it has no absorber catalogue; the count-only statement still lacks the bounded-overlap hypothesis needed for a matching theorem",
+    "M809R4-10": "not killed because two actual carriers are fewer than four demands; total carrier count alone is too weak and must be replaced by legal cut expansion plus cleanup"
+  },
+  "verdict": "graph_and_locked_theorem_pass; six_literal_kills_pass; two_kills_require_statement_repairs",
+  "scope": "local negative interface only; no external carrier, outer-A closure, public theorem, or 1/8 change",
+  "lean_used": false,
+  "main_term_changed": false,
+  "public_problem_changed": false
+}

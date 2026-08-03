@@ -1,0 +1,58 @@
+{
+  "schema": "amra.opg1757.prism-triangle-edge-routing-independent-audit.v1",
+  "auditor": "independent Codex lane not authoring the candidate evidence",
+  "verdict": "passed_with_scope_repairs",
+  "independent_reconstruction": {
+    "status": "passed",
+    "automorphism_group_order": 12,
+    "marked_edge_stabilizer_order": 2,
+    "orbits": [
+      [[2,5]],
+      [[3,4]],
+      [[0,2],[1,2]],
+      [[0,3],[1,4]],
+      [[3,5],[4,5]]
+    ],
+    "orbit_size_multiset": [1,1,2,2,2],
+    "forest_count": 190,
+    "endpoint_connected_count": 66,
+    "five_variable_term_counts": {"P":79,"xi":35},
+    "three_variable_polynomials_match": true
+  },
+  "resultant": {
+    "total_degree": 28,
+    "term_count": 166,
+    "displayed_factor_divides_exactly": true,
+    "displayed_factor_total_degree": 12,
+    "residual_total_degree": 16,
+    "residual_term_count": 52,
+    "residual_factorization_over_Q": [{"degree":16,"exponent":1}],
+    "residual_is_square_up_to_constant": false
+  },
+  "negative_point": {
+    "point": ["3/2","1/2","1"],
+    "P": "1/64",
+    "xi": "-3/32",
+    "z1_common_x_minus_1_factor": true,
+    "direct_x_segment_hits_P_negative": true,
+    "distinguished_component_membership": "not_established"
+  },
+  "wording_judgment": {
+    "simple_square_wall_killed": "too_broad_without_a_literal_definition",
+    "strictly_supported": "the single-factor low-degree resultant-collapse ansatz fails on this three-variable coarsening",
+    "still_open": "whether a low-degree wall or another square-wall argument controls the distinguished P-positive component"
+  },
+  "unsupported_by_supplied_verifier": [
+    "mesh-1/4 and mesh-1/8 Bernstein-positive axis-grid path absence"
+  ],
+  "statement_match": "scope_repairs_required",
+  "dependency_check": "passed_for_exact_algebra_only",
+  "component_counterexample": false,
+  "public_problem_changed": false,
+  "evidence": [
+    "audit/verify_prism_triangle_edge_routing_independent.py",
+    "evidence/verify_prism_triangle_edge_routing.py",
+    "evidence/PRISM_TRIANGLE_EDGE_STABILIZER_ROUTING.md",
+    "evidence/PRISM_TRIANGLE_EDGE_STABILIZER_ROUTING.json"
+  ]
+}

@@ -1,0 +1,651 @@
+{
+  "schema": "amra.audit.erdos1083.general-unit-matrix-independent.v1",
+  "construction": "fresh rows from equations; no author module or matrix function imported",
+  "checked_m": [
+    1,
+    12
+  ],
+  "results": [
+    {
+      "m": 1,
+      "variables": 5,
+      "full_shape": [
+        5,
+        5
+      ],
+      "full_rank": 4,
+      "full_nullity": 1,
+      "full_unit_minor": -1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        3,
+        5
+      ],
+      "source_rank": 3,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 1,
+      "augmented_unrecorded_unit_nullity": 2
+    },
+    {
+      "m": 2,
+      "variables": 7,
+      "full_shape": [
+        8,
+        7
+      ],
+      "full_rank": 6,
+      "full_nullity": 1,
+      "full_unit_minor": 1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        5,
+        7
+      ],
+      "source_rank": 5,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 2,
+      "augmented_unrecorded_unit_nullity": 2
+    },
+    {
+      "m": 3,
+      "variables": 9,
+      "full_shape": [
+        11,
+        9
+      ],
+      "full_rank": 8,
+      "full_nullity": 1,
+      "full_unit_minor": -1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        7,
+        9
+      ],
+      "source_rank": 7,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 3,
+      "augmented_unrecorded_unit_nullity": 2
+    },
+    {
+      "m": 4,
+      "variables": 11,
+      "full_shape": [
+        14,
+        11
+      ],
+      "full_rank": 10,
+      "full_nullity": 1,
+      "full_unit_minor": 1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        9,
+        11
+      ],
+      "source_rank": 9,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 4,
+      "augmented_unrecorded_unit_nullity": 2
+    },
+    {
+      "m": 5,
+      "variables": 13,
+      "full_shape": [
+        17,
+        13
+      ],
+      "full_rank": 12,
+      "full_nullity": 1,
+      "full_unit_minor": -1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        11,
+        13
+      ],
+      "source_rank": 11,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 5,
+      "augmented_unrecorded_unit_nullity": 2
+    },
+    {
+      "m": 6,
+      "variables": 15,
+      "full_shape": [
+        20,
+        15
+      ],
+      "full_rank": 14,
+      "full_nullity": 1,
+      "full_unit_minor": 1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        13,
+        15
+      ],
+      "source_rank": 13,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 6,
+      "augmented_unrecorded_unit_nullity": 2
+    },
+    {
+      "m": 7,
+      "variables": 17,
+      "full_shape": [
+        23,
+        17
+      ],
+      "full_rank": 16,
+      "full_nullity": 1,
+      "full_unit_minor": -1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        15,
+        17
+      ],
+      "source_rank": 15,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 7,
+      "augmented_unrecorded_unit_nullity": 2
+    },
+    {
+      "m": 8,
+      "variables": 19,
+      "full_shape": [
+        26,
+        19
+      ],
+      "full_rank": 18,
+      "full_nullity": 1,
+      "full_unit_minor": 1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        17,
+        19
+      ],
+      "source_rank": 17,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 8,
+      "augmented_unrecorded_unit_nullity": 2
+    },
+    {
+      "m": 9,
+      "variables": 21,
+      "full_shape": [
+        29,
+        21
+      ],
+      "full_rank": 20,
+      "full_nullity": 1,
+      "full_unit_minor": -1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        19,
+        21
+      ],
+      "source_rank": 19,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 9,
+      "augmented_unrecorded_unit_nullity": 2
+    },
+    {
+      "m": 10,
+      "variables": 23,
+      "full_shape": [
+        32,
+        23
+      ],
+      "full_rank": 22,
+      "full_nullity": 1,
+      "full_unit_minor": 1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        21,
+        23
+      ],
+      "source_rank": 21,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 10,
+      "augmented_unrecorded_unit_nullity": 2
+    },
+    {
+      "m": 11,
+      "variables": 25,
+      "full_shape": [
+        35,
+        25
+      ],
+      "full_rank": 24,
+      "full_nullity": 1,
+      "full_unit_minor": -1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        23,
+        25
+      ],
+      "source_rank": 23,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 11,
+      "augmented_unrecorded_unit_nullity": 2
+    },
+    {
+      "m": 12,
+      "variables": 27,
+      "full_shape": [
+        38,
+        27
+      ],
+      "full_rank": 26,
+      "full_nullity": 1,
+      "full_unit_minor": 1,
+      "full_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "source_shape": [
+        25,
+        27
+      ],
+      "source_rank": 25,
+      "source_nullity": 2,
+      "source_unit_minor": 1,
+      "source_smith": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "identity_dependencies_checked": 12,
+      "augmented_unrecorded_unit_nullity": 2
+    }
+  ],
+  "conclusions": {
+    "full": "rank 2m+2, primitive gauge line, every nonzero Smith factor 1",
+    "source_identity": "rank 2m+1, primitive gauge plus spectrum-shift plane, every nonzero Smith factor 1",
+    "ambient_firewall": "one unrecorded zero column preserves scalar primitivity but adds an independent kernel line"
+  }
+}

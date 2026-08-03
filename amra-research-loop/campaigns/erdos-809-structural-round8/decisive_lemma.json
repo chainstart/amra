@@ -1,0 +1,18 @@
+{
+  "statement": "For the locked n=16 round7 natural-switch assignment omitting bu,bw,uw, the 93-trace bad-C7 deletion hypergraph has singleton kernel F=R×(P∪U∪W) ∪ P×Q ∪ U×W ∪ K2(W), with disjoint block sizes 12,4,4,1. Its 72 triple traces meet F in two edges (12 traces) or three edges (60 traces), in exactly five block-signature classes of multiplicities 8,4,4,32,24. Hence every transversal contains F, F hits every trace, and tau=21.",
+  "status": "proved",
+  "closes": [
+    "exact structural classification of the unique unprotected locked assignment",
+    "three-deletion repair no-go for that finite assignment"
+  ],
+  "evidence": [
+    "evidence/STRUCTURAL_TRACE_THEOREM.md",
+    "evidence/TRACE_BLOCK_CERTIFICATE.json",
+    "evidence/verify_structural_trace_classification.py"
+  ],
+  "dependency_gaps": [
+    "No reduction forces this five-block pattern in arbitrary hard graphs.",
+    "The result is finite and does not improve the public 1/8 exponent.",
+    "Other natural-switch budgets and non-natural constructions remain open."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schema": "amra.opg1757.full-w4-spoke-independent-audit.v1",
+  "status": "passed",
+  "auditor": "root author-swapped reconstruction",
+  "reconstruction": {
+    "method": "independent subset enumeration of W4 minus marked spoke 01, using complement-of-forest monomials",
+    "forest_count": 86,
+    "endpoint_connected_forest_count": 38,
+    "P_at_anchor": 86,
+    "xi_at_anchor": 38
+  },
+  "identities": {
+    "P": "A*z^2-H",
+    "xi": "C*z+E",
+    "boundary": "H*C^2-A*E^2=4*(w-1)^2*(x-1)^4*(y-1)^2*J",
+    "verified_from_reconstructed_polynomials": true
+  },
+  "component_audit": {
+    "claimed_component": "x,w,z>0; wx>1; y*(wx+1)>2; z>sqrt(H/A)",
+    "base_connected": true,
+    "contains_positive_anchor": true,
+    "walls_checked": ["wx=1", "y*(wx+1)=2", "z=sqrt(H/A)", "z=0", "x=0 or w=0 after wx=1"],
+    "no_missing_exit_found": true
+  },
+  "sign_audit": {
+    "A_C_J_H_positive_on_component": true,
+    "E_nonnegative_case": "xi=Cz+E>0",
+    "E_negative_case": "boundary identity gives C*sqrt(H/A)>=-E and strict z boundary gives xi>0"
+  },
+  "statement_match": "exact W4 marked-spoke four-stabilizer-variable domination only",
+  "dependency_check": "passed for the inherited C-Garding/component setting; no global moving-edge consequence",
+  "public_problem_closed": false,
+  "script_sha256": "1dd8be786e0b87117ab41b39b38ddf936a14c4110a208d74be93a3e02c64eea8"
+}

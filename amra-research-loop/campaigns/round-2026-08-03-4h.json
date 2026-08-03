@@ -1,0 +1,44 @@
+{
+  "round_id": "round-2026-08-03-4h",
+  "wall_clock_budget_hours": 4,
+  "persistent_goal_status": "complete_after_full_four_hour_budget",
+  "persistent_goal_thread_id": "019fc24d-b264-7352-b157-5043ea5cba8a",
+  "persistent_goal_started_at_epoch": 1785725345,
+  "resource_policy": {
+    "wsl_ram_gib": 31,
+    "default_process_virtual_memory_gib": 5,
+    "mathlib_lean_virtual_memory_gib": 12,
+    "max_concurrent_mathlib_lean_probes": 1,
+    "lean_threads_per_probe": 2,
+    "lean_project": "amra_library/formal",
+    "lean_role": "bounded identity, inequality, example, and counterexample probes only; no rebuild"
+  },
+  "schedule": [
+    {"elapsed_hours": "0-0.5", "phase": "obstruction_analysis", "deliverable": "inherit exact prior no-go boundaries and freeze the new decisive interfaces"},
+    {"elapsed_hours": "0.5-1.5", "phase": "representation_search", "deliverable": "at least 8 representations and 10 mechanisms per campaign"},
+    {"elapsed_hours": "1.5-2.5", "phase": "mechanism_falsification", "deliverable": "kill at least 80 percent with exact probes"},
+    {"elapsed_hours": "2.5-3.5", "phase": "survivor_deepening", "deliverable": "at most 3 survivors and one exact decisive lemma or scoped no-go per viable lane"},
+    {"elapsed_hours": "3.5-4", "phase": "independent_audit_and_integration", "deliverable": "author-swapped reconstruction, validators, and honest promotion/freeze decisions"}
+  ],
+  "lane_priority": [
+    {"campaign_id": "erdos-776-c1-round3", "share": 0.30},
+    {"campaign_id": "opg-1757-garding-round2", "share": 0.30},
+    {"campaign_id": "erdos-809-conversion-round3 and erdos-809-carrier-round4", "share": 0.25},
+    {"campaign_id": "erdos-1083-factor-aware-round3 and erdos-1083-moment-round4", "share": 0.15}
+  ],
+  "closing_campaigns": [
+    "opg-1757-k5-cross-round3",
+    "opg-1757-k5-cross-be-round4",
+    "opg-1757-k5-cross-ab-round5",
+    "erdos-776-adaptive-round4",
+    "erdos-776-seed-switch-round5",
+    "erdos-776-leading-block-round6",
+    "erdos-809-output-expansion-round7",
+    "erdos-809-structural-round8",
+    "erdos-1083-unit-matrix-round7",
+    "erdos-1083-spectrum-conditioning-round8"
+  ],
+  "closing_validation": "round-2026-08-03-validation.json",
+  "public_promotions": 0,
+  "round_outputs_committed": false
+}

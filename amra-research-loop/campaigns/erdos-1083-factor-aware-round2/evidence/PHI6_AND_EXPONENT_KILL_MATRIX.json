@@ -1,0 +1,139 @@
+{
+  "schema": "amra.erdos1083.factor-aware-round2.phi6-exponent-kill-matrix.v1",
+  "mathematical_status": "mechanism falsification ledger; distinguishes exact refutations, representation insufficiency, exponent-closure failure, and hypothesis misses",
+  "shared_exact_phi6_facts": {
+    "rows": "K=binom(d,floor(d/2)) middle-layer divisors Q_A",
+    "labelled_moments": "all K actual Q_A have distinct degree-at-most-one labelled fingerprints",
+    "factor_incidence": "each row meets k=floor(d/2) factors and each factor occurs in binom(d-1,k-1) rows; minimum omission-code distance is two",
+    "complexity": "B has expanded support 2*3^d but the displayed product circuit has only d+1 factors",
+    "missing_actual_interfaces": ["one common scalar source X", "paired positive Euclidean source multiples", "tangent-cell and squared-distance labels", "an R3 realization"],
+    "interpretation_rule": "Failure of an actual-interface hypothesis is not a refutation. A mechanism is killed only when its representation-level necessary implication is false, its stated branch has no closure conclusion, or its exponent ledger cannot convert its quantity to actual labels."
+  },
+  "tests": [
+    {
+      "mechanism_id": "M1083R2-01",
+      "outcome": "survived",
+      "phi6_result": "hypothesis_miss_not_refutation",
+      "reason": "Phi6 confirms labelled moments can retain factor subsets, but it lacks every actual interface explicitly required before the proposed scalar-copy and distance conclusions.",
+      "exponent_result": "open: must prove a t^epsilon profile saving or retain the full t^(5/9-o(1)) core through the scalar-copy bridge",
+      "evidence": "shared Phi6 probe plus inherited degree-one reverse boundary",
+      "remaining_gap": "no labelled-moment inverse theorem under both positive multiples is proved"
+    },
+    {
+      "mechanism_id": "M1083R2-02",
+      "outcome": "killed",
+      "kill_type": "exponent_closure_failure",
+      "phi6_result": "exact recovery without closure",
+      "reason": "On Phi6 a bounded labelled jet can recover A exactly for all exponentially many rows. The decisive claim assigns the ruled-locus conclusion only to ambiguous rows; its exact-recovery branch supplies neither a row bound nor a distance-label inequality. Thus even success of the proposed reconstruction leaves the t^(5/9) hub and t^3 baseline unchanged.",
+      "not_claimed": "This does not refute a future jet theorem that adds a separate actual scalar-copy-to-distance inequality.",
+      "evidence": "factor_aware_phi6_falsification.py and the inherited low-moment audit"
+    },
+    {
+      "mechanism_id": "M1083R2-03",
+      "outcome": "killed",
+      "kill_type": "representation_insufficiency",
+      "phi6_result": "exact incidence countermodel",
+      "reason": "The complete middle layer realizes the maximal omission code with equal augmentation and a common quotient. The omission-code representation does not encode the common-X, paired-positivity, or Euclidean hypotheses named later in the claim, so no incidence-only sublemma can deliver the required t^epsilon saving.",
+      "not_claimed": "Phi6 does not refute a theorem whose formal hypotheses actually include and use the missing interfaces.",
+      "evidence": "exact K and regular incidence counts in the shared probe"
+    },
+    {
+      "mechanism_id": "M1083R2-04",
+      "outcome": "killed",
+      "kill_type": "false_representation_to_label_implication",
+      "phi6_result": "strong expansion with zero Euclidean content",
+      "reason": "Regular factor-row expansion and distinct labelled fingerprints coexist in Phi6 without any distance labels. The candidate provides no injective multiplicity map from a factor direction to an actual squared-distance label, so its t^epsilon directions cannot enter the t^(3+epsilon) ledger.",
+      "not_claimed": "A separately proved Euclidean labelled expansion theorem is not refuted.",
+      "evidence": "regular factor degrees and distinct fingerprints in the shared probe"
+    },
+    {
+      "mechanism_id": "M1083R2-05",
+      "outcome": "survived",
+      "phi6_result": "hypothesis_miss_not_refutation",
+      "reason": "Independent Phi6 coordinates do not form lambda_j copies of one X, exactly the interface the Jacobian representation retains. The tensor-switch regression therefore does not pass the hypotheses.",
+      "exponent_result": "open: symmetry quotient, singular fibers, and the reciprocal-locus branch must all lose only t^o(1)",
+      "evidence": "shared probe records the absent common-X interface",
+      "remaining_gap": "no all-parameter Jacobian codimension theorem is proved"
+    },
+    {
+      "mechanism_id": "M1083R2-06",
+      "outcome": "killed",
+      "kill_type": "distance_label_injectivity_failure",
+      "phi6_result": "hypothesis miss alone; not used as the refutation",
+      "reason": "A bounded cross-ratio or homothety atlas counts parameter charts, not distinct Euclidean labels. The inherited coherent-theta and same-line models show that power-many coherent parameters can share only a small complete local label set. No multiplicity theorem in this mechanism repairs that gap, so the exponent ledger stops before t^(3+epsilon).",
+      "not_claimed": "The more explicit reciprocal-chart incidence mechanism M1083R2-10 remains available.",
+      "evidence": "inherited COHERENT_THETA_EUCLIDEAN_NO_GO and same-line cyclotomic boundary at ab4b524"
+    },
+    {
+      "mechanism_id": "M1083R2-07",
+      "outcome": "killed",
+      "kill_type": "exact_scaling_counterexample_to_uniform_debt",
+      "phi6_result": "supporting regression, not sole refutation",
+      "reason": "The inherited transverse signed family Q_S has two positive source multiples for arbitrarily large S while its negative debt remains one. Hence no uniform t^epsilon debt per signed row follows from paired positivity alone, contradicting the proposed necessary rank-or-debt gap.",
+      "not_claimed": "A power-family theorem using additional cross-row scarcity is not refuted.",
+      "evidence": "SIMULTANEOUS_POSITIVE_COMPLEMENT_NO_GO and SIGNED_RESIDUAL_FACTORIAL_ENERGY inherited at ab4b524"
+    },
+    {
+      "mechanism_id": "M1083R2-08",
+      "outcome": "killed",
+      "kill_type": "capacity_typing_and_scaling_failure",
+      "phi6_result": "independent-coordinate tokens are not scarce",
+      "reason": "The proposed flow has no proved non-reuse resource shared by both products and all rows. Phi6 supplies linearly many reusable factor labels for exponentially many routes, while Q_S has constant debt at unbounded scale. Counting unmatched algebraic routes as labels would repeat the precise type error forbidden by the exponent contract.",
+      "not_claimed": "A future flow with actual distance labels as capacities could be a new mechanism.",
+      "evidence": "shared Phi6 regular-incidence probe and inherited Q_S exact family"
+    },
+    {
+      "mechanism_id": "M1083R2-09",
+      "outcome": "killed",
+      "kill_type": "missing_decisive_inequality",
+      "phi6_result": "correctly rejected at the Euclidean hypothesis gate",
+      "reason": "Rejecting Phi6 does not validate a tensor-rank lower bound. The claim assumes both the required partition-rank inequality and that every ruled exception is handled by a proved lower-dimensional distance theorem; neither dependency exists. Interval multirow and coherent-theta models remain uncharged, so no numerical route from tensor rank to t^(3+epsilon) labels is present.",
+      "not_claimed": "This is route exhaustion at the stated representation, not a counterexample to every Euclidean tensor theorem.",
+      "evidence": "inherited FULL_EUCLIDEAN_INTERVAL_MULTIROW_NO_GO and COHERENT_THETA_EUCLIDEAN_NO_GO"
+    },
+    {
+      "mechanism_id": "M1083R2-10",
+      "outcome": "survived",
+      "phi6_result": "hypothesis_miss_not_refutation",
+      "reason": "Phi6 has no common tangent or reciprocal Euclidean chart. Unlike a bare atlas, this representation keeps the actual chart equations and labels, so its missing inequality is well typed.",
+      "exponent_result": "open: must bound label multiplicity on the chart and all bounded-degree exceptional relations with only t^o(1) loss",
+      "evidence": "shared probe plus inherited heavy-factor reciprocal chart",
+      "remaining_gap": "no t^(3+epsilon) chart incidence theorem is proved"
+    },
+    {
+      "mechanism_id": "M1083R2-11",
+      "outcome": "killed",
+      "kill_type": "first_test_failed_no_conserved_potential",
+      "phi6_result": "abstract labelled arrays admit distributed defects",
+      "reason": "Factor labels do not provide the asserted conserved defect measure. The inherited distributed-defect obstruction permits every row to be good while every common core is empty. No Euclidean overlap identity excluding that array is supplied, so the t^(-epsilon) discard bound has no candidate invariant to prove.",
+      "not_claimed": "A newly discovered Euclidean conservation law would constitute a different mechanism.",
+      "evidence": "inherited outer-stability obstruction and information-loss map"
+    },
+    {
+      "mechanism_id": "M1083R2-12",
+      "outcome": "killed",
+      "kill_type": "expanded_rank_to_circuit_no_go",
+      "phi6_result": "exact short-circuit countermodel",
+      "reason": "Phi6 has exponential expanded support and moment-matrix dimension but an O(d)-size product circuit. The mechanism defines no target-specific circuit measure that separates actual common-X data, so its only available lower bound is precisely the expanded-rank surrogate already refuted.",
+      "not_claimed": "A concrete circuit lower bound using scalar-copy positivity is not refuted.",
+      "evidence": "shared probe: B support 2*3^d versus d+1 displayed circuit factors"
+    }
+  ],
+  "summary": {
+    "killed": 9,
+    "survived": 3,
+    "survivor_ids": ["M1083R2-01", "M1083R2-05", "M1083R2-10"],
+    "kill_ratio_among_non_survivors": 1.0,
+    "survivor_chain": "factor-labelled low moments -> common-X Jacobian rigidity -> reciprocal-chart distance-label inequality",
+    "expanded_rank_used_as_exponent": false,
+    "phi6_hypothesis_miss_counted_as_refutation": false,
+    "public_exponent_changed": false
+  },
+  "bounded_guard": {
+    "script": "evidence/factor_aware_phi6_falsification.py",
+    "command": "AMRA_MEMORY_KIB=5242880 AMRA_TIMEOUT_SECONDS=1800 LEAN_NUM_THREADS=2 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-factor-aware-round2/evidence/factor_aware_phi6_falsification.py",
+    "script_sha256": "67b4071508c1c8aecb5d213de62dbce9444b9b39cb45691750af74122cca24a5",
+    "result": "exact Phi6 fingerprints, incidence, support/circuit and normalized algebraic exponent ledgers passed for 4<=d<=16 with asymptotic probes through d=256",
+    "lean_used": false
+  }
+}

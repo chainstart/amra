@@ -1,0 +1,12 @@
+{
+  "finite_checks": 142,
+  "payload_sha256": "3b221d58ca4aa37feef9d1456084f3183656da0ad9da0dc33a129493316cbc60",
+  "schema": "amra.erdos1083.absolute-product-unit-profile.scratch.v1",
+  "scope": {
+    "power_large_counterfamily_constructed": false,
+    "public_exponent_changed": false,
+    "round7_modified": false
+  },
+  "status": "pass",
+  "theorem_source": "minimum of a Minkowski sum and same-sign scalar injectivity"
+}

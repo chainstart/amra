@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M1083U7-01",
+      "representation_id": "R1083U7-02",
+      "family": "actual_identity_incidence",
+      "decisive_claim": "For every leaf j in the power-large simultaneous normal form, the five aggregate unit variables (g,f,b,r_j,q_j) and the five actual source, complement and identity rows have exactly the m=1 formal coefficient matrix.",
+      "would_close": [
+        "actual aggregate realization lemma"
+      ],
+      "kill_test": "Extract rows directly from Fj=GRj, PA0=GB, B=RjQj and PAj=F0Qj and compare coefficient vectors.",
+      "status": "proved",
+      "created_at": "2026-08-03T05:21:21+00:00",
+      "status_evidence": "evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#minimal-actual-block",
+      "updated_at": "2026-08-03T05:26:07+00:00"
+    },
+    {
+      "id": "M1083U7-02",
+      "representation_id": "R1083U7-03",
+      "family": "observable_row_typing",
+      "decisive_claim": "The quotient identity b-r_j-q_j=0 adds an independent rank beyond the four actual product-observable rows.",
+      "would_close": [
+        "independent factor-identity rigidity"
+      ],
+      "kill_test": "Compute its linear dependence on the four product rows.",
+      "status": "killed",
+      "created_at": "2026-08-03T05:21:21+00:00",
+      "status_evidence": "evidence/actual_unit_realization.json#all_m_aggregate_realization",
+      "updated_at": "2026-08-03T05:26:07+00:00"
+    },
+    {
+      "id": "M1083U7-03",
+      "representation_id": "R1083U7-04",
+      "family": "observable_row_typing",
+      "decisive_claim": "Common X and paired positivity algebraically force every actual product-unit right side to equal the special scalar multiples used in the finite formal example, without conditioning.",
+      "would_close": [
+        "free absolute-observable determination"
+      ],
+      "kill_test": "Retain arbitrary units of Fj,F0,PAj,PA0 and kill if the multiplicative identities constrain only their sum relation.",
+      "status": "killed",
+      "created_at": "2026-08-03T05:21:21+00:00",
+      "status_evidence": "evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#what-is-and-is-not-fixed",
+      "updated_at": "2026-08-03T05:26:07+00:00"
+    },
+    {
+      "id": "M1083U7-04",
+      "representation_id": "R1083U7-06",
+      "family": "laurent_unit_lattice",
+      "decisive_claim": "A nontrivial sign-torsion observable remains after normalizing all five aggregate factors by positive augmentation.",
+      "would_close": [
+        "actual sign torsion"
+      ],
+      "kill_test": "Orient G,Rj,B,Qj,F0 by their positive nonzero augmentations and test the sign equations.",
+      "status": "killed",
+      "created_at": "2026-08-03T05:21:21+00:00",
+      "status_evidence": "evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#full-laurent-unit-lattice-and-signs",
+      "updated_at": "2026-08-03T05:26:07+00:00"
+    },
+    {
+      "id": "M1083U7-05",
+      "representation_id": "R1083U7-05",
+      "family": "laurent_unit_lattice",
+      "decisive_claim": "Tensoring the primitive scalar incidence matrix with the actual free abelian exponent lattice creates an additional observable kernel not generated coordinatewise by gauge.",
+      "would_close": [
+        "ambient-coordinate extra kernel"
+      ],
+      "kill_test": "Put Gamma isomorphic to Z^r and compute the tensor kernel using the unit maximal minor.",
+      "status": "killed",
+      "created_at": "2026-08-03T05:21:22+00:00",
+      "status_evidence": "evidence/actual_unit_realization.json#ambient_unit_audit",
+      "updated_at": "2026-08-03T05:26:07+00:00"
+    },
+    {
+      "id": "M1083U7-06",
+      "representation_id": "R1083U7-07",
+      "family": "factor_occurrence_refinement",
+      "decisive_claim": "Every internal associate-unit redistribution among normalized irreducible occurrences of B changes at least one actual source or complement product mask.",
+      "would_close": [
+        "raw occurrence units are observable"
+      ],
+      "kill_test": "Write aggregate units as occurrence sums and test directions in the projection kernel.",
+      "status": "killed",
+      "created_at": "2026-08-03T05:21:22+00:00",
+      "status_evidence": "evidence/actual_unit_realization.json#raw_occurrence_refinement",
+      "updated_at": "2026-08-03T05:26:07+00:00"
+    },
+    {
+      "id": "M1083U7-07",
+      "representation_id": "R1083U7-08",
+      "family": "factor_occurrence_refinement",
+      "decisive_claim": "The five-variable aggregate formal matrix is the complete raw factor-occurrence unit matrix whenever Omega(B)>1.",
+      "would_close": [
+        "raw completeness of aggregate matrix"
+      ],
+      "kill_test": "Expand B into at least two occurrences and exhibit omitted occurrence-normalization coordinates or prove a canonical quotient.",
+      "status": "killed",
+      "created_at": "2026-08-03T05:21:22+00:00",
+      "status_evidence": "evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#raw-factor-occurrence-refinement",
+      "updated_at": "2026-08-03T05:26:07+00:00"
+    },
+    {
+      "id": "M1083U7-08",
+      "representation_id": "R1083U7-01",
+      "family": "actual_identity_incidence",
+      "decisive_claim": "After choosing normalized associate representatives, the actual multiplicative identities introduce no aggregate unit variables beyond G,F0,B,R_j,Q_j for one centre-leaf block.",
+      "would_close": [
+        "minimal aggregate variable completeness"
+      ],
+      "kill_test": "Audit every factor in the four simultaneous identities and reject any unnamed aggregate factor.",
+      "status": "proved",
+      "created_at": "2026-08-03T05:21:22+00:00",
+      "status_evidence": "evidence/actual_unit_realization.json#minimal_actual_block",
+      "updated_at": "2026-08-03T05:26:07+00:00"
+    },
+    {
+      "id": "M1083U7-09",
+      "representation_id": "R1083U7-09",
+      "family": "conditioning_entropy",
+      "decisive_claim": "The power-large simultaneous-switch theorem already proves that all absolute product-unit observable rows are constant on a t^(5/9-o(1)) subfamily at t^o(1) cost.",
+      "would_close": [
+        "power-large spectrum-fixed fibre"
+      ],
+      "kill_test": "Locate an explicit joint-profile count and retained-fibre inequality; absence of such a theorem is inconclusive unless a legal counterfamily is built.",
+      "status": "surviving",
+      "created_at": "2026-08-03T05:21:22+00:00",
+      "status_evidence": "evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#exact-conclusion-and-remaining-gap",
+      "updated_at": "2026-08-03T05:26:07+00:00"
+    },
+    {
+      "id": "M1083U7-10",
+      "representation_id": "R1083U7-03",
+      "family": "observable_row_typing",
+      "decisive_claim": "Before fixing absolute complement observables, the actual aggregate source-identity subsystem has only the projective gauge kernel.",
+      "would_close": [
+        "free rank-zero observable quotient"
+      ],
+      "kill_test": "Delete PAj and PA0 rows and compute the common spectrum-shift direction.",
+      "status": "killed",
+      "created_at": "2026-08-03T05:21:22+00:00",
+      "status_evidence": "evidence/actual_unit_realization.json#observable_rows",
+      "updated_at": "2026-08-03T05:26:07+00:00"
+    },
+    {
+      "id": "M1083U7-11",
+      "representation_id": "R1083U7-02",
+      "family": "actual_identity_incidence",
+      "decisive_claim": "Once all four actual product-unit observables are fixed, the m=1 aggregate exponent matrix has primitive gauge kernel only, coordinatewise over Gamma.",
+      "would_close": [
+        "conditional actual primitive-gauge lemma"
+      ],
+      "kill_test": "Exhibit a unit maximal minor and solve the actual affine system over each exponent coordinate.",
+      "status": "proved",
+      "created_at": "2026-08-03T05:21:22+00:00",
+      "status_evidence": "evidence/actual_unit_realization.json#minimal_actual_block",
+      "updated_at": "2026-08-03T05:26:07+00:00"
+    },
+    {
+      "id": "M1083U7-12",
+      "representation_id": "R1083U7-10",
+      "family": "conditioning_entropy",
+      "decisive_claim": "The local aggregate realization lemma alone retains the all-target occurrence mass and proves a dimension-three distance exponent strictly above 3/5.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Require explicit same-domain occurrence, fibre and stability inequalities; a matrix is insufficient.",
+      "status": "frozen",
+      "created_at": "2026-08-03T05:21:22+00:00",
+      "status_evidence": "evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md#exact-conclusion-and-remaining-gap",
+      "updated_at": "2026-08-03T05:26:08+00:00"
+    }
+  ]
+}

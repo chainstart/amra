@@ -1,0 +1,20 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos809_lane (author-swapped independent reconstruction)",
+    "evidence": [
+      "audit/RELATIVE_UNIT_ROUND5_INDEPENDENT_AUDIT.md",
+      "audit/RELATIVE_UNIT_ROUND5_INDEPENDENT_AUDIT.json",
+      "audit/verify_relative_unit_round5_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "promotion_audit": {
+    "decision": "reject",
+    "reason": "Only a local exact gauge lemma is proved; general observable-unit control, full-target mass and fibre, and stability remain open.",
+    "main_exponent_changed": false,
+    "three_fifths_changed": false
+  }
+}

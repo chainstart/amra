@@ -1,0 +1,42 @@
+{
+  "schema":"amra.erdos1083.round3.independent-audit.v1",
+  "verdict":"pass_with_dependency_precision",
+  "independence":{
+    "imports_author_computation":false,
+    "script":"audit/verify_typed_quotient_and_pair_ledger_independent.py",
+    "script_sha256":"243b460e0630bc3a988896f237fb31fcc887ebe1b86bedd24f98f5c902806a34",
+    "resource_limit":"2 GiB virtual memory; 120 seconds",
+    "wall_time_seconds":2.4
+  },
+  "boolean_host":{
+    "status":"passed",
+    "legal_scope":"normalized Laurent associate classes",
+    "total_degree":"D",
+    "coordinate_degree":1,
+    "2_to_D_scope":"attained for independent formal factor occurrences; not necessarily distinct for repeated actual factors",
+    "unit_requirement":"restore sign and monomial translation before coefficient moments or positivity"
+  },
+  "interpolation":{
+    "status":"passed",
+    "statement":"delta values at K distinct nodes have minimum interpolation degree K-1",
+    "scope":"arbitrary sample obstruction, not an actual exact-block counterexample"
+  },
+  "point_pair_ledger":{
+    "source_to_all_targets":"7/3",
+    "selected_target_pairs":"25/9",
+    "selected_to_all_targets":"53/18",
+    "all_target_pairs":"28/9",
+    "required_fibre":"<1/9-epsilon on the same actual all-target occurrence domain",
+    "KS2Uq":"11/3; rejected because it is not a point-pair domain",
+    "KSUq":"26/9; rejected because it has an auxiliary selected-row index and is below 3"
+  },
+  "statement_match":"passed_as_scoped_capacity_firewall",
+  "dependency_check":{
+    "status":"passed_with_precision",
+    "precision":"A future fibre theorem must also retain an actual occurrence domain of size t^(28/9-o(1)); an upper capacity bound alone is insufficient."
+  },
+  "M01_positivity_theorem_proved":false,
+  "main_exponent_changed":false,
+  "public_problem_closed":false,
+  "novelty_check":"priority_uncertain"
+}

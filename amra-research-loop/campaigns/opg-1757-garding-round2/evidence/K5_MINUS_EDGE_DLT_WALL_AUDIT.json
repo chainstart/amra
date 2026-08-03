@@ -1,0 +1,45 @@
+{
+  "schema": "amra.opg1757.k5-minus-edge.dlt-wall-audit.v1",
+  "scope": "three-variable K5-e stabilizer specialization only; no global promotion",
+  "status": "superseded_by_upper_root_theorem",
+  "superseded_by": "K5_MINUS_EDGE_UPPER_ROOT_THEOREM.md",
+  "anchor": {
+    "point": [1, 1, 1],
+    "D": 11,
+    "T": 52,
+    "L": 4
+  },
+  "identity_on_G_zero": "2*D*F = -b^2*L^2*T away from D*L=0",
+  "walls": {
+    "L": {
+      "parameterization": "c=-b/(b+2), b>0",
+      "restriction": "F=G=2*a^2*b^2/(b+2)",
+      "anchor_reachable": true,
+      "zero_locus_candidate": false
+    },
+    "D": {
+      "parameterization": "b=2*(1-q^2)/(1+q^2), c=q-1, -1<q<1",
+      "F_positive_topology": "one connected open strip between two continuous a-roots",
+      "b_equals_1_trace": "u<0,v<0",
+      "ambient_anchor_connectivity": "open"
+    },
+    "T": {
+      "parameterization": "a=-L*(L+4)/(4*K)",
+      "F_positive_sheets": ["q<-j", "hminus<q<j", "q>hplus"],
+      "b_equals_1_trace": "all three sheets have u<0,v<0 representatives",
+      "ambient_anchor_connectivity": "open"
+    }
+  },
+  "degenerate_intersections": {
+    "L_and_T": "F=0",
+    "T_and_G_away_from_D_L": "H=0 and F=0",
+    "D_and_T_and_G": "F>0 exactly for rho<q<1, where rho is the unique root of 2*q^3-q^2+2*q+1; joins D strip to central T sheet"
+  },
+  "minimal_remaining_candidates": [
+    "D strip union central T sheet",
+    "left outer T sheet",
+    "right outer T sheet"
+  ],
+  "campaign_phase_changed": false,
+  "global_closure_changed": false
+}

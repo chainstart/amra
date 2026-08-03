@@ -1,0 +1,22 @@
+{
+  "statement": "Actual-absorber projection firewall. For any family of graph-derived switch certificates, delete every certificate lacking a proved legal arc to a concrete missing B-edge outside the demand's original K(e), and project each remaining certificate to its named output edge together with every consumed switch resource. The compatible absorber matching rank is at most the number of distinct output edges and, more generally, at most every demand-cut output neighbourhood after resource conflicts are imposed; path, C7-witness, root-label, or owner multiplicity cannot increase this rank. In the exact n15 one-vertex threshold expansion of the locked n14 graph, wz is a genuine K(bc)-external missing edge and has 736 simple path witnesses, but all 15 nonempty subsets of the four natural b-to-w switches make a non-rainbow C7, so the legal absorber catalogue is empty. Exhausting all 1716 expansions of the specified type finds no instance with two individually rainbow natural switches to K(cw) minus K(bc).",
+  "status": "proved",
+  "closes": [
+    "rules out raw graph-path or candidate-gadget multiplicity as absorber rank",
+    "proves that an external missing B-edge and a large witness catalogue do not by themselves create one legal arc",
+    "identifies output projection, full resource codegrees, and per-cut expansion as mandatory inputs to the bounded-overlap survivor chain"
+  ],
+  "evidence": [
+    "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md",
+    "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json",
+    "evidence/small_expansion_search.py",
+    "../erdos-809-carrier-round4/evidence/LOCKED_CIRCUIT_EXTERNAL_CARRIER_THEOREM.md"
+  ],
+  "dependency_gaps": [
+    "construct one legal original-graph switch to an output outside the old K(e) in an actual public hard branch",
+    "derive per-output and internal-resource codegree bounds from graph geometry rather than assume them",
+    "prove distinct-output expansion for every deficient demand cut after occupied carriers are removed",
+    "prove deterministic compatible matching or nibble cleanup under those typed hypotheses",
+    "compose carrier creation with the outer-A gate and every public hard branch to obtain the frozen 1/8 conclusion"
+  ]
+}

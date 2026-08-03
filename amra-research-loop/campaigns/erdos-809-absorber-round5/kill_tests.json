@@ -1,0 +1,67 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M809R5-01",
+      "outcome": "inconclusive",
+      "test": "all natural b-to-w one-demand switches in the first valid n15 expansion",
+      "evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md#legality-firewall",
+      "scope": "kills the proposed smallest local replacement gadget: every nonempty switch makes a non-rainbow C7; larger or structurally different original-graph switches remain open"
+    },
+    {
+      "mechanism_id": "M809R5-02",
+      "outcome": "inconclusive",
+      "test": "enumerate all 16 subsets of the four distinct-owner switch candidates",
+      "evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json#first_one_vertex_threshold_expansion",
+      "scope": "the advertised compatibility complex has no nonempty legal face in the tested gadget, and all candidates project to one output; a future catalogue of individually proved legal switches is not refuted"
+    },
+    {
+      "mechanism_id": "M809R5-03",
+      "outcome": "inconclusive",
+      "test": "project 128 length-four and 608 length-five graph paths to named external B-edge outputs",
+      "evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md#exact-model",
+      "scope": "736 graph-realizable witnesses have one output and zero legal switches, killing every pre-projection witness-count inference; post-projection DRC remains open"
+    },
+    {
+      "mechanism_id": "M809R5-05",
+      "outcome": "inconclusive",
+      "test": "retain output fibres and legality when forming the proposed absorber hypergraph",
+      "evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md#consequence",
+      "scope": "candidate degree is large while the sole output fibre contains every candidate and legality deletes them all; this kills automatic low codegree from graph-path abundance, not a theorem assuming separately proved codegrees"
+    },
+    {
+      "mechanism_id": "M809R5-07",
+      "outcome": "inconclusive",
+      "test": "common-ground augmentation for four distinct owners over the single external output wz",
+      "evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json#classification",
+      "scope": "owner multiplicity and candidate switches provide no legal B-ground augmentation; an independence system built from a different proved legal switch family remains open"
+    },
+    {
+      "mechanism_id": "M809R5-08",
+      "outcome": "inconclusive",
+      "test": "delete every transition failing exact rainbow-C7 legality in all 1716 one-vertex expansions",
+      "evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json#exhaustive_n15_natural_switch_search",
+      "scope": "the specified natural-switch network has no pair of legal paths to an external output, so its min-cut cannot pay the locked deficit; other switch networks are not refuted"
+    },
+    {
+      "mechanism_id": "M809R5-09",
+      "outcome": "inconclusive",
+      "test": "separate the sole external edge wz with the new exceptional vertex w",
+      "evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md#exact-model",
+      "scope": "typical-core path abundance retains none of the external output rank, killing unqualified absorber-rank preservation under deletion; an exceptional-set charging theorem remains possible"
+    },
+    {
+      "mechanism_id": "M809R5-10",
+      "outcome": "inconclusive",
+      "test": "contract the locked four-demand class and replay every proposed one-vertex exceptional link",
+      "evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md#legality-firewall",
+      "scope": "the contracted deficiency is positive but every natural exceptional switch is illegal, so path links do not imply legal links; a new hard-graph link theorem remains open"
+    },
+    {
+      "mechanism_id": "M809R5-12",
+      "outcome": "inconclusive",
+      "test": "require a legal first switch before iterative minimal-cut saturation",
+      "evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json#classification",
+      "scope": "the tested deficient class has an external missing edge and many paths but no legal first move, killing this iteration on the proposed gadget; iteration from a different proved legal move remains possible"
+    }
+  ]
+}

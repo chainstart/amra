@@ -1,0 +1,103 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "author-swapped lanes: root spoke; erdos1083_lane rim, K3,3, prism vertical and K5-e; erdos809_lane prism triangle routing and z=1 component",
+    "evidence": [
+      "audit/FULL_SPOKE_DISTINGUISHED_COMPONENT_INDEPENDENT_AUDIT.md",
+      "audit/FULL_SPOKE_DISTINGUISHED_COMPONENT_INDEPENDENT_AUDIT.json",
+      "audit/verify_full_spoke_distinguished_component_independent.py",
+      "audit/FULL_RIM_DISTINGUISHED_COMPONENT_INDEPENDENT_AUDIT.md",
+      "audit/FULL_RIM_DISTINGUISHED_COMPONENT_INDEPENDENT_AUDIT.json",
+      "audit/K33_STABILIZER_DOMINATION_INDEPENDENT_AUDIT.md",
+      "audit/K33_STABILIZER_DOMINATION_INDEPENDENT_AUDIT.json (SHA-256 9bdb6d8a7353cf8e34b97af73b717e02709d3d1910429ef31dcac11ad227f38d)",
+      "audit/verify_k33_stabilizer_domination_independent.py (SHA-256 95617dd16252d4084a2b23019108ccc185cd96e59e38a4935da30fd21b6bac34)",
+      "audit/TRIANGULAR_PRISM_VERTICAL_STABILIZER_INDEPENDENT_AUDIT.md",
+      "audit/TRIANGULAR_PRISM_VERTICAL_STABILIZER_INDEPENDENT_AUDIT.json (SHA-256 572cba5b98448c5c4264903a1f9eeb6e9d20aa66f86c372e7e1b47693e56fa3e)",
+      "audit/verify_triangular_prism_vertical_stabilizer_independent.py (SHA-256 4e626d9037b0de12bbcaf379e660c2285cd43d0a29f3083107baad393f10a119)",
+      "audit/K5_MINUS_EDGE_UPPER_ROOT_INDEPENDENT_AUDIT.md",
+      "audit/K5_MINUS_EDGE_UPPER_ROOT_INDEPENDENT_AUDIT.json",
+      "audit/verify_k5_minus_edge_upper_root_independent.py",
+      "audit/PRISM_TRIANGLE_EDGE_ROUTING_INDEPENDENT_AUDIT.md",
+      "audit/PRISM_TRIANGLE_EDGE_ROUTING_INDEPENDENT_AUDIT.json",
+      "audit/verify_prism_triangle_edge_routing_independent.py",
+      "audit/PRISM_TRIANGLE_Z1_COMPONENT_INDEPENDENT_AUDIT.md",
+      "audit/PRISM_TRIANGLE_Z1_COMPONENT_INDEPENDENT_AUDIT.json",
+      "audit/verify_prism_triangle_z1_component_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "k33_stabilizer_audit": {
+    "status": "passed",
+    "forest_counts": [194, 60],
+    "polynomial_reconstruction": "passed",
+    "pseudo_remainder": "passed",
+    "component_logic": "passed including y=1 wall, x=0 exception, and continuity of G",
+    "statement_match": "complete two-dimensional fixed-edge stabilizer specialization only",
+    "excluded_claims": [
+      "eight independent unmarked-edge variables",
+      "G201",
+      "global moving-edge lemma",
+      "OPG-1757"
+    ],
+    "g201_status_changed": false
+  },
+  "triangular_prism_vertical_audit": {
+    "status": "passed",
+    "forest_counts": [180, 46],
+    "three_polynomial_identities": "passed",
+    "component_equality": "passed",
+    "V_strict_AM_GM": "passed",
+    "A_zero_exception": "passed",
+    "statement_match": "marked-vertical-edge three-variable stabilizer slice only",
+    "excluded_claims": [
+      "marked triangle-edge orbit",
+      "eight independent unmarked-edge variables",
+      "G201",
+      "global moving-edge lemma",
+      "OPG-1757"
+    ],
+    "g201_status_changed": false
+  },
+  "k5_minus_edge_upper_root_audit": {
+    "status": "passed",
+    "forest_counts": [
+      134,
+      70
+    ],
+    "polynomial_reconstruction": "passed via independent incidence-matrix rank enumeration",
+    "component_equality": "passed using the strict S_F sheet invariant and divergent positive A=0 boundary",
+    "G_root_continuity": "passed after explicitly recording disc_a(G)=-384 on the anchor base fibre",
+    "N_zero_range": "passed: positive z gives exactly 1<y<sqrt(3), where the double root has F<0",
+    "statement_match": "complete K5-e high-triangle 2,4,2 stabilizer slice only",
+    "mechanism_status_recommendation": {
+      "id": "G215",
+      "status": "proved"
+    },
+    "excluded_claims": [
+      "eight independent unmarked-edge variables",
+      "G201",
+      "global moving-edge lemma",
+      "OPG-1757"
+    ],
+    "g201_status_changed": false
+  },
+  "prism_triangle_routing_audit": {
+    "status": "passed_with_scope_correction",
+    "forest_counts": [190, 66],
+    "five_orbit_reconstruction": "passed: orbit sizes 2,1,2,2,1 and term counts 79/35",
+    "coarsened_resultant": "passed: total degree/terms 28/166; nonsquare residual 16/52",
+    "negative_point": "passed algebraically; component membership undetermined",
+    "scope_correction": "only the literal single-low-degree-square resultant-collapse ansatz is killed",
+    "g201_status_changed": false
+  },
+  "prism_triangle_z1_component_audit": {
+    "status": "passed_after_disc_D_repair",
+    "component_equality": "passed: x>1 and y above the upper C root",
+    "root_order": "passed using positive disc_D, nonzero C/D resultant, and x=2 orientation",
+    "statement_match": "complete z=1 two-variable component inside the three-variable coarsening only",
+    "excluded_claims": ["z!=1", "five-variable stabilizer", "G201", "OPG-1757"],
+    "g201_status_changed": false
+  }
+}

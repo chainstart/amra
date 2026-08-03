@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R01-two-digit-pair",
+      "name": "Coupled degree-two canonical digits",
+      "family": "canonical_digit_geometry",
+      "new_information": "Writes alpha=C(a,2)+s and beta=C(b0,2)+t simultaneously, retaining both carries and the exact relation C(b0,2)+t-C(a,2)-s=(k-1)r+C(k-1,2)-1.",
+      "first_test": "Enumerate actual (++ -> ++) cells and minimize the exact cubic gap C(b0,3)+C(t,2)-C(a,3)-C(s,2)-1-C(a-1,3) by digit order type."
+    },
+    {
+      "id": "R02-carry-path",
+      "name": "Unit-increment carry path",
+      "family": "canonical_digit_geometry",
+      "new_information": "Expands U_2(beta)-U_2(alpha) as the sum of exact unit increments along the interval [alpha,beta), so resets and large carry jumps are visible rather than hidden by superadditivity.",
+      "first_test": "Freeze the minimum-margin state and compare the contribution of ordinary digit increments and triangular carries to e."
+    },
+    {
+      "id": "R03-complementary-deficits",
+      "name": "Triangular-cap deficit pair",
+      "family": "deficit_duality",
+      "new_information": "Uses A0=C(a+1,2)-alpha and B0=C(b0+1,2)-beta, converting lower-digit tails into distances from the next carry and retaining the cancellation lost in lower bounds on beta-alpha alone.",
+      "first_test": "Test whether every actual target cell has a monotone relation between A0, B0 and b0-a strong enough to imply the cubic gap."
+    },
+    {
+      "id": "R04-shadow-defect-dual",
+      "name": "Macaulay shadow defect",
+      "family": "deficit_duality",
+      "new_information": "Tracks D2(N)=C(top_2(N)+1,3)-U_2(N) together with N's cap deficit, allowing an exact decomposition of e into a leading-block gain minus two controlled defects.",
+      "first_test": "Evaluate the proposed defect domination at the earliest (++ -> ++) row and at target/gamma4 boundary endpoints through j=40."
+    },
+    {
+      "id": "R05-dyadic-elimination",
+      "name": "Scale-eliminated actual lattice",
+      "family": "dyadic_asymptotics",
+      "new_information": "Eliminates q using (k-1)q+C(k-1,2)+2-r=2h and keeps the exact residue class, preventing continuous asymptotics from admitting nonactual states.",
+      "first_test": "Derive lower and upper bounds for r at A=0, p=0 and gamma4=0 uniformly in h, then compare their separation."
+    },
+    {
+      "id": "R06-multiscale-phase",
+      "name": "Target-wall normalized phase",
+      "family": "dyadic_asymptotics",
+      "new_information": "Normalizes displacement from the p=0 wall by the compatible-r step k-1 and records k/h powers, so the widening target chamber at large j is not sampled by a fixed offset window.",
+      "first_test": "Search for subsequential regimes in which the normalized G++ margin tends to zero or changes sign as h and k co-grow."
+    },
+    {
+      "id": "R07-rank6-full-word",
+      "name": "Borrow-complete rank-six word",
+      "family": "borrow_dynamics",
+      "new_information": "Retains full canonical words for x1,y1 and explicitly renormalizes negative P or V, rather than declaring gamma6 undefined outside the no-borrow chart.",
+      "first_test": "Generate synthetic and actual gamma5-negative rows closest to P=0 and V=0 and compare full-orbit gamma6 with every proposed normalized branch."
+    },
+    {
+      "id": "R08-negative-fibre-recurrence",
+      "name": "Scale-varying negative-fibre recurrence",
+      "family": "borrow_dynamics",
+      "new_information": "Indexes (-- -> ++) negative rows by dyadic scale and canonical digits instead of a fixed k,r box, exposing how the negative region expands while rank-six recovery changes.",
+      "first_test": "Continue exact low-r fibres through j=100 and fit only identities that survive changes in both k and r."
+    },
+    {
+      "id": "R09-order-type-complex",
+      "name": "Canonical order-type complex",
+      "family": "finite_chamber_complex",
+      "new_information": "Partitions states by all inequalities among a,s,b0,t and the next-rank leading indices, making every binomial expression polynomial on a cell without assuming a finite numerical parameter box.",
+      "first_test": "Enumerate realized order types through increasing j and reject stabilization if a new type appears."
+    },
+    {
+      "id": "R10-recovery-potential",
+      "name": "Two-row lexicographic recovery potential",
+      "family": "finite_chamber_complex",
+      "new_information": "Pairs surplus deficit with distance to the next borrow wall and canonical leading-gap growth, allowing a negative gamma5 row to certify progress toward gamma6 recovery.",
+      "first_test": "Demand strict improvement from rank five to rank six on every known negative fibre and falsify on the smallest equality or reversal."
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M01-cubic-digit-gap",
+      "outcome": "killed",
+      "evidence": "Exact actual (++ -> ++) counterexample (j,q,k,r)=(7,4845,4,204): alpha=C(55,2)+39, e=18356, but C(54,3)=24804, so the cubic gap is -6448. The weaker G++ margin remains 183083. See evidence/M01_CUBIC_GAP_COUNTEREXAMPLE.json.",
+      "mathematical_status": "exact_counterexample",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "M02-carry-budget",
+      "outcome": "killed",
+      "evidence": "Exact telescoping gives sum_[N=alpha]^[beta-1](U_2(N+1)-U_2(N))=U_2(beta)-U_2(alpha)=e+1. Thus the claimed carry budget is precisely M01 and contributes no new lower bound. See evidence/MECHANISM_MIN_KILL_TESTS.json.",
+      "mathematical_status": "refuted_as_independent_mechanism",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "M03-leading-gap-only",
+      "outcome": "killed",
+      "evidence": "At the actual minimum-margin state alpha=C(41,2)+15, beta=C(50,2)+47, the leading-only lower side is 8119 while C(40,3)=9880. See evidence/MECHANISM_MIN_KILL_TESTS.json.",
+      "mathematical_status": "exact_counterexample",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "M04-cap-deficit-domination",
+      "outcome": "killed",
+      "evidence": "At actual row (j,q,k,r)=(7,4846,4,207), alpha and beta have next-cap deficits 7 and 14, reversing the asserted domination. See evidence/MECHANISM_MIN_KILL_TESTS.json.",
+      "mathematical_status": "exact_counterexample",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "M05-shadow-defect-bound",
+      "outcome": "killed",
+      "evidence": "Canonical expansion cancels the proposed leading and defect pieces back to e>=C(a-1,3), exactly M01; no independently controlled remainder survives. See evidence/MECHANISM_MIN_KILL_TESTS.json.",
+      "mathematical_status": "refuted_as_independent_mechanism",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "M06-wall-separation",
+      "outcome": "killed",
+      "evidence": "For consecutive compatible points j=6,k=4, the cubic gap drops from 3834 at r=142 to 35 at r=145 because alpha crosses a large canonical carry. A monotone scalar wall-order argument is unavailable. See evidence/MECHANISM_MIN_KILL_TESTS.json.",
+      "mathematical_status": "refuted_as_monotone_wall_route",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "M07-positive-normalized-margin",
+      "outcome": "killed",
+      "evidence": "No normalization or compact parameter domain is specified, so the claimed lower profile has no determinate predicate and fails its own first falsification test. See evidence/MECHANISM_MIN_KILL_TESTS.json.",
+      "mathematical_status": "non_falsifiable_as_stated",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "M11-finite-order-types",
+      "outcome": "killed",
+      "evidence": "On k=4 first-target rows, b0-a grows through 9,14,52,543,5503,55504,559468 by j=100. Retaining this decisive magnitude yields no finite stabilized type set; quotienting it loses the target information. See evidence/MECHANISM_MIN_KILL_TESTS.json.",
+      "mathematical_status": "exact_unbounded_refutation",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "M12-two-step-potential",
+      "outcome": "killed",
+      "evidence": "The proposed potential has no defined coordinates, order, or bound, so strict ascent cannot be evaluated even on the named k=4,r=9 fibre. See evidence/MECHANISM_MIN_KILL_TESTS.json.",
+      "mathematical_status": "non_falsifiable_as_stated",
+      "statement_match": "route_claim_exact"
+    }
+  ]
+}

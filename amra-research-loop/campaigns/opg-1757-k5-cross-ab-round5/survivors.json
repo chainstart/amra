@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M511-release-c", "M512-five-variable-lift"],
+  "selection_rationale": "M510 is proved on the exact scoped slice. Only genuine dimension-release routes remain; both are retained as explicitly open and neither is promoted here."
+}

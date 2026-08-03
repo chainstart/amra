@@ -1,0 +1,103 @@
+{
+  "representations": [
+    {
+      "id": "R1083R3-01",
+      "name": "Factor-labelled quotient moments with divisor coordinates",
+      "family": "factor_labelled_low_moments",
+      "new_information": "Records bounded moments of Q_j together with the normalized occurrence vector saying which irreducible occurrences of B lie in Q_j, rather than treating Q_j as an arbitrary signed measure.",
+      "repairs_loss": "Keeps the M01 factor labels while avoiding the undefined expression Q_j(lambda_j X).",
+      "first_test": "Replay the Phi6 middle layer; kill any conclusion that follows from labelled subset recovery alone.",
+      "exponent_interface": "Must save a fixed power from K=t^(5/9-o(1)) or feed a separately proved actual-label fibre bound."
+    },
+    {
+      "id": "R1083R3-02",
+      "name": "Paired-positive factor valuation profile",
+      "family": "factor_labelled_low_moments",
+      "new_information": "Attaches every factor valuation and low character moment to both positive products F_0Q_j and R_jQ_j and to its actual coefficient carriers.",
+      "repairs_loss": "Prevents arbitrary signed weights and one-product positivity from masquerading as the simultaneous normal form.",
+      "first_test": "Use the inherited two-positive-multiple signed escape and reusable Phi6 factors; reject any uniform debt inferred without cross-row scarcity.",
+      "exponent_interface": "A surviving debt or rank must be at least t^epsilon after carrier reuse and must map to named Euclidean point pairs."
+    },
+    {
+      "id": "R1083R3-03",
+      "name": "Universal Boolean divisor quotient family",
+      "family": "typed_quotient_parameterization",
+      "new_information": "After normalizing Laurent associates and listing factor occurrences H_nu of B, defines Q(y)=product_nu((1-y_nu)+y_nu H_nu); every normalized divisor quotient Q_j is a Boolean specialization.",
+      "repairs_loss": "Provides a genuinely defined quotient family and legal evaluation Q(y_j), replacing the ill-typed Q_j(lambda_j X).",
+      "first_test": "On D independent formal factors, verify that coordinate degree one still realizes all 2^D divisor products and gives no bounded total-degree or row compression.",
+      "exponent_interface": "The effective dimension/degree after restriction to actual rows must be t^o(1), not merely multilinear in an uncontrolled D=Omega(B)."
+    },
+    {
+      "id": "R1083R3-04",
+      "name": "Lambda-indexed quotient interpolation complexity",
+      "family": "typed_quotient_parameterization",
+      "new_information": "Asks for a single Laurent-coefficient polynomial or rational family Q(T) with Q(lambda_j)=Q_j and records its minimal interpolation degree and pole count.",
+      "repairs_loss": "Makes the desired lambda-to-quotient bridge a precise extra hypothesis whose complexity can be tested.",
+      "first_test": "Use K distinct scalar nodes and a delta coefficient sequence; ordinary interpolation needs degree K-1, so existence without a sublinear bound is vacuous.",
+      "exponent_interface": "Degree, pole count and exceptional fibres must be t^o(1); degree Theta(K) loses the entire 5/9 row exponent."
+    },
+    {
+      "id": "R1083R3-05",
+      "name": "Divisor-width to scalar morphism",
+      "family": "typed_scalar_bridge",
+      "new_information": "Uses the exact same-sign identity lambda_j=sigma(a+sum_nu r_(j,nu)d_nu)/D to map the normalized R_j divisor vector, and hence its complementary Q_j vector, to the actual scalar parameter.",
+      "repairs_loss": "Creates a legal typed bridge from factor occurrence data to lambda_j without substituting X into Q_j.",
+      "first_test": "Check whether the bridge proves anything beyond the inherited distinct-width reciprocal chart; kill pure renamings of b_j.",
+      "exponent_interface": "Must produce new collision control, since injectivity into K scalar values alone supplies only exponent 5/9."
+    },
+    {
+      "id": "R1083R3-06",
+      "name": "Finite-difference quotient graph",
+      "family": "typed_scalar_bridge",
+      "new_information": "Places the legal sample pairs (lambda_j,Q_j) in a coefficientwise evaluation graph and measures divided-difference rank, without claiming an a priori family Q(T).",
+      "repairs_loss": "Separates what the samples actually determine from what an unproved bounded-degree interpolation would add.",
+      "first_test": "A delta coefficient on K ordered nodes has nonzero divided difference of order K-1; kill any automatic low-rank conclusion from the normal form alone.",
+      "exponent_interface": "A useful rank defect must be proved from positivity/scalar-copy data and retain t^(5/9-o(1)) rows with only subpower ambiguity."
+    },
+    {
+      "id": "R1083R3-07",
+      "name": "Reciprocal-cell collision energy",
+      "family": "actual_distance_incidence",
+      "new_information": "Defines the actual label map ell(j,x)=rho^2+tau_0+h^2/(4rho^2w_j^2)+(h/w_j)x and counts exact collision fibres among genuine source-target cells.",
+      "repairs_loss": "Distinguishes chart parameters and algebraic profiles from actual squared-distance labels.",
+      "first_test": "Use the common-spectrum identity: every defining cell lies in the same V of size SU, so K cannot be multiplied into the label count without an off-diagonal incidence.",
+      "exponent_interface": "The defining cells alone have at most |V|=t^(29/18+o(1)) labels and cannot close."
+    },
+    {
+      "id": "R1083R3-08",
+      "name": "Off-diagonal two-source point-pair tensor",
+      "family": "actual_distance_incidence",
+      "new_information": "Indexes only genuine point pairs not already identified by the common spectrum, retaining row, cell, two independent source positions, and the exact squared-distance label.",
+      "repairs_loss": "Introduces a real second point index needed to exceed the 26/9 capacity ceiling and records the label fibre rather than counting tuples.",
+      "first_test": "Verify geometrically that every proposed tuple is an actual point pair; then test grids, intervals and same-line reciprocal charts for fibres of exponent at least 2/3.",
+      "exponent_interface": "A domain of exponent 5/9+2(7/9)+5/6+13/18=11/3 needs maximum or energy-average fibre below t^(2/3-epsilon) to yield t^(3+epsilon) labels."
+    },
+    {
+      "id": "R1083R3-09",
+      "name": "Pinned cross-row distance graph and codegrees",
+      "family": "collision_fibre_geometry",
+      "new_information": "Builds a bipartite graph between selected reciprocal-chart targets and an independently specified point reservoir, labelled by actual squared distances, and records per-label codegrees.",
+      "repairs_loss": "Turns M10 into the exact inequality |labels| >= |incidences|/max_fibre and prevents unrelated S,U,q factors from being multiplied.",
+      "first_test": "Pinned collinear and Cartesian-grid reservoirs must expose large equal-distance fibres; no generic incidence theorem may ignore these degeneracies.",
+      "exponent_interface": "Both incidence-domain exponent and fibre exponent must be derived from the same graph; 26/9 is not admissible."
+    },
+    {
+      "id": "R1083R3-10",
+      "name": "Degeneracy-stratified polynomial distance fibres",
+      "family": "collision_fibre_geometry",
+      "new_information": "Stratifies equal-distance equations by common components, collinear/circular degeneracy and residual transverse incidences before applying polynomial or energy bounds.",
+      "repairs_loss": "Makes the exceptional ruled families in M10 explicit instead of assuming a uniform bounded fibre.",
+      "first_test": "Intervals, circles, grids and coherent-theta constructions must land in named exceptional strata with separately proved distance bounds.",
+      "exponent_interface": "Every stratum must either have fibre exponent below 2/3-epsilon on an 11/3 domain or itself yield a fixed gain over t^3."
+    },
+    {
+      "id": "R1083R3-11",
+      "name": "Outer-to-exact incidence coarea",
+      "family": "stability_and_conditioning",
+      "new_information": "Tracks discarded mass jointly with the off-diagonal point-pair incidence count and its label fibres when selecting an exact or approximate reciprocal core.",
+      "repairs_loss": "Prevents an exact-block fibre theorem from losing all useful incidences during near-extremal extraction.",
+      "first_test": "Distributed-defect arrays must kill rowwise-good coarea claims lacking a conserved Euclidean pair count.",
+      "exponent_interface": "The retained incidence exponent and fibre saving must lose only o(1), leaving a fixed positive gain beyond 3."
+    }
+  ]
+}

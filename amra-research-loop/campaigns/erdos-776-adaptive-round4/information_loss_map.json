@@ -1,0 +1,35 @@
+{
+  "inherited_methods": [
+    {
+      "method": "fixed rank-six deficit domination",
+      "loss_step": "compresses the full canonical rank-five and rank-six words to gamma5 and a single next-row gain",
+      "lost_information": "lower canonical digits and their stable affine recurrences in q",
+      "consequence": "the actual K4,r9 family stays negative at gamma5 and gamma6, so a fixed two-row certificate is false"
+    },
+    {
+      "method": "bounded moving-wall sampling",
+      "loss_step": "samples finite windows around P,V,gamma5 walls",
+      "lost_information": "eventual canonical stability and exact polynomial signs on unbounded dyadic subsequences",
+      "consequence": "absence of borrow or later negativity cannot be promoted to an all-scale recovery theorem"
+    },
+    {
+      "method": "single-surplus sign tracking",
+      "loss_step": "records only gamma_m rather than the paired Macaulay words producing gamma_{m+1}",
+      "lost_information": "Pascal cancellations between aligned leading digits",
+      "consequence": "large constants obscure a simple eventual polynomial such as the proposed positive gamma7 quadratic"
+    },
+    {
+      "method": "one fixed (k,r) family",
+      "loss_step": "freezes the dyadic residue and constant canonical tails before studying parameter dependence",
+      "lost_information": "how recovery rank and stable thresholds vary across fixed-(k,r) families",
+      "consequence": "even a proved K4,r9 rank-seven recovery remains a local branch, not a uniform adaptive theorem"
+    }
+  ],
+  "required_new_information": [
+    "stable full canonical words at every rank until recovery",
+    "exact q-polynomial surplus obtained by Pascal cancellation",
+    "certified thresholds for validity of every lower canonical digit",
+    "a fixed-(k,r) recurrence or finite-state transition law for first recovery rank",
+    "an actual dyadic construction for any claimed infinite nonrecovery family"
+  ]
+}

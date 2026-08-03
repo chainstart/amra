@@ -1,0 +1,74 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M809C-01",
+      "test": "audited n=14 tight circuit: match owned A atoms to missing-B atoms outside the occupied full reserve",
+      "outcome": "killed",
+      "evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md#M809C-01-killed",
+      "scope": "refutes the universal new-B matching claim; does not refute a different graph-specific target relation"
+    },
+    {
+      "mechanism_id": "M809C-02",
+      "test": "t distinct owners with one common typed target carrier",
+      "outcome": "killed",
+      "evidence": "evidence/minimal_conversion_falsification.json#tests/M809C-02",
+      "scope": "kills an absolute congestion conclusion from coherence and ownership alone"
+    },
+    {
+      "mechanism_id": "M809C-03",
+      "test": "alternating augmentation on the audited tight circuit with no unused carrier or conversion arc",
+      "outcome": "killed",
+      "evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md#M809C-03-killed-as-a-closure-mechanism",
+      "scope": "the conditional augmenting-path fact remains true but supplies no trigger"
+    },
+    {
+      "mechanism_id": "M809C-04",
+      "test": "new-B transversal or merged-rectangle payment on the audited n=14 circuit",
+      "outcome": "killed",
+      "evidence": "evidence/minimal_conversion_falsification.json#tests/M809C-04",
+      "scope": "no new target exists and the actual merged endpoint remains M_B=2<D_B=3"
+    },
+    {
+      "mechanism_id": "M809C-06",
+      "test": "two uncancelled outer demands requesting one slack carrier",
+      "outcome": "killed",
+      "evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md#M809C-06-and-M809C-07-killed-without-new-slack-geometry",
+      "scope": "kills disjoint colourwise injection from the inherited cancellation ledger alone"
+    },
+    {
+      "mechanism_id": "M809C-07",
+      "test": "joint slack coverage rank after both singleton owner tests pass",
+      "outcome": "killed",
+      "evidence": "evidence/minimal_conversion_falsification.json#tests/M809C-07",
+      "scope": "rho_S of the pair is one, so Hall is not automatic"
+    },
+    {
+      "mechanism_id": "M809C-09",
+      "test": "carrier typing of an owned missing-A diagonal versus a present internal-low edge or mixed-high anchor",
+      "outcome": "killed",
+      "evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md#M809C-09-killed-in-its-direct-charge-form",
+      "scope": "kills direct charge without an explicit injection; a future bridge theorem is not refuted"
+    },
+    {
+      "mechanism_id": "M809C-10",
+      "test": "minimal outer-A blocker with no repeated-B owned rectangle in the current normal-form data",
+      "outcome": "killed",
+      "evidence": "evidence/INITIAL_CONVERSION_FALSIFICATION.md#M809C-10-killed-from-the-current-normal-form",
+      "scope": "route-level information insufficiency, not a public graph counterexample"
+    },
+    {
+      "mechanism_id": "M809C-12",
+      "test": "two crossing tight circuits sharing their only A and B carriers",
+      "outcome": "killed",
+      "evidence": "evidence/minimal_conversion_falsification.json#tests/M809C-12",
+      "scope": "merging leaves deficit two and one distinct owner; no typed potential ascent follows"
+    },
+    {
+      "mechanism_id": "M809C-05",
+      "test": "exact-cardinality integrality test at e=floor(n^2/4)+1 for odd n",
+      "outcome": "killed",
+      "evidence": "evidence/SURVIVOR_FIRST_PROOF_ATTEMPTS.md#M809C-05-exact-unweighted-cardinality-is-refuted",
+      "scope": "kills only a finite unweighted set of exactly S_m atoms; weighted atoms or an integer ledger with an explicit rounding term are different, unproved mechanisms"
+    }
+  ]
+}

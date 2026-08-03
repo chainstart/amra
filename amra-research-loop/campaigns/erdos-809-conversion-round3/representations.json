@@ -1,0 +1,94 @@
+{
+  "representations": [
+    {
+      "id": "R809R3-01",
+      "name": "integer slack plus one algebraic remainder cell",
+      "family": "weighted_rounded_carrier",
+      "new_information": "Stores floor(S_m) unit carriers and one globally unique remainder omega=S_m-floor(S_m), with a named owner and sign.",
+      "repairs_loss": "Prevents irrational slack from being copied once per colour and separates integer matching capacity from real analytic debt.",
+      "first_test": "Odd-n threshold: attempt to pay two independent demands from the same omega; the representation must expose the reuse.",
+      "public_effect": "Could repair M809C-05 only if omega is eliminated by one strict integer inequality."
+    },
+    {
+      "id": "R809R3-02",
+      "name": "fractional carrier polytope with integral-demand faces",
+      "family": "weighted_rounded_carrier",
+      "new_information": "Assigns nonnegative real mass to actual carriers, keeps per-carrier capacity, per-demand incidence, and the exact total S_m.",
+      "repairs_loss": "Distinguishes a legitimate weighted atomization from an anonymous scalar mass.",
+      "first_test": "Use three demands adjacent to two unit carriers and an isolated fractional remainder; fractional feasibility must not be promoted to an integral matching.",
+      "public_effect": "A total-unimodularity theorem could turn weighted slack into exact payment."
+    },
+    {
+      "id": "R809R3-03",
+      "name": "rounding-error cut ledger",
+      "family": "weighted_rounded_carrier",
+      "new_information": "Records for every demand cut the integer capacity floor(S_m) and the one global discrepancy epsilon_S, rather than rounding each local inequality.",
+      "repairs_loss": "Makes accumulation of rounding loss across circuits auditable.",
+      "first_test": "Glue many disjoint circuits sharing the same global S_m; any bound charging epsilon_S per circuit is killed.",
+      "public_effect": "Could prove all integer Hall cuts from a real global bound with one strict margin."
+    },
+    {
+      "id": "R809R3-04",
+      "name": "mixed-anchor C7 path complex",
+      "family": "graph_realizable_anchor",
+      "new_information": "For each mixed colour retains its low cross edge, unique high internal anchor, endpoints, and the actual length-five completion paths witnessing pairwise C7 compatibility.",
+      "repairs_loss": "Restores the graph geometry erased by the scalar I_mix count.",
+      "first_test": "On the n=14 tight graph, enumerate whether two anchors reuse an internal vertex or completion edge so that scalar compatibility fails jointly.",
+      "public_effect": "A large compatible subcomplex would directly meet ceil(Phi)."
+    },
+    {
+      "id": "R809R3-05",
+      "name": "low-edge/high-anchor exchange graph",
+      "family": "graph_realizable_anchor",
+      "new_information": "Connects an internal-low edge to a mixed high anchor only when one can be exchanged for the other while retaining a distinct colour and an actual C7 completion.",
+      "repairs_loss": "Provides a typed cross-channel operation instead of adding e(A_<q*) and I_mix.",
+      "first_test": "Construct alternating low/high chains with a common bottleneck anchor; reject rank addition when augmenting paths collide.",
+      "public_effect": "A matching of size ceil(Phi) gives the direct colour exit."
+    },
+    {
+      "id": "R809R3-06",
+      "name": "anchor-conflict graph with degree certificates",
+      "family": "graph_realizable_anchor",
+      "new_information": "Vertices are mixed colours and edges record failure of simultaneous C7 compatibility, decorated by the exact endpoint or missing path causing conflict.",
+      "repairs_loss": "Turns the missing cross-channel theorem into an independence-number problem with graph-derived conflict degrees.",
+      "first_test": "Clique-chain and complete common-bottleneck models test whether conflict degree can be large despite low scalar residue.",
+      "public_effect": "An independence set of order ceil(Phi) closes directly."
+    },
+    {
+      "id": "R809R3-07",
+      "name": "rectangle-to-new-reserve switch certificate",
+      "family": "carrier_creation",
+      "new_information": "A certificate contains one owned A diagonal, its anticomplete rectangle, one explicitly absent B pair, and a local C7 argument making that B pair a legal previously unused reserve carrier.",
+      "repairs_loss": "Creates the target-shore atom that conditional Hall previously assumed.",
+      "first_test": "Apply to the graph-realizable three-demand/two-token circuit; if every licensed B pair is already occupied, the rule is killed.",
+      "public_effect": "One new carrier per deficient circuit would repair the exact B deficit."
+    },
+    {
+      "id": "R809R3-08",
+      "name": "alternating carrier-creation path",
+      "family": "carrier_creation",
+      "new_information": "Tracks a path alternating between occupied B reserve atoms, owned A diagonals, and local rectangle switches, ending at a genuinely free B/slack atom.",
+      "repairs_loss": "Separates rearrangement of existing carriers from creation of a new one.",
+      "first_test": "Closed alternating cycles and the common-two-token circuit must not be counted as augmenting paths.",
+      "public_effect": "A path from every Hall-deficient component increases matching rank."
+    },
+    {
+      "id": "R809R3-09",
+      "name": "boundary missing-pair creation map",
+      "family": "carrier_creation",
+      "new_information": "Maps each mixed-anchor endpoint configuration to a concrete missing pair on the B boundary, retaining endpoint degrees, colour, and reserve membership.",
+      "repairs_loss": "Tests whether graph realizability forces unused carriers rather than merely compatible colours.",
+      "first_test": "Rectangular blow-ups with identical B boundaries test unbounded collisions of the creation map.",
+      "public_effect": "A bounded-fibre map with a sharp enough constant could pay the residual."
+    },
+    {
+      "id": "R809R3-10",
+      "name": "typed circuit-overlap hypergraph",
+      "family": "overlap_uncrossing",
+      "new_information": "Hyperedges are minimal Hall circuits; vertices separately encode A owners, occupied B carriers, created carriers, and the global rounding cell.",
+      "repairs_loss": "Detects reuse of one owner, carrier, or irrational remainder across several locally valid conversions.",
+      "first_test": "Crossing circuits sharing one A diagonal and one B token must retain deficiency after every ownership-preserving uncrossing.",
+      "public_effect": "An acyclic or bounded-overlap decomposition would globalize local creation."
+    }
+  ]
+}

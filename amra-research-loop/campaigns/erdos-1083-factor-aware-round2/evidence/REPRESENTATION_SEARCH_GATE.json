@@ -1,0 +1,66 @@
+{
+  "schema": "amra.erdos1083.factor-aware-round2.representation-search-gate.v1",
+  "inherited_readonly_checkpoint": "ab4b524",
+  "completed_phases": ["obstruction_analysis", "representation_search"],
+  "current_phase": "mechanism_falsification",
+  "obstruction_result": {
+    "inherited_methods_reconstructed": 6,
+    "central_loss": "ordinary Hankel and arbitrary-weight moments erase factor incidence, two-product positivity, common-X scalar-copy structure, Euclidean labels, or the outer stability bridge before an exponent-changing inequality is reached",
+    "frozen_routes": [
+      "factor-count-only projection height",
+      "expanded full-support matrix dimension as certificate complexity",
+      "arbitrary-weight low-degree support reconstruction",
+      "factor labels or divisor incidence without scalar-copy/positivity/Euclidean geometry"
+    ]
+  },
+  "representation_gate": {
+    "required_representations": 8,
+    "actual_representations": 12,
+    "required_representation_families": 4,
+    "actual_representation_families": 6,
+    "required_mechanisms": 10,
+    "actual_mechanisms": 12,
+    "required_mechanism_families": 4,
+    "actual_mechanism_families": 6,
+    "families": [
+      "factor_labelled_algebra",
+      "divisor_lattice_combinatorics",
+      "scalar_copy_rigidity",
+      "positivity_and_convexity",
+      "euclidean_label_geometry",
+      "multiscale_stability"
+    ],
+    "every_mechanism_has_exponent_ledger": true,
+    "every_mechanism_has_phi6_kill_test": true,
+    "gate_validation_before_advance": "passed",
+    "transition": "representation_search -> mechanism_falsification"
+  },
+  "common_exponent_contract": {
+    "input": "K=t^(5/9-o(1)), S=t^(7/9+o(1)), U=t^(5/6+o(1)), q=t^(13/18+o(1))",
+    "baseline": "at most t^(3+o(1)) distance labels corresponds to the inherited dimension-three 3/5 exponent",
+    "required_gain": "some fixed epsilon>0 yielding more than t^(3+epsilon) actual Euclidean distance labels, with outer stability proved",
+    "forbidden_substitute": "factor rank, profile count, chart count, circuit size, or cancellation tokens cannot be counted as distance labels without an injective multiplicity ledger"
+  },
+  "phi6_contract": {
+    "role": "mandatory falsifier for every algebraic or combinatorial route",
+    "facts_retained": "exponentially many middle-layer equal-augmentation divisor rows, degree-one labelled fingerprints, strong factor-row expansion, and a short O(d) product circuit",
+    "missing_interfaces": "one common scalar source X, the required paired positive Euclidean multiples, tangent-cell/distance labels, and an actual R3 realization",
+    "survival_rule": "a route may survive Phi6 only by naming and using one of the missing interfaces before claiming rigidity or an exponent gain"
+  },
+  "candidate_status": {
+    "candidate": 12,
+    "killed": 0,
+    "surviving": 0,
+    "note": "No falsification status is assigned during representation_search. The next phase must evidence at least the configured kill ratio and retain at most three mechanisms."
+  },
+  "current_phase_validation": {
+    "expected_pending_errors": [
+      "select between 1 and 3 survivors",
+      "kill at least 80% of non-surviving mechanisms"
+    ],
+    "interpretation": "These are the mechanism_falsification gate obligations, not failures of the completed representation gate."
+  },
+  "lean_used": false,
+  "original_problem_changed": false,
+  "main_exponent_changed": false
+}

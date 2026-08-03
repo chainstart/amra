@@ -1,0 +1,56 @@
+{
+  "inherited_negative_evidence_only": true,
+  "inherited_from": "erdos-1083-factor-aware-round2",
+  "inherited_methods": [
+    {
+      "method": "factor-labelled low moments of the signed quotients Q_j",
+      "loss_step": "attempt to pass from per-row factor-labelled moments to a common-X coefficient Jacobian by writing Q_j(lambda_j X)",
+      "lost_information": "the frozen normal form defines Q_j only as the rowwise Laurent quotient B/R_j; it supplies no common parameter family Q(T), no evaluation at lambda_j, and no substitution of the set lambda_j X",
+      "consequence": "the M01-to-Jacobian bridge is ill-typed until a compatible quotient family or a different typed bridge is explicitly constructed",
+      "negative_evidence": "../erdos-1083-factor-aware-round2/audit/TYPED_CHAIN_SCOPED_NO_GO_INDEPENDENT_AUDIT.md"
+    },
+    {
+      "method": "replace Q_j by the correctly typed source masks F_j=P_(lambda_j X)",
+      "loss_step": "use only the common factor G and one Newton direction of F_j",
+      "lost_information": "all information beyond the already known reciprocal chart, including collision multiplicities of actual Euclidean labels",
+      "consequence": "the replacement repairs typing but merely reproduces z_j=h/(2rho w_j); it cannot by itself improve the 3/5 exponent",
+      "negative_evidence": "../erdos-1083-factor-aware-round2/audit/typed_chain_scoped_no_go_independent_audit.json"
+    },
+    {
+      "method": "factor incidence, labelled jets, or divisor-code expansion without the common-X Euclidean interface",
+      "loss_step": "count algebraically distinct factor profiles as if they were scalar-copy rigidity or distinct distance labels",
+      "lost_information": "whether the rows arise from one homothetic source and whether different algebraic profiles collide at the same squared-distance value",
+      "consequence": "the Phi6 middle layer has strong labelled separation and expansion but supplies neither the required scalar-copy family nor a Euclidean label gain",
+      "negative_evidence": "../erdos-1083-factor-aware-round2/evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json"
+    },
+    {
+      "method": "paired positivity or abstract cancellation capacity for F_0Q_j and R_jQ_j",
+      "loss_step": "forget carrier reuse and the actual point-pair label attached to a cancellation route",
+      "lost_information": "which debt payments are shared across products or rows and which unmatched routes map injectively to Euclidean distances",
+      "consequence": "the inherited signed two-positive-multiple escape has constant debt and Phi6 has reusable factor tokens, so no uniform t^epsilon capacity gap follows",
+      "negative_evidence": "../erdos-1083-factor-aware-round2/kill_tests.json entries M1083R2-07 and M1083R2-08"
+    },
+    {
+      "method": "native-cardinality multiplication K*S*U*q",
+      "loss_step": "multiply available row, source, tangent, and block counts without a proved incidence set, fibre bound, or injective label map",
+      "lost_information": "dependence among indices and collision multiplicity of the squared-distance map",
+      "consequence": "the formal exponent 26/9 is only a capacity warning, remains 1/9 below 3 even optimistically, and is forbidden as an exponent improvement",
+      "negative_evidence": "../erdos-1083-factor-aware-round2/audit/typed_chain_scoped_no_go_independent_audit.json"
+    },
+    {
+      "method": "reciprocal-chart parameter distinctness alone",
+      "loss_step": "stop after obtaining K=t^(5/9-o(1)) distinct same-sign widths or heights",
+      "lost_information": "cross-cell incidence expansion and a uniform upper bound on the number of tuples yielding one actual squared-distance label",
+      "consequence": "fixing an extreme row gives only K-1=t^(5/9-o(1)) actual target-target labels, leaving exponent gap 22/9 to the cubic threshold",
+      "negative_evidence": "../erdos-1083-factor-aware-round2/audit/TYPED_CHAIN_SCOPED_NO_GO_INDEPENDENT_AUDIT.md"
+    }
+  ],
+  "required_new_information": [
+    "an explicitly defined bounded-complexity family Q(T) with a proved identity Q(lambda_j)=Q_j, or a typed substitute that never evaluates Q_j at an undefined object",
+    "a separation theorem showing that the new quotient parameter is not merely an interpolation of arbitrary row data and costs only t^o(1) complexity",
+    "an actual incidence set of Euclidean point pairs together with the exact squared-distance map and a proved collision-fibre bound",
+    "an exponent ledger deriving every factor from a named incidence cardinality; the formal 26/9 native-capacity sum is inadmissible",
+    "a regression test against Phi6, interval/same-line charts, repeated-distance grids, and arbitrary interpolation through K quotient values",
+    "a quantitative outer stability bridge if any exact-block conclusion is proposed for promotion"
+  ]
+}

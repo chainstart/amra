@@ -1,0 +1,11 @@
+{
+  "exact_statement": "For every finite simple graph G and every pair of distinct edges f,g, if F is a uniformly random forest of G, then Pr(f in F | g in F) <= Pr(f in F).",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/opg1757/ORIGINAL_PROBLEM_FIREWALL.md",
+  "success_conditions": ["standalone_decisive_lemma"],
+  "non_success_conditions": ["additional_local_branch", "finite_verification_only", "conditional_bridge", "another_normal_form", "file_or_test_volume"],
+  "scope_notes": [
+    "The exact scoped target is K5 minus edge 34, marked edge 03, in stabilizer coordinates a={01,02}, b={04}, c={12}, d={13,23}, e={14,24}, on a=c=d=1 with free real (b,e).",
+    "Prove or refute xi>0 on the complete connected component of P>0 containing the anchor (b,e)=(1,1), where P=bA(e)+C(e) and xi/2=bD(e)+E(e).",
+    "A result on this two-variable slice does not establish the five-variable stabilizer statement, transverse directions, G201, or OPG-1757."
+  ]
+}

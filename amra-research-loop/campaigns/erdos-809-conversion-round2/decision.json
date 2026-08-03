@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent audit confirms only a refutation of unweighted S_m cardinality, one conditional outer-A subcase, and Hall bookkeeping after carriers exist; the 1/8 interface remains open.",
+  "evidence": [
+    "audit/DECISIVE_LEMMA_INDEPENDENT_AUDIT.md"
+  ]
+}

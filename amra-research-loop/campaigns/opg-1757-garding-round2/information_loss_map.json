@@ -1,0 +1,34 @@
+{
+  "inherited_methods": [
+    {
+      "method": "coefficientwise or fixed-channel Rayleigh decomposition",
+      "loss_step": "demand every monomial coefficient or preselected activity channel be nonnegative",
+      "lost_information": "cancellation inside complete squares and the geometry of the distinguished positivity component",
+      "consequence": "the disjoint-edge K4 coefficient -2 kills the route even though the full Rayleigh difference is positive"
+    },
+    {
+      "method": "fixed-edge deletion-contraction induction",
+      "loss_step": "choose an elimination edge before seeing the current minor and require the mixed deletion-contraction coefficient to have a fixed sign",
+      "lost_information": "Fang-Ma Proposition 13.9 only requires existence of a moving edge and domination on C_{M\\e}'s distinguished component",
+      "consequence": "a negative mixed coefficient does not refute the closure-equivalent moving certificate"
+    },
+    {
+      "method": "positive-orthant sampling or symmetric specialization",
+      "loss_step": "test xi_e only where all activities are nonnegative or on a low-dimensional slice without certifying component membership",
+      "lost_information": "domination must hold on the full distinguished positivity component, including negative coordinates",
+      "consequence": "K5 and W4 positive slices are routing evidence but cannot establish or refute full domination"
+    },
+    {
+      "method": "q-to-zero random-cluster transfer",
+      "loss_step": "prove the forest scaling limit but import finite-q negative dependence as an assumed certificate",
+      "lost_information": "the finite-q statement for 0<q<1 is itself conjectural",
+      "consequence": "the exact limit bridge closes no global interface without a uniform finite-q theorem"
+    }
+  ],
+  "required_new_information": [
+    "a full positivity-component model for C_{M\\e}, not just orthant signs",
+    "an edge-selection rule allowed to move under minors",
+    "an exact domination certificate or exact component counterexample on the first unresolved host W4",
+    "a decomposition theorem handling direct sums, series-parallel pieces, and 2-sums in a minimal-counterexample induction"
+  ]
+}

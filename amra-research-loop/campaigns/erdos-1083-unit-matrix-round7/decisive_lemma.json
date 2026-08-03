@@ -1,0 +1,30 @@
+{
+  "statement": "Actual aggregate unit-matrix realization with a raw-occurrence firewall. In the power-large simultaneous normal form F_j=G R_j, P_A0=G B, B=R_j Q_j and P_Aj=F_0 Q_j, the aggregate associate-unit variables (g,f,b,r_j,q_j) and the four actual product-unit rows plus the quotient identity give exactly the formal m=1 coefficient matrix; stacking leaves gives the formal all-m coefficient pattern. Coordinatewise over the actual torsion-free exponent lattice Gamma, fixing every absolute product-unit observable leaves only the primitive common gauge. However, common X does not force the special finite-example right sides or a power-large joint absolute-spectrum fibre. If B is expanded into k raw irreducible occurrences, a one-leaf refinement has k-2 extra internal projection-kernel directions, all associate-normalization gauges; hence the aggregate matrix is complete only after that normalization quotient, not as a raw occurrence-variable list.",
+  "status": "proved",
+  "closes": [
+    "proves that actual simultaneous identities realize the round-six aggregate coefficient matrix rather than merely resembling it",
+    "extends the primitive gauge conclusion coordinatewise to the stated Laurent exponent lattice after absolute observables are fixed",
+    "refutes unqualified raw factor-occurrence completeness and classifies the extra minimal-block kernel as normalization gauge",
+    "isolates charged power-large absolute-observable conditioning as the next immediate gap"
+  ],
+  "evidence": [
+    "evidence/ACTUAL_UNIT_REALIZATION_LEMMA.md",
+    "evidence/verify_actual_unit_realization.py",
+    "evidence/actual_unit_realization.json",
+    "audit/ACTUAL_UNIT_REALIZATION_INDEPENDENT_AUDIT.md",
+    "audit/ACTUAL_UNIT_REALIZATION_INDEPENDENT_AUDIT.json",
+    "audit/verify_actual_unit_realization_independent.py",
+    "audit/ACTUAL_UNIT_REALIZATION_SECOND_REVIEW.md",
+    "audit/ACTUAL_UNIT_REALIZATION_SECOND_REVIEW.json",
+    "audit/verify_actual_unit_realization_second_review.py",
+    "../erdos-1083-unit-matrix-round6/evidence/GENERAL_M_UNIT_MATRIX_THEOREM.md",
+    "../../../data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/POWER_LARGE_SIMULTANEOUS_SWITCH_CORE.md"
+  ],
+  "dependency_gaps": [
+    "No joint absolute source/complement unit profile is fixed on a t^(5/9-o(1)) subfamily with t^o(1) loss.",
+    "Shared factor-occurrence incidence across the full power-large leaf family is not extracted; only the aggregate quotient and minimal one-leaf refinement are classified.",
+    "No bound turns variation of unfixed absolute observable rows into distinct distance labels.",
+    "No all-qU propagation retains t^(28/9-o(1)) occurrences with fibre below t^(1/9-epsilon), and no outer stability bridge is proved.",
+    "The public 3/5 exponent is unchanged."
+  ]
+}

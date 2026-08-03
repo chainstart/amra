@@ -1,0 +1,10 @@
+{
+  "scope": "z=1 plane of the three-variable coarsening of the marked-triangle-edge stabilizer",
+  "status": "proved_pending_independent_audit",
+  "component": ["x>1", "y>upper_root_y(C)"],
+  "resultant": "-2*(x-1)^7*(x+1)*(x+3)^2",
+  "conclusion": "xi>0 on the complete distinguished z=1 component",
+  "negative_point_component": "below lower C root in z=1 plane",
+  "five_variable_promotion": false,
+  "global_promotion": false
+}

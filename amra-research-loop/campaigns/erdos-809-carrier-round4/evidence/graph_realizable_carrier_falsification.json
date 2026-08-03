@@ -1,0 +1,143 @@
+{
+  "carrier_rank": {
+    "deficiency": 2,
+    "demands": 4,
+    "free_actual_edges": [],
+    "rank": 2,
+    "root_states": 16
+  },
+  "crossing_minimal_circuits": [
+    [
+      0,
+      1,
+      2
+    ],
+    [
+      0,
+      1,
+      3
+    ]
+  ],
+  "full_graph_certificate": {
+    "A_is_closed_neighbourhood": true,
+    "B": [
+      "b",
+      "c",
+      "z"
+    ],
+    "B_edges": [
+      [
+        "b",
+        "z"
+      ]
+    ],
+    "C7_count": 11136,
+    "L4_2": true,
+    "actual_full_reserve": [
+      [
+        "b",
+        "c"
+      ],
+      [
+        "c",
+        "z"
+      ]
+    ],
+    "all_missing_B_edges": [
+      [
+        "b",
+        "c"
+      ],
+      [
+        "c",
+        "z"
+      ]
+    ],
+    "base": [
+      "b",
+      "c"
+    ],
+    "edges": 50,
+    "maximum_degree": 10,
+    "minimum_degree": 4,
+    "n": 14,
+    "owned_A_diagonals": [
+      [
+        "x1",
+        "y1"
+      ],
+      [
+        "x2",
+        "y2"
+      ],
+      [
+        "x3",
+        "y3"
+      ],
+      [
+        "x4",
+        "y4"
+      ]
+    ],
+    "rainbow_C7": true,
+    "repeated_colours": 4,
+    "threshold_edges": 50,
+    "universal_dummy_used": false
+  },
+  "main_term_changed": false,
+  "public_problem_changed": false,
+  "relaxed_B_side_scan": {
+    "labelled_B_graphs": 33866,
+    "n_B_max": 6,
+    "two_endpoint_root_states": 156016,
+    "zero_shore_pairs": 78008
+  },
+  "schema": "amra.erdos809.carrier_round4.falsification.v1",
+  "scope": "Strict kills use the exact full n=14 graph. The exhaustive B-side scan is a discovery relaxation only and supplies no positive theorem.",
+  "survivors": [
+    "M809R4-04",
+    "M809R4-10"
+  ],
+  "tests": {
+    "M809R4-01": {
+      "outcome": "killed",
+      "reason": "terminal exact root-state component has deficiency two and no free actual B-edge"
+    },
+    "M809R4-02": {
+      "outcome": "killed",
+      "reason": "root reversal changes the root/ownership state while returning to the identical base and carrier neighbourhood"
+    },
+    "M809R4-03": {
+      "outcome": "killed",
+      "reason": "four distinct owned A diagonals coexist with no missing B-edge outside occupied K(bc)"
+    },
+    "M809R4-04": {
+      "outcome": "survived",
+      "reason": "the witness has no actual absorbers, so it does not refute a future bounded-codegree theorem conditional on graph-proved absorber certificates"
+    },
+    "M809R4-05": {
+      "outcome": "killed",
+      "reason": "A ownership rank four does not extend B carrier rank two on the common B-edge ground set"
+    },
+    "M809R4-06": {
+      "outcome": "killed",
+      "reason": "positive Hall deficiency coexists with zero path capacity to a free actual carrier"
+    },
+    "M809R4-07": {
+      "outcome": "killed",
+      "reason": "all 16 simultaneous root rotations preserve base bc and K(bc) exactly"
+    },
+    "M809R4-08": {
+      "outcome": "killed",
+      "reason": "crossing minimal deficient triples persist under every graph-legal root rotation and release no edge"
+    },
+    "M809R4-09": {
+      "outcome": "killed",
+      "reason": "distinct demands have pair codegree two, equal to individual degree two and greater than the claimed half-degree bound"
+    },
+    "M809R4-10": {
+      "outcome": "survived",
+      "reason": "its antecedent total actual carrier count at least demand count is false in this exact graph; no strict graph-realizable kill was found"
+    }
+  }
+}

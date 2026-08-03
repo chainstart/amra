@@ -1,0 +1,15 @@
+{
+  "mechanism_ids": [
+    "M809R5-04",
+    "M809R5-06",
+    "M809R5-11"
+  ],
+  "selection_rationale": "The smallest-expansion test kills nine concrete routes or missing interfaces but does not refute the three components of a correctly typed absorber theorem. M809R5-04 survives only as a post-output-projection, per-cut theorem that must first construct legal external arcs. M809R5-11 survives as a deterministic matching statement only after every output and hidden switch resource has a proved bounded-overlap ledger and every demand cut is covered. M809R5-06 survives as an optional nibble/cleanup implementation under those same graph-derived hypotheses. The exact search found no legal absorber, no graph-realizable many-legal-absorbers/rank-one counterexample, and no 1/8 progress.",
+  "chain_firewall": [
+    "First construct at least one original-graph switch whose output is a named missing B-edge outside the demand's original K(e) and prove exact C7 legality.",
+    "Project certificates to distinct outputs and record all internal resource conflicts before applying DRC or a matching theorem.",
+    "Prove expansion for every demand cut after occupied outputs are removed; total catalogue size is insufficient.",
+    "If a nibble is used, prove output/resource codegrees and deterministic cleanup of maximum Hall deficiency.",
+    "Compose the result with the outer-A gate and every public hard branch before mentioning 1/8."
+  ]
+}

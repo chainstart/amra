@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent full-domain audit confirms only a finite no-go for the displayed natural-switch model; the kill gate is 6/9<80%, no scalable bridge or global closure exists, so the campaign freezes without promotion.",
+  "evidence": [
+    "audit/ROUND7_EXCHANGE_INDEPENDENT_AUDIT.md"
+  ]
+}

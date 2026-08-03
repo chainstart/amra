@@ -1,0 +1,22 @@
+{
+  "statement": "Unit-sensitivity firewall for normalized quotient moments. There exist two genuine paired-positive common-X reverse-circle blocks, at source translations 0 and -1/4, with identical normalized Boolean quotient vectors, identical normalized factor/root/logarithmic data, and the same 12-element source-to-target squared-distance spectrum in every row, but with respectively 127 and 145 exact target-to-target squared-distance labels. Hence Laurent-associate normalization loses information that affects the actual collision graph: no unit-blind statistic built from those normalized data can determine target-target collision behaviour. Any surviving moment route must retain or uniformly control the relative Laurent-unit fibre, propagate the resulting information from selected rows to all qU targets, and prove an all-target distance-fibre exponent below 1/9-epsilon.",
+  "status": "proved",
+  "closes": [
+    "refutes unit-blind determination of target-target collision behaviour from normalized Boolean and factor/root moments",
+    "proves that identical per-row source-target spectra do not repair the lost Laurent-unit information",
+    "identifies unit-aware full-target propagation and the fibre threshold below 1/9-epsilon as mandatory interfaces for this route"
+  ],
+  "evidence": [
+    "evidence/SURVIVOR_DEEPENING.md",
+    "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md",
+    "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.json",
+    "evidence/small_d_unit_translation_adversary.py"
+  ],
+  "dependency_gaps": [
+    "prove a common-X and paired-positive Fourier consequence beyond low-degree cancellation or complete subset recovery",
+    "bound the relative Laurent-unit fibre after fixing the common source, or prove a uniform distance gain across it",
+    "propagate unit-aware information from the selected K rows to every qU target",
+    "prove an actual all-target maximum- or energy-fibre exponent strictly below 1/9-epsilon",
+    "transfer the exact-block conclusion through outer near-extremal stability with only subpower loss"
+  ]
+}

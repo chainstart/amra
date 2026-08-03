@@ -1,0 +1,36 @@
+{
+  "schema": "amra.erdos1083.relative-unit-round5.independent-audit.v1",
+  "linear_algebra": {
+    "fixed_X_normalized_rank": 5,
+    "fixed_X_normalized_kernel_rank": 2,
+    "kernel_generators": [[1,0,-1,-1,-1,0,0],[0,0,1,0,0,1,1]],
+    "absolute_spectrum_fixed_rank": 6,
+    "absolute_spectrum_fixed_kernel_rank": 1,
+    "remaining_gauge_generator": [1,0,-1,-1,-1,0,0],
+    "gcd_of_nonzero_rank_six_minors": 1,
+    "torsion_conclusion": "the displayed exact integer quotient is primitive",
+    "gauge_slice": "on the displayed affine solution line u(G)=a iff delta=0"
+  },
+  "geometry": {
+    "common_X": ["0","1"],
+    "shift_0_distinct_labels": 127,
+    "shift_1_4_distinct_labels": 127,
+    "absolute_label_sets_equal": false,
+    "indexed_collision_partitions_equal": true,
+    "multiplicity_histogram_both_shifts": {"1":102,"2":24,"3":1},
+    "interpretation": "127/127 is equality of two finite counts and supplies no strict label gain, asymptotic estimate, or exponent improvement."
+  },
+  "statement_check": {
+    "decisive_local_lemma": "passed",
+    "M1083U5_01_to_06_09_10": "strict gauge counterexamples passed",
+    "M1083U5_07": "passed locally only",
+    "M1083U5_08": "downgraded to finite route obstruction: its literal claim quantifies over every actual power-large block, while the evidence is one finite three-row block"
+  },
+  "promotion": {
+    "decision": "reject",
+    "reason": "The result is a local exact rank/gauge lemma. General block matrices, observable range/torsion, full-target occurrence mass, fibre below 1/9-epsilon and stability are unproved.",
+    "main_exponent_changed": false,
+    "three_fifths_changed": false
+  },
+  "lean_used": false
+}

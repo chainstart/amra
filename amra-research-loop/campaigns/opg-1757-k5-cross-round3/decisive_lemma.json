@@ -1,0 +1,22 @@
+{
+  "statement": "K5-e marked-cross-edge singleton-orbit component theorem. Mark edge 03 in K5 minus 34 and equalize the eight deletion-edge activities on the five stabilizer orbits a={01,02}, b={04}, c={12}, d={13,23}, e={14,24}. On the natural slice a=d=e=1, put x=54b+32 and y=c+1/2. Then P=xy-1, its distinguished positive component is exactly x>0,y>0,xy>1, and 54xi=22xy+x+160y-32>0 throughout that component.",
+  "status": "proved",
+  "closes": [
+    "computes the exact marked-cross-edge stabilizer and complete five-orbit variable ledger",
+    "reconstructs the complete stabilizer-specialized forest P and endpoint-connected xi polynomials",
+    "proves domination on the complete distinguished component of the natural singleton-orbit (b,c) slice"
+  ],
+  "evidence": [
+    "evidence/K5_CROSS_BC_COMPONENT_THEOREM.md",
+    "evidence/verify_k5_cross_bc_component.py",
+    "evidence/verify_k5_cross_bc_component.json",
+    "evidence/k5_cross_orbit_probe.py",
+    "evidence/k5_cross_orbit_probe.json"
+  ],
+  "dependency_gaps": [
+    "the other eight natural two-variable slices are not classified by a complete component theorem",
+    "the full five-variable cross-edge stabilizer component remains open",
+    "three transverse independent-edge directions are erased by stabilizer equalization",
+    "G201 and the public OPG-1757 statement remain open"
+  ]
+}

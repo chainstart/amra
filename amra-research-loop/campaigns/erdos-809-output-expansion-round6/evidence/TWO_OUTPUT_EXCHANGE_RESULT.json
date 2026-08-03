@@ -1,0 +1,38 @@
+{
+  "schema": "amra.erdos809.output-expansion-round6.result.v1",
+  "fixed_graph_joint_legality": {
+    "status": "proved",
+    "statement": "For recolourings of disjoint colour classes on one fixed graph, if the base state and each singleton switch state are rainbow C7, then their joint state is rainbow C7.",
+    "reason": "Any non-rainbow joint C7 repeats one named colour; that colour's same edge pair already occurs in its singleton state, or in the base state for an untouched colour."
+  },
+  "symmetric_no_deletion_search": {
+    "model": "n16; add all w-X and u-X; forbid cw,cu,wz,uz; choose seven of fifteen other incident edges; no old deletion",
+    "assignments": 6435,
+    "assignments_with_all_six_repeated_pairs_C7_safe": 0,
+    "witness": null
+  },
+  "symmetric_one_exchange_search": {
+    "model": "same symmetric model; choose eight optional edges and delete one admissible old edge",
+    "assignments": 6435,
+    "assignments_with_one_old_edge_hitting_every_bad_C7": 0,
+    "witness": null
+  },
+  "general_one_exchange_search": {
+    "model": "require wx1 and ux2; forbid cw,cu,wz,uz,wy1,uy2; choose fourteen of nineteen other new edges and delete one admissible old edge",
+    "assignments": 11628,
+    "assignments_with_one_old_edge_hitting_every_bad_C7": 0,
+    "witness": null,
+    "completeness": "complete for this natural-switch, one-old-edge-exchange model"
+  },
+  "conditional_output_rank": {
+    "status": "proved",
+    "statement": "If different demands receive legal arcs to distinct new outputs f,g outside the old K(4,2) neighbourhood, matching rank rises from two to four and its maximum deficiency becomes zero."
+  },
+  "classification": {
+    "two_distinct_legal_outputs_found": false,
+    "finite_absence_is_promotion": false,
+    "next_unsearched_scope": "at least two old-edge deletions with seventeen replacements, a non-natural switch, or a different extension outside the displayed model",
+    "public_one_eighth_changed": false,
+    "lean_used": false
+  }
+}

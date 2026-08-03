@@ -1,0 +1,20 @@
+{
+  "exact_statement": "For every fixed integer d >= 3, every N-point subset of R^d determines N^(2/d-o(1)) distinct distances as N tends to infinity.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/README.md",
+  "success_conditions": [
+    "main_exponent_improved"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "The public statement, source, sole success condition, and non-success conditions are copied exactly from erdos-1083-moment-round4.",
+    "Round four remains frozen and is inherited only as negative evidence: normalized unit-blind data do not determine collision behaviour when the common source is translated.",
+    "Round five fixes the common source X before measuring relative Laurent-unit fibres; the round-four translation pair cannot be reused as a fixed-X adversary.",
+    "Promotion requires a rigorous dimension-three exponent strictly greater than 3/5, including full-target propagation, occurrence mass, fibre and stability interfaces."
+  ]
+}

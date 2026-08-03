@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent audit reproduces the finite n=15 output-fibre firewall but finds that none of the nine author-side killed statuses matches its full quantified mechanism claim. All nine are downgraded to frozen; no legal absorber, strict kill ratio, every-cut expansion, or public 1/8 interface is proved.",
+  "evidence": [
+    "audit/SMALLEST_EXPANSION_INDEPENDENT_AUDIT.md"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "The five-block singleton kernel and tau=21 are independently reconstructed for the locked 16-vertex assignment. No reduction forces this structure in arbitrary hard graphs, so the public 1/8 constant and main-term contract are unchanged.",
+  "evidence": [
+    "evidence/STRUCTURAL_TRACE_THEOREM.md",
+    "audit/TRACE_BLOCKS_INDEPENDENT_AUDIT.md"
+  ]
+}

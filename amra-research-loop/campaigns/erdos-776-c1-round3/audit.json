@@ -1,0 +1,73 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos1083_lane",
+    "evidence": [
+      "audit/BASE_RETAINING_TOP_INDEX_RANK5_INDEPENDENT_AUDIT.md",
+      "audit/top_index_rank5_independent_audit.json",
+      "audit/independent_verify_top_index_rank5.py",
+      "audit/MULTI_CAP_REDUCTIONS_INDEPENDENT_AUDIT.md",
+      "audit/MULTI_CAP_REDUCTIONS_INDEPENDENT_AUDIT.json (SHA-256 a4b714bf6c40f508ef8f2f18463674e88f61e8641d34ef5257eaeb7bc971e0e8)",
+      "audit/verify_multi_cap_reductions_independent.py (SHA-256 ba718c5276852d459f8aa7afd2cf4d10d098a80bf40012d081a0932368d99f06)",
+      "audit/GAMMA4_FEEDBACK_REDUCTION_AUDIT.md",
+      "audit/GAMMA4_FEEDBACK_REDUCTION_AUDIT.json",
+      "audit/LOW_HALF_ADJACENT_SUM_INDEPENDENT_AUDIT.md",
+      "audit/LOW_HALF_ADJACENT_SUM_INDEPENDENT_AUDIT.json (SHA-256 2e3d98fba578cf744cf6fac0c757968a9229386b30163402746bc8775a8557aa)",
+      "audit/verify_low_half_adjacent_sum_independent.py (SHA-256 b66e1b0352bbbc4e25cbc1b8d0268bedf6a2222b3e1b6dd7caad72dbb541f040)"
+      ,"audit/HIGH_HALF_CLOSURE_INDEPENDENT_AUDIT.md"
+      ,"audit/HIGH_HALF_CLOSURE_INDEPENDENT_AUDIT.json"
+      ,"audit/verify_high_half_closure_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "multi_cap_reduction_audit": {
+    "status": "qualified_pass_one_subsection_refuted",
+    "proved": [
+      "canonical-word and complement identities",
+      "exact carry-cell and D(a,c) threshold reductions",
+      "actual legality forces s>=3",
+      "infinite s=1 counterfamily",
+      "fixed-cell differences, interval and five-endpoint reduction",
+      "strong upstream gap A>=a+s",
+      "top-only sufficient branch"
+    ],
+    "refuted": "the proposed gamma3-wall continuation for s>=2: actual beta=C(r,2)-1+s(s-1), not C(r,2)-1",
+    "conjectural": [
+      "the relaxed s=2 carry theorem, which is outside actual legality"
+    ],
+    "resolved_by_later_kernel_audit": [
+      "all relaxed s>=3 multi-cap cells",
+      "all actual multi-cap cells because actual legality forces s>=3"
+    ],
+    "public_status_changed": false
+  },
+  "high_half_closure_audit": {
+    "status": "passed_with_domain_count_correction",
+    "scope": "a>=3, 3<=c<=a, 2c>=a",
+    "B_integer_rounding": "passed",
+    "q7_lambda": "14/25",
+    "q9_parity": "passed; only even a,c=a/2 remains in the tail",
+    "exact_base": {
+      "pairs": 1219,
+      "failures": 0,
+      "correction": "use max(3,ceil(a/2)); 1221 would include two invalid c=2 pairs"
+    },
+    "public_status_changed": false
+  },
+  "multi_cap_kernel_audit": {
+    "status": "passed_full_two_variable_kernel",
+    "proved": [
+      "gamma4 feedback reduces every relaxed s>=3 state to B(a,c)>=A_*(a,c)",
+      "high-half kernel 2c>=a by finite base and nine polynomial branches",
+      "low-half kernel 2c<a by exact 1,434,006-pair base and analytic a>=2401 tail",
+      "scoped actual (++ -> ++) gamma4-negative rank-five recovery theorem"
+    ],
+    "remaining_outside_scope": [
+      "(--)->(++) adaptive recovery",
+      "seed/suffix composition to the public threshold"
+    ],
+    "public_status_changed": false
+  }
+}

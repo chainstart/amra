@@ -1,0 +1,21 @@
+{
+  "statement": "Locked-circuit external-carrier theorem: if d defect demands in a fixed original graph all have the same two-point outer support {b,c}, then every root choice has base e={b,c} and identical actual neighbourhood K(e). Their matching rank is min(d,|K(e)|) and deficiency is max(0,d-|K(e)|). Root reversals, alternating rematching on existing arcs, demand-cut uncrossing, and random sampling cannot increase this rank. If d>|K(e)|, any saturation must use at least d-|K(e)| distinct actual missing B-edges outside K(e), with graph-proved legal arcs and all augmented Hall cuts verified.",
+  "status": "proved",
+  "closes": [
+    "rules out root-only alternating augmentation on locked two-point circuits",
+    "rules out reserve-only rotation, uncrossing, and nibble as carrier creation",
+    "identifies external graph-derived legal arcs as a necessary input for both round-four survivors"
+  ],
+  "evidence": [
+    "evidence/LOCKED_CIRCUIT_EXTERNAL_CARRIER_THEOREM.md",
+    "evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md",
+    "evidence/graph_realizable_carrier_falsification.py",
+    "evidence/graph_realizable_carrier_falsification.json"
+  ],
+  "dependency_gaps": [
+    "M809R4-04 must construct actual absorber outputs outside locked K(e), prove legal demand arcs, bounded overlap, and all-cut saturation from hard graph geometry.",
+    "M809R4-10 must prove legal reserve-neighbourhood expansion and codegree control in an actual-carrier-rich hard branch, followed by deterministic cleanup of maximum Hall deficiency.",
+    "Neither survivor currently supplies one external carrier on the exact n=14 locked graph.",
+    "No composition with the exact outer-A gate, all public hard branches, or the frozen 1/8 coefficient has been proved."
+  ]
+}

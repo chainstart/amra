@@ -1,0 +1,44 @@
+{
+  "inherited_from": "erdos-1083-unit-matrix-round6 (frozen)",
+  "inherited_methods": [
+    {
+      "method": "identify the formal coefficient pattern with a complete actual block",
+      "loss_step": "replace actual product-unit observables by fixed right-hand sides without extracting them from P_A0, P_Aj, F0 and Fj",
+      "lost_information": "which rows are algebraic identities, which are observed absolute product units and which require conditioning",
+      "consequence": "construct the smallest actual centre-leaf incidence table before comparing matrices"
+    },
+    {
+      "method": "use one scalar Laurent exponent coordinate",
+      "loss_step": "suppress the ambient finitely generated torsion-free exponent group Gamma and the sign part of units of Z[Gamma]",
+      "lost_information": "coordinate rank, tensor structure and possible sign normalization",
+      "consequence": "state the realization coordinatewise over Gamma and audit signs using nonzero positive augmentations"
+    },
+    {
+      "method": "treat aggregate residuals R_j and quotients Q_j as all raw factor variables",
+      "loss_step": "forget the Omega(B) shared irreducible factor occurrences and their row-incidence pattern",
+      "lost_information": "internal associate redistributions and any extra raw normalization gauge",
+      "consequence": "distinguish the aggregate observable unit matrix from a factor-occurrence refinement"
+    },
+    {
+      "method": "fix all complement spectra on the power-large family",
+      "loss_step": "condition on every absolute P_Aj unit without bounding the number of possible profiles",
+      "lost_information": "retained power-large mass and the common spectrum-shift direction",
+      "consequence": "matrix realization and entropy-free spectrum conditioning are separate statements"
+    },
+    {
+      "method": "convert local unit rigidity directly to distances",
+      "loss_step": "stop before the all-qU target occurrence and fibre interfaces",
+      "lost_information": "t^(28/9-o(1)) mass, fibre below t^(1/9-epsilon), and outer stability",
+      "consequence": "no local incidence result changes the public 3/5 exponent"
+    }
+  ],
+  "required_new_information": [
+    "a literal centre-leaf block with G,F0,B,R_j,Q_j, their normalized associate classes and every source/complement/identity observable row",
+    "an exact comparison map from the actual row matrix to the m=1 formal matrix",
+    "a coordinatewise extension from one exponent to the full free abelian Laurent unit lattice and a sign normalization audit",
+    "a classification of factor-occurrence refinement kernels as observable directions or pure normalization gauges",
+    "a precise statement of which absolute product rows are present algebraically and which must be fixed on a common fibre",
+    "downstream power-large conditioning, all-target occurrence/fibre, and stability estimates before any exponent promotion"
+  ],
+  "forbidden_shortcut": "Do not call coefficient-pattern agreement a power-large spectrum-fixed fibre, and do not call aggregate factor units the complete raw occurrence-variable system without a kernel comparison."
+}

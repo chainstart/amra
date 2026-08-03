@@ -1,0 +1,50 @@
+{
+  "schema": "amra.erdos776.adaptive-round4.k4r9-no-fixed-rank-independent-audit.v1",
+  "statement_match": {
+    "status": "passed",
+    "proved_quantifiers": "for every fixed R>=4 there exists an actual odd j_R such that gamma_m(j_R)<0 simultaneously for 3<=m<=R",
+    "explicitly_not_proved": "there exists one finite j such that gamma_m(j)<0 for every rank m"
+  },
+  "independent_reconstruction": {
+    "status": "passed",
+    "raw_base": "original h,b,q,x,y formulas and greedy rank-3 Macaulay words",
+    "A_base": 25,
+    "B_base": 58,
+    "A_recurrence": "A_(n+1)=C(A_n,2)-(20n-49)",
+    "B_recurrence": "B_(n+1)=C(B_n,2)-(20n-52)",
+    "surplus": "gamma_n=B_(n+1)-A_(n+1)-A_n-1-4q for n>=4; gamma_3=23-4q",
+    "constant_lower_bound": "A_n,B_n>=4n+9",
+    "actual_q_recurrence": "q_(j+2)=4q_j-4 is unbounded"
+  },
+  "finite_cross_check": {
+    "actual_odd_j": 2477,
+    "negative_ranks": "3..12",
+    "canonical_words_checked": "4..13",
+    "all_next_states_nonnegative": true,
+    "virtual_memory_limit_kib": 3145728,
+    "timeout_seconds": 180,
+    "independent_checker_sha256": "8cba5acde5aaaad2a4af222a17641b2525c3c4a62f90514d98c6f2088733fc5a",
+    "author_checker_sha256": "e8e33d0d046ee810f3daad9eebf078caa80301fae5fcecb9d9094b4998b2af0f"
+  },
+  "dependency_check": {
+    "status": "passed",
+    "reason": "finite simultaneous canonical thresholds plus unbounded actual q_j close the forall-R/existential-j interface without bounded extrapolation"
+  },
+  "mechanism_effects": {
+    "M406": "killed",
+    "M412": "same-orbit uniform pre-rank42 waiting route killed",
+    "M405_M407": "K4,r9 instances supported; universal forms unproved",
+    "M410": "open stronger claim; must not be rewritten as one-state all-rank nonrecovery",
+    "M411": "unresolved/frozen"
+  },
+  "promotion": {
+    "standalone_decisive_lemma": true,
+    "public_problem_closed": false,
+    "main_term_changed": false,
+    "main_exponent_changed": false,
+    "global_interface_closed": false,
+    "decision": "freeze without public promotion"
+  },
+  "novelty_check": "priority_uncertain; no external literature search performed",
+  "lean_used": false
+}

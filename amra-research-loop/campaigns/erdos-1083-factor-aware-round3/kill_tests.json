@@ -1,0 +1,81 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M1083R3-02",
+      "outcome": "killed",
+      "test": "paired-positive debt under carrier reuse",
+      "evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md#mechanism-verdicts",
+      "scope": "inherited signed two-positive-multiple escape and reusable Phi6 tokens kill a uniform cross-row t^epsilon debt; a new proved scarce carrier is not refuted"
+    },
+    {
+      "mechanism_id": "M1083R3-03",
+      "outcome": "killed",
+      "test": "D independent formal factor occurrences in the legal Boolean quotient family",
+      "evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.json#boolean_quotient_family",
+      "scope": "coordinate degree one still has total degree D and 2^D specializations; the typed family itself remains valid"
+    },
+    {
+      "mechanism_id": "M1083R3-04",
+      "outcome": "killed",
+      "test": "delta coefficient sequence on K distinct lambda nodes",
+      "evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.json#lambda_interpolation",
+      "scope": "kills automatic sublinear interpolation complexity from sample existence; it does not show that actual exact-block data attain the delta sequence"
+    },
+    {
+      "mechanism_id": "M1083R3-05",
+      "outcome": "killed",
+      "test": "compare claimed output with the exact divisor-width identity",
+      "evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md#incidence-and-exponent-firewall",
+      "scope": "the stated mechanism supplies only K distinct scalars and the inherited reciprocal chart; additional moments with a proved off-diagonal map remain possible"
+    },
+    {
+      "mechanism_id": "M1083R3-06",
+      "outcome": "killed",
+      "test": "order K-1 divided difference and coefficient-rank-to-label conversion",
+      "evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.json#lambda_interpolation",
+      "scope": "the normal form alone gives no bounded divided-difference rank, and high coefficient rank is not an actual Euclidean label theorem"
+    },
+    {
+      "mechanism_id": "M1083R3-07",
+      "outcome": "killed",
+      "test": "union of all reciprocal defining cells under the exact common-spectrum identity",
+      "evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.json#exponent_ledger",
+      "scope": "all defining-cell labels lie in V of size SU=t^(29/18+o(1)); this does not bound off-diagonal point-pair labels"
+    },
+    {
+      "mechanism_id": "M1083R3-08",
+      "outcome": "killed",
+      "test": "type every KS^2Uq tuple as one actual Euclidean point pair",
+      "evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md#incidence-and-exponent-firewall",
+      "scope": "a source-target pair has one X index, not two; the repaired all-target-pair domain has exponent 28/9 and needs fibre below 1/9-epsilon"
+    },
+    {
+      "mechanism_id": "M1083R3-09",
+      "outcome": "killed",
+      "test": "require every multiplied reservoir factor to occur in one explicit pinned point-pair graph",
+      "evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md#incidence-and-exponent-firewall",
+      "scope": "no independent reservoir or same-graph domain cardinality was constructed; a future explicit pinned graph is not refuted"
+    },
+    {
+      "mechanism_id": "M1083R3-10",
+      "outcome": "killed",
+      "test": "named-stratum coverage of intervals, circles, grids, coherent theta and same-line charts",
+      "evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md#mechanism-verdicts",
+      "scope": "the mechanism supplies no complete exceptional-stratum theorem; generic polynomial incidence bounds remain inapplicable to uncovered components"
+    },
+    {
+      "mechanism_id": "M1083R3-11",
+      "outcome": "killed",
+      "test": "energy ledger with repeated-distance products and dependent native indices",
+      "evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.json#exponent_ledger",
+      "scope": "no t^(2/3-epsilon) average-fibre theorem is supplied; an energy theorem on an explicit genuine incidence set remains open"
+    },
+    {
+      "mechanism_id": "M1083R3-12",
+      "outcome": "killed",
+      "test": "distributed-defect array against rowwise-good coarea",
+      "evidence": "evidence/ROUND3_MINIMAL_FALSIFICATION.md#mechanism-verdicts",
+      "scope": "rowwise goodness does not conserve one off-diagonal point-pair domain or its fibre saving; a new Euclidean conservation identity is not refuted"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M809R5-01",
+      "representation_id": "R809R5-01",
+      "family": "local_switch_gadget",
+      "decisive_claim": "Every locked demand in a public hard graph has a one-demand graph operation changing its base from e to e' and exposing an actual output in K(e') minus K(e), while preserving the same colouring size and the rainbow-C7 property.",
+      "would_close": [
+        "actual external carrier for every locked demand"
+      ],
+      "kill_test": "Test every natural b-to-w edge replacement in the smallest n=15 expansion; kill universality if each nonempty switch creates a non-rainbow C7.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:52:23+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md and evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json",
+      "updated_at": "2026-08-03T03:57:12+00:00"
+    },
+    {
+      "id": "M809R5-02",
+      "representation_id": "R809R5-02",
+      "family": "local_switch_gadget",
+      "decisive_claim": "Any collection of individually legal one-demand switches with distinct owners can be performed simultaneously and its output rank equals the number of switches.",
+      "would_close": [
+        "simultaneous absorber packing"
+      ],
+      "kill_test": "Seek two switches sharing a C7 witness or one output; kill if distinct owners coexist with output matching rank one or simultaneous illegality.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:52:23+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md and evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json",
+      "updated_at": "2026-08-03T03:57:12+00:00"
+    },
+    {
+      "id": "M809R5-03",
+      "representation_id": "R809R5-03",
+      "family": "dependent_random_choice_reservoir",
+      "decisive_claim": "A power-large graph-realizable catalogue of local switch witnesses always projects to a power-large set of distinct external missing B-edge outputs.",
+      "would_close": [
+        "large actual output reservoir"
+      ],
+      "kill_test": "The n=15 expansion has 736 length-four/five path witnesses over one output; kill every bound stated before output-fibre control.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:52:23+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md and evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json",
+      "updated_at": "2026-08-03T03:57:12+00:00"
+    },
+    {
+      "id": "M809R5-04",
+      "representation_id": "R809R5-04",
+      "family": "dependent_random_choice_reservoir",
+      "decisive_claim": "Applying DRC after output projection gives, for every deficient cut T, at least |T| distinct legal external outputs adjacent to T in every public hard branch.",
+      "would_close": [
+        "all-cut actual expansion"
+      ],
+      "kill_test": "Use the locked four-demand cut and smallest expansions; kill if the projected output set has size below the cut deficiency despite large witness common neighbourhoods.",
+      "status": "surviving",
+      "created_at": "2026-08-03T03:52:23+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md survivor boundary",
+      "updated_at": "2026-08-03T03:57:13+00:00"
+    },
+    {
+      "id": "M809R5-05",
+      "representation_id": "R809R5-05",
+      "family": "hypergraph_matching_codegree",
+      "decisive_claim": "Every actual absorber hypergraph derived from a public hard graph has maximum output/resource codegree o(Delta) once duplicate certificates are identified.",
+      "would_close": [
+        "low-codegree absorber host"
+      ],
+      "kill_test": "Parallel graph paths and identical-base switch candidates test whether output codegree can equal degree.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:52:23+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md and evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json",
+      "updated_at": "2026-08-03T03:57:12+00:00"
+    },
+    {
+      "id": "M809R5-06",
+      "representation_id": "R809R5-06",
+      "family": "hypergraph_matching_codegree",
+      "decisive_claim": "Under a proved maximum codegree bound, a semi-random nibble followed by deterministic cleanup reduces every demand cut deficiency to zero using compatible external absorbers.",
+      "would_close": [
+        "full absorber allocation"
+      ],
+      "kill_test": "Demand an explicit all-cut potential and cleanup; kill any argument proving only expected matched size or substituting dummy outputs.",
+      "status": "surviving",
+      "created_at": "2026-08-03T03:52:24+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md survivor boundary",
+      "updated_at": "2026-08-03T03:57:13+00:00"
+    },
+    {
+      "id": "M809R5-07",
+      "representation_id": "R809R5-07",
+      "family": "matroid_parity_linkage",
+      "decisive_claim": "Compatible graph-realizable absorber certificates form a matroid parity system on actual missing B-edge outputs, and each uncovered demand increases its rank by one.",
+      "would_close": [
+        "rank-one gain per residual demand"
+      ],
+      "kill_test": "Test augmentation on four owned switches sharing one output and on the locked n=14 graph; kill if the proposed common-ground exchange cannot name a new B-edge.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:52:24+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md and evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json",
+      "updated_at": "2026-08-03T03:57:12+00:00"
+    },
+    {
+      "id": "M809R5-08",
+      "representation_id": "R809R5-08",
+      "family": "matroid_parity_linkage",
+      "decisive_claim": "The vertex-capacitated C7 switch network has min-cut at least the locked-circuit deficiency in every public hard graph.",
+      "would_close": [
+        "disjoint legal switch linkage"
+      ],
+      "kill_test": "In the n=15 expansion delete every transition failing the exact rainbow-C7 switch test and compute whether any path reaches the sole external output.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:52:24+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md and evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json",
+      "updated_at": "2026-08-03T03:57:13+00:00"
+    },
+    {
+      "id": "M809R5-09",
+      "representation_id": "R809R5-09",
+      "family": "stability_decomposition",
+      "decisive_claim": "After deleting o(n) exceptional vertices, the typical core retains all but o(D) of the external absorber output rank for every deficient demand cut.",
+      "would_close": [
+        "stability-preserved carrier rank"
+      ],
+      "kill_test": "Put the sole external edge of the smallest expansion through exceptional vertex w; kill rank preservation when typical witness abundance remains but external rank vanishes.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:52:24+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md and evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json",
+      "updated_at": "2026-08-03T03:57:13+00:00"
+    },
+    {
+      "id": "M809R5-10",
+      "representation_id": "R809R5-10",
+      "family": "stability_decomposition",
+      "decisive_claim": "Every contracted locked core of deficiency delta has at least delta distinct graph-legal exceptional links, with bounded overlap across cores.",
+      "would_close": [
+        "one external link per locked deficit"
+      ],
+      "kill_test": "Contract the n=14 locked class and inspect its minimal n=15 expansion; kill any link counted solely from paths or from a switch that makes a non-rainbow C7.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:52:24+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md and evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json",
+      "updated_at": "2026-08-03T03:57:13+00:00"
+    },
+    {
+      "id": "M809R5-11",
+      "representation_id": "R809R5-05",
+      "family": "hypergraph_matching_codegree",
+      "decisive_claim": "If each output missing B-edge and each internal switch resource belongs to at most C absorber certificates, then catalogue size at least C times the total residual demand count forces a compatible saturating absorber matching.",
+      "would_close": [
+        "bounded-overlap matching theorem"
+      ],
+      "kill_test": "Build exact finite hypergraphs with both separate output and shared hidden-resource collisions; kill if the stated local bound omits a resource needed for compatibility.",
+      "status": "surviving",
+      "created_at": "2026-08-03T03:52:24+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md survivor boundary",
+      "updated_at": "2026-08-03T03:57:13+00:00"
+    },
+    {
+      "id": "M809R5-12",
+      "representation_id": "R809R5-02",
+      "family": "local_switch_gadget",
+      "decisive_claim": "A legal external switch for one member of each inclusion-minimal deficient cut suffices, by iteration, to saturate the entire typed carrier graph.",
+      "would_close": [
+        "iterative all-cut absorber closure"
+      ],
+      "kill_test": "Test whether the chosen switch can destroy legality or output availability for another cut; require Hall expansion after every iteration.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:52:24+00:00",
+      "status_evidence": "evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.md and evidence/SMALLEST_EXPANSION_OUTPUT_FIBRE.json",
+      "updated_at": "2026-08-03T03:57:13+00:00"
+    }
+  ]
+}

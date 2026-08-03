@@ -1,0 +1,15 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "root, author-swapped blind reconstruction from graph definitions",
+    "evidence": [
+      "audit/K5_CROSS_BC_INDEPENDENT_AUDIT.md",
+      "audit/verify_k5_cross_bc_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "scope": "complete distinguished component only on a=d=e=1 in the five-variable marked-cross-edge stabilizer space",
+  "excluded_claims": ["full five-variable stabilizer component", "three transverse directions", "G201", "OPG-1757"]
+}

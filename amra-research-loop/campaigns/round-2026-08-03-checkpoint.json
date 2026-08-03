@@ -1,0 +1,147 @@
+{
+  "round_id": "round-2026-08-03-4h",
+  "status": "complete_four_hour_round",
+  "persistent_goal_thread_id": "019fc24d-b264-7352-b157-5043ea5cba8a",
+  "campaigns": {
+    "erdos-776-c1-round2": {
+      "phase": "frozen",
+      "decision": "no promotion",
+      "result": "Exact actual c=1 counterexample refutes e>=binom(a-1,3), while weaker G++ and gamma5 remain positive; independently audited."
+    },
+    "erdos-809-conversion-round2": {
+      "phase": "frozen",
+      "decision": "no promotion",
+      "result": "Exact unweighted |Sigma|=S_m carrier is impossible for odd n because S_m is irrational; one outer-A subcase and conditional Hall bookkeeping survive; independently audited."
+    },
+    "erdos-1083-factor-aware-round2": {
+      "phase": "frozen",
+      "decision": "no promotion",
+      "result": "Q_j(lambda_j X) Jacobian bridge is ill-typed in the frozen normal form; reciprocal-chart exponent ledger gives no improvement; independently audited."
+    },
+    "opg-1757-garding-round2": {
+      "phase": "frozen",
+      "decision": "scoped local theorems proved; no public promotion",
+      "result": "Independently audited domination theorems now cover the full four-variable W4 rim and spoke models, the complete K3,3 marked-edge two-variable stabilizer slice, the triangular-prism vertical-edge three-variable stabilizer slice, the K5-e high-triangle 2,4,2 upper-root component, and the prism triangle-edge z=1 two-variable component. The full prism coarsening has an exact 28-degree/166-term resultant and its sampled negative island is not a proved distinguished-component counterexample.",
+      "gate": "G201 and independent transverse directions remain open; all results are strict stabilizer/coarsened slices"
+    },
+    "erdos-776-c1-round3": {
+      "phase": "frozen",
+      "decision": "scoped theorem proved; no public promotion",
+      "result": "Independent audits prove the gamma4-feedback reduction and the complete high-/low-half adjacent-sum kernel B(a,c)>=A_*(a,c). Consequently the relaxed s>=3 multi-cap theorem holds, and actual legal (++ -> ++) gamma4-negative dyadic states recover strictly at rank five because legality forces s>=3.",
+      "gate": "The scoped (++ -> ++) branch is closed. The public problem still requires adaptive (--)->(++) recovery/stability, a uniform pre-rank-42 seed, persistence/suffix composition, and the final antichain-threshold interface."
+    },
+    "erdos-809-conversion-round3": {
+      "phase": "frozen",
+      "decision": "no promotion",
+      "result": "Exact integer rounding and conditional carrier-creation Hall cuts independently audited; actual exchange certificate and carriers remain open."
+    },
+    "erdos-809-carrier-round4": {
+      "phase": "frozen",
+      "decision": "no promotion",
+      "result": "Independent audit validates the n=14 locked-circuit external-carrier theorem but downgrades two ill-typed claimed kills, leaving six strict kills and no carrier-rich nibble theorem."
+    },
+    "erdos-1083-factor-aware-round3": {
+      "phase": "frozen",
+      "decision": "no promotion",
+      "result": "Normalized Boolean quotient host and corrected 28/9 point-pair capacity independently audited; no factor-moment theorem or exponent gain."
+    },
+    "erdos-1083-moment-round4": {
+      "phase": "frozen",
+      "decision": "no promotion",
+      "result": "Independent audit confirms the finite reverse-circle unit-blind moment firewall and the 127 versus 145 label count, but relative Laurent units, actual occurrence mass and fibre improvement remain open."
+    },
+    "erdos-809-absorber-round5": {
+      "phase": "frozen",
+      "decision": "no promotion",
+      "result": "The n=15 finite firewall is independently reproduced, but audit finds none of nine author-side kills matched the full quantified mechanism wording. All nine were downgraded to frozen; no legal absorber or strict kill ratio remains."
+    },
+    "erdos-1083-relative-unit-round5": {
+      "phase": "frozen",
+      "decision": "no promotion",
+      "result": "Independent audit proves the local two-stage rank-5/rank-6 primitive gauge-slice lemma and confirms 127/127 finite count zero gain, while downgrading one over-quantified kill; no power-large unit theorem or exponent gain follows."
+    },
+    "erdos-1083-unit-matrix-round6": {
+      "phase": "frozen",
+      "decision": "no promotion",
+      "result": "Independent audit proves the formal all-m full matrix has rank 2m+2 with primitive gauge kernel and the source-identity matrix has rank 2m+1 with gauge plus spectrum-shift kernel; all nonzero Smith factors are one. Actual power-large realization, all-target fibre and stability remain open, so 3/5 is unchanged."
+    },
+    "erdos-809-output-expansion-round6": {
+      "phase": "frozen",
+      "decision": "finite-model obstruction proved; no public promotion",
+      "result": "The fixed-graph joint-legality lemma and explicit matching certificate were independently audited. Exact bounded searches exclude the stated no-deletion and natural one-exchange families, while two-old-edge/non-natural/larger extensions remain.",
+      "gate": "Finite local model only"
+    },
+    "erdos-809-output-expansion-round7": {
+      "phase": "frozen",
+      "decision": "finite-model census; no public promotion",
+      "result": "Exact mode-2 census covers 3,876 x 496 cases with 3,860 protected and no candidate; mode-3 covers 969 x 4,960 with 968 protected and no candidate. The unique unprotected configuration has 93 traces, 21 singleton traces and exact transversal number 21.",
+      "gate": "No lift from the finite model to the public main-term theorem"
+    },
+    "erdos-809-structural-round8": {
+      "phase": "frozen",
+      "decision": "locked-assignment structure theorem; no public promotion",
+      "result": "The 21 forced singleton edges are exactly the disjoint blocks R x (P union U union W), P x Q, U x W and K2(W), of sizes 12,4,4,1. An independent enumeration of all 68,508 present seven-cycles reconstructs 93 traces and proves the exact transversal number tau=21.",
+      "gate": "No reduction forces the block kernel in arbitrary hard graphs; the public 1/8 constant is unchanged"
+    },
+    "erdos-1083-unit-matrix-round7": {
+      "phase": "frozen",
+      "decision": "exact actual-family linear algebra; no public promotion",
+      "result": "The actual common-X aggregate matrix, its full kernels and Gamma tensor are realized exactly. Raw occurrence directions have the k-2 normalization scale, but conditioning on spectrum profiles remains unresolved.",
+      "gate": "No power-large fibre theorem and no exponent improvement"
+    },
+    "erdos-776-adaptive-round4": {
+      "phase": "frozen",
+      "decision": "uniform fixed-rank route refuted; no public promotion",
+      "result": "For every fixed R>=4 there is an actual odd K4,r9 member whose same-orbit surplus is negative at every rank 3 through R. Exact recurrences and two independent raw replays certify the quantifier order forall R exists j_R.",
+      "gate": "Does not prove one fixed member fails every rank, and does not close adaptive switching or public composition"
+    },
+    "erdos-776-seed-switch-round5": {
+      "phase": "frozen",
+      "decision": "same-interface reset routes refuted; no public promotion",
+      "result": "A single later actual strip simultaneously defeats every member of any fixed finite q-independent same-staircase reset menu through any fixed R. Pointwise, even q-dependent choices retaining the same surplus identity and a canonical next word satisfy gamma_n<-3q+15n-39; for actual q>=300 and n<=42 this is negative.",
+      "gate": "Leading-block or bottom-recurrence changes, terminal recovery, suffix persistence and public composition remain open"
+    },
+    "erdos-776-leading-block-round6": {
+      "phase": "frozen",
+      "decision": "affine slope-budget necessary condition; no public promotion",
+      "result": "In the one-step affine switch model, canonical continuation and asymptotic nonnegative surplus require alpha+delta>=3, where alpha is bottom-transfer q-slope and delta is leading-surplus improvement. All subcritical budgets are ruled out on sufficiently late actual strips.",
+      "gate": "Budget three is not sufficient; no legal Macaulay switch, equality control, suffix persistence or public composition is constructed"
+    },
+    "opg-1757-k5-cross-round3": {
+      "phase": "frozen",
+      "decision": "two-variable component proved; no public promotion",
+      "result": "For the K5-e marked cross edge, the five stabilizer orbits are reconstructed. On a=d=e=1, P=54bc+27b+32c+15 and xi=2(11bc+6b+8c+4); an author-swapped graph-level audit proves xi>0 on the complete distinguished component.",
+      "gate": "Full five-variable stabilizer space, transverse directions, G201 and OPG-1757 remain open"
+    },
+    "opg-1757-k5-cross-be-round4": {
+      "phase": "frozen",
+      "decision": "second cross-edge slice proved; no public promotion",
+      "result": "On a=c=d=1 the complete anchor component is e>alpha, b>-C/A with alpha=-1+sqrt(10)/4. The identity A xi/2=D P+Q, disc(Q)=-9552, Q(alpha)>0 and the D-root ordering prove xi>0 throughout. Independent forest reconstruction passes after correcting one comparison-sign typo.",
+      "gate": "Full five-variable fixed space, transverse directions, G201 and OPG-1757 remain open"
+    },
+    "opg-1757-k5-cross-ab-round5": {
+      "phase": "frozen",
+      "decision": "third cross-edge slice proved; no public promotion",
+      "result": "On c=d=e=1 the complete anchor component is a>beta, b>-C/A. The certificate A xi/2=D P+a^2(120a^2+48a+5), with quadratic discriminant -96 and D-root below beta, proves xi>0 throughout; independent graph enumeration reproduces 128/58 forests.",
+      "gate": "Remaining stabilizer variables, transverse directions, G201 and OPG-1757 remain open"
+    },
+    "erdos-1083-spectrum-conditioning-round8": {
+      "phase": "frozen",
+      "decision": "exact profile dichotomy; no public promotion",
+      "result": "For natural minimum-support units, the full four-coordinate profile has exactly the same fibres as phi_j=min(lambda_j X). A same-sign power-large class has literal range one when its relevant endpoint is zero and is injective otherwise; the residual delta is identically zero.",
+      "gate": "No unconditional branch selection, cross-row rigidity, legal power-large counterfamily or exponent gain"
+    }
+  },
+  "resource_policy_observed": {
+    "lean_rebuilt": false,
+    "mathlib_lean_used": false,
+    "heavy_processes": "bounded exact enumerations only; peak observed WSL use about 3.0 GiB of 31 GiB",
+    "bounded_python": "3 GiB virtual-memory limit and 180-second timeout on heavy probes"
+  },
+  "public_changes": {
+    "OPG-1757": false,
+    "Erdos-776": false,
+    "Erdos-809_main_term": false,
+    "Erdos-1083_exponent": false
+  }
+}

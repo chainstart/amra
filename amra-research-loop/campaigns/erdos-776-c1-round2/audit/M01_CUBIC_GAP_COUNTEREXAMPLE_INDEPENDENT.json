@@ -1,0 +1,44 @@
+{
+  "schema": "amra.erdos776.m01-independent-raw-audit.v1",
+  "actual_state": {
+    "H": 11753977,
+    "b": 4849,
+    "c": 1,
+    "gamma3": -18772,
+    "h": 7168,
+    "n": 11734794,
+    "tau": 19183,
+    "u": 207
+  },
+  "decisive_checks": {
+    "C(54,3)": 24804,
+    "Gpp_margin": 183083,
+    "alpha_decomposition": "C(55,2)+39",
+    "e": 18356,
+    "e_minus_C(54,3)": -6448,
+    "gamma5": 245481
+  },
+  "independence": {
+    "imports_author_evidence": false,
+    "method": "canonical Macaulay expansion plus full raw recurrence",
+    "starting_data": {"j": 7, "k": 4, "q": 4845, "r": 204},
+    "script_sha256": "29c4eaf134d6869caafdcd0a52dece29b89209e9874c493458a46676c13c0a2d",
+    "resource_limit": "512 MiB virtual memory; 120 seconds"
+  },
+  "raw_orbit": {
+    "alpha": 1524,
+    "beta": 2138,
+    "gamma4": -2350,
+    "gamma5_raw": 245481,
+    "gamma5_tail": 245481,
+    "p": 7794,
+    "transition": "++ -> ++",
+    "v": 26150,
+    "x0": 18943541314,
+    "x1": 22931154923589,
+    "y0": 18955276518,
+    "y1": 22950098481735
+  },
+  "verdict": "witness independently reproduced; M01 false while G++ and gamma5 stay positive",
+  "public_problem_closed": false
+}

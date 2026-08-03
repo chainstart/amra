@@ -1,0 +1,14 @@
+{
+  "scope": "triangular-prism marked-triangle-edge stabilizer and a three-variable coarsening",
+  "forest_count": 190,
+  "endpoint_connected_count": 66,
+  "full_orbit_sizes": [2, 1, 2, 2, 1],
+  "full_term_counts": {"P": 79, "xi": 35},
+  "coarsened_resultant": {"total_degree": 28, "term_count": 166},
+  "coarsened_resultant_residual": {"total_degree": 16, "term_count": 52},
+  "exact_negative_island_point": {"x": "3/2", "y": "1/2", "z": "1", "P": "1/64", "xi": "-3/32"},
+  "distinguished_component_counterexample": false,
+  "literal_single_low_degree_square_resultant_ansatz": "killed_on_this coarsening",
+  "component_level_square_wall_routing": "open",
+  "global_promotion": false
+}

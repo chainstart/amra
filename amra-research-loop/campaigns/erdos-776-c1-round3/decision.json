@@ -1,0 +1,29 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Scoped success only: the relaxed s>=3 multi-cap theorem B(a,c)>=A_*(a,c) is proved by audited gamma4 feedback plus high-/low-half kernel closure, so actual dyadic (++ -> ++) gamma4-negative states recover at rank five because legality forces s>=3. Freeze without public promotion: the (--)->(++) recovery/stability branch, a uniform adaptive seed before rank 42, seed persistence/suffix composition, and the explicit passage to the public antichain threshold remain open.",
+  "scoped_result": {
+    "status": "proved",
+    "theorem": "For every relaxed multi-cap state with s>=3, B(a,c)>=A_*(a,c), hence the required base-retaining rank-five cap inequality holds.",
+    "actual_dyadic_consequence": "Actual legal (++ -> ++) gamma4-negative states have s>=3 and therefore recover strictly at rank five.",
+    "audit_status": "independently passed for the gamma4 reduction, high-half kernel, low-half finite base, and low-half analytic tail"
+  },
+  "public_problem": {
+    "status": "not_promoted",
+    "reason": "The scoped (++ -> ++) rank-five theorem is not the full global interface required by the closure contract."
+  },
+  "remaining_interfaces": [
+    "adaptive recovery and stability for the (--)->(++) chamber beyond rank six",
+    "a uniform all-parameter adaptive positive seed before the rank-42 endpoint",
+    "persistence and suffix composition from the local seed/recovery statements",
+    "the explicit implication from the composed dyadic theorem to the public antichain threshold"
+  ],
+  "evidence": [
+    "evidence/MULTI_CAP_GAMMA4_FEEDBACK_REDUCTION.md",
+    "evidence/LOW_HALF_ADJACENT_SUM_KERNEL.md",
+    "audit/GAMMA4_FEEDBACK_REDUCTION_AUDIT.md",
+    "audit/HIGH_HALF_CLOSURE_INDEPENDENT_AUDIT.md",
+    "audit/LOW_HALF_ADJACENT_SUM_INDEPENDENT_AUDIT.md",
+    "decisive_lemma.json"
+  ]
+}

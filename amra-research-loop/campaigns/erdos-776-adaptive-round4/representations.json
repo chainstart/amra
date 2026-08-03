@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R401-stable-q-word",
+      "name": "Stable affine Macaulay word in q",
+      "family": "canonical_word_dynamics",
+      "new_information": "Stores every canonical digit as an affine function of q together with the exact threshold at which digit ordering and remainder legality stabilize.",
+      "first_test": "Reconstruct the proposed K4,r9 rank-seven x/y words and reject at the first failed binomial sum, digit order, or threshold."
+    },
+    {
+      "id": "R402-pascal-aligned-pair",
+      "name": "Pascal-aligned paired words",
+      "family": "canonical_word_dynamics",
+      "new_information": "Aligns the x and y canonical words rank by rank so their leading shifts cancel by Pascal identities before polynomial expansion.",
+      "first_test": "Derive gamma7 for K4,r9 twice, once from direct shadows and once by aligned Pascal cancellation."
+    },
+    {
+      "id": "R403-fixed-parameter-transducer",
+      "name": "Fixed-(k,r) canonical transducer",
+      "family": "finite_state_recurrence",
+      "new_information": "Represents one rank step as a transition on stable affine digit offsets and the current surplus polynomial for fixed k,r.",
+      "first_test": "Enumerate fixed k,r seeds with exact dyadic residues and compare predicted next words with direct Macaulay reconstruction."
+    },
+    {
+      "id": "R404-recovery-rank-profile",
+      "name": "First recovery-rank profile",
+      "family": "finite_state_recurrence",
+      "new_information": "Records the first rank with nonnegative surplus, all preceding signs, and the canonical-stability threshold as functions of fixed k,r.",
+      "first_test": "Search small fixed k,r families for profiles that exceed rank seven or fail to stabilize."
+    },
+    {
+      "id": "R405-dyadic-residue-orbit",
+      "name": "Exact dyadic residue orbit",
+      "family": "actual_lattice",
+      "new_information": "Keeps h=112*2^(j-1), q integrality, legal inequalities, and the fixed-(k,r) residue class instead of treating q as an arbitrary integer.",
+      "first_test": "For every candidate fixed k,r recurrence, determine the exact infinite set of j realizing integral legal q."
+    },
+    {
+      "id": "R406-q-threshold-ledger",
+      "name": "Canonical q-threshold ledger",
+      "family": "actual_lattice",
+      "new_information": "Separates the dyadic start threshold, sign thresholds, and lower-digit canonical thresholds, preventing eventual formulas from being used too early.",
+      "first_test": "Verify the maximum threshold for every displayed K4,r9 rank-seven digit and compare it with q at odd j=33."
+    },
+    {
+      "id": "R407-binomial-basis-surplus",
+      "name": "Binomial-basis surplus polynomial",
+      "family": "exact_sign_certificates",
+      "new_information": "Expands gamma_m in a translated binomial or ordinary polynomial basis where eventual sign follows from exact roots or nonnegative coefficients.",
+      "first_test": "Factor the proposed gamma7 quadratic and certify positivity on the legal q progression without floating-point roots."
+    },
+    {
+      "id": "R408-constant-recurrence-ledger",
+      "name": "Lower-digit constant recurrence ledger",
+      "family": "exact_sign_certificates",
+      "new_information": "Tracks the rapidly growing rank-one constants and verifies when they remain below the preceding affine digit.",
+      "first_test": "Check 647801944<q-20 and 229094347523<q-17 at the claimed first stable member, then propagate under q_(j+2)=4q_j-4."
+    },
+    {
+      "id": "R409-wall-and-recovery-tree",
+      "name": "Borrow-wall recovery tree",
+      "family": "adaptive_interfaces",
+      "new_information": "Branches on the first rank where a canonical constant violates ordering, a borrow occurs, or the surplus becomes nonnegative.",
+      "first_test": "Route the K4,r9 family and nearby fixed-(k,r) families through exact branches with no unlabelled terminal leaf."
+    },
+    {
+      "id": "R410-seed-composition-object",
+      "name": "Adaptive seed composition object",
+      "family": "adaptive_interfaces",
+      "new_information": "Packages recovery rank, actual dyadic legality, surplus margin, and suffix-persistence hypotheses for later composition to rank 42.",
+      "first_test": "Instantiate it on K4,r9 rank seven and list every missing condition preventing public composition."
+    }
+  ]
+}

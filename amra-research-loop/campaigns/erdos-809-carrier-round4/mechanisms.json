@@ -1,0 +1,144 @@
+{
+  "mechanisms": [
+    {
+      "id": "M809R4-01",
+      "representation_id": "R809R4-01",
+      "family": "alternating_path_augmentation",
+      "decisive_claim": "Every minimal deficient cut has a graph-legal root-state alternating path ending at a previously unused actual missing B-edge and increasing matching rank by one.",
+      "would_close": [
+        "actual carrier creation for every deficient cut"
+      ],
+      "kill_test": "Exact n=14 root reversals and small reserve states: kill universal reachability if a terminal deficient component has no unused actual edge.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:28:10+00:00",
+      "status_evidence": "Exact full n=14 graph has terminal root-state component, deficiency two, and no free actual carrier; evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:32:06+00:00"
+    },
+    {
+      "id": "M809R4-02",
+      "representation_id": "R809R4-02",
+      "family": "alternating_path_augmentation",
+      "decisive_claim": "The alternating search needs only visit each demand once because no legal root switch can return to a prior carrier with a different ownership state.",
+      "would_close": [
+        "polynomial rank-preserving augmentation"
+      ],
+      "kill_test": "Find a graph-realizable alternating cycle whose ownership state changes or a repeated state is required; either kills the simple-forest claim.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:28:10+00:00",
+      "status_evidence": "Independent audit: the witness revisits the same reserve under a different root state, but the claim does not define root state as part of ownership state; literal statement match is not established.",
+      "updated_at": "2026-08-03T03:40:29+00:00"
+    },
+    {
+      "id": "M809R4-03",
+      "representation_id": "R809R4-03",
+      "family": "absorbing_reservoir_gadgets",
+      "decisive_claim": "Every owned A diagonal in a tight circuit yields a one-demand absorber whose output is an actual B missing edge outside the occupied canonical reserve.",
+      "would_close": [
+        "one new carrier per owned diagonal"
+      ],
+      "kill_test": "On the n=14 graph enumerate every missing B-edge and K(bc); kill if all outputs remain bc or cz.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:28:10+00:00",
+      "status_evidence": "Four owned A diagonals coexist with no missing B-edge outside K(bc); evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:32:06+00:00"
+    },
+    {
+      "id": "M809R4-04",
+      "representation_id": "R809R4-04",
+      "family": "absorbing_reservoir_gadgets",
+      "decisive_claim": "A reservoir containing at least twice as many absorber certificates as residual demands always contains disjoint actual absorbers saturating those demands.",
+      "would_close": [
+        "bounded-overlap absorber cleanup"
+      ],
+      "kill_test": "Build graph-realizable certificates sharing one output or witness; kill if catalogue size grows while absorber matching rank stays one.",
+      "status": "surviving",
+      "created_at": "2026-08-03T03:28:10+00:00",
+      "status_evidence": "No actual bounded-overlap absorber catalogue was present in the exact countergraph, so the conditional absorber-matching route remains unrefuted.",
+      "updated_at": "2026-08-03T03:32:06+00:00"
+    },
+    {
+      "id": "M809R4-05",
+      "representation_id": "R809R4-05",
+      "family": "matroid_transversal_exchange",
+      "decisive_claim": "The graph-realizable carrier sets form a matroid on missing B-edges, and each distinct owned A diagonal extends every nonmaximal independent carrier set by basis exchange.",
+      "would_close": [
+        "exchange-rank gain from A ownership"
+      ],
+      "kill_test": "Test hereditary and augmentation axioms on small exact reserve systems and the n=14 circuit; kill if three A owners coexist with B rank two and no extending B element.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:28:10+00:00",
+      "status_evidence": "Independent audit: the intended A-owner to new B-element rank-gain inference is obstructed, but the literal B-ground matroid augmentation claim lacks a typed A-to-B extension map and is not strictly refuted.",
+      "updated_at": "2026-08-03T03:40:29+00:00"
+    },
+    {
+      "id": "M809R4-06",
+      "representation_id": "R809R4-06",
+      "family": "matroid_transversal_exchange",
+      "decisive_claim": "The C7 switch digraph is a gammoid whose minimum source-to-free-carrier cut is at least the Hall deficiency in every hard graph.",
+      "would_close": [
+        "disjoint graph-switch paths creating all missing rank"
+      ],
+      "kill_test": "On the n=14 graph compute actual sinks outside occupied reserve; kill if positive deficiency coexists with zero free-carrier cut capacity.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:28:10+00:00",
+      "status_evidence": "The exact graph has positive deficiency and zero path capacity to any free actual B carrier; evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:32:07+00:00"
+    },
+    {
+      "id": "M809R4-07",
+      "representation_id": "R809R4-07",
+      "family": "odd_cycle_rotation_uncrossing",
+      "decisive_claim": "Every inclusion-minimal tight reserve circuit admits a simultaneous odd-cycle/root rotation that strictly enlarges its union of actual canonical reserves.",
+      "would_close": [
+        "rank-increasing rotation of every circuit"
+      ],
+      "kill_test": "Exhaust all root choices on the n=14 three-colour circuit; unchanged base and reserve kill universality.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:28:10+00:00",
+      "status_evidence": "All 16 graph-legal root states preserve base bc and K(bc); evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:32:07+00:00"
+    },
+    {
+      "id": "M809R4-08",
+      "representation_id": "R809R4-08",
+      "family": "odd_cycle_rotation_uncrossing",
+      "decisive_claim": "Crossing deficient circuits can always be uncrossed to a laminar family while preserving legal reserve neighbourhoods, ownership, and total deficiency, and some leaf rotation releases a new carrier.",
+      "would_close": [
+        "global nonreuse by laminarization"
+      ],
+      "kill_test": "Use identical-base crossing cuts in the n=14 carrier graph; kill if every union/intersection or rotation preserves deficiency with no released actual edge.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:28:10+00:00",
+      "status_evidence": "Crossing minimal deficient triples persist under every actual root rotation with no released edge; evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:32:07+00:00"
+    },
+    {
+      "id": "M809R4-09",
+      "representation_id": "R809R4-09",
+      "family": "probabilistic_nibble",
+      "decisive_claim": "In every inclusion-minimal hard reserve circuit, two distinct demands share at most half of either demand's actual carrier neighbourhood; iterating this local bound gives a low-codegree nibble matching all but o(D) demands.",
+      "would_close": [
+        "asymptotically negligible residual carrier deficit"
+      ],
+      "kill_test": "The n=14 exact graph and blow-ups of identical-base classes: linear codegree equal to degree kills the universal codegree premise.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:28:10+00:00",
+      "status_evidence": "Pair codegree two equals individual degree two, contradicting the half-degree claim; evidence/GRAPH_REALIZABLE_CARRIER_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:32:07+00:00"
+    },
+    {
+      "id": "M809R4-10",
+      "representation_id": "R809R4-10",
+      "family": "probabilistic_nibble",
+      "decisive_claim": "After one nibble round, the expected maximum Hall deficiency contracts by a fixed factor whenever total actual carrier count is at least demand count.",
+      "would_close": [
+        "iterated probabilistic carrier payment"
+      ],
+      "kill_test": "Enumerate all sampling outcomes on a correlated graph-realizable circuit; kill if every outcome retains the same deficient cut despite sufficient unrelated carriers elsewhere.",
+      "status": "surviving",
+      "created_at": "2026-08-03T03:28:11+00:00",
+      "status_evidence": "The exact countergraph does not meet the actual-carrier-rich antecedent and no universal dummy was substituted; strict kill remains open.",
+      "updated_at": "2026-08-03T03:32:07+00:00"
+    }
+  ]
+}

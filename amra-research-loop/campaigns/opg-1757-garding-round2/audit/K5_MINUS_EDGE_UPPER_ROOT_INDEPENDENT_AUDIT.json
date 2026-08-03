@@ -1,0 +1,44 @@
+{
+  "schema": "amra.opg1757.k5-minus-edge.upper-root-independent-audit.v1",
+  "status": "passed",
+  "scope": "K5-e high-triangle 2,4,2 stabilizer slice only",
+  "independent_reconstruction": {
+    "method": "incidence-matrix rank forest test plus independent endpoint graph traversal",
+    "forest_count": 134,
+    "marked_connected_count": 70,
+    "P_and_xi_reconstructed": true
+  },
+  "component_equality": {
+    "status": "passed",
+    "sheet_invariant": "S_F=partial_a(F), with S_F^2-disc(F)=4*A*F",
+    "A_wall": "upper root tends to +infinity at the positive A=0 wall",
+    "epigraph_connected": true
+  },
+  "G_root_continuity": {
+    "status": "passed",
+    "anchor_fibre_discriminant": -384,
+    "birth_walls": ["z=1", "L=0", "N=0"],
+    "crossing_walls": ["L=0", "H=0"],
+    "roots_from_infinity_excluded": "D has a positive minimum along every compact base path"
+  },
+  "N_wall": {
+    "equation": "N=(y^2-3)z+(y-2)^2+1",
+    "positive_z_range": "1<y<sqrt(3)",
+    "double_root_location": "F<0, strictly below the upper F root"
+  },
+  "conclusion": "G>0 and xi>0 on the complete distinguished component of the local slice",
+  "mechanism_status_recommendation": {
+    "id": "G215",
+    "status": "proved",
+    "statement_match": "local K5-e high-triangle 2,4,2 stabilizer slice only"
+  },
+  "excluded_claims": [
+    "eight independent unmarked-edge variables",
+    "G201",
+    "global moving-edge lemma",
+    "OPG-1757"
+  ],
+  "g201_status_changed": false,
+  "campaign_phase_changed": false
+}
+

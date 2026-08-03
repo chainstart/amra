@@ -1,0 +1,30 @@
+{
+  "schema": "amra.erdos1083.spectrum-conditioning-round8.absolute-profile.v1",
+  "mathematical_status": "proved",
+  "profile_definition": "For an actual positive Laurent mask P_A, u_-(P_A)=min A in the natural real order.",
+  "exact_interface": {
+    "profile": "Pi_j=(phi_j,phi_0,v-phi_j,alpha_0)",
+    "phi_j": "min(lambda_j X)",
+    "range_identity": "|Pi(I)|=|{phi_j:j in I}| for every leaf set I",
+    "fibre_identity": "Pi^{-1}(phi,phi_0,v-phi,alpha_0)={j:phi_j=phi}",
+    "residual": "delta_j=alpha_j+phi_j-v=0"
+  },
+  "same_sign_dichotomy": {
+    "positive": "phi_j=lambda_j min(X)",
+    "negative": "phi_j=lambda_j max(X)",
+    "zero_anchor": "literal profile range one",
+    "nonzero_anchor": "literal profile injective; range |J_sigma|>=K/2=t^(5/9-o(1))"
+  },
+  "bounded_reproduction": {
+    "command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-spectrum-conditioning-round8/evidence/verify_absolute_profile_range.py",
+    "result": "pass; 31 formula guards",
+    "script_sha256": "0555731e679cdeb799ce6ec448d6f9912cbb35c65d5083ace8ac58f3bf62c071",
+    "proof_sha256": "45b7ed3821ddcc191911dfa7e6892064d1b56cccb61a1ffabb21c62259cb3bbc"
+  },
+  "scope": {
+    "unconditional_power_large_counterfamily_constructed": false,
+    "branch_for_every_near_extremal_configuration_decided": false,
+    "all_target_bridge_proved": false,
+    "public_exponent_changed": false
+  }
+}

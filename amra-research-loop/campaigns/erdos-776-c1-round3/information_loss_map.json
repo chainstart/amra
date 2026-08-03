@@ -1,0 +1,47 @@
+{
+  "inherited_methods": [
+    {
+      "method": "audited uniform relaxed no-borrow gamma4 theorem for c>=2",
+      "loss_step": "pass from every fixed c and every sequence c(q)->infinity to a non-effective uniform threshold Q, then stop inside relaxed promotion coordinates",
+      "lost_information": "an explicit threshold or finite completion below Q and the exact routing of every actual Macaulay orbit into the relaxed chart",
+      "consequence": "the theorem closes a comparator, but does not by itself produce an actual seed before rank 42 for every ambient parameter"
+    },
+    {
+      "method": "six sign-transition chamber atlas for c=1",
+      "loss_step": "quotient full canonical words to the two borrow signs before proving that the observed transitions exhaust all actual states",
+      "lost_information": "lower digits, wall multiplicities, and the actual (++ )->(++ ) transition first seen at (j,b)=(6,2440)",
+      "consequence": "five positive chamber theorems and one counterfamily cannot be assembled into a universal c=1 recovery theorem"
+    },
+    {
+      "method": "two-row no-borrow recurrence",
+      "loss_step": "write gamma6 using P=U_3(p)-tau+1 and V=U_3(v)-tau only after silently restricting to P,V>=0",
+      "lost_information": "the canonical borrow correction when either second tail crosses zero",
+      "consequence": "rank-six recovery is not a total operation on all gamma5-negative actual states unless negativity itself forces P,V>=0"
+    },
+    {
+      "method": "cubic sufficient gate for the (++ )->(++ ) chamber",
+      "loss_step": "replace the exact coupled increment U_3(p+e)-U_3(p) by a p-free lower bound and demand e>=binom(a-1,3)",
+      "lost_information": "the base point p and nonlinear cross-term in the Macaulay raise",
+      "consequence": "an actual audited state refutes the cubic strengthening while leaving the required G++ margin positive"
+    },
+    {
+      "method": "bounded moving-boundary and negative-fibre scans",
+      "loss_step": "sample bounded k,r or finitely many offsets near moving walls",
+      "lost_information": "unbounded co-growth regimes and new canonical digit patterns at later dyadic scales",
+      "consequence": "the observed gamma5-negative box expands with scale and absence of double-negative rows remains finite evidence"
+    },
+    {
+      "method": "rank-slot Hall/capacity-flow reinterpretation",
+      "loss_step": "introduce competing seed tokens and shared slots that are absent from the inherited one-orbit persistence lemma",
+      "lost_information": "the actual scalar suffix structure N(M) of legal nonnegative ranks",
+      "consequence": "Hall feasibility solves an invented interface; the genuine bridge is existence of one actual seed followed by suffix persistence"
+    }
+  ],
+  "required_new_information": [
+    "a total actual-orbit transition map retaining complete canonical words and all borrow/cap walls",
+    "a scale-uniform inequality for exact G++ that keeps both the base p and increment e instead of the refuted cubic proxy",
+    "a proof or counterexample to the implication gamma5<0 => P,V>=0 and gamma6>=0 in the actual (--)->(++) chamber",
+    "an effective c>=2 completion or an alternative argument avoiding the unknown uniform threshold Q",
+    "a checked composition from chamber coverage to the one-positive-seed suffix theorem and the public n-3-rank antichain construction"
+  ]
+}

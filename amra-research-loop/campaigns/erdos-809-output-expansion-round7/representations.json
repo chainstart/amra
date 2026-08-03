@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R809O7-01",
+      "name": "bad-C7 admissible-edge trace hypergraph",
+      "family": "constraint-duality",
+      "new_information": "Each bad C7 becomes the exact subset of old edges whose deletion can destroy it.",
+      "first_test": "Reproduce the binary hitting-pair emptiness on all 3876 round-six configurations."
+    },
+    {
+      "id": "R809O7-02",
+      "name": "496-bit binary transversal mask",
+      "family": "bitset-transversal",
+      "new_information": "Represents every old-edge deletion pair exactly and intersects cycle-incidence masks without relaxation.",
+      "first_test": "Compare selected masks with direct delete-and-replay on deterministic sample configurations."
+    },
+    {
+      "id": "R809O7-03",
+      "name": "4960-bit triple transversal mask",
+      "family": "bitset-transversal",
+      "new_information": "Tracks all three-edge hitting sets over the thirty-two admissible old edges in one integer.",
+      "first_test": "Intersect exact masks for eighteen-new-edge configurations and retain every surviving triple."
+    },
+    {
+      "id": "R809O7-04",
+      "name": "protected-cycle certificate",
+      "family": "obstruction-core",
+      "new_information": "Separates bad C7s containing no admissible old edge from obstructions having finite transversal number.",
+      "first_test": "Count protected-cycle assignments independently of the triple-mask outcome."
+    },
+    {
+      "id": "R809O7-05",
+      "name": "minimum-transversal profile",
+      "family": "obstruction-core",
+      "new_information": "Records whether the exact bad-cycle family has hitting number zero, one, two, three, or exceeds the exchange budget.",
+      "first_test": "Classify all two-exchange survivors before entering the threshold-preserving triple model."
+    },
+    {
+      "id": "R809O7-06",
+      "name": "four-state colour replay",
+      "family": "typed-recolouring",
+      "new_information": "Keeps base, both singleton switches and the joint switch as separately named predicates.",
+      "first_test": "Replay all four states for each surviving deletion triple."
+    },
+    {
+      "id": "R809O7-07",
+      "name": "L4 deletion-resilience tensor",
+      "family": "path-connectivity",
+      "new_information": "Checks every endpoint pair after every deletion of at most two other vertices.",
+      "first_test": "Run full L4(2) only after exact C7 transversal filtering."
+    },
+    {
+      "id": "R809O7-08",
+      "name": "canonical reserve-output ledger",
+      "family": "typed-matching",
+      "new_information": "Distinguishes old reserve membership, switched reserve membership and missing named outputs.",
+      "first_test": "Verify wz in K(cw) minus K(bc) and uz in K(cu) minus K(bc)."
+    },
+    {
+      "id": "R809O7-09",
+      "name": "locked-cut matching profile",
+      "family": "typed-matching",
+      "new_information": "Computes old and augmented matching rank rather than counting output paths.",
+      "first_test": "Demand the explicit rank-four allocation wz,uz,bc,cz."
+    },
+    {
+      "id": "R809O7-10",
+      "name": "threshold exchange budget",
+      "family": "finite-extremal-model",
+      "new_information": "Couples eighteen new incident edges to exactly three old deletions at n=16,e=65.",
+      "first_test": "Enumerate all choose(19,16)=969 allowed new-edge assignments."
+    }
+  ]
+}

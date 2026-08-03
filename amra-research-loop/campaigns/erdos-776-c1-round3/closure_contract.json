@@ -1,0 +1,19 @@
+{
+  "exact_statement": "Determine how large n must be as a function of r >= 2 so that there is an antichain in 2^[n] occupying n-3 distinct ranks and containing at least r members on every occupied rank.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos776/README.md",
+  "success_conditions": [
+    "global_interface_closed"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round three begins from commit ab4b524 and the audited round-two refutation of the cubic G++ strengthening; inherited results are evidence only and receive no new promotion credit.",
+    "Global closure requires an all-parameter adaptive seed before the rank-42 endpoint for every legal dyadic strip and offset, plus the explicit passage from that seed theorem to the public antichain threshold.",
+    "This campaign prioritizes the actual c=1 no-borrow and final (--)->(++) chambers. Finite scans, another fixed-rank subfamily, or a conditional recovery formula do not satisfy the contract."
+  ]
+}

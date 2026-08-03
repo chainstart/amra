@@ -1,0 +1,40 @@
+{
+  "inherited_methods": [
+    {
+      "method": "round-six one-edge exchange search",
+      "loss_step": "stop after proving that no single admissible old edge hits every bad C7",
+      "lost_information": "whether two or more coordinated deletions can remove disjoint obstruction cores",
+      "exact_witness": "all 11628 one-exchange assignments have empty one-edge hitting intersection",
+      "consequence": "higher exchanges require exact hitting-set masks, not repeated single-edge tests"
+    },
+    {
+      "method": "post-freeze two-edge experiment",
+      "loss_step": "record only that all binary hitting-pair intersections are empty",
+      "lost_information": "which configurations contain protected cycles and which merely have transversal number at least three",
+      "exact_witness": "3860 of 3876 configurations have a protected bad C7; the remaining sixteen have hitting number at least three",
+      "consequence": "round seven must preserve exact obstruction traces and distinguish absolute from bounded-exchange failure"
+    },
+    {
+      "method": "pair-safety-only pruning",
+      "loss_step": "interpret survival of the C7 hitting filter as a valid graph",
+      "lost_information": "base/singleton/joint replay, L4(2), reserve definition, canonical output membership and matching rank",
+      "exact_witness": "the hitting condition is necessary but not sufficient",
+      "consequence": "every surviving deletion triple must undergo the full named predicate replay"
+    },
+    {
+      "method": "local finite output construction",
+      "loss_step": "promote one n=16 witness or absence result to the all-n extremal statement",
+      "lost_information": "scalable output overlap, every-cut expansion and composition with all hard branches",
+      "exact_witness": "the frozen closure contract excludes finite verification and conditional bridges",
+      "consequence": "all finite outcomes remain route evidence only"
+    }
+  ],
+  "required_new_information": [
+    "the exact triple hitting-set profile for all threshold-preserving eighteen-new-edge assignments",
+    "full graph and colour replay for every surviving deletion triple",
+    "a separation between protected bad cycles and finite transversal-number obstructions",
+    "if a witness exists, an explicit two-output ownership and matching ledger",
+    "a scalable theorem converting legal local outputs into every-cut expansion across all public hard branches"
+  ],
+  "forbidden_shortcut": "Do not call an empty finite search a universal theorem, and do not call a surviving hitting triple a witness before all predicates are replayed."
+}

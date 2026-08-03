@@ -1,0 +1,126 @@
+{
+  "actual_legality": {
+    "conclusion": "q+s+1<h forces s>=3; this does not say every s>=3 tuple is legal",
+    "finite_guard_cases": 5990,
+    "symbolic_s1": "q=2h-2+r, so q+2>h",
+    "symbolic_s2": "q=h+(r-3)/2, so q+3=h+(r+3)/2>h for actual positive r"
+  },
+  "conjectural_or_finite_only": [
+    "relaxed carry theorem for every s>=2",
+    "uniform success of all five endpoint branches",
+    "absence of s=2 or s=3 failures beyond the finite scan",
+    "global/public Erdos-776 closure"
+  ],
+  "counterfamily_guards": {
+    "first_invalid_extension": {
+      "a": 2,
+      "beta": 11,
+      "claimed_beta": 9,
+      "e": 0,
+      "excess_over_claim": 2,
+      "r": 5,
+      "s": 2
+    },
+    "first_s1_member": {
+      "A": 7,
+      "E": 6,
+      "K": 1,
+      "R": 28,
+      "a": 6,
+      "alpha": 20,
+      "beta": 27,
+      "c": 6,
+      "d": 7,
+      "gamma4": -9,
+      "p": 22,
+      "tau": 9,
+      "v": 41
+    },
+    "gamma3_wall_checks": 3972,
+    "gamma3_wall_extension_verdict": "refuted for every s>=2: beta=C(r,2)-1+s(s-1)>C(r,2)",
+    "s1_family_checked_a": [
+      6,
+      500
+    ]
+  },
+  "engine": "independent canonical-word reconstruction; no author checker import",
+  "finite_relaxed_scan": {
+    "1": {
+      "admissible": 876058,
+      "failures": 750926,
+      "first_failure": {
+        "a": 4,
+        "alpha": 9,
+        "beta": 14,
+        "c": 3,
+        "d": 4,
+        "e": 3,
+        "gamma4": -7,
+        "margin": -10,
+        "p": 1,
+        "r": 6,
+        "s": 1,
+        "tau": 7,
+        "v": 9
+      }
+    },
+    "2": {
+      "admissible": 158658,
+      "failures": 0,
+      "first_failure": null
+    },
+    "3": {
+      "admissible": 17085,
+      "failures": 0,
+      "first_failure": null
+    },
+    "4": {
+      "admissible": 0,
+      "failures": 0,
+      "first_failure": null
+    },
+    "5": {
+      "admissible": 0,
+      "failures": 0,
+      "first_failure": null
+    },
+    "6": {
+      "admissible": 0,
+      "failures": 0,
+      "first_failure": null
+    },
+    "7": {
+      "admissible": 0,
+      "failures": 0,
+      "first_failure": null
+    },
+    "8": {
+      "admissible": 0,
+      "failures": 0,
+      "first_failure": null
+    }
+  },
+  "fixed_cell_guards": {
+    "carry_identity_states": 215574,
+    "five_endpoint_cells": 3876,
+    "fixed_A_difference_pairs": 198810,
+    "interval_cells": 3876,
+    "top_branch_states_s_ge_2": 2572
+  },
+  "lean_used": false,
+  "proved_reductions": [
+    "complement and canonical-word identities",
+    "exact D(a,c) top-cell equivalence",
+    "s=1 infinite counterfamily for every a>=6",
+    "actual inequality q+s+1<h forces s>=3",
+    "fixed-A differences, interval intersection and five possible lower endpoints",
+    "stronger upstream carry gap A>=a+s for s>=2 and the top-only sufficient branch"
+  ],
+  "public_status_changed": false,
+  "refuted_claims": [
+    "the proposed gamma3-wall extension has beta=C(r,2)-1 for s>=2",
+    "its downstream tau, p, stable-top margin and gamma4 formulas as stated"
+  ],
+  "schema": "amra.erdos776.multi-cap-reductions-independent-audit.v1",
+  "scope": "exact reductions plus bounded guards; no all-parameter absence inference"
+}

@@ -1,0 +1,16 @@
+{
+  "exact_statement": "Within the exact locked n=16 three-deletion natural-switch model of round7, classify the unique unprotected assignment and its 93 bad-C7 deletion traces structurally, proving a scoped necessary-condition or an exact no-go; do not infer an arbitrary-graph theorem.",
+  "source": "amra-research-loop/campaigns/erdos-809-output-expansion-round7/evidence/TRIPLE_EXCHANGE_RESULT.json and https://www.erdosproblems.com/809",
+  "success_conditions": ["standalone_decisive_lemma"],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "The universe is only the locked n=16 assignment omitting bu,bw,uw from the round7 natural-switch model.",
+    "A successful structural classification remains a finite theorem and does not change the public 1/8 problem."
+  ]
+}

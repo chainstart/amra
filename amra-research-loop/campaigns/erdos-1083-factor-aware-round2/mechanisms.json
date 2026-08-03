@@ -1,0 +1,304 @@
+{
+  "mechanisms": [
+    {
+      "id": "M1083R2-01",
+      "representation_id": "R1083R2-01",
+      "family": "factor_labelled_algebra",
+      "decisive_claim": "For the actual simultaneous exact-block identities, either labelled moments of degree at most L=O(log t) admit at most t^(5/9-epsilon) row profiles, or a t^(5/9-o(1)) subfamily shares a bounded factor-labelled profile that forces common-X scalar-copy rigidity and then more than t^(3+epsilon) distance labels.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Apply the complete Phi6 middle layer. The claim must explicitly fail because Phi6 lacks the common-X positive Euclidean interface; if labelled degree-one separation alone triggers a gain, kill it.",
+      "exponent_ledger": {
+        "input": "K=t^(5/9-o(1)), S=t^(7/9+o(1)), U=t^(5/6+o(1)), baseline labels t^(3+o(1))",
+        "required_output": "either at most t^(5/9-epsilon) admissible profiles or a retained t^(5/9-o(1)) core producing t^(3+epsilon) labels",
+        "forbidden_loss": "no pigeonhole or jet truncation may cost t^eta without eta<epsilon"
+      },
+      "phi6_kill_test": {
+        "model": "B=(1+Y)prod_i(1-X_i+X_i^2), Q_A indexed by the middle layer",
+        "must_use_to_survive": "common-X scalar-copy plus both positive Euclidean multiples",
+        "kill_condition": "factor-labelled degree-one recovery of A alone is treated as rigidity or distance gain"
+      },
+      "status": "surviving",
+      "created_at": "2026-08-03T01:39:37+00:00",
+      "status_evidence": "Phi6 is a hypothesis miss; factor-labelled inverse theorem remains open",
+      "updated_at": "2026-08-03T01:47:05+00:00"
+    },
+    {
+      "id": "M1083R2-02",
+      "representation_id": "R1083R2-02",
+      "family": "factor_labelled_algebra",
+      "decisive_claim": "A bounded set of positive-character logarithmic jets determines every admissible labelled complement Q_j up to a bounded ambiguity; power-many ambiguous rows lie on one bounded-degree scalar-copy reciprocal locus yielding a fixed distance-exponent gain.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "On Phi6 the jets recover A but there is no scalar-copy locus. Kill any inverse theorem using only factor labels, augmentation, or divisor membership, and test zeros that make logarithmic jets singular.",
+      "exponent_ledger": {
+        "input": "K=t^(5/9-o(1)) labelled rows",
+        "required_output": "t^o(1) jet ambiguity or a bounded-degree locus retaining t^(5/9-o(1)) rows and yielding t^(3+epsilon) labels",
+        "forbidden_loss": "the number of characters and exceptional zero patterns must be t^o(1)"
+      },
+      "phi6_kill_test": {
+        "model": "Phi6 labelled logarithmic jets",
+        "must_use_to_survive": "one common scalar source and actual Euclidean chart",
+        "kill_condition": "subset recovery in the Boolean divisor lattice is declared a bounded scalar-copy locus"
+      },
+      "status": "killed",
+      "created_at": "2026-08-03T01:39:37+00:00",
+      "status_evidence": "Exact jet recovery branch has no row-saving or distance-label closure",
+      "updated_at": "2026-08-03T01:47:05+00:00"
+    },
+    {
+      "id": "M1083R2-03",
+      "representation_id": "R1083R2-03",
+      "family": "divisor_lattice_combinatorics",
+      "decisive_claim": "The row omission code of a common-X transverse positive-multiple family cannot contain a middle-layer Boolean code of size t^(5/9-o(1)); it either has size at most t^(5/9-epsilon) or has a power-large sunflower whose core produces more than t^(3+epsilon) distances.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Phi6 is exactly a full middle-layer Boolean divisor code. The theorem survives only if a named scalar-copy, positivity, or Euclidean hypothesis excludes it; otherwise this mechanism is killed.",
+      "exponent_ledger": {
+        "input": "K=t^(5/9-o(1)) codewords and at most O(log t) heavy factor occurrences",
+        "required_output": "a t^epsilon saving in code size or a sunflower core whose Euclidean labels exceed t^(3+epsilon)",
+        "forbidden_loss": "ordinary middle-layer or entropy bounds with exponent at least 5/9 do not count"
+      },
+      "phi6_kill_test": {
+        "model": "complete middle layer A subset [d]",
+        "must_use_to_survive": "a hypothesis false for independent coordinate factors but true for common-X scalar copies",
+        "kill_condition": "an incidence-only forbidden-code theorem excludes binom(d,floor(d/2)) rows"
+      },
+      "status": "killed",
+      "created_at": "2026-08-03T01:39:37+00:00",
+      "status_evidence": "Phi6 refutes the incidence-only compression available to this representation",
+      "updated_at": "2026-08-03T01:47:05+00:00"
+    },
+    {
+      "id": "M1083R2-04",
+      "representation_id": "R1083R2-04",
+      "family": "divisor_lattice_combinatorics",
+      "decisive_claim": "Decorated factor-row expansion forces at least t^epsilon mutually independent Euclidean label directions on a t^(5/9-o(1)) hub, and their incidence product yields more than t^(3+epsilon) global distance labels.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Phi6 has strong factor-row expansion without Euclidean labels. Kill any proof that converts expansion to distance gain before using the common-X labelled cell map.",
+      "exponent_ledger": {
+        "input": "K=t^(5/9-o(1)) rows with factor-neighbour expansion",
+        "required_output": "at least t^epsilon independent actual distance-label directions whose multiplicity ledger gives t^(3+epsilon)",
+        "forbidden_loss": "factor neighbours cannot be counted directly as distance labels"
+      },
+      "phi6_kill_test": {
+        "model": "Phi6 Boolean incidence graph",
+        "must_use_to_survive": "decorations by scalar parameter and Euclidean label map",
+        "kill_condition": "unlabelled expansion alone implies the public exponent gain"
+      },
+      "status": "killed",
+      "created_at": "2026-08-03T01:39:37+00:00",
+      "status_evidence": "Factor expansion has no injective conversion to Euclidean labels",
+      "updated_at": "2026-08-03T01:47:05+00:00"
+    },
+    {
+      "id": "M1083R2-05",
+      "representation_id": "R1083R2-05",
+      "family": "scalar_copy_rigidity",
+      "decisive_claim": "After quotienting translation reflection and scale, the simultaneous common-X coefficient Jacobian has codimension at least epsilon log t unless all power-many rows lie in one bounded-degree reciprocal ruled family; either branch gives more than t^(3+epsilon) distance labels.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Phi6 coordinate switches must fail the common-X Jacobian hypotheses. If they satisfy the formal rank inequality after independent coordinates are substituted, the proposed rigidity statement is too weak and is killed.",
+      "exponent_ledger": {
+        "input": "K=t^(5/9-o(1)) scalar parameters modulo three global symmetries",
+        "required_output": "codimension epsilon log t or a bounded-degree locus with t^(5/9-o(1)) rows and t^(3+epsilon) labels",
+        "forbidden_loss": "symmetry quotient and singular fibers must cost only t^o(1)"
+      },
+      "phi6_kill_test": {
+        "model": "independent-coordinate Phi6 switches",
+        "must_use_to_survive": "all rows are lambda_j copies of one X",
+        "kill_condition": "replacing independent X_i by formal parameters makes the Jacobian conclusion appear valid"
+      },
+      "status": "killed",
+      "created_at": "2026-08-03T01:39:37+00:00",
+      "status_evidence": "Survivor deepening found a typed-interface failure: scalar-copy identity belongs to F_j=P_{lambda_j X}, while M01 moments concern signed quotient Q_j; Q_j(lambda_j X) and its Jacobian are undefined without a new parametrization. See evidence/M01_M05_M10_TYPED_CHAIN_NO_GO.md.",
+      "updated_at": "2026-08-03T01:53:24+00:00"
+    },
+    {
+      "id": "M1083R2-06",
+      "representation_id": "R1083R2-06",
+      "family": "scalar_copy_rigidity",
+      "decisive_claim": "A power-large family of actual scalar copies with a common bounded factor-labelled cross-ratio atlas has bounded chart multiplicity; distinct residual charts inject into actual distance labels strongly enough to exceed t^(3+epsilon).",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Phi6 and mixed tensor switches have many labelled ratios but no single homothetic source. Kill the claim if either passes the atlas hypotheses or if same-line cyclotomic rows exceed the ledger without new labels.",
+      "exponent_ledger": {
+        "input": "K=t^(5/9-o(1)) homothetic rows",
+        "required_output": "t^o(1) chart multiplicity and more than t^(3+epsilon) labels after ruled exceptions",
+        "forbidden_loss": "no extraction below t^(5/9-epsilon) is compatible with closure"
+      },
+      "phi6_kill_test": {
+        "model": "Phi6 and mixed tensor switch boxes",
+        "must_use_to_survive": "one common homothety class with labelled exponent differences",
+        "kill_condition": "coordinatewise ratios from unrelated sources satisfy the atlas"
+      },
+      "status": "killed",
+      "created_at": "2026-08-03T01:39:37+00:00",
+      "status_evidence": "Cross-ratio chart count lacks a distance-label multiplicity theorem",
+      "updated_at": "2026-08-03T01:47:05+00:00"
+    },
+    {
+      "id": "M1083R2-07",
+      "representation_id": "R1083R2-07",
+      "family": "positivity_and_convexity",
+      "decisive_claim": "The pair of positive localizing matrices coming from F_0Q_j and R_jQ_j has a uniform rank-or-debt gap: every signed row spends t^epsilon typed capacity, so a t^(5/9-o(1)) family forces more than t^(3+epsilon) Euclidean labels.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Replay the simultaneous-positive Q_S escape and Phi6 products. Any localizing inequality implied by one multiplier, augmentation, or arbitrary PSD completion is killed.",
+      "exponent_ledger": {
+        "input": "K=t^(5/9-o(1)) rows and two positive products per row",
+        "required_output": "typed debt at least t^epsilon per signed row or a direct t^(3+epsilon) label injection",
+        "forbidden_loss": "localizing degree and rank truncation must be t^o(1)"
+      },
+      "phi6_kill_test": {
+        "model": "Phi6 positive products and inherited two-row signed escape",
+        "must_use_to_survive": "simultaneous two-multiplier compatibility plus common-X geometry",
+        "kill_condition": "one positive multiplier or PSD completion proves the rank gap"
+      },
+      "status": "killed",
+      "created_at": "2026-08-03T01:39:37+00:00",
+      "status_evidence": "Q_S gives paired positive multiples with constant debt, refuting uniform t^epsilon debt",
+      "updated_at": "2026-08-03T01:47:05+00:00"
+    },
+    {
+      "id": "M1083R2-08",
+      "representation_id": "R1083R2-08",
+      "family": "positivity_and_convexity",
+      "decisive_claim": "There is a typed max-flow/min-cut theorem for negative coefficients of all Q_j in which payment routes through both positive products cannot be reused; either total signed-row capacity is t^(5/9-epsilon) or unmatched routes inject into more than t^(3+epsilon) distances.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "The Q_S transverse escape and Phi6 tensor cube are adversarial saturators. Kill any capacity that merges the two products, forgets factor labels, or counts an abstract cancellation token as a Euclidean label.",
+      "exponent_ledger": {
+        "input": "K=t^(5/9-o(1)) typed cancellation networks",
+        "required_output": "total reusable capacity at most t^(5/9-epsilon) or unmatched flow yielding t^(3+epsilon) labels",
+        "forbidden_loss": "a token paid in both products or several rows may be counted once only"
+      },
+      "phi6_kill_test": {
+        "model": "Phi6 tensor cube",
+        "must_use_to_survive": "typed routes tied to one scalar-copy source and actual labels",
+        "kill_condition": "factor tokens from independent coordinates are treated as globally scarce"
+      },
+      "status": "killed",
+      "created_at": "2026-08-03T01:39:38+00:00",
+      "status_evidence": "No typed scarce capacity; Phi6 factors are reusable and Q_S debt stays constant",
+      "updated_at": "2026-08-03T01:47:05+00:00"
+    },
+    {
+      "id": "M1083R2-09",
+      "representation_id": "R1083R2-09",
+      "family": "euclidean_label_geometry",
+      "decisive_claim": "The factor-row-cell-distance tensor of a K=t^(5/9-o(1)) exact-block hub has partition rank large enough that at most t^(3+o(1)) distance labels is impossible unless a power-large bounded-degree ruled component appears; every such component is handled by a proved lower-dimensional distance bound.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Phi6 has no valid Euclidean tensor and must be rejected at hypothesis checking. Interval multirow blocks and coherent theta are the real kill tests for low tensor rank with few labels.",
+      "exponent_ledger": {
+        "input": "K=t^(5/9-o(1)), S=t^(7/9+o(1)), U=t^(5/6+o(1)), q=t^(13/18+o(1))",
+        "required_output": "partition-rank lower bound incompatible with at most t^(3+o(1)) labels, or a ruled core retaining t^(5/9-o(1)) rows and yielding t^(3+epsilon)",
+        "forbidden_loss": "rank decomposition multiplicities must be explicitly converted to distinct labels"
+      },
+      "phi6_kill_test": {
+        "model": "Phi6 abstract exponent tensor",
+        "must_use_to_survive": "actual point pairs, squared-distance labels, tangent cells and PSD realization",
+        "kill_condition": "an abstract factor tensor is accepted as a Euclidean incidence tensor"
+      },
+      "status": "killed",
+      "created_at": "2026-08-03T01:39:38+00:00",
+      "status_evidence": "No partition-rank inequality or complete ruled-exception theorem closes the exponent ledger",
+      "updated_at": "2026-08-03T01:47:06+00:00"
+    },
+    {
+      "id": "M1083R2-10",
+      "representation_id": "R1083R2-10",
+      "family": "euclidean_label_geometry",
+      "decisive_claim": "On a common factor-labelled reciprocal chart, t^(5/9-o(1)) distinct scalar parameters force t^(3+epsilon) distance labels unless they satisfy one bounded-degree algebraic relation; that exceptional relation reduces to a proved planar or curve distance theorem.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Phi6 must fail chart realization, while interval and same-line cyclotomic families test the exceptional relation. Kill the mechanism if chart distinctness alone is counted as label distinctness.",
+      "exponent_ledger": {
+        "input": "t^(5/9-o(1)) rows in one reciprocal chart",
+        "required_output": "more than t^(3+epsilon) actual labels or a lower-dimensional exceptional family with the same fixed gain",
+        "forbidden_loss": "bounded-degree partitioning and sign selection may cost only t^o(1)"
+      },
+      "phi6_kill_test": {
+        "model": "Phi6 without a common reciprocal Euclidean chart",
+        "must_use_to_survive": "chart equations from common tangent and scalar copy",
+        "kill_condition": "distinct factor widths are counted as distinct Euclidean labels"
+      },
+      "status": "surviving",
+      "created_at": "2026-08-03T01:39:38+00:00",
+      "status_evidence": "Phi6 fails the Euclidean chart hypothesis; typed chart-label inequality remains open",
+      "updated_at": "2026-08-03T01:47:06+00:00"
+    },
+    {
+      "id": "M1083R2-11",
+      "representation_id": "R1083R2-11",
+      "family": "multiscale_stability",
+      "decisive_claim": "A conserved factor-aware defect measure selects an exact or t^(-epsilon)-accurate common core of t^(5/9-o(1)) rows from every near-extremal R3 configuration, preserving every hypothesis of one factor-aware rigidity mechanism and its t^(3+epsilon) label output.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Use distributed-defect arrays and an abstract Phi6-labelled array. Kill any coarea bound that follows from rowwise goodness without a Euclidean overlap or conservation identity.",
+      "exponent_ledger": {
+        "input": "near-extremal configuration with candidate K=t^(5/9-o(1)) rows",
+        "required_output": "discarded mass at most t^(-epsilon) while preserving a t^(5/9-o(1)) common core and a downstream t^(3+epsilon) label theorem",
+        "forbidden_loss": "qualitative o(1) or independent rowwise goodness is insufficient"
+      },
+      "phi6_kill_test": {
+        "model": "distributed Phi6-labelled defect array",
+        "must_use_to_survive": "Euclidean conservation or overlap across cells",
+        "kill_condition": "factor labels alone guarantee a common core"
+      },
+      "status": "killed",
+      "created_at": "2026-08-03T01:39:38+00:00",
+      "status_evidence": "Distributed-defect test passes against rowwise/factor-labelled coarea; no conserved potential exists",
+      "updated_at": "2026-08-03T01:47:06+00:00"
+    },
+    {
+      "id": "M1083R2-12",
+      "representation_id": "R1083R2-12",
+      "family": "factor_labelled_algebra",
+      "decisive_claim": "Actual common-X positive-multiple data with only t^(3+o(1)) Euclidean labels require factor-aware labelled moment circuit size t^epsilon larger than any admissible common quotient; the contradiction yields a fixed improvement over the 3/5 exponent.",
+      "would_close": [
+        "global_interface_closed",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Phi6 has exponential expanded support but an O(d)-size product circuit and must not trigger the lower bound. Kill any argument using expanded matrix dimension rather than target-specific circuit complexity.",
+      "exponent_ledger": {
+        "input": "factor circuit for K=t^(5/9-o(1)) simultaneous rows",
+        "required_output": "a t^epsilon circuit-complexity separation tied to at most t^(3+o(1)) labels, contradicting the admissible common-object budget",
+        "forbidden_loss": "expanded support or dense matrix dimension cannot substitute for circuit size"
+      },
+      "phi6_kill_test": {
+        "model": "O(d)-size Phi6 product circuit with exponential support",
+        "must_use_to_survive": "target-specific common-X positive Euclidean constraint",
+        "kill_condition": "exponential atom count is reported as circuit lower bound"
+      },
+      "status": "killed",
+      "created_at": "2026-08-03T01:39:38+00:00",
+      "status_evidence": "Phi6 exact short product circuit kills expanded-rank circuit surrogate",
+      "updated_at": "2026-08-03T01:47:06+00:00"
+    }
+  ]
+}

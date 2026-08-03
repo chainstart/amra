@@ -1,0 +1,84 @@
+{
+  "representations": [
+    {
+      "id": "R1083S8-01",
+      "name": "joint leaf profile map",
+      "family": "affine_profile_interface",
+      "new_information": "Records Psi(j)=(phi_j,alpha_j) after one fixed associate section rather than treating four product rows independently.",
+      "repairs_loss": "restores the common total-spectrum relation",
+      "first_test": "Use alpha_j+phi_j=T and compare fibres of Psi with fibres of phi."
+    },
+    {
+      "id": "R1083S8-02",
+      "name": "exact profile-fibre partition",
+      "family": "affine_profile_interface",
+      "new_information": "Stores the exact equality #Psi(J)=#phi(J) and identical fibre sizes.",
+      "repairs_loss": "replaces qualitative conditioning language by a literal counting interface",
+      "first_test": "Prove both projections between Psi(J) and phi(J) are inverse on the fixed-total affine graph."
+    },
+    {
+      "id": "R1083S8-03",
+      "name": "ordered-group valuation section",
+      "family": "normalization_sections",
+      "new_information": "Fixes a translation-invariant total order on Gamma and normalizes every Laurent polynomial by its least support exponent.",
+      "repairs_loss": "makes every absolute unit coordinate well-defined and multiplicative",
+      "first_test": "Prove v(PQ)=v(P)+v(Q) in the ordered group ring."
+    },
+    {
+      "id": "R1083S8-04",
+      "name": "section-change cocycle ledger",
+      "family": "normalization_sections",
+      "new_information": "Tracks how independently changing representatives of distinct associate classes translates phi_j and alpha_j while preserving their sum.",
+      "repairs_loss": "separates normalization entropy from geometric information",
+      "first_test": "Choose P_{lambda_j X} itself as section and compare with least-exponent normalization."
+    },
+    {
+      "id": "R1083S8-05",
+      "name": "same-sign scalar valuation orbit",
+      "family": "scalar_copy_geometry",
+      "new_information": "On one sign class, expresses phi_j as lambda_j times a fixed nonzero extremal exponent of X.",
+      "repairs_loss": "retains the monomial translation discarded by normalized divisor shapes",
+      "first_test": "Use distinct same-sign lambda_j to test injectivity."
+    },
+    {
+      "id": "R1083S8-06",
+      "name": "natural-order endpoint dichotomy",
+      "family": "scalar_copy_geometry",
+      "new_information": "Keeps the natural real order fixed and distinguishes whether the endpoint used by the selected sign class is zero or nonzero.",
+      "repairs_loss": "prevents normalization changes from being used to manufacture an unconditional scalar orbit",
+      "first_test": "Prove range one at a zero endpoint and injectivity at a nonzero endpoint without reversing the order."
+    },
+    {
+      "id": "R1083S8-07",
+      "name": "power-large exponent ledger",
+      "family": "conditioning_entropy",
+      "new_information": "Compares |J_sigma|>=K/2=t^(5/9-o(1)) with the number and maximum fibre size of complete profiles.",
+      "repairs_loss": "quantifies the exact mass lost by conditioning",
+      "first_test": "Insert injective phi on J_sigma and compute retained fibre size one."
+    },
+    {
+      "id": "R1083S8-08",
+      "name": "subpower-range adversarial comparator",
+      "family": "conditioning_entropy",
+      "new_information": "Tests any t^o(1) profile-range claim against the already legal power-large same-sign block.",
+      "repairs_loss": "prevents primitive-kernel uniqueness from being misread as profile compression",
+      "first_test": "Kill if the ordered normalization has |Psi(J_sigma)|=|J_sigma|."
+    },
+    {
+      "id": "R1083S8-09",
+      "name": "gauge-invariant normalized-shape quotient",
+      "family": "invariant_quotients",
+      "new_information": "Deletes raw monomial units and retains only normalized associate classes and divisor incidence.",
+      "repairs_loss": "identifies what remains meaningful after arbitrary section change",
+      "first_test": "Check whether the quotient still determines an absolute product-unit fibre."
+    },
+    {
+      "id": "R1083S8-10",
+      "name": "all-target nonpromotion firewall",
+      "family": "invariant_quotients",
+      "new_information": "Separates the local range obstruction from target-pair occurrence, collision fibres and outer stability.",
+      "repairs_loss": "blocks a local profile theorem from becoming a public exponent claim",
+      "first_test": "Demand same-domain t^(28/9-o(1)) occurrence and fibre below t^(1/9-epsilon)."
+    }
+  ]
+}

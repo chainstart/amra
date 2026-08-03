@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {"mechanism_id":"M301-cross-edge-transitivity","outcome":"killed","evidence":"Exact permutation enumeration gives five unmarked-edge orbits; evidence/verify_k5_cross_bc_component.json."},
+    {"mechanism_id":"M302-three-variable-fixed-space","outcome":"killed","evidence":"The orbit incidence fixed space has dimension five, not three; evidence/k5_cross_orbit_probe.json."},
+    {"mechanism_id":"M303-common-orbit-factor","outcome":"killed","evidence":"Exact Q-gcd(P,xi)=1; evidence/k5_cross_orbit_probe.json."},
+    {"mechanism_id":"M304-raw-P-positive-domination","outcome":"killed","evidence":"Exact competing point on (a,b): (-5,3/2) gives P=2113/2>0 and xi=-9."},
+    {"mechanism_id":"M305-all-resultants-rootless","outcome":"killed","evidence":"The (a,c) resultant factor 3a^2+20a+8 has discriminant 304>0; evidence/k5_cross_orbit_probe.json."},
+    {"mechanism_id":"M308-all-slices-bilinear","outcome":"killed","evidence":"Exact total-degree ledger includes degree-four slices; evidence/k5_cross_orbit_probe.json."},
+    {"mechanism_id":"M310-P-positive-is-connected","outcome":"killed","evidence":"The affine form P=xy-1 has two P-positive components; evidence/K5_CROSS_BC_COMPONENT_THEOREM.md."},
+    {"mechanism_id":"M311-resultant-alone-controls-sign","outcome":"killed","evidence":"Anchor xi=58>0 and the exact competing P-positive point has xi=-9, so topology is indispensable."}
+  ]
+}

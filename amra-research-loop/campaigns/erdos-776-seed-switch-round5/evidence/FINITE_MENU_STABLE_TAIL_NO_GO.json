@@ -1,0 +1,7 @@
+{
+  "status": "proved_pending_independent_audit",
+  "quantifier": "for every fixed finite q-independent stable-tail menu and fixed R, one later actual odd K4,r9 member defeats every menu choice through R",
+  "rank42_consequence": "kills fixed finite constant-tail same-staircase pre-rank42 repair",
+  "excluded": ["q-dependent digits", "leading-block switches", "q-growing menus", "public Erdos-776"],
+  "public_promotion": false
+}

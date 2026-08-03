@@ -1,0 +1,17 @@
+{
+  "statement": "In the frozen simultaneous-switch normal form F_j=G R_j, P_{A_0}=G B, B=R_j Q_j, P_{A_j}=F_0 Q_j, with F_j=P_{lambda_j X}, the common-X scalar-copy structure belongs to F_j and not to the generally signed quotient Q_j. The data define no family Q_j(T) and hence no expression Q_j(lambda_j X) or coefficient Jacobian of that expression. Therefore the proposed implication from factor-labelled moments of Q_j (M1083R2-01) to the advertised common-X Jacobian (M1083R2-05) is ill-typed unless a new compatible parametrization is supplied. Replacing Q_j by F_j repairs the type but the inherited divisibility G|F_j and Newton-direction argument already yield the reciprocal chart on t^(5/9-o(1)) rows, so the only remaining exponent-changing step is the M1083R2-10 actual distance-label inequality.",
+  "status": "proved",
+  "closes": ["M1083R2-01_to_M1083R2-05_chain_as_formulated"],
+  "evidence": [
+    "evidence/M01_M05_M10_TYPED_CHAIN_NO_GO.md",
+    "evidence/TYPED_CHAIN_EXPONENT_AUDIT.json",
+    "evidence/typed_chain_exponent_audit.py",
+    "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/HEAVY_FACTOR_HUB_RULED_CHART.md"
+  ],
+  "dependency_gaps": [
+    "M1083R2-01 needs a precisely defined factor-labelled invariant and a conclusion not already supplied by the heavy-factor hub.",
+    "Any repaired M1083R2-05 route needs an explicit bounded-degree family Q(T), proof that Q(lambda_j)=Q_j, and t^o(1) control of symmetries and singular fibres.",
+    "M1083R2-10 still needs a collision-controlled theorem amplifying t^(5/9-o(1)) chart parameters to more than t^(3+epsilon) actual labels; chart distinctness alone is short by exponent 22/9.",
+    "Outer near-extremal stability remains outside the exact-block chain."
+  ]
+}

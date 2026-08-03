@@ -1,0 +1,38 @@
+{
+  "schema": "amra.erdos809.output-expansion-round7.exchange-3.v1",
+  "deletion_count": 3,
+  "new_edge_count": 18,
+  "optional_edges_chosen": 16,
+  "new_edge_assignments": 969,
+  "admissible_old_edges": 32,
+  "deletion_sets_per_assignment": 4960,
+  "raw_assignment_deletion_sets": 4806240,
+  "assignments_tested": 969,
+  "bad_C7_traces_processed": 13688,
+  "assignments_with_protected_bad_C7": 968,
+  "assignments_with_exact_hitting_set": 0,
+  "exact_hitting_sets_total": 0,
+  "pair_safe_after_deletion": 0,
+  "base_singleton_joint_pass": 0,
+  "L4_2_pass": 0,
+  "reserve_defined": 0,
+  "canonical_output_pass": 0,
+  "matching_rank_four_pass": 0,
+  "first_witness": null,
+  "unprotected_assignments_with_empty_hitting_set": [
+    {
+      "omitted_optional_edges": [
+        ["b", "u"],
+        ["b", "w"],
+        ["u", "w"]
+      ],
+      "certified_transversal_number_lower_bound": 4,
+      "subsequently_certified_exact_transversal_number": 21,
+      "certificate": "TRANSVERSAL_CERTIFICATE.json"
+    }
+  ],
+  "completeness": "Complete for the displayed natural-switch three-old-edge exchange model. Cross edges wy1,uy2 contradict L4(2) plus switched rainbow-C7 legality; v-incident and repeated-colour old edges cannot be deleted while retaining the frozen interface.",
+  "finite_result_only": true,
+  "public_problem_changed": false,
+  "lean_used": false
+}

@@ -1,0 +1,17 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent erdos776_lane; reconstructed from A,C,D,E without importing author verifier",
+    "evidence": [
+      "audit/K5_CROSS_BE_INDEPENDENT_AUDIT.md",
+      "audit/verify_k5_cross_be_blind_lane.py",
+      "audit/K5_CROSS_BE_INDEPENDENT_AUDIT.json"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "exact_checks": ["alpha wall and C(alpha)<0","anchor P=128 and xi=58","A*xi/2=D*P+Q","disc(Q)=-9552 and Q(alpha)>0","upperroot(D)<alpha","complete epigraph topology"],
+  "scope": "complete distinguished component on a=c=d=1 only",
+  "excluded_claims": ["full five-variable stabilizer component","transverse edge directions","G201","OPG-1757"]
+}

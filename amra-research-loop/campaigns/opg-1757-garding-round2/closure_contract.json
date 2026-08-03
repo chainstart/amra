@@ -1,0 +1,17 @@
+{
+  "exact_statement": "For every finite simple graph G and every pair of distinct edges e,f, if F is a uniformly random forest of G, then Pr(e in F | f in F) <= Pr(e in F).",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/opg1757/ORIGINAL_PROBLEM_FIREWALL.md",
+  "success_conditions": ["global_interface_closed"],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round-two warm restart from commit ab4b524; inherited W4 slice proofs are evidence, not new promotion credit.",
+    "Global closure requires a proof for every finite graphic matroid, for example the Fang-Ma moving-edge domination lemma with all positivity-component and induction dependencies proved.",
+    "Priority target is full W4 four-variable domination or an exact counterexample in its distinguished deletion component; another positive slice alone does not promote."
+  ]
+}

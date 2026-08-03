@@ -1,0 +1,12 @@
+{"representations":[
+ {"id":"R401-affine-fiber","name":"P-affine fibers in b","family":"fiber-geometry","new_information":"retains the orientation change at A(e)=0","first_test":"factor A and evaluate C on both A-walls"},
+ {"id":"R402-component-homeomorphism","name":"positive-fiber half-plane coordinates","family":"component-topology","new_information":"identifies the entire anchor component, not sampled paths","first_test":"map (e,b) to (e,b+C/A) above the upper wall"},
+ {"id":"R403-vertical-barrier","name":"A-root vertical barrier ledger","family":"component-topology","new_information":"records which A=0 line is wholly outside P>0","first_test":"compute C(-1+sqrt(10)/4) exactly"},
+ {"id":"R404-determinant-identity","name":"two-affine-form determinant identity","family":"algebraic-certificate","new_information":"relates xi directly to P via A xi/2=D P+EA-DC","first_test":"expand both sides symbolically"},
+ {"id":"R405-cubic-discriminant","name":"exact cubic root-count certificate","family":"algebraic-certificate","new_information":"proves Q has one real root without decimals","first_test":"compute discriminant and orient Q at the barrier"},
+ {"id":"R406-root-order","name":"algebraic-number barrier ordering","family":"real-algebra","new_information":"places the sole Q root strictly below the anchor component","first_test":"prove Q(alpha)>0 and use positive leading coefficient"},
+ {"id":"R407-sign-chain","name":"A-D-Q sign chain","family":"sign-certificates","new_information":"transfers component membership to strict xi positivity","first_test":"factor A,D and compare their upper roots"},
+ {"id":"R408-boundary-ratio","name":"xi restricted to P=0","family":"sign-certificates","new_information":"shows xi=2Q/A is positive along the anchor boundary","first_test":"substitute b=-C/A"},
+ {"id":"R409-exact-CAS-replay","name":"bounded exact symbolic replay","family":"machine-evidence","new_information":"checks identities, discriminants and endpoint values over Q(sqrt(10))","first_test":"run SymPy verifier under 3GiB/180s"},
+ {"id":"R410-slice-loss-ledger","name":"orbit and transverse loss ledger","family":"scope-control","new_information":"prevents local component closure from becoming a global claim","first_test":"list fixed and released stabilizer variables and transverse dimensions"}
+]}

@@ -1,0 +1,107 @@
+{
+  "schema": "amra.opg1757.k5-minus-edge.high-triangle-stabilizer.v1",
+  "scope": "complete three-variable stabilizer specialization only; not the eight-independent-variable or global G201 statement",
+  "host": "K5 minus edge 34",
+  "marked_edge": [
+    0,
+    1
+  ],
+  "stabilizer_order": 4,
+  "orbits": {
+    "a": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "b": [
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "c": [
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "sizes": [
+      2,
+      4,
+      2
+    ]
+  },
+  "enumeration": {
+    "forests": 134,
+    "marked_connected_forests": 70,
+    "P": "a**2*b**4*c**2 + 2*a**2*b**4*c + a**2*b**4 + 4*a**2*b**3*c**2 + 8*a**2*b**3*c + 4*a**2*b**3 + 6*a**2*b**2*c**2 + 12*a**2*b**2*c + 4*a**2*b**2 + 4*a**2*b*c**2 + 8*a**2*b*c + 2*a*b**4*c**2 + 4*a*b**4*c + 2*a*b**4 + 8*a*b**3*c**2 + 12*a*b**3*c + 4*a*b**3 + 12*a*b**2*c**2 + 12*a*b**2*c + 8*a*b*c**2 + b**4*c**2 + 2*b**4*c + b**4 + 4*b**3*c**2 + 4*b**3*c + 4*b**2*c**2",
+    "xi": "2*a**2*b**2*c**2 + 4*a**2*b**2*c + 4*a**2*b**2 + 4*a**2*b*c**2 + 8*a**2*b*c + 4*a*b**3*c + 4*a*b**3 + 4*a*b**2*c**2 + 12*a*b**2*c + 8*a*b*c**2 + b**4*c**2 + 2*b**4*c + b**4 + 4*b**3*c**2 + 4*b**3*c + 4*b**2*c**2",
+    "F_equals_P_over_b": "a**2*b**3*c**2 + 2*a**2*b**3*c + a**2*b**3 + 4*a**2*b**2*c**2 + 8*a**2*b**2*c + 4*a**2*b**2 + 6*a**2*b*c**2 + 12*a**2*b*c + 4*a**2*b + 4*a**2*c**2 + 8*a**2*c + 2*a*b**3*c**2 + 4*a*b**3*c + 2*a*b**3 + 8*a*b**2*c**2 + 12*a*b**2*c + 4*a*b**2 + 12*a*b*c**2 + 12*a*b*c + 8*a*c**2 + b**3*c**2 + 2*b**3*c + b**3 + 4*b**2*c**2 + 4*b**2*c + 4*b*c**2",
+    "G_equals_xi_over_b": "2*a**2*b*c**2 + 4*a**2*b*c + 4*a**2*b + 4*a**2*c**2 + 8*a**2*c + 4*a*b**2*c + 4*a*b**2 + 4*a*b*c**2 + 12*a*b*c + 8*a*c**2 + b**3*c**2 + 2*b**3*c + b**3 + 4*b**2*c**2 + 4*b**2*c + 4*b*c**2",
+    "at_1_1_1": {
+      "P": 134,
+      "xi": 70
+    }
+  },
+  "zero_locus": {
+    "resultant_eliminate_a": "b**8*(b*c + b + 2*c)**6*(b**2*c**2 + 2*b**2*c + b**2 + 4*b*c**2 + 4*b*c + 4*c**2 + 8*c)",
+    "L": "b*c + b + 2*c",
+    "H": "b**2*c**2 + 2*b**2*c + b**2 + 4*b*c**2 + 4*b*c + 4*c**2 + 8*c",
+    "shifted_coordinates": "y=b+1,z=c+1 give L=z(y+1)-2 and H=L^2+8(z-1)"
+  },
+  "anchor_countercheck": {
+    "path": "a=b=1, c decreases from 1 to -1/10",
+    "P_on_path": "2*(27*t**2 + 32*t + 8)",
+    "endpoint": {
+      "a": "1",
+      "b": "1",
+      "c": "-1/10",
+      "z": "9/10"
+    },
+    "endpoint_P": "507/50",
+    "endpoint_xi": "587/100",
+    "endpoint_H": "-31/100",
+    "conclusion": "the anchor component forces neither z>=1 nor H>=0; this endpoint is not a xi counterexample"
+  },
+  "b_equals_1_component_proof": {
+    "F_factorization": "F=15*u*v with the two walls recorded in the note",
+    "G_in_wall_coordinates": "U**2/4 + 11*U*W/2 + U*(8 + 8*sqrt(10)/3)/4 + W**2/4 + W*(8 - 8*sqrt(10)/3)/4 + 1/9",
+    "univariate_discriminant": "-16*(-25 + 8*sqrt(10))/3",
+    "conclusion": "G>0 whenever u>0 and v>0, hence throughout the b=1 distinguished component"
+  },
+  "competing_zero_locus_component": {
+    "line": "a=-b/2,c=0,b>0",
+    "F_on_line": "b**5/4",
+    "G_on_line": "0",
+    "nearby_negative_point": {
+      "a": "-1/2",
+      "b": "1",
+      "c": "-1/100"
+    },
+    "nearby_F": "10191/40000",
+    "nearby_G": "-191/20000",
+    "b_equals_1_wall_signs": "u<0,v<0, so this is not the distinguished u>0,v>0 component"
+  },
+  "global_status": "open on the full three-variable stabilizer component; no counterexample and no domination proof"
+}

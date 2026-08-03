@@ -1,0 +1,44 @@
+{
+  "schema": "amra.erdos809.absorber-round5.smallest-expansion-output-fibre.v1",
+  "base_graph": {
+    "vertices": 14,
+    "edges": 50,
+    "locked_demands": 4,
+    "base": ["b", "c"],
+    "reserve": [["b", "c"], ["c", "z"]],
+    "rank": 2,
+    "deficiency": 2
+  },
+  "first_one_vertex_threshold_expansion": {
+    "vertices": 15,
+    "edges": 57,
+    "new_vertex": "w",
+    "new_neighbours": ["b", "r1", "r2", "x1", "x2", "x3", "x4"],
+    "rainbow_C7": true,
+    "L4_2": true,
+    "old_base_reserve": [["b", "c"], ["c", "w"], ["c", "z"]],
+    "external_missing_edge": ["w", "z"],
+    "alternative_base_reserve": [["b", "c"], ["c", "w"], ["c", "z"], ["w", "z"]],
+    "length_4_path_witnesses_to_external_edge": 128,
+    "length_5_path_witnesses_to_external_edge": 608,
+    "distinct_external_outputs": 1,
+    "natural_switch_candidates": 4,
+    "nonempty_rainbow_switch_states": 0
+  },
+  "exhaustive_n15_natural_switch_search": {
+    "expansions": 1716,
+    "model": "add one B vertex w, keep v-w absent, and add exactly seven incident edges to reach floor(15^2/4)+1",
+    "required_switch": "replace b-x_i by w-x_i while retaining c-y_i as the second gamma_i edge",
+    "instances_with_two_individually_rainbow_switches_to_K(cw)-K(bc)": 0
+  },
+  "classification": {
+    "paths_are_legal_absorbers": false,
+    "candidate_switches_are_legal_absorbers": false,
+    "graph_realizable_many_legal_absorbers_rank_one_found": false,
+    "proved_negative": "Raw graph-path or candidate-gadget multiplicity does not certify one legal external arc; the complete specified n15 natural-switch class contains no pair of individually legal switches.",
+    "scope": "Finite exact evidence for one expansion model and one typed switch. It does not exclude larger gadgets or another graph operation."
+  },
+  "lean_used": false,
+  "public_problem_changed": false,
+  "coefficient_one_eighth_changed": false
+}

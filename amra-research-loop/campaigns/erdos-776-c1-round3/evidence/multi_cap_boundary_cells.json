@@ -1,0 +1,66 @@
+{
+  "schema": "amra.evidence.multi-cap-relaxed-cells.v1",
+  "scope": "Exhaustive only in the finite relaxed complement model; it does not impose the dyadic q/h lattice and is not a proof.",
+  "parameters": {
+    "max_r": 180,
+    "max_s": 8,
+    "output": "amra-research-loop/campaigns/erdos-776-c1-round3/evidence/multi_cap_boundary_cells.json"
+  },
+  "by_s": {
+    "1": {
+      "admissible": 876058,
+      "failures": 750926,
+      "first_failure": {
+        "r": 6,
+        "s": 1,
+        "a": 4,
+        "e": 3,
+        "alpha": 9,
+        "beta": 14,
+        "tau": 7,
+        "p": 1,
+        "v": 9,
+        "c": 3,
+        "d": 4,
+        "gamma4": -7,
+        "margin": -10
+      }
+    },
+    "2": {
+      "admissible": 158658,
+      "failures": 0,
+      "first_failure": null
+    },
+    "3": {
+      "admissible": 17085,
+      "failures": 0,
+      "first_failure": null
+    },
+    "4": {
+      "admissible": 0,
+      "failures": 0,
+      "first_failure": null
+    },
+    "5": {
+      "admissible": 0,
+      "failures": 0,
+      "first_failure": null
+    },
+    "6": {
+      "admissible": 0,
+      "failures": 0,
+      "first_failure": null
+    },
+    "7": {
+      "admissible": 0,
+      "failures": 0,
+      "first_failure": null
+    },
+    "8": {
+      "admissible": 0,
+      "failures": 0,
+      "first_failure": null
+    }
+  },
+  "elapsed_seconds": 11.308167695999146
+}

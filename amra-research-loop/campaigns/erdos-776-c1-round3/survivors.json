@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M301-exact-cross-term-lower-bound",
+    "M304-negative-forces-noborrow",
+    "M307-uniform-wall-order"
+  ],
+  "selection_rationale": "M303 initially survived 1,381,142 near-boundary rows but was killed by a deeper actual (++ -> ++) state where the entire p-free G++ margin is negative while exact gamma5 is positive. This isolates M301's base-retaining leading-block gate: an adaptive gamma4-wall probe checks 823,476 actual rows, rediscovers the p-free failure, and leaves exact leading-block margin at least 84,520; the stronger top-index margin is at least 83,805 there and remains unproved. M304 and its proposed wall-order route M307 retain the separate applicability information P,V: a bounded far-scale probe adds 17,483 gamma5-negative states through j=120 without a P/V borrow, but also finds 2,304 gamma5/gamma6 double negatives, so applicability is not recovery. M305, M309 and the two-row leaf of M311 are killed by the infinite actual K4,r9 family. All other candidates are frozen as underspecified, redundant, or merely conditional rather than counted as kills."
+}

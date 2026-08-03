@@ -1,0 +1,20 @@
+{
+  "exact_statement": "For every fixed integer d >= 3, every N-point subset of R^d determines N^(2/d-o(1)) distinct distances as N tends to infinity.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/README.md",
+  "success_conditions": [
+    "main_exponent_improved"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "The public statement and sole success condition are copied from the frozen round-five campaign.",
+    "Round six does not modify frozen round five.  It generalizes only the displayed formal relative-unit matrix from three rows to m rows and separately audits whether that matrix is realized by an actual power-large paired-positive common-X block.",
+    "A formal all-m rank, kernel, or Smith theorem is another local normal form unless the real-block incidence, extra-row, variable, occurrence-mass, fibre, full-target and stability interfaces are all proved.",
+    "Promotion requires a rigorous dimension-three exponent strictly greater than 3/5; no finite matrix experiment or conditional matrix bridge qualifies."
+  ]
+}

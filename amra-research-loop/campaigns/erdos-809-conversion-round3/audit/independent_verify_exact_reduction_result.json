@@ -1,0 +1,52 @@
+{
+  "schema": "amra.erdos809.round3.independent-audit.v1",
+  "command": "ulimit -v 2097152; timeout 120s python3 audit/independent_verify_exact_reduction.py",
+  "resource_observation": {
+    "wall_seconds": 1.27,
+    "max_rss_kib": 12416,
+    "exit_code": 0,
+    "virtual_memory_limit_kib": 2097152
+  },
+  "method": {
+    "rounding": "exact sign in Q(sqrt(3)); direct integer-to-surd comparison",
+    "matching": "used-right-mask dynamic programming",
+    "carrier": "direct enumeration of every Hall cut",
+    "author_checker_imported": false,
+    "lean_used": false
+  },
+  "rounding_rows": 122,
+  "bipartite_graphs": 74963,
+  "graph_count_interpretation": "labelled bipartite graphs, ordered shore sizes 0..4, including empty shores",
+  "size_profile": {
+    "0x0": 1,
+    "0x1": 1,
+    "0x2": 1,
+    "0x3": 1,
+    "0x4": 1,
+    "1x0": 1,
+    "1x1": 2,
+    "1x2": 4,
+    "1x3": 8,
+    "1x4": 16,
+    "2x0": 1,
+    "2x1": 4,
+    "2x2": 16,
+    "2x3": 64,
+    "2x4": 256,
+    "3x0": 1,
+    "3x1": 8,
+    "3x2": 64,
+    "3x3": 512,
+    "3x4": 4096,
+    "4x0": 1,
+    "4x1": 16,
+    "4x2": 256,
+    "4x3": 4096,
+    "4x4": 65536
+  },
+  "hall_identity_passed": true,
+  "universal_delta_necessity_and_sufficiency_passed": true,
+  "nonuniversal_delta_count_counterexample_passed": true,
+  "public_problem_changed": false,
+  "main_term_changed": false
+}

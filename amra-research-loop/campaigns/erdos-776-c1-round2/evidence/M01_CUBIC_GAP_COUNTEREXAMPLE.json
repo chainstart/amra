@@ -1,0 +1,28 @@
+{
+  "schema": "amra.erdos776.m01-cubic-gap-counterexample.v1",
+  "parameters": {
+    "j": 7,
+    "h": 7168,
+    "q": 4845,
+    "k": 4,
+    "r": 204,
+    "u": 207,
+    "b": 4849
+  },
+  "values": {
+    "tau": 19183,
+    "alpha": 1524,
+    "beta": 2138,
+    "a": 55,
+    "p": 7794,
+    "v": 26150,
+    "e": 18356,
+    "gamma4": -2350,
+    "e_minus_C_a_minus_1_3": -6448,
+    "Gpp_margin": 183083,
+    "gamma5": 245481
+  },
+  "interpretation": "The scale-uniform strengthening e>=C(a-1,3) is false on an actual (++ -> ++) row. The weaker G++ inequality and gamma5 positivity survive.",
+  "finite_search_role": "Exact counterexample; one witness disproves the universal M01 claim.",
+  "public_problem_closed": false
+}

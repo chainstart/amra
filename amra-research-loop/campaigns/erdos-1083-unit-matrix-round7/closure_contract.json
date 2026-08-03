@@ -1,0 +1,20 @@
+{
+  "exact_statement": "For every fixed integer d >= 3, every N-point subset of R^d determines N^(2/d-o(1)) distinct distances as N tends to infinity.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/README.md",
+  "success_conditions": [
+    "main_exponent_improved"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round six remains frozen and proved only the formal all-m primitive integer matrix.",
+    "Round seven audits the smallest actual centre-leaf subblock extracted from the power-large paired-positive common-X normal form, then compares its complete aggregate unit incidence with the formal matrix.",
+    "A realization lemma, a missing-row counterexample, an extra-kernel diagnosis, or any finite symbolic block remains local unless it yields a rigorous dimension-three exponent strictly greater than 3/5.",
+    "No large scan is permitted; the target is the exact variable/row/type boundary in one common Laurent UFD."
+  ]
+}

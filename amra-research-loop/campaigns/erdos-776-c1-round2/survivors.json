@@ -1,0 +1,7 @@
+{
+  "mechanism_ids": [
+    "M08-negative-forces-no-borrow",
+    "M09-rank6-positive"
+  ],
+  "selection_rationale": "M01 was killed by an exact actual counterexample to its cubic strengthening. M08 and M09 remain the two nonredundant claims that would make the inherited rank-six formula total and positive on every gamma5-negative (-- -> ++) row. Both survived inherited finite falsifiers but neither is proved. M10 is excluded because no actual borrowed antecedent is known and M08, if proved, makes that conditional branch vacuous."
+}

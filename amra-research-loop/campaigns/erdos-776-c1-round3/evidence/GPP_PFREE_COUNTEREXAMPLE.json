@@ -1,0 +1,28 @@
+{
+  "conclusion": "The p-free superadditivity gate U_3(e)>=U_2(alpha)+1 and M303's nested e threshold are false on an actual (++ -> ++) state, while the exact base-dependent rank-five surplus is positive.",
+  "parameters": {
+    "b": 78302499,
+    "h": 117440512,
+    "j": 21,
+    "k": 4,
+    "q": 78302495,
+    "r": 26466,
+    "u": 26469
+  },
+  "public_problem_closed": false,
+  "schema": "amra.erdos776.gpp-pfree-counterexample.v1",
+  "scope": "Refutes the sufficient reduction, not exact (++ -> ++) recovery or the public problem.",
+  "script_sha256": "250b3390798e523bdce0ec85a43b5f1b1d0667392af9ff3b883112ab3830f1f5",
+  "values": {
+    "alpha": 37027825,
+    "beta": 37107225,
+    "e": 336352929,
+    "exact_gamma5": 859354068710,
+    "gamma3": -313130586,
+    "gamma4": -13858416,
+    "p": 105881285695,
+    "p_free_Gpp_margin": -136419183,
+    "tau": 313183521,
+    "v": 106217638624
+  }
+}

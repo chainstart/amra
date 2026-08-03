@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M809O7-05",
+    "M809O7-06",
+    "M809O7-09"
+  ],
+  "selection_rationale": "These are the strongest proved local interfaces: an exact transversal lower bound for the unique unprotected triple configuration, equivalence of the C7 hitting filter with four-state colour legality, and exact rank-four allocation once two legal outputs exist. None constructs a triple witness or supplies the missing scalable all-cut theorem."
+}

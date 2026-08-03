@@ -1,0 +1,17 @@
+{
+  "schema": "amra.opg1757.triangular-prism-vertical-stabilizer.v1",
+  "host": "triangular prism",
+  "marked_edge": [0,3],
+  "unmarked_edge_orbits": {"other_vertical":2,"incident_triangle":4,"opposite_triangle":2},
+  "reconstruction": {"forests":180,"endpoint_connected_forests":46},
+  "shift": "x=a+1,y=b+1,z=c+1",
+  "P_identity": "P=(x*T)^2-V^2, T=y^2*z-1, V=y^2+z-2",
+  "xi_identity": "xi=2*(x*A^2-B^2), A=y*(z+1)-2, B=2*y+z-3",
+  "barrier_identity": "V*A^2-T*B^2=(y-1)^4*(z-1)^2",
+  "distinguished_component": "x,y,z>0; T>0; x*T>V",
+  "conclusion": "xi>0 on the complete three-variable marked-vertical-edge stabilizer component",
+  "mathematical_status": "proved_and_independently_audited",
+  "scope": "three stabilizer variables only; not eight independent unmarked-edge variables or the triangle-edge orbit",
+  "public_problem_closed": false,
+  "lean_used": false
+}

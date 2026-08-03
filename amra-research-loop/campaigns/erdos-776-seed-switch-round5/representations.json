@@ -1,0 +1,12 @@
+{
+  "representations": [
+    {"id":"R501","name":"Arbitrary constant stable tail","family":"stable_tail","new_information":"Keeps arbitrary q-independent A_4,B_4 while retaining the exact H/q staircase.","first_test":"Derive the bottom Pascal recurrence without substituting 25,58."},
+    {"id":"R502","name":"Finite reset menu","family":"menu_geometry","new_information":"Takes one simultaneous maximum over finitely many reset thresholds.","first_test":"Build a four-pair menu and certify one q defeats all pairs through rank ten."},
+    {"id":"R503","name":"Affine Pascal transfer","family":"stable_tail","new_information":"Separates the invariant -4q slope from recursively changing constants.","first_test":"Verify both bottom borrow identities symbolically."},
+    {"id":"R504","name":"Menu-rank diagonal quantifier","family":"quantifier_geometry","new_information":"Records forall finite menu forall fixed R exists one later odd j.","first_test":"Specialize to R=42 without swapping quantifiers."},
+    {"id":"R505","name":"q-dependent reset digits","family":"escape_interfaces","new_information":"Allows reset tails of order q that can change the leading coefficient.","first_test":"Demand an actual legal reset formula with q-scaling."},
+    {"id":"R506","name":"Leading-block switch","family":"escape_interfaces","new_information":"Changes an H or q staircase term rather than only its bottom constants.","first_test":"Recompute the leading Pascal coefficient after a proposed switch."},
+    {"id":"R507","name":"Reset-menu entropy","family":"menu_geometry","new_information":"Distinguishes fixed menus from menus whose content grows with q.","first_test":"Bound the number of legal q-dependent reset profiles."},
+    {"id":"R508","name":"Switched-seed suffix interface","family":"global_composition","new_information":"Retains persistence and the final public antichain implication.","first_test":"Require a suffix theorem on the same legal domain as the switch."}
+  ]
+}

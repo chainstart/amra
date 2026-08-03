@@ -1,0 +1,339 @@
+{
+  "base_graph": {
+    "edges": 50,
+    "vertices": 14
+  },
+  "conditional_matching": {
+    "augmented_maximum_deficiency": 0,
+    "augmented_rank": 4,
+    "explicit_matching": [
+      "wz",
+      "uz",
+      "bc",
+      "cz"
+    ],
+    "old_maximum_deficiency": 2,
+    "old_rank": 2,
+    "typing": "conditional augmentation of the frozen n14 K(4,2) carrier graph; it does not construct legal arcs"
+  },
+  "engine": "independent graph/C7 trace reconstruction; no author-checker import",
+  "forbidden_wy1_uy2": {
+    "L4_argument": "for a deleted old edge choose one non-endpoint vertex of that edge and delete it together with y_i; L4(2) supplies an x_i-to-c four-path avoiding the deletion and y_i",
+    "admissible_colour_preserving_old_deletions": 42,
+    "protected_repeated_colour_edges": [
+      [
+        "b",
+        "x1"
+      ],
+      [
+        "b",
+        "x2"
+      ],
+      [
+        "b",
+        "x3"
+      ],
+      [
+        "b",
+        "x4"
+      ],
+      [
+        "c",
+        "y1"
+      ],
+      [
+        "c",
+        "y2"
+      ],
+      [
+        "c",
+        "y3"
+      ],
+      [
+        "c",
+        "y4"
+      ]
+    ],
+    "switches": {
+      "switch_1": {
+        "conclusion": "adding the forbidden new edge to y1 always closes a bad C7 after any colour-preserving old-edge deletion",
+        "example_path": [
+          "x1",
+          "r1",
+          "r2",
+          "y2",
+          "c"
+        ],
+        "old_deletions_checked": 42
+      },
+      "switch_2": {
+        "conclusion": "adding the forbidden new edge to y2 always closes a bad C7 after any colour-preserving old-edge deletion",
+        "example_path": [
+          "x2",
+          "r1",
+          "r2",
+          "y1",
+          "c"
+        ],
+        "old_deletions_checked": 42
+      }
+    }
+  },
+  "general_model": {
+    "forbidden_new_edges": [
+      [
+        "c",
+        "u"
+      ],
+      [
+        "c",
+        "w"
+      ],
+      [
+        "u",
+        "v"
+      ],
+      [
+        "u",
+        "y2"
+      ],
+      [
+        "u",
+        "z"
+      ],
+      [
+        "v",
+        "w"
+      ],
+      [
+        "w",
+        "y1"
+      ],
+      [
+        "w",
+        "z"
+      ]
+    ],
+    "one_exchange": {
+      "assignments": 11628,
+      "logical_strength": "no old edge at all is a common hit, stronger than filtering to admissible deletions",
+      "maximum_common_old_edges": 0,
+      "with_any_old_edge_hitting_every_bad_C7": 0
+    },
+    "optional_new_edges": [
+      [
+        "b",
+        "u"
+      ],
+      [
+        "b",
+        "w"
+      ],
+      [
+        "r1",
+        "u"
+      ],
+      [
+        "r1",
+        "w"
+      ],
+      [
+        "r2",
+        "u"
+      ],
+      [
+        "r2",
+        "w"
+      ],
+      [
+        "u",
+        "w"
+      ],
+      [
+        "u",
+        "x1"
+      ],
+      [
+        "u",
+        "x3"
+      ],
+      [
+        "u",
+        "x4"
+      ],
+      [
+        "u",
+        "y1"
+      ],
+      [
+        "u",
+        "y3"
+      ],
+      [
+        "u",
+        "y4"
+      ],
+      [
+        "w",
+        "x2"
+      ],
+      [
+        "w",
+        "x3"
+      ],
+      [
+        "w",
+        "x4"
+      ],
+      [
+        "w",
+        "y2"
+      ],
+      [
+        "w",
+        "y3"
+      ],
+      [
+        "w",
+        "y4"
+      ]
+    ],
+    "required_new_edges": [
+      [
+        "u",
+        "x2"
+      ],
+      [
+        "w",
+        "x1"
+      ]
+    ],
+    "trace_statistics": {
+      "distinct_trace_oldmask_pairs": 450,
+      "optional_edges": 19,
+      "pair_cycle_occurrences": 456
+    }
+  },
+  "joint_legality": {
+    "proof": "a repeated colour on a joint-state C7 is either untouched and already bad in the base, or switched in one disjoint colour class and already bad in that singleton",
+    "scope": "fixed graph and disjoint recoloured classes only",
+    "status": "proved"
+  },
+  "lean_used": false,
+  "public_one_eighth_changed": false,
+  "schema": "amra.erdos809.output-expansion-round6-independent-audit.v1",
+  "scope": "three exact finite natural-switch models and conditional K(4,2) allocation only",
+  "symmetric_models": {
+    "no_deletion": {
+      "assignments": 6435,
+      "pair_safe": 0
+    },
+    "one_exchange": {
+      "assignments": 6435,
+      "logical_strength": "no old edge at all is a common hit, stronger than filtering to admissible deletions",
+      "maximum_common_old_edges": 0,
+      "with_any_old_edge_hitting_every_bad_C7": 0
+    },
+    "optional_new_edges": [
+      [
+        "b",
+        "u"
+      ],
+      [
+        "b",
+        "w"
+      ],
+      [
+        "r1",
+        "u"
+      ],
+      [
+        "r1",
+        "w"
+      ],
+      [
+        "r2",
+        "u"
+      ],
+      [
+        "r2",
+        "w"
+      ],
+      [
+        "u",
+        "w"
+      ],
+      [
+        "u",
+        "y1"
+      ],
+      [
+        "u",
+        "y2"
+      ],
+      [
+        "u",
+        "y3"
+      ],
+      [
+        "u",
+        "y4"
+      ],
+      [
+        "w",
+        "y1"
+      ],
+      [
+        "w",
+        "y2"
+      ],
+      [
+        "w",
+        "y3"
+      ],
+      [
+        "w",
+        "y4"
+      ]
+    ],
+    "required_new_edges": [
+      [
+        "u",
+        "x1"
+      ],
+      [
+        "u",
+        "x2"
+      ],
+      [
+        "u",
+        "x3"
+      ],
+      [
+        "u",
+        "x4"
+      ],
+      [
+        "w",
+        "x1"
+      ],
+      [
+        "w",
+        "x2"
+      ],
+      [
+        "w",
+        "x3"
+      ],
+      [
+        "w",
+        "x4"
+      ]
+    ],
+    "trace_statistics": {
+      "distinct_trace_oldmask_pairs": 660,
+      "optional_edges": 15,
+      "pair_cycle_occurrences": 688
+    }
+  }
+}

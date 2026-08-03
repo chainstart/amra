@@ -1,0 +1,81 @@
+{
+  "schema": "amra.erdos776.k4-r9-rank6-counterfamily-independent-audit.v1",
+  "audited_artifacts": [
+    "evidence/K4_R9_RANK6_COUNTERFAMILY.md",
+    "evidence/K4_R9_RANK6_COUNTERFAMILY.json"
+  ],
+  "verdict": "pass_infinite_actual_family; scoped_refutation_only",
+  "actual_family": {
+    "parameters": "odd j; h=112*2^(j-1); q=(2h+4)/3; (k,r,u,b)=(4,9,12,q+4)",
+    "integrality": "odd j implies h=1 mod 3",
+    "dyadic_identity": "C(b-1,2)+2-(C(q,2)+9)=3q-4=2h",
+    "subsequence_recurrence": "q_(j+2)=4q_j-4",
+    "result": "passed"
+  },
+  "canonical_words": {
+    "alpha": "C(q-5,2)+C(25,1)",
+    "beta": "C(q-4,2)+C(58,1)",
+    "p": "C(q-6,3)+C(q-10,2)+C(269,1)",
+    "v": "C(q-5,3)+C(q-9,2)+C(1625,1)",
+    "P": "C(q-6,4)+C(q-11,3)+C(q-15,2)+C(35995,1)",
+    "V": "C(q-5,4)+C(q-10,3)+C(q-14,2)+C(1319452,1)",
+    "stability_condition": "q>1319466",
+    "first_stable_odd_j": 17,
+    "result": "passed by independent greedy expansion"
+  },
+  "pascal_cancellations": {
+    "gamma3": "23-4q",
+    "gamma4": "1330-4q",
+    "gamma5": "1283187-4q",
+    "gamma6": "869828292418-4q",
+    "full_orbit_check_j": [17, 29, 31, 33, 35, 37, 55],
+    "result": "passed"
+  },
+  "thresholds": {
+    "gamma5_negative": "integer q>=320797",
+    "gamma6_negative": "integer q>=217457073105",
+    "j31": {
+      "q": 80172722860,
+      "gamma5": -320689608253,
+      "gamma6": 549137400978
+    },
+    "first_stable_odd_double_negative_j": 33,
+    "all_odd_j_at_least_33_double_negative": true,
+    "proof": "q_(j+2)=4q_j-4 is increasing"
+  },
+  "first_witness": {
+    "j": 33,
+    "h": 481036337152,
+    "q": 320690891436,
+    "b": 320690891440,
+    "n": 51421323924847823625339,
+    "tau": 1282763565742,
+    "gamma3": -1282763565721,
+    "gamma4": -1282763564414,
+    "gamma5": -1282762282557,
+    "gamma6": -412935273326,
+    "gamma7": 129084548046247672655610,
+    "gamma7_positive": true
+  },
+  "scope": {
+    "refutes": [
+      "M305-rank6-deficit-domination",
+      "fixed two-row rank-five/rank-six recovery"
+    ],
+    "does_not_refute": [
+      "adaptive recovery",
+      "global rank-42 interface",
+      "public Erdos-776 problem"
+    ],
+    "public_problem_changed": false
+  },
+  "bounded_reproduction": {
+    "script": "audit/verify_k4_r9_rank6_counterfamily_independent.py",
+    "script_sha256": "97f8585870d2529bbc53aa4b4e2d157044fa3bfc985b68f37232384c5b8d5a93",
+    "memory_kib": 2097152,
+    "timeout_seconds": 120,
+    "result": "passed",
+    "lean_used": false,
+    "author_verifier_imported": false
+  }
+}

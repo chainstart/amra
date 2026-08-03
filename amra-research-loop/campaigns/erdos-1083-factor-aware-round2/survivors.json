@@ -1,0 +1,14 @@
+{
+  "mechanism_ids": ["M1083R2-01", "M1083R2-10"],
+  "selection_rationale": "Survivor deepening killed M1083R2-05 as formulated: the actual scalar-copy object is F_j=P_{lambda_j X}, whereas the signed object carrying M01's factor-labelled moments is Q_j, so Q_j(lambda_j X) and its Jacobian are not defined by the frozen normal form. Replacing Q_j by F_j makes the bridge typed but redundant, because the inherited heavy-factor theorem already sends G|F_j directly to the reciprocal chart with only logarithmic loss. M1083R2-01 remains as a possible new factor-aware inverse theorem and M1083R2-10 remains the direct exponent-changing target; neither currently changes the exponent.",
+  "chain": [
+    {"step": 1, "mechanism_id": "M1083R2-01", "output_needed": "a new typed factor-aware conclusion not already implied by the inherited heavy-factor reciprocal chart"},
+    {"step": 2, "mechanism_id": "M1083R2-10", "output_needed": "a collision-controlled actual distance-label theorem producing more than t^(3+epsilon) labels on the inherited t^(5/9-o(1)) reciprocal chart"}
+  ],
+  "shared_dependency_gaps": [
+    "paired positivity must eliminate arbitrary-weight moment kernels without losing t^epsilon",
+    "any future Jacobian route must first define a parameter family of the signed Q_j; the present Q_j(lambda_j X) expression is ill-typed",
+    "chart parameters must inject into actual distance labels with a complete exceptional-locus ledger",
+    "outer near-extremal stability remains outside this three-mechanism chain and must be supplied before promotion"
+  ]
+}

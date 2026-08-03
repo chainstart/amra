@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {"mechanism_id":"M809S8-01","outcome":"killed","classification":"no triple has one forced edge; 12 have two and 60 have three","evidence":"evidence/TRACE_BLOCK_CERTIFICATE.json"},
+    {"mechanism_id":"M809S8-02","outcome":"killed","classification":"the proposed four-term block formula equals the singleton set exactly","evidence":"evidence/verify_structural_trace_classification.py"},
+    {"mechanism_id":"M809S8-03","outcome":"killed","classification":"all 72 triples are already hit by the singleton kernel","evidence":"evidence/TRACE_BLOCK_CERTIFICATE.json"},
+    {"mechanism_id":"M809S8-05","outcome":"killed","classification":"12 triples contain an outside-F edge","evidence":"evidence/TRACE_BLOCK_CERTIFICATE.json"},
+    {"mechanism_id":"M809S8-06","outcome":"killed","classification":"60 triples are entirely contained in F","evidence":"evidence/TRACE_BLOCK_CERTIFICATE.json"},
+    {"mechanism_id":"M809S8-07","outcome":"killed","classification":"five, not four, signatures occur","evidence":"evidence/TRACE_BLOCK_CERTIFICATE.json"},
+    {"mechanism_id":"M809S8-10","outcome":"killed","classification":"tau=21 exceeds deletion budget three","evidence":"evidence/TRACE_BLOCK_CERTIFICATE.json"},
+    {"mechanism_id":"M809S8-11","outcome":"killed","classification":"direct trace reconstruction gives multiple exceptional outside-F edges","evidence":"evidence/verify_structural_trace_classification.py"},
+    {"mechanism_id":"M809S8-12","outcome":"killed","classification":"nine forced edges lie in P×Q, U×W or K2(W)","evidence":"evidence/TRACE_BLOCK_CERTIFICATE.json"},
+    {"mechanism_id":"M809S8-04","outcome":"proved","classification":"exact edge-set equality","evidence":"evidence/verify_structural_trace_classification.py"},
+    {"mechanism_id":"M809S8-08","outcome":"proved","classification":"complete 93-trace profile","evidence":"evidence/TRACE_BLOCK_CERTIFICATE.json"},
+    {"mechanism_id":"M809S8-09","outcome":"inconclusive","classification":"no all-hard-graph reduction exists in this campaign","evidence":"evidence/STRUCTURAL_TRACE_THEOREM.md"}
+  ]
+}

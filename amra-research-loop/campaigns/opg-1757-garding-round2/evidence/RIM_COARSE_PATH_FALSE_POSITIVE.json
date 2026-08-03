@@ -1,0 +1,16 @@
+{
+  "schema": "amra.opg1757.rim-coarse-path-false-positive.v1",
+  "host": "W4 rim edge orbit",
+  "specialization": "full four stabilizer variables",
+  "endpoint": {"a": "-33/20", "b": "-13/25", "c": "9/2", "d": "69/10"},
+  "endpoint_values": {"C_delete": "161582787/5000000", "xi": "-346833/500000"},
+  "straight_path": "(a,b,c,d)=(1,1,1,1)+t*((-33/20,-13/25,9/2,69/10)-(1,1,1,1))",
+  "scaled_C_delete_path_polynomial": "5863231318*t^7-15591344748*t^6+4987937302*t^5+12444860715*t^4-5393263800*t^3-3622938000*t^2+1063100000*t+410000000",
+  "exact_root_count_in_open_unit_interval": 2,
+  "root_locations_numeric": [0.666460154680230, 0.666474304332635],
+  "conclusion": "The endpoint has C_delete>0 and xi<0, but the apparent straight path from the positive orthant exits C_delete>0 through an interval only about 1.4e-5 wide. It is not a domination counterexample.",
+  "refutes": ["coarse fixed-mesh component-membership certification", "treating C_delete>0 at both endpoints as proof that they lie in the same positivity component"],
+  "leaves_open": ["a different exact path placing the endpoint in the distinguished component", "full W4 rim domination", "OPG-1757"],
+  "evidence_level": 4,
+  "public_problem_closed": false
+}

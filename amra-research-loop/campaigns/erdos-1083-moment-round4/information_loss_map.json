@@ -1,0 +1,56 @@
+{
+  "inherited_negative_evidence_only": true,
+  "inherited_from": "erdos-1083-factor-aware-round3",
+  "inherited_methods": [
+    {
+      "method": "normalized Boolean quotient host Qcal(y)=product_nu((1-y_nu)+y_nu H_nu)",
+      "loss_step": "identify a legal Boolean specialization family with a low-complexity inverse theorem",
+      "lost_information": "total factor-occurrence dimension D, the Laurent associate unit/translation, positive-product coefficient carriers, and the Euclidean row labels",
+      "consequence": "coordinate degree one still permits total degree D and 2^D specializations; legality repairs typing but proves no compression",
+      "negative_evidence": "../erdos-1083-factor-aware-round3/evidence/SURVIVOR_DEEPENING.md"
+    },
+    {
+      "method": "labelled subset recovery or Boolean degree-one moments",
+      "loss_step": "recover the omission vector y_j and stop",
+      "lost_information": "why the actual family of recovered vectors is smaller than an arbitrary divisor code and how its profiles control distinct Euclidean labels",
+      "consequence": "Phi6 and independent formal factors support exponentially many perfectly recovered profiles without scalar-copy or distance rigidity",
+      "negative_evidence": "../erdos-1083-factor-aware-round3/evidence/ROUND3_MINIMAL_FALSIFICATION.md"
+    },
+    {
+      "method": "lambda-indexed coefficient interpolation",
+      "loss_step": "declare the existence of Q(T) through the samples (lambda_j,Q_j) to be a structural bridge",
+      "lost_information": "a sublinear degree/pole bound and compatibility with paired positivity",
+      "consequence": "a delta coefficient sequence on K nodes forces interpolation degree K-1, consuming the entire row exponent",
+      "negative_evidence": "../erdos-1083-factor-aware-round3/evidence/ROUND3_MINIMAL_FALSIFICATION.json"
+    },
+    {
+      "method": "factor width or normalized Newton data",
+      "loss_step": "map the divisor vector to the weighted subset sum b_j and lambda_j, then treat injectivity as a new rigidity theorem",
+      "lost_information": "factor shapes, coefficient signs, associate translations, paired-positive carrier incidences, and actual distance collision fibres",
+      "consequence": "the result is exactly the inherited reciprocal chart and only K=t^(5/9-o(1)) pinned labels",
+      "negative_evidence": "../erdos-1083-factor-aware-round3/decisive_lemma.json"
+    },
+    {
+      "method": "unit-free normalized factor moments",
+      "loss_step": "replace Q_j by its normalized associate Q_j^norm before reconstructing coefficient locations or positive products",
+      "lost_information": "the row-dependent Laurent monomial/sign unit and therefore absolute exponent positions and translations",
+      "consequence": "two rows can have identical normalized factor data while their coefficient and geometric label positions differ; any unit-invariant theorem must prove that the desired conclusion is also unit-invariant",
+      "negative_evidence": "../erdos-1083-factor-aware-round3/evidence/SURVIVOR_DEEPENING.md"
+    },
+    {
+      "method": "chart-local distance counting",
+      "loss_step": "attach an algebraic moment conclusion only to the selected K-row reciprocal hub",
+      "lost_information": "the remaining q-K rows and the multiplicity of full target-target distance fibres",
+      "consequence": "selected-to-all target pair capacity is 53/18<3; a public gain needs propagation to all qU targets and fibre exponent below 1/9-epsilon",
+      "negative_evidence": "../erdos-1083-factor-aware-round3/decisive_lemma.json"
+    }
+  ],
+  "required_new_information": [
+    "a Boolean Fourier/noise statistic that is not equivalent to recovering y_j or its weighted width and that uses both positive products",
+    "a log-derivative/root statistic with zeros, poles, multiplicities and exceptional characters controlled uniformly at t^o(1) cost",
+    "a subset-poset correlation inequality false for the Phi6 middle layer but forced by common-X scalar copies and paired positivity",
+    "an explicit treatment of Laurent units/translations, including adversarial pairs with identical normalized Boolean data",
+    "a proof that any retained moment statistic changes an actual all-target distance fibre bound rather than only the selected chart",
+    "an exact exponent ledger; the legal host, profile count and 26/9 capacity are not improvements"
+  ]
+}

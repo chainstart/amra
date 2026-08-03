@@ -1,0 +1,7 @@
+{
+  "statement": "Every possibly q-dependent lower-tail reset retaining the same H/q leading staircase and surplus identity, the same B bottom recurrence, and a canonical next word has negative current surplus for q>=5n-13. Independently, every fixed finite menu of q-independent lower-tail profiles retaining that staircase is defeated simultaneously through any fixed R by one later actual odd K4,r9 member.",
+  "status": "proved",
+  "closes": ["finite constant-tail reset menus", "finite-state q-independent waiting/reset controllers", "same-interface q-dependent or growing-menu resets with canonical continuation"],
+  "evidence": ["evidence/FINITE_MENU_STABLE_TAIL_NO_GO.md","evidence/verify_finite_menu_stable_tail.py","evidence/CANONICAL_ONE_STEP_RESET_NO_GO.md","evidence/verify_canonical_one_step.py","audit/SEED_SWITCH_NO_GO_INDEPENDENT_AUDIT.md","audit/SEED_SWITCH_NO_GO_INDEPENDENT_AUDIT.json","audit/verify_seed_switch_no_go_independent.py"],
+  "dependency_gaps": ["a reset that changes the leading staircase or bottom recurrence", "terminal recovery without canonical continuation", "a q-dependent menu outside the pointwise same-interface hypotheses", "suffix persistence and public composition"]
+}

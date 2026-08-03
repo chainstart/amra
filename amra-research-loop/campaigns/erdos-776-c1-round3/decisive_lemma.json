@@ -1,0 +1,30 @@
+{
+  "statement": "Proved scoped base-retaining rank-five theorem. For any actual (++ -> ++) state with gamma4<0, let a=top_2(alpha), c=top_3(p), and d=top_3(v), and put L=binom(d,4)-binom(c+1,4)-binom(a+1,3). Actual legality forces s>=3. The audited gamma4-feedback reduction and the proved high-/low-half adjacent-sum kernel give L>=0 uniformly; since gamma5>=L+1, every such state recovers strictly at rank five while retaining the base word.",
+  "status": "proved",
+  "closes": [
+    "the exact implication from the base-retaining top-index multi-cap inequality to rank-five recovery",
+    "the arithmetic replacement required after the p-free G++ gate was refuted"
+  ],
+  "evidence": [
+    "evidence/BASE_LEADING_BLOCK_NEXT_LEMMA.md",
+    "evidence/BASE_LEADING_TOP_INDEX_INDEPENDENT_ATTACK.md",
+    "evidence/MULTI_CAP_CARRY_CELL_ANALYSIS.md",
+    "evidence/MULTI_CAP_DISCRETE_CONVEXITY_REDUCTION.md",
+    "evidence/MULTI_CAP_UPSTREAM_CARRY_GAP.md",
+    "evidence/MULTI_CAP_GAMMA4_FEEDBACK_REDUCTION.md",
+    "evidence/LOW_HALF_ADJACENT_SUM_KERNEL.md",
+    "evidence/LOW_HALF_ADJACENT_SUM_KERNEL.json",
+    "audit/BASE_RETAINING_TOP_INDEX_RANK5_INDEPENDENT_AUDIT.md",
+    "audit/top_index_rank5_independent_audit.json"
+    ,"audit/MULTI_CAP_REDUCTIONS_INDEPENDENT_AUDIT.md"
+    ,"audit/MULTI_CAP_REDUCTIONS_INDEPENDENT_AUDIT.json"
+    ,"audit/GAMMA4_FEEDBACK_REDUCTION_AUDIT.md"
+    ,"audit/GAMMA4_FEEDBACK_REDUCTION_AUDIT.json"
+    ,"audit/LOW_HALF_ADJACENT_SUM_INDEPENDENT_AUDIT.md"
+    ,"audit/LOW_HALF_ADJACENT_SUM_INDEPENDENT_AUDIT.json"
+  ],
+  "dependency_gaps": [
+    "handle the (--)->(++) branch adaptively beyond rank six, since exact double-negative families persist",
+    "compose an all-parameter seed theorem with the public antichain threshold"
+  ]
+}

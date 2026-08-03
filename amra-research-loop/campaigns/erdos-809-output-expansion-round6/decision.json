@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent audit reproduces the finite no-go and conditional lemmas, but the operational kill ratio is only 4/9=44.4%; M02 and M12 also need statement repairs. No legal two-output witness, scalable all-cut theorem, global interface closure, or public 1/8 change is proved.",
+  "evidence": [
+    "audit/OUTPUT_EXPANSION_ROUND6_INDEPENDENT_AUDIT.md"
+  ]
+}

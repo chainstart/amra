@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M1083M4-01",
+      "representation_id": "R1083M4-01",
+      "family": "boolean_fourier_noise",
+      "decisive_claim": "Paired positivity and common-X scalar copies force the actual quotient-code measure to have Fourier mass concentrated on o(log t) coordinates, yielding either t^(5/9-epsilon) rows or a unit-aware structured class with a fixed distance-fibre gain.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Test the full cube, middle layers and the translated length-12 exact block. Kill any proof using Fourier degree or concentration without the common-X and unit hypotheses.",
+      "status": "surviving",
+      "created_at": "2026-08-03T03:31:04+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md survivor boundary",
+      "updated_at": "2026-08-03T03:32:35+00:00"
+    },
+    {
+      "id": "M1083M4-02",
+      "representation_id": "R1083M4-02",
+      "family": "boolean_fourier_noise",
+      "decisive_claim": "Every power-large actual quotient code has either total influence at least epsilon log t that spends scarce paired-positive carriers, or is an o(log t)-junta whose fibres admit a full-target distance theorem.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Use subcubes and Hamming balls with reusable formal factors; kill influence-to-carrier charging unless reuse across rows and both products is explicitly bounded.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:31:05+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md and evidence/small_d_unit_translation_adversary.py",
+      "updated_at": "2026-08-03T03:32:34+00:00"
+    },
+    {
+      "id": "M1083M4-03",
+      "representation_id": "R1083M4-03",
+      "family": "log_derivative_root_moments",
+      "decisive_claim": "A t^o(1)-sized set of positive characters gives unit-aware logarithmic jets that determine every actual quotient profile up to t^o(1) ambiguity or force a common scalar-copy root locus with a fixed distance gain.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Place characters at zeros and near-equal factor evaluations; use translated exact blocks to kill unit-free jets and count every singular pattern.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:31:05+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md and evidence/small_d_unit_translation_adversary.py",
+      "updated_at": "2026-08-03T03:32:34+00:00"
+    },
+    {
+      "id": "M1083M4-04",
+      "representation_id": "R1083M4-04",
+      "family": "log_derivative_root_moments",
+      "decisive_claim": "The row-by-root multiplicity/resultant matrix of an actual paired-positive common-X family has rank deficiency epsilon log t unless it yields t^epsilon independent actual distance directions.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Use cyclotomic scalar copies and independent formal factors. Kill root-incidence rank that has no map to actual full-target labels.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:31:05+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md and evidence/small_d_unit_translation_adversary.py",
+      "updated_at": "2026-08-03T03:32:34+00:00"
+    },
+    {
+      "id": "M1083M4-05",
+      "representation_id": "R1083M4-05",
+      "family": "subset_poset_correlation",
+      "decisive_claim": "Paired-positive decoration forbids a power-large Boolean middle layer or diamond-rich quotient subposet unless common-X units vary in a way producing a fixed distance gain.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Phi6 and direct-product masks realize maximal middle layers and diamonds; kill every incidence-only forbidden-poset step.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:31:05+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md and evidence/small_d_unit_translation_adversary.py",
+      "updated_at": "2026-08-03T03:32:35+00:00"
+    },
+    {
+      "id": "M1083M4-06",
+      "representation_id": "R1083M4-06",
+      "family": "subset_poset_correlation",
+      "decisive_claim": "Four-row decorated cumulants impose t^epsilon cancellation debt on every Boolean rectangle in the actual quotient code, forcing row compression or all-target label expansion.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Tensor-product rectangles and the small-D translated block test carrier reuse and unit sensitivity; kill abstract cumulants counted as Euclidean debt.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:31:05+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md and evidence/small_d_unit_translation_adversary.py",
+      "updated_at": "2026-08-03T03:32:35+00:00"
+    },
+    {
+      "id": "M1083M4-07",
+      "representation_id": "R1083M4-07",
+      "family": "unit_translation_adversaries",
+      "decisive_claim": "Common-X anchoring and the fixed common spectrum restrict the Laurent-unit vectors over each normalized quotient profile to t^o(1) possibilities, so normalized factor moments lose only subpower information.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Use the translated length-12 exact block and seek longer interval/scalar-copy families. Kill on power-many legal units or on a proof that silently fixes source translation.",
+      "status": "surviving",
+      "created_at": "2026-08-03T03:31:05+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md survivor boundary",
+      "updated_at": "2026-08-03T03:32:35+00:00"
+    },
+    {
+      "id": "M1083M4-08",
+      "representation_id": "R1083M4-08",
+      "family": "unit_translation_adversaries",
+      "decisive_claim": "Normalized Boolean vectors, normalized root moments and the common per-row spectrum determine target-target distance collision behaviour up to a universal bounded ambiguity.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Compare t=0 and t=-1/4 in the length-12 exact block. Kill if identical normalized data yield different exact target-target label counts.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:31:05+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md and evidence/small_d_unit_translation_adversary.py",
+      "updated_at": "2026-08-03T03:32:35+00:00"
+    },
+    {
+      "id": "M1083M4-09",
+      "representation_id": "R1083M4-08",
+      "family": "unit_translation_adversaries",
+      "decisive_claim": "Any paired-positive common-X moment theorem may quotient Laurent units because source translation is irrelevant to the distance-label conclusion.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "The translated exact block must preserve the proposed conclusion. Kill on any target-target collision statistic changed by the unit fibre.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:31:05+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md and evidence/small_d_unit_translation_adversary.py",
+      "updated_at": "2026-08-03T03:32:35+00:00"
+    },
+    {
+      "id": "M1083M4-10",
+      "representation_id": "R1083M4-09",
+      "family": "collision_fibre_transfer",
+      "decisive_claim": "A unit-aware moment profile on the selected K rows propagates to all qU targets and forces average squared-distance fibre exponent below 1/9-epsilon.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Demand an explicit propagation identity from selected rows to every full-target pair; kill selected-chart energy or the 53/18 cross capacity counted as cubic.",
+      "status": "surviving",
+      "created_at": "2026-08-03T03:31:05+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md survivor boundary",
+      "updated_at": "2026-08-03T03:32:35+00:00"
+    },
+    {
+      "id": "M1083M4-11",
+      "representation_id": "R1083M4-10",
+      "family": "collision_fibre_transfer",
+      "decisive_claim": "There is a primal-dual dichotomy: either actual unit-aware quotient profiles number at most t^(5/9-epsilon), or every large all-target distance fibre consumes t^epsilon distinct decorated profiles and contradicts paired-positive capacity.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Run Phi6, the unit-translation pair and repeated-distance interval blocks. Kill any dual charge not attached to the same full-target pair graph.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:31:05+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md and evidence/small_d_unit_translation_adversary.py",
+      "updated_at": "2026-08-03T03:32:35+00:00"
+    },
+    {
+      "id": "M1083M4-12",
+      "representation_id": "R1083M4-10",
+      "family": "collision_fibre_transfer",
+      "decisive_claim": "Boolean Fourier, root and unit moments jointly form a bounded-complexity sufficient statistic whose profile ambiguity times all-target distance fibre is at most t^(1/9-epsilon).",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Small-D exact models must compute both factors of the product. Kill if the statistic is merely injective on quotient rows or if one factor is unbounded.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:31:06+00:00",
+      "status_evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md and evidence/small_d_unit_translation_adversary.py",
+      "updated_at": "2026-08-03T03:32:35+00:00"
+    }
+  ]
+}

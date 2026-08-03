@@ -1,0 +1,48 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos1083_lane (author-swapped independent reconstruction; author was erdos809_lane)",
+    "evidence": [
+      "audit/UNIT_TRANSLATION_FIREWALL_INDEPENDENT_AUDIT.md",
+      "audit/independent_verify_unit_translation_firewall.py (SHA-256 0c8afdcc437f20c3680687a9071a9f3da4856b2f286408d4888ab9db234bc742)",
+      "audit/independent_unit_translation_audit.json (SHA-256 9cca019aa0bd06d3572e21a9e9a3d818eba88143c7f368b64562521a6dc2d686)"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "audited_claim": {
+    "normalized_boolean_vectors": "passed: y1=(1,1,1), y3=(0,1,1)",
+    "factor_and_quotient_identities": "passed exactly",
+    "paired_positive_masks": "passed exactly",
+    "normalized_factor_root_log_data": "passed; equality is after removal of the Laurent unit",
+    "common_X_scalar_copies": "passed for lambda=1,2,3 at both translations",
+    "rowwise_source_target_spectrum": "passed: each row is exactly {100,...,111}",
+    "genuine_R3_realization": "passed from explicit source and target coordinates with positive tangent squares",
+    "target_target_labels": "passed exactly: 127 at t=0 and 145 at t=-1/4",
+    "unit_blind_firewall": "passed",
+    "relative_Laurent_unit_route": "not refuted; the pair changes common source translation and retained units distinguish it",
+    "public_exponent": "unchanged"
+  },
+  "kill_scope": {
+    "direct_exact_kills": ["M1083M4-08", "M1083M4-09"],
+    "other_kills": "scoped failures of current unit-blind, incidence-only, or missing-interface arguments; not counterexamples to every strengthened future hypothesis",
+    "survivor_precision": "M1083M4-07 still requires a subpower relative-unit bound after fixing common X, or a uniform distance gain across that fibre"
+  },
+  "capacity_audit": {
+    "q": "13/18",
+    "U": "5/6",
+    "qU": "14/9",
+    "all_target_pair_capacity": "28/9",
+    "excess_over_3": "1/9",
+    "required_fibre": "<1/9-epsilon on the same actual all-target occurrence domain",
+    "dependency_precision": "The upper bound |targets|<=qU is only capacity. A label lower bound also requires t^(28/9-o(1)) actual pair occurrences or equivalent weighted mass, plus propagation to that domain."
+  },
+  "promotion_audit": {
+    "decision": "reject",
+    "reason": "The finite firewall closes only unit-blind normalized determination. Relative-unit control, common-X Fourier structure, all-target propagation, actual pair-domain mass, fibre control, and outer stability remain open.",
+    "original_problem_changed": false,
+    "main_exponent_changed": false,
+    "three_fifths_changed": false
+  }
+}

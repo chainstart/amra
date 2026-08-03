@@ -1,0 +1,30 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex erdos776_lane; raw recurrence reconstruction without importing author word constructors",
+    "evidence": [
+      "audit/K4_R9_NO_FIXED_RANK_RECOVERY_INDEPENDENT_AUDIT.md",
+      "audit/K4_R9_NO_FIXED_RANK_RECOVERY_INDEPENDENT_AUDIT.json",
+      "audit/verify_stable_tail_recurrence_independent.py",
+      "audit/K4_R9_RANK7_RANK8_CELL_SPLIT_INDEPENDENT_AUDIT.md"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "scope_review": {
+    "proved": "forall fixed R>=4 exists actual odd j_R with gamma_m<0 simultaneously for 3<=m<=R",
+    "not_proved": [
+      "one finite member negative at every rank",
+      "finite recovery or nonrecovery of every individual state",
+      "the public antichain statement",
+      "a new public main term or exponent"
+    ],
+    "M410_literal": "retained as the stronger open one-state/all-rank claim; not conflated with the diagonal theorem"
+  },
+  "machine_reproduced": {
+    "command": "ulimit -v 3145728; timeout 180s python3 audit/verify_stable_tail_recurrence_independent.py",
+    "result": "pass on actual odd j=2477 through ranks 3..12",
+    "sha256": "8cba5acde5aaaad2a4af222a17641b2525c3c4a62f90514d98c6f2088733fc5a"
+  }
+}

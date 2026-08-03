@@ -1,0 +1,46 @@
+{
+  "schema": "amra.erdos776.adaptive-round4.k4r9-independent-audit.v1",
+  "verdict": "corrected rank-7/rank-8 canonical-cell split independently passed",
+  "rank7": {
+    "j33_cell": "q^2-42q+26241900209700351953826",
+    "stable_from_checked_j": 35,
+    "stable_formula": "378864136937404017548365-4q",
+    "one_off_drift": "B_actual-B_j33_word=-2*(q-q33)",
+    "q33": 320690891436,
+    "stable_B_threshold": "q>870476130377",
+    "first_odd_stable_negative_j": 73,
+    "gamma_at_j73": -1031549319279663352942179
+  },
+  "rank8": {
+    "j73_cell": "one-member D canonical cell",
+    "stable_from_checked_j": 75,
+    "stable_formula": "71769096623329310875999415996803170658344870942-4q",
+    "one_off_drift": "D_actual-D_j73_word=q73-q",
+    "q73": 352603364054266842622636,
+    "stable_D_threshold": "q>378864346761083666538839",
+    "first_odd_stable_negative_j": 149,
+    "gamma_at_j149": -34798731098715693576352603055425799524900210322
+  },
+  "mechanism_review": {
+    "M401_to_M404": "existing killed statuses independently supported",
+    "M408": "kill: stable rank-7 and rank-8 leading coefficient is -4",
+    "M409": "kill or rewrite: named K4,r9 recovery premise fails on its own base family",
+    "M405_M406_M410": "research candidates only; no universal or all-rank theorem",
+    "M407_M411_M412": "unproved interfaces; do not promote"
+  },
+  "scope": "fixed actual K4,r9 dyadic family through rank 8 only",
+  "not_proved": [
+    "infinite all-rank nonrecovery",
+    "nearby fixed-pair robustness",
+    "finite adaptive recovery tree",
+    "persistent seed composition",
+    "public theorem improvement"
+  ],
+  "verification": {
+    "author_checker": "pass",
+    "independent_checker": "pass",
+    "virtual_memory_limit_kib": 3145728,
+    "timeout_seconds": 180,
+    "lean_used": false
+  }
+}

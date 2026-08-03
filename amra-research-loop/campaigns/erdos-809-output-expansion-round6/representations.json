@@ -1,0 +1,14 @@
+{
+  "representations": [
+    {"id":"R809O6-01","name":"output-projected legal-switch hypergraph","family":"typed-matching","new_information":"Vertices are demands, named missing-B outputs and indispensable resources; certificate multiplicity is quotiented out.","first_test":"Re-encode the n=15 witness and verify matching rank zero despite 736 paths."},
+    {"id":"R809O6-02","name":"two-new-vertex exact threshold extension","family":"finite-extremal-model","new_information":"Allows two distinct new B outputs while preserving the exact edge threshold.","first_test":"Enumerate bounded n=16 extensions of the locked n=14 core with an explicit edge budget."},
+    {"id":"R809O6-03","name":"non-rainbow C7 obstruction cores","family":"constraint-duality","new_information":"Records the minimal old/new edge sets responsible for switch illegality.","first_test":"Extract obstruction cores for all 15 failed n=15 switch subsets."},
+    {"id":"R809O6-04","name":"exact SAT switch ledger","family":"constraint-duality","new_information":"Separates graph choice, colour equality, singleton legality and joint legality as exact clauses.","first_test":"Solve the smallest two-output two-switch extension without floating search."},
+    {"id":"R809O6-05","name":"alternating output exchange digraph","family":"typed-matching","new_information":"Retains the terminal output of every exchange and rejects paths returning to the old K(e).","first_test":"Replay every natural b-to-w switch in the n=15 graph."},
+    {"id":"R809O6-06","name":"resource-incidence codegree tensor","family":"bounded-overlap","new_information":"Measures output, owner, internal-edge and C7-witness overlaps separately.","first_test":"Compute pair codegrees for any first legal two-output witness."},
+    {"id":"R809O6-07","name":"deficient-cut submodular profile","family":"cut-expansion","new_information":"Keeps the full function T maps to |N(T)|-|T| instead of average degree.","first_test":"Evaluate all cuts of the four-demand locked circuit after candidate augmentation."},
+    {"id":"R809O6-08","name":"switch-obstruction hitting set","family":"constraint-duality","new_information":"Identifies the minimum graph or colour changes needed to destroy every bad C7 while retaining threshold density.","first_test":"Hit all n=15 natural-switch obstruction cores under one added-vertex edge swap."},
+    {"id":"R809O6-09","name":"stability-preserving output reservoir","family":"bounded-overlap","new_information":"Tracks whether exceptional vertices carry every rank-increasing output before they are discarded.","first_test":"Partition outputs by endpoint type in exact threshold extensions."},
+    {"id":"R809O6-10","name":"local-output to every-cut composition","family":"cut-expansion","new_information":"States the precise expansion and codegree hypotheses needed for deterministic cleanup.","first_test":"Test whether two-output local rank changes any non-singleton locked cut."}
+  ]
+}

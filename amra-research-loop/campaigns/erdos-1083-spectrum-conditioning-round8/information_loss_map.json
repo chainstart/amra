@@ -1,0 +1,43 @@
+{
+  "inherited_from": "erdos-1083-unit-matrix-round7 (frozen)",
+  "inherited_methods": [
+    {
+      "method": "condition on the four absolute product-unit rows leaf by leaf",
+      "loss_step": "treat the affine right sides phi_j and alpha_j as unrelated labels despite the common-spectrum identity",
+      "lost_information": "the exact one-coordinate factorization alpha_j=T-phi_j of every joint leaf profile",
+      "consequence": "define the profile map and its fibres before applying pigeonhole"
+    },
+    {
+      "method": "count Laurent-unit vectors without fixing an associate section",
+      "loss_step": "change normalized representatives independently and call the resulting cocycle an absolute invariant",
+      "lost_information": "which profile entropy is section-dependent gauge and which survives a fixed canonical normalization",
+      "consequence": "state every range theorem relative to an explicit ordered-group normalization and audit section changes"
+    },
+    {
+      "method": "infer a subpower fibre from the primitive aggregate kernel",
+      "loss_step": "confuse uniqueness inside one fixed right-hand side with a bound on how many right-hand sides occur",
+      "lost_information": "the range size of phi_j over the power-large row set",
+      "consequence": "test injectivity on the same-sign scalar-copy family before any entropy-free claim"
+    },
+    {
+      "method": "use normalized divisor shapes as the full product-unit profile",
+      "loss_step": "discard the monomial translation of F_j=P_{lambda_j X} and its complementary shift in P_Aj",
+      "lost_information": "a possible power-large affine spectrum orbit indexed by lambda_j",
+      "consequence": "separate normalized shape, absolute unit and common total spectrum"
+    },
+    {
+      "method": "turn a local profile range result into a public distance bound",
+      "loss_step": "stop before charging variation or conditioning loss on the all-target pair graph",
+      "lost_information": "t^(28/9-o(1)) occurrence mass, fibre below t^(1/9-epsilon), and outer stability",
+      "consequence": "freeze every local theorem without public promotion"
+    }
+  ],
+  "required_new_information": [
+    "an explicit normalization section for Laurent associates and the resulting phi_j, alpha_j profile map",
+    "the exact fibre identity #Psi(J)=#phi(J) following from alpha_j=T-phi_j",
+    "a proof of subpower range or a legal same-domain power-large lower bound",
+    "a normalization-change firewall distinguishing raw cocycles from invariant normalized shapes",
+    "the precise conclusion for conditioning loss and the downstream interfaces left open"
+  ],
+  "forbidden_shortcut": "Do not call the primitive fixed-profile kernel a profile-count theorem, and do not call a section-dependent monomial orbit a public distance gain."
+}

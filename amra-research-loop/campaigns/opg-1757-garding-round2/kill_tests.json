@@ -1,0 +1,69 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "G201",
+      "outcome": "survived",
+      "evidence": "evidence/G201_FIXED_EDGE_QUANTIFIER_FALSIFICATION.md plus evidence/G201_MULTICOORDINATE_EXACT.md and JSON",
+      "mathematical_status": "not_killed_by_exact_one_and_two_coordinate_search",
+      "statement_match": "global_fixed_edge_quantifier_precisely_defined",
+      "scope": "one-coordinate graph census plus exact two-coordinate K4/W4 denominator-eight grid; Bernstein-positive straight paths are sufficient certificates, not a full-component exhaustion"
+    },
+    {
+      "mechanism_id": "G209",
+      "outcome": "killed",
+      "evidence": "The exact disjoint-edge K4 Rayleigh difference has a monomial coefficient -2. Any cycle-cocircuit pairing that matches negative and positive endpoint-connection vectors inside each fixed complement monomial fiber would force coefficientwise nonnegativity and is therefore impossible. Inherited artifact: ../opg-1757-mechanism-reset/evidence/falsification_exact.json.",
+      "mathematical_status": "refuted_as_fiberwise_pairing",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "G211",
+      "outcome": "killed",
+      "evidence": "On P4, forests with the same component count have unequal root-lift multiplicities (component-size products 3 and 4). Hence no component-size-independent positive rooted determinant mixture represents the uniform unrooted polynomial. Inherited artifact: ../opg-1757-mechanism-reset/evidence/falsification_exact.json.",
+      "mathematical_status": "refuted",
+      "statement_match": "route_claim_exact"
+    },
+    {
+      "mechanism_id": "G212",
+      "outcome": "killed",
+      "evidence": "Fang-Ma Proposition 13.9 requires one edge e for which xi_e triangleleft C_delete on the entire distinguished component. Allowing the edge to depend on the component point does not produce a single polynomial decomposition C_M=C_delete(w_e+1)-xi_e and therefore does not imply C-Garding. No overlap certificate can repair this quantifier mismatch without first yielding one global edge.",
+      "mathematical_status": "refuted_as_closure_bridge",
+      "statement_match": "claimed_closure_effect"
+    },
+    {
+      "mechanism_id": "G202",
+      "outcome": "proved",
+      "evidence": "evidence/FULL_SPOKE_DOMINATION_THEOREM.md plus audit/FULL_SPOKE_DISTINGUISHED_COMPONENT_INDEPENDENT_AUDIT.md and its independent verifier.",
+      "mathematical_status": "proved_and_independently_audited",
+      "statement_match": "full four-variable W4 spoke stabilizer claim",
+      "scope": "does not prove the global moving-edge lemma or OPG-1757"
+    },
+    {
+      "mechanism_id": "G213",
+      "outcome": "proved",
+      "evidence": "evidence/K33_STABILIZER_DOMINATION_THEOREM.md plus audit/K33_STABILIZER_DOMINATION_INDEPENDENT_AUDIT.md and independent verifier",
+      "mathematical_status": "proved_and_independently_audited",
+      "statement_match": "complete two-variable K3,3 marked-edge stabilizer slice only"
+    },
+    {
+      "mechanism_id": "G214",
+      "outcome": "proved",
+      "evidence": "evidence/TRIANGULAR_PRISM_VERTICAL_STABILIZER_THEOREM.md plus audit/TRIANGULAR_PRISM_VERTICAL_STABILIZER_INDEPENDENT_AUDIT.md and independent verifier",
+      "mathematical_status": "proved_and_independently_audited",
+      "statement_match": "complete three-variable prism marked-vertical-edge stabilizer slice only"
+    },
+    {
+      "mechanism_id": "G215",
+      "outcome": "proved",
+      "evidence": "evidence/K5_MINUS_EDGE_UPPER_ROOT_THEOREM.md plus audit/K5_MINUS_EDGE_UPPER_ROOT_INDEPENDENT_AUDIT.md and independent verifier",
+      "mathematical_status": "proved_and_independently_audited",
+      "statement_match": "complete K5-e high-triangle 2,4,2 stabilizer slice only"
+    },
+    {
+      "mechanism_id": "G216",
+      "outcome": "proved",
+      "evidence": "evidence/PRISM_TRIANGLE_Z1_COMPONENT_THEOREM.md plus audit/PRISM_TRIANGLE_Z1_COMPONENT_INDEPENDENT_AUDIT.md and independent verifier",
+      "mathematical_status": "proved_after_disc_D_repair_and_independently_audited",
+      "statement_match": "complete z=1 component inside the three-variable prism triangle-edge coarsening only"
+    }
+  ]
+}

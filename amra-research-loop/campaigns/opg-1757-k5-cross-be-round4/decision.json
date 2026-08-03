@@ -1,0 +1,9 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "The complete distinguished component on the a=c=d=1 marked-cross-edge slice is independently proved safe after correcting one comparison-sign typo. The other stabilizer variables, transverse directions, G201 and OPG-1757 remain open.",
+  "evidence": [
+    "evidence/K5_CROSS_BE_COMPONENT_THEOREM.md",
+    "audit/K5_CROSS_BE_INDEPENDENT_AUDIT.md"
+  ]
+}

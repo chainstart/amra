@@ -1,0 +1,15 @@
+{
+  "mechanism_ids": [
+    "M1083M4-01",
+    "M1083M4-07",
+    "M1083M4-10"
+  ],
+  "selection_rationale": "Nine of twelve mechanisms fail their first exact or interface tests. M1083M4-01 survives only as a genuinely common-X and paired-positive Fourier theorem stronger than low-degree or middle-layer statistics. M1083M4-07 survives because the exact translation pair proves Laurent units are necessary but does not decide whether the legal unit fibre is subpower or itself supplies distance growth. M1083M4-10 survives as the required downstream bridge: it must propagate a unit-aware selected-row profile to every qU target and prove all-target squared-distance fibre exponent below 1/9-epsilon. These are conditional research directions, not proved closure, and the public 3/5 exponent is unchanged.",
+  "shared_dependency_gaps": [
+    "derive a quantitative Fourier consequence from paired positivity and common-X scalar copies that is not merely Boolean subset recovery",
+    "bound or exploit all Laurent-unit vectors compatible with the fixed common spectrum and source interval",
+    "propagate selected-row unit-aware information to the complete qU target family",
+    "prove an actual all-target squared-distance maximum- or energy-fibre exponent strictly below 1/9",
+    "transfer any exact-block gain through outer stability with only subpower loss"
+  ]
+}

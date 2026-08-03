@@ -1,0 +1,27 @@
+{
+  "schema": "amra.opg1757.rim-natural-slice-island-audit.v1",
+  "slice": "b=a, d=c",
+  "negative_point": {"a": "-1", "c": "10", "P": "7", "xi": "-3"},
+  "discriminant_in_c": "-a^6*(a+1)^4*(27*a^2-32)",
+  "resultant_P_dPdc": "a^6*(a+1)^8*(27*a^2-32)",
+  "critical_left_boundary": {
+    "a": "-4*sqrt(6)/9",
+    "double_c": "152/25+72*sqrt(6)/25",
+    "role": "the two lower c-roots merge, closing the middle positive component"
+  },
+  "right_boundary": {
+    "a": "0",
+    "identity": "P(0,c)=c^3",
+    "role": "all three roots collapse at c=0; a finite path in the middle component cannot enter c>0 at a=0"
+  },
+  "singular_fibre": {
+    "a": "-1",
+    "identity": "P(-1,c)=c-3",
+    "role": "the negative point is on the continuation of the middle positive interval; the upper interval escapes to c=+infinity"
+  },
+  "component_conclusion": "The P>0, xi<0 point (-1,10) lies in a nondistinguished middle component. The component containing (1,1) crosses a=0 through c>0 and occupies the region above the largest c-root on the negative-a strip.",
+  "effect": "No rim domination counterexample on the natural two-variable slice; the candidate negative-xi island is rigorously disconnected from the distinguished component.",
+  "leaves_open": ["full four-variable rim domination", "a full-variable component-valid counterexample", "OPG-1757"],
+  "public_problem_closed": false
+}
+

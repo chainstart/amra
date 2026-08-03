@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M809O7-01",
+      "representation_id": "R809O7-01",
+      "family": "constraint-duality",
+      "decisive_claim": "The migrated two-exchange search exactly reproduces empty binary hitting-pair sets for all 3876 displayed natural-switch configurations.",
+      "would_close": [
+        "reproduced finite starting firewall"
+      ],
+      "kill_test": "Re-run under the frozen resource cap and compare every reported counter.",
+      "status": "proved",
+      "created_at": "2026-08-03T04:54:42+00:00",
+      "status_evidence": "evidence/BINARY_START_RESULT.json",
+      "updated_at": "2026-08-03T05:03:02+00:00"
+    },
+    {
+      "id": "M809O7-02",
+      "representation_id": "R809O7-02",
+      "family": "bitset-transversal",
+      "decisive_claim": "The bitset intersection over bad-C7 traces equals direct enumeration of all admissible deletion pairs.",
+      "would_close": [
+        "certified binary pruning equivalence"
+      ],
+      "kill_test": "Compare mask-selected pairs with direct deletion and pair-safety replay on a deterministic sample.",
+      "status": "proved",
+      "created_at": "2026-08-03T04:54:42+00:00",
+      "status_evidence": "evidence/verify_transversal_masks.py",
+      "updated_at": "2026-08-03T05:03:02+00:00"
+    },
+    {
+      "id": "M809O7-03",
+      "representation_id": "R809O7-03",
+      "family": "bitset-transversal",
+      "decisive_claim": "At least one eighteen-new-edge assignment has a three-old-edge hitting set for every bad C7 trace.",
+      "would_close": [
+        "nonempty triple candidate frontier"
+      ],
+      "kill_test": "Exhaust all 969 new-edge assignments and all exact triple masks; kill if every intersection is empty.",
+      "status": "killed",
+      "created_at": "2026-08-03T04:54:43+00:00",
+      "status_evidence": "evidence/TRIPLE_EXCHANGE_RESULT.json#assignments_with_exact_hitting_set",
+      "updated_at": "2026-08-03T05:03:02+00:00"
+    },
+    {
+      "id": "M809O7-04",
+      "representation_id": "R809O7-04",
+      "family": "obstruction-core",
+      "decisive_claim": "Every eighteen-new-edge assignment already contains a bad C7 with no admissible old edge.",
+      "would_close": [
+        "absolute protected-cycle firewall"
+      ],
+      "kill_test": "Search every bad C7 trace and exhibit whether a zero-admissible-edge trace exists for each assignment.",
+      "status": "killed",
+      "created_at": "2026-08-03T04:54:43+00:00",
+      "status_evidence": "evidence/TRIPLE_EXCHANGE_RESULT.json#unprotected_assignments_with_empty_hitting_set",
+      "updated_at": "2026-08-03T05:03:02+00:00"
+    },
+    {
+      "id": "M809O7-05",
+      "representation_id": "R809O7-05",
+      "family": "obstruction-core",
+      "decisive_claim": "Whenever the triple mask is empty without a protected cycle, the exact bad-C7 transversal number is at least four.",
+      "would_close": [
+        "sharp finite transversal lower bound"
+      ],
+      "kill_test": "Verify absence of all deletion triples after exhaustively processing every bad cycle.",
+      "status": "proved",
+      "created_at": "2026-08-03T04:54:43+00:00",
+      "status_evidence": "evidence/TRANSVERSAL_CERTIFICATE.json",
+      "updated_at": "2026-08-03T05:06:43+00:00"
+    },
+    {
+      "id": "M809O7-06",
+      "representation_id": "R809O7-06",
+      "family": "typed-recolouring",
+      "decisive_claim": "Every triple surviving the exact C7 trace filter makes the base and both singleton and joint colour states rainbow C7.",
+      "would_close": [
+        "trace-filter sufficiency for colour legality"
+      ],
+      "kill_test": "Delete each retained triple and replay all four named colour states exactly.",
+      "status": "proved",
+      "created_at": "2026-08-03T04:54:43+00:00",
+      "status_evidence": "evidence/EXCHANGE_RESULT.md#exact-transversal-filter",
+      "updated_at": "2026-08-03T05:03:02+00:00"
+    },
+    {
+      "id": "M809O7-07",
+      "representation_id": "R809O7-07",
+      "family": "path-connectivity",
+      "decisive_claim": "Some colour-safe triple exchange preserves full L4(2).",
+      "would_close": [
+        "connectivity-valid triple candidate"
+      ],
+      "kill_test": "For every colour-safe candidate check every endpoint pair after every deletion of at most two other vertices.",
+      "status": "killed",
+      "created_at": "2026-08-03T04:54:43+00:00",
+      "status_evidence": "evidence/TRIPLE_EXCHANGE_RESULT.json#L4_2_pass",
+      "updated_at": "2026-08-03T05:03:02+00:00"
+    },
+    {
+      "id": "M809O7-08",
+      "representation_id": "R809O7-08",
+      "family": "typed-matching",
+      "decisive_claim": "Some L4-valid triple exchange has both canonical outputs in their switched reserves and outside the old reserve.",
+      "would_close": [
+        "two legal named outputs"
+      ],
+      "kill_test": "Compute K(bc), K(cw), K(cu) exactly and test wz,uz membership.",
+      "status": "killed",
+      "created_at": "2026-08-03T04:54:43+00:00",
+      "status_evidence": "evidence/TRIPLE_EXCHANGE_RESULT.json#canonical_output_pass",
+      "updated_at": "2026-08-03T05:03:02+00:00"
+    },
+    {
+      "id": "M809O7-09",
+      "representation_id": "R809O7-09",
+      "family": "typed-matching",
+      "decisive_claim": "Every candidate with the two canonical outputs has augmented matching rank four.",
+      "would_close": [
+        "exact locked-cut allocation"
+      ],
+      "kill_test": "Run deterministic bipartite matching on the four demand neighbourhoods.",
+      "status": "proved",
+      "created_at": "2026-08-03T04:54:43+00:00",
+      "status_evidence": "evidence/EXCHANGE_RESULT.md#exact-transversal-filter",
+      "updated_at": "2026-08-03T05:03:02+00:00"
+    },
+    {
+      "id": "M809O7-10",
+      "representation_id": "R809O7-10",
+      "family": "finite-extremal-model",
+      "decisive_claim": "There exists an exact n=16,e=65 natural-switch witness obtained by eighteen new incident edges and three admissible old deletions.",
+      "would_close": [
+        "complete triple-exchange witness"
+      ],
+      "kill_test": "Exhaust the displayed domain and require every named graph, colour, reserve, output and rank predicate.",
+      "status": "killed",
+      "created_at": "2026-08-03T04:54:43+00:00",
+      "status_evidence": "evidence/TRIPLE_EXCHANGE_RESULT.json#first_witness",
+      "updated_at": "2026-08-03T05:03:02+00:00"
+    },
+    {
+      "id": "M809O7-11",
+      "representation_id": "R809O7-04",
+      "family": "obstruction-core",
+      "decisive_claim": "Protected bad cycles account for all failures in the triple-exchange domain.",
+      "would_close": [
+        "single obstruction archetype"
+      ],
+      "kill_test": "Kill if an assignment lacks a protected cycle but still has empty triple intersection.",
+      "status": "killed",
+      "created_at": "2026-08-03T04:54:43+00:00",
+      "status_evidence": "evidence/TRIPLE_EXCHANGE_RESULT.json#unprotected_assignments_with_empty_hitting_set",
+      "updated_at": "2026-08-03T05:03:02+00:00"
+    },
+    {
+      "id": "M809O7-12",
+      "representation_id": "R809O7-09",
+      "family": "cut-expansion",
+      "decisive_claim": "A finite rank-four triple-exchange witness alone implies the public all-n one-eighth asymptotic.",
+      "would_close": [
+        "finite-to-global bridge"
+      ],
+      "kill_test": "Kill unless a quantified scaling and all-hard-branch composition theorem is supplied.",
+      "status": "frozen",
+      "created_at": "2026-08-03T04:54:43+00:00",
+      "status_evidence": "evidence/EXCHANGE_RESULT.md#reproduction-and-scope",
+      "updated_at": "2026-08-03T05:03:02+00:00"
+    }
+  ]
+}

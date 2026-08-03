@@ -1,0 +1,52 @@
+{
+  "schema": "amra.erdos1083.factor-aware-round3.minimal-falsification.v1",
+  "lambda_interpolation": {
+    "finite_guard": "2<=K<=8",
+    "delta_sequence_top_difference": 1,
+    "minimum_degree": "K-1",
+    "conclusion": "existence of Q(T) is vacuous without a sublinear degree/pole theorem"
+  },
+  "boolean_quotient_family": {
+    "finite_guard": "1<=D<=8",
+    "coordinate_degree": 1,
+    "total_degree": "D",
+    "specializations": "2^D",
+    "conclusion": "legally typed but not automatically low-complexity"
+  },
+  "exponent_ledger": {
+    "K": "5/9",
+    "S": "7/9",
+    "U": "5/6",
+    "q": "13/18",
+    "defining_cell_domain_KS": "4/3",
+    "common_spectrum_V_SU": "29/18",
+    "native_capacity_KSUq": "26/9",
+    "formal_untyped_KS2Uq_tuple_capacity": "11/3",
+    "all_targets_qU": "14/9",
+    "selected_chart_targets_KU": "25/18",
+    "source_to_all_targets_SqU": "7/3",
+    "selected_chart_target_pairs": "25/9",
+    "selected_to_all_target_cross_pairs": "53/18",
+    "all_target_pairs": "28/9",
+    "strict_fibre_requirement": "<1/9-epsilon on all target-target pairs",
+    "capacity_firewall": "26/9<3 and is not an exponent improvement"
+  },
+  "killed": [
+    "M1083R3-02",
+    "M1083R3-03",
+    "M1083R3-04",
+    "M1083R3-05",
+    "M1083R3-06",
+    "M1083R3-07",
+    "M1083R3-08",
+    "M1083R3-09",
+    "M1083R3-10",
+    "M1083R3-11",
+    "M1083R3-12"
+  ],
+  "survivors": [
+    "M1083R3-01"
+  ],
+  "public_exponent_changed": false,
+  "lean_used": false
+}

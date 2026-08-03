@@ -1,0 +1,144 @@
+{
+  "mechanisms": [
+    {
+      "id": "M1083U5-01",
+      "representation_id": "R1083U5-01",
+      "family": "torus_character_fourier_units",
+      "decisive_claim": "Every nonconstant torus character of the raw Laurent-unit vector detects a change in an actual positive mask or target-distance collision profile.",
+      "would_close": [
+        "unit Fourier rigidity with distance meaning"
+      ],
+      "kill_test": "Use the exact fixed-X gauge line; a nonconstant raw character with all observable products and labels constant kills the claim.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:45:11+00:00",
+      "status_evidence": "A nonconstant raw character detects the fixed-X gauge generator while all source/complement products and labels are constant. Evidence: evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:48:01+00:00"
+    },
+    {
+      "id": "M1083U5-02",
+      "representation_id": "R1083U5-02",
+      "family": "torus_character_fourier_units",
+      "decisive_claim": "After fixing common X and normalized quotient vectors, the raw legal Laurent-unit fibre has t^o(1) elements.",
+      "would_close": [
+        "subpower unit fibre"
+      ],
+      "kill_test": "Exhibit arbitrarily many rational or bounded-denominator gauge representatives at the same fixed X and normalized data.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:45:11+00:00",
+      "status_evidence": "The exact fixed-X system admits infinitely many rational and integer representatives along its primitive gauge line. Evidence: evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:48:01+00:00"
+    },
+    {
+      "id": "M1083U5-03",
+      "representation_id": "R1083U5-03",
+      "family": "valuation_newton_polytope",
+      "decisive_claim": "Fixed source and complement Newton widths bound every individual factor unit to an interval of t^o(1) integer length.",
+      "would_close": [
+        "subpower valuation fibre"
+      ],
+      "kill_test": "Move along the exact gauge line while every source/complement width and absolute product support remains fixed.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:45:11+00:00",
+      "status_evidence": "Individual factor valuations are unbounded along gauge although every observable product support is fixed. Evidence: evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:48:01+00:00"
+    },
+    {
+      "id": "M1083U5-04",
+      "representation_id": "R1083U5-04",
+      "family": "valuation_newton_polytope",
+      "decisive_claim": "Every nonzero legal factor-unit displacement crosses a Newton-face or tangent-order wall and therefore changes an actual distance label.",
+      "would_close": [
+        "uniform gain from unit variation"
+      ],
+      "kill_test": "The exact gauge displacement is nonzero for arbitrary delta but preserves every normalized face, tangent square and distance label.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:45:11+00:00",
+      "status_evidence": "Arbitrary nonzero gauge displacement changes no Newton face, tangent ordering or target label. Evidence: evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:48:01+00:00"
+    },
+    {
+      "id": "M1083U5-05",
+      "representation_id": "R1083U5-05",
+      "family": "additive_energy_collision_fibres",
+      "decisive_claim": "Distinct fixed-X Laurent-unit vectors with the same normalized quotient data induce distinct target-target collision multiplicity profiles up to universally bounded ambiguity.",
+      "would_close": [
+        "unit entropy controls collision fibres"
+      ],
+      "kill_test": "Enumerate many exact gauge representatives; unboundedly many vectors with one identical collision profile kill bounded ambiguity.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:45:11+00:00",
+      "status_evidence": "Unboundedly many fixed-X raw vectors induce one exact target collision profile. Evidence: evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:48:01+00:00"
+    },
+    {
+      "id": "M1083U5-06",
+      "representation_id": "R1083U5-06",
+      "family": "additive_energy_collision_fibres",
+      "decisive_claim": "Large additive energy of a fixed-X raw unit fibre forces a proportional increase in target-target collision energy.",
+      "would_close": [
+        "unit additive inverse theorem"
+      ],
+      "kill_test": "A long arithmetic progression in the gauge parameter has maximal additive structure while the target configuration and collision energy remain unchanged.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:45:11+00:00",
+      "status_evidence": "Long arithmetic progressions in gauge have high additive energy and constant collision geometry. Evidence: evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:48:01+00:00"
+    },
+    {
+      "id": "M1083U5-07",
+      "representation_id": "R1083U5-07",
+      "family": "gauge_fixing_projective_normalization",
+      "decisive_claim": "For the exact three-row paired-positive block, fixing common X and the six source/complement product units leaves exactly one gauge direction; imposing u(G)=a selects a unique representative and preserves every geometric label.",
+      "would_close": [
+        "exact gauge-fixed unit-rank lemma"
+      ],
+      "kill_test": "Independently row-reduce the seven unit variables and verify uniqueness, gauge invariance and absence of torsion.",
+      "status": "surviving",
+      "created_at": "2026-08-03T03:45:11+00:00",
+      "status_evidence": "The exact unit matrix has rank six, primitive kernel rank one, and u(G)=a gives a unique lossless gauge slice. Evidence: evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:48:01+00:00"
+    },
+    {
+      "id": "M1083U5-08",
+      "representation_id": "R1083U5-08",
+      "family": "gauge_fixing_projective_normalization",
+      "decisive_claim": "In every actual power-large paired-positive common-X block, the integer unit constraint quotient has rank zero and t^o(1) torsion after projective gauge fixing.",
+      "would_close": [
+        "uniform subpower observable unit fibre"
+      ],
+      "kill_test": "Search small factor-incidence matrices for positive observable quotient rank or growing torsion; the exact three-row block is only the first test.",
+      "status": "frozen",
+      "created_at": "2026-08-03T03:45:11+00:00",
+      "status_evidence": "audit/RELATIVE_UNIT_ROUND5_INDEPENDENT_AUDIT.md finite-block scope mismatch",
+      "updated_at": "2026-08-03T04:04:51+00:00"
+    },
+    {
+      "id": "M1083U5-09",
+      "representation_id": "R1083U5-09",
+      "family": "unit_entropy",
+      "decisive_claim": "Every bit of conditional entropy in the raw unit vector after fixing X and normalized data consumes a distinct paired-positive carrier or a distance label.",
+      "would_close": [
+        "entropy-to-capacity charge"
+      ],
+      "kill_test": "Bounded gauge samples have arbitrarily growing raw entropy but exactly zero observable entropy and no new carrier or label.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:45:11+00:00",
+      "status_evidence": "Raw conditional entropy grows with the bounded gauge sample while observable entropy, carriers and labels remain constant. Evidence: evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:48:01+00:00"
+    },
+    {
+      "id": "M1083U5-10",
+      "representation_id": "R1083U5-10",
+      "family": "unit_entropy",
+      "decisive_claim": "The number of legal raw unit representatives is within a universal constant factor of the number of target-order or collision chambers they realize.",
+      "would_close": [
+        "unit chamber growth"
+      ],
+      "kill_test": "Arbitrarily many exact gauge representatives lie in one target and collision chamber, killing constant-factor comparison.",
+      "status": "killed",
+      "created_at": "2026-08-03T03:45:12+00:00",
+      "status_evidence": "Arbitrarily many exact gauge representatives occupy one target-order and collision chamber. Evidence: evidence/FIXED_X_UNIT_RANK_FALSIFICATION.md.",
+      "updated_at": "2026-08-03T03:48:01+00:00"
+    }
+  ]
+}

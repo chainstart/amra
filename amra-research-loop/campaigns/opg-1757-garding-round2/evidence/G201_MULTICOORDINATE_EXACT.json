@@ -1,0 +1,77 @@
+{
+  "schema": "amra.opg1757.g201-multicoordinate-exact.v1",
+  "command": "AMRA_MEMORY_KIB=2097152 AMRA_TIMEOUT_SECONDS=120 LEAN_NUM_THREADS=1 ../../scripts/run_bounded.sh python3 evidence/g201_multicoordinate_exact.py",
+  "resource_observation": {
+    "wall_seconds": 11.52,
+    "max_rss_kib": 12544,
+    "exit_code": 0,
+    "virtual_memory_limit_kib": 2097152
+  },
+  "method": "precomputed biaffine P_e,Q_e; exact denominator-eight grid; degree-two Bernstein-positive straight paths for every marked edge",
+  "script": "evidence/g201_multicoordinate_exact.py",
+  "script_sha256": "0748bf11ee1cafe982c6856d5de6a727f245235ce42657bc619d1c8b63c1de37",
+  "hosts": {
+    "K4": {
+      "vertices": 4,
+      "edges": 6,
+      "varied_edge_pairs": 15,
+      "points_per_pair": 58081,
+      "simultaneously_component_certified_points": 109800,
+      "distinct_strict_good_profiles": 1,
+      "only_profile": ["01", "02", "03", "12", "13", "23"],
+      "empty_intersection_found": false,
+      "minimum_two_point_intersection_size": 6,
+      "representative": {
+        "varied_edges": ["01", "02"],
+        "coordinates": ["-5/8", "3/2"],
+        "minimum_P_path_Bernstein_scaled_by_2D2": 16,
+        "minimum_Q_endpoint_scaled_by_D2": 40,
+        "all_edges_strict_good": true
+      },
+      "rejected_negative_barrier": {
+        "varied_edges": ["01", "02"],
+        "coordinates": ["-20", "-20"],
+        "nonpositive_Q_edges": ["01", "02", "03"],
+        "blocking_P_edge": "01",
+        "blocking_P_Bernstein_scaled_by_2D2": [3072, -15744, -34560]
+      }
+    },
+    "W4": {
+      "vertices": 5,
+      "edges": 8,
+      "varied_edge_pairs": 28,
+      "points_per_pair": 58081,
+      "simultaneously_component_certified_points": 205518,
+      "distinct_strict_good_profiles": 1,
+      "only_profile": ["01", "02", "03", "04", "12", "23", "34", "14"],
+      "empty_intersection_found": false,
+      "minimum_two_point_intersection_size": 8,
+      "representative": {
+        "varied_edges": ["01", "02"],
+        "coordinates": ["-5/8", "21/8"],
+        "minimum_P_path_Bernstein_scaled_by_2D2": 18,
+        "minimum_Q_endpoint_scaled_by_D2": 230,
+        "all_edges_strict_good": true
+      },
+      "rejected_negative_barrier": {
+        "varied_edges": ["01", "02"],
+        "coordinates": ["-20", "-20"],
+        "nonpositive_Q_edges": ["01", "02"],
+        "blocking_P_edge": "01",
+        "blocking_P_Bernstein_scaled_by_2D2": [11008, -58880, -128768]
+      }
+    }
+  },
+  "grid": {
+    "denominator": 8,
+    "minimum": "-20",
+    "maximum": "10",
+    "step": "1/8"
+  },
+  "G201_killed": false,
+  "mathematical_status": "finite_exact_absence_only",
+  "scope": "K4 and W4, exactly two varied edge activities, and only endpoints with a Bernstein-positive straight path; no completeness reduction",
+  "phase_changed": false,
+  "lean_used": false,
+  "public_problem_changed": false
+}

@@ -1,0 +1,61 @@
+{
+  "schema": "amra.opg1757.round2.g202-spoke-first-kill-test.v1",
+  "command": "ulimit -v 2097152; timeout 120s python3 evidence/verify_g202_spoke_exact_negative_island.py",
+  "resource_observation": {
+    "wall_seconds": 0.64,
+    "max_rss_kib": 51884,
+    "exit_code": 0,
+    "virtual_memory_limit_kib": 2097152
+  },
+  "host": "W4",
+  "marked_orbit": "spoke 01",
+  "stabilizer_classes": {
+    "a": ["02", "04"],
+    "b": ["03"],
+    "c": ["12", "14"],
+    "d": ["23", "34"]
+  },
+  "reconstruction": {
+    "method": "independent enumeration of deletion forests and endpoint-connected deletion forests",
+    "deletion_forests": 86,
+    "endpoint_connected_forests": 38,
+    "P_at_anchor": 86,
+    "xi_at_anchor": 38,
+    "P_as_quadratic_in_a": [
+      "(b + 1)*(c*d + c + d)*(c*d + c + d + 2)",
+      "2*(b*c**2*d**2 + 2*b*c**2*d + b*c**2 + 2*b*c*d**2 + 4*b*c*d + 2*b*c + b*d**2 + 2*b*d + c**2*d**2 + c**2*d + 2*c*d**2 + 2*c*d + d**2)",
+      "c*d*(c + 2)*(b*d + 2*b + d)"
+    ],
+    "xi_as_quadratic_in_a": [
+      "2*(c*d + c + d)",
+      "2*(b*c*d**2 + 2*b*c*d + 2*b*c + b*d**2 + 2*b*d + c*d**2 + 2*c*d + d**2)",
+      "2*c*d*(b*d + 2*b + d)"
+    ]
+  },
+  "exact_negative_point": {
+    "coordinates": ["-8", "1/8", "8", "7"],
+    "P": "294896",
+    "xi": "-16"
+  },
+  "fixed_fibre": {
+    "base": {"b": "1/8", "c": "8", "d": "7"},
+    "P_of_a": "(46647*a**2 + 82830*a + 36400)/8",
+    "xi_of_a": "(568*a**2 + 5007*a + 3640)/4",
+    "barrier_a": "-4/5",
+    "P_at_barrier_a": "-31/25"
+  },
+  "global_component_exclusion": {
+    "dependency": "the previously established C-Garding status of the spoke deletion makes its distinguished positivity component convex",
+    "anchor": ["1", "1", "1", "1"],
+    "segment_parameter": "1/5",
+    "segment_point": ["-4/5", "33/40", "12/5", "11/5"],
+    "P_at_segment_point": "-1009646/78125",
+    "conclusion": "the P>0, xi<0 point is outside the full distinguished component"
+  },
+  "kill_test_outcome": "survives_exact_negative_point_outside_component",
+  "mathematical_status": "exact local exclusion; full spoke domination open",
+  "finite_scan_role": "candidate discovery only; no completeness or promotion claim",
+  "lean_used": false,
+  "phase_changed": false,
+  "public_problem_changed": false
+}

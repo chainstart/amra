@@ -1,0 +1,13 @@
+{
+  "representations": [
+    {"id":"R809S8-01","name":"deduplicated deletion-trace hypergraph","family":"constraint-duality","new_information":"retains each admissible-old-edge intersection of a bad C7","first_test":"independently reconstruct all traces without importing round7"},
+    {"id":"R809S8-02","name":"singleton forcing kernel","family":"constraint-duality","new_information":"identifies edges present as one-edge traces and hence mandatory in every transversal","first_test":"compare the kernel with all size-one traces"},
+    {"id":"R809S8-03","name":"five vertex blocks R,P,Q,U,W","family":"equitable-blocks","new_information":"tests whether the 21 forced edges are unions of complete bipartite blocks","first_test":"check F=R×(P∪U∪W)∪P×Q∪U×W∪K2(W)"},
+    {"id":"R809S8-04","name":"forced-edge block ledger","family":"equitable-blocks","new_information":"separates block sizes 12,4,4,1 instead of a flat list","first_test":"prove disjointness and total size 21"},
+    {"id":"R809S8-05","name":"triple intersection profile","family":"incidence-profile","new_information":"counts how many forced edges lie in each three-edge trace","first_test":"compute the exact multiplicities for intersections two and three"},
+    {"id":"R809S8-06","name":"five-coordinate trace signature","family":"incidence-profile","new_information":"records incidence with four forced blocks and the complement","first_test":"enumerate and count every realized signature"},
+    {"id":"R809S8-07","name":"finite transversal primal-dual certificate","family":"matching-certificates","new_information":"singleton lower bound and block-set hitting upper bound meet at 21","first_test":"verify every trace intersects F"},
+    {"id":"R809S8-08","name":"three-deletion budget comparison","family":"finite-extremal-model","new_information":"compares exact tau=21 with the permitted deletion budget three","first_test":"derive impossibility without replaying later L4/reserve gates"},
+    {"id":"R809S8-09","name":"scope firewall","family":"finite-extremal-model","new_information":"tags every computed claim with the locked assignment and finite-only quantifier","first_test":"reject any inference to arbitrary hard graphs"}
+  ]
+}

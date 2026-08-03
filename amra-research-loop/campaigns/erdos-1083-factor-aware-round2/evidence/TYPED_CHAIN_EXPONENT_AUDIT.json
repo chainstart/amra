@@ -1,0 +1,23 @@
+{
+  "schema": "amra.erdos1083.typed-chain-exponent-audit.v1",
+  "native_exponents": {
+    "K_rows": "5/9",
+    "S": "7/9",
+    "U": "5/6",
+    "q": "13/18",
+    "required_distinct_labels": ">3"
+  },
+  "subpower_preservation": {
+    "heavy_factor_pigeonhole": "K/log_2(U)=t^(5/9-o(1))",
+    "fixed_sign_selection": "K/2=t^(5/9-o(1))"
+  },
+  "gaps": {
+    "chart_parameters_to_target": "22/9",
+    "optimistic_K_times_S_times_U_times_q": "26/9",
+    "remaining_beyond_that_product": "1/9"
+  },
+  "interpretation": "The proved heavy-factor and fixed-sign steps preserve the row exponent, but chart distinctness supplies only t^(5/9-o(1)) labels. M10 still needs a genuine multiplicity/expansion theorem; no Jacobian bookkeeping fills it.",
+  "script_sha256": "a456a808f7816d2cd121c7a187ea1123e12ae50600caca79cc69f2a2e3762f9b",
+  "resource_limit": "512 MiB virtual memory; 120 seconds",
+  "public_exponent_changed": false
+}

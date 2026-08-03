@@ -1,0 +1,20 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex audit, 2026-08-03",
+    "evidence": [
+      "audit/DECISIVE_LEMMA_INDEPENDENT_AUDIT.md",
+      "audit/DECISIVE_LEMMA_INDEPENDENT_AUDIT.json",
+      "audit/verify_decisive_lemma_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "passed",
+  "scope": {
+    "M809C-05": "refuted only in its universal exact finite-unweighted-cardinality form",
+    "M809C-08": "direct exit proved only conditional on the inherited unique-anchor and common-compatible-high-edge interface; the n=14 profile is not claimed graph-realizable",
+    "M809C-11": "Hall min-max is standard conditional bookkeeping after carriers and legal arcs are explicitly constructed",
+    "promotion": "no closure-contract success condition moved; public problem and 1/8 main term unchanged"
+  }
+}

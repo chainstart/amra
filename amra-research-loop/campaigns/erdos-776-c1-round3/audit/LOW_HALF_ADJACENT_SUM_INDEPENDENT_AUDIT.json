@@ -1,0 +1,38 @@
+{
+  "schema": "amra.erdos776.low-half-adjacent-sum-independent-audit.v1",
+  "independence": "fresh integer reconstruction; no author verifier import",
+  "finite_base": {
+    "domain": {
+      "a": [
+        3,
+        2400
+      ],
+      "c": "3<=c and 2c<a"
+    },
+    "independent_combinatorial_pair_count": 1434006,
+    "pairs_checked": 1434006,
+    "failures": [],
+    "minimum": [
+      0,
+      8,
+      3,
+      14,
+      9,
+      12,
+      12
+    ]
+  },
+  "analytic_tail_guards": {
+    "a_tail_min": 2401,
+    "sqrt_a_min": 49,
+    "a_three_quarters_min": 343,
+    "small_c_constant_comparison": "49/12 > 256/375",
+    "large_c_constant_comparison": "49/12 > 3971/1024",
+    "strictness": {
+      "rho": "Delta>a^3/8 and C(rho_p,2)>Delta imply rho_p>a^(3/2)/2",
+      "quartic_ceiling": "ceil(x)<x+1, so d0<4+x",
+      "adjacent_q": "ceil(x)<x+1 and R>8 give q+1<11R/8"
+    }
+  },
+  "verdict": "pass: exact finite base and infinite analytic tail reconstruct"
+}

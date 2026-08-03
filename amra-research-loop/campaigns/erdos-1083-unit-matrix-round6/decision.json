@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Blind reconstruction proves only the formal all-m primitive integer-matrix lemma. The actual power-large matrix realization, charged absolute-spectrum fibre, ambient unit lattice, all-target t^(28/9-o(1)) occurrence domain, fibre below t^(1/9-epsilon), and outer stability remain open; no main exponent or public 3/5 bound changes.",
+  "evidence": [
+    "audit/UNIT_MATRIX_ROUND6_INDEPENDENT_AUDIT.md"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {"mechanism_id":"M809O7-01","outcome":"proved","classification":"complete binary starting-point reproduction","evidence":"evidence/BINARY_START_RESULT.json"},
+    {"mechanism_id":"M809O7-02","outcome":"proved","classification":"full direct comparison on three binary configurations and sampled triple comparison","evidence":"evidence/verify_transversal_masks.py"},
+    {"mechanism_id":"M809O7-03","outcome":"killed","classification":"zero of 969 assignments has an exact deletion-triple hitting set","evidence":"evidence/TRIPLE_EXCHANGE_RESULT.json#assignments_with_exact_hitting_set"},
+    {"mechanism_id":"M809O7-04","outcome":"killed","classification":"unique assignment omitting bu,bw,uw has no protected bad C7","evidence":"evidence/TRIPLE_EXCHANGE_RESULT.json#unprotected_assignments_with_empty_hitting_set"},
+    {"mechanism_id":"M809O7-05","outcome":"proved","classification":"unique unprotected assignment has exact transversal number twenty-one","evidence":"evidence/TRANSVERSAL_CERTIFICATE.json"},
+    {"mechanism_id":"M809O7-06","outcome":"proved","classification":"exact hitting-set equivalence plus fixed-graph disjoint-colour joint-legality theorem","evidence":"evidence/EXCHANGE_RESULT.md#exact-transversal-filter"},
+    {"mechanism_id":"M809O7-07","outcome":"killed","classification":"no colour-safe deletion triple exists, so no L4-valid triple candidate exists in the complete domain","evidence":"evidence/TRIPLE_EXCHANGE_RESULT.json#L4_2_pass"},
+    {"mechanism_id":"M809O7-08","outcome":"killed","classification":"no triple survives the necessary colour filter to realize two canonical outputs","evidence":"evidence/TRIPLE_EXCHANGE_RESULT.json#canonical_output_pass"},
+    {"mechanism_id":"M809O7-09","outcome":"proved","classification":"conditional explicit matching wz,uz,bc,cz has rank four","evidence":"evidence/EXCHANGE_RESULT.md#exact-transversal-filter"},
+    {"mechanism_id":"M809O7-10","outcome":"killed","classification":"complete triple-exchange domain has no witness","evidence":"evidence/TRIPLE_EXCHANGE_RESULT.json#first_witness"},
+    {"mechanism_id":"M809O7-11","outcome":"killed","classification":"one failure has no protected cycle and instead has transversal number at least four","evidence":"evidence/TRIPLE_EXCHANGE_RESULT.json#unprotected_assignments_with_empty_hitting_set"},
+    {"mechanism_id":"M809O7-12","outcome":"inconclusive","classification":"no scaling or all-hard-branch composition theorem is supplied; finite antecedent also absent","evidence":"evidence/EXCHANGE_RESULT.md#reproduction-and-scope"}
+  ]
+}

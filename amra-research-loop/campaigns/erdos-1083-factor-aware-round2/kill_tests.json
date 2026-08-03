@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {"mechanism_id": "M1083R2-01", "outcome": "survived", "classification": "Phi6 hypothesis miss, exponent bridge open", "evidence": "evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json test M1083R2-01"},
+    {"mechanism_id": "M1083R2-02", "outcome": "killed", "classification": "exact reconstruction branch has no closure conclusion", "evidence": "evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json: Phi6 has K distinct bounded-jet profiles, yet profile recovery gives neither row saving nor Euclidean labels"},
+    {"mechanism_id": "M1083R2-03", "outcome": "killed", "classification": "representation insufficiency, not actual-interface theorem refutation", "evidence": "evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json: complete Phi6 middle layer refutes every incidence-only t^epsilon compression"},
+    {"mechanism_id": "M1083R2-04", "outcome": "killed", "classification": "factor expansion does not inject into distance labels", "evidence": "evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json: regular expanding Phi6 incidence has no Euclidean label content"},
+    {"mechanism_id": "M1083R2-05", "outcome": "killed", "classification": "survivor-deepening typed-interface failure", "evidence": "evidence/M01_M05_M10_TYPED_CHAIN_NO_GO.md: the scalar-copy identity belongs to F_j=P_{lambda_j X}, while M01 moments concern Q_j; the advertised Q_j(lambda_j X) Jacobian is undefined without a new parametrization"},
+    {"mechanism_id": "M1083R2-06", "outcome": "killed", "classification": "chart parameters lack a distance-label multiplicity theorem", "evidence": "evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json plus inherited coherent-theta and same-line countermodels"},
+    {"mechanism_id": "M1083R2-07", "outcome": "killed", "classification": "uniform t^epsilon debt refuted", "evidence": "evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json citing inherited Q_S family with two positive multiples and constant debt one"},
+    {"mechanism_id": "M1083R2-08", "outcome": "killed", "classification": "untyped/non-scarce cancellation capacity", "evidence": "evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json: regular reusable Phi6 factors plus constant-debt Q_S family"},
+    {"mechanism_id": "M1083R2-09", "outcome": "killed", "classification": "missing partition-rank and ruled-exception inequalities", "evidence": "evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json plus inherited interval and coherent-theta Euclidean no-go models"},
+    {"mechanism_id": "M1083R2-10", "outcome": "survived", "classification": "Phi6 hypothesis miss, typed distance inequality open", "evidence": "evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json test M1083R2-10"},
+    {"mechanism_id": "M1083R2-11", "outcome": "killed", "classification": "distributed-defect first test failed", "evidence": "evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json: no conserved Euclidean overlap potential supplied"},
+    {"mechanism_id": "M1083R2-12", "outcome": "killed", "classification": "expanded rank is not circuit complexity", "evidence": "evidence/PHI6_AND_EXPONENT_KILL_MATRIX.json and exact Phi6 2*3^d support versus d+1 factor circuit"}
+  ]
+}

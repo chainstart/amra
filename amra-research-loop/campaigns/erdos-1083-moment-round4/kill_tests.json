@@ -1,0 +1,67 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M1083M4-02",
+      "outcome": "killed",
+      "test": "middle-layer Fourier cancellation and missing influence-to-carrier charge",
+      "evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md#other-moment-guards",
+      "scope": "degree-one Walsh moments vanish on power-large middle layers, and no scarce actual paired-positive carrier is attached to total influence; a theorem proving such a carrier map from common-X data remains possible"
+    },
+    {
+      "mechanism_id": "M1083M4-03",
+      "outcome": "killed",
+      "test": "unit-aware logarithmic-derivative decomposition on the exact translated block",
+      "evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md#other-moment-guards",
+      "scope": "after the Boolean vector and Laurent unit are supplied, the proposed jets are deterministic additive readouts and give no bounded inverse theorem by themselves; new nonlinear cross-row evaluations are not refuted"
+    },
+    {
+      "mechanism_id": "M1083M4-04",
+      "outcome": "killed",
+      "test": "root-incidence data versus exact target-target labels in a common-X scalar-copy block",
+      "evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md#actual-distance-collision-pair",
+      "scope": "normalized roots and resultants are unchanged while exact target-target label behaviour changes along the unit fibre, so root rank without an explicit Euclidean map cannot close; a unit-aware root theorem is not refuted"
+    },
+    {
+      "mechanism_id": "M1083M4-05",
+      "outcome": "killed",
+      "test": "Phi6 Boolean divisor block and translated exact paired-positive realization",
+      "evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md#exact-paired-positive-common-x-block",
+      "scope": "legal paired-positive rows realize nontrivial Boolean subset structure, so incidence-only forbidden-poset reasoning supplies no power saving; a decorated theorem using unit and Euclidean data is not refuted"
+    },
+    {
+      "mechanism_id": "M1083M4-06",
+      "outcome": "killed",
+      "test": "abstract subset cumulants under reusable factors and Laurent translations",
+      "evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md#other-moment-guards",
+      "scope": "the proposed cumulant debt has no conserved actual distance carrier and is invariant under translations that change collision behaviour; an explicit same-graph debt identity remains possible"
+    },
+    {
+      "mechanism_id": "M1083M4-08",
+      "outcome": "killed",
+      "test": "compare t=0 and t=-1/4 exact reverse-circle realizations",
+      "evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.json#translation_instances",
+      "scope": "identical normalized Boolean, factor and per-row spectrum data give 127 versus 145 exact target-target labels; this refutes determination by normalized data, not a uniform lower bound over the unit fibre"
+    },
+    {
+      "mechanism_id": "M1083M4-09",
+      "outcome": "killed",
+      "test": "quotient Laurent units in two otherwise identical exact realizations",
+      "evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md#actual-distance-collision-pair",
+      "scope": "source translation is not irrelevant to target-target collision statistics, so units cannot be silently discarded; a proof that explicitly controls or optimizes over units remains possible"
+    },
+    {
+      "mechanism_id": "M1083M4-11",
+      "outcome": "killed",
+      "test": "require the dual profile charge and collision fibre to live on the same all-target pair graph",
+      "evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md#falsification-result",
+      "scope": "no full-target dual charge is constructed, and normalized profiles do not determine collision behaviour; a new unit-aware charge on explicit target pairs is not refuted"
+    },
+    {
+      "mechanism_id": "M1083M4-12",
+      "outcome": "killed",
+      "test": "joint normalized statistic against the exact unit-translation collision pair",
+      "evidence": "evidence/SMALL_D_UNIT_TRANSLATION_FALSIFICATION.md#actual-distance-collision-pair",
+      "scope": "the advertised bounded statistic is constant while its collision factor changes, and no ambiguity-times-fibre bound is proved; a statistic retaining the full relevant unit data is not refuted"
+    }
+  ]
+}

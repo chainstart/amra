@@ -1,0 +1,19 @@
+{
+  "schema":"amra.erdos809.round3.falsification.v1",
+  "script":"evidence/round3_mechanism_falsification.py",
+  "script_sha256":"121a910482e611f836a45c39dc766b29cb5d5f8febf36bd4709ece757e8c1618",
+  "resource_limit":"5 GiB virtual memory; 120 seconds",
+  "wall_time_seconds":0.1,
+  "killed":[
+    {"id":"M809R3-02","reason":"one demand can split over two half-capacity carriers, with no integral carrier assignment"},
+    {"id":"M809R3-03","reason":"a perfectly payable Hall cut may have surplus exactly zero"},
+    {"id":"M809R3-04","reason":"compatible coloured outputs can have completion certificates sharing one bottleneck"},
+    {"id":"M809R3-06","reason":"without a new graph theorem the anchor conflict graph may be a clique"},
+    {"id":"M809R3-07","reason":"the inherited actual three-demand/two-token circuit has no previously unused licensed one-step output"},
+    {"id":"M809R3-09","reason":"rectangular blow-up data allow arbitrarily large fibres over one B boundary pair"},
+    {"id":"M809R3-10","reason":"crossing circuits share both an owner and carrier; no lossless forest exchange axiom is present"}
+  ],
+  "survivors":["M809R3-01","M809R3-05","M809R3-08"],
+  "scope":"Only M809R3-07 uses inherited graph-realizable negative evidence. Other kills reject the representation-level implication or expose an indispensable missing hypothesis; none is a public-problem counterexample.",
+  "main_term_changed":false
+}

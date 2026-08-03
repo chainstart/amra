@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M301-exact-cross-term-lower-bound",
+      "representation_id": "R301-based-increment-word",
+      "family": "coupled_increment_geometry",
+      "decisive_claim": "Let c=top_3(p) and d=top_3(v). Every actual (++ -> ++) state with gamma4<0 satisfies binom(d,4)-binom(c+1,4)>=U_2(alpha). Since U_3(v)>=binom(d,4) and U_3(p)<=binom(c+1,4)-1, this implies exact gamma5>=0 while retaining the base word.",
+      "would_close": [
+        "the entire actual G++ chamber at rank five"
+      ],
+      "kill_test": "Minimize binom(top_3(v),4)-binom(top_3(p)+1,4)-U_2(alpha) on actual moving-wall rows and deep interior compatible offsets; kill on the first negative value.",
+      "status": "surviving",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "evidence/adaptive_gamma4_wall_probe.json: 823,476 actual (++ -> ++) negative-gamma4 rows conditioned at target and gamma4 moving walls give no leading-block counterexample; exact minimum margin 84,520. The scan also rediscovers the p-free failure at j=21, proving the retained base is essential. Finite evidence only.",
+      "updated_at": "2026-08-03T03:43:59+00:00"
+    },
+    {
+      "id": "M302-common-cap-monotonicity",
+      "representation_id": "R302-cap-complement-pair",
+      "family": "coupled_increment_geometry",
+      "decisive_claim": "On every actual G++ cell, transport to a common cubic cap makes the complement loss of p+e no larger than the complement loss of p plus the exact alpha charge.",
+      "would_close": [
+        "G++ by one cap-complement domination inequality"
+      ],
+      "kill_test": "Compute both complement losses on consecutive compatible r-values across every observed carry; kill on the first reversal.",
+      "status": "frozen",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "The common-cap transport is not specified as an evaluable map; round-two cap-deficit reversals prevent treating the wording itself as evidence, but do not strictly refute every possible transport.",
+      "updated_at": "2026-08-03T03:16:11+00:00"
+    },
+    {
+      "id": "M303-nested-binomial-envelope",
+      "representation_id": "R301-based-increment-word",
+      "family": "coupled_increment_geometry",
+      "decisive_claim": "Let a be determined by binom(a,2)<=alpha<binom(a+1,2), and let t(a) be the least integer with binom(t,4)>=binom(a+1,3). Every actual (++ -> ++) target state satisfies e>=binom(t(a),3). Monotonicity then gives U_3(e)>=binom(t(a),4)>=binom(a+1,3)>U_2(alpha).",
+      "would_close": [
+        "G++ without requiring the false cubic size bound on e"
+      ],
+      "kill_test": "Minimize the exact integer gap e-binom(t(a),3) on residue-compatible moving-wall states; kill on its first negative value and separately verify every monotonicity/cap inequality in the envelope.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "evidence/GPP_PFREE_COUNTEREXAMPLE.json: actual (++ -> ++) state (j,k,r)=(21,4,26466) has nested envelope gap below zero and U_3(e)-U_2(alpha)-1=-136419183, although exact gamma5=859354068710>0.",
+      "updated_at": "2026-08-03T03:27:20+00:00"
+    },
+    {
+      "id": "M304-negative-forces-noborrow",
+      "representation_id": "R303-signed-full-orbit",
+      "family": "borrow_complete_dynamics",
+      "decisive_claim": "Every actual (-- -> ++) state with gamma4<0 and gamma5<0 has P>=0 and V>=0.",
+      "would_close": [
+        "total applicability of the inherited rank-six formula on the only observed gamma5-negative chamber"
+      ],
+      "kill_test": "Search exact residue-compatible wall neighbourhoods at P=0 and V=0 over increasing dyadic scales; kill on the first gamma5-negative borrowed state.",
+      "status": "surviving",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "evidence/negative_rank6_wall_probe.json and evidence/negative_rank6_walls_far.json: the first targeted probe has 13,322 gamma5-negative actual states through j=55, and the bounded far probe has 17,483 more at j in {56,60,64,80,100,120}; none has P<0 or V<0. The far probe also has 2,304 gamma5/gamma6 double negatives, so non-borrow is applicability rather than recovery. Finite evidence only.",
+      "updated_at": "2026-08-03T04:44:00+00:00"
+    },
+    {
+      "id": "M305-rank6-deficit-domination",
+      "representation_id": "R304-deficit-recovery-vector",
+      "family": "borrow_complete_dynamics",
+      "decisive_claim": "Whenever an actual (-- -> ++) state has gamma5<0 and P,V>=0, its exact rank-six gain dominates -gamma5 and hence gamma6>=0.",
+      "would_close": [
+        "two-row recovery of the gamma5-negative final chamber together with M304"
+      ],
+      "kill_test": "Minimize gamma6 and gamma6+gamma5 separately on moving negative fibres; kill on the first negative value and do not infer universality from a bounded box.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "evidence/K4_R9_RANK6_COUNTERFAMILY.json: for every odd j>=33 the actual c=1 family (k,r,u)=(4,9,12) has gamma5=1283187-4q<0 and gamma6=869828292418-4q<0; j=33 is a literal witness.",
+      "updated_at": "2026-08-03T03:14:15+00:00"
+    },
+    {
+      "id": "M306-one-wall-per-row",
+      "representation_id": "R303-signed-full-orbit",
+      "family": "borrow_complete_dynamics",
+      "decisive_claim": "Every unresolved actual c=1 transition crosses at most one canonical borrow/cap wall on each side before recovery.",
+      "would_close": [
+        "a finite-depth signed transition classification for c=1"
+      ],
+      "kill_test": "Directly compare consecutive full canonical words on complete low strips and kill at the first transition with two or more simultaneous wall changes.",
+      "status": "frozen",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "No exhaustive definition of simultaneous lower-digit wall changes has been supplied; the claim is not selected until a full-word wall-count statistic is fixed.",
+      "updated_at": "2026-08-03T03:16:11+00:00"
+    },
+    {
+      "id": "M307-uniform-wall-order",
+      "representation_id": "R306-moving-wall-blowup",
+      "family": "actual_lattice_asymptotics",
+      "decisive_claim": "On every actual (-- -> ++) negative fibre, the P=0 and V=0 walls occur strictly before the gamma5=0 wall as the compatible residue coordinate enters the gamma5-negative region.",
+      "would_close": [
+        "M304 by an exact ordering of moving walls"
+      ],
+      "kill_test": "Solve the four wall equations in each scale regime and kill on an actual residue-compatible interlacing or reversed pair.",
+      "status": "surviving",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "evidence/negative_rank6_wall_probe.json supplies finite support for P,V walls preceding gamma5 negativity across 13,322 negative states, but no all-scale wall-order proof.",
+      "updated_at": "2026-08-03T03:16:11+00:00"
+    },
+    {
+      "id": "M308-finite-asymptotic-regimes",
+      "representation_id": "R305-residue-exact-phase",
+      "family": "actual_lattice_asymptotics",
+      "decisive_claim": "All actual c=1 states admit a finite exhaustive split into fixed-k, k=o(sqrt(h)) unbounded, k~lambda sqrt(h), and boundary regimes, with a uniform recovery certificate in each.",
+      "would_close": [
+        "scale-uniform c=1 chamber exhaustion"
+      ],
+      "kill_test": "Construct actual subsequences with intermediate logarithmic or oscillating k/sqrt(h); kill if no proposed regime has uniform constants covering them.",
+      "status": "frozen",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "The regime list has no proved uniform constants and oscillatory subsequences can only be split after passage to further subsequences; it is not yet an evaluable finite certificate.",
+      "updated_at": "2026-08-03T03:16:11+00:00"
+    },
+    {
+      "id": "M309-binomial-basis-positive",
+      "representation_id": "R308-finite-difference-certificate",
+      "family": "semialgebraic_certificates",
+      "decisive_claim": "For every realized gamma5-negative no-borrow order cell, gamma6 has a binomial-basis expansion with nonnegative coefficients after translation to the minimal legal integer point.",
+      "would_close": [
+        "rank-six positivity cell by cell on an exhaustive order-cell list"
+      ],
+      "kill_test": "Compute the exact expansion on known negative fibres and kill on a negative coefficient that is not forced positive by a recorded chamber inequality.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "evidence/K4_R9_RANK6_COUNTERFAMILY.json: on one stable actual gamma5-negative order cell, gamma6=869828292418-4q, so the translated unbounded q direction has coefficient -4 and gamma6 is negative for all odd j>=33.",
+      "updated_at": "2026-08-03T03:16:11+00:00"
+    },
+    {
+      "id": "M310-small-cell-basis",
+      "representation_id": "R307-order-cell-polynomial",
+      "family": "semialgebraic_certificates",
+      "decisive_claim": "Only finitely many Macaulay order cells, up to translation of all leading indices, occur in actual c=1 states before rank-six recovery.",
+      "would_close": [
+        "a finite symbolic certificate atlas for c=1"
+      ],
+      "kill_test": "Enumerate order cells through increasing dyadic strips and kill if an invariant relative index gap grows or new translated order types continue to appear.",
+      "status": "frozen",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "A finite order relation alphabet alone does not bound translated index gaps or certify the polynomial signs; no strict counterexample to finiteness of order relations is claimed.",
+      "updated_at": "2026-08-03T03:16:11+00:00"
+    },
+    {
+      "id": "M311-total-coverage-tree",
+      "representation_id": "R309-coverage-transition-tree",
+      "family": "interface_composition",
+      "decisive_claim": "Every actual first unresolved low-tail state routes in finitely many exact normalization steps to an inherited closed borrow chamber, the c>=2 uniform theorem with effective base, or the proved c=1 two-row recovery.",
+      "would_close": [
+        "actual-orbit coverage by closed chambers"
+      ],
+      "kill_test": "Run the literal tree on complete small strips; kill on an unmatched row, nonunique branch, failed surplus equality, or leaf depending on an unproved local bridge.",
+      "status": "killed",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "evidence/K4_R9_RANK6_COUNTERFAMILY.json: its c=1 two-row recovery leaf is false; the actual odd-j>=33 family remains negative at both ranks five and six.",
+      "updated_at": "2026-08-03T03:16:11+00:00"
+    },
+    {
+      "id": "M312-seed-suffix-composition",
+      "representation_id": "R310-suffix-seed-certificate",
+      "family": "interface_composition",
+      "decisive_claim": "A uniform actual low-tail recovery certificate composes, with the exact index localization and one-positive-seed persistence lemma, to a legal nonnegative diagonal surplus no later than M-42 for every ambient M.",
+      "would_close": [
+        "the global rank-42 interface required by the antichain construction"
+      ],
+      "kill_test": "Instantiate every index and side condition on boundary cases M=67 and at each change of dyadic strip; kill on an off-by-one, illegal row, or endpoint overrun.",
+      "status": "frozen",
+      "created_at": "2026-08-03T02:54:33+00:00",
+      "status_evidence": "The suffix implication is inherited and conditional on an actual uniform seed certificate; it does not supply the missing certificate and is excluded as a research survivor.",
+      "updated_at": "2026-08-03T03:16:11+00:00"
+    }
+  ]
+}

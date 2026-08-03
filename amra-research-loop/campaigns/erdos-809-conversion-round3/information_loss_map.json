@@ -1,0 +1,61 @@
+{
+  "inherited_from": {
+    "campaign": "amra-research-loop/campaigns/erdos-809-conversion-round2",
+    "use": "read-only negative evidence",
+    "frozen_results": [
+      "M809C-05 exact finite-unweighted |Sigma|=S_m is impossible for odd n because S_m is irrational",
+      "R_A=e(G[A_<q*])+I_mix-N_int is exact but scalar-insufficient",
+      "Hall allocation is exact only after typed carriers and legal arcs exist"
+    ]
+  },
+  "inherited_methods": [
+    {
+      "method": "exact unweighted S_m atomization",
+      "loss_step": "replace the real slack S_m by exactly S_m unit-cardinality atoms",
+      "lost_information": "integrality and the irrational rounding residue of Phi(n,e)",
+      "exact_witness": "odd n and e=floor(n^2/4)+1 give Phi=e/2+n sqrt(3)/4 and irrational S_m",
+      "consequence": "round three must use weights or an integer ledger with an explicit error term"
+    },
+    {
+      "method": "scalar outer-A cancellation ledger",
+      "loss_step": "sum colourwise data to R_A=e(G[A_<q*])+I_mix-N_int",
+      "lost_information": "which internal-low edges and high anchors coexist in one graph-realizable compatible family",
+      "exact_witness": "the n=14 scalar profile (8,8,0) has R_A=16>S_m=15 while both positive channels are below Phi=32",
+      "consequence": "a cross-channel theorem must use shared endpoints, colours, degrees, or C7 paths rather than the identity alone"
+    },
+    {
+      "method": "conditional Hall payment",
+      "loss_step": "apply Hall after postulating a carrier universe and legal arcs",
+      "lost_information": "where a new actual B/slack carrier comes from and why its use is legal and exclusive",
+      "exact_witness": "three demands sharing two B carriers retain deficiency one despite three named A owners without conversion arcs",
+      "consequence": "carrier creation must precede matching; allocation cannot certify existence"
+    },
+    {
+      "method": "rounded scalar capacity",
+      "loss_step": "replace S_m by floor(S_m) or ceil(S_m) without a signed remainder owner",
+      "lost_information": "whether the rounding error is paid once globally or silently once per colour/circuit",
+      "consequence": "rounding must be a single typed global atom or be absorbed by a proved strict integer inequality"
+    },
+    {
+      "method": "separate A-channel and mixed-anchor optimization",
+      "loss_step": "maximize e(G[A_<q*]) and I_mix on separately selected witnesses",
+      "lost_information": "common-witness compatibility and collision between low edges and high-anchor C7 certificates",
+      "consequence": "their maxima cannot be added; a joint graph representation is required"
+    },
+    {
+      "method": "A/B rank addition",
+      "loss_step": "replace typed A owners and B reserve edges by one scalar rank",
+      "lost_information": "target shore, already occupied carriers, and conversion legality",
+      "exact_witness": "round-two n=14 circuit has enough scalar A+B rank but only two legal B carriers for three demands",
+      "consequence": "only an explicit carrier-creation or conversion theorem can close the typed deficit"
+    }
+  ],
+  "required_new_information": [
+    "A weighted or rounded S_m ledger with a globally owned error term and no per-demand reuse.",
+    "A graph-realizable joint complex of low internal edges, mixed colours, unique high anchors, and actual C7 compatibility paths.",
+    "A carrier-creation rule producing a previously absent actual B/slack carrier from a typed A rectangle or anchor certificate.",
+    "An overlap quotient proving that newly created carriers remain distinct across tight circuits.",
+    "A full composition yielding D_A<=M_B+S_m in every hard branch and hence the frozen 1/8 conclusion."
+  ],
+  "forbidden_shortcut": "No weighted total, rounded integer, compatible-edge count, or Hall rank counts as conversion without an explicit owner and nonreuse proof."
+}

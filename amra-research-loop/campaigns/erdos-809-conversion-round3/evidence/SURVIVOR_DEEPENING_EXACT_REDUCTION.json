@@ -1,0 +1,13 @@
+{
+  "schema":"amra.erdos809.round3.survivor-reduction.v1",
+  "rounding_theorem":"For integer R_A and real S_m, R_A<=S_m iff R_A<=floor(S_m); the irrational remainder cannot pay an integral demand.",
+  "exchange_exit":"Conditional on a constructed actual low/high exchange graph, matching rank at least ceil(Phi) gives distinct-colour compatible outputs.",
+  "carrier_creation_boundary":"For arbitrary created carriers, all augmented Hall cuts must hold. A count of delta=max_T(|T|-|N(T)|) is sufficient only when the new carriers are universal.",
+  "finite_guards":{"odd_rounding_rows":122,"bipartite_graphs":74963},
+  "script":"evidence/survivor_deepening_exact_reduction.py",
+  "script_sha256":"1887c0ad7fb9173ae4dcb3ba56f569126e3e12190f9ce5e67d3871c54429b2bc",
+  "resource_limit":"5 GiB virtual memory; 120 seconds",
+  "wall_time_seconds":1.6,
+  "status":"conditional reduction; no global interface closure",
+  "main_term_changed":false
+}

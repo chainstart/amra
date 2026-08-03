@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id":"R1083U5-01","name":"gauge-annihilating torus character lattice","family":"torus_character_fourier_units",
+      "new_information":"Stores the integral unit lattice, the kernel of all actual product-unit maps, and only characters trivial on that gauge kernel.",
+      "repairs_loss":"Prevents Fourier mass on harmless refactorization directions from being called Euclidean structure.",
+      "first_test":"Compute the exact seven-variable three-row unit matrix; any character detecting its one-dimensional gauge kernel is rejected.",
+      "exponent_interface":"A nontrivial observable character must either have subpower image or force full-target label growth."
+    },
+    {
+      "id":"R1083U5-02","name":"relative-unit Fourier energy at fixed X","family":"torus_character_fourier_units",
+      "new_information":"Forms Fourier energy only over unit vectors sharing the same literal common source and normalized quotient profile.",
+      "repairs_loss":"Excludes the moving-X translation pair and measures genuine within-fibre variation.",
+      "first_test":"Enumerate rational and bounded integer unit solutions of the exact block and quotient by gauge before computing support.",
+      "exponent_interface":"Observable Fourier support must save a fixed power or control the all-target collision fibre."
+    },
+    {
+      "id":"R1083U5-03","name":"valuation constraint matrix","family":"valuation_newton_polytope",
+      "new_information":"Records minimum and maximum exponents of every factor, quotient, source product, complement product and common mask as affine functions of unit variables.",
+      "repairs_loss":"Turns independent Newton widths into an exact simultaneous translation system.",
+      "first_test":"Row-reduce the fixed-X equations and identify free directions; kill any width theorem that counts the gauge variable.",
+      "exponent_interface":"A bounded polytope for the observable quotient could give a subpower unit count."
+    },
+    {
+      "id":"R1083U5-04","name":"Newton-face compatibility fan","family":"valuation_newton_polytope",
+      "new_information":"Decorates each valuation chamber by which extremal coefficients survive in both positive products and by target tangent-square ordering.",
+      "repairs_loss":"Can detect observable unit wall crossings rather than only invariant factor widths.",
+      "first_test":"Move along the exact gauge line; every Newton face and target order must remain constant.",
+      "exponent_interface":"Only wall crossings changing an actual distance fibre may contribute to a gain."
+    },
+    {
+      "id":"R1083U5-05","name":"unit-to-distance collision energy map","family":"additive_energy_collision_fibres",
+      "new_information":"Maps each fixed-X observable unit class to the exact target-target radical-label multiplicity distribution.",
+      "repairs_loss":"Tests directly whether unit entropy changes the collision graph.",
+      "first_test":"Sample many exact gauge representatives; raw unit variation must give identical energy and labels.",
+      "exponent_interface":"A positive-rank observable family needs either a uniform label lower bound or an energy fibre below 1/9-epsilon."
+    },
+    {
+      "id":"R1083U5-06","name":"relative-unit additive quadruple ledger","family":"additive_energy_collision_fibres",
+      "new_information":"Counts additive relations among observable product units together with exact equalities among squarefree-radical distance labels.",
+      "repairs_loss":"Separates algebraic unit coincidences from actual geometric collision fibres.",
+      "first_test":"The gauge line has maximal raw additive energy but constant geometry; reject raw-energy inverse claims.",
+      "exponent_interface":"An inverse theorem must operate on the gauge quotient and propagate to all targets."
+    },
+    {
+      "id":"R1083U5-07","name":"projective monomial gauge slice","family":"gauge_fixing_projective_normalization",
+      "new_information":"Fixes one factor unit, for example u(G), and solves all remaining units from identities and fixed-X observable products.",
+      "repairs_loss":"Provides a canonical representative when the only free direction is simultaneous refactorization.",
+      "first_test":"Prove uniqueness of the representative in the exact three-row block and verify all distances are gauge invariant.",
+      "exponent_interface":"A uniform bounded-index gauge slice reduces raw fibres to observable fibres without loss."
+    },
+    {
+      "id":"R1083U5-08","name":"Smith-normal-form unit quotient","family":"gauge_fixing_projective_normalization",
+      "new_information":"Computes rank and torsion of the integer quotient of unit variables by identity, fixed-source and fixed-complement constraints.",
+      "repairs_loss":"Distinguishes a continuous gauge line, finite torsion choices and genuine observable translations.",
+      "first_test":"The exact block should have raw kernel rank one and observable quotient rank zero with no torsion.",
+      "exponent_interface":"Uniform rank zero and subpower torsion would prove subpower observable unit fibres."
+    },
+    {
+      "id":"R1083U5-09","name":"conditional unit entropy decomposition","family":"unit_entropy",
+      "new_information":"Decomposes raw entropy into common-X, gauge, observable-unit and normalized-profile terms.",
+      "repairs_loss":"Forbids charging infinite or power-large gauge entropy to distance labels.",
+      "first_test":"On bounded gauge samples raw entropy grows while observable entropy is exactly zero.",
+      "exponent_interface":"Only observable conditional entropy may enter a row-saving or fibre estimate."
+    },
+    {
+      "id":"R1083U5-10","name":"unit wall-crossing entropy versus labels","family":"unit_entropy",
+      "new_information":"Counts distinct target-order and collision chambers reached by fixed-X observable units rather than the number of unit representatives.",
+      "repairs_loss":"A continuum inside one collision chamber is counted once.",
+      "first_test":"The exact gauge line must occupy one chamber despite infinitely many rational representatives.",
+      "exponent_interface":"Power-many observable chambers must yield a uniform distance gain or contradict paired-positive capacity."
+    }
+  ]
+}

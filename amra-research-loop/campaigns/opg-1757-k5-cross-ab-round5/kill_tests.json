@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {"mechanism_id":"M501-A-positive-global","outcome":"killed","test":"Exact roots of A","evidence":"A=3(8a^2+16a+3) has roots -1+-sqrt(10)/4."},
+    {"mechanism_id":"M502-both-walls-crossable","outcome":"killed","test":"Upper wall sign","evidence":"C(beta)=22-7sqrt(10)<0."},
+    {"mechanism_id":"M503-Ppositive-connected","outcome":"killed","test":"Intermediate-value barrier","evidence":"Every path from a>beta to a<beta meets the empty line a=beta."},
+    {"mechanism_id":"M504-resultant-real-crossings","outcome":"killed","test":"Quadratic discriminant","evidence":"48^2-4*120*5=-96."},
+    {"mechanism_id":"M505-D-wall-in-anchor","outcome":"killed","test":"Exact root order","evidence":"-3/14<beta follows from 22/7<sqrt(10)."},
+    {"mechanism_id":"M506-common-zero-anchor","outcome":"killed","test":"Resolve a=0 contact","evidence":"P(0,b)=3(3b+1), xi(0,b)=2(3b+1); equality only on the excluded boundary."},
+    {"mechanism_id":"M507-bounded-fibers","outcome":"killed","test":"Affine inequality","evidence":"For a>beta, P>0 iff b>-C/A."},
+    {"mechanism_id":"M508-orthant-exhaustion","outcome":"killed","test":"Negative-coordinate component point","evidence":"a=-1/10 lies above beta and the fiber is nonempty."},
+    {"mechanism_id":"M509-resultant-alone","outcome":"killed","test":"Multiplicity/orientation audit","evidence":"The a^2 resultant factor gives boundary contact and does not encode the strict interior direction."}
+  ]
+}

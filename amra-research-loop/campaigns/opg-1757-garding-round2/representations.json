@@ -1,0 +1,15 @@
+{
+  "representations": [
+    {"id":"R2-01","name":"distinguished deletion positivity component","family":"positivity-geometry","new_information":"Retains negative-coordinate component membership discarded by orthant tests.","first_test":"Exact W4 spoke/rim orbit component slices."},
+    {"id":"R2-02","name":"resultant and subresultant root ordering","family":"elimination-algebra","new_information":"Controls root ordering and prevents unseen boundary crossings.","first_test":"Reconstruct the audited W4 spoke two-variable resultant and attempt the rim slice."},
+    {"id":"R2-03","name":"semialgebraic bad-locus decomposition","family":"real-algebraic-geometry","new_information":"Can give a complete component counterexample search rather than sampling.","first_test":"Four-variable W4 stabilizer polynomial with an explicit path-to-orthant predicate."},
+    {"id":"R2-04","name":"Garding-component barrier flow","family":"convex-analytic","new_information":"Provides canonical paths and may reduce domination to boundary signs.","first_test":"Check whether xi_e is monotone along positive rays and barrier trajectories on W4."},
+    {"id":"R2-05","name":"component-relative SOS certificate","family":"sos-algebraic","new_information":"Allows negative coefficients while certifying the complete channel.","first_test":"Use W4 boundary identities (S) and (R) to search a low-degree exact certificate."},
+    {"id":"R2-06","name":"minimal-counterexample minor tree","family":"minor-structural","new_information":"Explains when a 3-connected host search is closure-complete.","first_test":"Prove every non-3-connected minimal obstruction decomposes into already C-Gårding minors."},
+    {"id":"R2-07","name":"minor-adaptive edge score","family":"moving-certificate","new_information":"Implements the existential edge in Fang-Ma Proposition 13.9.","first_test":"Compare spoke and rim scores on W4 and all edge orbits of K5."},
+    {"id":"R2-08","name":"cycle-cocircuit endpoint sign vectors","family":"oriented-combinatorial","new_information":"Retains which complement monomials form xi_e instead of only aggregate coefficients.","first_test":"Derive W4 xi_e from endpoint-connection sign vectors and test circuit elimination."},
+    {"id":"R2-09","name":"Sturm fibration over a base component","family":"univariate-fibration","new_information":"Turns multivariate domination into a recursive root-order problem.","first_test":"Fiber the W4 four-variable problem first in b, then over the proved (a,c) slice."},
+    {"id":"R2-10","name":"joint rooted-determinant lift","family":"determinantal-lift","new_information":"May provide a PSD observable on the correct unrooted component without scalar root multiplicities.","first_test":"Check same-component-count multiplicity obstruction on W4 before any general claim."},
+    {"id":"R2-11","name":"zero-locus component separator","family":"elimination-algebra","new_information":"Avoids full component parametrization by proving the xi-zero locus lies in the wrong sign chamber of the deletion polynomial.","first_test":"Use the K3,3 two-orbit pseudo-remainder to separate G=0 from y>1,F>0."}
+  ]
+}

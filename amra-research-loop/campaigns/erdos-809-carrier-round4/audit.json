@@ -1,0 +1,29 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos776_lane (author-swapped blind independent reconstruction)",
+    "evidence": [
+      "audit/CARRIER_ROUND4_INDEPENDENT_AUDIT.md",
+      "audit/CARRIER_ROUND4_INDEPENDENT_AUDIT.json (SHA-256 0a8b55646fecb99131f732cf5ebabebfb49ca5fafd7be00b5e3076bd4c2da15e)",
+      "audit/verify_carrier_round4_independent.py (SHA-256 e6e183ef73ef8ad4fa531bdf2b8a3845f69ab972b90707b0f9765678c5a6e5fb)"
+    ]
+  },
+  "statement_match": "failed_two_kill_wording_mismatches",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "audited_claim": {
+    "n14_full_graph_certificate": "passed",
+    "four_repeated_colours_and_owned_diagonals": "passed",
+    "locked_circuit_external_carrier_theorem": "passed_as_necessary_interface",
+    "literal_strict_kills": 6,
+    "qualified_intended_route_obstructions": ["M809R4-02", "M809R4-05"],
+    "survivors": ["M809R4-04", "M809R4-10"]
+  },
+  "promotion_audit": {
+    "decision": "reject",
+    "reason": "No external actual carrier, survivor theorem, outer-A composition, or all-branch closure is proved; two claimed strict kills also require statement repairs.",
+    "original_problem_changed": false,
+    "main_term_changed": false,
+    "main_coefficient_changed": false
+  }
+}

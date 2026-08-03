@@ -1,0 +1,24 @@
+{
+  "statement": "Typed quotient-and-incidence firewall. After normalizing Laurent associates and listing the D irreducible factor occurrences H_nu of B, the polynomial family Qcal(y)=product_nu((1-y_nu)+y_nu H_nu) legally specializes at Boolean occurrence vectors to every normalized divisor quotient Q_j^norm. It has total degree D and can realize 2^D specializations, so coordinatewise multilinearity gives no bounded-complexity M01 theorem; a lambda-indexed interpolation can likewise require degree K-1. In the actual Euclidean block there are S common source points, at most qU targets, and at most KU targets in the selected reciprocal hub. Hence source-to-all-target, selected-target-pair, and selected-to-all-target pair capacities have exponents 7/3, 25/9, and 53/18 respectively, all below 3, while only the full target-pair domain reaches 28/9. The formal KS^2Uq capacity 11/3 is not a point-pair domain. Any repaired M10 route must propagate chart control to all qU targets and prove actual distance-fibre exponent below 1/9-epsilon; 26/9 is inadmissible.",
+  "status": "proved",
+  "closes": [
+    "repairs the round-two quotient type error for normalized factor-occurrence data while exposing the uncontrolled unit and dimension parameters",
+    "refutes automatic low complexity from Boolean multilinearity or mere lambda interpolation",
+    "refutes M1083R3-08's KS^2Uq domain as an actual Euclidean point-pair set",
+    "proves that every direct pair count involving the selected reciprocal-chart targets has exponent below three",
+    "identifies the exact repaired M10 threshold as all-target-pair fibre exponent below 1/9-epsilon plus propagation beyond the selected rows"
+  ],
+  "evidence": [
+    "evidence/SURVIVOR_DEEPENING.md",
+    "evidence/ROUND3_MINIMAL_FALSIFICATION.md",
+    "evidence/ROUND3_MINIMAL_FALSIFICATION.json",
+    "evidence/round3_minimal_falsification.py"
+  ],
+  "dependency_gaps": [
+    "restore and control the Laurent associate unit if normalized Qcal(y) is used for coefficient moments or positive products",
+    "prove an M01 factor-labelled consequence beyond Boolean subset recovery and the exact divisor-width scalar map",
+    "propagate reciprocal-chart structure from K=t^(5/9-o(1)) selected rows to the full q-row target family",
+    "prove a maximum- or energy-fibre exponent below 1/9-epsilon for actual all-target squared distances",
+    "supply outer near-extremal stability with only subpower loss"
+  ]
+}

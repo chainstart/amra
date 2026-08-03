@@ -1,0 +1,103 @@
+{
+  "inherited_from": {
+    "checkpoint": "ab4b524",
+    "campaign": "amra-research-loop/campaigns/erdos-809-reserve-potential",
+    "audited_no_go": "audit/TYPED_PAIR_RANK_INDEPENDENT_AUDIT.md",
+    "frozen_fact": "The overlap-safe quantities rho_A and rho_B are monotone submodular coverage ranks, but their scalar sum is not a typed capacity for either target budget."
+  },
+  "resource_types": [
+    {
+      "type": "A_atom",
+      "carrier": "an actual missing edge inside A=N[v]",
+      "sound_rank": "rho_A(T)=number of distinct owned A diagonals hit by colours in T",
+      "legal_uses": [
+        "an explicitly proved outer-A gate R_A<=S_m",
+        "the source side of a proved injective A-to-B conversion",
+        "a rectangle theorem retaining the atom's endpoints"
+      ],
+      "illegal_use": "direct payment of the B-only defect D_B"
+    },
+    {
+      "type": "B_atom",
+      "carrier": "an actual missing edge inside B, contained in a canonical reserve K(e)",
+      "sound_rank": "rho_B(T)=size of the union of the full B reserves of T",
+      "legal_uses": [
+        "Hall payment of repeated-colour B demand",
+        "a direct certificate D_B<=M_B"
+      ],
+      "illegal_use": "identification with an A diagonal having the same scalar weight"
+    },
+    {
+      "type": "slack_atom",
+      "carrier": "not yet constructed; S_m is currently only a global number",
+      "sound_rank": "none inherited",
+      "legal_uses": [
+        "only after an owned atomization or a direct proof of R_A<=S_m"
+      ],
+      "illegal_use": "treating min(S_m,rho_A(T)) as spendable capacity without an owner map"
+    },
+    {
+      "type": "outer_A_demand",
+      "carrier": "R_A=D_A-D_B=e(G[A_<q*])+I_mix(q*)-N_int(q*)",
+      "sound_target": "the scalar gate R_A<=S_m",
+      "illegal_use": "paying R_A from B reserve merely because D_B is paid"
+    }
+  ],
+  "inherited_methods": [
+    {
+      "method": "untyped addition of A and B coverage ranks",
+      "loss_step": "replace the typed pair (rho_A(T),rho_B(T)) by rho_A(T)+rho_B(T)",
+      "lost_information": "which counted atoms lie in A and which are actual B-reserve edges",
+      "exact_witness": "the audited n=14 tight graph has D_B=3, rho_A=3, rho_B=M_B=2: D_B<=rho_A+rho_B but D_B>M_B",
+      "consequence": "no scalar A+B inequality can close a B-only demand without an explicit conversion map"
+    },
+    {
+      "method": "one owned diagonal credit per coherent star",
+      "loss_step": "sum starwise ownership incidences before quotienting by the underlying missing A edge",
+      "lost_information": "cross-star overlap: two colours or stars may own the same diagonal",
+      "exact_witness": "the audited two-star endpoint model has two ownership incidences but rho_A=1",
+      "consequence": "diagonal incidence mass may be double spent; only distinct atoms or a coverage rank are sound"
+    },
+    {
+      "method": "global S_m slack as an ordinary capacity",
+      "loss_step": "replace S_m=e-binom(|B|,2)-Phi(n,e) by S_m anonymous unit tokens",
+      "lost_information": "whether a unit has an actual combinatorial carrier, which colour/circuit owns it, and whether two demands request the same unit",
+      "exact_witness": "the audited tight/paid graph pair has identical n,e,|B|,S_m and rho_A but B reserve sizes two and three",
+      "consequence": "rho_B(T)+min(S_m,rho_A(T)) is a formal number, not a capacity certificate"
+    },
+    {
+      "method": "whole-rectangle to B-budget transference",
+      "loss_step": "compress an anticomplete X-by-Y A rectangle to x,y,g,E_A,L_m and the scalar lower bound M_B>=x(y-g)_+ + y(x-g)_+-M_A+L_m",
+      "lost_information": "a colourwise injection from individual owned diagonals or tight-circuit demands to distinct B edges; the same rectangle supports many diagonals but yields one global nonlinear inequality",
+      "consequence": "the theorem can prove a global M_B bound but cannot be added once per colour or once per circuit"
+    },
+    {
+      "method": "exact outer-A low-degree localization",
+      "loss_step": "sum the colourwise cancellation into R_A=e(G[A_<q*])+I_mix(q*)-N_int(q*)",
+      "lost_information": "which owned A atoms are represented among internal-low edges, which mixed colours own the high anchors, and which concrete slack units absorb the net residue",
+      "consequence": "the identity localizes the obstruction but does not prove the required outer gate R_A<=S_m"
+    },
+    {
+      "method": "separate optimization of reserve and outer-A branches",
+      "loss_step": "select a B-opposite star/circuit and an outer-A low-degree witness independently, then combine their scalar inequalities",
+      "lost_information": "common-witness compatibility between the circuit's owned diagonals, the low-degree A subgraph, I_mix anchors, and the same S_m ledger",
+      "consequence": "separately valid extrema need not coexist, so their capacities cannot be added or compared without a joint incidence map"
+    },
+    {
+      "method": "full-reserve Hall compression",
+      "loss_step": "retain only |union K(e_gamma)| or the total deficit D_B",
+      "lost_information": "minimal tight-circuit membership, repeated base determinism, and which B atoms are already consumed by which colours",
+      "exact_witness": "the graph-realizable three-colour circuit has one common two-token reserve and three distinct A owners",
+      "consequence": "the B deficit is real even when abundant A ownership exists; conversion must act on the typed circuit, not on totals"
+    }
+  ],
+  "required_new_information": [
+    "A precommitted injection or bounded-multiplicity map from distinct owned A atoms, with their endpoint rectangles, to new actual B-reserve atoms.",
+    "An owned atomization of S_m with explicit carriers and colour/circuit owner neighbourhoods, including a proof that atoms are not reused across overlapping stars.",
+    "A direct outer-A theorem proving R_A<=S_m from rho_A or the union of owned rectangles after cross-star overlap is quotiented.",
+    "A joint representation tying every tight B circuit to the same A_<q*, I_mix, N_int, and S_m witness used by the outer gate.",
+    "An overlap ledger recording both equality of A diagonals and equality/overlap of canonical B reserves before any scalar aggregation.",
+    "A closure calculation showing how the converted units imply D_A=R_A+D_B<=S_m+M_B and then the frozen n^2/8 target in every surviving hard branch."
+  ],
+  "forbidden_shortcut": "No scalar addition, averaging, or min/max of A, B, and S_m quantities counts as a conversion unless every charged unit has a typed carrier and an injective or explicitly bounded-multiplicity ownership map."
+}

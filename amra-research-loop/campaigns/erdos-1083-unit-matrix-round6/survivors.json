@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M1083U6-01",
+    "M1083U6-06",
+    "M1083U6-10"
+  ],
+  "selection_rationale": "M1083U6-01 is proved for the formal all-m matrix by two explicit unit minors and substitution. M1083U6-06 survives only as the missing theorem that an actual power-large block has exactly this complete unit incidence and that absolute spectra may be fixed at subpower cost. M1083U6-10 survives only as the downstream all-target occurrence/fibre/stability bridge. Seven other claims are strictly refuted by the symbolic kernels, unit minors, type boundary, or the exact 127-versus-127 fixed-X shift. No survivor improves the public exponent."
+}

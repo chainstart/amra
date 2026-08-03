@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M1083U7-01",
+    "M1083U7-09",
+    "M1083U7-11"
+  ],
+  "selection_rationale": "M1083U7-01 and M1083U7-11 are the proved local realization statements: actual normal-form identities give the formal aggregate coefficient matrix, and fixing every absolute aggregate product observable leaves the primitive coordinatewise gauge. M1083U7-09 is the sole genuinely open immediate interface: no theorem fixes the joint absolute observable profile on a power-large fibre at subpower cost. Raw occurrence completeness is false before quotienting normalization gauges, and no all-target exponent bridge is supplied."
+}

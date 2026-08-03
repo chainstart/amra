@@ -1,0 +1,45 @@
+{
+  "schema": "amra.erdos1083.spectrum-conditioning-round8.independent-audit.v1",
+  "verdict": "pass_with_quantifier_firewall",
+  "independent_reconstruction": {
+    "natural_min_support_product_rule": "passed",
+    "exact_affine_graph": "alpha_j=v-phi_j",
+    "range_equality": "passed for every leaf subset I",
+    "fibre_equality": "passed fibre-by-fibre",
+    "same_sign_dichotomy": {
+      "zero_relevant_endpoint": "range one",
+      "nonzero_relevant_endpoint": "injective; range exactly |J_sigma|"
+    },
+    "residual": "delta_j=alpha_j+phi_j-v is identically zero"
+  },
+  "statement_match": {
+    "status": "passed for revised evidence",
+    "warning": "stale text resolved; overclaims are retained only as killed tests M1083S8-07 and M1083S8-08 and are absent from survivors and the decisive conclusion"
+  },
+  "dependency_check": {
+    "status": "passed",
+    "uses": [
+      "actual positive-mask common-spectrum identity",
+      "natural real order on Gamma subset R",
+      "inherited same-sign class with distinct scalars"
+    ]
+  },
+  "scope": {
+    "entropy_free_residual": true,
+    "cross_row_rigidity_proved": false,
+    "unconditional_branch_choice_proved": false,
+    "legal_power_large_counterfamily_constructed": false,
+    "unconditional_subpower_for_all_realizable_blocks_proved": false,
+    "reverse_order_role": "normalization_firewall_only",
+    "public_exponent_changed": false,
+    "promotion_recommendation": "no public promotion"
+  },
+  "machine_reproduction": {
+    "memory_limit_kib": 3145728,
+    "timeout_seconds": 180,
+    "author_checker": "evidence/verify_absolute_profile_range.py",
+    "author_checker_status": "passed",
+    "independent_checker": "audit/verify_absolute_profile_range_independent.py"
+  },
+  "novelty_check": "not performed; local interface only"
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "amra.erdos809.structural-round8.trace-blocks.v1",
+  "model": "locked n=16 natural-switch assignment omitting bu,bw,uw",
+  "trace_count": 93,
+  "trace_size_distribution": {"1": 21, "3": 72},
+  "forced_edge_block_sizes": {"R_to_P_union_U_union_W": 12, "P_to_Q": 4, "U_to_W": 4, "K2_on_W": 1},
+  "forced_edge_count": 21,
+  "triple_trace_forced_intersection_profile": {"2": 12, "3": 60},
+  "triple_trace_block_signature_profile": {"1,1,0,0,1": 8, "2,0,0,0,1": 4, "2,0,0,1,0": 4, "2,0,1,0,0": 32, "3,0,0,0,0": 24},
+  "every_triple_trace_hits_forced_blocks": true,
+  "distinct_outside_edges_in_triples": 5,
+  "exact_transversal_number": 21,
+  "finite_result_only": true,
+  "public_problem_changed": false
+}

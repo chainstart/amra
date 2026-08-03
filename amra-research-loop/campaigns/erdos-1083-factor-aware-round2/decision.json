@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent audit confirms the M01-to-M05 typed-chain no-go and exponent ledger, but no distance-label amplification or exponent improvement is proved.",
+  "evidence": [
+    "audit/TYPED_CHAIN_SCOPED_NO_GO_INDEPENDENT_AUDIT.md"
+  ]
+}

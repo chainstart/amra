@@ -1,0 +1,20 @@
+{
+  "exact_statement": "For k >= 3, let F_k(n) be the minimum number of colours needed to colour an n-vertex graph with floor(n^2/4)+1 edges so that every C_(2k+1) is rainbow. For k=3, prove or refute that F_3(n) is asymptotic to n^2/8.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos809/README.md",
+  "success_conditions": [
+    "global_interface_closed"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round six remains sealed; its independently audited conclusion covers only zero- and one-old-edge natural-switch exchanges.",
+    "Round seven begins from a separately reproduced complete two-old-edge no-go over 3876 new-edge assignments and 496 deletion pairs per assignment.",
+    "The first new target is the exact threshold-preserving model with eighteen new incident edges and three admissible old-edge deletions.",
+    "A finite witness, finite no-go, conditional matching lemma, or local switch theorem does not promote the public 1/8 statement."
+  ]
+}

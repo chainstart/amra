@@ -1,0 +1,21 @@
+{
+  "statement": "Typed survivor reduction: (i) M809C-05 is impossible in its stated universal exact-unweighted-cardinality form, since for odd n and e=floor(n^2/4)+1 the value S_m=e-binom(|B|,2)-Phi(n,e) is irrational; (ii) the M809C-08 mixed-high-anchor channel closes whenever I_mix>=ceil(Phi), but R_A=e(G[A_<q*])+I_mix-N_int and R_A>S_m alone do not force either displayed channel to reach Phi; and (iii) once a finite typed carrier graph is explicitly constructed, M809C-11 reduces exact payment to Hall inequalities and has unpaid rank max_T(|T|-|N(T)|).",
+  "status": "conditional",
+  "closes": [
+    "refutes M809C-05 exactly as a finite unweighted set of cardinality S_m",
+    "proves the M809C-08 direct compatible-colour exit in the subcase I_mix>=ceil(Phi)",
+    "proves the M809C-11 allocation equivalence after typed carriers and legal arcs have been constructed",
+    "isolates the surviving graph-specific task as a cross-channel compatibility theorem or direct proof of R_A<=S_m"
+  ],
+  "evidence": [
+    "evidence/SURVIVOR_FIRST_PROOF_ATTEMPTS.md",
+    "evidence/survivor_first_proof_attempts.py",
+    "evidence/survivor_first_proof_attempts.json"
+  ],
+  "dependency_gaps": [
+    "a weighted nonnegative S_m atomization or an integer ledger with an exact rounding-error term, if the M809C-05 idea is to be repaired",
+    "a graph-realizable cross-channel compatibility lemma combining internal-low edges with mixed-high anchors, or a direct proof of R_A<=S_m",
+    "explicit conversion arcs, slack carriers, and ownership maps before Hall bookkeeping can pay all demands",
+    "coverage of every public-theorem branch without changing the 1/8 main term"
+  ]
+}

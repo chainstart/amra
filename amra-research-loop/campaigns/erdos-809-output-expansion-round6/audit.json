@@ -1,0 +1,43 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos1083_lane (author-swapped blind reconstruction)",
+    "evidence": [
+      "audit/OUTPUT_EXPANSION_ROUND6_INDEPENDENT_AUDIT.md",
+      "audit/OUTPUT_EXPANSION_ROUND6_INDEPENDENT_AUDIT.json (SHA-256 04f10032545bac4e36d8dd314fd1ba7ce333fdf4cca320e49d16479dbacece4f)",
+      "audit/verify_output_expansion_round6_independent.py (SHA-256 b35b4cbc66ddabd35d1d8bfaff703fbda46be818af6b230a804bf018f6567171)"
+    ]
+  },
+  "statement_match": "failed_M02_scope_and_M12_missing_legality_hypothesis",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "audited_claim": {
+    "joint_legality_lemma": "passed with fixed-graph, disjoint-class, base-and-singleton legality hypotheses",
+    "conditional_rank4_matching": "passed; constructs no legal arc",
+    "symmetric_no_deletion_6435": "passed",
+    "symmetric_one_exchange_6435": "passed with stronger empty old-edge intersection",
+    "general_one_exchange_11628": "passed with stronger empty old-edge intersection",
+    "wy1_uy2_L4_exclusion": "passed for every colour-preserving old-edge deletion",
+    "mechanisms": {
+      "proved_literal": ["M809O6-01", "M809O6-06", "M809O6-09"],
+      "proved_after_wording_repair": ["M809O6-12"],
+      "strict_kills": ["M809O6-03", "M809O6-05", "M809O6-11"],
+      "symmetric_subfamily_kill_only": ["M809O6-02"],
+      "frozen": ["M809O6-07"],
+      "survivors": ["M809O6-04", "M809O6-08", "M809O6-10"]
+    }
+  },
+  "gate_audit": {
+    "stored_operational_kill_ratio": "4/9=44.4%",
+    "literal_unqualified_kill_ratio": "3/9=33.3%",
+    "required": "80%",
+    "decision": "fail_and_freeze"
+  },
+  "promotion_audit": {
+    "decision": "reject",
+    "reason": "No legal two-output witness or public hard-branch expansion theorem; finite no-go and conditional allocation do not close the global interface.",
+    "public_problem_changed": false,
+    "main_coefficient_changed": false,
+    "coefficient_one_eighth_changed": false
+  }
+}

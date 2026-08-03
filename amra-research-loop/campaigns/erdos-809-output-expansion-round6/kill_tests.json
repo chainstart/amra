@@ -1,0 +1,76 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M809O6-01",
+      "outcome": "proved",
+      "classification": "fixed-graph disjoint-colour joint-legality theorem",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.md#joint-legality-lemma"
+    },
+    {
+      "mechanism_id": "M809O6-02",
+      "outcome": "killed",
+      "classification": "complete symmetric no-deletion search: zero of 6435 assignments are pair-safe",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#symmetric_no_deletion_search"
+    },
+    {
+      "mechanism_id": "M809O6-03",
+      "outcome": "killed",
+      "classification": "complete natural-switch one-old-edge exchange search: zero of 11628 assignments have a common admissible deletion",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#general_one_exchange_search"
+    },
+    {
+      "mechanism_id": "M809O6-04",
+      "outcome": "survived",
+      "classification": "finite traces were extracted, but no old-graph-independent bounded obstruction-core theorem or counterfamily was obtained",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.md#exact-finite-searches"
+    },
+    {
+      "mechanism_id": "M809O6-05",
+      "outcome": "killed",
+      "classification": "the exact one-exchange Boolean model is unsatisfiable by exhaustive graph replay",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#general_one_exchange_search"
+    },
+    {
+      "mechanism_id": "M809O6-06",
+      "outcome": "proved",
+      "classification": "conditional matching-rank theorem with explicit four-edge matching",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#conditional_output_rank"
+    },
+    {
+      "mechanism_id": "M809O6-07",
+      "outcome": "inconclusive",
+      "classification": "antecedent unavailable because no first two-output witness was found",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#classification"
+    },
+    {
+      "mechanism_id": "M809O6-08",
+      "outcome": "survived",
+      "classification": "scalable bounded-overlap claim lies outside the finite one-exchange model",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.md#status"
+    },
+    {
+      "mechanism_id": "M809O6-09",
+      "outcome": "proved",
+      "classification": "two distinct legal arcs eliminate the locked K(4,2) Hall deficiency",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#conditional_output_rank"
+    },
+    {
+      "mechanism_id": "M809O6-10",
+      "outcome": "survived",
+      "classification": "general minimal-deficient-cut composition was neither proved nor refuted by the locked four-demand instance",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.md#conditional-rank-ledger"
+    },
+    {
+      "mechanism_id": "M809O6-11",
+      "outcome": "killed",
+      "classification": "no admissible old edge hits every bad C7 in any of the 11628 exact one-exchange assignments",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.json#general_one_exchange_search"
+    },
+    {
+      "mechanism_id": "M809O6-12",
+      "outcome": "proved",
+      "classification": "rainbow legality is static under disjoint fixed-graph recolouring and consumes no extra witness resource",
+      "evidence": "evidence/TWO_OUTPUT_EXCHANGE_RESULT.md#joint-legality-lemma"
+    }
+  ]
+}

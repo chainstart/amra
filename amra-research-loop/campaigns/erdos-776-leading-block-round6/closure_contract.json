@@ -1,0 +1,17 @@
+{
+  "exact_statement": "Determine how large n must be as a function of r >= 2 so that there is an antichain in 2^[n] occupying n-3 distinct ranks and containing at least r members on every occupied rank.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos776/README.md",
+  "success_conditions": ["global_interface_closed"],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round five leaves only a change of the H/q leading staircase or bottom recurrence as a local escape interface.",
+    "This round asks for the exact linear-in-q slope budget any such one-step switch must satisfy before canonical continuation can coexist with nonnegative surplus.",
+    "A slope-budget necessary condition is route evidence only: it neither constructs a legal Macaulay switch nor proves suffix persistence or the public antichain bound."
+  ]
+}

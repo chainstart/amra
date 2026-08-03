@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M306-bc-component-theorem",
+    "M307-natural-slice-counterexample",
+    "M312-five-variable-lift"
+  ],
+  "selection_rationale": "Eight shortcut mechanisms fail exactly. The proved (b,c) singleton-orbit component theorem is retained as the decisive local result. Component-aware search on the remaining natural slices and a controlled release to five stabilizer variables are the only two routes that preserve the missing topology and scope. Neither is presented as evidence for the eight-independent-variable or global theorem."
+}
