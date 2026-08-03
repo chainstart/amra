@@ -2,7 +2,7 @@
   "mechanism_ids": [
     "M706",
     "M709",
-    "M712"
+    "M713"
   ],
-  "selection_rationale": "Retain exactly three correctly quantified and finitely testable routes: M706 is an all-base q-fibre proof mechanism, M709 is an exact component-certified refutation mechanism, and M712 is a higher mixed-derivative algebraic mechanism not touched by the first-derivative countermodel. The selected routes are proof-, refutation-, and factorization-distinct."
+  "selection_rationale": "Retain exactly three correctly quantified and finitely testable routes: M706 is the all-base q-fibre proof mechanism, M709 is the exact component-certified refutation mechanism, and M713 is the exact four-character PSD reformulation discovered in this round. M713 supersedes the broader M712 as the selected algebraic interface without killing M712 or discarding its evidence."
 }

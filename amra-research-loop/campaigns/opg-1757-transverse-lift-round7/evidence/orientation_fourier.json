@@ -1,0 +1,106 @@
+{
+  "coordinates": {
+    "activities": "x_iL=(p_i+d_i)/2, x_iR=(p_i-d_i)/2",
+    "edge_floor_domain": "S_i>=0 and p_i+2>0",
+    "route_relation": "d_i^2=p_i^2+4*p_i-4*q_i=:S_i"
+  },
+  "four_channel": {
+    "formula": "Delta_b=alpha000+alpha110*d0*d3+alpha101*d0*d4+alpha011*d3*d4",
+    "orientation_support": [
+      "000",
+      "011",
+      "101",
+      "110"
+    ],
+    "quotient_terms": 82,
+    "raw_terms": 514
+  },
+  "fourier_matrix": {
+    "characters": [
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        -1
+      ],
+      [
+        -1,
+        1
+      ],
+      [
+        -1,
+        -1
+      ]
+    ],
+    "distinct_swap_values": 4,
+    "normalized_eigenvalues": "alpha000+eps*alpha110*D0*D3+eta*alpha101*D0*D4+eps*eta*alpha011*D3*D4",
+    "polynomial_congruence_diagonal": [
+      "1",
+      "sqrt(S0*S3)",
+      "sqrt(S0*S4)",
+      "sqrt(S3*S4)"
+    ],
+    "polynomial_matrix_entry_term_counts": [
+      [
+        55,
+        63,
+        63,
+        99
+      ],
+      [
+        63,
+        307,
+        225,
+        174
+      ],
+      [
+        63,
+        225,
+        307,
+        174
+      ],
+      [
+        99,
+        174,
+        174,
+        337
+      ]
+    ],
+    "remaining_target": "prove the polynomially congruent 4x4 matrix positive semidefinite on K>0 and the edge-floor domain"
+  },
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "alpha_000": {
+      "sha256": "44155d97a75b4649d93d15e0fcb6d19f284905c66245f20d23b313c707fed33d",
+      "terms": 55
+    },
+    "alpha_011": {
+      "sha256": "95a2dadb8f02b5d9f3cd75a3dc2c125dd57d78ebf393f936d99d77bae1e9f7c8",
+      "terms": 11
+    },
+    "alpha_101": {
+      "sha256": "a01891118aeb0beb0e8a2abcb3c0e2f29489d6e962a75605cf115f4e7f71664b",
+      "terms": 8
+    },
+    "alpha_110": {
+      "sha256": "89c97537c53be1688b6322f1c6612a10ddee890ad5ddbd2e0cd5224d34bc7490",
+      "terms": 8
+    },
+    "quotient_reduced": {
+      "sha256": "4d8dcb3a24e60ec6d324350cb029e696385d48d0002f9209586ef5872495bd97",
+      "terms": 82
+    },
+    "raw_sum_difference": {
+      "sha256": "aa426e1ab2c17b72bd1e21d2f5b2b45cd9e679d70b5f3aeb4a07b69a5d7600cd",
+      "terms": 514
+    }
+  },
+  "schema": "amra.opg1757.round7.orientation-fourier.v1",
+  "scope": "exact orientation quotient and PSD-equivalent interface; matrix positivity and generic Delta_b sign remain open"
+}

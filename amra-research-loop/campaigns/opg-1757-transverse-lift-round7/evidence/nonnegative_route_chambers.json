@@ -1,0 +1,114 @@
+{
+  "certified_chambers": [
+    "LLP",
+    "LPL",
+    "PLL",
+    "PLP",
+    "PPL",
+    "PPP",
+    "PPR",
+    "PRP",
+    "PRR",
+    "RPR",
+    "RRP"
+  ],
+  "certified_count": 11,
+  "direct_bernstein": {
+    "LLP": {
+      "bernstein_nonzero": 874,
+      "cleared_terms": 557,
+      "minimum_bernstein_coefficient": "1/18",
+      "sha256": "26b297805eeb3fb60c229c1ab52c9d21ad16d79b12d2f16ae558c74cab8dd1d1"
+    },
+    "LPL": {
+      "bernstein_nonzero": 874,
+      "cleared_terms": 557,
+      "minimum_bernstein_coefficient": "1/18",
+      "sha256": "32d8ae5c544077173263a5acfeb11a9d65bbec7a0c8c42feb2790adf8e105340"
+    },
+    "PLL": {
+      "bernstein_nonzero": 256,
+      "cleared_terms": 281,
+      "minimum_bernstein_coefficient": "1/9",
+      "sha256": "393895a1fa4a008a88e2532a0ab788a733d260bdc70c6b183d5d317031c239df"
+    },
+    "PPP": {
+      "bernstein_nonzero": 178,
+      "cleared_terms": 178,
+      "minimum_bernstein_coefficient": "1",
+      "sha256": "84f6818c3e22d1a5768d320fca023912b095e28d47128e7cb13c16bc4d01857c"
+    },
+    "PRR": {
+      "bernstein_nonzero": 256,
+      "cleared_terms": 281,
+      "minimum_bernstein_coefficient": "1/9",
+      "sha256": "bc32903f33b498bd9f6eee3989b28d2aca2312a26a223207127caa73418a882a"
+    },
+    "RPR": {
+      "bernstein_nonzero": 874,
+      "cleared_terms": 557,
+      "minimum_bernstein_coefficient": "1/18",
+      "sha256": "f47e4a9c769ca0c039c0aa9c4131aeb2d1b8d4be02a7e4dfed2447ba3bbafcec"
+    },
+    "RRP": {
+      "bernstein_nonzero": 874,
+      "cleared_terms": 557,
+      "minimum_bernstein_coefficient": "1/18",
+      "sha256": "e1a2ca573ca1614bf6fd16dd0d8e5f35a4e4fd4528c1f7f7fe7c7de668d1f4a0"
+    }
+  },
+  "domain": "q0,q3,q4,c>=0, positive edge floors",
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "PPL_bernstein_determinant_residual": {
+      "sha256": "5c22ac4bb86f862b10f74de1f0299d216bd69acef7291fa1a02484133d35ce66",
+      "terms": 628
+    },
+    "PPL_beta0": {
+      "sha256": "ec2ae91caf52ebaac39a5eff5ad5efba08a9be3e4644f25880ca6623ca4a53ed",
+      "terms": 47
+    },
+    "PPL_beta0_residual": {
+      "sha256": "2be8ca2695f2e45e7ee3c849916173a292f195ee0912e0b492a2fd11086ce978",
+      "terms": 47
+    },
+    "PPL_beta1": {
+      "sha256": "4ef3c13e6a042316e1065605949452a4ab845c3e03183430ed6bcb6d7ff1b063",
+      "terms": 63
+    },
+    "PPL_beta2": {
+      "sha256": "47cbb07cb4eeb8656dae115e75ad66b48d69a7d6f7a2a2098e0740933e180115",
+      "terms": 75
+    },
+    "PPL_beta2_positive_residual": {
+      "sha256": "82df43c63fec353df52e9e27082f73a45b8b9fb93ebc441f98bfc7a44a4b3a89",
+      "terms": 42
+    },
+    "PPL_cleared": {
+      "sha256": "4d7c5addf440fb3a7f60b4de0bf4f35b74d113c88edbf8c1dc083e717d2e8167",
+      "terms": 214
+    }
+  },
+  "schema": "amra.opg1757.round7.nonnegative-route-chambers.v1",
+  "scope": "exact partial sign theorem; 16 nonnegative-route sign chambers and all chambers with one negative effective route remain open",
+  "sign_code": "P=both page activities nonnegative; L/R=the left/right activity is negative",
+  "single_negative_nonshared_page": {
+    "bernstein_matrix_determinant": "a^2*b^2 times a 628-term strictly positive-coefficient polynomial",
+    "beta0": "a^2 times a 47-term positive-coefficient polynomial",
+    "beta2": "(q4+1)*(c^2*(a*z-b*r)^2 + 42-term positive-coefficient residual)",
+    "cleared_factorization": "(1-t)^2*Delta_b=(1-t)*[beta0*(1-t)^2+2*beta1*t*(1-t)+beta2*t^2]",
+    "representative": "PPL",
+    "substitution": "x14=-t, x24=(q4+t)/(1-t), 0<=t<1",
+    "symmetric_chambers": [
+      "PPL",
+      "PPR",
+      "PLP",
+      "PRP"
+    ]
+  },
+  "total_nonnegative_route_sign_chambers": 27
+}

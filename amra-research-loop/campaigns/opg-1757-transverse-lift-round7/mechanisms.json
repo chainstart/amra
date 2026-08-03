@@ -74,8 +74,8 @@
       ],
       "kill_test": "classify all leading-sign and resultant chambers and find a reversed root order",
       "status": "surviving",
-      "status_evidence": "Retained all-base proof route: evidence/C_ZERO_FIBRE_THEOREM.md closes the full c=0 fibre; evidence/B_RAYLEIGH_REDUCTION.md gives the equivalent 178-term boundary determinant and closes x01=0,x02=0; evidence/ROUTE_MATRIX_CHAMBER.md identifies the projected component exactly as K>0 and reduces the obstruction to 45 orientation channels with positive outer quartic slices; evidence/CONNECTION_GRAM_CERTIFICATE.md proves all three page-connection polynomials positive by direct 3x3 Gram matrices.",
-      "updated_at": "2026-08-03T15:20:54+00:00"
+      "status_evidence": "Retained all-base proof route: evidence/C_ZERO_FIBRE_THEOREM.md closes the full c=0 fibre; evidence/B_RAYLEIGH_REDUCTION.md gives the equivalent 178-term boundary determinant and closes x01=0,x02=0; evidence/ROUTE_MATRIX_CHAMBER.md identifies the projected component exactly as K>0 and reduces the obstruction to 45 orientation channels with positive outer quartic slices; evidence/CONNECTION_GRAM_CERTIFICATE.md proves all three page connections positive; evidence/NONNEGATIVE_ROUTE_CHAMBERS.md proves 11 of 27 activity-sign chambers when all effective routes are nonnegative.",
+      "updated_at": "2026-08-03T15:50:42+00:00"
     },
     {
       "id": "M707",
@@ -153,6 +153,20 @@
       "status": "surviving",
       "status_evidence": "Retained algebraic route: the b-Rayleigh reduction compresses the obstruction to (x03+z34)(y04+z34)+t(z34-u). ROUTE_MATRIX_CHAMBER.md makes the full projected component the exact spectrahedral chamber K>0 and proves the two outer orientation slices. CONNECTION_GRAM_CERTIFICATE.md supplies positive-definite 3x3 Gram matrices for p03=x03+u and its two cyclic companions, exposing a concrete coupled Gram/Schur target; FALSIFICATION_WITNESSES.md still shows genuinely non-circuit information is necessary.",
       "updated_at": "2026-08-03T15:20:54+00:00"
+    },
+    {
+      "id": "M713",
+      "representation_id": "R711",
+      "family": "fourier_psd",
+      "decisive_claim": "The radical-free 4x4 orientation Fourier matrix Q is positive semidefinite throughout K>0 with positive edge floors.",
+      "would_close": [
+        "generic Delta_b sign on the exact projected component",
+        "the full eight-variable marked-host theorem frozen by this campaign"
+      ],
+      "kill_test": "find an exact rational K-positive route point and admissible page magnitudes for which a principal minor of Q, equivalently one of its four Hadamard eigenvalues, is negative",
+      "status": "surviving",
+      "status_evidence": "evidence/ORIENTATION_FOURIER_REDUCTION.md reconstructs Delta_b and proves the exact equivalence between all four orientation signs and Q>=0. evidence/NONNEGATIVE_ROUTE_CHAMBERS.md proves 11 finite sign chambers, including a nontrivial 2x2 Bernstein Gram determinant with a 628-term positive residual; positivity of Q on the remaining chambers is not yet established.",
+      "updated_at": "2026-08-03T15:50:42+00:00"
     }
   ]
 }
