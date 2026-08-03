@@ -74,7 +74,7 @@
       ],
       "kill_test": "classify all leading-sign and resultant chambers and find a reversed root order",
       "status": "surviving",
-      "status_evidence": "Retained all-base proof route: evidence/C_ZERO_FIBRE_THEOREM.md closes the full c=0 fibre, while evidence/B_RAYLEIGH_REDUCTION.md gives an equivalent 178-term boundary determinant and closes x01=0 and x02=0.",
+      "status_evidence": "Retained all-base proof route: evidence/C_ZERO_FIBRE_THEOREM.md closes the full c=0 fibre; evidence/B_RAYLEIGH_REDUCTION.md gives the equivalent 178-term boundary determinant and closes x01=0,x02=0; evidence/ROUTE_MATRIX_CHAMBER.md identifies the projected component exactly as K>0 and reduces the obstruction to 45 orientation channels with positive outer quartic slices.",
       "updated_at": "2026-08-03T14:04:58+00:00"
     },
     {
@@ -151,7 +151,7 @@
       ],
       "kill_test": "factor each of the seven nonconstant transverse channels and test sign compatibility on derivative-feasible points",
       "status": "surviving",
-      "status_evidence": "Retained algebraic route: the exact b-Rayleigh reduction compresses the obstruction to (x03+z34)(y04+z34)+t(z34-u). The exact circuit-cone witness in evidence/FALSIFICATION_WITNESSES.md shows that genuinely non-circuit mixed derivatives are necessary but does not refute the full derivative-cone route.",
+      "status_evidence": "Retained algebraic route: the b-Rayleigh reduction compresses the obstruction to (x03+z34)(y04+z34)+t(z34-u). ROUTE_MATRIX_CHAMBER.md makes the full projected component the exact spectrahedral chamber K>0 and proves the two outer orientation slices; FALSIFICATION_WITNESSES.md still shows genuinely non-circuit information is necessary.",
       "updated_at": "2026-08-03T14:04:58+00:00"
     }
   ]

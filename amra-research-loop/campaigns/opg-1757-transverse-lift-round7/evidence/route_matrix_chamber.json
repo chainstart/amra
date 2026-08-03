@@ -1,0 +1,55 @@
+{
+  "orientation": {
+    "N": "h0^2*h3*h4*Delta_b",
+    "degrees": {
+      "h0": 4,
+      "h3": 2,
+      "h4": 2
+    },
+    "expanded_terms": 577,
+    "h0_outer_slices": "both products of two positive quadratics on K>0",
+    "orientation_support": 45,
+    "quadratic_discriminant": "-4*(positive 2x2 route sum)*(positive complementary 3x3 principal minor B0)",
+    "substitution": "y01=h0,y02=R0/h0; y13=h3,y23=R3/h3; y14=h4,y24=R4/h4; 1+c=Rc"
+  },
+  "reconstruction": {
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "B0": {
+      "sha256": "83d1fd47ca7d96eae6f0f24c3a7b99168651933dca1637412707eaa50547b615",
+      "terms": 5
+    },
+    "orientation_N": {
+      "sha256": "099f384ae65df80bca6984c1256cc1bcdebf065c7dcdb97d9a150ffa943ef429",
+      "terms": 577
+    },
+    "orientation_h0_leading": {
+      "sha256": "7c0eeeb81a19b9a01a4ee315549088013abcb9a5cf24ff4ee75a87f2573e778c",
+      "terms": 60
+    },
+    "orientation_h0_trailing": {
+      "sha256": "f050a9ad6ec44d5203864e3f86cbf45d719304432bc9031cbf62c6840df4fc7f",
+      "terms": 60
+    },
+    "route_A": {
+      "sha256": "2b41cfe7821c9a39e1ecd5e3b6e0da12f27392ce67664e77dfe8b1900c9b21ae",
+      "terms": 12
+    }
+  },
+  "route_matrix": {
+    "A": "det(K)=R0*R3*R4*Rc-sum_(i<j)Ri*Rj+2*sum_i Ri-3",
+    "K": "diag(R0,R3,R4,Rc) with every off-diagonal entry 1",
+    "component": "positive edge floors and K positive definite",
+    "principal_minor_counts": {
+      "1": 4,
+      "2": 6,
+      "3": 4,
+      "4": 1
+    },
+    "projected_component": "projection(C_P)=C_A, using derivative nesting for one inclusion and a large-b lift for the other"
+  },
+  "schema": "amra.opg1757.round7.route-matrix-chamber.v1",
+  "scope": "exact projected chamber and orientation compression; middle h0 coefficients and generic Delta_b sign remain open"
+}

@@ -189,6 +189,19 @@ forests in the original edge variables, independently partitions the 81
 `{03,04}`-deleted forests, verifies both book compressions and (4.1), and
 checks the three wall factorizations without calling a symbolic factorizer.
 
+The subsequent `ROUTE_MATRIX_CHAMBER.md` removes the remaining ambiguity in
+the phrase “projection of `C_P`”: it proves that this projection is exactly
+the positive-edge-floor preimage of
+
+```text
+K=diag(R0,R3,R4,Rc) with every off-diagonal entry 1 > 0.
+```
+
+It also clears the positive orientation denominators in `Delta_b`, leaving 45
+orientation channels of multidegree `(4,2,2)`, and proves that both outer
+coefficients of the resulting `h0` quartic are strictly positive on this
+matrix chamber.
+
 Mathematical status: author-verified exact reduction with the named Fang--Ma
 C-Gårding dependency.  The generic sign of `Delta_b`, independent
 reconstruction, and novelty review remain open.  Neither the full local host
