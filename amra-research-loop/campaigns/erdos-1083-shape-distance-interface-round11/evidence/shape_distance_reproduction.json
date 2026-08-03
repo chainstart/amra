@@ -1,0 +1,24 @@
+{
+  "schema": "amra.erdos1083.round11.reproduction.v1",
+  "mathematical_status": "proved_by_author_natural_argument",
+  "machine_reproduced": true,
+  "command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-shape-distance-interface-round11/evidence/verify_shape_distance_no_go.py",
+  "environment": {
+    "python": "python3",
+    "virtual_memory_kib": 3145728,
+    "timeout_seconds": 180,
+    "threads": 1
+  },
+  "verdict": "PASS",
+  "checks": 1151151,
+  "finite_scope": "Exhaustive direct-mask decoding for L=3 and arithmetic regression through L=12.",
+  "universal_scope": "The all-L claim rests on the quotient/remainder bijection and factorial divisibility proof in SHAPE_DISTANCE_INTERFACE_NO_GO.md, not finite extrapolation.",
+  "sha256": {
+    "evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md": "aff5d145405370136394c09804a4777dcceff1e3005231f40633b06569035718",
+    "evidence/verify_shape_distance_no_go.py": "cc441eeb00da9af101cd9d3dbd8f0c65912aefb2231e0125b40d1df58fc96804",
+    "../erdos-1083-shape-profile-round10/evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md": "d89f31c267fce834a3f3542c2d4e695e35368b827f1fe9361490e56a8d127397"
+  },
+  "independent_reconstruction": "pending",
+  "audit_firewall": "This same-thread reproduction is author-side evidence and must not be recorded as independent audit.",
+  "public_scope_warning": "The family is subpower and lacks selected-core transversality; no public distance exponent changes."
+}

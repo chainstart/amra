@@ -1,0 +1,22 @@
+{
+  "schema": "amra.erdos776.round10.reproduction.v1",
+  "mathematical_status": "proved_by_author_natural_argument",
+  "machine_reproduced": true,
+  "command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-rate-sharpness-round10/evidence/verify_exact_recovery_subsequence.py",
+  "environment": {
+    "python": "python3",
+    "virtual_memory_kib": 3145728,
+    "timeout_seconds": 180,
+    "threads": 1
+  },
+  "verdict": "PASS",
+  "scope": "Exact arithmetic regression through R=17 plus symbolic all-R inequalities in the proof document; the finite rows are not used as extrapolation.",
+  "sha256": {
+    "evidence/EXACT_RECOVERY_SUBSEQUENCE.md": "28fa9147d5af2d2e9bcb230534700635c8cd8c96287923a5ded031b1db88b6ed",
+    "evidence/verify_exact_recovery_subsequence.py": "991b8d346675ee4e86f9881e0edae90212de1c64a2a4fb7fc88f041d2bdc34bb",
+    "../erdos-776-wall-selection-round8/evidence/ALL_J_FIRST_WALL_RECOVERY.md": "cf8940b7c1973e5609a7b6d2c5bfa91e561121b65344802c1fb1747dfae5caaa",
+    "../erdos-776-recovery-rate-round9/evidence/EXPLICIT_RECOVERY_RANK_BOUND.md": "dc9871f16cebb14db1d526dddff785b284f5a5a15ac77a9e2bdd9fca66d159ba"
+  },
+  "independent_reconstruction": "pending",
+  "public_scope_warning": "No all-orbit reduction, suffix theorem, rank-42 seed, threshold, main-term, or exponent improvement follows."
+}

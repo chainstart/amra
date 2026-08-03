@@ -11,6 +11,7 @@
   "evidence": [
     "evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md",
     "evidence/verify_shape_distance_no_go.py",
+    "evidence/shape_distance_reproduction.json",
     "../erdos-1083-shape-profile-round10/evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md"
   ],
   "dependency_gaps": [

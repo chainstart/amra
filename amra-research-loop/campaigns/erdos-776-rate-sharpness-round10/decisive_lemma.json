@@ -1,7 +1,24 @@
 {
-  "statement": "",
-  "status": "unset",
-  "closes": [],
-  "evidence": [],
-  "dependency_gaps": []
+  "statement": "For every integer R>=5, let j_R=11*2^(R-4)-5. This is an actual odd K4,r9 member and its first nonnegative-surplus rank is exactly rho(j_R)=R+1. Indeed B_5<2^11 and B_(n+1)<B_n^2 give B_R^2<2^(11*2^(R-4))<q_(j_R), forcing strict canonicality and negative surplus through rank R. At rank R+1, the first-wall branch is strictly positive by the audited round-eight arbitrary-carry theorem, while in the stable branch B_(R+2)>=2^(2+2^R)>2048q_(j_R) and the ratio cone force D_(R+1)>4q_(j_R). Moreover 2^(R-1)<j_R+4<2^R, so the round-nine bound is p(j_R)=R+2. Thus the memberwise O(log j)=O(log log q_j) recovery upper rate is asymptotically sharp and has additive gap one on this explicit infinite subsequence.",
+  "status": "proved",
+  "closes": [
+    "explicit all-R lower recovery-rank subsequence on the actual K4,r9 family",
+    "exact first recovery rank on that subsequence",
+    "asymptotic sharpness and additive-one comparison for the round-nine memberwise rate"
+  ],
+  "evidence": [
+    "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+    "evidence/verify_exact_recovery_subsequence.py",
+    "evidence/rate_sharpness_reproduction.json",
+    "../erdos-776-wall-selection-round8/evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+    "../erdos-776-recovery-rate-round9/evidence/EXPLICIT_RECOVERY_RANK_BOUND.md"
+  ],
+  "dependency_gaps": [
+    "the theorem is confined to the actual K4,r9 odd family",
+    "no reduction to every adjacent orbit required by the public construction is proved",
+    "the exact subsequence disproves uniform recovery by rank 42 rather than supplying a pre-rank-42 seed",
+    "suffix persistence after recovery is not established",
+    "no public Erdos-776 threshold, main term, or exponent improves",
+    "independent reconstruction and external novelty or priority checks remain pending"
+  ]
 }

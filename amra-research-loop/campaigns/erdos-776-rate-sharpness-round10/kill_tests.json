@@ -1,3 +1,58 @@
 {
-  "tests": []
+  "tests": [
+    {
+      "id": "K1001",
+      "mechanism_id": "M1001",
+      "outcome": "killed",
+      "evidence": "For every R>=5 the actual odd index j_R=11*2^(R-4)-5 satisfies rho(j_R)=R+1; see evidence/EXACT_RECOVERY_SUBSEQUENCE.md."
+    },
+    {
+      "id": "K1002",
+      "mechanism_id": "M1002",
+      "outcome": "killed",
+      "evidence": "B_5=1625<2^11 and B_(n+1)<B_n^2 inductively give B_n<2^(11*2^(n-5)) for every n>=5."
+    },
+    {
+      "id": "K1003",
+      "mechanism_id": "M1003",
+      "outcome": "killed",
+      "evidence": "On j_R, q>B_R^2; monotonicity and B_R>=20R imply q>B_n+5n for every n<=R, so every inherited stable word through R is strictly canonical."
+    },
+    {
+      "id": "K1004",
+      "mechanism_id": "M1004",
+      "outcome": "killed",
+      "evidence": "Every stable surplus constant through R is strictly below B_n^2<=B_R^2<q, hence gamma_n<0; the exact inequalities are recorded in evidence/EXACT_RECOVERY_SUBSEQUENCE.md."
+    },
+    {
+      "id": "K1005",
+      "mechanism_id": "M1005",
+      "outcome": "killed",
+      "evidence": "The independently audited round-eight arbitrary-carry first-wall theorem makes every first-wall branch after a negative stable predecessor strictly positive."
+    },
+    {
+      "id": "K1006",
+      "mechanism_id": "M1006",
+      "outcome": "killed",
+      "evidence": "B_(R+2)>=2^(2+2^R)>2048q_(j_R) and the ratio cone give D_(R+1)>14B_(R+2)/15-1>4q_(j_R)."
+    },
+    {
+      "id": "K1007",
+      "mechanism_id": "M1007",
+      "outcome": "killed",
+      "evidence": "The exact ceiling calculation gives p(j_R)=R+2 while the first recovery rank is R+1, so the round-nine upper bound has additive gap one on this subsequence."
+    },
+    {
+      "id": "K1010",
+      "mechanism_id": "M1010",
+      "outcome": "killed",
+      "evidence": "The universal theorem uses all-R induction and exponent inequalities; the bounded table in verify_exact_recovery_subsequence.py is only a regression guard and is not extrapolated."
+    },
+    {
+      "id": "K1011",
+      "mechanism_id": "M1011",
+      "outcome": "killed",
+      "evidence": "Taking R>=42 gives an actual fixed-family member whose first recovery rank is R+1>42, so no uniform rank-42 conclusion follows."
+    }
+  ]
 }

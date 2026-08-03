@@ -1,4 +1,7 @@
 {
-  "mechanism_ids": [],
-  "selection_rationale": ""
+  "mechanism_ids": [
+    "M1008",
+    "M1009"
+  ],
+  "selection_rationale": "M1008 is the decisive exact first-rank theorem: the explicit actual subsequence j_R=11*2^(R-4)-5 stays negative through rank R and recovers at R+1 for every R>=5. M1009 compares that exact rank with the independently audited round-nine bound p(j_R)=R+2, proving additive-one and asymptotic rate sharpness. Nine of ten non-survivors are killed (90%); M1012 is frozen because fixed-family sharpness supplies neither an all-orbit reduction nor suffix persistence or a public threshold improvement."
 }
