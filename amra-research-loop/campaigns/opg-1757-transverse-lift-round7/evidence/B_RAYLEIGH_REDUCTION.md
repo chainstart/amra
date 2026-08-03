@@ -28,47 +28,29 @@ they expose different boundary coordinates.
 
 ## 1. The xi b-slope is positive on the whole component
 
-Let `M` be the cycle matroid of `K5` minus edge `34`, with marked edge
-`h=03`.  Then
-
-```text
-P=C_(M\h),  xi_h=C_(M\h)-C_(M/h).
-```
-
-Differentiating in `b=04` gives
-
-```text
-A=C_(M\{h,b}),  D=xi_h(M\b).
-```
-
-The graph `M\b` is exactly `K4` on vertices `{0,1,2,3}`, together with the
-path `1-4-2` parallel to edge `12`: add a parallel copy of `12`, then
-subdivide that copy.  Fang--Ma's at-most-six-element theorem, minor closure,
-and series/parallel closure therefore make `M\b` C-Gårding.
-
-Apply the proof of Fang--Ma Proposition 13.9 to the fixed edge `h`.  Its two
-polynomials are precisely `A` and `D`; the alternative proper-position branch
-is excluded by the nonnegative coefficients of `D`.  Hence
-
-```text
-D triangleleft A,
-```
-
-so `D>0` on the distinguished component of `A`.  The inherited Gårding
-derivative nesting for `P` gives
+The inherited Gårding derivative nesting for `P` gives
 
 ```text
 C_P subset C_A,
 ```
 
-and therefore
+where `C_A` is identified exactly in `ROUTE_MATRIX_CHAMBER.md`.  The direct
+certificate in `CONNECTION_GRAM_CERTIFICATE.md` writes
+
+```text
+D*(1+l0)*(1+l3) = A + z^T*H4*z,
+```
+
+with positive edge-floor denominator and `H4` positive definite on `C_A`.
+It follows without an external marked-graph theorem that
 
 ```text
 A>0 and D>0 throughout C_P.                    (1.1)
 ```
 
-This is a genuine all-eight-variable sign; it is not inferred from positive
-coefficients or a stabilizer restriction.
+This is a genuine all-eight-variable sign.  It is reconstructed from the
+forests and the exact route chamber, not inferred from positive coefficients
+or a stabilizer restriction.
 
 ## 2. Boundary determinant equivalence
 
@@ -123,8 +105,8 @@ A=q0*q3*q4+c*(q0*q3+q0*q4+q3*q4+q0*q3*q4),
 D=c*q4*(p+r+s)+(c+q4)*p*r.                    (3.1)
 ```
 
-The external C-Gårding argument proves the sign of `D`; (3.1) records the
-small state space that a direct algebraic audit can reconstruct.
+The Gram identity cited in Section 1 proves the sign of `D`; (3.1) records
+the small state space from which that direct algebraic certificate is built.
 
 ## 4. Three-terminal partition compression
 
@@ -188,6 +170,8 @@ The verifier uses only Python's standard library, reconstructs all 128/58
 forests in the original edge variables, independently partitions the 81
 `{03,04}`-deleted forests, verifies both book compressions and (4.1), and
 checks the three wall factorizations without calling a symbolic factorizer.
+Run `evidence/verify_connection_gram.py` as well to reproduce the direct
+positivity proof for `D` and its two cyclic companions.
 
 The subsequent `ROUTE_MATRIX_CHAMBER.md` removes the remaining ambiguity in
 the phrase “projection of `C_P`”: it proves that this projection is exactly
@@ -202,7 +186,7 @@ orientation channels of multidegree `(4,2,2)`, and proves that both outer
 coefficients of the resulting `h0` quartic are strictly positive on this
 matrix chamber.
 
-Mathematical status: author-verified exact reduction with the named Fang--Ma
-C-Gårding dependency.  The generic sign of `Delta_b`, independent
+Mathematical status: author-verified exact reduction with a direct Gram proof
+of the required slope sign.  The generic sign of `Delta_b`, independent
 reconstruction, and novelty review remain open.  Neither the full local host
 theorem nor OPG-1757 is claimed.

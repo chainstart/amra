@@ -154,8 +154,11 @@ its discriminant is respectively
 
 Consequently all four quadratics, and hence both outer slices, are strictly
 positive for every real `h3,h4` on `K>0`.  On the closure they are
-nonnegative.  This explains algebraically why the exact `x01=0` and
-`x02=0` walls from the preceding ledger are double contact strata.
+nonnegative.  Thus the `h0` quartic is coercively positive at both ends
+`h0 -> 0+` and `h0 -> +infinity`; any negative orientation island would have
+to be bounded by at least two positive roots.  These outer limits are edge-
+floor limits, not the activity walls `x01=0` and `x02=0` already classified
+in the preceding ledger.
 
 ## 5. Reproduction and boundary
 

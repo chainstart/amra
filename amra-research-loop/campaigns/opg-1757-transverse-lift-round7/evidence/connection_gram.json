@@ -1,0 +1,89 @@
+{
+  "certificates": {
+    "p03": {
+      "identity": "p03*(1+l0)*(1+l3)=A+(l0*l3,l0,l3)^T H4 (l0*l3,l0,l3)",
+      "remaining_page": "4",
+      "sylvester_minors": [
+        "M4=c+q4+c*q4",
+        "(c+q4)*B0",
+        "(c+q4)^2*A"
+      ]
+    },
+    "p04": {
+      "identity": "p04*(1+l0)*(1+l4)=A+(l0*l4,l0,l4)^T H3 (l0*l4,l0,l4)",
+      "remaining_page": "3",
+      "sylvester_minors": [
+        "M3=c+q3+c*q3",
+        "(c+q3)*B0",
+        "(c+q3)^2*A"
+      ]
+    },
+    "p34": {
+      "identity": "p34*(1+l3)*(1+l4)=A+(l3*l4,l3,l4)^T H0 (l3*l4,l3,l4)",
+      "remaining_page": "0",
+      "sylvester_minors": [
+        "M0=c+q0+c*q0",
+        "(c+q0)*B3",
+        "(c+q0)^2*A"
+      ]
+    }
+  },
+  "consequence": "Hk is positive definite by its three leading Sylvester minors; therefore all three connection polynomials p03,p04,p34 are strictly positive",
+  "reconstruction": {
+    "p03": {
+      "connecting_forests": 34,
+      "forests": 81,
+      "sha256": "df5242f7007d67a5c265d41601a4ce5cddddf700f5f71ba75e3edcde3616db71",
+      "terms": 34
+    },
+    "p04": {
+      "connecting_forests": 34,
+      "forests": 81,
+      "sha256": "1d212c62c5321d1792fd143bf8282e4b5b4bb0a695b49d4e0a2a1ed202df156f",
+      "terms": 34
+    },
+    "p34": {
+      "connecting_forests": 34,
+      "forests": 81,
+      "sha256": "1f58c30eb231d178295d4ff9f3454e7d7cbfd6d3880a219259a48362341f7761",
+      "terms": 34
+    }
+  },
+  "records": {
+    "A": {
+      "sha256": "24b8e6abcf47575e99c756794c0c3264270818a5035631c895830dd577d028e9",
+      "terms": 5
+    },
+    "H0_det": {
+      "sha256": "b370ddcf1938b504bdc3815b880c39413d429c6bcacb5c23e9d84cee6ccafaa4",
+      "terms": 13
+    },
+    "H3_det": {
+      "sha256": "3ec4f2152d32f00e3c71d82d0b554880513f808fcb0370058740b5355abd6b38",
+      "terms": 13
+    },
+    "H4_det": {
+      "sha256": "91a09c85b56844fd8873d7c86035b699f286a1b67b505d671a271dcae0d5c519",
+      "terms": 13
+    },
+    "p03_cleared": {
+      "sha256": "a22b23ba7574066257cf1fdbc0ffdc5bb6bb376585b441ed0d8b2aa40f79bac7",
+      "terms": 17
+    },
+    "p04_cleared": {
+      "sha256": "86f1659db7e4b013fd5641bcd64daf8ebe11e92a5a4e9ac371903cedfb1e9794",
+      "terms": 17
+    },
+    "p34_cleared": {
+      "sha256": "7c274a5b1e75272140575a23866821c7225c0ec0bea7d1b46e644cbbb4aee36a",
+      "terms": 17
+    }
+  },
+  "route_chamber": {
+    "A": "det(K)",
+    "hypothesis": "positive edge floors and K=diag(q0,q3,q4,c)+11^T positive definite",
+    "positive_inputs": "A, every 2x2 and 3x3 principal minor, and c+qk=Rc+Rk-2"
+  },
+  "schema": "amra.opg1757.round7.connection-gram.v1",
+  "scope": "exact direct replacement for the external sign argument for D=p03; the generic sign of Delta_b still requires a coupled certificate"
+}
