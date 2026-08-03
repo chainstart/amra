@@ -127,10 +127,11 @@ def main() -> None:
     assert sp.expand(xi_fibre - (568*a**2 + 5007*a + 3640) / 4) == 0
     assert p_fibre.subs(a, sp.Rational(-4, 5)) == sp.Rational(-31, 25)
 
-    # Stronger global component exclusion.  The spoke deletion is already
-    # known C-Garding, so its distinguished positivity component is convex.
-    # If the negative point belonged to it, its segment to the positive anchor
-    # would remain in P>0.  At t=1/5 that segment has exact negative P.
+    # Historical segment diagnostic.  Its negative value is exact, but an
+    # ordinary C-Garding component need not be convex, so the segment alone is
+    # not a component-exclusion proof.  The later independently audited
+    # FULL_SPOKE_DOMINATION_THEOREM supplies the valid exclusion: its exact
+    # component has x=a+1>0, whereas this point has x=-7.
     target = tuple(negative_point[v] for v in (a, b, c, d))
     segment = tuple(1 + t*(value - 1) for value in target)
     segment_polynomial = sp.factor(P.subs(dict(zip((a, b, c, d), segment))))
@@ -171,12 +172,13 @@ def main() -> None:
             "P_at_barrier_a": "-31/25"
         },
         "global_component_exclusion": {
-            "dependency": "the established C-Garding status of P makes its distinguished positivity component convex",
+            "historical_dependency": "INVALID: C-Garding alone does not imply convexity",
+            "corrected_dependency": "FULL_SPOKE_DOMINATION_THEOREM.md gives x=a+1>0 on the exact component, while the point has x=-7",
             "anchor": ["1", "1", "1", "1"],
             "segment_parameter": "1/5",
             "segment_point": [str(value) for value in barrier_point],
             "P_at_segment_point": "-1009646/78125",
-            "conclusion": "the P>0, xi<0 point is outside the full distinguished component"
+            "conclusion": "outside by the later exact component theorem; the segment is diagnostic only"
         },
         "kill_test_outcome": "survives_this_exact_negative_specialization; full spoke domination remains open",
         "finite_scan_role": "candidate discovery only; no completeness or promotion claim",

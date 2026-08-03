@@ -69,4 +69,4 @@ assert wall_C_signs == [-1, -1, 1]
 print("full-b wall interface: PASS")
 print("generic A=0 crossing signs reduce to Ac, ae+a+e, and ad+a+d")
 print("exact rational ray A-wall C signs:", wall_C_signs)
-print("component membership and global OPG-1757 remain OPEN")
+print("this wall replay infers no path membership; fixed-space domination is proved separately, global OPG-1757 remains OPEN")

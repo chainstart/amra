@@ -14,7 +14,7 @@
       "test_family": "broken_symmetry_spoke_fibration",
       "exact_test": "Use the full spoke polynomial, not b=a,d=c, and seek a rational P>0,xi<0 point with an exact positive path or a resultant root-order reversal.",
       "outcome": "survives_exact_negative_point_outside_component",
-      "evidence": "G202_SPOKE_EXACT_NEGATIVE_ISLAND.md reconstructs the full polynomial and finds P(-8,1/8,8,7)=294896 with xi=-16. The point is rigorously outside the full distinguished component: at t=1/5 its segment to (1,1,1,1) has P=-1009646/78125, contradicting convexity of the established Gårding component if both endpoints belonged. This classifies one exact negative island but does not prove full spoke domination.",
+      "evidence": "G202_SPOKE_EXACT_NEGATIVE_ISLAND.md reconstructs the full polynomial and finds P(-8,1/8,8,7)=294896 with xi=-16. Erratum: the original convexity inference from a negative segment value was invalid for ordinary Gårding components. The later independently audited FULL_SPOKE_DOMINATION_THEOREM.md validly excludes the point because its exact component has x=a+1>0, while this point has x=-7.",
       "mathematical_status": "exact_local_exclusion; global_claim_open"
     },
     {

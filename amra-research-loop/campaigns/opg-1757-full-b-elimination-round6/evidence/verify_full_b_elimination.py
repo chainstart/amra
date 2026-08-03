@@ -35,4 +35,4 @@ tangent=sp.factor(P.subs({a:2,b:sp.Rational(-1,2),c:0,d:1,e:1-6*t}))
 assert tangent==12*(6*t-1)**2
 print("full-b elimination ledger: PASS")
 print("Delta=2*a^2*R, degree(R)=10, terms(R)=41, all coefficients positive")
-print("exact negative xi point recorded; distinguished-component membership OPEN")
+print("exact negative xi point recorded; separate PRT firewall proves it is outside the distinguished component")

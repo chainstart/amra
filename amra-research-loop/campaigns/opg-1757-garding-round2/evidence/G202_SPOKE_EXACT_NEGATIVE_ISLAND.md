@@ -1,5 +1,15 @@
 # G202 first kill test: exact spoke negative island
 
+> **Erratum (2026-08-03).**  The original segment argument below incorrectly
+> used `C`-Gårding status alone to infer convexity.  Fang--Ma,
+> arXiv:2604.27755v2, Example 11.7 explicitly shows that an ordinary Gårding
+> component need not be convex.  The point exclusion is nevertheless valid
+> by the later, independently audited exact component theorem
+> `FULL_SPOKE_DOMINATION_THEOREM.md`: after shifting `x=a+1`, the full
+> distinguished component has `x>0`, whereas this point has `x=-7`.  The
+> point values and fixed-fibre barrier in this note remain exact; the segment
+> alone is not a component certificate.
+
 ## Outcome
 
 The full marked-spoke stabilizer polynomial has the exact rational point
@@ -9,8 +19,9 @@ The full marked-spoke stabilizer polynomial has the exact rational point
 \]
 
 This point does **not** kill G202: it lies outside the full distinguished
-positivity component of `P`.  Its exclusion is exact and uses convexity of the
-already established Gårding component, not a finite connectivity scan.
+positivity component of `P`.  Its exclusion is now supplied by the later
+exact full-component characterization, not by convexity and not by a finite
+connectivity scan.
 G202 therefore survives this first broken-symmetry kill test but remains open.
 
 ## Full spoke reconstruction
@@ -94,34 +105,36 @@ and exact substitution gives
  P((1-t)u+tv)=-1009646/78125<0.
 \]
 
-The spoke deletion is a series extension of `M(K4)` and its `C`-Gårding
-status was already established from the Fang--Ma six-element base theorem
-and series-extension closure.  A distinguished Gårding positivity component
-is convex.  If `v` belonged to that component together with the positive
-anchor `u`, their entire segment would lie in it and hence in `{P>0}`.  The
-displayed negative segment value is a contradiction.  Therefore `v` is
-outside the **full** distinguished component, not merely outside the natural
-fibre component.
+The displayed negative segment value is exact, but it does **not** by itself
+exclude `v` from an ordinary Gårding component: such components need not be
+convex.  The valid global exclusion comes instead from the later theorem
+`FULL_SPOKE_DOMINATION_THEOREM.md`, which proves that the full component is
+the domain (3) there.  In its shifted coordinates `x=a+1`; every component
+point has `x>0`, while `v` has `x=-7`.  Thus `v` is outside the **full**
+distinguished component, with no convexity premise.
 
 ## Status and scope
 
 The initial bounded scan served only to locate the rational candidate.  The
-reported point values, forest reconstruction, fibre barrier, and global
-component exclusion are exact.  The scan is not complete and supplies no
-evidence that all negative points are excluded.
+reported point values, forest reconstruction, and fibre barrier are exact;
+the global exclusion is exact through the later full-component theorem.  The
+scan itself is not complete and supplies no such completeness evidence.
 
-- G202: survives this exact first kill test; not proved.
-- Full four-variable spoke domination: open.
+- G202: survived this first test and was subsequently proved by
+  `FULL_SPOKE_DOMINATION_THEOREM.md`.
+- Full four-variable spoke domination: proved and independently audited in
+  the later artifacts; not proved by this first-test note alone.
 - Rim orbit: not used.
-- Campaign phase: remains `mechanism_falsification`.
+- Campaign phase at the time of this test: `mechanism_falsification`; the
+  campaign is now frozen after its later audited results.
 - OPG-1757 and its global interface: unchanged.
 
 Reproduction, without Lean:
 
 - `evidence/verify_g202_spoke_exact_negative_island.py`, SHA-256
-  `fdb8ed637cfe71e9f104402ea9b159aa3cc34ea45063678def084091390cd994`
+  `5ae250c9b3a858f4e15dce6327ec4daefafc2a0c3a5b5856c29f46cc9e64109d`
 - `evidence/G202_SPOKE_EXACT_NEGATIVE_ISLAND.json`, SHA-256
-  `d39f2dc2d18b92084aae2c007b54b5bc947948497aa398ecc10f156bd83e5d28`
+  `45630bc9db949b7b1a67ff39f891646cba49df15113a2896d07724b4fa285f05`
 
 ```sh
 ulimit -v 2097152

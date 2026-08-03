@@ -1,0 +1,65 @@
+{
+  "schema": "amra.opg1757.round6.garding-prt-firewall-evidence.v1",
+  "created_at": "2026-08-03T19:14:49+08:00",
+  "statement_match": {
+    "target": "five-variable stabilizer-fixed C-Garding component of the marked K5-e deletion polynomial",
+    "proved": [
+      "the recorded point (-7/5,-6,-5,-3,-5) is outside the distinguished component",
+      "every component point satisfies a,b,c,d,e>-1 and three displayed pair inequalities",
+      "partial_b(P)>0 on the component",
+      "the displayed c-resultant is nonnegative on the component and positive off ade=0"
+    ],
+    "not_proved": [
+      "xi>0 on the complete fixed-space component",
+      "the eight-independent-variable marked-host theorem",
+      "global_interface_closed",
+      "OPG-1757"
+    ]
+  },
+  "mathematical_status": "conditional",
+  "exact_computation": {
+    "status": "author_reproduced",
+    "arithmetic": "integer and rational sparse-polynomial arithmetic",
+    "forest_reconstruction": {
+      "deletion_forests": 128,
+      "endpoint_connected_forests": 58
+    },
+    "rejected_point": {
+      "coordinates": ["-7/5", "-6", "-5", "-3", "-5"],
+      "P": "65",
+      "xi": "-1588/5",
+      "partial_a_P": "-1240",
+      "P_positive_a_ray": "5*(270*t^2-248*t+13)",
+      "P_at_t_equals_1/2": "-435/2"
+    },
+    "resultant_c_A_R": "2*a^2*d^4*e^4*(d+2)^2*(e+2)^2*(ad+a+d)*(ae+a+e)"
+  },
+  "external_dependencies": [
+    {
+      "source": "Hao Fang and Biao Ma, Garding polynomials, arXiv:2604.27755v2",
+      "url": "https://arxiv.org/html/2604.27755",
+      "uses": [
+        "Definition 4.9",
+        "Theorem 1.1",
+        "Proposition 13.12",
+        "Theorem 13.13 and duality"
+      ]
+    }
+  ],
+  "convexity_firewall": {
+    "ordinary_garding_convexity_used": false,
+    "reason": "Fang--Ma Example 11.7 gives a nonconvex ordinary Garding component",
+    "legacy_implication": "any older exclusion using only C-Garding=>convex needs a separate stable or ideal-Garding dependency"
+  },
+  "machine_reproduced": {
+    "command": "ulimit -v 524288 && timeout 120s python3 evidence/verify_garding_prt_firewall.py",
+    "working_directory": "amra-research-loop/campaigns/opg-1757-full-b-elimination-round6",
+    "environment": "Python 3.12.3; Linux 6.6.87.2-microsoft-standard-WSL2 x86_64",
+    "verifier_sha256": "087275a75e3062b45f8109635b99fa0fdedb09f7974c9b3d7c63593e989ddef5",
+    "result": "PASS"
+  },
+  "independent_reconstruction": false,
+  "novelty_check": "priority_uncertain",
+  "publication_state": "private_note",
+  "public_problem_changed": false
+}

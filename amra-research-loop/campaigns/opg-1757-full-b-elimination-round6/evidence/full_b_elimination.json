@@ -11,8 +11,15 @@
     "xi": "-1588/5",
     "A_C_D_E": ["9/5","379/5",198,"4352/5"],
     "Delta": "-336042/25",
-    "anchor_component_membership": "open"
+    "anchor_component_membership": "excluded_by_exact_PRT_and_derivative_firewall",
+    "component_exclusion_evidence": "evidence/GARDING_PRT_COMPONENT_FIREWALL.md"
   },
   "false_path_tangent": "P(2,-1/2,0,1,1-6t)=12(6t-1)^2",
+  "fixed_space_domination": {
+    "status": "proved",
+    "statement": "xi>0 on the full five-variable distinguished component of P",
+    "evidence": "evidence/FULL_FIXED_SPACE_DOMINATION.md",
+    "transverse_and_global_scope": "open"
+  },
   "public_problem_changed": false
 }

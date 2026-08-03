@@ -24,6 +24,12 @@ sign change is controlled by the second displayed factorization.
 This is a useful codimension-one interface, not a component theorem.  The
 coordinate factors and the exceptional locus `Ac=0` still have to be glued.
 
+The later Gårding PRT audit sharpens its interpretation: derivative nesting
+gives `A=partial_b P>0` everywhere on the distinguished component.  Therefore
+`A=0` is not an internal component wall at all.  The identities here remain
+valid and useful for the larger projected semialgebraic search, but a sampled
+route crossing this wall cannot certify component membership.
+
 ## Exact topology firewall
 
 On the rational ray from `(1,1,1,1)` to
@@ -41,3 +47,9 @@ barriers because at `A=0,C<0` no value of `b` can make `P>0`.
 The verifier reconstructs all polynomials from the frozen enumeration and
 checks the identities and root signs over `QQ`.  It makes no assertion that
 the recorded negative-`xi` point is in the distinguished component.
+
+The negative point is now exactly rejected by
+`GARDING_PRT_COMPONENT_FIREWALL.md`.  The later exact orientation argument in
+`FULL_FIXED_SPACE_DOMINATION.md` proves the full five-variable component
+statement without crossing this wall.  Transverse and global statements
+remain open.

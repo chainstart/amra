@@ -45,15 +45,16 @@
     "P_at_barrier_a": "-31/25"
   },
   "global_component_exclusion": {
-    "dependency": "the previously established C-Garding status of the spoke deletion makes its distinguished positivity component convex",
+    "historical_dependency": "INVALID: C-Garding status alone does not imply convexity (Fang--Ma Example 11.7)",
+    "corrected_dependency": "FULL_SPOKE_DOMINATION_THEOREM.md proves the exact component has shifted coordinate x=a+1>0, while this point has x=-7",
     "anchor": ["1", "1", "1", "1"],
     "segment_parameter": "1/5",
     "segment_point": ["-4/5", "33/40", "12/5", "11/5"],
     "P_at_segment_point": "-1009646/78125",
-    "conclusion": "the P>0, xi<0 point is outside the full distinguished component"
+    "conclusion": "the P>0, xi<0 point is outside the full distinguished component by the later exact component theorem; the segment value alone is not a certificate"
   },
   "kill_test_outcome": "survives_exact_negative_point_outside_component",
-  "mathematical_status": "exact local exclusion; full spoke domination open",
+  "mathematical_status": "exact point and fibre values; component exclusion corrected by the later independently audited full spoke theorem",
   "finite_scan_role": "candidate discovery only; no completeness or promotion claim",
   "lean_used": false,
   "phase_changed": false,

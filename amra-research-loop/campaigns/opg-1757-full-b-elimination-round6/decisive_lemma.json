@@ -1,7 +1,24 @@
 {
-  "statement": "",
-  "status": "unset",
-  "closes": [],
-  "evidence": [],
-  "dependency_gaps": []
+  "statement": "For the five-variable stabilizer specialization of the cospanning polynomial P of the marked-edge deletion (K5 minus edges 34 and 03), the marked endpoint-connectivity polynomial xi is strictly positive on the entire distinguished Garding component C_P.",
+  "status": "proved",
+  "closes": [
+    "complete five-variable stabilizer-fixed b-fibre domination",
+    "M601 determinant sign on the projected distinguished component",
+    "M606 fixed-space counterexample-path alternative"
+  ],
+  "evidence": [
+    "evidence/FULL_FIXED_SPACE_DOMINATION.md",
+    "evidence/full_fixed_space_domination.json",
+    "evidence/verify_fixed_space_domination.py",
+    "evidence/GARDING_PRT_COMPONENT_FIREWALL.md",
+    "evidence/verify_garding_prt_firewall.py"
+  ],
+  "dependency_gaps": [
+    "independent blind reconstruction has not yet been performed",
+    "the three transverse independent-edge directions removed by stabilizer equalization remain open",
+    "no full eight-variable marked K5-e host theorem follows yet",
+    "the global moving-edge induction interface remains open",
+    "novelty and priority are uncertain",
+    "OPG-1757 remains open"
+  ]
 }

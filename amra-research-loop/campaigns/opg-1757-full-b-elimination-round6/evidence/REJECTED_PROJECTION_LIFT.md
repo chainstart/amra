@@ -22,8 +22,11 @@ touches or crosses `P=0` and is not contained in the positive component.
 
 This preserves the topology firewall from the earlier ledger: coarse path
 sampling and positive endpoint checks are insufficient near narrow walls.
-The negative-`xi` endpoint is still not known to belong to the distinguished
-component, and no OPG-1757 conclusion changes.
+The later `GARDING_PRT_COMPONENT_FIREWALL.md` settles the endpoint question:
+the negative-`xi` endpoint is outside the distinguished component because a
+positive `a`-ray reaches `P<0` (and because `partial_a P<0` there).  This does
+not establish complete-component domination, and no OPG-1757 conclusion
+changes.
 
 Reproduce with
 

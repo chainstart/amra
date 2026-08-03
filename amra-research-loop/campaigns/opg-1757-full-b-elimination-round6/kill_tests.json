@@ -1,3 +1,12 @@
 {
-  "tests": []
+  "tests": [
+    {"mechanism_id":"M602","outcome":"killed","classification":"anchor component leaves the all-term nonnegative cone","evidence":"evidence/FULL_B_ELIMINATION_LEDGER.md#strictly-killed-broad-mechanisms","scope":"kills coefficient-cone containment; the later derivative chamber is strictly richer"},
+    {"mechanism_id":"M603","outcome":"killed","classification":"A=0 is not an internal component wall","evidence":"evidence/GARDING_PRT_COMPONENT_FIREWALL.md#new-component-inequalities","scope":"kills A-wall crossing as a closure mechanism; it does not assert that arbitrary projected A=0 identities are false"},
+    {"mechanism_id":"M604","outcome":"killed","classification":"threshold order is algebraically the determinant claim, not an independent mechanism","evidence":"evidence/FULL_FIXED_SPACE_DOMINATION.md#6-return-to-the-b-fibre","scope":"the literal threshold order follows from the proved survivor; what is killed is its use as a noncircular proof of M601"},
+    {"mechanism_id":"M605","outcome":"killed","classification":"same slope signs alone do not imply fibre domination","evidence":"evidence/FULL_B_ELIMINATION_LEDGER.md#strictly-killed-broad-mechanisms","scope":"the rejected exact point has A,D>0 and xi<0; D>0 on the true component is later proved only as an auxiliary plus Delta>=0"},
+    {"mechanism_id":"M606","outcome":"killed","classification":"global fixed-space counterexample path is impossible","evidence":"evidence/FULL_FIXED_SPACE_DOMINATION.md","scope":"xi is strictly positive on the entire distinguished fixed-space component; no claim is made about transverse points"},
+    {"mechanism_id":"M608","outcome":"killed","classification":"ray continuation is not component-complete","evidence":"evidence/GARDING_PRT_COMPONENT_FIREWALL.md#why-the-garding-dependency-applies","scope":"ordinary Garding components need not be convex or star-shaped; the literal ray sign conclusion now follows from the full theorem, not from a ray exhaustion"},
+    {"mechanism_id":"M611","outcome":"killed","classification":"fixed-space theorem does not supply the required global host input","evidence":"evidence/FULL_FIXED_SPACE_DOMINATION.md#theorem","scope":"three transverse directions and the global moving-edge reduction remain open"},
+    {"mechanism_id":"M612","outcome":"killed","classification":"anchor-compatible coefficient signs do not control Delta globally","evidence":"evidence/FULL_B_ELIMINATION_LEDGER.md#strictly-killed-broad-mechanisms","scope":"the point is outside the component but directly refutes the unrestricted sign-pattern claim"}
+  ]
 }

@@ -1,4 +1,4 @@
 {
-  "mechanism_ids": [],
-  "selection_rationale": ""
+  "mechanism_ids": ["M601", "M607", "M610"],
+  "selection_rationale": "M601 and M607 jointly yielded the proved five-variable theorem: derivative-component topology, second elimination, and the exact orientation identity establish Delta>=0 and xi>0. M610 is the sole retained frontier because the three transverse independent-edge directions are exactly the information lost by stabilizer equalization. M609 is frozen as a superseded resource-heavy roadmap; all other routes are false, circular, component-incomplete, or outside the proved scope."
 }

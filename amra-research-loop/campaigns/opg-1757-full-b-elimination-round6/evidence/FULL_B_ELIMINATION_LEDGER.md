@@ -63,8 +63,9 @@ Delta=-336042/25.
 
 Thus even the all-positive coefficient sign pattern `A,C,D,E>0` does not
 force `Delta>=0`, and no global positive-factor decomposition of `Delta` can
-exist.  This point is **not** yet a counterexample to the distinguished-
-component statement: component membership remains open.
+exist.  The new PRT firewall now proves that this point is **outside** the
+distinguished component, so it is not a counterexample to the component
+statement.
 
 ## Topology firewall
 
@@ -79,5 +80,48 @@ on which `P=12(6t-1)^2`; it touches `P=0` at `t=1/6`.  A second apparent
 detour likewise contained two exact roots missed by sampling.  This is direct
 evidence that floating path sampling is unsafe at the narrow component neck.
 
-No claim about `z` belonging to the anchor component is made.  No public
-OPG-1757 conclusion changes.
+## Exact Gårding-component firewall
+
+The deletion graph is `K4` on `{0,1,2,4}` with a parallel copy of edge `12`
+subdivided through vertex `3`.  The Fang--Ma six-element base theorem and
+series/parallel closure make its cospanning polynomial C-Gårding; orbit
+equalization is a strictly positive linear pullback.  Consequently the
+fixed-space component passes PRT and is nested in every nonzero derivative
+component.
+
+At the point `z` above,
+
+```text
+partial_a P(z)=-1240,
+P(z+t e_a)=5(270t^2-248t+13),
+P(z+(1/2)e_a)=-435/2.
+```
+
+Either derivative nesting or PRT therefore excludes `z` from the full
+distinguished fixed-space component.  No convexity assumption is used.
+
+The same derivative nesting gives the necessary component inequalities
+
+```text
+a,b,c,d,e>-1,
+ad+a+d>0,  ae+a+e>0,  de+d+e>0,
+A=partial_b P>0.
+```
+
+Thus the component itself never crosses `A=0`.  A further exact elimination
+identity is
+
+```text
+Res_c(A,R)
+ =2a^2d^4e^4(d+2)^2(e+2)^2(ad+a+d)(ae+a+e),
+```
+
+which is nonnegative on the component and positive outside `ade=0`.  The
+subsequent orientation theorem in `FULL_FIXED_SPACE_DOMINATION.md` combines
+this boundary value with the exact `w=c+1` discriminant and proves `R>=0`
+throughout `A>0`.
+
+See `GARDING_PRT_COMPONENT_FIREWALL.md` and
+`FULL_FIXED_SPACE_DOMINATION.md`, with their standard-library verifiers.
+Full five-variable fixed-space domination is now proved.  The transverse
+eight-variable lift, global interface, and OPG-1757 remain open.
