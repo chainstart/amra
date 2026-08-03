@@ -1,0 +1,23 @@
+{
+  "statement": "Parameterized natural-switch kernel theorem. For every m>=3 and r>=0 in the exact labelled round-8 architecture, colour legality forces omission of uw,bw,bu by three explicit protected-C7 templates. In that branch the bad-C7 deletion-trace hypergraph has only traces of sizes one and three; its singleton kernel is exactly F=R x (P union U union W) union P x Q union U x W union K(W), every trace meets F, and tau(H)=|F|=r(m+2)+(m-2)(m+5)/2.",
+  "status": "proved",
+  "audit_status": "passed",
+  "closes": [
+    "lifts the locked m=4,r=2 singleton kernel to every block size in the exact labelled natural-switch architecture",
+    "proves the three omitted switch edges are uniformly necessary rather than a finite-search accident",
+    "gives the exact all-parameter old-edge repair threshold for this architecture"
+  ],
+  "evidence": [
+    "evidence/PARAMETERIZED_BLOCK_KERNEL_THEOREM.md",
+    "evidence/verify_parameterized_kernel.py",
+    "evidence/parameter_probe.py",
+    "audit/PARAMETERIZED_KERNEL_INDEPENDENT_AUDIT.md",
+    "audit/verify_parameterized_kernel_independent.py"
+  ],
+  "dependency_gaps": [
+    "The canonical public hard-branch normal form does not force arbitrary hard graphs into this labelled natural-switch architecture.",
+    "No legal output construction, every-cut expansion theorem, or all-hard-branch composition is supplied.",
+    "The public F_3(n)~n^2/8 statement and its leading constant are unchanged.",
+    "External novelty and priority remain uncertain after independent mathematical audit."
+  ]
+}

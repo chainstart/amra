@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {"mechanism_id":"M809B9-01","outcome":"killed","classification":"all sixteen complete support representatives satisfy exact formula equality","evidence":"evidence/verify_parameterized_kernel.py"},
+    {"mechanism_id":"M809B9-02","outcome":"killed","classification":"with uw absent, either restored bw or restored bu creates a displayed protected bad C7","evidence":"evidence/PARAMETERIZED_BLOCK_KERNEL_THEOREM.md"},
+    {"mechanism_id":"M809B9-03","outcome":"killed","classification":"b-x1-u-y1-c-y2-w-b has empty admissible-old trace","evidence":"evidence/PARAMETERIZED_BLOCK_KERNEL_THEOREM.md"},
+    {"mechanism_id":"M809B9-04","outcome":"killed","classification":"b-x1-v-y1-c-y3-u-b has empty admissible-old trace","evidence":"evidence/PARAMETERIZED_BLOCK_KERNEL_THEOREM.md"},
+    {"mechanism_id":"M809B9-05","outcome":"killed","classification":"at r=0 the non-R blocks still give (m-2)(m+5)/2 singleton edges","evidence":"evidence/verify_parameterized_kernel.py"},
+    {"mechanism_id":"M809B9-06","outcome":"killed","classification":"K(W) contributes C(m-2,2), so tau is quadratic in m","evidence":"evidence/PARAMETERIZED_BLOCK_KERNEL_THEOREM.md"},
+    {"mechanism_id":"M809B9-08","outcome":"killed","classification":"F hits every trace under the complete finite-support reduction","evidence":"evidence/verify_parameterized_kernel.py"},
+    {"mechanism_id":"M809B9-12","outcome":"killed","classification":"tau>=4 already at m=3,r=0 and grows unboundedly","evidence":"evidence/PARAMETERIZED_BLOCK_KERNEL_THEOREM.md"},
+    {"mechanism_id":"M809B9-07","outcome":"proved","classification":"complete support grid has trace sizes only one and three","evidence":"evidence/verify_parameterized_kernel.py"},
+    {"mechanism_id":"M809B9-09","outcome":"proved","classification":"exact singleton equality on a complete orbit-support set","evidence":"evidence/verify_parameterized_kernel.py"},
+    {"mechanism_id":"M809B9-10","outcome":"proved","classification":"matching singleton lower and F-hitting upper certificates","evidence":"evidence/PARAMETERIZED_BLOCK_KERNEL_THEOREM.md"},
+    {"mechanism_id":"M809B9-11","outcome":"inconclusive","classification":"the canonical hard normal form does not force the labelled architecture","evidence":"evidence/PARAMETERIZED_BLOCK_KERNEL_THEOREM.md#scope"}
+  ]
+}

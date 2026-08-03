@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {"id":"K701","mechanism_id":"M701","outcome":"killed","evidence":"The greedy combinadic expansion is unique; evidence/ACTUAL_BUDGET_THREE_SWITCH.md verifies that the new word occurs only after crossing a value wall, not by choosing a second expansion."},
+    {"id":"K702","mechanism_id":"M702","outcome":"killed","evidence":"evidence/verify_actual_budget_three_switch.py directly exhibits an actual strict canonical s=3 word at j=1231."},
+    {"id":"K703","mechanism_id":"M703","outcome":"killed","evidence":"In evidence/ACTUAL_BUDGET_THREE_SWITCH.md the preceding rank-three top is t+4; s=4 makes the rank-two top equal to it, violating strict Macaulay ordering."},
+    {"id":"K704","mechanism_id":"M704","outcome":"killed","evidence":"evidence/verify_one_wall_classification.py gives the exact affine equality-budget point q=100,A=0,B=20,alpha=3,delta=0,B_next=0<q-1 but gamma=-208; coefficient equality alone does not force the sign."},
+    {"id":"K705","mechanism_id":"M705","outcome":"killed","evidence":"../erdos-776-leading-block-round6/audit/SLOPE_BUDGET_INDEPENDENT_AUDIT.md proves every fixed alpha+delta<3 affine candidate eventually negative on actual q."},
+    {"id":"K706","mechanism_id":"M706","outcome":"killed","evidence":"../erdos-776-leading-block-round6/audit/SLOPE_BUDGET_INDEPENDENT_AUDIT.md proves every fixed alpha+delta<3 affine candidate eventually negative on actual q."},
+    {"id":"K707","mechanism_id":"M707","outcome":"killed","evidence":"../erdos-776-seed-switch-round5/evidence/FINITE_MENU_STABLE_TAIL_NO_GO.md proves q-independent residual changes preserve the adverse leading coefficient."},
+    {"id":"K708","mechanism_id":"M708","outcome":"killed","evidence":"evidence/probe_true_canonical_carries.py explicitly labels its odd-j<=401 census finite; a bounded quantifier cannot prove the all-j claim."}
+  ]
+}

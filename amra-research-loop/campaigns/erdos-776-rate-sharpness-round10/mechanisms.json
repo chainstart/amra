@@ -1,0 +1,160 @@
+{
+  "mechanisms": [
+    {
+      "id": "M1001",
+      "representation_id": "R1001",
+      "family": "diagonal",
+      "decisive_claim": "No explicit actual odd subsequence can witness logarithmic lower recovery ranks.",
+      "would_close": [
+        "sharpness no-go"
+      ],
+      "kill_test": "test j_R=11*2^(R-4)-5",
+      "status": "killed",
+      "status_evidence": "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    },
+    {
+      "id": "M1002",
+      "representation_id": "R1002",
+      "family": "growth",
+      "decisive_claim": "The stable constants lack a usable all-rank double-exponential upper bound.",
+      "would_close": [
+        "diagonal obstruction"
+      ],
+      "kill_test": "use B_next<B^2 from B5<2^11",
+      "status": "killed",
+      "status_evidence": "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    },
+    {
+      "id": "M1003",
+      "representation_id": "R1004",
+      "family": "canonical",
+      "decisive_claim": "q>B_R^2 does not suffice for simultaneous canonicality through R.",
+      "would_close": [
+        "stable-word obstruction"
+      ],
+      "kill_test": "combine monotone B_n and B_R>=20R",
+      "status": "killed",
+      "status_evidence": "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    },
+    {
+      "id": "M1004",
+      "representation_id": "R1004",
+      "family": "surplus",
+      "decisive_claim": "A stable member with q>B_R^2 can have nonnegative gamma_n for some n<=R.",
+      "would_close": [
+        "lower-bound failure"
+      ],
+      "kill_test": "bound every surplus constant by B_n^2",
+      "status": "killed",
+      "status_evidence": "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    },
+    {
+      "id": "M1005",
+      "representation_id": "R1005",
+      "family": "next-rank",
+      "decisive_claim": "A carry at rank R+1 can delay recovery beyond R+1.",
+      "would_close": [
+        "rate gap"
+      ],
+      "kill_test": "apply round-eight arbitrary-carry first-wall positivity",
+      "status": "killed",
+      "status_evidence": "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    },
+    {
+      "id": "M1006",
+      "representation_id": "R1006",
+      "family": "next-rank",
+      "decisive_claim": "In the stable rank-R+1 branch D_(R+1) can remain below 4q_(j_R).",
+      "would_close": [
+        "stable next-rank failure"
+      ],
+      "kill_test": "compare B_(R+2) lower exponent with q upper exponent",
+      "status": "killed",
+      "status_evidence": "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    },
+    {
+      "id": "M1007",
+      "representation_id": "R1007",
+      "family": "rounding",
+      "decisive_claim": "The round-nine upper bound is exact on j_R.",
+      "would_close": [
+        "zero additive gap"
+      ],
+      "kill_test": "compute p(j_R) and exact first rank",
+      "status": "killed",
+      "status_evidence": "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    },
+    {
+      "id": "M1008",
+      "representation_id": "R1008",
+      "family": "sharp-rate",
+      "decisive_claim": "For every R>=5, rho(11*2^(R-4)-5)=R+1.",
+      "would_close": [
+        "explicit logarithmic lower subsequence"
+      ],
+      "kill_test": "prove both strict rank inequalities for all R",
+      "status": "proved",
+      "status_evidence": "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    },
+    {
+      "id": "M1009",
+      "representation_id": "R1007",
+      "family": "sharp-rate",
+      "decisive_claim": "On the explicit subsequence p(j_R)=R+2, so the upper bound is within one rank.",
+      "would_close": [
+        "additive-one sharpness"
+      ],
+      "kill_test": "evaluate the exact ceiling interval",
+      "status": "proved",
+      "status_evidence": "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    },
+    {
+      "id": "M1010",
+      "representation_id": "R1008",
+      "family": "quantifier",
+      "decisive_claim": "One finite table of exact ranks proves the infinite subsequence theorem.",
+      "would_close": [
+        "finite extrapolation"
+      ],
+      "kill_test": "require all-R exponent inequalities",
+      "status": "killed",
+      "status_evidence": "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    },
+    {
+      "id": "M1011",
+      "representation_id": "R1009",
+      "family": "rank42",
+      "decisive_claim": "A sharp logarithmic fixed-family rate yields uniform rank42 recovery.",
+      "would_close": [
+        "uniform pre-rank42 seed"
+      ],
+      "kill_test": "let R>42 on the explicit subsequence",
+      "status": "killed",
+      "status_evidence": "evidence/EXACT_RECOVERY_SUBSEQUENCE.md",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    },
+    {
+      "id": "M1012",
+      "representation_id": "R1009",
+      "family": "global-interface",
+      "decisive_claim": "The sharp K4,r9 rate automatically improves the public threshold.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "require all-orbit and suffix interfaces",
+      "status": "frozen",
+      "status_evidence": "survivors.json",
+      "updated_at": "2026-08-03T08:33:27+00:00"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "inherited_methods": [
+    {
+      "method": "round-7 exhaustive deletion-trace search",
+      "loss_step": "specialize all block sizes and adjacencies before enumerating bad C7 traces",
+      "lost_information": "which singleton traces are forced by the natural-switch interface and which are accidents of |X|=|Y|=4 and |R|=2",
+      "exact_witness": "the output is a list of 93 traces for one graph and contains no quantified block parameter",
+      "consequence": "the finite tau=21 certificate cannot be transported to another hard branch"
+    },
+    {
+      "method": "round-8 five-block compression",
+      "loss_step": "infer the named partition R,P,Q,U,W after the singleton set has already been computed",
+      "lost_information": "cycle templates witnessing singleton membership and obstructions preventing additional singleton edges",
+      "exact_witness": "F=R x (P union U union W) union P x Q union U x W union K2(W) is checked by edge-set equality only",
+      "consequence": "the formula has no proof-level stability under enlarging Q,W,R or changing optional new-edge choices"
+    },
+    {
+      "method": "transversal-number summary",
+      "loss_step": "replace the trace hypergraph by tau(H)=21",
+      "lost_information": "whether the singleton kernel still hits every nonsingleton trace in a parameterized family",
+      "exact_witness": "tau follows because the finite F both consists of singleton traces and hits all 72 triples",
+      "consequence": "neither the lower bound nor the hitting upper bound has an all-parameter statement"
+    },
+    {
+      "method": "canonical hard-normal-form composition",
+      "loss_step": "retain scalar reserve and degree budgets but discard the labelled local incidence pattern needed to define P,Q,U,W",
+      "lost_information": "a canonical map from an arbitrary hard natural-switch branch to the five named blocks",
+      "exact_witness": "the normal form contains no block-kernel or trace-hypergraph clause",
+      "consequence": "even a parameterized locked-family theorem cannot be promoted to all hard graphs"
+    }
+  ],
+  "required_new_information": [
+    "a parameterized graph family preserving the exact repeated-colour natural-switch interface",
+    "explicit seven-cycle templates certifying or refuting each proposed block of singleton traces",
+    "a quantified description of the first block-size at which the round-8 formula changes",
+    "an exact separation between a counterfamily to the five-block lift and the unresolved public all-hard-branch reduction",
+    "if a positive kernel survives, a proof that it hits every trace rather than a bounded census"
+  ],
+  "forbidden_shortcut": "Do not call computations at several fixed sizes a parameterized theorem; use them only to select a claim and then give uniform cycle templates or a complete symbolic argument."
+}

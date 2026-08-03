@@ -1,0 +1,41 @@
+{
+  "inherited_methods": [
+    {
+      "method": "round-four stable-tail recurrence",
+      "loss_step": "quantifies over a fixed terminal rank R and then chooses q above every A_n,B_n canonical wall through R",
+      "lost_information": "the first rank at which a fixed actual q meets a B-tail carry wall and the exact canonical word after that wall",
+      "consequence": "it proves no uniform fixed recovery rank but does not decide the adaptive recovery caused by the first real carry"
+    },
+    {
+      "method": "round-five arbitrary lower-tail reset",
+      "loss_step": "retains the same H/q staircase and bottom recurrence while allowing only A_n(q),B_n(q) to vary",
+      "lost_information": "a canonical carry changes a q-scale leading digit and therefore exits the hypotheses of the no-go",
+      "consequence": "the pointwise negative bound cannot test a true wall-crossing switch"
+    },
+    {
+      "method": "round-six affine slope budget",
+      "loss_step": "treats alpha,delta,beta,v as proposed coefficients without deriving them from a greedy Macaulay before/after word",
+      "lost_information": "uniqueness, digit ordering, wall location, and the algebraic coupling between leading gain and bottom transfer",
+      "consequence": "alpha+delta>=3 is necessary bookkeeping but may describe no legal transition"
+    },
+    {
+      "method": "bounded fixed-parameter recovery profiles",
+      "loss_step": "records first nonnegative ranks and signs but not the canonical cell inequalities causing the sign change",
+      "lost_information": "an all-parameter description of which carry occurs first and why its surplus has the required sign",
+      "consequence": "large positive examples cannot be promoted to adaptive recovery"
+    },
+    {
+      "method": "terminal positive seed",
+      "loss_step": "stops once a local gamma_n is nonnegative",
+      "lost_information": "whether the seed maps to the inherited diagonal capacity and persists through the suffix construction",
+      "consequence": "even a legal local switch does not close the public Erdos-776 interface"
+    }
+  ],
+  "required_new_information": [
+    "literal greedy Macaulay words immediately before and after a candidate carry or borrow wall",
+    "an exact Pascal identity deriving, rather than assigning, alpha and delta",
+    "all digit-order inequalities on an infinite actual parameter family",
+    "the equality-case constant or a strict positive surplus bound",
+    "a precise separation between local adaptive recovery and public suffix persistence"
+  ]
+}

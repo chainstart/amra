@@ -1,0 +1,15 @@
+{
+  "tests": [
+    {"mechanism_id":"M1083D11-02","outcome":"killed","classification":"all divisor rows have the same normalized source and raw complement endpoint gaps but distinct dilation d","evidence":"evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md#2-constant-shape-profile"},
+    {"mechanism_id":"M1083D11-03","outcome":"killed","classification":"fixed endpoint gaps coexist with distinct full complement interiors A_d","evidence":"evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md#2-constant-shape-profile"},
+    {"mechanism_id":"M1083D11-04","outcome":"killed","classification":"the factorial-divisor amplifier supplies L distinct scalar rows for every L","evidence":"evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md#3-arbitrarily-large-family; evidence/verify_shape_distance_no_go.py"},
+    {"mechanism_id":"M1083D11-05","outcome":"killed","classification":"the exact marker d^2 belongs to A_d and creates one literal common tangent","evidence":"evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md#4-common-positive-tangent"},
+    {"mechanism_id":"M1083D11-06","outcome":"killed","classification":"one common translation R0 above all d^2+rho^2 makes every tangent set positive","evidence":"evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md#4-common-positive-tangent"},
+    {"mechanism_id":"M1083D11-08","outcome":"killed","classification":"one shape fibre contains L target positions and L-1 positive common-tangent distance labels","evidence":"evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md#5-exact-interface-no-go"},
+    {"mechanism_id":"M1083D11-09","outcome":"killed","classification":"the endpoint-shape range is literally one, so label variation is carried by discarded dilation/interior data","evidence":"evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md#5-exact-interface-no-go"},
+    {"mechanism_id":"M1083D11-10","outcome":"killed","classification":"log U=Theta(L log L), so the arbitrarily large family has only subpower row count L=U^o(1)","evidence":"evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md#6-scale-and-selected-core-firewall"},
+    {"mechanism_id":"M1083D11-11","outcome":"killed","classification":"common spectrum and tangent do not supply the omitted centre-leaf transversality or heavy-factor-hub hypotheses","evidence":"evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md#6-scale-and-selected-core-firewall"},
+    {"mechanism_id":"M1083D11-12","outcome":"killed","classification":"complete interiors and scalar parameters vary while both retained boundary-gap pairs stay fixed","evidence":"evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md#5-exact-interface-no-go"},
+    {"mechanism_id":"M1083D11-15","outcome":"killed","classification":"the no-go changes no occurrence, collision-fibre, stability or exponent inequality","evidence":"evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md#7-scope"}
+  ]
+}

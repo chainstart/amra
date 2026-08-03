@@ -1,0 +1,24 @@
+{
+  "statement": "Sharp legal one-wall budget theorem with actual witness. At resulting rank m let t=q-(5m-16). If the inherited B-side bottom value C(t,2)+B_m lies in 3t+3<=B_m<4t+6, its unique greedy continuation ends in (t+3,2),(R,1), where R=B_m-3t-3=C(B_(m-1),2)-3q-(5m-21). Hence this literal transition has alpha=3, delta=0. Strict ordering beneath the preceding rank-three top t+4 permits bottom shifts s<=3 and rejects s=4, so three is the sharp maximal budget in this one-wall class. The actual K4,r9 odd member j=1231 satisfies the equality-wall interval at the rank 11 to 12 transition; direct uncompressed greedy replay proves both rank-11 words stable, the displayed switched rank-12 word strictly canonical, and gamma_11<0<gamma_12.",
+  "status": "proved",
+  "closes": [
+    "existence of a literal legal Macaulay switch realizing the round-six critical budget",
+    "sharp classification of the inherited one-wall rank-two bottom budget"
+  ],
+  "evidence": [
+    "evidence/ACTUAL_BUDGET_THREE_SWITCH.md",
+    "evidence/verify_actual_budget_three_switch.py",
+    "evidence/verify_one_wall_classification.py",
+    "evidence/probe_true_canonical_carries.py",
+    "evidence/TRUE_CANONICAL_CARRY_PROBE.json",
+    "evidence/probe_wall_budget_sequence.py"
+  ],
+  "dependency_gaps": [
+    "an all-j or all-state switch selection theorem before rank 42",
+    "proof that first-wall recovery covers every K4,r9 member",
+    "identification with every adjacent orbit required by the public construction",
+    "suffix persistence after a switched seed",
+    "public Erdos-776 threshold or exponent improvement",
+    "external novelty and priority check"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "inherited_from": "erdos-1083-shape-profile-round10 (frozen)",
+  "inherited_methods": [
+    {"method":"condition on the range-one endpoint-gap profile","loss_step":"treat two fixed boundary layers as a complete complement shape","lost_information":"all interior tiling structure and the scalar dilation parameter","consequence":"seek exact common-spectrum tilings with identical boundary gaps and varying lambda"},
+    {"method":"map local support rigidity directly to target labels","loss_step":"omit the common-tangent coordinate z=lambda/(2rho)","lost_information":"whether identical profiles can occupy different Euclidean target positions","consequence":"realize one literal common positive tangent and compute target-target distances"},
+    {"method":"use arbitrary polynomial factorizations as geometric evidence","loss_step":"drop positivity, directness or fixed cardinalities","lost_information":"legality of the exact Euclidean block","consequence":"require 0/1 interval tilings with |X|=S, |A_j|=U and one common V"},
+    {"method":"promote arbitrarily many rows to a power-large obstruction","loss_step":"ignore the growth of U needed to encode many divisors","lost_information":"row-count exponent relative to the endpoint parameter","consequence":"compute the exact lcm growth and keep the counterfamily scope below power-large"},
+    {"method":"infer public exponent change from a failed direct bridge","loss_step":"omit alternative deeper observables and global interfaces","lost_information":"what a replacement mechanism must retain","consequence":"freeze as an interface no-go unless a power-large all-target theorem is proved"}
+  ],
+  "required_new_information": [
+    "an all-L positive direct interval-tiling family with fixed S,U,X,V per instance",
+    "constant normalized source and raw complement endpoint-gap profiles",
+    "a common positive Euclidean tangent across every row",
+    "the exact target-target squared-distance formula on that tangent",
+    "the growth rate of row count relative to U and the power-large threshold",
+    "a precise statement of which direct shape-to-label bridges are refuted and which remain open"
+  ],
+  "forbidden_shortcut": "Do not call an algebraic tiling a Euclidean counterfamily without positive tangents, and do not call logarithmically many rows a power-large obstruction or exponent improvement."
+}

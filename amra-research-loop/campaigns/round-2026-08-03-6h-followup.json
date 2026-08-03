@@ -1,0 +1,31 @@
+{
+  "round_id": "round-2026-08-03-6h-followup",
+  "wall_clock_budget_hours": 6,
+  "persistent_goal_status": "interrupted_by_reboot",
+  "persistent_goal_thread_id": "019fc24d-b264-7352-b157-5043ea5cba8a",
+  "persistent_goal_started_at_epoch": 1785741862,
+  "last_persisted_at": "2026-08-03T16:33:27+08:00",
+  "interrupted_at": "2026-08-03T16:36:08+08:00",
+  "inherits_commit": "8d97d1c",
+  "resource_policy": {
+    "wsl_ram_gib": 31,
+    "heavy_probe_virtual_memory_gib": 3,
+    "heavy_probe_timeout_seconds": 180,
+    "max_concurrent_mathlib_lean_probes": 1,
+    "lean_threads_per_probe": 2,
+    "lean_role": "bounded identity, inequality, example and counterexample probes only; no rebuild"
+  },
+  "campaigns": [
+    "opg-1757-full-b-elimination-round6",
+    "erdos-776-budget3-switch-round7",
+    "erdos-809-block-kernel-lift-round9",
+    "erdos-1083-width-profile-round9"
+  ],
+  "priority": [
+    {"campaign_id": "opg-1757-full-b-elimination-round6", "share": 0.35},
+    {"campaign_id": "erdos-776-budget3-switch-round7", "share": 0.30},
+    {"campaign_id": "erdos-809-block-kernel-lift-round9", "share": 0.20},
+    {"campaign_id": "erdos-1083-width-profile-round9", "share": 0.15}
+  ],
+  "promotion_policy": "No public promotion without exact closure; local or finite theorems freeze honestly."
+}

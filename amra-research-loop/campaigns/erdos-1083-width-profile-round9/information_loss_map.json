@@ -1,0 +1,44 @@
+{
+  "inherited_from": "erdos-1083-spectrum-conditioning-round8 (frozen)",
+  "inherited_methods": [
+    {
+      "method": "condition only on the least support unit phi_j=min(lambda_j X)",
+      "loss_step": "project the ordered endpoint pair (min,max) to its first endpoint",
+      "lost_information": "the support width when the selected endpoint is zero",
+      "consequence": "test the translation-orbit of both endpoints, represented exactly by max-min"
+    },
+    {
+      "method": "treat an injective absolute profile as independent complement entropy",
+      "loss_step": "forget that scalar lambda_j and the common source X are already row data",
+      "lost_information": "whether the profile is new information or a deterministic source coordinate",
+      "consequence": "separate literal range from residual range after subtracting the known scalar-copy width"
+    },
+    {
+      "method": "use independently normalized factor representatives",
+      "loss_step": "allow Laurent monomial sections to translate factor endpoints",
+      "lost_information": "which endpoint quantities survive normalization gauge",
+      "consequence": "use widths of actual positive product masks and audit invariance under translation"
+    },
+    {
+      "method": "infer profile conditioning savings from one endpoint branch",
+      "loss_step": "leave zero-anchor and nonzero-anchor branches unmatched",
+      "lost_information": "an exhaustive all-branch range/fibre statement",
+      "consequence": "prove one theorem covering both scalar signs and both relevant endpoint values"
+    },
+    {
+      "method": "convert local observable rigidity directly to a distance exponent",
+      "loss_step": "omit all-target occurrence, distance collision fibres and stability",
+      "lost_information": "the global exponent accounting interface",
+      "consequence": "freeze any local width theorem unless those downstream inequalities are supplied"
+    }
+  ],
+  "required_new_information": [
+    "the exact quotient of an ordered endpoint pair by Laurent translation gauge",
+    "the four actual product-mask width profile in terms of |lambda_j|, width(X) and width(V)",
+    "range and fibre counts on a fixed-sign class in both zero-anchor and nonzero-anchor branches",
+    "comparison with phi_j proving whether width genuinely adds information",
+    "the residual profile after subtracting known scalar-copy data",
+    "an explicit firewall between a local conditioning no-go and a public exponent improvement"
+  ],
+  "forbidden_shortcut": "Do not call an injective width profile new complement entropy when it is a deterministic function of (lambda_j,X), and do not promote it to a distance-exponent gain without the global interfaces."
+}

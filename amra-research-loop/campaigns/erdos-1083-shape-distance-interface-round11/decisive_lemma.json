@@ -1,0 +1,24 @@
+{
+  "statement": "Endpoint-shape/common-tangent interface no-go. For every L>=1 set M=2(L!)^2, S=M+1, U=SM, X=[0,S-1], and for e=1,...,L put d_e=Se and A_d={r+dSk:0<=r<d,0<=k<U/d}. Then V=[0,SU-1]=A_d direct-sum dX for every row and U<S^2. All rows have the same round-ten profile Theta=(1/(S-1),1/(S-1),1,1), although their scalar parameters and complement interiors differ. Taking rho=1/2, z_d=d, a common R0>(SL)^2+rho^2, and T_d=R0+A_d-rho^2-d^2 gives positive tangent sets with the common tangent tau0=R0-rho^2, because d^2 belongs to A_d. On tau0 the exact Euclidean chart gives squared target distance (d-d')^2. Thus one shape-profile fibre contains L target positions and exactly L-1 positive distance labels for every L, so no functional map from that endpoint profile alone to the scalar position or common-tangent label set exists. The row count is only L=U^o(1), and selected-core transversality/heavy-factor hypotheses are absent, so the construction does not refute a power-large bridge using those extra hypotheses.",
+  "status": "proved",
+  "closes": [
+    "constructs arbitrarily large exact positive common-spectrum fibres with one constant endpoint-shape profile",
+    "realizes every row in the literal positive Euclidean tangent chart with one shared tangent",
+    "proves failure of a direct functional endpoint-shape-to-scalar bridge",
+    "proves failure of a direct functional endpoint-shape-to-common-tangent-label bridge",
+    "identifies interior tiling/factor-incidence data or selected-core hypotheses as necessary inputs for the next route"
+  ],
+  "evidence": [
+    "evidence/SHAPE_DISTANCE_INTERFACE_NO_GO.md",
+    "evidence/verify_shape_distance_no_go.py",
+    "../erdos-1083-shape-profile-round10/evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md"
+  ],
+  "dependency_gaps": [
+    "the counterfamily has subpower rather than t^(5/9-o(1)) row count",
+    "membership in the transverse heavy-factor selected core is not proved",
+    "a bridge retaining interior tiling or factor-incidence data remains possible",
+    "no all-target occurrence, collision-fibre or outer-stability interface is closed",
+    "no public distance exponent changes",
+    "external novelty and priority remain unchecked until independent audit"
+  ]
+}

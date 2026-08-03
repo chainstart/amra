@@ -1,0 +1,35 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex erdos776_budget3 lane; reconstructed without importing author verifier",
+    "evidence": [
+      "audit/TROPICAL_ENDPOINT_GAP_INDEPENDENT_AUDIT.md",
+      "audit/verify_tropical_endpoint_gaps_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "machine_reproduced": {
+    "author_command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-shape-profile-round10/evidence/verify_tropical_endpoint_gaps.py",
+    "author_result": "PASS; checks=60553; support_pairs=60516; branches=8",
+    "author_sha256": "75b3df28ea99ef3807cc05e65fbb0a869ea24c4f97ba0c1edcbd20b1843c5b93",
+    "independent_command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-shape-profile-round10/audit/verify_tropical_endpoint_gaps_independent.py"
+  },
+  "scope_review": {
+    "proved": [
+      "positive-mask sum/min/min product law",
+      "sign-reflected constant normalized scalar shape in all anchor branches",
+      "simultaneous feasibility makes the two equality walls contain at most one actual row",
+      "after deleting at most one row both complement gaps and the combined profile have range one"
+    ],
+    "not_proved": [
+      "signed-factor support law",
+      "higher-layer coordinatewise-min composition",
+      "new target-target Euclidean distance injection",
+      "all-target occurrence, collision-fibre saving or outer stability",
+      "any public exponent improvement"
+    ]
+  },
+  "decision_recommendation": "freeze_without_public_promotion"
+}

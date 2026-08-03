@@ -1,0 +1,9 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent audit confirms the exact tropical endpoint-gap product law and the power-large range-one complement-shape core after deleting at most one row. The result supplies no deeper-layer rigidity, Euclidean-label injection, global distance interface, or public exponent improvement.",
+  "evidence": [
+    "audit/TROPICAL_ENDPOINT_GAP_INDEPENDENT_AUDIT.md",
+    "audit/verify_tropical_endpoint_gaps_independent.py"
+  ]
+}

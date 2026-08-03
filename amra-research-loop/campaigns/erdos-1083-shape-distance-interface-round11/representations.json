@@ -1,0 +1,14 @@
+{
+  "representations": [
+    {"id":"R1083D11-01","name":"divisor interval tiling","family":"positive_tiling","new_information":"Keeps a fixed interval spectrum while varying scalar-copy step through divisors of U.","first_test":"Prove [0,SU-1]=A_d direct-sum d[0,S-1] for d|U."},
+    {"id":"R1083D11-02","name":"boundary-gap profile ledger","family":"shape_observable","new_information":"Computes normalized source gaps and raw complement gaps on every divisor row.","first_test":"Check all values are independent of d>=2."},
+    {"id":"R1083D11-03","name":"factorial divisor amplifier","family":"quantifier_geometry","new_information":"Produces arbitrarily many prescribed divisors d=Se while retaining U<S^2.","first_test":"Take M=2(L!)^2,S=M+1,U=SM and e=1,...,L."},
+    {"id":"R1083D11-04","name":"square-marker common tangent","family":"euclidean_realization","new_information":"Places d^2 inside A_d so one positive tangent is shared by all scalar rows.","first_test":"Use rho=1/2,z_d=d and verify d^2=dS*e belongs to A_d."},
+    {"id":"R1083D11-05","name":"translated tangent positivity","family":"euclidean_realization","new_information":"Adds one common translation large enough to make every tangent parameter positive.","first_test":"Choose R0>max d^2+rho^2 and compute T_d."},
+    {"id":"R1083D11-06","name":"common-tangent distance labels","family":"distance_interface","new_information":"Retains the exact target-target squared distance (d-e)^2 on the shared tangent.","first_test":"Substitute lambda=d and rho=1/2 in the inherited chart."},
+    {"id":"R1083D11-07","name":"profile-fibre versus scalar fibre","family":"distance_interface","new_information":"Compares a singleton shape-profile fibre with arbitrarily many distinct scalar and target positions.","first_test":"Show profile equality does not determine lambda or z."},
+    {"id":"R1083D11-08","name":"row-count growth audit","family":"quantifier_geometry","new_information":"Measures L against U=2S(L!)^2 rather than calling arbitrary size power-large.","first_test":"Prove L=U^o(1) and record failure to reach K=t^(5/9-o(1))."},
+    {"id":"R1083D11-09","name":"selected-core hypothesis firewall","family":"scope_control","new_information":"Separates common-spectrum Euclidean legality from transverse heavy-factor-hub membership.","first_test":"Audit centre-leaf coprimality and refuse to infer the power-large selected block."},
+    {"id":"R1083D11-10","name":"replacement-interface ledger","family":"scope_control","new_information":"Names the extra data needed beyond two boundary gaps to control scalar labels.","first_test":"Require interior tiling/factor incidence or a direct lambda-reconstruction lemma."}
+  ]
+}

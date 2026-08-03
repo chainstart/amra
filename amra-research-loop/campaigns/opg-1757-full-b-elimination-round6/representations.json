@@ -1,0 +1,14 @@
+{
+  "representations": [
+    {"id":"R601","name":"Affine b-fibre chamber","family":"fibre_geometry","new_information":"Retains the exact half-line P=A_b b+C_b>0 over every four-variable base point.","first_test":"Compute A_b,C_b,D_b,E_b and classify fibres at A_b=0."},
+    {"id":"R602","name":"Four-variable determinant","family":"elimination","new_information":"Records the exact obstruction Delta=A_b E_b-D_b C_b relating the P boundary to xi.","first_test":"Factor Delta and test its sign beyond the nonnegative orthant."},
+    {"id":"R603","name":"A/D wall arrangement","family":"semialgebraic_topology","new_information":"Keeps the zero walls of the P and xi slopes instead of erasing them in a resultant.","first_test":"Find exact intersections A_b=D_b=0 and their relation to the anchor projection."},
+    {"id":"R604","name":"Boundary-ratio coordinates","family":"fibre_geometry","new_information":"Uses b_P=-C_b/A_b and b_xi=-E_b/D_b to compare the two fibre thresholds directly.","first_test":"Express b_xi-b_P as Delta/(A_b D_b) in every sign chamber."},
+    {"id":"R605","name":"Exact semialgebraic roadmap","family":"semialgebraic_topology","new_information":"Preserves connected-component membership rather than only pointwise polynomial signs.","first_test":"Build rational straight or piecewise paths and isolate every zero crossing exactly."},
+    {"id":"R606","name":"Iterated singleton elimination","family":"elimination","new_information":"Tests whether Delta or its base chamber is affine in c or another orbit variable.","first_test":"Compute degrees, coefficients and second resultants after eliminating b then c."},
+    {"id":"R607","name":"Anchor boundary deformation","family":"continuation","new_information":"Tracks the anchor sheet until the first A_b, P or Delta wall instead of sampling isolated slices.","first_test":"Parameterize rays and low-degree planes from (1,1,1,1,1)."},
+    {"id":"R608","name":"Transverse edge perturbations","family":"deformation","new_information":"Restores the three edge directions killed by stabilizer equalization.","first_test":"Compute first and second transverse derivatives on the audited anchor slices."},
+    {"id":"R609","name":"Positive-orthant coefficient cone","family":"cone_geometry","new_information":"Uses the 41 positive determinant coefficients as a certified base cone and records precisely where signs can change.","first_test":"Determine the maximal sign orthant on which every determinant monomial is nonnegative."},
+    {"id":"R610","name":"Moving-edge global lift","family":"global_composition","new_information":"Retains the graph-level induction interface required by the public problem.","first_test":"State the exact transverse/fixed-space lemma sufficient for the inherited moving-edge argument."}
+  ]
+}

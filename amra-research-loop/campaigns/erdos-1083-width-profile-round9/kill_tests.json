@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {"mechanism_id":"M1083W9-02","outcome":"killed","classification":"actual positive Minkowski products have additive natural endpoints and additive width","evidence":"evidence/WIDTH_PROFILE_THEOREM.md#1-endpoint-gauge-and-positive-products; evidence/verify_width_profile.py"},
+    {"mechanism_id":"M1083W9-03","outcome":"killed","classification":"the four-width graph has only one leaf-varying coordinate","evidence":"evidence/WIDTH_PROFILE_THEOREM.md#2-exact-four-width-profile"},
+    {"mechanism_id":"M1083W9-05","outcome":"killed","classification":"at a zero relevant endpoint phi is constant while width is injective","evidence":"evidence/WIDTH_PROFILE_THEOREM.md#3-exact-comparison-with-the-round-eight-profile"},
+    {"mechanism_id":"M1083W9-07","outcome":"killed","classification":"every width residual is zero after subtracting known scalar-source data and common total width","evidence":"evidence/WIDTH_PROFILE_THEOREM.md#4-literal-range-versus-residual-information"},
+    {"mechanism_id":"M1083W9-08","outcome":"killed","classification":"the literal width profile has singleton fibres on every fixed-sign branch","evidence":"evidence/WIDTH_PROFILE_THEOREM.md#2-exact-four-width-profile"},
+    {"mechanism_id":"M1083W9-09","outcome":"killed","classification":"a+bj and the first width coordinate |lambda_j|D are identical, not independent","evidence":"evidence/WIDTH_PROFILE_THEOREM.md#5-divisor-atlas-comparison"},
+    {"mechanism_id":"M1083W9-10","outcome":"killed","classification":"factor endpoint pairs move under arbitrary monomial associate translations; only their widths survive","evidence":"evidence/WIDTH_PROFILE_THEOREM.md#1-endpoint-gauge-and-positive-products"},
+    {"mechanism_id":"M1083W9-11","outcome":"killed","classification":"the joint phi-width pair is injective because width is injective in both endpoint branches","evidence":"evidence/WIDTH_PROFILE_THEOREM.md#3-exact-comparison-with-the-round-eight-profile"},
+    {"mechanism_id":"M1083W9-12","outcome":"killed","classification":"no map from source widths to new target-target distance labels is proved","evidence":"evidence/WIDTH_PROFILE_THEOREM.md#6-exact-scope"},
+    {"mechanism_id":"M1083W9-13","outcome":"killed","classification":"the local profile theorem supplies none of the three global exponent interfaces","evidence":"evidence/WIDTH_PROFILE_THEOREM.md#6-exact-scope"}
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M1083G10-01", "M1083G10-07", "M1083G10-09"],
+  "selection_rationale": "M1083G10-01 proves that the two second-support gaps form a genuinely non-affine translation-invariant positive-product observable with exact tropical composition. M1083G10-07 uses simultaneous left/right feasibility to remove at most one equality-wall row and force both actual complement gaps on the remaining power-large core. M1083G10-09 combines that new complement rigidity with constant normalized source shape to give an exact range-one profile. Ten of twelve non-survivors are killed (83.3%); the two remaining proved scope/one-exception dependencies are not independent survivors."
+}

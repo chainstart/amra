@@ -1,0 +1,24 @@
+{
+  "exact_statement": "Determine how large n must be as a function of r >= 2 so that there is an antichain in 2^[n] occupying n-3 distinct ranks and containing at least r members on every occupied rank.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos776/README.md",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round seven proves one literal critical-budget switch on actual K4,r9 odd j=1231 and classifies the inherited one-wall rank-two shifts s<=3.",
+    "This round asks whether the actual lattice q_(j+2)=4q_j-4 selects a stable positive cell or a controlled first wall for every odd j, or at least for an explicitly infinite subsequence.",
+    "The first obstruction is the higher-carry window: if q^- is the largest actual q below B_n, a rank-two one-wall description fails only when q^+ - B_n <= 20n-74, where q^+=4q^- -4.",
+    "An all-j K4,r9 recovery theorem is still local route progress, not the public antichain theorem. Promotion additionally requires the public adjacent-orbit interface and suffix persistence; a finite wall table or an infinite subsequence alone does not close that interface."
+  ]
+}

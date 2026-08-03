@@ -1,0 +1,18 @@
+{
+  "schema": "amra.opg1757.full-b-elimination-round6.v1",
+  "determinant_factor": "Delta=2*a^2*R",
+  "R_total_degree": 10,
+  "R_terms": 41,
+  "R_all_coefficients_positive": true,
+  "anchor_component_contains_negative_coordinate": {"point": ["-1/10",1,1,1,1], "P": "142/25"},
+  "sign_pattern_counterpoint": {
+    "point": ["-7/5",-6,-5,-3,-5],
+    "P": 65,
+    "xi": "-1588/5",
+    "A_C_D_E": ["9/5","379/5",198,"4352/5"],
+    "Delta": "-336042/25",
+    "anchor_component_membership": "open"
+  },
+  "false_path_tangent": "P(2,-1/2,0,1,1-6t)=12(6t-1)^2",
+  "public_problem_changed": false
+}

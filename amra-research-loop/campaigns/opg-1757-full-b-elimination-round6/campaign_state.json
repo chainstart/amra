@@ -1,0 +1,53 @@
+{
+  "schema_version": "amra-research-loop.v1",
+  "campaign_id": "opg-1757-full-b-elimination-round6",
+  "problem_id": "OPG-1757",
+  "title": "K5-e full stabilizer b-elimination and anchor chamber",
+  "phase": "mechanism_falsification",
+  "created_at": "2026-08-03T07:25:10+00:00",
+  "updated_at": "2026-08-03T07:28:36+00:00",
+  "gates": {
+    "min_representation_families": 4,
+    "min_representations": 8,
+    "min_mechanism_families": 4,
+    "min_mechanisms": 10,
+    "min_kill_ratio": 0.8,
+    "max_survivors": 3
+  },
+  "artifacts": {
+    "closure_contract": "closure_contract.json",
+    "information_loss_map": "information_loss_map.json",
+    "representations": "representations.json",
+    "mechanisms": "mechanisms.json",
+    "kill_tests": "kill_tests.json",
+    "survivors": "survivors.json",
+    "decisive_lemma": "decisive_lemma.json",
+    "audit": "audit.json",
+    "decision": "decision.json"
+  },
+  "history": [
+    {
+      "at": "2026-08-03T07:25:10+00:00",
+      "event": "initialized",
+      "phase": "target_selection"
+    },
+    {
+      "at": "2026-08-03T07:27:06+00:00",
+      "event": "advanced",
+      "from": "target_selection",
+      "phase": "obstruction_analysis"
+    },
+    {
+      "at": "2026-08-03T07:27:35+00:00",
+      "event": "advanced",
+      "from": "obstruction_analysis",
+      "phase": "representation_search"
+    },
+    {
+      "at": "2026-08-03T07:28:36+00:00",
+      "event": "advanced",
+      "from": "representation_search",
+      "phase": "mechanism_falsification"
+    }
+  ]
+}

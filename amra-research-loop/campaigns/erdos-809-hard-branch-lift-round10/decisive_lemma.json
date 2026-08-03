@@ -1,0 +1,23 @@
+{
+  "statement": "Forked-owner counterbranch theorem. For every m>=3,r>=0, the minimal natural-switch state complex with two mutually exclusive alternatives wx1 and ux1 sharing owner cy1 has exact singleton kernel F_fork=R x ({x1} union Y) union {x1} x (X-{x1,x2}) union {y1,y2} x (Y-{y1,y2}) union K(Y-{y1,y2}); every trace has size one or three, F_fork hits every trace, and tau=r(m+1)+(m-2)(m+3)/2. Hence owner/state/trace-preserving reduction to the round-9 two-owner Boolean architecture is impossible without a new distinct-owner Booleanity hypothesis.",
+  "status": "proved",
+  "audit_status": "passed",
+  "closes": [
+    "constructs an exact all-parameter legal counterbranch to universality of the round-9 labelled architecture",
+    "identifies distinct-owner matching rank and Boolean joint compatibility as the missing reduction hypothesis",
+    "quantifies the exact kernel loss r+m-2 under the first owner collision"
+  ],
+  "evidence": [
+    "evidence/FORKED_OWNER_COUNTERBRANCH_THEOREM.md",
+    "evidence/forked_owner_probe.py",
+    "evidence/verify_forked_owner_kernel.py",
+    "audit/FORKED_OWNER_INDEPENDENT_AUDIT.md",
+    "audit/verify_forked_owner_independent.py"
+  ],
+  "dependency_gaps": [
+    "The forked family is not derived from every public hard branch and is not proved to be a floor(n^2/4)+1 threshold hard graph.",
+    "No theorem forces two distinct owners or a Boolean joint switch state from the canonical hardness normal form.",
+    "No output-expansion composition or improvement of the public 1/8 leading constant is supplied.",
+    "External novelty and priority are unchecked."
+  ]
+}

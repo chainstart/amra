@@ -1,0 +1,9 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent reconstruction confirms the exact all-parameter block-kernel and transversal theorem inside the labelled natural-switch architecture. No reduction from arbitrary hard graphs, output construction, or public one-eighth conclusion is supplied.",
+  "evidence": [
+    "audit/PARAMETERIZED_KERNEL_INDEPENDENT_AUDIT.md",
+    "audit/verify_parameterized_kernel_independent.py"
+  ]
+}

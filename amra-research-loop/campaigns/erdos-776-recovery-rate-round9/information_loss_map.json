@@ -1,0 +1,16 @@
+{
+  "inherited_methods": [
+    {"method":"round-eight termination by unbounded B_n","loss_step":"uses qualitative divergence only","lost_information":"the number of squaring steps needed for B_n to exceed the fixed q_j wall","consequence":"finite recovery has no explicit rate"},
+    {"method":"direct first-recovery profiles","loss_step":"fits observed ranks against j","lost_information":"an all-j upper bound with verified constants","consequence":"a log-log pattern remains heuristic"},
+    {"method":"round-four no-uniform-rank theorem","loss_step":"diagonalizes q after fixing R","lost_information":"a member-dependent rate compatible with unboundedness","consequence":"no-uniformity can be mistaken for absence of quantitative control"},
+    {"method":"asymptotic B_(n+1) approximately B_n squared over two","loss_step":"drops tax terms and base constants","lost_information":"a rigorous inequality valid at every n>=5","consequence":"the proposed logarithmic bound may have an unproved additive constant"},
+    {"method":"fixed-family recovery as public seed","loss_step":"forgets the rank-42, all-orbit and suffix requirements","lost_information":"the public closure interface","consequence":"an O(log j) local bound could be overstated"}
+  ],
+  "required_new_information": [
+    "a taxed recurrence lower bound B_(n+1)>=B_n^2/4",
+    "an explicit double-exponential lower bound for B_n with checked base",
+    "a strict upper bound for actual q_j in terms of 2^j",
+    "an integer ceiling formula p(j) forcing B_p>=q_j",
+    "compatibility with the no-uniform-rank theorem and the public scope firewall"
+  ]
+}

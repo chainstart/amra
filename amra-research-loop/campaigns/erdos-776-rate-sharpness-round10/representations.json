@@ -1,0 +1,13 @@
+{
+  "representations": [
+    {"id":"R1001","name":"explicit dyadic diagonal","family":"quantifier_geometry","new_information":"Selects j_R=11*2^(R-4)-5 rather than an unspecified large strip.","first_test":"Check oddness and compare q_j with B_R^2."},
+    {"id":"R1002","name":"upper stable-constant barrier","family":"growth_geometry","new_information":"Bounds B_R from above by 2^(11*2^(R-5)).","first_test":"Induct using B_next<B^2."},
+    {"id":"R1003","name":"lower next-constant barrier","family":"growth_geometry","new_information":"Uses round-nine B_(R+2)>=2^(2+2^R).","first_test":"Compare exponent with q_(j_R)."},
+    {"id":"R1004","name":"stable negativity ledger","family":"canonical_dynamics","new_information":"Simultaneously certifies canonical order and negative surpluses through R.","first_test":"Use q>B_R^2 for every n<=R."},
+    {"id":"R1005","name":"wall-or-stable next-rank split","family":"canonical_dynamics","new_information":"Covers both possible cells at rank R+1.","first_test":"Apply wall positivity or D_(R+1)>4q."},
+    {"id":"R1006","name":"D lower ratio cone","family":"surplus_geometry","new_information":"Turns B>=30A into D_n>14B_(n+1)/15-1.","first_test":"Bound both A terms by B/30."},
+    {"id":"R1007","name":"round-nine ceiling comparison","family":"rate_geometry","new_information":"Computes p(j_R)=R+2 exactly.","first_test":"Place E_R-1 strictly between 2^(R-1) and 2^R."},
+    {"id":"R1008","name":"exact first-rank certificate","family":"rate_geometry","new_information":"Combines a strict lower and upper rank on the same member.","first_test":"Prove negative through R and positive at R+1."},
+    {"id":"R1009","name":"public scope firewall","family":"global_interface","new_information":"Separates sharp fixed-family asymptotics from rank42 and suffix composition.","first_test":"Inventory unchanged public interfaces."}
+  ]
+}

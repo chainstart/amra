@@ -1,0 +1,37 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex erdos1083_widthprofile lane; blind state/graph/trace reconstruction before author-verifier comparison",
+    "evidence": [
+      "audit/FORKED_OWNER_INDEPENDENT_AUDIT.md",
+      "audit/verify_forked_owner_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "scope_review": {
+    "proved": [
+      "rank-one shared-owner state complex with two mutually exclusive singleton alternatives",
+      "complete support reduction for every m>=3,r>=0",
+      "all traces have size one or three and no empty trace occurs",
+      "exact fork singleton-kernel formula and exact transversal number",
+      "kernel loss R x {x2} union {x2} x Q of size r+m-2",
+      "no owner/state-preserving identification with the round-9 rank-two Boolean object"
+    ],
+    "not_proved": [
+      "occurrence of the fork in every canonical public hard branch",
+      "threshold density of the synthetic fork family",
+      "an output-expansion composition",
+      "the public F_3(n) asymptotic or one-eighth leading constant"
+    ],
+    "state_quantifier": "union of base and two singleton-state constraints; no joint shared-owner colouring is asserted",
+    "support_completeness": "four repeated-pair endpoints plus at most three free C7 vertices reduce to m<=6,r<=3"
+  },
+  "machine_reproduced": {
+    "command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-809-hard-branch-lift-round10/audit/verify_forked_owner_independent.py",
+    "result": "pass; 16 support representatives; exact kernel/tau and r+m-2 loss",
+    "sha256": "da2634e9a90c5ed9c738cab761b68797700eddc9d2d3bb152a2fc42e0d4a7acc"
+  },
+  "decision_recommendation": "freeze_without_public_promotion: exact owner-collision counterbranch to the labelled architecture, but no threshold-hard provenance or all-hard-branch/public composition"
+}

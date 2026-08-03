@@ -1,0 +1,7 @@
+{
+  "statement": "For every actual odd K4,r9 member j>=1, the first nonnegative surplus occurs by rank p(j)=2+ceil(log_2(j+4)). The exact recurrence and B_n>=20n give B_(n+1)>=B_n^2/4; from B_5>2^10 this yields B_n>=2^(2+2^(n-2)). Since q_j=(224*2^(j-1)+4)/3<2^(j+6) and 2^(p(j)-2)>=j+4, one has B_(p(j))>q_j. The exact small bases recover below the bound, and otherwise the round-eight stable-or-first-wall theorem forces recovery no later than p(j). Thus the recovery rank is O(log j)=O(log log q_j), while remaining unbounded across j.",
+  "status": "proved",
+  "closes": ["explicit member-dependent recovery-rank bound on actual K4,r9", "double-exponential lower barrier for the stable B-tail constants"],
+  "evidence": ["evidence/EXPLICIT_RECOVERY_RANK_BOUND.md", "evidence/verify_explicit_recovery_bound.py", "../erdos-776-wall-selection-round8/evidence/ALL_J_FIRST_WALL_RECOVERY.md", "../erdos-776-adaptive-round4/evidence/K4_R9_NO_FIXED_RANK_RECOVERY.md"],
+  "dependency_gaps": ["uniform recovery by rank 42", "extension to all adjacent orbits", "suffix persistence", "public Erdos-776 composition", "external novelty and priority check"]
+}

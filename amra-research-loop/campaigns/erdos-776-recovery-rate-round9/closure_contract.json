@@ -1,0 +1,24 @@
+{
+  "exact_statement": "Determine how large n must be as a function of r >= 2 so that there is an antichain in 2^[n] occupying n-3 distinct ranks and containing at least r members on every occupied rank.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos776/README.md",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round eight proves every actual odd K4,r9 member has a finite recovery rank, while round four proves these ranks have no uniform finite upper bound.",
+    "This round asks for an explicit member-dependent upper bound in the odd strip index j, equivalently a log-log bound in q_j or h_j.",
+    "A valid bound must follow from all-rank inequalities and the first-wall theorem, not interpolation of computed recovery profiles.",
+    "A j-dependent fixed-family bound is a scoped decisive lemma only. It does not imply recovery by rank 42, cover all adjacent orbits, supply suffix persistence, or change the public Erdos-776 threshold."
+  ]
+}

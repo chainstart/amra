@@ -1,0 +1,26 @@
+{
+  "statement": "Exact gauge-invariant width-profile theorem. In the actual positive common-spectrum block, let D=wd(X)>0 and W=wd(V). The orbit of each ordered natural endpoint pair under Laurent translation is completely classified by width, and the four actual product-mask width profile is Psi_j=(|lambda_j|D, |lambda_0|D, W-|lambda_j|D, W-|lambda_0|D). Hence on the inherited same-sign class J_sigma of distinct scalars, Psi has exact range |J_sigma|>=K/2=t^(5/9-o(1)) and singleton fibres, in both natural-endpoint branches. Compared with phi_j=min(lambda_jX), width is injective while phi is constant in the zero-anchor branch, whereas in the nonzero-anchor branch width is a fixed nonzero multiple of phi. After subtracting the known scalar-source width, every residual width equation is identically zero. The inherited divisor coordinate a+b_j is exactly |lambda_j|D, so it supplies no second independent coordinate.",
+  "status": "proved",
+  "closes": [
+    "classifies the gauge-invariant two-endpoint observable exactly",
+    "gives an exhaustive all-branch range and fibre theorem on the actual selected class",
+    "proves precisely what information width retains beyond the round-eight least endpoint",
+    "refutes entropy-free constant literal-width conditioning on every branch",
+    "identifies the residual and divisor-atlas interfaces without claiming new entropy"
+  ],
+  "evidence": [
+    "evidence/WIDTH_PROFILE_THEOREM.md",
+    "evidence/width_profile.json",
+    "evidence/verify_width_profile.py",
+    "../erdos-1083-spectrum-conditioning-round8/evidence/ABSOLUTE_PROFILE_RANGE_NO_GO.md",
+    "../../../data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/POWER_LARGE_SIMULTANEOUS_SWITCH_CORE.md"
+  ],
+  "dependency_gaps": [
+    "literal width injectivity is deterministic known-source variation and yields no new complement entropy",
+    "no cross-row rigidity follows from the identically zero residual",
+    "no injective map from source widths to new target-target Euclidean labels is proved",
+    "no all-target occurrence, collision-fibre saving or outer stability interface is closed",
+    "no public distance exponent changes",
+    "novelty and priority remain unchecked until independent audit"
+  ]
+}

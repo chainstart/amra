@@ -1,0 +1,21 @@
+{
+  "exact_statement": "For k >= 3, let F_k(n) be the minimum number of colours needed to colour an n-vertex graph with floor(n^2/4)+1 edges so that every C_(2k+1) is rainbow. For k=3, prove or refute that F_3(n) is asymptotic to n^2/8.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos809/README.md",
+  "success_conditions": [
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "The inherited round-9 theorem concerns the exact two-independent-owner Boolean switch architecture G(m,r), not an arbitrary public hard branch.",
+    "This campaign first asks for an owner- and trace-preserving reduction from every relevant natural-switch state family to G(m,r).",
+    "If that is false, a valid outcome is the smallest exact switch-state counterbranch, with all of its states made C7-legal by a proved trace transversal and with the missing structural hypothesis named.",
+    "A synthetic switch-state counterbranch does not close the public problem unless it is additionally derived from every public hard branch or is itself a threshold hard graph.",
+    "No fixed-size census without a complete support reduction counts."
+  ]
+}

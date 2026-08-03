@@ -1,0 +1,160 @@
+{
+  "mechanisms": [
+    {
+      "id": "M701",
+      "representation_id": "R708",
+      "family": "uniqueness",
+      "decisive_claim": "One integer admits two different legal canonical Macaulay words, allowing a free switch.",
+      "would_close": [
+        "choice-based local switch"
+      ],
+      "kill_test": "apply uniqueness of the greedy combinadic expansion",
+      "status": "killed",
+      "status_evidence": "evidence/ACTUAL_BUDGET_THREE_SWITCH.md",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    },
+    {
+      "id": "M702",
+      "representation_id": "R704",
+      "family": "wall-geometry",
+      "decisive_claim": "A literal bottom-only switch with combined budget three is impossible under strict digit ordering.",
+      "would_close": [
+        "budget-three no-go"
+      ],
+      "kill_test": "seek an actual s=3 rank-two wall with direct greedy replay",
+      "status": "killed",
+      "status_evidence": "evidence/verify_actual_budget_three_switch.py",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    },
+    {
+      "id": "M703",
+      "representation_id": "R704",
+      "family": "wall-geometry",
+      "decisive_claim": "A one-wall bottom shift s>=4 remains rank-two canonical beneath the inherited preceding rank-three top.",
+      "would_close": [
+        "supercritical one-wall switch"
+      ],
+      "kill_test": "compare t+s with the fixed preceding top t+4",
+      "status": "killed",
+      "status_evidence": "evidence/ACTUAL_BUDGET_THREE_SWITCH.md",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    },
+    {
+      "id": "M704",
+      "representation_id": "R705",
+      "family": "affine-budget",
+      "decisive_claim": "The coefficient equality alpha+delta=3 automatically forces nonnegative surplus on every legal state.",
+      "would_close": [
+        "automatic critical recovery"
+      ],
+      "kill_test": "separate the equality-case constant and test all observed subcritical/critical cells",
+      "status": "killed",
+      "status_evidence": "../erdos-776-leading-block-round6/evidence/LEADING_BOTTOM_SLOPE_BUDGET.md",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    },
+    {
+      "id": "M705",
+      "representation_id": "R705",
+      "family": "affine-budget",
+      "decisive_claim": "A bottom-only affine switch with alpha=2 is asymptotically viable on arbitrarily large actual strips.",
+      "would_close": [
+        "subcritical bottom recovery"
+      ],
+      "kill_test": "apply the independently audited round-six slope inequality",
+      "status": "killed",
+      "status_evidence": "../erdos-776-leading-block-round6/audit/SLOPE_BUDGET_INDEPENDENT_AUDIT.md",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    },
+    {
+      "id": "M706",
+      "representation_id": "R705",
+      "family": "affine-budget",
+      "decisive_claim": "A leading-only affine switch with delta=2 is asymptotically viable on arbitrarily large actual strips.",
+      "would_close": [
+        "subcritical leading recovery"
+      ],
+      "kill_test": "apply the independently audited round-six slope inequality",
+      "status": "killed",
+      "status_evidence": "../erdos-776-leading-block-round6/audit/SLOPE_BUDGET_INDEPENDENT_AUDIT.md",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    },
+    {
+      "id": "M707",
+      "representation_id": "R703",
+      "family": "transfer",
+      "decisive_claim": "A fixed O(1) change of the stable residual realizes positive q-slope budget.",
+      "would_close": [
+        "constant-tail escape"
+      ],
+      "kill_test": "separate q coefficient from residual constant",
+      "status": "killed",
+      "status_evidence": "../erdos-776-seed-switch-round5/evidence/FINITE_MENU_STABLE_TAIL_NO_GO.md",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    },
+    {
+      "id": "M708",
+      "representation_id": "R706",
+      "family": "quantifier",
+      "decisive_claim": "A bounded census of wall representatives proves a switch exists uniformly for every actual odd j.",
+      "would_close": [
+        "uniform adaptive recovery"
+      ],
+      "kill_test": "compare finite quantifiers with the required all-j statement",
+      "status": "killed",
+      "status_evidence": "evidence/probe_true_canonical_carries.py",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    },
+    {
+      "id": "M709",
+      "representation_id": "R702",
+      "family": "construction",
+      "decisive_claim": "The actual K4,r9 member j=1231 has a literal legal alpha=3,delta=0 switch from rank 11 to 12 and recovers immediately.",
+      "would_close": [
+        "realized legal budget-three witness"
+      ],
+      "kill_test": "directly replay greedy words, Pascal equality, digit order, and both surplus signs",
+      "status": "proved",
+      "status_evidence": "evidence/verify_actual_budget_three_switch.py",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    },
+    {
+      "id": "M710",
+      "representation_id": "R704",
+      "family": "wall-geometry",
+      "decisive_claim": "Within the inherited one-wall rank-two class, bottom budget is at most three and equality is exactly the interval 3t+3<=B_m<4t+6.",
+      "would_close": [
+        "sharp one-wall budget classification"
+      ],
+      "kill_test": "derive every triangular increment and check collision at s=4",
+      "status": "proved",
+      "status_evidence": "evidence/ACTUAL_BUDGET_THREE_SWITCH.md",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    },
+    {
+      "id": "M711",
+      "representation_id": "R709",
+      "family": "global-interface",
+      "decisive_claim": "Any single local positive switched seed automatically persists to rank 42 and closes the public construction interface.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "require the missing orbit-to-capacity identification and suffix theorem",
+      "status": "frozen",
+      "status_evidence": "survivors.json",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    },
+    {
+      "id": "M712",
+      "representation_id": "R701",
+      "family": "adaptive-carry",
+      "decisive_claim": "Every actual K4,r9 odd-j member recovers at its first B-tail wall.",
+      "would_close": [
+        "K4,r9 all-member adaptive recovery"
+      ],
+      "kill_test": "prove a wall-exhaustion theorem beyond the bounded first-recovery profiles",
+      "status": "frozen",
+      "status_evidence": "evidence/probe_true_canonical_carries.py",
+      "updated_at": "2026-08-03T07:38:26+00:00"
+    }
+  ]
+}

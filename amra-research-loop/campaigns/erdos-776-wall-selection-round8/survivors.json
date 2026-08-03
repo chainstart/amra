@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M809", "M810"],
+  "selection_rationale": "M810 removes the main obstruction: at a negative stable predecessor, B_m>=30A_m and the exact feedback identity force A_m+1<q/6, while previous stability gives t>q/2; monotonicity then makes every carry depth strictly positive. M809 combines this wall lemma with stable steps, unbounded B_m, and the exact j=1,3,5 base to prove finite recovery for every actual odd K4,r9 member. M812 remains frozen because neither result constructs the public adjacent-orbit suffix interface."
+}

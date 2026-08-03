@@ -1,0 +1,37 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex erdos1083_widthprofile lane; blind raw-orbit and first-wall reconstruction before author-verifier comparison",
+    "evidence": [
+      "audit/ALL_J_FIRST_WALL_INDEPENDENT_AUDIT.md",
+      "audit/verify_all_j_wall_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "scope_review": {
+    "proved": [
+      "monotonicity of fixed-rank Macaulay raise on the full nonnegative domain",
+      "B_n>=30A_n for every n>=6 and increasing unbounded stable constants",
+      "full-prefix stable-or-first-wall induction",
+      "strict inequalities A_m+1<q/6 and t>q/2 at every relevant negative-predecessor wall",
+      "carry-independent strict minimum-wall positivity",
+      "exact j=1,3,5 bases and all-odd-j finite recovery on actual K4,r9"
+    ],
+    "not_proved": [
+      "one uniform finite recovery rank or recovery by rank 42",
+      "recovery for every adjacent orbit or all parameter families",
+      "capacity identification or suffix persistence",
+      "the public Erdos-776 threshold, main term or exponent"
+    ],
+    "quantifier": "forall actual odd j exists a member-dependent finite recovery rank; round four separately proves no uniform finite upper bound",
+    "minimum_wall": "the prefix is constructed stable and negative until its first failure; monotonicity covers arbitrary carry depth at that exact first wall"
+  },
+  "machine_reproduced": {
+    "command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-wall-selection-round8/audit/verify_all_j_wall_independent.py",
+    "result": "pass; bases ranks 4,4,5; 51 raw members; ratio induction and strict wall bounds",
+    "sha256": "da3f438c5a609ad03ef47bb43ffdbb8d341b5547ef5733ab3105fffc2192698d"
+  },
+  "decision_recommendation": "freeze_without_public_promotion: all-member finite recovery on fixed K4,r9 with no uniform rank, but no rank-42, adjacent-orbit, suffix or public composition"
+}

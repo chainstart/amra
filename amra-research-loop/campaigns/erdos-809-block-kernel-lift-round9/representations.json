@@ -1,0 +1,14 @@
+{
+  "representations": [
+    {"id":"R809B9-01","name":"two-parameter labelled switch family G(m,r)","family":"parameterized-architecture","new_information":"separates generic paired block size m from residual clique block size r while preserving every named repeated-colour edge","first_test":"specialize to (m,r)=(4,2) and recover the locked round-8 graph"},
+    {"id":"R809B9-02","name":"bad-C7 deletion-trace hypergraph H(m,r)","family":"constraint-duality","new_information":"retains the exact admissible-old intersection of every bad seven-cycle for arbitrary parameters","first_test":"reconstruct the 21 singleton and 72 triple traces at (4,2)"},
+    {"id":"R809B9-03","name":"three protected-cycle templates","family":"local-cycle-certificates","new_information":"detects which of uw,bw,bu makes repair impossible before any transversal computation","first_test":"verify each displayed seven-cycle has empty admissible-old trace"},
+    {"id":"R809B9-04","name":"five-block candidate kernel F(m,r)","family":"equitable-blocks","new_information":"turns 12+4+4+1 into a formula over R,P,Q,U,W","first_test":"compare formula edge-for-edge with singleton traces on support representatives"},
+    {"id":"R809B9-05","name":"orbit-support reduction","family":"symmetry-reduction","new_information":"bounds every bad-cycle witness by m<=6 and r<=3 using its three free vertices","first_test":"map every generic label pattern into the sixteen representative parameter pairs"},
+    {"id":"R809B9-06","name":"singleton primal-dual certificate","family":"constraint-duality","new_information":"singleton traces give a transversal lower bound while the same set is tested as a hitting upper bound","first_test":"check F hits every trace on every complete support representative"},
+    {"id":"R809B9-07","name":"block-cardinality polynomial","family":"algebraic-counting","new_information":"retains separately r(m+2), 2(m-2), 2(m-2), and C(m-2,2)","first_test":"recover 21 at m=4,r=2 and compare all representative counts"},
+    {"id":"R809B9-08","name":"generic-index incidence orbits","family":"symmetry-reduction","new_information":"distinguishes special indices 1,2, the repeated-pair generic index, and at most three auxiliary indices","first_test":"show that six paired indices suffice for any seven-cycle witness"},
+    {"id":"R809B9-09","name":"fixed deletion-budget comparison","family":"asymptotic-obstruction","new_information":"compares a bounded old-edge exchange budget with the quadratic K(W) singleton block","first_test":"solve |F(m,r)|<=3 for m>=3,r>=0"},
+    {"id":"R809B9-10","name":"public-interface firewall","family":"scope-control","new_information":"separates the parameterized labelled family from arbitrary hard graphs in the canonical normal form","first_test":"locate a theorem forcing the five labelled blocks in every hard branch"}
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex erdos1083_widthprofile lane; raw K4,r9 greedy replay before author-verifier comparison",
+    "evidence": [
+      "audit/BUDGET3_SWITCH_INDEPENDENT_AUDIT.md",
+      "audit/verify_budget3_switch_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "scope_review": {
+    "proved": [
+      "unique greedy rank-11 stable words and rank-12 actual switched word for odd j=1231",
+      "top rank-two shift exactly three with strict ordering",
+      "residual formula with round-six alpha=3,delta=0 sign convention",
+      "gamma_11<0<gamma_12 on the same actual member",
+      "all-parameter one-wall identity s=3 iff 3t+3<=B_m<4t+6",
+      "s=4 collision with preceding top t+4 inside the inherited one-wall class"
+    ],
+    "not_proved": [
+      "a uniform switch for every actual odd member",
+      "first-wall recovery for every K4,r9 state",
+      "a uniform pre-rank-42 seed",
+      "suffix persistence or adjacent-orbit capacity composition",
+      "the public Erdos-776 threshold or any main-term/exponent improvement"
+    ],
+    "quantifier": "one actual member j=1231 plus an all-parameter local wall identity; not a uniform seed or suffix theorem",
+    "canonical_uniqueness": "rank-12 word is the unique greedy word after crossing a half-open triangular wall, never a second expansion of the same integer"
+  },
+  "machine_reproduced": {
+    "command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-776-budget3-switch-round7/audit/verify_budget3_switch_independent.py",
+    "result": "pass; j=1231; q bits=1237; shift=3; alpha=3; delta=0; gamma11<0<gamma12",
+    "sha256": "b98452108a3e85571537ae1fb18b868e96cec28787778b7867ed70e3b25cf55b"
+  },
+  "decision_recommendation": "freeze_without_public_promotion: first legal critical-budget witness and sharp scoped wall theorem, but no uniform selection, suffix persistence or public closure"
+}

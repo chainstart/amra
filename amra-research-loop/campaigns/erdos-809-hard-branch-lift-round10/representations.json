@@ -1,0 +1,14 @@
+{
+  "representations": [
+    {"id":"R809H10-01","name":"owner-labelled switch state complex","family":"state-complex","new_information":"retains the owner edge of every switch and exactly which switch subsets coexist","first_test":"compare the two-owner Boolean square with two alternatives sharing cy1"},
+    {"id":"R809H10-02","name":"owner-incidence bipartite graph","family":"state-complex","new_information":"separates number of switch candidates from rank of their distinct retained owners","first_test":"compute matching rank for wx1,ux1 both incident with cy1"},
+    {"id":"R809H10-03","name":"state-indexed bad-C7 trace sheaf","family":"trace-geometry","new_information":"stores each deletion trace together with the base or singleton state producing it","first_test":"verify union transversals make every permitted state legal"},
+    {"id":"R809H10-04","name":"singleton-kernel block decomposition","family":"trace-geometry","new_information":"detects exactly which forced blocks vanish when owner rank drops from two to one","first_test":"compare x2-owned R and Q blocks between G(m,r) and the fork"},
+    {"id":"R809H10-05","name":"complete orbit-support quotient","family":"symmetry-reduction","new_information":"bounds every seven-cycle witness by three auxiliary vertices after fixing its repeated pair","first_test":"reduce all m,r to 3<=m<=6 and 0<=r<=3"},
+    {"id":"R809H10-06","name":"uniform cycle-template certificate","family":"symmetry-reduction","new_information":"turns singleton membership and hitting into an all-parameter statement rather than extrapolation","first_test":"extract witnesses for every edge orbit in the proposed fork formula"},
+    {"id":"R809H10-07","name":"trace-preserving reduction functor","family":"categorical-interface","new_information":"requires maps to preserve owner labels, permitted state faces and deletion-trace incidence","first_test":"attempt to map a rank-one fork to the rank-two Boolean architecture"},
+    {"id":"R809H10-08","name":"minimal counterbranch order","family":"categorical-interface","new_information":"orders counterbranches first by number of owners, then candidates, then vertices","first_test":"show two candidates on one owner are the first non-Boolean two-candidate complex"},
+    {"id":"R809H10-09","name":"public-hardness firewall","family":"scope-control","new_information":"keeps switch-state legality distinct from threshold density and derivation from the canonical hard normal form","first_test":"look for a theorem constructing even one such state complex in every hard branch"},
+    {"id":"R809H10-10","name":"transversal primal-dual pair","family":"certificate-duality","new_information":"singleton traces give a lower bound and the same singleton set gives a hitting upper bound","first_test":"prove tau equals the fork singleton count for every m,r"}
+  ]
+}

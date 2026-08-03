@@ -1,0 +1,18 @@
+{
+  "exact_statement": "For every finite simple graph G and every pair of distinct edges e,f, if F is a uniformly random forest of G, then Pr(e in F | f in F) <= Pr(e in F).",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/opg1757/ORIGINAL_PROBLEM_FIREWALL.md",
+  "success_conditions": ["global_interface_closed"],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "The inherited marked-03 K5-minus-34 stabilizer polynomial has five orbit variables a,b,c,d,e; three complete two-variable slices are already frozen and count only as inherited evidence.",
+    "The immediate target is the complete real distinguished component after eliminating the singleton variable b, including every A_b=0 wall and all signs of a,c,d,e.",
+    "Even a complete five-variable stabilizer theorem erases three transverse independent-edge directions and is not by itself OPG-1757 closure.",
+    "A negative determinant or xi point counts only with an exact path or complete chamber proof placing it in the positive-anchor component of P>0."
+  ]
+}

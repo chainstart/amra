@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent blind reconstruction confirms the exact all-parameter shared-owner fork kernel and owner-rank obstruction. The family has no threshold-hard provenance or all-hard-branch composition, so freeze without public promotion.",
+  "evidence": [
+    "audit/FORKED_OWNER_INDEPENDENT_AUDIT.md"
+  ]
+}

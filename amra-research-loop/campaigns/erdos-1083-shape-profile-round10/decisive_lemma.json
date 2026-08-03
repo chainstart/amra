@@ -1,0 +1,27 @@
+{
+  "statement": "Tropical endpoint-gap shape theorem. For a non-singleton positive mask E={e_0<...<e_k}, let g_-(E)=e_1-e_0 and g_+(E)=e_k-e_(k-1). These are Laurent-translation invariant and obey g_-(AB)=min(g_-(A),g_-(B)), g_+(AB)=min(g_+(A),g_+(B)) for actual positive products. On either scalar-sign class, the normalized source pair (g_-/w,g_+/w)(lambda_jX) is constant (with a sign-induced swap) independently of zero/nonzero anchors. In the actual common-spectrum block P_V=P_Aj P_(lambda_jX), put L=g_-(V), R=g_+(V). Simultaneous feasibility and distinct same-sign scalar magnitudes imply that the union of the equality walls g_-(lambda_jX)=L and g_+(lambda_jX)=R contains at most one actual row. After deleting it, on a subfamily J* of size at least |J_sigma|-1=t^(5/9-o(1)), every complement satisfies (g_-(A_j),g_+(A_j))=(L,R). Hence the combined normalized-source/raw-complement non-affine profile has exact range one on J*.",
+  "status": "proved",
+  "closes": [
+    "constructs an exact non-affine gauge-invariant observable composable on actual positive masks",
+    "handles both scalar signs and both zero/nonzero endpoint-anchor branches without adaptive normalization",
+    "proves an exact range-one shape profile on an actual power-large retained subfamily",
+    "forces both first complement boundary layers after losing at most one row",
+    "separates deterministic source shape from genuine complement rigidity"
+  ],
+  "evidence": [
+    "evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md",
+    "evidence/tropical_endpoint_gap.json",
+    "evidence/verify_tropical_endpoint_gaps.py",
+    "../erdos-1083-width-profile-round9/evidence/WIDTH_PROFILE_THEOREM.md",
+    "../../../data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/POWER_LARGE_SIMULTANEOUS_SWITCH_CORE.md"
+  ],
+  "dependency_gaps": [
+    "third and deeper support layers have no analogous coordinatewise-min composition theorem",
+    "the theorem applies to actual positive product masks, not independently normalized signed factor supports",
+    "no cross-row algebraic reconstruction follows yet from the two forced boundary gaps",
+    "no injection from endpoint gaps to new target-target Euclidean distance labels is proved",
+    "no all-target occurrence, collision-fibre or outer-stability interface is closed",
+    "no public distance exponent changes",
+    "external novelty and priority remain unchecked until independent audit"
+  ]
+}

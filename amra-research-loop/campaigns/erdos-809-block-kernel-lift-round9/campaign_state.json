@@ -1,0 +1,72 @@
+{
+  "schema_version": "amra-research-loop.v1",
+  "campaign_id": "erdos-809-block-kernel-lift-round9",
+  "problem_id": "Erdos-809",
+  "title": "Arbitrary-branch block-kernel lift or counterbranch",
+  "phase": "frozen",
+  "created_at": "2026-08-03T07:25:10+00:00",
+  "updated_at": "2026-08-03T07:39:40+00:00",
+  "gates": {
+    "min_representation_families": 4,
+    "min_representations": 8,
+    "min_mechanism_families": 4,
+    "min_mechanisms": 10,
+    "min_kill_ratio": 0.8,
+    "max_survivors": 3
+  },
+  "artifacts": {
+    "closure_contract": "closure_contract.json",
+    "information_loss_map": "information_loss_map.json",
+    "representations": "representations.json",
+    "mechanisms": "mechanisms.json",
+    "kill_tests": "kill_tests.json",
+    "survivors": "survivors.json",
+    "decisive_lemma": "decisive_lemma.json",
+    "audit": "audit.json",
+    "decision": "decision.json"
+  },
+  "history": [
+    {
+      "at": "2026-08-03T07:25:10+00:00",
+      "event": "initialized",
+      "phase": "target_selection"
+    },
+    {
+      "at": "2026-08-03T07:27:11+00:00",
+      "event": "advanced",
+      "from": "target_selection",
+      "phase": "obstruction_analysis"
+    },
+    {
+      "at": "2026-08-03T07:27:35+00:00",
+      "event": "advanced",
+      "from": "obstruction_analysis",
+      "phase": "representation_search"
+    },
+    {
+      "at": "2026-08-03T07:34:03+00:00",
+      "event": "advanced",
+      "from": "representation_search",
+      "phase": "mechanism_falsification"
+    },
+    {
+      "at": "2026-08-03T07:34:08+00:00",
+      "event": "advanced",
+      "from": "mechanism_falsification",
+      "phase": "survivor_deepening"
+    },
+    {
+      "at": "2026-08-03T07:39:26+00:00",
+      "event": "advanced",
+      "from": "survivor_deepening",
+      "phase": "independent_audit"
+    },
+    {
+      "at": "2026-08-03T07:39:40+00:00",
+      "event": "frozen",
+      "from": "independent_audit",
+      "phase": "frozen",
+      "reason": "Independent reconstruction confirms the exact all-parameter block-kernel and transversal theorem inside the labelled natural-switch architecture. No reduction from arbitrary hard graphs, output construction, or public one-eighth conclusion is supplied."
+    }
+  ]
+}

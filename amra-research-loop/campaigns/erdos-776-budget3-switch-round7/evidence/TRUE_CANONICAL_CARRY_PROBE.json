@@ -1,0 +1,46 @@
+{
+  "schema": "amra.erdos776.round7.true-canonical-carry-probe-summary.v1",
+  "domain": {
+    "odd_j_min": 3,
+    "odd_j_max": 401,
+    "profile_count": 200,
+    "max_rank": 18
+  },
+  "all_recovered_in_bounded_probe": true,
+  "first_recovery_counts": {
+    "rank_4": 1,
+    "rank_5": 5,
+    "rank_6": 9,
+    "rank_7": 20,
+    "rank_8": 38,
+    "rank_9": 78,
+    "rank_10": 49
+  },
+  "unique_unstable_y_recovery_representatives": [
+    {"rank": 5, "odd_j": 5, "bottom_shift": 1},
+    {"rank": 6, "odd_j": 15, "bottom_shift": 1},
+    {"rank": 7, "odd_j": 33, "bottom_shift": 2},
+    {"rank": 8, "odd_j": 73, "bottom_shift": 1},
+    {"rank": 9, "odd_j": 149, "bottom_shift": 2},
+    {"rank": 10, "odd_j": 305, "bottom_shift": 1}
+  ],
+  "wall_representative_budget_three_ranks_through_18": [12, 14, 17],
+  "extended_wall_budget_probe": {
+    "rank_max": 22,
+    "budget_three_ranks": [12, 14, 17, 21],
+    "higher_carry_ranks": [],
+    "evidence": "probe_wall_budget_sequence.py",
+    "status": "finite"
+  },
+  "primary_exact_witness": {
+    "resulting_rank": 12,
+    "odd_j": 1231,
+    "q_bit_length": 1237,
+    "bottom_shift": 3,
+    "previous_stable": true,
+    "previous_gamma_negative": true,
+    "residual_legal": true
+  },
+  "reproduction": "ulimit -Sv 3145728; timeout 180s python3 amra-research-loop/campaigns/erdos-776-budget3-switch-round7/evidence/probe_true_canonical_carries.py",
+  "scope_warning": "The 200 recovery profiles and wall representatives through rank 18 are finite evidence. Only the separately verified j=1231 witness and the symbolic one-wall classification are claimed as proved."
+}

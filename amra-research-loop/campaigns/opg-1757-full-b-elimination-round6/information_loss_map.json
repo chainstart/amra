@@ -1,0 +1,42 @@
+{
+  "inherited_from": [
+    "opg-1757-garding-round2",
+    "opg-1757-k5-cross-round3",
+    "opg-1757-k5-cross-be-round4",
+    "opg-1757-k5-cross-ab-round5",
+    "scratch/opg-k5-cross-full-b-elimination-2026-08-03.md"
+  ],
+  "inherited_methods": [
+    {
+      "method": "unit two-variable stabilizer slices",
+      "loss_step": "set three of the five orbit variables equal to one before classifying P>0",
+      "lost_information": "walls and sign chambers created by simultaneous variation of a,c,d,e",
+      "consequence": "three exact positive slices do not determine the complete five-variable anchor component"
+    },
+    {
+      "method": "positive-coefficient determinant argument",
+      "loss_step": "deduce R>=0 from its 41 positive coefficients",
+      "lost_information": "the distinguished real component may contain negative orbit activities",
+      "consequence": "the argument proves only the nonnegative orthant, not the target chamber"
+    },
+    {
+      "method": "bare b-resultant sign",
+      "loss_step": "study A_b E_b-D_b C_b without recording the signs of A_b,D_b and the position b>-C_b/A_b",
+      "lost_information": "whether determinant sign controls xi on the same P-positive fibre and whether A_b=0 is crossable",
+      "consequence": "a resultant sign alone neither proves domination nor gives a component counterexample"
+    },
+    {
+      "method": "stabilizer equalization",
+      "loss_step": "identify each orbit's independent edge activities",
+      "lost_information": "three transverse directions in the eight-variable deletion polynomial",
+      "consequence": "even full fixed-space positivity cannot close OPG-1757 without a transverse or moving-edge theorem"
+    }
+  ],
+  "required_new_information": [
+    "the exact sign chambers and zero walls of A_b and D_b over the four-variable base",
+    "whether the complete positive-anchor component projects into a determinant-positive chamber",
+    "an exact path certificate for any negative determinant or xi witness",
+    "a lift from stabilizer-fixed positivity to independent transverse edge directions"
+  ],
+  "forbidden_shortcut": "Do not infer complete-component positivity from all-positive coefficients on the positive orthant or from finitely many unit slices."
+}

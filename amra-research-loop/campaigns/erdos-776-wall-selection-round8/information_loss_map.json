@@ -1,0 +1,16 @@
+{
+  "inherited_methods": [
+    {"method":"round-four fixed-R diagonal theorem","loss_step":"chooses q after fixing R","lost_information":"how a fixed actual q exits the stable negative cells","consequence":"unbounded recovery rank is proved but no memberwise selector is supplied"},
+    {"method":"round-seven isolated critical witness","loss_step":"checks the single lattice point immediately below B_12","lost_information":"whether the same wall classification exhausts every B_n crossing and every actual q interval","consequence":"alpha=3 is realized but remains an isolated existential switch"},
+    {"method":"finite wall-budget table","loss_step":"computes bottom shifts through rank 22","lost_information":"an all-rank exclusion of higher carries and a proof that stable positive intervals join consecutive wall cells","consequence":"repeated budget-three rows do not imply an infinite subsequence"},
+    {"method":"continuous ratio B_n/q","loss_step":"replaces q_j by an arbitrary real scale between q and 4q","lost_information":"the strong dyadic congruence 3q_j-4=224*2^(j-1)","consequence":"the tiny higher-carry window cannot be excluded from ratios alone"},
+    {"method":"local positive seed","loss_step":"stops at gamma_n>=0","lost_information":"the public adjacent-orbit identification and suffix persistence","consequence":"even all-j K4,r9 recovery would remain a scoped route theorem"}
+  ],
+  "required_new_information": [
+    "an exact partition of the actual q_j lattice into stable-positive intervals and wall representatives",
+    "a modular or recurrence certificate excluding or realizing q_next-B_n<=20n-74",
+    "a sign theorem for every legal one-wall shift s=1,2,3, not only the s=3 witness",
+    "an explicit quantifier statement distinguishing all odd j from an infinite subsequence",
+    "the remaining public suffix and composition gaps"
+  ]
+}

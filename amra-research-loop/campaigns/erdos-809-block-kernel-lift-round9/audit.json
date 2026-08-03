@@ -1,0 +1,35 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex erdos1083_widthprofile lane; blind graph and trace reconstruction before author-verifier comparison",
+    "evidence": [
+      "audit/PARAMETERIZED_KERNEL_INDEPENDENT_AUDIT.md",
+      "audit/verify_parameterized_kernel_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "scope_review": {
+    "proved": [
+      "three uniform protected-C7 templates force omission of bw,bu,uw for every m>=3,r>=0 under the frozen deletion interface",
+      "complete orbit-support reduction to sixteen representatives",
+      "all traces have size one or three in the omitted-edge branch",
+      "exact singleton formula for all m>=3,r>=0",
+      "formula set hits every trace and gives exact tau"
+    ],
+    "not_proved": [
+      "a reduction of arbitrary hard graphs to the labelled architecture",
+      "a legal output construction or all-hard-branch composition",
+      "the public F_3(n) asymptotic or its one-eighth constant"
+    ],
+    "colour_quantifier": "audited as the union of base and switch-state repeated-pair constraints, not a simultaneous inconsistent colouring of shared cy1/cy2 edges",
+    "support_completeness": "every bad C7 has four anchored repeated-pair endpoints and at most three free vertices; generic paired indices and R labels relabel into m<=6,r<=3"
+  },
+  "machine_reproduced": {
+    "command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-809-block-kernel-lift-round9/audit/verify_parameterized_kernel_independent.py",
+    "result": "pass; 3 protected templates; 16 support representatives; locked 93=21+72",
+    "sha256": "2d16c406028f031a87129b64076a6a044cf5714059346a2b7cb9731966ad5779"
+  },
+  "decision_recommendation": "freeze_without_public_promotion: exact infinite parameterized theorem inside the labelled architecture, but no arbitrary-hard-branch reduction or public one-eighth conclusion"
+}

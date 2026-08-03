@@ -1,0 +1,16 @@
+{
+  "inherited_methods": [
+    {"method":"round-nine memberwise upper bound","loss_step":"forces a wall using only a lower bound on B_n","lost_information":"whether any explicit members actually wait logarithmically many ranks","consequence":"O(log j) may be non-sharp"},
+    {"method":"round-four qualitative diagonalization","loss_step":"chooses an unspecified sufficiently large q after fixing R","lost_information":"an explicit actual odd index j_R and its first recovery rank","consequence":"unboundedness has no quantitative lower rate"},
+    {"method":"bounded recovery profiles","loss_step":"reads staircase changes from finite j","lost_information":"an infinite exact subsequence","consequence":"observed rank plateaus cannot prove asymptotic sharpness"},
+    {"method":"stable negativity through R","loss_step":"stops after proving the lower bound rho>R","lost_information":"whether recovery occurs at R+1 or much later","consequence":"no exact first-rank theorem"},
+    {"method":"fixed-family rate as public progress","loss_step":"drops rank-42 and suffix requirements","lost_information":"the public interface","consequence":"a sharp local asymptotic could be overstated"}
+  ],
+  "required_new_information": [
+    "an explicit odd actual index j_R",
+    "an all-R upper bound on B_R forcing stable negativity through R",
+    "a lower bound on D_(R+1) forcing recovery at the next rank when stable",
+    "coverage of the alternative first-wall branch by round eight",
+    "an exact comparison of rho(j_R) with the round-nine p(j_R)"
+  ]
+}

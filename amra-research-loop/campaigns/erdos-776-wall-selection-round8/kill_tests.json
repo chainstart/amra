@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {"id":"K801","mechanism_id":"M801","outcome":"killed","evidence":"evidence/ALL_J_FIRST_WALL_RECOVERY.md proves a minimum-wall lower bound for every B_m>=t, so higher carries need not be excluded."},
+    {"id":"K802","mechanism_id":"M802","outcome":"killed","evidence":"The exact s=4 threshold is B_n>=4q-20n+70, strictly below the ratio ceiling B_n<4q-4; ratio information alone leaves a width 20n-74 window."},
+    {"id":"K803","mechanism_id":"M803","outcome":"killed","evidence":"Round-seven exact profiles contain positive first-wall recoveries with shifts s=1 and s=2; evidence/ALL_J_FIRST_WALL_RECOVERY.md proves the sign without fixing s."},
+    {"id":"K804","mechanism_id":"M804","outcome":"killed","evidence":"Monotonicity of fixed-rank Macaulay raise makes every B_m>=t at least as favorable as the minimum legal wall B_m=t."},
+    {"id":"K805","mechanism_id":"M805","outcome":"killed","evidence":"The exact induction in evidence/ALL_J_FIRST_WALL_RECOVERY.md proves B_n>=30A_n for every n>=6."},
+    {"id":"K806","mechanism_id":"M806","outcome":"killed","evidence":"B_m is strictly increasing and unbounded, so for fixed q the stable inequality B_m<q-(5m-16) must fail at a finite rank."},
+    {"id":"K807","mechanism_id":"M807","outcome":"killed","evidence":"evidence/verify_all_j_first_wall_recovery.py labels its 201-member replay a finite guard; the universal proof instead uses induction and termination."},
+    {"id":"K808","mechanism_id":"M808","outcome":"killed","evidence":"The bounded exact profiles contain stable recoveries and wall shifts 1,2,3, so j=1231 is not a universal cell representative."},
+    {"id":"K811","mechanism_id":"M811","outcome":"killed","evidence":"../erdos-776-adaptive-round4/evidence/K4_R9_NO_FIXED_RANK_RECOVERY.md proves that K4,r9 first-recovery ranks have no uniform finite upper bound."}
+  ]
+}

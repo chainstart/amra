@@ -1,0 +1,72 @@
+{
+  "schema_version": "amra-research-loop.v1",
+  "campaign_id": "erdos-776-recovery-rate-round9",
+  "problem_id": "Erdos-776",
+  "title": "Explicit member-dependent recovery-rank bound",
+  "phase": "frozen",
+  "created_at": "2026-08-03T08:20:50+00:00",
+  "updated_at": "2026-08-03T08:29:10+00:00",
+  "gates": {
+    "min_representation_families": 4,
+    "min_representations": 8,
+    "min_mechanism_families": 4,
+    "min_mechanisms": 10,
+    "min_kill_ratio": 0.8,
+    "max_survivors": 3
+  },
+  "artifacts": {
+    "closure_contract": "closure_contract.json",
+    "information_loss_map": "information_loss_map.json",
+    "representations": "representations.json",
+    "mechanisms": "mechanisms.json",
+    "kill_tests": "kill_tests.json",
+    "survivors": "survivors.json",
+    "decisive_lemma": "decisive_lemma.json",
+    "audit": "audit.json",
+    "decision": "decision.json"
+  },
+  "history": [
+    {
+      "at": "2026-08-03T08:20:50+00:00",
+      "event": "initialized",
+      "phase": "target_selection"
+    },
+    {
+      "at": "2026-08-03T08:21:10+00:00",
+      "event": "advanced",
+      "from": "target_selection",
+      "phase": "obstruction_analysis"
+    },
+    {
+      "at": "2026-08-03T08:21:27+00:00",
+      "event": "advanced",
+      "from": "obstruction_analysis",
+      "phase": "representation_search"
+    },
+    {
+      "at": "2026-08-03T08:23:25+00:00",
+      "event": "advanced",
+      "from": "representation_search",
+      "phase": "mechanism_falsification"
+    },
+    {
+      "at": "2026-08-03T08:23:57+00:00",
+      "event": "advanced",
+      "from": "mechanism_falsification",
+      "phase": "survivor_deepening"
+    },
+    {
+      "at": "2026-08-03T08:29:10+00:00",
+      "event": "advanced",
+      "from": "survivor_deepening",
+      "phase": "independent_audit"
+    },
+    {
+      "at": "2026-08-03T08:29:10+00:00",
+      "event": "frozen",
+      "from": "independent_audit",
+      "phase": "frozen",
+      "reason": "Independent blind audit proves the explicit member-dependent bound p(j)=2+ceil(log_2(j+4)) for every actual odd K4,r9 member by taxed double-exponential B-tail growth composed with the round-eight first-wall theorem. Actual unboundedness of recovery ranks remains a separate round-four result. No uniform rank, rank-42 theorem, all-adjacent-orbit reduction, suffix persistence, public threshold, main term, or exponent improvement is proved, so freeze without public promotion."
+    }
+  ]
+}

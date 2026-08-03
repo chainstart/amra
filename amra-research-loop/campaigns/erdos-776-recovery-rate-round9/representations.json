@@ -1,0 +1,13 @@
+{
+  "representations": [
+    {"id":"R901","name":"taxed quadratic recurrence","family":"growth_dynamics","new_information":"Retains the exact linear tax while extracting B_(n+1)>=B_n^2/4.","first_test":"Use B_n>=20n to check the residual polynomial."},
+    {"id":"R902","name":"logarithmic height potential","family":"growth_dynamics","new_information":"Converts taxed squaring into the affine recurrence log B_(n+1)>=2 log B_n-2.","first_test":"Solve from B_5>2^10."},
+    {"id":"R903","name":"double-exponential barrier","family":"scale_geometry","new_information":"Packages B_n>=2^(2+2^(n-2)) as an explicit wall threshold.","first_test":"Verify the exponent maps exactly under squaring divided by four."},
+    {"id":"R904","name":"actual strip bit bound","family":"arithmetic_scale","new_information":"Bounds q_j directly from its dyadic formula without asymptotic notation.","first_test":"Prove q_j<2^(j+6) for all odd j."},
+    {"id":"R905","name":"ceiling selector","family":"quantifier_geometry","new_information":"Chooses p(j)=2+ceil(log2(j+4)) with exact integer rounding.","first_test":"Show 2^(p-2)>=j+4."},
+    {"id":"R906","name":"first-wall composition","family":"wall_dynamics","new_information":"Turns B_p>q into recovery by or before rank p using round eight.","first_test":"Separate earlier stable recovery from forced wall recovery."},
+    {"id":"R907","name":"bit-length computational guard","family":"computational_certificate","new_information":"Checks large j without constructing full Macaulay orbits.","first_test":"Test the exponent comparison through j=1000001 under resource bounds."},
+    {"id":"R908","name":"no-uniformity compatibility ledger","family":"quantifier_geometry","new_information":"Separates an unbounded explicit memberwise bound from a uniform rank.","first_test":"Compare p(j) tending to infinity with round four's quantifiers."},
+    {"id":"R909","name":"public rank-42 firewall","family":"global_interface","new_information":"Records why O(log j) on one family is not the public seed theorem.","first_test":"Require all-orbit coverage and suffix persistence."}
+  ]
+}

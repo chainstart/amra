@@ -1,0 +1,40 @@
+{
+  "inherited_methods": [
+    {
+      "method": "round-9 two-parameter labelled architecture G(m,r)",
+      "loss_step": "the graph is written down after choosing two switches on distinct repeated-colour owners cy1 and cy2",
+      "lost_information": "whether distinct candidate switches have distinct owners, or instead fork from one owner and are mutually exclusive",
+      "exact_witness": "round 9 hard-codes (wx1,cy1) and (ux2,cy2) and never tests two alternatives sharing cy1",
+      "consequence": "the five-block singleton formula may be an artifact of a rank-two Boolean state square"
+    },
+    {
+      "method": "union bad-C7 trace hypergraph",
+      "loss_step": "traces from the base, two singleton states and the joint state are unioned before retaining the state-incidence complex",
+      "lost_information": "which repeated-pair constraint belongs to which state and whether a joint state exists",
+      "exact_witness": "the round-9 pair list is stored as one tuple and contains no state labels or compatibility faces",
+      "consequence": "owner multiplicity can be mistaken for independent switch rank"
+    },
+    {
+      "method": "canonical maximum-witness hardness normal form",
+      "loss_step": "the normal form ends in scalar reserve and opposite-star coordinates without constructing switch vertices, owners, or state transitions",
+      "lost_information": "a functor from an arbitrary hard graph to the labelled X,Y,R,w,u architecture",
+      "exact_witness": "MAXIMUM_WITNESS_CANONICAL_HARDNESS_NORMAL_FORM.md has no w,u switch-state or trace-hypergraph clause",
+      "consequence": "round 9 cannot be composed with the public hard branches"
+    },
+    {
+      "method": "fixed locked natural-switch census",
+      "loss_step": "a single graph size and a fixed choice of two independent switch indices are enumerated",
+      "lost_information": "which structural hypothesis, rather than the numerical size, forces the kernel",
+      "exact_witness": "round 8 reports the locked (m,r)=(4,2) 12+4+4+1 trace decomposition",
+      "consequence": "another fixed census cannot distinguish universality from owner-rank dependence"
+    }
+  ],
+  "required_new_information": [
+    "the owner map from every switch state to its retained repeated-colour edge",
+    "the simplicial state complex specifying which switches coexist",
+    "a trace-preserving map, not merely a vertex or block-count analogy",
+    "an all-parameter counterbranch if two-owner Booleanity is not forced",
+    "a firewall separating switch-interface results from the public threshold hard-graph claim"
+  ],
+  "forbidden_shortcut": "Do not infer a hard-branch reduction from block resemblance. Preserve owners and the state complex, and do not replace an all-parameter proof with a fixed census."
+}

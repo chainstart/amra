@@ -1,0 +1,25 @@
+{
+  "exact_statement": "For every fixed integer d >= 3, every N-point subset of R^d determines N^(2/d-o(1)) distinct distances as N tends to infinity.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/README.md",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round eight proved that the natural minimum-support profile is constant on the zero-anchor branch and injective on the nonzero-anchor branch.",
+    "Round nine asks whether the fixed-natural-order two-endpoint orbit, equivalently support width after quotienting translation gauge, retains information outside phi_j=min(lambda_j X) on both branches.",
+    "The permitted scoped outcome is an exact all-branch profile theorem or a legal counterfamily/no-go inside the actual power-large simultaneous-switch block.",
+    "A width identity, finite check, profile range bound or conditioning obstruction is not a public exponent improvement without all-target occurrence, collision-fibre and outer-stability interfaces.",
+    "No coordinate reversal or post-data normalization may be used to select a favourable branch; all endpoints use the fixed natural real order."
+  ]
+}

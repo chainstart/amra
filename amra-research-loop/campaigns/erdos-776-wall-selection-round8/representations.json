@@ -1,0 +1,13 @@
+{
+  "representations": [
+    {"id":"R801","name":"Stable-or-first-wall automaton","family":"state_dynamics","new_information":"Tracks the exact first exit from the stable recurrence instead of fixing a terminal rank.","first_test":"Prove that every negative stable step either remains stable or enters a positive wall."},
+    {"id":"R802","name":"Actual q-lattice interval partition","family":"quantifier_geometry","new_information":"Uses q_(j+2)=4q_j-4 to distinguish wall representatives from stable intervals.","first_test":"Test the q_next-B_n higher-carry window exactly."},
+    {"id":"R803","name":"Higher-carry modular residue","family":"arithmetic_obstruction","new_information":"Encodes a narrow higher-carry candidate by 3(B_n+d)-4=7*2^k.","first_test":"Find the first rank where low residues permit d<=20n-74, then check the full scale."},
+    {"id":"R804","name":"Minimum-wall comparator","family":"shadow_order","new_information":"Replaces every carry B_m>=t by the minimal legal wall C(t+1,2) using monotonicity of Macaulay raise.","first_test":"Derive a carry-independent lower bound for gamma_m."},
+    {"id":"R805","name":"A/B ratio cone","family":"recurrence_geometry","new_information":"Separates the small x-tail from the B-wall via B_n>=30A_n.","first_test":"Prove the ratio by induction from n=6."},
+    {"id":"R806","name":"Negative-surplus feedback","family":"recurrence_geometry","new_information":"Turns gamma_(m-1)<0 into an upper bound on A_m/q at the first wall.","first_test":"Combine D_(m-1)=B_m-A_m-A_(m-1)-1 with the ratio cone."},
+    {"id":"R807","name":"Termination potential B_m","family":"state_dynamics","new_information":"Uses unbounded stable constants as a bounded-time-for-each-q wall potential.","first_test":"Show an indefinitely negative stable loop contradicts B_m<q-(5m-16)."},
+    {"id":"R808","name":"Direct greedy orbit guard","family":"computational_certificate","new_information":"Checks words and first recovery ranks without assuming the wall theorem.","first_test":"Replay the first 201 odd members under 3 GiB/180 s."},
+    {"id":"R809","name":"Public suffix firewall","family":"global_composition","new_information":"Keeps all-j fixed-family recovery separate from rank-42 and adjacent-orbit composition.","first_test":"Compare the theorem quantifiers with round-four no-uniform-rank and the public contract."}
+  ]
+}

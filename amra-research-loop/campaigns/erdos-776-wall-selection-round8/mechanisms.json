@@ -1,0 +1,160 @@
+{
+  "mechanisms": [
+    {
+      "id": "M801",
+      "representation_id": "R803",
+      "family": "higher-carry",
+      "decisive_claim": "An all-j proof must exclude the higher-carry narrow window at every rank.",
+      "would_close": [
+        "wall exhaustiveness"
+      ],
+      "kill_test": "seek a lower bound valid for all B_m>=t, including higher carries",
+      "status": "killed",
+      "status_evidence": "evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    },
+    {
+      "id": "M802",
+      "representation_id": "R802",
+      "family": "ratio-lattice",
+      "decisive_claim": "The real ratio 1<=B_n/q<4 alone excludes every higher carry.",
+      "would_close": [
+        "one-wall selection"
+      ],
+      "kill_test": "compare B_n with the sharper threshold 4q-20n+70",
+      "status": "killed",
+      "status_evidence": "evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    },
+    {
+      "id": "M803",
+      "representation_id": "R804",
+      "family": "wall-sign",
+      "decisive_claim": "Only the critical s=3 cell can recover at a first wall.",
+      "would_close": [
+        "critical-only selector"
+      ],
+      "kill_test": "directly inspect the exact s=1 and s=2 first-wall members",
+      "status": "killed",
+      "status_evidence": "evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    },
+    {
+      "id": "M804",
+      "representation_id": "R804",
+      "family": "wall-sign",
+      "decisive_claim": "A higher carry can make the first-wall surplus smaller than the minimum rank-two wall surplus.",
+      "would_close": [
+        "higher-carry obstruction"
+      ],
+      "kill_test": "apply monotonicity of fixed-rank Macaulay raise",
+      "status": "killed",
+      "status_evidence": "evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    },
+    {
+      "id": "M805",
+      "representation_id": "R805",
+      "family": "ratio-cone",
+      "decisive_claim": "The two stable tails remain comparable, so the x-tail can cancel the minimum wall gain.",
+      "would_close": [
+        "wall negativity"
+      ],
+      "kill_test": "prove or refute B_n>=30A_n from n=6",
+      "status": "killed",
+      "status_evidence": "evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    },
+    {
+      "id": "M806",
+      "representation_id": "R807",
+      "family": "termination",
+      "decisive_claim": "For a fixed actual q the orbit can remain stable and negative at every rank without meeting a wall.",
+      "would_close": [
+        "nonrecovery member"
+      ],
+      "kill_test": "combine unbounded B_m with the stable canonical inequality",
+      "status": "killed",
+      "status_evidence": "evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    },
+    {
+      "id": "M807",
+      "representation_id": "R808",
+      "family": "quantifier",
+      "decisive_claim": "Recovery of the first 201 odd members proves recovery for every odd j.",
+      "would_close": [
+        "finite-to-universal shortcut"
+      ],
+      "kill_test": "compare bounded and universal quantifiers",
+      "status": "killed",
+      "status_evidence": "evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    },
+    {
+      "id": "M808",
+      "representation_id": "R802",
+      "family": "quantifier",
+      "decisive_claim": "The isolated j=1231 critical witness alone implies an all-j selector.",
+      "would_close": [
+        "single-witness universalization"
+      ],
+      "kill_test": "exhibit multiple stable and s=1,s=2 wall cells",
+      "status": "killed",
+      "status_evidence": "evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    },
+    {
+      "id": "M809",
+      "representation_id": "R801",
+      "family": "adaptive-recovery",
+      "decisive_claim": "Every actual odd K4,r9 member has a finite nonnegative surplus, at or before its first B-wall.",
+      "would_close": [
+        "all-j K4,r9 adaptive recovery"
+      ],
+      "kill_test": "prove the stable-or-wall induction, wall sign, termination, and exact finite base",
+      "status": "proved",
+      "status_evidence": "evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    },
+    {
+      "id": "M810",
+      "representation_id": "R804",
+      "family": "wall-sign",
+      "decisive_claim": "At a negative stable predecessor with m>=6, every first wall B_m>=t has gamma_m>0 regardless of carry depth.",
+      "would_close": [
+        "carry-independent first-wall positivity"
+      ],
+      "kill_test": "derive the minimum-wall lower bound and its strict sign",
+      "status": "proved",
+      "status_evidence": "evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    },
+    {
+      "id": "M811",
+      "representation_id": "R809",
+      "family": "rank-bound",
+      "decisive_claim": "All-j finite recovery on K4,r9 yields one uniform finite recovery rank, in particular rank 42.",
+      "would_close": [
+        "uniform pre-rank42 seed"
+      ],
+      "kill_test": "apply the round-four no-uniform-fixed-rank theorem",
+      "status": "killed",
+      "status_evidence": "evidence/ALL_J_FIRST_WALL_RECOVERY.md",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    },
+    {
+      "id": "M812",
+      "representation_id": "R809",
+      "family": "global-interface",
+      "decisive_claim": "All-j K4,r9 recovery automatically supplies the public adjacent-orbit suffix construction.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "require an explicit all-state identification and persistence theorem",
+      "status": "frozen",
+      "status_evidence": "survivors.json",
+      "updated_at": "2026-08-03T08:13:21+00:00"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {"id":"K901","mechanism_id":"M901","outcome":"killed","evidence":"B_n>=20n makes B_(n+1)-B_n^2/4>=100n^2-30n+52>0."},
+    {"id":"K902","mechanism_id":"M902","outcome":"killed","evidence":"Iterating log_2 B_(n+1)>=2log_2B_n-2 gives the double-exponential lower bound in evidence/EXPLICIT_RECOVERY_RANK_BOUND.md."},
+    {"id":"K903","mechanism_id":"M903","outcome":"killed","evidence":"../erdos-776-adaptive-round4/evidence/K4_R9_NO_FIXED_RANK_RECOVERY.md proves no uniform fixed recovery rank."},
+    {"id":"K904","mechanism_id":"M904","outcome":"killed","evidence":"The exact recurrence is B_(n+1)=B_n^2/2-B_n/2-(20n-52), strictly below B_n^2/2."},
+    {"id":"K905","mechanism_id":"M905","outcome":"killed","evidence":"At j=1, q_1=76>64=2^(j+5); the exact leading ratio also exceeds the proposed constant."},
+    {"id":"K906","mechanism_id":"M906","outcome":"killed","evidence":"A bounded profile fit has finite quantifiers; the valid universal proof uses taxed squaring and the round-eight wall theorem."},
+    {"id":"K907","mechanism_id":"M907","outcome":"killed","evidence":"For j=5, j+4=9 lies above 2^3, so floor(log2(j+4)) fails the required power comparison."},
+    {"id":"K910","mechanism_id":"M910","outcome":"killed","evidence":"p(j)=2+ceil(log2(j+4)) is unbounded; choosing j>2^40 gives p(j)>42."},
+    {"id":"K911","mechanism_id":"M911","outcome":"killed","evidence":"The theorem covers only K4,r9 and supplies neither all-orbit reduction nor suffix persistence, so no public threshold implication exists."}
+  ]
+}

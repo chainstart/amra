@@ -1,0 +1,45 @@
+{
+  "inherited_from": "erdos-1083-width-profile-round9 (frozen)",
+  "inherited_methods": [
+    {
+      "method": "use only the two extreme support points",
+      "loss_step": "quotient their diagonal translation orbit to the affine width coordinate",
+      "lost_information": "the first interior support layer at each endpoint",
+      "consequence": "retain the gaps from each endpoint to the second distinct support point"
+    },
+    {
+      "method": "treat source width variation as literal profile entropy",
+      "loss_step": "forget lambda_j and common X are already row data",
+      "lost_information": "whether an observable constrains the unknown complement rather than re-indexing the source",
+      "consequence": "normalize source gaps by width and separately track complement endpoint gaps"
+    },
+    {
+      "method": "use affine additivity for every support statistic",
+      "loss_step": "linearize the second support layer although Minkowski sums select the earlier of two boundary arrivals",
+      "lost_information": "the tropical min composition law",
+      "consequence": "derive second-extremum composition directly for positive masks"
+    },
+    {
+      "method": "prove a statement only in the positive scalar or nonzero-anchor branch",
+      "loss_step": "choose one endpoint formula after observing its value",
+      "lost_information": "negative-scalar reflection and zero-anchor robustness",
+      "consequence": "state left/right gaps as an ordered pair and audit the sign-induced swap"
+    },
+    {
+      "method": "promote a fixed local shape profile to a distance exponent",
+      "loss_step": "stop before target occurrence, distance collision and stability accounting",
+      "lost_information": "the public composition interface",
+      "consequence": "freeze any local theorem honestly unless every global inequality is closed"
+    }
+  ],
+  "required_new_information": [
+    "a fixed-order definition of left and right second-support gaps for every non-singleton positive mask",
+    "translation invariance, scalar reflection and exact Minkowski-product composition",
+    "an all-branch formula for scalar copies lambda_j X",
+    "the common-spectrum censoring equations for complement endpoint gaps",
+    "a quantified exceptional-row bound and retained power-large subfamily",
+    "a separation between genuine complement rigidity and deterministic source shape",
+    "the exact missing global interfaces before any exponent claim"
+  ],
+  "forbidden_shortcut": "Do not normalize each row after seeing its support, reverse the order to choose an anchor, use signed factor supports in the positive-mask min law, or call a fixed endpoint layer a Euclidean distance improvement."
+}

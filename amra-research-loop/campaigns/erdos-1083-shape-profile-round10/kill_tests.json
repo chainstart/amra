@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {"mechanism_id":"M1083G10-02","outcome":"killed","classification":"second-support gaps compose by minimum rather than addition","evidence":"evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md#1-exact-positive-product-law; evidence/verify_tropical_endpoint_gaps.py"},
+    {"mechanism_id":"M1083G10-03","outcome":"killed","classification":"division by width cancels the scalar magnitude on each fixed-sign class","evidence":"evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md#2-scalar-copy-shape"},
+    {"mechanism_id":"M1083G10-04","outcome":"killed","classification":"negative dilation swaps one fixed normalized endpoint-gap pair and creates no range","evidence":"evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md#2-scalar-copy-shape"},
+    {"mechanism_id":"M1083G10-05","outcome":"killed","classification":"distinct-point gaps remain positive and defined when a natural endpoint equals zero","evidence":"evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md#2-scalar-copy-shape"},
+    {"mechanism_id":"M1083G10-06","outcome":"killed","classification":"strict source-gap dominance forces the corresponding complement gap to equal the common V gap","evidence":"evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md#3-common-spectrum-censoring"},
+    {"mechanism_id":"M1083G10-08","outcome":"killed","classification":"a fixed positive scalar coefficient times distinct |lambda_j| has an equality fibre of size at most one","evidence":"evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md#4-power-large-two-sided-core"},
+    {"mechanism_id":"M1083G10-11","outcome":"killed","classification":"the fourth Minkowski support point may be a mixed sum absent as an input layer","evidence":"evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md#5-higher-layer-firewall"},
+    {"mechanism_id":"M1083G10-12","outcome":"killed","classification":"the min law needs actual positive masks; signed factor supports can cancel and associate endpoints move","evidence":"evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md#1-exact-positive-product-law"},
+    {"mechanism_id":"M1083G10-13","outcome":"killed","classification":"raw source gaps are injective positive multiples of distinct scalar magnitudes","evidence":"evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md#2-scalar-copy-shape"},
+    {"mechanism_id":"M1083G10-14","outcome":"killed","classification":"the retained shape profile has range one and supplies no power-many Euclidean label values or proved label map","evidence":"evidence/TROPICAL_ENDPOINT_GAP_THEOREM.md#6-scope"}
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Independent reconstruction confirms the exact fixed-natural-order width-profile theorem inside the actual selected simultaneous-switch block. Literal width is injective but is known scalar-source data, its residual is zero, and no global distance interface or public exponent improvement follows.",
+  "evidence": [
+    "audit/WIDTH_PROFILE_INDEPENDENT_AUDIT.md",
+    "audit/verify_width_profile_independent.py"
+  ]
+}

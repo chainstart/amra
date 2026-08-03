@@ -1,0 +1,32 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos809_blocklift, blind reconstruction from the power-large simultaneous-switch core",
+    "evidence": [
+      "audit/WIDTH_PROFILE_INDEPENDENT_AUDIT.md",
+      "audit/verify_width_profile_independent.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "promotion_check": "freeze: no all-target occurrence, distance-collision fibre saving, outer stability or new Euclidean-label injection; public 3/5 exponent unchanged",
+  "scope_note": "All claims are restricted to an already selected actual power-large fixed-sign block in the fixed natural order. D>0, distinct nonzero scalars, sign pigeonhole, actual positive product identities and common W are supplied by the inherited core.",
+  "ten_item_checklist": {
+    "endpoint_orbit_quotient": "passed",
+    "positive_mask_width_additivity": "passed",
+    "four_width_affine_graph": "passed",
+    "positive_zero_anchor": "passed",
+    "positive_nonzero_anchor": "passed",
+    "negative_zero_anchor": "passed",
+    "negative_nonzero_anchor": "passed",
+    "zero_residual_and_divisor_coordinate": "passed",
+    "fixed_order_and_actual_block_quantifiers": "passed",
+    "no_exponent_promotion": "passed"
+  },
+  "machine_reproduction": {
+    "command": "ulimit -v 3145728; timeout 180s python3 audit/verify_width_profile_independent.py",
+    "result": "PASS (10-item firewall)",
+    "sha256": "b2f6f42fb75623b31fd5327b6e11cda8bc0d61d097420462a2c76df498dfeaf7"
+  }
+}

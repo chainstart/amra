@@ -1,0 +1,37 @@
+{
+  "round_id": "round-2026-08-03-4h-recovery",
+  "wall_clock_budget_hours": 4,
+  "persistent_goal_status": "active",
+  "persistent_goal_thread_id": "019fc6c5-5e90-7cd0-9ac0-dae9ccc8d166",
+  "persistent_goal_started_at_epoch": 1785747301,
+  "inherits_commit": "8d97d1c",
+  "inherits_round": "round-2026-08-03-6h-followup",
+  "resource_policy": {
+    "wsl_ram_gib": 31,
+    "heavy_probe_virtual_memory_gib": 3,
+    "heavy_probe_timeout_seconds": 180,
+    "max_concurrent_heavy_probes": 2,
+    "lean_threads_per_probe": 1
+  },
+  "campaigns": [
+    "erdos-776-rate-sharpness-round10",
+    "erdos-1083-shape-distance-interface-round11",
+    "opg-1757-full-b-elimination-round6"
+  ],
+  "priority": [
+    {
+      "campaign_id": "opg-1757-full-b-elimination-round6",
+      "share": 0.55
+    },
+    {
+      "campaign_id": "erdos-776-rate-sharpness-round10",
+      "share": 0.30
+    },
+    {
+      "campaign_id": "erdos-1083-shape-distance-interface-round11",
+      "share": 0.15
+    }
+  ],
+  "audit_policy": "Do not treat an author reread or same-thread reconstruction as independent audit.",
+  "promotion_policy": "No public promotion without exact closure and a passed independent audit. Preserve failed paths as negative evidence."
+}

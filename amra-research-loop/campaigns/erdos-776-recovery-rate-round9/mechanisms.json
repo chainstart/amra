@@ -1,0 +1,160 @@
+{
+  "mechanisms": [
+    {
+      "id": "M901",
+      "representation_id": "R901",
+      "family": "growth",
+      "decisive_claim": "The linear tax prevents every uniform quadratic lower bound for B_(n+1).",
+      "would_close": [
+        "rate no-go"
+      ],
+      "kill_test": "substitute B_n>=20n into B_(n+1)-B_n^2/4",
+      "status": "killed",
+      "status_evidence": "evidence/EXPLICIT_RECOVERY_RANK_BOUND.md",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    },
+    {
+      "id": "M902",
+      "representation_id": "R902",
+      "family": "growth",
+      "decisive_claim": "The stable B constants have only exponential rather than double-exponential growth in rank.",
+      "would_close": [
+        "slow-recovery obstruction"
+      ],
+      "kill_test": "iterate log B_(n+1)>=2log B_n-2",
+      "status": "killed",
+      "status_evidence": "evidence/EXPLICIT_RECOVERY_RANK_BOUND.md",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    },
+    {
+      "id": "M903",
+      "representation_id": "R908",
+      "family": "quantifier",
+      "decisive_claim": "All-member recovery yields one constant recovery-rank bound independent of j.",
+      "would_close": [
+        "uniform finite rank"
+      ],
+      "kill_test": "apply round-four no-uniform-rank theorem",
+      "status": "killed",
+      "status_evidence": "evidence/EXPLICIT_RECOVERY_RANK_BOUND.md",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    },
+    {
+      "id": "M904",
+      "representation_id": "R901",
+      "family": "growth",
+      "decisive_claim": "The exact taxed recurrence satisfies B_(n+1)>=B_n^2/2 at every n>=5.",
+      "would_close": [
+        "tax-free optimal rate"
+      ],
+      "kill_test": "retain the negative B_n/2 and tax terms",
+      "status": "killed",
+      "status_evidence": "evidence/EXPLICIT_RECOVERY_RANK_BOUND.md",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    },
+    {
+      "id": "M905",
+      "representation_id": "R904",
+      "family": "strip-scale",
+      "decisive_claim": "The actual strip obeys the sharper universal estimate q_j<2^(j+5).",
+      "would_close": [
+        "one-rank constant saving"
+      ],
+      "kill_test": "test the exact leading ratio 224/6 against 32",
+      "status": "killed",
+      "status_evidence": "evidence/EXPLICIT_RECOVERY_RANK_BOUND.md",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    },
+    {
+      "id": "M906",
+      "representation_id": "R907",
+      "family": "quantifier",
+      "decisive_claim": "A fit to bounded first-recovery profiles proves a logarithmic all-j rate.",
+      "would_close": [
+        "empirical rate proof"
+      ],
+      "kill_test": "require an all-rank recurrence inequality and integer ceiling argument",
+      "status": "killed",
+      "status_evidence": "evidence/EXPLICIT_RECOVERY_RANK_BOUND.md",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    },
+    {
+      "id": "M907",
+      "representation_id": "R905",
+      "family": "rounding",
+      "decisive_claim": "Replacing ceil(log2(j+4)) by floor(log2(j+4)) preserves the exponent comparison for every j.",
+      "would_close": [
+        "sharper rounded bound"
+      ],
+      "kill_test": "test j+4 immediately above a power of two",
+      "status": "killed",
+      "status_evidence": "evidence/EXPLICIT_RECOVERY_RANK_BOUND.md",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    },
+    {
+      "id": "M908",
+      "representation_id": "R905",
+      "family": "rate-theorem",
+      "decisive_claim": "Every actual odd K4,r9 member recovers by p(j)=2+ceil(log2(j+4)).",
+      "would_close": [
+        "explicit member-dependent recovery rate"
+      ],
+      "kill_test": "prove taxed squaring, strip bound, ceiling comparison, and first-wall composition",
+      "status": "proved",
+      "status_evidence": "evidence/EXPLICIT_RECOVERY_RANK_BOUND.md",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    },
+    {
+      "id": "M909",
+      "representation_id": "R903",
+      "family": "growth",
+      "decisive_claim": "For every n>=5, B_n>=2^(2+2^(n-2)).",
+      "would_close": [
+        "explicit double-exponential wall barrier"
+      ],
+      "kill_test": "induct from B_5>2^10 using B_(n+1)>=B_n^2/4",
+      "status": "proved",
+      "status_evidence": "evidence/EXPLICIT_RECOVERY_RANK_BOUND.md",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    },
+    {
+      "id": "M910",
+      "representation_id": "R909",
+      "family": "rank42",
+      "decisive_claim": "The explicit p(j) bound is at most 42 for every odd j.",
+      "would_close": [
+        "uniform pre-rank42 seed"
+      ],
+      "kill_test": "observe p(j) is unbounded and solve p(j)>42",
+      "status": "killed",
+      "status_evidence": "evidence/EXPLICIT_RECOVERY_RANK_BOUND.md",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    },
+    {
+      "id": "M911",
+      "representation_id": "R909",
+      "family": "global-interface",
+      "decisive_claim": "An O(log log q) bound on K4,r9 alone improves the public Erdos-776 threshold.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "require all adjacent orbits and suffix persistence",
+      "status": "killed",
+      "status_evidence": "evidence/EXPLICIT_RECOVERY_RANK_BOUND.md",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    },
+    {
+      "id": "M912",
+      "representation_id": "R909",
+      "family": "global-interface",
+      "decisive_claim": "The fixed-family bound can be composed through the public suffix after a new all-orbit reduction.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "construct the missing all-orbit reduction and suffix theorem",
+      "status": "frozen",
+      "status_evidence": "survivors.json",
+      "updated_at": "2026-08-03T08:23:26+00:00"
+    }
+  ]
+}

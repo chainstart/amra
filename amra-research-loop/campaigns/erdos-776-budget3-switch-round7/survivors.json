@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M709", "M710"],
+  "selection_rationale": "M709 is the first literal actual K4,r9 realization of the round-six critical budget: a direct greedy replay proves alpha=3, delta=0 and gamma_11<0<gamma_12 on j=1231. M710 supplies the all-parameter one-wall classification explaining why three is the maximal legal rank-two budget and why equality occupies exactly 3t+3<=B_m<4t+6. M711 remains frozen because no suffix theorem follows automatically, and M712 remains frozen because the 200-member recovery census has no all-j exhaustion proof."
+}

@@ -1,0 +1,67 @@
+{
+  "representations": [
+    {
+      "id": "R701",
+      "name": "Greedy full-orbit replay",
+      "family": "canonical_words",
+      "new_information": "Retains the unique Macaulay word at every rank instead of a sign or tail summary.",
+      "first_test": "Replay actual K4,r9 odd strips and compare the first nonnegative rank with the stable word."
+    },
+    {
+      "id": "R702",
+      "name": "Rank-two wall coordinates (t,s,R)",
+      "family": "canonical_words",
+      "new_information": "Records a literal bottom-top shift s and residual R across a canonical wall.",
+      "first_test": "Check C(t,2)+B=C(t+s,2)+R and every strict digit inequality."
+    },
+    {
+      "id": "R703",
+      "name": "Pascal transfer ledger",
+      "family": "algebraic_transfer",
+      "new_information": "Derives the q-slope of the new residual from the exact before/after identity.",
+      "first_test": "Expand R for s=0,1,2,3 and read alpha from its q coefficient."
+    },
+    {
+      "id": "R704",
+      "name": "Canonical wall simplex",
+      "family": "wall_geometry",
+      "new_information": "Partitions B_m by consecutive triangular increments and exposes the maximum shift before collision with the preceding rank-three top.",
+      "first_test": "Prove the exact half-open intervals for s=0,1,2,3 and test s=4 legality."
+    },
+    {
+      "id": "R705",
+      "name": "Round-six affine-coordinate pullback",
+      "family": "algebraic_transfer",
+      "new_information": "Maps a real word shift back to alpha,delta rather than assigning them abstractly.",
+      "first_test": "Verify that s=3 gives alpha=3,delta=0 in the inherited sign convention."
+    },
+    {
+      "id": "R706",
+      "name": "Actual odd-j wall lattice",
+      "family": "quantifier_geometry",
+      "new_information": "Keeps q_(j+2)=4q_j-4 and locates which actual member lies immediately below each fixed B_m wall.",
+      "first_test": "For each tested rank, compute the unique odd j with q_j<=B_m<q_(j+2)."
+    },
+    {
+      "id": "R707",
+      "name": "Surplus-before/after certificate",
+      "family": "shadow_geometry",
+      "new_information": "Retains both the negative pre-switch surplus and positive post-switch surplus on the identical actual member.",
+      "first_test": "Directly evaluate gamma_11 and gamma_12 from greedy upper shadows."
+    },
+    {
+      "id": "R708",
+      "name": "Uniqueness obstruction",
+      "family": "wall_geometry",
+      "new_information": "Separates a true canonical cell change from a fictitious alternative expansion of one integer.",
+      "first_test": "Demand equality of values and strict greedy ordering; reject any second canonical word."
+    },
+    {
+      "id": "R709",
+      "name": "Switched-seed suffix interface",
+      "family": "global_composition",
+      "new_information": "Tracks whether a recovered local surplus is identified with the public diagonal capacity and persists to rank 42.",
+      "first_test": "Require an explicit mapping and suffix theorem rather than assuming positivity is automatically composable."
+    }
+  ]
+}

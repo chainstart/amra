@@ -1,0 +1,30 @@
+{
+  "theorem": "gauge-invariant width profile",
+  "endpoint_gauge_quotient": "(min,max) modulo diagonal translation is classified exactly by max-min",
+  "four_width_profile": [
+    "abs(lambda_j)*D",
+    "abs(lambda_0)*D",
+    "W-abs(lambda_j)*D",
+    "W-abs(lambda_0)*D"
+  ],
+  "fixed_sign_range": "abs(J_sigma)",
+  "fixed_sign_max_fibre": 1,
+  "zero_anchor": {
+    "phi_range": 1,
+    "width_range": "abs(J_sigma)",
+    "comparison": "width strictly repairs the least-endpoint information loss"
+  },
+  "nonzero_anchor": {
+    "phi_range": "abs(J_sigma)",
+    "width_range": "abs(J_sigma)",
+    "comparison": "width is a fixed nonzero scalar multiple of phi"
+  },
+  "known_source_residual_range": 1,
+  "divisor_atlas_relation": "a+b_j=abs(lambda_j)*D",
+  "public_exponent_improved": false,
+  "bounded_checker": {
+    "command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-width-profile-round9/evidence/verify_width_profile.py",
+    "result": "PASS; exact_checks=100; branches=4",
+    "sha256": "2163cce746e5f772b1a63c72105499b828c152d3ae7c22a59ec2ab219e5d9cfe"
+  }
+}

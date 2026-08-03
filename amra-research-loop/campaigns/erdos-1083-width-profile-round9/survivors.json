@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M1083W9-01", "M1083W9-04", "M1083W9-06"],
+  "selection_rationale": "M1083W9-01 identifies width as the exact two-endpoint translation-gauge quotient. M1083W9-04 proves the exhaustive all-branch literal range and fibre theorem on the inherited power-large fixed-sign class. M1083W9-06 compares this theorem with round eight and proves that width recovers precisely the zero-anchor information lost by phi while being redundant in the nonzero branch. Ten of eleven non-survivors are killed (90.9%); the remaining proved compatibility lemma is a dependency rather than an independent survivor."
+}

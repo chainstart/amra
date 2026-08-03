@@ -1,0 +1,7 @@
+{
+  "statement": "For every actual odd K4,r9 dyadic member there exists a finite rank p with gamma_p>=0. Starting after the exact j=1,3,5 base, follow the audited stable recurrence while its surplus is negative. If the next B-tail stays below its canonical wall, continue. At its first wall B_m>=t=q-(5m-16), the identities gamma_(m-1)=B_m-A_m-A_(m-1)-1-4q<0 and B_m>=30A_m imply A_m+1<q/6; previous stability implies t>q/2. Monotonicity of the rank-m Macaulay raise bounds every carry depth below by the minimum wall B_m=t, hence gamma_m>=C(t,2)-C(A_m+1,2)+2-4q>q^2/9-15q/4+2>0. Since B_m is unbounded, a negative stable orbit must meet a wall in finite time. Together with round four, every member recovers but the recovery ranks have no uniform finite upper bound.",
+  "status": "proved",
+  "closes": ["all-j adaptive recovery on the actual K4,r9 family", "carry-independent first-wall positivity after a negative stable predecessor"],
+  "evidence": ["evidence/ALL_J_FIRST_WALL_RECOVERY.md", "evidence/verify_all_j_first_wall_recovery.py", "evidence/probe_exact_higher_carry.py", "../erdos-776-adaptive-round4/evidence/K4_R9_NO_FIXED_RANK_RECOVERY.md"],
+  "dependency_gaps": ["uniform recovery before rank 42", "extension from K4,r9 to every required adjacent orbit", "switched-seed suffix persistence", "public Erdos-776 composition", "external novelty and priority check"]
+}

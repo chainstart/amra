@@ -1,0 +1,27 @@
+{
+  "theorem": "tropical endpoint-gap shape",
+  "positive_product_law": {
+    "width": "w(A+B)=w(A)+w(B)",
+    "left_gap": "g_-(A+B)=min(g_-(A),g_-(B))",
+    "right_gap": "g_+(A+B)=min(g_+(A),g_+(B))"
+  },
+  "scalar_shape": {
+    "positive": "(ell/D,r/D)",
+    "negative": "(r/D,ell/D)",
+    "zero_anchor_sensitive": false,
+    "range_on_fixed_sign_class": 1
+  },
+  "actual_common_spectrum": {
+    "equations": ["L=min(a_j^-,f_j^-)", "R=min(a_j^+,f_j^+)"],
+    "exception_union_bound": 1,
+    "retained_size": "at least abs(J_sigma)-1=t^(5/9-o(1))",
+    "retained_complement_profile": "(L,R)",
+    "combined_profile_range": 1
+  },
+  "public_exponent_improved": false,
+  "bounded_checker": {
+    "command": "AMRA_MEMORY_KIB=3145728 AMRA_TIMEOUT_SECONDS=180 LEAN_NUM_THREADS=1 amra-research-loop/scripts/run_bounded.sh python3 amra-research-loop/campaigns/erdos-1083-shape-profile-round10/evidence/verify_tropical_endpoint_gaps.py",
+    "result": "PASS; checks=60553; support_pairs=60516; branches=8",
+    "sha256": "75b3df28ea99ef3807cc05e65fbb0a869ea24c4f97ba0c1edcbd20b1843c5b93"
+  }
+}

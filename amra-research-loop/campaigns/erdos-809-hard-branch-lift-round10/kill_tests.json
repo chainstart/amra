@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {"mechanism_id":"M809H10-01","outcome":"killed","classification":"no distinct-owner or Boolean-state clause occurs in the canonical normal form","evidence":"evidence/FORKED_OWNER_COUNTERBRANCH_THEOREM.md#failure-of-the-global-reduction","scope":"kills the claimed inherited reduction, not the possibility of proving a new reduction theorem"},
+    {"mechanism_id":"M809H10-02","outcome":"killed","classification":"two candidates wx1,ux1 share owner cy1 and owner matching rank is one","evidence":"evidence/FORKED_OWNER_COUNTERBRANCH_THEOREM.md#minimal-owner-counterbranch","scope":"distinct-owner hypotheses may restore rank two"},
+    {"mechanism_id":"M809H10-03","outcome":"killed","classification":"same-owner alternatives are mutually exclusive, so the state complex has no joint face","evidence":"evidence/FORKED_OWNER_COUNTERBRANCH_THEOREM.md#minimal-owner-counterbranch","scope":"disjoint switches may retain joint compatibility"},
+    {"mechanism_id":"M809H10-04","outcome":"killed","classification":"fork kernel loses exactly R x {x2} and {x2} x Q","evidence":"evidence/FORKED_OWNER_COUNTERBRANCH_THEOREM.md#exact-forked-owner-kernel","scope":"the original kernel remains correct under its two-owner Boolean assumptions"},
+    {"mechanism_id":"M809H10-05","outcome":"killed","classification":"fork tau is smaller by r+m-2 for every m,r","evidence":"evidence/FORKED_OWNER_COUNTERBRANCH_THEOREM.md#exact-forked-owner-kernel","scope":"not a claim about all possible switch architectures"},
+    {"mechanism_id":"M809H10-06","outcome":"killed","classification":"F_fork hits every trace and no empty trace occurs on the complete support quotient","evidence":"evidence/verify_forked_owner_kernel.py","scope":"legality requires deleting the exact transversal; no threshold-density claim"},
+    {"mechanism_id":"M809H10-07","outcome":"killed","classification":"finite rows alone omit the support quantifier; the theorem requires the explicit seven-cycle support bound","evidence":"evidence/FORKED_OWNER_COUNTERBRANCH_THEOREM.md#legality-and-complete-support","scope":"bounded enumeration is accepted only after the complete orbit reduction"},
+    {"mechanism_id":"M809H10-08","outcome":"killed","classification":"block-count maps do not preserve owner rank or permitted faces","evidence":"evidence/FORKED_OWNER_COUNTERBRANCH_THEOREM.md#failure-of-the-global-reduction","scope":"a stronger owner/state/trace preserving functor remains conceivable under added hypotheses"},
+    {"mechanism_id":"M809H10-09","outcome":"killed","classification":"the synthetic family has neither threshold provenance nor an all-hard-branch derivation","evidence":"evidence/FORKED_OWNER_COUNTERBRANCH_THEOREM.md#scope-firewall","scope":"kills public promotion only"}
+  ]
+}

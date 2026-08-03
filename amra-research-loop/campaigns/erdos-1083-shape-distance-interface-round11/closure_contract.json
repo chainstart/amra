@@ -1,0 +1,25 @@
+{
+  "exact_statement": "For every fixed integer d >= 3, every N-point subset of R^d determines N^(2/d-o(1)) distinct distances as N tends to infinity.",
+  "source": "data/research_open/q1_six_hour_campaign_2026-08-02/erdos1083/README.md",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Round ten proves a range-one non-affine endpoint-gap profile on an actual power-large same-sign core after deleting at most one row.",
+    "Round eleven tests whether that local shape rigidity controls scalar-copy parameters or target-target Euclidean labels on a common tangent.",
+    "A valid negative result must preserve actual positive direct masks, one common spectrum, fixed source X, fixed sizes S,U, distinct same-sign scalars, genuine Euclidean row realization and a common positive tangent.",
+    "An arbitrarily large exact family may refute a direct functional bridge while still being far below the required power-large scale; those quantifiers must remain separate.",
+    "No local counterfamily or interface diagnosis changes the public dimension-three exponent without the inherited power-large occurrence and stability accounting."
+  ]
+}

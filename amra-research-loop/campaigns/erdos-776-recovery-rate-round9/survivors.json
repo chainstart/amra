@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M908", "M909"],
+  "selection_rationale": "M909 proves the explicit double-exponential barrier B_n>=2^(2+2^(n-2)) despite the exact tax. M908 compares this with q_j<2^(j+6) and composes it with the audited first-wall theorem, giving recovery by p(j)=2+ceil(log2(j+4)). M912 remains frozen because no all-orbit or suffix theorem is available."
+}
