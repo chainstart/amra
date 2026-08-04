@@ -1,0 +1,170 @@
+{
+  "beta0_dependency": {
+    "artifact": "nonnegative_effective_route_theorem.json",
+    "reason": "at tau=0 the negative L chart is exactly the q0=0 nonnegative L chart",
+    "sha256": "aad6d253468ab9e2297ede9fb67d5faa059bf0103e26fd5c4356ee79e2a042f8"
+  },
+  "certified_chambers": [
+    "LPP",
+    "LPR",
+    "LRP",
+    "RLP",
+    "RPL",
+    "RPP"
+  ],
+  "certified_count": 6,
+  "conclusion": "Delta_b>=0 in all six listed q0-negative positive-page chambers",
+  "domain": "q0<0, q3>0, q4>0, c>0, K>0; the q0 page has one negative activity and at least one other page is in its nonnegative-activity P chart",
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "LPP": {
+      "beta0": {
+        "dependency_conclusion": "Delta_b>=0 throughout every nonnegative-effective-route activity-sign chamber",
+        "dependency_schema": "amra.opg1757.round7.nonnegative-effective-route-theorem.v1",
+        "exact_identity": "beta0=B^2*Delta_chart(q0=0)",
+        "q0_zero_chart_terms": 155,
+        "sha256": "0843ab16148c1e2e7c6dfe375c35421a5422f1fbe4e13de122f76a056fae2062",
+        "terms": 3605
+      },
+      "beta2": {
+        "bernstein_nonzero": 4145,
+        "bounded_slots": [
+          2
+        ],
+        "kind": "direct_tensor_bernstein",
+        "minimum": "1/6",
+        "sha256": "6e3d9dfcb987f98cefde22502e8ec5aba844dc157e2d1aac1433de0664dda654",
+        "terms": 3321
+      },
+      "outer_common_monomial": [
+        4,
+        0,
+        2,
+        2,
+        0,
+        2,
+        0,
+        0
+      ],
+      "outer_core": {
+        "bernstein_nonzero": 215,
+        "bounded_slots": [
+          2
+        ],
+        "kind": "direct_tensor_bernstein",
+        "minimum": "1",
+        "sha256": "d3290ffada1101db8206c2847a147a86254059f15b557c3596509fb88e14343b",
+        "terms": 195
+      },
+      "outer_gram_terms": 29622,
+      "schur_sha256": "a9c83b918230839da2cd80fa9e7b7ee0b601b942b124bc0852331bbd45d5ff55",
+      "schur_terms": 10109
+    },
+    "LPR": {
+      "beta0": {
+        "dependency_conclusion": "Delta_b>=0 throughout every nonnegative-effective-route activity-sign chamber",
+        "dependency_schema": "amra.opg1757.round7.nonnegative-effective-route-theorem.v1",
+        "exact_identity": "beta0=B^2*Delta_chart(q0=0)",
+        "q0_zero_chart_terms": 186,
+        "sha256": "fb2d532820b145624ba4b8c4112a36741d90a05b9aaf2b866a3569b497ef661d",
+        "terms": 2036
+      },
+      "beta2": {
+        "kind": "one_minus_s4_times_unit_interval_gram",
+        "positive_factor": "1-s4",
+        "quotient": {
+          "determinant_bernstein_nonzero": 7331,
+          "determinant_common_monomial": [
+            0,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "determinant_minimum": "1/15",
+          "determinant_residual_terms": 5878,
+          "determinant_terms": 5878,
+          "endpoint_bernstein_nonzero": [
+            428,
+            698
+          ],
+          "endpoint_minimum": [
+            "1/6",
+            "1/6"
+          ],
+          "sha256": "93ebad2ebbe51608112106839924a231142eca201df3948c3155e0aa41848b05",
+          "slot": 6,
+          "terms": 1084
+        },
+        "sha256": "2c923610ade962a8a83a9349c1bcffc508eadb2723244975a177cb9dd660a8b6",
+        "terms": 1906
+      },
+      "outer_common_monomial": [
+        4,
+        0,
+        2,
+        2,
+        0,
+        2,
+        0,
+        0
+      ],
+      "outer_core": {
+        "determinant_bernstein_nonzero": 237,
+        "determinant_common_monomial": [
+          0,
+          0,
+          2,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "determinant_minimum": "1",
+        "determinant_residual_terms": 222,
+        "determinant_terms": 222,
+        "endpoint_bernstein_nonzero": [
+          17,
+          57
+        ],
+        "endpoint_minimum": [
+          "1",
+          "1"
+        ],
+        "kind": "nested_unit_interval_gram",
+        "sha256": "0013f99e97c444e7be32e3874ff7a3b4246470e9b993f8ae10eabcf1d1aed786",
+        "slot": 6,
+        "terms": 87
+      },
+      "outer_gram_terms": 17831,
+      "schur_sha256": "04c57db7d2c176595ec018bce3a75046493bf5f8f982bbb5247f0dbbe6f4e3b4",
+      "schur_terms": 4850
+    }
+  },
+  "representatives": [
+    "LPP",
+    "LPR"
+  ],
+  "schema": "amra.opg1757.round7.negative-q0-positive-page-gram.v1",
+  "scope": "six additional q0-negative activity chambers; five q0-negative N chambers and all unresolved q3/q4-negative orientations remain open, so the generic sign and OPG-1757 are not claimed",
+  "symmetry_closure": {
+    "LPP": [
+      "LPP",
+      "RPP"
+    ],
+    "LPR": [
+      "LPR",
+      "LRP",
+      "RLP",
+      "RPL"
+    ]
+  }
+}
