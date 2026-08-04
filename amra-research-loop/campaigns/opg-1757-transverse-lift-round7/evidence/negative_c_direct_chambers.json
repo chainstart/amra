@@ -1,0 +1,95 @@
+{
+  "certificate": "after clearing positive page denominators and B^2, every nonzero tensor Bernstein coefficient in the negative-activity parameters and tau is strictly positive, with ordinary monomials in all unbounded nonnegative variables",
+  "certified_chambers": [
+    "LPP",
+    "LPR",
+    "LRP",
+    "LRR",
+    "PLR",
+    "PRL",
+    "RLL",
+    "RLP",
+    "RPL",
+    "RPP"
+  ],
+  "certified_count": 10,
+  "conclusion": "Delta_b>=0 in the ten listed c-negative Schur chambers",
+  "domain": "q0,q3,q4>0, c<0, positive edge floors, K=diag(q0,q3,q4,c)+11^T positive definite",
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "LPP": {
+      "bernstein_nonzero": 9548,
+      "minimum_bernstein_coefficient": "1/12",
+      "schur_sha256": "8f2e32fbfdad7f654239abec05fc61dd787355612f6fe6aff6d3d78d52336cab",
+      "schur_terms": 7445
+    },
+    "LPR": {
+      "bernstein_nonzero": 4253,
+      "minimum_bernstein_coefficient": "1/36",
+      "schur_sha256": "cf5b89b09b1cd3a0a1c3631febbe2f4d45f59a5c3d64732e56e23b826bdb6707",
+      "schur_terms": 3391
+    },
+    "LRP": {
+      "bernstein_nonzero": 4253,
+      "minimum_bernstein_coefficient": "1/36",
+      "schur_sha256": "5f4291b100e3c6b49128fc1a3d034d1aeaa604fca0c4ed98a0cf2c7ad60ed59e",
+      "schur_terms": 3391
+    },
+    "LRR": {
+      "bernstein_nonzero": 1788,
+      "minimum_bernstein_coefficient": "1/108",
+      "schur_sha256": "5bd55eed99c9ce87586f6f0de110fb6bcbb32c6f8125e65f6a755f2f404a97c7",
+      "schur_terms": 1426
+    },
+    "PLR": {
+      "bernstein_nonzero": 1353,
+      "minimum_bernstein_coefficient": "1/18",
+      "schur_sha256": "ae6cee2433eca5f7c837ec615c883dabeb93160f652bd85779784efbc9679ec2",
+      "schur_terms": 2239
+    },
+    "PRL": {
+      "bernstein_nonzero": 1353,
+      "minimum_bernstein_coefficient": "1/18",
+      "schur_sha256": "830d6c0ca3ecfcae75a5228024c26cb570993d768082156b4b6c8b28e75828f2",
+      "schur_terms": 2239
+    },
+    "RLL": {
+      "bernstein_nonzero": 1788,
+      "minimum_bernstein_coefficient": "1/108",
+      "schur_sha256": "5bd55eed99c9ce87586f6f0de110fb6bcbb32c6f8125e65f6a755f2f404a97c7",
+      "schur_terms": 1426
+    },
+    "RLP": {
+      "bernstein_nonzero": 4253,
+      "minimum_bernstein_coefficient": "1/36",
+      "schur_sha256": "a89e74270ccd05b2c24faa630c58ae72d2de8617ecc4708806bf8807d9fd0240",
+      "schur_terms": 3391
+    },
+    "RPL": {
+      "bernstein_nonzero": 4253,
+      "minimum_bernstein_coefficient": "1/36",
+      "schur_sha256": "6034febd055f6200f83d27b2932f6e4b2f96e18b6465c1321afe28589d998105",
+      "schur_terms": 3391
+    },
+    "RPP": {
+      "bernstein_nonzero": 9548,
+      "minimum_bernstein_coefficient": "1/12",
+      "schur_sha256": "ad996873c8e6c1d3366fc1cc987ba3e9e2c79449d77b1eb320d951b419fd4107",
+      "schur_terms": 7445
+    }
+  },
+  "schema": "amra.opg1757.round7.negative-c-direct-chambers.v1",
+  "schur_parameterization": {
+    "B": "q0*q3*q4+q0*q3+q0*q4+q3*q4",
+    "P": "q0*q3*q4",
+    "c": "-tau*P/B",
+    "det_K": "P*(1-tau)",
+    "tau": "0<tau<1"
+  },
+  "scope": "ten of the 27 activity-sign chambers in the sole-negative-c part of K>0; the other 17 c-negative chambers, the three negative-page cases, and the global marked-host theorem remain open",
+  "sign_code": "P=both page activities nonnegative; L/R=the left/right activity is negative"
+}
