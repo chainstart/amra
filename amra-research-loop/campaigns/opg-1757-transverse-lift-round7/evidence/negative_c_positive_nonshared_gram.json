@@ -1,0 +1,96 @@
+{
+  "A2_t3_gram": {
+    "cleared_factor": "raw=(1-t3)*tilde",
+    "determinant_bernstein_nonzero": 13655,
+    "determinant_common_monomial": [
+      0,
+      0,
+      0,
+      3,
+      0,
+      4,
+      0,
+      0
+    ],
+    "determinant_minimum_bernstein_coefficient": "1/540",
+    "determinant_residual_sha256": "ff302b60d10dfbae4d903604bf961605ffd4ee69e2da13170d13dc226aff57aa",
+    "determinant_terms": 6628,
+    "formula": "tilde=(1-t3)^2*gamma0+2*t3*(1-t3)*gamma1+t3^2*gamma2",
+    "gamma0_bernstein_nonzero": 529,
+    "gamma0_minimum_bernstein_coefficient": "1/6",
+    "gamma0_sha256": "a2a23233fb0b0b5d153232414d5396d05896b5045d7489db72b858187a2b5f57",
+    "gamma2_bernstein_nonzero": 1018,
+    "gamma2_minimum_bernstein_coefficient": "1/6",
+    "gamma2_sha256": "a85e4d7791d522fffc6895636048a0677f32c843780e4c755d9c27607ad1db44",
+    "raw_sha256": "d72678809c6bfbe030b7b756a8d4d07b55af621ab0c91cfbab22b2abb895cb22",
+    "reduced_sha256": "f0186b5bae470c0ebf7caad97b188efd265289ba1e42730e2e138ef62df8e8a3"
+  },
+  "H_t3_gram": {
+    "cleared_factor": "raw=(1-t3)*tilde",
+    "determinant_bernstein_nonzero": 14489,
+    "determinant_common_monomial": [
+      0,
+      0,
+      0,
+      3,
+      0,
+      5,
+      0,
+      0
+    ],
+    "determinant_minimum_bernstein_coefficient": "1/90",
+    "determinant_residual_sha256": "0148c1385f21807f4b9517cca0089a9251c51f044b4f7c0d04c7b37fcbd38957",
+    "determinant_terms": 14235,
+    "formula": "tilde=(1-t3)^2*gamma0+2*t3*(1-t3)*gamma1+t3^2*gamma2",
+    "gamma0_bernstein_nonzero": 894,
+    "gamma0_minimum_bernstein_coefficient": "1/6",
+    "gamma0_sha256": "54131b5f238f902278c39bca9a44b1968ee300667ac62332ae4d41f8bdc85abe",
+    "gamma2_bernstein_nonzero": 1887,
+    "gamma2_minimum_bernstein_coefficient": "1/6",
+    "gamma2_sha256": "faee813ee84e7b59fc98fb340961798f185fa0c32a875be9c71ae745bfa2bedf",
+    "raw_sha256": "14ce466ade0da6527f6fb9bff43e5a2a7168a3d9db276964c16f384ee072f43e",
+    "reduced_sha256": "3b231f7c90d68b39c52feeac1450f174c568b691160058e24c498db00b5bb836"
+  },
+  "certified_chambers": [
+    "LLP",
+    "LPL",
+    "RRP",
+    "RPR"
+  ],
+  "certified_count": 4,
+  "conclusion": "Delta_b>=0 in all four listed positive-nonshared c-negative Schur chambers",
+  "denominator_clearing": {
+    "A2_page_degrees": [
+      2,
+      2,
+      2
+    ],
+    "H_page_degrees": [
+      2,
+      3,
+      3
+    ],
+    "invariant": "each declared page degree equals the polynomial degree in that page's rational-side activity"
+  },
+  "domain": "q0,q3,q4>0, c=-tau*P/B with 0<=tau<=1, positive edge floors",
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "shared_discriminant_residual_H_terms": 215
+  },
+  "representative": "LLP",
+  "schema": "amra.opg1757.round7.negative-c-positive-nonshared-gram.v1",
+  "scope": "four additional interior c-negative chambers; together with the preceding certificates this gives 24 of 27, while PPP, PLL, PRR, negative-page cases, and the global marked-host theorem remain open",
+  "shared_quadratic": {
+    "discriminant": "A1^2-4*A2*A0=-4*c^2*x02^2*x13^2*x14^2*H",
+    "formula": "Delta_b=A2*x01^2+A1*x01+A0",
+    "strategy": "prove A2>=0 and H>=0 by separate exact t3 Gram certificates"
+  },
+  "symmetry_images": {
+    "both": "RPR",
+    "checked_on_exact_cleared_Delta_b": true,
+    "hub_exchange": "RRP",
+    "page_exchange": "LPL"
+  }
+}
