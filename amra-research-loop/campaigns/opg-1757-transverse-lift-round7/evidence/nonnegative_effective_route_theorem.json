@@ -1,0 +1,130 @@
+{
+  "certified_chambers": [
+    "LLL",
+    "LLP",
+    "LLR",
+    "LPL",
+    "LPP",
+    "LPR",
+    "LRL",
+    "LRP",
+    "LRR",
+    "PLL",
+    "PLP",
+    "PLR",
+    "PPL",
+    "PPP",
+    "PPR",
+    "PRL",
+    "PRP",
+    "PRR",
+    "RLL",
+    "RLP",
+    "RLR",
+    "RPL",
+    "RPP",
+    "RPR",
+    "RRL",
+    "RRP",
+    "RRR"
+  ],
+  "certified_count": 27,
+  "conclusion": "Delta_b>=0 throughout every nonnegative-effective-route activity-sign chamber",
+  "domain": "q0,q3,q4,c>=0 with positive edge floors",
+  "expected_count": 27,
+  "partition": [
+    {
+      "certificate": "nonnegative_route_chambers",
+      "chambers": [
+        "LLP",
+        "LPL",
+        "PLL",
+        "PLP",
+        "PPL",
+        "PPP",
+        "PPR",
+        "PRP",
+        "PRR",
+        "RPR",
+        "RRP"
+      ],
+      "count": 11
+    },
+    {
+      "certificate": "shared_page_discriminant",
+      "chambers": [
+        "LPP",
+        "RPP"
+      ],
+      "count": 2
+    },
+    {
+      "certificate": "nested_shared_discriminant",
+      "chambers": [
+        "LPR",
+        "LRP",
+        "RLP",
+        "RPL"
+      ],
+      "count": 4
+    },
+    {
+      "certificate": "opposite_nonshared_chambers",
+      "chambers": [
+        "PLR",
+        "PRL"
+      ],
+      "count": 2
+    },
+    {
+      "certificate": "same_side_three_negative",
+      "chambers": [
+        "LLL",
+        "RRR"
+      ],
+      "count": 2
+    },
+    {
+      "certificate": "mixed_three_negative",
+      "chambers": [
+        "LLR",
+        "LRL",
+        "LRR",
+        "RLL",
+        "RLR",
+        "RRL"
+      ],
+      "count": 6
+    }
+  ],
+  "partition_exact_and_disjoint": true,
+  "records": {
+    "mixed_three_negative": {
+      "schema": "amra.opg1757.round7.mixed-three-negative.v1",
+      "sha256": "2f51719bfe52a0391f9d499d186ccb404d535171920438573e75cb576138ddff"
+    },
+    "nested_shared_discriminant": {
+      "schema": "amra.opg1757.round7.nested-shared-discriminant.v1",
+      "sha256": "0393a1f0703931a78f70849422cc8f6a0d4da5dd56170a2a6f0dbed70e7a22c7"
+    },
+    "nonnegative_route_chambers": {
+      "schema": "amra.opg1757.round7.nonnegative-route-chambers.v1",
+      "sha256": "3d6c4afd58f633d567be93d8fd372f1615ad556e57ef864e6139faa40fc97ab0"
+    },
+    "opposite_nonshared_chambers": {
+      "schema": "amra.opg1757.round7.opposite-nonshared-chambers.v1",
+      "sha256": "dfb92a31ea986165fc481563542d2af94306b974ebf7d90d57bae1f05128f6fa"
+    },
+    "same_side_three_negative": {
+      "schema": "amra.opg1757.round7.same-side-three-negative.v1",
+      "sha256": "01555be55f592d6e5951125b946a0b65de7772e2448df49f5828d0e3e0a0ccff"
+    },
+    "shared_page_discriminant": {
+      "schema": "amra.opg1757.round7.shared-page-discriminant.v1",
+      "sha256": "1d52ad83506fd5ff673ac6bc41f9ada6377ad46407c3d72dd55e1e516adc09e1"
+    }
+  },
+  "schema": "amra.opg1757.round7.nonnegative-effective-route-theorem.v1",
+  "scope": "complete nonnegative-effective-route theorem only; K-positive cases with one negative diagonal route quantity and the global marked-host theorem remain open",
+  "sign_partition": "P=both page activities nonnegative; L/R=left/right activity negative"
+}

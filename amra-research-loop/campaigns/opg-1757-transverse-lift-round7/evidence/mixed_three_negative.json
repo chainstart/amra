@@ -1,0 +1,150 @@
+{
+  "certified_chambers_added": [
+    "LLR",
+    "LRL",
+    "LRR",
+    "RLL",
+    "RLR",
+    "RRL"
+  ],
+  "combined_nonnegative_route_coverage": "27 of 27 chambers",
+  "common_outer_determinant": {
+    "H_q0_discriminant": "-4*c^2*t4^2*(q4+t4)^2*(1-t0)^2*(q3+1)*(c*q3*q4+c*q3+c*q4+q3*q4)*K^2",
+    "H_q0_quadratic_term_counts": [
+      212,
+      276,
+      241
+    ],
+    "H_terms": 729,
+    "H_test_value": "H(-t0)=c^2*t4^2*(1-t0)^2*J",
+    "J_c_discriminant_factor_terms": 16,
+    "J_c_leading_coefficient": "(q3*q4+q3+q4)*signed_linear^2",
+    "J_c_quadratic_term_counts": [
+      7,
+      23,
+      43
+    ],
+    "J_terms": 73,
+    "K_terms": 28,
+    "exactly_identical_for_LLR_and_LRR": true,
+    "factorization": "t0^2*(q0+t0)^2*H",
+    "sign_implication": "C1<0 implies R<0 via t0*L-q3*R=2*q4*A*B and a 28-term positive substitution identity"
+  },
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "H_at_q0_minus_t0_residual_J": {
+      "sha256": "98960cf253643368745c2b088e6b709292821857a3eee572db0e62ae7469cd7f",
+      "terms": 73
+    },
+    "H_q0_discriminant": {
+      "sha256": "2e63ab7e2f146359403924a79ba22e42c84d05b2724296d2f518f4411c639cf4",
+      "terms": 2409
+    },
+    "H_q0_discriminant_square": {
+      "sha256": "8c5ff2f164ac9f1edbd0cb2214cc6f540d98164f6d6c3d286bd5d17ea354a934",
+      "terms": 229
+    },
+    "H_q0_discriminant_square_root": {
+      "sha256": "399933a5ea05797514812dc0f6bdb8857adf59c76f00fc229f1a3a76783eb432",
+      "terms": 28
+    },
+    "J_c_discriminant_factor_R": {
+      "sha256": "25eaf6f2b989a540714ab2de344202c7f576bd1152915c05ddaf0bd57e445f35",
+      "terms": 16
+    },
+    "J_c_linear_factor_L": {
+      "sha256": "f50ffc60dbe979af7b071015b2c9da5524ef4f4cdcbdb8e47507c6fedc6d7015",
+      "terms": 23
+    },
+    "LLR_cleared": {
+      "sha256": "81abce2e7c62fa2355a9416bf310d4d7acde686ea0cac0c5e4f181c1e75c7f3b",
+      "terms": 623
+    },
+    "LLR_f0_t4_beta2_positive_residual": {
+      "sha256": "f8b061fb5c28f64647f21d564ddbbb61f50849b6279cca7341c0066b9ac59541",
+      "terms": 21
+    },
+    "LLR_f0_t4_beta2_quotient": {
+      "sha256": "b6da2c15b2e82393a8a34895663c0af3f4a3395e694072788b206ecdb6f3ae4d",
+      "terms": 24
+    },
+    "LLR_f2_t4_beta2_positive_residual": {
+      "sha256": "401fef4df5adf517daecd351762acab404ae9e7d69d9d83483fbf5df367bde6a",
+      "terms": 18
+    },
+    "LLR_f2_t4_beta2_quotient": {
+      "sha256": "4ea4f3347ac7a7ac2a24818ca70a131a635a3d119fad3af6348a1c47eb68befe",
+      "terms": 21
+    },
+    "LLR_quotient": {
+      "sha256": "491750170e85714c0784cc8dd6472f84eb36758541acba2e67c428040b534a76",
+      "terms": 212
+    },
+    "LRR_cleared": {
+      "sha256": "3fd6296c12f58a50c85bdef8e5ff2c62996277e31c1f61b1819bf7a3deb472dc",
+      "terms": 646
+    },
+    "LRR_quotient": {
+      "sha256": "8ac788b8a489e0bae27cdbd523f053e4e9588e6030022df0c89fe6f349307c1d",
+      "terms": 199
+    },
+    "common_outer_gram_determinant": {
+      "sha256": "070c74de4db8f08de1dca883cc3c7a9fe3e020398ea5a030407a8dc78fe6868c",
+      "terms": 1378
+    },
+    "common_outer_gram_residual_H": {
+      "sha256": "11635d8515c6ead31e36bb6abbfccb7064b50e2ebb34a79295ef49b96a3e29f8",
+      "terms": 729
+    },
+    "positive_implication_polynomial": {
+      "sha256": "2cc9a96c216064d1a2a268a880f5363cbc5fe0c294f8f94bb3a2e6ecc58f8ef1",
+      "terms": 28
+    }
+  },
+  "representatives": {
+    "LLR": {
+      "Q_terms": 212,
+      "endpoint_t4_bernstein_term_counts": [
+        [
+          27,
+          33,
+          42
+        ],
+        [
+          42,
+          53,
+          67
+        ]
+      ],
+      "endpoint_t4_gram_determinant_terms": [
+        224,
+        543
+      ],
+      "mixed_endpoint_positive_residual_terms": [
+        21,
+        18
+      ]
+    },
+    "LRR": {
+      "Q_terms": 199,
+      "certified_t3_zero_dependency": "exact x23=0 specialization of the LPR theorem in NESTED_SHARED_DISCRIMINANT.md"
+    }
+  },
+  "schema": "amra.opg1757.round7.mixed-three-negative.v1",
+  "scope": "complete nonnegative-effective-route sign theorem; four negative-effective-route matrix chambers, generic contact classification, the full marked-host theorem, and OPG-1757 remain open",
+  "symmetry_checks": {
+    "checked_on_exact_cleared_polynomials": true,
+    "hub_exchange": [
+      "LLR -> RRL",
+      "LRR -> RLL"
+    ],
+    "page_exchange": [
+      "LLR -> LRL",
+      "RRL -> RLR"
+    ]
+  }
+}
