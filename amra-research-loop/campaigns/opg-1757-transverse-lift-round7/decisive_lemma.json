@@ -73,6 +73,9 @@
     "evidence/NEGATIVE_PAGE_DIRECT_CHAMBERS.md",
     "evidence/negative_page_direct_chambers.json",
     "evidence/verify_negative_page_direct_chambers.py",
+    "evidence/NEGATIVE_Q0_NO_POSITIVE_GRAM.md",
+    "evidence/negative_q0_no_positive_gram.json",
+    "evidence/verify_negative_q0_no_positive_gram.py",
     "../opg-1757-full-b-elimination-round6/evidence/GARDING_PRT_COMPONENT_FIREWALL.md",
     "../opg-1757-full-b-elimination-round6/evidence/garding_prt_component_firewall.json"
   ],
@@ -81,7 +84,7 @@
     "control the sole explicit subtractive channel -t*u using genuinely non-circuit mixed derivatives or equivalent component information",
     "prove the radical-free 4x4 orientation Fourier matrix positive semidefinite on K>0 and the edge-floor magnitude domain, or find an exact negative principal minor",
     "couple the three proved single-connection Gram matrices into a Gram/Schur/Binet--Cauchy certificate for the Fourier matrix, or control its principal minors directly",
-    "close the remaining 51 of 81 activity chambers across the three K-positive cases in which a page quantity is negative; thirty chambers now have exact direct Schur--Bernstein certificates",
+    "close the remaining 45 of 81 activity chambers across the three K-positive cases in which a page quantity is negative; thirty direct and six shared-page nested/conditional Gram chambers are now exact",
     "classify generic Delta_b=0 contact strata after the coupled sign question is resolved",
     "independent reconstruction and novelty checks have not started",
     "OPG-1757 remains open"

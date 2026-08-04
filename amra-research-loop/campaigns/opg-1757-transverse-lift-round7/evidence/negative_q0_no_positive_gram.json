@@ -1,0 +1,256 @@
+{
+  "certified_chambers": [
+    "LLR",
+    "LRL",
+    "LRR",
+    "RLL",
+    "RLR",
+    "RRL"
+  ],
+  "certified_count": 6,
+  "conclusion": "Delta_b>=0 in all six listed shared-negative-page chambers",
+  "domain": "q0<0, q3>0, q4>0, c>0, K>0; the q0 page has one negative activity and neither other page is in its nonnegative-activity P chart",
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "LLR": {
+      "endpoints": {
+        "beta0_core": {
+          "determinant_bernstein_nonzero": 460,
+          "determinant_common_monomial": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "determinant_minimum": "1/18",
+          "determinant_residual_terms": 265,
+          "determinant_terms": 265,
+          "endpoint_bernstein_nonzero": [
+            40,
+            63
+          ],
+          "endpoint_minimum": [
+            "1/2",
+            "1/2"
+          ],
+          "sha256": "1eb025c19aebcd8b62c735872a75f4c48f46c73ebe24f39cc380214cdae1e241",
+          "slot": 6,
+          "terms": 66
+        },
+        "beta0_terms": 1030,
+        "beta2_other_core": {
+          "bernstein_nonzero": 59,
+          "minimum": "1/2",
+          "sha256": "cac33538a687bdf63d9b0fbc90575fd15cf50f68eead4400f4eaf40b26af19c5",
+          "terms": 28
+        },
+        "beta2_right_q4_core": {
+          "determinant_bernstein_nonzero": 36,
+          "determinant_common_monomial": [
+            2,
+            0,
+            0,
+            2,
+            0,
+            0,
+            2,
+            0
+          ],
+          "determinant_minimum": "1",
+          "determinant_residual_terms": 21,
+          "determinant_terms": 21,
+          "endpoint_bernstein_nonzero": [
+            2,
+            28
+          ],
+          "endpoint_minimum": [
+            "1",
+            "1"
+          ],
+          "sha256": "ca41aad35ec2443fe768610d0656ebc8e72222f909972146065aa0caef1c9231",
+          "slot": 2,
+          "terms": 22
+        },
+        "beta2_terms": 1008
+      },
+      "outer_common_monomial": [
+        4,
+        0,
+        2,
+        2,
+        2,
+        2,
+        0,
+        0
+      ],
+      "outer_core": {
+        "determinant_bernstein_nonzero": 428,
+        "determinant_common_monomial": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "determinant_minimum": "1/6",
+        "determinant_residual_terms": 247,
+        "determinant_terms": 247,
+        "endpoint_bernstein_nonzero": [
+          36,
+          68
+        ],
+        "endpoint_minimum": [
+          "1",
+          "1/2"
+        ],
+        "kind": "nested_unit_interval_gram",
+        "sha256": "01d9f30b7208495a62f2a3f984cc694369fb2405ccc7e59d9ca3413b7784a72f",
+        "slot": 6,
+        "terms": 94
+      },
+      "outer_gram_terms": 8558,
+      "schur_sha256": "ffcd7196a189f9af8ef80943c7e97ed69a959de6bf38e7ec03f756f86aa7405c",
+      "schur_terms": 2297
+    },
+    "LRR": {
+      "endpoints": {
+        "beta0_core": {
+          "determinant_bernstein_nonzero": 432,
+          "determinant_common_monomial": [
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "determinant_minimum": "1/18",
+          "determinant_residual_terms": 131,
+          "determinant_terms": 131,
+          "endpoint_bernstein_nonzero": [
+            33,
+            71
+          ],
+          "endpoint_minimum": [
+            "1/2",
+            "1"
+          ],
+          "sha256": "84ccd7e2bbd8a4cdd449f4aa6f2acd77630bd831da8de1ae8be7a7d1d3dd767c",
+          "slot": 2,
+          "terms": 57
+        },
+        "beta0_terms": 1029,
+        "beta2_other_core": {
+          "determinant_bernstein_nonzero": 36,
+          "determinant_common_monomial": [
+            2,
+            0,
+            0,
+            0,
+            2,
+            2,
+            0,
+            0
+          ],
+          "determinant_minimum": "1",
+          "determinant_residual_terms": 21,
+          "determinant_terms": 21,
+          "endpoint_bernstein_nonzero": [
+            2,
+            28
+          ],
+          "endpoint_minimum": [
+            "1",
+            "1"
+          ],
+          "sha256": "7efd420e6e62f1f105e4210f51a986b61ba112a0e45f0c637c35802f683fc0f8",
+          "slot": 2,
+          "terms": 22
+        },
+        "beta2_right_q4_core": {
+          "determinant_bernstein_nonzero": 36,
+          "determinant_common_monomial": [
+            2,
+            0,
+            0,
+            2,
+            0,
+            0,
+            2,
+            0
+          ],
+          "determinant_minimum": "1",
+          "determinant_residual_terms": 21,
+          "determinant_terms": 21,
+          "endpoint_bernstein_nonzero": [
+            2,
+            28
+          ],
+          "endpoint_minimum": [
+            "1",
+            "1"
+          ],
+          "sha256": "ca41aad35ec2443fe768610d0656ebc8e72222f909972146065aa0caef1c9231",
+          "slot": 2,
+          "terms": 22
+        },
+        "beta2_terms": 934
+      },
+      "outer_common_monomial": [
+        4,
+        0,
+        2,
+        2,
+        0,
+        2,
+        0,
+        0
+      ],
+      "outer_core": {
+        "F13": "s0^2*F9+4*q3*q4*s3*s4*(1-s0)*L",
+        "F9_sos": "(q3*s4-q4*s3)^2 plus five nonnegative monomials",
+        "F9_terms": 9,
+        "conditional_step": "middle<0 forces L<0; then s0*W=s3*s4*(1-s0)+L makes F13<0",
+        "discriminant": "middle^2-4*leading*trailing=s0^2*F13*F9",
+        "formula": "H=Q*L^2*c^2+(s0^2*F9+2*q3*q4*s0*W*L)*c+q3*q4*s0^2*T",
+        "kind": "conditional_nonnegative_c_quadratic",
+        "sha256": "54117c86d8618e31ff98cb58b00c08006d9acf841019a0c3c6047de201fde65a",
+        "terms": 33
+      },
+      "outer_gram_terms": 10204,
+      "schur_sha256": "b5c60c9748dac8662ab05e0c566aa4d1260bed4f1b9795fa54d144aa8b0b90e8",
+      "schur_terms": 2214
+    }
+  },
+  "representatives": [
+    "LLR",
+    "LRR"
+  ],
+  "schema": "amra.opg1757.round7.negative-q0-no-positive-gram.v1",
+  "scope": "six additional q0-negative activity chambers; eleven q0-negative and all unresolved q3/q4-negative orientations remain open, so the generic sign and OPG-1757 are not claimed",
+  "symmetry_closure": {
+    "LLR": [
+      "LLR",
+      "LRL",
+      "RLR",
+      "RRL"
+    ],
+    "LRR": [
+      "LRR",
+      "RLL"
+    ]
+  }
+}
