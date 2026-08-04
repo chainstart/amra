@@ -1,0 +1,108 @@
+{
+  "certified_chambers": [
+    "q3:LLL",
+    "q3:LRR",
+    "q3:RLL",
+    "q3:RRR",
+    "q4:LLL",
+    "q4:LRR",
+    "q4:RLL",
+    "q4:RRR"
+  ],
+  "certified_count": 8,
+  "conclusion": "Delta_b>=0 in all eight listed same-side negative-nonshared-page chambers",
+  "domain": "q3<0 or q4<0 is the sole negative diagonal route quantity, K>0, and the listed activity word holds",
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "LLL": {
+      "cleared_sha256": "c8b9fa93e10f32c72b39ced564e9f42b32a8b64b74a0e514b2adff2eea639c7b",
+      "cleared_terms": 2230,
+      "core": {
+        "determinant_bernstein_nonzero": 13667,
+        "determinant_common_monomial": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "determinant_minimum": "1/270",
+        "determinant_residual_terms": 7740,
+        "determinant_terms": 7740,
+        "endpoint_bernstein_nonzero": [
+          477,
+          971
+        ],
+        "endpoint_minimum": [
+          "1/12",
+          "1/12"
+        ],
+        "sha256": "fdbbab58d367d18d9e10c490659a945d6da7135c87db8f410e32df6da6a2d4d5",
+        "slot": 6,
+        "terms": 935
+      },
+      "core_sha256": "fdbbab58d367d18d9e10c490659a945d6da7135c87db8f410e32df6da6a2d4d5",
+      "manifest_factor": "c*(1-s_negative)*(1-s_other)"
+    },
+    "RLL": {
+      "cleared_sha256": "792e257a814cda654c818a48bb555c4a264612bdb56956337ebf9399bc91649b",
+      "cleared_terms": 2098,
+      "core": {
+        "determinant_bernstein_nonzero": 11551,
+        "determinant_common_monomial": [
+          1,
+          0,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "determinant_minimum": "1/270",
+        "determinant_residual_terms": 5802,
+        "determinant_terms": 5802,
+        "endpoint_bernstein_nonzero": [
+          363,
+          796
+        ],
+        "endpoint_minimum": [
+          "1/12",
+          "1/6"
+        ],
+        "sha256": "30888df226e9df9a55a9d613730a0cebe4f52c4fc073d8fec62c1bed370a3069",
+        "slot": 4,
+        "terms": 786
+      },
+      "core_sha256": "30888df226e9df9a55a9d613730a0cebe4f52c4fc073d8fec62c1bed370a3069",
+      "manifest_factor": "c*(1-s_negative)*(1-s_other)"
+    }
+  },
+  "representatives": [
+    "q3:LLL",
+    "q3:RLL"
+  ],
+  "schema": "amra.opg1757.round7.negative-nonshared-same-side-gram.v1",
+  "scope": "adds four q3-negative and their four exact q4-negative page-swap images; 26 negative-page orientations remain open, so the generic sign and OPG-1757 are not claimed",
+  "symmetry_closure": {
+    "q3:LLL": [
+      "q3:LLL",
+      "q3:RRR",
+      "q4:LLL",
+      "q4:RRR"
+    ],
+    "q3:RLL": [
+      "q3:RLL",
+      "q3:LRR",
+      "q4:RLL",
+      "q4:LRR"
+    ]
+  }
+}
