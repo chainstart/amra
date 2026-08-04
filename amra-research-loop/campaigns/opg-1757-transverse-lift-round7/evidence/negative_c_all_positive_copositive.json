@@ -1,0 +1,74 @@
+{
+  "certified_chambers": [
+    "PPP"
+  ],
+  "certified_count": 1,
+  "combined_conclusion": "all 27 activity chambers are now certified when c is the sole negative diagonal route quantity",
+  "conclusion": "Delta_b>=0 in the all-positive-activity c-negative Schur chamber",
+  "conditional_gram": {
+    "K_terms": 35,
+    "case_K_nonpositive": "beta1>=0, so all three tau Bernstein coefficients are nonnegative",
+    "case_K_positive": "K/2<=sqrt(E3*E4), so the Gram determinant is nonnegative",
+    "determinant_terms": 12276,
+    "identity": "4*(beta0*beta2-beta1^2)=M^2*(4*E3*E4-K^2)",
+    "residual_terms": 326
+  },
+  "domain": "q0,q3,q4>0, c=-tau*P/B with 0<=tau<=1, and 0<=s0,s3,s4<=1",
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "cleared_PPP_terms": 628,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "schur_PPP_terms": 1395
+  },
+  "records": {
+    "K_sha256": "6ed2a2bd430d67e68242bb6d792decd22901c98146a8a2721f327fcd70a1ac5c",
+    "beta0_sha256": "e13105a0d015674c64b23842660eec8cda7fd7ea50b6fdf7fcafa4c06e11130f",
+    "beta2_sha256": "b735716f3783e2a101611c0403c5bbf9a6ba2a3b26cabffc5df5d5cb1b58dbab",
+    "cleared_sha256": "e1e0002f57ed9ac9ee6520ee4caff3aeedf78a2093e04de7f47c1bfee2061f3b",
+    "conditional_residual_sha256": "f4b08d695b5ed36c98d11cfc135e92196eedc35f27de398103a9ea449d3ab3ea",
+    "schur_sha256": "8ebe296debd8aea375a5eeb341cc9d0e60473da93ed3104b13091c7d177e9485",
+    "two_beta1_sha256": "320195d3ecb06affee1a5fbc65274527b2edfc5076a1d50fb32266620495f4e4"
+  },
+  "representative": "PPP",
+  "schema": "amra.opg1757.round7.negative-c-all-positive-copositive.v1",
+  "scope": "completes the 27 sole-negative-c interior activity chambers; the three negative-page cases, generic contact classification, global marked-host theorem, and OPG-1757 remain open",
+  "tau_quadratic": {
+    "beta0_terms": 480,
+    "beta2_terms": 251,
+    "endpoint_certificate": "beta0 and beta2 are displayed products of nonnegative factors; H3 and H4 are sums of three weighted squares",
+    "formula": "F=(1-tau)^2*beta0+2*tau*(1-tau)*beta1+tau^2*beta2",
+    "middle_sign": "2*beta1=-M*K with M>=0",
+    "two_beta1_terms": 480
+  },
+  "upper_bound_ledger": {
+    "K_decomposition": "K/2=L-(1-s0)*q0*s0*(s3-s4)^2/2-q3*(1-s0)*s3^2*J4/2-q4*(1-s0)*s4^2*J3/2+q3*q4*(1-s0)^2*s3^2*s4^2",
+    "cauchy_identity": "A3*A4-L^2=q0*s0^2*(1-s0)^2*(s3-s4)^2",
+    "definitions": {
+      "Aj": "q0*s0^2*(1-sj)^2+(s0-sj)^2",
+      "Ej": "(1+qj*sj^2)*Hj",
+      "Hj": "Aj+qj*sj^2*(1-s0)^2",
+      "Jj": "q0*s0*(1-sj)^2+2*(s0-sj)",
+      "L": "q0*s0^2*(1-s3)*(1-s4)+(s0-s3)*(s0-s4)"
+    },
+    "endpoint_bound": "-Jj/2<=sqrt(Aj); if Jj<0 the scalar identity has nonnegative right side",
+    "energy_bound": "sqrt(Ej)>=sqrt(Aj)+qj*(1-s0)*sj^2 by scalar AM-GM",
+    "records": {
+      "3": {
+        "A_terms": 6,
+        "E_terms": 17,
+        "H_terms": 9,
+        "J_terms": 5,
+        "j_residual_sha256": "49bc889a3ed32479af222e2fee51e1059fe943009e60382f0dd42d7355acf17f"
+      },
+      "4": {
+        "A_terms": 6,
+        "E_terms": 17,
+        "H_terms": 9,
+        "J_terms": 5,
+        "j_residual_sha256": "f37f998244d671076d873a131bc3b3d8ebf43294ee3babe06fbfad44418616ce"
+      }
+    },
+    "scalar_identity": "4*Aj-Jj^2=q0*s0*(1-sj)^2*(4*sj-q0*s0*(1-sj)^2)"
+  }
+}
