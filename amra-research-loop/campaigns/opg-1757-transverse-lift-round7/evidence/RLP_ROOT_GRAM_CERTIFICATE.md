@@ -134,7 +134,9 @@ total-memory limit.  The verifier reconstructs the original forest
 polynomials before checking every identity and ledger.
 
 Mathematical status: this removes the square-zero root stratum as an
-obstruction throughout the exact local box.  Coverage remains 63 of 81
-negative-page chambers, with 18 open.  The complementary projective region,
-the generic sign of `Delta_b`, the full marked-host theorem, and OPG-1757
-remain open.
+obstruction throughout the exact local box.  The companion
+`RLP_INTERSECTION_NEWTON_GRAM.md` also proves the leading face nonnegative at
+the next `A=B=0` intersection, without controlling its higher-order
+remainder.  Coverage remains 63 of 81 negative-page chambers, with 18 open.
+The complementary projective region, the generic sign of `Delta_b`, the full
+marked-host theorem, and OPG-1757 remain open.
