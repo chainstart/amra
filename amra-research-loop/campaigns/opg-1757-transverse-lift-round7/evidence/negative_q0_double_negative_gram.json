@@ -1,0 +1,366 @@
+{
+  "certified_chambers": [
+    "NLP",
+    "NPL",
+    "NPP",
+    "NPR",
+    "NRP"
+  ],
+  "certified_count": 5,
+  "conclusion": "Delta_b>=0 in all five remaining q0-negative double-negative-page chambers",
+  "domain": "q0<0, q3>0, q4>0, c>0, K>0; both activities on the q0 page are negative",
+  "nested_odds_chart": {
+    "Rmax": "c*q3*q4/(c*q3+c*q4+q3*q4)",
+    "det_K_numerator": "P*C*(1-s0)*(1-t)",
+    "fill": "s0+t*(1-s0)",
+    "x0L": "-s0*P/(C+s0*P)",
+    "x0R": "-t*(1-s0)*P/(C+P*(s0+t-s0*t))"
+  },
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "NPL": {
+      "cleared_sha256": "6f729e2d32d1dd98c6bd723c84da962a4cea357da9a153e55f789696b1d82359",
+      "cleared_terms": 1578,
+      "manifest_factor_sha256": "0260ab506beb17e5d8e90929be48094ac74ef72282ad5a9d3ed522b507bf4bd7",
+      "reduced_sha256": "6428e01c2d78a4320d2bc5394851ffbf9b3c3763687a84516002340369d33a8f",
+      "reduced_terms": 501,
+      "t_endpoint0": {
+        "bernstein_nonzero": 129,
+        "minimum": "1/6",
+        "sha256": "f6024cfe1bb98c3f5fb8e17c30c252b40344fc750da3b766e2f6c7b7ff4a3a14",
+        "terms": 90
+      },
+      "t_endpoint1": {
+        "K3_sha256": "9b718a9b75b044764d0afbc98fc502304277822786a9a3eee8c1fdbb1e460404",
+        "K3_sos": "q3^2*s3^2*(c+q4)*(1-s0)^2+B*(s0-s3)^2",
+        "K3_terms": 18,
+        "K4": {
+          "determinant_bernstein_nonzero": 36,
+          "determinant_common_monomial": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            2,
+            0
+          ],
+          "determinant_minimum": "1",
+          "determinant_residual_terms": 21,
+          "determinant_terms": 21,
+          "endpoint_bernstein_nonzero": [
+            6,
+            21
+          ],
+          "endpoint_minimum": [
+            "1",
+            "1"
+          ],
+          "sha256": "e93fc47484ee9447d4091edf08ab8f0a4a0f0f604ea10be2f6b50177899e46bc",
+          "slot": 2,
+          "terms": 18
+        },
+        "factorization": "K3*K4"
+      },
+      "t_gram_common_monomial": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "t_gram_core": {
+        "s0_endpoint0": {
+          "bernstein_nonzero": 15,
+          "minimum": "1",
+          "sha256": "b284c140bf1938f4a0954a7b49f74522ef6197fdf0b5515eecd58ab4b2f46fbc",
+          "terms": 15
+        },
+        "s0_endpoint1": {
+          "determinant_bernstein_nonzero": 87,
+          "determinant_common_monomial": [
+            0,
+            0,
+            0,
+            2,
+            0,
+            2,
+            2,
+            0
+          ],
+          "determinant_minimum": "1",
+          "determinant_residual_terms": 57,
+          "determinant_terms": 57,
+          "endpoint_bernstein_nonzero": [
+            7,
+            36
+          ],
+          "endpoint_minimum": [
+            "1",
+            "1"
+          ],
+          "kind": "nested_s3_gram",
+          "sha256": "666dfc9075ca8b1b781172f1cac282b302594e174ee7322055c157c6e2e96418",
+          "slot": 4,
+          "terms": 50
+        },
+        "s0_gram_determinant": {
+          "bernstein_nonzero": 188,
+          "common_monomial": [
+            0,
+            0,
+            0,
+            2,
+            2,
+            2,
+            2,
+            0
+          ],
+          "kind": "direct_tensor_bernstein",
+          "minimum": "1/2",
+          "residual_terms": 123,
+          "sha256": "1e41e469c44c4e4d9844b0ee63d48d4eefcfb356419f050a6c6dc4482ab50903",
+          "terms": 123
+        },
+        "sha256": "5efc7a4df738d24e02827f3466ba25362f59d0b3aee6351bee76a69121ac545e",
+        "terms": 57
+      },
+      "t_gram_terms": 3627
+    },
+    "NPP": {
+      "cleared_sha256": "456d4d699ddb90678a1b06b52f73c7a6993cece09505bd75e4cb55127679c699",
+      "cleared_terms": 1578,
+      "manifest_factor_sha256": "ca02e36ee8b0a568c21cb66188c17e6a1d075a24f62899854740f7ffd88a33d7",
+      "reduced_sha256": "166999a8ac0a82f4479ab579884968029cf730dea669824a4eae81e838ad2b78",
+      "reduced_terms": 501,
+      "t_endpoint0": {
+        "bernstein_nonzero": 25,
+        "minimum": "1/6",
+        "sha256": "61969821dbd12784c53033cb5b97e2bcd6d6c28ac274ab50cdf370342a9f38cd",
+        "terms": 90
+      },
+      "t_endpoint1": {
+        "K3_sha256": "9b718a9b75b044764d0afbc98fc502304277822786a9a3eee8c1fdbb1e460404",
+        "K3_sos": "q3^2*s3^2*(c+q4)*(1-s0)^2+B*(s0-s3)^2",
+        "K3_terms": 18,
+        "K4": {
+          "determinant_bernstein_nonzero": 7,
+          "determinant_common_monomial": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            2,
+            0
+          ],
+          "determinant_minimum": "1",
+          "determinant_residual_terms": 21,
+          "determinant_terms": 21,
+          "endpoint_bernstein_nonzero": [
+            6,
+            4
+          ],
+          "endpoint_minimum": [
+            "1",
+            "1"
+          ],
+          "sha256": "622f2ed3b6ee74b72d623dea28716db1af0c799278a6838f3a01dc2befe64cb7",
+          "slot": 2,
+          "terms": 18
+        },
+        "factorization": "K3*K4"
+      },
+      "t_gram_common_monomial": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "t_gram_core": {
+        "s0_endpoint0": {
+          "bernstein_nonzero": 15,
+          "minimum": "1",
+          "sha256": "b284c140bf1938f4a0954a7b49f74522ef6197fdf0b5515eecd58ab4b2f46fbc",
+          "terms": 15
+        },
+        "s0_endpoint1": {
+          "bernstein_nonzero": 18,
+          "kind": "direct_tensor_bernstein",
+          "minimum": "1/2",
+          "sha256": "a1ff608cbbd753c3d9401036f4dbefed1710a7102dd9dd2e6762bf99fbdb0c63",
+          "terms": 50
+        },
+        "s0_gram_determinant": {
+          "H9_sha256": "9b3de36e56f3bb974824756cc8d4b07d97539c2ac5573ee7cb7d05681b3c3b17",
+          "H9_sos": "q3*s3^2*(1-s4)^2+q4*s4^2*(1-s3)^2+(s3-s4)^2",
+          "H9_terms": 9,
+          "common_monomial": [
+            0,
+            0,
+            0,
+            2,
+            2,
+            2,
+            2,
+            0
+          ],
+          "factorization": "H9*B*C^2",
+          "kind": "explicit_nonnegative_factorization",
+          "residual_terms": 123,
+          "sha256": "5b68a30c505bd3106371effddaf774177d3d7162110c3cd61a189cb8e95db8d4",
+          "terms": 123
+        },
+        "sha256": "652ed879f907ce10e7064fc66057aaf07e7cd1283abab06863f232aa0d484a0b",
+        "terms": 57
+      },
+      "t_gram_terms": 3627
+    },
+    "NPR": {
+      "cleared_sha256": "7d48585d8b17e7e730fef2aee40ea76362f4d1e7c35242a1f5d9784eb178ce7c",
+      "cleared_terms": 1445,
+      "manifest_factor_sha256": "0260ab506beb17e5d8e90929be48094ac74ef72282ad5a9d3ed522b507bf4bd7",
+      "reduced_sha256": "dadac9e4b0939457534837ea88a5947d200fbcc0c08d1fd1c4b22b1d29ee97b5",
+      "reduced_terms": 474,
+      "t_endpoint0": {
+        "bernstein_nonzero": 43,
+        "minimum": "1/6",
+        "sha256": "5c599bf8afdea925afb197b916f8fde87aeedc645f75530372e4e5cd817605fd",
+        "terms": 60
+      },
+      "t_endpoint1": {
+        "K3_sha256": "9b718a9b75b044764d0afbc98fc502304277822786a9a3eee8c1fdbb1e460404",
+        "K3_sos": "q3^2*s3^2*(c+q4)*(1-s0)^2+B*(s0-s3)^2",
+        "K3_terms": 18,
+        "K4": {
+          "determinant_bernstein_nonzero": 36,
+          "determinant_common_monomial": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            2,
+            2,
+            0
+          ],
+          "determinant_minimum": "1",
+          "determinant_residual_terms": 21,
+          "determinant_terms": 21,
+          "endpoint_bernstein_nonzero": [
+            18,
+            7
+          ],
+          "endpoint_minimum": [
+            "1",
+            "1"
+          ],
+          "sha256": "fd68e161439e91afe6d100f8426868034dc03cf4d06b4a8cffb5192a8e40616f",
+          "slot": 2,
+          "terms": 24
+        },
+        "factorization": "K3*K4"
+      },
+      "t_gram_common_monomial": [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        2,
+        0
+      ],
+      "t_gram_core": {
+        "s0_endpoint0": {
+          "bernstein_nonzero": 72,
+          "minimum": "1",
+          "sha256": "fcced0d875f3163b5dfd7b20ef6fb9150eb06546be2931780b6b902610af421a",
+          "terms": 45
+        },
+        "s0_endpoint1": {
+          "determinant_bernstein_nonzero": 147,
+          "determinant_common_monomial": [
+            0,
+            0,
+            0,
+            2,
+            0,
+            2,
+            2,
+            0
+          ],
+          "determinant_minimum": "1",
+          "determinant_residual_terms": 117,
+          "determinant_terms": 117,
+          "endpoint_bernstein_nonzero": [
+            36,
+            17
+          ],
+          "endpoint_minimum": [
+            "1",
+            "1"
+          ],
+          "kind": "nested_s3_gram",
+          "sha256": "4ceae92e9f52178e968d46c9566ec4ec13fc4cfdd85e3fe29aaf59a3390e9e65",
+          "slot": 4,
+          "terms": 87
+        },
+        "s0_gram_determinant": {
+          "bernstein_nonzero": 598,
+          "common_monomial": [
+            0,
+            0,
+            0,
+            2,
+            2,
+            2,
+            0,
+            0
+          ],
+          "kind": "direct_tensor_bernstein",
+          "minimum": "1/6",
+          "residual_terms": 428,
+          "sha256": "09fdc061e34d95ff06fa763b57308cd06fd3898dfeaffd15d6f83d0a0f8f4742",
+          "terms": 428
+        },
+        "sha256": "b106aa5900fb4196496be502b7a3ba1277bfe273f30711128b51084f09be75b6",
+        "terms": 163
+      },
+      "t_gram_terms": 3024
+    }
+  },
+  "representatives": [
+    "NPP",
+    "NPL",
+    "NPR"
+  ],
+  "schema": "amra.opg1757.round7.negative-q0-double-negative-gram.v1",
+  "scope": "completes all 27 q0-negative activity chambers; 34 q3/q4-negative orientations remain open, so the generic sign and OPG-1757 are not claimed",
+  "symmetry_closure": {
+    "NPL": [
+      "NPL",
+      "NLP"
+    ],
+    "NPP": [
+      "NPP"
+    ],
+    "NPR": [
+      "NPR",
+      "NRP"
+    ]
+  }
+}
