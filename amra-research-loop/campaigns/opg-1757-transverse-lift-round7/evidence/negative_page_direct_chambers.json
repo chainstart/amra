@@ -1,0 +1,289 @@
+{
+  "certificate": "after clearing positive page denominators and the exact power of B, every nonzero tensor Bernstein coefficient in tau and all bounded page parameters is strictly positive, with ordinary monomials in all unbounded nonnegative variables",
+  "certified_chambers": {
+    "q0": [
+      "LLL",
+      "LLP",
+      "LPL",
+      "NLL",
+      "NLR",
+      "NRL",
+      "NRR",
+      "RPR",
+      "RRP",
+      "RRR"
+    ],
+    "q3": [
+      "LLP",
+      "LLR",
+      "LNP",
+      "LNR",
+      "PLL",
+      "PRR",
+      "RNL",
+      "RNP",
+      "RRL",
+      "RRP"
+    ],
+    "q4": [
+      "LPL",
+      "LPN",
+      "LRL",
+      "LRN",
+      "PLL",
+      "PRR",
+      "RLN",
+      "RLR",
+      "RPN",
+      "RPR"
+    ]
+  },
+  "certified_per_negative_route": 10,
+  "certified_total": 30,
+  "conclusion": "Delta_b>=0 in the thirty listed negative-page activity chambers",
+  "domain": "positive edge floors, K=diag(q0,q3,q4,c)+11^T positive definite, and exactly one page quantity negative",
+  "negative_page_charts": {
+    "L": "xL=-(a+(1-a)*s), xR=s/(1-s), 0<=s<1",
+    "N": "xL=-a*s, xR=-a*(1-s)/(1-a*s), 0<=s<=1",
+    "R": "xR=-(a+(1-a)*s), xL=s/(1-s), 0<=s<1"
+  },
+  "positive_page_charts": {
+    "L": "xL=-s, xR=(q+s)/(1-s), 0<=s<1",
+    "P": "xL,xR>=0",
+    "R": "xR=-s, xL=(q+s)/(1-s), 0<=s<1"
+  },
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "q0": {
+      "LLL": {
+        "a_degree": 2,
+        "bernstein_nonzero": 2985,
+        "minimum_bernstein_coefficient": "1/54",
+        "schur_sha256": "31f5271afd352292b09e304ee8c7520200daec9cae6cce45365b7df68b9e150f",
+        "schur_terms": 2487
+      },
+      "LLP": {
+        "a_degree": 2,
+        "bernstein_nonzero": 6173,
+        "minimum_bernstein_coefficient": "1/18",
+        "schur_sha256": "687f5f5f9f25e68b88609475052dceb3c97d00a072c7c37f2ff0c3085434c6cd",
+        "schur_terms": 5158
+      },
+      "LPL": {
+        "a_degree": 2,
+        "bernstein_nonzero": 6173,
+        "minimum_bernstein_coefficient": "1/18",
+        "schur_sha256": "ab57dbc4fc5969ee13a9a9f42ba77a29ebc9692257eb5228169db308b9a180b7",
+        "schur_terms": 5158
+      },
+      "NLL": {
+        "a_degree": 4,
+        "bernstein_nonzero": 2037,
+        "minimum_bernstein_coefficient": "1/324",
+        "schur_sha256": "a840a5959d8fbb6326c87ef7b598207db84999539c23777d98eeb6ced01567d0",
+        "schur_terms": 1300
+      },
+      "NLR": {
+        "a_degree": 4,
+        "bernstein_nonzero": 1653,
+        "minimum_bernstein_coefficient": "1/324",
+        "schur_sha256": "d52b47a303d45e10aeb1d28e01b6892a15c98c9f2beaad30b75a9ff6e3bc7e73",
+        "schur_terms": 1347
+      },
+      "NRL": {
+        "a_degree": 4,
+        "bernstein_nonzero": 1653,
+        "minimum_bernstein_coefficient": "1/324",
+        "schur_sha256": "8ec45abd47903fbc294379386b7e1d3405c32966d8b6c4f9629c859d066fdf5e",
+        "schur_terms": 1347
+      },
+      "NRR": {
+        "a_degree": 4,
+        "bernstein_nonzero": 2094,
+        "minimum_bernstein_coefficient": "1/324",
+        "schur_sha256": "956ab036d62ec0105d9e9b50145fdaf156bb2fcd504a949f01a0a35433b0106d",
+        "schur_terms": 1534
+      },
+      "RPR": {
+        "a_degree": 2,
+        "bernstein_nonzero": 6173,
+        "minimum_bernstein_coefficient": "1/18",
+        "schur_sha256": "0635fbb78ff555ce0eb1d09a02a389d98436fd6e484d3e6d9d8243db69d88c19",
+        "schur_terms": 5158
+      },
+      "RRP": {
+        "a_degree": 2,
+        "bernstein_nonzero": 6173,
+        "minimum_bernstein_coefficient": "1/18",
+        "schur_sha256": "0f7efcb888051d87493dd16251bb70967669be0279f3fd0e4fb0352a20051b3c",
+        "schur_terms": 5158
+      },
+      "RRR": {
+        "a_degree": 2,
+        "bernstein_nonzero": 2985,
+        "minimum_bernstein_coefficient": "1/54",
+        "schur_sha256": "31f5271afd352292b09e304ee8c7520200daec9cae6cce45365b7df68b9e150f",
+        "schur_terms": 2487
+      }
+    },
+    "q3": {
+      "LLP": {
+        "a_degree": 2,
+        "bernstein_nonzero": 5402,
+        "minimum_bernstein_coefficient": "1/36",
+        "schur_sha256": "7f46d45d16f8a2ea42889eac25e7ce30eca504696e48e3a1ca93f55ea56e1d31",
+        "schur_terms": 4958
+      },
+      "LLR": {
+        "a_degree": 2,
+        "bernstein_nonzero": 2530,
+        "minimum_bernstein_coefficient": "1/108",
+        "schur_sha256": "642ab4e8def2c95edce4f648f71ae046b820fdb25e53ab0668e73325d9e4b3c0",
+        "schur_terms": 2323
+      },
+      "LNP": {
+        "a_degree": 4,
+        "bernstein_nonzero": 39872,
+        "minimum_bernstein_coefficient": "1/108",
+        "schur_sha256": "7a338d4390dd0b5df27be38ee2fef740ae58bcb3695260826ce1374a942f132f",
+        "schur_terms": 11409
+      },
+      "LNR": {
+        "a_degree": 4,
+        "bernstein_nonzero": 10722,
+        "minimum_bernstein_coefficient": "1/108",
+        "schur_sha256": "227e377743655c2fc27be5a6dbccca8a29952cfb48a187d0c464ec9fbb60283d",
+        "schur_terms": 3019
+      },
+      "PLL": {
+        "a_degree": 2,
+        "bernstein_nonzero": 2160,
+        "minimum_bernstein_coefficient": "1/18",
+        "schur_sha256": "7a997420af3d697cbfb3d43c1d99fe09db1bf162b5f21e62fa42d58932a9ab77",
+        "schur_terms": 3432
+      },
+      "PRR": {
+        "a_degree": 2,
+        "bernstein_nonzero": 2160,
+        "minimum_bernstein_coefficient": "1/18",
+        "schur_sha256": "499b061a6d30e51ba1ebb6f43040716643194eed9cfa6c7a7f84c20e231e049f",
+        "schur_terms": 3432
+      },
+      "RNL": {
+        "a_degree": 4,
+        "bernstein_nonzero": 10692,
+        "minimum_bernstein_coefficient": "1/108",
+        "schur_sha256": "8b9c6fd6f8b13aee6c3a806d403aa9ad294ef2fc2fe1d9d89a2d0ab1fb1bfe55",
+        "schur_terms": 3315
+      },
+      "RNP": {
+        "a_degree": 4,
+        "bernstein_nonzero": 39724,
+        "minimum_bernstein_coefficient": "1/72",
+        "schur_sha256": "d7e8b5bd5098546b813f465167becac32cabdec027a08a7ae7eceb3ac3676e44",
+        "schur_terms": 12343
+      },
+      "RRL": {
+        "a_degree": 2,
+        "bernstein_nonzero": 2530,
+        "minimum_bernstein_coefficient": "1/108",
+        "schur_sha256": "642ab4e8def2c95edce4f648f71ae046b820fdb25e53ab0668e73325d9e4b3c0",
+        "schur_terms": 2323
+      },
+      "RRP": {
+        "a_degree": 2,
+        "bernstein_nonzero": 5402,
+        "minimum_bernstein_coefficient": "1/36",
+        "schur_sha256": "b124c73b63e691b3d5d0d7f27e60b03f5413802419d77eda2c8e9b1fa604f2c8",
+        "schur_terms": 4958
+      }
+    },
+    "q4": {
+      "LPL": {
+        "a_degree": 2,
+        "bernstein_nonzero": 5402,
+        "minimum_bernstein_coefficient": "1/36",
+        "schur_sha256": "22a10f8531ba4d820683a2e70c25e722ab72dceb724a25b429159677991494c2",
+        "schur_terms": 4958
+      },
+      "LPN": {
+        "a_degree": 4,
+        "bernstein_nonzero": 39872,
+        "minimum_bernstein_coefficient": "1/108",
+        "schur_sha256": "9247a8e10c1afc0ac19d25b2c01b72797ab193b2ce65fdb8a54d196d94d5f9e3",
+        "schur_terms": 11409
+      },
+      "LRL": {
+        "a_degree": 2,
+        "bernstein_nonzero": 2530,
+        "minimum_bernstein_coefficient": "1/108",
+        "schur_sha256": "20923fb3b258b7317563101eea02801be073731b95ff986b34d79e16bef043c5",
+        "schur_terms": 2323
+      },
+      "LRN": {
+        "a_degree": 4,
+        "bernstein_nonzero": 10722,
+        "minimum_bernstein_coefficient": "1/108",
+        "schur_sha256": "4dc9fe0c014c026abc2a2ed22df8a88d2e64ac7318b69ac382abdb087a9d77d7",
+        "schur_terms": 3019
+      },
+      "PLL": {
+        "a_degree": 2,
+        "bernstein_nonzero": 2160,
+        "minimum_bernstein_coefficient": "1/18",
+        "schur_sha256": "8a1d09cb7959d2f8ef9579948e206019956bccb25313215f52e05933fea606c2",
+        "schur_terms": 3432
+      },
+      "PRR": {
+        "a_degree": 2,
+        "bernstein_nonzero": 2160,
+        "minimum_bernstein_coefficient": "1/18",
+        "schur_sha256": "e11971cc99db18233081249100137d18f84be0c5bbfb28f0275d608e2d2d5a12",
+        "schur_terms": 3432
+      },
+      "RLN": {
+        "a_degree": 4,
+        "bernstein_nonzero": 10692,
+        "minimum_bernstein_coefficient": "1/108",
+        "schur_sha256": "d72be9cb6f1e0a33439c2c1d2c24dda8ebd85a0fc9e8ae00f4537e797b615039",
+        "schur_terms": 3315
+      },
+      "RLR": {
+        "a_degree": 2,
+        "bernstein_nonzero": 2530,
+        "minimum_bernstein_coefficient": "1/108",
+        "schur_sha256": "20923fb3b258b7317563101eea02801be073731b95ff986b34d79e16bef043c5",
+        "schur_terms": 2323
+      },
+      "RPN": {
+        "a_degree": 4,
+        "bernstein_nonzero": 39724,
+        "minimum_bernstein_coefficient": "1/72",
+        "schur_sha256": "772fcd6bc83d54edfe54fd64f62aa2872b0f6b99b9baffbec714fb23d6c8a70c",
+        "schur_terms": 12343
+      },
+      "RPR": {
+        "a_degree": 2,
+        "bernstein_nonzero": 5402,
+        "minimum_bernstein_coefficient": "1/36",
+        "schur_sha256": "82b9f04128ed0f389472a94189d6600e0f2241f7cbeca1c964bf45a223790a38",
+        "schur_terms": 4958
+      }
+    }
+  },
+  "schema": "amra.opg1757.round7.negative-page-direct-chambers.v1",
+  "schur_parameterization": {
+    "B": "P plus their three pairwise products",
+    "P": "product of the three positive route quantities",
+    "det_K": "P*(1-tau)",
+    "negative_page_quantity": "-a=-tau*P/B",
+    "positive_routes": "the direct route c and the two positive page quantities",
+    "tau": "0<tau<1"
+  },
+  "scope": "direct certificates for 30 of 81 negative-page activity chambers; all three negative-page route cases retain unresolved orientations, so the generic sign and OPG-1757 remain open",
+  "total_negative_page_activity_chambers": 81
+}
