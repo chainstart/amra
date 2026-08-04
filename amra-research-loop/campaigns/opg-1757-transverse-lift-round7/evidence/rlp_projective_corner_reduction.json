@@ -1,0 +1,359 @@
+{
+  "conclusion": "all scale-infinity boundary faces and the common projective Newton principal are manifestly nonnegative; the singular small-direction branch is reduced exactly to a quartic tridiagonal Gram problem with an 8599-term lower-minor core",
+  "coverage_change": 0,
+  "domain": "the still-open q3:RLP representative outer-Gram core H1884; all route scales are nonnegative and the bounded activity/tau parameters lie in their unit intervals",
+  "equal_direction_newton_reduction": {
+    "charts": {
+      "c": {
+        "chart_sha256": "bd207ca8d057170837a82bcaf6eff5818b1ab99e81e170831fcec2e5bddabea4",
+        "chart_terms": 1884,
+        "compact_sha256": "80ca14129153a53bb417517ad40130743037e1028c2eb056bca058463b14351a",
+        "compact_terms": 4179,
+        "local_sha256": "c00e1f3cf9a5a20ccbcfb1150359a7bbf10169b180f4d769040a9f7424580470",
+        "local_terms": 13245,
+        "pareto_terms": 7,
+        "principal_sha256": "4f1d9df0e899341ad5ede5a98bb7994ac99fe69b230ee039479d242076a0830a",
+        "principal_terms": 235,
+        "remainder_minimum_local_degree": 4
+      },
+      "q0": {
+        "chart_sha256": "0fe032e506bdc34a511da62860a2ebf8822d6a5065a5f786623cf089dbcd03a9",
+        "chart_terms": 1884,
+        "compact_sha256": "0e18b24f17c24b14feea6cb9f457db55621453529b3c8eddf89d3a7d8facb2ba",
+        "compact_terms": 4366,
+        "local_sha256": "bec75922595f4978ff8eaf26c84f8b36434437b81a21100a64f11a1788cf9712",
+        "local_terms": 11230,
+        "pareto_terms": 7,
+        "principal_sha256": "a1b8f200c33d1841ec30094abf11a72896d59abccbf7d8113202eb99885b36cc",
+        "principal_terms": 196,
+        "remainder_minimum_local_degree": 4
+      },
+      "q4": {
+        "chart_sha256": "1c812944eb9e8fd6f3517f8d7bfe92c774fe0eb0ee01d4ab11f57995c54b6643",
+        "chart_terms": 1884,
+        "compact_sha256": "664a176f2bf15dc070bf74a14510564c1b9e87389d826253df794f668518b8f3",
+        "compact_terms": 3979,
+        "local_sha256": "fb3e96917d7d501d0546a688f0ede5569bd570c0d1d90f8d4d4bdf2215537328",
+        "local_terms": 10726,
+        "pareto_terms": 7,
+        "principal_sha256": "facc6c656484a295ced45f62c7625fc8625545e16a99a6b31ebc6d52f6ea6596",
+        "principal_terms": 205,
+        "remainder_minimum_local_degree": 4
+      }
+    },
+    "common_equal_direction_principal": "2*x^3+t*(x+v^2*t)^2+t*(x+v*t*(v-z))^2",
+    "coordinates": "x=1-u, a=1-A, z=1-s0, b=1-B, v=s4, t=1-tau",
+    "manifest_sign": "each chart principal is a sum of x^3 and two squares with nonnegative A,B,t coefficients",
+    "scope": "the exact Newton/Pareto face is nonnegative; the local remainder starts at total degree four but is not discarded or declared nonnegative"
+  },
+  "q0_chart_root_quartic_reduction": {
+    "C1": "1+B-a",
+    "C2": "(1-a)*(1+t*v*y)+B*v*y*(1-a+a*t)",
+    "F4": {
+      "degrees": [
+        2,
+        1,
+        0,
+        0,
+        0,
+        2,
+        3,
+        3
+      ],
+      "negative_coefficients": 9,
+      "sha256": "0230ad40c10c93a19d9ce10b0f21d09bdf4f666e4411fc4a7aa97600a2f7e961",
+      "terms": 17
+    },
+    "H260": {
+      "degrees": [
+        5,
+        2,
+        0,
+        0,
+        0,
+        4,
+        6,
+        5
+      ],
+      "negative_coefficients": 131,
+      "sha256": "10bcc0d40facb5ce239debf9297088ccb5771aa993ef67bc189bc4abd273573e",
+      "terms": 260
+    },
+    "K24": {
+      "degrees": [
+        11,
+        5,
+        0,
+        0,
+        0,
+        9,
+        13,
+        11
+      ],
+      "negative_coefficients": 4282,
+      "sha256": "05aaa1919f1291802019d5a7e7894bbcf681c46d5c3a4ea024d1c277d326c9c5",
+      "terms": 8599
+    },
+    "K24_common_monomial": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "K24_reduced": {
+      "degrees": [
+        11,
+        5,
+        0,
+        0,
+        0,
+        8,
+        13,
+        11
+      ],
+      "negative_coefficients": 4282,
+      "sha256": "e851b946099e4d6314c5c7ecda93095343c9fa8f7af293dc6c6d8745de0c0af3",
+      "terms": 8599
+    },
+    "clearing_factor": "((1+t*y)*(1+t*v*y))^4",
+    "coordinate": "w=(1+t*y)*(1+t*v*y)*z-(t^2*v*y^2+2*t*v*y+v^2*y-2*v*y+v+y)",
+    "lower_gram_minor": "4*y^2*B^2*v^2*C2*F4^2*K24",
+    "quartic_sha256": "bbe53e81d4a81ae7e0ef4c46d9d3936107e9c09fbeb40d4f99d504dfc467cd53",
+    "quartic_terms": 37709,
+    "r3_factorization": "-2*y*B*v*C2*F4*H260",
+    "r4_factorization": "y^2*B^2*v^2*C1*C2*F4^2",
+    "rows": [
+      {
+        "degrees": [
+          15,
+          4,
+          0,
+          0,
+          0,
+          8,
+          17,
+          15
+        ],
+        "negative_coefficients": 8213,
+        "sha256": "58050d2c3149aa0c1d30e57574f9ebe6bbbc573afd18619c87d8780b83493977",
+        "terms": 16469
+      },
+      {
+        "degrees": [
+          13,
+          4,
+          0,
+          0,
+          0,
+          8,
+          15,
+          13
+        ],
+        "negative_coefficients": 5535,
+        "sha256": "68a65526f8d96af9b208b4baa8d533fe6c9fff847aa5bc59d2948eba46dc139a",
+        "terms": 11141
+      },
+      {
+        "degrees": [
+          11,
+          4,
+          0,
+          0,
+          0,
+          8,
+          13,
+          11
+        ],
+        "negative_coefficients": 3258,
+        "sha256": "8b22ee15603ef55156cd9b33da0654f540fb8e677a77064fb240df7d2467bd77",
+        "terms": 6567
+      },
+      {
+        "degrees": [
+          9,
+          4,
+          0,
+          0,
+          0,
+          8,
+          11,
+          9
+        ],
+        "negative_coefficients": 1475,
+        "sha256": "d645e445b993bc4eb942e06a298f890d8069862255214d3721641d5875879ed3",
+        "terms": 2950
+      },
+      {
+        "degrees": [
+          7,
+          4,
+          0,
+          0,
+          0,
+          8,
+          9,
+          7
+        ],
+        "negative_coefficients": 281,
+        "sha256": "a6b6b49658960b7e8f3f6b96c02706d3af207847994ad42d00843d576a471074",
+        "terms": 582
+      }
+    ],
+    "scope": "the factorization is exact; nonnegativity of K24/B and the other Gram principal minors remains open",
+    "tridiagonal_gram": "[[r0,r1/2,0],[r1/2,r2,r3/2],[0,r3/2,r4]]"
+  },
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "H1884": {
+      "degrees": [
+        4,
+        5,
+        4,
+        0,
+        0,
+        6,
+        4,
+        3
+      ],
+      "negative_coefficients": 900,
+      "sha256": "f680804eafab4019dfb825d87d6d8734e3a515348bbe9d1dce36da8a9c2b45d5",
+      "terms": 1884
+    },
+    "cleared_sha256": "e1f5bd60b4310285cf7a49c38d19078bb46bd95ec5051981797b8e0455b0863a",
+    "cleared_terms": 2098,
+    "core_sha256": "febcafd90bd79d6fdb9c5fa361778540d81dacb5ccb589acf194855ff418df16",
+    "core_terms": 786,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "outer_gram_common_monomial": [
+      1,
+      0,
+      2,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "outer_gram_determinant_terms": 5802
+  },
+  "remaining_negative_page_chambers": 18,
+  "route_boundary_faces": {
+    "highest_face": "c^3*q0^5*q4^5*s4^2*(1-tau)^3*(c*(s0+s4-1)^2+q4*s0^2*s4^2)",
+    "highest_face_sha256": "1dee851ae0de25adc24d611e217753fe21792c3812919283b230024e48007fa3",
+    "highest_face_terms": 28,
+    "lowest_face": "s0^4*(c+q4)*(c*q0*(1-tau)+c*q4+q0*q4*(1-tau))^3",
+    "lowest_face_sha256": "44663bf6c67075865589d50762972e851f19830505ee10c91cc37699baae1257",
+    "lowest_face_terms": 40,
+    "route_degree_range": [
+      7,
+      14
+    ]
+  },
+  "schema": "amra.opg1757.round7.rlp-projective-corner-reduction.v1",
+  "scope": "this is a structural reduction, not a sign certificate for H1884 or q3:RLP; no activity chamber, the generic Delta_b sign, or OPG-1757 is claimed closed",
+  "small_direction_square_faces": {
+    "c": {
+      "normalized_B_zero_face": {
+        "degrees": [
+          5,
+          5,
+          2,
+          0,
+          0,
+          0,
+          5,
+          5
+        ],
+        "negative_coefficients": 204,
+        "sha256": "e44d33b7af739769f8e96592a497c6516e555064a6fa09c161228bbba874c29e",
+        "terms": 408
+      },
+      "normalized_sha256": "254a1d40822f42670f467387eff653c96e8b028b3e3fcd6ce2a8b17df850ec58",
+      "normalized_terms": 7047,
+      "small_B_face": {
+        "degrees": [
+          7,
+          5,
+          4,
+          0,
+          0,
+          0,
+          0,
+          3
+        ],
+        "negative_coefficients": 31,
+        "sha256": "43ddf0b3893df8e216a5e3ed89574982ce52bb2ce83f428d8f7ffd62f13d1e3b",
+        "terms": 62
+      },
+      "x_zero_face": {
+        "degrees": [
+          0,
+          5,
+          2,
+          0,
+          0,
+          6,
+          4,
+          3
+        ],
+        "negative_coefficients": 18,
+        "sha256": "eda5356973917d666799b8c2c09fb4c9723ddc81fb8159e438064e41ccb6ce13",
+        "terms": 36
+      }
+    },
+    "q0": {
+      "normalized_B_zero_face": {
+        "degrees": [
+          5,
+          4,
+          2,
+          0,
+          0,
+          0,
+          5,
+          5
+        ],
+        "negative_coefficients": 164,
+        "sha256": "0dddfada5dfd621ec5bdbe654d1c206c7993b774470a7c2dab3c3b1beafa694e",
+        "terms": 340
+      },
+      "normalized_sha256": "256ffa78a81e45f00a518a89a0a502a34e9eacd74f263771900d29bc030e86fc",
+      "normalized_terms": 5740,
+      "small_B_face": {
+        "degrees": [
+          7,
+          4,
+          4,
+          0,
+          0,
+          0,
+          0,
+          3
+        ],
+        "negative_coefficients": 22,
+        "sha256": "1f53b200950b7336ee63e56a48d1ad6d825a8db24f09558049d4006542bd5110",
+        "terms": 45
+      },
+      "x_zero_face": {
+        "degrees": [
+          0,
+          4,
+          2,
+          0,
+          0,
+          6,
+          4,
+          3
+        ],
+        "negative_coefficients": 13,
+        "sha256": "ff483183612f27f26062950dc4495968e9d3e3da5755929ba67ffd29afb35639",
+        "terms": 27
+      }
+    }
+  }
+}
