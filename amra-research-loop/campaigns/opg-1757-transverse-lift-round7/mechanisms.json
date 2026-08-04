@@ -74,8 +74,8 @@
       ],
       "kill_test": "classify all leading-sign and resultant chambers and find a reversed root order",
       "status": "surviving",
-      "status_evidence": "Retained all-base proof route: evidence/C_ZERO_FIBRE_THEOREM.md closes the full c=0 fibre; evidence/B_RAYLEIGH_REDUCTION.md gives the equivalent 178-term boundary determinant and closes x01=0,x02=0; evidence/ROUTE_MATRIX_CHAMBER.md identifies the projected component exactly as K>0 and reduces the obstruction to 45 orientation channels with positive outer quartic slices; evidence/CONNECTION_GRAM_CERTIFICATE.md proves all three page connections positive; evidence/NONNEGATIVE_ROUTE_CHAMBERS.md, evidence/SHARED_PAGE_DISCRIMINANT.md, and evidence/NESTED_SHARED_DISCRIMINANT.md together prove 17 of 27 activity-sign chambers when all effective routes are nonnegative.",
-      "updated_at": "2026-08-04T01:10:00+00:00"
+      "status_evidence": "Retained all-base proof route: evidence/C_ZERO_FIBRE_THEOREM.md closes the full c=0 fibre; evidence/B_RAYLEIGH_REDUCTION.md gives the equivalent 178-term boundary determinant and closes x01=0,x02=0; evidence/ROUTE_MATRIX_CHAMBER.md identifies the projected component exactly as K>0 and reduces the obstruction to 45 orientation channels with positive outer quartic slices; evidence/CONNECTION_GRAM_CERTIFICATE.md proves all three page connections positive; the four exact route-sign certificates through evidence/OPPOSITE_NONSHARED_CHAMBERS.md together prove 19 of 27 activity-sign chambers when all effective routes are nonnegative.",
+      "updated_at": "2026-08-04T01:29:26+00:00"
     },
     {
       "id": "M707",
@@ -165,8 +165,8 @@
       ],
       "kill_test": "find an exact rational K-positive route point and admissible page magnitudes for which a principal minor of Q, equivalently one of its four Hadamard eigenvalues, is negative",
       "status": "surviving",
-      "status_evidence": "evidence/ORIENTATION_FOURIER_REDUCTION.md reconstructs Delta_b and proves the exact equivalence between all four orientation signs and Q>=0. evidence/NONNEGATIVE_ROUTE_CHAMBERS.md, evidence/SHARED_PAGE_DISCRIMINANT.md, and evidence/NESTED_SHARED_DISCRIMINANT.md prove 17 finite sign chambers using exact Bernstein--Gram and coordinate-discriminant certificates; positivity of Q on the remaining chambers is not yet established.",
-      "updated_at": "2026-08-04T01:10:00+00:00"
+      "status_evidence": "evidence/ORIENTATION_FOURIER_REDUCTION.md reconstructs Delta_b and proves the exact equivalence between all four orientation signs and Q>=0. The four exact route-sign certificates through evidence/OPPOSITE_NONSHARED_CHAMBERS.md prove 19 finite sign chambers using nested Bernstein--Gram and coordinate-discriminant certificates; only the eight three-negative chambers remain in the nonnegative-effective-route domain.",
+      "updated_at": "2026-08-04T01:29:26+00:00"
     }
   ]
 }

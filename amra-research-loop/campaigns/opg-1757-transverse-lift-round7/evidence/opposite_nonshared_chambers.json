@@ -1,0 +1,107 @@
+{
+  "certified_chambers_added": [
+    "PLR",
+    "PRL"
+  ],
+  "combined_nonnegative_route_coverage": "19 of 27 chambers; only the eight three-negative chambers remain",
+  "nested_certificate": {
+    "R_as_quadratic_in_b_term_counts": [
+      73,
+      151,
+      241
+    ],
+    "R_b_constant_coefficients_strictly_positive": true,
+    "R_b_discriminant_coefficients_strictly_negative": true,
+    "R_b_discriminant_terms": 1247,
+    "endpoint_and_gram_coefficients_strictly_positive": true,
+    "f0_s_bernstein_term_counts": [
+      9,
+      11,
+      14
+    ],
+    "f0_s_gram_determinant_terms": 53,
+    "f2_s_bernstein_term_counts": [
+      14,
+      20,
+      28
+    ],
+    "f2_s_gram_determinant_terms": 175,
+    "u_bernstein_endpoint_term_counts": [
+      32,
+      61
+    ],
+    "u_gram_determinant_factor": "a^2*b^2*R"
+  },
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "PLR_bidegree_quotient": {
+      "sha256": "f87650e0e4b55cead12dd5d1fc8e70d8afe40761118b2defc429da6c4f80af17",
+      "terms": 91
+    },
+    "PLR_cleared": {
+      "sha256": "9329b608a0e5339e870bc98ebd6d9ef006ca5be241c7bd3bb7f32e31d8f4e6d9",
+      "terms": 276
+    },
+    "f0_s_gram_determinant": {
+      "sha256": "d2898c1a1b13fb517c12114a559e77a1bbe9ea56934bf4b5074c7994dce85e0d",
+      "terms": 53
+    },
+    "f2_s_gram_determinant": {
+      "sha256": "e3f2a19c30e416f61dc60eebe1ebba586a8626aea3f53a93a0578bb36deb7ed5",
+      "terms": 175
+    },
+    "residual_b_constant": {
+      "sha256": "43848fd2c05f047c8838996d559a87f5e0154165d841208e29db4bc6b8f2e6ec",
+      "terms": 73
+    },
+    "residual_b_discriminant": {
+      "sha256": "805b5e09e9a5380edebe3daf310914a5f9527da2c353e1e04850d3c83fdab7e3",
+      "terms": 1247
+    },
+    "residual_b_linear": {
+      "sha256": "81e9f50614d4a79f5e892178764bb63eb18194d05f7c4806ba68db2ab2c37172",
+      "terms": 151
+    },
+    "residual_b_quadratic": {
+      "sha256": "0335db9a93963e1adccbcb25731a18972554bf77e70924db05ea4a905c40eadd",
+      "terms": 241
+    },
+    "u_beta0": {
+      "sha256": "3c5d630b3d64d83ebb58fa3d96854b99b0be3af6771c5cb4397b435333d8869f",
+      "terms": 32
+    },
+    "u_beta1": {
+      "sha256": "fbb47a4a244643153eaa5c1ed7aeee5b055995276ab9cd5742e1a05fbe4e0aea",
+      "terms": 51
+    },
+    "u_beta2": {
+      "sha256": "ce9f79ce7027340272412f03a532e0283bb16d9dd59038a614f4e2c455494fbd",
+      "terms": 61
+    },
+    "u_gram_determinant": {
+      "sha256": "fe3b218c5bacb9a7df3ac1257dc01ddc63bc77b665dc46471133ef18efdba286",
+      "terms": 465
+    },
+    "u_gram_determinant_residual": {
+      "sha256": "807b090312f3ca3a82f5e409e1733aa4816b8af8a1e34183718d02183686ead5",
+      "terms": 465
+    }
+  },
+  "representative": {
+    "Q_bidegree": [
+      2,
+      2
+    ],
+    "Q_terms": 91,
+    "cleared_identity": "(1-u)^2*(1-s)^2*Delta_b=(1-u)*(1-s)*Q(u,s)",
+    "sign_chamber": "PLR",
+    "substitution": "x13=-u, x23=(q3+u)/(1-u), x14=(q4+s)/(1-s), x24=-s, 0<=u,s<1"
+  },
+  "schema": "amra.opg1757.round7.opposite-nonshared-chambers.v1",
+  "scope": "exact opposite-nonshared chamber theorem; the eight three-negative chambers and all negative-effective-route cases remain open",
+  "symmetry_check": "PRL is the exact hub-exchange image of PLR"
+}
