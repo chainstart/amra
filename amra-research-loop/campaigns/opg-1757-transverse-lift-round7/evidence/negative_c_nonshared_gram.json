@@ -1,0 +1,86 @@
+{
+  "H_s0_gram": {
+    "certificate": "beta0,beta2 and beta0*beta2-beta1^2 have strictly positive tensor Bernstein coefficients in the other page orientations and tau",
+    "formula": "H=(1-s0)^2*beta0+2*s0*(1-s0)*beta1+s0^2*beta2"
+  },
+  "certified_chambers": [
+    "PLP",
+    "PPL",
+    "PPR",
+    "PRP"
+  ],
+  "certified_count": 4,
+  "conclusion": "Delta_b>=0 in all four listed c-negative Schur chambers",
+  "domain": "q0,q3,q4>0, c=-tau*P/B with 0<=tau<=1, positive edge floors",
+  "hub_images": {
+    "PPR": "PPL",
+    "PRP": "PLP"
+  },
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "shared_discriminant_residual_H_terms": 215
+  },
+  "records": {
+    "PPR": {
+      "A2_bernstein_nonzero": 549,
+      "A2_minimum_bernstein_coefficient": "1/18",
+      "H_beta0_bernstein_nonzero": 507,
+      "H_beta0_minimum_bernstein_coefficient": "1/72",
+      "H_beta2_bernstein_nonzero": 33,
+      "H_beta2_minimum_bernstein_coefficient": "1/36",
+      "H_gram_determinant_bernstein_nonzero": 3205,
+      "H_gram_determinant_common_monomial": [
+        0,
+        4,
+        0,
+        7,
+        0,
+        3,
+        2,
+        2
+      ],
+      "H_gram_determinant_minimum_bernstein_coefficient": "1/2100",
+      "H_gram_determinant_residual_sha256": "647b51cd694be03594c4e47706b96c6d69a7823ce3be55bc348d75f0912c75c3",
+      "H_gram_determinant_terms": 8155,
+      "schur_A2_sha256": "160f02cd8e20223f18988b3238a62ee2a39ba61d13ed25990cc496de05b55d71",
+      "schur_H_sha256": "ed338e749067b1a66c8d670c2d67f50ae9529aa34e48872aaeb4ff7dce762640"
+    },
+    "PRP": {
+      "A2_bernstein_nonzero": 549,
+      "A2_minimum_bernstein_coefficient": "1/18",
+      "H_beta0_bernstein_nonzero": 507,
+      "H_beta0_minimum_bernstein_coefficient": "1/72",
+      "H_beta2_bernstein_nonzero": 33,
+      "H_beta2_minimum_bernstein_coefficient": "1/36",
+      "H_gram_determinant_bernstein_nonzero": 3205,
+      "H_gram_determinant_common_monomial": [
+        0,
+        4,
+        0,
+        3,
+        2,
+        7,
+        0,
+        2
+      ],
+      "H_gram_determinant_minimum_bernstein_coefficient": "1/2100",
+      "H_gram_determinant_residual_sha256": "32ccdfc585cb99bf2a736b56244b84eef7527d76773a97d4de45505cd7d572ab",
+      "H_gram_determinant_terms": 8155,
+      "schur_A2_sha256": "72a06b72c222fc39da6aa96fe1c0581686531a1d2a016c332bcd02ded0579ae1",
+      "schur_H_sha256": "038531eb8a0551f4d0b87650a9aa4aa814b9eb8200328b5a9c8b4e599db9fcb0"
+    }
+  },
+  "representatives": [
+    "PPR",
+    "PRP"
+  ],
+  "schema": "amra.opg1757.round7.negative-c-nonshared-gram.v1",
+  "scope": "four additional interior c-negative chambers; together with NEGATIVE_C_DIRECT_CHAMBERS.md this gives 14 of 27, while thirteen c-negative chambers, negative-page cases, and the global marked-host theorem remain open",
+  "shared_quadratic": {
+    "discriminant": "A1^2-4*A2*A0=-4*c^2*x02^2*x13^2*x14^2*H",
+    "formula": "Delta_b=A2*x01^2+A1*x01+A0",
+    "strategy": "prove A2>=0 and H>=0 after the exact Schur and uniform-page substitutions"
+  }
+}
