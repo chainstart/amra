@@ -1,0 +1,95 @@
+{
+  "certified_chambers_added": [
+    "LPR",
+    "LRP",
+    "RLP",
+    "RPL"
+  ],
+  "combined_nonnegative_route_coverage": "17 of 27 chambers together with NONNEGATIVE_ROUTE_CHAMBERS.md and SHARED_PAGE_DISCRIMINANT.md",
+  "consequence": "A2>=0 and H>=0 on the parameterized nonshared-right route, so the x01 quadratic Delta_b has nonpositive discriminant and is nonnegative for every real x01",
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "shared_discriminant_residual_terms": 215
+  },
+  "records": {
+    "A2_beta0": {
+      "sha256": "28b6cb4e50fff54a5330aff1402b4d672e2511d013f27ae8b3af899b9d5f8f62",
+      "terms": 35
+    },
+    "A2_beta1": {
+      "sha256": "efa336084847469108e0661ba12cca0dc3500cc398359766adb2baf00ed0a5ee",
+      "terms": 41
+    },
+    "A2_beta2": {
+      "sha256": "e3a5f25f0cdc10711ece495a40f1501803f31f9f19e57bac1379927b55740213",
+      "terms": 50
+    },
+    "A2_cleared": {
+      "sha256": "ce1b30fd7938b3c8ce620b512cd321f504f1c77357ef8106be1dd67d59c614f2",
+      "terms": 164
+    },
+    "A2_determinant": {
+      "sha256": "b9e4b30cb5baa5044505d5966e5702c5414c6e5e6af610a4cdebbadfe0cb8a88",
+      "terms": 367
+    },
+    "A2_quotient": {
+      "sha256": "defbdd1b4b567f0e3a08470598ae3a24aba6da88644faacc5a6ab635e0686a97",
+      "terms": 97
+    },
+    "H_beta0": {
+      "sha256": "ac271952f4b30f4da71a57db4bb8dd0938c303fdaae6b4461c3a889256624e6c",
+      "terms": 17
+    },
+    "H_beta1": {
+      "sha256": "995cec0ebebf4e8bd9bca703ad459bd16ba9eac255d57c20a1622555cea7eadf",
+      "terms": 28
+    },
+    "H_beta2": {
+      "sha256": "64190ac6aed21f4f33c8450db128fe2aa69875b71abbada9f28fb3e26e0c2bf8",
+      "terms": 57
+    },
+    "H_cleared": {
+      "sha256": "4ccb5348dc5d5539f23e777c8b43e4324104343b6b85ecd6b45b4fd7187be2e0",
+      "terms": 249
+    },
+    "H_determinant": {
+      "sha256": "fee0d42ce44e39f0586ce729031975b14e4cf97c3da9950567540afe6ac81dd5",
+      "terms": 237
+    },
+    "H_quotient": {
+      "sha256": "4c695f5a3f0ff780e86467c2715f0366012038c50fbba5164ae354333d260a9f",
+      "terms": 107
+    }
+  },
+  "representative": {
+    "A2_bernstein_term_counts": [
+      35,
+      41,
+      50,
+      367
+    ],
+    "A2_beta1_negative_terms": 10,
+    "A2_cleared_factor": "(1-t)",
+    "H_bernstein_term_counts": [
+      17,
+      28,
+      57,
+      237
+    ],
+    "H_beta1_negative_terms": 19,
+    "H_cleared_factor": "(1-t)^2",
+    "endpoint_and_determinant_coefficients_strictly_positive": true,
+    "sign_chamber": "LPR",
+    "substitution": "x24=-t, x14=(q4+t)/(1-t), 0<=t<1; x02,x13,x23,c,q4>=0; x01 arbitrary real"
+  },
+  "schema": "amra.opg1757.round7.nested-shared-discriminant.v1",
+  "scope": "exact nested coordinate-discriminant theorem; PLR/PRL, all-eight-three-negative chambers, and negative effective routes remain open",
+  "symmetry_checks": {
+    "checked_on_exact_cleared_polynomials": true,
+    "composition": "LPR -> RLP",
+    "hub_exchange": "LPR -> RPL",
+    "nonshared_page_exchange": "LPR -> LRP"
+  }
+}

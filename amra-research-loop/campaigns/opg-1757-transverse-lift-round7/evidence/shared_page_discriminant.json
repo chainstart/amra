@@ -1,0 +1,60 @@
+{
+  "combined_nonnegative_route_coverage": "13 of 27 chambers together with NONNEGATIVE_ROUTE_CHAMBERS.md",
+  "consequence": "Delta_b>=0 for arbitrary real x01 when c,x02,x13,x23,x14,x24>=0; hub exchange gives the same theorem for x02",
+  "nonnegative_route_sign_chambers_added": [
+    "LPP",
+    "RPP"
+  ],
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "Delta_b": {
+      "sha256": "6404115ba1022c3ba448466729639d75f1a3e59c1efa9fe75061b14052124b6e",
+      "terms": 178
+    },
+    "positive_residual_H": {
+      "sha256": "c224911bf545228a8a54e58952493da80d195e9e6df9a6f30ca5e95aa530e606",
+      "terms": 215
+    },
+    "x01_constant": {
+      "sha256": "ee289d577f9b3983bd01f2b16ad2e60b3776b028357bdfedb35bc834c862ddd5",
+      "terms": 4
+    },
+    "x01_discriminant": {
+      "sha256": "a141b867250dde0677ad0536fb7901cabf648a0a57541e28fd499399385d8925",
+      "terms": 215
+    },
+    "x01_linear": {
+      "sha256": "ba462edca5fede1e1443547d27a6186af0c2d4c1f9aafebc1bdc2d20359534ec",
+      "terms": 25
+    },
+    "x01_quadratic": {
+      "sha256": "82ec0c19a270bf20cbdc4d8bc36d2b898bed580b71c41a3eae1dc4ac5749c73b",
+      "terms": 149
+    },
+    "x02_discriminant": {
+      "sha256": "f8c5e6edcb8f02e8cb94d9a5e2732f8d732c1c36fb257847e3d2cf7f7594a1f8",
+      "terms": 215
+    }
+  },
+  "schema": "amra.opg1757.round7.shared-page-discriminant.v1",
+  "scope": "exact coordinate-discriminant theorem; other multiple-negative chambers and negative effective routes remain open",
+  "x01_quadratic": {
+    "H_coefficient_range": [
+      1,
+      12
+    ],
+    "H_terms": 215,
+    "all_coefficient_polynomials_positive": true,
+    "discriminant": "A1^2-4*A2*A0=-4*c^2*x02^2*x13^2*x14^2*H",
+    "formula": "Delta_b=A2*x01^2+A1*x01+A0",
+    "term_counts": {
+      "A0": 4,
+      "A1": 25,
+      "A2": 149
+    }
+  }
+}
