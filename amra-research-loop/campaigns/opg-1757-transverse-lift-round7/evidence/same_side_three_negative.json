@@ -1,0 +1,113 @@
+{
+  "certified_chambers_added": [
+    "LLL",
+    "RRR"
+  ],
+  "combined_nonnegative_route_coverage": "21 of 27 chambers",
+  "nested_certificate": {
+    "all_required_endpoint_determinant_and_quartic_coefficients_strictly_positive": true,
+    "endpoint_t4_bernstein_term_counts": [
+      [
+        33,
+        39,
+        51
+      ],
+      [
+        51,
+        62,
+        76
+      ]
+    ],
+    "endpoint_t4_gram_determinant_terms": [
+      224,
+      543
+    ],
+    "outer_gram_determinant_factor": "t0^2",
+    "outer_gram_residual_t4_bernstein_term_counts": [
+      224,
+      321,
+      481,
+      514,
+      543
+    ],
+    "outer_gram_residual_t4_degree": 4,
+    "outer_variable": "t3"
+  },
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58
+  },
+  "records": {
+    "LLL_cleared": {
+      "sha256": "90977d90a3c4a709d122fc0bdab965fed83eeefeddf7d5f5dc953d1873fd6f5b",
+      "terms": 628
+    },
+    "LLL_quotient": {
+      "sha256": "1d5affe68ae9c66ffbacf1eca0276d27b97d98067b9da658a7e25256dc1786fd",
+      "terms": 223
+    },
+    "t3_beta0": {
+      "sha256": "e336529263c328a3d5df73d23b5c1439bfb45bd6ff046e61b0987bbc67220064",
+      "terms": 73
+    },
+    "t3_beta0_t4_gram_determinant": {
+      "sha256": "58e5d3eaad3713437287454c05acc898617be5b4879f32e18f7d2c73392fb393",
+      "terms": 224
+    },
+    "t3_beta1": {
+      "sha256": "fe7076432354462a16591b70876db4ec8976bb10db1d8045f1661c785704bc1a",
+      "terms": 98
+    },
+    "t3_beta2": {
+      "sha256": "390246089a4f663511d5b6210c6e9ae2ad735d86fa394c4c04f3dda35ac98ac2",
+      "terms": 117
+    },
+    "t3_beta2_t4_gram_determinant": {
+      "sha256": "3c6ed88bdd38ed21e58b7eae65fca5e77acb14e2d7722b7559ac6ebcc82dc90e",
+      "terms": 543
+    },
+    "t3_gram_determinant": {
+      "sha256": "548840f94f9cc1c6bedfddf0a90fb6b712f344b5bdf8057c068aa13bf0d02d1a",
+      "terms": 1426
+    },
+    "t3_gram_determinant_residual": {
+      "sha256": "1dbf9c1a22960ae5a9db116c7e6242c15927fa2f0075666a7be5a3e47e065535",
+      "terms": 1426
+    },
+    "t3_gram_residual_t4_beta0": {
+      "sha256": "5ae550f915adb540e7f521f058422d2ba6a52859e7ed2950816bd93837919ef5",
+      "terms": 224
+    },
+    "t3_gram_residual_t4_beta1": {
+      "sha256": "6510a1733eb6ef8013001b3aef2dad8298ee2b63736185ceaa6dd6eb8f5e16b3",
+      "terms": 321
+    },
+    "t3_gram_residual_t4_beta2": {
+      "sha256": "b2d03b325982e35fbe60223c42de746cc54b110b91a93adfeb968ba58fad0f47",
+      "terms": 481
+    },
+    "t3_gram_residual_t4_beta3": {
+      "sha256": "fd1b8c7b09990f777de0074aec0cb05fe84193903855429823e7e4d1ea5a16ea",
+      "terms": 514
+    },
+    "t3_gram_residual_t4_beta4": {
+      "sha256": "04531d2aa3e1ad04a1e4a02207d1092a55a5d9de8076e938c990daae9b31cb71",
+      "terms": 543
+    }
+  },
+  "representative": {
+    "Q_degrees_in_t0_t3_t4": [
+      4,
+      2,
+      2
+    ],
+    "Q_terms": 223,
+    "cleared_identity": "product_i(1-t_i)^2*Delta_b=(1-t3)*(1-t4)*Q",
+    "sign_chamber": "LLL",
+    "substitution": "x_iL=-t_i, x_iR=(q_i+t_i)/(1-t_i), 0<=t_i<1 for i=0,3,4"
+  },
+  "schema": "amra.opg1757.round7.same-side-three-negative.v1",
+  "scope": "exact same-hub-side three-negative theorem; six mixed three-negative chambers and all negative-effective-route cases remain open",
+  "symmetry_check": "RRR cleared polynomial is exactly identical to LLL under global hub exchange"
+}
