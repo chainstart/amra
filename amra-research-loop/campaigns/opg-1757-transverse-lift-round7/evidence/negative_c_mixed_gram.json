@@ -1,0 +1,72 @@
+{
+  "H_t3_gram": {
+    "cleared_factor": "raw_schur_H=(1-t3)*H_tilde",
+    "determinant_bernstein_nonzero": 5730,
+    "determinant_common_monomial": [
+      0,
+      0,
+      0,
+      3,
+      0,
+      2,
+      2,
+      0
+    ],
+    "determinant_minimum_bernstein_coefficient": "1/270",
+    "determinant_residual_sha256": "96d1f5bebeb9a9d40a4e5d183cd768c92fcdd458b19dbc452cc71230fd71aee8",
+    "determinant_terms": 9987,
+    "formula": "H_tilde=(1-t3)^2*gamma0+2*t3*(1-t3)*gamma1+t3^2*gamma2",
+    "gamma0_bernstein_nonzero": 489,
+    "gamma0_minimum_bernstein_coefficient": "1/12",
+    "gamma0_sha256": "aec03abba0b9b86087823b1b10e9cbd96da85d9b169d2b47284fb13d4e6e3f26",
+    "gamma2_bernstein_nonzero": 888,
+    "gamma2_minimum_bernstein_coefficient": "1/12",
+    "gamma2_sha256": "c64a178347a99d8c58ac30f93540913ab3c287daafb6bc8c1a3823b2939a9bcf",
+    "raw_schur_H_sha256": "65bd650c15460fad60b36896241196348105af11a3b34e851d75e1bd339afb60",
+    "reduced_schur_H_sha256": "ad9026d5cdea8e36dadf6def528b35ac1d567563dce80f9f60cdb5d19d28b247"
+  },
+  "certified_chambers": [
+    "LLR",
+    "LRL",
+    "RRL",
+    "RLR"
+  ],
+  "certified_count": 4,
+  "conclusion": "Delta_b>=0 in all four listed mixed c-negative Schur chambers",
+  "denominator_clearing": {
+    "A2_page_degrees": [
+      2,
+      2,
+      2
+    ],
+    "H_page_degrees": [
+      2,
+      3,
+      2
+    ],
+    "invariant": "each declared page degree equals the polynomial degree in that page's rational-side activity"
+  },
+  "domain": "q0,q3,q4>0, c=-tau*P/B with 0<=tau<=1, positive edge floors",
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "shared_discriminant_residual_H_terms": 215
+  },
+  "representative": "LLR",
+  "schema": "amra.opg1757.round7.negative-c-mixed-gram.v1",
+  "scope": "four additional interior c-negative chambers; together with the direct, nonshared, and all-negative Gram certificates this gives 20 of 27, while seven c-negative chambers, negative-page cases, and the global marked-host theorem remain open",
+  "shared_quadratic": {
+    "A2_bernstein_nonzero": 1463,
+    "A2_minimum_bernstein_coefficient": "1/18",
+    "discriminant": "A1^2-4*A2*A0=-4*c^2*x02^2*x13^2*x14^2*H",
+    "formula": "Delta_b=A2*x01^2+A1*x01+A0",
+    "schur_A2_sha256": "5c4798eb223c4e494bd91702e6b87a6d69a2a1dc02f8cde6ce6ffdf625ea52ff"
+  },
+  "symmetry_images": {
+    "both": "RLR",
+    "checked_on_exact_cleared_Delta_b": true,
+    "hub_exchange": "RRL",
+    "page_exchange": "LRL"
+  }
+}
