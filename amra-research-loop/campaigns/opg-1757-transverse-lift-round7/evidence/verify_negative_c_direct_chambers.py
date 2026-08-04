@@ -54,6 +54,7 @@ def variable(slot):
 
 
 def power(poly, exponent):
+    assert exponent >= 0, f"polynomial power must be nonnegative, got {exponent}"
     result = constant(1)
     for _ in range(exponent):
         result = multiply(result, poly)

@@ -19,7 +19,11 @@ from verify_negative_c_direct_chambers import (
     digest,
     multiply,
 )
-from verify_negative_c_schur_endpoint import schur_substitute, uniform_state_polynomial
+from verify_negative_c_schur_endpoint import (
+    required_denominator_degrees,
+    schur_substitute,
+    uniform_state_polynomial,
+)
 from verify_shared_page_discriminant import (
     C_EDGE,
     X01,
@@ -99,15 +103,33 @@ def main():
         "PPR": (0, 4, 0, 7, 0, 3, 2, 2),
         "PRP": (0, 4, 0, 3, 2, 7, 0, 2),
     }
+    H_denominator_degrees = {
+        "PPR": (2, 3, 2),
+        "PRP": (2, 2, 3),
+    }
     records = {}
     for state in ("PPR", "PRP"):
         states = tuple(state)
-        schur_A2 = schur_substitute(uniform_state_polynomial(A2, states))
+        assert required_denominator_degrees(A2, states) == (2, 2, 2)
+        assert required_denominator_degrees(H, states) == H_denominator_degrees[state]
+        schur_A2 = schur_substitute(
+            uniform_state_polynomial(
+                A2,
+                states,
+                denominator_degrees=(2, 2, 2),
+            )
+        )
         A2_bernstein = bernstein_transform(schur_A2, [2, 4, 6, 7])
         assert A2_bernstein
         assert all(value > 0 for value in A2_bernstein.values())
 
-        schur_H = schur_substitute(uniform_state_polynomial(H, states))
+        schur_H = schur_substitute(
+            uniform_state_polynomial(
+                H,
+                states,
+                denominator_degrees=H_denominator_degrees[state],
+            )
+        )
         assert max(monomial[2] for monomial in schur_H) == 2
         a0, a1, a2 = (coefficient(schur_H, 2, degree) for degree in range(3))
         beta0 = a0
@@ -165,6 +187,14 @@ def main():
         "H_s0_gram": {
             "formula": "H=(1-s0)^2*beta0+2*s0*(1-s0)*beta1+s0^2*beta2",
             "certificate": "beta0,beta2 and beta0*beta2-beta1^2 have strictly positive tensor Bernstein coefficients in the other page orientations and tau",
+        },
+        "denominator_clearing": {
+            "invariant": "each declared page degree is at least the polynomial degree in that page's rational-side activity",
+            "A2_page_degrees": [2, 2, 2],
+            "H_page_degrees": {
+                state: list(H_denominator_degrees[state])
+                for state in ("PPR", "PRP")
+            },
         },
         "representatives": ["PPR", "PRP"],
         "hub_images": {"PPR": "PPL", "PRP": "PLP"},

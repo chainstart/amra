@@ -11,6 +11,26 @@
   ],
   "certified_count": 4,
   "conclusion": "Delta_b>=0 in all four listed c-negative Schur chambers",
+  "denominator_clearing": {
+    "A2_page_degrees": [
+      2,
+      2,
+      2
+    ],
+    "H_page_degrees": {
+      "PPR": [
+        2,
+        3,
+        2
+      ],
+      "PRP": [
+        2,
+        2,
+        3
+      ]
+    },
+    "invariant": "each declared page degree is at least the polynomial degree in that page's rational-side activity"
+  },
   "domain": "q0,q3,q4>0, c=-tau*P/B with 0<=tau<=1, positive edge floors",
   "hub_images": {
     "PPR": "PPL",
@@ -26,11 +46,11 @@
     "PPR": {
       "A2_bernstein_nonzero": 549,
       "A2_minimum_bernstein_coefficient": "1/18",
-      "H_beta0_bernstein_nonzero": 507,
-      "H_beta0_minimum_bernstein_coefficient": "1/72",
-      "H_beta2_bernstein_nonzero": 33,
-      "H_beta2_minimum_bernstein_coefficient": "1/36",
-      "H_gram_determinant_bernstein_nonzero": 3205,
+      "H_beta0_bernstein_nonzero": 395,
+      "H_beta0_minimum_bernstein_coefficient": "1/36",
+      "H_beta2_bernstein_nonzero": 24,
+      "H_beta2_minimum_bernstein_coefficient": "1/18",
+      "H_gram_determinant_bernstein_nonzero": 1350,
       "H_gram_determinant_common_monomial": [
         0,
         4,
@@ -41,20 +61,20 @@
         2,
         2
       ],
-      "H_gram_determinant_minimum_bernstein_coefficient": "1/2100",
-      "H_gram_determinant_residual_sha256": "647b51cd694be03594c4e47706b96c6d69a7823ce3be55bc348d75f0912c75c3",
-      "H_gram_determinant_terms": 8155,
+      "H_gram_determinant_minimum_bernstein_coefficient": "1/225",
+      "H_gram_determinant_residual_sha256": "057fc0f211aaa1f0a44225b0fdd53c9a7f4fda77f5784e4025e479d76cb3e5e4",
+      "H_gram_determinant_terms": 6705,
       "schur_A2_sha256": "160f02cd8e20223f18988b3238a62ee2a39ba61d13ed25990cc496de05b55d71",
-      "schur_H_sha256": "ed338e749067b1a66c8d670c2d67f50ae9529aa34e48872aaeb4ff7dce762640"
+      "schur_H_sha256": "6b46e6b448104fd825c225c08007ea9b84785ad0df34d6c9bf606540ec3edd50"
     },
     "PRP": {
       "A2_bernstein_nonzero": 549,
       "A2_minimum_bernstein_coefficient": "1/18",
-      "H_beta0_bernstein_nonzero": 507,
-      "H_beta0_minimum_bernstein_coefficient": "1/72",
-      "H_beta2_bernstein_nonzero": 33,
-      "H_beta2_minimum_bernstein_coefficient": "1/36",
-      "H_gram_determinant_bernstein_nonzero": 3205,
+      "H_beta0_bernstein_nonzero": 395,
+      "H_beta0_minimum_bernstein_coefficient": "1/36",
+      "H_beta2_bernstein_nonzero": 24,
+      "H_beta2_minimum_bernstein_coefficient": "1/18",
+      "H_gram_determinant_bernstein_nonzero": 1350,
       "H_gram_determinant_common_monomial": [
         0,
         4,
@@ -65,11 +85,11 @@
         0,
         2
       ],
-      "H_gram_determinant_minimum_bernstein_coefficient": "1/2100",
-      "H_gram_determinant_residual_sha256": "32ccdfc585cb99bf2a736b56244b84eef7527d76773a97d4de45505cd7d572ab",
-      "H_gram_determinant_terms": 8155,
+      "H_gram_determinant_minimum_bernstein_coefficient": "1/225",
+      "H_gram_determinant_residual_sha256": "7609fdc943d9c1e60f9a88d095107a005bc82e3e5b914f46a240aa946d0844f9",
+      "H_gram_determinant_terms": 6705,
       "schur_A2_sha256": "72a06b72c222fc39da6aa96fe1c0581686531a1d2a016c332bcd02ded0579ae1",
-      "schur_H_sha256": "038531eb8a0551f4d0b87650a9aa4aa814b9eb8200328b5a9c8b4e599db9fcb0"
+      "schur_H_sha256": "bedaa72941e004587a7eb2d349ccff261a313dc87c5ad9536d7e6ed25abf5eca"
     }
   },
   "representatives": [

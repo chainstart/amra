@@ -37,9 +37,11 @@ minimum is `1/108`.  It remains to prove `H>=0`.
 
 ## 2. The inner quadratic and its endpoint coefficient
 
-The cleared Schur numerator of `H` contains an exact positive chart factor
-`(1-s0)^2`.  Divide this factor exactly and call the remaining quadratic
-`H_tilde`.  In the Bernstein basis of the shared-page coordinate,
+Here the reconstructed rational-side degrees are `(0,2,2)`.  The verifier
+deliberately clears to `(2,2,2)`, checks that this dominates the required
+degrees, and obtains the extra positive chart factor `(1-s0)^2`.  Divide
+this factor exactly and call the remaining quadratic `H_tilde`.  In the
+Bernstein basis of the shared-page coordinate,
 
 ```text
 H_tilde = beta0*(1-s0)^2

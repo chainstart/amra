@@ -31,6 +31,12 @@ For each representative `PPR` and `PRP`, clearing the positive Schur and
 page denominators turns `A2` into a polynomial whose 549 nonzero tensor
 Bernstein coefficients are strictly positive; the minimum is `1/18`.
 
+The clearing degree is explicit and machine-checked.  In page order
+`(0,3,4)`, `A2` uses `(2,2,2)`, while `H` uses `(2,3,2)` in `PPR` and
+`(2,2,3)` in `PRP`.  The degree-three entry is required because `H` is
+cubic in `x23` and `x24`.  The verifier derives these minimum degrees from
+the reconstructed polynomial and rejects any smaller declaration.
+
 ## 2. A second quadratic and a `2 x 2` Gram certificate
 
 The substituted `H` is quadratic in the shared-page orientation `s0`.
@@ -46,8 +52,8 @@ For both representatives, exact tensor Bernstein expansion in the other
 two page orientations and `tau` gives
 
 ```text
-beta0: 507 nonzero coefficients, minimum 1/72,
-beta2:  33 nonzero coefficients, minimum 1/36.
+beta0: 395 nonzero coefficients, minimum 1/36,
+beta2:  24 nonzero coefficients, minimum 1/18.
 ```
 
 The middle coefficient is not termwise positive.  Instead, the verifier
@@ -57,9 +63,9 @@ forms the Gram determinant
 G = beta0*beta2-beta1^2.                         (2.2)
 ```
 
-After removing its explicit positive common monomial, `G` has 8155 ordinary
-terms and 3205 nonzero tensor Bernstein coefficients.  Every coefficient is
-strictly positive, with minimum `1/2100`.  Therefore
+After removing its explicit positive common monomial, `G` has 6705 ordinary
+terms and 1350 nonzero tensor Bernstein coefficients.  Every coefficient is
+strictly positive, with minimum `1/225`.  Therefore
 
 ```text
 [ beta0  beta1 ]
@@ -103,6 +109,12 @@ The standard-library verifier reconstructs the graph polynomials, derives
 (1.1), performs every rational substitution, checks all exact Bernstein and
 Gram coefficients, verifies the hub symmetry, and hashes the residuals.  Its
 JSON output must match `negative_c_nonshared_gram.json`.
+
+The denominator-degree guard and the polynomial-power guard are part of the
+certificate.  They supersede the earlier ledger that silently treated the
+degree-three rational-side terms as if degree two sufficed.  Recomputing with
+the exact degrees above preserves all four chamber conclusions and yields the
+stronger coefficient margins reported here.
 
 Mathematical status: exact author-verified sign theorem for four additional
 interior negative-`c` chambers.  Thirteen negative-`c` activity chambers,

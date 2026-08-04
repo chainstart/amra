@@ -29,8 +29,36 @@ def scale(poly, scalar):
     return {monomial: scalar * value for monomial, value in poly.items() if value}
 
 
-def uniform_state_polynomial(poly, states):
-    """Use q plus one unit-interval orientation coordinate on every page."""
+def required_denominator_degrees(poly, states):
+    """Return the exact rational-side degree needed on each page."""
+    assert poly
+    assert len(states) == len(ROUTES)
+    required = []
+    for state, edges in zip(states, ROUTES):
+        assert state in "PLR"
+        rational_edge = edges[0] if state == "R" else edges[1]
+        slot = EDGES.index(rational_edge)
+        required.append(max(monomial[slot] for monomial in poly))
+    return tuple(required)
+
+
+def uniform_state_polynomial(poly, states, denominator_degrees=None):
+    """Use q plus one unit-interval orientation coordinate on every page.
+
+    ``denominator_degrees`` gives the common clearing degree on each page.
+    It may exceed the polynomial's degree in the rational-side activity,
+    which only introduces a positive chart factor.  It must never be smaller.
+    """
+    required_degrees = required_denominator_degrees(poly, states)
+    if denominator_degrees is None:
+        denominator_degrees = required_degrees
+    denominator_degrees = tuple(denominator_degrees)
+    assert len(states) == len(ROUTES) == len(denominator_degrees)
+    assert all(degree >= 0 for degree in denominator_degrees)
+    assert all(
+        supplied >= required
+        for supplied, required in zip(denominator_degrees, required_degrees)
+    ), (states, denominator_degrees, required_degrees)
     c = variable(0)
     page_factors = []
     for index, state in enumerate(states):
@@ -54,14 +82,26 @@ def uniform_state_polynomial(poly, states):
     for original_monomial, original_coefficient in poly.items():
         term = constant(original_coefficient)
         term = multiply(term, power(c, original_monomial[EDGES.index(C_EDGE)]))
-        for edges, factors in zip(ROUTES, page_factors):
+        for edges, factors, denominator_degree in zip(
+            ROUTES, page_factors, denominator_degrees
+        ):
             left_degree = original_monomial[EDGES.index(edges[0])]
             right_degree = original_monomial[EDGES.index(edges[1])]
             left, right, denominator, rational_side = factors
             term = multiply(term, power(left, left_degree))
             term = multiply(term, power(right, right_degree))
             rational_degree = left_degree if rational_side == "L" else right_degree
-            term = multiply(term, power(denominator, 2 - rational_degree))
+            assert rational_degree <= denominator_degree, (
+                states,
+                edges,
+                rational_side,
+                rational_degree,
+                denominator_degree,
+            )
+            term = multiply(
+                term,
+                power(denominator, denominator_degree - rational_degree),
+            )
         result = add(result, term)
     return result
 
@@ -239,7 +279,11 @@ def main():
     hard_records = {}
     direct_records = {}
     for state in sorted(all_states):
-        cleared = uniform_state_polynomial(C, tuple(state))
+        cleared = uniform_state_polynomial(
+            C,
+            tuple(state),
+            denominator_degrees=(2, 2, 2),
+        )
         endpoint = scale(substitute_tau_one(schur_substitute(cleared)), -1)
         if state in hard_states:
             assert endpoint == hard_expected[state]

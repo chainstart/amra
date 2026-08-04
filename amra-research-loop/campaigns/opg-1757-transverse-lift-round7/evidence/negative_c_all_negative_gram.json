@@ -37,6 +37,20 @@
   ],
   "certified_count": 2,
   "conclusion": "Delta_b>=0 in both all-negative-activity c-negative Schur chambers",
+  "denominator_clearing": {
+    "declared_page_degrees": [
+      2,
+      2,
+      2
+    ],
+    "extra_positive_factor": "(1-s0)^2",
+    "invariant": "each declared page degree is at least the polynomial degree in that page's rational-side activity",
+    "required_page_degrees": [
+      0,
+      2,
+      2
+    ]
+  },
   "domain": "q0,q3,q4>0, c=-tau*P/B with 0<=tau<=1, positive edge floors",
   "hub_image": "LLL",
   "reconstruction": {

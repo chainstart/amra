@@ -22,7 +22,11 @@ from verify_negative_c_direct_chambers import (
     power,
     variable,
 )
-from verify_negative_c_schur_endpoint import schur_substitute, uniform_state_polynomial
+from verify_negative_c_schur_endpoint import (
+    required_denominator_degrees,
+    schur_substitute,
+    uniform_state_polynomial,
+)
 from verify_shared_page_discriminant import (
     C_EDGE,
     X01,
@@ -140,12 +144,26 @@ def main():
     assert delta == permute_edges(delta, hub_swap)
 
     states = tuple("RRR")
-    schur_A2 = schur_substitute(uniform_state_polynomial(A2, states))
+    assert required_denominator_degrees(A2, states) == (0, 2, 2)
+    assert required_denominator_degrees(H, states) == (0, 2, 2)
+    schur_A2 = schur_substitute(
+        uniform_state_polynomial(
+            A2,
+            states,
+            denominator_degrees=(2, 2, 2),
+        )
+    )
     A2_bernstein = bernstein_transform(schur_A2, [2, 4, 6, 7])
     assert A2_bernstein
     assert all(value > 0 for value in A2_bernstein.values())
 
-    raw_schur_H = schur_substitute(uniform_state_polynomial(H, states))
+    raw_schur_H = schur_substitute(
+        uniform_state_polynomial(
+            H,
+            states,
+            denominator_degrees=(2, 2, 2),
+        )
+    )
     schur_H = divide_one_minus_variable(
         divide_one_minus_variable(raw_schur_H, 2),
         2,
@@ -313,6 +331,12 @@ def main():
             "beta2_sha256": digest(beta2),
             "determinant_sha256": digest(determinant),
             "determinant_kernel_Q_sha256": digest(determinant_kernel),
+        },
+        "denominator_clearing": {
+            "invariant": "each declared page degree is at least the polynomial degree in that page's rational-side activity",
+            "required_page_degrees": [0, 2, 2],
+            "declared_page_degrees": [2, 2, 2],
+            "extra_positive_factor": "(1-s0)^2",
         },
         "representative": "RRR",
         "hub_image": "LLL",
