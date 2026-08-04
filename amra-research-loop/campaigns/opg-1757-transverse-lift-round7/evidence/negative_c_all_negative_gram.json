@@ -1,0 +1,58 @@
+{
+  "H_s0_gram": {
+    "beta0_bernstein_nonzero": 3,
+    "beta0_minimum_bernstein_coefficient": "1/36",
+    "beta1_bernstein_nonzero": 18,
+    "beta1_maximum_bernstein_coefficient": "1/36",
+    "beta2_factor": "q3*q4*(1-t3)^2*(1-t4)^2 times a quadratic with three explicitly nonnegative tau-Bernstein coefficients",
+    "beta2_sha256": "fc43caa34d6992f4c17c3dadfc3a26eb7463269aac22292c7301c8584ca8dae2",
+    "beta2_tau_bernstein": {
+      "middle_sha256": "5f2bc50ce8019cc6301985622cb8a6d34c77d2774a4bc18b46561608f9f37a14",
+      "one_sha256": "b9b75a80818469b4880fe7df8a99bffee335ee3775d8e9dfc8f623c7eb604a7a",
+      "zero_sha256": "f67b21be539138fc5c95b8670de63e806c5b96bcc5e953da5bc7e5734c302a95"
+    },
+    "determinant_common_monomial": [
+      0,
+      2,
+      0,
+      3,
+      2,
+      3,
+      2,
+      2
+    ],
+    "determinant_core_terms": 147,
+    "determinant_factor": "M*(1-t3)^4*(1-t4)^4*B*D*Q",
+    "determinant_kernel_Q": "(q3*t4-q4*t3)^2 plus six nonnegative monomials",
+    "determinant_kernel_Q_sha256": "2d17bfef38ab97be595a1f85a13e9b05b998183704c639367bebac5f15188b93",
+    "determinant_residual_terms": 2003,
+    "determinant_sha256": "f2ae07b07bb80c3453c5b7c57c1e5091b966ed15189b0f5452f7ee025f783709",
+    "formula": "H=(1-s0)^2*beta0+2*s0*(1-s0)*beta1+s0^2*beta2",
+    "raw_schur_H_sha256": "eaf22e4f6566956d725215aef76e7d68f3933564c0efc30331fcc209d2e1b2b8",
+    "reduced_schur_H_sha256": "0a1f02288533717dfd91f14f08eb7080b8aa3c9cfb5c4c7ca64c49d4d93b6d38"
+  },
+  "certified_chambers": [
+    "LLL",
+    "RRR"
+  ],
+  "certified_count": 2,
+  "conclusion": "Delta_b>=0 in both all-negative-activity c-negative Schur chambers",
+  "domain": "q0,q3,q4>0, c=-tau*P/B with 0<=tau<=1, positive edge floors",
+  "hub_image": "LLL",
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "shared_discriminant_residual_H_terms": 215
+  },
+  "representative": "RRR",
+  "schema": "amra.opg1757.round7.negative-c-all-negative-gram.v1",
+  "scope": "two additional interior c-negative chambers; together with the direct and nonshared Gram certificates this gives 16 of 27, while eleven c-negative chambers, negative-page cases, and the global marked-host theorem remain open",
+  "shared_quadratic": {
+    "A2_bernstein_nonzero": 265,
+    "A2_minimum_bernstein_coefficient": "1/108",
+    "discriminant": "A1^2-4*A2*A0=-4*c^2*x02^2*x13^2*x14^2*H",
+    "formula": "Delta_b=A2*x01^2+A1*x01+A0",
+    "schur_A2_sha256": "2e48128442735cc338c0a0a1ac0767f90d2a433601b0d032d38b12c2d0de1665"
+  }
+}

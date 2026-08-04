@@ -74,8 +74,8 @@
       ],
       "kill_test": "classify all leading-sign and resultant chambers and find a reversed root order",
       "status": "surviving",
-      "status_evidence": "Retained all-base proof route: evidence/C_ZERO_FIBRE_THEOREM.md closes the full c=0 fibre; evidence/B_RAYLEIGH_REDUCTION.md gives the equivalent 178-term boundary determinant and closes x01=0,x02=0; evidence/ROUTE_MATRIX_CHAMBER.md identifies the projected component exactly as K>0 and reduces the obstruction to 45 orientation channels with positive outer quartic slices; evidence/CONNECTION_GRAM_CERTIFICATE.md proves all three page connections positive; evidence/NONNEGATIVE_EFFECTIVE_ROUTE_THEOREM.md proves all 27 activity-sign chambers when q0,q3,q4,c are nonnegative; evidence/NEGATIVE_C_DIRECT_CHAMBERS.md gives exact Schur--Bernstein certificates for ten interior chambers when c is the sole negative diagonal quantity; evidence/NEGATIVE_C_NONSHARED_GRAM.md adds four more interior chambers through a nested shared-coordinate Gram determinant; evidence/NEGATIVE_C_SCHUR_ENDPOINT.md closes all 27 activity chambers at det(K)=0 by sixteen direct ledgers and four nonnegative nine-term kernels.",
-      "updated_at": "2026-08-04T03:26:29+00:00"
+      "status_evidence": "Retained all-base proof route: evidence/C_ZERO_FIBRE_THEOREM.md closes the full c=0 fibre; evidence/B_RAYLEIGH_REDUCTION.md gives the equivalent 178-term boundary determinant and closes x01=0,x02=0; evidence/ROUTE_MATRIX_CHAMBER.md identifies the projected component exactly as K>0 and reduces the obstruction to 45 orientation channels with positive outer quartic slices; evidence/CONNECTION_GRAM_CERTIFICATE.md proves all three page connections positive; evidence/NONNEGATIVE_EFFECTIVE_ROUTE_THEOREM.md proves all 27 activity-sign chambers when q0,q3,q4,c are nonnegative; evidence/NEGATIVE_C_DIRECT_CHAMBERS.md gives exact Schur--Bernstein certificates for ten interior chambers when c is the sole negative diagonal quantity; evidence/NEGATIVE_C_NONSHARED_GRAM.md adds four interior chambers through a nested shared-coordinate Gram determinant; evidence/NEGATIVE_C_ALL_NEGATIVE_GRAM.md closes the two all-negative-activity chambers by a second exact nested Gram factorization; evidence/NEGATIVE_C_SCHUR_ENDPOINT.md closes all 27 activity chambers at det(K)=0 by sixteen direct ledgers and four nonnegative nine-term kernels.",
+      "updated_at": "2026-08-04T03:49:14+00:00"
     },
     {
       "id": "M707",
@@ -165,8 +165,8 @@
       ],
       "kill_test": "find an exact rational K-positive route point and admissible page magnitudes for which a principal minor of Q, equivalently one of its four Hadamard eigenvalues, is negative",
       "status": "surviving",
-      "status_evidence": "evidence/ORIENTATION_FOURIER_REDUCTION.md reconstructs Delta_b and proves the exact equivalence between all four orientation signs and Q>=0. evidence/NONNEGATIVE_EFFECTIVE_ROUTE_THEOREM.md proves all 27 activity-sign chambers in the nonnegative-diagonal region. evidence/NEGATIVE_C_DIRECT_CHAMBERS.md and evidence/NEGATIVE_C_NONSHARED_GRAM.md certify fourteen exact interior Schur chambers when c is the sole negative diagonal quantity, while evidence/NEGATIVE_C_SCHUR_ENDPOINT.md certifies the complete 27-chamber det(K)=0 endpoint. The remaining PSD target consists of thirteen c-negative interior activity chambers and the three K-positive cases with one negative page quantity.",
-      "updated_at": "2026-08-04T03:26:29+00:00"
+      "status_evidence": "evidence/ORIENTATION_FOURIER_REDUCTION.md reconstructs Delta_b and proves the exact equivalence between all four orientation signs and Q>=0. evidence/NONNEGATIVE_EFFECTIVE_ROUTE_THEOREM.md proves all 27 activity-sign chambers in the nonnegative-diagonal region. evidence/NEGATIVE_C_DIRECT_CHAMBERS.md, evidence/NEGATIVE_C_NONSHARED_GRAM.md, and evidence/NEGATIVE_C_ALL_NEGATIVE_GRAM.md certify sixteen exact interior Schur chambers when c is the sole negative diagonal quantity, while evidence/NEGATIVE_C_SCHUR_ENDPOINT.md certifies the complete 27-chamber det(K)=0 endpoint. The remaining PSD target consists of eleven c-negative interior activity chambers and the three K-positive cases with one negative page quantity.",
+      "updated_at": "2026-08-04T03:49:14+00:00"
     }
   ]
 }
