@@ -1,0 +1,123 @@
+{
+  "B2_nested_gram": {
+    "alpha0_bernstein_nonzero": 62,
+    "alpha0_minimum_bernstein_coefficient": "1/2",
+    "alpha2_bernstein_nonzero": 135,
+    "alpha2_minimum_bernstein_coefficient": "1/2",
+    "cleared_factor": "raw=(1-t3)*(1-t4)*tilde",
+    "core_sha256": "76bde36f34c654638330603d786c90797195342cb4951a675b614985a66ad484",
+    "core_terms": 346,
+    "eta0_bernstein_nonzero": 57,
+    "eta0_minimum_bernstein_coefficient": "1/18",
+    "eta2_square_certificate": {
+      "endpoint_bernstein_nonzero": 481,
+      "endpoint_negative_bernstein": 3,
+      "endpoint_sha256": "509e9222ae2ddb63986ee4bf35a623d80e3be4a49d184c79370673a05ea9a90a",
+      "endpoint_terms": 295,
+      "formula": "eta2=q0*q4*tau*(q3*t4^2*tau-q3*q4^2*(1-t4)^2*tau-q0*q3*q4*(1-t4)^2*(1-tau)-q0*q4^2*(1-t4)^2*(1-tau))^2+R",
+      "residual_bernstein_nonzero": 471,
+      "residual_minimum_bernstein_coefficient": "1/18",
+      "residual_sha256": "d230b356973ac25daa26adba120374960ca8c385ed027e8fecd5a6ba8cf24afd",
+      "residual_terms": 335,
+      "square_term_sha256": "6bc6b32062b263883f7ff7422156d3ca69ae92f356ba02ea0cfd01d51d977a65",
+      "square_terms": 86
+    },
+    "inner_determinant_bernstein_nonzero": 1842,
+    "inner_determinant_common_monomial": [
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      2,
+      2
+    ],
+    "inner_determinant_minimum_bernstein_coefficient": "1/45",
+    "inner_determinant_residual_sha256": "6a4239406b0c939ef1b91723c2b025fb090f241a9ef2e61006f32a779285832f",
+    "inner_determinant_terms": 1252,
+    "inner_formula": "S=(1-s0)^2*eta0+2*s0*(1-s0)*eta1+s0^2*eta2",
+    "outer_determinant_common_monomial": [
+      0,
+      4,
+      2,
+      3,
+      0,
+      2,
+      0,
+      0
+    ],
+    "outer_determinant_factorization": "common*((1-tau)*q0*(q3*q4+q3+q4)+q3*q4)*S",
+    "outer_determinant_residual_sha256": "0ce9c8ff06318d88df74818ef012878b102953e1205453093f519bfbcd020627",
+    "outer_determinant_terms": 885,
+    "outer_formula": "tilde=(1-t3)^2*alpha0+2*t3*(1-t3)*alpha1+t3^2*alpha2",
+    "raw_sha256": "af4fca79df070bc4d547637ef96a623972f87169086acfc87a1973f981e3cd11",
+    "raw_terms": 448,
+    "reduced_sha256": "bd81005fa0f818e984b518fb04ae3671a361590276a1503b7f216cc746110b97",
+    "reduced_terms": 144
+  },
+  "H2_gram": {
+    "cleared_factor": "raw=(1-t3)^2*(1-t4)^2*tilde",
+    "determinant_bernstein_nonzero": 433,
+    "determinant_common_monomial": [
+      0,
+      4,
+      2,
+      3,
+      0,
+      2,
+      2,
+      0
+    ],
+    "determinant_minimum_bernstein_coefficient": "1/6",
+    "determinant_residual_sha256": "6f3bf203f3bfa40795abed729c7d63164355317950ade3cbc98e33ce20f57f80",
+    "determinant_terms": 441,
+    "formula": "tilde=(1-t3)^2*gamma0+2*t3*(1-t3)*gamma1+t3^2*gamma2",
+    "gamma0_bernstein_nonzero": 22,
+    "gamma0_minimum_bernstein_coefficient": "1/2",
+    "gamma2_bernstein_nonzero": 119,
+    "gamma2_minimum_bernstein_coefficient": "1/4",
+    "raw_sha256": "071e8e941ac811a2d39834327b10967a8a82324013ae408dbd3dcc5423cf8c87",
+    "raw_terms": 667,
+    "reduced_sha256": "8070b9853bbacced0d710eaf869f72b345a78968ee77ebc076df9c758ed1239d",
+    "reduced_terms": 111
+  },
+  "certified_chambers": [
+    "PLL",
+    "PRR"
+  ],
+  "certified_count": 2,
+  "conclusion": "Delta_b>=0 in both positive-shared c-negative Schur chambers",
+  "denominator_clearing": {
+    "B2_page_degrees": [
+      0,
+      2,
+      2
+    ],
+    "H2_page_degrees": [
+      0,
+      2,
+      2
+    ],
+    "invariant": "each declared page degree equals the polynomial degree in that page's rational-side activity"
+  },
+  "domain": "q0,q3,q4>0, c=-tau*P/B with 0<=tau<=1, positive edge floors",
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "x02_discriminant_residual_H2_terms": 215
+  },
+  "representative": "PLL",
+  "schema": "amra.opg1757.round7.negative-c-positive-shared-gram.v1",
+  "scope": "two additional interior c-negative chambers; together with the preceding certificates this gives 26 of 27, while PPP, negative-page cases, and the global marked-host theorem remain open",
+  "shared_quadratic": {
+    "discriminant": "B1^2-4*B2*B0=-4*c^2*x01^2*x23^2*x24^2*H2",
+    "formula": "Delta_b=B2*x02^2+B1*x02+B0",
+    "strategy": "prove B2>=0 and H2>=0 by exact nested Gram and Bernstein-square certificates"
+  },
+  "symmetry_images": {
+    "checked_on_exact_cleared_Delta_b": true,
+    "hub_exchange": "PRR"
+  }
+}

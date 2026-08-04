@@ -64,6 +64,9 @@
     "evidence/NEGATIVE_C_POSITIVE_NONSHARED_GRAM.md",
     "evidence/negative_c_positive_nonshared_gram.json",
     "evidence/verify_negative_c_positive_nonshared_gram.py",
+    "evidence/NEGATIVE_C_POSITIVE_SHARED_GRAM.md",
+    "evidence/negative_c_positive_shared_gram.json",
+    "evidence/verify_negative_c_positive_shared_gram.py",
     "../opg-1757-full-b-elimination-round6/evidence/GARDING_PRT_COMPONENT_FIREWALL.md",
     "../opg-1757-full-b-elimination-round6/evidence/garding_prt_component_firewall.json"
   ],
@@ -72,7 +75,7 @@
     "control the sole explicit subtractive channel -t*u using genuinely non-circuit mixed derivatives or equivalent component information",
     "prove the radical-free 4x4 orientation Fourier matrix positive semidefinite on K>0 and the edge-floor magnitude domain, or find an exact negative principal minor",
     "couple the three proved single-connection Gram matrices into a Gram/Schur/Binet--Cauchy certificate for the Fourier matrix, or control its principal minors directly",
-    "treat the interior 0<tau<1 of the remaining 3 activity-sign chambers when c is the sole negative diagonal quantity; twenty-four interior chambers and the complete det(K)=0 endpoint are now certified",
+    "treat the interior 0<tau<1 of the remaining PPP activity-sign chamber when c is the sole negative diagonal quantity; twenty-six interior chambers and the complete det(K)=0 endpoint are now certified",
     "treat the three K-positive cases in which a page quantity is negative",
     "classify generic Delta_b=0 contact strata after the coupled sign question is resolved",
     "independent reconstruction and novelty checks have not started",
