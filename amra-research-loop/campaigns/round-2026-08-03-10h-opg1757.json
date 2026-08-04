@@ -17,10 +17,14 @@
   ],
   "resource_policy": {
     "wsl_ram_gib": 31,
-    "heavy_probe_virtual_memory_gib": 1,
-    "heavy_probe_timeout_seconds": 240,
+    "memory_enforcement": "single WSL total-memory cap only",
+    "per_process_virtual_memory_limit": null,
+    "memory_admission": "a process may use any memory still available below the WSL total cap; monitor aggregate MemAvailable instead of applying ulimit -v",
+    "resource_policy_updated_at": "2026-08-04T22:06:11+08:00",
+    "heavy_probe_timeout_seconds": 900,
     "max_concurrent_heavy_probes": 1,
-    "process_priority": "nice +10 for discovery-only numerical searches",
+    "process_parallelism": "one heavy probe may use up to four workers while aggregate WSL memory remains available",
+    "process_priority": "normal for exact certificates; nice +10 for discovery-only numerical searches",
     "evidence_dependencies": "Python standard library only"
   },
   "audit_policy": "Same-thread reconstruction is not an independent audit. Require a separate implementation or reviewer before any public promotion.",
