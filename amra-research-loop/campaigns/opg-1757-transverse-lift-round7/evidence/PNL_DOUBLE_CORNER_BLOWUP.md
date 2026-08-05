@@ -265,7 +265,12 @@ maximum-direction charts close without subdivision:
 Every listed control is strictly positive and is reconstructed with exact
 rational arithmetic.  These are full radial subcharts, not merely their
 degree-seven principals.  The other four negative-root directions and all
-higher orders in the positive-root branch remain open.
+higher orders in the positive-root branch remain open.  Inside the open
+`a`-maximal direction, `PNL_A_ROOT_SECOND_NEWTON.md` resolves the observed
+rational accumulation at `s/a=2/3` and closes both `zeta`-maximal sides of its
+second Newton fan with 4,114,824 and 4,154,514 strictly positive nonzero
+controls, respectively.  The other six second-fan directions on each side
+remain open, so the first `a`-maximal chart as a whole is not claimed.
 
 ## 8. Reproduction and consequence
 
@@ -274,6 +279,9 @@ Run from the campaign directory:
 ```sh
 python3 evidence/verify_pnl_double_corner_blowup.py \
   | diff -u evidence/pnl_double_corner_blowup.json -
+
+python3 evidence/verify_pnl_a_root_second_newton.py \
+  | diff -u evidence/pnl_a_root_second_newton.json -
 ```
 
 The standard-library verifier reconstructs the 128 deletion forests and 58
@@ -283,8 +291,9 @@ rationals, and fixes the decisive polynomial hashes.
 These results eliminate the bounded double corner, both pure route-scale
 endpoints, the first observed mixed Newton direction in every `x`-dominant
 route chart, and the common moving-root principal in all three `h`-dominant
-charts.  They additionally close two full negative-root radial subcharts.
-Route degrees 8 through 11, the other mixed/root directions, and the compact
-interiors remain coupled.  Coverage stays at 63 of 81 negative-page
-chambers; `q3:PNL`, its symmetry image, the generic `Delta_b` sign, and
-OPG-1757 remain open.
+charts.  They additionally close two full first-level negative-root radial
+subcharts and two nested second-Newton subcharts in the `a` direction.  Route
+degrees 8 through 11, the other mixed/root directions, and the compact
+interiors remain coupled.  Coverage stays at 63 of 81 negative-page chambers;
+`q3:PNL`, its symmetry image, the generic `Delta_b` sign, and OPG-1757 remain
+open.
