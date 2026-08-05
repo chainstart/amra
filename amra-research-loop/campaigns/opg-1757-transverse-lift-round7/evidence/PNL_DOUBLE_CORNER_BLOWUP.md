@@ -133,7 +133,141 @@ After `t=s/2`, the bidegree-`(2,2)` Bernstein controls of `J` are
 
 They are all nonnegative, proving (4.1) nonnegative on the closed chart.
 
-## 5. Reproduction and consequence
+## 5. The `q0`-maximal mixed corner
+
+In the `q0`-maximal chart let `u` be the compact route scale,
+`A=c/q0`, `B=q4/q0`, and reverse `y,z` as above.  The observed zero
+stratum is
+
+```text
+x=B=1-y=1-z=0.
+```
+
+Its equal-weight principal has 46 terms and is
+
+```text
+A^4*(1-u)*Q(t),
+Q(t)=q0+q1*t+q2*t^2,                                (5.1)
+q0=B*u*L^2,
+q1=-u*L*M,
+q2=B*(L+u^2*x-u*x)^2,
+L=-B*u+e*u-e,
+```
+
+with the 8-term polynomial `M` reconstructed by the verifier.  Put
+`a=1-u` and `p=B*u+a*e`.  The middle quadratic Bernstein row is exactly
+
+```text
+b1=a*x*u*p*(a*e-B*u)/2.                             (5.2)
+```
+
+The endpoint `Q(1)` is nonnegative: after homogenizing in `(x,B,e)`, its
+three maximum charts have respectively 25, 27, and 33 nonzero Bernstein
+controls, all positive.
+
+Only `a*e<B*u` requires a determinant check.  Write
+`a*e=B*u*y`, `0<=y<=1`, and split into `x=B*q` and `B=x*q`.  After positive
+monomial factors are removed, the two determinants are proportional to
+
+```text
+J_B = a^2*q^2*(1-y)^2
+    + a*q^2*(4-(1-y)^2)
+    + 4*a*q*(1-y^2)
+    + 4*(q+1)*(y+1)^2,
+
+J_x = a^2*(1-y)^2
+    + a*(4-(1-y)^2)
+    + 4*a*q*(1-y^2)
+    + 4*q*(q+1)*(y+1)^2.                            (5.3)
+```
+
+Every summand in (5.3) is nonnegative on the unit cube.  Thus (5.1) is
+nonnegative.
+
+## 6. The `q4`-maximal infinity corner
+
+In the `q4`-maximal chart put `a=1-scale`, `A=c/q4`, and `B=q0/q4`.
+The equal-weight `(a,A)` principal has 86 terms and factors as
+
+```text
+B^4*y*(1-x)^2*(a+A*(1-x*y))*H,                      (6.1)
+
+H=A^2*Px(t)-A*a*t*x*K+a^2*t^2*x^2*y,
+K=2*t*x^2*y^2-2*t*y-x^2*y^2+2*y-1.                 (6.2)
+```
+
+Here `Px` is the same nonnegative quadratic proved in Section 3.  If the
+cross coefficient `-t*x*K` is nonnegative, (6.2) is immediate.  Otherwise
+`K>0`, and the binary-quadratic determinant is
+
+```text
+t^2*x^2*(1-x*y)^2*J,
+
+J=-4*t^2*x^2*y^2+4*t*x^2*y^2+4*t*x*y-4*t*y
+  -x^2*y^2-2*x*y+4*y-1.                            (6.3)
+```
+
+The tridegree-`(2,2,2)` Bernstein controls of `J-K` are all nonnegative.
+Hence `J=(J-K)+K>0` in the only region where the determinant is needed,
+which proves (6.1) nonnegative.
+
+## 7. The common `h`-dominant root
+
+The three `h`-dominant projective charts have the same accumulation after
+reversing the route scale, both projective ratios, `h`, `z`, and `t`.  Put
+
+```text
+a=1-scale,  H=1-h,  s=1-t,  y=x/h.
+```
+
+Although their compact polynomials have respectively 22,786, 21,692, and
+20,982 terms, their common total-degree-three face has only 34 terms and is
+the exact moving square
+
+```text
+3*(H+3*a)*(1-y)^2*(y*(H+3*a+s)-s)^2.                (7.1)
+```
+
+Thus the repeated subdivision tail near `y≈1` is again a root curve, not a
+negative principal.  Set
+
+```text
+w=y*(H+3*a+s)-s,        -s<=w<=H+3*a.               (7.2)
+```
+
+Splitting this exact interval gives two compact root charts.  For `w>=0`,
+write `w=(H+3*a)z`; after clearing the fourth power of the denominator, the
+degree-seven principal is
+
+```text
+3*(H+3*a)^5*z^2*(1-z)^2*(H+3*a+s)^2.               (7.3)
+```
+
+For `w<=0`, write `w=-s*z`; the corresponding principal is
+
+```text
+3*(H+3*a)*(H+3*a+s*z)^2*s^2*z^2*(H+3*a+s)^2.       (7.4)
+```
+
+Both are manifestly nonnegative for `0<=z<=1`.  The cleared root-chart
+polynomials have 86,464 and 59,892 terms; their remaining radial degrees
+start at eight and extend through twenty-seven.
+
+For the negative-root polynomial, projectivize the six nonnegative
+deviations and remove their common radial order seven.  Two of the six
+maximum-direction charts close without subdivision:
+
+| maximal direction | nonzero Bernstein controls | smallest control |
+|---|---:|---:|
+| `H=1-h` | 427,058 | `1/51710400` |
+| `s=1-t` | 540,935 | `1/25116480` |
+
+Every listed control is strictly positive and is reconstructed with exact
+rational arithmetic.  These are full radial subcharts, not merely their
+degree-seven principals.  The other four negative-root directions and all
+higher orders in the positive-root branch remain open.
+
+## 8. Reproduction and consequence
 
 Run from the campaign directory:
 
@@ -147,8 +281,10 @@ marked-connection forests, checks every displayed identity over exact
 rationals, and fixes the decisive polynomial hashes.
 
 These results eliminate the bounded double corner, both pure route-scale
-endpoints, and the first observed mixed infinity direction as possible
-negative principals.  Route degrees 8 through 11, higher mixed Newton
-orders, and the compact interiors remain coupled.  Coverage stays at 63 of
-81 negative-page chambers; `q3:PNL`, its symmetry image, the generic
-`Delta_b` sign, and OPG-1757 remain open.
+endpoints, the first observed mixed Newton direction in every `x`-dominant
+route chart, and the common moving-root principal in all three `h`-dominant
+charts.  They additionally close two full negative-root radial subcharts.
+Route degrees 8 through 11, the other mixed/root directions, and the compact
+interiors remain coupled.  Coverage stays at 63 of 81 negative-page
+chambers; `q3:PNL`, its symmetry image, the generic `Delta_b` sign, and
+OPG-1757 remain open.

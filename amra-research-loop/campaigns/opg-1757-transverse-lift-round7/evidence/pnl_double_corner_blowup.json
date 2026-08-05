@@ -107,59 +107,7 @@
       ]
     }
   },
-  "cleared": {
-    "degrees": [
-      6,
-      8,
-      4,
-      0,
-      4,
-      6,
-      3,
-      2
-    ],
-    "negative_power_coefficients": 2066,
-    "sha256": "68170b5d39689c5473c1bebf59842934cc1cdffc5a5cbb35921b360a32fa3e6f",
-    "terms": 4115
-  },
-  "conclusion": "the PNL all-bounded corner has an exact positive quadratic blow-up, both activity charts have nonnegative zero- and infinite-route-scale faces, and the first mixed infinity/q4 Newton face is nonnegative",
-  "coverage_change": 0,
-  "domain": "q3:PNL nested-odds chart with c,q0,q4>0 and all four bounded parameters in [0,1]",
-  "double_corner": {
-    "degrees": [
-      4,
-      4,
-      2,
-      0,
-      2,
-      5,
-      2,
-      2
-    ],
-    "identity": "c^2*q4*(q0+1)*(q4+1-z)^2*B*(B*(x-h*(1-t))^2+q0^2*(c+q4)*h^2*(1-t)^2), B=c*q0*q4+c*q0+c*q4+q0*q4",
-    "negative_power_coefficients": 232,
-    "sha256": "d917c349b0ed10971839fbad7ea99f4592bc473055311b62ef2dcd1f70aa634b",
-    "terms": 522,
-    "vanishing_order": 2
-  },
-  "local_coordinates": "x=1-s0, h=1-s3, z=1-s4, t=1-tau",
-  "local_quotient": {
-    "degrees": [
-      4,
-      4,
-      4,
-      0,
-      4,
-      5,
-      2,
-      2
-    ],
-    "negative_power_coefficients": 1435,
-    "sha256": "b3236cf596310d4a4151f7cfa161dad9868b467b241dc74bc5e437585833f71d",
-    "terms": 2920
-  },
-  "manifest_factor": "c^2*q0^4*q4*(1-s4)",
-  "mixed_projective_corner": {
+  "c_max_mixed_corner": {
     "J_half_bernstein_minimum_including_implicit_zero": "0",
     "J_half_bernstein_nonzero": 8,
     "J_half_bernstein_total": 9,
@@ -198,6 +146,342 @@
     "sign_certificate": "C has discriminant x*(x-4)<=0; for t>=1/2 every term of H is nonnegative, while for t<=1/2 the binary-quadratic determinant is t^2*x^2*(1-x)^2*J and J(x,s/2) has nonnegative bidegree-(2,2) Bernstein controls [[3,2,1],[2,3/2,1],[0,1,1]]",
     "weight": "equal weight on (a,v,b,e)"
   },
+  "cleared": {
+    "degrees": [
+      6,
+      8,
+      4,
+      0,
+      4,
+      6,
+      3,
+      2
+    ],
+    "negative_power_coefficients": 2066,
+    "sha256": "68170b5d39689c5473c1bebf59842934cc1cdffc5a5cbb35921b360a32fa3e6f",
+    "terms": 4115
+  },
+  "conclusion": "the PNL all-bounded corner has an exact positive quadratic blow-up, both activity charts have nonnegative zero- and infinite-route-scale faces, the first observed mixed Newton face in each dominant-route x-chart is nonnegative, the common h-chart accumulation is resolved into two nonnegative root principals, and the H- and s-maximal radial charts of its negative-root branch are fully Bernstein-positive",
+  "coverage_change": 0,
+  "domain": "q3:PNL nested-odds chart with c,q0,q4>0 and all four bounded parameters in [0,1]",
+  "double_corner": {
+    "degrees": [
+      4,
+      4,
+      2,
+      0,
+      2,
+      5,
+      2,
+      2
+    ],
+    "identity": "c^2*q4*(q0+1)*(q4+1-z)^2*B*(B*(x-h*(1-t))^2+q0^2*(c+q4)*h^2*(1-t)^2), B=c*q0*q4+c*q0+c*q4+q0*q4",
+    "negative_power_coefficients": 232,
+    "sha256": "d917c349b0ed10971839fbad7ea99f4592bc473055311b62ef2dcd1f70aa634b",
+    "terms": 522,
+    "vanishing_order": 2
+  },
+  "h_dominant_common_root": {
+    "coordinates": "in each dominant-route chart reverse scale, both route ratios, h, z, and t; retain y=x/h",
+    "leading_face": {
+      "degrees": [
+        3,
+        0,
+        4,
+        0,
+        3,
+        0,
+        0,
+        2
+      ],
+      "negative_power_coefficients": 14,
+      "sha256": "d9977ef66ad7af78683ad9fe381e596525d593f72af3a618c9f3936cafb9a146",
+      "terms": 34
+    },
+    "leading_identity": "3*(H+3*a)*(1-y)^2*(y*(H+3*a+s)-s)^2",
+    "negative_root_branch": {
+      "closed_radial_maximum_charts": {
+        "H": {
+          "bernstein_minimum": "1/51710400",
+          "bernstein_nonzero": 427058,
+          "bernstein_sha256": "bc264f5b31e19203e154443d9dc6256cc681c3cf6f53856edbbee561d337a6ff",
+          "control_slots": [
+            4,
+            2,
+            0,
+            1,
+            5,
+            6,
+            7
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              9,
+              4,
+              4,
+              0,
+              20,
+              5,
+              2,
+              6
+            ],
+            "negative_power_coefficients": 29914,
+            "sha256": "49ff9a52e41960a6d6d0e96cfab55c4af529548516813b82cf20d0cbb958a665",
+            "terms": 59892
+          }
+        },
+        "s": {
+          "bernstein_minimum": "1/25116480",
+          "bernstein_nonzero": 540935,
+          "bernstein_sha256": "82e2019058e14cc55fe49c97f6fefb56182df060be72ca2d11b44a88857033b5",
+          "control_slots": [
+            7,
+            2,
+            0,
+            1,
+            4,
+            5,
+            6
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              9,
+              4,
+              4,
+              0,
+              6,
+              5,
+              2,
+              20
+            ],
+            "negative_power_coefficients": 29914,
+            "sha256": "941f1a4e7d665cbe3a40e466dc58b93dc758913e1becd666b21402d24c196404",
+            "terms": 59892
+          }
+        }
+      },
+      "leading_face": {
+        "degrees": [
+          5,
+          0,
+          4,
+          0,
+          5,
+          0,
+          0,
+          6
+        ],
+        "negative_power_coefficients": 0,
+        "sha256": "da265dfd8f13e278358239cd778a82dbdf91d1c8c55eed6d7cb750647e54e388",
+        "terms": 36
+      },
+      "leading_identity": "3*(H+3*a)*(H+3*a+s*z)^2*s^2*z^2*(H+3*a+s)^2",
+      "polynomial": {
+        "degrees": [
+          9,
+          4,
+          4,
+          0,
+          6,
+          5,
+          2,
+          6
+        ],
+        "negative_power_coefficients": 29914,
+        "sha256": "c8eb9954de0d5402b7942e9cc9bfdcb6e3942efddcc67674ae8d92866737d896",
+        "terms": 59892
+      },
+      "substitution": "w=-s*z, 0<=z<=1"
+    },
+    "positive_root_branch": {
+      "leading_face": {
+        "degrees": [
+          7,
+          0,
+          4,
+          0,
+          7,
+          0,
+          0,
+          2
+        ],
+        "negative_power_coefficients": 21,
+        "sha256": "9f2c7a08f5d4a3c98c72f9481cb6eb4ce1a83f4f7c98076113ce049929308eb1",
+        "terms": 63
+      },
+      "leading_identity": "3*(H+3*a)^5*z^2*(1-z)^2*(H+3*a+s)^2",
+      "polynomial": {
+        "degrees": [
+          9,
+          4,
+          4,
+          0,
+          10,
+          5,
+          2,
+          6
+        ],
+        "negative_power_coefficients": 43233,
+        "sha256": "09d8ca3826c7f94e59a50014055611fc3c537475d2b8ad323607c4432eff2539",
+        "terms": 86464
+      },
+      "substitution": "w=(H+3*a)*z, 0<=z<=1"
+    },
+    "projective_charts": {
+      "c": {
+        "degrees": [
+          5,
+          4,
+          4,
+          0,
+          6,
+          5,
+          2,
+          2
+        ],
+        "negative_power_coefficients": 11396,
+        "sha256": "d2affe6d31e5d97c7700f2b7c8f3e3692f17a86499b4efeb4e9adc4773aaf5d2",
+        "terms": 22786
+      },
+      "q0": {
+        "degrees": [
+          5,
+          4,
+          4,
+          0,
+          6,
+          5,
+          2,
+          2
+        ],
+        "negative_power_coefficients": 10841,
+        "sha256": "34c5c2e9b7bf4527ce7d6bc97945d2c330c326bc6b1454b79bfa10f55efd29e1",
+        "terms": 21692
+      },
+      "q4": {
+        "degrees": [
+          5,
+          4,
+          4,
+          0,
+          6,
+          4,
+          2,
+          2
+        ],
+        "negative_power_coefficients": 10494,
+        "sha256": "0c64cc969560e2d52acd4ffb5dd0582796fcf2afc576def7a5b7e79f3bbfef55",
+        "terms": 20982
+      }
+    },
+    "root_coordinate": "w=y*(H+3*a+s)-s, with -s<=w<=H+3*a"
+  },
+  "local_coordinates": "x=1-s0, h=1-s3, z=1-s4, t=1-tau",
+  "local_quotient": {
+    "degrees": [
+      4,
+      4,
+      4,
+      0,
+      4,
+      5,
+      2,
+      2
+    ],
+    "negative_power_coefficients": 1435,
+    "sha256": "b3236cf596310d4a4151f7cfa161dad9868b467b241dc74bc5e437585833f71d",
+    "terms": 2920
+  },
+  "manifest_factor": "c^2*q0^4*q4*(1-s4)",
+  "q0_max_mixed_corner": {
+    "compact_polynomial": {
+      "degrees": [
+        5,
+        4,
+        6,
+        0,
+        4,
+        5,
+        2,
+        2
+      ],
+      "negative_power_coefficients": 2804,
+      "sha256": "0db9113d9275ec511679705f75ca2c6a83bbce42ada3f8c889a456dd6479af90",
+      "terms": 5599
+    },
+    "conditional_sign": "the middle t-Bernstein row is a*x*u*(B*u+a*e)*(a*e-B*u)/2; when negative put a*e=B*u*y and split x/B.  In both maximum charts the determinant is a positive prefactor times a displayed sum J_B or J_x of nonnegative terms",
+    "coordinates": "q0-maximal projective chart; u=scale, A=c/q0, B=q4/q0, v=1-y, e=1-z",
+    "endpoint_t1_projective_bernstein": {
+      "2": {
+        "controls_nonzero": 25,
+        "minimum_nonzero": "1/18"
+      },
+      "5": {
+        "controls_nonzero": 27,
+        "minimum_nonzero": "1/6"
+      },
+      "6": {
+        "controls_nonzero": 33,
+        "minimum_nonzero": "1/24"
+      }
+    },
+    "identity": "A^4*(1-u)*Q(t), with q0=B*u*L^2, q1=-u*L*M, q2=B*(L+u^2*x-u*x)^2 and L=-B*u+e*u-e",
+    "leading_face": {
+      "degrees": [
+        5,
+        4,
+        2,
+        0,
+        0,
+        3,
+        2,
+        2
+      ],
+      "negative_power_coefficients": 22,
+      "sha256": "90b617e606b1d323f1a621879af390196cb542937f4bb4cf1763a461d0395ed5",
+      "terms": 46
+    },
+    "weight": "equal weight on (x,v,B,e)"
+  },
+  "q4_max_infinity_corner": {
+    "J_minus_K_bernstein_minimum_including_implicit_zero": "0",
+    "J_minus_K_bernstein_nonzero": 13,
+    "J_minus_K_bernstein_total": 27,
+    "compact_polynomial": {
+      "degrees": [
+        5,
+        4,
+        6,
+        0,
+        4,
+        4,
+        2,
+        2
+      ],
+      "negative_power_coefficients": 1871,
+      "sha256": "ac9bbed02b64f49c65e5c818f580ed2e1a37431216a61a1c8551edfe84916783",
+      "terms": 3737
+    },
+    "conditional_sign": "Px is the proved degree-12 quadratic; if -t*x*K is negative then K>0, while the binary determinant is t^2*x^2*(1-x*y)^2*J and J-K has nonnegative tridegree-(2,2,2) Bernstein controls",
+    "coordinates": "q4-maximal projective chart; a=1-scale, A=c/q4, B=q0/q4",
+    "identity": "B^4*y*(1-x)^2*(a+A*(1-x*y))*(A^2*Px(t)-A*a*t*x*K+a^2*t^2*x^2*y)",
+    "leading_face": {
+      "degrees": [
+        3,
+        3,
+        6,
+        0,
+        4,
+        4,
+        0,
+        2
+      ],
+      "negative_power_coefficients": 41,
+      "sha256": "0ee49446a7ff4500b68c96b7e12c4a6f5caece17f7cc9b2d4f4f9a7797217bad",
+      "terms": 86
+    },
+    "weight": "equal weight on (a,A)"
+  },
   "reconstruction": {
     "Delta_b_original_terms": 178,
     "deletion_forests": 128,
@@ -205,5 +489,5 @@
   },
   "remaining_negative_page_chambers": 18,
   "schema": "amra.opg1757.round7.pnl-double-corner-blowup.v1",
-  "scope": "route degrees 8 through 11, higher mixed Newton orders, and the compact interiors of both blow-up charts remain coupled; q3:PNL, its symmetry mate, the generic sign, and OPG-1757 are not claimed"
+  "scope": "route degrees 8 through 11, higher mixed/root Newton orders outside the two closed negative-root radial charts, and the remaining compact interiors are coupled; q3:PNL, its symmetry mate, the generic sign, and OPG-1757 are not claimed"
 }
