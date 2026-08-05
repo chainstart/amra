@@ -95,10 +95,37 @@ Together with the two `K<=0` boxes, these add 4,205,922 strictly positive
 nonzero controls to the exact
 PNL local certificate stack.
 
+## Next face in the open below-`v` chart
+
+The remaining below-root `v`-maximal polynomial has 145,406 terms, radial
+degree vector `(28,0,6,0,6,10,29,6)`, and hash
+`44e2a18c05eca1e00a198c271c773a91995a6305b8f6c4a9bfbe6059e41028e1`.
+At its corner `(q,v)=(0,0)`, where `R=qv`, the fourth Newton order is one.
+The complete 122-term face has hash
+`97d4008cf2dc069d014f671c365942b1a2fa16918b4072d894bd770e68d61bda`
+and factors exactly as
+
+\[
+\begin{aligned}
+28&(1-b)^2(2b+7)^2(4b+7)(1-y)^2
+ (14by-36b-14y-63)^2\\
+&\quad\times\left[
+ q(4b+21)(7by+4b-7y+7)^2
+ +847b(4b+7)v
+ \right]. \tag{3}
+\end{aligned}
+\]
+
+Every factor in (3) is nonnegative for `0<=b,y,q,v<=1`.  Thus this corner
+has no negative leading direction, even though the power-basis expansion of
+the face has negative coefficients.  This is a leading-face certificate;
+it is not a certificate for either complete fourth-Newton chart.
+
 ## Remaining gap
 
-For `K>=0`, the below-root `v`-maximal chart has genuine negative Bernstein
-controls and needs further subdivision or another identity.  The `Hbar`, `C`,
-and `d` transverse maximum directions and the rest of the above-side `A`
-second-Newton chart also remain open.  No chamber count or global theorem
-status changes here.
+For `K>=0`, beyond the leading information in (3), both complete fourth-Newton
+charts still have genuine negative Bernstein controls, so the higher orders
+need further subdivision or another identity.  The `Hbar`, `C`, and `d`
+transverse maximum directions and the rest of the above-side `A` second-Newton
+chart also remain open.  No chamber count or global theorem status changes
+here.

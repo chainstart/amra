@@ -245,6 +245,38 @@ def expected_root_face():
     )
 
 
+def expected_fourth_face():
+    q, y, b, v = (variable(slot) for slot in (0, 2, 5, 6))
+    one_minus_b = add(constant(1), b, -1)
+    one_minus_y = add(constant(1), y, -1)
+    first_square = polynomial_sum(
+        scale(product(b, y), 7), scale(b, 4), scale(y, -7), constant(7)
+    )
+    second_square = polynomial_sum(
+        scale(product(b, y), 14), scale(b, -36), scale(y, -14), constant(-63)
+    )
+    bracket = polynomial_sum(
+        product(
+            q,
+            polynomial_sum(scale(b, 4), constant(21)),
+            square(first_square),
+        ),
+        scale(
+            product(b, polynomial_sum(scale(b, 4), constant(7)), v),
+            847,
+        ),
+    )
+    return product(
+        constant(28),
+        square(one_minus_b),
+        square(polynomial_sum(scale(b, 2), constant(7))),
+        polynomial_sum(scale(b, 4), constant(7)),
+        square(one_minus_y),
+        square(second_square),
+        bracket,
+    )
+
+
 def K_nonpositive_parameterized(R_radial, patch):
     b, y = (variable(slot) for slot in (5, 2))
     if patch == "high_B":
@@ -271,7 +303,9 @@ def K_nonpositive_parameterized(R_radial, patch):
 def build_record():
     data = transverse_data()
     root_face_expected = expected_root_face()
+    fourth_face_expected = expected_fourth_face()
     sides = {}
+    below_fourth_record = None
     for side in ("below", "above"):
         poly = parameterized(data["R_radial"], side)
         expected_poly = {
@@ -354,6 +388,41 @@ def build_record():
             },
             "closed_maximum_charts": closed,
         }
+        if side == "below":
+            third_v = radial_projective_chart(poly, ROOT_SLOTS, 6, root_order)
+            third_v_row = row(third_v)
+            assert third_v_row == {
+                "terms": 145406,
+                "degrees": [28, 0, 6, 0, 6, 10, 29, 6],
+                "negative_power_coefficients": 72505,
+                "sha256": "44e2a18c05eca1e00a198c271c773a91995a6305b8f6c4a9bfbe6059e41028e1",
+            }
+            fourth_order = min(
+                sum(monomial[slot] for slot in ROOT_SLOTS)
+                for monomial in third_v
+            )
+            assert fourth_order == 1
+            fourth_face = {
+                monomial: coefficient
+                for monomial, coefficient in third_v.items()
+                if sum(monomial[slot] for slot in ROOT_SLOTS) == fourth_order
+            }
+            assert fourth_face == fourth_face_expected
+            assert row(fourth_face) == {
+                "terms": 122,
+                "degrees": [1, 0, 6, 0, 0, 10, 1, 0],
+                "negative_power_coefficients": 55,
+                "sha256": "97d4008cf2dc069d014f671c365942b1a2fa16918b4072d894bd770e68d61bda",
+            }
+            below_fourth_record = {
+                "third_v_radial_polynomial": third_v_row,
+                "fourth_order": fourth_order,
+                "fourth_face": {
+                    **row(fourth_face),
+                    "identity": "28*(1-b)^2*(2*b+7)^2*(4*b+7)*(1-y)^2*(14*b*y-36*b-14*y-63)^2*(q*(4*b+21)*(7*b*y+4*b-7*y+7)^2+847*b*(4*b+7)*v)",
+                },
+            }
+            del third_v
         del poly
         gc.collect()
 
@@ -410,8 +479,9 @@ def build_record():
         "transverse_R_max_radial_polynomial": row(data["R_radial"]),
         "root_parameterization": "B=b/7, zeta=7*(1-b)*y/(7+4*b), K=(1-b)*(1-y); split C/R at K/11 and let v measure distance from the moving root",
         "K_nonpositive_patches": K_nonpositive_records,
+        "below_open_v_fourth_face": below_fourth_record,
         "sides": sides,
-        "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive",
+        "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is also manifestly nonnegative",
         "coverage_change": 0,
         "scope": "the below-side v-maximal chart for K>=0, the other transverse maximum directions, the rest of the above/A second-Newton chart, q3:PNL, and OPG-1757 are not claimed",
     }

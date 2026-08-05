@@ -65,7 +65,41 @@
       }
     }
   },
-  "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive",
+  "below_open_v_fourth_face": {
+    "fourth_face": {
+      "degrees": [
+        1,
+        0,
+        6,
+        0,
+        0,
+        10,
+        1,
+        0
+      ],
+      "identity": "28*(1-b)^2*(2*b+7)^2*(4*b+7)*(1-y)^2*(14*b*y-36*b-14*y-63)^2*(q*(4*b+21)*(7*b*y+4*b-7*y+7)^2+847*b*(4*b+7)*v)",
+      "negative_power_coefficients": 55,
+      "sha256": "97d4008cf2dc069d014f671c365942b1a2fa16918b4072d894bd770e68d61bda",
+      "terms": 122
+    },
+    "fourth_order": 1,
+    "third_v_radial_polynomial": {
+      "degrees": [
+        28,
+        0,
+        6,
+        0,
+        6,
+        10,
+        29,
+        6
+      ],
+      "negative_power_coefficients": 72505,
+      "sha256": "44e2a18c05eca1e00a198c271c773a91995a6305b8f6c4a9bfbe6059e41028e1",
+      "terms": 145406
+    }
+  },
+  "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is also manifestly nonnegative",
   "coverage_change": 0,
   "domain": "the rho=1 boundary of the above-side A-maximal chart in the PNL second Newton fan",
   "reconstruction": {
