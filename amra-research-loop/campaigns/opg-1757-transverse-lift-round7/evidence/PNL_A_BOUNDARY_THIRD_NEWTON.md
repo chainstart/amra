@@ -121,7 +121,7 @@ has no negative leading direction, even though the power-basis expansion of
 the face has negative coefficients.  This is a leading-face certificate;
 it is not a certificate for either complete fourth-Newton chart.
 
-### Complete `b=1` endpoint of the `q`-maximal chart
+### Complete `b=1` and `y=1` endpoints of the `q`-maximal chart
 
 One full degenerate boundary beyond (3) nevertheless closes exactly.  On
 `b=1`, the fourth `q`-maximal polynomial has the common monomial `q^2*v` and,
@@ -144,11 +144,42 @@ The residual `Q` has 71 power-basis terms and degree `(10,3,2)` in
 All remaining factors in (4) are nonnegative on the unit cube (the unsquared
 cubic is at least nine), so the complete `b=1` endpoint is nonnegative.
 
+The adjacent `y=1` endpoint has the same common monomial and compression.
+Writing
+
+\[
+ A=b(1-z)+7z,
+ \qquad
+ B=\bar Hbz^2(1-z)+7\bar Hz^3+2b(1-z)+14z+7,
+\]
+
+and
+
+\[
+\begin{aligned}
+L={}&11\bar Hbdz^3-11\bar Hbdz^2+22\bar Hbz^2-34\bar Hbz\\
+   &-21\bar Hz+7bdz-22b-7dz-77,
+\end{aligned}
+\]
+
+its 4,290-term primitive has the exact form
+
+\[
+ 121(dz+2)^2 A B L(z,\bar H,b,d)^2 Q_y(z,\bar H,b,d), \tag{5}
+\]
+
+Here `A>=0` and `B>=7`.  The 390-term residual `Q_y` has degree
+`(11,3,5,2)` in `(z,Hbar,b,d)` and 864 exact Bernstein controls: 834 are
+strictly positive, 30 vanish, and none is negative.  Their minimum nonzero
+value is `133056/5`, their maximum is `11344725`, and their hash is
+`e91fe7e7979e158e38eea0d9e0484f90db591d1facf25d411e126e075023a37a`.
+Consequently the complete `y=1` endpoint is also nonnegative.
+
 ## Remaining gap
 
 For `K>=0`, beyond the leading information in (3), both complete fourth-Newton
 charts still have genuine negative Bernstein controls away from the now-closed
-`b=1` endpoint, so the higher orders need further subdivision or another
-identity.  The `Hbar`, `C`, and `d` transverse maximum directions and the rest
-of the above-side `A` second-Newton chart also remain open.  No chamber count
-or global theorem status changes here.
+`b=1` and `y=1` endpoints, so the higher orders need further subdivision or
+another identity.  The `Hbar`, `C`, and `d` transverse maximum directions and
+the rest of the above-side `A` second-Newton chart also remain open.  No
+chamber count or global theorem status changes here.

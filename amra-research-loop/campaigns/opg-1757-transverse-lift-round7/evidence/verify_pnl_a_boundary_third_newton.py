@@ -318,6 +318,39 @@ def b_one_manifest_factor():
     )
 
 
+def y_one_manifest_factor():
+    z, Hbar, b, d = (variable(slot) for slot in (0, 4, 5, 7))
+    one_minus_z = add(constant(1), z, -1)
+    z2 = multiply(z, z)
+    z3 = multiply(z2, z)
+    first_positive = polynomial_sum(multiply(b, one_minus_z), scale(z, 7))
+    second_positive = polynomial_sum(
+        product(Hbar, b, z2, one_minus_z),
+        scale(multiply(Hbar, z3), 7),
+        scale(multiply(b, one_minus_z), 2),
+        scale(z, 14),
+        constant(7),
+    )
+    square_base = polynomial_sum(
+        scale(product(Hbar, b, d, z3), 11),
+        scale(product(Hbar, b, d, z2), -11),
+        scale(product(Hbar, b, z2), 22),
+        scale(product(Hbar, b, z), -34),
+        scale(multiply(Hbar, z), -21),
+        scale(product(b, d, z), 7),
+        scale(b, -22),
+        scale(multiply(d, z), -7),
+        constant(-77),
+    )
+    return product(
+        constant(121),
+        square(polynomial_sum(multiply(d, z), constant(2))),
+        first_positive,
+        second_positive,
+        square(square_base),
+    )
+
+
 def K_nonpositive_parameterized(R_radial, patch):
     b, y = (variable(slot) for slot in (5, 2))
     if patch == "high_B":
@@ -511,6 +544,52 @@ def build_record():
             assert min(b_one_controls.values()) == Fraction(6048, 5)
             assert max(b_one_controls.values()) == Fraction(1097599, 15)
             assert digest(b_one_controls) == "20b19508a53ab9f4a6281626ef3e7a41168707ff68a6cf6244dc5d4f5523f1a5"
+            y_one = specialize(fourth_q, 2, 1)
+            assert row(y_one) == {
+                "terms": 4290,
+                "degrees": [48, 0, 0, 0, 6, 9, 24, 6],
+                "negative_power_coefficients": 2027,
+                "sha256": "0a84b6473382551a003df28685b800af21e3e85a2f2d8bc535cf3cb78c729dc4",
+            }
+            y_one_common = common_monomial(y_one)
+            assert y_one_common == (2, 0, 0, 0, 0, 0, 1, 0)
+            y_one_primitive = divide_monomial(y_one, y_one_common)
+            assert row(y_one_primitive) == {
+                "terms": 4290,
+                "degrees": [46, 0, 0, 0, 6, 9, 23, 6],
+                "negative_power_coefficients": 2027,
+                "sha256": "665b335c71f571a1735f392aad906b1e90baeccd8e9beb7e75326bb533285ec7",
+            }
+            y_one_compressed = compress_q2v(y_one_primitive)
+            assert row(y_one_compressed) == {
+                "terms": 4290,
+                "degrees": [23, 0, 0, 0, 6, 9, 0, 6],
+                "negative_power_coefficients": 2027,
+                "sha256": "606c7e780e83aa6531556c60719ae82a7c2840d8fd966274d55fd48d98fb6fd0",
+            }
+            y_one_manifest = y_one_manifest_factor()
+            assert row(y_one_manifest) == {
+                "terms": 351,
+                "degrees": [12, 0, 0, 0, 3, 4, 0, 4],
+                "negative_power_coefficients": 117,
+                "sha256": "52e8f8a8aeb5d0f2e11c79e908b1ad869c366040ab09aa9c249cafaf24b5eca8",
+            }
+            y_one_residual = divide_polynomial(
+                y_one_compressed, y_one_manifest
+            )
+            assert multiply(y_one_manifest, y_one_residual) == y_one_compressed
+            assert row(y_one_residual) == {
+                "terms": 390,
+                "degrees": [11, 0, 0, 0, 3, 5, 0, 2],
+                "negative_power_coefficients": 187,
+                "sha256": "b54f4dee46fd2310e0ec02ba413872d5cbf5cd8c59cc2e30d01715461e5f001e",
+            }
+            y_one_controls = bernstein_transform(y_one_residual, [0, 4, 5, 7])
+            assert len(y_one_controls) == 834
+            assert all(value > 0 for value in y_one_controls.values())
+            assert min(y_one_controls.values()) == Fraction(133056, 5)
+            assert max(y_one_controls.values()) == Fraction(11344725)
+            assert digest(y_one_controls) == "e91fe7e7979e158e38eea0d9e0484f90db591d1facf25d411e126e075023a37a"
             below_fourth_record = {
                 "third_v_radial_polynomial": third_v_row,
                 "fourth_order": fourth_order,
@@ -538,8 +617,28 @@ def build_record():
                             "bernstein_sha256": digest(b_one_controls),
                         },
                     },
+                    "y_equals_one_boundary": {
+                        "polynomial": row(y_one),
+                        "common_monomial": "q^2*v",
+                        "compressed_variable": "z=q^2*v",
+                        "compressed_primitive": row(y_one_compressed),
+                        "factorization": "121*(d*z+2)^2*(b*(1-z)+7*z)*(Hbar*b*z^2*(1-z)+7*Hbar*z^3+2*b*(1-z)+14*z+7)*(11*Hbar*b*d*z^3-11*Hbar*b*d*z^2+22*Hbar*b*z^2-34*Hbar*b*z-21*Hbar*z+7*b*d*z-22*b-7*d*z-77)^2*Q(z,Hbar,b,d)",
+                        "manifest_factor": row(y_one_manifest),
+                        "positive_residual": {
+                            **row(y_one_residual),
+                            "control_slots": ["z", "Hbar", "b", "d"],
+                            "bernstein_total": 864,
+                            "bernstein_nonzero": len(y_one_controls),
+                            "bernstein_zero": 864 - len(y_one_controls),
+                            "bernstein_minimum_nonzero": str(min(y_one_controls.values())),
+                            "bernstein_maximum": str(max(y_one_controls.values())),
+                            "bernstein_sha256": digest(y_one_controls),
+                        },
+                    },
                 },
             }
+            del y_one_controls, y_one_residual, y_one_compressed
+            del y_one_primitive, y_one
             del b_one_controls, b_one_residual, b_one_compressed
             del b_one_primitive, b_one, fourth_q, third_v
         del poly
@@ -600,7 +699,7 @@ def build_record():
         "K_nonpositive_patches": K_nonpositive_records,
         "below_open_v_fourth_face": below_fourth_record,
         "sides": sides,
-        "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is manifestly nonnegative and the b=1 boundary of its q-maximal fourth chart is fully certified",
+        "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is manifestly nonnegative and the b=1 and y=1 boundaries of its q-maximal fourth chart are fully certified",
         "coverage_change": 0,
         "scope": "the below-side v-maximal chart for K>=0, the other transverse maximum directions, the rest of the above/A second-Newton chart, q3:PNL, and OPG-1757 are not claimed",
     }

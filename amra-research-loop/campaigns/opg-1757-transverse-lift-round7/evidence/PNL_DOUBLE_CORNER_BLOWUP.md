@@ -277,9 +277,9 @@ Within the still-open upper `A` direction,
 closes the full no-root half-region plus three nested third-Newton charts with
 4,205,922 strictly positive nonzero controls.  In the remaining below-root
 `v` chart, its next 122-term Newton face also has an exact manifestly
-nonnegative factorization, and the `b=1` endpoint of the resulting
-`q`-maximal fourth chart has a full three-variable Bernstein certificate.  The
-remaining higher orders stay open.
+nonnegative factorization, and the `b=1` and `y=1` endpoints of the resulting
+`q`-maximal fourth chart have full low-dimensional Bernstein certificates.
+The remaining higher orders stay open.
 
 ## 8. Reproduction and consequence
 
