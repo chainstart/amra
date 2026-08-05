@@ -272,6 +272,10 @@ its two-sided second Newton fan: `zeta`, `r`, and `Hbar` below `2/3`, and those
 three plus `B` and `d` above `2/3`.  Their 22,149,098 stored nonzero controls
 are all strictly positive.  Six second-fan charts remain open, so the first
 `a`-maximal chart as a whole is not claimed.
+Within the still-open upper `A` direction,
+`PNL_A_BOUNDARY_THIRD_NEWTON.md` extracts another exact transverse square and
+closes three nested third-Newton charts with 3,871,546 strictly positive
+nonzero controls.
 
 ## 8. Reproduction and consequence
 
@@ -283,6 +287,9 @@ python3 evidence/verify_pnl_double_corner_blowup.py \
 
 python3 evidence/verify_pnl_a_root_second_newton.py \
   | diff -u evidence/pnl_a_root_second_newton.json -
+
+python3 evidence/verify_pnl_a_boundary_third_newton.py \
+  | diff -u evidence/pnl_a_boundary_third_newton.json -
 ```
 
 The standard-library verifier reconstructs the 128 deletion forests and 58

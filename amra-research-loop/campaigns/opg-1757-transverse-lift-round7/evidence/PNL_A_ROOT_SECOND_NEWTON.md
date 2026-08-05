@@ -106,4 +106,7 @@ Six maximum-direction charts remain: `A`, `B`, `C`, and `d` on the lower
 side, and `A` and `C` on the upper side.  Those charts, the rest of the first
 `a`-maximal chart, the first-level `ratio1`, `ratio2`, and `e` directions, and
 the positive-root branch remain outside this certificate.  No chamber count
-or global theorem status changes here.
+or global theorem status changes here.  `PNL_A_BOUNDARY_THIRD_NEWTON.md`
+resolves the observed boundary accumulation inside the upper `A` chart and
+closes three nested third-Newton subcharts, but the upper `A` chart as a whole
+remains open.

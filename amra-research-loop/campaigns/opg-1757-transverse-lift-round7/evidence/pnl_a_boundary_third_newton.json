@@ -1,0 +1,259 @@
+{
+  "conclusion": "the below-side R-maximal chart and the above-side R- and v-maximal charts of the third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive",
+  "coverage_change": 0,
+  "domain": "the rho=1 boundary of the above-side A-maximal chart in the PNL second Newton fan",
+  "reconstruction": {
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "rho_one_boundary": {
+      "degrees": [
+        16,
+        0,
+        4,
+        0,
+        6,
+        5,
+        2,
+        6
+      ],
+      "negative_power_coefficients": 17174,
+      "sha256": "1a281747d0472ad41551d4004f3f73cbfc12ceec3b74fb69e0362b2c31cc6ace",
+      "terms": 34738
+    },
+    "second_A_radial_polynomial": {
+      "degrees": [
+        20,
+        44,
+        4,
+        0,
+        6,
+        5,
+        2,
+        6
+      ],
+      "negative_power_coefficients": 105400,
+      "sha256": "12f569bee239feb9eae8bc376ffe3f034f29e690e69f2fac3cd51a719374752f",
+      "terms": 212156
+    }
+  },
+  "root_parameterization": "B=b/7, zeta=7*(1-b)*y/(7+4*b), K=(1-b)*(1-y); split C/R at K/11 and let v measure distance from the moving root",
+  "schema": "amra.opg1757.round7.pnl-a-boundary-third-newton.v1",
+  "scope": "the below-side v-maximal chart, K<=0, the other transverse maximum directions, the rest of the above/A second-Newton chart, q3:PNL, and OPG-1757 are not claimed",
+  "sides": {
+    "above": {
+      "C_ratio_interval": "[K/11,1]",
+      "closed_maximum_charts": {
+        "R": {
+          "bernstein_maximum": "26696634898972500",
+          "bernstein_minimum_nonzero": "48229972252/225",
+          "bernstein_nonzero": 328517,
+          "bernstein_sha256": "97f465a71f712dba3b7bd99e13558765ff974a24c84db44d5faf27ffadf44ec5",
+          "bernstein_total": 339570,
+          "bernstein_zero": 11053,
+          "control_slots": [
+            0,
+            2,
+            4,
+            5,
+            6,
+            7
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              29,
+              0,
+              6,
+              0,
+              6,
+              10,
+              2,
+              6
+            ],
+            "negative_power_coefficients": 72235,
+            "sha256": "60a24b49f5e7f559ef86f16f3b3164c1e7e3ee0cc8664affc714e01536cb4f22",
+            "terms": 145423
+          }
+        },
+        "v": {
+          "bernstein_maximum": "26696634898972500",
+          "bernstein_minimum_nonzero": "1722499009/225",
+          "bernstein_nonzero": 3214610,
+          "bernstein_sha256": "a086c26d760c093bff23755a786b1d12df660227177d75ff2addbfddd077286c",
+          "bernstein_total": 3282510,
+          "bernstein_zero": 67900,
+          "control_slots": [
+            6,
+            0,
+            2,
+            4,
+            5,
+            7
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              28,
+              0,
+              6,
+              0,
+              6,
+              10,
+              29,
+              6
+            ],
+            "negative_power_coefficients": 72235,
+            "sha256": "05efe7d2f12cbf311ba2a6953094c994588e5c59d6cd2a7f0cf08cfe6f5c69fc",
+            "terms": 145423
+          }
+        }
+      },
+      "parameterized_polynomial": {
+        "degrees": [
+          28,
+          0,
+          6,
+          0,
+          6,
+          10,
+          2,
+          6
+        ],
+        "negative_power_coefficients": 72235,
+        "sha256": "b860e6b723a578760edaa7b4e3db58ac43941c21fe869bf3a00ff2429b169814",
+        "terms": 145423
+      },
+      "root_face": {
+        "degrees": [
+          1,
+          0,
+          6,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        "identity": "28*R*(1-b)^2*(2*b+7)^2*(4*b+7)*(4*b+21)*(1-y)^2*(7*b*y+4*b-7*y+7)^2*(14*b*y-36*b-14*y-63)^2",
+        "negative_power_coefficients": 36,
+        "sha256": "a4c9992531033f45e8ccde0e6af6c008a86e9d750a668e081c5747725367af1c",
+        "terms": 77
+      },
+      "root_order": 1
+    },
+    "below": {
+      "C_ratio_interval": "[0,K/11]",
+      "closed_maximum_charts": {
+        "R": {
+          "bernstein_maximum": "26696634898972500",
+          "bernstein_minimum_nonzero": "48229972252/225",
+          "bernstein_nonzero": 328419,
+          "bernstein_sha256": "da59a931a468698dff2265f1a785524fe4ab86e05beead9b5f9ea4f1f3f63962",
+          "bernstein_total": 339570,
+          "bernstein_zero": 11151,
+          "control_slots": [
+            0,
+            2,
+            4,
+            5,
+            6,
+            7
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              29,
+              0,
+              6,
+              0,
+              6,
+              10,
+              2,
+              6
+            ],
+            "negative_power_coefficients": 72505,
+            "sha256": "6df9efb4a3492cc18d9f9e2a672186f918a747666ff5f4e2e34191ab6cf6e0a4",
+            "terms": 145406
+          }
+        }
+      },
+      "parameterized_polynomial": {
+        "degrees": [
+          28,
+          0,
+          6,
+          0,
+          6,
+          10,
+          2,
+          6
+        ],
+        "negative_power_coefficients": 72505,
+        "sha256": "2be1763b2daf5c675b967e00bf8d2a8dca41e73fe79bc2ebaf3243f667e7059e",
+        "terms": 145406
+      },
+      "root_face": {
+        "degrees": [
+          1,
+          0,
+          6,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        "identity": "28*R*(1-b)^2*(2*b+7)^2*(4*b+7)*(4*b+21)*(1-y)^2*(7*b*y+4*b-7*y+7)^2*(14*b*y-36*b-14*y-63)^2",
+        "negative_power_coefficients": 36,
+        "sha256": "a4c9992531033f45e8ccde0e6af6c008a86e9d750a668e081c5747725367af1c",
+        "terms": 77
+      },
+      "root_order": 1
+    }
+  },
+  "transverse_R_max_radial_polynomial": {
+    "degrees": [
+      28,
+      0,
+      4,
+      0,
+      6,
+      5,
+      2,
+      6
+    ],
+    "negative_power_coefficients": 21256,
+    "sha256": "8e1e366bc878c79bde044b0acf955f3d0277260c11704ca882b293a413ea5f15",
+    "terms": 43109
+  },
+  "transverse_face": {
+    "degrees": [
+      2,
+      0,
+      4,
+      0,
+      0,
+      5,
+      2,
+      0
+    ],
+    "identity": "4*B*(2*B+1)^2*(2*zeta+9)^2*(11*C+R*((4*B+1)*zeta+7*B-1))^2",
+    "negative_power_coefficients": 5,
+    "sha256": "dbe8f2b735fa56e3f10ef79a12955aeaeea471b4dadf5592ac0b6914b0f0ff55",
+    "terms": 50
+  },
+  "transverse_local_polynomial": {
+    "degrees": [
+      16,
+      0,
+      4,
+      0,
+      6,
+      5,
+      2,
+      6
+    ],
+    "negative_power_coefficients": 21256,
+    "sha256": "c53b8d5addcec77b99338fca665162a4a3c116af1f9989ae184cd61e37fd194d",
+    "terms": 43109
+  },
+  "transverse_order": 2,
+  "transverse_zero_face": "r=1, Hbar=0, C=1, d=0, with zeta and B free"
+}
