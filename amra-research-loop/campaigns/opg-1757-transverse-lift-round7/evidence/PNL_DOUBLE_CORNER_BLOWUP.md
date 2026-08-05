@@ -267,10 +267,11 @@ rational arithmetic.  These are full radial subcharts, not merely their
 degree-seven principals.  The other four negative-root directions and all
 higher orders in the positive-root branch remain open.  Inside the open
 `a`-maximal direction, `PNL_A_ROOT_SECOND_NEWTON.md` resolves the observed
-rational accumulation at `s/a=2/3` and closes both `zeta`-maximal sides of its
-second Newton fan with 4,114,824 and 4,154,514 strictly positive nonzero
-controls, respectively.  The other six second-fan directions on each side
-remain open, so the first `a`-maximal chart as a whole is not claimed.
+rational accumulation at `s/a=2/3` and closes eight of the fourteen charts in
+its two-sided second Newton fan: `zeta`, `r`, and `Hbar` below `2/3`, and those
+three plus `B` and `d` above `2/3`.  Their 22,149,098 stored nonzero controls
+are all strictly positive.  Six second-fan charts remain open, so the first
+`a`-maximal chart as a whole is not claimed.
 
 ## 8. Reproduction and consequence
 
