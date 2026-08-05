@@ -83,6 +83,99 @@
       "terms": 122
     },
     "fourth_order": 1,
+    "q_maximal_chart": {
+      "b_equals_one_boundary": {
+        "common_monomial": "q^2*v",
+        "compressed_primitive": {
+          "degrees": [
+            23,
+            0,
+            0,
+            0,
+            6,
+            0,
+            0,
+            6
+          ],
+          "negative_power_coefficients": 213,
+          "sha256": "ae65be29ae5158360c740eb6bc476abaef50bd27a2e21ccede6025e5db5993a5",
+          "terms": 488
+        },
+        "compressed_variable": "z=q^2*v",
+        "factorization": "1771561*(1-z)*(6*z+1)*(d*z+2)^2*(6*Hbar*z^3+Hbar*z^2+12*z+9)*(Hbar*d*z^3-Hbar*d*z^2+2*Hbar*z^2-5*Hbar*z-9)^2*Q(z,Hbar,d)",
+        "manifest_factor": {
+          "degrees": [
+            13,
+            0,
+            0,
+            0,
+            3,
+            0,
+            0,
+            4
+          ],
+          "negative_power_coefficients": 34,
+          "sha256": "1ab1f61911c13126eb9e6fc9c256740df586f5351eb61a8ef23cdd9b58763710",
+          "terms": 91
+        },
+        "polynomial": {
+          "degrees": [
+            48,
+            0,
+            0,
+            0,
+            6,
+            0,
+            24,
+            6
+          ],
+          "negative_power_coefficients": 213,
+          "sha256": "072243c54b734e798d599fe710e0234eb329a876158c461531c8dbd4b91e5e58",
+          "terms": 488
+        },
+        "positive_residual": {
+          "bernstein_maximum": "1097599/15",
+          "bernstein_minimum_nonzero": "6048/5",
+          "bernstein_nonzero": 126,
+          "bernstein_sha256": "20b19508a53ab9f4a6281626ef3e7a41168707ff68a6cf6244dc5d4f5523f1a5",
+          "bernstein_total": 132,
+          "bernstein_zero": 6,
+          "control_slots": [
+            "z",
+            "Hbar",
+            "d"
+          ],
+          "degrees": [
+            10,
+            0,
+            0,
+            0,
+            3,
+            0,
+            0,
+            2
+          ],
+          "negative_power_coefficients": 35,
+          "sha256": "9f37c17b0aac08ca038359e27bfc0bfd0fbeddc0f38a8685ad72bcfba4a82c98",
+          "terms": 71
+        }
+      },
+      "radial_polynomial": {
+        "degrees": [
+          56,
+          0,
+          6,
+          0,
+          6,
+          10,
+          29,
+          6
+        ],
+        "negative_power_coefficients": 72505,
+        "sha256": "2e44871e941553ecdaefad9a3750b5e1c1505f3d76bf5fb7ec5a70828a423c25",
+        "terms": 145406
+      }
+    },
     "third_v_radial_polynomial": {
       "degrees": [
         28,
@@ -99,7 +192,7 @@
       "terms": 145406
     }
   },
-  "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is also manifestly nonnegative",
+  "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is manifestly nonnegative and the b=1 boundary of its q-maximal fourth chart is fully certified",
   "coverage_change": 0,
   "domain": "the rho=1 boundary of the above-side A-maximal chart in the PNL second Newton fan",
   "reconstruction": {

@@ -121,11 +121,34 @@ has no negative leading direction, even though the power-basis expansion of
 the face has negative coefficients.  This is a leading-face certificate;
 it is not a certificate for either complete fourth-Newton chart.
 
+### Complete `b=1` endpoint of the `q`-maximal chart
+
+One full degenerate boundary beyond (3) nevertheless closes exactly.  On
+`b=1`, the fourth `q`-maximal polynomial has the common monomial `q^2*v` and,
+after putting `z=q^2*v`, its 488-term primitive factors as
+
+\[
+\begin{aligned}
+1771561&(1-z)(6z+1)(dz+2)^2
+ (6\bar H z^3+\bar H z^2+12z+9)\\
+&\times(\bar Hdz^3-\bar Hdz^2+2\bar Hz^2-5\bar Hz-9)^2
+ Q(z,\bar H,d). \tag{4}
+\end{aligned}
+\]
+
+The residual `Q` has 71 power-basis terms and degree `(10,3,2)` in
+`(z,Hbar,d)`.  Its exact tensor-product Bernstein expansion has 132 controls:
+126 are strictly positive, six vanish, the minimum nonzero control is
+`6048/5`, and the maximum is `1097599/15`.  The control hash is
+`20b19508a53ab9f4a6281626ef3e7a41168707ff68a6cf6244dc5d4f5523f1a5`.
+All remaining factors in (4) are nonnegative on the unit cube (the unsquared
+cubic is at least nine), so the complete `b=1` endpoint is nonnegative.
+
 ## Remaining gap
 
 For `K>=0`, beyond the leading information in (3), both complete fourth-Newton
-charts still have genuine negative Bernstein controls, so the higher orders
-need further subdivision or another identity.  The `Hbar`, `C`, and `d`
-transverse maximum directions and the rest of the above-side `A` second-Newton
-chart also remain open.  No chamber count or global theorem status changes
-here.
+charts still have genuine negative Bernstein controls away from the now-closed
+`b=1` endpoint, so the higher orders need further subdivision or another
+identity.  The `Hbar`, `C`, and `d` transverse maximum directions and the rest
+of the above-side `A` second-Newton chart also remain open.  No chamber count
+or global theorem status changes here.
