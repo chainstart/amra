@@ -278,8 +278,10 @@ closes the full no-root half-region plus three nested third-Newton charts with
 4,205,922 strictly positive nonzero controls.  In the remaining below-root
 `v` chart, its next 122-term Newton face also has an exact manifestly
 nonnegative factorization, and the `b=1`, `y=1`, and `q=1` endpoints of the
-resulting `q`-maximal fourth chart have full exact certificates.  The remaining
-higher orders stay open.
+resulting `q`-maximal fourth chart have full exact certificates.  More
+strongly, the complete full-dimensional half-chart `1/2<=q<=1` is certified by
+6,340,859 strictly positive nonzero controls.  The remaining higher orders
+stay open.
 
 ## 8. Reproduction and consequence
 

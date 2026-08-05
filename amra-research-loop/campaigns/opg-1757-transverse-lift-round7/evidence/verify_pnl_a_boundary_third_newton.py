@@ -603,6 +603,30 @@ def build_record():
             assert min(q_one_controls.values()) == Fraction(48229972252, 225)
             assert max(q_one_controls.values()) == Fraction(26696634898972500)
             assert digest(q_one_controls) == "3d6a042e5f239678202bbfe9a088d3d41a218234de876b2a875c60640c526d48"
+            q_upper, q_upper_degree = substitute_slot(
+                fourth_q,
+                0,
+                polynomial_sum(constant(1), variable(0)),
+                constant(2),
+            )
+            assert q_upper_degree == 56
+            q_upper_row = row(q_upper)
+            assert q_upper_row == {
+                "terms": 1534976,
+                "degrees": [56, 0, 6, 0, 6, 10, 29, 6],
+                "negative_power_coefficients": 764922,
+                "sha256": "702da872d42f8974ebfd7ba78ffbe9f7ae3b34fbfbbc76a565abb2f566b8ba88",
+            }
+            q_upper_controls = bernstein_transform(q_upper, list(ACTIVE_SLOTS))
+            assert len(q_upper_controls) == 6340859
+            assert all(value > 0 for value in q_upper_controls.values())
+            assert min(q_upper_controls.values()) == Fraction(
+                3475335760995144988855631872, 225
+            )
+            assert max(q_upper_controls.values()) == Fraction(
+                1923695279728939682028595445760000
+            )
+            assert digest(q_upper_controls) == "9cc319051d62babe66bebd99b95ff533d0ab5d3ade457631a12fc551e573b536"
             below_fourth_record = {
                 "third_v_radial_polynomial": third_v_row,
                 "fourth_order": fourth_order,
@@ -640,6 +664,17 @@ def build_record():
                         "bernstein_maximum": str(max(q_one_controls.values())),
                         "bernstein_sha256": digest(q_one_controls),
                     },
+                    "q_upper_half": {
+                        "parameterization": "q=(1+t)/2 with 0<=t<=1; the reconstructed polynomial is cleared by the positive factor 2^56",
+                        "polynomial": q_upper_row,
+                        "control_slots": ["t", "y", "Hbar", "b", "v", "d"],
+                        "bernstein_total": 6451830,
+                        "bernstein_nonzero": len(q_upper_controls),
+                        "bernstein_zero": 6451830 - len(q_upper_controls),
+                        "bernstein_minimum_nonzero": str(min(q_upper_controls.values())),
+                        "bernstein_maximum": str(max(q_upper_controls.values())),
+                        "bernstein_sha256": digest(q_upper_controls),
+                    },
                     "y_equals_one_boundary": {
                         "polynomial": row(y_one),
                         "common_monomial": "q^2*v",
@@ -660,6 +695,7 @@ def build_record():
                     },
                 },
             }
+            del q_upper_controls, q_upper
             del q_one_controls, q_one
             del y_one_controls, y_one_residual, y_one_compressed
             del y_one_primitive, y_one
@@ -723,7 +759,7 @@ def build_record():
         "K_nonpositive_patches": K_nonpositive_records,
         "below_open_v_fourth_face": below_fourth_record,
         "sides": sides,
-        "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is manifestly nonnegative and the b=1, y=1, and q=1 boundaries of its q-maximal fourth chart are fully certified",
+        "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is manifestly nonnegative, the full q>=1/2 half of its q-maximal fourth chart is Bernstein-certified, and its b=1 and y=1 boundaries are fully certified",
         "coverage_change": 0,
         "scope": "the below-side v-maximal chart for K>=0, the other transverse maximum directions, the rest of the above/A second-Newton chart, q3:PNL, and OPG-1757 are not claimed",
     }

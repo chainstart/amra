@@ -181,11 +181,23 @@ strictly positive and 3,717 vanish.  The minimum nonzero control is
 `48229972252/225`, and the exact control hash is
 `3d6a042e5f239678202bbfe9a088d3d41a218234de876b2a875c60640c526d48`.
 
+### Full upper half of the `q`-maximal chart
+
+The endpoint certificate extends to a full-dimensional compact subdomain.
+Set `q=(1+t)/2`, `0<=t<=1`, and clear the positive denominator by `2^56`.
+The resulting 1,534,976-term polynomial has 6,451,830 tensor-product
+Bernstein controls over `(t,y,Hbar,b,v,d)`.  Exactly 6,340,859 controls are
+strictly positive, 110,971 vanish, and none is negative.  The minimum nonzero
+control is `3475335760995144988855631872/225`; the control hash is
+`9cc319051d62babe66bebd99b95ff533d0ab5d3ade457631a12fc551e573b536`.
+Therefore the entire `1/2<=q<=1` half of this fourth-Newton chart is closed.
+
 ## Remaining gap
 
-For `K>=0`, beyond the leading information in (3), both complete fourth-Newton
-charts still have genuine negative Bernstein controls away from the now-closed
-`b=1`, `y=1`, and `q=1` endpoints, so the higher orders need further
-subdivision or another identity.  The `Hbar`, `C`, and `d` transverse maximum
-directions and the rest of the above-side `A` second-Newton chart also remain
-open.  No chamber count or global theorem status changes here.
+For `K>=0`, the lower half `0<=q<=1/2` of the `q`-maximal fourth chart and the
+complete `v`-maximal fourth chart still have genuine negative Bernstein
+controls away from the now-closed `b=1` and `y=1` endpoints, so their higher
+orders need further subdivision or another identity.  The `Hbar`, `C`, and
+`d` transverse maximum directions and the rest of the above-side `A`
+second-Newton chart also remain open.  No chamber count or global theorem
+status changes here.

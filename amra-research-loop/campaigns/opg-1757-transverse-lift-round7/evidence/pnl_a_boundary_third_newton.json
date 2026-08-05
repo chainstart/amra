@@ -190,6 +190,38 @@
           "terms": 56032
         }
       },
+      "q_upper_half": {
+        "bernstein_maximum": "1923695279728939682028595445760000",
+        "bernstein_minimum_nonzero": "3475335760995144988855631872/225",
+        "bernstein_nonzero": 6340859,
+        "bernstein_sha256": "9cc319051d62babe66bebd99b95ff533d0ab5d3ade457631a12fc551e573b536",
+        "bernstein_total": 6451830,
+        "bernstein_zero": 110971,
+        "control_slots": [
+          "t",
+          "y",
+          "Hbar",
+          "b",
+          "v",
+          "d"
+        ],
+        "parameterization": "q=(1+t)/2 with 0<=t<=1; the reconstructed polynomial is cleared by the positive factor 2^56",
+        "polynomial": {
+          "degrees": [
+            56,
+            0,
+            6,
+            0,
+            6,
+            10,
+            29,
+            6
+          ],
+          "negative_power_coefficients": 764922,
+          "sha256": "702da872d42f8974ebfd7ba78ffbe9f7ae3b34fbfbbc76a565abb2f566b8ba88",
+          "terms": 1534976
+        }
+      },
       "radial_polynomial": {
         "degrees": [
           56,
@@ -299,7 +331,7 @@
       "terms": 145406
     }
   },
-  "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is manifestly nonnegative and the b=1, y=1, and q=1 boundaries of its q-maximal fourth chart are fully certified",
+  "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is manifestly nonnegative, the full q>=1/2 half of its q-maximal fourth chart is Bernstein-certified, and its b=1 and y=1 boundaries are fully certified",
   "coverage_change": 0,
   "domain": "the rho=1 boundary of the above-side A-maximal chart in the PNL second Newton fan",
   "reconstruction": {
