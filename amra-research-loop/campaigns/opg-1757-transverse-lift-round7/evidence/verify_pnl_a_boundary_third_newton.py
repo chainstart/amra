@@ -590,6 +590,19 @@ def build_record():
             assert min(y_one_controls.values()) == Fraction(133056, 5)
             assert max(y_one_controls.values()) == Fraction(11344725)
             assert digest(y_one_controls) == "e91fe7e7979e158e38eea0d9e0484f90db591d1facf25d411e126e075023a37a"
+            q_one = specialize(fourth_q, 0, 1)
+            assert row(q_one) == {
+                "terms": 56032,
+                "degrees": [0, 0, 6, 0, 6, 10, 29, 6],
+                "negative_power_coefficients": 27811,
+                "sha256": "4c49c28a8090dcbbe65f81a5a809b4e0e0630dfd9f7dd967ef3da02a6b8e3da7",
+            }
+            q_one_controls = bernstein_transform(q_one, [2, 4, 5, 6, 7])
+            assert len(q_one_controls) == 109473
+            assert all(value > 0 for value in q_one_controls.values())
+            assert min(q_one_controls.values()) == Fraction(48229972252, 225)
+            assert max(q_one_controls.values()) == Fraction(26696634898972500)
+            assert digest(q_one_controls) == "3d6a042e5f239678202bbfe9a088d3d41a218234de876b2a875c60640c526d48"
             below_fourth_record = {
                 "third_v_radial_polynomial": third_v_row,
                 "fourth_order": fourth_order,
@@ -617,6 +630,16 @@ def build_record():
                             "bernstein_sha256": digest(b_one_controls),
                         },
                     },
+                    "q_equals_one_boundary": {
+                        "polynomial": row(q_one),
+                        "control_slots": ["y", "Hbar", "b", "v", "d"],
+                        "bernstein_total": 113190,
+                        "bernstein_nonzero": len(q_one_controls),
+                        "bernstein_zero": 113190 - len(q_one_controls),
+                        "bernstein_minimum_nonzero": str(min(q_one_controls.values())),
+                        "bernstein_maximum": str(max(q_one_controls.values())),
+                        "bernstein_sha256": digest(q_one_controls),
+                    },
                     "y_equals_one_boundary": {
                         "polynomial": row(y_one),
                         "common_monomial": "q^2*v",
@@ -637,6 +660,7 @@ def build_record():
                     },
                 },
             }
+            del q_one_controls, q_one
             del y_one_controls, y_one_residual, y_one_compressed
             del y_one_primitive, y_one
             del b_one_controls, b_one_residual, b_one_compressed
@@ -699,7 +723,7 @@ def build_record():
         "K_nonpositive_patches": K_nonpositive_records,
         "below_open_v_fourth_face": below_fourth_record,
         "sides": sides,
-        "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is manifestly nonnegative and the b=1 and y=1 boundaries of its q-maximal fourth chart are fully certified",
+        "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is manifestly nonnegative and the b=1, y=1, and q=1 boundaries of its q-maximal fourth chart are fully certified",
         "coverage_change": 0,
         "scope": "the below-side v-maximal chart for K>=0, the other transverse maximum directions, the rest of the above/A second-Newton chart, q3:PNL, and OPG-1757 are not claimed",
     }

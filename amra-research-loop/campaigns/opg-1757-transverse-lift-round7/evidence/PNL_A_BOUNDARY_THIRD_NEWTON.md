@@ -175,11 +175,17 @@ value is `133056/5`, their maximum is `11344725`, and their hash is
 `e91fe7e7979e158e38eea0d9e0484f90db591d1facf25d411e126e075023a37a`.
 Consequently the complete `y=1` endpoint is also nonnegative.
 
+The opposite radial endpoint `q=1` closes directly, without a further
+factorization.  Its five-variable tensor has 113,190 controls: 109,473 are
+strictly positive and 3,717 vanish.  The minimum nonzero control is
+`48229972252/225`, and the exact control hash is
+`3d6a042e5f239678202bbfe9a088d3d41a218234de876b2a875c60640c526d48`.
+
 ## Remaining gap
 
 For `K>=0`, beyond the leading information in (3), both complete fourth-Newton
 charts still have genuine negative Bernstein controls away from the now-closed
-`b=1` and `y=1` endpoints, so the higher orders need further subdivision or
-another identity.  The `Hbar`, `C`, and `d` transverse maximum directions and
-the rest of the above-side `A` second-Newton chart also remain open.  No
-chamber count or global theorem status changes here.
+`b=1`, `y=1`, and `q=1` endpoints, so the higher orders need further
+subdivision or another identity.  The `Hbar`, `C`, and `d` transverse maximum
+directions and the rest of the above-side `A` second-Newton chart also remain
+open.  No chamber count or global theorem status changes here.
