@@ -1,5 +1,71 @@
 {
-  "conclusion": "the below-side R-maximal chart and the above-side R- and v-maximal charts of the third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive",
+  "K_nonpositive_patches": {
+    "high_B": {
+      "bernstein_maximum": "91892272500",
+      "bernstein_minimum_nonzero": "279936/7",
+      "bernstein_nonzero": 125629,
+      "bernstein_sha256": "c10c4f9d392e4b3b17b7d35c35e84b33ca2138ef751269dc8e8dccb48409c148",
+      "bernstein_total": 127890,
+      "bernstein_zero": 2261,
+      "control_slots": [
+        0,
+        2,
+        4,
+        5,
+        6,
+        7
+      ],
+      "parameterization": "B=(1+6*b)/7, zeta=y",
+      "polynomial": {
+        "degrees": [
+          28,
+          0,
+          4,
+          0,
+          6,
+          5,
+          2,
+          6
+        ],
+        "negative_power_coefficients": 22016,
+        "sha256": "87733107ec673b7875a21ffa88dd46e5d313eb390be82c253ef0caac2a9653c2",
+        "terms": 44630
+      }
+    },
+    "low_B_high_zeta": {
+      "bernstein_maximum": "1345394761672500",
+      "bernstein_minimum_nonzero": "246071287/18",
+      "bernstein_nonzero": 208747,
+      "bernstein_sha256": "5685efd042850a7c7e891f45ca8687b0a7ac4b5be0a508e5a55c0653c6e82f4f",
+      "bernstein_total": 213150,
+      "bernstein_zero": 4403,
+      "control_slots": [
+        0,
+        2,
+        4,
+        5,
+        6,
+        7
+      ],
+      "parameterization": "B=b/7, zeta=(7*(1-b)+11*b*y)/(7+4*b)",
+      "polynomial": {
+        "degrees": [
+          28,
+          0,
+          4,
+          0,
+          6,
+          9,
+          2,
+          6
+        ],
+        "negative_power_coefficients": 28172,
+        "sha256": "f58635dfd33dd775b0cdc8aebfff7a3f5a7265ae976c1889f775ea0b26cf1f07",
+        "terms": 57455
+      }
+    }
+  },
+  "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive",
   "coverage_change": 0,
   "domain": "the rho=1 boundary of the above-side A-maximal chart in the PNL second Newton fan",
   "reconstruction": {
@@ -38,7 +104,7 @@
   },
   "root_parameterization": "B=b/7, zeta=7*(1-b)*y/(7+4*b), K=(1-b)*(1-y); split C/R at K/11 and let v measure distance from the moving root",
   "schema": "amra.opg1757.round7.pnl-a-boundary-third-newton.v1",
-  "scope": "the below-side v-maximal chart, K<=0, the other transverse maximum directions, the rest of the above/A second-Newton chart, q3:PNL, and OPG-1757 are not claimed",
+  "scope": "the below-side v-maximal chart for K>=0, the other transverse maximum directions, the rest of the above/A second-Newton chart, q3:PNL, and OPG-1757 are not claimed",
   "sides": {
     "above": {
       "C_ratio_interval": "[K/11,1]",

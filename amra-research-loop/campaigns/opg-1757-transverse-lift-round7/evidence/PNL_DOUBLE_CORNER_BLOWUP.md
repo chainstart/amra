@@ -274,8 +274,8 @@ are all strictly positive.  Six second-fan charts remain open, so the first
 `a`-maximal chart as a whole is not claimed.
 Within the still-open upper `A` direction,
 `PNL_A_BOUNDARY_THIRD_NEWTON.md` extracts another exact transverse square and
-closes three nested third-Newton charts with 3,871,546 strictly positive
-nonzero controls.
+closes the full no-root half-region plus three nested third-Newton charts with
+4,205,922 strictly positive nonzero controls.
 
 ## 8. Reproduction and consequence
 

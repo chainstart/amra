@@ -55,6 +55,18 @@ maps the unit square in `(b,y)` onto this region and gives
 distance from that root on either side.  Positive denominator clearing uses
 only powers of `7`, `7+4b`, and `11`.
 
+The complementary region `K<=0`, where no moving root is possible, is
+covered by two compact boxes:
+
+| patch | parameterization | total controls | nonzero | minimum nonzero | control hash |
+|---|---|---:|---:|---:|---|
+| `B>=1/7` | `B=(1+6b)/7`, `zeta=y` | 127,890 | 125,629 | `279936/7` | `c10c4f9d392e4b3b17b7d35c35e84b33ca2138ef751269dc8e8dccb48409c148` |
+| `B<=1/7`, above threshold | `B=b/7`, `zeta=(7(1-b)+11by)/(7+4b)` | 213,150 | 208,747 | `246071287/18` | `5685efd042850a7c7e891f45ca8687b0a7ac4b5be0a508e5a55c0653c6e82f4f` |
+
+All stored controls in both boxes are strictly positive, so the full
+`K<=0` part of the transverse `R` chart is closed before introducing the
+root split.
+
 On both sides the ideal `(R,v)` has order one.  Its common 77-term face is
 
 \[
@@ -79,13 +91,14 @@ stored nonzero control is an exact positive `Fraction`.
 | `K/11<=C/R<=1` | `R` | 339,570 | 328,517 | 11,053 | `48229972252/225` | `97f465a71f712dba3b7bd99e13558765ff974a24c84db44d5faf27ffadf44ec5` |
 | `K/11<=C/R<=1` | `v` | 3,282,510 | 3,214,610 | 67,900 | `1722499009/225` | `a086c26d760c093bff23755a786b1d12df660227177d75ff2addbfddd077286c` |
 
-Together these add 3,871,546 strictly positive nonzero controls to the exact
+Together with the two `K<=0` boxes, these add 4,205,922 strictly positive
+nonzero controls to the exact
 PNL local certificate stack.
 
 ## Remaining gap
 
-The below-root `v`-maximal chart has genuine negative Bernstein controls and
-needs further subdivision or another identity.  The region `K<=0`, the
-`Hbar`, `C`, and `d` transverse maximum directions, and the rest of the
-above-side `A` second-Newton chart also remain open.  No chamber count or
-global theorem status changes here.
+For `K>=0`, the below-root `v`-maximal chart has genuine negative Bernstein
+controls and needs further subdivision or another identity.  The `Hbar`, `C`,
+and `d` transverse maximum directions and the rest of the above-side `A`
+second-Newton chart also remain open.  No chamber count or global theorem
+status changes here.

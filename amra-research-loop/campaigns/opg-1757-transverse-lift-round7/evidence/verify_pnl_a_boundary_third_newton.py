@@ -66,6 +66,32 @@ EXPECTED_CONTROLS = {
         "sha256": "a086c26d760c093bff23755a786b1d12df660227177d75ff2addbfddd077286c",
     },
 }
+EXPECTED_K_NONPOSITIVE = {
+    "high_B": {
+        "polynomial": {
+            "terms": 44630,
+            "degrees": [28, 0, 4, 0, 6, 5, 2, 6],
+            "negative_power_coefficients": 22016,
+            "sha256": "87733107ec673b7875a21ffa88dd46e5d313eb390be82c253ef0caac2a9653c2",
+        },
+        "nonzero": 125629,
+        "minimum": Fraction(279936, 7),
+        "maximum": Fraction(91892272500),
+        "sha256": "c10c4f9d392e4b3b17b7d35c35e84b33ca2138ef751269dc8e8dccb48409c148",
+    },
+    "low_B_high_zeta": {
+        "polynomial": {
+            "terms": 57455,
+            "degrees": [28, 0, 4, 0, 6, 9, 2, 6],
+            "negative_power_coefficients": 28172,
+            "sha256": "f58635dfd33dd775b0cdc8aebfff7a3f5a7265ae976c1889f775ea0b26cf1f07",
+        },
+        "nonzero": 208747,
+        "minimum": Fraction(246071287, 18),
+        "maximum": Fraction(1345394761672500),
+        "sha256": "5685efd042850a7c7e891f45ca8687b0a7ac4b5be0a508e5a55c0653c6e82f4f",
+    },
+}
 
 
 def specialize(poly, slot, value):
@@ -219,6 +245,29 @@ def expected_root_face():
     )
 
 
+def K_nonpositive_parameterized(R_radial, patch):
+    b, y = (variable(slot) for slot in (5, 2))
+    if patch == "high_B":
+        poly, degree = substitute_slot(
+            R_radial,
+            5,
+            polynomial_sum(constant(1), scale(b, 6)),
+            constant(7),
+        )
+        assert degree == 5
+        return poly
+    poly, degree = substitute_slot(R_radial, 5, b, constant(7))
+    assert degree == 5
+    numerator = polynomial_sum(
+        scale(add(constant(1), b, -1), 7),
+        scale(multiply(b, y), 11),
+    )
+    denominator = polynomial_sum(constant(7), scale(b, 4))
+    poly, degree = substitute_slot(poly, 2, numerator, denominator)
+    assert degree == 4
+    return poly
+
+
 def build_record():
     data = transverse_data()
     root_face_expected = expected_root_face()
@@ -308,6 +357,40 @@ def build_record():
         del poly
         gc.collect()
 
+    K_nonpositive_records = {}
+    for patch, expected in EXPECTED_K_NONPOSITIVE.items():
+        poly = K_nonpositive_parameterized(data["R_radial"], patch)
+        assert row(poly) == expected["polynomial"]
+        controls = bernstein_transform(poly, list(ACTIVE_SLOTS))
+        controls_minimum = min(controls.values())
+        controls_maximum = max(controls.values())
+        controls_digest = digest(controls)
+        assert len(controls) == expected["nonzero"]
+        assert all(value > 0 for value in controls.values())
+        assert controls_minimum == expected["minimum"]
+        assert controls_maximum == expected["maximum"]
+        assert controls_digest == expected["sha256"]
+        total = 1
+        for slot in ACTIVE_SLOTS:
+            total *= expected["polynomial"]["degrees"][slot] + 1
+        K_nonpositive_records[patch] = {
+            "parameterization": (
+                "B=(1+6*b)/7, zeta=y"
+                if patch == "high_B"
+                else "B=b/7, zeta=(7*(1-b)+11*b*y)/(7+4*b)"
+            ),
+            "polynomial": expected["polynomial"],
+            "control_slots": list(ACTIVE_SLOTS),
+            "bernstein_total": total,
+            "bernstein_nonzero": len(controls),
+            "bernstein_zero": total - len(controls),
+            "bernstein_minimum_nonzero": str(controls_minimum),
+            "bernstein_maximum": str(controls_maximum),
+            "bernstein_sha256": controls_digest,
+        }
+        del controls, poly
+        gc.collect()
+
     return {
         "schema": "amra.opg1757.round7.pnl-a-boundary-third-newton.v1",
         "domain": "the rho=1 boundary of the above-side A-maximal chart in the PNL second Newton fan",
@@ -326,10 +409,11 @@ def build_record():
         },
         "transverse_R_max_radial_polynomial": row(data["R_radial"]),
         "root_parameterization": "B=b/7, zeta=7*(1-b)*y/(7+4*b), K=(1-b)*(1-y); split C/R at K/11 and let v measure distance from the moving root",
+        "K_nonpositive_patches": K_nonpositive_records,
         "sides": sides,
-        "conclusion": "the below-side R-maximal chart and the above-side R- and v-maximal charts of the third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive",
+        "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive",
         "coverage_change": 0,
-        "scope": "the below-side v-maximal chart, K<=0, the other transverse maximum directions, the rest of the above/A second-Newton chart, q3:PNL, and OPG-1757 are not claimed",
+        "scope": "the below-side v-maximal chart for K>=0, the other transverse maximum directions, the rest of the above/A second-Newton chart, q3:PNL, and OPG-1757 are not claimed",
     }
 
 
