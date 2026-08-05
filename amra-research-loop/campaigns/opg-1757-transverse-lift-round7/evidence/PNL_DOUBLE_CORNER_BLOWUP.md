@@ -282,7 +282,9 @@ resulting `q`-maximal fourth chart have full exact certificates.  More
 strongly, the complete full-dimensional half-chart `1/2<=q<=1` is certified by
 6,340,859 strictly positive nonzero controls, and two further boxes with
 12,755,631 strictly positive nonzero controls extend the certified region to
-`q>=1/4`.  The remaining higher orders stay open.
+`q>=1/4`.  `PNL_FOURTH_Q_THIRD_ANNULUS.md` adds three boxes with 19,207,461
+strictly positive nonzero controls and reaches `q>=1/8`.  The remaining higher
+orders stay open.
 
 ## 8. Reproduction and consequence
 
@@ -297,6 +299,9 @@ python3 evidence/verify_pnl_a_root_second_newton.py \
 
 python3 evidence/verify_pnl_a_boundary_third_newton.py \
   | diff -u evidence/pnl_a_boundary_third_newton.json -
+
+python3 evidence/verify_pnl_fourth_q_third_annulus.py \
+  | diff -u evidence/pnl_fourth_q_third_annulus.json -
 ```
 
 The standard-library verifier reconstructs the 128 deletion forests and 58
