@@ -280,8 +280,9 @@ closes the full no-root half-region plus three nested third-Newton charts with
 nonnegative factorization, and the `b=1`, `y=1`, and `q=1` endpoints of the
 resulting `q`-maximal fourth chart have full exact certificates.  More
 strongly, the complete full-dimensional half-chart `1/2<=q<=1` is certified by
-6,340,859 strictly positive nonzero controls.  The remaining higher orders
-stay open.
+6,340,859 strictly positive nonzero controls, and two further boxes with
+12,755,631 strictly positive nonzero controls extend the certified region to
+`q>=1/4`.  The remaining higher orders stay open.
 
 ## 8. Reproduction and consequence
 

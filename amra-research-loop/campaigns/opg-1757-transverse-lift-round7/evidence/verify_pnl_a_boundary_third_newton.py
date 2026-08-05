@@ -627,6 +627,92 @@ def build_record():
                 1923695279728939682028595445760000
             )
             assert digest(q_upper_controls) == "9cc319051d62babe66bebd99b95ff533d0ab5d3ade457631a12fc551e573b536"
+            q_upper_record = {
+                "parameterization": "q=(1+t)/2 with 0<=t<=1; the reconstructed polynomial is cleared by the positive factor 2^56",
+                "polynomial": q_upper_row,
+                "control_slots": ["t", "y", "Hbar", "b", "v", "d"],
+                "bernstein_total": 6451830,
+                "bernstein_nonzero": len(q_upper_controls),
+                "bernstein_zero": 6451830 - len(q_upper_controls),
+                "bernstein_minimum_nonzero": str(min(q_upper_controls.values())),
+                "bernstein_maximum": str(max(q_upper_controls.values())),
+                "bernstein_sha256": digest(q_upper_controls),
+            }
+            del q_upper_controls, q_upper
+            gc.collect()
+            q_annulus, q_annulus_degree = substitute_slot(
+                fourth_q,
+                0,
+                polynomial_sum(constant(1), variable(0)),
+                constant(4),
+            )
+            assert q_annulus_degree == 56
+            q_annulus_boxes = {}
+            for y_side in ("lower", "upper"):
+                y_variable = variable(2)
+                y_numerator = (
+                    y_variable
+                    if y_side == "lower"
+                    else polynomial_sum(constant(1), y_variable)
+                )
+                q_annulus_box, y_degree = substitute_slot(
+                    q_annulus, 2, y_numerator, constant(2)
+                )
+                assert y_degree == 6
+                q_annulus_row = row(q_annulus_box)
+                expected_annulus = {
+                    "lower": {
+                        "polynomial": {
+                            "terms": 1534972,
+                            "degrees": [56, 0, 6, 0, 6, 10, 29, 6],
+                            "negative_power_coefficients": 764254,
+                            "sha256": "66ff09948105323b71883e9003bfa5df4da4f907427d9aab23b5bfbf7f259675",
+                        },
+                        "nonzero": 6412728,
+                        "minimum": Fraction(1005733952911915343685415854644593778334105600),
+                        "maximum": Fraction(54975599482160228468621947541703323342805412085760),
+                        "sha256": "dbfe6b3101071ea3553ea9aaf695b2d15d001e74d7970a36760909c1371f5378",
+                    },
+                    "upper": {
+                        "polynomial": {
+                            "terms": 1548346,
+                            "degrees": [56, 0, 6, 0, 6, 10, 29, 6],
+                            "negative_power_coefficients": 771654,
+                            "sha256": "bfe4c78ae8d1f544eb871d0adec59ef58ffed52e0117f2d8986cbecf3aee4f45",
+                        },
+                        "nonzero": 6342903,
+                        "minimum": Fraction(4006789334580504094394060823905169390092419072, 225),
+                        "maximum": Fraction(54975599482160228468621947541703323342805412085760),
+                        "sha256": "5467d865f0d2447f68b945b35cbf2f047b69f16d7038447a87abb5eadd0b89d1",
+                    },
+                }[y_side]
+                assert q_annulus_row == expected_annulus["polynomial"]
+                q_annulus_controls = bernstein_transform(
+                    q_annulus_box, list(ACTIVE_SLOTS)
+                )
+                assert len(q_annulus_controls) == expected_annulus["nonzero"]
+                assert all(value > 0 for value in q_annulus_controls.values())
+                assert min(q_annulus_controls.values()) == expected_annulus["minimum"]
+                assert max(q_annulus_controls.values()) == expected_annulus["maximum"]
+                assert digest(q_annulus_controls) == expected_annulus["sha256"]
+                q_annulus_boxes[y_side] = {
+                    "parameterization": (
+                        "y=s/2 with 0<=s<=1"
+                        if y_side == "lower"
+                        else "y=(1+s)/2 with 0<=s<=1"
+                    ),
+                    "polynomial": q_annulus_row,
+                    "control_slots": ["t", "s", "Hbar", "b", "v", "d"],
+                    "bernstein_total": 6451830,
+                    "bernstein_nonzero": len(q_annulus_controls),
+                    "bernstein_zero": 6451830 - len(q_annulus_controls),
+                    "bernstein_minimum_nonzero": str(min(q_annulus_controls.values())),
+                    "bernstein_maximum": str(max(q_annulus_controls.values())),
+                    "bernstein_sha256": digest(q_annulus_controls),
+                }
+                del q_annulus_controls, q_annulus_box
+                gc.collect()
+            del q_annulus
             below_fourth_record = {
                 "third_v_radial_polynomial": third_v_row,
                 "fourth_order": fourth_order,
@@ -664,17 +750,13 @@ def build_record():
                         "bernstein_maximum": str(max(q_one_controls.values())),
                         "bernstein_sha256": digest(q_one_controls),
                     },
-                    "q_upper_half": {
-                        "parameterization": "q=(1+t)/2 with 0<=t<=1; the reconstructed polynomial is cleared by the positive factor 2^56",
-                        "polynomial": q_upper_row,
-                        "control_slots": ["t", "y", "Hbar", "b", "v", "d"],
-                        "bernstein_total": 6451830,
-                        "bernstein_nonzero": len(q_upper_controls),
-                        "bernstein_zero": 6451830 - len(q_upper_controls),
-                        "bernstein_minimum_nonzero": str(min(q_upper_controls.values())),
-                        "bernstein_maximum": str(max(q_upper_controls.values())),
-                        "bernstein_sha256": digest(q_upper_controls),
+                    "q_second_annulus": {
+                        "q_interval": "[1/4,1/2]",
+                        "q_parameterization": "q=(1+t)/4 with 0<=t<=1; clear by the positive factor 4^56",
+                        "split": "y=1/2",
+                        "boxes": q_annulus_boxes,
                     },
+                    "q_upper_half": q_upper_record,
                     "y_equals_one_boundary": {
                         "polynomial": row(y_one),
                         "common_monomial": "q^2*v",
@@ -695,7 +777,6 @@ def build_record():
                     },
                 },
             }
-            del q_upper_controls, q_upper
             del q_one_controls, q_one
             del y_one_controls, y_one_residual, y_one_compressed
             del y_one_primitive, y_one
@@ -759,7 +840,7 @@ def build_record():
         "K_nonpositive_patches": K_nonpositive_records,
         "below_open_v_fourth_face": below_fourth_record,
         "sides": sides,
-        "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is manifestly nonnegative, the full q>=1/2 half of its q-maximal fourth chart is Bernstein-certified, and its b=1 and y=1 boundaries are fully certified",
+        "conclusion": "the full K<=0 region and the below-side R-maximal and above-side R- and v-maximal charts of the K>=0 third Newton root are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive; the next face in the open below/v chart is manifestly nonnegative, the full q>=1/4 region of its q-maximal fourth chart is Bernstein-certified, and its b=1 and y=1 boundaries are fully certified",
         "coverage_change": 0,
         "scope": "the below-side v-maximal chart for K>=0, the other transverse maximum directions, the rest of the above/A second-Newton chart, q3:PNL, and OPG-1757 are not claimed",
     }

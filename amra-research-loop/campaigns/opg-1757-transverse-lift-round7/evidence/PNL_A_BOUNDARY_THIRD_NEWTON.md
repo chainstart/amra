@@ -192,10 +192,23 @@ control is `3475335760995144988855631872/225`; the control hash is
 `9cc319051d62babe66bebd99b95ff533d0ab5d3ade457631a12fc551e573b536`.
 Therefore the entire `1/2<=q<=1` half of this fourth-Newton chart is closed.
 
+The adjacent annulus `1/4<=q<=1/2` closes after one split at `y=1/2`.
+Set `q=(1+t)/4`; on the lower box use `y=s/2`, and on the upper box use
+`y=(1+s)/2`.  Positive denominator clearing uses `4^56*2^6` in each box.
+
+| `y` box | polynomial terms | nonzero controls | zero controls | minimum nonzero | control hash |
+|---|---:|---:|---:|---:|---|
+| `[0,1/2]` | 1,534,972 | 6,412,728 | 39,102 | `1005733952911915343685415854644593778334105600` | `dbfe6b3101071ea3553ea9aaf695b2d15d001e74d7970a36760909c1371f5378` |
+| `[1/2,1]` | 1,548,346 | 6,342,903 | 108,927 | `4006789334580504094394060823905169390092419072/225` | `5467d865f0d2447f68b945b35cbf2f047b69f16d7038447a87abb5eadd0b89d1` |
+
+Thus 12,755,631 strictly positive nonzero controls close the complete second
+dyadic annulus.  Together with the upper half, the full region `q>=1/4` of the
+`q`-maximal fourth chart is certified.
+
 ## Remaining gap
 
-For `K>=0`, the lower half `0<=q<=1/2` of the `q`-maximal fourth chart and the
-complete `v`-maximal fourth chart still have genuine negative Bernstein
+For `K>=0`, the lower region `0<=q<=1/4` of the `q`-maximal fourth chart and
+the complete `v`-maximal fourth chart still have genuine negative Bernstein
 controls away from the now-closed `b=1` and `y=1` endpoints, so their higher
 orders need further subdivision or another identity.  The `Hbar`, `C`, and
 `d` transverse maximum directions and the rest of the above-side `A`
