@@ -100,6 +100,12 @@
     "evidence/RLP_INTERSECTION_NEWTON_GRAM.md",
     "evidence/rlp_intersection_newton_gram.json",
     "evidence/verify_rlp_intersection_newton_gram.py",
+    "evidence/RLP_ROOT_NEWTON_BLOWUP.md",
+    "evidence/rlp_root_newton_blowup.json",
+    "evidence/verify_rlp_root_newton_blowup.py",
+    "evidence/PNL_DOUBLE_CORNER_BLOWUP.md",
+    "evidence/pnl_double_corner_blowup.json",
+    "evidence/verify_pnl_double_corner_blowup.py",
     "../opg-1757-full-b-elimination-round6/evidence/GARDING_PRT_COMPONENT_FIREWALL.md",
     "../opg-1757-full-b-elimination-round6/evidence/garding_prt_component_firewall.json"
   ],
@@ -108,7 +114,7 @@
     "control the sole explicit subtractive channel -t*u using genuinely non-circuit mixed derivatives or equivalent component information",
     "prove the radical-free 4x4 orientation Fourier matrix positive semidefinite on K>0 and the edge-floor magnitude domain, or find an exact negative principal minor",
     "couple the three proved single-connection Gram matrices into a Gram/Schur/Binet--Cauchy certificate for the Fourier matrix, or control its principal minors directly",
-    "close the remaining 18 of 81 activity chambers across the two K-positive cases in which q3 or q4 is negative; all 27 q0-negative chambers, ten direct chambers in each other negative-page case, and sixteen additional nonshared chambers are now exact; the q3:RLP representative now has an exact projective/Newton reduction, a 3615840-control root-Gram certificate on its singular local box, and a second exact Newton-Gram face at the A=B=0 intersection, but its higher-order complementary compact region is not closed",
+    "close the remaining 18 of 81 activity chambers across the two K-positive cases in which q3 or q4 is negative; all 27 q0-negative chambers, ten direct chambers in each other negative-page case, and sixteen additional nonshared chambers are now exact; the q3:RLP representative now has an exact projective/Newton reduction, a 3615840-control root-Gram certificate on its singular local box, a Newton-Gram face at the A=B=0 intersection, and an exact internal root-coordinate plus 2:3 weighted Newton blow-up in the complementary compact chart, but the higher weighted orders are not closed; the q3:PNL representative now has an exact positive double-corner principal, nonnegative zero- and infinite-route faces in both activity blow-ups, and a nonnegative first mixed infinity/q4 Newton face, while route degrees 8 through 11, higher mixed orders, and compact interiors remain coupled",
     "classify generic Delta_b=0 contact strata after the coupled sign question is resolved",
     "independent reconstruction and novelty checks have not started",
     "OPG-1757 remains open"
