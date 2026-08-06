@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exact three-box certificate on q in [1/8,1/4] in the fourth PNL chart."""
+"""Exact three-box certificate on a dyadic q-annulus in the fourth PNL chart."""
 
 from __future__ import annotations
 
@@ -30,14 +30,17 @@ BOXES = ("y_upper", "y_lower_b_lower", "y_lower_b_upper")
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--box", choices=BOXES, required=True)
+    parser.add_argument("--annulus-depth", type=int, default=3)
     args = parser.parse_args()
+    assert args.annulus_depth >= 1
 
     below = parameterized("below")
     third_v = radial_projective_chart(below, ROOT_SLOTS, 6, 1)
     fourth_q = radial_projective_chart(third_v, ROOT_SLOTS, 0, 1)
     q, y, b = (variable(slot) for slot in (0, 2, 5))
+    denominator = 2 ** args.annulus_depth
     annulus, degree = substitute_slot(
-        fourth_q, 0, polynomial_sum(constant(1), q), constant(8)
+        fourth_q, 0, polynomial_sum(constant(1), q), constant(denominator)
     )
     assert degree == 56
     y_numerator = (
@@ -56,7 +59,15 @@ def main():
         box, degree = substitute_slot(box, 5, b_numerator, constant(2))
         assert degree == 10
     box_row = row(box)
-    print("box", args.box, "polynomial", box_row, flush=True)
+    print(
+        "annulus",
+        f"[{2 ** -args.annulus_depth},{2 ** -(args.annulus_depth - 1)}]",
+        "box",
+        args.box,
+        "polynomial",
+        box_row,
+        flush=True,
+    )
     controls = bernstein_transform(box, list(ACTIVE_SLOTS))
     total = 1
     for slot in ACTIVE_SLOTS:

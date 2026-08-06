@@ -209,9 +209,13 @@ dyadic annulus.  Together with the upper half, the full region `q>=1/4` of the
 further exact boxes, containing 19,207,461 strictly positive nonzero controls,
 close `1/8<=q<=1/4` and extend the certified region to `q>=1/8`.
 
+`PNL_FOURTH_Q_FOURTH_ANNULUS.md` adds three more exact boxes with another
+19,207,461 strictly positive nonzero controls. They close `1/16<=q<=1/8`
+and extend the certified region to `q>=1/16`.
+
 ## Remaining gap
 
-For `K>=0`, the lower region `0<=q<=1/8` of the `q`-maximal fourth chart and
+For `K>=0`, the lower region `0<=q<=1/16` of the `q`-maximal fourth chart and
 the complete `v`-maximal fourth chart still have genuine negative Bernstein
 controls away from the now-closed `b=1` and `y=1` endpoints, so their higher
 orders need further subdivision or another identity.  The `Hbar`, `C`, and

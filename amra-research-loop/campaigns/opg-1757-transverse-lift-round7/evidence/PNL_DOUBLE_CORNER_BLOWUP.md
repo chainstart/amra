@@ -283,7 +283,9 @@ strongly, the complete full-dimensional half-chart `1/2<=q<=1` is certified by
 6,340,859 strictly positive nonzero controls, and two further boxes with
 12,755,631 strictly positive nonzero controls extend the certified region to
 `q>=1/4`.  `PNL_FOURTH_Q_THIRD_ANNULUS.md` adds three boxes with 19,207,461
-strictly positive nonzero controls and reaches `q>=1/8`.  The remaining higher
+strictly positive nonzero controls and reaches `q>=1/8`.
+`PNL_FOURTH_Q_FOURTH_ANNULUS.md` adds three more boxes with another 19,207,461
+strictly positive nonzero controls and reaches `q>=1/16`.  The remaining higher
 orders stay open.
 
 ## 8. Reproduction and consequence
