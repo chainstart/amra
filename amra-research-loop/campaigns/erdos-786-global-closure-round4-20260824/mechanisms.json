@@ -1,0 +1,188 @@
+{
+  "mechanisms": [
+    {
+      "id": "M786G-01",
+      "representation_id": "R786G-01",
+      "family": "cluster-defect-contraction",
+      "decisive_claim": "Every connected equal-normalized-defect circuit cluster admits one common-witness deletion or circuit subtractions that decompose it into petal-only clusters with strictly smaller overlap rank; the resulting total repair is O(1) per disjoint packed circuit.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Test a chain and a cycle of equal-defect circuits with pairwise different overlap vertices; reject if subtraction preserves both defect and overlap rank without a reusable deletion.",
+      "status": "killed",
+      "created_at": "2026-08-24T14:23:23+00:00",
+      "status_evidence": "evidence/ROUND4_CLUSTER_ALTERATION.md",
+      "updated_at": "2026-08-24T14:38:47+00:00"
+    },
+    {
+      "id": "M786G-02",
+      "representation_id": "R786G-02",
+      "family": "cluster-defect-stratification",
+      "decisive_claim": "After stratifying a failure cluster by normalized cardinality defect, the sum of minimal hitting costs of all strata is o(log N) per packed circuit because nonzero-defect subtraction moves strictly toward zero and the zero stratum has a common-witness contraction.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Build mixed-defect path books with no global common witness and track whether defect differences can oscillate or regenerate an old stratum.",
+      "status": "killed",
+      "created_at": "2026-08-24T14:23:23+00:00",
+      "status_evidence": "evidence/ROUND4_CLUSTER_ALTERATION.md",
+      "updated_at": "2026-08-24T14:38:47+00:00"
+    },
+    {
+      "id": "M786G-03",
+      "representation_id": "R786G-03",
+      "family": "cluster-primal-dual",
+      "decisive_claim": "The subtraction-closed arithmetic cluster hypergraph has integrality gap o(log N) relative to the log-defect fractional cover, certified by a dual depending only on circuit packing, petal reuse, and defect labels.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Reject if dual feasibility is equivalent to assigning weight at least one to every original bad support, or if private-satellite iterates give a logarithmic gap after cross-cluster deletions.",
+      "status": "surviving",
+      "created_at": "2026-08-24T14:23:23+00:00",
+      "status_evidence": "evidence/ROUND4_CLUSTER_ALTERATION.md",
+      "updated_at": "2026-08-24T14:41:11+00:00"
+    },
+    {
+      "id": "M786G-04",
+      "representation_id": "R786G-03",
+      "family": "cluster-boundary-coarea",
+      "decisive_claim": "There is a cluster boundary coarea ordering whose total exposed repair boundary is O(log log N) times disjoint-circuit packing weight uniformly over all subtraction-closed arithmetic clusters.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Compute exposed boundary on recursively nested core-satellite books and on equal-defect overlap chains; demand an all-depth telescoping inequality.",
+      "status": "killed",
+      "created_at": "2026-08-24T14:23:23+00:00",
+      "status_evidence": "evidence/ROUND4_CLUSTER_ALTERATION.md",
+      "updated_at": "2026-08-24T14:38:47+00:00"
+    },
+    {
+      "id": "M786G-05",
+      "representation_id": "R786G-04",
+      "family": "owner-residue-side-top",
+      "initial_sketch": "Choose an extremal full-residue top transition and seek O(log log N) repeated owner charge; the falsification phase froze the first noncircular realization as O_top below.",
+      "decisive_claim": "For the explicit O_top rule that retains the largest prime and complete reduced cofactor ratio U/V and selects the extremal top-fibre term on the larger residue side, the set of distinct owners is bounded by g(N) sum_n w_N(n)+o(N) for some g(N)=o(log N).",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Test O_top on odd squarefree double stars sharing the vertex 2; reject if the owner set has positive density although one deletion repairs the whole book.",
+      "status": "killed",
+      "created_at": "2026-08-24T14:23:24+00:00",
+      "status_evidence": "evidence/ROUND4_FULL_RESIDUE_OWNER_FLOW.md",
+      "updated_at": "2026-08-24T14:40:31+00:00"
+    },
+    {
+      "id": "M786G-06",
+      "representation_id": "R786G-05",
+      "family": "owner-cluster-divisor-current",
+      "round4_survivor_refinement": "The current must be defined on the subtraction-closed cluster quotient and retain normalized defect and common-cluster geometry; the two residue-only owners in ROUND4_FULL_RESIDUE_OWNER_FLOW are closed.",
+      "decisive_claim": "A conserved signed divisor current on the subtraction-closed full-residue cluster quotient admits a scale-conductance inequality that pays one unit for every failure cluster while its aggregate vertex energy is o(log N) times the log-defect fractional mass.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Test long degree-two paths, common-root books, and the equal-defect projective-plane cluster; reject if the current ignores cluster intersections, if unit flow has arbitrarily small energy, or if dual feasibility restates the original transversal constraints.",
+      "status": "surviving",
+      "created_at": "2026-08-24T14:23:24+00:00",
+      "status_evidence": "evidence/ROUND4_FULL_RESIDUE_OWNER_FLOW.md",
+      "updated_at": "2026-08-24T14:41:11+00:00"
+    },
+    {
+      "id": "M786G-07",
+      "representation_id": "R786G-06",
+      "family": "owner-randomized-full-state",
+      "decisive_claim": "A harmonic randomized owner chosen from the complete cofactor-residue support has expected distinct-owner congestion O(log log N), and alteration of the randomized owner set preserves all bad-support coverage.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Test correlated RR.2 books sharing numerator or denominator residues; reject any independence assumption or owner selection that can leave a circuit ownerless.",
+      "status": "killed",
+      "created_at": "2026-08-24T14:23:24+00:00",
+      "status_evidence": "evidence/ROUND4_CLUSTER_ALTERATION.md",
+      "updated_at": "2026-08-24T14:40:31+00:00"
+    },
+    {
+      "id": "M786G-08",
+      "representation_id": "R786G-07",
+      "family": "potential-prime-coarea",
+      "decisive_claim": "The integral over logarithmic prime scales of signed residue-support boundary decreases by at least one over every complete propagation component and has initial mass O(log log N) per packed circuit.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Place RR.1 edge primes in one narrow allowed scale interval and test whether unbounded propagation has bounded initial coarea but no strict total decrease.",
+      "status": "killed",
+      "created_at": "2026-08-24T14:23:24+00:00",
+      "status_evidence": "evidence/ROUND4_MULTISCALE_POTENTIAL_FALSIFICATION.md",
+      "updated_at": "2026-08-24T14:27:56+00:00"
+    },
+    {
+      "id": "M786G-09",
+      "representation_id": "R786G-08",
+      "family": "potential-convex-merge-split",
+      "decisive_claim": "A convex energy of multiplicities of identical signed cofactor states amortizes every split against a later merge, giving O(log log N) total charge per connected failure cluster.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Construct a branching double-star tree with private residues so every transition splits into new states and no later merge occurs.",
+      "status": "killed",
+      "created_at": "2026-08-24T14:23:25+00:00",
+      "status_evidence": "evidence/ROUND4_MULTISCALE_POTENTIAL_FALSIFICATION.md",
+      "updated_at": "2026-08-24T14:27:56+00:00"
+    },
+    {
+      "id": "M786G-10",
+      "representation_id": "R786G-09",
+      "family": "potential-occurrence-cycle-space",
+      "decisive_claim": "After deleting the o(N) low-Omega host, the large full-occurrence cycle rank in RR.3 yields enough independent circuit eliminations that one repair can be reused for Omega(log log N) fractional units, producing an o(log N) rounding loss.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Build minimal high-Omega relations whose occurrence cycles all project through distinct integer vertices; reject if cycle-space dimension does not imply shared repair.",
+      "status": "killed",
+      "created_at": "2026-08-24T14:23:25+00:00",
+      "status_evidence": "evidence/ROUND4_MULTISCALE_POTENTIAL_FALSIFICATION.md",
+      "updated_at": "2026-08-24T14:27:56+00:00"
+    },
+    {
+      "id": "M786G-11",
+      "representation_id": "R786G-10",
+      "family": "coherent-summable-revision-reserve",
+      "decisive_claim": "Finite transversals can be chosen on dyadic cutoffs so that extension from 2^k to 2^(k+1) changes at most eta_k 2^k old decisions with sum eta_k finite and adds o(2^k) deletions; the limit set is admissible and has natural density one.",
+      "would_close": [
+        "global_interface_closed,main_term_improved"
+      ],
+      "kill_test": "Apply future RR.2 completions to arbitrary admitted lower pairs; demand a unique-scale charge proving summable recourse rather than pointwise convergence only.",
+      "status": "killed",
+      "created_at": "2026-08-24T14:23:25+00:00",
+      "status_evidence": "evidence/ROUND4_COHERENT_RECOURSE.md",
+      "updated_at": "2026-08-24T14:56:18+00:00"
+    },
+    {
+      "id": "M786G-12",
+      "representation_id": "R786G-12",
+      "family": "coherent-guarded-block-diagonal",
+      "decisive_claim": "A rapidly growing block construction with multiplicative guard zones converts arbitrary finite o(N) transversals into one compatible infinite transversal of zero density while controlling density at every intermediate endpoint.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Construct cross-block equal-product relations using one later prime and old lower factors; reject unless every such relation necessarily meets a guard zone of summable total density.",
+      "status": "killed",
+      "created_at": "2026-08-24T14:23:26+00:00",
+      "status_evidence": "evidence/ROUND4_MULTIPLIER_COMPLETION_OBSTRUCTION.md",
+      "updated_at": "2026-08-24T14:32:40+00:00"
+    },
+    {
+      "id": "M786G-13",
+      "representation_id": "R786G-10",
+      "family": "coherent-periodic-baseline-recourse",
+      "decisive_claim": "For every integer Q>=2, with the explicit periodic baseline B_Q={1} union {n:Q divides n}, the B_Q-disjoint residual hypergraphs admit transversals T_k of size o(2^k) whose adjacent old-prefix changes satisfy |C_k intersect X_j|<=rho_k 2^j for all j<=k with sum rho_k finite; CR.1 then gives an admissible set of natural density 1-1/Q.",
+      "would_close": [
+        "global_interface_closed,main_term_improved"
+      ],
+      "kill_test": "Apply MC.1 to seeds outside B_Q and the toggle-prefix obstruction; reject endpoint-only recourse, non-explicit reserves, or any B that already encodes a full infinite transversal.",
+      "status": "surviving",
+      "created_at": "2026-08-24T14:56:18+00:00",
+      "status_evidence": "evidence/ROUND4_COHERENT_RECOURSE.md",
+      "updated_at": "2026-08-24T14:56:18+00:00"
+    }
+  ]
+}

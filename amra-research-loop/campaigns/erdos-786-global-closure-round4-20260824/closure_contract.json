@@ -1,0 +1,67 @@
+{
+  "exact_statement": "For the distinct-Finset Erdős 786 hypergraph H_N on {2,...,N}, prove tau(H_N)=o(N), and for every epsilon>0 construct by one coherent compatible rule an infinite admissible set whose natural-density limit exists and is greater than 1-epsilon.",
+  "source": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-786-residue-aware-rounding-20260824",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume",
+    "raw_max_degree_LLL",
+    "per_packed_circuit_internal_representatives",
+    "bounded_support_radius_or_peel_depth",
+    "bounded_cofactor_residue_complexity",
+    "residue_free_largest_prime_peeling",
+    "fixed_prime_or_finite_state_cylinder",
+    "fixed_N_ILP_or_larger_cutoff",
+    "generic_rounding_with_O(log_N)_loss",
+    "prefix_stabilization_without_revision_reserve",
+    "another_counterfamily_against_an_already_killed_local_mechanism"
+  ],
+  "scope_notes": [
+    "Variant lock: products are over finite sets of distinct positive integers on each shore. After cancelling overlap, coefficients lie in {-1,0,1}; repetitions within a shore are forbidden.",
+    "The finite target is an integral transversal D_N of every bad support in {2,...,N} with |D_N|=o(N).",
+    "The infinite target separately requires one compatible infinite rule for every epsilon whose admitted set has an actual natural-density limit greater than 1-epsilon. Unrelated finite transversals, endpoint density, upper density, or logarithmic density do not suffice.",
+    "Read-only input F786: w_N(n)=log(N/n)/log N is an audited fractional cover with total (1+o(1))N/log N.",
+    "Read-only input IR.1 and RR.1--RR.3: hard moving lower tails, bounded local residue/depth schemes, forest/cycle-rank safety, raw max-degree LLL, and per-circuit internal representatives are closed routes.",
+    "The only retained families are full failure-cluster alteration retaining normalized defect, global full-cofactor-residue owner flow, and a multiscale telescoping potential with a coherent zero-density revision reserve.",
+    "A finite o(N) transversal does not automatically imply the infinite natural-density claim; the campaign must prove a compatibility or stabilization theorem.",
+    "Public search for an exact solution to Erdos 786 is prohibited. Ordinary named background theorems may be used with exact hypotheses."
+  ],
+  "variant_lock": {
+    "allowed": "two finite subsets of distinct positive integers, overlap cancelled",
+    "forbidden": "multiplicity within a shore or arbitrary integer coefficients",
+    "cancelled_coefficients": "{-1,0,1}",
+    "exceptional_elements": "1 is forced out; 0 is outside the positive-integer domain"
+  },
+  "read_only_dependencies": [
+    {
+      "campaign": "../erdos-786-distinct-factor-admission-20260824",
+      "result": "audited log-defect fractional transversal",
+      "status": "promotion/standalone_decisive_lemma"
+    },
+    {
+      "campaign": "../erdos-786-integral-rounding-20260824",
+      "result": "audited moving thin-tail obstruction IR.1",
+      "status": "promotion/standalone_decisive_lemma"
+    },
+    {
+      "campaign": "../erdos-786-residue-aware-rounding-20260824",
+      "result": "audited residue-complexity package RR.1--RR.3 and alteration subroute obstructions",
+      "status": "promotion/standalone_decisive_lemma"
+    }
+  ],
+  "exact_subproblems": {
+    "finite": "Construct an integral transversal D_N of all bad supports with |D_N|=o(N).",
+    "cluster_alteration": "Contract complete arithmetic failure clusters while retaining normalized defect and charge total repair o(log N) times a disjoint circuit packing.",
+    "owner_flow": "Assign every residual bad support to full cofactor-residue owner data with o(log N) aggregate congestion without circularly re-encoding the original relation.",
+    "coherent_potential": "Give a multiscale potential whose total increase pays all finite repairs and whose revision reserve has zero upper density, yielding actual natural-density convergence."
+  }
+}

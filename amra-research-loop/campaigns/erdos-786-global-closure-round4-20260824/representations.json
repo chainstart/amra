@@ -1,0 +1,88 @@
+{
+  "representations": [
+    {
+      "id": "R786G-01",
+      "name": "signed circuit-subtraction groupoid",
+      "family": "cluster-alteration",
+      "new_information": "retains the full valuation-kernel vector and normalized cardinality defect when two circuits cancel a shared signed vertex",
+      "first_test": "classify common-witness stars by defect and test whether repeated subtraction terminates in a bounded set of petal-only bad supports"
+    },
+    {
+      "id": "R786G-02",
+      "name": "defect-stratified failure-cluster complex",
+      "family": "cluster-alteration",
+      "new_information": "records vertices, circuit intersections, subtraction residues, and defect labels on the entire connected overlap cluster",
+      "first_test": "compare equal-defect stars, mixed-defect books, and the core-with-private-satellites obstruction"
+    },
+    {
+      "id": "R786G-03",
+      "name": "arithmetic cluster packing-repair primal dual",
+      "family": "cluster-alteration",
+      "new_information": "allows repairs outside a chosen packed circuit and exposes whether one petal deletion can be reused across several clusters",
+      "first_test": "derive a dual certificate whose optimum is bounded by o(log N) times disjoint-circuit packing weight without restating the original transversal LP"
+    },
+    {
+      "id": "R786G-04",
+      "name": "ordered full-residue transition DAG",
+      "family": "owner-flow",
+      "new_information": "keeps the largest prime, signed cofactor ratio, and all lower-prime incidence links at each owner transition",
+      "first_test": "measure congestion on increasing-prime paths and overlapping universal double-star books"
+    },
+    {
+      "id": "R786G-05",
+      "name": "divisor-current flow with logarithmic conductance",
+      "family": "owner-flow",
+      "new_information": "routes numerator and denominator prime mass as a conserved signed current and prices an owner by logarithmic scale rather than residue alphabet size",
+      "first_test": "seek a cut inequality that is strict on every bad support but telescopes over repeated cofactor transfer"
+    },
+    {
+      "id": "R786G-06",
+      "name": "owner congestion dual potential",
+      "family": "owner-flow",
+      "new_information": "separates the owner map from a simpler dual load certificate depending only on reusable prime-occurrence capacity",
+      "first_test": "reject the representation if the dual feasibility constraints are exactly the original bad-support hitting constraints"
+    },
+    {
+      "id": "R786G-07",
+      "name": "prime-scale coarea potential",
+      "family": "multiscale-potential",
+      "new_information": "integrates residue support across logarithmic prime scales so long paths may telescope even when token count never decreases",
+      "first_test": "compute the exact total variation on RR.1 with adversarially spaced increasing primes"
+    },
+    {
+      "id": "R786G-08",
+      "name": "convex merge-split residue energy",
+      "family": "multiscale-potential",
+      "new_information": "credits merges of repeated cofactor states and debits splits, allowing cluster reuse to pay for local nondecrease",
+      "first_test": "test whether path books or double-star books can force the same energy increase at every transition"
+    },
+    {
+      "id": "R786G-09",
+      "name": "full-occurrence cycle-space potential",
+      "family": "multiscale-potential",
+      "new_information": "uses RR.3 density of cycle rank after deleting low-Omega integers but retains the actual matched occurrence graph rather than active-prime simplification",
+      "first_test": "prove that large occurrence cycle space supplies reusable repairs, or construct high-cycle-rank circuits with no such compression"
+    },
+    {
+      "id": "R786G-10",
+      "name": "dyadic buffered revision reserve",
+      "family": "coherent-stabilization",
+      "new_information": "permits finite decisions to change inside explicitly budgeted boundary bands whose total upper density is summable",
+      "first_test": "make every future double-star completion charge a unique reserve scale and prove the scale charges are summable"
+    },
+    {
+      "id": "R786G-11",
+      "name": "nested online transversal with recourse",
+      "family": "coherent-stabilization",
+      "new_information": "tracks both deletion cost and recourse when extending a transversal from H_N to H_M",
+      "first_test": "seek sublogarithmic competitive repair with zero-density cumulative recourse; reject any theorem equivalent to recomputing an optimal transversal"
+    },
+    {
+      "id": "R786G-12",
+      "name": "density-convergent block diagonalization",
+      "family": "coherent-stabilization",
+      "new_information": "combines finite transversals on rapidly growing blocks with guard zones and two-sided density control between endpoints",
+      "first_test": "quantify cross-block product relations and show guard zones absorb them at summable density cost"
+    }
+  ]
+}

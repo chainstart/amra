@@ -1,0 +1,66 @@
+{
+  "statement": "For the exact orbit D^[V]_(V-12)=0 and D^[V]_(q-1)=V+KK_q(D^[V]_q), define W_r(V)=D^[V]_(r+2)-binom(V-12,r+2)-binom(V-13,r+1). For every integer V>=125: (i) 0<=W_r(V)<binom(V-13,r) for each 7<=r<=14; and (ii) W_14(V+1)-W_14(V)<=1.",
+  "status": "conditional",
+  "closes": [
+    "Together with the exact 40<=V<=125 bridge, this high-rank lemma implies W_6(V+1)-W_6(V)<binom(V-13,5) for every V>=125 and hence D_8<binom(V-11,8) for every V>=40.",
+    "It would close the local all-V rank-eight interface only; inherited construction replay is still required for any scoped upper-bound promotion, and it does not determine exact n_0(r)."
+  ],
+  "evidence": [
+    "evidence/HIGH_RANK_ONE_SIDED_BRIDGE.md gives the all-parameter implication using KK subadditivity, no rank-six separator assumption, and exact constants b_14=1,...,b_6=130455928<binom(112,5).",
+    "evidence/verify_rank8_obstructions.py independently reconstructs the orbit, checks the exact V=40..125 base, and finds no ranks 7..14 separator failure or rank-14 jump above one through V=500; the scan is explicitly falsifier evidence only.",
+    "evidence/PREFIX_CANCELLATION_LEMMA.md proves canonical prefix cancellation, while evidence/HIGH_RANK_ONE_SIDED_BRIDGE.md explains why applying it with a rank-six separator would be circular.",
+    "evidence/ROUND2_RANK14_FIRST_CROSSING.md independently reconstructs the inherited conditional all-parameter normal form W_14=27+KK_2(B_2), reduces the one-Lipschitz clause exactly to B_2(V+1)<=binom(KK_2(B_2(V))+1,2), and gives a full-parameter synthetic counterfamily showing that adjacent separator/capacity alone does not imply that clause.",
+    "evidence/verify_round2_rank14.py is an independent scalar-canonical guard for the round-2 identities, rank-two Galois threshold, fixed-depth constants, and symbolic counterfamily formulas.",
+    "evidence/ROUND3_ACTUAL_B2_COUPLING.md uses only the true zero-seed recurrence B_2=V+KK_3(Z_3), gives exact rank-three and diagonal-loss forms of Delta B_2<=3, and records the sharp actual V=300->301 equality wall.",
+    "evidence/verify_round3_actual_b2.py guards the actual recurrence, rank-three Galois equivalence, diagonal-loss equality, and the exact counterexample to the stronger Delta B_2<=2 statement; it performs no enlarged cutoff scan.",
+    "evidence/ROUND3_MULTISCALE_CARRY.md and audit/round3_multiscale_audit.md refute the logarithmic rank-six top survivor by proving W_6(V)>=V and giving the infinite actual family V=2^m.",
+    "evidence/ROUND3_ACTUAL_COUPLING_SECOND_MECHANISM.md gives the exact actual V=1471->1472 counterexample to Delta B_2<=3 and proves the leading-top jump lemma; the actual LTJ hypothesis remains conditional.",
+    "evidence/ROUND4_LTJ_DIAGONAL_LOSS.md proves the all-parameter actual-orbit identity L_(q-1)=T_q+P_q with T_q,P_q>=0 and hence diagonal domination E_(q+1)^(V+1)<=S_q(E_q^V); it also proves arbitrarily long canonical plateaus with positive gap but zero propagated shadow loss.",
+    "evidence/verify_round4_ltj_diagonal_loss.py guards selected actual rows, two complete aligned recurrence instances, and 2114 exact plateau identities without extrapolating the finite LTJ scan.",
+    "evidence/ROUND5_ADJOINT_SUFFIX_BUDGET.md proves the exact all-parameter adjoint budget ladder, then uses actual counterexamples to refute its fixed-rank five, six, and seven subroutes.",
+    "evidence/verify_round5_adjoint_suffix_budget.py guards the nonlinear shadow inequalities and reconstructs the actual V=186, 845, and 1435 counterexamples; evidence/round5_adjoint_budget_falsifier_125_2000.json retains the finite kill-test summary."
+  ],
+  "dependency_gaps": [
+    "The displayed high-rank separator and rank-14 one-Lipschitz clauses remain unproved for unbounded V; the finite V<=500 scan cannot be extrapolated.",
+    "A direct common-prefix argument at rank six may assume the desired cap. It cannot be used unless its separator is derived independently; the current proof instead needs the high-rank clauses above.",
+    "The inherited rank-eight-to-rank-two theorem is external read-only infrastructure recorded in closure_contract.json and must be independently replayed by the auditor.",
+    "No complete audited r-to-(V,n) parameter map and all-larger-n construction has yet been located in the inherited package, so even a proved local interface is not yet a main-term promotion.",
+    "Exact n_0(r) additionally needs a matching lower obstruction and certified small-r reconciliation.",
+    "Round 2 shows that proving H1 through the natural rank-four capacity E_4<=binom(V-25,4) already implies the earlier zero-slack gate D_18<P_18; this does not provide a genuinely weaker proof route.",
+    "Round 2 also shows, for every V>=125 by a synthetic local pair, that even 0<=W_14(V)<=V at both adjacent parameters does not imply Delta W_14<=1. An actual upstream adjacent coupling remains indispensable.",
+    "Round 3 refutes the logarithmic rank-six carry-height survivor on the infinite actual family V=2^m, m>=21; that route is closed.",
+    "Round 3 also refutes the fixed actual-tail target Delta B_2<=3 at V=1471->1472. The remaining M01 mechanism is the conditional leading-top jump bound (Delta B_2)_+<=a(B_2), or a sufficient all-parameter lower bound on accumulated actual diagonal carry losses.",
+    "Round 4 proves diagonal domination and the exact LTJ threshold L_4>=S_2(B)-U_2(B-V+a-1), but canonical plateaus refute every uniform positive propagated-loss lower bound depending only on the gap L_q. The survivor now requires actual canonical plateau-position or effective suffix-separator information.",
+    "Round 5 proves an exact adaptive adjoint budget ladder but refutes its fixed-rank five, six, and seven subroutes at actual walls V=1435, V=845, and V=186. Only rank-three/rank-four single-coordinate targets or a genuinely joint multirank carry invariant remain."
+  ],
+  "round_2_status": {
+    "outcome": "conditional_reduction_and_structural_obstruction_no_closure",
+    "exact_rank2_interface": "Under 0<=B_2(V)<=binom(V-27,2), W_14(V)=27+KK_2(B_2(V)); H2 is exactly B_2(V+1)<=binom(KK_2(B_2(V))+1,2).",
+    "killed_inference": "Local adjacent rank-14 separator/capacity data alone imply Delta W_14<=1.",
+    "counterfamily": "For every V>=125, B_2(V)=binom(V-30,2) and B_tilde_2(V+1)=binom(V-28,2) obey both local capacities but give rank-14 residual jump 2.",
+    "M01_status": "surviving only with actual upstream Z3 coupling; the local-capacity-implies-Lipschitz subroute is frozen",
+    "M02_status": "surviving and retained",
+    "pivot": "In parallel with the remaining upstream-coupled M01 route, use the independent multiscale carry-height survivor; seek an all-parameter dyadic spacing injection for new record rank-six top walls, not a larger finite scan."
+  },
+  "round_3_status": {
+    "outcome": "two_subroutes_refuted_one_actual_coupling_survivor_remains",
+    "proved": "The leading-top lemma shows that for x=binom(a,2)+b, 0<=b<a, a positive jump y-x<=a costs at most one KK_2 shadow unit. The actual diagonal carry-loss identities are exact.",
+    "refuted": "M02 is refuted on the infinite family V=2^m. Within M01, Delta B_2<=2 fails at V=300->301 and Delta B_2<=3 fails at V=1471->1472, where Delta B_2=6 but the KK_2 shadow jump is zero.",
+    "open": "The actual leading-top jump condition (Delta B_2)_+<=a(B_2), or an all-parameter accumulated diagonal carry-loss theorem implying it; H1 and H2 remain open.",
+    "scope": "No larger finite cutoff, endpoint-only inference, or public-problem closure is claimed."
+  },
+  "round_4_status": {
+    "outcome": "all_parameter_diagonal_domination_and_gap_only_obstruction_LTJ_open",
+    "proved": "For aligned actual zero-seed orbits L_(q-1)=T_q+P_q with T_q>=floor(V/q)-1>=0 and P_q>=0, hence E_(q+1)^(V+1)<=S_q(E_q^V) for all admissible parameters. LTJ is exactly L_4>=S_2(B)-U_2(B-V+a-1).",
+    "refuted": "Any uniform estimate P_q>=f(q,L_q)>0 for every L_q>0 that ignores canonical position; plateaus of arbitrary length have positive gap and P_q=0.",
+    "open": "Prove actual-orbit escape from the left part of each relevant canonical plateau, or retain sufficient suffix data to make tax plus propagated loss meet the exact LTJ threshold.",
+    "finite_scope": "No LTJ counterexample on 125<=V<=2000 is falsifier evidence only and is not extrapolated."
+  },
+  "round_5_status": {
+    "outcome": "all_parameter_conditional_adjoint_budget_reduction_fixed_ranks_five_through_seven_refuted",
+    "proved": "If the actual adjacent residual increment at rank m is at most the recursively defined Macaulay adjoint budget A_m, then exact numerical-shadow subadditivity descends to Delta B_2<=a(B_2), hence LTJ.",
+    "refuted": "Actual zero-seed walls refute the fixed-rank targets: delta_5=622>A_5=484 at V=1435, delta_6=250>A_6=211 at V=845, and delta_7=14>A_7=9 at V=186. Each wall still satisfies LTJ.",
+    "open": "Prove or refute the rank-three or rank-four adjoint target, or find a joint multirank carry invariant that uses compensation between suffix increments. LTJ and all downstream interfaces remain open.",
+    "scope": "The budget implication and each displayed counterexample are exact. Least-failure claims are only within the guarded finite range 125<=V<=2000 and are not extrapolated."
+  }
+}

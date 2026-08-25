@@ -1,0 +1,39 @@
+{
+  "exact_statement": "For every integer multiplicity r in the public problem's domain, determine exactly n_0(r), the least integer N such that for every integer n>N there exists an antichain F subseteq 2^[n] whose set of occupied ranks {|A|:A in F} has cardinality exactly n-3 and for which every occupied rank contains at least r distinct members. A complete answer must prove both existence for every n>n_0(r) and nonexistence at the sharp boundary needed to establish minimality, with all exceptional small r handled.",
+  "source": "https://www.erdosproblems.com/776; local primary reconstruction and He--Tang source artifacts under artifacts/erdos_campaign_20260720/",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Write g(n,r) for the maximum number of occupied ranks of an antichain in 2^[n] having at least r members on every occupied rank. Then n_0(r) is the least N such that g(n,r)=n-3 for every n>N. Verifying one order n, one parity, or an unbounded subsequence does not determine n_0(r).",
+    "Local source artifacts record n_0(2)=3 and n_0(3)=8, the published-scale bounds 2r+2<=n_0(r)<=2r+2 log_2 r+O(log log r) for r>=4, and an internally audited but not publication-certified lower bound n_0(r)>=2r+4. These are dependencies and boundary checks, not a complete formula.",
+    "The primary route uses the shortened zero-seed Macaulay defect orbit D_(V-12)=0, D_(q-1)=V+KK_q(D_q). Its rank-8 entry condition D_8<binom(V-11,8) is equivalent, on the proved two-term chart, to W_6<binom(V-13,6). The inherited rank-8-to-rank-2 tail is already conditional-proof infrastructure and must not be recounted as new progress.",
+    "An all-V proof of the rank-8 entry, together with a complete replay of the inherited construction and parameter map, would yield a scoped upper-bound improvement of the n_0(r)<=2r+5 type. It may qualify as main_term_improved only after those dependencies and all integer ranges are audited; it is not original_problem_closed without a matching sharp lower obstruction and exact small-r reconciliation.",
+    "A refutation of the rank-8 entry freezes only this colex route. It does not refute the public antichain statement and does not determine n_0(r).",
+    "Finite V computation, a larger verified cutoff, another canonical carry normal form, an equivalent Galois complement, or a theorem assuming the rank-8 entry is non-success unless it supplies a genuinely new all-parameter closure mechanism.",
+    "No public search for an exact solution is permitted in this campaign. Old Erdős #776 artifacts are read-only and may be cited or replayed only at their recorded evidence strength."
+  ],
+  "scoped_promotion_policy": {
+    "original_problem_closed": "exact n_0(r) for the full public domain, with both universal upper construction and sharp lower boundary",
+    "main_term_improved": "an independently audited all-parameter construction giving a strict asymptotic upper-term improvement, including the full parameter map and finite bridge; rank-8 entry alone is conditional until composed",
+    "global_interface_closed": "an all-V proof or refutation of the exact rank-8 entry is a route-interface result only and must be classified separately from full threshold determination"
+  },
+  "dependency_artifacts": {
+    "rank8_to_rank2_statement": "/home/biostar/work/projects/amra/artifacts/erdos_master_rotation/R004/core_776_635/776/REPORT.md, Sections 4-5",
+    "rank8_to_rank2_verifier": "/home/biostar/work/projects/amra/artifacts/erdos_master_rotation/R004/core_776_635/776/verify_rank8_five_term_barrier.py",
+    "rank8_local_bridge": "evidence/verify_rank8_obstructions.py checks the actual rank-eight entry through every integer 40<=V<=500; only 40<=V<=125 is used as the finite base of the conditional high-rank reduction",
+    "lower_boundary_and_small_r": "/home/biostar/work/projects/amra/artifacts/erdos_campaign_20260720/results/776.md and results/776.json; these are local evidence with the certification caveats in scope_notes",
+    "r_to_V_n_parameter_map": "No complete audited map was located in the R004 rank-eight package. Reconstructing all integer ranges, parities, and the all-larger-n construction is a blocking dependency before any upper-bound promotion."
+  }
+}

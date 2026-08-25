@@ -1,0 +1,27 @@
+{
+  "mechanism_ids": [
+    "M776G-01-adjacent-suffix-loss"
+  ],
+  "selection_rationale": "Only M776G-01 remains. Endpoint capacity alone was frozen in round 2; round 3 refuted fixed actual-tail bounds and M776G-02; round 4 proves diagonal domination but kills gap-only propagated loss. Round 5 proves a nonlinear Macaulay adjoint budget ladder, then actual walls refute its fixed-rank five, six, and seven subroutes. M01 survives only through a rank-three/rank-four actual suffix theorem, a joint multirank carry invariant, or equivalent plateau-position data. No surviving claim closes exact n_0(r).",
+  "round_2_route_status": {
+    "M776G-01": "surviving, but local adjacent separator/capacity => Delta W14<=1 is frozen; only an actual upstream Z3 coupling remains legitimate",
+    "M776G-02": "killed after non-author round-3 audit: the actual orbit has W6(V)>=V for every V>=40, yielding an infinite power-of-two counterfamily to the claimed logarithmic top bound",
+    "campaign": "continue; do not freeze the campaign"
+  },
+  "round_3_route_status": {
+    "M776G-01": "conditional surviving only through LTJ: (Delta B2)_+<=the current rank-2 leading top a(B2), or a sufficient accumulated diagonal carry-loss invariant. The actual V=1471->1472 wall refutes Delta B2<=3 with jump 6 while preserving H2.",
+    "M776G-02": "killed/refuted by an independently audited all-parameter actual-orbit counterfamily",
+    "campaign": "continue only on M776G-01"
+  },
+  "round_4_route_status": {
+    "M776G-01": "surviving only through actual canonical plateau-position or suffix information sufficient for L_4>=S_2(B)-U_2(B-V+a-1)",
+    "gap_only_propagated_loss": "killed by the all-parameter plateau lemma",
+    "diagonal_domination": "proved all-parameter on the actual aligned orbit",
+    "campaign": "continue only with a materially new plateau-escape or suffix-separator mechanism"
+  },
+  "round_5_route_status": {
+    "M776G-01": "surviving only through rank-three/rank-four suffix control, a joint multirank carry invariant, or equivalent actual plateau-position data",
+    "fixed_rank_deferrals": "rank five killed at V=1435, rank six killed at V=845, and rank seven killed at V=186 by exact actual-orbit witnesses",
+    "campaign": "continue at survivor_deepening; do not reopen any fixed-rank m>=5 adjoint-budget variant without materially new joint information"
+  }
+}

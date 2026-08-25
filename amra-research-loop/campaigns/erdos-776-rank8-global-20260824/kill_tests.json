@@ -1,0 +1,59 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M776G-03-two-binomial-invariant",
+      "outcome": "killed",
+      "evidence": "evidence/verify_rank8_obstructions.py gives the exact V=288 counterexample D18-P18=-2924809 but D16-P16=67; the proved residual tail is outside the killed scope."
+    },
+    {
+      "mechanism_id": "M776G-04-independent-tax-budget",
+      "outcome": "killed",
+      "evidence": "evidence/verify_rank8_obstructions.py gives the exact V=40 second-tax contribution 2877875>296010 residual capacity."
+    },
+    {
+      "mechanism_id": "M776G-05-blind-adjacent-subadditivity",
+      "outcome": "killed",
+      "evidence": "evidence/verify_rank8_obstructions.py gives the exact V=40 blind majorizer 5476185>1560780 permitted target increment."
+    },
+    {
+      "mechanism_id": "M776G-06-W6-nonincreasing",
+      "outcome": "killed",
+      "evidence": "evidence/verify_rank8_obstructions.py gives W6(51)-W6(50)=2."
+    },
+    {
+      "mechanism_id": "M776G-07-W6-nondecreasing",
+      "outcome": "killed",
+      "evidence": "evidence/verify_rank8_obstructions.py gives W6(41)-W6(40)=-8905."
+    },
+    {
+      "mechanism_id": "M776G-08-fixed-affine-rank6-word",
+      "outcome": "killed",
+      "evidence": "evidence/verify_rank8_obstructions.py gives a six-term W6 canonical word at V=42 and a five-term word at V=43."
+    },
+    {
+      "mechanism_id": "M776G-09-protected-missing-set-alone",
+      "outcome": "killed",
+      "evidence": "The exact identity target minus baseline = binom(V-13,6), executable at V=40 in evidence/verify_rank8_obstructions.py, shows that the witness without a backward preimage invariant is the gate itself."
+    },
+    {
+      "mechanism_id": "M776G-10-normalized-ratio-from-order",
+      "outcome": "killed",
+      "evidence": "evidence/verify_rank8_obstructions.py supplies valid residual integers 1<=2 but 2*296010>1*376740, so scalar order does not imply adjacent normalized decay. This does not kill the actual W6 ratio statement."
+    },
+    {
+      "mechanism_id": "M776G-11-hilbert-log-concavity",
+      "outcome": "killed",
+      "evidence": "The exact V=288 rankwise sign reversal in evidence/verify_rank8_obstructions.py refutes the asserted fixed-sign propagation."
+    },
+    {
+      "mechanism_id": "M776G-12-rank8-equals-exact-threshold",
+      "outcome": "killed",
+      "evidence": "closure_contract.json and evidence/RANK8_OBSTRUCTION_ANALYSIS.md isolate missing lower-bound minimality, small-r, all-larger-n, and r-to-(V,n) dependencies."
+    },
+    {
+      "mechanism_id": "M776G-02-logarithmic-carry-height",
+      "outcome": "killed",
+      "evidence": "evidence/ROUND3_MULTISCALE_CARRY.md proves W_6(V)>=V for every actual zero-seed orbit parameter V>=40. For V=2^m, m>=21, 2^m>binom(m+14,6), so the six-canonical top is greater than ceil(log_2 V)+13. The non-author reconstruction and dependency audit are audit/round3_multiscale_blind.md and audit/round3_multiscale_audit.md."
+    }
+  ]
+}

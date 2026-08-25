@@ -1,0 +1,39 @@
+{
+  "schema_version": "amra.erdos776.round5-adjoint-budget-falsifier.v1",
+  "parameter_range": [125, 2000],
+  "execution": {
+    "date_local": "2026-08-25",
+    "workers": 16,
+    "guard": {
+      "slice": "openmath.slice",
+      "memory_high": "30G",
+      "memory_max": "34G",
+      "memory_swap_max": "4G",
+      "tasks_max": 512
+    },
+    "observed_memory_peak": "less than 50 MB for the guarded scope",
+    "swap_used": "0 B"
+  },
+  "results": {
+    "rank_5": {
+      "least_failure_in_range": 1435,
+      "actual_increment": 622,
+      "budget": 484,
+      "leading_top_a": 63
+    },
+    "rank_6": {
+      "least_failure_in_range": 845,
+      "actual_increment": 250,
+      "budget": 211,
+      "leading_top_a": 52
+    },
+    "rank_7": {
+      "least_failure_in_range": 186,
+      "actual_increment": 14,
+      "budget": 9,
+      "leading_top_a": 36
+    }
+  },
+  "witness_reproduction": "python3 evidence/verify_round5_adjoint_suffix_budget.py",
+  "scope": "Finite falsifier evidence. The exact witnesses refute the stated fixed-rank sufficient mechanisms, but do not refute LTJ or prove anything outside the displayed parameter range."
+}

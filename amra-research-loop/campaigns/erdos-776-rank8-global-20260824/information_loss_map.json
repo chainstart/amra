@@ -1,0 +1,53 @@
+{
+  "inherited_methods": [
+    {
+      "method": "rank-8 finite margin extrapolation",
+      "loss_step": "evaluate the exact shortened orbit at finitely many V and infer that no later carry crosses the cap",
+      "lost_information": "unbounded carry walls and the universal integer parameter",
+      "consequence": "positive margins through any cutoff are falsifier evidence only and cannot prove D8<binom(V-11,8) for every V"
+    },
+    {
+      "method": "two-binomial P_q domination",
+      "loss_step": "treat D18<=P18 as a rank-by-rank invariant rather than using the proved residual absorption",
+      "lost_information": "the lower canonical suffix that temporarily exceeds P_q and is later absorbed",
+      "consequence": "at V=288, D18-P18=-2924809 but D16-P16=67; literal P_q propagation is false"
+    },
+    {
+      "method": "independent-tax subadditivity",
+      "loss_step": "shadow every added V separately and sum the resulting rank-8 contributions",
+      "lost_information": "overlap of colex shadows after global recompression",
+      "consequence": "at V=40 the second isolated tax contributes 2877875, exceeding the whole residual capacity 296010"
+    },
+    {
+      "method": "blind adjacent-parameter coupling",
+      "loss_step": "apply subadditivity to the full difference between the V and V+1 orbits before cancelling their common canonical prefix",
+      "lost_information": "prefix shadow cancellation and the true rank-six suffix increment",
+      "consequence": "at V=40 the resulting rank-8 majorizer 5476185 exceeds the permitted cap increment 1560780"
+    },
+    {
+      "method": "raw W6 scalar monotonicity",
+      "loss_step": "discard the moving binomial capacity and retain only the sign of W6(V+1)-W6(V)",
+      "lost_information": "normalization by binom(V-13,6), canonical top height, and cap-growth credit",
+      "consequence": "W6 drops by 8905 from V=40 to 41 but rises by 2 from V=50 to 51, so neither monotonic direction is true"
+    },
+    {
+      "method": "equivalent complement and fixed-rank gates",
+      "loss_step": "replace the rank-8 entry by D18<=P18, a one-binomial complementary endpoint, or a later fixed-rank capacity without a new inequality",
+      "lost_information": "the mechanism controlling the actual first moving block or adjacent loss",
+      "consequence": "the reformulations are exact but do not reduce theorem strength until an all-V carry or loss bound is supplied"
+    },
+    {
+      "method": "colex upper construction alone",
+      "loss_step": "identify route closure with determination of n_0(r)",
+      "lost_information": "sharp lower-bound minimality, all larger n, the r-to-V parameter map, and small-r exceptions",
+      "consequence": "even a proved all-V rank-8 entry is at most a scoped upper-term promotion, not original-problem closure"
+    }
+  ],
+  "required_new_information": [
+    "an overlap-aware adjacent shadow inequality after cancelling the two common harmonic rank-8 terms",
+    "or an all-V logarithmic bound on the top index of the six-canonical suffix W6",
+    "a complete inherited-construction replay mapping every required r,n to an allowed V and covering the finite bridge",
+    "a matching sharp lower obstruction and reconciliation with known small-r values before claiming exact n_0(r)",
+    "an independent audit separating exact symbolic identities from bounded falsifier scans"
+  ]
+}

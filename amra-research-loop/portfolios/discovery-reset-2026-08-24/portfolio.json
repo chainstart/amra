@@ -1,0 +1,254 @@
+{
+  "schema_version": "amra.discovery-portfolio.v1",
+  "portfolio_id": "discovery-reset-2026-08-24",
+  "updated_at": "2026-08-24T22:15:00+08:00",
+  "max_active_deep_attacks": 3,
+  "outcome_semantics": {
+    "original_problem_closed": "The exact public statement is proved or refuted; no proper subclass or conditional bridge qualifies.",
+    "new_bound_or_scoped_theorem": "A genuine evidence-backed contribution exists but does not close the public statement.",
+    "writing_package_ready": "A downstream manuscript passed its internal writing gate; this is neither proof nor external review."
+  },
+  "intake_priorities": [
+    "CEX-FINITE",
+    "FORMAL-READY",
+    "CONSTRUCTION"
+  ],
+  "slot_policy": {
+    "unused_slots_are_preferred_to_unqualified_targets": true,
+    "slot_1": "primary admission erdos-776; promote to active deep attack only after an all-parameter rank-8 entry mechanism survives falsification",
+    "slot_2": "reallocated to erdos-776 and erdos-786 after erdos-327 hit its independently audited hard stop",
+    "slot_3": "new admission erdos-786 distinct-factor variant; repetitions-allowed arguments are out of scope"
+  },
+  "targets": [
+    {
+      "problem_id": "formal-conjectures-green-28",
+      "title": "Unfair zero-one polynomial conjecture",
+      "opportunity_class": "DEEP-BLACKBOX",
+      "research_track": "discovery",
+      "scheduling_status": "frozen",
+      "resume_gate": "Resume only after a route supplies an exact candidate object, an executable first falsification test against every listed scalable countermodel, and a proved explanation that survival closes or strictly decomposes G28-ARBITRARY-SUPPORT-TERMINATION.",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": true,
+        "evidence": {
+          "original_problem_closed": "/home/biostar/work/projects/openmath/problems/01-green-28/CURRENT_STATE.md",
+          "new_bound_or_scoped_theorem": "/home/biostar/work/projects/openmath/problems/01-green-28/campaigns/2026-08-23-green28-full-8h/proof_ledger.md",
+          "writing_package_ready": "/home/biostar/work/projects/ara-paper-writing/registry/papers/20260815-math-number-green28-zero-one-factors.yaml"
+        }
+      },
+      "deep_attack": {
+        "active": false,
+        "previous_slot": 1,
+        "closure_contract": "/home/biostar/work/projects/openmath/problems/01-green-28/control/closing_bridge_contract.json",
+        "proof_dag": "/home/biostar/work/projects/openmath/problems/01-green-28/control/proof_dag.json",
+        "closing_lemma": "G28-ARBITRARY-SUPPORT-TERMINATION",
+        "verifier": "proof-DAG obligation count plus blind natural-language reconstruction and dependency audit",
+        "exception_reason": "The target is retained despite DEEP-BLACKBOX classification because the current campaign has isolated one exact arbitrary-support closing bridge; no further local-family work is permitted.",
+        "allowed_work": [
+          "prove or refute the exact closing bridge",
+          "give an equivalent strictly smaller obligation decomposition",
+          "construct an exact counterexample to the public conjecture"
+        ],
+        "domain_expert": {
+          "status": "recruitment_pending",
+          "required_expertise": [
+            "additive combinatorics of tilings and sumsets",
+            "nonnegative polynomial factorization"
+          ],
+          "next_action": "Identify a specialist before promotion; provide only the frozen statement, proof object, and dependency list for review."
+        },
+        "freeze_record": {
+          "at": "2026-08-24T15:47:21+08:00",
+          "reason": "The three queued routes had no exact candidate object and no executable first falsification test.",
+          "evidence": "/home/biostar/work/projects/openmath/problems/01-green-28/control/viability_audit.json"
+        }
+      }
+    },
+    {
+      "problem_id": "erdos-866",
+      "title": "Pairwise-sum bounds",
+      "opportunity_class": "BOUND-PAPER",
+      "research_track": "bound_paper",
+      "scheduling_status": "writing_only",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": true,
+        "evidence": {
+          "original_problem_closed": "/home/biostar/work/projects/ara-paper-writing/papers/20260718matherdos0001/evidence/claim_evidence_map.md",
+          "new_bound_or_scoped_theorem": "/home/biostar/work/projects/ara-paper-writing/papers/20260718matherdos0001/evidence/claim_evidence_map.md",
+          "writing_package_ready": "/home/biostar/work/projects/ara-paper-writing/registry/papers/20260718matherdos0001.yaml"
+        }
+      },
+      "deep_attack": {
+        "active": false
+      }
+    },
+    {
+      "problem_id": "erdos-148",
+      "title": "Sums of unit fractions bounds",
+      "opportunity_class": "BOUND-PAPER",
+      "research_track": "bound_paper",
+      "scheduling_status": "writing_only",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": true,
+        "evidence": {
+          "original_problem_closed": "/home/biostar/work/projects/ara-paper-writing/papers/20260720matherdos0003/evidence/claim_evidence_map.md",
+          "new_bound_or_scoped_theorem": "/home/biostar/work/projects/ara-paper-writing/papers/20260720matherdos0003/evidence/claim_evidence_map.md",
+          "writing_package_ready": "/home/biostar/work/projects/ara-paper-writing/registry/papers/20260720matherdos0003.yaml"
+        }
+      },
+      "deep_attack": {
+        "active": false
+      }
+    },
+    {
+      "problem_id": "opg-1757",
+      "title": "Complete-split forest Rayleigh conjecture",
+      "opportunity_class": "DEEP-BLACKBOX",
+      "research_track": "scoped_theorem",
+      "scheduling_status": "frozen",
+      "resume_gate": "Resume discovery only after an exact arbitrary-host or transverse-direction lift is stated with a falsifiable verifier; another fixed slice, deficit window, or finite-row certificate is insufficient.",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": true,
+        "evidence": {
+          "original_problem_closed": "/home/biostar/work/projects/ara-paper-writing/papers/20260802mathgraph0001/evidence/claim_evidence_map.md",
+          "new_bound_or_scoped_theorem": "/home/biostar/work/projects/ara-paper-writing/papers/20260802mathgraph0001/evidence/claim_evidence_map.md",
+          "writing_package_ready": "/home/biostar/work/projects/ara-paper-writing/registry/papers/20260802mathgraph0001.yaml"
+        }
+      },
+      "deep_attack": {
+        "active": false
+      }
+    },
+    {
+      "problem_id": "erdos-776",
+      "title": "Exact threshold for many-level antichains",
+      "opportunity_class": "FORMAL-READY",
+      "research_track": "discovery",
+      "scheduling_status": "candidate",
+      "candidate_gate": "Prove or refute the actual-orbit rank-three or rank-four adjoint suffix-budget target, or give a joint multirank carry/plateau-position theorem implying LTJ. Fixed Delta B2 bounds, gap-only propagated loss, fixed-rank adjoint deferrals m>=5, the logarithmic rank-6 top route, endpoint capacity, and larger finite scans are closed as progress claims.",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": false,
+        "evidence": {
+          "original_problem_closed": "/home/biostar/work/projects/amra/artifacts/erdos_master_rotation/R004/core_776_635/776/RESULT.json",
+          "new_bound_or_scoped_theorem": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-776-rank8-global-20260824/decisive_lemma.json",
+          "current_campaign": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-776-rank8-global-20260824/closure_contract.json"
+        }
+      },
+      "deep_attack": {
+        "active": false,
+        "admission_campaign": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-776-rank8-global-20260824"
+      }
+    },
+    {
+      "problem_id": "erdos-786-distinct",
+      "title": "Distinct-factor multiplicative cardinality sets",
+      "opportunity_class": "FORMAL-READY",
+      "research_track": "discovery",
+      "scheduling_status": "candidate",
+      "candidate_gate": "After the GC.1 standalone promotion, start a successor campaign only from one retained route: M786G-03 probability/external-cluster charging, M786G-06 a noncircular full-cluster residue current, or M786G-13 prefix-Carleson recourse for the explicit periodic baseline. Packing-local deterministic repair, the tested residue-only owners, scale-only potentials, endpoint-only recourse, and density-one admission are closed.",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": false,
+        "evidence": {
+          "original_problem_closed": "/home/biostar/work/projects/amra/artifacts/erdos_630_initial_analysis/results/786.json",
+          "new_bound_or_scoped_theorem": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-786-global-closure-round4-20260824/decision.json",
+          "current_campaign": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-786-global-closure-round4-20260824/closure_contract.json"
+        }
+      },
+      "deep_attack": {
+        "active": false,
+        "admission_campaign": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-786-distinct-factor-admission-20260824",
+        "admission_outcome": "promoted_standalone_decisive_lemma",
+        "successor_campaign": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-786-integral-rounding-20260824",
+        "successor_outcome": "promoted_standalone_decisive_lemma",
+        "current_campaign": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-786-global-closure-round4-20260824",
+        "current_outcome": "promoted_standalone_decisive_lemma_original_open",
+        "retained_routes": [
+          "M786G-03 probability-weighted or external-cluster arithmetic charging",
+          "M786G-06 full-cluster geometry plus noncircular full-residue divisor current",
+          "M786G-13 prefix-Carleson recourse for B_Q={1} union QN"
+        ]
+      }
+    },
+    {
+      "problem_id": "erdos-809",
+      "title": "Maximal anti-Ramsey conjecture: remaining C7 case",
+      "opportunity_class": "LIT-REDUCE",
+      "research_track": "discovery",
+      "scheduling_status": "frozen",
+      "resume_gate": "Provide an endpoint-safe all-weight block-stability theorem with q-uniform gamma and finite-host lifting, or a fully defined canonical witness theorem converting failure of paid batches into one actual target-size C7 compatibility reservoir. A repaired equal-q4 type-word enumeration is insufficient.",
+      "candidate_gate": "Within 6 agent-hours, produce a complete dependency diff of the Bucić-Chen-Ma k>=4 proof at k=3 and an acyclic closure DAG. Downgrade if more than two independent new theorem nodes remain beyond the locally proved near-complete-split branch.",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": false,
+        "evidence": {
+          "original_problem_closed": "/home/biostar/work/projects/amra/artifacts/erdos_master_rotation/R004/core_809_592/809/RESULT.json",
+          "new_bound_or_scoped_theorem": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-809-mantel-boundary-colour-payment-20260824/decision.json",
+          "screening": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/discovery-reset-2026-08-24/open_problem_screening.json"
+        }
+      },
+      "deep_attack": {
+        "active": false,
+        "last_campaign": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-809-compatibility-dichotomy-20260824",
+        "last_outcome": "frozen_after_independent_audit"
+      }
+    },
+    {
+      "problem_id": "erdos-404",
+      "title": "Unbounded p-adic factorial subset-sum lifting",
+      "opportunity_class": "CONSTRUCTION",
+      "research_track": "discovery",
+      "scheduling_status": "frozen",
+      "resume_gate": "Resume only after a materially new all-K proof mechanism for fibre-cube hitting or a proved nonempty recursively pruned carry language; additional fixed-K coverage does not qualify.",
+      "candidate_gate": "Within 4 agent-hours, build an independent exact verifier for p=5 lifting blocks and identify a bounded-state j-to-j+1 template. Downgrade if only unrelated fixed-j certificates are found.",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": false,
+        "writing_package_ready": false,
+        "evidence": {
+          "original_problem_closed": "/home/biostar/work/projects/amra/artifacts/erdos_630_initial_analysis/results/404.json",
+          "screening": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/discovery-reset-2026-08-24/open_problem_screening.json"
+        }
+      },
+      "deep_attack": {
+        "active": false
+      }
+    },
+    {
+      "problem_id": "erdos-327",
+      "title": "Positive-density independent set for a+b not dividing 2ab",
+      "opportunity_class": "CONSTRUCTION",
+      "research_track": "discovery",
+      "scheduling_status": "frozen",
+      "resume_gate": "Supply a materially new all-parameter mechanism for the bounded-Q harmonic stratum that is not quantitatively equivalent to the fan-clock aggregate. The refuted E_D=O(log M) route and all earlier forbidden families remain closed.",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": false,
+        "evidence": {
+          "original_problem_closed": "/home/biostar/work/projects/amra/artifacts/erdos_master_rotation/R001/327_INTAKE.md",
+          "new_bound_or_scoped_theorem": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-327-smooth-core-harmonic-20260824/decision.json",
+          "screening": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/discovery-reset-2026-08-24/open_problem_screening.json"
+        }
+      },
+      "deep_attack": {
+        "active": false,
+        "last_campaign": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-327-fan-degree-clock-20260824",
+        "last_outcome": "frozen_after_independent_audit",
+        "previous_campaign": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-327-adaptive-selection-20260824",
+        "previous_outcome": "frozen_after_independent_audit"
+      }
+    }
+  ]
+}

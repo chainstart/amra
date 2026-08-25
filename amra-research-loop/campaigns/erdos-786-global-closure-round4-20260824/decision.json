@@ -1,0 +1,13 @@
+{
+  "outcome": "promote",
+  "success_condition": "standalone_decisive_lemma",
+  "reason": "GC.1 is an independently reconstructed all-parameter obstruction to every deterministic o(log N)-per-matching repair theorem for a realized equal-defect arithmetic cluster, including complete signed kernels, normalized defects, petal choices, and global reuse inside that cluster. This scoped theorem satisfies only the standalone decisive-lemma condition; it does not prove tau(H_N)=o(N), improve the finite main term, construct an infinite admissible set, or close Erdős #786.",
+  "evidence": [
+    "evidence/ROUND4_CLUSTER_ALTERATION.md",
+    "evidence/verify_round4_cluster_alteration.py",
+    "audit/blind_reconstruction.md",
+    "audit/blind_reconstruction.sha256",
+    "audit/independent_audit.md",
+    "audit.json"
+  ]
+}
