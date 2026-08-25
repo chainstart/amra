@@ -1,0 +1,78 @@
+{
+  "schema_version": "amra.finite-falsifier.v1",
+  "campaign_id": "erdos-776-rank8-global-20260824",
+  "recorded_at": "2026-08-25T10:24:58+08:00",
+  "parameter_range": [
+    125,
+    2000
+  ],
+  "adjacent_comparisons": 1876,
+  "workers": 16,
+  "guard": {
+    "launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "scope": "openmath-task-20260825-102128-16331.scope",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "memory_swap_max": "4G",
+    "tasks_max": 512
+  },
+  "first_failures": {
+    "LTJ": null,
+    "rank_3": null,
+    "rank_4": null
+  },
+  "tightest": {
+    "rank_3": {
+      "V": 132,
+      "a": 34,
+      "delta_3": 2,
+      "budget_3": 66,
+      "margin": 64
+    },
+    "rank_4": {
+      "V": 137,
+      "a": 34,
+      "delta_4": 4,
+      "budget_4": 77,
+      "margin": 73
+    },
+    "LTJ": {
+      "V": 127,
+      "a": 34,
+      "delta_2": 1,
+      "margin": 33
+    }
+  },
+  "positive_walls": 1874,
+  "prefix_histogram": {
+    "Z3:0/Z4:1": 2,
+    "Z3:0/Z4:2": 2,
+    "Z3:0/Z4:3": 2,
+    "Z3:1/Z4:1": 11,
+    "Z3:1/Z4:2": 39,
+    "Z3:1/Z4:3": 95,
+    "Z3:2/Z4:0": 1,
+    "Z3:2/Z4:1": 24,
+    "Z3:2/Z4:2": 342,
+    "Z3:2/Z4:3": 1358
+  },
+  "zero_prefix_witness": {
+    "V": 300,
+    "rank": 3,
+    "before_word": [
+      [30, 3],
+      [29, 2],
+      [28, 1]
+    ],
+    "after_word": [
+      [31, 3],
+      [2, 2]
+    ],
+    "common_prefix_length": 0,
+    "delta_3": 2,
+    "budget_3": 85,
+    "guard_scope": "openmath-task-20260825-102452-16610.scope"
+  },
+  "classification": "finite_kill_test_only",
+  "scope": "The absence of a counterexample is not an all-parameter proof. The zero-prefix witness refutes only proof subroutes that require a uniformly positive canonical common prefix."
+}

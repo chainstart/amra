@@ -23,5 +23,10 @@
     "M776G-01": "surviving only through rank-three/rank-four suffix control, a joint multirank carry invariant, or equivalent actual plateau-position data",
     "fixed_rank_deferrals": "rank five killed at V=1435, rank six killed at V=845, and rank seven killed at V=186 by exact actual-orbit witnesses",
     "campaign": "continue at survivor_deepening; do not reopen any fixed-rank m>=5 adjoint-budget variant without materially new joint information"
+  },
+  "round_6_route_status": {
+    "M776G-01": "rank-three and rank-four targets have no counterexample on the guarded finite falsifier 125<=V<=2000, but neither has an all-parameter proof",
+    "fixed_common_prefix": "refuted on the actual orbit: Z3 has common-prefix length zero at V=300->301, and the full finite screen also contains a Z4 zero-prefix wall",
+    "campaign": "remain at survivor_deepening but pause ordinary scans; resume only with a materially new all-parameter plateau-position or joint multirank invariant"
   }
 }

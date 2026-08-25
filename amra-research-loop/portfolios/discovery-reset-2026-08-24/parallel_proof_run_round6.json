@@ -1,0 +1,85 @@
+{
+  "schema_version": "amra.parallel-proof-run.v1",
+  "run_id": "rank34-wall-and-m13-admission-2026-08-25",
+  "created_at": "2026-08-25T10:15:18+08:00",
+  "updated_at": "2026-08-25T10:29:00+08:00",
+  "status": "checkpointed_no_promotion",
+  "supersedes_checkpoint": "parallel_proof_run_round4.json",
+  "resource_allocation": {
+    "erdos-776": 0.8,
+    "erdos-786-distinct": 0.2
+  },
+  "resource_guard": {
+    "launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "memory_swap_max": "4G",
+    "tasks_max": 512
+  },
+  "processes": [
+    {
+      "process_id": "P776-RANK34",
+      "problem_id": "erdos-776",
+      "campaign_id": "erdos-776-rank8-global-20260824",
+      "status": "screened_no_promotion_route_paused",
+      "allocation": 0.8,
+      "phase_lock": "survivor_deepening",
+      "exact_task": "Prove or refute the actual rank-four adjoint suffix target (delta_4)_+<=U_3(U_2(a-1)-1), or the rank-three target (delta_3)_+<=U_2(a-1), for every V>=125.",
+      "method": "Reuse each exact compressed orbit once, isolate only adjacent carry walls, then seek a complete symbolic wall classification rather than extrapolating a cutoff.",
+      "success_gate": "An all-parameter proof of a rank-three/rank-four target, an actual counterexample that closes it, or a finite complete wall taxonomy with proved coverage.",
+      "stop_rule": "Freeze every fixed-rank suffix-budget subroute if rank three and rank four both have actual counterexamples, or if the proposed taxonomy requires an unbounded state equivalent to LTJ. Larger ordinary scans are non-success."
+    },
+    {
+      "process_id": "P786-M13-ADMISSION",
+      "problem_id": "erdos-786-distinct",
+      "predecessor_campaign_id": "erdos-786-global-closure-round4-20260824",
+      "status": "not_admitted",
+      "allocation": 0.2,
+      "exact_task": "Determine whether M786G-13 has an explicit noncircular rule selecting residual transversals T_k for B_Q={1} union QN with a first executable prefix-Carleson kill test.",
+      "success_gate": "One explicit T_k selection rule, a precise all-parameter claimed recourse estimate, and an executable first falsifier justify a successor campaign.",
+      "stop_rule": "Do not initialize a successor if the only premise is existence of o(2^k) transversals, an optimum choice, nestedness, or a pre-existing infinite transversal; record admission failure instead."
+    }
+  ],
+  "round_checkpoint": {
+    "recorded_at": "2026-08-25T10:24:58+08:00",
+    "erdos_776": {
+      "result": "No rank-three, rank-four, or LTJ failure occurred in the finite 125<=V<=2000 falsifier. The minimum observed rank-three and rank-four margins were 64 and 73.",
+      "exact_negative": "A fixed positive canonical common-prefix proof is refuted by the actual rank-three wall V=300->301; the finite screen also contains a rank-four zero-prefix wall.",
+      "decision": "No promotion. Keep the campaign at survivor_deepening but pause ordinary scans until a materially new all-parameter plateau-position or joint multirank invariant is supplied.",
+      "evidence": [
+        "../../campaigns/erdos-776-rank8-global-20260824/evidence/ROUND6_RANK34_WALL_SCREEN.md",
+        "../../campaigns/erdos-776-rank8-global-20260824/evidence/round6_rank34_falsifier_125_2000.json",
+        "../../campaigns/erdos-776-rank8-global-20260824/evidence/probe_round6_rank34_suffix_budget.py"
+      ]
+    },
+    "erdos_786_distinct": {
+      "result": "M786G-13 has an explicit periodic baseline but no explicit noncircular selector for T_k, no proved rate, and therefore no executable first recourse kill test.",
+      "decision": "Do not initialize a successor campaign. CR.1 remains a valid conditional theorem; M786G-13 and the public problem remain open.",
+      "evidence": [
+        "ERDOS_786_M13_ADMISSION_ROUND6.md",
+        "erdos_786_m13_admission_round6.json"
+      ]
+    },
+    "resource_guard": {
+      "launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+      "memory_high": "30G",
+      "memory_max": "34G",
+      "memory_swap_max": "4G",
+      "tasks_max": 512,
+      "scopes": [
+        "openmath-task-20260825-101638-15995.scope",
+        "openmath-task-20260825-102128-16331.scope",
+        "openmath-task-20260825-102452-16610.scope",
+        "openmath-task-20260825-102803-16932.scope",
+        "openmath-task-20260825-102900-17107.scope"
+      ]
+    },
+    "validation": {
+      "erdos_776_campaign": "valid",
+      "erdos_786_predecessor_campaign": "valid",
+      "discovery_portfolio": "valid",
+      "package_tests": "8 passed"
+    },
+    "portfolio_decision": "Neither problem earns another immediate compute round. Retain #776 only as a paused symbolic survivor and #786 M13 only as a conditional watchlist mechanism."
+  }
+}
