@@ -1,0 +1,90 @@
+{
+  "schema_version": "amra.discovery-portfolio.v1",
+  "portfolio_id": "new-problem-round-2026-08-25",
+  "updated_at": "2026-08-25T13:25:00+08:00",
+  "max_active_deep_attacks": 3,
+  "targets": [
+    {
+      "problem_id": "erdos-885",
+      "title": "Common factor-difference sets",
+      "opportunity_class": "CONSTRUCTION",
+      "research_track": "discovery",
+      "scheduling_status": "frozen",
+      "resume_gate": "Supply a new parametric source of five candidate differences or a faithful reconstruction of the k=4 elliptic-curve family that yields an explicit fifth-row extension problem; a larger unstructured N cutoff is insufficient.",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": false,
+        "evidence": {
+          "screening": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/new-problem-round-2026-08-25/screening.json",
+          "scoped_theorem": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/new-problem-round-2026-08-25/evidence/erdos_885_search_note.md",
+          "finite_certificate": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/new-problem-round-2026-08-25/evidence/erdos_885_fixed_differences.json"
+        }
+      },
+      "deep_attack": {
+        "active": false
+      }
+    },
+    {
+      "problem_id": "erdos-829",
+      "title": "Polylogarithmic bound for sums of two positive cubes",
+      "opportunity_class": "FORMAL-READY",
+      "research_track": "discovery",
+      "scheduling_status": "frozen",
+      "resume_gate": "Provide a theorem that couples unitary divisor assignments through the condition (4n/s-s^2)/3 being a square; another unrestricted divisor or independent Eisenstein-prime count is closed.",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": false,
+        "writing_package_ready": false,
+        "evidence": {
+          "screening": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/new-problem-round-2026-08-25/screening.json",
+          "route_audit": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/new-problem-round-2026-08-25/evidence/erdos_829_route_audit.md",
+          "finite_replay": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/new-problem-round-2026-08-25/evidence/erdos_829_finite_summary.json"
+        }
+      },
+      "deep_attack": {
+        "active": false
+      }
+    },
+    {
+      "problem_id": "erdos-917",
+      "title": "Maximum edges in 6-critical graphs",
+      "opportunity_class": "LIT-REDUCE",
+      "research_track": "discovery",
+      "scheduling_status": "frozen",
+      "resume_gate": "Prove an annotated sparse-dense stability theorem that retains the 3-chromatic sparse core on each side of the asymptotic bipartite skeleton; an unannotated regularity reduced graph is insufficient.",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": false,
+        "writing_package_ready": false,
+        "evidence": {
+          "screening": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/new-problem-round-2026-08-25/screening.json",
+          "route_audit": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/new-problem-round-2026-08-25/evidence/erdos_917_stability_audit.md",
+          "certificate_replay": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/new-problem-round-2026-08-25/evidence/erdos_917_dirac_replay.json"
+        }
+      },
+      "deep_attack": {
+        "active": false
+      }
+    },
+    {
+      "problem_id": "erdos-1112",
+      "title": "Lacunary avoidance by bounded-gap sequences",
+      "opportunity_class": "FORMAL-READY",
+      "research_track": "audit",
+      "scheduling_status": "audit_only",
+      "outcomes": {
+        "original_problem_closed": null,
+        "new_bound_or_scoped_theorem": null,
+        "writing_package_ready": false,
+        "evidence": {
+          "dynamic_status": "/home/biostar/work/projects/amra/amra-research-loop/portfolios/new-problem-round-2026-08-25/evidence/erdos_1112_dynamic_status.md",
+          "external_claim": "https://github.com/beetree/math_erdos_1112"
+        }
+      },
+      "deep_attack": {
+        "active": false
+      }
+    }
+  ]
+}

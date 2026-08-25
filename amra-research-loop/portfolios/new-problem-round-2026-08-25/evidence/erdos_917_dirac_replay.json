@@ -1,0 +1,11 @@
+{
+  "schema_version": "amra.erdos917.dirac-witness-replay.v1",
+  "m_min": 1,
+  "m_max": 20,
+  "families_checked": 20,
+  "largest_graph": {"vertices": 82, "edges": 1763},
+  "all_edge_deletion_five_colourings_valid": true,
+  "all_deleted_edge_endpoints_share_colour": true,
+  "all_edge_counts_match_formula": true,
+  "guard_unit": "openmath-task-20260825-131948-29722.scope"
+}
