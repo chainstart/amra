@@ -1,0 +1,200 @@
+{
+  "schema_version": "amra.erdos538-squarefree-rank2-evidence.v1",
+  "claim_scope": "finite replay supporting a separately proved scoped theorem",
+  "resource_guard": {
+    "required_slice": "openmath.slice",
+    "observed_cgroup": "0::/user.slice/user-1000.slice/user@1000.service/openmath.slice/openmath-task-20260825-152154-33879.scope",
+    "inside_openmath_slice": true
+  },
+  "elapsed_seconds": 0.24344277299678652,
+  "pid": 33879,
+  "rows": [
+    {
+      "prime_support": [
+        2,
+        3
+      ],
+      "triangle_free_graphs_checked": 2,
+      "optimum_numerator": 1,
+      "optimum_denominator": 6,
+      "optimum_edges_as_prime_products": [
+        [
+          2,
+          3
+        ]
+      ],
+      "complete_bipartite_side": [
+        2
+      ],
+      "cut_optimum_numerator": 1,
+      "cut_optimum_denominator": 6,
+      "maximum_rank_two_representations_in_replay": 1
+    },
+    {
+      "prime_support": [
+        2,
+        3,
+        5
+      ],
+      "triangle_free_graphs_checked": 7,
+      "optimum_numerator": 4,
+      "optimum_denominator": 15,
+      "optimum_edges_as_prime_products": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "complete_bipartite_side": [
+        2
+      ],
+      "cut_optimum_numerator": 4,
+      "cut_optimum_denominator": 15,
+      "maximum_rank_two_representations_in_replay": 2
+    },
+    {
+      "prime_support": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "triangle_free_graphs_checked": 41,
+      "optimum_numerator": 12,
+      "optimum_denominator": 35,
+      "optimum_edges_as_prime_products": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          5,
+          7
+        ]
+      ],
+      "complete_bipartite_side": [
+        2,
+        7
+      ],
+      "cut_optimum_numerator": 12,
+      "cut_optimum_denominator": 35,
+      "maximum_rank_two_representations_in_replay": 2
+    },
+    {
+      "prime_support": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "triangle_free_graphs_checked": 388,
+      "optimum_numerator": 309,
+      "optimum_denominator": 770,
+      "optimum_edges_as_prime_products": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          11
+        ],
+        [
+          3,
+          7
+        ],
+        [
+          5,
+          7
+        ],
+        [
+          7,
+          11
+        ]
+      ],
+      "complete_bipartite_side": [
+        2,
+        7
+      ],
+      "cut_optimum_numerator": 309,
+      "cut_optimum_denominator": 770,
+      "maximum_rank_two_representations_in_replay": 2
+    },
+    {
+      "prime_support": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13
+      ],
+      "triangle_free_graphs_checked": 5789,
+      "optimum_numerator": 13561,
+      "optimum_denominator": 30030,
+      "optimum_edges_as_prime_products": [
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          2,
+          7
+        ],
+        [
+          3,
+          11
+        ],
+        [
+          3,
+          13
+        ],
+        [
+          5,
+          11
+        ],
+        [
+          5,
+          13
+        ],
+        [
+          7,
+          11
+        ],
+        [
+          7,
+          13
+        ]
+      ],
+      "complete_bipartite_side": [
+        2,
+        11,
+        13
+      ],
+      "cut_optimum_numerator": 13561,
+      "cut_optimum_denominator": 30030,
+      "maximum_rank_two_representations_in_replay": 2
+    }
+  ]
+}

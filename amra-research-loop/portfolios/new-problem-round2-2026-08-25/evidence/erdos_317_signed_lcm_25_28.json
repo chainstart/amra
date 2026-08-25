@@ -1,0 +1,53 @@
+{
+  "schema_version": "amra.erdos317-signed-lcm-evidence.v1",
+  "claim_scope": "exact finite solver evidence; no eventual-n inference",
+  "parameters": {
+    "min_n": 25,
+    "max_n": 28,
+    "timeout_ms": 20000,
+    "mitm_through": 28,
+    "z3_through": 14,
+    "output": "amra-research-loop/portfolios/new-problem-round2-2026-08-25/evidence/erdos_317_signed_lcm_25_28.json"
+  },
+  "resource_guard": {
+    "required_slice": "openmath.slice",
+    "observed_cgroup": "0::/user.slice/user-1000.slice/user@1000.service/openmath.slice/openmath-task-20260825-152531-34275.scope",
+    "inside_openmath_slice": true
+  },
+  "elapsed_seconds": 15.585595142001694,
+  "pid": 34275,
+  "rows": [
+    {
+      "n": 25,
+      "lcm": 26771144400,
+      "lcm_decimal_digits": 11,
+      "solver_status": "skipped_after_kill_gate",
+      "solver_elapsed_seconds": 0.0,
+      "exact_mitm_status": "unsat"
+    },
+    {
+      "n": 26,
+      "lcm": 26771144400,
+      "lcm_decimal_digits": 11,
+      "solver_status": "skipped_after_kill_gate",
+      "solver_elapsed_seconds": 0.0,
+      "exact_mitm_status": "unsat"
+    },
+    {
+      "n": 27,
+      "lcm": 80313433200,
+      "lcm_decimal_digits": 11,
+      "solver_status": "skipped_after_kill_gate",
+      "solver_elapsed_seconds": 0.0,
+      "exact_mitm_status": "unsat"
+    },
+    {
+      "n": 28,
+      "lcm": 80313433200,
+      "lcm_decimal_digits": 11,
+      "solver_status": "skipped_after_kill_gate",
+      "solver_elapsed_seconds": 0.0,
+      "exact_mitm_status": "unsat"
+    }
+  ]
+}

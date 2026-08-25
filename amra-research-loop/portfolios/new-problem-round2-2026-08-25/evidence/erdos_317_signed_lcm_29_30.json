@@ -1,0 +1,37 @@
+{
+  "schema_version": "amra.erdos317-signed-lcm-evidence.v1",
+  "claim_scope": "exact finite solver evidence; no eventual-n inference",
+  "parameters": {
+    "min_n": 29,
+    "max_n": 30,
+    "timeout_ms": 20000,
+    "mitm_through": 30,
+    "z3_through": 14,
+    "output": "amra-research-loop/portfolios/new-problem-round2-2026-08-25/evidence/erdos_317_signed_lcm_29_30.json"
+  },
+  "resource_guard": {
+    "required_slice": "openmath.slice",
+    "observed_cgroup": "0::/user.slice/user-1000.slice/user@1000.service/openmath.slice/openmath-task-20260825-152553-34329.scope",
+    "inside_openmath_slice": true
+  },
+  "elapsed_seconds": 37.23353291400417,
+  "pid": 34329,
+  "rows": [
+    {
+      "n": 29,
+      "lcm": 2329089562800,
+      "lcm_decimal_digits": 13,
+      "solver_status": "skipped_after_kill_gate",
+      "solver_elapsed_seconds": 0.0,
+      "exact_mitm_status": "unsat"
+    },
+    {
+      "n": 30,
+      "lcm": 2329089562800,
+      "lcm_decimal_digits": 13,
+      "solver_status": "skipped_after_kill_gate",
+      "solver_elapsed_seconds": 0.0,
+      "exact_mitm_status": "unsat"
+    }
+  ]
+}
