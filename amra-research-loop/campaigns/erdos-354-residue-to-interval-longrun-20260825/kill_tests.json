@@ -1,0 +1,11 @@
+{
+  "tests": [
+    {"mechanism_id":"M354L-1","test":"derive an interval from representative height without a disjoint core","outcome":"killed","evidence":"evidence/residue_core_bridge.md","reason":"height-marked representatives only close after adding a disjoint q-multiple quotient interval"},
+    {"mechanism_id":"M354L-4","test":"iterate a bounded supply of disjoint unit relations","outcome":"killed","evidence":"evidence/residue_core_bridge.md","reason":"a bounded supply yields at most a bounded residue core and no arbitrarily growing interval"},
+    {"mechanism_id":"M354L-5","test":"bound the first interval seed by universal binary depth","outcome":"killed","evidence":"evidence/arbitrary_delay_lemma.md","reason":"the mod-5 cylinder delays even two consecutive subset sums beyond every prescribed depth"},
+    {"mechanism_id":"M354L-6","test":"force adjacency from large exact subset-sum collision","outcome":"killed","evidence":"evidence/interval_delay_search.json","reason":"the depth-22 mod-5 sample has 92274664 reachable sums but no adjacent pair"},
+    {"mechanism_id":"M354L-8","test":"bound useful carry-disagreement gaps from irrational ratio","outcome":"killed","evidence":"evidence/arbitrary_delay_lemma.md","reason":"an aperiodic tail can follow an arbitrarily long prescribed zero block"},
+    {"mechanism_id":"M354L-9","test":"pay gaps using only combined prefix mass","outcome":"killed","evidence":"evidence/arbitrary_delay_lemma.md","reason":"prefix mass grows exponentially while the mod-5 obstruction still forbids adjacency"},
+    {"mechanism_id":"M354L-10","test":"compactify compatible representatives without tracking supports","outcome":"killed","evidence":"evidence/residue_core_bridge.md","reason":"the valid bridge needs one disjoint core and a uniform quotient-height intersection"}
+  ]
+}

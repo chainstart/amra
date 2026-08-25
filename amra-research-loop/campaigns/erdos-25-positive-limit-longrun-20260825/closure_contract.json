@@ -1,0 +1,24 @@
+{
+  "exact_statement": "For every strictly increasing sequence of positive moduli n_i and arbitrary residue classes a_i modulo n_i, determine whether the set of natural n such that for every i either n<n_i or n is not congruent to a_i modulo n_i must have a logarithmic density.",
+  "source": "https://www.erdosproblems.com/25",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Official page was checked on 2026-08-25 and recorded OPEN with zero claimed proofs in the immediately preceding frozen campaign.",
+    "This continuation is admitted only because it attacks the positive finite-stage-density onset-transient resume gate.",
+    "The moduli are strictly increasing and the forbidden class modulo n_i is active only from n_i onward.",
+    "A pairwise-coprime, summable, or finite-period cohort is scoped progress and not closure."
+  ]
+}

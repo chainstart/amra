@@ -1,0 +1,15 @@
+{
+  "round_id": "long-proof-round4-2026-08-25",
+  "outcome": "freeze_both_after_survivor_deepening",
+  "reason": "Both targets produced rigorous scoped lemmas and sharper resume gates, but neither surviving mechanism closes its public statement. The next useful work requires a new aggregate theorem, not more sampling of the same finite families.",
+  "targets": [
+    {
+      "problem_id": "erdos-354",
+      "resume_gate": "Prove a dynamic multi-block theorem that forces arbitrarily long disjoint q-multiple quotient cores despite arbitrarily sparse carry blocks; another fixed modulus or finite split search is insufficient."
+    },
+    {
+      "problem_id": "erdos-25",
+      "resume_gate": "Prove an aggregate cross-scale packing bound conditioned on low-order congruence-cell density, or construct infinitely many target-isolated blocks with nonvanishing normalised harmonic mass; another finite local amplifier is insufficient."
+    }
+  ]
+}

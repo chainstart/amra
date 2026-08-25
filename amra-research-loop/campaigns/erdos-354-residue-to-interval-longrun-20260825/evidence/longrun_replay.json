@@ -1,0 +1,104 @@
+{
+  "checks": [
+    {
+      "best_margin": -1348,
+      "best_split": 20,
+      "depth": 10,
+      "kind": "all_split_extremum",
+      "modulus": 13
+    },
+    {
+      "best_margin": -4099,
+      "best_split": 22,
+      "depth": 14,
+      "kind": "all_split_extremum",
+      "modulus": 3
+    },
+    {
+      "best_margin": -11778,
+      "best_split": 26,
+      "depth": 16,
+      "kind": "all_split_extremum",
+      "modulus": 11
+    },
+    {
+      "best_margin": -139275,
+      "best_split": 32,
+      "depth": 18,
+      "kind": "all_split_extremum",
+      "modulus": 5
+    },
+    {
+      "best_margin": -139270,
+      "best_split": 38,
+      "depth": 19,
+      "kind": "all_split_extremum",
+      "modulus": 23
+    },
+    {
+      "best_margin": -32760,
+      "best_split": 30,
+      "depth": 21,
+      "kind": "all_split_extremum",
+      "modulus": 3
+    },
+    {
+      "best_margin": -524291,
+      "best_split": 34,
+      "depth": 22,
+      "kind": "all_split_extremum",
+      "modulus": 3
+    },
+    {
+      "depth": 1,
+      "kind": "mod5_arbitrary_delay",
+      "reachable_residues": [
+        0,
+        2
+      ]
+    },
+    {
+      "depth": 2,
+      "kind": "mod5_arbitrary_delay",
+      "reachable_residues": [
+        0,
+        2
+      ]
+    },
+    {
+      "depth": 5,
+      "kind": "mod5_arbitrary_delay",
+      "reachable_residues": [
+        0,
+        2
+      ]
+    },
+    {
+      "depth": 22,
+      "kind": "mod5_arbitrary_delay",
+      "reachable_residues": [
+        0,
+        2
+      ]
+    },
+    {
+      "depth": 64,
+      "kind": "mod5_arbitrary_delay",
+      "reachable_residues": [
+        0,
+        2
+      ]
+    },
+    {
+      "depth": 128,
+      "kind": "mod5_arbitrary_delay",
+      "reachable_residues": [
+        0,
+        2
+      ]
+    }
+  ],
+  "schema_version": "erdos-354.longrun-replay.v1",
+  "scope": "Mechanical replay only; not an independent mathematical audit.",
+  "status": "passed"
+}

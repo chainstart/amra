@@ -1,0 +1,33 @@
+{
+  "inherited_methods": [
+    {
+      "method": "coverage modulo each fixed q",
+      "loss_step": "choose an unrelated finite prefix and unrelated representatives for every q",
+      "lost_information": "height, diameter, and compatibility of the representatives as q grows",
+      "consequence": "modular coverage alone does not produce a consecutive integer interval"
+    },
+    {
+      "method": "Sigma-sequence growth bound",
+      "loss_step": "use only the next-term versus total-mass inequality",
+      "lost_information": "the largest gap in the current subset-sum set",
+      "consequence": "bounded growth propagates a seed but cannot manufacture gap one"
+    },
+    {
+      "method": "finite binary-prefix experiments",
+      "loss_step": "treat a long cylinder as representative of all irrational tails",
+      "lost_information": "arbitrarily late digits and irrational-ratio enforcement",
+      "consequence": "a successful finite search is evidence only; an avoiding prefix only rejects a uniform depth bound"
+    },
+    {
+      "method": "signed unit relation",
+      "loss_step": "forget where the positive and negative summands lie inside the ordered coin sequence",
+      "lost_information": "a translation interval on which the relation can be reused with disjoint terms",
+      "consequence": "one difference equal to one need not imply precompleteness"
+    }
+  ],
+  "required_new_information": [
+    "a quantitative relation between residue-covering height and modulus",
+    "an invariant controlling maximum integer gaps under binary-scale insertions",
+    "a repeatable supply of disjoint signed-unit certificates or an equivalent interval seed"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "representations": [
+    {"id":"R25L-1","name":"disjoint conditional deletion layers","family":"martingale-filtration","new_information":"writes each genuinely new deletion as a disjoint periodic set truncated at its own onset","first_test":"prove the exact identity D_i=U_i intersect [n_i,infinity)"},
+    {"id":"R25L-2","name":"onset amplification ratio","family":"rare-event-conditioning","new_information":"compares peak logarithmic mass with eventual conditional density","first_test":"construct an explicit family with unbounded individual amplification"},
+    {"id":"R25L-3","name":"aggregate spike packing","family":"common-structural-host","new_information":"retains incompatibilities among many transient spikes near one cutoff","first_test":"optimise the total spike mass subject to distinct increasing moduli"},
+    {"id":"R25L-4","name":"lcm-age potential","family":"bounded-potential-ascent","new_information":"couples the current harmonic cutoff to each layer's mixing period and onset","first_test":"derive a telescoping bound after grouping by period-to-age ratio"},
+    {"id":"R25L-5","name":"dyadic cutoff ledger","family":"multiscale-analysis","new_information":"assigns every new class to the logarithmic scale on which it first becomes visible","first_test":"bound cross-scale leakage without a reciprocal-modulus sum"},
+    {"id":"R25L-6","name":"nested binary residue tower","family":"algebraic-reconstruction","new_information":"gives exact complements and exact first compatible representatives","first_test":"verify and generalise the power-of-two transient amplifier"},
+    {"id":"R25L-7","name":"CRT incidence hypergraph","family":"geometric-lift","new_information":"represents simultaneous active points as compatible hyperedges","first_test":"seek a packing inequality forced by positive surviving density"},
+    {"id":"R25L-8","name":"finite-block oscillation certificate","family":"matching-certificates","new_information":"packages a lower and upper logarithmic average at two certified cutoffs","first_test":"search for blocks whose oscillation survives after normalisation"}
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "The residue-core bridge is proved, but sparse carry blocks defeat every tested single-modulus single-split strategy. Resume only with a dynamic multi-block theorem forcing arbitrarily long disjoint q-multiple cores; another finite split search is insufficient.",
+  "evidence": [
+    "evidence/longrun_findings.md"
+  ]
+}
