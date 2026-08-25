@@ -1,0 +1,17 @@
+{
+  "statement": "For every positive alpha,beta the interleaved base-2 floor sequences form a Sigma-sequence; if alpha/beta is irrational, then for every fixed modulus q some finite prefix has subset sums covering all residues modulo q.",
+  "status": "proved",
+  "closes": [
+    "the eventual growth interface",
+    "every fixed-modulus obstruction in the base-2 problem"
+  ],
+  "evidence": [
+    "evidence/carry_and_residue_lemmas.md",
+    "evidence/carry_residue_replay.json"
+  ],
+  "dependency_gaps": [
+    "Fixed-modulus coverage has no quantitative prefix bound uniform in q.",
+    "A lift from modular representatives to arbitrarily long consecutive integer subset sums is missing.",
+    "The nonintegral gamma variant lacks the one-bit recurrence."
+  ]
+}

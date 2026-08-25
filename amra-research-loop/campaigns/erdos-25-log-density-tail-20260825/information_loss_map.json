@@ -1,0 +1,33 @@
+{
+  "inherited_methods": [
+    {
+      "method": "tail union bound by sum 1/n_i",
+      "loss_step": "discard every intersection between forbidden residue classes",
+      "lost_information": "compatibility through gcd(n_i,n_j) and higher CRT intersections",
+      "consequence": "the estimate closes only when the reciprocal sum converges"
+    },
+    {
+      "method": "monotone limit of finite periodic complements",
+      "loss_step": "interchange the number of residue classes with the logarithmic averaging limit",
+      "lost_information": "uniform mixing time of each newly introduced period",
+      "consequence": "the decreasing finite-stage densities need not yet identify the infinite logarithmic density"
+    },
+    {
+      "method": "replace delayed classes by full residue classes",
+      "loss_step": "erase the threshold n >= n_i",
+      "lost_information": "one potentially distinct initial representative for every modulus",
+      "consequence": "an infinite collection of transient discrepancies is not automatically logarithmically negligible"
+    },
+    {
+      "method": "second-order Bonferroni",
+      "loss_step": "truncate after pair intersections",
+      "lost_information": "high-order CRT clusters sharing a common residue",
+      "consequence": "the bound can have the wrong sign or scale when many moduli share factors"
+    }
+  ],
+  "required_new_information": [
+    "conditional new-class mass after previous residues are removed",
+    "a discrepancy bound tied to lcm mixing time and onset n_i",
+    "a multiscale overlap invariant beyond pairwise Bonferroni"
+  ]
+}

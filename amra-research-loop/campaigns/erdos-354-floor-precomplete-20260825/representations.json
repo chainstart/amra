@@ -1,0 +1,12 @@
+{
+  "representations": [
+    {"id":"R354-1","name":"binary carry recurrence","family":"algebraic-reconstruction","new_information":"retains the exact bits in x_{s+1}=2x_s+epsilon_s and y analogously","first_test":"derive the exact accumulated floor-defect identity"},
+    {"id":"R354-2","name":"interleaved Sigma sequence","family":"bounded-potential-ascent","new_information":"retains both sequences' mass when testing the next coin","first_test":"prove a uniform upper bound for next term minus all preceding terms"},
+    {"id":"R354-3","name":"signed subset-difference lattice","family":"common-structural-host","new_information":"encodes two consecutive subset sums as one {-1,0,1} relation equal to 1","first_test":"search binary-prefix cells for arbitrarily delayed unit relations"},
+    {"id":"R354-4","name":"mod-q subset-sum automaton","family":"finite-automaton","new_information":"retains reachable residues rather than only their gcd","first_test":"find a modulus and digit path with a permanent proper reachable set"},
+    {"id":"R354-5","name":"doubling torus dynamics","family":"geometric-lift","new_information":"tracks the joint fractional orbit under multiplication by 2","first_test":"check whether irrational ratio actually implies density or only nonperiodicity"},
+    {"id":"R354-6","name":"finite seed interval plus propagation","family":"matching-certificates","new_information":"separates the exact precomplete seed from the eventual coin-growth interface","first_test":"prove the propagation lemma and audit all seed hypotheses"},
+    {"id":"R354-7","name":"floor versus ceiling deformation","family":"invisible-deformation","new_information":"tracks the sign and cumulative count of carry errors under changing rounding convention","first_test":"construct a family where bounded pointwise perturbations create unbounded subset-sum drift"},
+    {"id":"R354-8","name":"gamma-expansion carry system","family":"algebraic-reconstruction","new_information":"retains beta-expansion admissibility when 2 is replaced by gamma in (1,2)","first_test":"identify which binary self-similarity steps fail for nonintegral gamma"}
+  ]
+}

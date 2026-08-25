@@ -1,0 +1,144 @@
+{
+  "mechanisms": [
+    {
+      "id": "M317-1",
+      "representation_id": "R317-2",
+      "family": "valuation-filtration",
+      "decisive_claim": "For every n>=5 the largest prime p<=n alone has (L_n/p)^(-1) not congruent to plus or minus 1 modulo p.",
+      "would_close": [
+        "second public question"
+      ],
+      "kill_test": "Check exact counterinstances among n<=1000.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/cofactor_no_go.md",
+      "updated_at": "2026-08-25T09:08:18+00:00"
+    },
+    {
+      "id": "M317-2",
+      "representation_id": "R317-3",
+      "family": "common-structural-host",
+      "decisive_claim": "For every sufficiently large n at least one prime p in (n/2,n] has L_n/p not congruent to plus or minus 1 modulo p.",
+      "would_close": [
+        "second public question"
+      ],
+      "kill_test": "Search for an algebraic consequence of assuming all top-prime cofactors are signed units; reject mere finite coverage.",
+      "status": "surviving",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/cofactor_no_go.md: exact surviving lcm-specific residue statement",
+      "updated_at": "2026-08-25T09:08:18+00:00"
+    },
+    {
+      "id": "M317-3",
+      "representation_id": "R317-3",
+      "family": "common-structural-host",
+      "decisive_claim": "Any two distinct top primes with signed-unit cofactors force incompatible congruences after eliminating the common lower-prime factor.",
+      "would_close": [
+        "second public question"
+      ],
+      "kill_test": "Derive the exact two-prime equations and construct a finite CRT model if they are compatible.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/cofactor_no_go.md",
+      "updated_at": "2026-08-25T09:08:18+00:00"
+    },
+    {
+      "id": "M317-4",
+      "representation_id": "R317-4",
+      "family": "bounded-potential-ascent",
+      "decisive_claim": "A singleton-prime obstruction persists across every event interval and the event graph has no uncovered infinite path.",
+      "would_close": [
+        "second public question"
+      ],
+      "kill_test": "Build the symbolic event transition; kill if the proof reduces to cutoff enumeration.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/cofactor_no_go.md",
+      "updated_at": "2026-08-25T09:08:18+00:00"
+    },
+    {
+      "id": "M317-5",
+      "representation_id": "R317-5",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "Wilson factorial complements rule out L_{p-1} congruent to plus or minus 1 for all sufficiently large primes p.",
+      "would_close": [
+        "infinite prime subsequence of second question"
+      ],
+      "kill_test": "Express the complementary factorial quotient exactly and test whether size or parity controls its residue.",
+      "status": "surviving",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/cofactor_route_test_100000.json: prime-endpoint residues isolate the Wilson-complement subproblem",
+      "updated_at": "2026-08-25T09:08:18+00:00"
+    },
+    {
+      "id": "M317-6",
+      "representation_id": "R317-6",
+      "family": "harmonic-character",
+      "decisive_claim": "Multiplying Legendre-symbol constraints over the top-prime interval yields a reciprocity sign contradiction.",
+      "would_close": [
+        "second public question"
+      ],
+      "kill_test": "Allow independent plus/minus signs and check whether all character equations remain satisfiable.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/cofactor_no_go.md",
+      "updated_at": "2026-08-25T09:08:18+00:00"
+    },
+    {
+      "id": "M317-7",
+      "representation_id": "R317-7",
+      "family": "geometric-lift",
+      "decisive_claim": "The cofactor vector of a squarefree product cannot lie in the signed-unit cube modulo all of its prime coordinates once the set is large.",
+      "would_close": [
+        "second public question"
+      ],
+      "kill_test": "Test arbitrary prime sets and arbitrary common multiplier M by CRT.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/cofactor_no_go.md",
+      "updated_at": "2026-08-25T09:08:18+00:00"
+    },
+    {
+      "id": "M317-8",
+      "representation_id": "R317-8",
+      "family": "rare-event-conditioning",
+      "decisive_claim": "A rigorous sieve bound makes the set of n with all top-prime cofactors signed units finite.",
+      "would_close": [
+        "second public question"
+      ],
+      "kill_test": "Identify a theorem giving deterministic rather than average control; kill if only heuristic independence remains.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/cofactor_no_go.md",
+      "updated_at": "2026-08-25T09:08:18+00:00"
+    },
+    {
+      "id": "M317-9",
+      "representation_id": "R317-2",
+      "family": "valuation-filtration",
+      "decisive_claim": "Two maximal prime-power layers jointly force incompatible ternary coefficients even when neither layer is singleton-obstructed.",
+      "would_close": [
+        "second public question"
+      ],
+      "kill_test": "Solve the smallest two-layer congruence systems and search for a uniform elimination ordering.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/cofactor_no_go.md",
+      "updated_at": "2026-08-25T09:08:18+00:00"
+    },
+    {
+      "id": "M317-10",
+      "representation_id": "R317-1",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "The ternary lattice has minimum nonzero norm greater than one after scaling by L_n for all sufficiently large n.",
+      "would_close": [
+        "second public question"
+      ],
+      "kill_test": "Demand a symbolic lattice dual certificate stable in n; generic solver unsat is insufficient.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/cofactor_no_go.md",
+      "updated_at": "2026-08-25T09:08:18+00:00"
+    }
+  ]
+}

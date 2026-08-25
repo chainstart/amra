@@ -1,0 +1,12 @@
+{
+  "tests": [
+    {"mechanism_id":"M317-1","test":"largest-prime residue through 100000","outcome":"killed","evidence":"evidence/cofactor_route_test_100000.json","reason":"37 n pass the signed-unit test for the largest prime, including a block beginning at 15773"},
+    {"mechanism_id":"M317-3","test":"eliminate a common multiplier from two top-prime equations","outcome":"killed","evidence":"evidence/cofactor_no_go.md","reason":"CRT realises every two-prime sign pattern"},
+    {"mechanism_id":"M317-4","test":"seek a symbolic event transition rather than cutoff coverage","outcome":"killed","evidence":"evidence/cofactor_no_go.md","reason":"new prime events reset to an arbitrary CRT class unless the special lower-prime product is retained"},
+    {"mechanism_id":"M317-6","test":"multiply character constraints with independent signs","outcome":"killed","evidence":"evidence/cofactor_no_go.md","reason":"CRT compatibility survives every sign choice, so character multiplication alone has no contradiction"},
+    {"mechanism_id":"M317-7","test":"place the cofactor vector in the signed-unit cube","outcome":"killed","evidence":"evidence/cofactor_no_go.md","reason":"for every finite prime set and every cube vertex a coprime multiplier exists"},
+    {"mechanism_id":"M317-8","test":"separate deterministic sieve input from equidistribution","outcome":"killed","evidence":"evidence/cofactor_no_go.md","reason":"no deterministic control of the specific lcm multiplier remains after conditioning; the route is heuristic only"},
+    {"mechanism_id":"M317-9","test":"combine two maximal valuation layers","outcome":"killed","evidence":"evidence/cofactor_no_go.md","reason":"without singleton layers the congruences leave multiple ternary coefficients and no uniform elimination order"},
+    {"mechanism_id":"M317-10","test":"require an n-stable dual lattice certificate","outcome":"killed","evidence":"evidence/cofactor_no_go.md","reason":"the proposed minimum-norm statement is the public equality question restated and supplies no new dual invariant"}
+  ]
+}

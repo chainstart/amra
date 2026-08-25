@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "The only surviving bridge is a distribution theorem for the exact lower-prime-power lcm multiplier; CRT proves that every route forgetting this structure is incapable of contradiction. Resume only with a theorem using that special multiplier.",
+  "evidence": [
+    "evidence/cofactor_no_go.md"
+  ]
+}

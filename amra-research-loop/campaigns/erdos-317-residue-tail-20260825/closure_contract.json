@@ -1,0 +1,23 @@
+{
+  "exact_statement": "Determine both public questions: whether a universal c>0 gives, for every n, a nonzero signed harmonic sum smaller than c*2^(-n), and whether for all sufficiently large n every nonzero signed harmonic sum is strictly greater than 1/lcm(1,...,n).",
+  "source": "https://www.erdosproblems.com/317",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Official page checked 2026-08-25: OPEN, zero claimed proofs.",
+    "This round focuses on the strict-lower-bound question, but resolving only a finite range or only a modular sufficient condition does not close the compound public problem.",
+    "Both signs on the equality boundary are equivalent by negating all coefficients."
+  ]
+}

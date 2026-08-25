@@ -1,0 +1,12 @@
+{
+  "representations": [
+    {"id":"R25-1","name":"finite periodic filtration","family":"martingale-filtration","new_information":"retains the exact decreasing densities delta_K of finite complements","first_test":"prove that delta_K tending to zero already forces logarithmic density zero"},
+    {"id":"R25-2","name":"conditional new-class increments","family":"rare-event-conditioning","new_information":"records only the part of a new residue class not removed earlier","first_test":"compare its asymptotic density with its transient harmonic mass"},
+    {"id":"R25-3","name":"profinite residue process","family":"geometric-lift","new_information":"places full residue classes in one compact probability space with martingale convergence","first_test":"locate exactly where the archimedean onset n_i prevents direct transference"},
+    {"id":"R25-4","name":"logarithmic-time dyadic blocks","family":"multiscale-analysis","new_information":"retains the age of each class relative to the averaging cutoff","first_test":"derive the exact triangular weight of a modulus block in harmonic averaging"},
+    {"id":"R25-5","name":"lcm discrepancy clock","family":"bounded-potential-ascent","new_information":"tracks the mixing period of each finite-stage complement","first_test":"prove a scoped theorem under an explicit period-versus-onset condition"},
+    {"id":"R25-6","name":"CRT compatibility hypergraph","family":"common-structural-host","new_information":"retains all higher intersections through gcd-compatible residue constraints","first_test":"exhibit a family where pairwise Bonferroni has the wrong scale"},
+    {"id":"R25-7","name":"pairwise-coprime product model","family":"matching-certificates","new_information":"matches exact finite density products with the divergent/convergent reciprocal dichotomy","first_test":"prove both reciprocal-sum branches including delayed onsets"},
+    {"id":"R25-8","name":"overlap entropy of distinct moduli","family":"rare-event-conditioning","new_information":"measures how many nearly disjoint residue classes can coexist in one dyadic modulus block","first_test":"optimise small blocks and seek a provable entropy inequality"}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "tests": [
+    {"mechanism_id":"M354-4","test":"shift a unit signed relation by one binary scale","outcome":"killed","evidence":"evidence/carry_and_residue_lemmas.md","reason":"the shifted value is twice the old value plus an uncontrolled carry sum, not another unit relation"},
+    {"mechanism_id":"M354-5","test":"audit the claimed finite-seed propagation","outcome":"killed","evidence":"evidence/carry_and_residue_lemmas.md","reason":"propagation is a standard conditional interface and supplies none of the missing seed or precompleteness"},
+    {"mechanism_id":"M354-6","test":"infer density of the joint doubling orbit from irrational ratio","outcome":"killed","evidence":"evidence/carry_and_residue_lemmas.md","reason":"an irrational expansion with ones only at positions 2^j has a non-dense orbit avoiding the cylinder 11"},
+    {"mechanism_id":"M354-7","test":"sum floor-to-ceiling perturbations over arbitrary subsets","outcome":"killed","evidence":"evidence/carry_and_residue_lemmas.md","reason":"one-unit pointwise errors accumulate linearly with subset size"},
+    {"mechanism_id":"M354-8","test":"bound gaps in combined positive carries","outcome":"killed","evidence":"evidence/carry_and_residue_lemmas.md","reason":"irrational binary expansions can have arbitrarily long zero runs while the other parameter is rational"},
+    {"mechanism_id":"M354-9","test":"construct a finite-state carry recurrence for nonintegral gamma","outcome":"killed","evidence":"evidence/carry_and_residue_lemmas.md","reason":"multiplication by general gamma does not preserve the binary one-bit recurrence and requires unbounded fractional state"},
+    {"mechanism_id":"M354-10","test":"delete prefixes to enter every known seed cell","outcome":"killed","evidence":"evidence/carry_and_residue_lemmas.md","reason":"the subsequence implication only moves parameters upward by powers of two and does not reach all parameter cells"}
+  ]
+}

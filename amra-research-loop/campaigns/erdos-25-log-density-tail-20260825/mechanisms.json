@@ -1,0 +1,144 @@
+{
+  "mechanisms": [
+    {
+      "id": "M25-1",
+      "representation_id": "R25-1",
+      "family": "martingale-filtration",
+      "decisive_claim": "If the finite-stage complement densities delta_K tend to zero then the infinite set has logarithmic density zero.",
+      "would_close": [
+        "global reduction to the positive-limit case"
+      ],
+      "kill_test": "Prove the upper-density squeeze with all delayed thresholds retained.",
+      "status": "proved",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/zero_limit_and_coprime_theorem.md: zero-limit lemma",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M25-2",
+      "representation_id": "R25-7",
+      "family": "matching-certificates",
+      "decisive_claim": "For pairwise coprime moduli the logarithmic density always exists, with zero in the divergent reciprocal branch and the infinite product in the convergent branch.",
+      "would_close": [
+        "standalone decisive lemma"
+      ],
+      "kill_test": "Prove exact finite products by CRT and control delayed tail classes.",
+      "status": "proved",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/zero_limit_and_coprime_theorem.md: pairwise-coprime theorem",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M25-3",
+      "representation_id": "R25-2",
+      "family": "rare-event-conditioning",
+      "decisive_claim": "Positive limiting finite-stage density forces summability of conditional new-class harmonic masses.",
+      "would_close": [
+        "original problem"
+      ],
+      "kill_test": "Separate asymptotic density increments from onset transients; kill if telescoping gives no uniformity.",
+      "status": "surviving",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/zero_limit_and_coprime_theorem.md: positive-limit dependent case remains",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M25-4",
+      "representation_id": "R25-3",
+      "family": "geometric-lift",
+      "decisive_claim": "Profinite martingale convergence transfers directly to logarithmic averaging despite delayed onsets.",
+      "would_close": [
+        "original problem"
+      ],
+      "kill_test": "Construct a sequence of cylinder events whose mixing period exceeds its onset and test the transference inequality.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/zero_limit_and_coprime_theorem.md: first-kill audit",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M25-5",
+      "representation_id": "R25-5",
+      "family": "bounded-potential-ascent",
+      "decisive_claim": "If log lcm(n_1,...,n_K)=o(log n_{K+1}), then the logarithmic density exists.",
+      "would_close": [
+        "standalone decisive lemma"
+      ],
+      "kill_test": "Derive a uniform discrepancy sum; reject a condition that secretly implies reciprocal summability without using mixing.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/zero_limit_and_coprime_theorem.md: first-kill audit",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M25-6",
+      "representation_id": "R25-4",
+      "family": "multiscale-analysis",
+      "decisive_claim": "Distinctness of moduli gives a summable upper bound for each dyadic tail block after logarithmic weighting.",
+      "would_close": [
+        "original problem"
+      ],
+      "kill_test": "Optimise the exact triangular block weights; kill if the bound remains order one per block.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/zero_limit_and_coprime_theorem.md: first-kill audit",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M25-7",
+      "representation_id": "R25-6",
+      "family": "common-structural-host",
+      "decisive_claim": "A higher-order CRT overlap inequality bounds any block union strictly below the reciprocal union bound by a summable factor.",
+      "would_close": [
+        "original problem"
+      ],
+      "kill_test": "Test nested common-factor clusters and pairwise-coprime blocks as opposing extremisers.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/zero_limit_and_coprime_theorem.md: first-kill audit",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M25-8",
+      "representation_id": "R25-8",
+      "family": "rare-event-conditioning",
+      "decisive_claim": "An entropy bound limits nearly disjoint forbidden classes with distinct moduli in (M,2M] to harmonic mass o(1).",
+      "would_close": [
+        "original problem"
+      ],
+      "kill_test": "Construct gcd-coded residue families and quantify the largest disjoint subfamily.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/zero_limit_and_coprime_theorem.md: first-kill audit",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M25-9",
+      "representation_id": "R25-2",
+      "family": "rare-event-conditioning",
+      "decisive_claim": "The transient harmonic mass of each conditional new class is bounded by its eventual density times a universal logarithmic factor.",
+      "would_close": [
+        "original problem"
+      ],
+      "kill_test": "Test a residue class whose first compatible point after previous exclusions is delayed nearly one full lcm period.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/zero_limit_and_coprime_theorem.md: first-kill audit",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M25-10",
+      "representation_id": "R25-5",
+      "family": "bounded-potential-ascent",
+      "decisive_claim": "Bounded ratios of successive lcm mixing times imply existence of logarithmic density.",
+      "would_close": [
+        "standalone decisive lemma"
+      ],
+      "kill_test": "Write the Cauchy estimate between consecutive finite stages and search a block counterexample.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/zero_limit_and_coprime_theorem.md: first-kill audit",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "exact_statement": "For every positive alpha,beta with irrational ratio, determine whether the multiset of floor(2^s alpha) and floor(2^s beta), s>=0, is complete; also determine the stated variant with 2 replaced by any fixed gamma in (1,2).",
+  "source": "https://www.erdosproblems.com/354",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Official page checked 2026-08-25: OPEN, zero claimed proofs.",
+    "The irrational-ratio hypothesis, the floor rather than ceiling convention, and the separate gamma in (1,2) question are all frozen.",
+    "A new bounded parameter region, modular experiment, or precompleteness criterion alone does not close the public statement."
+  ]
+}

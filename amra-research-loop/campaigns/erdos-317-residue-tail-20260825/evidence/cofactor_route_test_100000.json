@@ -1,0 +1,795 @@
+{
+  "schema_version": "amra.erdos317-cofactor-route-test.v1",
+  "claim_scope": "finite counterinstances plus a general CRT identity proved in the accompanying note",
+  "limit": 100000,
+  "largest_prime_allowed_count": 37,
+  "largest_prime_allowed_first": [
+    {
+      "n": 8,
+      "prime": 7,
+      "required": 1
+    },
+    {
+      "n": 11,
+      "prime": 11,
+      "required": 1
+    },
+    {
+      "n": 12,
+      "prime": 11,
+      "required": 1
+    },
+    {
+      "n": 29,
+      "prime": 29,
+      "required": 1
+    },
+    {
+      "n": 30,
+      "prime": 29,
+      "required": 1
+    },
+    {
+      "n": 169,
+      "prime": 167,
+      "required": 1
+    },
+    {
+      "n": 170,
+      "prime": 167,
+      "required": 1
+    },
+    {
+      "n": 171,
+      "prime": 167,
+      "required": 1
+    },
+    {
+      "n": 172,
+      "prime": 167,
+      "required": 1
+    },
+    {
+      "n": 343,
+      "prime": 337,
+      "required": 1
+    },
+    {
+      "n": 344,
+      "prime": 337,
+      "required": 1
+    },
+    {
+      "n": 345,
+      "prime": 337,
+      "required": 1
+    },
+    {
+      "n": 346,
+      "prime": 337,
+      "required": 1
+    },
+    {
+      "n": 787,
+      "prime": 787,
+      "required": 1
+    },
+    {
+      "n": 788,
+      "prime": 787,
+      "required": 1
+    },
+    {
+      "n": 789,
+      "prime": 787,
+      "required": 1
+    },
+    {
+      "n": 790,
+      "prime": 787,
+      "required": 1
+    },
+    {
+      "n": 791,
+      "prime": 787,
+      "required": 1
+    },
+    {
+      "n": 792,
+      "prime": 787,
+      "required": 1
+    },
+    {
+      "n": 793,
+      "prime": 787,
+      "required": 1
+    },
+    {
+      "n": 794,
+      "prime": 787,
+      "required": 1
+    },
+    {
+      "n": 795,
+      "prime": 787,
+      "required": 1
+    },
+    {
+      "n": 796,
+      "prime": 787,
+      "required": 1
+    },
+    {
+      "n": 15773,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15774,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15775,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15776,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15777,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15778,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15779,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15780,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15781,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15782,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15783,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15784,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15785,
+      "prime": 15773,
+      "required": 1
+    },
+    {
+      "n": 15786,
+      "prime": 15773,
+      "required": 1
+    }
+  ],
+  "prime_endpoint_allowed": [
+    {
+      "prime": 2,
+      "required": 1
+    },
+    {
+      "prime": 3,
+      "required": 2
+    },
+    {
+      "prime": 11,
+      "required": 1
+    },
+    {
+      "prime": 29,
+      "required": 1
+    },
+    {
+      "prime": 787,
+      "required": 1
+    },
+    {
+      "prime": 15773,
+      "required": 1
+    }
+  ],
+  "all_sign_patterns_replayed": 28,
+  "crt_cases": [
+    {
+      "primes": [
+        5,
+        7
+      ],
+      "signs": [
+        -1,
+        -1
+      ],
+      "multiplier_mod_product": 32,
+      "product": 35,
+      "replay": {
+        "5": 4,
+        "7": 6
+      }
+    },
+    {
+      "primes": [
+        5,
+        7
+      ],
+      "signs": [
+        -1,
+        1
+      ],
+      "multiplier_mod_product": 17,
+      "product": 35,
+      "replay": {
+        "5": 4,
+        "7": 1
+      }
+    },
+    {
+      "primes": [
+        5,
+        7
+      ],
+      "signs": [
+        1,
+        -1
+      ],
+      "multiplier_mod_product": 18,
+      "product": 35,
+      "replay": {
+        "5": 1,
+        "7": 6
+      }
+    },
+    {
+      "primes": [
+        5,
+        7
+      ],
+      "signs": [
+        1,
+        1
+      ],
+      "multiplier_mod_product": 3,
+      "product": 35,
+      "replay": {
+        "5": 1,
+        "7": 1
+      }
+    },
+    {
+      "primes": [
+        5,
+        7,
+        11
+      ],
+      "signs": [
+        -1,
+        -1,
+        -1
+      ],
+      "multiplier_mod_product": 302,
+      "product": 385,
+      "replay": {
+        "5": 4,
+        "7": 6,
+        "11": 10
+      }
+    },
+    {
+      "primes": [
+        5,
+        7,
+        11
+      ],
+      "signs": [
+        -1,
+        -1,
+        1
+      ],
+      "multiplier_mod_product": 127,
+      "product": 385,
+      "replay": {
+        "5": 4,
+        "7": 6,
+        "11": 1
+      }
+    },
+    {
+      "primes": [
+        5,
+        7,
+        11
+      ],
+      "signs": [
+        -1,
+        1,
+        -1
+      ],
+      "multiplier_mod_product": 27,
+      "product": 385,
+      "replay": {
+        "5": 4,
+        "7": 1,
+        "11": 10
+      }
+    },
+    {
+      "primes": [
+        5,
+        7,
+        11
+      ],
+      "signs": [
+        -1,
+        1,
+        1
+      ],
+      "multiplier_mod_product": 237,
+      "product": 385,
+      "replay": {
+        "5": 4,
+        "7": 1,
+        "11": 1
+      }
+    },
+    {
+      "primes": [
+        5,
+        7,
+        11
+      ],
+      "signs": [
+        1,
+        -1,
+        -1
+      ],
+      "multiplier_mod_product": 148,
+      "product": 385,
+      "replay": {
+        "5": 1,
+        "7": 6,
+        "11": 10
+      }
+    },
+    {
+      "primes": [
+        5,
+        7,
+        11
+      ],
+      "signs": [
+        1,
+        -1,
+        1
+      ],
+      "multiplier_mod_product": 358,
+      "product": 385,
+      "replay": {
+        "5": 1,
+        "7": 6,
+        "11": 1
+      }
+    },
+    {
+      "primes": [
+        5,
+        7,
+        11
+      ],
+      "signs": [
+        1,
+        1,
+        -1
+      ],
+      "multiplier_mod_product": 258,
+      "product": 385,
+      "replay": {
+        "5": 1,
+        "7": 1,
+        "11": 10
+      }
+    },
+    {
+      "primes": [
+        5,
+        7,
+        11
+      ],
+      "signs": [
+        1,
+        1,
+        1
+      ],
+      "multiplier_mod_product": 83,
+      "product": 385,
+      "replay": {
+        "5": 1,
+        "7": 1,
+        "11": 1
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "multiplier_mod_product": 31541,
+      "product": 46189,
+      "replay": {
+        "11": 10,
+        "13": 12,
+        "17": 16,
+        "19": 18
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        -1,
+        -1,
+        -1,
+        1
+      ],
+      "multiplier_mod_product": 36403,
+      "product": 46189,
+      "replay": {
+        "11": 10,
+        "13": 12,
+        "17": 16,
+        "19": 1
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        -1,
+        -1,
+        1,
+        -1
+      ],
+      "multiplier_mod_product": 42409,
+      "product": 46189,
+      "replay": {
+        "11": 10,
+        "13": 12,
+        "17": 1,
+        "19": 18
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        -1,
+        -1,
+        1,
+        1
+      ],
+      "multiplier_mod_product": 1082,
+      "product": 46189,
+      "replay": {
+        "11": 10,
+        "13": 12,
+        "17": 1,
+        "19": 1
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        -1,
+        1,
+        -1,
+        -1
+      ],
+      "multiplier_mod_product": 3117,
+      "product": 46189,
+      "replay": {
+        "11": 10,
+        "13": 1,
+        "17": 16,
+        "19": 18
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        -1,
+        1,
+        -1,
+        1
+      ],
+      "multiplier_mod_product": 7979,
+      "product": 46189,
+      "replay": {
+        "11": 10,
+        "13": 1,
+        "17": 16,
+        "19": 1
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        -1,
+        1,
+        1,
+        -1
+      ],
+      "multiplier_mod_product": 13985,
+      "product": 46189,
+      "replay": {
+        "11": 10,
+        "13": 1,
+        "17": 1,
+        "19": 18
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        -1,
+        1,
+        1,
+        1
+      ],
+      "multiplier_mod_product": 18847,
+      "product": 46189,
+      "replay": {
+        "11": 10,
+        "13": 1,
+        "17": 1,
+        "19": 1
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        1,
+        -1,
+        -1,
+        -1
+      ],
+      "multiplier_mod_product": 27342,
+      "product": 46189,
+      "replay": {
+        "11": 1,
+        "13": 12,
+        "17": 16,
+        "19": 18
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        1,
+        -1,
+        -1,
+        1
+      ],
+      "multiplier_mod_product": 32204,
+      "product": 46189,
+      "replay": {
+        "11": 1,
+        "13": 12,
+        "17": 16,
+        "19": 1
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        1,
+        -1,
+        1,
+        -1
+      ],
+      "multiplier_mod_product": 38210,
+      "product": 46189,
+      "replay": {
+        "11": 1,
+        "13": 12,
+        "17": 1,
+        "19": 18
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        1,
+        -1,
+        1,
+        1
+      ],
+      "multiplier_mod_product": 43072,
+      "product": 46189,
+      "replay": {
+        "11": 1,
+        "13": 12,
+        "17": 1,
+        "19": 1
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        1,
+        1,
+        -1,
+        -1
+      ],
+      "multiplier_mod_product": 45107,
+      "product": 46189,
+      "replay": {
+        "11": 1,
+        "13": 1,
+        "17": 16,
+        "19": 18
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        1,
+        1,
+        -1,
+        1
+      ],
+      "multiplier_mod_product": 3780,
+      "product": 46189,
+      "replay": {
+        "11": 1,
+        "13": 1,
+        "17": 16,
+        "19": 1
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        1,
+        1,
+        1,
+        -1
+      ],
+      "multiplier_mod_product": 9786,
+      "product": 46189,
+      "replay": {
+        "11": 1,
+        "13": 1,
+        "17": 1,
+        "19": 18
+      }
+    },
+    {
+      "primes": [
+        11,
+        13,
+        17,
+        19
+      ],
+      "signs": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "multiplier_mod_product": 14648,
+      "product": 46189,
+      "replay": {
+        "11": 1,
+        "13": 1,
+        "17": 1,
+        "19": 1
+      }
+    }
+  ],
+  "resource_guard": {
+    "observed_cgroup": "0::/user.slice/user-1000.slice/user@1000.service/openmath.slice/openmath-task-20260825-170717-39250.scope",
+    "inside_openmath_slice": true
+  },
+  "pid": 39250
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "amra.erdos25-coprime-density-replay.v1",
+  "claim_scope": "finite replay supporting a separately proved universal coprime theorem",
+  "rows": [
+    {
+      "moduli": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "residues": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "period": 210,
+      "good_residues": 48,
+      "density_numerator": 8,
+      "density_denominator": 35
+    },
+    {
+      "moduli": [
+        3,
+        5,
+        7,
+        11
+      ],
+      "residues": [
+        2,
+        0,
+        6,
+        4
+      ],
+      "period": 1155,
+      "good_residues": 480,
+      "density_numerator": 32,
+      "density_denominator": 77
+    },
+    {
+      "moduli": [
+        5,
+        7,
+        11,
+        13
+      ],
+      "residues": [
+        4,
+        1,
+        8,
+        2
+      ],
+      "period": 5005,
+      "good_residues": 2880,
+      "density_numerator": 576,
+      "density_denominator": 1001
+    }
+  ],
+  "resource_guard": {
+    "observed_cgroup": "0::/user.slice/user-1000.slice/user@1000.service/openmath.slice/openmath-task-20260825-170717-39249.scope",
+    "inside_openmath_slice": true
+  },
+  "pid": 39249
+}

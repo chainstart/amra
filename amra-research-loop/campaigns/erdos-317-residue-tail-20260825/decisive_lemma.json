@@ -1,0 +1,16 @@
+{
+  "statement": "For any finite prime set I and any prescribed signs epsilon_p, there exists a unique coprime class M modulo product(I) such that M*product(I)/p is congruent to epsilon_p modulo p for every p in I.",
+  "status": "proved",
+  "closes": [
+    "all proposed contradictions using only distinct top primes and an arbitrary common lower multiplier"
+  ],
+  "evidence": [
+    "evidence/cofactor_no_go.md",
+    "evidence/cofactor_route_test_100000.json"
+  ],
+  "dependency_gaps": [
+    "A closing proof must exploit that the common multiplier is the exact lower-prime-power part of lcm(1,...,n).",
+    "No distribution theorem for that specific multiplier across primes in (n/2,n] is known here.",
+    "The first public question was not advanced."
+  ]
+}
