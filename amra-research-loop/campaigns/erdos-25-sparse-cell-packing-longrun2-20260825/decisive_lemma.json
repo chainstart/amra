@@ -1,0 +1,22 @@
+{
+  "statement": "For fixed integers c>=1 and b with gcd(b,c)=1, every affine echo family union_r {r+h(cr+b):h>=0} has logarithmic density. It is upper-logarithmically approximable by finite periodic subfamilies, so every finite union of such affine families also has logarithmic density. In particular, every infinite continuation of the positive-background binary amplifier with echo step Qr/2-1 converges and cannot refute Erdos #25.",
+  "status": "proved",
+  "closes": [
+    "the full affine echo counterexample family",
+    "every finite mixture of coprime affine echo charts",
+    "infinite concatenations of the explicit positive-background binary amplifier"
+  ],
+  "evidence": [
+    "evidence/affine_echo_multiples_theorem.md",
+    "evidence/affine_echo_mapping_replay.json",
+    "evidence/positive_background_amplifier.md",
+    "evidence/positive_background_amplifier_replay.json"
+  ],
+  "dependency_gaps": [
+    "The density transfer invokes the published Davenport--Erdos theorem for sets of multiples.",
+    "No independent reconstruction has been performed in this campaign.",
+    "General conditional echoes need not be affine in their first active index.",
+    "It remains open whether every increasing least-representative system r_j modulo d_j with r_j<d_j<=C r_j has logarithmic density.",
+    "Neither the original public problem nor its full positive-limit case is closed."
+  ]
+}

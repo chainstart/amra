@@ -1,0 +1,49 @@
+{
+  "schema_version": "amra.long-proof-round.v1",
+  "round_id": "long-proof-round5-2026-08-25",
+  "created_at": "2026-08-25T20:19:00+08:00",
+  "guard": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+  "guard_limits": {
+    "memory_high_gib": 30,
+    "memory_max_gib": 34,
+    "swap_max_gib": 4,
+    "tasks_max": 512
+  },
+  "checkpoint_minutes": 5,
+  "targets": [
+    {
+      "problem_id": "erdos-25",
+      "campaign": "../../campaigns/erdos-25-sparse-cell-packing-longrun2-20260825",
+      "minimum_guarded_productive_minutes": 100,
+      "target_guarded_productive_minutes": 100,
+      "segments": [
+        {
+          "name": "affine_echo_search_until_theorem_redirect",
+          "planned_seconds": 6000,
+          "redirect_after_minimum_seconds": 600
+        },
+        {
+          "name": "nonaffine_echo_search",
+          "planned_seconds": 5400,
+          "redirect_after_minimum_seconds": 600
+        },
+        {
+          "name": "positive-inner-density-confined-nonaffine-search",
+          "planned_seconds": 4800,
+          "redirect_after_minimum_seconds": 1800
+        },
+        {
+          "name": "positive-inner-density-nonaffine-policies-only",
+          "planned_seconds": 3000
+        }
+      ]
+    }
+  ],
+  "audit_packaging_minutes": 15,
+  "early_stop_conditions": [
+    "complete_proof_or_refutation",
+    "published_solution_verified",
+    "resource_safety_event",
+    "all_admitted_mechanisms_receive_rigorous_no_go"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "The affine echo family and every finite affine mixture are proved convergent, but the general positive-density case now rests on the non-affine least-representative system r_j mod d_j with r_j<d_j<=C r_j. Guarded positive-inner-density schedules show finite signed rises and drops whose recovery magnitude decreases through 60 million indices; no nonvanishing infinite oscillation or universal tightness theorem was obtained. Resume only with a proof of that bounded-ratio theorem or one fixed infinite schedule with certified positive inner density and two-sided normalised swings bounded away from zero.",
+  "evidence": [
+    "evidence/affine_echo_multiples_theorem.md",
+    "evidence/nonaffine_echo_reduction.md",
+    "evidence/confined_nonaffine_noaffine_analysis.json",
+    "evidence/confined_champion_extension.json",
+    "evidence/longrun_findings.md"
+  ]
+}

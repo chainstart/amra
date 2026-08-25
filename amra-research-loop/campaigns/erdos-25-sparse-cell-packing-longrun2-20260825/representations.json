@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R25P-1",
+      "name": "absolute sparse-cell capacity",
+      "family": "rare-event-conditioning",
+      "new_information": "tracks the absolute harmonic mass available in a low-density congruence cell instead of dividing by its eventual deletion density",
+      "first_test": "derive an exact finite-window formula for one periodic cell and compare it with the relative amplifier"
+    },
+    {
+      "id": "R25P-2",
+      "name": "positive-background binary reservoir",
+      "family": "algebraic-reconstruction",
+      "new_information": "keeps all even integers while a binary tower carves the odd cell down to one residue modulo Q",
+      "first_test": "construct a symbolic family of pairwise target-isolated layers and certify its ambient density and amplification"
+    },
+    {
+      "id": "R25P-3",
+      "name": "logarithmic-window ledger",
+      "family": "multiscale-analysis",
+      "new_information": "records the logarithmic span log(v/u), not only the endpoint or number of targets, for each onset block",
+      "first_test": "prove that a bounded-ratio window has vanishing normalised capacity regardless of congruence structure"
+    },
+    {
+      "id": "R25P-4",
+      "name": "scale-span necessity certificate",
+      "family": "matching-certificates",
+      "new_information": "turns nonvanishing oscillation into a necessary lower bound on the logarithmic span and absolute capacity of infinitely many blocks",
+      "first_test": "replay concatenated finite champions after exact dilution by earlier logarithmic time"
+    },
+    {
+      "id": "R25P-5",
+      "name": "nested-cell reuse tree",
+      "family": "common-structural-host",
+      "new_information": "represents repeated attacks as a tree whose nodes are congruence cells and whose mass is their periodic density",
+      "first_test": "test whether a path or antichain can reuse cell mass without an equal density payment"
+    },
+    {
+      "id": "R25P-6",
+      "name": "Carleson density-loss measure",
+      "family": "bounded-potential-ascent",
+      "new_information": "places the telescoping losses e_i on logarithmic onset scale and asks for a Carleson embedding bound for delayed periodic layers",
+      "first_test": "falsify candidate box inequalities on exact binary-reservoir blocks"
+    },
+    {
+      "id": "R25P-7",
+      "name": "CRT target-incidence graph",
+      "family": "geometric-lift",
+      "new_information": "retains divisibility relations n_i divides t_j-a_i that determine whether chosen transient targets remain isolated",
+      "first_test": "verify an interval construction in which no selected modulus divides another target offset"
+    },
+    {
+      "id": "R25P-8",
+      "name": "Abel discrepancy transform",
+      "family": "analytic-lift",
+      "new_information": "expresses harmonic mass through counting-function discrepancy uniformly between onset and cutoff",
+      "first_test": "separate the density main term from the pre-mixing error and locate the exact unsummed term"
+    },
+    {
+      "id": "R25P-9",
+      "name": "age-period entropy potential",
+      "family": "bounded-potential-ascent",
+      "new_information": "charges a layer according to both log(x/n_i) and the unresolved lcm period of its conditional increment",
+      "first_test": "check whether nested layers can recycle the same period entropy at multiple onsets"
+    },
+    {
+      "id": "R25P-10",
+      "name": "adversarial multiscale optimiser",
+      "family": "quantifier-diagonalization",
+      "new_information": "searches directly for repeated blocks that maximise absolute normalised oscillation under a fixed positive-density reservoir",
+      "first_test": "run guarded exact and relaxed optimisers with scale-span and density-loss accounting"
+    }
+  ]
+}
