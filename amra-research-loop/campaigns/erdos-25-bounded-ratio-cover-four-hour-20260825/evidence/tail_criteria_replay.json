@@ -1,0 +1,28 @@
+{
+  "affine_lift_a": 3,
+  "affine_lift_g": 7,
+  "affine_lift_membership_checks": 200000,
+  "bitmap_sha256": "4f86d5670c4c48c294d9c5e94975878439016798b7ceda79dd3365af4e1a2717",
+  "coverage_identity": "For the infinite prime family d=p, r=p-1, n is covered exactly because n+1 has a prime divisor.",
+  "finite_crt_complement_count": 480,
+  "finite_crt_exact_union_density": [
+    61,
+    77
+  ],
+  "finite_crt_period": 2310,
+  "finite_crt_primes": [
+    2,
+    3,
+    5,
+    7,
+    11
+  ],
+  "interpretation_limit": "The finite replay checks the algebra and CRT counts; divergence of the reciprocal-prime sum is a classical theorem used in the natural proof.",
+  "irredundant_collision_common_point_decimal_digits": 69,
+  "irredundant_collision_family_size": 80,
+  "positive_integers_checked_covered": 99999,
+  "prime_limit": 100000,
+  "prime_targets_checked_uncovered": 9592,
+  "schema_version": "erdos-25.tail-criteria-replay.v1",
+  "status": "passed"
+}

@@ -1,0 +1,10 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Four guarded hours produced exact partial theorems and five mechanism kills, but neither closure condition was met and the honest mechanism-falsification kill ratio was only 35.7% versus the required 80%.",
+  "evidence": [
+    "evidence/pre_freeze_gate.json",
+    "evidence/round_synthesis.md",
+    "evidence/nonaffine_annular_packing_comparison.json"
+  ]
+}

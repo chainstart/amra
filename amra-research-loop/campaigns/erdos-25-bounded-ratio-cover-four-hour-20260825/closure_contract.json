@@ -1,0 +1,26 @@
+{
+  "exact_statement": "For every strictly increasing sequence of positive moduli n_i and arbitrary residue classes a_i modulo n_i, determine whether the set of natural n such that for every i either n<n_i or n is not congruent to a_i modulo n_i must have a logarithmic density.",
+  "source": "https://www.erdosproblems.com/25",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Continuation of erdos-25-sparse-cell-packing-longrun2-20260825; the public statement and source are unchanged.",
+    "The sole theorem-grade target is: for fixed C, determine whether every union of positive progressions r_j+d_j N_0 has logarithmic density when r_j and d_j are strictly increasing and r_j<d_j<=C r_j.",
+    "A positive solution must give an all-sequence logarithmic Cauchy or periodic-approximation bound; another finite convergent family is not enough.",
+    "A negative solution must specify one fixed infinite rule, retain certified positive inner density, and prove nonvanishing signed rises and recovery drops after logarithmic normalization.",
+    "Raw endpoint range, retuned finite champions, unsigned changes, and finite persistence are non-success conditions.",
+    "The round has a hard allocation of 14400 seconds including setup, guarded computation, mathematical synthesis, replay, and freeze or promotion review."
+  ]
+}

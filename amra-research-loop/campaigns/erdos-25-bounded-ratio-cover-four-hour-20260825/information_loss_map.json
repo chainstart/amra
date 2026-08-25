@@ -1,0 +1,47 @@
+{
+  "inherited_methods": [
+    {
+      "method": "tail union bound by reciprocal moduli",
+      "loss_step": "replace the tail union by sum_{j>N} 1/d_j",
+      "lost_information": "overlap and confinement when the reciprocal sum diverges",
+      "consequence": "proves periodic approximation only in the easy summable-reciprocal regime"
+    },
+    {
+      "method": "finite periodic density convergence",
+      "loss_step": "pass from increasing finite unions to the infinite union using only convergence of their densities",
+      "lost_information": "nonuniform mixing periods and the first active representative below one modulus",
+      "consequence": "late progressions may carry transient logarithmic mass not seen by the finite-stage density increment"
+    },
+    {
+      "method": "affine echo-to-multiples transform",
+      "loss_step": "require d_j=c r_j+b with one of finitely many fixed pairs (c,b)",
+      "lost_information": "an unbounded sequence of offsets or slopes inside the compact ratio interval",
+      "consequence": "the Davenport--Erdos reduction does not apply to a genuinely non-affine schedule"
+    },
+    {
+      "method": "pairwise gcd second moment",
+      "loss_step": "control only the first two moments of finite unions of residue classes",
+      "lost_information": "higher-order CRT compatibility and whether uncovered mass tends to zero",
+      "consequence": "a positive coverage lower bound is insufficient for logarithmic-density existence"
+    },
+    {
+      "method": "alternating finite block search",
+      "loss_step": "rank schedules by endpoint range or by a single largest adjacent change",
+      "lost_information": "the sign, recency, scale persistence, and decay rate of successive rises and recovery drops",
+      "consequence": "monotone convergence and early finite transients can be misclassified as oscillation"
+    },
+    {
+      "method": "delay echoes by choosing d_j near C r_j",
+      "loss_step": "treat the first echo gap as if it separated arbitrary later logarithmic scales",
+      "lost_information": "for fixed C every echo returns within a bounded multiplicative factor",
+      "consequence": "pointwise encoding inside one block does not by itself concatenate into an infinite counterexample"
+    }
+  ],
+  "required_new_information": [
+    "a tail quantity that simultaneously records first representatives, eventual density increment, and higher-order overlap",
+    "a fixed-C packing inequality or periodic-approximation criterion uniform in all increasing modulus sequences",
+    "a signed multiscale statistic based on several most-recent attack and recovery intervals rather than the full historical range",
+    "a structural dichotomy separating summable reciprocal tails, asymptotically covered cells, and genuinely recurrent intermediate-density tails",
+    "an exact fixed-rule extension test that never retunes parameters after increasing the cutoff"
+  ]
+}

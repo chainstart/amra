@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M25Q-7",
+    "M25Q-15",
+    "M25Q-17"
+  ],
+  "selection_rationale": "Retain exactly one fixed-rule counterexample route and two complementary theorem routes. M25Q-7 has genuine post-training cycles but lacks a nondecaying amplitude proof; M25Q-15 is the strongest unconditional finite almost-packing input but lacks summable constants; M25Q-17 is the best structural route because both guarded seeds separated genuinely non-affine batches from the fixed-offset multiplication-table comparator. M25Q-17 is the recommended next target, with M25Q-15 as its remainder estimate and M25Q-7 held only as a bounded counterexample audit."
+}

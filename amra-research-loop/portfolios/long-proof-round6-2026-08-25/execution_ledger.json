@@ -1,0 +1,56 @@
+{
+  "schema_version": "amra.long-proof-execution-ledger.v1",
+  "campaign": "../../campaigns/erdos-25-bounded-ratio-cover-four-hour-20260825",
+  "guard_launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+  "segments": [
+    {
+      "name": "fixed_rule_training",
+      "requested_seconds": 5400,
+      "actual_seconds": 5400.040083444997,
+      "trials": 139851,
+      "simulations": 85267,
+      "exact_rare_indices": 45842641967,
+      "artifact": "../../campaigns/erdos-25-bounded-ratio-cover-four-hour-20260825/evidence/fixed_rule_signed_search.json"
+    },
+    {
+      "name": "blind_fixed_rule_extension",
+      "requested_seconds": 5400,
+      "actual_seconds": 5432.586512609007,
+      "frozen_schedules": 24,
+      "simulations": 368,
+      "exact_rare_indices": 24784557769,
+      "artifact": "../../campaigns/erdos-25-bounded-ratio-cover-four-hour-20260825/evidence/fixed_rule_blind_extension.json"
+    },
+    {
+      "name": "nonaffine_near_extremizer_search",
+      "requested_seconds": 2700,
+      "actual_seconds": 2701.3790698619996,
+      "trials": 14322,
+      "exact_target_irredundant_batches": 12875,
+      "exact_progression_incidences": 5708472281,
+      "artifact": "../../campaigns/erdos-25-bounded-ratio-cover-four-hour-20260825/evidence/nonaffine_annular_packing_search.json"
+    },
+    {
+      "name": "independent_seed_confirmation_and_replay",
+      "requested_seconds": 865,
+      "actual_seconds": 865.0288517640001,
+      "seed": 25082617,
+      "trials": 4727,
+      "exact_target_irredundant_batches": 4249,
+      "exact_progression_incidences": 1842754879,
+      "artifact": "../../campaigns/erdos-25-bounded-ratio-cover-four-hour-20260825/evidence/nonaffine_annular_packing_confirmation.json"
+    }
+  ],
+  "requested_search_seconds_after_overrun_adjustment": 14365,
+  "actual_search_seconds": 14399.03451768,
+  "budget_seconds": 14400,
+  "seconds_under_budget": 0.96548232,
+  "verification_overhead_excluded_from_search_budget": true,
+  "resource_observations": {
+    "blind_extension_peak_bytes_observed": 19775766528,
+    "blind_extension_swap_bytes_observed": 0,
+    "primary_nonaffine_peak_bytes_observed": 336678912,
+    "primary_nonaffine_swap_bytes_observed": 0,
+    "safety_failures": 0
+  }
+}

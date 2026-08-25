@@ -1,0 +1,15 @@
+{
+  "schema_version": "amra.pre-freeze-gate-record.v1",
+  "phase": "mechanism_falsification",
+  "valid": false,
+  "mechanisms": 17,
+  "selected_survivors": 3,
+  "killed_mechanisms": 5,
+  "non_survivor_denominator": 14,
+  "observed_kill_ratio": 0.35714285714285715,
+  "required_kill_ratio": 0.8,
+  "errors": [
+    "kill at least 80% of non-surviving mechanisms"
+  ],
+  "interpretation": "The campaign must freeze rather than advance. Proved partial mechanisms are not falsely relabelled as killed to satisfy a bookkeeping gate."
+}

@@ -1,0 +1,17 @@
+{
+  "statement": "For every admissible bounded-ratio family (r_j,d_j), every g>=1, and every residue a, the lift R_j=a+g r_j, D_j=g d_j is admissible with the same ratio constant, its progression union is exactly a+gU, and its lower and upper logarithmic densities are 1/g times those of U. Hence existence or failure of logarithmic density is equivalent after confinement to one positive-capacity arithmetic cell.",
+  "status": "proved",
+  "closes": [
+    "affine_confinement_equivalence",
+    "positive_capacity_cell_reduction"
+  ],
+  "evidence": [
+    "evidence/confinement_equivalence.md",
+    "evidence/tail_criteria_replay.json"
+  ],
+  "dependency_gaps": [
+    "Confinement does not prove density existence or produce a counterexample.",
+    "The earlier binary Erdos embedding also requires odd moduli; the affine lift preserves rather than repairs parity.",
+    "Closing the theorem route still requires a quantitative affine-chart inverse decomposition with a summable remainder."
+  ]
+}

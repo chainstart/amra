@@ -1,0 +1,19 @@
+{
+  "schema_version": "amra.long-proof-round-decision.v1",
+  "outcome": "freeze_without_promotion",
+  "problem_closed": false,
+  "campaign_phase_at_freeze": "mechanism_falsification",
+  "reason": "The four-hour guarded round produced exact reductions and falsified five mechanisms, but neither closure condition was met and the 80% mechanism-kill gate failed honestly.",
+  "selected_survivors": [
+    "M25Q-7",
+    "M25Q-15",
+    "M25Q-17"
+  ],
+  "recommended_next_target": "M25Q-17 weighted affine-chart inverse lemma with an explicit summable remainder, using M25Q-15 for the remainder bound",
+  "do_not_repeat": "Do not allocate another long round to the same frozen fixed-rule random grammar without a new analytic amplitude invariant.",
+  "evidence": [
+    "../../campaigns/erdos-25-bounded-ratio-cover-four-hour-20260825/evidence/round_synthesis.md",
+    "../../campaigns/erdos-25-bounded-ratio-cover-four-hour-20260825/evidence/fixed_rule_blind_analysis.json",
+    "../../campaigns/erdos-25-bounded-ratio-cover-four-hour-20260825/evidence/nonaffine_annular_packing_comparison.json"
+  ]
+}

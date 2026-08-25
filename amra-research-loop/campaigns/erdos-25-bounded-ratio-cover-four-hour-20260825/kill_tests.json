@@ -1,0 +1,29 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M25Q-4",
+      "outcome": "killed",
+      "evidence": "evidence/finite_almost_packing_corollary.md and evidence/multiplication_table_obstruction_replay.json: the annular r=d-1 family is target-irredundant with C<2, but its first N-echo union is an o(N^2) multiplication-table subset; the prime saturation example independently kills total linear target charge"
+    },
+    {
+      "mechanism_id": "M25Q-6",
+      "outcome": "killed",
+      "evidence": "Gilboa--Pinchasi, arXiv:1310.4348 / DOI 10.1137/130941122, and evidence/literature_boundary.md: finite distinct-difference progressions can have union o(n^2); the valid pairwise-intersection route has an unavoidable n^epsilon loss rather than a scale-uniform constant"
+    },
+    {
+      "mechanism_id": "M25Q-9",
+      "outcome": "killed",
+      "evidence": "evidence/tractable_tail_criteria.md and evidence/tail_criteria_replay.json: the prime family exactly refutes total first-representative charge bounded by accumulated density loss"
+    },
+    {
+      "mechanism_id": "M25Q-10",
+      "outcome": "killed",
+      "evidence": "the preceding fixed-schedule extension and the current strict signed gate show that a historical range may be monotone or supported only by early cycles; it cannot certify a nonzero infinite limsup/liminf gap"
+    },
+    {
+      "mechanism_id": "M25Q-13",
+      "outcome": "killed",
+      "evidence": "evidence/local_entropy_route.md and evidence/tail_criteria_replay.json: for arbitrary H, the H classes d=L/k, r=d-1 with L=lcm(1,...,2H) have new targets, satisfy d<=2r, and all contain L-1; H=80 was mechanically checked"
+    }
+  ]
+}

@@ -1,0 +1,3613 @@
+{
+  "best_fixed_rule": {
+    "N": 1947391,
+    "Q": 16,
+    "attack_phase": 0,
+    "base": 3,
+    "cell_modulus": 3,
+    "cell_residue": 0,
+    "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+    "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+    "deleted_bitmap_sha256": "9aaee69420d46cb85fa89d2674de11458d0b8cbece112d7f73c8889d4712eb28",
+    "echo_events_that_newly_deleted_points": 313323,
+    "endpoint_count": 9,
+    "growth": 4.7411542312674,
+    "last_normalised_deleted_mass": 0.011801655988933738,
+    "last_sixteen_endpoints": [
+      {
+        "deleted_harmonic_mass": 0.044031520621402365,
+        "integer_cutoff": 223,
+        "normalised_deleted_mass": 0.008143170308331516,
+        "rare_index": 14
+      },
+      {
+        "deleted_harmonic_mass": 0.05020816842659714,
+        "integer_cutoff": 1135,
+        "normalised_deleted_mass": 0.007137531925567295,
+        "rare_index": 71
+      },
+      {
+        "deleted_harmonic_mass": 0.08302969842678745,
+        "integer_cutoff": 5455,
+        "normalised_deleted_mass": 0.009649804772746958,
+        "rare_index": 341
+      },
+      {
+        "deleted_harmonic_mass": 0.0930404136772808,
+        "integer_cutoff": 25935,
+        "normalised_deleted_mass": 0.00915450375113598,
+        "rare_index": 1621
+      },
+      {
+        "deleted_harmonic_mass": 0.12547092276490857,
+        "integer_cutoff": 123039,
+        "normalised_deleted_mass": 0.010705475693409742,
+        "rare_index": 7690
+      },
+      {
+        "deleted_harmonic_mass": 0.13830098419191816,
+        "integer_cutoff": 583423,
+        "normalised_deleted_mass": 0.01041684454978006,
+        "rare_index": 36464
+      },
+      {
+        "deleted_harmonic_mass": 0.17072429914351592,
+        "integer_cutoff": 2766175,
+        "normalised_deleted_mass": 0.01150978053777816,
+        "rare_index": 172886
+      },
+      {
+        "deleted_harmonic_mass": 0.1856050444816662,
+        "integer_cutoff": 13114927,
+        "normalised_deleted_mass": 0.011324796012997972,
+        "rare_index": 819683
+      },
+      {
+        "deleted_harmonic_mass": 0.20363273276788235,
+        "integer_cutoff": 31158255,
+        "normalised_deleted_mass": 0.011801655988933738,
+        "rare_index": 1947391
+      }
+    ],
+    "maximum_step_to_target_ratio": 7.99999845947653,
+    "minimum_step_to_target_ratio": 7.0,
+    "non_binary_max_selected_classes": 215093,
+    "policy": "fraction",
+    "schedule_seed": 6301522502582354547,
+    "selected_classes": 215093,
+    "signed_metrics": {
+      "latest_drop": 0.0001849845247801872,
+      "latest_rise": 0.00047685997593576585,
+      "latest_two_sided_floor": 0.0001849845247801872,
+      "recent_two_cycle_floor": 0.0004953010216109787,
+      "second_largest_recent_drop": 0.0004953010216109787,
+      "second_largest_recent_rise": 0.0015509719422737624,
+      "tail_difference_count": 8,
+      "tail_drop_count": 4,
+      "tail_rise_count": 4
+    },
+    "theta": 0.8512768083661761
+  },
+  "champions": [
+    {
+      "N": 1947391,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 3,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "9aaee69420d46cb85fa89d2674de11458d0b8cbece112d7f73c8889d4712eb28",
+      "echo_events_that_newly_deleted_points": 313323,
+      "endpoint_count": 9,
+      "growth": 4.7411542312674,
+      "last_normalised_deleted_mass": 0.011801655988933738,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.044031520621402365,
+          "integer_cutoff": 223,
+          "normalised_deleted_mass": 0.008143170308331516,
+          "rare_index": 14
+        },
+        {
+          "deleted_harmonic_mass": 0.05020816842659714,
+          "integer_cutoff": 1135,
+          "normalised_deleted_mass": 0.007137531925567295,
+          "rare_index": 71
+        },
+        {
+          "deleted_harmonic_mass": 0.08302969842678745,
+          "integer_cutoff": 5455,
+          "normalised_deleted_mass": 0.009649804772746958,
+          "rare_index": 341
+        },
+        {
+          "deleted_harmonic_mass": 0.0930404136772808,
+          "integer_cutoff": 25935,
+          "normalised_deleted_mass": 0.00915450375113598,
+          "rare_index": 1621
+        },
+        {
+          "deleted_harmonic_mass": 0.12547092276490857,
+          "integer_cutoff": 123039,
+          "normalised_deleted_mass": 0.010705475693409742,
+          "rare_index": 7690
+        },
+        {
+          "deleted_harmonic_mass": 0.13830098419191816,
+          "integer_cutoff": 583423,
+          "normalised_deleted_mass": 0.01041684454978006,
+          "rare_index": 36464
+        },
+        {
+          "deleted_harmonic_mass": 0.17072429914351592,
+          "integer_cutoff": 2766175,
+          "normalised_deleted_mass": 0.01150978053777816,
+          "rare_index": 172886
+        },
+        {
+          "deleted_harmonic_mass": 0.1856050444816662,
+          "integer_cutoff": 13114927,
+          "normalised_deleted_mass": 0.011324796012997972,
+          "rare_index": 819683
+        },
+        {
+          "deleted_harmonic_mass": 0.20363273276788235,
+          "integer_cutoff": 31158255,
+          "normalised_deleted_mass": 0.011801655988933738,
+          "rare_index": 1947391
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.99999845947653,
+      "minimum_step_to_target_ratio": 7.0,
+      "non_binary_max_selected_classes": 215093,
+      "policy": "fraction",
+      "schedule_seed": 6301522502582354547,
+      "selected_classes": 215093,
+      "signed_metrics": {
+        "latest_drop": 0.0001849845247801872,
+        "latest_rise": 0.00047685997593576585,
+        "latest_two_sided_floor": 0.0001849845247801872,
+        "recent_two_cycle_floor": 0.0004953010216109787,
+        "second_largest_recent_drop": 0.0004953010216109787,
+        "second_largest_recent_rise": 0.0015509719422737624,
+        "tail_difference_count": 8,
+        "tail_drop_count": 4,
+        "tail_rise_count": 4
+      },
+      "theta": 0.8512768083661761
+    },
+    {
+      "N": 63925,
+      "Q": 8,
+      "attack_phase": 1,
+      "base": 2,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5833333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "8e8529be029581156300fd157c50b351b63da168a8f0b8ab67cb9d19ae9b8642",
+      "echo_events_that_newly_deleted_points": 11590,
+      "endpoint_count": 17,
+      "growth": 1.8748289298295528,
+      "last_normalised_deleted_mass": 0.023136397705281392,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.05043988269794721,
+          "integer_cutoff": 55,
+          "normalised_deleted_mass": 0.012586895166048221,
+          "rare_index": 7
+        },
+        {
+          "deleted_harmonic_mass": 0.05043988269794721,
+          "integer_cutoff": 111,
+          "normalised_deleted_mass": 0.010710172892381471,
+          "rare_index": 14
+        },
+        {
+          "deleted_harmonic_mass": 0.08016013127743193,
+          "integer_cutoff": 223,
+          "normalised_deleted_mass": 0.014824779878554883,
+          "rare_index": 28
+        },
+        {
+          "deleted_harmonic_mass": 0.0864077129348342,
+          "integer_cutoff": 431,
+          "normalised_deleted_mass": 0.014244341124715497,
+          "rare_index": 54
+        },
+        {
+          "deleted_harmonic_mass": 0.11434732007179366,
+          "integer_cutoff": 823,
+          "normalised_deleted_mass": 0.01703382483863973,
+          "rare_index": 103
+        },
+        {
+          "deleted_harmonic_mass": 0.12160614378082645,
+          "integer_cutoff": 1551,
+          "normalised_deleted_mass": 0.016552586323957324,
+          "rare_index": 194
+        },
+        {
+          "deleted_harmonic_mass": 0.14790313646561368,
+          "integer_cutoff": 2919,
+          "normalised_deleted_mass": 0.018536558934389054,
+          "rare_index": 365
+        },
+        {
+          "deleted_harmonic_mass": 0.15784230756944112,
+          "integer_cutoff": 5487,
+          "normalised_deleted_mass": 0.018332148341342922,
+          "rare_index": 686
+        },
+        {
+          "deleted_harmonic_mass": 0.1841126487279045,
+          "integer_cutoff": 10303,
+          "normalised_deleted_mass": 0.019925200767351096,
+          "rare_index": 1288
+        },
+        {
+          "deleted_harmonic_mass": 0.195895110337677,
+          "integer_cutoff": 19327,
+          "normalised_deleted_mass": 0.01984902037949247,
+          "rare_index": 2416
+        },
+        {
+          "deleted_harmonic_mass": 0.22208526858978178,
+          "integer_cutoff": 36247,
+          "normalised_deleted_mass": 0.02115478199723402,
+          "rare_index": 4531
+        },
+        {
+          "deleted_harmonic_mass": 0.23487963166579104,
+          "integer_cutoff": 67967,
+          "normalised_deleted_mass": 0.02110940298219262,
+          "rare_index": 8496
+        },
+        {
+          "deleted_harmonic_mass": 0.2610730894791784,
+          "integer_cutoff": 127439,
+          "normalised_deleted_mass": 0.022208792790582393,
+          "rare_index": 15930
+        },
+        {
+          "deleted_harmonic_mass": 0.2747446669833829,
+          "integer_cutoff": 238935,
+          "normalised_deleted_mass": 0.022185549632332786,
+          "rare_index": 29867
+        },
+        {
+          "deleted_harmonic_mass": 0.3009337530994819,
+          "integer_cutoff": 447975,
+          "normalised_deleted_mass": 0.0231265261693104,
+          "rare_index": 55997
+        },
+        {
+          "deleted_harmonic_mass": 0.3041257588185274,
+          "integer_cutoff": 511399,
+          "normalised_deleted_mass": 0.023136397705281392,
+          "rare_index": 63925
+        }
+      ],
+      "maximum_step_to_target_ratio": 3.9999821415815418,
+      "minimum_step_to_target_ratio": 2.9694767441860463,
+      "non_binary_max_selected_classes": 1973,
+      "policy": "jitter",
+      "schedule_seed": 5460444244425436092,
+      "selected_classes": 5382,
+      "signed_metrics": {
+        "latest_drop": 2.3243158249607043e-05,
+        "latest_rise": 9.871535970991385e-06,
+        "latest_two_sided_floor": 9.871535970991385e-06,
+        "recent_two_cycle_floor": 0.0004812385146824062,
+        "second_largest_recent_drop": 0.0004812385146824062,
+        "second_largest_recent_rise": 0.002789483713924233,
+        "tail_difference_count": 14,
+        "tail_drop_count": 6,
+        "tail_rise_count": 8
+      },
+      "theta": 0.786063627868303
+    },
+    {
+      "N": 48463,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 3,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "f39fe09d9622dab5d0411e8aa35c1e99fc28aaa90841ba458a7c0348e9354e9b",
+      "echo_events_that_newly_deleted_points": 3703,
+      "endpoint_count": 7,
+      "growth": 4.411448749586639,
+      "last_normalised_deleted_mass": 0.00466109092688394,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.021857204498647063,
+          "integer_cutoff": 415,
+          "normalised_deleted_mass": 0.003625778806552323,
+          "rare_index": 13
+        },
+        {
+          "deleted_harmonic_mass": 0.022508670296692665,
+          "integer_cutoff": 1951,
+          "normalised_deleted_mass": 0.002971011232392824,
+          "rare_index": 61
+        },
+        {
+          "deleted_harmonic_mass": 0.038094235572376074,
+          "integer_cutoff": 8735,
+          "normalised_deleted_mass": 0.004197668788419983,
+          "rare_index": 273
+        },
+        {
+          "deleted_harmonic_mass": 0.04023615634695327,
+          "integer_cutoff": 38655,
+          "normalised_deleted_mass": 0.0038093649822119363,
+          "rare_index": 1208
+        },
+        {
+          "deleted_harmonic_mass": 0.055707904688058606,
+          "integer_cutoff": 170655,
+          "normalised_deleted_mass": 0.004624060638748908,
+          "rare_index": 5333
+        },
+        {
+          "deleted_harmonic_mass": 0.058914357931332914,
+          "integer_cutoff": 752959,
+          "normalised_deleted_mass": 0.004353781885206685,
+          "rare_index": 23530
+        },
+        {
+          "deleted_harmonic_mass": 0.06644054718179704,
+          "integer_cutoff": 1550815,
+          "normalised_deleted_mass": 0.00466109092688394,
+          "rare_index": 48463
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.99981425298743,
+      "minimum_step_to_target_ratio": 13.476190476190476,
+      "non_binary_max_selected_classes": 7376,
+      "policy": "fraction",
+      "schedule_seed": 6729297073119067238,
+      "selected_classes": 7376,
+      "signed_metrics": {
+        "latest_drop": 0.0002702787535422231,
+        "latest_rise": 0.00030730904167725493,
+        "latest_two_sided_floor": 0.0002702787535422231,
+        "recent_two_cycle_floor": 0.0003883038062080465,
+        "second_largest_recent_drop": 0.0003883038062080465,
+        "second_largest_recent_rise": 0.0008146956565369718,
+        "tail_difference_count": 6,
+        "tail_drop_count": 3,
+        "tail_rise_count": 3
+      },
+      "theta": 0.8038811978601648
+    },
+    {
+      "N": 51360,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 9,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "712f0eeca5bb7d2b00c78a69907902e4eeeeb528efaebeda6d4487e00efda75f",
+      "echo_events_that_newly_deleted_points": 4589,
+      "endpoint_count": 6,
+      "growth": 5.383619969700929,
+      "last_normalised_deleted_mass": 0.008809254197906725,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.03586949323341382,
+          "integer_cutoff": 767,
+          "normalised_deleted_mass": 0.005400009711126656,
+          "rare_index": 48
+        },
+        {
+          "deleted_harmonic_mass": 0.040152787725651194,
+          "integer_cutoff": 4207,
+          "normalised_deleted_mass": 0.004811883667566061,
+          "rare_index": 263
+        },
+        {
+          "deleted_harmonic_mass": 0.0752695084860374,
+          "integer_cutoff": 22735,
+          "normalised_deleted_mass": 0.0075031950829998525,
+          "rare_index": 1421
+        },
+        {
+          "deleted_harmonic_mass": 0.08377236389547342,
+          "integer_cutoff": 122479,
+          "normalised_deleted_mass": 0.007150439206191172,
+          "rare_index": 7655
+        },
+        {
+          "deleted_harmonic_mass": 0.11884363388282153,
+          "integer_cutoff": 659455,
+          "normalised_deleted_mass": 0.0088694779315872,
+          "rare_index": 41216
+        },
+        {
+          "deleted_harmonic_mass": 0.11997501629932841,
+          "integer_cutoff": 821759,
+          "normalised_deleted_mass": 0.008809254197906725,
+          "rare_index": 51360
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999878684944802,
+      "minimum_step_to_target_ratio": 6.9,
+      "non_binary_max_selected_classes": 8410,
+      "policy": "fraction",
+      "schedule_seed": 2225461322535934052,
+      "selected_classes": 8410,
+      "signed_metrics": {
+        "latest_drop": 6.022373368047562e-05,
+        "latest_rise": 0.001719038725396028,
+        "latest_two_sided_floor": 6.022373368047562e-05,
+        "recent_two_cycle_floor": 0.0003527558768086801,
+        "second_largest_recent_drop": 0.0003527558768086801,
+        "second_largest_recent_rise": 0.001719038725396028,
+        "tail_difference_count": 5,
+        "tail_drop_count": 3,
+        "tail_rise_count": 2
+      },
+      "theta": 0.867422276165655
+    },
+    {
+      "N": 1297092,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 2,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "8295d6c88d3c10b005987cb85d983d4816f4e66f052730f51d8b3b8d43a45036",
+      "echo_events_that_newly_deleted_points": 116879,
+      "endpoint_count": 8,
+      "growth": 5.9811663024142465,
+      "last_normalised_deleted_mass": 0.004648283481415716,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.015493116919011434,
+          "integer_cutoff": 351,
+          "normalised_deleted_mass": 0.002643521931746786,
+          "rare_index": 11
+        },
+        {
+          "deleted_harmonic_mass": 0.0161312790121831,
+          "integer_cutoff": 2271,
+          "normalised_deleted_mass": 0.002087387430808041,
+          "rare_index": 71
+        },
+        {
+          "deleted_harmonic_mass": 0.03485902291271077,
+          "integer_cutoff": 13759,
+          "normalised_deleted_mass": 0.0036580315379820655,
+          "rare_index": 430
+        },
+        {
+          "deleted_harmonic_mass": 0.03761413019099489,
+          "integer_cutoff": 82463,
+          "normalised_deleted_mass": 0.003322772203491635,
+          "rare_index": 2577
+        },
+        {
+          "deleted_harmonic_mass": 0.0562517458239287,
+          "integer_cutoff": 493407,
+          "normalised_deleted_mass": 0.004291048977381915,
+          "rare_index": 15419
+        },
+        {
+          "deleted_harmonic_mass": 0.060482797296066766,
+          "integer_cutoff": 2951327,
+          "normalised_deleted_mass": 0.004059856994518781,
+          "rare_index": 92229
+        },
+        {
+          "deleted_harmonic_mass": 0.07911437313201161,
+          "integer_cutoff": 17652543,
+          "normalised_deleted_mass": 0.004741251474210179,
+          "rare_index": 551642
+        },
+        {
+          "deleted_harmonic_mass": 0.081537266326935,
+          "integer_cutoff": 41506943,
+          "normalised_deleted_mass": 0.004648283481415716,
+          "rare_index": 1297092
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.999943803726357,
+      "minimum_step_to_target_ratio": 9.986301369863014,
+      "non_binary_max_selected_classes": 114534,
+      "policy": "fraction",
+      "schedule_seed": 5321504604998904576,
+      "selected_classes": 114534,
+      "signed_metrics": {
+        "latest_drop": 9.296799279446318e-05,
+        "latest_rise": 0.0006813944796913978,
+        "latest_two_sided_floor": 9.296799279446318e-05,
+        "recent_two_cycle_floor": 0.00033525933449043066,
+        "second_largest_recent_drop": 0.00033525933449043066,
+        "second_largest_recent_rise": 0.0009682767738902805,
+        "tail_difference_count": 7,
+        "tail_drop_count": 4,
+        "tail_rise_count": 3
+      },
+      "theta": 0.570368008604912
+    },
+    {
+      "N": 719640,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 3,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "c85c7e64ccfda7c78f8298bcd91c94d2db6517700cc7ebb6ceea900ec1e405b6",
+      "echo_events_that_newly_deleted_points": 112068,
+      "endpoint_count": 7,
+      "growth": 7.510477993233782,
+      "last_normalised_deleted_mass": 0.010843321673204745,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.04607315244197877,
+          "integer_cutoff": 351,
+          "normalised_deleted_mass": 0.007861257975509761,
+          "rare_index": 22
+        },
+        {
+          "deleted_harmonic_mass": 0.052257277080870836,
+          "integer_cutoff": 2751,
+          "normalised_deleted_mass": 0.006598374520611843,
+          "rare_index": 172
+        },
+        {
+          "deleted_harmonic_mass": 0.09419659687467948,
+          "integer_cutoff": 20783,
+          "normalised_deleted_mass": 0.009474716675015565,
+          "rare_index": 1299
+        },
+        {
+          "deleted_harmonic_mass": 0.10952849298540093,
+          "integer_cutoff": 156207,
+          "normalised_deleted_mass": 0.009158714521662862,
+          "rare_index": 9763
+        },
+        {
+          "deleted_harmonic_mass": 0.15153354386521511,
+          "integer_cutoff": 1173311,
+          "normalised_deleted_mass": 0.010842923422938166,
+          "rare_index": 73332
+        },
+        {
+          "deleted_harmonic_mass": 0.17073094149755955,
+          "integer_cutoff": 8812239,
+          "normalised_deleted_mass": 0.010676254106684005,
+          "rare_index": 550765
+        },
+        {
+          "deleted_harmonic_mass": 0.17630259721473965,
+          "integer_cutoff": 11514239,
+          "normalised_deleted_mass": 0.010843321673204745,
+          "rare_index": 719640
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999984714409587,
+      "minimum_step_to_target_ratio": 5.982857142857143,
+      "non_binary_max_selected_classes": 41841,
+      "policy": "fraction",
+      "schedule_seed": 4225828968438461126,
+      "selected_classes": 41841,
+      "signed_metrics": {
+        "latest_drop": 0.00016666931625416125,
+        "latest_rise": 0.00016706756652073995,
+        "latest_two_sided_floor": 0.00016666931625416125,
+        "recent_two_cycle_floor": 0.00031600215335270306,
+        "second_largest_recent_drop": 0.00031600215335270306,
+        "second_largest_recent_rise": 0.001684208901275304,
+        "tail_difference_count": 6,
+        "tail_drop_count": 3,
+        "tail_rise_count": 3
+      },
+      "theta": 0.7117608038738529
+    },
+    {
+      "N": 925658,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 4,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "a52f2e6b2708e7274373ba25341d9b545514bca826362e8de3aeffe3ded846db",
+      "echo_events_that_newly_deleted_points": 131041,
+      "endpoint_count": 10,
+      "growth": 3.847637500710812,
+      "last_normalised_deleted_mass": 0.010224234590545661,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.02693902529513156,
+          "integer_cutoff": 239,
+          "normalised_deleted_mass": 0.00491905497766535,
+          "rare_index": 15
+        },
+        {
+          "deleted_harmonic_mass": 0.02854416173172867,
+          "integer_cutoff": 975,
+          "normalised_deleted_mass": 0.004147391364180488,
+          "rare_index": 61
+        },
+        {
+          "deleted_harmonic_mass": 0.056794039057875674,
+          "integer_cutoff": 3807,
+          "normalised_deleted_mass": 0.006888637581202375,
+          "rare_index": 238
+        },
+        {
+          "deleted_harmonic_mass": 0.06310049082650554,
+          "integer_cutoff": 14703,
+          "normalised_deleted_mass": 0.006575840043559884,
+          "rare_index": 919
+        },
+        {
+          "deleted_harmonic_mass": 0.0911771166776374,
+          "integer_cutoff": 56623,
+          "normalised_deleted_mass": 0.008331112561442667,
+          "rare_index": 3539
+        },
+        {
+          "deleted_harmonic_mass": 0.10011735839005959,
+          "integer_cutoff": 217919,
+          "normalised_deleted_mass": 0.008145000510248983,
+          "rare_index": 13620
+        },
+        {
+          "deleted_harmonic_mass": 0.12818866586925964,
+          "integer_cutoff": 838527,
+          "normalised_deleted_mass": 0.00939840803171272,
+          "rare_index": 52408
+        },
+        {
+          "deleted_harmonic_mass": 0.13912659482796147,
+          "integer_cutoff": 3226399,
+          "normalised_deleted_mass": 0.009283227776831908,
+          "rare_index": 201650
+        },
+        {
+          "deleted_harmonic_mass": 0.1671988117494081,
+          "integer_cutoff": 12414063,
+          "normalised_deleted_mass": 0.010236030756223232,
+          "rare_index": 775879
+        },
+        {
+          "deleted_harmonic_mass": 0.1688107911101866,
+          "integer_cutoff": 14810527,
+          "normalised_deleted_mass": 0.010224234590545661,
+          "rare_index": 925658
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999988400058773,
+      "minimum_step_to_target_ratio": 5.5,
+      "non_binary_max_selected_classes": 116973,
+      "policy": "fraction",
+      "schedule_seed": 2085593660678829241,
+      "selected_classes": 116973,
+      "signed_metrics": {
+        "latest_drop": 1.1796165677570303e-05,
+        "latest_rise": 0.0009528029793913241,
+        "latest_two_sided_floor": 1.1796165677570303e-05,
+        "recent_two_cycle_floor": 0.0003127975376424905,
+        "second_largest_recent_drop": 0.0003127975376424905,
+        "second_largest_recent_rise": 0.0017552725178827822,
+        "tail_difference_count": 9,
+        "tail_drop_count": 5,
+        "tail_rise_count": 4
+      },
+      "theta": 0.6326687338090653
+    },
+    {
+      "N": 1019234,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 6,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "e79a547ce02c4e26cc6500f8994594f8605fecc604e0c4cc9941a65b631a6e4c",
+      "echo_events_that_newly_deleted_points": 155258,
+      "endpoint_count": 7,
+      "growth": 6.519150549131774,
+      "last_normalised_deleted_mass": 0.01078931004107168,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.04566905490222362,
+          "integer_cutoff": 623,
+          "normalised_deleted_mass": 0.00709747839554506,
+          "rare_index": 39
+        },
+        {
+          "deleted_harmonic_mass": 0.05421198883742153,
+          "integer_cutoff": 4159,
+          "normalised_deleted_mass": 0.006505675514120866,
+          "rare_index": 260
+        },
+        {
+          "deleted_harmonic_mass": 0.09340563589816119,
+          "integer_cutoff": 27215,
+          "normalised_deleted_mass": 0.009147081260687799,
+          "rare_index": 1701
+        },
+        {
+          "deleted_harmonic_mass": 0.1068820765846611,
+          "integer_cutoff": 177519,
+          "normalised_deleted_mass": 0.008842852155976808,
+          "rare_index": 11095
+        },
+        {
+          "deleted_harmonic_mass": 0.14594057267082539,
+          "integer_cutoff": 1157375,
+          "normalised_deleted_mass": 0.010452948982992677,
+          "rare_index": 72336
+        },
+        {
+          "deleted_harmonic_mass": 0.16312283970310545,
+          "integer_cutoff": 7545199,
+          "normalised_deleted_mass": 0.010300485769224044,
+          "rare_index": 471575
+        },
+        {
+          "deleted_harmonic_mass": 0.17917969654587748,
+          "integer_cutoff": 16307743,
+          "normalised_deleted_mass": 0.01078931004107168,
+          "rare_index": 1019234
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999997056174086,
+      "minimum_step_to_target_ratio": 2.9851964476563695,
+      "non_binary_max_selected_classes": 109646,
+      "policy": "jitter",
+      "schedule_seed": 7648587990592841224,
+      "selected_classes": 109646,
+      "signed_metrics": {
+        "latest_drop": 0.00015246321376863325,
+        "latest_rise": 0.000488824271847637,
+        "latest_two_sided_floor": 0.00015246321376863325,
+        "recent_two_cycle_floor": 0.0003042291047109912,
+        "second_largest_recent_drop": 0.0003042291047109912,
+        "second_largest_recent_rise": 0.001610096827015869,
+        "tail_difference_count": 6,
+        "tail_drop_count": 3,
+        "tail_rise_count": 3
+      },
+      "theta": 0.5221220868800655
+    },
+    {
+      "N": 76143,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 4,
+      "cell_modulus": 3,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "8e9845d0e3bb9d098df947a3b17264156a4ceed2abb263c51645952f03905fce",
+      "echo_events_that_newly_deleted_points": 5467,
+      "endpoint_count": 7,
+      "growth": 4.157007767101427,
+      "last_normalised_deleted_mass": 0.004293107991921664,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.015297016117878842,
+          "integer_cutoff": 511,
+          "normalised_deleted_mass": 0.0024528719628656875,
+          "rare_index": 16
+        },
+        {
+          "deleted_harmonic_mass": 0.01575678623282137,
+          "integer_cutoff": 2239,
+          "normalised_deleted_mass": 0.0020426790500366636,
+          "rare_index": 70
+        },
+        {
+          "deleted_harmonic_mass": 0.03080077080127476,
+          "integer_cutoff": 9439,
+          "normalised_deleted_mass": 0.003365246257206248,
+          "rare_index": 295
+        },
+        {
+          "deleted_harmonic_mass": 0.032448625972457,
+          "integer_cutoff": 39359,
+          "normalised_deleted_mass": 0.0030668387580865108,
+          "rare_index": 1230
+        },
+        {
+          "deleted_harmonic_mass": 0.04729716653853109,
+          "integer_cutoff": 163743,
+          "normalised_deleted_mass": 0.003939443291234607,
+          "rare_index": 5117
+        },
+        {
+          "deleted_harmonic_mass": 0.049853458966049646,
+          "integer_cutoff": 680799,
+          "normalised_deleted_mass": 0.0037118141514597227,
+          "rare_index": 21275
+        },
+        {
+          "deleted_harmonic_mass": 0.06313489228036427,
+          "integer_cutoff": 2436575,
+          "normalised_deleted_mass": 0.004293107991921664,
+          "rare_index": 76143
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.999776732946337,
+      "minimum_step_to_target_ratio": 12.211267605633802,
+      "non_binary_max_selected_classes": 15174,
+      "policy": "fraction",
+      "schedule_seed": 5626283469955836024,
+      "selected_classes": 15174,
+      "signed_metrics": {
+        "latest_drop": 0.00022762913977488397,
+        "latest_rise": 0.000581293840461941,
+        "latest_two_sided_floor": 0.00022762913977488397,
+        "recent_two_cycle_floor": 0.0002984074991197374,
+        "second_largest_recent_drop": 0.0002984074991197374,
+        "second_largest_recent_rise": 0.0008726045331480959,
+        "tail_difference_count": 6,
+        "tail_drop_count": 3,
+        "tail_rise_count": 3
+      },
+      "theta": 0.7101032394771347
+    },
+    {
+      "N": 81225,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 10,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "9f07ea3a95a0d896d912ff04d517d5b938a5c455c991176ef9533a93118394b5",
+      "echo_events_that_newly_deleted_points": 9374,
+      "endpoint_count": 7,
+      "growth": 4.091267937816505,
+      "last_normalised_deleted_mass": 0.008656848248674475,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.03305334494003533,
+          "integer_cutoff": 639,
+          "normalised_deleted_mass": 0.0051166925414255675,
+          "rare_index": 40
+        },
+        {
+          "deleted_harmonic_mass": 0.035943219449463965,
+          "integer_cutoff": 2671,
+          "normalised_deleted_mass": 0.004555420906351061,
+          "rare_index": 167
+        },
+        {
+          "deleted_harmonic_mass": 0.06533681221723087,
+          "integer_cutoff": 10991,
+          "normalised_deleted_mass": 0.007021815328958495,
+          "rare_index": 687
+        },
+        {
+          "deleted_harmonic_mass": 0.07204986311797651,
+          "integer_cutoff": 45023,
+          "normalised_deleted_mass": 0.006724250324365948,
+          "rare_index": 2814
+        },
+        {
+          "deleted_harmonic_mass": 0.10141170213424769,
+          "integer_cutoff": 184255,
+          "normalised_deleted_mass": 0.008364489184978893,
+          "rare_index": 11516
+        },
+        {
+          "deleted_harmonic_mass": 0.11052341086608705,
+          "integer_cutoff": 753903,
+          "normalised_deleted_mass": 0.008166944192977957,
+          "rare_index": 47119
+        },
+        {
+          "deleted_harmonic_mass": 0.12186735528497003,
+          "integer_cutoff": 1299599,
+          "normalised_deleted_mass": 0.008656848248674475,
+          "rare_index": 81225
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.99993844108196,
+      "minimum_step_to_target_ratio": 5.6982248520710055,
+      "non_binary_max_selected_classes": 9080,
+      "policy": "jitter",
+      "schedule_seed": 7758190188505158712,
+      "selected_classes": 9080,
+      "signed_metrics": {
+        "latest_drop": 0.0001975449920009354,
+        "latest_rise": 0.0004899040556965179,
+        "latest_two_sided_floor": 0.0001975449920009354,
+        "recent_two_cycle_floor": 0.00029756500459254646,
+        "second_largest_recent_drop": 0.00029756500459254646,
+        "second_largest_recent_rise": 0.0016402388606129442,
+        "tail_difference_count": 6,
+        "tail_drop_count": 3,
+        "tail_rise_count": 3
+      },
+      "theta": 0.7746681024878167
+    },
+    {
+      "N": 147886,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 4,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "ff6a619d31a93d30e2280c16cc581fa752ee53135df61496ea2eec0767f7f8f8",
+      "echo_events_that_newly_deleted_points": 19457,
+      "endpoint_count": 9,
+      "growth": 3.474316619916726,
+      "last_normalised_deleted_mass": 0.009294702449227246,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.022754924876721518,
+          "integer_cutoff": 207,
+          "normalised_deleted_mass": 0.00426704008946777,
+          "rare_index": 13
+        },
+        {
+          "deleted_harmonic_mass": 0.024652458083552636,
+          "integer_cutoff": 767,
+          "normalised_deleted_mass": 0.003711329630113574,
+          "rare_index": 48
+        },
+        {
+          "deleted_harmonic_mass": 0.0503115124367678,
+          "integer_cutoff": 2719,
+          "normalised_deleted_mass": 0.006362087598420928,
+          "rare_index": 170
+        },
+        {
+          "deleted_harmonic_mass": 0.05565856731899287,
+          "integer_cutoff": 9503,
+          "normalised_deleted_mass": 0.00607668551074373,
+          "rare_index": 594
+        },
+        {
+          "deleted_harmonic_mass": 0.08160130421083826,
+          "integer_cutoff": 33071,
+          "normalised_deleted_mass": 0.007841444665330582,
+          "rare_index": 2067
+        },
+        {
+          "deleted_harmonic_mass": 0.08954502594392463,
+          "integer_cutoff": 114943,
+          "normalised_deleted_mass": 0.007684822629911161,
+          "rare_index": 7184
+        },
+        {
+          "deleted_harmonic_mass": 0.11549406966034918,
+          "integer_cutoff": 399391,
+          "normalised_deleted_mass": 0.00895462787886251,
+          "rare_index": 24962
+        },
+        {
+          "deleted_harmonic_mass": 0.1252983763847109,
+          "integer_cutoff": 1387663,
+          "normalised_deleted_mass": 0.008859309237242083,
+          "rare_index": 86729
+        },
+        {
+          "deleted_harmonic_mass": 0.13641635213789552,
+          "integer_cutoff": 2366175,
+          "normalised_deleted_mass": 0.009294702449227246,
+          "rare_index": 147886
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999979713143854,
+      "minimum_step_to_target_ratio": 4.5,
+      "non_binary_max_selected_classes": 15848,
+      "policy": "jitter",
+      "schedule_seed": 8119378111820046331,
+      "selected_classes": 15848,
+      "signed_metrics": {
+        "latest_drop": 9.531864162042741e-05,
+        "latest_rise": 0.000435393211985163,
+        "latest_two_sided_floor": 9.531864162042741e-05,
+        "recent_two_cycle_floor": 0.00028540208767719767,
+        "second_largest_recent_drop": 0.00028540208767719767,
+        "second_largest_recent_rise": 0.0017647591545868514,
+        "tail_difference_count": 8,
+        "tail_drop_count": 4,
+        "tail_rise_count": 4
+      },
+      "theta": 0.8533596994817924
+    },
+    {
+      "N": 84237,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 3,
+      "cell_modulus": 7,
+      "cell_residue": 5,
+      "certified_original_survivor_density_lower_bound": 0.5535714285714286,
+      "certified_rare_index_survivor_density_lower_bound": 0.8571428571428572,
+      "deleted_bitmap_sha256": "d68eb7f1967db472a6fdbb882d1326633565b271d4ea2641d1de5d91fc0d29db",
+      "echo_events_that_newly_deleted_points": 5217,
+      "endpoint_count": 12,
+      "growth": 2.359791719914959,
+      "last_normalised_deleted_mass": 0.004555595690126291,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.012658227848101266,
+          "integer_cutoff": 111,
+          "normalised_deleted_mass": 0.002687789929571741,
+          "rare_index": 7
+        },
+        {
+          "deleted_harmonic_mass": 0.012658227848101266,
+          "integer_cutoff": 287,
+          "normalised_deleted_mass": 0.0022366406263902828,
+          "rare_index": 18
+        },
+        {
+          "deleted_harmonic_mass": 0.02183067486906961,
+          "integer_cutoff": 703,
+          "normalised_deleted_mass": 0.003330203866755411,
+          "rare_index": 44
+        },
+        {
+          "deleted_harmonic_mass": 0.022664703226033745,
+          "integer_cutoff": 1695,
+          "normalised_deleted_mass": 0.003048200141758297,
+          "rare_index": 106
+        },
+        {
+          "deleted_harmonic_mass": 0.0304094441847298,
+          "integer_cutoff": 4031,
+          "normalised_deleted_mass": 0.0036630074131701286,
+          "rare_index": 252
+        },
+        {
+          "deleted_harmonic_mass": 0.03272337849829362,
+          "integer_cutoff": 9551,
+          "normalised_deleted_mass": 0.0035707056029380207,
+          "rare_index": 597
+        },
+        {
+          "deleted_harmonic_mass": 0.04039531639844821,
+          "integer_cutoff": 22575,
+          "normalised_deleted_mass": 0.004029619429537511,
+          "rare_index": 1411
+        },
+        {
+          "deleted_harmonic_mass": 0.043169319279237686,
+          "integer_cutoff": 53311,
+          "normalised_deleted_mass": 0.003966347296415798,
+          "rare_index": 3332
+        },
+        {
+          "deleted_harmonic_mass": 0.050830859174955695,
+          "integer_cutoff": 125839,
+          "normalised_deleted_mass": 0.0043286983020730425,
+          "rare_index": 7865
+        },
+        {
+          "deleted_harmonic_mass": 0.05400136645848776,
+          "integer_cutoff": 296991,
+          "normalised_deleted_mass": 0.004285327162461819,
+          "rare_index": 18562
+        },
+        {
+          "deleted_harmonic_mass": 0.06166656244815212,
+          "integer_cutoff": 700863,
+          "normalised_deleted_mass": 0.004581445187974854,
+          "rare_index": 43804
+        },
+        {
+          "deleted_harmonic_mass": 0.06429757513296865,
+          "integer_cutoff": 1347791,
+          "normalised_deleted_mass": 0.004555595690126291,
+          "rare_index": 84237
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999885800424822,
+      "minimum_step_to_target_ratio": 4.424033563080611,
+      "non_binary_max_selected_classes": 2519,
+      "policy": "jitter",
+      "schedule_seed": 108034373199314392,
+      "selected_classes": 2519,
+      "signed_metrics": {
+        "latest_drop": 2.5849497848563253e-05,
+        "latest_rise": 0.000296118025513035,
+        "latest_two_sided_floor": 2.5849497848563253e-05,
+        "recent_two_cycle_floor": 0.00028200372499711385,
+        "second_largest_recent_drop": 0.00028200372499711385,
+        "second_largest_recent_rise": 0.0006148072714118316,
+        "tail_difference_count": 11,
+        "tail_drop_count": 6,
+        "tail_rise_count": 5
+      },
+      "theta": 0.6040601136487286
+    },
+    {
+      "N": 37529,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 2,
+      "cell_modulus": 5,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.525,
+      "certified_rare_index_survivor_density_lower_bound": 0.8,
+      "deleted_bitmap_sha256": "11a04bc66946096ecab63925e5062a43a651417a4ec6d40a01bb905e3825b3f1",
+      "echo_events_that_newly_deleted_points": 2644,
+      "endpoint_count": 7,
+      "growth": 4.253885838099819,
+      "last_normalised_deleted_mass": 0.00368601633600175,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.020357320805751297,
+          "integer_cutoff": 255,
+          "normalised_deleted_mass": 0.0036737687424266475,
+          "rare_index": 8
+        },
+        {
+          "deleted_harmonic_mass": 0.021516069357315606,
+          "integer_cutoff": 1215,
+          "normalised_deleted_mass": 0.0030293659005856976,
+          "rare_index": 38
+        },
+        {
+          "deleted_harmonic_mass": 0.03043221337258373,
+          "integer_cutoff": 5279,
+          "normalised_deleted_mass": 0.0035503986350887235,
+          "rare_index": 165
+        },
+        {
+          "deleted_harmonic_mass": 0.03285533398562607,
+          "integer_cutoff": 22591,
+          "normalised_deleted_mass": 0.0032772397286658364,
+          "rare_index": 706
+        },
+        {
+          "deleted_harmonic_mass": 0.04193078955163448,
+          "integer_cutoff": 96223,
+          "normalised_deleted_mass": 0.0036542828356649973,
+          "rare_index": 3007
+        },
+        {
+          "deleted_harmonic_mass": 0.04487337479536836,
+          "integer_cutoff": 409439,
+          "normalised_deleted_mass": 0.003472487889536375,
+          "rare_index": 12795
+        },
+        {
+          "deleted_harmonic_mass": 0.05159908419196776,
+          "integer_cutoff": 1200927,
+          "normalised_deleted_mass": 0.00368601633600175,
+          "rare_index": 37529
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.997131136552538,
+      "minimum_step_to_target_ratio": 7.738095238095238,
+      "non_binary_max_selected_classes": 3466,
+      "policy": "fraction",
+      "schedule_seed": 8129465923914422252,
+      "selected_classes": 3466,
+      "signed_metrics": {
+        "latest_drop": 0.00018179494612862238,
+        "latest_rise": 0.00021352844646537524,
+        "latest_two_sided_floor": 0.00018179494612862238,
+        "recent_two_cycle_floor": 0.0002731589064228872,
+        "second_largest_recent_drop": 0.0002731589064228872,
+        "second_largest_recent_rise": 0.0003770431069991609,
+        "tail_difference_count": 6,
+        "tail_drop_count": 3,
+        "tail_rise_count": 3
+      },
+      "theta": 0.4112914216793455
+    },
+    {
+      "N": 41661,
+      "Q": 8,
+      "attack_phase": 0,
+      "base": 2,
+      "cell_modulus": 3,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.5833333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "0780c3b802b936407e2f73fd2ca46a4e287345d37881c908a85ab1da1233653d",
+      "echo_events_that_newly_deleted_points": 7176,
+      "endpoint_count": 10,
+      "growth": 2.8524010372433644,
+      "last_normalised_deleted_mass": 0.020214747560111303,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.02564102564102564,
+          "integer_cutoff": 39,
+          "normalised_deleted_mass": 0.006998933856651215,
+          "rare_index": 5
+        },
+        {
+          "deleted_harmonic_mass": 0.02564102564102564,
+          "integer_cutoff": 135,
+          "normalised_deleted_mass": 0.0052272353332239495,
+          "rare_index": 17
+        },
+        {
+          "deleted_harmonic_mass": 0.06844090410134403,
+          "integer_cutoff": 407,
+          "normalised_deleted_mass": 0.011390086858941486,
+          "rare_index": 51
+        },
+        {
+          "deleted_harmonic_mass": 0.07869453606494627,
+          "integer_cutoff": 1183,
+          "normalised_deleted_mass": 0.011121631120586842,
+          "rare_index": 148
+        },
+        {
+          "deleted_harmonic_mass": 0.12295802273965971,
+          "integer_cutoff": 3399,
+          "normalised_deleted_mass": 0.01512168807144775,
+          "rare_index": 425
+        },
+        {
+          "deleted_harmonic_mass": 0.13958069727959044,
+          "integer_cutoff": 9719,
+          "normalised_deleted_mass": 0.015201825288653175,
+          "rare_index": 1215
+        },
+        {
+          "deleted_harmonic_mass": 0.18327375105944196,
+          "integer_cutoff": 27743,
+          "normalised_deleted_mass": 0.017914028890135957,
+          "rare_index": 3468
+        },
+        {
+          "deleted_harmonic_mass": 0.20451228407910382,
+          "integer_cutoff": 79151,
+          "normalised_deleted_mass": 0.018131947922530076,
+          "rare_index": 9894
+        },
+        {
+          "deleted_harmonic_mass": 0.24818809862473315,
+          "integer_cutoff": 225791,
+          "normalised_deleted_mass": 0.020133102019999145,
+          "rare_index": 28224
+        },
+        {
+          "deleted_harmonic_mass": 0.25706607821622474,
+          "integer_cutoff": 333287,
+          "normalised_deleted_mass": 0.020214747560111303,
+          "rare_index": 41661
+        }
+      ],
+      "maximum_step_to_target_ratio": 3.9998227830155244,
+      "minimum_step_to_target_ratio": 3.0,
+      "non_binary_max_selected_classes": 3388,
+      "policy": "fraction",
+      "schedule_seed": 7336419890022695944,
+      "selected_classes": 3388,
+      "signed_metrics": {
+        "latest_drop": 0.00026845573835464383,
+        "latest_rise": 8.16455401121581e-05,
+        "latest_two_sided_floor": 8.16455401121581e-05,
+        "recent_two_cycle_floor": 0.00026845573835464383,
+        "second_largest_recent_drop": 0.00026845573835464383,
+        "second_largest_recent_rise": 0.0040000569508609075,
+        "tail_difference_count": 9,
+        "tail_drop_count": 2,
+        "tail_rise_count": 7
+      },
+      "theta": 0.6330499345011837
+    },
+    {
+      "N": 34197,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 2,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "30e8d9252e4924bdd1bc979517acd81f6d7a4d30ef3ed6d325ac863e00c7cbdd",
+      "echo_events_that_newly_deleted_points": 2607,
+      "endpoint_count": 10,
+      "growth": 2.7019574409223455,
+      "last_normalised_deleted_mass": 0.0042094067070280764,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.010526315789473684,
+          "integer_cutoff": 159,
+          "normalised_deleted_mass": 0.002076645241167322,
+          "rare_index": 5
+        },
+        {
+          "deleted_harmonic_mass": 0.010526315789473684,
+          "integer_cutoff": 511,
+          "normalised_deleted_mass": 0.001687891590968048,
+          "rare_index": 16
+        },
+        {
+          "deleted_harmonic_mass": 0.021319171893029863,
+          "integer_cutoff": 1439,
+          "normalised_deleted_mass": 0.0029317987575370385,
+          "rare_index": 45
+        },
+        {
+          "deleted_harmonic_mass": 0.022078742095715687,
+          "integer_cutoff": 3967,
+          "normalised_deleted_mass": 0.002664659325383746,
+          "rare_index": 124
+        },
+        {
+          "deleted_harmonic_mass": 0.032468297543095916,
+          "integer_cutoff": 10783,
+          "normalised_deleted_mass": 0.00349658144094998,
+          "rare_index": 337
+        },
+        {
+          "deleted_harmonic_mass": 0.03395904911306903,
+          "integer_cutoff": 29215,
+          "normalised_deleted_mass": 0.0033026263404433475,
+          "rare_index": 913
+        },
+        {
+          "deleted_harmonic_mass": 0.044322732809216836,
+          "integer_cutoff": 79007,
+          "normalised_deleted_mass": 0.00393026391887967,
+          "rare_index": 2469
+        },
+        {
+          "deleted_harmonic_mass": 0.04652963952101262,
+          "integer_cutoff": 213535,
+          "normalised_deleted_mass": 0.003791665816237798,
+          "rare_index": 6673
+        },
+        {
+          "deleted_harmonic_mass": 0.056883584425832905,
+          "integer_cutoff": 577023,
+          "normalised_deleted_mass": 0.004288040045471203,
+          "rare_index": 18032
+        },
+        {
+          "deleted_harmonic_mass": 0.05853444456371583,
+          "integer_cutoff": 1094303,
+          "normalised_deleted_mass": 0.0042094067070280764,
+          "rare_index": 34197
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.996503496503497,
+      "minimum_step_to_target_ratio": 7.833333333333333,
+      "non_binary_max_selected_classes": 3452,
+      "policy": "fraction",
+      "schedule_seed": 2605900700256858103,
+      "selected_classes": 3452,
+      "signed_metrics": {
+        "latest_drop": 7.863333844312665e-05,
+        "latest_rise": 0.0004963742292334052,
+        "latest_two_sided_floor": 7.863333844312665e-05,
+        "recent_two_cycle_floor": 0.0002671394321532923,
+        "second_largest_recent_drop": 0.0002671394321532923,
+        "second_largest_recent_rise": 0.0008319221155662338,
+        "tail_difference_count": 9,
+        "tail_drop_count": 5,
+        "tail_rise_count": 4
+      },
+      "theta": 0.41571349645030853
+    },
+    {
+      "N": 62636,
+      "Q": 8,
+      "attack_phase": 1,
+      "base": 3,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5833333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "608733cddaafb65de757447eed82a6e465a685dd40720e4e45bd66b58b48dac4",
+      "echo_events_that_newly_deleted_points": 10690,
+      "endpoint_count": 12,
+      "growth": 2.315715919121001,
+      "last_normalised_deleted_mass": 0.01917500719172327,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.0,
+          "integer_cutoff": 47,
+          "normalised_deleted_mass": 0.0,
+          "rare_index": 6
+        },
+        {
+          "deleted_harmonic_mass": 0.03301418417626502,
+          "integer_cutoff": 127,
+          "normalised_deleted_mass": 0.006815216585782298,
+          "rare_index": 16
+        },
+        {
+          "deleted_harmonic_mass": 0.03649850473375631,
+          "integer_cutoff": 311,
+          "normalised_deleted_mass": 0.006358853932919834,
+          "rare_index": 39
+        },
+        {
+          "deleted_harmonic_mass": 0.07052251396837,
+          "integer_cutoff": 735,
+          "normalised_deleted_mass": 0.010685439051687635,
+          "rare_index": 92
+        },
+        {
+          "deleted_harmonic_mass": 0.0776119738866801,
+          "integer_cutoff": 1719,
+          "normalised_deleted_mass": 0.010418416627616967,
+          "rare_index": 215
+        },
+        {
+          "deleted_harmonic_mass": 0.11284630066843594,
+          "integer_cutoff": 3999,
+          "normalised_deleted_mass": 0.013606104076600213,
+          "rare_index": 500
+        },
+        {
+          "deleted_harmonic_mass": 0.12389139778479034,
+          "integer_cutoff": 9279,
+          "normalised_deleted_mass": 0.013561520978496975,
+          "rare_index": 1160
+        },
+        {
+          "deleted_harmonic_mass": 0.1589508782288875,
+          "integer_cutoff": 21503,
+          "normalised_deleted_mass": 0.01593341127913651,
+          "rare_index": 2688
+        },
+        {
+          "deleted_harmonic_mass": 0.1734720148785138,
+          "integer_cutoff": 49807,
+          "normalised_deleted_mass": 0.016038595162210414,
+          "rare_index": 6226
+        },
+        {
+          "deleted_harmonic_mass": 0.2084627848357891,
+          "integer_cutoff": 115351,
+          "normalised_deleted_mass": 0.017884997045410925,
+          "rare_index": 14419
+        },
+        {
+          "deleted_harmonic_mass": 0.22545336247699294,
+          "integer_cutoff": 267135,
+          "normalised_deleted_mass": 0.01804275078048487,
+          "rare_index": 33392
+        },
+        {
+          "deleted_harmonic_mass": 0.2516630533521477,
+          "integer_cutoff": 501087,
+          "normalised_deleted_mass": 0.01917500719172327,
+          "rare_index": 62636
+        }
+      ],
+      "maximum_step_to_target_ratio": 3.9998562392179413,
+      "minimum_step_to_target_ratio": 2.642857142857143,
+      "non_binary_max_selected_classes": 6062,
+      "policy": "fraction",
+      "schedule_seed": 1174557258474905409,
+      "selected_classes": 6062,
+      "signed_metrics": {
+        "latest_drop": 4.4583098103238156e-05,
+        "latest_rise": 0.0011322564112383991,
+        "latest_two_sided_floor": 4.4583098103238156e-05,
+        "recent_two_cycle_floor": 0.0002670224240706679,
+        "second_largest_recent_drop": 0.0002670224240706679,
+        "second_largest_recent_rise": 0.004326585118767801,
+        "tail_difference_count": 11,
+        "tail_drop_count": 3,
+        "tail_rise_count": 8
+      },
+      "theta": 0.47509899460801286
+    },
+    {
+      "N": 1375711,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 14,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "a9e03d89f36e62bc04de709a3180e08d08337fb013db10e185f7aecf32450bbc",
+      "echo_events_that_newly_deleted_points": 109846,
+      "endpoint_count": 6,
+      "growth": 7.753380340561859,
+      "last_normalised_deleted_mass": 0.004140842006633803,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.02180467240591868,
+          "integer_cutoff": 3455,
+          "normalised_deleted_mass": 0.002676215325818243,
+          "rare_index": 108
+        },
+        {
+          "deleted_harmonic_mass": 0.02334993715768711,
+          "integer_cutoff": 27039,
+          "normalised_deleted_mass": 0.0022880799434390636,
+          "rare_index": 845
+        },
+        {
+          "deleted_harmonic_mass": 0.044703652229274485,
+          "integer_cutoff": 209887,
+          "normalised_deleted_mass": 0.0036479898973820974,
+          "rare_index": 6559
+        },
+        {
+          "deleted_harmonic_mass": 0.048407868913376374,
+          "integer_cutoff": 1627583,
+          "normalised_deleted_mass": 0.0033845487117974676,
+          "rare_index": 50862
+        },
+        {
+          "deleted_harmonic_mass": 0.06974245669049277,
+          "integer_cutoff": 12619519,
+          "normalised_deleted_mass": 0.004265396638248378,
+          "rare_index": 394360
+        },
+        {
+          "deleted_harmonic_mass": 0.07287971840299978,
+          "integer_cutoff": 44022751,
+          "normalised_deleted_mass": 0.004140842006633803,
+          "rare_index": 1375711
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.999992392602566,
+      "minimum_step_to_target_ratio": 6.081214980831613,
+      "non_binary_max_selected_classes": 89873,
+      "policy": "jitter",
+      "schedule_seed": 5395857554223733640,
+      "selected_classes": 89873,
+      "signed_metrics": {
+        "latest_drop": 0.0001245546316145747,
+        "latest_rise": 0.0008808479264509105,
+        "latest_two_sided_floor": 0.0001245546316145747,
+        "recent_two_cycle_floor": 0.0002634411855846298,
+        "second_largest_recent_drop": 0.0002634411855846298,
+        "second_largest_recent_rise": 0.0008808479264509105,
+        "tail_difference_count": 5,
+        "tail_drop_count": 3,
+        "tail_rise_count": 2
+      },
+      "theta": 0.6846775544406559
+    },
+    {
+      "N": 197359,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 13,
+      "cell_modulus": 3,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "3e72816ce2a4bd999f693606d889b0168589c13c5ec12b74ef1ba6def9e9b1e9",
+      "echo_events_that_newly_deleted_points": 22535,
+      "endpoint_count": 9,
+      "growth": 3.125641462345282,
+      "last_normalised_deleted_mass": 0.00828618449016766,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.023996701865785362,
+          "integer_cutoff": 639,
+          "normalised_deleted_mass": 0.0037147146734537334,
+          "rare_index": 40
+        },
+        {
+          "deleted_harmonic_mass": 0.025128454574962048,
+          "integer_cutoff": 2047,
+          "normalised_deleted_mass": 0.003295910831094782,
+          "rare_index": 128
+        },
+        {
+          "deleted_harmonic_mass": 0.04876015459667642,
+          "integer_cutoff": 6447,
+          "normalised_deleted_mass": 0.005559012282748579,
+          "rare_index": 403
+        },
+        {
+          "deleted_harmonic_mass": 0.05252410312645952,
+          "integer_cutoff": 20191,
+          "normalised_deleted_mass": 0.005298511474355988,
+          "rare_index": 1262
+        },
+        {
+          "deleted_harmonic_mass": 0.07626334352882112,
+          "integer_cutoff": 63151,
+          "normalised_deleted_mass": 0.006899609544488426,
+          "rare_index": 3947
+        },
+        {
+          "deleted_harmonic_mass": 0.0822426387125412,
+          "integer_cutoff": 197439,
+          "normalised_deleted_mass": 0.006744967702616877,
+          "rare_index": 12340
+        },
+        {
+          "deleted_harmonic_mass": 0.10598825079543729,
+          "integer_cutoff": 617167,
+          "normalised_deleted_mass": 0.007949380186806507,
+          "rare_index": 38573
+        },
+        {
+          "deleted_harmonic_mass": 0.11373887780006621,
+          "integer_cutoff": 1929087,
+          "normalised_deleted_mass": 0.007858934307163713,
+          "rare_index": 120568
+        },
+        {
+          "deleted_harmonic_mass": 0.12400580095589349,
+          "integer_cutoff": 3157743,
+          "normalised_deleted_mass": 0.00828618449016766,
+          "rare_index": 197359
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999994933040125,
+      "minimum_step_to_target_ratio": 4.555731225296443,
+      "non_binary_max_selected_classes": 16217,
+      "policy": "jitter",
+      "schedule_seed": 675525837612233608,
+      "selected_classes": 22582,
+      "signed_metrics": {
+        "latest_drop": 9.044587964279413e-05,
+        "latest_rise": 0.0004272501830039476,
+        "latest_two_sided_floor": 9.044587964279413e-05,
+        "recent_two_cycle_floor": 0.00026050080839259103,
+        "second_largest_recent_drop": 0.00026050080839259103,
+        "second_largest_recent_rise": 0.0016010980701324376,
+        "tail_difference_count": 8,
+        "tail_drop_count": 4,
+        "tail_rise_count": 4
+      },
+      "theta": 0.6605924553374838
+    },
+    {
+      "N": 317065,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 4,
+      "cell_modulus": 3,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "1cb516a718807e87a599d03617e88ffc063d43c276f1288df78d24dc2a7cafdf",
+      "echo_events_that_newly_deleted_points": 23846,
+      "endpoint_count": 10,
+      "growth": 3.0846170277899057,
+      "last_normalised_deleted_mass": 0.0042244046795904015,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.013059879652554458,
+          "integer_cutoff": 383,
+          "normalised_deleted_mass": 0.002195662883004238,
+          "rare_index": 12
+        },
+        {
+          "deleted_harmonic_mass": 0.013059879652554458,
+          "integer_cutoff": 1279,
+          "normalised_deleted_mass": 0.0018255777272421618,
+          "rare_index": 40
+        },
+        {
+          "deleted_harmonic_mass": 0.025187681546413383,
+          "integer_cutoff": 4031,
+          "normalised_deleted_mass": 0.0030340135013520128,
+          "rare_index": 126
+        },
+        {
+          "deleted_harmonic_mass": 0.026239647012141012,
+          "integer_cutoff": 12511,
+          "normalised_deleted_mass": 0.0027812842817782034,
+          "rare_index": 391
+        },
+        {
+          "deleted_harmonic_mass": 0.038016588146903084,
+          "integer_cutoff": 38687,
+          "normalised_deleted_mass": 0.0035989450308680946,
+          "rare_index": 1209
+        },
+        {
+          "deleted_harmonic_mass": 0.039758090086996226,
+          "integer_cutoff": 119423,
+          "normalised_deleted_mass": 0.0034009099733323723,
+          "rare_index": 3732
+        },
+        {
+          "deleted_harmonic_mass": 0.05149282440628754,
+          "integer_cutoff": 368447,
+          "normalised_deleted_mass": 0.004017524762153676,
+          "rare_index": 11514
+        },
+        {
+          "deleted_harmonic_mass": 0.053795687970905615,
+          "integer_cutoff": 1136607,
+          "normalised_deleted_mass": 0.0038581033416411675,
+          "rare_index": 35519
+        },
+        {
+          "deleted_harmonic_mass": 0.06552925328912007,
+          "integer_cutoff": 3506079,
+          "normalised_deleted_mass": 0.004348322142602477,
+          "rare_index": 109565
+        },
+        {
+          "deleted_harmonic_mass": 0.06815062199257753,
+          "integer_cutoff": 10146079,
+          "normalised_deleted_mass": 0.0042244046795904015,
+          "rare_index": 317065
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.999899602975402,
+      "minimum_step_to_target_ratio": 13.8,
+      "non_binary_max_selected_classes": 21632,
+      "policy": "fraction",
+      "schedule_seed": 3773834043776444630,
+      "selected_classes": 21632,
+      "signed_metrics": {
+        "latest_drop": 0.00012391746301207516,
+        "latest_rise": 0.0004902188009613092,
+        "latest_two_sided_floor": 0.00012391746301207516,
+        "recent_two_cycle_floor": 0.00025272921957380937,
+        "second_largest_recent_drop": 0.00025272921957380937,
+        "second_largest_recent_rise": 0.0008176607490898912,
+        "tail_difference_count": 9,
+        "tail_drop_count": 5,
+        "tail_rise_count": 4
+      },
+      "theta": 0.8284931308202453
+    },
+    {
+      "N": 35951,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 4,
+      "cell_modulus": 3,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "8bd9005a0843d661559118809b95d98b63aed4747d33082da2ec3461f496d966",
+      "echo_events_that_newly_deleted_points": 3027,
+      "endpoint_count": 6,
+      "growth": 5.267097648654861,
+      "last_normalised_deleted_mass": 0.0043266782278701295,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.01870358197094691,
+          "integer_cutoff": 671,
+          "normalised_deleted_mass": 0.0028735973849041874,
+          "rare_index": 21
+        },
+        {
+          "deleted_harmonic_mass": 0.020196970791434007,
+          "integer_cutoff": 3679,
+          "normalised_deleted_mass": 0.002459926435204225,
+          "rare_index": 115
+        },
+        {
+          "deleted_harmonic_mass": 0.03761632714441656,
+          "integer_cutoff": 19519,
+          "normalised_deleted_mass": 0.0038076505977133936,
+          "rare_index": 610
+        },
+        {
+          "deleted_harmonic_mass": 0.04106523451364263,
+          "integer_cutoff": 102975,
+          "normalised_deleted_mass": 0.00355782145478081,
+          "rare_index": 3218
+        },
+        {
+          "deleted_harmonic_mass": 0.05836998516530296,
+          "integer_cutoff": 542527,
+          "normalised_deleted_mass": 0.004420631287709158,
+          "rare_index": 16954
+        },
+        {
+          "deleted_harmonic_mass": 0.06038159495117556,
+          "integer_cutoff": 1150431,
+          "normalised_deleted_mass": 0.0043266782278701295,
+          "rare_index": 35951
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.992598732903073,
+      "minimum_step_to_target_ratio": 5.571428571428571,
+      "non_binary_max_selected_classes": 3532,
+      "policy": "fraction",
+      "schedule_seed": 7706583655095498175,
+      "selected_classes": 3532,
+      "signed_metrics": {
+        "latest_drop": 9.395305983902862e-05,
+        "latest_rise": 0.0008628098329283482,
+        "latest_two_sided_floor": 9.395305983902862e-05,
+        "recent_two_cycle_floor": 0.00024982914293258376,
+        "second_largest_recent_drop": 0.00024982914293258376,
+        "second_largest_recent_rise": 0.0008628098329283482,
+        "tail_difference_count": 5,
+        "tail_drop_count": 3,
+        "tail_rise_count": 2
+      },
+      "theta": 0.2562615365409817
+    },
+    {
+      "N": 1027973,
+      "Q": 32,
+      "attack_phase": 1,
+      "base": 3,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "96ac195c47971a4306e033a6bc2ccac381d88770945c2e472f37bdc15202a01d",
+      "echo_events_that_newly_deleted_points": 68796,
+      "endpoint_count": 7,
+      "growth": 7.857603586193188,
+      "last_normalised_deleted_mass": 0.004037204086142025,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.0,
+          "integer_cutoff": 735,
+          "normalised_deleted_mass": 0.0,
+          "rare_index": 23
+        },
+        {
+          "deleted_harmonic_mass": 0.02169368853235566,
+          "integer_cutoff": 6015,
+          "normalised_deleted_mass": 0.002492950993254705,
+          "rare_index": 188
+        },
+        {
+          "deleted_harmonic_mass": 0.022745133577215023,
+          "integer_cutoff": 47519,
+          "normalised_deleted_mass": 0.002112115949535388,
+          "rare_index": 1485
+        },
+        {
+          "deleted_harmonic_mass": 0.04422880879679137,
+          "integer_cutoff": 373631,
+          "normalised_deleted_mass": 0.003447020981364755,
+          "rare_index": 11676
+        },
+        {
+          "deleted_harmonic_mass": 0.04765029602371498,
+          "integer_cutoff": 2936095,
+          "normalised_deleted_mass": 0.003199597433601242,
+          "rare_index": 91753
+        },
+        {
+          "deleted_harmonic_mass": 0.06912399447239266,
+          "integer_cutoff": 23070911,
+          "normalised_deleted_mass": 0.0040771296207389295,
+          "rare_index": 720966
+        },
+        {
+          "deleted_harmonic_mass": 0.06987930073057094,
+          "integer_cutoff": 32895135,
+          "normalised_deleted_mass": 0.004037204086142025,
+          "rare_index": 1027973
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.999998612968193,
+      "minimum_step_to_target_ratio": 15.72,
+      "non_binary_max_selected_classes": 11,
+      "policy": "fraction",
+      "schedule_seed": 5006028081486164430,
+      "selected_classes": 170001,
+      "signed_metrics": {
+        "latest_drop": 3.992553459690462e-05,
+        "latest_rise": 0.0008775321871376876,
+        "latest_two_sided_floor": 3.992553459690462e-05,
+        "recent_two_cycle_floor": 0.000247423547763513,
+        "second_largest_recent_drop": 0.000247423547763513,
+        "second_largest_recent_rise": 0.0013349050318293668,
+        "tail_difference_count": 6,
+        "tail_drop_count": 3,
+        "tail_rise_count": 3
+      },
+      "theta": 0.9814587840073732
+    },
+    {
+      "N": 631133,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 3,
+      "cell_modulus": 5,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.55,
+      "certified_rare_index_survivor_density_lower_bound": 0.8,
+      "deleted_bitmap_sha256": "592a9e166702eb7b74b061682593d7592994b2c72f55075ca2cf61e2298a1bee",
+      "echo_events_that_newly_deleted_points": 49876,
+      "endpoint_count": 9,
+      "growth": 4.339260977413528,
+      "last_normalised_deleted_mass": 0.005607776775160516,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.014244611103249847,
+          "integer_cutoff": 207,
+          "normalised_deleted_mass": 0.002671172371068808,
+          "rare_index": 13
+        },
+        {
+          "deleted_harmonic_mass": 0.014244611103249847,
+          "integer_cutoff": 959,
+          "normalised_deleted_mass": 0.002074692264687825,
+          "rare_index": 60
+        },
+        {
+          "deleted_harmonic_mass": 0.03289961101604684,
+          "integer_cutoff": 4223,
+          "normalised_deleted_mass": 0.0039408750115213905,
+          "rare_index": 264
+        },
+        {
+          "deleted_harmonic_mass": 0.03627806513088381,
+          "integer_cutoff": 18383,
+          "normalised_deleted_mass": 0.0036946118929113148,
+          "rare_index": 1149
+        },
+        {
+          "deleted_harmonic_mass": 0.05462868686971616,
+          "integer_cutoff": 79839,
+          "normalised_deleted_mass": 0.004839636130184971,
+          "rare_index": 4990
+        },
+        {
+          "deleted_harmonic_mass": 0.05990226013314014,
+          "integer_cutoff": 346511,
+          "normalised_deleted_mass": 0.004696128142996412,
+          "rare_index": 21657
+        },
+        {
+          "deleted_harmonic_mass": 0.07824769431478597,
+          "integer_cutoff": 1503663,
+          "normalised_deleted_mass": 0.00550132974566253,
+          "rare_index": 93979
+        },
+        {
+          "deleted_harmonic_mass": 0.08498230221587759,
+          "integer_cutoff": 6524847,
+          "normalised_deleted_mass": 0.005415945996789959,
+          "rare_index": 407803
+        },
+        {
+          "deleted_harmonic_mass": 0.09044144165186774,
+          "integer_cutoff": 10098127,
+          "normalised_deleted_mass": 0.005607776775160516,
+          "rare_index": 631133
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999998415444975,
+      "minimum_step_to_target_ratio": 6.791044776119403,
+      "non_binary_max_selected_classes": 16147,
+      "policy": "fraction",
+      "schedule_seed": 7580041307688145156,
+      "selected_classes": 35004,
+      "signed_metrics": {
+        "latest_drop": 8.538374887257123e-05,
+        "latest_rise": 0.00019183077837055685,
+        "latest_two_sided_floor": 8.538374887257123e-05,
+        "recent_two_cycle_floor": 0.0002462631186100758,
+        "second_largest_recent_drop": 0.0002462631186100758,
+        "second_largest_recent_rise": 0.0011450242372736561,
+        "tail_difference_count": 8,
+        "tail_drop_count": 4,
+        "tail_rise_count": 4
+      },
+      "theta": 0.8113316742287415
+    },
+    {
+      "N": 1386297,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 13,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "354dd35785fd7250d793271da08406d7e7d1ef17789d649f789dd301f5854cfb",
+      "echo_events_that_newly_deleted_points": 103107,
+      "endpoint_count": 8,
+      "growth": 4.867268968923378,
+      "last_normalised_deleted_mass": 0.0040938080962524,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.01629009316408218,
+          "integer_cutoff": 2015,
+          "normalised_deleted_mass": 0.0021410740518799146,
+          "rare_index": 63
+        },
+        {
+          "deleted_harmonic_mass": 0.016548585982517447,
+          "integer_cutoff": 9951,
+          "normalised_deleted_mass": 0.001797698639711713,
+          "rare_index": 311
+        },
+        {
+          "deleted_harmonic_mass": 0.03309055542063285,
+          "integer_cutoff": 48575,
+          "normalised_deleted_mass": 0.003066534299723283,
+          "rare_index": 1518
+        },
+        {
+          "deleted_harmonic_mass": 0.034938356497791256,
+          "integer_cutoff": 236575,
+          "normalised_deleted_mass": 0.002823525007453589,
+          "rare_index": 7393
+        },
+        {
+          "deleted_harmonic_mass": 0.05142407884393431,
+          "integer_cutoff": 1151615,
+          "normalised_deleted_mass": 0.0036845506300174622,
+          "rare_index": 35988
+        },
+        {
+          "deleted_harmonic_mass": 0.0544225450749901,
+          "integer_cutoff": 5605375,
+          "normalised_deleted_mass": 0.0035022663446915413,
+          "rare_index": 175168
+        },
+        {
+          "deleted_harmonic_mass": 0.07090730549438665,
+          "integer_cutoff": 27283007,
+          "normalised_deleted_mass": 0.00414135258176569,
+          "rare_index": 852594
+        },
+        {
+          "deleted_harmonic_mass": 0.07208329235289786,
+          "integer_cutoff": 44361503,
+          "normalised_deleted_mass": 0.0040938080962524,
+          "rare_index": 1386297
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.999982406631997,
+      "minimum_step_to_target_ratio": 13.0,
+      "non_binary_max_selected_classes": 182840,
+      "policy": "fraction",
+      "schedule_seed": 1150424939468439002,
+      "selected_classes": 182840,
+      "signed_metrics": {
+        "latest_drop": 4.754448551329022e-05,
+        "latest_rise": 0.000639086237074149,
+        "latest_two_sided_floor": 4.754448551329022e-05,
+        "recent_two_cycle_floor": 0.00024300929226969432,
+        "second_largest_recent_drop": 0.00024300929226969432,
+        "second_largest_recent_rise": 0.0008610256225638734,
+        "tail_difference_count": 7,
+        "tail_drop_count": 4,
+        "tail_rise_count": 3
+      },
+      "theta": 0.7843233632367393
+    },
+    {
+      "N": 45376,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 2,
+      "cell_modulus": 5,
+      "cell_residue": 3,
+      "certified_original_survivor_density_lower_bound": 0.525,
+      "certified_rare_index_survivor_density_lower_bound": 0.8,
+      "deleted_bitmap_sha256": "199d88ed73cb308765a5cad83853dad3c3e05b6922be21c36049ddf116dc4bcd",
+      "echo_events_that_newly_deleted_points": 2289,
+      "endpoint_count": 10,
+      "growth": 2.915907015788189,
+      "last_normalised_deleted_mass": 0.0029629854979805843,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.010526315789473684,
+          "integer_cutoff": 159,
+          "normalised_deleted_mass": 0.002076645241167322,
+          "rare_index": 5
+        },
+        {
+          "deleted_harmonic_mass": 0.010526315789473684,
+          "integer_cutoff": 543,
+          "normalised_deleted_mass": 0.001671610774828365,
+          "rare_index": 17
+        },
+        {
+          "deleted_harmonic_mass": 0.0178929599690838,
+          "integer_cutoff": 1663,
+          "normalised_deleted_mass": 0.0024126276752573397,
+          "rare_index": 52
+        },
+        {
+          "deleted_harmonic_mass": 0.01845559498911673,
+          "integer_cutoff": 4927,
+          "normalised_deleted_mass": 0.0021706117409265877,
+          "rare_index": 154
+        },
+        {
+          "deleted_harmonic_mass": 0.025104382520014956,
+          "integer_cutoff": 14431,
+          "normalised_deleted_mass": 0.0026212834291090975,
+          "rare_index": 451
+        },
+        {
+          "deleted_harmonic_mass": 0.026481329361341347,
+          "integer_cutoff": 42143,
+          "normalised_deleted_mass": 0.0024867844251604976,
+          "rare_index": 1317
+        },
+        {
+          "deleted_harmonic_mass": 0.03318571629630221,
+          "integer_cutoff": 122975,
+          "normalised_deleted_mass": 0.0028316094553846867,
+          "rare_index": 3843
+        },
+        {
+          "deleted_harmonic_mass": 0.034783020962431174,
+          "integer_cutoff": 358655,
+          "normalised_deleted_mass": 0.0027195234516548482,
+          "rare_index": 11208
+        },
+        {
+          "deleted_harmonic_mass": 0.041471036834531384,
+          "integer_cutoff": 1045887,
+          "normalised_deleted_mass": 0.002992057154300837,
+          "rare_index": 32684
+        },
+        {
+          "deleted_harmonic_mass": 0.04204024217899278,
+          "integer_cutoff": 1452031,
+          "normalised_deleted_mass": 0.0029629854979805843,
+          "rare_index": 45376
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.99990819511598,
+      "minimum_step_to_target_ratio": 8.61111111111111,
+      "non_binary_max_selected_classes": 3669,
+      "policy": "jitter",
+      "schedule_seed": 487462466583287248,
+      "selected_classes": 3669,
+      "signed_metrics": {
+        "latest_drop": 2.907165632025279e-05,
+        "latest_rise": 0.00027253370264598885,
+        "latest_two_sided_floor": 2.907165632025279e-05,
+        "recent_two_cycle_floor": 0.00024201593433075203,
+        "second_largest_recent_drop": 0.00024201593433075203,
+        "second_largest_recent_rise": 0.0004506716881825098,
+        "tail_difference_count": 9,
+        "tail_drop_count": 5,
+        "tail_rise_count": 4
+      },
+      "theta": 0.7242819105836318
+    },
+    {
+      "N": 430136,
+      "Q": 16,
+      "attack_phase": 1,
+      "base": 6,
+      "cell_modulus": 3,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "9138cd02d447c85253332c6f4d50f8d7e7fd4f811801e402718157727d455fe3",
+      "echo_events_that_newly_deleted_points": 47906,
+      "endpoint_count": 10,
+      "growth": 3.432636881324073,
+      "last_normalised_deleted_mass": 0.007850236502449806,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.0,
+          "integer_cutoff": 319,
+          "normalised_deleted_mass": 0.0,
+          "rare_index": 20
+        },
+        {
+          "deleted_harmonic_mass": 0.02535084631722218,
+          "integer_cutoff": 1151,
+          "normalised_deleted_mass": 0.0035966879292900697,
+          "rare_index": 72
+        },
+        {
+          "deleted_harmonic_mass": 0.025977256310628645,
+          "integer_cutoff": 3999,
+          "normalised_deleted_mass": 0.0031321297277208462,
+          "rare_index": 250
+        },
+        {
+          "deleted_harmonic_mass": 0.05179785216575036,
+          "integer_cutoff": 13775,
+          "normalised_deleted_mass": 0.0054348933300085965,
+          "rare_index": 861
+        },
+        {
+          "deleted_harmonic_mass": 0.05591399944146145,
+          "integer_cutoff": 47327,
+          "normalised_deleted_mass": 0.005194133771744185,
+          "rare_index": 2958
+        },
+        {
+          "deleted_harmonic_mass": 0.08161490244980969,
+          "integer_cutoff": 162511,
+          "normalised_deleted_mass": 0.006802091581993812,
+          "rare_index": 10157
+        },
+        {
+          "deleted_harmonic_mass": 0.08833450130667339,
+          "integer_cutoff": 557887,
+          "normalised_deleted_mass": 0.00667586840284483,
+          "rare_index": 34868
+        },
+        {
+          "deleted_harmonic_mass": 0.1140283835464952,
+          "integer_cutoff": 1915071,
+          "normalised_deleted_mass": 0.007882909959230317,
+          "rare_index": 119692
+        },
+        {
+          "deleted_harmonic_mass": 0.12264248742212205,
+          "integer_cutoff": 6573791,
+          "normalised_deleted_mass": 0.007812319425212921,
+          "rare_index": 410862
+        },
+        {
+          "deleted_harmonic_mass": 0.12359761915519794,
+          "integer_cutoff": 6882175,
+          "normalised_deleted_mass": 0.007850236502449806,
+          "rare_index": 430136
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.9999976749917465,
+      "minimum_step_to_target_ratio": 6.310489602398848,
+      "non_binary_max_selected_classes": 10675,
+      "policy": "jitter",
+      "schedule_seed": 3007888185072061101,
+      "selected_classes": 24859,
+      "signed_metrics": {
+        "latest_drop": 7.059053401739599e-05,
+        "latest_rise": 3.791707723688458e-05,
+        "latest_two_sided_floor": 3.791707723688458e-05,
+        "recent_two_cycle_floor": 0.00024075955826441137,
+        "second_largest_recent_drop": 0.00024075955826441137,
+        "second_largest_recent_rise": 0.0023027636022877503,
+        "tail_difference_count": 9,
+        "tail_drop_count": 4,
+        "tail_rise_count": 5
+      },
+      "theta": 0.8537565874539845
+    },
+    {
+      "N": 43484,
+      "Q": 8,
+      "attack_phase": 0,
+      "base": 8,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5833333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "2acfc0e2395f8ceba1eac23efe3c4718230d9c635dd15436756ad0ab47ec0a69",
+      "echo_events_that_newly_deleted_points": 7070,
+      "endpoint_count": 14,
+      "growth": 1.854744332207397,
+      "last_normalised_deleted_mass": 0.018429276527432165,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.022366965712178936,
+          "integer_cutoff": 111,
+          "normalised_deleted_mass": 0.004749298710505407,
+          "rare_index": 14
+        },
+        {
+          "deleted_harmonic_mass": 0.022366965712178936,
+          "integer_cutoff": 215,
+          "normalised_deleted_mass": 0.004164675704271326,
+          "rare_index": 27
+        },
+        {
+          "deleted_harmonic_mass": 0.04931230958035784,
+          "integer_cutoff": 407,
+          "normalised_deleted_mass": 0.00820666378842091,
+          "rare_index": 51
+        },
+        {
+          "deleted_harmonic_mass": 0.052916703200774566,
+          "integer_cutoff": 767,
+          "normalised_deleted_mass": 0.007966399449959383,
+          "rare_index": 96
+        },
+        {
+          "deleted_harmonic_mass": 0.07923472541747043,
+          "integer_cutoff": 1431,
+          "normalised_deleted_mass": 0.01090466847221323,
+          "rare_index": 179
+        },
+        {
+          "deleted_harmonic_mass": 0.08737086021027778,
+          "integer_cutoff": 2663,
+          "normalised_deleted_mass": 0.011077538936579477,
+          "rare_index": 333
+        },
+        {
+          "deleted_harmonic_mass": 0.11337327122135461,
+          "integer_cutoff": 4951,
+          "normalised_deleted_mass": 0.01332651645711829,
+          "rare_index": 619
+        },
+        {
+          "deleted_harmonic_mass": 0.12287152075302561,
+          "integer_cutoff": 9191,
+          "normalised_deleted_mass": 0.01346392611407583,
+          "rare_index": 1149
+        },
+        {
+          "deleted_harmonic_mass": 0.14865853244152452,
+          "integer_cutoff": 17055,
+          "normalised_deleted_mass": 0.015256106437982588,
+          "rare_index": 2132
+        },
+        {
+          "deleted_harmonic_mass": 0.15971726227434796,
+          "integer_cutoff": 31647,
+          "normalised_deleted_mass": 0.01541315557134436,
+          "rare_index": 3956
+        },
+        {
+          "deleted_harmonic_mass": 0.18546983361827932,
+          "integer_cutoff": 58711,
+          "normalised_deleted_mass": 0.016891017741415076,
+          "rare_index": 7339
+        },
+        {
+          "deleted_harmonic_mass": 0.19769094875192791,
+          "integer_cutoff": 108903,
+          "normalised_deleted_mass": 0.017044949182568065,
+          "rare_index": 13613
+        },
+        {
+          "deleted_harmonic_mass": 0.2234321254316147,
+          "integer_cutoff": 201999,
+          "normalised_deleted_mass": 0.018290094608434556,
+          "rare_index": 25250
+        },
+        {
+          "deleted_harmonic_mass": 0.23514995720581414,
+          "integer_cutoff": 347871,
+          "normalised_deleted_mass": 0.018429276527432165,
+          "rare_index": 43484
+        }
+      ],
+      "maximum_step_to_target_ratio": 3.9999603850572436,
+      "minimum_step_to_target_ratio": 2.6137724550898205,
+      "non_binary_max_selected_classes": 1836,
+      "policy": "jitter",
+      "schedule_seed": 4058864003440515583,
+      "selected_classes": 2880,
+      "signed_metrics": {
+        "latest_drop": 0.00024026433846152662,
+        "latest_rise": 0.0001391819189976093,
+        "latest_two_sided_floor": 0.0001391819189976093,
+        "recent_two_cycle_floor": 0.00024026433846152662,
+        "second_largest_recent_drop": 0.00024026433846152662,
+        "second_largest_recent_rise": 0.0029382690222538466,
+        "tail_difference_count": 13,
+        "tail_drop_count": 2,
+        "tail_rise_count": 11
+      },
+      "theta": 0.5473111973209941
+    },
+    {
+      "N": 171361,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 23,
+      "cell_modulus": 3,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "113f74922f726105a33fde2902df66dd8ac6f6e1a0cbe7d5f04c1a74653266ba",
+      "echo_events_that_newly_deleted_points": 16798,
+      "endpoint_count": 8,
+      "growth": 3.137528574297162,
+      "last_normalised_deleted_mass": 0.007572874553121434,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.02535084631722218,
+          "integer_cutoff": 1151,
+          "normalised_deleted_mass": 0.0035966879292900697,
+          "rare_index": 72
+        },
+        {
+          "deleted_harmonic_mass": 0.026014974600318992,
+          "integer_cutoff": 3663,
+          "normalised_deleted_mass": 0.003170223602713416,
+          "rare_index": 229
+        },
+        {
+          "deleted_harmonic_mass": 0.049943923620734715,
+          "integer_cutoff": 11535,
+          "normalised_deleted_mass": 0.005339802180863362,
+          "rare_index": 721
+        },
+        {
+          "deleted_harmonic_mass": 0.05355220697621237,
+          "integer_cutoff": 36239,
+          "normalised_deleted_mass": 0.0051012347270157085,
+          "rare_index": 2265
+        },
+        {
+          "deleted_harmonic_mass": 0.07738128639929172,
+          "integer_cutoff": 113743,
+          "normalised_deleted_mass": 0.006646907899442499,
+          "rare_index": 7109
+        },
+        {
+          "deleted_harmonic_mass": 0.08293705843634444,
+          "integer_cutoff": 356911,
+          "normalised_deleted_mass": 0.006486937062909477,
+          "rare_index": 22307
+        },
+        {
+          "deleted_harmonic_mass": 0.10675775957727074,
+          "integer_cutoff": 1119855,
+          "normalised_deleted_mass": 0.0076645835354094485,
+          "rare_index": 69991
+        },
+        {
+          "deleted_harmonic_mass": 0.11226117142600184,
+          "integer_cutoff": 2741775,
+          "normalised_deleted_mass": 0.007572874553121434,
+          "rare_index": 171361
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999899979995999,
+      "minimum_step_to_target_ratio": 6.130434782608695,
+      "non_binary_max_selected_classes": 12067,
+      "policy": "fraction",
+      "schedule_seed": 3048142025008621834,
+      "selected_classes": 12067,
+      "signed_metrics": {
+        "latest_drop": 9.170898228801419e-05,
+        "latest_rise": 0.0011776464724999715,
+        "latest_two_sided_floor": 9.170898228801419e-05,
+        "recent_two_cycle_floor": 0.00023856745384765333,
+        "second_largest_recent_drop": 0.00023856745384765333,
+        "second_largest_recent_rise": 0.0015456731724267907,
+        "tail_difference_count": 7,
+        "tail_drop_count": 4,
+        "tail_rise_count": 3
+      },
+      "theta": 0.7304739837616989
+    },
+    {
+      "N": 313657,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 19,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "98e6bf0560b497c16104be08fb0101dbbc882fe6729d510836449080f82c8d43",
+      "echo_events_that_newly_deleted_points": 20862,
+      "endpoint_count": 6,
+      "growth": 6.330246720505747,
+      "last_normalised_deleted_mass": 0.0038511481380168904,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.019061317960232062,
+          "integer_cutoff": 3839,
+          "normalised_deleted_mass": 0.002309632100776843,
+          "rare_index": 120
+        },
+        {
+          "deleted_harmonic_mass": 0.019870481922510223,
+          "integer_cutoff": 24479,
+          "normalised_deleted_mass": 0.001966289895586691,
+          "rare_index": 765
+        },
+        {
+          "deleted_harmonic_mass": 0.039087459961291184,
+          "integer_cutoff": 155135,
+          "normalised_deleted_mass": 0.0032703558587349976,
+          "rare_index": 4848
+        },
+        {
+          "deleted_harmonic_mass": 0.041843877859814874,
+          "integer_cutoff": 982239,
+          "normalised_deleted_mass": 0.0030326946985730074,
+          "rare_index": 30695
+        },
+        {
+          "deleted_harmonic_mass": 0.061066746108815684,
+          "integer_cutoff": 6218015,
+          "normalised_deleted_mass": 0.003903784264893774,
+          "rare_index": 194313
+        },
+        {
+          "deleted_harmonic_mass": 0.06208740583139024,
+          "integer_cutoff": 10037023,
+          "normalised_deleted_mass": 0.0038511481380168904,
+          "rare_index": 313657
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.999984560991802,
+      "minimum_step_to_target_ratio": 9.285714285714286,
+      "non_binary_max_selected_classes": 44557,
+      "policy": "jitter",
+      "schedule_seed": 6451122087986666859,
+      "selected_classes": 44557,
+      "signed_metrics": {
+        "latest_drop": 5.263612687688357e-05,
+        "latest_rise": 0.0008710895663207666,
+        "latest_two_sided_floor": 5.263612687688357e-05,
+        "recent_two_cycle_floor": 0.00023766116016199013,
+        "second_largest_recent_drop": 0.00023766116016199013,
+        "second_largest_recent_rise": 0.0008710895663207666,
+        "tail_difference_count": 5,
+        "tail_drop_count": 3,
+        "tail_rise_count": 2
+      },
+      "theta": 0.7128379094060959
+    },
+    {
+      "N": 1318133,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 18,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "2be661b7570a91b6e32aedb6e73dd2e54e4410e27d1a3cbed3cedc0dbedc4631",
+      "echo_events_that_newly_deleted_points": 104530,
+      "endpoint_count": 7,
+      "growth": 5.5080889569919815,
+      "last_normalised_deleted_mass": 0.003984137885971622,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.018001476144604647,
+          "integer_cutoff": 3167,
+          "normalised_deleted_mass": 0.0022332841274493574,
+          "rare_index": 99
+        },
+        {
+          "deleted_harmonic_mass": 0.018551443814916073,
+          "integer_cutoff": 17599,
+          "normalised_deleted_mass": 0.0018977299421609427,
+          "rare_index": 550
+        },
+        {
+          "deleted_harmonic_mass": 0.036317431042621966,
+          "integer_cutoff": 97087,
+          "normalised_deleted_mass": 0.0031626128855321684,
+          "rare_index": 3034
+        },
+        {
+          "deleted_harmonic_mass": 0.038596556708578915,
+          "integer_cutoff": 534943,
+          "normalised_deleted_mass": 0.0029262171370641674,
+          "rare_index": 16717
+        },
+        {
+          "deleted_harmonic_mass": 0.05636939287089393,
+          "integer_cutoff": 2946687,
+          "normalised_deleted_mass": 0.0037841478342522947,
+          "rare_index": 92084
+        },
+        {
+          "deleted_harmonic_mass": 0.060002998577648396,
+          "integer_cutoff": 16230783,
+          "normalised_deleted_mass": 0.0036141115523354275,
+          "rare_index": 507212
+        },
+        {
+          "deleted_harmonic_mass": 0.0699513526374215,
+          "integer_cutoff": 42180255,
+          "normalised_deleted_mass": 0.003984137885971622,
+          "rare_index": 1318133
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.99999923986801,
+      "minimum_step_to_target_ratio": 8.442806530538212,
+      "non_binary_max_selected_classes": 220361,
+      "policy": "jitter",
+      "schedule_seed": 4642134112235684273,
+      "selected_classes": 221721,
+      "signed_metrics": {
+        "latest_drop": 0.00017003628191686717,
+        "latest_rise": 0.0003700263336361945,
+        "latest_two_sided_floor": 0.00017003628191686717,
+        "recent_two_cycle_floor": 0.00023639574846800104,
+        "second_largest_recent_drop": 0.00023639574846800104,
+        "second_largest_recent_rise": 0.0008579306971881273,
+        "tail_difference_count": 6,
+        "tail_drop_count": 3,
+        "tail_rise_count": 3
+      },
+      "theta": 0.5232862966858775
+    },
+    {
+      "N": 43044,
+      "Q": 16,
+      "attack_phase": 1,
+      "base": 5,
+      "cell_modulus": 3,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "262d49d0e7840b0d4fccd9208d8e2e2c22f550a14ccbe226a7780ba8e06b257e",
+      "echo_events_that_newly_deleted_points": 4084,
+      "endpoint_count": 15,
+      "growth": 1.824389399318097,
+      "last_normalised_deleted_mass": 0.00771409835295626,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.0,
+          "integer_cutoff": 143,
+          "normalised_deleted_mass": 0.0,
+          "rare_index": 9
+        },
+        {
+          "deleted_harmonic_mass": 0.013888627547390144,
+          "integer_cutoff": 287,
+          "normalised_deleted_mass": 0.0024540456207663864,
+          "rare_index": 18
+        },
+        {
+          "deleted_harmonic_mass": 0.013888627547390144,
+          "integer_cutoff": 543,
+          "normalised_deleted_mass": 0.0022055560483005645,
+          "rare_index": 34
+        },
+        {
+          "deleted_harmonic_mass": 0.0272247809160211,
+          "integer_cutoff": 1007,
+          "normalised_deleted_mass": 0.003937214815502029,
+          "rare_index": 63
+        },
+        {
+          "deleted_harmonic_mass": 0.027862943009192766,
+          "integer_cutoff": 1855,
+          "normalised_deleted_mass": 0.003702401802584103,
+          "rare_index": 116
+        },
+        {
+          "deleted_harmonic_mass": 0.040309168354741104,
+          "integer_cutoff": 3407,
+          "normalised_deleted_mass": 0.0049558904681119295,
+          "rare_index": 213
+        },
+        {
+          "deleted_harmonic_mass": 0.04193213857781944,
+          "integer_cutoff": 6239,
+          "normalised_deleted_mass": 0.004798509786318015,
+          "rare_index": 390
+        },
+        {
+          "deleted_harmonic_mass": 0.05452017793786288,
+          "integer_cutoff": 11407,
+          "normalised_deleted_mass": 0.005836039411183313,
+          "rare_index": 713
+        },
+        {
+          "deleted_harmonic_mass": 0.05662359214848796,
+          "integer_cutoff": 20831,
+          "normalised_deleted_mass": 0.005694133882222159,
+          "rare_index": 1302
+        },
+        {
+          "deleted_harmonic_mass": 0.06915202660756103,
+          "integer_cutoff": 38031,
+          "normalised_deleted_mass": 0.006557083048552727,
+          "rare_index": 2377
+        },
+        {
+          "deleted_harmonic_mass": 0.07208783872803623,
+          "integer_cutoff": 69407,
+          "normalised_deleted_mass": 0.006466585988704999,
+          "rare_index": 4338
+        },
+        {
+          "deleted_harmonic_mass": 0.08462019979689839,
+          "integer_cutoff": 126655,
+          "normalised_deleted_mass": 0.007202195927117033,
+          "rare_index": 7916
+        },
+        {
+          "deleted_harmonic_mass": 0.08806291810181523,
+          "integer_cutoff": 231087,
+          "normalised_deleted_mass": 0.007130283377473697,
+          "rare_index": 14443
+        },
+        {
+          "deleted_harmonic_mass": 0.10059187337341449,
+          "integer_cutoff": 421615,
+          "normalised_deleted_mass": 0.00776660400159284,
+          "rare_index": 26351
+        },
+        {
+          "deleted_harmonic_mass": 0.1036972715927967,
+          "integer_cutoff": 688703,
+          "normalised_deleted_mass": 0.00771409835295626,
+          "rare_index": 43044
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999962042133232,
+      "minimum_step_to_target_ratio": 7.8,
+      "non_binary_max_selected_classes": 11,
+      "policy": "fraction",
+      "schedule_seed": 6046332115415172863,
+      "selected_classes": 4097,
+      "signed_metrics": {
+        "latest_drop": 5.2505648636580644e-05,
+        "latest_rise": 0.0006363206241191436,
+        "latest_two_sided_floor": 5.2505648636580644e-05,
+        "recent_two_cycle_floor": 0.00023481301291792623,
+        "second_largest_recent_drop": 0.00023481301291792623,
+        "second_largest_recent_rise": 0.0017316587672014648,
+        "tail_difference_count": 14,
+        "tail_drop_count": 7,
+        "tail_rise_count": 7
+      },
+      "theta": 0.959391996793447
+    },
+    {
+      "N": 57404,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 21,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "28f27ebe19e9a30649090f60013d8c097a226cb9e5788248180bb539ffede288",
+      "echo_events_that_newly_deleted_points": 5547,
+      "endpoint_count": 7,
+      "growth": 3.3040543855010354,
+      "last_normalised_deleted_mass": 0.0075086174560742725,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.0268043479609182,
+          "integer_cutoff": 1103,
+          "normalised_deleted_mass": 0.003826028429810511,
+          "rare_index": 69
+        },
+        {
+          "deleted_harmonic_mass": 0.0274700235785224,
+          "integer_cutoff": 3695,
+          "normalised_deleted_mass": 0.003343993542298974,
+          "rare_index": 231
+        },
+        {
+          "deleted_harmonic_mass": 0.05232680444239746,
+          "integer_cutoff": 12255,
+          "normalised_deleted_mass": 0.005558586309497366,
+          "rare_index": 766
+        },
+        {
+          "deleted_harmonic_mass": 0.056489355906168645,
+          "integer_cutoff": 40543,
+          "normalised_deleted_mass": 0.005324102303041084,
+          "rare_index": 2534
+        },
+        {
+          "deleted_harmonic_mass": 0.08139783053110675,
+          "integer_cutoff": 133999,
+          "normalised_deleted_mass": 0.006894856332206759,
+          "rare_index": 8375
+        },
+        {
+          "deleted_harmonic_mass": 0.08789609898627337,
+          "integer_cutoff": 442783,
+          "normalised_deleted_mass": 0.006760804086651903,
+          "rare_index": 27674
+        },
+        {
+          "deleted_harmonic_mass": 0.10309674835738117,
+          "integer_cutoff": 918463,
+          "normalised_deleted_mass": 0.0075086174560742725,
+          "rare_index": 57404
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999947731549237,
+      "minimum_step_to_target_ratio": 7.0,
+      "non_binary_max_selected_classes": 8317,
+      "policy": "fraction",
+      "schedule_seed": 1090839876584995791,
+      "selected_classes": 8317,
+      "signed_metrics": {
+        "latest_drop": 0.00013405224555485592,
+        "latest_rise": 0.0007478133694223694,
+        "latest_two_sided_floor": 0.00013405224555485592,
+        "recent_two_cycle_floor": 0.00023448400645628177,
+        "second_largest_recent_drop": 0.00023448400645628177,
+        "second_largest_recent_rise": 0.0015707540291656748,
+        "tail_difference_count": 6,
+        "tail_drop_count": 3,
+        "tail_rise_count": 3
+      },
+      "theta": 0.8681543954304093
+    },
+    {
+      "N": 56213,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 2,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "aa9daa73465e136a51920461b483bf9ddcf14a7e7da9ded72bd8a3f6f73a1426",
+      "echo_events_that_newly_deleted_points": 7599,
+      "endpoint_count": 8,
+      "growth": 3.801009185486228,
+      "last_normalised_deleted_mass": 0.009968840047537808,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.02488202488202488,
+          "integer_cutoff": 111,
+          "normalised_deleted_mass": 0.005283334816515537,
+          "rare_index": 7
+        },
+        {
+          "deleted_harmonic_mass": 0.02738829054618528,
+          "integer_cutoff": 479,
+          "normalised_deleted_mass": 0.00443772184244889,
+          "rare_index": 30
+        },
+        {
+          "deleted_harmonic_mass": 0.05602747748029982,
+          "integer_cutoff": 1871,
+          "normalised_deleted_mass": 0.007436392295799609,
+          "rare_index": 117
+        },
+        {
+          "deleted_harmonic_mass": 0.06393837090610052,
+          "integer_cutoff": 7167,
+          "normalised_deleted_mass": 0.0072025036341076135,
+          "rare_index": 448
+        },
+        {
+          "deleted_harmonic_mass": 0.09173346704042994,
+          "integer_cutoff": 27295,
+          "normalised_deleted_mass": 0.0089807466757574,
+          "rare_index": 1706
+        },
+        {
+          "deleted_harmonic_mass": 0.10173006717565411,
+          "integer_cutoff": 103807,
+          "normalised_deleted_mass": 0.008807577884122996,
+          "rare_index": 6488
+        },
+        {
+          "deleted_harmonic_mass": 0.12955050920065836,
+          "integer_cutoff": 394623,
+          "normalised_deleted_mass": 0.01005383086431864,
+          "rare_index": 24664
+        },
+        {
+          "deleted_harmonic_mass": 0.13666772227669424,
+          "integer_cutoff": 899407,
+          "normalised_deleted_mass": 0.009968840047537808,
+          "rare_index": 56213
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.998823624858024,
+      "minimum_step_to_target_ratio": 3.967741935483871,
+      "non_binary_max_selected_classes": 3892,
+      "policy": "fraction",
+      "schedule_seed": 3174340168750665134,
+      "selected_classes": 3892,
+      "signed_metrics": {
+        "latest_drop": 8.499081678083227e-05,
+        "latest_rise": 0.001246252980195645,
+        "latest_two_sided_floor": 8.499081678083227e-05,
+        "recent_two_cycle_floor": 0.00023388866169199527,
+        "second_largest_recent_drop": 0.00023388866169199527,
+        "second_largest_recent_rise": 0.0017782430416497857,
+        "tail_difference_count": 7,
+        "tail_drop_count": 4,
+        "tail_rise_count": 3
+      },
+      "theta": 0.3863255358138068
+    },
+    {
+      "N": 1429699,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 38,
+      "cell_modulus": 3,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "d0e93a311981b386a4f40dc9ecbc6dac454b69bc0dbc50173c7ee5a501e9509d",
+      "echo_events_that_newly_deleted_points": 95082,
+      "endpoint_count": 6,
+      "growth": 7.7709470640022555,
+      "last_normalised_deleted_mass": 0.003940463569231998,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.021754581790953735,
+          "integer_cutoff": 9439,
+          "normalised_deleted_mass": 0.0023768731445533925,
+          "rare_index": 295
+        },
+        {
+          "deleted_harmonic_mass": 0.022927302451451893,
+          "integer_cutoff": 73599,
+          "normalised_deleted_mass": 0.002045913908655713,
+          "rare_index": 2300
+        },
+        {
+          "deleted_harmonic_mass": 0.04428315047372151,
+          "integer_cutoff": 572159,
+          "normalised_deleted_mass": 0.003340316456110635,
+          "rare_index": 17880
+        },
+        {
+          "deleted_harmonic_mass": 0.04756993026422444,
+          "integer_cutoff": 4446463,
+          "normalised_deleted_mass": 0.0031075981633593135,
+          "rare_index": 138952
+        },
+        {
+          "deleted_harmonic_mass": 0.06892829610793487,
+          "integer_cutoff": 34553471,
+          "normalised_deleted_mass": 0.0039709772083110564,
+          "rare_index": 1079796
+        },
+        {
+          "deleted_harmonic_mass": 0.06950469562717589,
+          "integer_cutoff": 45750367,
+          "normalised_deleted_mass": 0.003940463569231998,
+          "rare_index": 1429699
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.999978699660584,
+      "minimum_step_to_target_ratio": 10.81578947368421,
+      "non_binary_max_selected_classes": 253779,
+      "policy": "fraction",
+      "schedule_seed": 4352841647455198604,
+      "selected_classes": 253779,
+      "signed_metrics": {
+        "latest_drop": 3.0513639079058144e-05,
+        "latest_rise": 0.0008633790449517429,
+        "latest_two_sided_floor": 3.0513639079058144e-05,
+        "recent_two_cycle_floor": 0.00023271829275132126,
+        "second_largest_recent_drop": 0.00023271829275132126,
+        "second_largest_recent_rise": 0.0008633790449517429,
+        "tail_difference_count": 5,
+        "tail_drop_count": 3,
+        "tail_rise_count": 2
+      },
+      "theta": 0.6500006604892872
+    },
+    {
+      "N": 658302,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 23,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "ba51845eb3b2a5619978ca451f6026a8ade20edeed4fd849ed134073cea4d5d3",
+      "echo_events_that_newly_deleted_points": 42369,
+      "endpoint_count": 7,
+      "growth": 5.269563204563934,
+      "last_normalised_deleted_mass": 0.0035659747617161463,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.01720346069528857,
+          "integer_cutoff": 3871,
+          "normalised_deleted_mass": 0.0020824237128879135,
+          "rare_index": 121
+        },
+        {
+          "deleted_harmonic_mass": 0.01751915345106141,
+          "integer_cutoff": 20543,
+          "normalised_deleted_mass": 0.0017642162495273251,
+          "rare_index": 642
+        },
+        {
+          "deleted_harmonic_mass": 0.03485943605072118,
+          "integer_cutoff": 108415,
+          "normalised_deleted_mass": 0.003006751140670497,
+          "rare_index": 3388
+        },
+        {
+          "deleted_harmonic_mass": 0.03677491031216767,
+          "integer_cutoff": 571455,
+          "normalised_deleted_mass": 0.0027742210273544693,
+          "rare_index": 17858
+        },
+        {
+          "deleted_harmonic_mass": 0.05408721061675883,
+          "integer_cutoff": 3011487,
+          "normalised_deleted_mass": 0.0036256476548129145,
+          "rare_index": 94109
+        },
+        {
+          "deleted_harmonic_mass": 0.05718302793095834,
+          "integer_cutoff": 15869375,
+          "normalised_deleted_mass": 0.003448936485496471,
+          "rare_index": 495918
+        },
+        {
+          "deleted_harmonic_mass": 0.06013358487226669,
+          "integer_cutoff": 21065663,
+          "normalised_deleted_mass": 0.0035659747617161463,
+          "rare_index": 658302
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.999989366453287,
+      "minimum_step_to_target_ratio": 14.04,
+      "non_binary_max_selected_classes": 63800,
+      "policy": "fraction",
+      "schedule_seed": 2256887625166862553,
+      "selected_classes": 63800,
+      "signed_metrics": {
+        "latest_drop": 0.00017671116931644365,
+        "latest_rise": 0.00011703827621967547,
+        "latest_two_sided_floor": 0.00011703827621967547,
+        "recent_two_cycle_floor": 0.0002325301133160279,
+        "second_largest_recent_drop": 0.0002325301133160279,
+        "second_largest_recent_rise": 0.0008514266274584452,
+        "tail_difference_count": 6,
+        "tail_drop_count": 3,
+        "tail_rise_count": 3
+      },
+      "theta": 0.8622740275622522
+    },
+    {
+      "N": 44915,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 11,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "df5bea202bae8c67311f087827c65f07026f66abe631c310d2b08fc1ba335f2e",
+      "echo_events_that_newly_deleted_points": 4882,
+      "endpoint_count": 6,
+      "growth": 5.262144241606261,
+      "last_normalised_deleted_mass": 0.008711451335474957,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.03319835012766206,
+          "integer_cutoff": 911,
+          "normalised_deleted_mass": 0.004871691414696458,
+          "rare_index": 57
+        },
+        {
+          "deleted_harmonic_mass": 0.038911406296043456,
+          "integer_cutoff": 4879,
+          "normalised_deleted_mass": 0.004581749813352222,
+          "rare_index": 305
+        },
+        {
+          "deleted_harmonic_mass": 0.07354707525832042,
+          "integer_cutoff": 25759,
+          "normalised_deleted_mass": 0.007241351867443223,
+          "rare_index": 1610
+        },
+        {
+          "deleted_harmonic_mass": 0.08282871849077637,
+          "integer_cutoff": 135631,
+          "normalised_deleted_mass": 0.007008873626614095,
+          "rare_index": 8477
+        },
+        {
+          "deleted_harmonic_mass": 0.11742464474700698,
+          "integer_cutoff": 713791,
+          "normalised_deleted_mass": 0.008712096370373033,
+          "rare_index": 44612
+        },
+        {
+          "deleted_harmonic_mass": 0.11747491806133965,
+          "integer_cutoff": 718639,
+          "normalised_deleted_mass": 0.008711451335474957,
+          "rare_index": 44915
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999349936114411,
+      "minimum_step_to_target_ratio": 3.923076923076923,
+      "non_binary_max_selected_classes": 8337,
+      "policy": "fraction",
+      "schedule_seed": 8568368424547670394,
+      "selected_classes": 8337,
+      "signed_metrics": {
+        "latest_drop": 6.450348980762549e-07,
+        "latest_rise": 0.001703222743758938,
+        "latest_two_sided_floor": 6.450348980762549e-07,
+        "recent_two_cycle_floor": 0.00023247824082912785,
+        "second_largest_recent_drop": 0.00023247824082912785,
+        "second_largest_recent_rise": 0.001703222743758938,
+        "tail_difference_count": 5,
+        "tail_drop_count": 3,
+        "tail_rise_count": 2
+      },
+      "theta": 0.42415549195645386
+    },
+    {
+      "N": 1960247,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 15,
+      "cell_modulus": 3,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.5416666666666666,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "3fda105fbf8444ddad1f796a17025a0f46377cae2b23f35d354f1a5b63a95da2",
+      "echo_events_that_newly_deleted_points": 251552,
+      "endpoint_count": 12,
+      "growth": 2.707546065985441,
+      "last_normalised_deleted_mass": 0.008911745752152578,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.02193311888953857,
+          "integer_cutoff": 639,
+          "normalised_deleted_mass": 0.003395269859552746,
+          "rare_index": 40
+        },
+        {
+          "deleted_harmonic_mass": 0.02193311888953857,
+          "integer_cutoff": 1775,
+          "normalised_deleted_mass": 0.0029316254216941247,
+          "rare_index": 111
+        },
+        {
+          "deleted_harmonic_mass": 0.04292058246189932,
+          "integer_cutoff": 4847,
+          "normalised_deleted_mass": 0.005057742119810329,
+          "rare_index": 303
+        },
+        {
+          "deleted_harmonic_mass": 0.045777143881941124,
+          "integer_cutoff": 13167,
+          "normalised_deleted_mass": 0.004826028527044264,
+          "rare_index": 823
+        },
+        {
+          "deleted_harmonic_mass": 0.06652088270690369,
+          "integer_cutoff": 35695,
+          "normalised_deleted_mass": 0.006345737692626979,
+          "rare_index": 2231
+        },
+        {
+          "deleted_harmonic_mass": 0.07128687539577042,
+          "integer_cutoff": 96687,
+          "normalised_deleted_mass": 0.006210072373311336,
+          "rare_index": 6043
+        },
+        {
+          "deleted_harmonic_mass": 0.09203629411941687,
+          "integer_cutoff": 261823,
+          "normalised_deleted_mass": 0.007377408114769016,
+          "rare_index": 16364
+        },
+        {
+          "deleted_harmonic_mass": 0.09828132574772627,
+          "integer_cutoff": 708927,
+          "normalised_deleted_mass": 0.007295495569422774,
+          "rare_index": 44308
+        },
+        {
+          "deleted_harmonic_mass": 0.11903214516854334,
+          "integer_cutoff": 1919487,
+          "normalised_deleted_mass": 0.008227515563336446,
+          "rare_index": 119968
+        },
+        {
+          "deleted_harmonic_mass": 0.12637725558218704,
+          "integer_cutoff": 5197135,
+          "normalised_deleted_mass": 0.00817255412081782,
+          "rare_index": 324821
+        },
+        {
+          "deleted_harmonic_mass": 0.14712817938419806,
+          "integer_cutoff": 14071519,
+          "normalised_deleted_mass": 0.008938711318484425,
+          "rare_index": 879470
+        },
+        {
+          "deleted_harmonic_mass": 0.15382715605443545,
+          "integer_cutoff": 31363951,
+          "normalised_deleted_mass": 0.008911745752152578,
+          "rare_index": 1960247
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999994314693107,
+      "minimum_step_to_target_ratio": 5.923481403718332,
+      "non_binary_max_selected_classes": 134455,
+      "policy": "jitter",
+      "schedule_seed": 5427157099818001357,
+      "selected_classes": 134455,
+      "signed_metrics": {
+        "latest_drop": 2.6965566331846325e-05,
+        "latest_rise": 0.0007661571976666053,
+        "latest_two_sided_floor": 2.6965566331846325e-05,
+        "recent_two_cycle_floor": 0.0002317135927660651,
+        "second_largest_recent_drop": 0.0002317135927660651,
+        "second_largest_recent_rise": 0.0015197091655827152,
+        "tail_difference_count": 11,
+        "tail_drop_count": 6,
+        "tail_rise_count": 5
+      },
+      "theta": 0.874138801013441
+    },
+    {
+      "N": 129898,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 6,
+      "cell_modulus": 5,
+      "cell_residue": 1,
+      "certified_original_survivor_density_lower_bound": 0.55,
+      "certified_rare_index_survivor_density_lower_bound": 0.8,
+      "deleted_bitmap_sha256": "f3084abd37402cfb6606d64800e5edf5fc56a9fb1eee60ed1da8dd1ba306c2c9",
+      "echo_events_that_newly_deleted_points": 9028,
+      "endpoint_count": 9,
+      "growth": 3.474290061233016,
+      "last_normalised_deleted_mass": 0.0056005024269854915,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.02016217013121038,
+          "integer_cutoff": 319,
+          "normalised_deleted_mass": 0.0034972249439348423,
+          "rare_index": 20
+        },
+        {
+          "deleted_harmonic_mass": 0.021389163996241054,
+          "integer_cutoff": 1151,
+          "normalised_deleted_mass": 0.0030346185291109276,
+          "rare_index": 72
+        },
+        {
+          "deleted_harmonic_mass": 0.036870486040637876,
+          "integer_cutoff": 4047,
+          "normalised_deleted_mass": 0.004439161995194696,
+          "rare_index": 253
+        },
+        {
+          "deleted_harmonic_mass": 0.04020346284473918,
+          "integer_cutoff": 14111,
+          "normalised_deleted_mass": 0.004207711506299964,
+          "rare_index": 882
+        },
+        {
+          "deleted_harmonic_mass": 0.05576723761272289,
+          "integer_cutoff": 49071,
+          "normalised_deleted_mass": 0.005163143805010381,
+          "rare_index": 3067
+        },
+        {
+          "deleted_harmonic_mass": 0.06020641080730106,
+          "integer_cutoff": 170543,
+          "normalised_deleted_mass": 0.00499773358575907,
+          "rare_index": 10659
+        },
+        {
+          "deleted_harmonic_mass": 0.07577477806149474,
+          "integer_cutoff": 592559,
+          "normalised_deleted_mass": 0.005700692543333698,
+          "rare_index": 37035
+        },
+        {
+          "deleted_harmonic_mass": 0.08135259000815315,
+          "integer_cutoff": 2058767,
+          "normalised_deleted_mass": 0.005596005551068323,
+          "rare_index": 128673
+        },
+        {
+          "deleted_harmonic_mass": 0.08147102991628327,
+          "integer_cutoff": 2078367,
+          "normalised_deleted_mass": 0.0056005024269854915,
+          "rare_index": 129898
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999976898375956,
+      "minimum_step_to_target_ratio": 7.0394736842105265,
+      "non_binary_max_selected_classes": 4176,
+      "policy": "fraction",
+      "schedule_seed": 8070750974959628972,
+      "selected_classes": 4176,
+      "signed_metrics": {
+        "latest_drop": 0.00010468699226537457,
+        "latest_rise": 4.496875917168325e-06,
+        "latest_two_sided_floor": 4.496875917168325e-06,
+        "recent_two_cycle_floor": 0.00023145048889473222,
+        "second_largest_recent_drop": 0.00023145048889473222,
+        "second_largest_recent_rise": 0.0009554322987104166,
+        "tail_difference_count": 8,
+        "tail_drop_count": 4,
+        "tail_rise_count": 4
+      },
+      "theta": 0.8368022839381234
+    },
+    {
+      "N": 50199,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 14,
+      "cell_modulus": 3,
+      "cell_residue": 2,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "a6d7db9a4a2a0a0e8c3415d25d1ba7e686a69555527283aaa91667e877a0f452",
+      "echo_events_that_newly_deleted_points": 3030,
+      "endpoint_count": 6,
+      "growth": 4.482253435180171,
+      "last_normalised_deleted_mass": 0.0036372859659553405,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.016927363404317806,
+          "integer_cutoff": 1983,
+          "normalised_deleted_mass": 0.002229524119066418,
+          "rare_index": 62
+        },
+        {
+          "deleted_harmonic_mass": 0.017471622724837637,
+          "integer_cutoff": 9023,
+          "normalised_deleted_mass": 0.0019183706884868305,
+          "rare_index": 282
+        },
+        {
+          "deleted_harmonic_mass": 0.03312559556567424,
+          "integer_cutoff": 40575,
+          "normalised_deleted_mass": 0.003121843810403432,
+          "rare_index": 1268
+        },
+        {
+          "deleted_harmonic_mass": 0.0350199793447984,
+          "integer_cutoff": 181983,
+          "normalised_deleted_mass": 0.002891424842536982,
+          "rare_index": 5687
+        },
+        {
+          "deleted_harmonic_mass": 0.050645191911632484,
+          "integer_cutoff": 815839,
+          "normalised_deleted_mass": 0.0037206358311757024,
+          "rare_index": 25495
+        },
+        {
+          "deleted_harmonic_mass": 0.0519749456716244,
+          "integer_cutoff": 1606367,
+          "normalised_deleted_mass": 0.0036372859659553405,
+          "rare_index": 50199
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.999803520905376,
+      "minimum_step_to_target_ratio": 7.071428571428571,
+      "non_binary_max_selected_classes": 5660,
+      "policy": "jitter",
+      "schedule_seed": 480943932183270621,
+      "selected_classes": 5660,
+      "signed_metrics": {
+        "latest_drop": 8.334986522036186e-05,
+        "latest_rise": 0.0008292109886387203,
+        "latest_two_sided_floor": 8.334986522036186e-05,
+        "recent_two_cycle_floor": 0.00023041896786644978,
+        "second_largest_recent_drop": 0.00023041896786644978,
+        "second_largest_recent_rise": 0.0008292109886387203,
+        "tail_difference_count": 5,
+        "tail_drop_count": 3,
+        "tail_rise_count": 2
+      },
+      "theta": 0.6465378530689746
+    },
+    {
+      "N": 71874,
+      "Q": 32,
+      "attack_phase": 0,
+      "base": 15,
+      "cell_modulus": 3,
+      "cell_residue": 0,
+      "certified_original_survivor_density_lower_bound": 0.5208333333333334,
+      "certified_rare_index_survivor_density_lower_bound": 0.6666666666666667,
+      "deleted_bitmap_sha256": "46a3645004eb3dae0cb17acbb9958769f1ddc89e12142e3c6d3a537c7bd4c284",
+      "echo_events_that_newly_deleted_points": 3881,
+      "endpoint_count": 7,
+      "growth": 4.042876825231392,
+      "last_normalised_deleted_mass": 0.0033902916392659225,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.015793815248449427,
+          "integer_cutoff": 1919,
+          "normalised_deleted_mass": 0.0020892507370026446,
+          "rare_index": 60
+        },
+        {
+          "deleted_harmonic_mass": 0.015930895440361695,
+          "integer_cutoff": 7871,
+          "normalised_deleted_mass": 0.0017758333834945995,
+          "rare_index": 246
+        },
+        {
+          "deleted_harmonic_mass": 0.030451007546963994,
+          "integer_cutoff": 31935,
+          "normalised_deleted_mass": 0.002936039266649483,
+          "rare_index": 998
+        },
+        {
+          "deleted_harmonic_mass": 0.031845293935701256,
+          "integer_cutoff": 129215,
+          "normalised_deleted_mass": 0.0027058087843726424,
+          "rare_index": 4038
+        },
+        {
+          "deleted_harmonic_mass": 0.04639653772768863,
+          "integer_cutoff": 522527,
+          "normalised_deleted_mass": 0.003523850497444331,
+          "rare_index": 16329
+        },
+        {
+          "deleted_harmonic_mass": 0.04877710215776798,
+          "integer_cutoff": 2112639,
+          "normalised_deleted_mass": 0.0033492824433665005,
+          "rare_index": 66020
+        },
+        {
+          "deleted_harmonic_mass": 0.04966236612894777,
+          "integer_cutoff": 2299967,
+          "normalised_deleted_mass": 0.0033902916392659225,
+          "rare_index": 71874
+        }
+      ],
+      "maximum_step_to_target_ratio": 15.999958258546563,
+      "minimum_step_to_target_ratio": 9.024096385542169,
+      "non_binary_max_selected_classes": 5249,
+      "policy": "jitter",
+      "schedule_seed": 1211242610192269732,
+      "selected_classes": 5249,
+      "signed_metrics": {
+        "latest_drop": 0.0001745680540778307,
+        "latest_rise": 4.1009195899421955e-05,
+        "latest_two_sided_floor": 4.1009195899421955e-05,
+        "recent_two_cycle_floor": 0.00023023048227684053,
+        "second_largest_recent_drop": 0.00023023048227684053,
+        "second_largest_recent_rise": 0.0008180417130716888,
+        "tail_difference_count": 6,
+        "tail_drop_count": 3,
+        "tail_rise_count": 3
+      },
+      "theta": 0.7995518437697866
+    },
+    {
+      "N": 537522,
+      "Q": 16,
+      "attack_phase": 0,
+      "base": 5,
+      "cell_modulus": 5,
+      "cell_residue": 3,
+      "certified_original_survivor_density_lower_bound": 0.55,
+      "certified_rare_index_survivor_density_lower_bound": 0.8,
+      "deleted_bitmap_sha256": "5638fc31422af7e102dabf2cca681a620a7d79f6d5fbbdb313d072138f817255",
+      "echo_events_that_newly_deleted_points": 41515,
+      "endpoint_count": 14,
+      "growth": 2.3317554075301223,
+      "last_normalised_deleted_mass": 0.005535210545458693,
+      "last_sixteen_endpoints": [
+        {
+          "deleted_harmonic_mass": 0.007874015748031496,
+          "integer_cutoff": 175,
+          "normalised_deleted_mass": 0.0015245579948107455,
+          "rare_index": 11
+        },
+        {
+          "deleted_harmonic_mass": 0.007874015748031496,
+          "integer_cutoff": 431,
+          "normalised_deleted_mass": 0.001298034197721793,
+          "rare_index": 27
+        },
+        {
+          "deleted_harmonic_mass": 0.019667951773888845,
+          "integer_cutoff": 1039,
+          "normalised_deleted_mass": 0.0028315450845753814,
+          "rare_index": 65
+        },
+        {
+          "deleted_harmonic_mass": 0.02019789348030114,
+          "integer_cutoff": 2447,
+          "normalised_deleted_mass": 0.002588604660137552,
+          "rare_index": 153
+        },
+        {
+          "deleted_harmonic_mass": 0.030710890499185666,
+          "integer_cutoff": 5743,
+          "normalised_deleted_mass": 0.0035480387742972213,
+          "rare_index": 359
+        },
+        {
+          "deleted_harmonic_mass": 0.03286169194530589,
+          "integer_cutoff": 13423,
+          "normalised_deleted_mass": 0.003457405887989766,
+          "rare_index": 839
+        },
+        {
+          "deleted_harmonic_mass": 0.0434491812991986,
+          "integer_cutoff": 31327,
+          "normalised_deleted_mass": 0.00419708195168932,
+          "rare_index": 1958
+        },
+        {
+          "deleted_harmonic_mass": 0.04634013578123092,
+          "integer_cutoff": 73071,
+          "normalised_deleted_mass": 0.0041378125395245885,
+          "rare_index": 4567
+        },
+        {
+          "deleted_harmonic_mass": 0.05692871806846842,
+          "integer_cutoff": 170415,
+          "normalised_deleted_mass": 0.00472594689233943,
+          "rare_index": 10651
+        },
+        {
+          "deleted_harmonic_mass": 0.06041387432176215,
+          "integer_cutoff": 397391,
+          "normalised_deleted_mass": 0.004685906517896646,
+          "rare_index": 24837
+        },
+        {
+          "deleted_harmonic_mass": 0.07099777940276511,
+          "integer_cutoff": 926655,
+          "normalised_deleted_mass": 0.005167482348939408,
+          "rare_index": 57916
+        },
+        {
+          "deleted_harmonic_mass": 0.0749563075673208,
+          "integer_cutoff": 2160767,
+          "normalised_deleted_mass": 0.00513893062936443,
+          "rare_index": 135048
+        },
+        {
+          "deleted_harmonic_mass": 0.08553891003750917,
+          "integer_cutoff": 5038415,
+          "normalised_deleted_mass": 0.005542740585639975,
+          "rare_index": 314901
+        },
+        {
+          "deleted_harmonic_mass": 0.08838244247935662,
+          "integer_cutoff": 8600351,
+          "normalised_deleted_mass": 0.005535210545458693,
+          "rare_index": 537522
+        }
+      ],
+      "maximum_step_to_target_ratio": 7.999971419316731,
+      "minimum_step_to_target_ratio": 6.875,
+      "non_binary_max_selected_classes": 28340,
+      "policy": "fraction",
+      "schedule_seed": 334668998196792759,
+      "selected_classes": 28340,
+      "signed_metrics": {
+        "latest_drop": 7.5300401812822965e-06,
+        "latest_rise": 0.0004038099562755446,
+        "latest_two_sided_floor": 7.5300401812822965e-06,
+        "recent_two_cycle_floor": 0.00022652379708895253,
+        "second_largest_recent_drop": 0.00022652379708895253,
+        "second_largest_recent_rise": 0.0009594341141596695,
+        "tail_difference_count": 13,
+        "tail_drop_count": 7,
+        "tail_rise_count": 6
+      },
+      "theta": 0.9996625721193889
+    }
+  ],
+  "completed_unix": 1787675368.7001047,
+  "elapsed_seconds": 5400.040083444997,
+  "exact_rare_indices_simulated": 45842641967,
+  "guard_required": true,
+  "interpretation_limit": "Finite training evidence only; every retained rule must be frozen and blindly extended before it can survive falsification.",
+  "max_index": 2000000,
+  "requested_seconds": 5400,
+  "schema_version": "erdos-25.fixed-rule-signed-search.v1",
+  "score_definition": "minimum of the second-largest rise and second-largest recovery drop among the final fourteen endpoint differences",
+  "seed": 25082506,
+  "simulated_trials": 85267,
+  "started_unix": 1787669965.5440722,
+  "status": "completed",
+  "trials": 139851
+}

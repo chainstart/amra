@@ -1,0 +1,37 @@
+{
+  "schema_version": "amra.long-proof-time-budget.v1",
+  "total_seconds": 14400,
+  "segments": [
+    {
+      "name": "fixed_rule_training",
+      "seconds": 5400,
+      "guarded_compute": true
+    },
+    {
+      "name": "blind_fixed_rule_extension",
+      "seconds": 5400,
+      "guarded_compute": true
+    },
+    {
+      "name": "nonaffine_near_extremizer_search",
+      "seconds": 2700,
+      "guarded_compute": true
+    },
+    {
+      "name": "independent_seed_confirmation_and_replay",
+      "seconds": 865,
+      "originally_planned_seconds": 900,
+      "guarded_compute": true,
+      "adjustment_reason": "Reduced by 35 seconds after completed atomic trials overran the first three segment deadlines; actual four-segment search time was 14399.03451768 seconds."
+    }
+  ],
+  "requested_segment_seconds_after_overrun_adjustment": 14365,
+  "memory_guard": {
+    "launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "memory_high_gib": 30,
+    "memory_max_gib": 34,
+    "memory_swap_max_gib": 4,
+    "tasks_max": 512
+  },
+  "stopping_rule": "Stop only at a proved theorem/counterexample gate, the full 14400 guarded seconds, or a safety failure. Structural derivation and synthesis run concurrently and do not reduce the four guarded hours."
+}
