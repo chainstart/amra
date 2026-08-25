@@ -1,0 +1,65 @@
+{
+  "schema_version": "amra.parallel-proof-run.v1",
+  "run_id": "bounded-hybrid-rank3-2026-08-25",
+  "created_at": "2026-08-25T10:55:00+08:00",
+  "updated_at": "2026-08-25T11:16:52+08:00",
+  "status": "checkpointed_bounded_continue",
+  "supersedes_checkpoint": "parallel_proof_run_round6.json",
+  "resource_policy": {
+    "mode": "single_agent_bounded_symbolic_round",
+    "erdos_776": 1.0,
+    "erdos_786_distinct": 0.0,
+    "larger_cutoff": false,
+    "multi_agent_expansion": false
+  },
+  "resource_guard": {
+    "launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "memory_swap_max": "4G",
+    "tasks_max": 512,
+    "primary_scan_scope": "openmath-task-20260825-110424-18428.scope",
+    "validation_scope": "openmath-task-20260825-111652-20387.scope"
+  },
+  "processes": [
+    {
+      "process_id": "P776-HYBRID-RANK3",
+      "problem_id": "erdos-776",
+      "campaign_id": "erdos-776-rank8-global-20260824",
+      "status": "conditional_certificate_retained_actual_premise_open",
+      "phase_lock": "survivor_deepening",
+      "exact_task": "Prove or refute a joint rank-four position/amplitude condition sufficient for the Round 5 rank-three budget.",
+      "proved_claim": "Two shared leading Z4 terms or (delta_4)_+<=U_3(a-1) implies delta_3<=a<=U_2(a-1), hence LTJ.",
+      "open_claim": "Every actual wall V>=125 satisfies that disjunction.",
+      "kill_test": "The union covers all 1876 existing bounded walls; no larger cutoff was searched.",
+      "exact_negative": "A synthetic V=125 low-rank state satisfies the known recurrences and diagonal caps but violates both the disjunction and rank-three budget, so new actual upstream coupling is necessary."
+    },
+    {
+      "process_id": "P786-WATCH",
+      "problem_id": "erdos-786-distinct",
+      "status": "watchlist_no_allocation",
+      "allocation": 0.0
+    }
+  ],
+  "round_checkpoint": {
+    "erdos_776": {
+      "phase": "survivor_deepening",
+      "gate_result": "materially new conditional certificate, no decisive-lemma promotion",
+      "next_permitted_action": "A bounded symbolic attack on the actual higher-rank coupling behind the hybrid dichotomy; stop if it reduces to an unbounded carry-state description equivalent to LTJ.",
+      "forbidden_next_actions": [
+        "increase the finite cutoff",
+        "assume a fixed common prefix at every rank",
+        "derive the premise from low-rank diagonal domination alone",
+        "claim LTJ or rank-eight closure from finite coverage"
+      ]
+    },
+    "portfolio_correction": "Round 6's no-immediate-compute conclusion is narrowed: #776 earns limited symbolic continuation because Round 7 produced a new falsifiable all-parameter certificate; #786 remains unallocated.",
+    "validation": {
+      "hybrid_verifier": "PASS",
+      "campaign": "valid",
+      "package_tests": "8 passed"
+    },
+    "promotion": "none",
+    "public_problem": "open"
+  }
+}

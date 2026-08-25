@@ -18,7 +18,9 @@
     "evidence/ROUND4_LTJ_DIAGONAL_LOSS.md proves the all-parameter actual-orbit identity L_(q-1)=T_q+P_q with T_q,P_q>=0 and hence diagonal domination E_(q+1)^(V+1)<=S_q(E_q^V); it also proves arbitrarily long canonical plateaus with positive gap but zero propagated shadow loss.",
     "evidence/verify_round4_ltj_diagonal_loss.py guards selected actual rows, two complete aligned recurrence instances, and 2114 exact plateau identities without extrapolating the finite LTJ scan.",
     "evidence/ROUND5_ADJOINT_SUFFIX_BUDGET.md proves the exact all-parameter adjoint budget ladder, then uses actual counterexamples to refute its fixed-rank five, six, and seven subroutes.",
-    "evidence/verify_round5_adjoint_suffix_budget.py guards the nonlinear shadow inequalities and reconstructs the actual V=186, 845, and 1435 counterexamples; evidence/round5_adjoint_budget_falsifier_125_2000.json retains the finite kill-test summary."
+    "evidence/verify_round5_adjoint_suffix_budget.py guards the nonlinear shadow inequalities and reconstructs the actual V=186, 845, and 1435 counterexamples; evidence/round5_adjoint_budget_falsifier_125_2000.json retains the finite kill-test summary.",
+    "evidence/ROUND7_HYBRID_RANK3_CERTIFICATE.md proves that two shared leading Z4 terms or (delta_4)_+<=U_3(a-1) implies delta_3<=a and hence LTJ; the actual disjunctive premise remains open.",
+    "evidence/verify_round7_hybrid_rank3.py guards the hybrid conventions, its exact synthetic local-information no-go, and the bounded actual-orbit kill test without extrapolation."
   ],
   "dependency_gaps": [
     "The displayed high-rank separator and rank-14 one-Lipschitz clauses remain unproved for unbounded V; the finite V<=500 scan cannot be extrapolated.",
@@ -31,7 +33,8 @@
     "Round 3 refutes the logarithmic rank-six carry-height survivor on the infinite actual family V=2^m, m>=21; that route is closed.",
     "Round 3 also refutes the fixed actual-tail target Delta B_2<=3 at V=1471->1472. The remaining M01 mechanism is the conditional leading-top jump bound (Delta B_2)_+<=a(B_2), or a sufficient all-parameter lower bound on accumulated actual diagonal carry losses.",
     "Round 4 proves diagonal domination and the exact LTJ threshold L_4>=S_2(B)-U_2(B-V+a-1), but canonical plateaus refute every uniform positive propagated-loss lower bound depending only on the gap L_q. The survivor now requires actual canonical plateau-position or effective suffix-separator information.",
-    "Round 5 proves an exact adaptive adjoint budget ladder but refutes its fixed-rank five, six, and seven subroutes at actual walls V=1435, V=845, and V=186. Only rank-three/rank-four single-coordinate targets or a genuinely joint multirank carry invariant remain."
+    "Round 5 proves an exact adaptive adjoint budget ladder but refutes its fixed-rank five, six, and seven subroutes at actual walls V=1435, V=845, and V=186. Only rank-three/rank-four single-coordinate targets or a genuinely joint multirank carry invariant remain.",
+    "Round 7 proves a hybrid rank-three certificate, but the actual-orbit dichotomy between two-term Z4 prefix retention and (delta_4)_+<=U_3(a-1) is unproved. A synthetic local state shows that the existing low-rank recurrence and diagonal domination cannot establish this premise or the rank-three budget without new upstream coupling."
   ],
   "round_2_status": {
     "outcome": "conditional_reduction_and_structural_obstruction_no_closure",
@@ -62,5 +65,13 @@
     "refuted": "Actual zero-seed walls refute the fixed-rank targets: delta_5=622>A_5=484 at V=1435, delta_6=250>A_6=211 at V=845, and delta_7=14>A_7=9 at V=186. Each wall still satisfies LTJ.",
     "open": "Prove or refute the rank-three or rank-four adjoint target, or find a joint multirank carry invariant that uses compensation between suffix increments. LTJ and all downstream interfaces remain open.",
     "scope": "The budget implication and each displayed counterexample are exact. Least-failure claims are only within the guarded finite range 125<=V<=2000 and are not extrapolated."
+  },
+  "round_7_status": {
+    "outcome": "all_parameter_conditional_hybrid_certificate_actual_dichotomy_open",
+    "proved": "If adjacent Z4 words share their first two canonical terms, or their positive increment is at most U_3(a-1), then delta_3<=a<=U_2(a-1), hence LTJ.",
+    "finite_kill_test": "All 1876 walls on 125<=V<=2000 satisfy the disjunction: 1838 use the prefix branch, 1875 use the amplitude branch, and the union has no uncovered wall.",
+    "refuted_inference": "The known low-rank recurrences and Round 4 diagonal domination alone imply the hybrid premise or rank-three budget.",
+    "open": "Prove or refute the actual higher-rank carry dichotomy for every V>=125. Fixed higher-rank common-prefix templates and larger ordinary scans are not admitted substitutes.",
+    "scope": "The hybrid implication and synthetic no-go are exact. Actual-orbit coverage remains finite evidence only; LTJ and every downstream interface remain open."
   }
 }

@@ -28,5 +28,11 @@
     "M776G-01": "rank-three and rank-four targets have no counterexample on the guarded finite falsifier 125<=V<=2000, but neither has an all-parameter proof",
     "fixed_common_prefix": "refuted on the actual orbit: Z3 has common-prefix length zero at V=300->301, and the full finite screen also contains a Z4 zero-prefix wall",
     "campaign": "remain at survivor_deepening but pause ordinary scans; resume only with a materially new all-parameter plateau-position or joint multirank invariant"
+  },
+  "round_7_route_status": {
+    "M776G-01": "retained through the hybrid rank-three certificate: two shared Z4 prefix terms or the small-amplitude bound (delta_4)_+<=U_3(a-1) is sufficient for LTJ",
+    "actual_hybrid_premise": "open for all V>=125; it covers every wall in the bounded 125<=V<=2000 kill test but finite coverage is not extrapolated",
+    "local_information_no_go": "the low-rank recurrences plus Round 4 diagonal domination do not imply the hybrid premise or even the rank-three budget; an exact synthetic state at V=125 refutes that inference while still satisfying LTJ",
+    "campaign": "limited symbolic continuation is justified only on the actual higher-rank coupling needed for the hybrid dichotomy; larger scans and fixed higher-rank prefix templates remain non-progress"
   }
 }
