@@ -25,7 +25,9 @@
     "audit/direct_fixed_D_no_go_review.md",
     "evidence/absorber_cluster_resonance_audit.md",
     "evidence/free_multiplier_cluster_avoidance.md",
-    "audit/free_multiplier_cross_audit.md"
+    "audit/free_multiplier_cross_audit.md",
+    "evidence/free_multiplier_bilinear_counting_audit.md",
+    "audit/free_multiplier_bilinear_cross_audit.md"
   ],
   "dependency_gaps": [
     "The proved bound retains the full exp((1+o(1))k) scale and therefore satisfies none of the campaign promotion conditions.",
@@ -61,6 +63,8 @@
     "The polynomial radius needed to neutralize the old fixed-D lower bound is |a|>>k^(r-D), far beyond the proved divisor range. Maynard's theorem gives no distribution of binom(k+A,A) modulo the changing cluster product, so neither complete neutralization nor an affine cluster counterexample is proved for the canonical multiplier alone.",
     "Allowing q=Q_0*u changes the conclusion for every fixed-rank bounded-diameter obstruction. For N=O_R(k) cluster supports and thresholds R_S=P_S/[k^D(log k)^(C|S|)], exact periodic counting gives at most (2 floor(R_S)+1)(U/P_S+1) bad multipliers per support. With D>=2 and polynomial U, the union of resonance-bad multipliers and multipliers sharing a remaining prime has density o_R(1).",
     "A diagonal cutoff R_0(k)->infinity can be chosen with R_0 log k=o(k), C_{R_0}<=k^(1/4), and bounded-pattern Vandermonde constants below k. Then U=C_{R_0}(2k)^(R_0+4)=exp(o(k)) simultaneously moves every rank<=R_0 bounded-diameter cluster resonance beyond P_S/[k^D(log k)^(C|S|)] while preserving all remaining-prime inverses.",
-    "The free-multiplier lemma bounds only the known cluster character and its conjugate at O(2^r k^(r+D)(log k)^(Cr)). It does not bound other characters, arbitrary/high-rank supports, the cross-support signed sum, or the many-seed prefix transfer, and therefore does not prove an Erdos-451 upper bound."
+    "The free-multiplier lemma bounds only the known cluster character and its conjugate at O(2^r k^(r+D)(log k)^(Cr)). It does not bound other characters, arbitrary/high-rank supports, the cross-support signed sum, or the many-seed prefix transfer, and therefore does not prove an Erdos-451 upper bound.",
+    "Averaging q=Q_0*u over u<=U gives exactly a positive divisor-weighted count on s<=UH. For every subexponential U,H the actual full 451 conductor P is much larger than UH and the genuine full-support character a=1 has |B_P(1)|>=cos(pi/6)UH. Exact bilinear second moments and absolute support ledgers therefore do not close the interface: conductor-only pointwise decay, separated global Cauchy--Schwarz, and characterwise triangle summation are refuted as methods. A signed coupling of the inverse-binomial/Vandermonde Fourier coefficient with B_{P_S}(a) remains open.",
+    "Restricting u,t to units gives a distinct exact multiplicative-character diagonalization with principal density delta^times=product (p-k-1)/(p-1)=(1-o(1))D. Low-conductor complete-period cancellation is disrupted by the outer principal unit sieve and needs weighted character sums; full conductor P=exp(Theta(k)) lies beyond Burgess for U,H=exp(o(k)), while separated group L2 again costs exp(Theta(k)). The weighted coefficient--character-sum interface remains open."
   ]
 }

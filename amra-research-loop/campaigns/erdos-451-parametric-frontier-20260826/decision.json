@@ -1,7 +1,7 @@
 {
   "outcome": "promote",
   "success_condition": "main_exponent_improved",
-  "reason": "The audited promotion basis is unchanged: the optimized least-order argument moves the source exponent constant from 1/20 to every c<19/120 at theta=21/40, and guarded Lean proves c*(theta)=(1-theta)/3 for 9/23<theta<1 under PrimeIntervalInput(theta), with exact feasibility of BalancedFourRangeParameters. A post-promotion adaptive construction now removes the balanced theta>9/23 artifact and gives the same conditional frontier for every 0<theta<1; an explicitly narrowed location-blind deterministic-tail certificate barrier shows no c improvement inside that larger old architecture. The extension passed a separate same-model Codex cross-reconstruction but remains outside the inherited Lean and external-audit claim. The BHP constant is unchanged.",
+  "reason": "The audited promotion basis is unchanged: the optimized least-order argument moves the source exponent constant from 1/20 to every c<19/120 at theta=21/40, and guarded Lean proves c*(theta)=(1-theta)/3 for 9/23<theta<1 under PrimeIntervalInput(theta), with exact feasibility of BalancedFourRangeParameters. A post-promotion adaptive construction removes the balanced theta>9/23 artifact and gives the same conditional frontier for every 0<theta<1; an explicitly narrowed location-blind deterministic-tail certificate barrier shows no c improvement inside that larger old architecture. The extension passed a separate same-model Codex cross-reconstruction; its decisive U/V/max selection algebra, strict-margin feasibility, and arbitrary-lambda r>=2 raw Konyagin interface are now kernel-checked for 0<theta<1. The final adaptive ParametricRangeBuilder still needs the positive-real max-scale lift, least stopping-order construction, and uniform third/additive-term asymptotics, so no wider final divisor theorem is claimed. The BHP constant is unchanged.",
   "evidence": [
     "evidence/parametric_frontier_proof.md",
     "audit/independent_reconstruction.md",
@@ -9,6 +9,7 @@
     "evidence/lean_parametric_frontier.json",
     "evidence/lean_parametric_ranges.md",
     "evidence/lean_parametric_ranges.json",
+    "audit/adaptive_parameter_core_cross_audit.md",
     "evidence/lean_theta_interface_audit.md",
     "evidence/theta_endpoint_audit.md",
     "evidence/adaptive_unbalanced_partition_frontier.md",

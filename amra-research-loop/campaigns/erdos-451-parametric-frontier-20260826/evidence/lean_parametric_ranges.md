@@ -19,6 +19,31 @@ four-field `ParametricRangePackage theta c`.  Thus the conditional
 `PI(theta)` theorem previously exposed only as an interface is now fully
 formalized.
 
+The same file now separately kernel-checks the adaptive unbalanced parameter
+core for every
+
+```text
+0 < theta < 1,  0 < c < (1-theta)/3.
+```
+
+`adaptiveFrontierParameters_iff` proves exact feasibility of
+`1<Q`, `0<a`, `c<a`, `3Qa<1-theta`.  With `K=log k`, `M=loglog k`, and
+`logN=log(nr!)`, the definitions `adaptiveLogU`, `adaptiveLogV`, and
+`adaptiveLogZ=max(logN,adaptiveLogV)` encode the adaptive stopping scales.
+`adaptive_log_selection_budget` proves `V<=U`, both first-term logarithms at
+most `-QM`, and
+
+```text
+log(lambda) <= (theta/r) K + 3 Q M.
+```
+
+This is a formal parameter theorem, not a new final divisor theorem.  The
+widest compiled `ParametricRangeBuilder` remains the balanced
+`9/23<theta<1` builder.  The new `large_card_raw_adaptive_at` does expose the
+upstream theorem at arbitrary real `lambda>=1` and `r>=2`; the remaining glue
+is the actual positive-real max scale, least stopping-order construction, and
+uniform third/additive-term asymptotics.
+
 ## Four range fields
 
 1. `ParametricSmall.case_small`:
@@ -93,8 +118,8 @@ unconditional BHP input `theta=21/40`, it specializes to `c<19/120`.
 
 ## Axiom and resource audit
 
-All parameterized large lemmas, the complete builder, and the final abstract
-theorem report exactly
+All parameterized large lemmas, the adaptive parameter core, the complete
+balanced builder, and the final abstract theorem report exactly
 
 ```text
 [propext, Classical.choice, Quot.sound]

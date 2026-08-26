@@ -35,9 +35,39 @@
     "upper_no_go": "ParametricLarge.balancedFourRange_no_go_high",
     "scope": "The no-go certificate is only for the explicitly defined balanced four-range parameter method, not Erdős problem 451 or all possible refinements."
   },
+  "adaptive_parameter_core": {
+    "mathematical_status": "kernel_checked_logarithmic_parameter_core_not_final_builder",
+    "window": "0<theta<1 and 0<c<(1-theta)/3",
+    "parameter_predicate": "ParametricLarge.AdaptiveFrontierParameters",
+    "parameter_equivalence": "For c>0, AdaptiveFrontierParameters theta c iff theta<1 and c<(1-theta)/3",
+    "definitions": [
+      "ParametricLarge.adaptiveLogU",
+      "ParametricLarge.adaptiveLogV",
+      "ParametricLarge.adaptiveLogZ",
+      "ParametricLarge.adaptiveLogT1",
+      "ParametricLarge.adaptiveLogT2",
+      "ParametricLarge.adaptiveLogLambda"
+    ],
+    "theorems": [
+      "ParametricLarge.large_card_raw_adaptive_at",
+      "ParametricLarge.adaptiveFrontierParameters_of_wide",
+      "ParametricLarge.adaptiveFrontierParameters_iff",
+      "ParametricLarge.adaptiveLogV_le_logU",
+      "ParametricLarge.adaptive_log_selection_budget",
+      "ParametricLarge.adaptive_parameter_certificate_wide"
+    ],
+    "proved_budgets": [
+      "log(V_r)<=log(U_r)",
+      "log(T1)<=-Q*loglog(k)",
+      "log(T2)<=-Q*loglog(k)",
+      "log(lambda)<=(theta/r)*log(k)+3Q*loglog(k)"
+    ],
+    "raw_konyagin_interface": "ParametricLarge.large_card_raw_adaptive_at kernel-checks the upstream estimate for arbitrary real lambda>=1 and r>=2, without balanced-scale or nr!<=k^(r+theta) assumptions.",
+    "remaining_glue": "A final 0<theta<1 ParametricRangeBuilder still requires lifting the logarithmic max selection to an actual positive-real lambda, constructing the least stopping order with its factorial inequalities, and proving the adaptive uniform third/additive-term asymptotics. No wider final divisor theorem is claimed."
+  },
   "guard": {
     "wrapper": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
-    "unit": "openmath-task-20260826-171842-166335.scope",
+    "unit": "openmath-task-20260826-184348-204220.scope",
     "memory_high": "30G",
     "memory_max": "34G",
     "swap_max": "4G",
@@ -46,9 +76,9 @@
   "replay": {
     "command": "cd formal && bash verify_guarded.sh",
     "exit_status": 0,
-    "ranges_wall_seconds": 4.52,
-    "ranges_peak_rss_kib": 911760,
-    "whole_replay_peak_rss_kib": 6664956,
+    "ranges_wall_seconds": 88.55,
+    "ranges_peak_rss_kib": 6997116,
+    "whole_replay_peak_rss_kib": 6997116,
     "swap_count": 0,
     "logs": [
       "formal/logs/ranges-build.log",
@@ -77,13 +107,34 @@
       "Classical.choice",
       "Quot.sound"
     ],
+    "ParametricLarge.adaptiveFrontierParameters_iff": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.large_card_raw_adaptive_at": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.adaptive_log_selection_budget": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.adaptive_parameter_certificate_wide": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
     "sorryAx_present": false,
     "bhp_present_in_parametric_theorem": false,
     "new_unexplained_axiom_present": false
   },
   "source_sha256": {
-    "formal/ParametricRanges.lean": "6bd4e43a986b6a4cb97c88a784215ea437dfb5104f3095e2557e9560412fafb9",
+    "formal/ParametricRanges.lean": "72dc11234659507a96650729a3c3026a00f170f66cb6259d8eb56678524e91a4",
     "formal/ParametricInterface.lean": "1e26f0f1d2665e20ad2b5c7c6b7ebe93894e5ec712967104d74630376d451efe",
+    "formal/verify_inside_guard.sh": "2dbb4ed4e798c0ef7e42afc5b19f476660788445a056895cccd9cf31de720bb2",
     "formal/lakefile.toml": "2ab8618c84e5370963d53afe5e63736e8289edc3e471897564283aab06f6ad7c",
     "formal/lake-manifest.json": "4f88144c9db6bab6b1e0a7447a9e58bf4627b340fcc2fd9ef102a0925410cd0b"
   }

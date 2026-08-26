@@ -52,6 +52,36 @@ Lean's standard classical/propositional axioms, not on the fixed `bhp` axiom.
 The older `2/5 < theta < 3/5` theorem is retained as a compatibility
 corollary.
 
+The file now also contains a kernel-checked **adaptive unbalanced parameter
+core** on the full natural window
+
+```text
+0 < theta < 1,    0 < c < (1-theta)/3.
+```
+
+`AdaptiveFrontierParameters` proves exact feasibility of fixed `Q,a` with
+`1<Q`, `c<a`, and `3Qa<1-theta`.  The definitions `adaptiveLogU`,
+`adaptiveLogV`, and `adaptiveLogZ` encode the logarithms of the natural-proof
+scales `U_r`, `V_r`, and `max(nr!,V_r)`.  The theorem
+`adaptive_log_selection_budget` proves from the stopping and minimality
+inequalities that
+
+```text
+log V_r <= log U_r,
+log T1 <= -Q loglog(k),
+log T2 <= -Q loglog(k),
+log lambda <= (theta/r) log(k) + 3Q loglog(k).
+```
+
+This removes `theta>9/23` from the kernel-checked parameter algebra.  It does
+not yet change the widest compiled final divisor theorem: the existing
+balanced wrapper hardcodes `lamLargeAt`, but
+`large_card_raw_adaptive_at` now separately exposes the upstream Konyagin
+estimate for arbitrary real `lambda>=1` and every `r>=2`.  Completing the
+adaptive final builder still requires lifting the logarithmic max selection
+to an actual positive real `lambda`, constructing the least stopping order,
+and proving the analytic third/additive-term asymptotics.
+
 `balancedFourRangeParameters_iff` proves the exact feasibility certificate
 for this delimited balanced four-range method (assuming `c>0`): its parameter
 system exists if and only if

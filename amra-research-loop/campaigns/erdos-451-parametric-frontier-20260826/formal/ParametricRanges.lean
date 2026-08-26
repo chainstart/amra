@@ -1833,6 +1833,181 @@ lemma balancedFourRange_no_go_high (ϑ c : ℝ) (hc : 0 < c)
   rw [balancedFourRangeParameters_iff ϑ c hc]
   exact fun h => (not_lt_of_ge hϑ) h.2.1
 
+/-! ## Adaptive unbalanced logarithmic parameter core
+
+These definitions encode the logarithms of
+
+`U_r = k^(r+1) L^(-Q(2r-1))`,
+`V_r = k^(r+ϑ) L^(Q(r-1))`, and `Z=max(nr!,V_r)`.
+
+They isolate the parameter algebra from the analytic Konyagin invocation,
+whose existing wrapper above is specialized to the balanced scale. -/
+
+/-- The upstream Konyagin estimate exposed with arbitrary real `lambda>=1`
+and the sharp admissible order `r>=2`.  Unlike `large_card_raw_at`, this
+wrapper makes no balanced-scale or `nr!<=k^(r+theta)` assumption. -/
+lemma large_card_raw_adaptive_at (ϑ lam : ℝ)
+    (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1) (hlam : 1 ≤ lam)
+    (k : ℕ) (n : ℤ) (r : ℕ) (hkn : (k : ℤ) < n) (hr2 : 2 ≤ r)
+    (hrle : (r : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - ϑ)) :
+    ((badSetAt ϑ k n).card : ℝ) <
+      c₆ * (k : ℝ) ^ ϑ *
+        (((n : ℝ) * (Nat.factorial r : ℝ) * lam ^ r /
+              (k : ℝ) ^ (r + 1)) ^ ((2 * (r : ℝ) - 1)⁻¹) +
+          ((k : ℝ) ^ ((r : ℝ) + ϑ) /
+              ((n : ℝ) * (Nat.factorial r : ℝ) * lam ^ r)) ^
+            (((r : ℝ) - 1)⁻¹) +
+          (((r : ℝ) + 1) * lam / (k : ℝ)) ^ ((2 * (r : ℝ))⁻¹)) +
+        2 * (r : ℝ) * lam := by
+  exact konyagin_application lam ϑ hlam hϑ0 hϑ1 n k r hkn hr2 hrle
+
+def adaptiveLogU (Q K M : ℝ) (r : ℕ) : ℝ :=
+  ((r : ℝ) + 1) * K - Q * (2 * (r : ℝ) - 1) * M
+
+def adaptiveLogV (ϑ Q K M : ℝ) (r : ℕ) : ℝ :=
+  ((r : ℝ) + ϑ) * K + Q * ((r : ℝ) - 1) * M
+
+def adaptiveLogZ (ϑ Q K M logN : ℝ) (r : ℕ) : ℝ :=
+  max logN (adaptiveLogV ϑ Q K M r)
+
+def adaptiveLogT1 (ϑ Q K M logN : ℝ) (r : ℕ) : ℝ :=
+  (adaptiveLogZ ϑ Q K M logN r - ((r : ℝ) + 1) * K) /
+    (2 * (r : ℝ) - 1)
+
+def adaptiveLogT2 (ϑ Q K M logN : ℝ) (r : ℕ) : ℝ :=
+  (((r : ℝ) + ϑ) * K - adaptiveLogZ ϑ Q K M logN r) /
+    ((r : ℝ) - 1)
+
+def adaptiveLogLambda (ϑ Q K M logN : ℝ) (r : ℕ) : ℝ :=
+  (adaptiveLogZ ϑ Q K M logN r - logN) / (r : ℝ)
+
+/-- The strict parameter system needed by the adaptive stopping rule.  Unlike
+the balanced package, it has no artificial `theta>9/23` field. -/
+def AdaptiveFrontierParameters (ϑ c : ℝ) : Prop :=
+  ∃ Q a : ℝ, 1 < Q ∧ 0 < a ∧ c < a ∧ 3 * Q * a < 1 - ϑ
+
+lemma adaptiveFrontierParameters_of_wide (ϑ c : ℝ)
+    (hϑ1 : ϑ < 1) (hc : 0 < c) (hcfront : c < (1 - ϑ) / 3) :
+    AdaptiveFrontierParameters ϑ c := by
+  let f : ℝ := (1 - ϑ) / 3
+  let a : ℝ := (c + f) / 2
+  have hfpos : 0 < f := by dsimp [f]; nlinarith
+  have hcf : c < f := by simpa [f] using hcfront
+  have ha : 0 < a := by dsimp [a]; nlinarith
+  have hca : c < a := by dsimp [a]; nlinarith
+  have haf : a < f := by dsimp [a]; nlinarith
+  have hthree : 3 * a < 1 - ϑ := by
+    have : 3 * f = 1 - ϑ := by dsimp [f]; ring
+    nlinarith
+  have hratio : 1 < (1 - ϑ) / (3 * a) := by
+    rw [lt_div_iff₀ (by positivity)]
+    simpa [mul_assoc] using hthree
+  obtain ⟨Q, hQ, hQu⟩ := exists_between hratio
+  refine ⟨Q, a, hQ, ha, hca, ?_⟩
+  have hh := (lt_div_iff₀ (by positivity : 0 < 3 * a)).1 hQu
+  nlinarith
+
+/-- Exact feasibility of the adaptive strict-margin system. -/
+theorem adaptiveFrontierParameters_iff (ϑ c : ℝ) (hc : 0 < c) :
+    AdaptiveFrontierParameters ϑ c ↔
+      ϑ < 1 ∧ c < (1 - ϑ) / 3 := by
+  constructor
+  · rintro ⟨Q, a, hQ, ha, hca, hm⟩
+    have hQa : a < Q * a := by nlinarith
+    constructor
+    · nlinarith [mul_pos (mul_pos (by norm_num : (0 : ℝ) < 3)
+          (lt_trans zero_lt_one hQ)) ha]
+    · rw [lt_div_iff₀ (by norm_num : (0 : ℝ) < 3)]
+      nlinarith
+  · rintro ⟨hϑ1, hcfront⟩
+    exact adaptiveFrontierParameters_of_wide ϑ c hϑ1 hc hcfront
+
+/-- `V_r<=U_r`: the adaptive scale interval is nonempty whenever the chosen
+order stays below its strict logarithmic budget. -/
+lemma adaptiveLogV_le_logU (ϑ Q a K M : ℝ) (r : ℕ)
+    (hQ : 0 ≤ Q) (hK : 0 < K) (hM : 0 ≤ M)
+    (hrM : (r : ℝ) * M ≤ a * K)
+    (hmargin : 3 * Q * a < 1 - ϑ) :
+    adaptiveLogV ϑ Q K M r ≤ adaptiveLogU Q K M r := by
+  have hcoef : Q * (3 * (r : ℝ) - 2) * M ≤
+      3 * Q * ((r : ℝ) * M) := by
+    nlinarith [mul_nonneg hQ hM]
+  have hscaled : 3 * Q * ((r : ℝ) * M) ≤ 3 * Q * (a * K) :=
+    mul_le_mul_of_nonneg_left hrM (mul_nonneg (by norm_num) hQ)
+  have hstrict : 3 * Q * (a * K) < (1 - ϑ) * K := by
+    have := mul_lt_mul_of_pos_right hmargin hK
+    nlinarith
+  unfold adaptiveLogV adaptiveLogU
+  nlinarith
+
+/-- Decisive adaptive selection algebra.  `K=log k`, `M=loglog k`, and
+`logN=log(nr!)` in the natural proof.  The upper stopping inequality and
+failure at the preceding order imply simultaneous logarithmic budgets for
+the first two Konyagin terms and the sharp
+`log lambda <= (theta/r) log k + 3Q loglog k` estimate. -/
+theorem adaptive_log_selection_budget
+    (ϑ Q a K M logN : ℝ) (r : ℕ)
+    (hϑ0 : 0 < ϑ) (hQ : 0 ≤ Q) (hK : 0 < K) (hM : 0 ≤ M)
+    (hr2 : 2 ≤ r) (hrM : (r : ℝ) * M ≤ a * K)
+    (hmargin : 3 * Q * a < 1 - ϑ)
+    (hupper : logN ≤ adaptiveLogU Q K M r)
+    (hlower : (r : ℝ) * K - Q * (2 * (r : ℝ) - 3) * M ≤ logN) :
+    adaptiveLogV ϑ Q K M r ≤ adaptiveLogU Q K M r ∧
+    adaptiveLogV ϑ Q K M r ≤ adaptiveLogZ ϑ Q K M logN r ∧
+    adaptiveLogZ ϑ Q K M logN r ≤ adaptiveLogU Q K M r ∧
+    adaptiveLogT1 ϑ Q K M logN r ≤ -Q * M ∧
+    adaptiveLogT2 ϑ Q K M logN r ≤ -Q * M ∧
+    adaptiveLogLambda ϑ Q K M logN r ≤
+      ϑ / (r : ℝ) * K + 3 * Q * M := by
+  have hrR : (2 : ℝ) ≤ r := by exact_mod_cast hr2
+  have hrpos : (0 : ℝ) < r := by positivity
+  have hden1 : 0 < 2 * (r : ℝ) - 1 := by nlinarith
+  have hden2 : 0 < (r : ℝ) - 1 := by nlinarith
+  have hVU := adaptiveLogV_le_logU ϑ Q a K M r hQ hK hM hrM hmargin
+  have hVZ : adaptiveLogV ϑ Q K M r ≤
+      adaptiveLogZ ϑ Q K M logN r := by
+    exact le_max_right _ _
+  have hZU : adaptiveLogZ ϑ Q K M logN r ≤
+      adaptiveLogU Q K M r := by
+    exact max_le hupper hVU
+  have hT1 : adaptiveLogT1 ϑ Q K M logN r ≤ -Q * M := by
+    unfold adaptiveLogT1
+    rw [div_le_iff₀ hden1]
+    unfold adaptiveLogU at hZU
+    nlinarith
+  have hT2 : adaptiveLogT2 ϑ Q K M logN r ≤ -Q * M := by
+    unfold adaptiveLogT2
+    rw [div_le_iff₀ hden2]
+    unfold adaptiveLogV at hVZ
+    nlinarith
+  have hlamrhs : 0 ≤ ϑ * K + 3 * Q * (r : ℝ) * M := by positivity
+  have hVlam : adaptiveLogV ϑ Q K M r ≤
+      logN + (ϑ * K + 3 * Q * (r : ℝ) * M) := by
+    unfold adaptiveLogV
+    nlinarith [mul_nonneg hQ hM]
+  have hZlam : adaptiveLogZ ϑ Q K M logN r ≤
+      logN + (ϑ * K + 3 * Q * (r : ℝ) * M) := by
+    exact max_le (by linarith) hVlam
+  have hlam : adaptiveLogLambda ϑ Q K M logN r ≤
+      ϑ / (r : ℝ) * K + 3 * Q * M := by
+    unfold adaptiveLogLambda
+    apply (div_le_iff₀ hrpos).2
+    calc
+      adaptiveLogZ ϑ Q K M logN r - logN ≤
+          ϑ * K + 3 * Q * (r : ℝ) * M := by linarith
+      _ = (ϑ / (r : ℝ) * K + 3 * Q * M) * (r : ℝ) := by
+        field_simp
+  exact ⟨hVU, hVZ, hZU, hT1, hT2, hlam⟩
+
+/-- Kernel-checked adaptive parameter certificate on the full natural theta
+window.  This theorem is deliberately a parameter result, not yet the final
+analytic `ParametricRangeBuilder`. -/
+theorem adaptive_parameter_certificate_wide (ϑ c : ℝ)
+    (_hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1)
+    (hc : 0 < c) (hcfront : c < (1 - ϑ) / 3) :
+    AdaptiveFrontierParameters ϑ c := by
+  exact adaptiveFrontierParameters_of_wide ϑ c hϑ1 hc hcfront
+
 /-- The previously missing builder: all four source ranges, conditional only
 on the abstract prime-interval input. -/
 theorem parametricRangeBuilder_complete (ϑ c : ℝ)
@@ -1908,6 +2083,12 @@ theorem parametric_frontier_complete (ϑ c : ℝ)
 #print axioms balancedFourRangeParameters_iff
 #print axioms balancedFourRange_no_go_low
 #print axioms balancedFourRange_no_go_high
+#print axioms large_card_raw_adaptive_at
+#print axioms adaptiveFrontierParameters_of_wide
+#print axioms adaptiveFrontierParameters_iff
+#print axioms adaptiveLogV_le_logU
+#print axioms adaptive_log_selection_budget
+#print axioms adaptive_parameter_certificate_wide
 #print axioms parametricRangeBuilder_wide
 #print axioms parametric_frontier_wide
 

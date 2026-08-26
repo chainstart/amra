@@ -131,6 +131,12 @@
       "loss_step": "Choose one u<=exp(o(k)) so that each explicitly listed bounded-diameter cluster character u*Q_0*L_S is far from zero modulo its own product P_S.",
       "lost_information": "All other Fourier characters of those supports, clusters beyond the slowly growing rank/diameter cutoff, arbitrary Vandermonde patterns, and cancellation between the exponentially many supports.",
       "consequence": "Exact union counting removes every fixed-rank Maynard character at the desired polynomial scale while preserving the absorber budget and local inverses. This prevents that known obstruction from refuting the free-multiplier route, but it is not a full-support or fixed-prefix theorem."
+    },
+    {
+      "method": "Unweighted bilinear averaging over the free multiplier and prefix variable",
+      "loss_step": "Replace selection of one multiplier u and one fixed-prefix point t by the separate conductor-wise bounds for B_M(a)=sum_{u<=U,t<=H} e_M(aut), then take triangle or Cauchy--Schwarz independently of the interval Fourier coefficient beta_S(a).",
+      "lost_information": "The signed correlation between the exact inverse-binomial/Vandermonde coefficient beta_S(a) and the same global phase a in the bilinear kernel. The product map also overweights zero when nonunit multipliers are retained.",
+      "consequence": "The average is exactly a divisor-weighted rewrite on s<=UH. If M>=12UH, the real character a=1 has |B_M(1)|>=cos(pi/6)UH, so large conductor gives no pointwise additive mixing. At the full 451 modulus, separated global L2 costs exp(Theta(k)) relative to the zero character and the high-support triangle ledger costs at least exp(Omega(k loglog(k)/log(k))). Passing to unit-group multiplicative characters repairs the zero bias and diagonalizes ut, but low conductors retain an outer unit-sieve weight and full conductors lie beyond Burgess; only a signed coefficient--kernel or weighted multiplicative-character estimate can survive."
     }
   ],
   "required_new_information": [
@@ -145,6 +151,8 @@
     "At dyadic-block resolution, a signed support-stratified discrepancy estimate for the affine CRT lattice whose full-support local frequencies are a(-1)^(A+r-1)(binom(b-1,A)F_B'(b))^{-1}, while coordinate-zero supports are charged only polylogarithmically.",
     "In the common-start coordinate, exploit cancellation between different Fourier supports or control the entire combined counting function globally. The former target |C_S(J)|<=k^D C^|S| product k/(p-k) with one fixed D is refuted by bounded-cluster resonances and must not be used as the recursive interface.",
     "For the affine route, control the joint carry word ell maps to (u_1(ell),...,u_r(ell),nu(ell)) in the signed global-frequency sum with at most k^D(log k)^(Cr) loss per dyadic block; the scalar carry identity alone is insufficient.",
-    "After using the free multiplier to remove every slowly bounded-rank cluster character, prove a signed estimate for all remaining Fourier characters and supports. The multiplier union bound has only O_R(k) named obstructions and cannot be extended naively to exponentially many arbitrary supports."
+    "After using the free multiplier to remove every slowly bounded-rank cluster character, prove a signed estimate for all remaining Fourier characters and supports. The multiplier union bound has only O_R(k) named obstructions and cannot be extended naively to exponentially many arbitrary supports.",
+    "For the combined count sum_{u<=U,t<=H} F(ut), retain the joint sign of beta_S(a)B_{P_S}(a). Exact conductor reduction, complete periods, and the multiplicative-energy second moment do not suffice after beta and B are separated; the required bridge must beat the genuine a=1 short-rectangle pole while exploiting its particular interval coefficient.",
+    "In the unit-group reformulation, prove an aggregate weighted character estimate for sum_chi c_chi S_U^P(chi)S_H^P(chi) that simultaneously handles the principal unit sieve outside each primitive conductor and reaches full conductors exp(Theta(k)); ordinary complete periods, Burgess, and separated group large sieve do not."
   ]
 }

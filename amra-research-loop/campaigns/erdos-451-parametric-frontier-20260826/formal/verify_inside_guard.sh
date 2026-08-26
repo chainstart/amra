@@ -46,6 +46,12 @@ for theorem in \
   ParametricLarge.balancedFourRangeParameters_iff \
   ParametricLarge.balancedFourRange_no_go_low \
   ParametricLarge.balancedFourRange_no_go_high \
+  ParametricLarge.large_card_raw_adaptive_at \
+  ParametricLarge.adaptiveFrontierParameters_of_wide \
+  ParametricLarge.adaptiveFrontierParameters_iff \
+  ParametricLarge.adaptiveLogV_le_logU \
+  ParametricLarge.adaptive_log_selection_budget \
+  ParametricLarge.adaptive_parameter_certificate_wide \
   ParametricLarge.parametricRangeBuilder_wide \
   ParametricLarge.parametric_frontier_wide
 do
