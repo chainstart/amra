@@ -1,0 +1,11 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Admission round completed without closing the public problem. The large-prime tail is proved, but the p<=sqrt(2n) core requires a new pointwise growing-many-base rigidity theorem; no precise closure lemma survived strongly enough to justify an automatic longer round.",
+  "evidence": [
+    "evidence/exact_scan_audit.md",
+    "evidence/first_mechanism_falsification.md",
+    "evidence/literature_boundary.md",
+    "audit/blind_replay.json"
+  ]
+}

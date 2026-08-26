@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M377-01",
+      "representation_id": "R377-02",
+      "family": "single_scale_reduction",
+      "decisive_claim": "For each prime p, checking the unique largest power p^j<=2n is sufficient for full carry freedom.",
+      "would_close": [
+        "reduce_nested_conditions_to_one_scale"
+      ],
+      "kill_test": "Find n,p whose top-power remainder is below half but a lower-power remainder is above half.",
+      "status": "killed",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:51+00:00"
+    },
+    {
+      "id": "M377-02",
+      "representation_id": "R377-05",
+      "family": "single_scale_reduction",
+      "decisive_claim": "Assigning p to the power nearest sqrt(n) yields a uniformly bounded reciprocal mass in every prime-power annulus.",
+      "would_close": [
+        "summable_scale_partition"
+      ],
+      "kill_test": "Evaluate annular reciprocal masses on exhaustive record n and primorial-adjacent adversaries; kill on growth with the number of annuli.",
+      "status": "killed",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:51+00:00"
+    },
+    {
+      "id": "M377-03",
+      "representation_id": "R377-04",
+      "family": "interval_charging",
+      "decisive_claim": "The exact fixed-quotient intervals give an absolute bound for all carry-free primes p>sqrt(2n), including short terminal intervals.",
+      "would_close": [
+        "large_prime_tail"
+      ],
+      "kill_test": "Replay exact primes at all interval endpoints and compare the sum with a direct Mertens bound.",
+      "status": "surviving",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:52+00:00"
+    },
+    {
+      "id": "M377-04",
+      "representation_id": "R377-06",
+      "family": "interval_charging",
+      "decisive_claim": "Digit-block splitting gives f(n)<=C0+max_{m<=sqrt(n)} f(m), with every prime below sqrt(n) transferred injectively to the smaller argument.",
+      "would_close": [
+        "contracting_recurrence"
+      ],
+      "kill_test": "For every finite n, attempt all natural block maps and kill injectivity when two primes transfer inconsistently or the image prime is no longer carry-free.",
+      "status": "killed",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:51+00:00"
+    },
+    {
+      "id": "M377-05",
+      "representation_id": "R377-07",
+      "family": "crt_incompatibility",
+      "decisive_claim": "Simultaneous carry-free events for distinct primes have pointwise density at most the product of their half-alphabet densities at every cutoff.",
+      "would_close": [
+        "product_sieve_bound"
+      ],
+      "kill_test": "Enumerate complete CRT periods for small prime sets and compare exact joint acceptance with the proposed product at every prefix cutoff.",
+      "status": "killed",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:51+00:00"
+    },
+    {
+      "id": "M377-06",
+      "representation_id": "R377-07",
+      "family": "crt_incompatibility",
+      "decisive_claim": "If carry freedom holds for primes p and q through enough digits, then the product of their effective moduli is O(n), limiting the total simultaneous reciprocal mass.",
+      "would_close": [
+        "pointwise_modulus_product_bound"
+      ],
+      "kill_test": "Search n with long lower-half prefixes in several coprime bases and kill whenever the effective modulus product greatly exceeds n.",
+      "status": "killed",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:51+00:00"
+    },
+    {
+      "id": "M377-07",
+      "representation_id": "R377-08",
+      "family": "crt_incompatibility",
+      "decisive_claim": "A large-sieve bound for the nonzero Fourier modes of lower-half prime-power intervals gives a pointwise O(1) reciprocal acceptance sum.",
+      "would_close": [
+        "uniform_fourier_bound"
+      ],
+      "kill_test": "Compute exact small-modulus Fourier correlations and reject any claimed norm inequality missing diagonal or endpoint terms.",
+      "status": "surviving",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:52+00:00"
+    },
+    {
+      "id": "M377-08",
+      "representation_id": "R377-09",
+      "family": "entropy_stopping",
+      "decisive_claim": "Under reciprocal-prime sampling, unresolved accepted mass loses a fixed fraction at each adaptive digit stopping level.",
+      "would_close": [
+        "geometric_mass_decay"
+      ],
+      "kill_test": "Compute stopping profiles for record holders and CRT adversaries; kill if accepted mass can remain concentrated at arbitrarily many consecutive levels.",
+      "status": "killed",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:52+00:00"
+    },
+    {
+      "id": "M377-09",
+      "representation_id": "R377-10",
+      "family": "entropy_stopping",
+      "decisive_claim": "Descriptions of one n in many carry-free prime bases obey a mixed-radix Kraft inequality whose cost is proportional to sum 1/p.",
+      "would_close": [
+        "mixed_base_entropy_bound"
+      ],
+      "kill_test": "Test the proposed Kraft weights on all n in exact CRT periods; kill if code cylinders overlap with total weight above one.",
+      "status": "killed",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:52+00:00"
+    },
+    {
+      "id": "M377-10",
+      "representation_id": "R377-03",
+      "family": "valuation_sieve",
+      "decisive_claim": "A weighted Selberg sieve over the missing Legendre jumps bounds the reciprocal mass of primes with zero total valuation uniformly in n.",
+      "would_close": [
+        "uniform_valuation_sieve"
+      ],
+      "kill_test": "Replay candidate weights on exact valuations and kill negative coefficients, uncovered primes, or total weight growing like log log n.",
+      "status": "killed",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:52+00:00"
+    },
+    {
+      "id": "M377-11",
+      "representation_id": "R377-01",
+      "family": "valuation_sieve",
+      "decisive_claim": "A recursive sieve on the first digit exceeding half either removes a fixed reciprocal mass or contracts all surviving primes to a common smaller integer problem.",
+      "would_close": [
+        "recursive_uniform_bound"
+      ],
+      "kill_test": "Partition exact accepted and rejected primes by first bad digit; kill if the surviving primes require mutually incompatible contracted integers.",
+      "status": "killed",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:52+00:00"
+    },
+    {
+      "id": "M377-12",
+      "representation_id": "R377-05",
+      "family": "hybrid_local_global",
+      "decisive_claim": "Large-prime interval charging, a finite middle-scale Fourier certificate, and recursive treatment of small primes combine with constants independent of the number of scales.",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Write the complete loss ledger at both interfaces and kill if either boundary prime set is double-counted or leaves an O(log log n) residue.",
+      "status": "killed",
+      "created_at": "2026-08-26T02:12:00+00:00",
+      "status_evidence": "evidence/first_mechanism_falsification.md",
+      "updated_at": "2026-08-26T02:28:52+00:00"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "inherited_methods": [
+    {
+      "method": "Erdos harmonic double counting over pairs (p,a)",
+      "loss_step": "Replace the exact multiplicity of m=pa by the uniform cap r and then sum r/m over every m<=N^2.",
+      "lost_information": "Which prime predecessor m/p is selected, the common-gcd scale of simultaneous predecessors, and the strong overlap among constraints for different m.",
+      "consequence": "It yields only S(A) sum_{p<=N}1/p <= r H_{N^2}, hence S(A)=O(r log N/log log N), and cannot see the prime-block lower-bound exponent."
+    },
+    {
+      "method": "Independent prime-block lower construction",
+      "loss_step": "Optimise each prime block separately and retain only the number of selected primes per block.",
+      "lost_information": "Cross-block exponent patterns, repeated prime powers, and correlations that an upper bound must forbid rather than construct.",
+      "consequence": "The construction gives a rigorous lower bound but its local elementary-symmetric expression is not automatically a universal upper bound."
+    },
+    {
+      "method": "Squarefree finite-prime Boolean-cube reduction",
+      "loss_step": "Discard prime exponents, common scaling factors, and primes outside a fixed support.",
+      "lost_information": "Whether an extremal pattern survives arbitrary gcd scaling and exponent-vector links in the full integer lattice.",
+      "consequence": "A finite-cube optimum is a falsifier or conjecture generator only; it has no completeness reduction to all A subseteq [N]."
+    },
+    {
+      "method": "Unweighted hypergraph independence or matching bounds",
+      "loss_step": "Replace vertex weight 1/a by cardinality and forget multiplicative scale.",
+      "lost_information": "The logarithmic accumulation across scales that is exactly the public objective.",
+      "consequence": "Strong finite independence-number estimates need not improve the harmonic upper bound."
+    }
+  ],
+  "required_new_information": [
+    "A weighted local-to-global certificate that keeps the identities of prime predecessors rather than only their multiplicity.",
+    "Stability under multiplication by a common gcd and under arbitrary prime exponents.",
+    "A quantitative comparison with the prime-block lower construction, not merely another O(log N/log log N) estimate.",
+    "An executable falsifier for any proposed local fibre inequality before an all-N proof attempt."
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "same root agent using independent direct-Legendre and randomized replay implementations; no sub-agent delegation was permitted",
+    "evidence": [
+      "audit/blind_replay.json",
+      "evidence/record_1293081501_independent_replay.json",
+      "work/verify_record.cpp",
+      "work/blind_replay.py"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "audit_notes": [
+    "The public p<=n endpoint, p=2 exclusion, and all prime-power cutoffs were replayed.",
+    "The proved partial lemma uses only Kummer/Legendre and a standard Chebyshev prime-counting bound.",
+    "The EGRS two-base theorem was checked in the primary 1975 paper.",
+    "The 2010 three-prime preprint is recorded but explicitly excluded from every proved claim.",
+    "Finite-record novelty was not externally audited and is not claimed."
+  ]
+}

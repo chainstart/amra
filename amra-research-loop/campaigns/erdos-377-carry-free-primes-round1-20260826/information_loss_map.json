@@ -1,0 +1,41 @@
+{
+  "inherited_methods": [
+    {
+      "method": "Trivial Mertens summation over all primes p<=n",
+      "loss_step": "Forget the condition p does not divide binomial(2n,n).",
+      "lost_information": "Every base-p digit of n must lie in the lower half of the digit alphabet.",
+      "consequence": "Gives only (1+o(1)) log log n instead of an absolute constant."
+    },
+    {
+      "method": "First-moment and second-moment estimates over n",
+      "loss_step": "Average the carry-free predicate over n before controlling exceptional simultaneous congruences.",
+      "lost_information": "The rare n on which many small primes are simultaneously carry-free, which are exactly the uniform problem.",
+      "consequence": "Proves f(n) tends to a constant for almost all n but supplies no pointwise ceiling."
+    },
+    {
+      "method": "One-digit analysis for p>sqrt(2n)",
+      "loss_step": "Use only n mod p and ignore all lower prime ranges where several base-p digits occur.",
+      "lost_information": "The nested residue restrictions n mod p^j < p^j/2 for j>=2.",
+      "consequence": "Controls the large-prime tail by a constant but leaves a possible log log n contribution from small primes."
+    },
+    {
+      "method": "Independent union bounds over prime-power scales",
+      "loss_step": "Charge the same carry-free prime once for every admissible power p^j.",
+      "lost_information": "Nestedness of the lower-half residue conditions and incompatibility across different prime bases.",
+      "consequence": "Introduces a log n/log p multiplicity and cannot yield a summable all-scale estimate."
+    },
+    {
+      "method": "Erdos-Graham-Ruzsa-Straus two-base digit surgery",
+      "loss_step": "Modify a number until it is simultaneously good in two fixed bases under the sharp sum-of-digit-density condition.",
+      "lost_information": "The proof is existential for two fixed bases and gives no quantitative obstruction when the number and reciprocal mass of the prime bases grow.",
+      "consequence": "Pairwise incompatibility is rigorously impossible: any two fixed odd primes are simultaneously carry-free for infinitely many n. A uniform upper bound must begin with genuinely many-base, weighted information."
+    }
+  ],
+  "required_new_information": [
+    "A unique or weighted assignment of each carry-free prime to one prime-power scale with total reciprocal charge O(1).",
+    "A pointwise incompatibility principle for simultaneous lower-half residues in different prime-power moduli, not an average-in-n statement.",
+    "An exact adversarial CRT search showing which apparent independence or tensorization claims fail.",
+    "Uniform treatment of short terminal intervals where analytic prime-counting bounds lose strength."
+    ,"A many-base theorem consistent with the EGRS infinite two-prime construction; pairwise correlation bounds cannot suffice."
+  ]
+}

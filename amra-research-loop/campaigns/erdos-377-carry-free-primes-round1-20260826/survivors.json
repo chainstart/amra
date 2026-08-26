@@ -1,0 +1,15 @@
+{
+  "mechanism_ids": [
+    "M377-03",
+    "M377-07"
+  ],
+  "selection_rationale": "M377-03 survives as a proved but strictly partial large-prime-tail lemma. M377-07 is the only unrefuted closure-oriented mechanism: it must be a cutoff-aware, genuinely many-base Fourier or large-sieve inequality, because exact CRT replay proves full-period independence but refutes every-prefix product domination, while the EGRS theorem proves that every two fixed odd primes are simultaneously carry-free infinitely often. Ten other mechanisms are killed by exact residue witnesses, persistent fixed-prime depth, incompatible contraction blocks, overlapping CRT cylinders, or a complete unpaid-loss ledger. Neither survivor currently proves the public conjecture.",
+  "shared_dependency_gaps": [
+    "state a quantitative pointwise mixed-modulus inequality rather than an average over n",
+    "include prefix/cutoff discrepancy terms exposed by the 33075-period CRT replay",
+    "make the total reciprocal-prime loss summable through all p<=sqrt(2n) scales",
+    "handle fixed small primes without charging their persistent digit depth repeatedly",
+    "derive the inequality from an accepted analytic theorem or prove it from scratch"
+    ,"remain consistent with the EGRS infinite simultaneous construction for every pair of fixed odd primes"
+  ]
+}

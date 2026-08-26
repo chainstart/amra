@@ -1,0 +1,57 @@
+{
+  "schema_version": "amra.new-problem-selection.v1",
+  "selected_problem": "erdos-377",
+  "selected_campaign": "../../campaigns/erdos-377-carry-free-primes-round1-20260826",
+  "candidates": [
+    {
+      "problem_id": "erdos-538",
+      "status": "aborted_duplicate",
+      "reason": "The novelty audit found a completed squarefree rank-two theorem in the 2026-08-25 portfolio and a later dynamic proof-claim exclusion; continuing would duplicate repository work."
+    },
+    {
+      "problem_id": "erdos-377",
+      "status": "selected",
+      "reason": "Untouched exact target; Kummer gives a carry-free base-p predicate, an efficient exact evaluator, and a multiscale prime-power proof interface."
+    },
+    {
+      "problem_id": "erdos-319",
+      "status": "deferred",
+      "reason": "The no-proper-zero-subsum condition has no bounded completeness checker once N leaves meet-in-the-middle range."
+    },
+    {
+      "problem_id": "erdos-374",
+      "status": "deferred",
+      "reason": "Positive-density membership in D_6 requires simultaneously constructing a six-term parity relation and excluding every relation of sizes two through five."
+    },
+    {
+      "problem_id": "erdos-686",
+      "status": "deferred",
+      "reason": "The remaining square-N branch is externally active and quickly enters integral points on elliptic or higher-genus curves."
+    },
+    {
+      "problem_id": "erdos-709",
+      "status": "deferred",
+      "reason": "The universal Hall condition ranges over every modulus subset and no bounded annotation currently compresses all high-overlap cases."
+    },
+    {
+      "problem_id": "erdos-859",
+      "status": "deferred",
+      "reason": "Exact density is finite and periodic for each t, but the period and inclusion-exclusion family grow exponentially and supply no short asymptotic bridge."
+    },
+    {
+      "problem_id": "erdos-124",
+      "status": "deferred",
+      "reason": "The public statement has a d_i versus d_r notation ambiguity, its k=0 part is already formally solved, and the page records an active researcher on the remaining k>=1 question."
+    }
+  ],
+  "status_sources": [
+    "https://www.erdosproblems.com/377",
+    "https://www.erdosproblems.com/319",
+    "https://www.erdosproblems.com/374",
+    "https://www.erdosproblems.com/686",
+    "https://www.erdosproblems.com/538",
+    "https://www.erdosproblems.com/709",
+    "https://www.erdosproblems.com/859",
+    "https://www.erdosproblems.com/124"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Aborted at admission: repository novelty audit found a completed 2026-08-25 squarefree rank-two theorem and a later dynamic proof-claim exclusion for the same problem. Continuing would duplicate prior work.",
+  "evidence": [
+    "amra-research-loop/portfolios/new-problem-round2-2026-08-25/evidence/erdos_538_squarefree_theorem.md,amra-research-loop/portfolios/new-problem-round3-2026-08-25/evidence/erdos_538_dynamic_claim.md"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "amra.new-problem-round-result.v1",
+  "selected_problem": "erdos-377",
+  "campaign": "../../campaigns/erdos-377-carry-free-primes-round1-20260826",
+  "outcome": "freeze_after_admission_round",
+  "public_problem_closed": false,
+  "proved_scope": [
+    "exact Kummer/Legendre carry-free reduction",
+    "absolute reciprocal-mass bound for contributing primes p>sqrt(2n)",
+    "exact finite maximum through n=2000000000"
+  ],
+  "finite_record": {
+    "n": 1293081501,
+    "value": 1.1805025577703219,
+    "independently_replayed": true,
+    "universal_claim": false
+  },
+  "mechanism_tally": {
+    "total": 12,
+    "killed": 10,
+    "survivors": 2
+  },
+  "survivor_assessment": "The large-prime tail is proved but insufficient. The only closure-oriented survivor is an unstated pointwise many-base rigidity inequality; EGRS rules out pairwise incompatibility, CRT gives full-period independence, and Fourier l1 tensorization grows. No precise all-parameter lemma survived strongly enough to earn an automatic longer round.",
+  "recommended_next_action": "Switch to another fresh problem. Reopen #377 only if a precise growing-many-base inequality or an independently audited arbitrary-finite-base construction becomes available."
+}

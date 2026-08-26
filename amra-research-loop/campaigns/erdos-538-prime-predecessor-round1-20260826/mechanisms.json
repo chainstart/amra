@@ -1,0 +1,124 @@
+{
+  "mechanisms": [
+    {
+      "id": "M538-01",
+      "representation_id": "R538-03",
+      "family": "compression_induction",
+      "decisive_claim": "There is a weight-nondecreasing coordinate compression sending every admissible exponent-lattice set to a down-set while preserving the predecessor constraint.",
+      "would_close": ["reduce_to_classifiable_downsets"],
+      "kill_test": "Enumerate or solve small exponent boxes and apply every one-coordinate downward shift; kill on a newly created forbidden triple or loss of reciprocal weight.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    },
+    {
+      "id": "M538-02",
+      "representation_id": "R538-04",
+      "family": "compression_induction",
+      "decisive_claim": "Every weighted squarefree-cube optimum is equivalent to selecting supports from at most two low layers after a coordinate order is fixed.",
+      "would_close": ["classify_squarefree_extremisers"],
+      "kill_test": "Solve weighted cubes for heterogeneous primes through k=12 and kill if every optimum necessarily uses three or more separated support sizes.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    },
+    {
+      "id": "M538-03",
+      "representation_id": "R538-03",
+      "family": "compression_induction",
+      "decisive_claim": "A fibre induction adjoining one prime coordinate loses only the local prime-block factor predicted by the lower construction, uniformly in exponent depth.",
+      "would_close": ["prime_block_upper_bound"],
+      "kill_test": "Compute exact box optima before and after adjoining a coordinate for several prime sizes and E=1,2; kill if the ratio exceeds every proposed local factor.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    },
+    {
+      "id": "M538-04",
+      "representation_id": "R538-05",
+      "family": "dual_charging",
+      "decisive_claim": "Finite optimal fractional-cover duals converge to a scale-prime formula whose total mass has the prime-block order and covers every vertex exactly once up to a summable error.",
+      "would_close": ["uniform_harmonic_upper_bound"],
+      "kill_test": "Fit candidate formulas on one N and replay all dual inequalities at larger N and on exponent boxes; kill on a negative slack or nonsummable fitted error.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    },
+    {
+      "id": "M538-05",
+      "representation_id": "R538-06",
+      "family": "dual_charging",
+      "decisive_claim": "Orienting each triple to its largest prime gives a bounded-congestion charging of every selected reciprocal weight to missing predecessors.",
+      "would_close": ["uniform_harmonic_upper_bound"],
+      "kill_test": "Construct star-like families sharing the largest prime and compute exact congestion; kill if a single prime-scale bin receives unbounded harmonic load.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    },
+    {
+      "id": "M538-06",
+      "representation_id": "R538-01",
+      "family": "dual_charging",
+      "decisive_claim": "Every finite optimum admits an integral missing-vertex charge in which each excluded predecessor pays for all tight edges containing it with uniformly bounded load.",
+      "would_close": ["combinatorial_certificate"],
+      "kill_test": "Extract optimum sets and solve the secondary min-congestion assignment; kill when the minimum congestion grows across N or dilation depth.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    },
+    {
+      "id": "M538-07",
+      "representation_id": "R538-07",
+      "family": "entropy_tensorization",
+      "decisive_claim": "For every reciprocal-mass prime block, the predecessor constraint bounds its conditional partition function by the same factor achieved by the independent block construction.",
+      "would_close": ["matching_prime_block_upper_bound"],
+      "kill_test": "Enumerate correlated two-block squarefree patterns and exact cube optima; kill if conditional weighting exceeds the product of proposed block factors.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    },
+    {
+      "id": "M538-08",
+      "representation_id": "R538-08",
+      "family": "entropy_tensorization",
+      "decisive_claim": "After three available prime deletions, the at-most-two rule forces a fixed conditional entropy deficit that accumulates over reciprocal-mass blocks.",
+      "would_close": ["entropy_upper_bound"],
+      "kill_test": "Compute the deletion entropy for product measures, low layers, and MILP extremisers; kill if the deficit vanishes on an admissible family of growing dimension.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    },
+    {
+      "id": "M538-09",
+      "representation_id": "R538-02",
+      "family": "scale_stability",
+      "decisive_claim": "Tight primitive prime triangles can be selected on only a Carleson-packed set of dilation scales unless the selected set is close to a prime-block product construction.",
+      "would_close": ["scale_summation_without_log_loss"],
+      "kill_test": "Build nested dilation adversaries and inspect exact H_N optima; kill if tight edges occupy arbitrarily many scales with no product structure.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    },
+    {
+      "id": "M538-10",
+      "representation_id": "R538-09",
+      "family": "scale_stability",
+      "decisive_claim": "A weighted Carleson embedding for scaled prime triangles converts local at-most-two inequalities into a global harmonic bound of prime-block order.",
+      "would_close": ["uniform_harmonic_upper_bound"],
+      "kill_test": "Evaluate the proposed embedding constant on all-g multiples of one primitive triangle and on overlapping prime triangles; kill on logarithmic divergence.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    },
+    {
+      "id": "M538-11",
+      "representation_id": "R538-10",
+      "family": "scale_stability",
+      "decisive_claim": "Near-optimal weighted independent sets have link-graph codegrees forcing closeness to a bounded-complexity prime-block partition.",
+      "would_close": ["stability_then_tensorization"],
+      "kill_test": "Compare link statistics of exact optima with deliberately mixed block constructions; kill if equally good sets have incompatible link profiles.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    },
+    {
+      "id": "M538-12",
+      "representation_id": "R538-03",
+      "family": "hybrid_local_global",
+      "decisive_claim": "A two-stage argument first tensorizes inside finite prime-exponent boxes and then charges primes and gcd scales outside the box with a summable boundary term.",
+      "would_close": ["full_integer_lifting"],
+      "kill_test": "Quantify boundary mass as box dimension and exponent depth grow; kill if omitted primes or high exponents carry a nonvanishing fraction under an admissible adversary.",
+      "status": "candidate",
+      "created_at": "2026-08-26T02:01:00+00:00"
+    }
+  ]
+}

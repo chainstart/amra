@@ -1,0 +1,26 @@
+{
+  "schema_version": "amra.bounded-proof-time-budget.v1",
+  "total_search_seconds": 5400,
+  "segments": [
+    {
+      "name": "carry_free_digit_falsification",
+      "seconds": 1800
+    },
+    {
+      "name": "prime_power_scale_mechanism_search",
+      "seconds": 2700
+    },
+    {
+      "name": "blind_replay_and_decision",
+      "seconds": 900
+    }
+  ],
+  "memory_guard": {
+    "launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "memory_high_gib": 30,
+    "memory_max_gib": 34,
+    "memory_swap_max_gib": 4,
+    "tasks_max": 512
+  },
+  "stopping_rule": "Stop at an all-n proof or refutation, the full 5400 guarded search seconds, or a safety failure. Finite maxima never count as closure without a completeness reduction."
+}

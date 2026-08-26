@@ -1,0 +1,94 @@
+{
+  "representations": [
+    {
+      "id": "R538-01",
+      "name": "Exact prime-predecessor hypergraph",
+      "family": "multiplicative_hypergraph",
+      "new_information": "Represents every forbidden event by the exact edge g{pq,pr,qr}, retaining the common factor g and the identities of all three prime predecessors.",
+      "repairs_loss": "Restores precisely the overlap discarded when the inherited double count caps each product independently.",
+      "first_test": "Solve the maximum harmonic-weight independent-set MILP on H_N and inspect which scaled edges are tight.",
+      "closure_interface": "Needs a uniform weighted cover or charging argument whose total cost matches the prime-block scale."
+    },
+    {
+      "id": "R538-02",
+      "name": "Primitive edge classes under gcd scaling",
+      "family": "multiplicative_hypergraph",
+      "new_information": "Groups all edges into dilation orbits g{pq,pr,qr}, separating a primitive prime triangle from its harmonic sequence of scales.",
+      "repairs_loss": "Keeps common-gcd scaling visible instead of treating products at unrelated magnitudes as independent.",
+      "first_test": "Compare finite optima with and without nontrivial g and test whether a certificate tensorizes over dilation orbits.",
+      "closure_interface": "Any local primitive inequality must sum over g without an extra logarithmic loss."
+    },
+    {
+      "id": "R538-03",
+      "name": "Prime-exponent lattice fibres",
+      "family": "exponent_lattice",
+      "new_information": "Writes n as an exponent vector and each edge as three immediate predecessors of a vector in three distinct positive coordinates.",
+      "repairs_loss": "Retains repeated prime powers and exposes induction along coordinate fibres, which the squarefree Boolean cube deletes.",
+      "first_test": "Optimise exact weighted boxes {0,...,E}^k for increasing k and E and compare E=1 with E>=2.",
+      "closure_interface": "A candidate must remain valid under adjoining a coordinate and increasing every exponent depth."
+    },
+    {
+      "id": "R538-04",
+      "name": "Squarefree Boolean cube with weighted levels",
+      "family": "exponent_lattice",
+      "new_information": "Restricts to exponent vectors in {0,1}^k but keeps the genuine reciprocal-product vertex weights and all predecessor triples.",
+      "repairs_loss": "Provides the sharpest inexpensive falsifier for product-form and layer-form conjectures while recording exactly what is omitted.",
+      "first_test": "Compare MILP optima with one-prime-per-block and low-Hamming-layer constructions through k=12.",
+      "closure_interface": "Survival is necessary only; a separate lifting theorem to exponents and arbitrary primes would still be required."
+    },
+    {
+      "id": "R538-05",
+      "name": "Weighted fractional-cover dual",
+      "family": "primal_dual_certificate",
+      "new_information": "Dualises the finite harmonic independent-set relaxation into nonnegative edge prices plus vertex slacks, recording which local constraints pay for each 1/n weight.",
+      "repairs_loss": "Replaces a uniform multiplicity cap by an identity-aware certificate assembled from overlapping forbidden triples.",
+      "first_test": "Extract dual solutions for increasing N and fit prime-, scale-, and exponent-dependent formulas; reject formulas that fail exact constraint replay.",
+      "closure_interface": "A symbolic feasible dual with the conjectured total mass would immediately give the desired upper bound."
+    },
+    {
+      "id": "R538-06",
+      "name": "Largest-prime owner flow",
+      "family": "primal_dual_certificate",
+      "new_information": "Orients each forbidden triple and each unit of reciprocal weight toward a distinguished largest prime, turning overlap into a capacitated flow problem.",
+      "repairs_loss": "Prevents the same selected integer from being charged independently at every product while preserving prime identity.",
+      "first_test": "Replay the flow on finite optima and measure overload on the smallest and largest prime coordinates.",
+      "closure_interface": "Requires a uniform capacity bound that sums to the target power of log N, not O(log N/log log N)."
+    },
+    {
+      "id": "R538-07",
+      "name": "Prime-block generating function",
+      "family": "entropy_product",
+      "new_information": "Partitions primes by reciprocal mass and records weighted elementary symmetric polynomials of the selected exponent supports in each block.",
+      "repairs_loss": "Interfaces directly with the known lower construction and quantifies cross-block correlations rather than assuming independence.",
+      "first_test": "Evaluate candidate block inequalities on exact cube optima and deliberately correlated adjacent-block patterns.",
+      "closure_interface": "A tensorizable local inequality with controlled boundary errors would match the lower-bound mechanism."
+    },
+    {
+      "id": "R538-08",
+      "name": "Entropy and random-prime deletion process",
+      "family": "entropy_product",
+      "new_information": "Views a harmonically sampled selected integer through the random sequence of prime-coordinate deletions and records conditional entropy at each step.",
+      "repairs_loss": "Uses the at-most-two predecessor branching restriction dynamically instead of only counting final representations.",
+      "first_test": "Test proposed entropy drops on product measures, Hamming layers, and finite MILP extremisers.",
+      "closure_interface": "Needs an entropy-to-harmonic-mass conversion uniform in the number and sizes of prime coordinates."
+    },
+    {
+      "id": "R538-09",
+      "name": "Logarithmic-scale Carleson packing",
+      "family": "scale_geometric",
+      "new_information": "Places vertices and scaled prime triangles in logarithmic intervals and asks whether tight constraints form a Carleson family across g-scales.",
+      "repairs_loss": "Retains harmonic scale and overlapping dilation orbits that disappear in unweighted hypergraph bounds.",
+      "first_test": "Measure scale occupancy and edge tightness of exact H_N optima; test nested adversarial dilations.",
+      "closure_interface": "A Carleson packing constant compatible with prime-block growth would sum without a full harmonic logarithm."
+    },
+    {
+      "id": "R538-10",
+      "name": "Link graphs and two-shadow stability",
+      "family": "scale_geometric",
+      "new_information": "For each selected or omitted vertex, records the graph of pairs completing a scaled prime triangle, decorated by reciprocal weight and scale.",
+      "repairs_loss": "Captures overlap among triples and potential stability of near-extremisers beyond cardinality-only independence bounds.",
+      "first_test": "Compute weighted degrees, codegrees and link spectra on finite optima and on prime-block constructions.",
+      "closure_interface": "Would need a weighted stability theorem forcing an approximately product/block structure with summable error."
+    }
+  ]
+}
