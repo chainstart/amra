@@ -188,12 +188,17 @@ safe/order losses `C,D` and the exact finite separation
 
 No bound on the finite family cardinality or relative block sizes occurs, so
 it applies pointwise to families whose size grows arbitrarily with `k`.
-Turning the source Konyagin geometry into the uniform `C,D` premises and
-checking the eventual scale separation remain explicit natural asymptotics in
-`evidence/location_blind_subdivision_bridge.md`; they are not encoded as one
-Lean sequence theorem.  The result is still scoped to the location-blind,
-termwise-nonnegative full-tail class and is not a no-go for all methods or for
-Erdos 451.
+Lean now turns explicit finite source inequalities into the common losses:
+`sourceGeometrySubdivision_to_locationBlind` uses the window cap to get
+`(r+1)(log x-log k)<=3/2`, a fixed safe factor `a` to get `C=-log a`, and
+fixed endpoint/derivative losses `En,ED` to get `D=5/2+En+ED`.  Its finite
+endpoint wrapper also checks explicit sufficient scale inequalities.  What
+remains source-specific is proving those fixed raw constants for any broader
+shifted/regrouped construction; the eventual scale limit is not encoded as
+one Lean sequence theorem.  See
+`evidence/source_geometry_uniform_losses.md`.  The result remains scoped to
+the location-blind, termwise-nonnegative full-tail class and is not a no-go
+for all methods or for Erdos 451.
 
 At the
 unconditional BHP input `theta=21/40`, it specializes to `c<19/120`.
@@ -215,12 +220,9 @@ inside the shared OpenMath memory slice, verifies exact axiom lists, rejects
 `sorryAx`, and writes SHA-256 hashes to `formal/logs/final-sha256.txt`.
 
 Final full replay: guard unit
-`openmath-task-20260826-204654-272766.scope`, exit status `0`; the cached
-range-build took `3.25s` with peak RSS `929,000 KiB`, while the whole replay
-peaked at `6,575,412 KiB`, with zero swap.  The immediately preceding fresh
-range build of the same source ran in guard unit
-`openmath-task-20260826-203707-264733.scope`, took `107.22s`, peaked at
-`7,052,716 KiB`, used zero swap, and is saved as
-`formal/logs/subdivision-bridge-attempt03.log`.  The verified
+`openmath-task-20260826-213317-292367.scope`, exit status `0`.  Its fresh
+range build took `113.75s`, peaked at `7,075,568 KiB`, and used zero swap;
+this is the largest per-command replay RSS.  The log is
+`formal/logs/source-geometry-final-replay.log`.  The verified
 `ParametricRanges.lean` SHA-256 is
-`d5a039d2fb7a30f4302bb0c04b42ce73cebbd46ad29db5e6b57bdf8bdf48dfe2`.
+`8793c3a76f46ce7e4985e7619bb53eb91ce481391ac52bce343dfc9232f4f7b5`.

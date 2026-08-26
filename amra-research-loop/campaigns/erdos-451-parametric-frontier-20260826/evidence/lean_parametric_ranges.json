@@ -26,9 +26,17 @@
     "candidate_half_mass_tail",
     "interval_partition_length_sum",
     "exists_weighted_cost_le",
-    "locationBlindSubdivision_exists_good_block",
-    "locationBlindTermwiseSubdivision_endpoint_no_go",
-    "locationBlindTermwiseLeadingCertificate_iff",
+        "locationBlindSubdivision_exists_good_block",
+        "locationBlindTermwiseSubdivision_endpoint_no_go",
+        "sourceLogRatio_bounds_of_window",
+        "sourceRpowWindow_log_bounds",
+        "sourceSafeTailLog_with_W",
+        "sourceDerivativeLogLower_of_scale",
+        "sourceOrderLoss_of_log_comparisons",
+        "sourceFiniteSeparation_of_scale_bounds",
+        "sourceGeometrySubdivision_to_locationBlind",
+        "sourceGeometrySubdivision_endpoint_no_go_of_scale_bounds",
+        "locationBlindTermwiseLeadingCertificate_iff",
     "locationBlindTermwiseLeadingCertificate_no_go",
     "locationBlindTermwiseLeadingCertificate_no_go_bhp",
     "exists_min_adaptive_stopping_order",
@@ -76,10 +84,12 @@
     "endpoint_excess_budget": "At c>=(1-theta)/3, if rM>=cK-DM and both logs are <=-M-q, then (3r-2)q<=(3D+3)M+C; the strict reverse inequality kernel-refutes simultaneous budgets. This finite form covers effective log-powers tending to 1 once the natural proof supplies q->infinity.",
     "subdivision_class": "LocationBlindTermwiseSubdivisionAt is an arbitrary nonempty finite positive-weight full-tail family, with one common safe-tail loss C, one common conditional order loss D, and a summed nonnegative first-two ledger H*exp(-M-q).",
     "finite_extraction": "candidate_cardinality_tail and candidate_half_mass_tail check the PI counting step; interval_partition_length_sum checks full-tail weights; locationBlindSubdivision_exists_good_block selects one block with both log terms <=-M-q, without any family-cardinality bound.",
-    "finite_subdivision_no_go": "At c>=(1-theta)/3, fixed-scale separation ((3D+3)M+C)M < (3cK-(3D+2)M)q rules out LocationBlindTermwiseSubdivisionAt. The statement is uniform in the finite index set and therefore applies pointwise to block counts growing arbitrarily with k.",
-    "leading_frontier": "For c>0, LocationBlindTermwiseLeadingCertificate(theta,c) iff c<(1-theta)/3.",
+        "finite_subdivision_no_go": "At c>=(1-theta)/3, fixed-scale separation ((3D+3)M+C)M < (3cK-(3D+2)M)q rules out LocationBlindTermwiseSubdivisionAt. The statement is uniform in the finite index set and therefore applies pointwise to block counts growing arbitrarily with k.",
+        "finite_source_geometry": "SourceGeometrySubdivisionAt explicitly requires common a>0, En>=0 and ED>=0, x in [k,k+k^theta], r<=(1/2)k^(1-theta), a*k^(theta-1)/log(k)<=delta, endpoint scale >=exp(c*log(k)^2/loglog(k)-En), and derivative scale >=exp(-ED)*endpoint*factorial/x^(r+1). Lean maps it to LocationBlindTermwiseSubdivisionAt with C=-log(a) and D=5/2+En+ED.",
+        "finite_source_endpoint_wrapper": "For q>=1, cK>=0, (3D+2)M<=cK and ((3D+3)M+C)M<2cK, sourceGeometrySubdivision_endpoint_no_go_of_scale_bounds rules out the explicit source certificate at c>=(1-theta)/3.",
+        "leading_frontier": "For c>0, LocationBlindTermwiseLeadingCertificate(theta,c) iff c<(1-theta)/3.",
     "endpoint": "The class is impossible for c>=(1-theta)/3; at theta=21/40 it is impossible for c>=19/120.",
-    "formalization_boundary": "Lean checks the finite PI cardinality tail, partition telescope, weighted extraction, exact block algebra, finite subdivision endpoint no-go, and LP frontier. The source-geometric production of fixed uniform C,D and the eventual K/loglog(k)^2 separation remain natural-proof instantiations rather than one Lean sequence theorem; this is not a no-go for Erdos 451 or for all methods."
+        "formalization_boundary": "Lean checks the finite PI cardinality tail, partition telescope, weighted extraction, exact block algebra, finite subdivision endpoint no-go, and the source-geometry map from explicit common raw constants a,En,ED to C=-log(a), D=5/2+En+ED. It does not infer common constants for arbitrary shifted/regrouped sources from unquantified asymptotic notation, nor package K/loglog(k)^2->infinity as a Lean sequence theorem. This is not a no-go for Erdos 451 or for all methods."
   },
   "interpretation": {
     "balanced_lower_endpoint": "The former theta>9/23 restriction is an artifact of balanced lambda and is removed by the adaptive construction.",
@@ -88,7 +98,7 @@
   },
   "guard": {
     "wrapper": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
-    "unit": "openmath-task-20260826-204654-272766.scope",
+        "unit": "openmath-task-20260826-213317-292367.scope",
     "memory_high": "30G",
     "memory_max": "34G",
     "swap_max": "4G",
@@ -97,23 +107,23 @@
   "replay": {
     "command": "cd formal && ./verify_guarded.sh",
     "exit_status": 0,
-    "ranges_wall_seconds": 3.25,
-    "ranges_build_cached": true,
-    "ranges_peak_rss_kib": 929000,
-    "whole_replay_peak_rss_kib": 6575412,
+        "ranges_wall_seconds": 113.75,
+        "ranges_build_cached": false,
+        "ranges_peak_rss_kib": 7075568,
+        "whole_replay_peak_rss_kib": 7075568,
     "swap_count": 0,
     "fresh_ranges_build": {
-      "unit": "openmath-task-20260826-203707-264733.scope",
-      "wall_seconds": 107.22,
-      "peak_rss_kib": 7052716,
-      "swap_count": 0,
-      "log": "formal/logs/subdivision-bridge-attempt03.log"
+            "unit": "openmath-task-20260826-213317-292367.scope",
+            "wall_seconds": 113.75,
+            "peak_rss_kib": 7075568,
+            "swap_count": 0,
+            "log": "formal/logs/source-geometry-final-replay.log"
     },
     "logs": [
       "formal/logs/ranges-build.log",
       "formal/logs/frontier-build.log",
       "formal/logs/interface-build.log",
-      "formal/logs/subdivision-bridge-final-replay.log",
+            "formal/logs/source-geometry-final-replay.log",
       "formal/logs/final-sha256.txt"
     ]
   },
@@ -173,19 +183,29 @@
       "Classical.choice",
       "Quot.sound"
     ],
-    "ParametricLarge.locationBlindTermwiseSubdivision_endpoint_no_go": [
-      "propext",
-      "Classical.choice",
-      "Quot.sound"
-    ],
+        "ParametricLarge.locationBlindTermwiseSubdivision_endpoint_no_go": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+        ],
+        "ParametricLarge.sourceGeometrySubdivision_to_locationBlind": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+        ],
+        "ParametricLarge.sourceGeometrySubdivision_endpoint_no_go_of_scale_bounds": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+        ],
     "sorryAx_present": false,
     "bhp_present_in_parametric_theorem": false,
     "new_unexplained_axiom_present": false
   },
   "source_sha256": {
-    "formal/ParametricRanges.lean": "d5a039d2fb7a30f4302bb0c04b42ce73cebbd46ad29db5e6b57bdf8bdf48dfe2",
+        "formal/ParametricRanges.lean": "8793c3a76f46ce7e4985e7619bb53eb91ce481391ac52bce343dfc9232f4f7b5",
     "formal/ParametricInterface.lean": "1e26f0f1d2665e20ad2b5c7c6b7ebe93894e5ec712967104d74630376d451efe",
-    "formal/verify_inside_guard.sh": "fd20b9c75bf80d5b43e4952654f62e22ce37cbc3bdd1f75b4b51af242a7296d9",
+        "formal/verify_inside_guard.sh": "7013bf9d3f86cf75daa19ba401f3596a775d477f8601c680f75e7d0516c6c38c",
     "formal/lakefile.toml": "2ab8618c84e5370963d53afe5e63736e8289edc3e471897564283aab06f6ad7c",
     "formal/lake-manifest.json": "4f88144c9db6bab6b1e0a7447a9e58bf4627b340fcc2fd9ef102a0925410cd0b"
   }

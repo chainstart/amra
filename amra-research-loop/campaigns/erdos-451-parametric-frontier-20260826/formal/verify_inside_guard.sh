@@ -85,6 +85,14 @@ for theorem in \
   ParametricLarge.exists_weighted_cost_le \
   ParametricLarge.locationBlindSubdivision_exists_good_block \
   ParametricLarge.locationBlindTermwiseSubdivision_endpoint_no_go \
+  ParametricLarge.sourceLogRatio_bounds_of_window \
+  ParametricLarge.sourceRpowWindow_log_bounds \
+  ParametricLarge.sourceSafeTailLog_with_W \
+  ParametricLarge.sourceDerivativeLogLower_of_scale \
+  ParametricLarge.sourceOrderLoss_of_log_comparisons \
+  ParametricLarge.sourceFiniteSeparation_of_scale_bounds \
+  ParametricLarge.sourceGeometrySubdivision_to_locationBlind \
+  ParametricLarge.sourceGeometrySubdivision_endpoint_no_go_of_scale_bounds \
   ParametricLarge.locationBlindTermwiseLeadingCertificate_iff \
   ParametricLarge.locationBlindTermwiseLeadingCertificate_no_go \
   ParametricLarge.locationBlindTermwiseLeadingCertificate_no_go_bhp \

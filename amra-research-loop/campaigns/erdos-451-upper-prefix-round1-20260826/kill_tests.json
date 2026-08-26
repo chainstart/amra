@@ -23,7 +23,7 @@
     {
       "mechanism_id": "U451-M06",
       "outcome": "killed",
-      "evidence": "evidence/bridge_falsification_and_survivors.md: the global h=1 Fourier character has full prime support, nonzero interval coefficient, and a prefix geometric sum at least 2H/pi for H<=P/2. High support does not imply a small pointwise prefix factor, so the proposed absolute support-ledger bound fails."
+      "evidence": "evidence/bridge_falsification_and_survivors.md: the global h=1 Fourier character has full prime support, nonzero interval coefficient, and a prefix geometric sum at least 2H/pi for H<=P/2. High support does not imply a small pointwise prefix factor, so the proposed absolute support-ledger bound fails. evidence/signed_multiplier_dispersion_no_go.md strengthens the method-level no-go: any sparse affordable signed multiplier has a high-support quadratic character trivial on both its support and the Q_0 phase, while every subexponential-support/value/l1 multiplier retains full-support Fourier energy at least (1-o(1))*product_p(p-2)/S. This kills uniform high-conductor damping, separated multiplier energy, and stable inverse recovery, but not the coefficient-weighted signed endpoint aggregate."
     },
     {
       "mechanism_id": "U451-M07",

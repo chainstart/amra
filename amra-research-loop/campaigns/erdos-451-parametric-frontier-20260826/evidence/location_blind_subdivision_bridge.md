@@ -80,7 +80,8 @@ are definitions in Lean; (5) is the safe-tail loss, (6) is required only
 when the first term is actually below one, and (7) is the summed
 nonnegative ledger.  No blockwise prime count is assumed.
 
-The source geometry supplies fixed losses in this named architecture.
+The source geometry supplies fixed losses in this named architecture once
+the raw comparison constants are fixed uniformly over the block family.
 Indeed (2) gives
 
 ```text
@@ -105,8 +106,11 @@ r_j M >= cK-DM                                        (8)
 with a fixed `D`: the `+1` in `r_j+1` costs one `M`, bounded comparison
 factors cost `O(M)`, and the source restriction
 `r_j=O(k^(1-theta))` makes
-`r_j(log x_j-log k)=O(1)`.  Thus (5)--(6) are uniform source consequences,
-not block-count assumptions.
+`r_j(log x_j-log k)=O(1)`.  Thus (5)--(6) are uniform source consequences
+under the explicitly quantified raw comparisons, not block-count assumptions.
+The finite implication is now kernel-checked in
+`sourceGeometrySubdivision_to_locationBlind`, with `C=-log a` and
+`D=5/2+En+ED`; see `evidence/source_geometry_uniform_losses.md`.
 
 ## 3. Weighted extraction, with no block-count loss
 
@@ -257,23 +261,28 @@ Lean now checks:
 - the exact finite certificate structure;
 - positive weighted good-block extraction;
 - the full finite endpoint no-go, uniformly in the index set;
+- the finite shifted-base inequalities
+  `r log(x/k)<=1/2` and `(r+1)(log x-log k)<=3/2`;
+- the safe-tail map from a fixed `a` to `C=-log a`;
+- the derivative/endpoint comparison map from fixed `En,ED` to
+  `D=5/2+En+ED`;
+- the complete finite source-family map and finite separation wrapper;
 - all earlier block-invariant, endpoint-excess, and LP theorems.
 
-Lean does not encode the analytic source comparison
-`D_j=n_jr_j!/x_j^(r_j+1)` or the limits `K/M^2->infinity` and
-`q_k->infinity` as a sequence theorem.  Those explicit asymptotic
-instantiations are proved above at natural-proof level.  The kernel result is
-therefore the finite algebraic bridge; the source-to-bridge mapping remains
-conditional on the stated location-blind Konyagin architecture.
+Lean encodes the analytic source comparison as an explicit finite lower
+inequality with fixed `ED`; it does not infer that inequality from an
+unquantified `asymp`, nor does it encode the limits `K/M^2->infinity` and
+`q_k->infinity` as a sequence theorem.  Thus the finite source-to-bridge map
+is kernel-checked.  Application to a broader shifted/grouped source remains
+conditional on proving its fixed raw constants `a,En,ED`.
 
 The frozen source was fully replayed through `formal/verify_guarded.sh` in
-guard unit `openmath-task-20260826-204654-272766.scope` with exit status zero,
-whole-replay peak RSS `6,575,412 KiB`, and zero swap.  A fresh guarded range
-build used unit `openmath-task-20260826-203707-264733.scope`, took `107.22s`,
-and peaked at `7,052,716 KiB` with zero swap.  Every new theorem reports only
+guard unit `openmath-task-20260826-213317-292367.scope` with exit status zero.
+Its fresh guarded range build took `113.75s` and peaked at `7,075,568 KiB`
+with zero swap; this is the largest per-command replay RSS.  Every new theorem reports only
 `[propext, Classical.choice, Quot.sound]`; no `sorryAx` occurs.  The verified
 `ParametricRanges.lean` SHA-256 is
-`d5a039d2fb7a30f4302bb0c04b42ce73cebbd46ad29db5e6b57bdf8bdf48dfe2`.
+`8793c3a76f46ce7e4985e7619bb53eb91ce481391ac52bce343dfc9232f4f7b5`.
 
 Final AMRA validation and strict artifact control passed under guard unit
 `openmath-task-20260826-205059-276009.scope`.  The package's five research

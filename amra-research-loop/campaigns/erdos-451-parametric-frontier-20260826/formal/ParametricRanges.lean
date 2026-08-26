@@ -2421,6 +2421,404 @@ theorem locationBlindTermwiseSubdivision_endpoint_no_go
       (block i).logLam (Real.log (block i).W) (block i).order
       hr2 hK hfront horder hsafe hexcess ⟨hT1, hT2⟩
 
+/-! ### Finite source-geometry comparison interface
+
+The following lemmas isolate the exact finite hypotheses by which the pinned
+reciprocal-phase Konyagin geometry supplies the uniform losses `C,D` used by
+`LocationBlindTermwiseSubdivisionAt`.  They do not enlarge that certificate
+class.  In particular, the comparison constants `a`, `En`, and `ED` are fixed
+inputs, rather than quantities allowed to grow with the block family. -/
+
+/-- If `x` lies in a width-`width` window above `k`, the elementary inequality
+`log y <= y-1` transports an `r*width` budget to `r*log(x/k)`. -/
+lemma sourceLogRatio_bounds_of_window
+    (k x width r B : ℝ) (hk : 0 < k) (hr : 0 ≤ r)
+    (hxlo : k ≤ x) (hxhi : x ≤ k + width)
+    (hrwidth : r * width ≤ B * k) :
+    0 ≤ r * Real.log (x / k) ∧ r * Real.log (x / k) ≤ B := by
+  have hxpos : 0 < x := lt_of_lt_of_le hk hxlo
+  have hratioPos : 0 < x / k := div_pos hxpos hk
+  have hratioOne : 1 ≤ x / k := by
+    exact (le_div_iff₀ hk).2 (by simpa using hxlo)
+  have hlog0 : 0 ≤ Real.log (x / k) := Real.log_nonneg hratioOne
+  have hlogUpper : Real.log (x / k) ≤ x / k - 1 :=
+    Real.log_le_sub_one_of_pos hratioPos
+  have hdiff : x - k ≤ width := by linarith
+  have hmul : r * (x - k) ≤ r * width :=
+    mul_le_mul_of_nonneg_left hdiff hr
+  have hratioBudget : r * (x / k - 1) ≤ B := by
+    calc
+      r * (x / k - 1) = (r * (x - k)) / k := by
+        field_simp
+        <;> ring
+      _ ≤ B := (div_le_iff₀ hk).2 (hmul.trans hrwidth)
+  exact ⟨mul_nonneg hr hlog0,
+    (mul_le_mul_of_nonneg_left hlogUpper hr).trans hratioBudget⟩
+
+/-- The same window supplies the fixed `(r+1)` shifted-base loss needed by
+the derivative factor.  The hypotheses `width<=k` and
+`r*width<=k/2` give the explicit constant `3/2`. -/
+lemma sourceLogRatio_succ_bound_of_window
+    (k x width r : ℝ) (hk : 0 < k) (hr : 0 ≤ r)
+    (hxlo : k ≤ x) (hxhi : x ≤ k + width)
+    (hwidth : width ≤ k) (hrwidth : r * width ≤ (1 / 2 : ℝ) * k) :
+    (r + 1) * (Real.log x - Real.log k) ≤ 3 / 2 := by
+  have hxpos : 0 < x := lt_of_lt_of_le hk hxlo
+  obtain ⟨_hlog0, hrlog⟩ := sourceLogRatio_bounds_of_window
+    k x width r (1 / 2) hk hr hxlo hxhi hrwidth
+  have hratioPos : 0 < x / k := div_pos hxpos hk
+  have hlogUpper : Real.log (x / k) ≤ x / k - 1 :=
+    Real.log_le_sub_one_of_pos hratioPos
+  have hratioUpper : x / k - 1 ≤ 1 := by
+    have hx2 : x ≤ 2 * k := by linarith
+    have : x / k ≤ 2 := (div_le_iff₀ hk).2 (by nlinarith)
+    linarith
+  have hlogOne : Real.log (x / k) ≤ 1 := hlogUpper.trans hratioUpper
+  rw [← Real.log_div hxpos.ne' hk.ne']
+  nlinarith
+
+/-- Actual power-window specialization.  For `1<=k`, `0<=theta<=1`,
+`x in [k,k+k^theta]`, and the pinned order restriction
+`r<=k^(1-theta)/2`, both the order and shifted-order log losses are bounded
+by absolute constants. -/
+lemma sourceRpowWindow_log_bounds
+    (ϑ k x : ℝ) (r : ℕ) (hk : 1 ≤ k)
+    (hϑ0 : 0 ≤ ϑ) (hϑ1 : ϑ ≤ 1)
+    (hxlo : k ≤ x) (hxhi : x ≤ k + k ^ ϑ)
+    (hr : (r : ℝ) ≤ (1 / 2 : ℝ) * k ^ (1 - ϑ)) :
+    0 ≤ (r : ℝ) * Real.log (x / k) ∧
+      (r : ℝ) * Real.log (x / k) ≤ 1 / 2 ∧
+      ((r : ℝ) + 1) * (Real.log x - Real.log k) ≤ 3 / 2 := by
+  have hkpos : 0 < k := lt_of_lt_of_le zero_lt_one hk
+  have hrnonneg : (0 : ℝ) ≤ r := by positivity
+  have hpowNonneg : 0 ≤ k ^ ϑ :=
+    Real.rpow_nonneg (le_trans zero_le_one hk) ϑ
+  have hwidth : k ^ ϑ ≤ k := Real.rpow_le_self_of_one_le hk hϑ1
+  have hrwidth : (r : ℝ) * k ^ ϑ ≤ (1 / 2 : ℝ) * k := by
+    calc
+      (r : ℝ) * k ^ ϑ ≤
+          ((1 / 2 : ℝ) * k ^ (1 - ϑ)) * k ^ ϑ :=
+        mul_le_mul_of_nonneg_right hr hpowNonneg
+      _ = (1 / 2 : ℝ) * (k ^ (1 - ϑ) * k ^ ϑ) := by ring
+      _ = (1 / 2 : ℝ) * k ^ ((1 - ϑ) + ϑ) := by
+        rw [Real.rpow_add hkpos]
+      _ = (1 / 2 : ℝ) * k := by simp
+  obtain ⟨hlog0, hlogr⟩ := sourceLogRatio_bounds_of_window
+    k x (k ^ ϑ) (r : ℝ) (1 / 2) hkpos hrnonneg hxlo hxhi hrwidth
+  exact ⟨hlog0, hlogr,
+    sourceLogRatio_succ_bound_of_window k x (k ^ ϑ) (r : ℝ)
+      hkpos hrnonneg hxlo hxhi hwidth hrwidth⟩
+
+/-- A cardinality-tail lower scale with explicit constant `a>0` gives the
+uniform safe-tail logarithmic loss `C=-log a`. -/
+lemma sourceSafeTailLog_of_lower
+    (ϑ a k δ : ℝ) (ha : 0 < a) (hk : 1 < k)
+    (hδ : a * k ^ (ϑ - 1) / Real.log k ≤ δ) :
+    -(1 - ϑ) * Real.log k - Real.log (Real.log k) - (-Real.log a) ≤
+      Real.log δ := by
+  have hkpos : 0 < k := lt_trans zero_lt_one hk
+  have hlogk : 0 < Real.log k := Real.log_pos hk
+  have hpow : 0 < k ^ (ϑ - 1) := Real.rpow_pos_of_pos hkpos _
+  have hbase : 0 < a * k ^ (ϑ - 1) / Real.log k := by positivity
+  have hδpos : 0 < δ := hbase.trans_le hδ
+  have hlogle :
+      Real.log (a * k ^ (ϑ - 1) / Real.log k) ≤ Real.log δ :=
+    (Real.log_le_log_iff hbase hδpos).2 hδ
+  calc
+    -(1 - ϑ) * Real.log k - Real.log (Real.log k) - (-Real.log a) =
+        Real.log (a * k ^ (ϑ - 1) / Real.log k) := by
+      rw [Real.log_div (mul_pos ha hpow).ne' hlogk.ne',
+        Real.log_mul ha.ne' hpow.ne', Real.log_rpow hkpos]
+      ring
+    _ ≤ Real.log δ := hlogle
+
+/-- Adding an admissible denominator parameter `W>=1` only weakens the safe
+inequality. -/
+lemma sourceSafeTailLog_with_W
+    (ϑ a k δ W : ℝ) (ha : 0 < a) (hk : 1 < k)
+    (hδ : a * k ^ (ϑ - 1) / Real.log k ≤ δ) (hW : 1 ≤ W) :
+    -(1 - ϑ) * Real.log k - Real.log (Real.log k) - (-Real.log a) ≤
+      Real.log δ + 4 * Real.log W := by
+  have hsafe := sourceSafeTailLog_of_lower ϑ a k δ ha hk hδ
+  have hlogW : 0 ≤ Real.log W := Real.log_nonneg hW
+  linarith
+
+/-- A finite exponential endpoint lower bound implies the corresponding
+logarithmic endpoint comparison, with explicit loss `En`. -/
+lemma sourceEndpointLogLower_of_exp
+    (c K M En nScale : ℝ) (hM : 0 < M)
+    (hn : Real.exp (c * K * K / M - En) ≤ nScale) :
+    c * K * K - En * M ≤ Real.log nScale * M := by
+  have hnpos : 0 < nScale := (Real.exp_pos _).trans_le hn
+  have hlog : c * K * K / M - En ≤ Real.log nScale := by
+    have := (Real.log_le_log_iff (Real.exp_pos _) hnpos).2 hn
+    simpa using this
+  have hscaled := mul_le_mul_of_nonneg_right hlog hM.le
+  calc
+    c * K * K - En * M = (c * K * K / M - En) * M := by
+      field_simp
+      <;> ring
+    _ ≤ Real.log nScale * M := hscaled
+
+/-- A fixed multiplicative lower comparison for the source derivative scale
+becomes an additive logarithmic loss `ED`. -/
+lemma sourceDerivativeLogLower_of_scale
+    (nScale fac x deriv ED : ℝ) (r : ℕ)
+    (hn : 0 < nScale) (hfac : 0 < fac) (hx : 0 < x)
+    (hraw : Real.exp (-ED) * nScale * fac /
+        x ^ ((r : ℝ) + 1) ≤ deriv) :
+    Real.log nScale + Real.log fac -
+        ((r : ℝ) + 1) * Real.log x - ED ≤ Real.log deriv := by
+  have hnum : 0 < Real.exp (-ED) * nScale * fac := by positivity
+  have hden : 0 < x ^ ((r : ℝ) + 1) := Real.rpow_pos_of_pos hx _
+  have hbase : 0 < Real.exp (-ED) * nScale * fac /
+      x ^ ((r : ℝ) + 1) := div_pos hnum hden
+  have hderiv : 0 < deriv := hbase.trans_le hraw
+  have hlog := (Real.log_le_log_iff hbase hderiv).2 hraw
+  calc
+    Real.log nScale + Real.log fac -
+        ((r : ℝ) + 1) * Real.log x - ED =
+        Real.log (Real.exp (-ED) * nScale * fac /
+          x ^ ((r : ℝ) + 1)) := by
+      rw [Real.log_div hnum.ne' hden.ne',
+        Real.log_mul (mul_pos (Real.exp_pos _) hn).ne' hfac.ne',
+        Real.log_mul (Real.exp_pos _).ne' hn.ne',
+        Real.log_exp, Real.log_rpow hx]
+      ring
+    _ ≤ Real.log deriv := hlog
+
+/-- A small first Konyagin term with `lambda,W>=1` forces the source
+derivative scale itself below one. -/
+lemma sourceLogD_neg_of_T1
+    (logD lambda W : ℝ) (r : ℕ) (hr2 : 2 ≤ r)
+    (hlambda : 1 ≤ lambda) (hW : 1 ≤ W)
+    (hT1 : locationBlindLogT1 logD (Real.log lambda) (Real.log W) r < 0) :
+    logD < 0 := by
+  have hrR : (2 : ℝ) ≤ r := by exact_mod_cast hr2
+  have hden : 0 < 2 * (r : ℝ) - 1 := by nlinarith
+  have hnum : logD + (r : ℝ) * Real.log lambda + 2 * Real.log W < 0 := by
+    rw [locationBlindLogT1, div_neg_iff] at hT1
+    rcases hT1 with ⟨_hnumpos, hdenneg⟩ | ⟨hnumneg, _hdenpos⟩
+    · linarith
+    · exact hnumneg
+  have hlamlog : 0 ≤ Real.log lambda := Real.log_nonneg hlambda
+  have hWlog : 0 ≤ Real.log W := Real.log_nonneg hW
+  nlinarith [mul_nonneg (by positivity : (0 : ℝ) ≤ r) hlamlog]
+
+/-- Exact finite order-loss ledger.  `En` is the endpoint log-mass loss,
+`ED` the derivative comparison loss, and `B` the shifted-base loss.  The
+resulting block-uniform constant is `D=1+En+ED+B`. -/
+lemma sourceOrderLoss_of_log_comparisons
+    (c K M En ED B logN logFac logx logD lambda W : ℝ) (r : ℕ)
+    (hK : 1 ≤ K) (hM : 0 < M)
+    (hEn : 0 ≤ En) (hED : 0 ≤ ED) (hB : 0 ≤ B)
+    (hr2 : 2 ≤ r) (hlambda : 1 ≤ lambda) (hW : 1 ≤ W)
+    (hN : c * K * K - En * M ≤ logN * M)
+    (hfac : 0 ≤ logFac)
+    (hx : ((r : ℝ) + 1) * (logx - K) ≤ B)
+    (hD : logN + logFac - ((r : ℝ) + 1) * logx - ED ≤ logD)
+    (hT1 : locationBlindLogT1 logD (Real.log lambda) (Real.log W) r < 0) :
+    c * K - (1 + En + ED + B) * M ≤ (r : ℝ) * M := by
+  have hKpos : 0 < K := lt_of_lt_of_le zero_lt_one hK
+  have hlogD := sourceLogD_neg_of_T1 logD lambda W r hr2 hlambda hW hT1
+  have hsourceNeg :
+      logN + logFac - ((r : ℝ) + 1) * logx - ED < 0 :=
+    lt_of_le_of_lt hD hlogD
+  have hlogNupper :
+      logN < ((r : ℝ) + 1) * K + B + ED := by
+    nlinarith
+  have hscaled := mul_lt_mul_of_pos_right hlogNupper hM
+  have hmain :
+      c * K * K <
+        (((r : ℝ) + 1) * K + B + ED + En) * M := by
+    nlinarith
+  have hMleMK : M ≤ M * K := by
+    have := mul_nonneg hM.le (sub_nonneg.mpr hK)
+    nlinarith
+  have hE : 0 ≤ En + ED + B := by linarith
+  have hEM : (En + ED + B) * M ≤ (En + ED + B) * (M * K) :=
+    mul_le_mul_of_nonneg_left hMleMK hE
+  have hfinal :
+      c * K * K < ((r : ℝ) + (1 + En + ED + B)) * M * K := by
+    nlinarith [hmain, hEM]
+  by_contra hgoal
+  have hbad : (r : ℝ) * M < c * K - (1 + En + ED + B) * M :=
+    lt_of_not_ge hgoal
+  have hprod :
+      0 < (c * K - (1 + En + ED + B) * M - (r : ℝ) * M) * K :=
+    mul_pos (by linarith) hKpos
+  nlinarith [hfinal, hprod]
+
+/-- Finite sufficient conditions for the separation premise of the
+subdivision endpoint theorem.  This lemma intentionally contains no
+`Eventually` or limit claim. -/
+lemma sourceFiniteSeparation_of_scale_bounds
+    (c K M C D q : ℝ) (hcK : 0 ≤ c * K) (hq : 1 ≤ q)
+    (hcoef : (3 * D + 2) * M ≤ c * K)
+    (hleft : ((3 * D + 3) * M + C) * M < 2 * c * K) :
+    ((3 * D + 3) * M + C) * M <
+      (3 * c * K - (3 * D + 2) * M) * q := by
+  have hright : 2 * c * K ≤ 3 * c * K - (3 * D + 2) * M := by
+    linarith
+  have hqnonneg : 0 ≤ q := by linarith
+  have hbaseNonneg : 0 ≤ 3 * c * K - (3 * D + 2) * M := by linarith
+  have hqscale :
+      3 * c * K - (3 * D + 2) * M ≤
+        (3 * c * K - (3 * D + 2) * M) * q := by
+    nlinarith
+  exact hleft.trans_le (hright.trans hqscale)
+
+/-- The explicit safe-tail loss supplied by a fixed positive tail constant. -/
+def sourceSafeLoss (a : ℝ) : ℝ := -Real.log a
+
+/-- The explicit order loss after spending `3/2` on the shifted base,
+`1` on the passage from `r+1` to `r`, and the two fixed comparison losses. -/
+def sourceOrderLoss (En ED : ℝ) : ℝ := 5 / 2 + En + ED
+
+/-- Concrete source data for one block.  This is narrower than
+`LocationBlindSubdivisionBlock`: all logarithmic fields arise from positive
+scales in the pinned reciprocal-phase geometry. -/
+structure SourceGeometrySubdivisionBlock where
+  lengthWeight : ℝ
+  x : ℝ
+  delta : ℝ
+  nScale : ℝ
+  factorialScale : ℝ
+  derivativeScale : ℝ
+  lambda : ℝ
+  W : ℝ
+  order : ℕ
+
+def SourceGeometrySubdivisionBlock.toLocationBlind
+    (b : SourceGeometrySubdivisionBlock) : LocationBlindSubdivisionBlock where
+  lengthWeight := b.lengthWeight
+  order := b.order
+  logDelta := Real.log b.delta
+  logD := Real.log b.derivativeScale
+  logLam := Real.log b.lambda
+  W := b.W
+
+/-- Finite source certificate before taking logarithms.  The fixed constants
+`a,En,ED` encode exactly the three comparisons that must be uniform across
+the family.  There is still no cancellation or prime-location-adaptive sparse
+cover in this predicate. -/
+def SourceGeometrySubdivisionAt
+    {ι : Type*} [DecidableEq ι]
+    (ϑ c a En ED k q H : ℝ) (s : Finset ι)
+    (block : ι → SourceGeometrySubdivisionBlock) : Prop :=
+  s.Nonempty ∧
+  0 < H ∧
+  (∑ i ∈ s, (block i).lengthWeight) = H ∧
+  (∀ i ∈ s,
+    0 < (block i).lengthWeight ∧
+    2 ≤ (block i).order ∧
+    k ≤ (block i).x ∧
+    (block i).x ≤ k + k ^ ϑ ∧
+    ((block i).order : ℝ) ≤ (1 / 2 : ℝ) * k ^ (1 - ϑ) ∧
+    a * k ^ (ϑ - 1) / Real.log k ≤ (block i).delta ∧
+    Real.exp (c * Real.log k * Real.log k /
+        Real.log (Real.log k) - En) ≤ (block i).nScale ∧
+    1 ≤ (block i).factorialScale ∧
+    Real.exp (-ED) * (block i).nScale * (block i).factorialScale /
+        (block i).x ^ (((block i).order : ℝ) + 1) ≤
+      (block i).derivativeScale ∧
+    1 ≤ (block i).lambda ∧
+    1 ≤ (block i).W) ∧
+  (∑ i ∈ s, (block i).lengthWeight *
+      ((block i).toLocationBlind.firstTwoCost)) ≤
+    H * Real.exp (-Real.log (Real.log k) - q)
+
+/-- Kernel-checked finite source-to-logarithmic mapping.  Its losses are the
+same for every member of the arbitrary finite family:
+`C=-log a` and `D=5/2+En+ED`. -/
+theorem sourceGeometrySubdivision_to_locationBlind
+    {ι : Type*} [DecidableEq ι]
+    (ϑ c a En ED k q H : ℝ) (s : Finset ι)
+    (block : ι → SourceGeometrySubdivisionBlock)
+    (hϑ0 : 0 ≤ ϑ) (hϑ1 : ϑ ≤ 1)
+    (ha : 0 < a) (hEn : 0 ≤ En) (hED : 0 ≤ ED)
+    (hk : 1 < k) (hlogk : 1 < Real.log k)
+    (hsource : SourceGeometrySubdivisionAt
+      ϑ c a En ED k q H s block) :
+    LocationBlindTermwiseSubdivisionAt
+      ϑ c (Real.log k) (Real.log (Real.log k))
+        (sourceSafeLoss a) (sourceOrderLoss En ED) q H s
+        (fun i => (block i).toLocationBlind) := by
+  rcases hsource with ⟨hs, hH, hlength, hblock, hledger⟩
+  refine ⟨hs, hH, hlength, ?_, hledger⟩
+  intro i hi
+  rcases hblock i hi with
+    ⟨hweight, hr2, hxlo, hxhi, hrange, hdelta, hn, hfac, hderiv,
+      hlambda, hW⟩
+  have hkpos : 0 < k := lt_trans zero_lt_one hk
+  have hxpos : 0 < (block i).x := lt_of_lt_of_le hkpos hxlo
+  have hM : 0 < Real.log (Real.log k) := Real.log_pos hlogk
+  have hnpos : 0 < (block i).nScale := (Real.exp_pos _).trans_le hn
+  have hfacpos : 0 < (block i).factorialScale := lt_of_lt_of_le zero_lt_one hfac
+  have hwindow := sourceRpowWindow_log_bounds ϑ k (block i).x
+    (block i).order hk.le hϑ0 hϑ1 hxlo hxhi hrange
+  have hsafe := sourceSafeTailLog_with_W ϑ a k (block i).delta
+    (block i).W ha hk hdelta hW
+  have hNlog := sourceEndpointLogLower_of_exp c (Real.log k)
+    (Real.log (Real.log k)) En (block i).nScale hM hn
+  have hDlog := sourceDerivativeLogLower_of_scale
+    (block i).nScale (block i).factorialScale (block i).x
+      (block i).derivativeScale ED (block i).order
+      hnpos hfacpos hxpos hderiv
+  have hfaclog : 0 ≤ Real.log (block i).factorialScale :=
+    Real.log_nonneg hfac
+  have horder :
+      (block i).toLocationBlind.logT1 < 0 →
+        c * Real.log k - sourceOrderLoss En ED * Real.log (Real.log k) ≤
+          ((block i).order : ℝ) * Real.log (Real.log k) := by
+    intro hT1
+    have hraw := sourceOrderLoss_of_log_comparisons
+      c (Real.log k) (Real.log (Real.log k)) En ED (3 / 2)
+        (Real.log (block i).nScale)
+        (Real.log (block i).factorialScale)
+        (Real.log (block i).x)
+        (Real.log (block i).derivativeScale)
+        (block i).lambda (block i).W (block i).order
+        hlogk.le hM hEn hED (by norm_num) hr2 hlambda hW
+        hNlog hfaclog hwindow.2.2 hDlog (by
+          simpa [SourceGeometrySubdivisionBlock.toLocationBlind,
+            LocationBlindSubdivisionBlock.logT1] using hT1)
+    dsimp [sourceOrderLoss]
+    nlinarith [hraw]
+  exact ⟨hweight, hr2, Real.log_nonneg hlambda, hW,
+    (by simpa [sourceSafeLoss] using hsafe), horder⟩
+
+/-- Complete finite no-go wrapper for the explicitly defined source
+certificate.  The two scale inequalities are finite hypotheses; no limit is
+asserted by this theorem. -/
+theorem sourceGeometrySubdivision_endpoint_no_go_of_scale_bounds
+    {ι : Type*} [DecidableEq ι]
+    (ϑ c a En ED k q H : ℝ) (s : Finset ι)
+    (block : ι → SourceGeometrySubdivisionBlock)
+    (hϑ0 : 0 ≤ ϑ) (hϑ1 : ϑ ≤ 1)
+    (ha : 0 < a) (hEn : 0 ≤ En) (hED : 0 ≤ ED)
+    (hk : 1 < k) (hlogk : 1 < Real.log k)
+    (hq : 1 ≤ q) (hfront : (1 - ϑ) / 3 ≤ c)
+    (hcK : 0 ≤ c * Real.log k)
+    (hcoef : (3 * sourceOrderLoss En ED + 2) *
+        Real.log (Real.log k) ≤ c * Real.log k)
+    (hleft : ((3 * sourceOrderLoss En ED + 3) *
+          Real.log (Real.log k) + sourceSafeLoss a) *
+        Real.log (Real.log k) < 2 * c * Real.log k) :
+    ¬ SourceGeometrySubdivisionAt ϑ c a En ED k q H s block := by
+  intro hsource
+  have hmapped := sourceGeometrySubdivision_to_locationBlind
+    ϑ c a En ED k q H s block hϑ0 hϑ1 ha hEn hED hk hlogk hsource
+  have hseparate := sourceFiniteSeparation_of_scale_bounds
+    c (Real.log k) (Real.log (Real.log k)) (sourceSafeLoss a)
+      (sourceOrderLoss En ED) q hcK hq hcoef hleft
+  exact locationBlindTermwiseSubdivision_endpoint_no_go
+    ϑ c (Real.log k) (Real.log (Real.log k))
+      (sourceSafeLoss a) (sourceOrderLoss En ED) q H s
+      (fun i => (block i).toLocationBlind)
+      (by linarith) (Real.log_pos hlogk) (by linarith) hfront hseparate
+      hmapped
+
 /-- Leading linear-program image of the explicitly delimited certificate
 class.  `rho` is the limiting order scale `r loglog(k)/log(k)`, while
 `alpha,beta>1` encode the two separate `o(1/log(k))` budgets.  This is a
@@ -3497,6 +3895,14 @@ theorem parametric_frontier_complete (ϑ c : ℝ)
 #print axioms exists_weighted_cost_le
 #print axioms locationBlindSubdivision_exists_good_block
 #print axioms locationBlindTermwiseSubdivision_endpoint_no_go
+#print axioms sourceLogRatio_bounds_of_window
+#print axioms sourceRpowWindow_log_bounds
+#print axioms sourceSafeTailLog_with_W
+#print axioms sourceDerivativeLogLower_of_scale
+#print axioms sourceOrderLoss_of_log_comparisons
+#print axioms sourceFiniteSeparation_of_scale_bounds
+#print axioms sourceGeometrySubdivision_to_locationBlind
+#print axioms sourceGeometrySubdivision_endpoint_no_go_of_scale_bounds
 #print axioms locationBlindTermwiseLeadingCertificate_iff
 #print axioms locationBlindTermwiseLeadingCertificate_no_go
 #print axioms locationBlindTermwiseLeadingCertificate_no_go_bhp

@@ -132,11 +132,15 @@ family when
 ```
 
 at `c>=(1-theta)/3`.  It is uniform in the finite index set, so the block
-count may grow arbitrarily with an outer parameter.  The remaining
-natural-proof boundary is the source-geometric derivation of fixed uniform
-losses `C,D` and the eventual instantiation from `q_k->infinity` and
-`log(k)/loglog(k)^2->infinity`; see
-`evidence/location_blind_subdivision_bridge.md`.
+count may grow arbitrarily with an outer parameter.  Lean now also maps an
+explicit finite source family into this certificate: the window geometry
+gives `(r+1)(log x-log k)<=3/2`, a fixed safe-tail factor `a` gives
+`C=-log a`, and fixed endpoint/derivative losses `En,ED` give
+`D=5/2+En+ED`.  The remaining boundary is source-specific: a broader shifted
+or regrouped construction must actually prove one common `a,En,ED`, and the
+limits from `q_k->infinity` and `log(k)/loglog(k)^2->infinity` are not packaged
+as a Lean sequence theorem.  See
+`evidence/source_geometry_uniform_losses.md`.
 
 `balancedFourRangeParameters_iff` proves the exact feasibility certificate
 for this delimited balanced four-range method (assuming `c>0`): its parameter
@@ -149,8 +153,7 @@ needed below `9/23`.
 The wrapper enters the shared OpenMath slice with a 30 GiB high watermark,
 34 GiB hard memory limit, 4 GiB swap limit, and 512-task limit before Lake or
 Lean starts.  The final full replay passed in unit
-`openmath-task-20260826-204654-272766.scope` with zero swap and whole-replay
-peak RSS `6,575,412 KiB`; the fresh range build of the same source passed in
-unit `openmath-task-20260826-203707-264733.scope` in `107.22s` with peak RSS
-`7,052,716 KiB`.  The checked `ParametricRanges.lean` SHA-256 is
-`d5a039d2fb7a30f4302bb0c04b42ce73cebbd46ad29db5e6b57bdf8bdf48dfe2`.
+`openmath-task-20260826-213317-292367.scope` with zero swap.  Its fresh range
+build took `113.75s` and peaked at `7,075,568 KiB`; this is also the largest
+per-command replay RSS.  The checked `ParametricRanges.lean` SHA-256 is
+`8793c3a76f46ce7e4985e7619bb53eb91ce481391ac52bce343dfc9232f4f7b5`.

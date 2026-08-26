@@ -95,8 +95,8 @@
       "kill_test": "Normalize prime supply and Theorem 4.1 error per block; test whether the common A--B lower envelope cancels in the ratio.",
       "status": "killed",
       "created_at": "2026-08-26T06:25:11+00:00",
-      "status_evidence": "evidence/frontier_falsification.md: independent comparable blocks scale error and prime supply equally. evidence/location_blind_subdivision_bridge.md and formal/ParametricRanges.lean extend the scoped obstruction to arbitrary finite k-dependent nonuniform partitions of the whole deterministic PI-cardinality tail, without a family-cardinality bound, under explicit uniform-loss, location-blind, and little-o restrictions.",
-      "updated_at": "2026-08-26T06:28:19+00:00"
+      "status_evidence": "evidence/frontier_falsification.md: independent comparable blocks scale error and prime supply equally. evidence/location_blind_subdivision_bridge.md and evidence/source_geometry_uniform_losses.md extend the scoped obstruction to arbitrary finite k-dependent nonuniform partitions of the deterministic PI tail under explicit common raw constants a,En,ED, location-blind coverage, and a termwise nonnegative little-o ledger; formal/ParametricRanges.lean kernel-checks the finite map to C=-log(a), D=5/2+En+ED.",
+      "updated_at": "2026-08-26T21:38:00+08:00"
     },
     {
       "id": "MPF-08",
@@ -151,8 +151,8 @@
       "kill_test": "Attempt non-balanced lambda, variable r, comparable multiblocks, and the equality endpoint; reject any argument that confuses a lower bound on the certificate with a lower bound on the true K.",
       "status": "proved",
       "created_at": "2026-08-26T06:25:12+00:00",
-      "status_evidence": "evidence/parametric_frontier_proof.md, Theorem B, and adversarial_self_audit.md prove the audited delimited termwise barrier. evidence/location_blind_subdivision_bridge.md and formal/ParametricRanges.lean give the author-audited finite/growing location-blind deterministic-tail extension, with uniform-loss hypotheses and exclusions explicit.",
-      "updated_at": "2026-08-26T06:32:47+00:00"
+      "status_evidence": "evidence/parametric_frontier_proof.md, Theorem B, and adversarial_self_audit.md prove the audited delimited termwise barrier. evidence/location_blind_subdivision_bridge.md, evidence/source_geometry_uniform_losses.md, and formal/ParametricRanges.lean give the author-audited finite location-blind deterministic-tail extension and map explicit common raw constants a,En,ED to uniform losses C=-log(a), D=5/2+En+ED; arbitrary regroupings remain outside unless they prove those constants.",
+      "updated_at": "2026-08-26T21:38:00+08:00"
     }
   ]
 }

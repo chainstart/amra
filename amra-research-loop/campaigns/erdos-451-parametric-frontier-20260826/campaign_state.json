@@ -5,7 +5,7 @@
   "title": "Parametric frontier of the van Doorn--Tang/Konyagin--BHP lower-bound method",
   "phase": "promotion",
   "created_at": "2026-08-26T06:17:08+00:00",
-  "updated_at": "2026-08-26T20:41:12+08:00",
+  "updated_at": "2026-08-26T21:38:00+08:00",
   "gates": {
     "min_representation_families": 4,
     "min_representations": 8,
@@ -84,6 +84,12 @@
       "event": "post_promotion_subdivision_bridge_formalization",
       "phase": "promotion",
       "result": "Kernel-checked PI cardinality-tail lemmas, arbitrary finite partition telescoping, weighted good-block extraction, and the endpoint no-go uniformly over finite family cardinality; documented the natural source-to-uniform-loss instantiation and counterexamples when those losses grow."
+    },
+    {
+      "at": "2026-08-26T21:38:00+08:00",
+      "event": "post_promotion_source_geometry_interface",
+      "phase": "promotion",
+      "result": "Kernel-checked the finite source geometry map: the theta window gives shifted-base loss 3/2, fixed safe factor a gives C=-log(a), fixed endpoint/derivative losses En,ED give D=5/2+En+ED, and explicit finite scale inequalities imply the scoped endpoint no-go. Arbitrary regroupings still must prove their constants are uniform."
     }
   ]
 }

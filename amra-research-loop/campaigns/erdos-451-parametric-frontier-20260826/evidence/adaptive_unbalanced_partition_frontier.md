@@ -488,12 +488,10 @@ recorded in `evidence/adaptive_unbalanced_replay.json`.  This finite replay is
 a transcription check only and is not used to promote the quantified natural
 proof to machine-checked status.
 
-The promoted block invariant, finite subdivision bridge, and LP obstruction
-were replayed by
-`formal/verify_guarded.sh` under guard unit
-`openmath-task-20260826-204654-272766.scope`; all asserted axiom lists passed,
-no `sorryAx` occurred, and the full replay exited zero with peak RSS
-`6,575,412 KiB` and zero swap.  The fresh range build immediately before it
-used guard unit `openmath-task-20260826-203707-264733.scope`, took `107.22s`,
-and peaked at `7,052,716 KiB`.  The checked `ParametricRanges.lean` SHA-256 is
-`d5a039d2fb7a30f4302bb0c04b42ce73cebbd46ad29db5e6b57bdf8bdf48dfe2`.
+The promoted block invariant, finite subdivision bridge, finite source map,
+and LP obstruction were replayed by `formal/verify_guarded.sh` under guard
+unit `openmath-task-20260826-213317-292367.scope`; all asserted axiom lists
+passed, no `sorryAx` occurred, and the replay exited zero with zero swap.  The
+fresh range build took `113.75s` and peaked at `7,075,568 KiB`, the largest
+per-command replay RSS.  The checked `ParametricRanges.lean` SHA-256 is
+`8793c3a76f46ce7e4985e7619bb53eb91ce481391ac52bce343dfc9232f4f7b5`.
