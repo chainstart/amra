@@ -113,6 +113,12 @@
       "loss_step": "Treat pair correlation estimates as independent block factors and multiply their rational-rotation discrepancy costs.",
       "lost_information": "All pairs act on the same interval, so their signs do not tensorize; moreover the exact cost depends on the full continued fraction of q/(q-p), not only the gap size.",
       "consequence": "Even an optimistic adjacent-gap ledger pays sum log(1+k/Delta_i)=Theta(r log k) at logarithmic gaps, reaching Theta(k). A far-pair matching with polylogarithmic Euclidean costs is an unproved additional theorem."
+    },
+    {
+      "method": "Scalar inverse-binomial CRT carry compression",
+      "loss_step": "Use the exact divided-difference identity to replace the vector of local modular inverses u_i(ell) and carries m_i(ell) by the single global carry nu(ell).",
+      "lost_information": "The individual local phases entering each signed interval kernel K_i(h_i(ell)); the scalar carry identity controls only one weighted sum of those phases.",
+      "consequence": "The rank-three identity is an exact algebraic reparameterization but gives no discrepancy inequality. In the exact affine (37,41,43) example all identities hold while the triple interval norm is 40.588 times k times the largest pair norm."
     }
   ],
   "required_new_information": [
@@ -125,6 +131,7 @@
     "For a random-subset route, an unconditional uniform multiplicative-character gap for prime candidates at modulus p asymptotic to k, or a replacement avoiding that analytic input; this still must be paired with the many-seed fixed-prefix transfer.",
     "For the canonical absorption route, a pointwise correlated inverse-binomial gap theorem for c_p=((-1)^A binom(p-k-1,A))^{-1}, with total loss at most exp(O(m log log k)) times the reciprocal-density scale.",
     "At dyadic-block resolution, a signed support-stratified discrepancy estimate for the affine CRT lattice whose full-support local frequencies are a(-1)^(A+r-1)(binom(b-1,A)F_B'(b))^{-1}, while coordinate-zero supports are charged only polylogarithmically.",
-    "Equivalently in the common-start coordinate, extend the proved rank-two bound to |C_S(J)|<=k^D C^|S| product k/(p-k) for unbounded support with one global D>=2, without multiplying pairwise carry losses."
+    "In the common-start coordinate, exploit cancellation between different Fourier supports or control the entire combined counting function globally. The former target |C_S(J)|<=k^D C^|S| product k/(p-k) with one fixed D is refuted by bounded-cluster resonances and must not be used as the recursive interface.",
+    "For the affine route, control the joint carry word ell maps to (u_1(ell),...,u_r(ell),nu(ell)) in the signed global-frequency sum with at most k^D(log k)^(Cr) loss per dyadic block; the scalar carry identity alone is insufficient."
   ]
 }

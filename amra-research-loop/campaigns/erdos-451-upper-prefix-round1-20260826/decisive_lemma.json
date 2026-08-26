@@ -18,7 +18,11 @@
     "evidence/inverse_binomial_block_audit.md",
     "evidence/inverse_binomial_block_spectrum.json",
     "evidence/signed_support_correlation_audit.md",
-    "evidence/common_start_full_correlation.json"
+    "evidence/common_start_full_correlation.json",
+    "evidence/affine_rank3_carry_audit.md",
+    "evidence/affine_rank3_tensor_audit.json",
+    "evidence/direct_common_start_rank3_no_go.md",
+    "audit/direct_fixed_D_no_go_review.md"
   ],
   "dependency_gaps": [
     "The proved bound retains the full exp((1+o(1))k) scale and therefore satisfies none of the campaign promotion conditions.",
@@ -43,9 +47,11 @@
     "The exact coupled block Fourier coordinate contains the additional Vandermonde derivative F_B'(b): h_{p,a}=a(-1)^(A+r-1)(binom(b-1,A)F_B'(b))^{-1}. Controlling this varying-modulus product with signed cancellation is the remaining block problem.",
     "The proved small-vector near-resonance lemma gives a nonzero global frequency within P_B/(L+1)^r of zero whose every local coordinate has size at most L. Hence canonical multiplication alone does not separate all high-support characters from the prefix pole; a signed support-stratified theorem is required.",
     "The special CRT lattice has coordinate-hyperplane vectors and is not directly admissible in the product-norm sense. Symmetric Minkowski loses the one-sided orthant, while a generic m^{O(m)} positive-orthant loss has logarithm Theta(k), not o(k).",
-    "The exact support expansion shows that, for every nonempty S, a uniform signed correlation bound |C_S(J)|<=k^D C^|S| product k/(p-k) would sum all nonempty proper supports to O(k^D C^m) and prove n_k=exp(o(k)); this decisive bound remains open at unbounded support.",
-    "Rank two is proved for the undilated common-start functions: after row decomposition its scaled correlation is q(pL(jDelta)-bM(jDelta)), with variation at most 6k^2 and rotation-discrepancy control. This yields O(k^4/Delta+k^3) when Delta^2<=q and a uniform O(k^4) bound. Transfer to the absorbed affine inverse-binomial functions and the high-rank common-start extension both remain open.",
+    "The former fixed-D support-correlation target is now refuted. For every proposed absolute C,D, an exact partial-fraction frequency built from a fixed bounded prime-cluster pattern of rank r>D gives an interval correlation Omega_r(k^(2r)), contradicting k^(r+D)C^r. The no-go concerns termwise support bounds, not cancellation between supports or Erdos 451 itself.",
+    "Rank three has an exact row formula on the 2D orbit j->(j(p2-p1) mod p2,j(p3-p1) mod p3). Slicing one coordinate turns the mixed term into a family of affine-phase lower-rank discrepancies with p2 different starting phases, so the common-start rank-two theorem has no simple tensor induction. The direct and absorbed routes share a phase-uniform discrepancy obstacle but retain different arithmetic slopes.",
     "The exact k=70, p=137, q=139 witness has scaled correlation 11495874=0.95759 k^4/2. The proved coherent-row lower bound is Omega(k^4/Delta) when both offsets are macroscopic, so a k^3*C^2 rank-two bound is impossible along bounded-gap families; one global polynomial loss D>=2 is necessary.",
-    "Multiplying adjacent-pair rotation losses gives sum log(1+k/Delta_i) of order r log k even at ordinary logarithmic gaps, hence exp(Theta(k)) over final blocks. Far pairing would require a new prime matching with controlled full continued fractions and still lacks a tensorization theorem."
+    "Multiplying adjacent-pair rotation losses gives sum log(1+k/Delta_i) of order r log k even at ordinary logarithmic gaps, hence exp(Theta(k)) over final blocks. More decisively, the bounded-cluster resonance proves that any uniform rank-r termwise bound needs extra polynomial exponent D_r>=r, whose natural full-rank ledger is again exp(Omega(k)). A surviving direct route must use cross-support/global cancellation or other scale-dependent structure, not the refuted fixed-D absolute-value recursion.",
+    "For the canonical affine rank-three term, the exact partial-fraction identity separates the inverse-binomial/Vandermonde rational contribution from a global CRT carry: sum_i m_i(ell)/H_i + ell*R_S = nu(ell)/Q. The formula extends to every rank, but supplies no inequality because the Fourier product depends on the full local carry vector, not the scalar nu.",
+    "The guarded exact system k=22, A=2, Q=276, moduli (37,41,43) has M_3=8761532 and M_3/(k*max M_2)=40.58820368380091, strictly killing the constant-one bounded-factor tensor handoff. Its size is only 1.700069387957852*k^5, so a fixed polynomial loss D>=2 per dyadic block remains viable."
   ]
 }

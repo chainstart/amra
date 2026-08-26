@@ -67,7 +67,7 @@
       "kill_test": "Enumerate exact one-sided and symmetric minima, test arbitrary coprime interval systems for skew-lattice counterexamples, and audit whether any proposed lattice theorem has a dimension factor larger than exp(O(m log log k)).",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/inverse_binomial_block_audit.md, and evidence/signed_support_correlation_audit.md: the support expansion and undilated rank-two carry bound are proved, but transfer to the one-sided inverse-binomial affine lattice and its unbounded-support correlation bound remain open",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, and evidence/direct_common_start_rank3_no_go.md: direct rank three reduces to affine-phase slices and the fixed-D termwise bound is refuted, while the broader one-sided orthant mechanism remains open and would require global or cross-support cancellation",
       "updated_at": "2026-08-26T06:40:55+00:00"
     },
     {
@@ -109,7 +109,7 @@
       "kill_test": "Extract exact covering words and indispensable boundary witnesses; reject encodings that are noninjective or require recording one of k phases independently per prime.",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, and evidence/signed_support_correlation_audit.md: exact nonempty-support recursion costs only C^m if the full correlation bound holds; undilated rank-two carry coherence proves D>=2 is necessary, while unbounded support remains open",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, and evidence/direct_common_start_rank3_no_go.md: the formal support expansion survives, but the proposed fixed-D absolute-value bound is false by bounded-cluster resonance; any surviving boundary encoding must compress the combined support sum rather than bound every support separately",
       "updated_at": "2026-08-26T06:40:55+00:00"
     },
     {
@@ -137,7 +137,7 @@
       "kill_test": "Exhaust small coprime moduli and widths, maximize the cyclic gap divided by P/|A|, include extreme narrow/wide mixtures, and test whether recursive, monotone-chain, or difference-set proofs lose a factor q_max at every merge or lose coordinatewise sign.",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, and evidence/signed_support_correlation_audit.md: the inverse-binomial Vandermonde formula and rank-two signed bounds are exact, but pair-gap recursion has exponential total loss and no full-support theorem is proved",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, and evidence/direct_common_start_rank3_no_go.md: the inverse-binomial Vandermonde and all-rank scalar carry identities are exact; direct rank three already generates affine phase, and bounded-cluster resonance rules out fixed-D termwise tensor recursion, but a global monotone-sumset cancellation mechanism is not refuted",
       "updated_at": "2026-08-26T06:40:55+00:00"
     },
     {

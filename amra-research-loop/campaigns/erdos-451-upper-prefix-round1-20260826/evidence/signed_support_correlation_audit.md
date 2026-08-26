@@ -1,5 +1,12 @@
 # Signed support-stratified correlation audit
 
+> **Superseding notice (2026-08-26).**  The fixed-`D`, all-interval
+> support-correlation conjecture (7) proposed in this historical audit has
+> since been **refuted** by the exact bounded-prime-cluster resonance in
+> `evidence/direct_common_start_rank3_no_go.md`.  The support expansion (3),
+> the conditional implication (7) => (9), and the rank-two results remain
+> correct; (7) is no longer an open target.
+
 This third-stage note remains in `survivor_deepening` with `closes=[]`.  It
 expands the fixed interval exactly by Fourier support, proves the rank-two
 carry formula and bounds, and audits whether gap-sensitive pair recursion can
@@ -60,7 +67,7 @@ common-start functions `G_p` and must not be silently transferred to
 `g_p^Q` (or its scaled version): that transfer is part of the open affine
 full-support problem.
 
-## 2. A precise correlation theorem that would close the problem
+## 2. A sufficient correlation theorem, now refuted
 
 It is useful to clear the local denominators.  Put
 
@@ -75,7 +82,8 @@ It is useful to clear the local denominators.  Put
 The required support induction would follow from the following uniform
 signed statement.
 
-> **Support-correlation conjecture (open).**  There are absolute `C,D` such
+> **Former support-correlation conjecture (refuted).**  There are absolute
+> `C,D` such
 > that for every **nonempty** subset `S` and every integer interval `J`,
 > \[
 > |C_S(J)|\le k^D C^{|S|}\prod_{p=k+b\in S}\frac{k}{b}.             \tag{7}
@@ -114,11 +122,14 @@ bound `pi(2k)-pi(k)=O(k/log k)` afterwards.  Therefore (9) implies
 `n_k=exp(o(k))`.  A suitable dyadic short-interval sieve estimate would
 sharpen (9a) to `O(k/log k)`, but that sharpening is not used here.
 
-Therefore (7) is a decisive open theorem, not a proved lemma.  The argument
-(8) does prove that **proper supports cost only the same `C^{|S|}` ledger**;
-the unresolved content is the uniform signed bound for the current full
-support.  Replacing `C^{|S|}` by `(log k)^{O(|S|)}` would still give
-`exp(o(k))` and is also sufficient.
+The calculation above remains a valid conditional implication, but (7) is
+false.  For every fixed `C,D`, a fixed-rank bounded prime cluster with
+`r>D` gives an exact low global frequency and an interval correlation
+`Omega_r(k^(2r))`, contradicting (7) after clearing the local denominators.
+See `evidence/direct_common_start_rank3_no_go.md` for the proof.  Thus (8)
+describes why (7) would have sufficed; it does not supply a surviving
+proper-support ledger.  Cross-support cancellation in the combined count is
+not refuted by that no-go theorem.
 
 ## 3. Exact rank-two carry formula
 
@@ -339,7 +350,11 @@ Hence the rank-two carry formula proves a real proper-support base case and
 kills `D=1`, but neither adjacent-gap nor far-pair bookkeeping proves (7) for
 unbounded support.
 
-## 6. Third-stage closure boundary
+## 6. Historical third-stage boundary, superseded at fixed `D`
+
+The bullets below record the state when this audit was written.  The later
+rank-three/general-rank audit closes the exact row formula and refutes (7),
+so “unproved” below must not be read as “still viable.”
 
 - Proper supports are exactly recursive through (3), and a uniform bound (7)
   sums to only `k^D C^m` error.
@@ -350,14 +365,13 @@ unbounded support.
   discrepancy (15).  Multiplying its adjacent-gap costs is exponential in
   `k`, while a good far-pair matching is an unproved new input and still lacks
   a tensorization theorem.
-- No full-support bound for unbounded `|S|` is proved, so neither (9) nor
-  Erdos 451 is closed.
+- The proposed fixed-`D` full-support bound is now disproved, so neither its
+  implication (9) nor this termwise route closes Erdos 451.
 
-The exact remaining lemma is either (7) with `D>=2` for the undilated
-common-start box, or its affine analogue for `g_p^Q` with the correlated
-inverse-binomial Vandermonde phases in (4)--(5).  A weaker block version is
-also sufficient if its accumulated logarithmic loss is `o(k)`.  Rank two
-settles neither affine transfer nor high-rank tensorization.  On the direct
-common-start route, the unbounded-rank extension of (7) is the sole new
-mathematical gap; the affine inverse-binomial transfer is an alternative
-absorbed-route gap, not an additional premise needed by the direct route.
+The surviving requirement is no longer an extension of (7).  A direct route
+must exploit cancellation **between** supports or control the combined
+counting function globally.  The affine inverse-binomial route likewise
+needs a joint signed-carry estimate rather than a termwise fixed-`D` bound.
+Rank three already turns the direct common-start formula into a family of
+affine-phase discrepancies, although its slopes differ from the absorbed
+inverse-binomial/Vandermonde phases.
