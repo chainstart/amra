@@ -2057,6 +2057,216 @@ lemma log_adaptiveT2At (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
     log_adaptiveZAt ϑ Q k n r hk hn]
   ring
 
+/-! ### Scoped location-blind, termwise-nonnegative obstruction
+
+The following definitions are the logarithmic image of one block in the
+explicit certificate class from `adaptive_unbalanced_partition_frontier.md`.
+Here `logD` is the logarithm of the derivative-size factor, `logLam` is the
+logarithm of the freely chosen Konyagin scale, `logDelta` is the logarithm of
+the safe approximation threshold, and `logW` is the logarithm of the
+rational-denominator parameter.  No assertion is made about certificates
+using cross-block cancellation, prime-location-adaptive sparse covers, or a
+stronger exponential-sum estimate. -/
+
+def locationBlindLogT1 (logD logLam logW : ℝ) (r : ℕ) : ℝ :=
+  (logD + (r : ℝ) * logLam + 2 * logW) /
+    (2 * (r : ℝ) - 1)
+
+def locationBlindLogT2
+    (logDelta logD logLam logW : ℝ) (r : ℕ) : ℝ :=
+  (logDelta + 2 * logW - logD - (r : ℝ) * logLam) /
+    ((r : ℝ) - 1)
+
+/-- Exact first-two-term invariant for one location-blind Konyagin block.
+It is the logarithm of
+`T1^(2r-1) * T2^(r-1) = delta * W^4`; in particular all dependence on the
+unbalanced scale `lambda` and on the derivative factor `D` cancels. -/
+lemma locationBlind_first_two_log_invariant
+    (logDelta logD logLam logW : ℝ) (r : ℕ) (hr2 : 2 ≤ r) :
+    (2 * (r : ℝ) - 1) * locationBlindLogT1 logD logLam logW r +
+        ((r : ℝ) - 1) *
+          locationBlindLogT2 logDelta logD logLam logW r =
+      logDelta + 4 * logW := by
+  have hrR : (2 : ℝ) ≤ r := by exact_mod_cast hr2
+  have hden1 : 2 * (r : ℝ) - 1 ≠ 0 := by nlinarith
+  have hden2 : (r : ℝ) - 1 ≠ 0 := by nlinarith
+  unfold locationBlindLogT1 locationBlindLogT2
+  field_simp
+  ring
+
+/-- Increasing the denominator parameter cannot weaken the invariant.  This
+is the precise `W>=1` monotonicity used by the scoped no-go argument. -/
+lemma locationBlind_first_two_invariant_ge_delta_of_W_ge_one
+    (logDelta logD logLam : ℝ) (W : ℝ) (r : ℕ)
+    (hr2 : 2 ≤ r) (hW : 1 ≤ W) :
+    logDelta ≤
+      (2 * (r : ℝ) - 1) *
+          locationBlindLogT1 logD logLam (Real.log W) r +
+        ((r : ℝ) - 1) *
+          locationBlindLogT2 logDelta logD logLam (Real.log W) r := by
+  rw [locationBlind_first_two_log_invariant logDelta logD logLam
+    (Real.log W) r hr2]
+  have hlogW : 0 ≤ Real.log W := Real.log_nonneg hW
+  linarith
+
+/-- Finite-scale consequence of requiring both nonnegative first terms to
+meet separate logarithmic budgets on one block.  The safe-tail input is
+written with its genuine extra `loglog(k)` loss:
+`log(delta W^4) >= -(1-theta)K-M-C`.
+
+This theorem is only a block lemma for the explicitly named location-blind,
+termwise-nonnegative certificate class. -/
+lemma locationBlind_termwise_block_budget_obstruction
+    (ϑ K M C logDelta logD logLam logW α β : ℝ) (r : ℕ)
+    (hr2 : 2 ≤ r)
+    (hT1 : locationBlindLogT1 logD logLam logW r ≤ -α * M)
+    (hT2 : locationBlindLogT2 logDelta logD logLam logW r ≤ -β * M)
+    (hsafe : -(1 - ϑ) * K - M - C ≤ logDelta + 4 * logW) :
+    ((2 * (r : ℝ) - 1) * α + ((r : ℝ) - 1) * β) * M ≤
+      (1 - ϑ) * K + M + C := by
+  have hrR : (2 : ℝ) ≤ r := by exact_mod_cast hr2
+  have hw1 : 0 ≤ 2 * (r : ℝ) - 1 := by nlinarith
+  have hw2 : 0 ≤ (r : ℝ) - 1 := by nlinarith
+  have hT1' := mul_le_mul_of_nonneg_left hT1 hw1
+  have hT2' := mul_le_mul_of_nonneg_left hT2 hw2
+  have hinv := locationBlind_first_two_log_invariant
+    logDelta logD logLam logW r hr2
+  nlinarith
+
+/-- The actual adaptive `T1,T2` definitions obey the same exact invariant;
+the chosen `max` scale and the balancing parameter `Q` disappear. -/
+lemma adaptive_first_two_log_invariant
+    (ϑ Q K M logN : ℝ) (r : ℕ) (hr2 : 2 ≤ r) :
+    (2 * (r : ℝ) - 1) * adaptiveLogT1 ϑ Q K M logN r +
+        ((r : ℝ) - 1) * adaptiveLogT2 ϑ Q K M logN r =
+      (ϑ - 1) * K := by
+  have hrR : (2 : ℝ) ≤ r := by exact_mod_cast hr2
+  have hden1 : 2 * (r : ℝ) - 1 ≠ 0 := by nlinarith
+  have hden2 : (r : ℝ) - 1 ≠ 0 := by nlinarith
+  unfold adaptiveLogT1 adaptiveLogT2
+  field_simp
+  ring
+
+/-- Exact finite-scale obstruction for the actual adaptive first two terms.
+If they separately decay like `exp(-alpha*M)` and `exp(-beta*M)`, their
+weighted logarithmic budget cannot exceed `(1-theta)K`. -/
+lemma adaptive_first_two_budget_obstruction
+    (ϑ Q K M logN α β : ℝ) (r : ℕ) (hr2 : 2 ≤ r)
+    (hT1 : adaptiveLogT1 ϑ Q K M logN r ≤ -α * M)
+    (hT2 : adaptiveLogT2 ϑ Q K M logN r ≤ -β * M) :
+    ((2 * (r : ℝ) - 1) * α + ((r : ℝ) - 1) * β) * M ≤
+      (1 - ϑ) * K := by
+  have hrR : (2 : ℝ) ≤ r := by exact_mod_cast hr2
+  have hw1 : 0 ≤ 2 * (r : ℝ) - 1 := by nlinarith
+  have hw2 : 0 ≤ (r : ℝ) - 1 := by nlinarith
+  have hT1' := mul_le_mul_of_nonneg_left hT1 hw1
+  have hT2' := mul_le_mul_of_nonneg_left hT2 hw2
+  have hinv := adaptive_first_two_log_invariant ϑ Q K M logN r hr2
+  nlinarith
+
+/-- Finite-scale endpoint form of the little-`o` obstruction.  Write the two
+separate budgets as `log(Ti) <= -M-q`; the common excess `q` is allowed to
+depend on the outer scale.  If the endpoint order satisfies
+`r*M >= c*K-D*M` and `c >= (1-theta)/3`, then the invariant forces
+`(3r-2)q <= (3D+3)M+C`.  Thus the natural proof's extracted sequence with
+`q -> infinity`, `r` of order `K/M`, and bounded comparison losses cannot
+exist.  The sequence extraction itself is intentionally not asserted here. -/
+lemma locationBlind_endpoint_excess_budget
+    (ϑ c K M C D q logDelta logD logLam logW : ℝ) (r : ℕ)
+    (hr2 : 2 ≤ r) (hK : 0 ≤ K)
+    (hfront : (1 - ϑ) / 3 ≤ c)
+    (horder : c * K - D * M ≤ (r : ℝ) * M)
+    (hT1 : locationBlindLogT1 logD logLam logW r ≤ -M - q)
+    (hT2 : locationBlindLogT2 logDelta logD logLam logW r ≤ -M - q)
+    (hsafe : -(1 - ϑ) * K - M - C ≤ logDelta + 4 * logW) :
+    (3 * (r : ℝ) - 2) * q ≤ (3 * D + 3) * M + C := by
+  have hrR : (2 : ℝ) ≤ r := by exact_mod_cast hr2
+  have hw1 : 0 ≤ 2 * (r : ℝ) - 1 := by nlinarith
+  have hw2 : 0 ≤ (r : ℝ) - 1 := by nlinarith
+  have hT1' := mul_le_mul_of_nonneg_left hT1 hw1
+  have hT2' := mul_le_mul_of_nonneg_left hT2 hw2
+  have hinv := locationBlind_first_two_log_invariant
+    logDelta logD logLam logW r hr2
+  have htheta : 1 - ϑ ≤ 3 * c := by nlinarith
+  have hthetaK := mul_le_mul_of_nonneg_right htheta hK
+  nlinarith
+
+/-- Direct finite contradiction form of
+`locationBlind_endpoint_excess_budget`, still scoped to one selected block of
+the location-blind nonnegative certificate class. -/
+theorem locationBlind_endpoint_termwise_no_go_of_excess
+    (ϑ c K M C D q logDelta logD logLam logW : ℝ) (r : ℕ)
+    (hr2 : 2 ≤ r) (hK : 0 ≤ K)
+    (hfront : (1 - ϑ) / 3 ≤ c)
+    (horder : c * K - D * M ≤ (r : ℝ) * M)
+    (hsafe : -(1 - ϑ) * K - M - C ≤ logDelta + 4 * logW)
+    (hexcess : (3 * D + 3) * M + C < (3 * (r : ℝ) - 2) * q) :
+    ¬ (locationBlindLogT1 logD logLam logW r ≤ -M - q ∧
+      locationBlindLogT2 logDelta logD logLam logW r ≤ -M - q) := by
+  rintro ⟨hT1, hT2⟩
+  have hbound := locationBlind_endpoint_excess_budget
+    ϑ c K M C D q logDelta logD logLam logW r hr2 hK hfront horder
+      hT1 hT2 hsafe
+  linarith
+
+/-- Leading linear-program image of the explicitly delimited certificate
+class.  `rho` is the limiting order scale `r loglog(k)/log(k)`, while
+`alpha,beta>1` encode the two separate `o(1/log(k))` budgets.  This is a
+definition of the scoped parameter class, not of all possible approaches to
+Erdos 451. -/
+def LocationBlindTermwiseLeadingCertificate (ϑ c : ℝ) : Prop :=
+  ∃ ρ α β : ℝ,
+    0 < ρ ∧ c ≤ ρ ∧ 1 < α ∧ 1 < β ∧
+      (2 * α + β) * ρ ≤ 1 - ϑ
+
+/-- Exact feasibility frontier of the location-blind, termwise-nonnegative
+leading certificate class.  This is the kernel form of the LP in equation
+(29) of the natural proof; it does not cover cancellation or extra local
+prime information. -/
+theorem locationBlindTermwiseLeadingCertificate_iff
+    (ϑ c : ℝ) (hc : 0 < c) :
+    LocationBlindTermwiseLeadingCertificate ϑ c ↔
+      c < (1 - ϑ) / 3 := by
+  constructor
+  · rintro ⟨ρ, α, β, hρ, hcρ, hα, hβ, hbudget⟩
+    have hcoef : 3 < 2 * α + β := by nlinarith
+    have hscale : 3 * c ≤ 3 * ρ := by nlinarith
+    have hstrict : 3 * ρ < (2 * α + β) * ρ := by
+      exact mul_lt_mul_of_pos_right hcoef hρ
+    rw [lt_div_iff₀ (by norm_num : (0 : ℝ) < 3)]
+    nlinarith
+  · intro hcfront
+    have hratio : 1 < (1 - ϑ) / (3 * c) := by
+      rw [lt_div_iff₀ (by positivity : 0 < 3 * c)]
+      rw [lt_div_iff₀ (by norm_num : (0 : ℝ) < 3)] at hcfront
+      nlinarith
+    obtain ⟨q, hq, hqu⟩ := exists_between hratio
+    have hmargin : 3 * q * c < 1 - ϑ := by
+      have := (lt_div_iff₀ (by positivity : 0 < 3 * c)).1 hqu
+      nlinarith
+    refine ⟨c, q, q, hc, le_rfl, hq, hq, ?_⟩
+    nlinarith
+
+/-- Endpoint no-go, deliberately scoped to
+`LocationBlindTermwiseLeadingCertificate`. -/
+theorem locationBlindTermwiseLeadingCertificate_no_go
+    (ϑ c : ℝ) (hc : 0 < c) (hfront : (1 - ϑ) / 3 ≤ c) :
+    ¬ LocationBlindTermwiseLeadingCertificate ϑ c := by
+  intro hcert
+  have hlt :=
+    (locationBlindTermwiseLeadingCertificate_iff ϑ c hc).1 hcert
+  linarith
+
+/-- Concrete BHP specialization of the same scoped leading-certificate
+obstruction.  This does not assert a no-go for Erdős 451 itself. -/
+theorem locationBlindTermwiseLeadingCertificate_no_go_bhp
+    (c : ℝ) (hc : (19 : ℝ) / 120 ≤ c) :
+    ¬ LocationBlindTermwiseLeadingCertificate ((21 : ℝ) / 40) c := by
+  apply locationBlindTermwiseLeadingCertificate_no_go
+  · nlinarith
+  · norm_num
+    exact hc
+
 /-- The strict parameter system needed by the adaptive stopping rule.  Unlike
 the balanced package, it has no artificial `theta>9/23` field. -/
 def AdaptiveFrontierParameters (ϑ c : ℝ) : Prop :=
@@ -3062,6 +3272,16 @@ theorem parametric_frontier_complete (ϑ c : ℝ)
 #print axioms adaptiveLambdaAt_pow
 #print axioms adaptiveLambdaAt_ge_one
 #print axioms adaptive_mass_mul_lambda_pow
+#print axioms locationBlind_first_two_log_invariant
+#print axioms locationBlind_first_two_invariant_ge_delta_of_W_ge_one
+#print axioms locationBlind_termwise_block_budget_obstruction
+#print axioms adaptive_first_two_log_invariant
+#print axioms adaptive_first_two_budget_obstruction
+#print axioms locationBlind_endpoint_excess_budget
+#print axioms locationBlind_endpoint_termwise_no_go_of_excess
+#print axioms locationBlindTermwiseLeadingCertificate_iff
+#print axioms locationBlindTermwiseLeadingCertificate_no_go
+#print axioms locationBlindTermwiseLeadingCertificate_no_go_bhp
 #print axioms adaptive_actual_selection_budget
 #print axioms exists_min_adaptive_stopping_order
 #print axioms adaptive_preceding_failure_log_lower

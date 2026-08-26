@@ -13,9 +13,14 @@ directions:
    and sums its right-hand sides.
 
 The attaining proof and the delimited barrier below are author-verified
-natural proofs, conditional on `PI(theta)`.  They have not yet received a new
-blind audit or Lean replay.  The previous kernel-checked theorem on
-`9/23<theta<1` remains untouched.
+natural proofs, conditional on `PI(theta)`, and have received a same-model
+cross-audit.  The attaining theorem is now fully kernel-checked on
+`0<theta<1`.  For the barrier, Lean now checks the exact per-block invariant,
+its `W>=1` monotonicity, the finite first-two-term budget obstruction, and the
+leading linear-program frontier.  The PI cardinality-tail reduction and the
+weighted extraction of a good block from an arbitrary growing subdivision
+remain natural-proof bridges; Lean does not encode the whole sequence of
+subdivided certificates.
 
 ## 1. Result
 
@@ -399,6 +404,46 @@ c<(1-theta)/3.                                        (30)
 This is the promised linear/convex obstruction for the enlarged method
 class.  It is attained by the adaptive construction in Sections 2--3.
 
+### Lean promotion boundary
+
+`formal/ParametricRanges.lean` now defines the logarithmic block terms and
+kernel-checks
+
+```text
+(2r-1) log A + (r-1) log B = log(delta)+4 log(W),
+```
+
+including the monotone consequence for `W>=1`.  With the genuine safe-tail
+loss `log(delta W^4)>=-(1-theta)L-l-C`, it proves the exact finite budget
+
+```text
+((2r-1)alpha+(r-1)beta)l <= (1-theta)L+l+C.
+```
+
+At the exact endpoint it also proves the finite excess-decay bound
+
+```text
+both log terms <= -l-q, r*l >= c*L-D*l
+  ==> (3r-2)q <= (3D+3)l+C,
+```
+
+so the natural proof's `q_k->infinity` contradiction does not assume a fixed
+log-power separated from `1`.  It separately defines the precise leading parameter image
+`LocationBlindTermwiseLeadingCertificate(theta,c)` by the existence of
+`rho,alpha,beta` satisfying (29), and proves
+
+```text
+LocationBlindTermwiseLeadingCertificate(theta,c)
+  iff c<(1-theta)/3                         (c>0).
+```
+
+Consequently the endpoint `c>=(1-theta)/3`, including `c>=19/120` at
+`theta=21/40`, is kernel-refuted **for this named leading certificate
+class**.  The reduction from every growing, nonuniform subdivided certificate
+to (29) still uses the cardinality-tail and weighted-selection arguments
+above at natural-proof level.  Therefore this is not a kernel theorem about
+all proof methods, the true bad set, or Erdős 451 itself.
+
 ## 6. Exact conclusion and remaining scope
 
 - Nonbalanced `lambda` and a delayed `r=2` switch **do** enlarge the
@@ -424,3 +469,12 @@ command, prior guard unit, script hash, parameters, and scope limitation are
 recorded in `evidence/adaptive_unbalanced_replay.json`.  This finite replay is
 a transcription check only and is not used to promote the quantified natural
 proof to machine-checked status.
+
+The promoted block invariant and LP obstruction were separately replayed by
+`formal/verify_guarded.sh` under guard unit
+`openmath-task-20260826-201020-239491.scope`; all asserted axiom lists passed,
+no `sorryAx` occurred, and the full replay exited zero with peak RSS
+`6,597,940 KiB` and zero swap.  The fresh range build immediately before it
+used guard unit `openmath-task-20260826-200821-237917.scope`, took `109.97s`,
+and peaked at `7,009,816 KiB`.  The checked `ParametricRanges.lean` SHA-256 is
+`ab6bfdcc85dec37b7489a2f2f615e7976136e9a9a3c40cd9ccde8324b064a0e5`.

@@ -22,7 +22,7 @@
       "method": "Finite or polylogarithmic comparable prime-block segmentation",
       "loss_step": "Each block is bounded independently by the same nonnegative Theorem 4.1 right-hand side, after which the bounds are summed and compared only with blockwise short-interval prime counts.",
       "lost_information": "No cancellation or cross-block correlation is retained, and every comparable block inherits the same A--B product barrier up to k^(o(1)) factors.",
-      "consequence": "Such segmentation changes constants or logarithmic factors but cannot improve the leading c(theta) frontier. This does not rule out a new multiblock theorem retaining correlations."
+      "consequence": "Such segmentation changes constants or logarithmic factors but cannot improve the leading c(theta) frontier. Lean now checks the exact per-block invariant, W>=1 monotonicity, finite safe-tail budget, and leading LP infeasibility; the cardinality-tail and weighted block-extraction bridge remains natural proof. This does not rule out a new multiblock theorem retaining correlations."
     }
   ],
   "required_new_information": [

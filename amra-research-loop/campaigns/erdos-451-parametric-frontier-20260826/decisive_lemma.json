@@ -1,5 +1,5 @@
 {
-  "statement": "Kernel-checked adaptive final theorem: if 0<theta<1 satisfies the source short-prime input PI(theta), then every fixed 0<c<(1-theta)/3 gives, for all sufficiently large k and every 2k<n<=exp(c(log k)^2/loglog k), a prime divisor p in (k,k+3k^theta) of (n-k)...(n-1), hence p in (k,2k). The proof constructs the actual positive-real max scale, least stopping order, uniform r>=2 third/additive asymptotics, and complete four-range package. The older balanced class still has exact window 9/23<theta<1, so 9/23 is now confirmed as a balanced-scale artifact. The explicitly defined location-blind adaptive subdivided Konyagin little-o certificate class still cannot reach c>=(1-theta)/3. At theta=21/40 the unconditional BHP corollary remains every c<19/120; Erdős 451 itself is not closed.",
+  "statement": "Kernel-checked adaptive final theorem: if 0<theta<1 satisfies PI(theta), then every fixed 0<c<(1-theta)/3 gives the stated prime divisor for all sufficiently large k and 2k<n<=exp(c(log k)^2/loglog k). The older balanced 9/23 endpoint is an artifact. For the explicitly named location-blind, termwise-nonnegative certificate class, Lean additionally proves the exact block invariant (2r-1)log(T1)+(r-1)log(T2)=log(delta)+4log(W), its W>=1 monotonicity and finite safe-tail budget, and the leading LP equivalence LocationBlindTermwiseLeadingCertificate(theta,c) iff c<(1-theta)/3 for c>0. Thus c>=(1-theta)/3 is kernel-refuted in that leading parameter class, including c>=19/120 at theta=21/40. The bridge from every growing subdivision to the LP image remains a natural proof; Erdős 451 itself is not closed.",
   "status": "proved",
   "closes": [
     "main_exponent_improved",
@@ -15,19 +15,21 @@
     "evidence/lean_parametric_frontier.json: guarded Lean proof of the full theta=21/40 theorem for every real 0<c<19/120.",
     "evidence/lean_theta_interface_audit.md: guarded parameter-interface extraction and exact general-theta blocker.",
     "evidence/lean_parametric_ranges.md and evidence/lean_parametric_ranges.json: guarded Lean construction of the actual adaptive max scale, least stopping order, uniform analytic budgets, all four range fields, and the final PI(theta)-conditional theorem for every 0<theta<1.",
+    "formal/ParametricRanges.lean: kernel-checked locationBlind_first_two_log_invariant, W>=1 monotonicity, finite termwise block obstruction, actual adaptive invariant, exact leading-certificate iff, endpoint no-go, and BHP 19/120 specialization.",
     "audit/adaptive_actual_builder_cross_audit.md: separate same-model reconstruction from the actual real scales and least stopping order through the pinned raw estimate, four-range builder, final theorem, 9/23 leakage audit, and strict BHP specialization; explicitly not human peer review.",
     "audit/adaptive_parameter_core_cross_audit.md: separate same-model cross-reconstruction of every adaptive definition and selection-budget inequality, source-hash and evidence-boundary check; explicitly not human peer review.",
     "evidence/theta_endpoint_audit.md: range-by-range endpoint audit, resegmentation analysis, and exact scope of the 9/23 and 1 barriers.",
     "evidence/adaptive_unbalanced_partition_frontier.md: author-verified adaptive attaining proof for 0<theta<1 and the enlarged, explicitly location-blind certificate barrier.",
     "audit/adaptive_unbalanced_author_audit.md: adversarial author audit of source admissibility, endpoint estimates, PI cardinality-tail correction, and no-go scope; explicitly not independent.",
     "audit/adaptive_unbalanced_cross_audit.md: separate same-model Codex reconstruction of the attaining chain and delimited cardinality-tail barrier; explicitly not human peer review or Lean evidence.",
+    "audit/location_blind_leading_obstruction_cross_audit.md: separate same-model reconstruction of the exact log invariant, finite endpoint-excess bound, leading-certificate equivalence, and delimited no-go scope; explicitly not human peer review.",
     "evidence/adaptive_unbalanced_replay.json: guarded finite log-domain transcription replay; explicitly not theorem evidence.",
     "evidence/lean_parametric_ranges_stage1.md and evidence/lean_parametric_ranges_stage1.json: archived guarded checkpoint for the earlier three-of-four builder stage."
   ],
   "dependency_gaps": [
     "The abstract theta theorem assumes PI(theta); the theta=21/40 corollary imports the Baker--Harman--Pintz short-prime input exactly as the source paper does.",
-    "The complete adaptive four-range ParametricRangeBuilder and final PI(theta)-conditional theorem are kernel-checked in Lean for every 0<theta<1. The enlarged no-go remains natural-proof plus same-model cross-reconstruction rather than Lean or external review.",
-    "The enlarged no-go is confined to a location-blind deterministic-tail partition whose nonnegative Theorem 4.1 bounds are summed and required to be o(k^theta/log k). It does not cover sparse covers selected from actual prime locations, cross-block cancellation, stronger prime inputs, stronger exponential-sum estimates, or the true bad-set cardinality.",
+    "The complete adaptive four-range theorem is kernel-checked. For the enlarged no-go, the exact block algebra and leading LP frontier are kernel-checked, but the PI cardinality-tail reduction and weighted extraction of a good block from an arbitrary growing subdivision remain natural-proof steps rather than a formalized sequence-of-partitions theorem.",
+    "The no-go is confined to the named location-blind deterministic-tail class whose nonnegative Theorem 4.1 bounds are summed and required to be o(k^theta/log k). It does not cover sparse covers selected from actual prime locations, cross-block cancellation, stronger prime inputs, stronger exponential-sum estimates, or the true bad-set cardinality.",
     "Novelty and publication priority remain unchecked."
   ]
 }

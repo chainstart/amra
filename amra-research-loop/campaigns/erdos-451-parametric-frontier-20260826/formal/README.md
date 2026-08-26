@@ -96,6 +96,33 @@ endpoint of the larger adaptive old-proof architecture.  This does not
 increase the unconditional BHP value: `theta=21/40` still gives exactly every
 `c<19/120`.
 
+The file also kernel-checks the decisive obstruction for the explicitly
+delimited **location-blind, termwise-nonnegative** certificate class.  For a
+single block with arbitrary unbalanced scale and denominator parameter
+`W>=1`, it proves the exact logarithmic product invariant
+
+```text
+(2r-1) log(T1)+(r-1) log(T2)=log(delta)+4log(W),
+```
+
+so increasing `W` cannot help.  It derives the finite safe-tail budget and
+the endpoint excess bound `(3r-2)q<=(3D+3)loglog(k)+C`, then proves the exact
+leading linear-program equivalence
+
+```text
+LocationBlindTermwiseLeadingCertificate(theta,c)
+  iff c<(1-theta)/3                         (c>0).
+```
+
+Hence `locationBlindTermwiseLeadingCertificate_no_go` rules out the endpoint
+inside that named leading parameter class, and its BHP specialization rules
+out `c>=19/120` there.  This scoped result is not a no-go for Erdős 451 or for
+methods using cross-block cancellation, prime-location-adaptive covers, or
+stronger analytic/prime input.  Lean does not encode the natural proof's
+PI-cardinality-tail extraction or the weighted selection of a good block
+from an arbitrary growing subdivision; those are the remaining bridge from
+the full natural certificate definition to the kernel-checked LP image.
+
 `balancedFourRangeParameters_iff` proves the exact feasibility certificate
 for this delimited balanced four-range method (assuming `c>0`): its parameter
 system exists if and only if
@@ -106,4 +133,9 @@ needed below `9/23`.
 
 The wrapper enters the shared OpenMath slice with a 30 GiB high watermark,
 34 GiB hard memory limit, 4 GiB swap limit, and 512-task limit before Lake or
-Lean starts.
+Lean starts.  The final full replay passed in unit
+`openmath-task-20260826-201020-239491.scope` with zero swap and whole-replay
+peak RSS `6,597,940 KiB`; the fresh range build of the same source passed in
+unit `openmath-task-20260826-200821-237917.scope` in `109.97s` with peak RSS
+`7,009,816 KiB`.  The checked `ParametricRanges.lean` SHA-256 is
+`ab6bfdcc85dec37b7489a2f2f615e7976136e9a9a3c40cd9ccde8324b064a0e5`.

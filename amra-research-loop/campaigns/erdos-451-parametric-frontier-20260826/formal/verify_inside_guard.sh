@@ -32,6 +32,24 @@ if grep -Fq 'sorryAx' "$logs/interface-build.log"; then
   printf 'parametric interface axiom audit failed: sorryAx found\n' >&2
   exit 1
 fi
+
+check_standard_axioms() {
+  python3 - "$1" "$2" <<'PY'
+import re
+import sys
+
+path, theorem = sys.argv[1:]
+with open(path, encoding="utf-8") as handle:
+    output = re.sub(r"\s+", " ", handle.read())
+expected = (
+    f"'{theorem}' depends on axioms: "
+    "[propext, Classical.choice, Quot.sound]"
+)
+if expected not in output:
+    raise SystemExit(f"axiom audit failed for {theorem}")
+PY
+}
+
 for theorem in \
   ParametricSmall.case_small \
   ParametricMed.case_medium \
@@ -54,6 +72,16 @@ for theorem in \
   ParametricLarge.adaptiveLambdaAt_pow \
   ParametricLarge.adaptiveLambdaAt_ge_one \
   ParametricLarge.adaptive_mass_mul_lambda_pow \
+  ParametricLarge.locationBlind_first_two_log_invariant \
+  ParametricLarge.locationBlind_first_two_invariant_ge_delta_of_W_ge_one \
+  ParametricLarge.locationBlind_termwise_block_budget_obstruction \
+  ParametricLarge.adaptive_first_two_log_invariant \
+  ParametricLarge.adaptive_first_two_budget_obstruction \
+  ParametricLarge.locationBlind_endpoint_excess_budget \
+  ParametricLarge.locationBlind_endpoint_termwise_no_go_of_excess \
+  ParametricLarge.locationBlindTermwiseLeadingCertificate_iff \
+  ParametricLarge.locationBlindTermwiseLeadingCertificate_no_go \
+  ParametricLarge.locationBlindTermwiseLeadingCertificate_no_go_bhp \
   ParametricLarge.adaptive_actual_selection_budget \
   ParametricLarge.exists_min_adaptive_stopping_order \
   ParametricLarge.adaptive_preceding_failure_log_lower \
@@ -74,8 +102,7 @@ for theorem in \
   ParametricLarge.parametricRangeBuilder_wide \
   ParametricLarge.parametric_frontier_wide
 do
-  grep -Fq "'$theorem' depends on axioms: [propext, Classical.choice, Quot.sound]" \
-    "$logs/ranges-build.log"
+  check_standard_axioms "$logs/ranges-build.log" "$theorem"
 done
 if grep -Fq 'sorryAx' "$logs/ranges-build.log"; then
   printf 'parametric ranges axiom audit failed: sorryAx found\n' >&2

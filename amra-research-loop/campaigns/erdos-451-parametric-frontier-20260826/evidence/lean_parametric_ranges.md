@@ -126,6 +126,62 @@ parameter subclass.  It is not a no-go for the adaptive architecture:
 `parametricRangeBuilder_adaptive` removes the `9/23` lower endpoint while
 retaining the same leading `c<(1-theta)/3` frontier.
 
+## Scoped location-blind obstruction
+
+The kernel result now goes beyond merely repeating
+`adaptiveFrontierParameters_iff`.  It defines abstract logarithmic first-two
+terms for one subdivided Konyagin block and proves, for every `r>=2`,
+
+```text
+(2r-1) log(T1)+(r-1) log(T2)=log(delta)+4log(W).
+```
+
+Both the derivative factor and arbitrary unbalanced `lambda` cancel, while
+`W>=1` can only increase the right side.  The theorem
+`locationBlind_termwise_block_budget_obstruction` combines this identity
+with the cardinality-tail safe threshold
+
+```text
+log(delta W^4)>=-(1-theta)K-M-C
+```
+
+to obtain the exact finite inequality
+
+```text
+((2r-1)alpha+(r-1)beta)M <= (1-theta)K+M+C.
+```
+
+The actual adaptive definitions satisfy the sharper equality with right side
+`(theta-1)K`, checked by `adaptive_first_two_log_invariant` and
+`adaptive_first_two_budget_obstruction`.
+
+At the endpoint, Lean does not assume fixed decay exponents separated from
+`1`.  If both block logs are at most `-M-q`, the order lower bound is
+`rM>=cK-DM`, and `c>=(1-theta)/3`, then
+`locationBlind_endpoint_excess_budget` proves
+
+```text
+(3r-2)q <= (3D+3)M+C.
+```
+
+`locationBlind_endpoint_termwise_no_go_of_excess` packages the strict reverse
+inequality as a contradiction.  This finite form is used with the natural
+proof's `q_k->infinity` and covers little-`o` budgets whose effective
+log-power tends down to `1`.
+
+Finally `LocationBlindTermwiseLeadingCertificate` is the precise LP image
+with `rho>=c`, `alpha>1`, `beta>1`, and
+`(2alpha+beta)rho<=1-theta`.  Lean proves its feasibility iff
+`c<(1-theta)/3` for `c>0`, then kernel-refutes `c>=(1-theta)/3` in this named
+class, including `c>=19/120` at `theta=21/40`.
+
+This does **not** formalize arbitrary growing block families as Lean objects.
+The PI cardinality-tail reduction and the weighted extraction of a good block
+from a total `o(k^theta/log k)` nonnegative sum remain natural-proof steps in
+`adaptive_unbalanced_partition_frontier.md`.  The kernel theorem is therefore
+scoped to the block algebra and leading LP image and is not a no-go for all
+methods or for Erdős 451.
+
 At the
 unconditional BHP input `theta=21/40`, it specializes to `c<19/120`.
 
@@ -145,8 +201,13 @@ Run `cd formal && bash verify_guarded.sh`.  It performs the complete replay
 inside the shared OpenMath memory slice, verifies exact axiom lists, rejects
 `sorryAx`, and writes SHA-256 hashes to `formal/logs/final-sha256.txt`.
 
-Final replay: guard unit
-`openmath-task-20260826-193041-222943.scope`, exit status `0`, range-build
-wall time `94.89s`, peak RSS `7,106,780 KiB`, and zero swap.  The verified
+Final full replay: guard unit
+`openmath-task-20260826-201020-239491.scope`, exit status `0`; the cached
+range-build took `3.27s` with peak RSS `921,676 KiB`, while the whole replay
+peaked at `6,597,940 KiB`, with zero swap.  The immediately preceding fresh
+range build of the same source ran in guard unit
+`openmath-task-20260826-200821-237917.scope`, took `109.97s`, peaked at
+`7,009,816 KiB`, used zero swap, and is saved as
+`formal/logs/location-blind-attempt03.log`.  The verified
 `ParametricRanges.lean` SHA-256 is
-`f53b140146ab60348880a0d6c15cd8dafe756e62bb1a6701a197ce6a5ff6ea1c`.
+`ab6bfdcc85dec37b7489a2f2f615e7976136e9a9a3c40cd9ccde8324b064a0e5`.
