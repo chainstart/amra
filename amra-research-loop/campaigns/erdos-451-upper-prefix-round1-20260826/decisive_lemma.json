@@ -22,7 +22,10 @@
     "evidence/affine_rank3_carry_audit.md",
     "evidence/affine_rank3_tensor_audit.json",
     "evidence/direct_common_start_rank3_no_go.md",
-    "audit/direct_fixed_D_no_go_review.md"
+    "audit/direct_fixed_D_no_go_review.md",
+    "evidence/absorber_cluster_resonance_audit.md",
+    "evidence/free_multiplier_cluster_avoidance.md",
+    "audit/free_multiplier_cross_audit.md"
   ],
   "dependency_gaps": [
     "The proved bound retains the full exp((1+o(1))k) scale and therefore satisfies none of the campaign promotion conditions.",
@@ -52,6 +55,12 @@
     "The exact k=70, p=137, q=139 witness has scaled correlation 11495874=0.95759 k^4/2. The proved coherent-row lower bound is Omega(k^4/Delta) when both offsets are macroscopic, so a k^3*C^2 rank-two bound is impossible along bounded-gap families; one global polynomial loss D>=2 is necessary.",
     "Multiplying adjacent-pair rotation losses gives sum log(1+k/Delta_i) of order r log k even at ordinary logarithmic gaps, hence exp(Theta(k)) over final blocks. More decisively, the bounded-cluster resonance proves that any uniform rank-r termwise bound needs extra polynomial exponent D_r>=r, whose natural full-rank ledger is again exp(Omega(k)). A surviving direct route must use cross-support/global cancellation or other scale-dependent structure, not the refuted fixed-D absolute-value recursion.",
     "For the canonical affine rank-three term, the exact partial-fraction identity separates the inverse-binomial/Vandermonde rational contribution from a global CRT carry: sum_i m_i(ell)/H_i + ell*R_S = nu(ell)/Q. The formula extends to every rank, but supplies no inequality because the Fourier product depends on the full local carry vector, not the scalar nu.",
-    "The guarded exact system k=22, A=2, Q=276, moduli (37,41,43) has M_3=8761532 and M_3/(k*max M_2)=40.58820368380091, strictly killing the constant-one bounded-factor tensor handoff. Its size is only 1.700069387957852*k^5, so a fixed polynomial loss D>=2 per dyadic block remains viable."
+    "The guarded exact system k=22, A=2, Q=276, moduli (37,41,43) has M_3=8761532 and M_3/(k*max M_2)=40.58820368380091, strictly killing the constant-one bounded-factor tensor handoff. Its size is only 1.700069387957852*k^5, so a fixed polynomial loss D>=2 per dyadic block remains viable.",
+    "A direct fixed-pattern resonance at ell=epsilon*L moves under the canonical substitution s=Qt-(k+1) to the centered global frequency a=<Q*ell>_P; the translation changes only its Fourier phase. If QL-a is nonzero, P divides it and r*log k<=log(Q|L|+R) whenever |a|<=R.",
+    "For log|L|=o(k) and log R=o(k), the absorbed low-pole rank ledger k^r is exp(o(k)). For finitely many fixed patterns, the primes supporting |a|<=R number O(R*k*loglog(k)/log^3(k)), which is o(k/log k) only in the affordable range R=o(log^2(k)/loglog(k)). This does not sum their Fourier supports or survive an unproved iterative absorber update.",
+    "The polynomial radius needed to neutralize the old fixed-D lower bound is |a|>>k^(r-D), far beyond the proved divisor range. Maynard's theorem gives no distribution of binom(k+A,A) modulo the changing cluster product, so neither complete neutralization nor an affine cluster counterexample is proved for the canonical multiplier alone.",
+    "Allowing q=Q_0*u changes the conclusion for every fixed-rank bounded-diameter obstruction. For N=O_R(k) cluster supports and thresholds R_S=P_S/[k^D(log k)^(C|S|)], exact periodic counting gives at most (2 floor(R_S)+1)(U/P_S+1) bad multipliers per support. With D>=2 and polynomial U, the union of resonance-bad multipliers and multipliers sharing a remaining prime has density o_R(1).",
+    "A diagonal cutoff R_0(k)->infinity can be chosen with R_0 log k=o(k), C_{R_0}<=k^(1/4), and bounded-pattern Vandermonde constants below k. Then U=C_{R_0}(2k)^(R_0+4)=exp(o(k)) simultaneously moves every rank<=R_0 bounded-diameter cluster resonance beyond P_S/[k^D(log k)^(C|S|)] while preserving all remaining-prime inverses.",
+    "The free-multiplier lemma bounds only the known cluster character and its conjugate at O(2^r k^(r+D)(log k)^(Cr)). It does not bound other characters, arbitrary/high-rank supports, the cross-support signed sum, or the many-seed prefix transfer, and therefore does not prove an Erdos-451 upper bound."
   ]
 }

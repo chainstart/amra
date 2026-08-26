@@ -1,7 +1,7 @@
 {
   "outcome": "promote",
   "success_condition": "main_exponent_improved",
-  "reason": "The optimized least-order argument moves the source exponent constant from 1/20 to every c<19/120 at theta=21/40. The guarded Lean development proves the complete conditional frontier c*(theta)=(1-theta)/3 throughout the widened window 9/23<theta<1 under PrimeIntervalInput(theta), while preserving the full BHP corollary. It also proves that the explicitly defined BalancedFourRangeParameters class is feasible exactly on that window (for positive c below the frontier); the theta<=9/23 no-go is confined to this method class and is not a no-go for Erdős #451. The natural argument passed blind reconstruction, and the widened formal result passes clean guarded replay with no sorryAx.",
+  "reason": "The audited promotion basis is unchanged: the optimized least-order argument moves the source exponent constant from 1/20 to every c<19/120 at theta=21/40, and guarded Lean proves c*(theta)=(1-theta)/3 for 9/23<theta<1 under PrimeIntervalInput(theta), with exact feasibility of BalancedFourRangeParameters. A post-promotion adaptive construction now removes the balanced theta>9/23 artifact and gives the same conditional frontier for every 0<theta<1; an explicitly narrowed location-blind deterministic-tail certificate barrier shows no c improvement inside that larger old architecture. The extension passed a separate same-model Codex cross-reconstruction but remains outside the inherited Lean and external-audit claim. The BHP constant is unchanged.",
   "evidence": [
     "evidence/parametric_frontier_proof.md",
     "audit/independent_reconstruction.md",
@@ -11,6 +11,10 @@
     "evidence/lean_parametric_ranges.json",
     "evidence/lean_theta_interface_audit.md",
     "evidence/theta_endpoint_audit.md",
+    "evidence/adaptive_unbalanced_partition_frontier.md",
+    "audit/adaptive_unbalanced_author_audit.md",
+    "audit/adaptive_unbalanced_cross_audit.md",
+    "evidence/adaptive_unbalanced_replay.json",
     "formal/verify_guarded.sh"
   ]
 }

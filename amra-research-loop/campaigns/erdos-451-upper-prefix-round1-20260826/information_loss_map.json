@@ -119,6 +119,18 @@
       "loss_step": "Use the exact divided-difference identity to replace the vector of local modular inverses u_i(ell) and carries m_i(ell) by the single global carry nu(ell).",
       "lost_information": "The individual local phases entering each signed interval kernel K_i(h_i(ell)); the scalar carry identity controls only one weighted sum of those phases.",
       "consequence": "The rank-three identity is an exact algebraic reparameterization but gives no discrepancy inequality. In the exact affine (37,41,43) example all identities hold while the triple interval norm is 40.588 times k times the largest pair norm."
+    },
+    {
+      "method": "Low-frequency divisor counting after canonical absorption",
+      "loss_step": "From a centered transported resonance a=<QL>_P, retain only the divisibility P | QL-a and bound prime divisors of the integers QL-a separately for |a|<=R.",
+      "lost_information": "The joint signed Fourier contribution of all exceptional supports and the way the exceptional set changes if its primes are multiplied into the absorber; for large supports the Vandermonde product L can itself have exponential logarithmic size.",
+      "consequence": "The method proves an exp(o(k)) rank ledger when log|L|=o(k) and an affordable exceptional-prime count only for R=o(log^2(k)/loglog(k)). A fixed-D block estimate needs polynomial radius k^(r-D), so divisor counting alone does not close the affine route."
+    },
+    {
+      "method": "Free-multiplier avoidance of known bounded-cluster characters",
+      "loss_step": "Choose one u<=exp(o(k)) so that each explicitly listed bounded-diameter cluster character u*Q_0*L_S is far from zero modulo its own product P_S.",
+      "lost_information": "All other Fourier characters of those supports, clusters beyond the slowly growing rank/diameter cutoff, arbitrary Vandermonde patterns, and cancellation between the exponentially many supports.",
+      "consequence": "Exact union counting removes every fixed-rank Maynard character at the desired polynomial scale while preserving the absorber budget and local inverses. This prevents that known obstruction from refuting the free-multiplier route, but it is not a full-support or fixed-prefix theorem."
     }
   ],
   "required_new_information": [
@@ -132,6 +144,7 @@
     "For the canonical absorption route, a pointwise correlated inverse-binomial gap theorem for c_p=((-1)^A binom(p-k-1,A))^{-1}, with total loss at most exp(O(m log log k)) times the reciprocal-density scale.",
     "At dyadic-block resolution, a signed support-stratified discrepancy estimate for the affine CRT lattice whose full-support local frequencies are a(-1)^(A+r-1)(binom(b-1,A)F_B'(b))^{-1}, while coordinate-zero supports are charged only polylogarithmically.",
     "In the common-start coordinate, exploit cancellation between different Fourier supports or control the entire combined counting function globally. The former target |C_S(J)|<=k^D C^|S| product k/(p-k) with one fixed D is refuted by bounded-cluster resonances and must not be used as the recursive interface.",
-    "For the affine route, control the joint carry word ell maps to (u_1(ell),...,u_r(ell),nu(ell)) in the signed global-frequency sum with at most k^D(log k)^(Cr) loss per dyadic block; the scalar carry identity alone is insufficient."
+    "For the affine route, control the joint carry word ell maps to (u_1(ell),...,u_r(ell),nu(ell)) in the signed global-frequency sum with at most k^D(log k)^(Cr) loss per dyadic block; the scalar carry identity alone is insufficient.",
+    "After using the free multiplier to remove every slowly bounded-rank cluster character, prove a signed estimate for all remaining Fourier characters and supports. The multiplier union bound has only O_R(k) named obstructions and cannot be extended naively to exponentially many arbitrary supports."
   ]
 }

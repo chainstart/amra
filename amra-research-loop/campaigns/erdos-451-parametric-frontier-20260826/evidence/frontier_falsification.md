@@ -1,5 +1,14 @@
 # Falsification ledger for the parametric frontier
 
+> **Superseding notice (adaptive class).**  The balanced calculations below
+> remain exact for the previously formalized `BalancedFourRangeParameters`
+> class.  The later adaptive upper-threshold construction in
+> `evidence/adaptive_unbalanced_partition_frontier.md` shows that the balanced
+> `theta>9/23` additive endpoint is not an obstruction for the broader old
+> architecture: delayed order changes and minimally increased `lambda` extend
+> the author-level attaining argument to every `0<theta<1`.  The A--B invariant
+> still fixes the leading `c<(1-theta)/3` frontier.
+
 ## The exact two-term invariant
 
 Write the first two bracketed terms in Theorem 4.1 as
@@ -133,7 +142,10 @@ derivative numerator of the latter is `-3r^2+6r-2<0` for `r>=2`.  Hence
 exactly when `theta>9/23`.  The frozen range `theta>2/5` has uniform endpoint
 margin `1/105`; at `theta=21/40` the margin is `41/280`.  Therefore
 `r lambda=o(k^theta/log k)` independently of `c` on this range.  This kills
-MPF-05.
+MPF-05 in the balanced class.  It does not prove an architecture-wide lower
+endpoint: the adaptive construction cited in the superseding notice gives
+`lambda<=k^(theta/r)(log k)^O(1)` and makes the additive term negligible for
+every fixed `theta>0`.
 
 ## Order tradeoff
 

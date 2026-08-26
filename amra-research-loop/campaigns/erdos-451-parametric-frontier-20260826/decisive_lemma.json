@@ -1,5 +1,5 @@
 {
-  "statement": "Parametric attaining theorem and matching delimited method barriers. If 9/23<theta<1 satisfies the source paper's short-prime count PI(theta), then for every fixed 0<c<(1-theta)/3 and all sufficiently large k, every integer 2k<n<=exp(c(log k)^2/loglog k) has a prime divisor p in (k,k+3k^theta) of (n-k)...(n-1), hence p in (k,2k). With the Baker--Harman--Pintz value theta=21/40, this gives every c<19/120. The explicitly defined balanced four-range parameter class is feasible exactly when 9/23<theta<1 and c<(1-theta)/3: its r=3 sharp additive exponent blocks theta<=9/23, while its first growing-order margin blocks theta>=1 for c>0. Independently, no termwise blockwise Theorem 4.1 little-o certificate as precisely defined in evidence/parametric_frontier_proof.md reaches c>=(1-theta)/3. Both no-go claims are confined to their stated certificate classes, not the true bad-point count or Erdős #451 as a whole.",
+  "statement": "Independently audited and kernel-checked core: if 9/23<theta<1 satisfies the source short-prime input PI(theta), then every fixed 0<c<(1-theta)/3 gives, for all sufficiently large k and every 2k<n<=exp(c(log k)^2/loglog k), a prime divisor p in (k,k+3k^theta) of (n-k)...(n-1), hence p in (k,2k); theta=21/40 gives every c<19/120. The balanced four-range class has the exact theta window 9/23<theta<1. Post-promotion natural-proof extension, separately reconstructed by a same-model Codex auditor but not yet Lean-checked or externally audited: adaptive upper thresholds and unbalanced lambda extend the same PI(theta)-conditional attaining theorem to every 0<theta<1, while the explicitly defined location-blind adaptive subdivided Konyagin little-o certificate class still cannot reach c>=(1-theta)/3. This enlarged barrier assumes a partition of the deterministic PI-cardinality tail and independent summation of nonnegative Konyagin bounds; it excludes prime-location-adaptive sparse covers, cross-block cancellation, stronger local prime input, and direct estimates of the true bad set. The BHP constant remains 19/120.",
   "status": "proved",
   "closes": [
     "main_exponent_improved",
@@ -16,11 +16,16 @@
     "evidence/lean_theta_interface_audit.md: guarded parameter-interface extraction and exact general-theta blocker.",
     "evidence/lean_parametric_ranges.md and evidence/lean_parametric_ranges.json: guarded Lean construction of all four range fields, the complete conditional parametric theorem for 9/23<theta<1 under PrimeIntervalInput(theta), and exact balanced-method endpoint certificates.",
     "evidence/theta_endpoint_audit.md: range-by-range endpoint audit, resegmentation analysis, and exact scope of the 9/23 and 1 barriers.",
+    "evidence/adaptive_unbalanced_partition_frontier.md: author-verified adaptive attaining proof for 0<theta<1 and the enlarged, explicitly location-blind certificate barrier.",
+    "audit/adaptive_unbalanced_author_audit.md: adversarial author audit of source admissibility, endpoint estimates, PI cardinality-tail correction, and no-go scope; explicitly not independent.",
+    "audit/adaptive_unbalanced_cross_audit.md: separate same-model Codex reconstruction of the attaining chain and delimited cardinality-tail barrier; explicitly not human peer review or Lean evidence.",
+    "evidence/adaptive_unbalanced_replay.json: guarded finite log-domain transcription replay; explicitly not theorem evidence.",
     "evidence/lean_parametric_ranges_stage1.md and evidence/lean_parametric_ranges_stage1.json: archived guarded checkpoint for the earlier three-of-four builder stage."
   ],
   "dependency_gaps": [
     "The abstract theta theorem assumes PI(theta); the theta=21/40 corollary imports the Baker--Harman--Pintz short-prime input exactly as the source paper does.",
-    "The complete four-range ParametricRangeBuilder and final conditional theorem are kernel-checked in Lean on the widest window proved for this method, 9/23<theta<1. The sharp large-range additive estimate ((4-theta)r+theta-3)/(r(3r-2)) <= (9-2theta)/21 is absorbable exactly when theta>9/23; there is no remaining builder gap.",
+    "The complete four-range ParametricRangeBuilder and final conditional theorem are kernel-checked in Lean for 9/23<theta<1. The adaptive unbalanced extension to 0<theta<=9/23 and its enlarged certificate barrier have natural proofs and a separate same-model cross-reconstruction, but still require Lean formalization and external independent review before the inherited formal status can be extended.",
+    "The enlarged no-go is confined to a location-blind deterministic-tail partition whose nonnegative Theorem 4.1 bounds are summed and required to be o(k^theta/log k). It does not cover sparse covers selected from actual prime locations, cross-block cancellation, stronger prime inputs, stronger exponential-sum estimates, or the true bad-set cardinality.",
     "Novelty and publication priority remain unchecked."
   ]
 }

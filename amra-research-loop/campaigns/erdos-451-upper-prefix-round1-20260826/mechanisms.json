@@ -67,7 +67,7 @@
       "kill_test": "Enumerate exact one-sided and symmetric minima, test arbitrary coprime interval systems for skew-lattice counterexamples, and audit whether any proposed lattice theorem has a dimension factor larger than exp(O(m log log k)).",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, and evidence/direct_common_start_rank3_no_go.md: direct rank three reduces to affine-phase slices and the fixed-D termwise bound is refuted, while the broader one-sided orthant mechanism remains open and would require global or cross-support cancellation",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, evidence/direct_common_start_rank3_no_go.md, evidence/absorber_cluster_resonance_audit.md, and evidence/free_multiplier_cluster_avoidance.md: a subexponential free multiplier removes every slowly bounded-rank cluster character at polynomial scale while preserving the one-sided affine formulas, but global/cross-support control remains open",
       "updated_at": "2026-08-26T06:40:55+00:00"
     },
     {
@@ -109,7 +109,7 @@
       "kill_test": "Extract exact covering words and indispensable boundary witnesses; reject encodings that are noninjective or require recording one of k phases independently per prime.",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, and evidence/direct_common_start_rank3_no_go.md: the formal support expansion survives, but the proposed fixed-D absolute-value bound is false by bounded-cluster resonance; any surviving boundary encoding must compress the combined support sum rather than bound every support separately",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, evidence/direct_common_start_rank3_no_go.md, evidence/absorber_cluster_resonance_audit.md, and evidence/free_multiplier_cluster_avoidance.md: named bounded-cluster resonances can be simultaneously displaced by one affordable multiplier, but the exponentially larger unnamed support family still requires combined entropy/cancellation",
       "updated_at": "2026-08-26T06:40:55+00:00"
     },
     {
@@ -137,7 +137,7 @@
       "kill_test": "Exhaust small coprime moduli and widths, maximize the cyclic gap divided by P/|A|, include extreme narrow/wide mixtures, and test whether recursive, monotone-chain, or difference-set proofs lose a factor q_max at every merge or lose coordinatewise sign.",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, and evidence/direct_common_start_rank3_no_go.md: the inverse-binomial Vandermonde and all-rank scalar carry identities are exact; direct rank three already generates affine phase, and bounded-cluster resonance rules out fixed-D termwise tensor recursion, but a global monotone-sumset cancellation mechanism is not refuted",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, evidence/direct_common_start_rank3_no_go.md, evidence/absorber_cluster_resonance_audit.md, and evidence/free_multiplier_cluster_avoidance.md: q=Q_0*u gives exact polynomial separation for every slowly bounded-rank cluster character, but no global monotone-sumset or full Fourier cancellation theorem follows",
       "updated_at": "2026-08-26T06:40:55+00:00"
     },
     {

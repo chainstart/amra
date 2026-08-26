@@ -1,0 +1,52 @@
+{
+  "status": "pass",
+  "mathematical_status": "finite_log_domain_sanity_only",
+  "machine_reproduced": true,
+  "theorem_dependency": false,
+  "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 work/verify_adaptive_unbalanced.py",
+  "guard_unit": "openmath-task-20260826-181605-191334.scope",
+  "prior_guard_unit": "openmath-task-20260826-180504-187515.scope",
+  "guard_limits": {
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "swap_max": "4G",
+    "tasks_max": 512
+  },
+  "resource_observation": {
+    "maximum_resident_set_kbytes": 12000,
+    "swaps": 0,
+    "elapsed_seconds": 0.05,
+    "exit_status": 0
+  },
+  "script_sha256": "dc194a1ec69cd46c6b59c287f9dd8351aced0c5d78a9f2e9c50d8d7614e1af5e",
+  "checks": [
+    "Exact coefficient identities 2r-1+r-1=3r-2, Q(r-1)+Q(2r-1)=Q(3r-2), and Q(r-1)+Q(2r-3)=Q(3r-4) for 2<=r<50.",
+    "Forty-one log-domain n values from the medium-large boundary to the endpoint for each parameter case.",
+    "Selected order r>=2 and r<=ceil(aL/log L).",
+    "Both first terms at most (log k)^(-Q), third term o(1/log k), and additive term below k^theta/log k at the replay scale."
+  ],
+  "parameter_cases": [
+    {
+      "theta": "21/40",
+      "c": "3/20",
+      "Q": "101/100",
+      "a": "31/200",
+      "endpoint_r": 1303
+    },
+    {
+      "theta": "1/10",
+      "c": "7/25",
+      "Q": "101/100",
+      "a": "29/100",
+      "endpoint_r": 2432
+    },
+    {
+      "theta": "9/10",
+      "c": "3/100",
+      "Q": "101/100",
+      "a": "4/125",
+      "endpoint_r": 260
+    }
+  ],
+  "scope": "This replay checks transcription and representative asymptotic margins. The quantified theorem and no-go lemma rely on the natural proofs in evidence/adaptive_unbalanced_partition_frontier.md, not on finite samples."
+}

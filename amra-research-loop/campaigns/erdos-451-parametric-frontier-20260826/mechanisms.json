@@ -25,7 +25,7 @@
       "kill_test": "Multiply the powered terms and solve the exact minimax problem over lambda.",
       "status": "killed",
       "created_at": "2026-08-26T06:25:10+00:00",
-      "status_evidence": "evidence/frontier_falsification.md: exact A--B product invariant rules out a leading gain from non-balanced lambda.",
+      "status_evidence": "evidence/frontier_falsification.md: the exact A--B product invariant rules out a leading c-frontier gain from non-balanced lambda. evidence/adaptive_unbalanced_partition_frontier.md records the distinct author-level gain: unbalancing removes the balanced additive theta>9/23 endpoint without changing c*(theta).",
       "updated_at": "2026-08-26T06:28:18+00:00"
     },
     {
@@ -67,7 +67,7 @@
       "kill_test": "Maximize its exact k-exponent over all integer r>=3 and compare it to theta.",
       "status": "killed",
       "created_at": "2026-08-26T06:25:11+00:00",
-      "status_evidence": "evidence/frontier_falsification.md: additive exponent decreases from r=3 and remains below theta in the frozen range.",
+      "status_evidence": "evidence/frontier_falsification.md: the balanced additive exponent decreases from r=3 and remains below theta in the frozen range. evidence/adaptive_unbalanced_partition_frontier.md supersedes any architecture-wide endpoint reading by proving an author-level adaptive lambda bound for every fixed theta>0.",
       "updated_at": "2026-08-26T06:28:19+00:00"
     },
     {
@@ -95,7 +95,7 @@
       "kill_test": "Normalize prime supply and Theorem 4.1 error per block; test whether the common A--B lower envelope cancels in the ratio.",
       "status": "killed",
       "created_at": "2026-08-26T06:25:11+00:00",
-      "status_evidence": "evidence/frontier_falsification.md: independent comparable blocks scale error and prime supply equally.",
+      "status_evidence": "evidence/frontier_falsification.md: independent comparable blocks scale error and prime supply equally. evidence/adaptive_unbalanced_partition_frontier.md extends the author-level obstruction to arbitrary finite k-dependent nonuniform partitions of the whole deterministic PI-cardinality tail, with explicit location-blind and little-o scope restrictions.",
       "updated_at": "2026-08-26T06:28:19+00:00"
     },
     {
@@ -151,7 +151,7 @@
       "kill_test": "Attempt non-balanced lambda, variable r, comparable multiblocks, and the equality endpoint; reject any argument that confuses a lower bound on the certificate with a lower bound on the true K.",
       "status": "proved",
       "created_at": "2026-08-26T06:25:12+00:00",
-      "status_evidence": "evidence/parametric_frontier_proof.md, Theorem B; adversarial_self_audit.md. Precisely limited to termwise blockwise little-o certificates.",
+      "status_evidence": "evidence/parametric_frontier_proof.md, Theorem B, and adversarial_self_audit.md prove the audited delimited termwise barrier. evidence/adaptive_unbalanced_partition_frontier.md gives an author-level enlargement to location-blind deterministic-tail partitions, with its non-audited status and exclusions explicit.",
       "updated_at": "2026-08-26T06:32:47+00:00"
     }
   ]
