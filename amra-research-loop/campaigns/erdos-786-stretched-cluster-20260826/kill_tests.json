@@ -1,0 +1,44 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M786S-02",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: q+1 complementary exponent pairs require exponent range at least q, hence point bit cost Omega(q log q)."
+    },
+    {
+      "mechanism_id": "M786S-03",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: any two projective points lie on a common line, so reused point-prime blocks destroy edge-private valuations and collapse shared point values."
+    },
+    {
+      "mechanism_id": "M786S-05",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: an affine parallel class gives pairwise disjoint supports and therefore matching number greater than one; a pencil has transversal one."
+    },
+    {
+      "mechanism_id": "M786S-06",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: under the frozen exact-one-point and symmetric 2-design conditions, lambda=1 forces the projective-plane parameter set, so this is not a larger host family."
+    },
+    {
+      "mechanism_id": "M786S-08",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: globally separating pairwise-coprime composite labels still require distinct prime divisors and are no smaller than assigning those primes directly."
+    },
+    {
+      "mechanism_id": "M786S-09",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: q=N^delta makes the subset-code point product consume Omega((log q)^2)=Omega(K^2) bits, exceeding the K-bit host."
+    },
+    {
+      "mechanism_id": "M786S-11",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: extra padding primes only multiply raw odd parts and cannot repair an odd part already larger than N."
+    },
+    {
+      "mechanism_id": "M786S-13",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: a disjoint union of t clusters has matching number at least t and lacks pairwise one-point intersections, contrary to the frozen target."
+    }
+  ]
+}

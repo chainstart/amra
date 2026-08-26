@@ -1,0 +1,38 @@
+{
+  "inherited_methods": [
+    {
+      "id": "IL786S-01",
+      "method": "Predecessor GC.1 chooses a projective-plane order q only in the interval (K,2K) for N=2^K.",
+      "loss_step": "The proof bounds the required point-private primes by a polynomial in K before selecting q, so it never optimizes q against the actual logarithmic size of the odd parts.",
+      "lost_information": "Only the logarithm of each selected prime and the logarithm of the number of line codes affect the padding budget; the total number of points affects prime availability but not the size of one integer directly.",
+      "consequence": "The recorded blocking number is only q+1>K=log_2 N."
+    },
+    {
+      "id": "IL786S-02",
+      "method": "A naive enlargement of q while keeping the predecessor phrase 'choose primes below K^6'.",
+      "loss_step": "Once q is larger than a power of K, K^6 no longer contains the q^2 log q point-private primes required by the construction.",
+      "lost_information": "The prime cutoff must scale with q, while its logarithm must still fit the K-bit padding budget.",
+      "consequence": "The predecessor proof cannot be amplified by changing q alone."
+    },
+    {
+      "id": "IL786S-03",
+      "method": "Encode the q+1 incidences at a point by exponents of one or two fixed primes.",
+      "loss_step": "Support-minimal path propagation requires enough independent valuation equations at every point, and a fixed-product code with q choices incurs exponent size of order q.",
+      "lost_information": "Subset bipartitions encode q choices with only O(log q) private primes and O((log q)^2) total bit cost after prime allocation.",
+      "consequence": "Low-dimensional exponent codes permit at most q log q=O(K), much weaker than stretched exponential q."
+    },
+    {
+      "id": "IL786S-04",
+      "method": "State the construction only for powers N=2^K.",
+      "loss_step": "No monotonicity reduction is recorded for arbitrary N, and the top-band lower endpoint changes when replacing N by the largest lower power of two.",
+      "lost_information": "If 2^K<=N<2^(K+1), a support in (2^K/32,2^K] lies in (N/64,N], and every transversal of H_N restricts to one for the embedded subfamily.",
+      "consequence": "A sparse-subsequence statement would not satisfy the frozen all-N target."
+    }
+  ],
+  "required_new_information": [
+    "A quantitative prime-allocation lemma giving at least (q^2+q+1)r distinct odd primes below q^6 for r=ceil(log_2(q+2))+1 and all large q.",
+    "An explicit bit-budget inequality showing every point odd part and every two-point private odd part is at most 2^(o(K)) when log_2 q is at most sqrt(K)/100+1.",
+    "A padding calculation uniform in this larger q that preserves the band (2^K/32,2^K], equal products, distinctness, and support minimality.",
+    "An exact projective-plane hitting calculation and an all-N reduction yielding the stated 2^(sqrt(log_2 N)/200) lower bound."
+  ]
+}

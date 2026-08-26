@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R786S-01",
+      "name": "entropy-coded point-private bipartitions",
+      "family": "valuation_coding",
+      "new_information": "Separates the number q+1 of line incidences from the O(log q) private-prime coordinates needed to encode them.",
+      "first_test": "Count nontrivial unordered bipartitions of r primes and bound the largest point odd part when all primes are below q^6."
+    },
+    {
+      "id": "R786S-02",
+      "name": "fixed-product exponent code",
+      "family": "valuation_coding",
+      "new_information": "Tests whether q incident factor pairs can be encoded with a constant number of point primes and complementary exponents.",
+      "first_test": "Optimize the exponent range and compare its bit cost q log q with the K-bit host budget."
+    },
+    {
+      "id": "R786S-03",
+      "name": "projective-plane line cluster",
+      "family": "incidence_geometry",
+      "new_information": "Converts a pairwise-one-point-intersecting incidence design into exact matching and transversal parameters.",
+      "first_test": "Recompute nu=1 and tau=q+1 while allowing q to grow faster than K."
+    },
+    {
+      "id": "R786S-04",
+      "name": "affine and partial-plane comparators",
+      "family": "incidence_geometry",
+      "new_information": "Tests whether fewer points or labels can preserve a large blocking number with matching number one.",
+      "first_test": "Check whether parallel lines create disjoint supports or whether deleting line classes destroys the desired transversal scale."
+    },
+    {
+      "id": "R786S-05",
+      "name": "prime-supply versus bit-budget ledger",
+      "family": "analytic_budget",
+      "new_information": "Tracks separately the number of globally private primes and the logarithmic size contributed by each selected prime.",
+      "first_test": "Use pi(q^6) asymptotics and derive an explicit O((log q)^2) upper bound for every raw odd part."
+    },
+    {
+      "id": "R786S-06",
+      "name": "smooth composite label compression",
+      "family": "analytic_budget",
+      "new_information": "Tests replacement of private primes by smaller pairwise-coprime composite labels without losing valuation separation.",
+      "first_test": "Measure whether global coprimality and q+1 line codes actually reduce the maximum logarithmic label cost."
+    },
+    {
+      "id": "R786S-07",
+      "name": "integer padding flow polytope",
+      "family": "padding_flow",
+      "new_information": "Views powers-of-two corrections as an integer load-balancing problem with one total-demand constraint and per-vertex capacity.",
+      "first_test": "Bound the discrepancy Delta and prove a maximum decrement of four when q>K."
+    },
+    {
+      "id": "R786S-08",
+      "name": "multi-prime padding comparator",
+      "family": "padding_flow",
+      "new_information": "Tests whether distributing correction among several padding primes enlarges q beyond the square-root logarithmic scale.",
+      "first_test": "Compare the extra state space with the unchanged odd-part coding bottleneck and verify support distinctness."
+    },
+    {
+      "id": "R786S-09",
+      "name": "dyadic monotone embedding",
+      "family": "scale_transfer",
+      "new_information": "Retains exact band and transversal information when transferring a power-of-two construction to arbitrary N.",
+      "first_test": "For K=floor(log_2 N), prove (2^K/32,2^K] is contained in (N/64,N] and compare the two stretched-exponential bounds."
+    },
+    {
+      "id": "R786S-10",
+      "name": "disjoint cluster packing",
+      "family": "scale_transfer",
+      "new_information": "Tests whether many smaller clusters can improve a global transversal lower bound while retaining the frozen single-cluster intersection property.",
+      "first_test": "Check whether unions of clusters still have matching number one and pairwise one-point intersections."
+    }
+  ]
+}
