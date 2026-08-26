@@ -3,9 +3,9 @@
   "campaign_id": "erdos-451-crt-first-representative-round1-20260826",
   "problem_id": "erdos-451",
   "title": "CRT first-representative attack for Erdos 451",
-  "phase": "survivor_deepening",
+  "phase": "independent_audit",
   "created_at": "2026-08-26T04:21:06+00:00",
-  "updated_at": "2026-08-26T04:30:48+00:00",
+  "updated_at": "2026-08-26T05:36:57+00:00",
   "gates": {
     "min_representation_families": 4,
     "min_representations": 8,
@@ -54,6 +54,12 @@
       "event": "advanced",
       "from": "mechanism_falsification",
       "phase": "survivor_deepening"
+    },
+    {
+      "at": "2026-08-26T05:36:57+00:00",
+      "event": "advanced",
+      "from": "survivor_deepening",
+      "phase": "independent_audit"
     }
   ]
 }

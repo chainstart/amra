@@ -1,7 +1,7 @@
 {
   "schema_version": "amra.new-problem-round-result.v1",
   "selected_problem": "erdos-451",
-  "campaign_phase": "survivor_deepening",
+  "campaign_phase": "independent_audit",
   "guard": {
     "executable": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
     "memory_high": "30G",
@@ -21,9 +21,9 @@
     "machine_replay": "passed"
   },
   "strongest_result": {
-    "kind": "candidate_main_exponent_improvement",
-    "statement": "The van Doorn--Tang proof gives n_k>exp((log k)^2/(16 log log k)) for all sufficiently large k; parametrically it supports every c<min((1-theta)/6,1/12).",
-    "status": "author_reconstructed_with_exact_symbolic_audit",
+    "kind": "kernel_checked_main_exponent_improvement",
+    "statement": "With the same bhp short-prime-interval dependency as the pinned van Doorn--Tang formalization, a Lean kernel certificate proves n_k>exp((log k)^2/(16 log log k)) for all sufficiently large k and directly produces p in (k,2k).",
+    "status": "formal_kernel_check_passed_independent_reconstruction_pending",
     "original_public_constant": "1/20",
     "candidate_constant": "1/16",
     "independent_reconstruction": false,
@@ -31,6 +31,6 @@
   },
   "public_problem_closed": false,
   "main_term_changed": false,
-  "main_exponent_changed": "candidate_pending_independent_audit",
-  "next_permitted_action": "Blindly reconstruct Section 6 with a different reviewer; only after that consider promotion or communication to the preprint authors."
+  "main_exponent_changed": "proved_with_named_bhp_dependency_pending_independent_audit",
+  "next_permitted_action": "Assign a different reviewer to blindly reconstruct the patched large-range proof and dependency ledger; only after that consider AMRA promotion or communication to the preprint authors."
 }

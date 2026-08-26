@@ -18,3 +18,18 @@ allowed to deepen only if it produces one of the following signals:
 
 All expensive computation is executed through the OpenMath memory guard with
 aggregate limits high=30 GiB, max=34 GiB, swap=4 GiB, tasks=512.
+
+## Survivor continuation result
+
+The quantitative signal crossed the formal-evidence threshold.  A pinned Lean
+4.28.0/mathlib 4.28.0 replay first reproduced the public denominator-`20`
+theorem and then kernel-checked a denominator-`16` patch.  The patch had to
+separate the boundary case `r=3`, retaining its `k^(-1/18)` power saving, from
+the `r>=4` logarithmic envelope.  A second theorem formalizes that the produced
+prime lies in the public interval `(k,2k)` for sufficiently large `k`.
+
+The final guarded clean replay used zero swap and peaked below 7.9 GiB RSS.
+The certificate has no `sorryAx`; its only non-foundational axiom is the same
+named Baker--Harman--Pintz input `bhp` used upstream.  The campaign is therefore
+ready for `independent_audit`, not promotion: the same session authored and
+replayed the patch, and public priority remains uncertain.

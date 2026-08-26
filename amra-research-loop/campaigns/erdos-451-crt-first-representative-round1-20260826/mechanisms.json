@@ -107,8 +107,8 @@
       "kill_test": "Symbolically retain theta through every inequality and identify whether the published theta=21/40 already saturates a competing constraint.",
       "status": "proved",
       "created_at": "2026-08-26T04:24:59+00:00",
-      "status_evidence": "evidence/constant_optimization_lemma.md",
-      "updated_at": "2026-08-26T04:30:48+00:00"
+      "status_evidence": "evidence/lean_c16_certificate.md and evidence/lean_c16_replay.json: exact Lean kernel certificate for denominator 16, including the r=3 power-saving repair and the bridge to p in (k,2k)",
+      "updated_at": "2026-08-26T05:34:41+00:00"
     },
     {
       "id": "M451-09",

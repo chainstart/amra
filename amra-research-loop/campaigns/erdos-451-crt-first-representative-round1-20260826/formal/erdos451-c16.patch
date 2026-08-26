@@ -1,0 +1,355 @@
+diff --git a/ErdosProblem451.upstream.lean b/ErdosProblem451.c16.lean
+index ca59562..148c885 100644
+--- a/ErdosProblem451.upstream.lean
++++ b/ErdosProblem451.c16.lean
+@@ -4,12 +4,12 @@ import Mathlib
+ In this Lean file, produced by Aristotle from Harmonic
+ (aristotle-harmonic@harmonic.fun), we give a proof of the best known lower bound
+ for Erdős Problem 451 (https://www.erdosproblems.com/451). More precisely, we
+-show the following result (titled `main_theorem` all the way at the
++show the following result (titled `main_theorem_c16` all the way at the
+ bottom of the file):
+ 
+ For all sufficiently large integers `k` and all integers `n` with
+ 
+-`2k < n ≤ exp(log²k / (20 log log k))`,
++`2k < n ≤ exp(log²k / (16 log log k))`,
+ 
+ the product `(n-k)(n-k+1)⋯(n-1)` is, with `θ = 21/40`, divisible by some prime
+ `p ∈ (k, k + 3k^θ)`.
+@@ -21,7 +21,7 @@ single axiom, the formalization is completely self-contained.
+ In particular, as the proof uses a result by Konyagin on function values close
+ to rationals, this result is also proved along the way as `konyagin_thm`.
+ 
+-ChatGPT came up with the proof of `main_theorem`, and for more
++ChatGPT came up with the proof of `main_theorem_c16`, and for more
+ information one can check out the short paper that Quanyu Tang and I wrote.
+ 
+ W. van Doorn and Q. Tang, Consecutive integers free of certain prime factors. 
+@@ -4375,29 +4375,29 @@ lemma large_card_raw (k : ℕ) (n : ℤ) (r : ℕ) (hk : 1 < k) (hn0 : 0 < n) (h
+ Pointwise bound for the first Konyagin term in the large range.
+ -/
+ lemma large_term1_le (k r : ℕ) (hk : 1 < k) (hr3 : 3 ≤ r) (hlog1 : 1 < Real.log k)
+-    (h3r2 : (3 * (r : ℝ) - 2) < 7 * (1 / 20) * Real.log k / Real.log (Real.log k)) :
+-    (k : ℝ) ^ ((theta - 1) / (3 * (r : ℝ) - 2)) ≤ (Real.log k) ^ (-(19 : ℝ) / 14) := by
++    (h3r2 : (3 * (r : ℝ) - 2) < 7 * (1 / 16) * Real.log k / Real.log (Real.log k)) :
++    (k : ℝ) ^ ((theta - 1) / (3 * (r : ℝ) - 2)) ≤ (Real.log k) ^ (-(38 : ℝ) / 35) := by
+   rw [ Real.rpow_def_of_pos, Real.rpow_def_of_pos ] <;> try positivity;
+   -- By simplifying, we can see that the inequality holds.
+-  have h_simplified : (20 * Real.log (Real.log k) * (3 * (r : ℝ) - 2)) / 7 < Real.log k := by
++  have h_simplified : (16 * Real.log (Real.log k) * (3 * (r : ℝ) - 2)) / 7 < Real.log k := by
+     rw [ lt_div_iff₀ ] at h3r2 <;> nlinarith [ Real.log_pos hlog1 ];
+   unfold theta; norm_num; rw [ mul_div, div_le_iff₀ ] <;> nlinarith [ ( by norm_cast : ( 3 :ℝ ) ≤ r ) ] ;
+ 
+ /-
+ Pointwise bound for the third Konyagin term in the large range.
+ -/
+-lemma large_term3_le (k : ℕ) (n : ℤ) (r : ℕ) (hk : 1 < k) (hn0 : 0 < n) (hr3 : 3 ≤ r)
++lemma large_term3_le (k : ℕ) (n : ℤ) (r : ℕ) (hk : 1 < k) (hn0 : 0 < n) (hr4 : 4 ≤ r)
+     (hlog1 : 1 < Real.log k)
+     (hmin : (k : ℝ) ^ (((r : ℝ) - 1) + theta) < (n : ℝ) * (Nat.factorial (r - 1) : ℝ))
+     (hrk : ((r : ℝ) + 1) ≤ (k : ℝ) ^ (theta / (r : ℝ)))
+-    (hrconv : (r : ℝ) ≤ 3 * (1 / 20) * Real.log k / Real.log (Real.log k)) :
++    (hrconv : (r : ℝ) ≤ 3 * (1 / 16) * Real.log k / Real.log (Real.log k)) :
+     (((r : ℝ) + 1) * lamLarge k n r / (k : ℝ)) ^ ((2 * (r : ℝ))⁻¹) ≤
+       (Real.log k) ^ (-(10 : ℝ) / 9) := by
+   -- Step 1: the base `((r:ℝ)+1)*λ/(k:ℝ) < (k:ℝ)^(2/(r:ℝ) - 1)`.
+   have h_base : ((r + 1 : ℝ) * lamLarge k n r / k) < (k : ℝ) ^ (2 / (r : ℝ) - 1) := by
+     have h_base : ((r + 1 : ℝ) * lamLarge k n r) < (k : ℝ) ^ (2 / (r : ℝ)) := by
+       refine' lt_of_le_of_lt ( mul_le_mul_of_nonneg_right hrk ( Real.rpow_nonneg ( by positivity ) _ ) ) _;
+-      convert mul_lt_mul_of_pos_left ( lamLarge_lt k n r hn0 hk hr3 hmin ) ( Real.rpow_pos_of_pos ( Nat.cast_pos.mpr hk.le ) _ ) using 1 ; ring_nf;
++      convert mul_lt_mul_of_pos_left ( lamLarge_lt k n r hn0 hk (by omega) hmin ) ( Real.rpow_pos_of_pos ( Nat.cast_pos.mpr hk.le ) _ ) using 1 ; ring_nf;
+       rw [ ← Real.rpow_add ( by positivity ) ] ; ring_nf;
+     convert div_lt_div_iff_of_pos_right ( by positivity : 0 < ( k : ℝ ) ) |>.2 h_base using 1 ; rw [ Real.rpow_sub_one ( by positivity ) ];
+   refine le_trans ( Real.rpow_le_rpow ( ?_ ) h_base.le ( ?_ ) ) ?_;
+@@ -4406,7 +4406,37 @@ lemma large_term3_le (k : ℕ) (n : ℤ) (r : ℕ) (hk : 1 < k) (hn0 : 0 < n) (h
+   · rw [ ← Real.rpow_mul ( by positivity ), mul_comm ];
+     rw [ Real.rpow_def_of_pos ( by positivity ), Real.rpow_def_of_pos ( by positivity ) ] ; ring_nf at * ; norm_num at *;
+     field_simp at *;
+-    rw [ le_div_iff₀ ( Real.log_pos hlog1 ) ] at hrconv ; nlinarith [ show ( r : ℝ ) ≥ 3 by norm_cast ]
++    rw [ le_div_iff₀ ( Real.log_pos hlog1 ) ] at hrconv ; nlinarith [ show ( r : ℝ ) ≥ 4 by norm_cast ]
++
++/-
++For the exceptional minimal exponent `r = 3`, retain the power saving instead
++of weakening it through the global upper bound on `r`.
++-/
++lemma large_term3_r3_le (k : ℕ) (n : ℤ) (hk : 1 < k) (hn0 : 0 < n)
++    (hmin : (k : ℝ) ^ (((3 : ℝ) - 1) + theta) < (n : ℝ) * (Nat.factorial (3 - 1) : ℝ))
++    (hrk : ((3 : ℝ) + 1) ≤ (k : ℝ) ^ (theta / (3 : ℝ))) :
++    (((3 : ℝ) + 1) * lamLarge k n 3 / (k : ℝ)) ^ ((2 * (3 : ℝ))⁻¹) ≤
++      (k : ℝ) ^ (-(1 : ℝ) / 18) := by
++  have h_base : (((3 : ℝ) + 1) * lamLarge k n 3 / k) <
++      (k : ℝ) ^ (2 / (3 : ℝ) - 1) := by
++    have h_base : (((3 : ℝ) + 1) * lamLarge k n 3) < (k : ℝ) ^ (2 / (3 : ℝ)) := by
++      calc
++        ((3 : ℝ) + 1) * lamLarge k n 3 ≤
++            (k : ℝ) ^ (theta / (3 : ℝ)) * lamLarge k n 3 :=
++          mul_le_mul_of_nonneg_right hrk (by unfold lamLarge; positivity)
++        _ < (k : ℝ) ^ (theta / (3 : ℝ)) *
++            (k : ℝ) ^ ((2 - theta) / (3 : ℝ)) :=
++          mul_lt_mul_of_pos_left (lamLarge_lt k n 3 hn0 hk (by norm_num) hmin)
++            (Real.rpow_pos_of_pos (Nat.cast_pos.mpr hk.le) _)
++        _ = (k : ℝ) ^ (2 / (3 : ℝ)) := by
++          rw [← Real.rpow_add (by positivity)]
++          congr 1
++          ring
++    convert div_lt_div_iff_of_pos_right (by positivity : 0 < (k : ℝ)) |>.2 h_base using 1
++    rw [Real.rpow_sub_one (by positivity)]
++  refine le_trans (Real.rpow_le_rpow (by unfold lamLarge; positivity) h_base.le (by positivity)) ?_
++  rw [← Real.rpow_mul (by positivity)]
++  norm_num
+ 
+ /-
+ The Konyagin estimate on the large range is eventually dominated by
+@@ -4415,9 +4445,9 @@ The Konyagin estimate on the large range is eventually dominated by
+ lemma large_asym (C : ℝ) (hC : 0 < C) : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ, ∀ r : ℕ,
+     3 ≤ r → 0 < n →
+     (k : ℝ) ^ (((r : ℝ) - 1) + theta) < (n : ℝ) * (Nat.factorial (r - 1) : ℝ) →
+-    (3 * (r : ℝ) - 2) < 7 * (1 / 20) * Real.log k / Real.log (Real.log k) →
++    (3 * (r : ℝ) - 2) < 7 * (1 / 16) * Real.log k / Real.log (Real.log k) →
+     ((r : ℝ) + 1) ≤ (k : ℝ) ^ (theta / (r : ℝ)) →
+-    (r : ℝ) ≤ 3 * (1 / 20) * Real.log k / Real.log (Real.log k) →
++    (r : ℝ) ≤ 3 * (1 / 16) * Real.log k / Real.log (Real.log k) →
+     (r : ℝ) ≤ Real.log k →
+     c₆ * (k : ℝ) ^ theta *
+         (2 * (k : ℝ) ^ ((theta - 1) / (3 * (r : ℝ) - 2)) +
+@@ -4426,28 +4456,52 @@ lemma large_asym (C : ℝ) (hC : 0 < C) : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤
+   revert hC;
+   intro hC_pos
+   obtain ⟨k₀, hk₀⟩ : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k →
+-    2 * c₆ * (k : ℝ) ^ theta * (Real.log k) ^ (-(19 : ℝ) / 14) +
+-    c₆ * (k : ℝ) ^ theta * (Real.log k) ^ (-(10 : ℝ) / 9) +
++    2 * c₆ * (k : ℝ) ^ theta * (Real.log k) ^ (-(38 : ℝ) / 35) +
++    c₆ * (k : ℝ) ^ theta * ((Real.log k) ^ (-(10 : ℝ) / 9) +
++      (k : ℝ) ^ (-(1 : ℝ) / 18)) +
+     2 * (k : ℝ) ^ ((2 - theta) / 3) * (Real.log k) ^ (1 : ℝ) ≤ C * (k : ℝ) ^ theta / Real.log k := by
+       obtain ⟨k₀₁, hk₀₁⟩ : ∃ k₀₁ : ℕ, ∀ k : ℕ, k₀₁ ≤ k →
+-          2 * c₆ * (k : ℝ) ^ theta * (Real.log k) ^ (-(19 : ℝ) / 14) ≤ C / 3 * (k : ℝ) ^ theta / Real.log k := by
+-            have := poly_log_lt_logpow ( 2 * c₆ ) theta ( -19 / 14 ) ( by norm_num ) ( C / 3 ) ( by linarith ) ; aesop;
++          2 * c₆ * (k : ℝ) ^ theta * (Real.log k) ^ (-(38 : ℝ) / 35) ≤ C / 3 * (k : ℝ) ^ theta / Real.log k := by
++            have := poly_log_lt_logpow ( 2 * c₆ ) theta ( -38 / 35 ) ( by norm_num ) ( C / 3 ) ( by linarith ) ; aesop;
+       obtain ⟨k₀₂, hk₀₂⟩ : ∃ k₀₂ : ℕ, ∀ k : ℕ, k₀₂ ≤ k →
+-          c₆ * (k : ℝ) ^ theta * (Real.log k) ^ (-(10 : ℝ) / 9) ≤ C / 3 * (k : ℝ) ^ theta / Real.log k := by
+-            have := poly_log_lt_logpow ( c₆ ) theta ( - ( 10 : ℝ ) / 9 ) ( by norm_num ) ( C / 3 ) ( by linarith ) ; aesop;
++          c₆ * (k : ℝ) ^ theta * ((Real.log k) ^ (-(10 : ℝ) / 9) +
++            (k : ℝ) ^ (-(1 : ℝ) / 18)) ≤ C / 3 * (k : ℝ) ^ theta / Real.log k := by
++            obtain ⟨k₀₂a, hk₀₂a⟩ := Filter.eventually_atTop.mp
++              (poly_log_lt_logpow c₆ theta (-(10 : ℝ) / 9) (by norm_num)
++                (C / 6) (by linarith))
++            obtain ⟨k₀₂b, hk₀₂b⟩ := Filter.eventually_atTop.mp
++              (poly_log_lt c₆ (theta - 1 / 18) 0 theta (by norm_num)
++                (C / 6) (by linarith))
++            refine ⟨max k₀₂a (k₀₂b + 2), fun k hk => ?_⟩
++            have ha := hk₀₂a k (le_trans (le_max_left _ _) hk)
++            have hb := hk₀₂b k (by linarith [le_trans (le_max_right _ _) hk])
++            have hkpos : (0 : ℝ) < k := by norm_cast; omega
++            rw [Real.rpow_zero, mul_one] at hb
++            have hpow : c₆ * (k : ℝ) ^ theta * (k : ℝ) ^ (-(1 : ℝ) / 18) =
++                c₆ * (k : ℝ) ^ (theta - 1 / 18) := by
++              rw [mul_assoc, ← Real.rpow_add hkpos]
++              congr 2
++              ring
++            rw [mul_add, hpow]
++            exact (add_le_add ha hb).trans_eq (by ring)
+       obtain ⟨k₀₃, hk₀₃⟩ : ∃ k₀₃ : ℕ, ∀ k : ℕ, k₀₃ ≤ k →
+           2 * (k : ℝ) ^ ((2 - theta) / 3) * (Real.log k) ^ (1 : ℝ) ≤ C / 3 * (k : ℝ) ^ theta / Real.log k := by
+             have := poly_log_lt ( 2 : ℝ ) ( ( 2 - theta ) / 3 ) 1 theta ( by linarith [ show theta > 1 / 2 by norm_num [ theta ] ] ) ( C / 3 ) ( by linarith ) ; aesop;
+       exact ⟨ Max.max k₀₁ ( Max.max k₀₂ k₀₃ ), fun k hk => by convert add_le_add_three ( hk₀₁ k ( le_trans ( le_max_left _ _ ) hk ) ) ( hk₀₂ k ( le_trans ( le_max_of_le_right ( le_max_left _ _ ) ) hk ) ) ( hk₀₃ k ( le_trans ( le_max_of_le_right ( le_max_right _ _ ) ) hk ) ) using 1 ; ring ⟩;
+   refine' ⟨ k₀ + 2, fun k hk n r hr hn hmin h3r2 hrk hrconv hrlog => le_trans _ ( hk₀ k ( by linarith ) ) ⟩;
++  have hterm3 :
++      (((r : ℝ) + 1) * lamLarge k n r / (k : ℝ)) ^ ((2 * (r : ℝ))⁻¹) ≤
++        (Real.log k) ^ (-(10 : ℝ) / 9) + (k : ℝ) ^ (-(1 : ℝ) / 18) := by
++    rcases hr.eq_or_lt with rfl | hr4
++    · exact (large_term3_r3_le k n (by linarith) (by linarith) (by simpa using hmin)
++        (by exact_mod_cast hrk)).trans (le_add_of_nonneg_left (by positivity))
++    · exact (large_term3_le k n r (by linarith) (by linarith) hr4
++        (by linarith [show (r : ℝ) ≥ 4 by norm_cast]) (by convert hmin using 1)
++        (by exact_mod_cast hrk) hrconv).trans (le_add_of_nonneg_right (by positivity))
+   refine' add_le_add _ _;
+   · refine' le_trans ( mul_le_mul_of_nonneg_left ( add_le_add ( mul_le_mul_of_nonneg_left ( large_term1_le k r ( by linarith ) ( by linarith ) ( by
+       linarith [ show ( r : ℝ ) ≥ 3 by norm_cast ] ) ( by
+-      exact h3r2 ) ) zero_le_two ) ( large_term3_le k n r ( by linarith ) ( by linarith ) ( by linarith ) ( by
+-      linarith [ show ( r : ℝ ) ≥ 3 by norm_cast ] ) ( by
+-      convert hmin using 1 ) ( by
+-      exact_mod_cast hrk ) ( by
+-      exact hrconv ) ) ) ( by
++      exact h3r2 ) ) zero_le_two ) hterm3 ) ( by
+       exact mul_nonneg ( by unfold c₆; norm_num [ B_const, K_const, C₀_const ] ) ( Real.rpow_nonneg ( Nat.cast_nonneg _ ) _ ) ) ) _;
+     linarith;
+   · have h_lamLarge_lt : lamLarge k n r < (k : ℝ) ^ ((2 - theta) / 3) := by
+@@ -4470,16 +4524,16 @@ lemma tendsto_log_div_loglog_atTop :
+     exact this.congr' ( by filter_upwards [ Filter.eventually_gt_atTop 0 ] with x hx using by rw [ Function.comp_apply, Real.exp_log hx ] );
+   simpa using Real.tendsto_exp_div_pow_atTop 1
+ 
+-/-- The reference exponent `r₀ = ⌈log k / (10 log log k)⌉`. -/
+-def r0L (k : ℕ) : ℕ := ⌈Real.log k / (10 * Real.log (Real.log k))⌉₊
++/-- The reference exponent `r₀ = ⌈log k / (8 log log k)⌉`. -/
++def r0L (k : ℕ) : ℕ := ⌈Real.log k / (8 * Real.log (Real.log k))⌉₊
+ 
+ /-
+ Bounds on the reference exponent `r₀`.
+ -/
+ lemma large_r0_bounds : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k →
+     1 ≤ r0L k ∧
+-    3 * (r0L k : ℝ) - 2 < 7 * (1 / 20) * Real.log k / Real.log (Real.log k) ∧
+-    (r0L k : ℝ) ≤ 3 * (1 / 20) * Real.log k / Real.log (Real.log k) ∧
++    3 * (r0L k : ℝ) - 2 < 7 * (1 / 16) * Real.log k / Real.log (Real.log k) ∧
++    (r0L k : ℝ) ≤ 3 * (1 / 16) * Real.log k / Real.log (Real.log k) ∧
+     (r0L k : ℝ) ≤ Real.log k ∧
+     (r0L k : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - theta) ∧
+     (r0L k : ℝ) + 1 ≤ (k : ℝ) ^ (theta / (r0L k : ℝ)) := by
+@@ -4498,22 +4552,22 @@ lemma large_r0_bounds : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k →
+       grind;
+   refine' ⟨ k₀ + 3, fun k hk => _ ⟩ ; specialize hk₀ k ( by linarith ) ; norm_num [ r0L ] at *;
+   refine' ⟨ _, _, _, _, _, _ ⟩;
+-  any_goals ring_nf at *; nlinarith [ Nat.ceil_lt_add_one ( show 0 ≤ Real.log k / ( 10 * Real.log ( Real.log k ) ) by exact div_nonneg ( by linarith ) ( mul_nonneg ( by norm_num ) ( Real.log_nonneg ( by linarith ) ) ) ) ];
++  any_goals ring_nf at *; nlinarith [ Nat.ceil_lt_add_one ( show 0 ≤ Real.log k / ( 8 * Real.log ( Real.log k ) ) by exact div_nonneg ( by linarith ) ( mul_nonneg ( by norm_num ) ( Real.log_nonneg ( by linarith ) ) ) ) ];
+   · ring_nf at *;
+-    linarith [ Nat.ceil_lt_add_one ( show 0 ≤ Real.log k * ( Real.log ( Real.log k ) ) ⁻¹ * ( 1 / 10 ) by exact mul_nonneg ( mul_nonneg ( Real.log_nonneg ( by norm_cast; linarith ) ) ( inv_nonneg.mpr ( Real.log_nonneg ( by linarith ) ) ) ) ( by norm_num ) ) ];
++    linarith [ Nat.ceil_lt_add_one ( show 0 ≤ Real.log k * ( Real.log ( Real.log k ) ) ⁻¹ * ( 1 / 8 ) by exact mul_nonneg ( mul_nonneg ( Real.log_nonneg ( by norm_cast; linarith ) ) ( inv_nonneg.mpr ( Real.log_nonneg ( by linarith ) ) ) ) ( by norm_num ) ) ];
+   · rw [ le_div_iff₀ ( Real.log_pos <| show 1 < Real.log k from by linarith ) ] at *;
+-    nlinarith [ Nat.ceil_lt_add_one ( show 0 ≤ Real.log k / ( 10 * Real.log ( Real.log k ) ) by exact div_nonneg ( Real.log_nonneg ( by norm_cast; linarith ) ) ( mul_nonneg ( by norm_num ) ( Real.log_nonneg ( by linarith ) ) ) ), Real.log_pos ( show 1 < Real.log k from by linarith ), mul_div_cancel₀ ( Real.log k ) ( show ( 10 * Real.log ( Real.log k ) ) ≠ 0 by linarith [ Real.log_pos ( show 1 < Real.log k from by linarith ) ] ) ];
++    nlinarith [ Nat.ceil_lt_add_one ( show 0 ≤ Real.log k / ( 8 * Real.log ( Real.log k ) ) by exact div_nonneg ( Real.log_nonneg ( by norm_cast; linarith ) ) ( mul_nonneg ( by norm_num ) ( Real.log_nonneg ( by linarith ) ) ) ), Real.log_pos ( show 1 < Real.log k from by linarith ), mul_div_cancel₀ ( Real.log k ) ( show ( 8 * Real.log ( Real.log k ) ) ≠ 0 by linarith [ Real.log_pos ( show 1 < Real.log k from by linarith ) ] ) ];
+   · refine' le_trans ( Nat.ceil_lt_add_one _ |> le_of_lt ) _;
+     · exact div_nonneg ( Real.log_nonneg ( by norm_cast; linarith ) ) ( mul_nonneg ( by norm_num ) ( Real.log_nonneg ( by linarith ) ) );
+     · rw [ div_add_one, div_le_iff₀ ] <;> nlinarith [ show 1 ≤ Real.log ( Real.log k ) from by rw [ Real.le_log_iff_exp_le ( by linarith ) ] ; exact Real.exp_one_lt_d9.le.trans ( by norm_num; linarith ) ];
+   · refine' le_trans ( Nat.ceil_lt_add_one ( by exact div_nonneg ( by linarith ) ( mul_nonneg ( by norm_num ) ( Real.log_nonneg ( by linarith ) ) ) ) |> le_of_lt ) _;
+     rw [ div_add_one, div_le_iff₀ ] <;> nlinarith [ show 1 ≤ Real.log ( Real.log k ) from by rw [ Real.le_log_iff_exp_le ( by linarith ) ] ; exact Real.exp_one_lt_d9.le.trans ( by norm_num; linarith ) ];
+   · -- We'll use that $Real.exp M \leq Real.exp (theta * L / (r0L k))$ since $M \leq theta * L / (r0L k)$.
+-    have h_exp : Real.exp (Real.log (Real.log k)) ≤ Real.exp (theta * Real.log k / (Nat.ceil (Real.log k / (10 * Real.log (Real.log k)))) ) := by
++    have h_exp : Real.exp (Real.log (Real.log k)) ≤ Real.exp (theta * Real.log k / (Nat.ceil (Real.log k / (8 * Real.log (Real.log k)))) ) := by
+       refine' Real.exp_le_exp.mpr _;
+       rw [ le_div_iff₀ ];
+-      · have hM_le : (Nat.ceil (Real.log k / (10 * Real.log (Real.log k)))) * Real.log (Real.log k) < theta * Real.log k := by
+-          have hM_le : (Real.log k / (10 * Real.log (Real.log k)) + 1) * Real.log (Real.log k) < theta * Real.log k := by
++      · have hM_le : (Nat.ceil (Real.log k / (8 * Real.log (Real.log k)))) * Real.log (Real.log k) < theta * Real.log k := by
++          have hM_le : (Real.log k / (8 * Real.log (Real.log k)) + 1) * Real.log (Real.log k) < theta * Real.log k := by
+             rw [ div_add_one, div_mul_eq_mul_div, div_lt_iff₀ ] <;> norm_num [ theta ];
+             · rw [ le_div_iff₀ ] at hk₀ <;> nlinarith [ Real.log_pos ( show 1 < Real.log k from by linarith ) ];
+             · exact Real.log_pos ( by linarith );
+@@ -4523,8 +4577,8 @@ lemma large_r0_bounds : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k →
+       · exact Nat.cast_pos.mpr ( Nat.ceil_pos.mpr ( div_pos ( by linarith ) ( mul_pos ( by norm_num ) ( Real.log_pos ( by linarith ) ) ) ) );
+     rw [ Real.exp_log ( Real.log_pos <| by norm_cast; linarith ) ] at h_exp;
+     -- Since $\lceil x \rceil + 1 \leq L$, we have $\lceil x \rceil + 1 \leq \exp(\theta \cdot L / \lceil x \rceil)$.
+-    have h_ceil : (⌈Real.log k / (10 * Real.log (Real.log k))⌉₊ : ℝ) + 1 ≤ Real.log k := by
+-      have := Nat.ceil_lt_add_one ( show 0 ≤ Real.log k / ( 10 * Real.log ( Real.log k ) ) by exact div_nonneg ( by linarith ) ( mul_nonneg ( by norm_num ) ( Real.log_nonneg ( by linarith ) ) ) );
++    have h_ceil : (⌈Real.log k / (8 * Real.log (Real.log k))⌉₊ : ℝ) + 1 ≤ Real.log k := by
++      have := Nat.ceil_lt_add_one ( show 0 ≤ Real.log k / ( 8 * Real.log ( Real.log k ) ) by exact div_nonneg ( by linarith ) ( mul_nonneg ( by norm_num ) ( Real.log_nonneg ( by linarith ) ) ) );
+       rw [ div_add_one, lt_div_iff₀ ] at this <;> nlinarith [ show 1 ≤ Real.log ( Real.log k ) from by rw [ Real.le_log_iff_exp_le ( by linarith ) ] ; exact Real.exp_one_lt_d9.le.trans ( by norm_num; linarith ) ];
+     convert h_ceil.trans h_exp using 1;
+     rw [ Real.rpow_def_of_pos ( Nat.cast_pos.mpr ( by linarith ) ) ] ; ring_nf
+@@ -4533,7 +4587,7 @@ lemma large_r0_bounds : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k →
+ The reference exponent `r₀` satisfies the Konyagin admissibility `n r₀! ≤ k^{r₀+θ}`.
+ -/
+ lemma large_r0_P : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ, 0 < n →
+-    (n : ℝ) ≤ Real.exp ((Real.log k) ^ 2 / (20 * Real.log (Real.log k))) →
++    (n : ℝ) ≤ Real.exp ((Real.log k) ^ 2 / (16 * Real.log (Real.log k))) →
+     (n : ℝ) * (Nat.factorial (r0L k) : ℝ) ≤ (k : ℝ) ^ ((r0L k : ℝ) + theta) := by
+   -- For sufficiently large $k$, we have $L \geq 6M$.
+   obtain ⟨k₀₁, hk₀₁⟩ : ∃ k₀₁ : ℕ, ∀ k : ℕ, k₀₁ ≤ k → Real.log k ≥ 10 ∧ Real.log (Real.log k) ≥ 1 ∧ Real.log k ≥ 6 * Real.log (Real.log k) := by
+@@ -4547,19 +4601,19 @@ lemma large_r0_P : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ, 0 <
+     obtain ⟨ k₀₁, hk₀₁ ⟩ := Filter.eventually_atTop.mp this; obtain ⟨ k₀₂, hk₀₂ ⟩ := h_log_log; exact ⟨ Max.max k₀₁ k₀₂, fun k hk => ⟨ hk₀₂ k ( le_trans ( le_max_right _ _ ) hk ) |>.1, hk₀₂ k ( le_trans ( le_max_right _ _ ) hk ) |>.2, by have := hk₀₂ k ( le_trans ( le_max_right _ _ ) hk ) |>.1; have := hk₀₂ k ( le_trans ( le_max_right _ _ ) hk ) |>.2; have := hk₀₁ k ( le_trans ( le_max_left _ _ ) hk ) ; rw [ lt_div_iff₀ ] at this <;> linarith ⟩ ⟩ ;
+   use k₀₁ + 2;
+   intros k hk n hn h_exp
+-  have h_log_bound : (Real.log k) ^ 2 / (20 * Real.log (Real.log k)) + (r0L k : ℝ) * Real.log (Real.log k) ≤ (r0L k : ℝ) * Real.log k := by
+-    have h_log_bound : (r0L k : ℝ) ≥ Real.log k / (10 * Real.log (Real.log k)) := by
++  have h_log_bound : (Real.log k) ^ 2 / (16 * Real.log (Real.log k)) + (r0L k : ℝ) * Real.log (Real.log k) ≤ (r0L k : ℝ) * Real.log k := by
++    have h_log_bound : (r0L k : ℝ) ≥ Real.log k / (8 * Real.log (Real.log k)) := by
+       exact Nat.le_ceil _;
+-    rw [ ge_iff_le, div_le_iff₀ ] at h_log_bound <;> nlinarith [ hk₀₁ k ( by linarith ), Real.log_pos ( show ( k : ℝ ) > 1 by norm_cast; linarith ), Real.log_pos ( show ( Real.log k : ℝ ) > 1 by linarith [ hk₀₁ k ( by linarith ) ] ), mul_div_cancel₀ ( Real.log k ^ 2 ) ( by linarith [ hk₀₁ k ( by linarith ) ] : ( 20 * Real.log ( Real.log k ) ) ≠ 0 ) ];
++    rw [ ge_iff_le, div_le_iff₀ ] at h_log_bound <;> nlinarith [ hk₀₁ k ( by linarith ), Real.log_pos ( show ( k : ℝ ) > 1 by norm_cast; linarith ), Real.log_pos ( show ( Real.log k : ℝ ) > 1 by linarith [ hk₀₁ k ( by linarith ) ] ), mul_div_cancel₀ ( Real.log k ^ 2 ) ( by linarith [ hk₀₁ k ( by linarith ) ] : ( 16 * Real.log ( Real.log k ) ) ≠ 0 ) ];
+   have h_log_bound : Real.log (n : ℝ) + Real.log (Nat.factorial (r0L k) : ℝ) ≤ (r0L k : ℝ) * Real.log k + theta * Real.log k := by
+     have h_log_bound : Real.log (Nat.factorial (r0L k) : ℝ) ≤ (r0L k : ℝ) * Real.log (r0L k) := by
+       rw [ ← Real.log_pow ] ; gcongr ; norm_cast ; exact Nat.recOn ( r0L k ) ( by norm_num ) fun n ihn => by rw [ Nat.factorial_succ, pow_succ' ] ; exact le_trans ( Nat.mul_le_mul_left _ ihn ) ( by gcongr ; linarith ) ;
+-    have h_log_bound : Real.log (n : ℝ) ≤ (Real.log k) ^ 2 / (20 * Real.log (Real.log k)) := by
++    have h_log_bound : Real.log (n : ℝ) ≤ (Real.log k) ^ 2 / (16 * Real.log (Real.log k)) := by
+       exact Real.log_le_iff_le_exp ( by positivity ) |>.2 h_exp;
+     have h_log_bound : Real.log (r0L k : ℝ) ≤ Real.log (Real.log k) := by
+       gcongr;
+       · exact Nat.cast_pos.mpr ( Nat.ceil_pos.mpr ( div_pos ( Real.log_pos ( by norm_cast; linarith ) ) ( mul_pos ( by norm_num ) ( Real.log_pos ( show 1 < Real.log k from by linarith [ hk₀₁ k ( by linarith ) ] ) ) ) ) );
+-      · have := Nat.ceil_lt_add_one ( show 0 ≤ Real.log k / ( 10 * Real.log ( Real.log k ) ) by exact div_nonneg ( Real.log_nonneg ( by norm_cast; linarith ) ) ( mul_nonneg ( by norm_num ) ( Real.log_nonneg ( by linarith [ hk₀₁ k ( by linarith ) ] ) ) ) );
++      · have := Nat.ceil_lt_add_one ( show 0 ≤ Real.log k / ( 8 * Real.log ( Real.log k ) ) by exact div_nonneg ( Real.log_nonneg ( by norm_cast; linarith ) ) ( mul_nonneg ( by norm_num ) ( Real.log_nonneg ( by linarith [ hk₀₁ k ( by linarith ) ] ) ) ) );
+         exact le_trans this.le ( by rw [ div_add_one, div_le_iff₀ ] <;> nlinarith [ hk₀₁ k ( by linarith ) ] );
+     nlinarith [ show 0 ≤ theta * Real.log k from mul_nonneg ( by norm_num [ theta ] ) ( Real.log_nonneg ( by norm_cast; linarith ) ) ];
+   rw [ ← Real.log_le_log_iff ( by positivity ) ( by exact Real.rpow_pos_of_pos ( Nat.cast_pos.mpr <| by linarith ) _ ), Real.log_mul ( by positivity ) ( by positivity ), Real.log_rpow ( Nat.cast_pos.mpr <| by linarith ) ] ; linarith
+@@ -4569,13 +4623,13 @@ Existence of the minimal `r` with `n r! ≤ k^{r+θ}` and all its bounds.
+ -/
+ lemma large_r_data : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+     (1 / 2) * (k : ℝ) ^ (2 + theta) < (n : ℝ) →
+-    (n : ℝ) ≤ Real.exp ((Real.log k) ^ 2 / (20 * Real.log (Real.log k))) →
++    (n : ℝ) ≤ Real.exp ((Real.log k) ^ 2 / (16 * Real.log (Real.log k))) →
+     ∃ r : ℕ, 3 ≤ r ∧ (r : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - theta) ∧
+       (n : ℝ) * (Nat.factorial r : ℝ) ≤ (k : ℝ) ^ ((r : ℝ) + theta) ∧
+       (k : ℝ) ^ (((r : ℝ) - 1) + theta) < (n : ℝ) * (Nat.factorial (r - 1) : ℝ) ∧
+-      (3 * (r : ℝ) - 2) < 7 * (1 / 20) * Real.log k / Real.log (Real.log k) ∧
++      (3 * (r : ℝ) - 2) < 7 * (1 / 16) * Real.log k / Real.log (Real.log k) ∧
+       ((r : ℝ) + 1) ≤ (k : ℝ) ^ (theta / (r : ℝ)) ∧
+-      (r : ℝ) ≤ 3 * (1 / 20) * Real.log k / Real.log (Real.log k) ∧
++      (r : ℝ) ≤ 3 * (1 / 16) * Real.log k / Real.log (Real.log k) ∧
+       (r : ℝ) ≤ Real.log k := by
+   obtain ⟨kb, hb⟩ := large_r0_bounds
+   obtain ⟨kp, hp⟩ := large_r0_P
+@@ -4619,10 +4673,10 @@ lemma large_r_data : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+       · exact le_trans ( Nat.cast_le.mpr ( Nat.find_min' _ ( hp k hk.2.1 n hn0 hn' ) ) ) ( hb k hk.1 |>.2.2.1 );
+       · exact le_trans ( Nat.cast_le.mpr ( Nat.find_min' _ ( hp k hk.2.1 n hn0 hn' ) ) ) ( hb k hk.1 |>.2.2.2.1 )
+ 
+-/-- **Large `n`:** `½ k^{2+θ} < n ≤ exp(log²k / (20 log log k))`. -/
++/-- **Large `n`:** `½ k^{2+θ} < n ≤ exp(log²k / (16 log log k))`. -/
+ lemma case_large : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+     (1 / 2) * (k : ℝ) ^ (2 + theta) < (n : ℝ) →
+-    (n : ℝ) ≤ Real.exp ((Real.log k) ^ 2 / (20 * Real.log (Real.log k))) →
++    (n : ℝ) ≤ Real.exp ((Real.log k) ^ 2 / (16 * Real.log (Real.log k))) →
+     ∃ p : ℕ, p.Prime ∧ (k : ℝ) < p ∧ (p : ℝ) < (k : ℝ) + 3 * (k : ℝ) ^ theta ∧
+       (p : ℤ) ∣ Pprod k n := by
+   obtain ⟨C, hC, kb, hb⟩ := bhp
+@@ -4660,11 +4714,11 @@ lemma case_large : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+   exact konyagin_finish k n hk1 C hbhp (lt_of_lt_of_le hraw hbnd)
+ 
+ /-- **Main theorem.** For all sufficiently large `k` and all `n` with
+-`2k < n ≤ exp(log²k / (20 log log k))`, the product `(n-k)⋯(n-1)` is
++`2k < n ≤ exp(log²k / (16 log log k))`, the product `(n-k)⋯(n-1)` is
+ divisible by some prime `p ∈ (k, k + 3 k^θ)`. -/
+-theorem main_theorem : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
++theorem main_theorem_c16 : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+     2 * (k : ℤ) < n →
+-    (n : ℝ) ≤ Real.exp ((Real.log k) ^ 2 / (20 * Real.log (Real.log k))) →
++    (n : ℝ) ≤ Real.exp ((Real.log k) ^ 2 / (16 * Real.log (Real.log k))) →
+     ∃ p : ℕ, p.Prime ∧ (k : ℝ) < p ∧ (p : ℝ) < (k : ℝ) + 3 * (k : ℝ) ^ theta ∧
+       (p : ℤ) ∣ Pprod k n := by
+   obtain ⟨k1, h1⟩ := case_small
+@@ -4688,6 +4742,34 @@ theorem main_theorem : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+       · push_neg at c3
+         exact h4 k hk4 n c3 hn2
+ 
++/-- For sufficiently large `k`, the short interval in `main_theorem_c16` is
++contained in `(k, 2k)`, which is the prime interval used in Erdős problem 451. -/
++theorem main_theorem_c16_two_k : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
++    2 * (k : ℤ) < n →
++    (n : ℝ) ≤ Real.exp ((Real.log k) ^ 2 / (16 * Real.log (Real.log k))) →
++    ∃ p : ℕ, p.Prime ∧ (k : ℝ) < p ∧ (p : ℝ) < 2 * (k : ℝ) ∧
++      (p : ℤ) ∣ Pprod k n := by
++  obtain ⟨k₁, hmain⟩ := main_theorem_c16
++  obtain ⟨k₂, hpow⟩ := Filter.eventually_atTop.mp
++    (eventually_le_rpow (1 - theta) 3 (by norm_num [theta]))
++  refine ⟨max (max k₁ k₂) 2, ?_⟩
++  intro k hk n hn hupper
++  have hk₁ : k₁ ≤ k := le_trans (le_max_left _ _) (le_trans (le_max_left _ _) hk)
++  have hk₂ : k₂ ≤ k := le_trans (le_max_right _ _) (le_trans (le_max_left _ _) hk)
++  have hkpos : (0 : ℝ) < k := by norm_cast; omega
++  obtain ⟨p, hp, hpk, hpupper, hpdvd⟩ := hmain k hk₁ n hn hupper
++  refine ⟨p, hp, hpk, ?_, hpdvd⟩
++  have hscale : 3 * (k : ℝ) ^ theta ≤ (k : ℝ) := by
++    calc
++      3 * (k : ℝ) ^ theta ≤ (k : ℝ) ^ (1 - theta) * (k : ℝ) ^ theta :=
++        mul_le_mul_of_nonneg_right (hpow k hk₂) (Real.rpow_nonneg (Nat.cast_nonneg k) _)
++      _ = (k : ℝ) := by
++        rw [← Real.rpow_add hkpos]
++        ring_nf
++        rw [Real.rpow_one]
++  linarith
++
+ end
+ 
+-#print axioms main_theorem
++#print axioms main_theorem_c16
++#print axioms main_theorem_c16_two_k

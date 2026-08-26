@@ -3,10 +3,31 @@
     "status": "not_started",
     "auditor": "unassigned; author self-review does not qualify",
     "evidence": [
-      "evidence/constant_optimization_audit.json is a symbolic arithmetic check only"
+      "evidence/lean_c16_replay.json is an exact kernel check, but the patch author and replay operator are the same research session",
+      "evidence/constant_optimization_audit.json is an author-side symbolic arithmetic check"
     ]
   },
   "statement_match": "passed",
-  "dependency_check": "pending_external_reconstruction",
-  "novelty_check": "priority_uncertain"
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain",
+  "formal_kernel_check": {
+    "status": "passed",
+    "evidence": [
+      "evidence/lean_c16_certificate.md",
+      "evidence/lean_c16_replay.json",
+      "formal/erdos451-c16.patch"
+    ],
+    "theorems": [
+      "main_theorem_c16",
+      "main_theorem_c16_two_k"
+    ],
+    "axioms": [
+      "bhp",
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "contains_sorry_axiom": false
+  },
+  "publication_state": "private_certificate"
 }
