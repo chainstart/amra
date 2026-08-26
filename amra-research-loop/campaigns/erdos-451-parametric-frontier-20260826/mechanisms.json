@@ -95,7 +95,7 @@
       "kill_test": "Normalize prime supply and Theorem 4.1 error per block; test whether the common A--B lower envelope cancels in the ratio.",
       "status": "killed",
       "created_at": "2026-08-26T06:25:11+00:00",
-      "status_evidence": "evidence/frontier_falsification.md: independent comparable blocks scale error and prime supply equally. evidence/adaptive_unbalanced_partition_frontier.md extends the author-level obstruction to arbitrary finite k-dependent nonuniform partitions of the whole deterministic PI-cardinality tail, with explicit location-blind and little-o scope restrictions.",
+      "status_evidence": "evidence/frontier_falsification.md: independent comparable blocks scale error and prime supply equally. evidence/location_blind_subdivision_bridge.md and formal/ParametricRanges.lean extend the scoped obstruction to arbitrary finite k-dependent nonuniform partitions of the whole deterministic PI-cardinality tail, without a family-cardinality bound, under explicit uniform-loss, location-blind, and little-o restrictions.",
       "updated_at": "2026-08-26T06:28:19+00:00"
     },
     {
@@ -151,7 +151,7 @@
       "kill_test": "Attempt non-balanced lambda, variable r, comparable multiblocks, and the equality endpoint; reject any argument that confuses a lower bound on the certificate with a lower bound on the true K.",
       "status": "proved",
       "created_at": "2026-08-26T06:25:12+00:00",
-      "status_evidence": "evidence/parametric_frontier_proof.md, Theorem B, and adversarial_self_audit.md prove the audited delimited termwise barrier. evidence/adaptive_unbalanced_partition_frontier.md gives an author-level enlargement to location-blind deterministic-tail partitions, with its non-audited status and exclusions explicit.",
+      "status_evidence": "evidence/parametric_frontier_proof.md, Theorem B, and adversarial_self_audit.md prove the audited delimited termwise barrier. evidence/location_blind_subdivision_bridge.md and formal/ParametricRanges.lean give the author-audited finite/growing location-blind deterministic-tail extension, with uniform-loss hypotheses and exclusions explicit.",
       "updated_at": "2026-08-26T06:32:47+00:00"
     }
   ]

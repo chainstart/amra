@@ -175,12 +175,25 @@ with `rho>=c`, `alpha>1`, `beta>1`, and
 `c<(1-theta)/3` for `c>0`, then kernel-refutes `c>=(1-theta)/3` in this named
 class, including `c>=19/120` at `theta=21/40`.
 
-This does **not** formalize arbitrary growing block families as Lean objects.
-The PI cardinality-tail reduction and the weighted extraction of a good block
-from a total `o(k^theta/log k)` nonnegative sum remain natural-proof steps in
-`adaptive_unbalanced_partition_frontier.md`.  The kernel theorem is therefore
-scoped to the block algebra and leading LP image and is not a no-go for all
-methods or for Erdős 451.
+The replay now also defines `LocationBlindTermwiseSubdivisionAt` for an
+arbitrary nonempty finite index set.  It kernel-checks the PI cardinality-tail
+inequality, telescoping of arbitrary partition lengths, the positive weighted
+good-block lemma, and
+`locationBlindTermwiseSubdivision_endpoint_no_go`.  The latter assumes fixed
+safe/order losses `C,D` and the exact finite separation
+
+```text
+((3D+3)M+C)M < (3cK-(3D+2)M)q.
+```
+
+No bound on the finite family cardinality or relative block sizes occurs, so
+it applies pointwise to families whose size grows arbitrarily with `k`.
+Turning the source Konyagin geometry into the uniform `C,D` premises and
+checking the eventual scale separation remain explicit natural asymptotics in
+`evidence/location_blind_subdivision_bridge.md`; they are not encoded as one
+Lean sequence theorem.  The result is still scoped to the location-blind,
+termwise-nonnegative full-tail class and is not a no-go for all methods or for
+Erdos 451.
 
 At the
 unconditional BHP input `theta=21/40`, it specializes to `c<19/120`.
@@ -202,12 +215,12 @@ inside the shared OpenMath memory slice, verifies exact axiom lists, rejects
 `sorryAx`, and writes SHA-256 hashes to `formal/logs/final-sha256.txt`.
 
 Final full replay: guard unit
-`openmath-task-20260826-201020-239491.scope`, exit status `0`; the cached
-range-build took `3.27s` with peak RSS `921,676 KiB`, while the whole replay
-peaked at `6,597,940 KiB`, with zero swap.  The immediately preceding fresh
+`openmath-task-20260826-204654-272766.scope`, exit status `0`; the cached
+range-build took `3.25s` with peak RSS `929,000 KiB`, while the whole replay
+peaked at `6,575,412 KiB`, with zero swap.  The immediately preceding fresh
 range build of the same source ran in guard unit
-`openmath-task-20260826-200821-237917.scope`, took `109.97s`, peaked at
-`7,009,816 KiB`, used zero swap, and is saved as
-`formal/logs/location-blind-attempt03.log`.  The verified
+`openmath-task-20260826-203707-264733.scope`, took `107.22s`, peaked at
+`7,052,716 KiB`, used zero swap, and is saved as
+`formal/logs/subdivision-bridge-attempt03.log`.  The verified
 `ParametricRanges.lean` SHA-256 is
-`ab6bfdcc85dec37b7489a2f2f615e7976136e9a9a3c40cd9ccde8324b064a0e5`.
+`d5a039d2fb7a30f4302bb0c04b42ce73cebbd46ad29db5e6b57bdf8bdf48dfe2`.

@@ -1,7 +1,7 @@
 {
   "outcome": "promote",
   "success_condition": "main_exponent_improved",
-  "reason": "The audited promotion basis remains the improvement from 1/20 to every c<19/120 at the unconditional BHP exponent theta=21/40. The larger adaptive old-proof architecture is fully kernel-checked under PrimeIntervalInput(theta): for every 0<theta<1 and 0<c<(1-theta)/3, Lean constructs the actual positive real lambda=(max(nr!,V_r)/(nr!))^(1/r), the least stopping order, all four range fields, and the final divisor theorem. Lean now also checks the exact location-blind first-two-term invariant with arbitrary unbalanced lambda and W>=1, its finite safe-tail budget, and the exact leading LP feasibility iff c<(1-theta)/3; hence the endpoint is kernel-refuted only in that explicitly named leading certificate class. The PI cardinality-tail and weighted good-block extraction from arbitrary growing subdivisions remain natural-proof bridges. Erdős 451 is not closed, and novelty/publication priority remain unchecked.",
+  "reason": "The audited promotion basis remains the improvement from 1/20 to every c<19/120 at the unconditional BHP exponent theta=21/40. The larger adaptive old-proof architecture is fully kernel-checked under PrimeIntervalInput(theta): for every 0<theta<1 and 0<c<(1-theta)/3, Lean constructs the actual positive real lambda=(max(nr!,V_r)/(nr!))^(1/r), the least stopping order, all four range fields, and the final divisor theorem. Lean now also checks the exact location-blind first-two-term invariant, PI cardinality tail, arbitrary finite partition telescope, weighted good-block extraction, and a finite endpoint no-go uniform in family cardinality. Thus arbitrary finite block counts, even growing with k, do not evade the endpoint within the named full-tail, termwise-nonnegative class when the source comparison losses C,D are uniform. The source-to-uniform-loss mapping and eventual asymptotic instantiation remain natural proof. Erdos 451 is not closed, and novelty/publication priority remain unchecked.",
   "evidence": [
     "evidence/parametric_frontier_proof.md",
     "audit/independent_reconstruction.md",
@@ -14,6 +14,9 @@
     "evidence/lean_theta_interface_audit.md",
     "evidence/theta_endpoint_audit.md",
     "evidence/adaptive_unbalanced_partition_frontier.md",
+    "evidence/location_blind_subdivision_bridge.md",
+    "audit/location_blind_subdivision_bridge_author_audit.md",
+    "audit/location_blind_subdivision_bridge_cross_audit.md",
     "audit/adaptive_unbalanced_author_audit.md",
     "audit/adaptive_unbalanced_cross_audit.md",
     "audit/location_blind_leading_obstruction_cross_audit.md",

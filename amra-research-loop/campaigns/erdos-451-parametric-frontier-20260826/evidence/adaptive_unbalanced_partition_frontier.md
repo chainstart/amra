@@ -13,14 +13,15 @@ directions:
    and sums its right-hand sides.
 
 The attaining proof and the delimited barrier below are author-verified
-natural proofs, conditional on `PI(theta)`, and have received a same-model
-cross-audit.  The attaining theorem is now fully kernel-checked on
-`0<theta<1`.  For the barrier, Lean now checks the exact per-block invariant,
-its `W>=1` monotonicity, the finite first-two-term budget obstruction, and the
-leading linear-program frontier.  The PI cardinality-tail reduction and the
-weighted extraction of a good block from an arbitrary growing subdivision
-remain natural-proof bridges; Lean does not encode the whole sequence of
-subdivided certificates.
+natural proofs, conditional on `PI(theta)`, and have received same-model
+cross-audits for their earlier stages.  The attaining theorem is fully
+kernel-checked on `0<theta<1`.  For the barrier, Lean now checks the exact
+per-block invariant, the finite PI cardinality tail, arbitrary finite
+partition telescoping, weighted good-block extraction, and a complete finite
+subdivision endpoint no-go that is uniform in the index-set cardinality.  A
+growing subdivision is handled by applying that finite theorem at each `k`;
+the remaining natural-proof boundary is the analytic source mapping to
+uniform comparison losses and the standard eventual limit calculation.
 
 ## 1. Result
 
@@ -346,8 +347,7 @@ Neither an unbalanced `lambda_j`, a different rule for choosing `r_j`, nor
 The first two terms contribute their block length times `A_j+B_j` to the
 summed Konyagin upper bound.  Because all block bounds are nonnegative and the
 deterministic-tail block lengths sum to `asymp k^theta`, a total
-`o(k^theta/L)` certificate would force a set of blocks carrying `1-o(1)` of
-that length to satisfy
+`o(k^theta/L)` certificate has a positive weighted-average block satisfying
 
 ```text
 A_j+B_j=o(1/L).                                       (26)
@@ -374,11 +374,11 @@ extra `+l` caused by the cardinality tail, while the additional term
 `(3r_j-2)q_k` is much larger than `l` because
 `r_j asymp L/l` and `q_k->infinity`.  Thus equality is also impossible.
 
-The weighted assertion preceding (26) is elementary: if the
-length-weighted average of `A_j+B_j` is `t_k/L` with `t_k->0`, then blocks
-with `A_j+B_j>sqrt(t_k)/L` carry at most `sqrt(t_k)` of the total length.
-It therefore remains valid for highly nonbalanced partitions and a growing
-number of pieces.
+More exactly, if the length-weighted average is `t_k/L`, positivity selects a
+block with `A_j+B_j<=t_k/L`; writing `q_k=-log t_k` gives the displayed
+bound.  Lean now checks this extraction for an arbitrary nonempty finite
+index set.  It therefore remains valid for highly nonbalanced partitions and
+a number of pieces that grows arbitrarily with `k`.
 
 ### Linear-program form
 
@@ -428,7 +428,23 @@ both log terms <= -l-q, r*l >= c*L-D*l
 ```
 
 so the natural proof's `q_k->infinity` contradiction does not assume a fixed
-log-power separated from `1`.  It separately defines the precise leading parameter image
+log-power separated from `1`.  Lean additionally defines
+`LocationBlindTermwiseSubdivisionAt`, proves the cardinality-tail and
+partition-length lemmas, and kernel-checks weighted extraction followed by
+the finite endpoint theorem
+
+```text
+((3D+3)M+C)M < (3cK-(3D+2)M)q
+  ==> no finite subdivision certificate.
+```
+
+This statement has no block-count or comparable-size premise.  With fixed
+`C,D`, `K=log k`, `M=loglog k`, and `q_k->infinity`, its separation premise
+holds eventually because `K/M^2->infinity`.  Full details, including minimal
+counterexamples when `C` or `D` is allowed to grow, are in
+`evidence/location_blind_subdivision_bridge.md`.
+
+Lean separately defines the precise leading parameter image
 `LocationBlindTermwiseLeadingCertificate(theta,c)` by the existence of
 `rho,alpha,beta` satisfying (29), and proves
 
@@ -438,11 +454,13 @@ LocationBlindTermwiseLeadingCertificate(theta,c)
 ```
 
 Consequently the endpoint `c>=(1-theta)/3`, including `c>=19/120` at
-`theta=21/40`, is kernel-refuted **for this named leading certificate
-class**.  The reduction from every growing, nonuniform subdivided certificate
-to (29) still uses the cardinality-tail and weighted-selection arguments
-above at natural-proof level.  Therefore this is not a kernel theorem about
-all proof methods, the true bad set, or Erdős 451 itself.
+`theta=21/40`, is kernel-refuted both in this named leading parameter class
+and, under the explicit fixed-loss finite predicate, at every scale satisfying
+the separation inequality.  The equality endpoint uses the finite excess
+theorem rather than extracting fixed `alpha,beta>1`.  The source-geometric
+derivation of uniform `C,D` is natural proof, so this remains a scoped theorem
+about the stated architecture, not a kernel theorem about all proof methods,
+the true bad set, or Erdos 451 itself.
 
 ## 6. Exact conclusion and remaining scope
 
@@ -470,11 +488,12 @@ recorded in `evidence/adaptive_unbalanced_replay.json`.  This finite replay is
 a transcription check only and is not used to promote the quantified natural
 proof to machine-checked status.
 
-The promoted block invariant and LP obstruction were separately replayed by
+The promoted block invariant, finite subdivision bridge, and LP obstruction
+were replayed by
 `formal/verify_guarded.sh` under guard unit
-`openmath-task-20260826-201020-239491.scope`; all asserted axiom lists passed,
+`openmath-task-20260826-204654-272766.scope`; all asserted axiom lists passed,
 no `sorryAx` occurred, and the full replay exited zero with peak RSS
-`6,597,940 KiB` and zero swap.  The fresh range build immediately before it
-used guard unit `openmath-task-20260826-200821-237917.scope`, took `109.97s`,
-and peaked at `7,009,816 KiB`.  The checked `ParametricRanges.lean` SHA-256 is
-`ab6bfdcc85dec37b7489a2f2f615e7976136e9a9a3c40cd9ccde8324b064a0e5`.
+`6,575,412 KiB` and zero swap.  The fresh range build immediately before it
+used guard unit `openmath-task-20260826-203707-264733.scope`, took `107.22s`,
+and peaked at `7,052,716 KiB`.  The checked `ParametricRanges.lean` SHA-256 is
+`d5a039d2fb7a30f4302bb0c04b42ce73cebbd46ad29db5e6b57bdf8bdf48dfe2`.

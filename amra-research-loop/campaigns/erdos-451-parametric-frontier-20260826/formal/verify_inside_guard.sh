@@ -79,6 +79,12 @@ for theorem in \
   ParametricLarge.adaptive_first_two_budget_obstruction \
   ParametricLarge.locationBlind_endpoint_excess_budget \
   ParametricLarge.locationBlind_endpoint_termwise_no_go_of_excess \
+  ParametricLarge.candidate_cardinality_tail \
+  ParametricLarge.candidate_half_mass_tail \
+  ParametricLarge.interval_partition_length_sum \
+  ParametricLarge.exists_weighted_cost_le \
+  ParametricLarge.locationBlindSubdivision_exists_good_block \
+  ParametricLarge.locationBlindTermwiseSubdivision_endpoint_no_go \
   ParametricLarge.locationBlindTermwiseLeadingCertificate_iff \
   ParametricLarge.locationBlindTermwiseLeadingCertificate_no_go \
   ParametricLarge.locationBlindTermwiseLeadingCertificate_no_go_bhp \

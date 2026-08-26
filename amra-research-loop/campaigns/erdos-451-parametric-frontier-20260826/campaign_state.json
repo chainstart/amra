@@ -5,7 +5,7 @@
   "title": "Parametric frontier of the van Doorn--Tang/Konyagin--BHP lower-bound method",
   "phase": "promotion",
   "created_at": "2026-08-26T06:17:08+00:00",
-  "updated_at": "2026-08-26T19:58:47+08:00",
+  "updated_at": "2026-08-26T20:41:12+08:00",
   "gates": {
     "min_representation_families": 4,
     "min_representations": 8,
@@ -78,6 +78,12 @@
       "event": "post_promotion_scoped_obstruction_formalization",
       "phase": "promotion",
       "result": "Kernel-checked the exact location-blind first-two-term invariant, W>=1 monotonicity, finite safe-tail budget, leading LP frontier, and the scoped endpoint no-go; the full growing-subdivision extraction remains natural proof."
+    },
+    {
+      "at": "2026-08-26T20:41:12+08:00",
+      "event": "post_promotion_subdivision_bridge_formalization",
+      "phase": "promotion",
+      "result": "Kernel-checked PI cardinality-tail lemmas, arbitrary finite partition telescoping, weighted good-block extraction, and the endpoint no-go uniformly over finite family cardinality; documented the natural source-to-uniform-loss instantiation and counterexamples when those losses grow."
     }
   ]
 }

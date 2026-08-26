@@ -22,12 +22,13 @@
       "method": "Finite or polylogarithmic comparable prime-block segmentation",
       "loss_step": "Each block is bounded independently by the same nonnegative Theorem 4.1 right-hand side, after which the bounds are summed and compared only with blockwise short-interval prime counts.",
       "lost_information": "No cancellation or cross-block correlation is retained, and every comparable block inherits the same A--B product barrier up to k^(o(1)) factors.",
-      "consequence": "Such segmentation changes constants or logarithmic factors but cannot improve the leading c(theta) frontier. Lean now checks the exact per-block invariant, W>=1 monotonicity, finite safe-tail budget, and leading LP infeasibility; the cardinality-tail and weighted block-extraction bridge remains natural proof. This does not rule out a new multiblock theorem retaining correlations."
+      "consequence": "Such segmentation changes constants or logarithmic factors but cannot improve the leading c(theta) frontier. Lean now checks the exact per-block invariant, PI cardinality tail, arbitrary finite partition telescope, weighted good-block extraction, and endpoint contradiction uniformly in family cardinality. The source production of fixed uniform geometry/order losses remains natural proof. This does not rule out a new multiblock theorem retaining correlations."
     }
   ],
   "required_new_information": [
     "To improve c beyond (1-theta)/3, information not present in the termwise nonnegative Theorem 4.1 certificate is required: cross-block cancellation, prime-location-adaptive sparse covers, a stronger local prime input, or a stronger direct estimate of the true bad set.",
     "The adaptive scale and least stopping order now recover all information needed to remove the balanced theta>9/23 artifact; no further parameter-only glue remains in the PI(theta)-conditional attaining theorem.",
-    "The enlarged no-go must remain scoped to the location-blind deterministic-tail certificate class and cannot be promoted to a lower bound on the true bad-point count."
+    "The enlarged no-go must remain scoped to the location-blind deterministic-tail certificate class and cannot be promoted to a lower bound on the true bad-point count.",
+    "Any extension beyond the proved subdivision class must replace at least one indispensable input: uniform safe/order comparison losses, full deterministic-tail coverage, or termwise nonnegative summation. One-block algebraic counterexamples show that allowing the comparison losses to grow destroys the endpoint obstruction."
   ]
 }

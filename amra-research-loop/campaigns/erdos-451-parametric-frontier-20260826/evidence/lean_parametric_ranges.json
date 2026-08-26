@@ -22,6 +22,12 @@
     "adaptive_first_two_budget_obstruction",
     "locationBlind_endpoint_excess_budget",
     "locationBlind_endpoint_termwise_no_go_of_excess",
+    "candidate_cardinality_tail",
+    "candidate_half_mass_tail",
+    "interval_partition_length_sum",
+    "exists_weighted_cost_le",
+    "locationBlindSubdivision_exists_good_block",
+    "locationBlindTermwiseSubdivision_endpoint_no_go",
     "locationBlindTermwiseLeadingCertificate_iff",
     "locationBlindTermwiseLeadingCertificate_no_go",
     "locationBlindTermwiseLeadingCertificate_no_go_bhp",
@@ -68,9 +74,12 @@
     "W_monotonicity": "W>=1 makes the invariant no smaller than log(delta).",
     "finite_safe_tail_budget": "If log(delta W^4)>=-(1-theta)K-M-C and the separate budgets are log(T1)<=-alpha M, log(T2)<=-beta M, then ((2r-1)alpha+(r-1)beta)M<=(1-theta)K+M+C.",
     "endpoint_excess_budget": "At c>=(1-theta)/3, if rM>=cK-DM and both logs are <=-M-q, then (3r-2)q<=(3D+3)M+C; the strict reverse inequality kernel-refutes simultaneous budgets. This finite form covers effective log-powers tending to 1 once the natural proof supplies q->infinity.",
+    "subdivision_class": "LocationBlindTermwiseSubdivisionAt is an arbitrary nonempty finite positive-weight full-tail family, with one common safe-tail loss C, one common conditional order loss D, and a summed nonnegative first-two ledger H*exp(-M-q).",
+    "finite_extraction": "candidate_cardinality_tail and candidate_half_mass_tail check the PI counting step; interval_partition_length_sum checks full-tail weights; locationBlindSubdivision_exists_good_block selects one block with both log terms <=-M-q, without any family-cardinality bound.",
+    "finite_subdivision_no_go": "At c>=(1-theta)/3, fixed-scale separation ((3D+3)M+C)M < (3cK-(3D+2)M)q rules out LocationBlindTermwiseSubdivisionAt. The statement is uniform in the finite index set and therefore applies pointwise to block counts growing arbitrarily with k.",
     "leading_frontier": "For c>0, LocationBlindTermwiseLeadingCertificate(theta,c) iff c<(1-theta)/3.",
     "endpoint": "The class is impossible for c>=(1-theta)/3; at theta=21/40 it is impossible for c>=19/120.",
-    "formalization_boundary": "Lean checks the block algebra and the exact LP parameter frontier. The PI cardinality-tail reduction and weighted extraction of a good block from an arbitrary growing family of nonnegative block bounds remain natural-proof bridges; this is not a no-go for Erdős 451 or for all methods."
+    "formalization_boundary": "Lean checks the finite PI cardinality tail, partition telescope, weighted extraction, exact block algebra, finite subdivision endpoint no-go, and LP frontier. The source-geometric production of fixed uniform C,D and the eventual K/loglog(k)^2 separation remain natural-proof instantiations rather than one Lean sequence theorem; this is not a no-go for Erdos 451 or for all methods."
   },
   "interpretation": {
     "balanced_lower_endpoint": "The former theta>9/23 restriction is an artifact of balanced lambda and is removed by the adaptive construction.",
@@ -79,7 +88,7 @@
   },
   "guard": {
     "wrapper": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
-    "unit": "openmath-task-20260826-201020-239491.scope",
+    "unit": "openmath-task-20260826-204654-272766.scope",
     "memory_high": "30G",
     "memory_max": "34G",
     "swap_max": "4G",
@@ -88,22 +97,23 @@
   "replay": {
     "command": "cd formal && ./verify_guarded.sh",
     "exit_status": 0,
-    "ranges_wall_seconds": 3.27,
+    "ranges_wall_seconds": 3.25,
     "ranges_build_cached": true,
-    "ranges_peak_rss_kib": 921676,
-    "whole_replay_peak_rss_kib": 6597940,
+    "ranges_peak_rss_kib": 929000,
+    "whole_replay_peak_rss_kib": 6575412,
     "swap_count": 0,
     "fresh_ranges_build": {
-      "unit": "openmath-task-20260826-200821-237917.scope",
-      "wall_seconds": 109.97,
-      "peak_rss_kib": 7009816,
+      "unit": "openmath-task-20260826-203707-264733.scope",
+      "wall_seconds": 107.22,
+      "peak_rss_kib": 7052716,
       "swap_count": 0,
-      "log": "formal/logs/location-blind-attempt03.log"
+      "log": "formal/logs/subdivision-bridge-attempt03.log"
     },
     "logs": [
       "formal/logs/ranges-build.log",
       "formal/logs/frontier-build.log",
       "formal/logs/interface-build.log",
+      "formal/logs/subdivision-bridge-final-replay.log",
       "formal/logs/final-sha256.txt"
     ]
   },
@@ -138,14 +148,44 @@
       "Classical.choice",
       "Quot.sound"
     ],
+    "ParametricLarge.candidate_cardinality_tail": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.candidate_half_mass_tail": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.interval_partition_length_sum": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.exists_weighted_cost_le": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.locationBlindSubdivision_exists_good_block": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.locationBlindTermwiseSubdivision_endpoint_no_go": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
     "sorryAx_present": false,
     "bhp_present_in_parametric_theorem": false,
     "new_unexplained_axiom_present": false
   },
   "source_sha256": {
-    "formal/ParametricRanges.lean": "ab6bfdcc85dec37b7489a2f2f615e7976136e9a9a3c40cd9ccde8324b064a0e5",
+    "formal/ParametricRanges.lean": "d5a039d2fb7a30f4302bb0c04b42ce73cebbd46ad29db5e6b57bdf8bdf48dfe2",
     "formal/ParametricInterface.lean": "1e26f0f1d2665e20ad2b5c7c6b7ebe93894e5ec712967104d74630376d451efe",
-    "formal/verify_inside_guard.sh": "6de8dbfd996c98477b433d4de5a2364767326437cb8930546ccc40e4929da8fe",
+    "formal/verify_inside_guard.sh": "fd20b9c75bf80d5b43e4952654f62e22ce37cbc3bdd1f75b4b51af242a7296d9",
     "formal/lakefile.toml": "2ab8618c84e5370963d53afe5e63736e8289edc3e471897564283aab06f6ad7c",
     "formal/lake-manifest.json": "4f88144c9db6bab6b1e0a7447a9e58bf4627b340fcc2fd9ef102a0925410cd0b"
   }

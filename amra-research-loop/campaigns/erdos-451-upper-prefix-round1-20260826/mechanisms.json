@@ -39,8 +39,8 @@
       "kill_test": "On the independent half-density comparator, compute exact odd Bonferroni lower polynomials at degree floor(epsilon*m); reject if they remain nonpositive although the exact survivor mass is 2^{-m}.",
       "status": "killed",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/finite_kill_tests.json, and evidence/signed_missing_prime_typeii_audit.md: the actual q_p=k/(p-1)>1/2 make every proper odd Bonferroni principal ledger nonpositive, while even a Q_0*X^2 Type-II level sees only O(m/log k) prime coordinates; the independent full-order remainder scale is exponentially larger than the survivor scale.",
-      "updated_at": "2026-08-26T12:02:14+00:00"
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/finite_kill_tests.json, evidence/signed_missing_prime_typeii_audit.md, and evidence/violation_generating_polynomial_dual_no_go.md: the actual q_p=k/(p-1)>1/2 make every proper-degree multilinear pointwise one-sided certificate nonpositive under the principal product law; two nonnegative rational laws have identical all proper marginals but endpoint masses 0 and 2*delta. The kill concerns distribution-free low-degree handoff, not the special Q_0-phased full interaction.",
+      "updated_at": "2026-08-26T12:35:43+00:00"
     },
     {
       "id": "U451-M04",
@@ -67,8 +67,8 @@
       "kill_test": "Enumerate exact one-sided and symmetric minima, test arbitrary coprime interval systems for skew-lattice counterexamples, and audit whether any proposed lattice theorem has a dimension factor larger than exp(O(m log log k)).",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, evidence/direct_common_start_rank3_no_go.md, evidence/absorber_cluster_resonance_audit.md, evidence/free_multiplier_cluster_avoidance.md, evidence/free_multiplier_bilinear_counting_audit.md, evidence/weighted_multiplicative_character_deepening.md, evidence/high_support_centered_mechanisms.md, evidence/coupled_conductor_heat_and_triangular_divisors.md, and evidence/signed_missing_prime_typeii_audit.md: the missing-prime statistic is now an exact Q_0-phase Type-II Mobius transform, but its natural product level sees only O(m/log k) coordinates and any separate asymptotic around the independent full-order remainder needs exponential relative precision",
-      "updated_at": "2026-08-26T12:02:14+00:00"
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, evidence/direct_common_start_rank3_no_go.md, evidence/absorber_cluster_resonance_audit.md, evidence/free_multiplier_cluster_avoidance.md, evidence/free_multiplier_bilinear_counting_audit.md, evidence/weighted_multiplicative_character_deepening.md, evidence/high_support_centered_mechanisms.md, evidence/coupled_conductor_heat_and_triangular_divisors.md, evidence/signed_missing_prime_typeii_audit.md, and evidence/violation_generating_polynomial_dual_no_go.md: for fixed 0<eta<4/3, the exact endpoint is now one full-modulus high-conductor signed character sum with cutoff X^(4/3-eta), absorber phase chi(-Q_0), local interval coefficients, and complex square fixed. Proper-degree pointwise duals and compact-contour reconstruction are killed; the full arithmetic interaction remains open",
+      "updated_at": "2026-08-26T12:57:38+00:00"
     },
     {
       "id": "U451-M06",
@@ -109,8 +109,8 @@
       "kill_test": "Extract exact covering words and indispensable boundary witnesses; reject encodings that are noninjective or require recording one of k phases independently per prime.",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, evidence/direct_common_start_rank3_no_go.md, evidence/absorber_cluster_resonance_audit.md, evidence/free_multiplier_cluster_avoidance.md, evidence/free_multiplier_bilinear_counting_audit.md, evidence/weighted_multiplicative_character_deepening.md, evidence/high_support_centered_mechanisms.md, evidence/coupled_conductor_heat_and_triangular_divisors.md, and evidence/signed_missing_prime_typeii_audit.md: a block/entropy proof cannot stop at low-rank Type-II marginals, because all proper odd Bonferroni principal ledgers are nonpositive; it must encode the coupled full-order violation remainder at the delta*N scale",
-      "updated_at": "2026-08-26T12:02:14+00:00"
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, evidence/direct_common_start_rank3_no_go.md, evidence/absorber_cluster_resonance_audit.md, evidence/free_multiplier_cluster_avoidance.md, evidence/free_multiplier_bilinear_counting_audit.md, evidence/weighted_multiplicative_character_deepening.md, evidence/high_support_centered_mechanisms.md, evidence/coupled_conductor_heat_and_triangular_divisors.md, evidence/signed_missing_prime_typeii_audit.md, and evidence/violation_generating_polynomial_dual_no_go.md: all proper coordinate marginals can agree while the endpoint changes by 2*delta, so a covering-entropy handoff must retain the full coordinate interaction and its Q_0 phase rather than compressing only a proper-rank jet",
+      "updated_at": "2026-08-26T12:35:43+00:00"
     },
     {
       "id": "U451-M09",
@@ -137,8 +137,8 @@
       "kill_test": "Exhaust small coprime moduli and widths, maximize the cyclic gap divided by P/|A|, include extreme narrow/wide mixtures, and test whether recursive, monotone-chain, or difference-set proofs lose a factor q_max at every merge or lose coordinatewise sign.",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, evidence/direct_common_start_rank3_no_go.md, evidence/absorber_cluster_resonance_audit.md, evidence/free_multiplier_cluster_avoidance.md, evidence/free_multiplier_bilinear_counting_audit.md, evidence/weighted_multiplicative_character_deepening.md, evidence/high_support_centered_mechanisms.md, evidence/coupled_conductor_heat_and_triangular_divisors.md, and evidence/signed_missing_prime_typeii_audit.md: the exact divisor errors retain the common-start Q_0 phase, but product-level Type-II reaches only O(m/log k) constraints and the independent all-rank tail scale is exponentially larger than the desired survivor mass; no successor bound follows without coupled cancellation",
-      "updated_at": "2026-08-26T12:02:14+00:00"
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, evidence/signed_support_correlation_audit.md, evidence/affine_rank3_carry_audit.md, evidence/direct_common_start_rank3_no_go.md, evidence/absorber_cluster_resonance_audit.md, evidence/free_multiplier_cluster_avoidance.md, evidence/free_multiplier_bilinear_counting_audit.md, evidence/weighted_multiplicative_character_deepening.md, evidence/high_support_centered_mechanisms.md, evidence/coupled_conductor_heat_and_triangular_divisors.md, evidence/signed_missing_prime_typeii_audit.md, and evidence/violation_generating_polynomial_dual_no_go.md: the exact successor count is F_X(0), whose full-modulus expansion retains chi(-Q_0). For fixed 0<eta<4/3, a bound o(delta*N) for the single high-conductor sum f_chi>X^(4/3-eta) would close an exp(O(k/log k)) candidate bound, but this conditional endpoint estimate is open",
+      "updated_at": "2026-08-26T12:57:38+00:00"
     },
     {
       "id": "U451-M11",

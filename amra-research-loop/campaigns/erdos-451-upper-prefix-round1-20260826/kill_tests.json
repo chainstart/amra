@@ -13,7 +13,7 @@
     {
       "mechanism_id": "U451-M03",
       "outcome": "killed",
-      "evidence": "evidence/bridge_falsification_and_survivors.md proves that for independent half-density constraints every proper odd Bonferroni polynomial is nonpositive, although the exact rare-event mass is 2^{-m}; finite exact rational values are replayed in evidence/finite_kill_tests.json. evidence/signed_missing_prime_typeii_audit.md strengthens this to the actual unequal 451 failure probabilities q_p=k/(p-1)>1/2 and proves that even the optimistic Q_0*X^2 Type-II level sees only O(k/log^2 k)=O(m/log k) coordinates."
+      "evidence": "evidence/bridge_falsification_and_survivors.md proves that for independent half-density constraints every proper odd Bonferroni polynomial is nonpositive, although the exact rare-event mass is 2^{-m}; finite exact rational values are replayed in evidence/finite_kill_tests.json. evidence/signed_missing_prime_typeii_audit.md strengthens this to the actual unequal 451 failure probabilities q_p=k/(p-1)>1/2 and proves that even the optimistic Q_0*X^2 Type-II level sees only O(k/log^2 k)=O(m/log k) coordinates. evidence/violation_generating_polynomial_dual_no_go.md proves the sharp extension: every proper-degree multilinear pointwise one-sided certificate has nonpositive principal expectation, while two exact nonnegative rational laws have identical all proper marginals and endpoint masses 0 and 2*delta."
     },
     {
       "mechanism_id": "U451-M04",

@@ -2209,6 +2209,218 @@ theorem locationBlind_endpoint_termwise_no_go_of_excess
       hT1 hT2 hsafe
   linarith
 
+/-! ### Finite and growing subdivision extraction bridge
+
+The next layer makes the block-family quantifiers explicit.  It is uniform in
+an arbitrary finite index set, so the number of blocks may grow with an outer
+parameter.  The hypotheses deliberately include uniform safe-tail and
+endpoint-order losses `C,D`; allowing those losses to grow without control is
+outside the proved certificate class. -/
+
+/-- A cardinality-only tail lemma.  If `candidates` contains at least `mass`
+different natural offsets, at least `mass-cut` of them have offset at least
+`cut`.  No distribution of the candidates inside the tail is assumed. -/
+lemma candidate_cardinality_tail (candidates : Finset ℕ) (mass cut : ℕ)
+    (hmass : mass ≤ candidates.card) :
+    mass - cut ≤ (candidates.filter fun x => cut ≤ x).card := by
+  have hlow : (candidates.filter fun x => x < cut).card ≤ cut := by
+    calc
+      (candidates.filter fun x => x < cut).card ≤
+          (Finset.range cut).card := by
+        apply Finset.card_le_card
+        intro x hx
+        simp only [Finset.mem_filter] at hx
+        simpa using hx.2
+      _ = cut := Finset.card_range cut
+  have hsplit := Finset.card_filter_add_card_filter_not
+    (s := candidates) (fun x => x < cut)
+  simp only [not_lt] at hsplit
+  omega
+
+/-- Half of any supplied candidate mass lies at distance at least half that
+mass.  This is the exact combinatorial core of the PI cardinality-tail step. -/
+lemma candidate_half_mass_tail (candidates : Finset ℕ) (mass : ℕ)
+    (hmass : mass ≤ candidates.card) :
+    mass / 2 ≤
+      (candidates.filter fun x => mass / 2 ≤ x).card := by
+  have htail := candidate_cardinality_tail candidates mass (mass / 2) hmass
+  omega
+
+/-- Telescoping length identity for an arbitrary finite interval partition.
+Together with strictly increasing cut points, it identifies the positive
+weights used below with the full geometric tail length. -/
+lemma interval_partition_length_sum (cut : ℕ → ℝ) (blocks : ℕ) :
+    (∑ i ∈ Finset.range blocks, (cut (i + 1) - cut i)) =
+      cut blocks - cut 0 := by
+  induction blocks with
+  | zero => simp
+  | succ blocks ih =>
+      rw [Finset.sum_range_succ, ih]
+      ring
+
+/-- Logarithmic data for one positive-length, location-blind prime block.
+`lengthWeight` is its geometric interval length.  `logLam` and `W` retain the
+separate scale choices; admissibility is imposed by the family predicate. -/
+structure LocationBlindSubdivisionBlock where
+  lengthWeight : ℝ
+  order : ℕ
+  logDelta : ℝ
+  logD : ℝ
+  logLam : ℝ
+  W : ℝ
+
+def LocationBlindSubdivisionBlock.logT1
+    (b : LocationBlindSubdivisionBlock) : ℝ :=
+  locationBlindLogT1 b.logD b.logLam (Real.log b.W) b.order
+
+def LocationBlindSubdivisionBlock.logT2
+    (b : LocationBlindSubdivisionBlock) : ℝ :=
+  locationBlindLogT2 b.logDelta b.logD b.logLam (Real.log b.W) b.order
+
+/-- The sum of the first two nonnegative normalized Konyagin terms on one
+block. -/
+def LocationBlindSubdivisionBlock.firstTwoCost
+    (b : LocationBlindSubdivisionBlock) : ℝ :=
+  Real.exp b.logT1 + Real.exp b.logT2
+
+/-- Exact finite-scale certificate class for the extraction theorem.
+
+* positive block weights form a full deterministic tail of length `H`;
+* every block has admissible `r,lambda,W`;
+* the same constants `C,D` control safe-tail losses and, whenever the first
+  term is below one, the endpoint-order loss on every block;
+* the independently summed, nonnegative first-two-term ledger is at most
+  `H*exp(-M-q)`.
+
+The definition contains no cancellation and no prime-location-adaptive sparse
+cover. -/
+def LocationBlindTermwiseSubdivisionAt
+    {ι : Type*} [DecidableEq ι]
+    (ϑ c K M C D q H : ℝ) (s : Finset ι)
+    (block : ι → LocationBlindSubdivisionBlock) : Prop :=
+  s.Nonempty ∧
+  0 < H ∧
+  (∑ i ∈ s, (block i).lengthWeight) = H ∧
+  (∀ i ∈ s,
+    0 < (block i).lengthWeight ∧
+    2 ≤ (block i).order ∧
+    0 ≤ (block i).logLam ∧
+    1 ≤ (block i).W ∧
+    -(1 - ϑ) * K - M - C ≤
+      (block i).logDelta + 4 * Real.log (block i).W ∧
+    ((block i).logT1 < 0 →
+      c * K - D * M ≤ ((block i).order : ℝ) * M)) ∧
+  (∑ i ∈ s,
+      (block i).lengthWeight * (block i).firstTwoCost) ≤
+    H * Real.exp (-M - q)
+
+/-- A positive weighted average has a constituent no larger than its average.
+The lemma is uniform in the cardinality of the finite index set. -/
+lemma exists_weighted_cost_le
+    {ι : Type*} [DecidableEq ι]
+    (s : Finset ι) (weight cost : ι → ℝ) (ε : ℝ)
+    (hs : s.Nonempty) (hweight : ∀ i ∈ s, 0 < weight i)
+    (hsum : (∑ i ∈ s, weight i * cost i) ≤
+      ε * ∑ i ∈ s, weight i) :
+    ∃ i ∈ s, cost i ≤ ε := by
+  have hsum' : (∑ i ∈ s, weight i * cost i) ≤
+      ∑ i ∈ s, weight i * ε := by
+    calc
+      (∑ i ∈ s, weight i * cost i) ≤
+          ε * ∑ i ∈ s, weight i := hsum
+      _ = (∑ i ∈ s, weight i) * ε := by ring
+      _ = ∑ i ∈ s, weight i * ε := by rw [Finset.sum_mul]
+  obtain ⟨i, hi, hle⟩ := Finset.exists_le_of_sum_le hs hsum'
+  refine ⟨i, hi, ?_⟩
+  nlinarith [hweight i hi]
+
+/-- Weighted good-block extraction.  An arbitrary finite subdivision whose
+first-two-term ledger is `H*exp(-M-q)` has a positive-length block on which
+both logarithmic terms are at most `-M-q`.  Because the statement is uniform
+in `s`, it also applies pointwise to growing finite subdivisions. -/
+lemma locationBlindSubdivision_exists_good_block
+    {ι : Type*} [DecidableEq ι]
+    (ϑ c K M C D q H : ℝ) (s : Finset ι)
+    (block : ι → LocationBlindSubdivisionBlock)
+    (hcert : LocationBlindTermwiseSubdivisionAt
+      ϑ c K M C D q H s block) :
+    ∃ i ∈ s,
+      0 < (block i).lengthWeight ∧
+      (block i).logT1 ≤ -M - q ∧
+      (block i).logT2 ≤ -M - q := by
+  rcases hcert with ⟨hs, _hH, hlength, hblock, hsum⟩
+  have hsum' :
+      (∑ i ∈ s, (block i).lengthWeight * (block i).firstTwoCost) ≤
+        Real.exp (-M - q) *
+          ∑ i ∈ s, (block i).lengthWeight := by
+    rw [hlength]
+    simpa [mul_comm] using hsum
+  obtain ⟨i, hi, hcost⟩ := exists_weighted_cost_le s
+    (fun j => (block j).lengthWeight)
+    (fun j => (block j).firstTwoCost) (Real.exp (-M - q)) hs
+    (fun j hj => (hblock j hj).1) hsum'
+  have hT1exp : Real.exp (block i).logT1 ≤ Real.exp (-M - q) := by
+    apply le_trans _ hcost
+    unfold LocationBlindSubdivisionBlock.firstTwoCost
+    exact le_add_of_nonneg_right (Real.exp_pos _).le
+  have hT2exp : Real.exp (block i).logT2 ≤ Real.exp (-M - q) := by
+    apply le_trans _ hcost
+    unfold LocationBlindSubdivisionBlock.firstTwoCost
+    exact le_add_of_nonneg_left (Real.exp_pos _).le
+  exact ⟨i, hi, (hblock i hi).1,
+    Real.exp_le_exp.mp hT1exp, Real.exp_le_exp.mp hT2exp⟩
+
+/-- Complete finite subdivision bridge at or beyond the endpoint.  The
+single global separation inequality is the finite-scale form eventually
+forced by `q -> infinity`, `K=log(k)`, `M=loglog(k)`, fixed `C,D`, and
+`c>0`.  No bound on the number or relative sizes of the positive-length
+blocks appears.
+
+The conclusion is scoped to `LocationBlindTermwiseSubdivisionAt`; it is not
+an impossibility theorem for cancellation, sparse prime-location covers, or
+Erdős 451. -/
+theorem locationBlindTermwiseSubdivision_endpoint_no_go
+    {ι : Type*} [DecidableEq ι]
+    (ϑ c K M C D q H : ℝ) (s : Finset ι)
+    (block : ι → LocationBlindSubdivisionBlock)
+    (hK : 0 ≤ K) (hM : 0 < M) (hq : 0 ≤ q)
+    (hfront : (1 - ϑ) / 3 ≤ c)
+    (hseparate : ((3 * D + 3) * M + C) * M <
+      (3 * c * K - (3 * D + 2) * M) * q) :
+    ¬ LocationBlindTermwiseSubdivisionAt
+      ϑ c K M C D q H s block := by
+  intro hcert
+  obtain ⟨i, hi, _hweight, hT1, hT2⟩ :=
+    locationBlindSubdivision_exists_good_block
+      ϑ c K M C D q H s block hcert
+  rcases hcert.2.2.2.1 i hi with
+    ⟨_hw, hr2, _hlam, _hW, hsafe, horder_of_small⟩
+  have hT1neg : (block i).logT1 < 0 := by
+    have : -M - q < 0 := by linarith
+    exact hT1.trans_lt this
+  have horder := horder_of_small hT1neg
+  have hcoefM :
+      3 * c * K - (3 * D + 2) * M ≤
+        (3 * ((block i).order : ℝ) - 2) * M := by
+    nlinarith
+  have hcoefMq := mul_le_mul_of_nonneg_right hcoefM hq
+  have hseparateM :
+      ((3 * D + 3) * M + C) * M <
+        ((3 * ((block i).order : ℝ) - 2) * q) * M := by
+    calc
+      ((3 * D + 3) * M + C) * M <
+          (3 * c * K - (3 * D + 2) * M) * q := hseparate
+      _ ≤ (3 * ((block i).order : ℝ) - 2) * M * q := hcoefMq
+      _ = ((3 * ((block i).order : ℝ) - 2) * q) * M := by ring
+  have hexcess :
+      (3 * D + 3) * M + C <
+        (3 * ((block i).order : ℝ) - 2) * q := by
+    nlinarith [hseparateM]
+  exact locationBlind_endpoint_termwise_no_go_of_excess
+    ϑ c K M C D q (block i).logDelta (block i).logD
+      (block i).logLam (Real.log (block i).W) (block i).order
+      hr2 hK hfront horder hsafe hexcess ⟨hT1, hT2⟩
+
 /-- Leading linear-program image of the explicitly delimited certificate
 class.  `rho` is the limiting order scale `r loglog(k)/log(k)`, while
 `alpha,beta>1` encode the two separate `o(1/log(k))` budgets.  This is a
@@ -3279,6 +3491,12 @@ theorem parametric_frontier_complete (ϑ c : ℝ)
 #print axioms adaptive_first_two_budget_obstruction
 #print axioms locationBlind_endpoint_excess_budget
 #print axioms locationBlind_endpoint_termwise_no_go_of_excess
+#print axioms candidate_cardinality_tail
+#print axioms candidate_half_mass_tail
+#print axioms interval_partition_length_sum
+#print axioms exists_weighted_cost_le
+#print axioms locationBlindSubdivision_exists_good_block
+#print axioms locationBlindTermwiseSubdivision_endpoint_no_go
 #print axioms locationBlindTermwiseLeadingCertificate_iff
 #print axioms locationBlindTermwiseLeadingCertificate_no_go
 #print axioms locationBlindTermwiseLeadingCertificate_no_go_bhp
