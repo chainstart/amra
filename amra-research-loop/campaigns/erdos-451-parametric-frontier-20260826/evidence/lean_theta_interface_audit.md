@@ -17,6 +17,10 @@ Consequently the existing four range theorems cannot be instantiated at a
 variable exponent by rewriting.  A full formalization of the natural theorem
 requires a replay/refactor of Sections 2--6, not a new prime axiom.
 
+> Historical stage-1 audit.  The blocker recorded below is discharged by
+> `ParametricLarge.parametricRangeBuilder_complete`; see
+> `lean_parametric_ranges.md` and the final guarded replay.
+
 ## Kernel-checked extraction
 
 `formal/ParametricInterface.lean` proves without `bhp`:

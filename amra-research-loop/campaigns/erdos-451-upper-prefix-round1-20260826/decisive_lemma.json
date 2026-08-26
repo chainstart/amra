@@ -14,7 +14,11 @@
     "evidence/random_subset_character_audit.md",
     "evidence/many_seed_fixed_prefix_audit.md",
     "evidence/dilated_ap_gap_search.json",
-    "evidence/absorption_dilate_audit.json"
+    "evidence/absorption_dilate_audit.json",
+    "evidence/inverse_binomial_block_audit.md",
+    "evidence/inverse_binomial_block_spectrum.json",
+    "evidence/signed_support_correlation_audit.md",
+    "evidence/common_start_full_correlation.json"
   ],
   "dependency_gaps": [
     "The proved bound retains the full exp((1+o(1))k) scale and therefore satisfies none of the campaign promotion conditions.",
@@ -33,6 +37,15 @@
     "The proved additive large-sieve bound gives only N=O(H log k/k) for a macroscopic remaining set and therefore stalls after O(log k) old half-density constraints; the proved boundary-variation bound can accumulate with one sign over linearly many old blocks.",
     "The exact coordinates p=k+a and n=2k+t give t mod p in [a+1,2a], while quotient layers leave gaps of length k/(q+2). Multiplying those gaps back by q+2 recovers exactly the original requirement that (n-k,n) contain no interval-prime multiple, so this is not yet an upper-bound compression.",
     "The canonical absorber Q_A=binom(k+A,A) costs exp(o(k)) and gives the exact inverse-binomial step c_p=((-1)^A binom(p-k-1,A))^{-1}. Its finite-difference identities and the proved low inverse-phase counting lemma do not control the many-seed maximum gap at the natural log^2 k discrepancy scale.",
-    "A correlated inverse-binomial fixed-prefix gap bound with loss at most k^B(log k)^{Cm} times product p/(p-k) would imply n_k=exp(o(k)), but this sufficient bridge is open and is not recorded as a closed result."
+    "A correlated inverse-binomial fixed-prefix gap bound with loss at most k^B(log k)^{Cm} times product p/(p-k) would imply n_k=exp(o(k)), but this sufficient bridge is open and is not recorded as a closed result.",
+    "The proved dense-seed signed block lemma sum_p (p/b)|D_p|^2<=(H-1+4k^2)N only selects a density-correct merge while N/H is at least about k log k/B^2; it cannot enter the exponentially sparse canonical history.",
+    "The one-frequency divisor bound cannot be upgraded merely by finite differences of (-1)^A binom(b-1,A), because hR_A(b)-a modulo k+b is exactly the fixed integer hQ-a. For the primal count one must also impose R<Q to exclude the identity a=hQ.",
+    "The exact coupled block Fourier coordinate contains the additional Vandermonde derivative F_B'(b): h_{p,a}=a(-1)^(A+r-1)(binom(b-1,A)F_B'(b))^{-1}. Controlling this varying-modulus product with signed cancellation is the remaining block problem.",
+    "The proved small-vector near-resonance lemma gives a nonzero global frequency within P_B/(L+1)^r of zero whose every local coordinate has size at most L. Hence canonical multiplication alone does not separate all high-support characters from the prefix pole; a signed support-stratified theorem is required.",
+    "The special CRT lattice has coordinate-hyperplane vectors and is not directly admissible in the product-norm sense. Symmetric Minkowski loses the one-sided orthant, while a generic m^{O(m)} positive-orthant loss has logarithm Theta(k), not o(k).",
+    "The exact support expansion shows that, for every nonempty S, a uniform signed correlation bound |C_S(J)|<=k^D C^|S| product k/(p-k) would sum all nonempty proper supports to O(k^D C^m) and prove n_k=exp(o(k)); this decisive bound remains open at unbounded support.",
+    "Rank two is proved for the undilated common-start functions: after row decomposition its scaled correlation is q(pL(jDelta)-bM(jDelta)), with variation at most 6k^2 and rotation-discrepancy control. This yields O(k^4/Delta+k^3) when Delta^2<=q and a uniform O(k^4) bound. Transfer to the absorbed affine inverse-binomial functions and the high-rank common-start extension both remain open.",
+    "The exact k=70, p=137, q=139 witness has scaled correlation 11495874=0.95759 k^4/2. The proved coherent-row lower bound is Omega(k^4/Delta) when both offsets are macroscopic, so a k^3*C^2 rank-two bound is impossible along bounded-gap families; one global polynomial loss D>=2 is necessary.",
+    "Multiplying adjacent-pair rotation losses gives sum log(1+k/Delta_i) of order r log k even at ordinary logarithmic gaps, hence exp(Theta(k)) over final blocks. Far pairing would require a new prime matching with controlled full continued fractions and still lacks a tensorization theorem."
   ]
 }

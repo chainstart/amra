@@ -67,7 +67,7 @@
       "kill_test": "Enumerate exact one-sided and symmetric minima, test arbitrary coprime interval systems for skew-lattice counterexamples, and audit whether any proposed lattice theorem has a dimension factor larger than exp(O(m log log k)).",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md: survives first falsification with an explicit closure gap",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/inverse_binomial_block_audit.md, and evidence/signed_support_correlation_audit.md: the support expansion and undilated rank-two carry bound are proved, but transfer to the one-sided inverse-binomial affine lattice and its unbounded-support correlation bound remain open",
       "updated_at": "2026-08-26T06:40:55+00:00"
     },
     {
@@ -109,7 +109,7 @@
       "kill_test": "Extract exact covering words and indispensable boundary witnesses; reject encodings that are noninjective or require recording one of k phases independently per prime.",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, and evidence/many_seed_fixed_prefix_audit.md: pair-energy and absolute boundary ledgers are proved insufficient; the phase-aware covering route survives only with a many-seed signed-cancellation interface",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, and evidence/signed_support_correlation_audit.md: exact nonempty-support recursion costs only C^m if the full correlation bound holds; undilated rank-two carry coherence proves D>=2 is necessary, while unbounded support remains open",
       "updated_at": "2026-08-26T06:40:55+00:00"
     },
     {
@@ -137,7 +137,7 @@
       "kill_test": "Exhaust small coprime moduli and widths, maximize the cyclic gap divided by P/|A|, include extreme narrow/wide mixtures, and test whether recursive, monotone-chain, or difference-set proofs lose a factor q_max at every merge or lose coordinatewise sign.",
       "status": "surviving",
       "created_at": "2026-08-26T06:30:49+00:00",
-      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, and evidence/many_seed_fixed_prefix_audit.md: the common-endpoint gap route survives; canonical absorption gives exact inverse-binomial dilates, but the sufficient correlated gap lemma remains open",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md, evidence/density_sensitive_block_merge.md, evidence/many_seed_fixed_prefix_audit.md, evidence/inverse_binomial_block_audit.md, and evidence/signed_support_correlation_audit.md: the inverse-binomial Vandermonde formula and rank-two signed bounds are exact, but pair-gap recursion has exponential total loss and no full-support theorem is proved",
       "updated_at": "2026-08-26T06:40:55+00:00"
     },
     {

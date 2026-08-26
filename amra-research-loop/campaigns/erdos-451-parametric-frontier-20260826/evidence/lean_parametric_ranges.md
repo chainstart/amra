@@ -1,40 +1,44 @@
-# Variable-theta range-builder checkpoint
+# Complete variable-theta range builder
 
-## Compiled result
+## Compiled theorem
 
-For every real `theta` with `0 < theta < 1`, and every abstract
-`PrimeIntervalInput theta`, `formal/ParametricRanges.lean` proves the first
-three fields of `ParametricRangePackage theta c`:
+`formal/ParametricRanges.lean` proves
+`ParametricLarge.parametric_frontier_wide`:
 
-1. `ParametricSmall.case_small` for
+```text
+9/23 < theta < 1
+0 < c < (1-theta)/3
+PrimeIntervalInput(theta)
+----------------------------------------------------------
+eventually, for every 2k < n <= exp(c log^2(k)/loglog(k)),
+some prime p with k < p < 2k divides Pprod(k,n).
+```
+
+The companion theorem `parametricRangeBuilder_wide` constructs the exact
+four-field `ParametricRangePackage theta c`.  Thus the conditional
+`PI(theta)` theorem previously exposed only as an interface is now fully
+formalized.
+
+## Four range fields
+
+1. `ParametricSmall.case_small`:
    `2k < n <= (1/2) k^(2-theta)`;
-2. `ParametricMed.case_medium` for
+2. `ParametricMed.case_medium`:
    `(1/2) k^(2-theta) < n <= k^2/log^2(k)`;
-3. `ParametricML.case_mediumlarge` for
-   `k^2/log^2(k) < n <= (1/2) k^(2+theta)`.
+3. `ParametricML.case_mediumlarge`:
+   `k^2/log^2(k) < n <= (1/2) k^(2+theta)`;
+4. `ParametricLarge.case_large_of_margin_certificate_at`:
+   `(1/2) k^(2+theta) < n <= exp(c log^2(k)/loglog(k))`.
 
-Each conclusion is `SourceIntervalConclusion theta k n`: there is a prime
-`p` with `k < p < k + 3 k^theta` dividing `Pprod k n`.  The three final
-theorems depend only on `[propext, Classical.choice, Quot.sound]`; in
-particular they do not depend on the fixed `bhp` axiom.
+Each field first produces a prime in the actual source interval
+`(k,k+3k^theta)`.  Common range composition then uses
+`3 k^theta <= k` eventually to obtain `(k,2k)`.
 
-## Dependency audit by source range
+## Sharp large-range exponent
 
-| Class | Upstream lemmas / constructions | Result |
-|---|---|---|
-| Directly parameterized | `konyagin_application`, `poly_log_lt`, `poly_log_lt_eq`, `card_int_abs_sub_lt_le`, `primeCard_le_add`, `exists_prime_of_primeCard_pos`, `Pprod` divisibility lemmas | Already expose the needed exponent, or are exponent-free; reused without changing their statements. |
-| Only numerical constants were fixed | medium-large `lamML`, `lamUB`, `gML` and the `r=2` count; small-window excess/count argument; medium `medWindow`, `medFiber`, `medJ`, fiber/card/RHS estimates | Rebuilt with variable `theta`; every formerly numerical inequality follows from `0<theta<1`. |
-| Genuinely global-theta dependent | `bhp`; fixed `badSet`/finish bridge; `E1exp`, `lamLarge`, `large_card_raw`, `large_asym`, `large_r0_bounds`, `large_r0_P`, `large_r_data` | `bhp` is replaced by `PrimeIntervalInput theta`, and the bad-set bridge was already parameterized in `ParametricInterface`.  The large-range chain remains the sole builder blocker. |
-
-## Exact large-range blocker
-
-The upstream lemma `lamLarge_lt` discards `E1 >= 0` and obtains the coarse
-uniform estimate `lambda < k^((2-theta)/r)`, hence at `r=3` the additive term
-has exponent `(2-theta)/3`.  Comparing it with `k^theta/log(k)` requires
-`theta>1/2`, so this cannot establish the intended full interval
-`2/5<theta<3/5`.
-
-The required replay must retain
+The replay parameterizes `E1exp`, `lamLarge`, the balanced
+`large_card_raw`, logarithmic margins, `r0Param`, factorial admissibility,
+and the least admissible order.  It retains the positive balancing exponent:
 
 ```text
 E1(theta,r) = (1-theta)(2r-1)/(3r-2),
@@ -42,39 +46,63 @@ a(theta,r)  = (2-theta-E1(theta,r))/r
             = ((4-theta)r+theta-3)/(r(3r-2)).
 ```
 
-For `r>=3`, `0<theta<1`, direct algebra gives
+Lean proves, for `r>=3` and `0<theta<1`,
 
 ```text
 a(theta,r) <= a(theta,3) = (9-2theta)/21.
 ```
 
-Indeed the difference after clearing the positive denominator is
+The cleared-denominator difference is
 
 ```text
 (r-3) * (r(27-6theta)+7theta-21) >= 0.
 ```
 
-Moreover `(9-2theta)/21 < theta` is equivalent to `theta>9/23`, and is
-therefore strict throughout `theta>2/5`.  Thus the asymptotic additive term
-can be handed to `poly_log_lt` as
+It also proves the exact equivalence
+`(9-2theta)/21 < theta` iff `theta>9/23`, allowing
 
 ```text
 2 k^((9-2theta)/21) log(k) = o(k^theta/log(k)).
 ```
 
-This algebra is a proved natural handoff, not part of the final Lean
-checkpoint: three guarded attempts to formalize its first rational identity
-did not close, and the experimental namespace was removed rather than leaving
-`sorryAx`.  The substantive remaining Lean work is to parameterize
-`E1exp`/`lamLarge`, retain this exact exponent in the minimality estimate, and
-then replay `large_card_raw` plus the `r0`/least-order construction.  No finite
-experiment is used as a theorem.
+The coarse `(2-theta)/3` bound is derived only for the third non-additive
+Konyagin term; it is never used for the additive term controlling the lower
+theta boundary.
 
-## Reproduction and safety
+## Parameter frontier
 
-Run `cd formal && bash verify_guarded.sh`.  That script performs the complete
-upstream/frontier/interface/ranges replay inside the shared OpenMath memory
-slice, checks the exact axiom lists, rejects `sorryAx`, and records SHA-256
-hashes.  Failed guarded attempt metadata is retained in
-`formal/logs/ranges-attempts-20260826.md`; the authoritative successful output
-is `formal/logs/ranges-build.log`.
+`exists_frontier_parameters_at` supplies `c<a<b`, `q1>1`, `q3>1` with
+
+```text
+3 q1 b < 1-theta,
+4 q3 b < 1.
+```
+
+The least-order construction transfers these margins from
+`r0=ceil(a log(k)/loglog(k))` to the minimal admissible `r`.  The condition
+`c<(1-theta)/3` is the strict frontier used by this method class.  Endpoint
+auditing proves the exact feasibility equivalence, for `c>0`:
+
+```text
+BalancedFourRangeParameters(theta,c)
+  iff 9/23 < theta < 1 and c < (1-theta)/3.
+```
+
+At the
+unconditional BHP input `theta=21/40`, it specializes to `c<19/120`.
+
+## Axiom and resource audit
+
+All parameterized large lemmas, the complete builder, and the final abstract
+theorem report exactly
+
+```text
+[propext, Classical.choice, Quot.sound]
+```
+
+They contain no `bhp`, `sorryAx`, `admit`, or new axiom.  `bhp` is needed only
+when separately instantiating `PrimeIntervalInput(21/40)`.
+
+Run `cd formal && bash verify_guarded.sh`.  It performs the complete replay
+inside the shared OpenMath memory slice, verifies exact axiom lists, rejects
+`sorryAx`, and writes SHA-256 hashes to `formal/logs/final-sha256.txt`.

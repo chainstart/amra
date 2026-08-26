@@ -1,5 +1,5 @@
 {
-  "statement": "Parametric attaining theorem and matching method barrier. If 2/5<theta<3/5 satisfies the source paper's short-prime count PI(theta), then for every fixed c<(1-theta)/3 and all sufficiently large k, every integer 2k<n<=exp(c(log k)^2/loglog k) has a prime divisor p in (k,k+3k^theta) of (n-k)...(n-1), hence p in (k,2k). With the Baker--Harman--Pintz value theta=21/40, this gives every c<19/120. Conversely, no termwise blockwise Theorem 4.1 little-o certificate as precisely defined in evidence/parametric_frontier_proof.md reaches c>=(1-theta)/3; this no-go is about that certificate class, not the true bad-point count or Erdős #451 as a whole.",
+  "statement": "Parametric attaining theorem and matching delimited method barriers. If 9/23<theta<1 satisfies the source paper's short-prime count PI(theta), then for every fixed 0<c<(1-theta)/3 and all sufficiently large k, every integer 2k<n<=exp(c(log k)^2/loglog k) has a prime divisor p in (k,k+3k^theta) of (n-k)...(n-1), hence p in (k,2k). With the Baker--Harman--Pintz value theta=21/40, this gives every c<19/120. The explicitly defined balanced four-range parameter class is feasible exactly when 9/23<theta<1 and c<(1-theta)/3: its r=3 sharp additive exponent blocks theta<=9/23, while its first growing-order margin blocks theta>=1 for c>0. Independently, no termwise blockwise Theorem 4.1 little-o certificate as precisely defined in evidence/parametric_frontier_proof.md reaches c>=(1-theta)/3. Both no-go claims are confined to their stated certificate classes, not the true bad-point count or Erdős #451 as a whole.",
   "status": "proved",
   "closes": [
     "main_exponent_improved",
@@ -14,11 +14,13 @@
     "audit/independent_reconstruction.md and audit.json: blind reconstruction, statement match, and dependency audit passed.",
     "evidence/lean_parametric_frontier.json: guarded Lean proof of the full theta=21/40 theorem for every real 0<c<19/120.",
     "evidence/lean_theta_interface_audit.md: guarded parameter-interface extraction and exact general-theta blocker.",
-    "evidence/lean_parametric_ranges.md and evidence/lean_parametric_ranges.json: guarded Lean construction of the small, medium, and medium-large fields for every 0<theta<1 under PrimeIntervalInput(theta)."
+    "evidence/lean_parametric_ranges.md and evidence/lean_parametric_ranges.json: guarded Lean construction of all four range fields, the complete conditional parametric theorem for 9/23<theta<1 under PrimeIntervalInput(theta), and exact balanced-method endpoint certificates.",
+    "evidence/theta_endpoint_audit.md: range-by-range endpoint audit, resegmentation analysis, and exact scope of the 9/23 and 1 barriers.",
+    "evidence/lean_parametric_ranges_stage1.md and evidence/lean_parametric_ranges_stage1.json: archived guarded checkpoint for the earlier three-of-four builder stage."
   ],
   "dependency_gaps": [
     "The abstract theta theorem assumes PI(theta); the theta=21/40 corollary imports the Baker--Harman--Pintz short-prime input exactly as the source paper does.",
-    "Lean formalizes the unconditional theta=21/40 attaining theorem, the general PI(theta) interface, and three of the four ParametricRangeBuilder source ranges (small, medium, and medium-large) for every 0<theta<1. The exact remaining builder obligation is the large range: parameterize E1exp, lamLarge, large_card_raw, and the least-order chain while retaining the sharp additive exponent ((4-theta)r+theta-3)/(r(3r-2)) <= (9-2theta)/21 < theta for theta>2/5. The full abstract theorem and delimited no-go theorem remain independently audited natural proofs.",
+    "The complete four-range ParametricRangeBuilder and final conditional theorem are kernel-checked in Lean on the widest window proved for this method, 9/23<theta<1. The sharp large-range additive estimate ((4-theta)r+theta-3)/(r(3r-2)) <= (9-2theta)/21 is absorbable exactly when theta>9/23; there is no remaining builder gap.",
     "Novelty and publication priority remain unchecked."
   ]
 }

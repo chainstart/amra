@@ -35,7 +35,19 @@ fi
 for theorem in \
   ParametricSmall.case_small \
   ParametricMed.case_medium \
-  ParametricML.case_mediumlarge
+  ParametricML.case_mediumlarge \
+  ParametricLarge.large_card_raw_at \
+  ParametricLarge.large_asym_of_margins_at \
+  ParametricLarge.hasLargeMarginCertificateAt_of_parameters \
+  ParametricLarge.case_large_of_margin_certificate_at \
+  ParametricLarge.parametricRangeBuilder_complete \
+  ParametricLarge.parametric_frontier_complete \
+  ParametricLarge.sharpAddExp_lt_theta_iff \
+  ParametricLarge.balancedFourRangeParameters_iff \
+  ParametricLarge.balancedFourRange_no_go_low \
+  ParametricLarge.balancedFourRange_no_go_high \
+  ParametricLarge.parametricRangeBuilder_wide \
+  ParametricLarge.parametric_frontier_wide
 do
   grep -Fq "'$theorem' depends on axioms: [propext, Classical.choice, Quot.sound]" \
     "$logs/ranges-build.log"

@@ -873,4 +873,1044 @@ theorem case_medium (ϑ : ℝ) (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1)
 
 end ParametricMed
 
+/-! ## Large range: theta-parametric balanced scale -/
+
+namespace ParametricLarge
+
+def E1expAt (ϑ : ℝ) (r : ℕ) : ℝ :=
+  (1 - ϑ) * (2 * (r : ℝ) - 1) / (3 * (r : ℝ) - 2)
+
+def lamLargeAt (ϑ : ℝ) (k : ℕ) (n : ℤ) (r : ℕ) : ℝ :=
+  ((k : ℝ) ^ ((r : ℝ) + 1 - E1expAt ϑ r) /
+    ((n : ℝ) * (Nat.factorial r : ℝ))) ^ ((r : ℝ)⁻¹)
+
+/-- The exact exponent obtained from minimality; no positive `E₁` term is
+discarded. -/
+def additiveExpAt (ϑ : ℝ) (r : ℕ) : ℝ :=
+  ((4 - ϑ) * (r : ℝ) + ϑ - 3) /
+    ((r : ℝ) * (3 * (r : ℝ) - 2))
+
+def sharpAddExp (ϑ : ℝ) : ℝ := (9 - 2 * ϑ) / 21
+
+lemma additiveExpAt_eq (ϑ : ℝ) (r : ℕ) (hr3 : 3 ≤ r) :
+    additiveExpAt ϑ r =
+      ((4 - ϑ) * (r : ℝ) + ϑ - 3) /
+        ((r : ℝ) * (3 * (r : ℝ) - 2)) := by
+  rfl
+
+lemma additiveExpAt_balanced (ϑ : ℝ) (r : ℕ) (hr3 : 3 ≤ r) :
+    (2 - ϑ - E1expAt ϑ r) / (r : ℝ) = additiveExpAt ϑ r := by
+  have hrR : (3 : ℝ) ≤ r := by exact_mod_cast hr3
+  have hD : 3 * (r : ℝ) - 2 ≠ 0 := by nlinarith
+  have hnum :
+      2 - ϑ - E1expAt ϑ r =
+        ((4 - ϑ) * (r : ℝ) + ϑ - 3) /
+          (3 * (r : ℝ) - 2) := by
+    unfold E1expAt
+    apply (eq_div_iff hD).2
+    rw [sub_mul, sub_mul, div_mul_cancel₀ _ hD]
+    ring
+  unfold additiveExpAt
+  rw [hnum, div_div]
+  congr 1
+  ring
+
+lemma additiveExpAt_le_sharp (ϑ : ℝ) (r : ℕ)
+    (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1) (hr3 : 3 ≤ r) :
+    additiveExpAt ϑ r ≤ sharpAddExp ϑ := by
+  rw [additiveExpAt_eq ϑ r hr3]
+  have hrR : (3 : ℝ) ≤ r := by exact_mod_cast hr3
+  have hr0 : (0 : ℝ) < r := by positivity
+  have h3r2 : (0 : ℝ) < 3 * (r : ℝ) - 2 := by nlinarith
+  rw [div_le_iff₀ (mul_pos hr0 h3r2)]
+  unfold sharpAddExp
+  rw [show (9 - 2 * ϑ) / 21 *
+      ((r : ℝ) * (3 * (r : ℝ) - 2)) =
+      ((9 - 2 * ϑ) * ((r : ℝ) * (3 * (r : ℝ) - 2))) / 21 by ring]
+  rw [le_div_iff₀ (by norm_num : (0 : ℝ) < 21)]
+  have hcoef : (21 : ℝ) ≤ 27 - 6 * ϑ := by linarith
+  have hmul : (3 : ℝ) * 21 ≤
+      (r : ℝ) * (27 - 6 * ϑ) :=
+    mul_le_mul hrR hcoef (by norm_num) (by norm_num)
+  have hbracket : 0 ≤
+      (r : ℝ) * (27 - 6 * ϑ) + 7 * ϑ - 21 := by nlinarith
+  have hproduct : 0 ≤
+      ((r : ℝ) - 3) *
+        ((r : ℝ) * (27 - 6 * ϑ) + 7 * ϑ - 21) :=
+    mul_nonneg (by linarith) hbracket
+  nlinarith
+
+lemma sharpAddExp_lt_theta (ϑ : ℝ) (hϑ : (9 : ℝ) / 23 < ϑ) :
+    sharpAddExp ϑ < ϑ := by
+  unfold sharpAddExp
+  rw [div_lt_iff₀ (by norm_num : (0 : ℝ) < 21)]
+  nlinarith
+
+/-- Exact lower endpoint of polynomial absorption for the balanced additive
+term. -/
+lemma sharpAddExp_lt_theta_iff (ϑ : ℝ) :
+    sharpAddExp ϑ < ϑ ↔ (9 : ℝ) / 23 < ϑ := by
+  unfold sharpAddExp
+  rw [div_lt_iff₀ (by norm_num : (0 : ℝ) < 21)]
+  constructor <;> intro h <;> nlinarith
+
+def BalancedLargeExponentFeasible (ϑ : ℝ) : Prop :=
+  sharpAddExp ϑ < ϑ
+
+lemma balancedLargeExponentFeasible_iff (ϑ : ℝ) :
+    BalancedLargeExponentFeasible ϑ ↔ (9 : ℝ) / 23 < ϑ :=
+  sharpAddExp_lt_theta_iff ϑ
+
+lemma balancedLargeExponent_no_go (ϑ : ℝ)
+    (hϑ : ϑ ≤ (9 : ℝ) / 23) : ¬ BalancedLargeExponentFeasible ϑ := by
+  rw [balancedLargeExponentFeasible_iff]
+  exact not_lt_of_ge hϑ
+
+lemma lamLargeAt_pow (ϑ : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hn0 : 0 < n) (hk0 : 0 < k) (hr1 : 1 ≤ r) :
+    (lamLargeAt ϑ k n r) ^ r =
+      (k : ℝ) ^ ((r : ℝ) + 1 - E1expAt ϑ r) /
+        ((n : ℝ) * (Nat.factorial r : ℝ)) := by
+  unfold lamLargeAt
+  rw [← Real.rpow_natCast, ← Real.rpow_mul (by positivity)]
+  norm_num [show r ≠ 0 by omega]
+
+lemma lamLargeAt_ge_one (ϑ : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hϑ1 : ϑ < 1) (hn0 : 0 < n) (hk : 1 < k) (hr3 : 3 ≤ r)
+    (hub : (n : ℝ) * (Nat.factorial r : ℝ) ≤
+      (k : ℝ) ^ ((r : ℝ) + ϑ)) :
+    1 ≤ lamLargeAt ϑ k n r := by
+  refine Real.one_le_rpow ?_ ?_
+  · rw [one_le_div]
+    · refine hub.trans (Real.rpow_le_rpow_of_exponent_le (by norm_cast; omega) ?_)
+      unfold E1expAt
+      rw [le_sub_comm, div_le_iff₀] <;>
+        nlinarith [show (r : ℝ) ≥ 3 by norm_cast]
+    · positivity
+  · positivity
+
+/-- Minimality gives the exact additive exponent, rather than the coarse
+`(2-ϑ)/r` estimate in the fixed upstream file. -/
+lemma lamLargeAt_lt_exact (ϑ : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hn0 : 0 < n) (hk : 1 < k) (hr3 : 3 ≤ r)
+    (hmin : (k : ℝ) ^ (((r : ℝ) - 1) + ϑ) <
+      (n : ℝ) * (Nat.factorial (r - 1) : ℝ)) :
+    lamLargeAt ϑ k n r < (k : ℝ) ^ (additiveExpAt ϑ r) := by
+  unfold lamLargeAt
+  calc
+    ((k : ℝ) ^ ((r : ℝ) + 1 - E1expAt ϑ r) /
+        ((n : ℝ) * (Nat.factorial r : ℝ))) ^ ((r : ℝ)⁻¹) <
+        ((k : ℝ) ^ (2 - E1expAt ϑ r - ϑ)) ^ ((r : ℝ)⁻¹) := by
+      apply Real.rpow_lt_rpow
+      · positivity
+      · rw [div_lt_iff₀ (by positivity)]
+        refine lt_of_le_of_lt ?_
+          (mul_lt_mul_of_pos_left
+            (show (n : ℝ) * r.factorial >
+              k ^ ((r : ℝ) - 1 + ϑ) * r from ?_) (by positivity))
+        · rw [← mul_assoc, ← Real.rpow_add (by positivity)]
+          ring_nf
+          exact le_mul_of_one_le_left (by positivity) (by norm_cast; omega)
+        · rcases r with _ | r <;> simp_all +decide [Nat.factorial_succ]
+          nlinarith [show (k : ℝ) ^ ((r : ℝ) + ϑ) > 0 by positivity]
+      · positivity
+    _ = (k : ℝ) ^ (additiveExpAt ϑ r) := by
+      rw [← Real.rpow_mul (by positivity)]
+      congr 1
+      rw [show (r : ℝ)⁻¹ = 1 / (r : ℝ) by ring]
+      rw [← additiveExpAt_balanced ϑ r hr3]
+      ring
+
+lemma lamLargeAt_lt_sharp (ϑ : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1) (hn0 : 0 < n) (hk : 1 < k)
+    (hr3 : 3 ≤ r)
+    (hmin : (k : ℝ) ^ (((r : ℝ) - 1) + ϑ) <
+      (n : ℝ) * (Nat.factorial (r - 1) : ℝ)) :
+    lamLargeAt ϑ k n r < (k : ℝ) ^ (sharpAddExp ϑ) := by
+  exact (lamLargeAt_lt_exact ϑ k n r hn0 hk hr3 hmin).trans_le
+    (Real.rpow_le_rpow_of_exponent_le (by norm_cast; omega)
+      (additiveExpAt_le_sharp ϑ r hϑ0 hϑ1 hr3))
+
+/-- Theta-parametric balanced invocation of Konyagin's estimate. -/
+lemma large_card_raw_at (ϑ : ℝ) (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1)
+    (k : ℕ) (n : ℤ) (r : ℕ) (hk : 1 < k) (hn0 : 0 < n) (hr3 : 3 ≤ r)
+    (hrle : (r : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - ϑ))
+    (hkn : (k : ℤ) < n)
+    (hub : (n : ℝ) * (Nat.factorial r : ℝ) ≤
+      (k : ℝ) ^ ((r : ℝ) + ϑ)) :
+    ((badSetAt ϑ k n).card : ℝ) <
+      c₆ * (k : ℝ) ^ ϑ *
+        (2 * (k : ℝ) ^ ((ϑ - 1) / (3 * (r : ℝ) - 2)) +
+          (((r : ℝ) + 1) * lamLargeAt ϑ k n r / (k : ℝ)) ^
+            ((2 * (r : ℝ))⁻¹)) +
+      2 * (r : ℝ) * lamLargeAt ϑ k n r := by
+  set l := lamLargeAt ϑ k n r with hl
+  have hT1 :
+      ((n : ℝ) * (Nat.factorial r : ℝ) * l ^ r /
+        (k : ℝ) ^ (r + 1)) ^ ((2 * (r : ℝ) - 1)⁻¹) =
+        (k : ℝ) ^ ((ϑ - 1) / (3 * (r : ℝ) - 2)) := by
+    have hbase :
+        (n : ℝ) * (Nat.factorial r : ℝ) * l ^ r /
+          (k : ℝ) ^ (r + 1) =
+          (k : ℝ) ^ (-(E1expAt ϑ r)) := by
+      have hpow :
+          (n : ℝ) * (Nat.factorial r : ℝ) * l ^ r =
+            (k : ℝ) ^ ((r : ℝ) + 1 - E1expAt ϑ r) := by
+        rw [hl, lamLargeAt_pow ϑ k n r hn0 (by omega) (by omega)]
+        rw [mul_div_cancel₀ _ (by positivity)]
+      rw [hpow, div_eq_iff (by positivity)]
+      rw [← Real.rpow_natCast, ← Real.rpow_add (by positivity)]
+      push_cast
+      ring_nf
+    rw [hbase, ← Real.rpow_mul] <;> norm_num [E1expAt]
+    field_simp
+    exact congr_arg _ (by
+      rw [neg_div', div_eq_div_iff] <;>
+        nlinarith [show (r : ℝ) ≥ 3 by norm_cast,
+          show (k : ℝ) ≥ 2 by norm_cast])
+  have hT2 :
+      ((k : ℝ) ^ ((r : ℝ) + ϑ) /
+        ((n : ℝ) * (Nat.factorial r : ℝ) * l ^ r)) ^
+          (((r : ℝ) - 1)⁻¹) =
+        (k : ℝ) ^ ((ϑ - 1) / (3 * (r : ℝ) - 2)) := by
+    have hbase :
+        (k : ℝ) ^ ((r : ℝ) + ϑ) /
+          ((n : ℝ) * (Nat.factorial r : ℝ) * l ^ r) =
+          (k : ℝ) ^ (ϑ - 1 + E1expAt ϑ r) := by
+      rw [hl, lamLargeAt_pow ϑ k n r hn0 (by omega) (by omega)]
+      rw [mul_div_cancel₀ _ (by positivity)]
+      rw [← Real.rpow_sub (by positivity)]
+      ring_nf
+    rw [hbase, ← Real.rpow_mul (by positivity)]
+    congr 1
+    unfold E1expAt
+    rw [← div_eq_mul_inv, div_eq_div_iff] <;>
+      nlinarith [show (r : ℝ) ≥ 3 by norm_cast,
+        mul_div_cancel₀ ((1 - ϑ) * (2 * (r : ℝ) - 1))
+          (by nlinarith [show (r : ℝ) ≥ 3 by norm_cast] :
+            (3 * (r : ℝ) - 2) ≠ 0)]
+  have hK := @konyagin_application
+  change (((Finset.Ioo (k : ℤ) ((k : ℤ) + ⌊(k : ℝ) ^ ϑ⌋ + 2)).filter
+      (fun m : ℤ => (m : ℝ) < (k : ℝ) + (k : ℝ) ^ ϑ ∧
+        |(n : ℝ) / (m : ℝ) - round ((n : ℝ) / (m : ℝ))| <
+          1 / (k : ℝ) ^ (1 - ϑ))).card : ℝ) < _
+  convert hK l ϑ (lamLargeAt_ge_one ϑ k n r hϑ1 hn0 hk hr3 hub)
+    hϑ0 hϑ1 n k r hkn (by omega) hrle using 1
+  norm_num [hT1, hT2]
+  exact Or.inl (by ring)
+
+/-- A derived coarse bound used only inside the third (non-additive)
+Konyagin term.  The additive term below continues to use the exact bound. -/
+lemma lamLargeAt_lt_coarse (ϑ : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hϑ1 : ϑ < 1) (hn0 : 0 < n) (hk : 1 < k) (hr3 : 3 ≤ r)
+    (hmin : (k : ℝ) ^ (((r : ℝ) - 1) + ϑ) <
+      (n : ℝ) * (Nat.factorial (r - 1) : ℝ)) :
+    lamLargeAt ϑ k n r < (k : ℝ) ^ ((2 - ϑ) / (r : ℝ)) := by
+  refine (lamLargeAt_lt_exact ϑ k n r hn0 hk hr3 hmin).trans_le ?_
+  apply Real.rpow_le_rpow_of_exponent_le (by norm_cast; omega)
+  rw [← additiveExpAt_balanced ϑ r hr3]
+  have hE : 0 ≤ E1expAt ϑ r := by
+    unfold E1expAt
+    apply div_nonneg
+    · exact mul_nonneg (sub_nonneg.mpr hϑ1.le)
+        (by
+          have hrR : (3 : ℝ) ≤ r := by exact_mod_cast hr3
+          nlinarith)
+    · have : (3 : ℝ) ≤ r := by exact_mod_cast hr3
+      nlinarith
+  have hrpos : (0 : ℝ) < r := by positivity
+  apply (div_le_div_iff_of_pos_right hrpos).2
+  linarith
+
+lemma large_term1_le_margin_at (ϑ q : ℝ) (k r : ℕ) (hk : 1 < k)
+    (hr3 : 3 ≤ r) (hlog1 : 1 < Real.log k)
+    (hmargin : q * (3 * (r : ℝ) - 2) * Real.log (Real.log k) ≤
+      (1 - ϑ) * Real.log k) :
+    (k : ℝ) ^ ((ϑ - 1) / (3 * (r : ℝ) - 2)) ≤
+      (Real.log k) ^ (-q) := by
+  have hden : 0 < 3 * (r : ℝ) - 2 := by
+    have : (3 : ℝ) ≤ r := by exact_mod_cast hr3
+    linarith
+  rw [Real.rpow_def_of_pos (by positivity)]
+  rw [show (Real.log k) ^ (-q) =
+      Real.exp (Real.log (Real.log k) * (-q)) by
+    rw [Real.rpow_def_of_pos (by linarith : 0 < Real.log k)]]
+  apply Real.exp_le_exp.mpr
+  rw [show Real.log (k : ℝ) * ((ϑ - 1) / (3 * (r : ℝ) - 2)) =
+      (Real.log k * (ϑ - 1)) / (3 * (r : ℝ) - 2) by ring]
+  rw [div_le_iff₀ hden]
+  nlinarith
+
+lemma large_term3_le_margin_at (ϑ q : ℝ) (hϑ1 : ϑ < 1)
+    (k : ℕ) (n : ℤ) (r : ℕ) (hk : 1 < k) (hn0 : 0 < n)
+    (hr4 : 4 ≤ r) (hlog1 : 1 < Real.log k)
+    (hmin : (k : ℝ) ^ (((r : ℝ) - 1) + ϑ) <
+      (n : ℝ) * (Nat.factorial (r - 1) : ℝ))
+    (hrk : ((r : ℝ) + 1) ≤ (k : ℝ) ^ (ϑ / (r : ℝ)))
+    (hmargin : 4 * q * (r : ℝ) * Real.log (Real.log k) ≤ Real.log k) :
+    (((r : ℝ) + 1) * lamLargeAt ϑ k n r / (k : ℝ)) ^
+        ((2 * (r : ℝ))⁻¹) ≤ (Real.log k) ^ (-q) := by
+  have hbase :
+      ((r + 1 : ℝ) * lamLargeAt ϑ k n r / k) <
+        (k : ℝ) ^ (2 / (r : ℝ) - 1) := by
+    have hmul : ((r + 1 : ℝ) * lamLargeAt ϑ k n r) <
+        (k : ℝ) ^ (2 / (r : ℝ)) := by
+      refine lt_of_le_of_lt
+        (mul_le_mul_of_nonneg_right hrk
+          (Real.rpow_nonneg (by positivity) _)) ?_
+      convert mul_lt_mul_of_pos_left
+        (lamLargeAt_lt_coarse ϑ k n r hϑ1 hn0 hk (by omega) hmin)
+        (Real.rpow_pos_of_pos (Nat.cast_pos.mpr hk.le) _) using 1
+      rw [← Real.rpow_add (by positivity)]
+      congr 1
+      field_simp
+      ring
+    convert (div_lt_div_iff_of_pos_right (by positivity : 0 < (k : ℝ))).2 hmul using 1
+    rw [Real.rpow_sub_one (by positivity)]
+  refine le_trans (Real.rpow_le_rpow
+    (by unfold lamLargeAt; positivity) hbase.le (by positivity)) ?_
+  rw [← Real.rpow_mul (by positivity), mul_comm]
+  rw [Real.rpow_def_of_pos (by positivity)]
+  rw [show (Real.log k) ^ (-q) =
+      Real.exp (Real.log (Real.log k) * (-q)) by
+    rw [Real.rpow_def_of_pos (by linarith : 0 < Real.log k)]]
+  apply Real.exp_le_exp.mpr
+  field_simp
+  nlinarith [show (r : ℝ) ≥ 4 by norm_cast]
+
+lemma large_term3_r3_at (ϑ : ℝ) (hϑ1 : ϑ < 1)
+    (k : ℕ) (n : ℤ) (hk : 1 < k) (hn0 : 0 < n)
+    (hmin : (k : ℝ) ^ (((3 : ℝ) - 1) + ϑ) <
+      (n : ℝ) * (Nat.factorial (3 - 1) : ℝ))
+    (hrk : ((3 : ℝ) + 1) ≤ (k : ℝ) ^ (ϑ / (3 : ℝ))) :
+    (((3 : ℝ) + 1) * lamLargeAt ϑ k n 3 / (k : ℝ)) ^
+        ((2 * (3 : ℝ))⁻¹) ≤ (k : ℝ) ^ (-(1 : ℝ) / 18) := by
+  have hbase : (((3 : ℝ) + 1) * lamLargeAt ϑ k n 3 / k) <
+      (k : ℝ) ^ (2 / (3 : ℝ) - 1) := by
+    have hmul : (((3 : ℝ) + 1) * lamLargeAt ϑ k n 3) <
+        (k : ℝ) ^ (2 / (3 : ℝ)) := by
+      calc
+        ((3 : ℝ) + 1) * lamLargeAt ϑ k n 3 ≤
+            (k : ℝ) ^ (ϑ / (3 : ℝ)) * lamLargeAt ϑ k n 3 :=
+          mul_le_mul_of_nonneg_right hrk (by unfold lamLargeAt; positivity)
+        _ < (k : ℝ) ^ (ϑ / (3 : ℝ)) *
+            (k : ℝ) ^ ((2 - ϑ) / (3 : ℝ)) :=
+          mul_lt_mul_of_pos_left
+            (lamLargeAt_lt_coarse ϑ k n 3 hϑ1 hn0 hk (by norm_num) hmin)
+            (Real.rpow_pos_of_pos (Nat.cast_pos.mpr hk.le) _)
+        _ = (k : ℝ) ^ (2 / (3 : ℝ)) := by
+          rw [← Real.rpow_add (by positivity)]
+          congr 1
+          ring
+    convert (div_lt_div_iff_of_pos_right (by positivity : 0 < (k : ℝ))).2 hmul using 1
+    rw [Real.rpow_sub_one (by positivity)]
+  refine le_trans (Real.rpow_le_rpow
+    (by unfold lamLargeAt; positivity) hbase.le (by positivity)) ?_
+  rw [← Real.rpow_mul (by positivity)]
+  norm_num
+
+/-- Fully theta-parametric large-range asymptotic estimate.  Its additive
+term uses `sharpAddExp`, so it remains valid below `theta=1/2`. -/
+lemma large_asym_of_margins_at (ϑ q₁ q₃ C : ℝ)
+    (hϑlo : (9 : ℝ) / 23 < ϑ) (hϑ1 : ϑ < 1)
+    (hq₁ : 1 < q₁) (hq₃ : 1 < q₃) (hC : 0 < C) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ, ∀ r : ℕ,
+    3 ≤ r → 0 < n →
+    (k : ℝ) ^ (((r : ℝ) - 1) + ϑ) <
+      (n : ℝ) * (Nat.factorial (r - 1) : ℝ) →
+    q₁ * (3 * (r : ℝ) - 2) * Real.log (Real.log k) ≤
+      (1 - ϑ) * Real.log k →
+    ((r : ℝ) + 1) ≤ (k : ℝ) ^ (ϑ / (r : ℝ)) →
+    4 * q₃ * (r : ℝ) * Real.log (Real.log k) ≤ Real.log k →
+    (r : ℝ) ≤ Real.log k →
+    1 < Real.log k →
+    c₆ * (k : ℝ) ^ ϑ *
+        (2 * (k : ℝ) ^ ((ϑ - 1) / (3 * (r : ℝ) - 2)) +
+          (((r : ℝ) + 1) * lamLargeAt ϑ k n r / (k : ℝ)) ^
+            ((2 * (r : ℝ))⁻¹)) +
+      2 * (r : ℝ) * lamLargeAt ϑ k n r ≤
+        C * (k : ℝ) ^ ϑ / Real.log k := by
+  have hϑ0 : 0 < ϑ := by linarith
+  obtain ⟨k₀, hk₀⟩ : ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k →
+      2 * c₆ * (k : ℝ) ^ ϑ * (Real.log k) ^ (-q₁) +
+      c₆ * (k : ℝ) ^ ϑ *
+        ((Real.log k) ^ (-q₃) + (k : ℝ) ^ (-(1 : ℝ) / 18)) +
+      2 * (k : ℝ) ^ (sharpAddExp ϑ) * Real.log k ≤
+        C * (k : ℝ) ^ ϑ / Real.log k := by
+    obtain ⟨k₁, hk₁⟩ := Filter.eventually_atTop.mp
+      (poly_log_lt_logpow (2 * c₆) ϑ (-q₁) (by linarith)
+        (C / 3) (by linarith))
+    obtain ⟨k₂a, hk₂a⟩ := Filter.eventually_atTop.mp
+      (poly_log_lt_logpow c₆ ϑ (-q₃) (by linarith)
+        (C / 6) (by linarith))
+    obtain ⟨k₂b, hk₂b⟩ := Filter.eventually_atTop.mp
+      (poly_log_lt c₆ (ϑ - 1 / 18) 0 ϑ (by norm_num)
+        (C / 6) (by linarith))
+    obtain ⟨k₃, hk₃⟩ := Filter.eventually_atTop.mp
+      (poly_log_lt (2 : ℝ) (sharpAddExp ϑ) 1 ϑ
+        (sharpAddExp_lt_theta ϑ hϑlo) (C / 3) (by linarith))
+    refine ⟨max k₁ (max (max k₂a (k₂b + 2)) k₃), fun k hk => ?_⟩
+    have h₁ := hk₁ k (by omega)
+    have h₂a := hk₂a k (by omega)
+    have h₂b := hk₂b k (by omega)
+    have h₃ := hk₃ k (by omega)
+    rw [Real.rpow_one] at h₃
+    have hkpos : (0 : ℝ) < k := by norm_cast; omega
+    rw [Real.rpow_zero, mul_one] at h₂b
+    have hpow : c₆ * (k : ℝ) ^ ϑ * (k : ℝ) ^ (-(1 : ℝ) / 18) =
+        c₆ * (k : ℝ) ^ (ϑ - 1 / 18) := by
+      rw [mul_assoc, ← Real.rpow_add hkpos]
+      congr 2
+      ring
+    rw [mul_add, hpow]
+    calc
+      2 * c₆ * (k : ℝ) ^ ϑ * (Real.log k) ^ (-q₁) +
+          (c₆ * (k : ℝ) ^ ϑ * (Real.log k) ^ (-q₃) +
+            c₆ * (k : ℝ) ^ (ϑ - 1 / 18)) +
+          2 * (k : ℝ) ^ (sharpAddExp ϑ) * Real.log k ≤
+          C / 3 * (k : ℝ) ^ ϑ / Real.log k +
+            C / 6 * (k : ℝ) ^ ϑ / Real.log k +
+            C / 6 * (k : ℝ) ^ ϑ / Real.log k +
+            C / 3 * (k : ℝ) ^ ϑ / Real.log k := by linarith
+      _ = C * (k : ℝ) ^ ϑ / Real.log k := by ring
+  refine ⟨k₀ + 2, fun k hk n r hr hn hmin hm₁ hrk hm₃ hrlog hlog1 => ?_⟩
+  apply le_trans ?_ (hk₀ k (by omega))
+  have hterm3 :
+      (((r : ℝ) + 1) * lamLargeAt ϑ k n r / (k : ℝ)) ^
+          ((2 * (r : ℝ))⁻¹) ≤
+        (Real.log k) ^ (-q₃) + (k : ℝ) ^ (-(1 : ℝ) / 18) := by
+    rcases hr.eq_or_lt with rfl | hr4
+    · exact (large_term3_r3_at ϑ hϑ1 k n (by omega) hn
+        (by simpa using hmin) (by exact_mod_cast hrk)).trans
+          (le_add_of_nonneg_left (by positivity))
+    · exact (large_term3_le_margin_at ϑ q₃ hϑ1 k n r (by omega) hn hr4
+        hlog1 (by convert hmin using 1) (by exact_mod_cast hrk) hm₃).trans
+          (le_add_of_nonneg_right (by positivity))
+  have hterm1 := large_term1_le_margin_at ϑ q₁ k r (by omega) hr hlog1 hm₁
+  have hlam := lamLargeAt_lt_sharp ϑ k n r hϑ0 hϑ1 hn (by omega) hr hmin
+  have hadd : 2 * (r : ℝ) * lamLargeAt ϑ k n r ≤
+      2 * (k : ℝ) ^ (sharpAddExp ϑ) * Real.log k := by
+    have hrnonneg : (0 : ℝ) ≤ r := by positivity
+    have hlamnonneg : 0 ≤ lamLargeAt ϑ k n r := by unfold lamLargeAt; positivity
+    nlinarith [mul_le_mul_of_nonneg_left hlam.le hrnonneg,
+      mul_le_mul_of_nonneg_right hrlog hlamnonneg]
+  have hbracket :
+      2 * (k : ℝ) ^ ((ϑ - 1) / (3 * (r : ℝ) - 2)) +
+          (((r : ℝ) + 1) * lamLargeAt ϑ k n r / (k : ℝ)) ^
+            ((2 * (r : ℝ))⁻¹) ≤
+        2 * (Real.log k) ^ (-q₁) +
+          ((Real.log k) ^ (-q₃) + (k : ℝ) ^ (-(1 : ℝ) / 18)) :=
+    add_le_add (mul_le_mul_of_nonneg_left hterm1 zero_le_two) hterm3
+  calc
+    c₆ * (k : ℝ) ^ ϑ *
+          (2 * (k : ℝ) ^ ((ϑ - 1) / (3 * (r : ℝ) - 2)) +
+            (((r : ℝ) + 1) * lamLargeAt ϑ k n r / (k : ℝ)) ^
+              ((2 * (r : ℝ))⁻¹)) +
+        2 * (r : ℝ) * lamLargeAt ϑ k n r ≤
+      c₆ * (k : ℝ) ^ ϑ *
+          (2 * (Real.log k) ^ (-q₁) +
+            ((Real.log k) ^ (-q₃) + (k : ℝ) ^ (-(1 : ℝ) / 18))) +
+        2 * (k : ℝ) ^ (sharpAddExp ϑ) * Real.log k :=
+      add_le_add
+        (mul_le_mul_of_nonneg_left hbracket
+          (mul_nonneg c₆_pos.le (Real.rpow_nonneg (Nat.cast_nonneg _) _))) hadd
+    _ = 2 * c₆ * (k : ℝ) ^ ϑ * (Real.log k) ^ (-q₁) +
+        c₆ * (k : ℝ) ^ ϑ *
+          ((Real.log k) ^ (-q₃) + (k : ℝ) ^ (-(1 : ℝ) / 18)) +
+        2 * (k : ℝ) ^ (sharpAddExp ϑ) * Real.log k := by ring
+
+lemma eventually_log_le_half_rpow_at (ϑ : ℝ) (hϑ1 : ϑ < 1) :
+    ∀ᶠ k : ℕ in Filter.atTop,
+      Real.log k ≤ (1 / 2) * (k : ℝ) ^ (1 - ϑ) := by
+  have hsmall := isLittleO_log_rpow_atTop (sub_pos.mpr hϑ1)
+  rw [Asymptotics.isLittleO_iff] at hsmall
+  obtain ⟨x₀, hx₀⟩ := Filter.eventually_atTop.mp
+    (hsmall (show (0 : ℝ) < 1 / 2 by norm_num))
+  refine Filter.eventually_atTop.mpr ⟨⌈x₀⌉₊ + 2, fun k hk => ?_⟩
+  have hxk : x₀ ≤ (k : ℝ) := by
+    exact (Nat.le_ceil x₀).trans (by exact_mod_cast (show ⌈x₀⌉₊ ≤ k by omega))
+  have h := hx₀ k hxk
+  rw [Real.norm_of_nonneg (Real.log_nonneg (by norm_cast; omega)),
+    Real.norm_of_nonneg (Real.rpow_nonneg (Nat.cast_nonneg _) _)] at h
+  exact h
+
+/-- Variable-theta reference-order geometry and logarithmic margins. -/
+lemma r0Param_eventual_bounds_at (ϑ a b q₁ q₃ : ℝ)
+    (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1) (ha : 0 < a) (hab : a < b)
+    (hbϑ : b < ϑ) (hm₁ : 3 * q₁ * b < 1 - ϑ)
+    (hm₃ : 4 * q₃ * b < 1) (hq₁ : 1 < q₁) (hq₃ : 1 < q₃) :
+    ∀ᶠ k : ℕ in Filter.atTop,
+      1 ≤ r0Param a k ∧
+      (r0Param a k : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - ϑ) ∧
+      q₁ * (3 * (r0Param a k : ℝ) - 2) * Real.log (Real.log k) ≤
+        (1 - ϑ) * Real.log k ∧
+      ((r0Param a k : ℝ) + 1) ≤
+        (k : ℝ) ^ (ϑ / (r0Param a k : ℝ)) ∧
+      4 * q₃ * (r0Param a k : ℝ) * Real.log (Real.log k) ≤ Real.log k ∧
+      (r0Param a k : ℝ) ≤ Real.log k ∧
+      1 < Real.log k := by
+  have hb0 : 0 < b := ha.trans hab
+  have hb1 : b < 1 := hbϑ.trans hϑ1
+  have hsand := r0Param_sandwich a b ha hab
+  have hM := (Real.tendsto_log_atTop.comp
+    (Real.tendsto_log_atTop.comp tendsto_natCast_atTop_atTop)).eventually_ge_atTop
+      (max 1 b)
+  have hL := (Real.tendsto_log_atTop.comp tendsto_natCast_atTop_atTop).eventually_ge_atTop
+    (max 2 (1 / (1 - b)))
+  filter_upwards [hsand, hM, hL, eventually_log_le_half_rpow_at ϑ hϑ1]
+    with k hkR hkM hkL hkpow
+  change max 1 b ≤ Real.log (Real.log k) at hkM
+  change max 2 (1 / (1 - b)) ≤ Real.log k at hkL
+  rcases hkR with ⟨hR1, hRa, hRb⟩
+  have hL2 : 2 ≤ Real.log k := le_trans (le_max_left _ _) hkL
+  have hLpos : 0 < Real.log k := by linarith
+  have hM1 : 1 ≤ Real.log (Real.log k) := le_trans (le_max_left _ _) hkM
+  have hbM : b ≤ Real.log (Real.log k) := le_trans (le_max_right _ _) hkM
+  have hMpos : 0 < Real.log (Real.log k) := by linarith
+  have hXnonneg : 0 ≤ Real.log k / Real.log (Real.log k) := by positivity
+  have hXleL : Real.log k / Real.log (Real.log k) ≤ Real.log k := by
+    rw [div_le_iff₀ hMpos]
+    nlinarith
+  have hRleX : (r0Param a k : ℝ) ≤
+      Real.log k / Real.log (Real.log k) := by
+    have hRb' : (r0Param a k : ℝ) ≤
+        b * (Real.log k / Real.log (Real.log k)) := by
+      convert hRb using 1 <;> ring
+    calc
+      (r0Param a k : ℝ) ≤ b * (Real.log k / Real.log (Real.log k)) := hRb'
+      _ ≤ 1 * (Real.log k / Real.log (Real.log k)) :=
+        mul_le_mul_of_nonneg_right hb1.le hXnonneg
+      _ = Real.log k / Real.log (Real.log k) := by ring
+  have hRlog : (r0Param a k : ℝ) ≤ Real.log k := hRleX.trans hXleL
+  have hRpow : (r0Param a k : ℝ) ≤
+      (1 / 2) * (k : ℝ) ^ (1 - ϑ) := hRlog.trans hkpow
+  have hRM : (r0Param a k : ℝ) * Real.log (Real.log k) ≤
+      b * Real.log k := by
+    calc
+      (r0Param a k : ℝ) * Real.log (Real.log k) ≤
+          (b * Real.log k / Real.log (Real.log k)) * Real.log (Real.log k) :=
+        mul_le_mul_of_nonneg_right hRb hMpos.le
+      _ = b * Real.log k := by field_simp
+  have hmargin1 :
+      q₁ * (3 * (r0Param a k : ℝ) - 2) * Real.log (Real.log k) ≤
+        (1 - ϑ) * Real.log k := by
+    have hthree : (3 * (r0Param a k : ℝ) - 2) * Real.log (Real.log k) ≤
+        3 * ((r0Param a k : ℝ) * Real.log (Real.log k)) := by nlinarith
+    calc
+      q₁ * (3 * (r0Param a k : ℝ) - 2) * Real.log (Real.log k) =
+          q₁ * ((3 * (r0Param a k : ℝ) - 2) * Real.log (Real.log k)) := by ring
+      _ ≤ q₁ * (3 * ((r0Param a k : ℝ) * Real.log (Real.log k))) :=
+        mul_le_mul_of_nonneg_left hthree (by linarith)
+      _ ≤ q₁ * (3 * (b * Real.log k)) :=
+        mul_le_mul_of_nonneg_left
+          (mul_le_mul_of_nonneg_left hRM (by norm_num)) (by linarith)
+      _ = (3 * q₁ * b) * Real.log k := by ring
+      _ ≤ (1 - ϑ) * Real.log k :=
+        mul_le_mul_of_nonneg_right hm₁.le hLpos.le
+  have hmargin3 :
+      4 * q₃ * (r0Param a k : ℝ) * Real.log (Real.log k) ≤ Real.log k := by
+    calc
+      4 * q₃ * (r0Param a k : ℝ) * Real.log (Real.log k) =
+          (4 * q₃) * ((r0Param a k : ℝ) * Real.log (Real.log k)) := by ring
+      _ ≤ (4 * q₃) * (b * Real.log k) :=
+        mul_le_mul_of_nonneg_left hRM (by positivity)
+      _ = (4 * q₃ * b) * Real.log k := by ring
+      _ ≤ 1 * Real.log k := mul_le_mul_of_nonneg_right hm₃.le hLpos.le
+      _ = Real.log k := by ring
+  have hRplus : (r0Param a k : ℝ) + 1 ≤ Real.log k := by
+    have hRb' : (r0Param a k : ℝ) ≤
+        b * (Real.log k / Real.log (Real.log k)) := by
+      convert hRb using 1 <;> ring
+    have hRbL : (r0Param a k : ℝ) ≤ b * Real.log k :=
+      hRb'.trans (mul_le_mul_of_nonneg_left hXleL hb0.le)
+    have hbig : 1 / (1 - b) ≤ Real.log k := le_trans (le_max_right _ _) hkL
+    rw [div_le_iff₀ (sub_pos.mpr hb1)] at hbig
+    nlinarith
+  have hRpos : (0 : ℝ) < r0Param a k := by exact_mod_cast (show 0 < r0Param a k by omega)
+  have harg : Real.log (Real.log k) ≤
+      ϑ * Real.log k / (r0Param a k : ℝ) := by
+    apply (le_div_iff₀ hRpos).2
+    calc
+      Real.log (Real.log k) * (r0Param a k : ℝ) =
+          (r0Param a k : ℝ) * Real.log (Real.log k) := by ring
+      _ ≤ b * Real.log k := hRM
+      _ ≤ ϑ * Real.log k :=
+        mul_le_mul_of_nonneg_right hbϑ.le hLpos.le
+  have hLrpow : Real.log k ≤
+      (k : ℝ) ^ (ϑ / (r0Param a k : ℝ)) := by
+    have hkpos : (0 : ℝ) < k := by
+      by_contra h
+      have hkzero : (k : ℝ) = 0 := le_antisymm (le_of_not_gt h) (Nat.cast_nonneg k)
+      rw [hkzero, Real.log_zero] at hLpos
+      linarith
+    calc
+      Real.log k = Real.exp (Real.log (Real.log k)) := by rw [Real.exp_log hLpos]
+      _ ≤ Real.exp (ϑ * Real.log k / (r0Param a k : ℝ)) :=
+        Real.exp_le_exp.mpr harg
+      _ = (k : ℝ) ^ (ϑ / (r0Param a k : ℝ)) := by
+        rw [Real.rpow_def_of_pos hkpos]
+        congr 1
+        ring
+  exact ⟨hR1, hRpow, hmargin1, hRplus.trans hLrpow, hmargin3,
+    hRlog, by linarith⟩
+
+/-- The reference order absorbs `exp(c log²/loglog)` and its factorial,
+uniformly in theta once theta is positive. -/
+lemma r0Param_eventual_admissible_at (ϑ c a b : ℝ) (hϑ0 : 0 < ϑ)
+    (ha : 0 < a) (hca : c < a) (hab : a < b) :
+    ∀ᶠ k : ℕ in Filter.atTop, ∀ n : ℤ, 0 < n →
+      (n : ℝ) ≤ Real.exp (c * (Real.log k) ^ 2 / Real.log (Real.log k)) →
+      (n : ℝ) * (Nat.factorial (r0Param a k) : ℝ) ≤
+        (k : ℝ) ^ ((r0Param a k : ℝ) + ϑ) := by
+  have hac : 0 < a - c := sub_pos.mpr hca
+  have hsand := r0Param_sandwich a b ha hab
+  have hX := tendsto_log_div_loglog_atTop.eventually_ge_atTop (b / (a - c))
+  have hM := (Real.tendsto_log_atTop.comp
+    (Real.tendsto_log_atTop.comp tendsto_natCast_atTop_atTop)).eventually_ge_atTop
+      (max 1 b)
+  have hL := (Real.tendsto_log_atTop.comp tendsto_natCast_atTop_atTop).eventually_ge_atTop 2
+  filter_upwards [hsand, hX, hM, hL] with k hkR hkX hkM hkL
+  change max 1 b ≤ Real.log (Real.log k) at hkM
+  change 2 ≤ Real.log k at hkL
+  intro n hn hupper
+  rcases hkR with ⟨hR1, hRa, hRb⟩
+  have hLpos : 0 < Real.log k := by linarith
+  have hbM : b ≤ Real.log (Real.log k) := le_trans (le_max_right _ _) hkM
+  have hMpos : 0 < Real.log (Real.log k) := by
+    linarith [le_trans (le_max_left _ _) hkM]
+  have hb0 : 0 < b := ha.trans hab
+  have hratio : b * Real.log k / Real.log (Real.log k) ≤ Real.log k := by
+    rw [div_le_iff₀ hMpos]
+    simpa [mul_comm] using mul_le_mul_of_nonneg_left hbM hLpos.le
+  have hRlog : (r0Param a k : ℝ) ≤ Real.log k := hRb.trans hratio
+  have hRM : (r0Param a k : ℝ) * Real.log (Real.log k) ≤
+      b * Real.log k := by
+    calc
+      (r0Param a k : ℝ) * Real.log (Real.log k) ≤
+          (b * Real.log k / Real.log (Real.log k)) * Real.log (Real.log k) :=
+        mul_le_mul_of_nonneg_right hRb hMpos.le
+      _ = b * Real.log k := by field_simp
+  have hgap0 : b ≤ (a - c) *
+      (Real.log k / Real.log (Real.log k)) := by
+    rw [div_le_iff₀ hac] at hkX
+    nlinarith
+  have hgap : b * Real.log k ≤
+      (a - c) * ((Real.log k) ^ 2 / Real.log (Real.log k)) := by
+    have hh := mul_le_mul_of_nonneg_right hgap0 hLpos.le
+    calc
+      b * Real.log k ≤
+          ((a - c) * (Real.log k / Real.log (Real.log k))) * Real.log k := hh
+      _ = (a - c) * ((Real.log k) ^ 2 / Real.log (Real.log k)) := by ring
+  have haR : a * ((Real.log k) ^ 2 / Real.log (Real.log k)) ≤
+      (r0Param a k : ℝ) * Real.log k := by
+    have hh := mul_le_mul_of_nonneg_right hRa hLpos.le
+    calc
+      a * ((Real.log k) ^ 2 / Real.log (Real.log k)) =
+          (a * Real.log k / Real.log (Real.log k)) * Real.log k := by ring
+      _ ≤ (r0Param a k : ℝ) * Real.log k := hh
+  have hbudget : c * ((Real.log k) ^ 2 / Real.log (Real.log k)) +
+      (r0Param a k : ℝ) * Real.log (Real.log k) ≤
+        (r0Param a k : ℝ) * Real.log k := by
+    calc
+      c * ((Real.log k) ^ 2 / Real.log (Real.log k)) +
+          (r0Param a k : ℝ) * Real.log (Real.log k) ≤
+        c * ((Real.log k) ^ 2 / Real.log (Real.log k)) + b * Real.log k :=
+          by nlinarith [hRM]
+      _ ≤ a * ((Real.log k) ^ 2 / Real.log (Real.log k)) := by nlinarith
+      _ ≤ (r0Param a k : ℝ) * Real.log k := haR
+  have hlogn : Real.log (n : ℝ) ≤
+      c * (Real.log k) ^ 2 / Real.log (Real.log k) :=
+    Real.log_le_iff_le_exp (by positivity) |>.2 hupper
+  have hlogR : Real.log (r0Param a k : ℝ) ≤ Real.log (Real.log k) := by
+    gcongr
+  have hfac : Real.log (Nat.factorial (r0Param a k) : ℝ) ≤
+      (r0Param a k : ℝ) * Real.log (Real.log k) := by
+    calc
+      Real.log (Nat.factorial (r0Param a k) : ℝ) ≤
+          (r0Param a k : ℝ) * Real.log (r0Param a k) := by
+        rw [← Real.log_pow]
+        gcongr
+        norm_cast
+        exact Nat.recOn (r0Param a k) (by norm_num) fun m ihm => by
+          rw [Nat.factorial_succ, pow_succ']
+          exact (Nat.mul_le_mul_left _ ihm).trans (by gcongr; omega)
+      _ ≤ (r0Param a k : ℝ) * Real.log (Real.log k) :=
+        mul_le_mul_of_nonneg_left hlogR (by positivity)
+  have hlogs : Real.log (n : ℝ) +
+      Real.log (Nat.factorial (r0Param a k) : ℝ) ≤
+        (r0Param a k : ℝ) * Real.log k + ϑ * Real.log k := by
+    calc
+      Real.log (n : ℝ) + Real.log (Nat.factorial (r0Param a k) : ℝ) ≤
+          c * ((Real.log k) ^ 2 / Real.log (Real.log k)) +
+            (r0Param a k : ℝ) * Real.log (Real.log k) := by
+              apply add_le_add _ hfac
+              simpa [div_eq_mul_inv, mul_assoc] using hlogn
+      _ ≤ (r0Param a k : ℝ) * Real.log k := hbudget
+      _ ≤ (r0Param a k : ℝ) * Real.log k + ϑ * Real.log k :=
+        le_add_of_nonneg_right (mul_nonneg hϑ0.le hLpos.le)
+  rw [← Real.log_le_log_iff (by positivity)
+    (Real.rpow_pos_of_pos (by
+      by_contra h
+      have hkzero : (k : ℝ) = 0 :=
+        le_antisymm (le_of_not_gt h) (Nat.cast_nonneg k)
+      rw [hkzero, Real.log_zero] at hLpos
+      linarith) _),
+    Real.log_mul (by positivity) (by positivity),
+    Real.log_rpow (by
+      by_contra h
+      have hkzero : (k : ℝ) = 0 :=
+        le_antisymm (le_of_not_gt h) (Nat.cast_nonneg k)
+      rw [hkzero, Real.log_zero] at hLpos
+      linarith)]
+  convert hlogs using 1 <;> ring
+
+def HasLargeMarginCertificateAt (ϑ c q₁ q₃ : ℝ) : Prop :=
+  ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+    (1 / 2) * (k : ℝ) ^ (2 + ϑ) < (n : ℝ) →
+    (n : ℝ) ≤ Real.exp (c * (Real.log k) ^ 2 / Real.log (Real.log k)) →
+    ∃ r : ℕ,
+      3 ≤ r ∧
+      (r : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - ϑ) ∧
+      (n : ℝ) * (Nat.factorial r : ℝ) ≤ (k : ℝ) ^ ((r : ℝ) + ϑ) ∧
+      (k : ℝ) ^ (((r : ℝ) - 1) + ϑ) <
+        (n : ℝ) * (Nat.factorial (r - 1) : ℝ) ∧
+      q₁ * (3 * (r : ℝ) - 2) * Real.log (Real.log k) ≤
+        (1 - ϑ) * Real.log k ∧
+      ((r : ℝ) + 1) ≤ (k : ℝ) ^ (ϑ / (r : ℝ)) ∧
+      4 * q₃ * (r : ℝ) * Real.log (Real.log k) ≤ Real.log k ∧
+      (r : ℝ) ≤ Real.log k ∧
+      1 < Real.log k
+
+lemma hasLargeMarginCertificateAt_of_parameters (ϑ c a b q₁ q₃ : ℝ)
+    (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1)
+    (ha : 0 < a) (hca : c < a) (hab : a < b) (hbϑ : b < ϑ)
+    (hm₁ : 3 * q₁ * b < 1 - ϑ) (hm₃ : 4 * q₃ * b < 1)
+    (hq₁ : 1 < q₁) (hq₃ : 1 < q₃) :
+    HasLargeMarginCertificateAt ϑ c q₁ q₃ := by
+  obtain ⟨kb, hb⟩ := Filter.eventually_atTop.mp
+    (r0Param_eventual_bounds_at ϑ a b q₁ q₃ hϑ0 hϑ1 ha hab hbϑ hm₁ hm₃ hq₁ hq₃)
+  obtain ⟨kp, hp⟩ := Filter.eventually_atTop.mp
+    (r0Param_eventual_admissible_at ϑ c a b hϑ0 ha hca hab)
+  refine ⟨max (max kb kp) 2, ?_⟩
+  intro k hk n hlow hupper
+  have hkb : kb ≤ k := by omega
+  have hkp : kp ≤ k := by omega
+  have hk2 : 2 ≤ k := by omega
+  have hkpos : (0 : ℝ) < k := by norm_cast; omega
+  have hn0 : 0 < n := by
+    have hpow0 : (0 : ℝ) ≤ (k : ℝ) ^ (2 + ϑ) := by positivity
+    have : (0 : ℝ) < (n : ℝ) := lt_of_le_of_lt (by positivity) hlow
+    exact_mod_cast this
+  have hP0 : (n : ℝ) * (Nat.factorial (r0Param a k) : ℝ) ≤
+      (k : ℝ) ^ ((r0Param a k : ℝ) + ϑ) := hp k hkp n hn0 hupper
+  let hExists : ∃ r : ℕ, (n : ℝ) * (Nat.factorial r : ℝ) ≤
+      (k : ℝ) ^ ((r : ℝ) + ϑ) := ⟨r0Param a k, hP0⟩
+  let r : ℕ := Nat.find hExists
+  have hrle0 : r ≤ r0Param a k := Nat.find_min' hExists hP0
+  have hspec : (n : ℝ) * (Nat.factorial r : ℝ) ≤
+      (k : ℝ) ^ ((r : ℝ) + ϑ) := Nat.find_spec hExists
+  have hb0 := hb k hkb
+  have hr3 : 3 ≤ r := by
+    by_contra hrnot
+    have hr : r < 3 := Nat.lt_of_not_ge hrnot
+    have hcases : r = 0 ∨ r = 1 ∨ r = 2 := by omega
+    rcases hcases with h0 | h1 | h2
+    · rw [h0] at hspec
+      norm_num at hspec
+      have hfactor : (k : ℝ) ^ (2 + ϑ) =
+          (k : ℝ) ^ ϑ * (k : ℝ) ^ 2 := by
+        rw [show (2 + ϑ : ℝ) = ϑ + 2 by ring, Real.rpow_add hkpos]
+        norm_num
+      rw [hfactor] at hlow
+      have hkpow2 : (2 : ℝ) ≤ (k : ℝ) ^ 2 := by
+        have hkR : (2 : ℝ) ≤ k := by exact_mod_cast hk2
+        nlinarith [sq_nonneg ((k : ℝ) - 2)]
+      have hprod : 0 ≤ (k : ℝ) ^ ϑ * ((k : ℝ) ^ 2 - 2) :=
+        mul_nonneg (Real.rpow_nonneg (Nat.cast_nonneg k) _) (sub_nonneg.mpr hkpow2)
+      nlinarith
+    · rw [h1] at hspec
+      norm_num at hspec
+      have hfactor : (k : ℝ) ^ (2 + ϑ) =
+          (k : ℝ) ^ (1 + ϑ) * (k : ℝ) := by
+        rw [show (2 + ϑ : ℝ) = (1 + ϑ) + 1 by ring,
+          Real.rpow_add hkpos]
+        norm_num
+      rw [hfactor] at hlow
+      have hkR : (2 : ℝ) ≤ k := by exact_mod_cast hk2
+      have hprod : 0 ≤ (k : ℝ) ^ (1 + ϑ) * ((k : ℝ) - 2) :=
+        mul_nonneg (Real.rpow_nonneg (Nat.cast_nonneg k) _) (sub_nonneg.mpr hkR)
+      nlinarith
+    · rw [h2] at hspec
+      norm_num at hspec
+      nlinarith
+  have hrpos : (0 : ℝ) < r := by exact_mod_cast (show 0 < r by omega)
+  have hmin : (k : ℝ) ^ (((r : ℝ) - 1) + ϑ) <
+      (n : ℝ) * (Nat.factorial (r - 1) : ℝ) := by
+    have hrsub : r - 1 < r := Nat.sub_lt (by omega) zero_lt_one
+    have hnot := Nat.find_min hExists hrsub
+    push_neg at hnot
+    convert hnot using 2
+    rw [Nat.cast_sub (by omega)]
+    norm_num
+  have hrcast : (r : ℝ) ≤ (r0Param a k : ℝ) := by exact_mod_cast hrle0
+  have hrle : (r : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - ϑ) :=
+    hrcast.trans hb0.2.1
+  have hmargin1 : q₁ * (3 * (r : ℝ) - 2) * Real.log (Real.log k) ≤
+      (1 - ϑ) * Real.log k := by
+    have hMnonneg : 0 ≤ Real.log (Real.log k) :=
+      (Real.log_pos hb0.2.2.2.2.2.2).le
+    have hbase : 3 * (r : ℝ) - 2 ≤ 3 * (r0Param a k : ℝ) - 2 := by
+      nlinarith
+    exact (mul_le_mul_of_nonneg_right
+      (mul_le_mul_of_nonneg_left hbase (le_trans zero_le_one hq₁.le)) hMnonneg).trans
+        hb0.2.2.1
+  have hrk : (r : ℝ) + 1 ≤ (k : ℝ) ^ (ϑ / (r : ℝ)) := by
+    calc
+      (r : ℝ) + 1 ≤ (r0Param a k : ℝ) + 1 := by linarith
+      _ ≤ (k : ℝ) ^ (ϑ / (r0Param a k : ℝ)) := hb0.2.2.2.1
+      _ ≤ (k : ℝ) ^ (ϑ / (r : ℝ)) := by
+        apply Real.rpow_le_rpow_of_exponent_le (by norm_cast; omega)
+        exact div_le_div_of_nonneg_left hϑ0.le hrpos hrcast
+  have hmargin3 : 4 * q₃ * (r : ℝ) * Real.log (Real.log k) ≤ Real.log k := by
+    have hMnonneg : 0 ≤ Real.log (Real.log k) :=
+      (Real.log_pos hb0.2.2.2.2.2.2).le
+    exact (mul_le_mul_of_nonneg_right
+      (mul_le_mul_of_nonneg_left hrcast (by positivity)) hMnonneg).trans
+        hb0.2.2.2.2.1
+  have hrlog : (r : ℝ) ≤ Real.log k := hrcast.trans hb0.2.2.2.2.2.1
+  exact ⟨r, hr3, hrle, hspec, hmin, hmargin1, hrk, hmargin3,
+    hrlog, hb0.2.2.2.2.2.2⟩
+
+lemma case_large_of_margin_certificate_at (ϑ c q₁ q₃ : ℝ)
+    (hϑlo : (9 : ℝ) / 23 < ϑ) (hϑ1 : ϑ < 1)
+    (hq₁ : 1 < q₁) (hq₃ : 1 < q₃) (hPI : PrimeIntervalInput ϑ)
+    (hcert : HasLargeMarginCertificateAt ϑ c q₁ q₃) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+      (1 / 2) * (k : ℝ) ^ (2 + ϑ) < (n : ℝ) →
+      (n : ℝ) ≤ Real.exp (c * (Real.log k) ^ 2 / Real.log (Real.log k)) →
+      SourceIntervalConclusion ϑ k n := by
+  have hϑ0 : 0 < ϑ := by linarith
+  obtain ⟨C, hC, kb, hb⟩ := hPI
+  obtain ⟨ka, hasym⟩ :=
+    large_asym_of_margins_at ϑ q₁ q₃ C hϑlo hϑ1 hq₁ hq₃ hC
+  obtain ⟨kr, hrdata⟩ := hcert
+  refine ⟨max (max kb ka) (max kr 2), ?_⟩
+  intro k hk n hlow hhigh
+  have hkb : kb ≤ k := by omega
+  have hka : ka ≤ k := by omega
+  have hkr : kr ≤ k := by omega
+  have hk2 : 2 ≤ k := by omega
+  have hk1 : 1 ≤ k := by omega
+  have hk1' : 1 < k := by omega
+  have hkR : (1 : ℝ) < (k : ℝ) := by exact_mod_cast hk1'
+  have hkpow : (k : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (2 + ϑ) := by
+    have hpowe : (k : ℝ) ^ (2 + ϑ) =
+        (k : ℝ) ^ 2 * (k : ℝ) ^ ϑ := by
+      rw [show (2 + ϑ : ℝ) = (2 : ℕ) + ϑ by norm_num,
+        Real.rpow_add (by linarith), Real.rpow_natCast]
+    have hone : (1 : ℝ) ≤ (k : ℝ) ^ ϑ :=
+      Real.one_le_rpow hkR.le hϑ0.le
+    rw [hpowe]
+    have hk2R : (2 : ℝ) ≤ k := by exact_mod_cast hk2
+    nlinarith [mul_nonneg (sq_nonneg (k : ℝ))
+      (by linarith : (0 : ℝ) ≤ (k : ℝ) ^ ϑ - 1)]
+  have hknR : (k : ℝ) < (n : ℝ) := lt_of_le_of_lt hkpow hlow
+  have hkn : (k : ℤ) < n := by exact_mod_cast hknR
+  have hn0 : 0 < n := lt_trans (by exact_mod_cast hk1) hkn
+  obtain ⟨r, hr3, hrle, hub, hmin, hm₁, hrk, hm₃, hrlog, hlog1⟩ :=
+    hrdata k hkr n hlow hhigh
+  have hraw := large_card_raw_at ϑ hϑ0 hϑ1 k n r hk1' hn0 hr3 hrle hkn hub
+  have hbnd := hasym k hka n r hr3 hn0 hmin hm₁ hrk hm₃ hrlog hlog1
+  have hprime : C * (k : ℝ) ^ ϑ / Real.log k ≤
+      (primeCard (k : ℝ) ((k : ℝ) + (k : ℝ) ^ ϑ) : ℝ) := hb k hkb
+  exact konyagin_finish_at ϑ hϑ0.le k n hk1 C hprime
+    (lt_of_lt_of_le hraw hbnd)
+
+lemma rangePackage_of_parameters (ϑ c a b q₁ q₃ : ℝ)
+    (hϑlo : (9 : ℝ) / 23 < ϑ) (hϑ1 : ϑ < 1)
+    (ha : 0 < a) (hca : c < a) (hab : a < b) (hbϑ : b < ϑ)
+    (hm₁ : 3 * q₁ * b < 1 - ϑ) (hm₃ : 4 * q₃ * b < 1)
+    (hq₁ : 1 < q₁) (hq₃ : 1 < q₃) (hPI : PrimeIntervalInput ϑ) :
+    ParametricRangePackage ϑ c := by
+  have hϑ0 : 0 < ϑ := by linarith
+  refine ⟨ParametricSmall.case_small ϑ hϑ0 hϑ1 hPI,
+    ParametricMed.case_medium ϑ hϑ0 hϑ1 hPI,
+    ParametricML.case_mediumlarge ϑ hϑ0 hϑ1 hPI, ?_⟩
+  exact case_large_of_margin_certificate_at ϑ c q₁ q₃ hϑlo hϑ1 hq₁ hq₃ hPI
+    (hasLargeMarginCertificateAt_of_parameters ϑ c a b q₁ q₃
+      hϑ0 hϑ1 ha hca hab hbϑ hm₁ hm₃ hq₁ hq₃)
+
+/-- Widest strict parameter-feasibility interval needed by the four-range
+builder.  The former upper cutoff `3/5` played no role beyond implying
+`theta<1`. -/
+lemma exists_frontier_parameters_wide (ϑ c : ℝ)
+    (hϑlo : (9 : ℝ) / 23 < ϑ) (hϑhi : ϑ < 1)
+    (hc : 0 < c) (hcfront : c < (1 - ϑ) / 3) :
+    ∃ a b q₁ q₃ : ℝ,
+      0 < a ∧ c < a ∧ a < b ∧ b < ϑ ∧
+      1 < q₁ ∧ 3 * q₁ * b < 1 - ϑ ∧
+      1 < q₃ ∧ 4 * q₃ * b < 1 := by
+  let f : ℝ := (1 - ϑ) / 3
+  let a : ℝ := (c + f) / 2
+  let b : ℝ := (a + f) / 2
+  have hfpos : 0 < f := by dsimp [f]; nlinarith
+  have hcf : c < f := by simpa [f] using hcfront
+  have ha : 0 < a := by dsimp [a]; nlinarith
+  have hca : c < a := by dsimp [a]; nlinarith
+  have haf : a < f := by dsimp [a]; nlinarith
+  have hab : a < b := by
+    dsimp [b]
+    rw [lt_div_iff₀ (by norm_num : (0 : ℝ) < 2)]
+    linarith
+  have hbf : b < f := by
+    dsimp [b]
+    rw [div_lt_iff₀ (by norm_num : (0 : ℝ) < 2)]
+    linarith
+  have hb0 : 0 < b := ha.trans hab
+  have hfϑ : f < ϑ := by dsimp [f]; nlinarith
+  have hbϑ : b < ϑ := hbf.trans hfϑ
+  have hthree : 3 * b < 1 - ϑ := by
+    have : 3 * f = 1 - ϑ := by dsimp [f]; ring
+    nlinarith
+  have hfourf : 4 * f < 1 := by dsimp [f]; nlinarith
+  have hfour : 4 * b < 1 := by nlinarith
+  have hratio1 : 1 < (1 - ϑ) / (3 * b) := by
+    rw [lt_div_iff₀ (by positivity)]
+    simpa [mul_assoc] using hthree
+  obtain ⟨q₁, hq₁, hq₁u⟩ := exists_between hratio1
+  have hm₁ : 3 * q₁ * b < 1 - ϑ := by
+    have hh := (lt_div_iff₀ (by positivity : 0 < 3 * b)).1 hq₁u
+    nlinarith
+  have hratio3 : 1 < 1 / (4 * b) := by
+    rw [lt_div_iff₀ (by positivity)]
+    simpa using hfour
+  obtain ⟨q₃, hq₃, hq₃u⟩ := exists_between hratio3
+  have hm₃ : 4 * q₃ * b < 1 := by
+    have hh := (lt_div_iff₀ (by positivity : 0 < 4 * b)).1 hq₃u
+    nlinarith
+  exact ⟨a, b, q₁, q₃, ha, hca, hab, hbϑ, hq₁, hm₁, hq₃, hm₃⟩
+
+/-- Exact feasibility predicate for the balanced four-range parameter class:
+the sharp `r=3` additive gap together with the `a,b,q₁,q₃` margin
+system used by the least-order proof. -/
+def BalancedFourRangeParameters (ϑ c : ℝ) : Prop :=
+  BalancedLargeExponentFeasible ϑ ∧
+  ∃ a b q₁ q₃ : ℝ,
+    0 < a ∧ c < a ∧ a < b ∧ b < ϑ ∧
+    1 < q₁ ∧ 3 * q₁ * b < 1 - ϑ ∧
+    1 < q₃ ∧ 4 * q₃ * b < 1
+
+/-- Exact endpoint certificate for this accurately delimited method class. -/
+theorem balancedFourRangeParameters_iff (ϑ c : ℝ) (hc : 0 < c) :
+    BalancedFourRangeParameters ϑ c ↔
+      (9 : ℝ) / 23 < ϑ ∧ ϑ < 1 ∧ c < (1 - ϑ) / 3 := by
+  constructor
+  · rintro ⟨hexp, a, b, q₁, q₃, ha, hca, hab, hbϑ, hq₁, hm₁, hq₃, hm₃⟩
+    have hlo : (9 : ℝ) / 23 < ϑ :=
+      (balancedLargeExponentFeasible_iff ϑ).1 hexp
+    have hb0 : 0 < b := lt_trans hc (hca.trans hab)
+    have hq₁0 : 0 < q₁ := by linarith
+    have hterm : 0 < 3 * q₁ * b := mul_pos (mul_pos (by norm_num) hq₁0) hb0
+    have hhi : ϑ < 1 := by linarith
+    have hbq : 3 * b < 3 * q₁ * b := by
+      have := mul_lt_mul_of_pos_right hq₁ hb0
+      nlinarith
+    have hfront : c < (1 - ϑ) / 3 := by
+      rw [lt_div_iff₀ (by norm_num : (0 : ℝ) < 3)]
+      nlinarith
+    exact ⟨hlo, hhi, hfront⟩
+  · rintro ⟨hlo, hhi, hfront⟩
+    refine ⟨(balancedLargeExponentFeasible_iff ϑ).2 hlo, ?_⟩
+    exact exists_frontier_parameters_wide ϑ c hlo hhi hc hfront
+
+lemma balancedFourRange_no_go_low (ϑ c : ℝ) (hc : 0 < c)
+    (hϑ : ϑ ≤ (9 : ℝ) / 23) : ¬ BalancedFourRangeParameters ϑ c := by
+  rw [balancedFourRangeParameters_iff ϑ c hc]
+  exact fun h => (not_lt_of_ge hϑ) h.1
+
+lemma balancedFourRange_no_go_high (ϑ c : ℝ) (hc : 0 < c)
+    (hϑ : 1 ≤ ϑ) : ¬ BalancedFourRangeParameters ϑ c := by
+  rw [balancedFourRangeParameters_iff ϑ c hc]
+  exact fun h => (not_lt_of_ge hϑ) h.2.1
+
+/-- The previously missing builder: all four source ranges, conditional only
+on the abstract prime-interval input. -/
+theorem parametricRangeBuilder_complete (ϑ c : ℝ)
+    (hϑlo : (2 : ℝ) / 5 < ϑ) (hϑhi : ϑ < 3 / 5)
+    (hc : 0 < c) (hcfront : c < (1 - ϑ) / 3) :
+    ParametricRangeBuilder ϑ c := by
+  intro hPI
+  obtain ⟨a, b, q₁, q₃, ha, hca, hab, hbϑ, hq₁, hm₁, hq₃, hm₃⟩ :=
+    exists_frontier_parameters_at ϑ c hϑlo hϑhi hc hcfront
+  exact rangePackage_of_parameters ϑ c a b q₁ q₃ (by nlinarith [hϑlo])
+    (hϑhi.trans (by norm_num)) ha hca hab hbϑ hm₁ hm₃ hq₁ hq₃ hPI
+
+theorem parametricRangeBuilder_wide (ϑ c : ℝ)
+    (hϑlo : (9 : ℝ) / 23 < ϑ) (hϑhi : ϑ < 1)
+    (hc : 0 < c) (hcfront : c < (1 - ϑ) / 3) :
+    ParametricRangeBuilder ϑ c := by
+  intro hPI
+  obtain ⟨a, b, q₁, q₃, ha, hca, hab, hbϑ, hq₁, hm₁, hq₃, hm₃⟩ :=
+    exists_frontier_parameters_wide ϑ c hϑlo hϑhi hc hcfront
+  exact rangePackage_of_parameters ϑ c a b q₁ q₃ hϑlo hϑhi
+    ha hca hab hbϑ hm₁ hm₃ hq₁ hq₃ hPI
+
+theorem parametric_frontier_wide (ϑ c : ℝ)
+    (hϑlo : (9 : ℝ) / 23 < ϑ) (hϑhi : ϑ < 1)
+    (hc : 0 < c) (hcfront : c < (1 - ϑ) / 3)
+    (hPI : PrimeIntervalInput ϑ) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+      2 * (k : ℤ) < n →
+      (n : ℝ) ≤ Real.exp (c * (Real.log k) ^ 2 / Real.log (Real.log k)) →
+      ∃ p : ℕ, p.Prime ∧ (k : ℝ) < p ∧ (p : ℝ) < 2 * (k : ℝ) ∧
+        (p : ℤ) ∣ Pprod k n := by
+  exact main_of_rangePackage ϑ c hϑhi
+    (parametricRangeBuilder_wide ϑ c hϑlo hϑhi hc hcfront hPI)
+
+/-- Complete abstract-PI(theta) frontier theorem. -/
+theorem parametric_frontier_complete (ϑ c : ℝ)
+    (hϑlo : (2 : ℝ) / 5 < ϑ) (hϑhi : ϑ < 3 / 5)
+    (hc : 0 < c) (hcfront : c < (1 - ϑ) / 3)
+    (hPI : PrimeIntervalInput ϑ) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+      2 * (k : ℤ) < n →
+      (n : ℝ) ≤ Real.exp (c * (Real.log k) ^ 2 / Real.log (Real.log k)) →
+      ∃ p : ℕ, p.Prime ∧ (k : ℝ) < p ∧ (p : ℝ) < 2 * (k : ℝ) ∧
+        (p : ℤ) ∣ Pprod k n := by
+  exact parametric_frontier_interface ϑ c hϑlo hϑhi hc hcfront hPI
+    (parametricRangeBuilder_complete ϑ c hϑlo hϑhi hc hcfront)
+
+#print axioms additiveExpAt_eq
+#print axioms additiveExpAt_balanced
+#print axioms additiveExpAt_le_sharp
+#print axioms sharpAddExp_lt_theta
+#print axioms sharpAddExp_lt_theta_iff
+#print axioms balancedLargeExponent_no_go
+#print axioms lamLargeAt_pow
+#print axioms lamLargeAt_ge_one
+#print axioms lamLargeAt_lt_exact
+#print axioms lamLargeAt_lt_sharp
+#print axioms large_card_raw_at
+#print axioms lamLargeAt_lt_coarse
+#print axioms large_term1_le_margin_at
+#print axioms large_term3_le_margin_at
+#print axioms large_term3_r3_at
+#print axioms large_asym_of_margins_at
+#print axioms eventually_log_le_half_rpow_at
+#print axioms r0Param_eventual_bounds_at
+#print axioms r0Param_eventual_admissible_at
+#print axioms hasLargeMarginCertificateAt_of_parameters
+#print axioms case_large_of_margin_certificate_at
+#print axioms rangePackage_of_parameters
+#print axioms parametricRangeBuilder_complete
+#print axioms parametric_frontier_complete
+#print axioms exists_frontier_parameters_wide
+#print axioms balancedFourRangeParameters_iff
+#print axioms balancedFourRange_no_go_low
+#print axioms balancedFourRange_no_go_high
+#print axioms parametricRangeBuilder_wide
+#print axioms parametric_frontier_wide
+
+end ParametricLarge
+
 end

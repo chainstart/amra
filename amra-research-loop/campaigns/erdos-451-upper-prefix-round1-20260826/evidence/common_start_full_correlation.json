@@ -1,0 +1,66 @@
+{
+  "schema_version": "erdos451.common_start_full_correlation.summary.v1",
+  "source_sha256": "96fc697bd3d54f1aafaf4d30fcad91624e99e7ec8cb56be5d5f1aa208dfde3c1",
+  "guard_unit": "openmath-task-20260826-170700-161121.scope",
+  "guard_command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/common_start_full_correlation.py",
+  "execution": {
+    "exit_status": 0,
+    "maximum_resident_set_kbytes": 12640,
+    "observed_swaps": 0,
+    "elapsed_wall_clock": "0:11.65"
+  },
+  "memory_limits": {
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "memory_swap_max": "4G"
+  },
+  "proved_rank_two_interface": {
+    "row_identity": "R_j=q*(p*L(j*Delta)-b*M(j*Delta))",
+    "cyclic_variation_bound": "V(p*L-b*M)<=6*k^2",
+    "small_gap_interval_bound": "O(k^4/Delta+k^3) for Delta^2<=q",
+    "uniform_interval_bound": "28*k^4",
+    "coherent_prefix_lower_bound": "q*b^2*(k-Delta)^2/(4*p*Delta)",
+    "scope": "Undilated common-start functions only; no affine inverse-binomial transfer or unbounded-rank tensorization is claimed."
+  },
+  "scope": {
+    "exhaustive_k": [5, 30],
+    "maximum_period": 200000,
+    "tested_systems": 607,
+    "selected_block_systems": 68
+  },
+  "maximum_ratio_by_rank": {
+    "1": {
+      "k": 30,
+      "moduli": [59],
+      "ratio_to_k_to_r_plus_1": 0.9666666666666667
+    },
+    "2": {
+      "k": 22,
+      "moduli": [41, 43],
+      "ratio_to_k_to_r_plus_1": 9.547145003756574
+    },
+    "3": {
+      "k": 23,
+      "moduli": [31, 37, 43],
+      "ratio_to_k_to_r_plus_1": 12.637826480036878
+    },
+    "4": {
+      "k": 10,
+      "moduli": [11, 13, 17, 19],
+      "ratio_to_k_to_r_plus_1": 3.47206
+    }
+  },
+  "decisive_rank_two_witness": {
+    "k": 70,
+    "moduli": [137, 139],
+    "offsets": [67, 69],
+    "prime_gap": 2,
+    "period": 19043,
+    "maximum_prefix_at": 2329,
+    "minimum_prefix_at": 16644,
+    "scaled_maximum_interval_correlation": 11495874,
+    "ratio_to_k_cubed": 33.51566763848397,
+    "ratio_to_k_fourth_over_gap": 0.9575905039566847
+  },
+  "boundary": "Exact integer falsification only. The rank-two witness kills a constant-times-k^(r+1) scale, but is consistent with the proved O(k^(r+2)) bound and does not refute the full signed route."
+}

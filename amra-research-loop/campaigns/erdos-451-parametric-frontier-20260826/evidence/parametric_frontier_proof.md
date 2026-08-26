@@ -284,6 +284,11 @@ other methods for Erdős #451.
 
 ## Evidence classification and remaining gap
 
+Update: the independent natural-proof audit was subsequently followed by the
+kernel-checked construction in `formal/ParametricRanges.lean`.  The earlier
+formalization gap described below is therefore historical; the method-class
+limitations outside the conditional `PI(theta)` theorem remain unchanged.
+
 This document is an author-verified natural proof (AMRA evidence level 4),
 conditional on the named source Theorem 4.1 and `PI(theta)`.  Exact rational
 substitutions were replayed under the memory guard, but finite/symbolic replay

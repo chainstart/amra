@@ -277,27 +277,30 @@ and (18) alone supplies no cancellation between different primes.
 
 There is nevertheless a small unconditional phase-counting consequence.
 
-> **Low inverse-phase counting lemma.**  Let `Q>L>=1`, `L<k`, and `R>=1`.
-> Among primes `k<p<2k` with `p` not dividing `Q`, the number for which
+> **Low one-frequency phase counting lemma.**  Let `Q>L>=1`, `L<k`, and
+> `1<=R<Q`.  Among primes `k<p<2k` with `p` not dividing `Q`, let `B_+` count
+> those for which `hQ congruent a (mod p)`, and let `B_-` count those for
+> which `hQ^{-1} congruent a (mod p)`, for some `1<=h<=L` and some nonzero
+> integer `a` with `|a|<=R`.  Then
 > \[
-> hQ^{-1}\equiv a\pmod p
-> \]
-> for some `1<=h<=L` and some nonzero integer `a` with `|a|<=R` is at most
-> \[
-> 2LR\frac{\log(RQ+L)}{\log k}.                       \tag{22}
+> |B_+|\le2LR\frac{\log(LQ+R)}{\log k},\qquad
+> |B_-|\le2LR\frac{\log(RQ+L)}{\log k}.               \tag{22}
 > \]
 
-Indeed, each such prime divides one of the nonzero integers `h-aQ`; for a
-fixed pair `(h,a)`, the product of its distinct prime divisors exceeding `k`
-is at most `|h-aQ|<=RQ+L`.  Summing the resulting divisor bound proves (22).
-For the canonical `Q_A` with `A=k/log^2 k`, (22) is `o(k/log k)` provided
+Indeed, the first congruence makes `p` divide `hQ-a`, which is nonzero because
+`|a|<Q<=hQ`.  The second makes it divide `h-aQ`, which is nonzero because
+`h<Q<=|a|Q` for positive `a` and is immediate for negative `a`.
+For a fixed pair `(h,a)`, bound the product of its distinct prime divisors
+exceeding `k`, then sum over the `2LR` pairs.
+For the canonical `Q_A` with `A=k/log^2 k`, and for the polylogarithmic
+choices `L,R<Q_A` used below, (22) is `o(k/log k)` provided
 
 \[
  LR=o\left(\frac{\log^2 k}{\log\log k}\right).        \tag{23}
 \]
 
-This controls a finite band of exact small inverse phases for almost all
-remaining primes.  It is still below the natural discrepancy threshold:
+This controls a finite band of exact small primal or inverse phases for almost
+all remaining primes.  It is still below the natural discrepancy threshold:
 an Erdos--Turan treatment of a progression of length `b>=A` needs both a
 frequency cutoff and phase separation on roughly the `k/b<=log^2 k` scale.
 The union bound (22) no longer gives an exceptional set `o(k/log k)` when

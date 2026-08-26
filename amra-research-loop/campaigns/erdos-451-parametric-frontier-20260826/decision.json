@@ -1,7 +1,7 @@
 {
   "outcome": "promote",
   "success_condition": "main_exponent_improved",
-  "reason": "The optimized least-order argument moves the source exponent constant from 1/20 to every c<19/120 at theta=21/40, proves the conditional frontier c*(theta)=(1-theta)/3 in the frozen theta range, and has passed blind natural reconstruction plus a guarded Lean proof of the full BHP corollary.",
+  "reason": "The optimized least-order argument moves the source exponent constant from 1/20 to every c<19/120 at theta=21/40. The guarded Lean development proves the complete conditional frontier c*(theta)=(1-theta)/3 throughout the widened window 9/23<theta<1 under PrimeIntervalInput(theta), while preserving the full BHP corollary. It also proves that the explicitly defined BalancedFourRangeParameters class is feasible exactly on that window (for positive c below the frontier); the theta<=9/23 no-go is confined to this method class and is not a no-go for Erdős #451. The natural argument passed blind reconstruction, and the widened formal result passes clean guarded replay with no sorryAx.",
   "evidence": [
     "evidence/parametric_frontier_proof.md",
     "audit/independent_reconstruction.md",
@@ -10,6 +10,7 @@
     "evidence/lean_parametric_ranges.md",
     "evidence/lean_parametric_ranges.json",
     "evidence/lean_theta_interface_audit.md",
+    "evidence/theta_endpoint_audit.md",
     "formal/verify_guarded.sh"
   ]
 }

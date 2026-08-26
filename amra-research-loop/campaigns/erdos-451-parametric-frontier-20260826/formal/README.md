@@ -19,29 +19,46 @@ Run the replay only through:
 interfaces that do not rely on the numerical BHP exponent: abstract
 `PrimeIntervalInput`, the bad-count-to-divisor bridge, exact four-range
 composition, and strict-margin parameter feasibility for
-`2/5 < theta < 3/5`, `0 < c < (1-theta)/3`.  The remaining obligation for a
-fully abstract theorem is explicitly represented by `ParametricRangeBuilder`;
-it is not introduced as an axiom.  The existing `theta=21/40` theorem is also
-reproved as `erdos451_bhp_frontier_via_interface`.
+`2/5 < theta < 3/5`, `0 < c < (1-theta)/3`.  It exposes the then-remaining
+obligation as `ParametricRangeBuilder` without introducing it as an axiom;
+`ParametricRanges.lean` now discharges that obligation.  The existing
+`theta=21/40` theorem is also reproved as
+`erdos451_bhp_frontier_via_interface`.
 
-`ParametricRanges.lean` now constructs three of the four substantive fields of
-that builder for a variable exponent.  Assuming `0 < theta < 1` and the
-abstract `PrimeIntervalInput theta`, its theorems `ParametricSmall.case_small`,
-`ParametricMed.case_medium`, and `ParametricML.case_mediumlarge` prove the
-small, medium, and medium-large source intervals without `bhp` or any new
-axiom.  The large range remains deliberately outside the compiled checkpoint:
-the fixed upstream `E1exp`, `lamLarge`, `large_card_raw`, and minimal-order
-machinery still have to be replayed with variable `theta`.  In particular the
-replay must keep the exact additive exponent
+`ParametricRanges.lean` now constructs all four substantive fields of the
+builder for a variable exponent.  The small, medium, and medium-large fields
+hold for `0 < theta < 1`; endpoint auditing expands the complete large field
+to the sharp method interval `9/23 < theta < 1`.  Its parameterized
+`E1expAt`, `lamLargeAt`,
+`large_card_raw_at`, logarithmic-margin estimates, and least-admissible-order
+construction use only the abstract `PrimeIntervalInput theta`.  The crucial
+additive exponent is retained exactly as
 
 ```text
 (2-theta-E1(theta,r))/r
   = ((4-theta)r+theta-3)/(r(3r-2))
-  <= (9-2theta)/21 < theta       (r>=3, theta>2/5),
+  <= (9-2theta)/21 < theta       (r>=3, theta>9/23),
 ```
 
 instead of the upstream coarse `(2-theta)/3`, which would unnecessarily
 require `theta>1/2`.
+
+The widest compiled theorem `ParametricLarge.parametric_frontier_wide` states:
+for every `9/23 < theta < 1`, every `0 < c < (1-theta)/3`, and every
+`PrimeIntervalInput theta`, all sufficiently large `k` and all integers
+`2k < n <= exp(c log^2(k)/loglog(k))` admit a prime divisor of `Pprod k n`
+strictly between `k` and `2k`.  It and the complete builder depend only on
+Lean's standard classical/propositional axioms, not on the fixed `bhp` axiom.
+The older `2/5 < theta < 3/5` theorem is retained as a compatibility
+corollary.
+
+`balancedFourRangeParameters_iff` proves the exact feasibility certificate
+for this delimited balanced four-range method (assuming `c>0`): its parameter
+system exists if and only if
+`9/23 < theta`, `theta < 1`, and `c < (1-theta)/3`.  Thus neither changing
+`a,b,q₁,q₃` nor merely moving the existing split points crosses either
+endpoint; a different estimate for the `r=3` additive remainder would be
+needed below `9/23`.
 
 The wrapper enters the shared OpenMath slice with a 30 GiB high watermark,
 34 GiB hard memory limit, 4 GiB swap limit, and 512-task limit before Lake or
