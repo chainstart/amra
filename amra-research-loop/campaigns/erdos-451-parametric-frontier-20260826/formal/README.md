@@ -24,6 +24,25 @@ fully abstract theorem is explicitly represented by `ParametricRangeBuilder`;
 it is not introduced as an axiom.  The existing `theta=21/40` theorem is also
 reproved as `erdos451_bhp_frontier_via_interface`.
 
+`ParametricRanges.lean` now constructs three of the four substantive fields of
+that builder for a variable exponent.  Assuming `0 < theta < 1` and the
+abstract `PrimeIntervalInput theta`, its theorems `ParametricSmall.case_small`,
+`ParametricMed.case_medium`, and `ParametricML.case_mediumlarge` prove the
+small, medium, and medium-large source intervals without `bhp` or any new
+axiom.  The large range remains deliberately outside the compiled checkpoint:
+the fixed upstream `E1exp`, `lamLarge`, `large_card_raw`, and minimal-order
+machinery still have to be replayed with variable `theta`.  In particular the
+replay must keep the exact additive exponent
+
+```text
+(2-theta-E1(theta,r))/r
+  = ((4-theta)r+theta-3)/(r(3r-2))
+  <= (9-2theta)/21 < theta       (r>=3, theta>2/5),
+```
+
+instead of the upstream coarse `(2-theta)/3`, which would unnecessarily
+require `theta>1/2`.
+
 The wrapper enters the shared OpenMath slice with a 30 GiB high watermark,
 34 GiB hard memory limit, 4 GiB swap limit, and 512-task limit before Lake or
 Lean starts.

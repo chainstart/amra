@@ -7,6 +7,8 @@
     "audit/independent_reconstruction.md",
     "audit.json",
     "evidence/lean_parametric_frontier.json",
+    "evidence/lean_parametric_ranges.md",
+    "evidence/lean_parametric_ranges.json",
     "evidence/lean_theta_interface_audit.md",
     "formal/verify_guarded.sh"
   ]

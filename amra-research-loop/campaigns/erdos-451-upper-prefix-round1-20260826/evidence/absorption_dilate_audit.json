@@ -1,0 +1,98 @@
+{
+  "schema_version": "erdos451.absorption_dilate_audit.summary.v1",
+  "guard_unit": "openmath-task-20260826-162123-140740.scope",
+  "guard_command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/absorption_dilate_audit.py",
+  "execution": {
+    "exit_status": 0,
+    "maximum_resident_set_kbytes": 21944,
+    "observed_swaps": 0,
+    "elapsed_wall_clock": "0:07.12"
+  },
+  "memory_limits": {
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "memory_swap_max": "4G"
+  },
+  "absorbers": [
+    "prime_product",
+    "canonical_binomial",
+    "full_rising_factorial",
+    "interval_lcm"
+  ],
+  "exact_global_gap_cases": [
+    {
+      "k": 18,
+      "A": 5,
+      "remaining_primes": [29, 31],
+      "period": 899,
+      "allowed_count": 143,
+      "gap_over_density_scale": {
+        "prime_product": 4.453837597330367,
+        "canonical_binomial": 2.067853170189099,
+        "full_rising_factorial": 2.5450500556173528,
+        "interval_lcm": 1.74972191323693
+      }
+    },
+    {
+      "k": 20,
+      "A": 5,
+      "remaining_primes": [29, 31, 37],
+      "period": 33263,
+      "allowed_count": 1683,
+      "gap_over_density_scale": {
+        "prime_product": 2.9346120313862247,
+        "canonical_binomial": 5.818627303610619,
+        "full_rising_factorial": 10.979496738117428,
+        "interval_lcm": 4.5031115654030005
+      }
+    },
+    {
+      "k": 24,
+      "A": 7,
+      "remaining_primes": [37, 41, 43, 47],
+      "period": 3065857,
+      "allowed_count": 96577,
+      "gap_over_density_scale": {
+        "prime_product": 6.457667464594728,
+        "canonical_binomial": 15.592904365728733,
+        "full_rising_factorial": 3.46508985905083,
+        "interval_lcm": 5.229135605476706
+      }
+    }
+  ],
+  "large_phase_case": {
+    "k": 10000,
+    "A": 117,
+    "remaining_prime_count": 1020,
+    "canonical_binomial": {
+      "log_Q": 634.8223474979892,
+      "mean_abs_centered_Q_mod_p_over_p": 0.25981930363026645,
+      "minimum_abs_centered_Q_mod_p_over_p": 0.0002162473870107403,
+      "minimum_Q_phase_witness": {
+        "p": 13873,
+        "b": 3873,
+        "Q_mod_p": 13870,
+        "centered_Q_mod_p": -3
+      },
+      "maximum_local_AP_gap_ratio_witness": {
+        "p": 13873,
+        "largest_local_cyclic_gap": 3335,
+        "gap_over_density_scale": 931.0498810639372
+      }
+    },
+    "comparison": {
+      "prime_product_mean_abs_centered_phase": 0.24936610818631885,
+      "full_rising_factorial_mean_abs_centered_phase": 0.24442424623711503,
+      "interval_lcm_mean_abs_centered_phase": 0.25058748658318997
+    }
+  },
+  "exact_boundary_witness": {
+    "k": 1000,
+    "A": 20,
+    "p": 1021,
+    "identity": "binom(k+A,A) mod p = 1 because p=k+A+1 and A is even",
+    "inverse_step": 1,
+    "largest_local_cyclic_gap": 1001
+  },
+  "boundary": "All computations are exact finite arithmetic. No absorber dominates the other three in the three exact CRT cases, and the phase summaries are not asymptotic evidence."
+}

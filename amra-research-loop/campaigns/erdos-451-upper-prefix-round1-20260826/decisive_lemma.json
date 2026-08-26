@@ -11,7 +11,10 @@
     "evidence/density_sensitive_block_merge.md",
     "evidence/generic_block_merge_counterexamples.json",
     "evidence/successive_product_phase_summary.json",
-    "evidence/random_subset_character_audit.md"
+    "evidence/random_subset_character_audit.md",
+    "evidence/many_seed_fixed_prefix_audit.md",
+    "evidence/dilated_ap_gap_search.json",
+    "evidence/absorption_dilate_audit.json"
   ],
   "dependency_gaps": [
     "The proved bound retains the full exp((1+o(1))k) scale and therefore satisfies none of the campaign promotion conditions.",
@@ -25,6 +28,11 @@
     "A proved one-prime phase-aware discrepancy lemma records the exact rational-rotation phase sum, but actual successive products can have Q mod p=+-1 and maximal-scale interval discrepancy.",
     "The oracle discrepancy-greedy ordering has a favorable finite cumulative proxy, but no deterministic ordering theorem is proved and the orbit of one seed b+tQ does not control the many distinct old seeds inside a short prefix without first paying Q.",
     "The exact random-subset Fourier coefficient is product_q(1+chi(q))/2; exponential mixing would follow from a uniform prime-character gap at moduli p asymptotic to k. Such an unconditional input is not certified here, GRH would be conditional, and even perfect phase mixing does not supply the separate many-seed fixed-prefix transfer.",
-    "The elementary bad-phase divisor-counting lemma only guarantees avoidance of hQ congruent to small a for an initial O(m/(HA)) range of stages and cannot control the middle and late merges."
+    "The elementary bad-phase divisor-counting lemma only guarantees avoidance of hQ congruent to small a for an initial O(m/(HA)) range of stages and cannot control the middle and late merges.",
+    "The proved pair-collision average sum_p(E_p-N)<=N(N-1)floor(log(H-1)/log k) becomes vacuous as soon as H>k because the number of remaining interval primes is less than k.",
+    "The proved additive large-sieve bound gives only N=O(H log k/k) for a macroscopic remaining set and therefore stalls after O(log k) old half-density constraints; the proved boundary-variation bound can accumulate with one sign over linearly many old blocks.",
+    "The exact coordinates p=k+a and n=2k+t give t mod p in [a+1,2a], while quotient layers leave gaps of length k/(q+2). Multiplying those gaps back by q+2 recovers exactly the original requirement that (n-k,n) contain no interval-prime multiple, so this is not yet an upper-bound compression.",
+    "The canonical absorber Q_A=binom(k+A,A) costs exp(o(k)) and gives the exact inverse-binomial step c_p=((-1)^A binom(p-k-1,A))^{-1}. Its finite-difference identities and the proved low inverse-phase counting lemma do not control the many-seed maximum gap at the natural log^2 k discrepancy scale.",
+    "A correlated inverse-binomial fixed-prefix gap bound with loss at most k^B(log k)^{Cm} times product p/(p-k) would imply n_k=exp(o(k)), but this sufficient bridge is open and is not recorded as a closed result."
   ]
 }

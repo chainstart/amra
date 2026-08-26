@@ -1,0 +1,63 @@
+{
+  "mathematical_status": "three_of_four_ranges_formalized",
+  "machine_reproduced": true,
+  "theta_scope": "all real theta with 0 < theta < 1, conditional on PrimeIntervalInput(theta)",
+  "proved_theorems": [
+    "ParametricSmall.case_small",
+    "ParametricMed.case_medium",
+    "ParametricML.case_mediumlarge"
+  ],
+  "remaining_builder_field": "large",
+  "large_blocker": "Parameterize E1exp, lamLarge, large_card_raw and the r0/minimal-order chain while retaining additive exponent ((4-theta)r+theta-3)/(r(3r-2)) <= (9-2theta)/21 < theta.",
+  "guard": {
+    "wrapper": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "unit": "openmath-task-20260826-162839-143852.scope",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "swap_max": "4G",
+    "tasks_max": 512
+  },
+  "replay": {
+    "command": "cd formal && bash verify_guarded.sh",
+    "exit_status": 0,
+    "ranges_wall_seconds": 4.37,
+    "ranges_peak_rss_kib": 920408,
+    "whole_replay_peak_rss_kib": 6668020,
+    "swap_count": 0,
+    "logs": [
+      "formal/logs/ranges-build.log",
+      "formal/logs/ranges-attempts-20260826.md",
+      "formal/logs/final-sha256.txt"
+    ]
+  },
+  "axioms": {
+    "ParametricSmall.case_small": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricMed.case_medium": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricML.case_mediumlarge": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "sorryAx_present": false,
+    "bhp_present_in_three_range_theorems": false
+  },
+  "source_sha256": {
+    "formal/ParametricRanges.lean": "1c540277b7c8ade1beb89e1e1edfb8a9839b7049f2f907676cdc3d8ecb6d4e4d",
+    "formal/ParametricInterface.lean": "1e26f0f1d2665e20ad2b5c7c6b7ebe93894e5ec712967104d74630376d451efe",
+    "formal/lakefile.toml": "2ab8618c84e5370963d53afe5e63736e8289edc3e471897564283aab06f6ad7c",
+    "formal/lake-manifest.json": "4f88144c9db6bab6b1e0a7447a9e58bf4627b340fcc2fd9ef102a0925410cd0b"
+  },
+  "campaign_validation": {
+    "phase": "promotion",
+    "valid": true,
+    "errors": []
+  }
+}

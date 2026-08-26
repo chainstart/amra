@@ -13,11 +13,12 @@
     "audit/adversarial_self_audit.md: adversarial author audit, explicitly not independent.",
     "audit/independent_reconstruction.md and audit.json: blind reconstruction, statement match, and dependency audit passed.",
     "evidence/lean_parametric_frontier.json: guarded Lean proof of the full theta=21/40 theorem for every real 0<c<19/120.",
-    "evidence/lean_theta_interface_audit.md: guarded parameter-interface extraction and exact general-theta blocker."
+    "evidence/lean_theta_interface_audit.md: guarded parameter-interface extraction and exact general-theta blocker.",
+    "evidence/lean_parametric_ranges.md and evidence/lean_parametric_ranges.json: guarded Lean construction of the small, medium, and medium-large fields for every 0<theta<1 under PrimeIntervalInput(theta)."
   ],
   "dependency_gaps": [
     "The abstract theta theorem assumes PI(theta); the theta=21/40 corollary imports the Baker--Harman--Pintz short-prime input exactly as the source paper does.",
-    "Lean formalizes the unconditional theta=21/40 attaining theorem and the general PI(theta) interface. The exact remaining obligation is ParametricRangeBuilder theta c, a replay of the four fixed-exponent source ranges from abstract PrimeIntervalInput theta; the full abstract theorem and delimited no-go theorem remain independently audited natural proofs.",
+    "Lean formalizes the unconditional theta=21/40 attaining theorem, the general PI(theta) interface, and three of the four ParametricRangeBuilder source ranges (small, medium, and medium-large) for every 0<theta<1. The exact remaining builder obligation is the large range: parameterize E1exp, lamLarge, large_card_raw, and the least-order chain while retaining the sharp additive exponent ((4-theta)r+theta-3)/(r(3r-2)) <= (9-2theta)/21 < theta for theta>2/5. The full abstract theorem and delimited no-go theorem remain independently audited natural proofs.",
     "Novelty and publication priority remain unchecked."
   ]
 }

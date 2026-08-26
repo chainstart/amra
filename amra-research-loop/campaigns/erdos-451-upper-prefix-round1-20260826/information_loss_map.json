@@ -53,6 +53,30 @@
       "loss_step": "Average the proof order or the old-prime subset and retain only the multiplicative character law of Q_old mod p.",
       "lost_information": "The fixed intermediate survivor set B_S cap J and the joint correlation between its representatives and the randomized subset product.",
       "consequence": "The exact Fourier coefficient product_q(1+chi(q))/2 can mix under a strong prime-character gap, conditionally for example under GRH, but this only randomizes a period step. It cannot imply a point in the distinguished short prefix without a separate many-seed transfer theorem."
+    },
+    {
+      "method": "Pair-collision and absolute additive-energy ledger for X=B_S cap J",
+      "loss_step": "Retain only exact congruence collisions x congruent y mod p, or only the absolute squares of the Fourier coefficients at h/p.",
+      "lost_information": "The phases of different Fourier modes and the common endpoint of the length-k forbidden blocks.",
+      "consequence": "The exact pair ledger is vacuous once H>k. The additive large sieve improves this only to N=O(H log k/k), which can contradict at most O(log k) prior half-density losses rather than Theta(k/log k) losses."
+    },
+    {
+      "method": "Absolute boundary variation of the old CRT indicator",
+      "loss_step": "Bound the discrepancy against the next cyclic interval separately on every connected component of B_S cap J and add absolute values.",
+      "lost_information": "The relative phase of consecutive old blocks; aligned blocks can have errors of the same sign for a long run.",
+      "consequence": "The valid variation bound pays order |S|H/k boundary changes, overwhelming the rare main term. Any useful boundary theorem must exploit signed phase cancellation rather than component count alone."
+    },
+    {
+      "method": "Start-equals-width quotient intervals",
+      "loss_step": "Rewrite p=k+a and n=2k+t, then organize admissible primes by q=floor(t/p).",
+      "lost_information": "None at the algebraic level; the resulting prime-free gaps are exactly a reindexing of the original multiple-free interval.",
+      "consequence": "The gaps have length k/(q+2), but prime-gap upper bounds obstruct small t instead of constructing t; at subexponential t their lengths fall below one. A simultaneous prime-free-gap construction would be essentially the missing theorem."
+    },
+    {
+      "method": "Narrow-prime absorption followed by phase-blind dilated-AP bounds",
+      "loss_step": "After setting n=Q_A t, replace c_p=Q_A^{-1} mod p by an arbitrary unit at every remaining prime.",
+      "lost_information": "For Q_A=binom(k+A,A), the exact correlation Q_A=(-1)^A binom(p-k-1,A) mod p and its degree-A finite-difference structure.",
+      "consequence": "Arbitrary dilates can enlarge cyclic gaps and no tested absorber dominates. The correlated inverse-binomial structure must be retained, but its current low-phase divisor bound misses the natural discrepancy scale."
     }
   ],
   "required_new_information": [
@@ -62,6 +86,7 @@
     "For any geometry-of-numbers route, an orthant-sensitive lattice bound whose dimension loss is exp(o(k)), together with a proof that it controls the positive n-coordinate.",
     "For block recursion, a short-prefix projection or carry-control lemma showing that O(exp(block_size)) old candidates expand against the next CRT interval box without first enumerating a full old period.",
     "For any phase-ordering route, a deterministic bound on the cumulative interval discrepancy of Q_old mod p_new together with a separate proof that this one-orbit ledger controls the many distinct seeds in the fixed short prefix.",
-    "For a random-subset route, an unconditional uniform multiplicative-character gap for prime candidates at modulus p asymptotic to k, or a replacement avoiding that analytic input; this still must be paired with the many-seed fixed-prefix transfer."
+    "For a random-subset route, an unconditional uniform multiplicative-character gap for prime candidates at modulus p asymptotic to k, or a replacement avoiding that analytic input; this still must be paired with the many-seed fixed-prefix transfer.",
+    "For the canonical absorption route, a pointwise correlated inverse-binomial gap theorem for c_p=((-1)^A binom(p-k-1,A))^{-1}, with total loss at most exp(O(m log log k)) times the reciprocal-density scale."
   ]
 }
