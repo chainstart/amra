@@ -5,7 +5,7 @@
   "title": "Parametric frontier of the van Doorn--Tang/Konyagin--BHP lower-bound method",
   "phase": "promotion",
   "created_at": "2026-08-26T06:17:08+00:00",
-  "updated_at": "2026-08-26T07:24:23+00:00",
+  "updated_at": "2026-08-26T11:36:01+00:00",
   "gates": {
     "min_representation_families": 4,
     "min_representations": 8,
@@ -66,6 +66,12 @@
       "event": "advanced",
       "from": "independent_audit",
       "phase": "promotion"
+    },
+    {
+      "at": "2026-08-26T11:36:01+00:00",
+      "event": "post_promotion_formal_extension",
+      "phase": "promotion",
+      "result": "Kernel-checked the complete adaptive ParametricRangeBuilder and PI(theta)-conditional frontier for 0<theta<1 without changing the unconditional BHP constant 19/120."
     }
   ]
 }

@@ -51,6 +51,25 @@ for theorem in \
   ParametricLarge.adaptiveFrontierParameters_iff \
   ParametricLarge.adaptiveLogV_le_logU \
   ParametricLarge.adaptive_log_selection_budget \
+  ParametricLarge.adaptiveLambdaAt_pow \
+  ParametricLarge.adaptiveLambdaAt_ge_one \
+  ParametricLarge.adaptive_mass_mul_lambda_pow \
+  ParametricLarge.adaptive_actual_selection_budget \
+  ParametricLarge.exists_min_adaptive_stopping_order \
+  ParametricLarge.adaptive_preceding_failure_log_lower \
+  ParametricLarge.adaptive_additive_term_eventual \
+  ParametricLarge.adaptiveT3At_eventual \
+  ParametricLarge.large_card_raw_adaptive_selected_at \
+  ParametricLarge.adaptive_bad_set_asymptotic_of_budgets \
+  ParametricLarge.r0Param_eventual_adaptive_admissible_at \
+  ParametricLarge.adaptive_small_orders_fail_eventual \
+  ParametricLarge.r0Param_eventual_adaptive_bounds_at \
+  ParametricLarge.adaptiveAnalyticParameters_of_wide \
+  ParametricLarge.hasAdaptiveLargeCertificateAt_of_parameters \
+  ParametricLarge.case_large_adaptive_at \
+  ParametricLarge.adaptiveRangePackage_of_parameters \
+  ParametricLarge.parametricRangeBuilder_adaptive \
+  ParametricLarge.parametric_frontier_adaptive \
   ParametricLarge.adaptive_parameter_certificate_wide \
   ParametricLarge.parametricRangeBuilder_wide \
   ParametricLarge.parametric_frontier_wide

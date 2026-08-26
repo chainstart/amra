@@ -1,128 +1,96 @@
 {
-  "mathematical_status": "complete_widest_balanced_four_range_builder_formalized",
+  "mathematical_status": "complete_adaptive_four_range_builder_formalized",
   "machine_reproduced": true,
-  "theorem": "ParametricLarge.parametric_frontier_wide",
-  "statement": "For every real theta,c with 9/23<theta<1 and 0<c<(1-theta)/3, PrimeIntervalInput(theta) implies that for all sufficiently large natural k and every integer n with 2k<n<=exp(c*log(k)^2/log(log(k))), there is a prime p with k<p<2k dividing Pprod k n.",
-  "compatibility_corollary": "ParametricLarge.parametric_frontier_complete",
-  "compatibility_window": "2/5<theta<3/5",
-  "builder": "ParametricLarge.parametricRangeBuilder_wide",
-  "large_chain": [
-    "E1expAt",
-    "lamLargeAt",
-    "additiveExpAt_balanced",
-    "additiveExpAt_le_sharp",
-    "sharpAddExp_lt_theta_iff",
-    "lamLargeAt_lt_exact",
-    "large_card_raw_at",
-    "large_asym_of_margins_at",
-    "r0Param_eventual_bounds_at",
-    "r0Param_eventual_admissible_at",
-    "hasLargeMarginCertificateAt_of_parameters",
-    "case_large_of_margin_certificate_at"
+  "theorem": "ParametricLarge.parametric_frontier_adaptive",
+  "statement": "For every real theta,c with 0<theta<1 and 0<c<(1-theta)/3, PrimeIntervalInput(theta) implies that for all sufficiently large natural k and every integer n with 2k<n<=exp(c*log(k)^2/log(log(k))), there is a prime p with k<p<2k dividing Pprod k n.",
+  "builder": "ParametricLarge.parametricRangeBuilder_adaptive",
+  "large_case": "ParametricLarge.case_large_adaptive_at",
+  "range_package": "ParametricLarge.adaptiveRangePackage_of_parameters",
+  "compatibility_theorems": [
+    "ParametricLarge.parametric_frontier_wide",
+    "ParametricLarge.parametric_frontier_complete"
   ],
-  "sharp_exponent": {
-    "exact": "((4-theta)*r+theta-3)/(r*(3*r-2))",
-    "uniform_bound": "(9-2*theta)/21",
-    "strict_absorption_condition": "theta>9/23",
-    "equivalence_theorem": "ParametricLarge.sharpAddExp_lt_theta_iff",
-    "coarse_additive_bound_used": false
+  "adaptive_chain": [
+    "adaptiveUAt/adaptiveVAt/adaptiveZAt/adaptiveLambdaAt",
+    "adaptiveLambdaAt_pow",
+    "adaptiveLambdaAt_ge_one",
+    "adaptive_mass_mul_lambda_pow",
+    "exists_min_adaptive_stopping_order",
+    "adaptive_preceding_failure_log_lower",
+    "adaptive_actual_selection_budget",
+    "adaptive_additive_term_eventual",
+    "adaptiveT3At_eventual",
+    "large_card_raw_adaptive_selected_at",
+    "adaptive_bad_set_asymptotic_of_budgets",
+    "r0Param_eventual_adaptive_admissible_at",
+    "adaptive_small_orders_fail_eventual",
+    "r0Param_eventual_adaptive_bounds_at",
+    "adaptiveAnalyticParameters_of_wide",
+    "hasAdaptiveLargeCertificateAt_of_parameters",
+    "case_large_adaptive_at",
+    "adaptiveRangePackage_of_parameters",
+    "parametricRangeBuilder_adaptive",
+    "parametric_frontier_adaptive"
+  ],
+  "actual_scale": {
+    "U_r": "k^(r+1)*log(k)^(-Q*(2r-1))",
+    "V_r": "k^(r+theta)*log(k)^(Q*(r-1))",
+    "Z_r": "max(n*r!,V_r)",
+    "lambda_r": "(Z_r/(n*r!))^(1/r)",
+    "stopping_rule": "least r with n*r!<=U_r"
   },
-  "method_feasibility": {
-    "predicate": "ParametricLarge.BalancedFourRangeParameters",
-    "exact_equivalence": "For c>0, BalancedFourRangeParameters theta c iff 9/23<theta and theta<1 and c<(1-theta)/3",
-    "equivalence_theorem": "ParametricLarge.balancedFourRangeParameters_iff",
-    "lower_no_go": "ParametricLarge.balancedFourRange_no_go_low",
-    "upper_no_go": "ParametricLarge.balancedFourRange_no_go_high",
-    "scope": "The no-go certificate is only for the explicitly defined balanced four-range parameter method, not Erdős problem 451 or all possible refinements."
+  "proved_budgets": [
+    "T1<=log(k)^(-Q)",
+    "T2<=log(k)^(-Q)",
+    "lambda<=k^(theta/r)*log(k)^(3Q)",
+    "T3<=log(k)^(-q) uniformly for r>=2",
+    "2*r*lambda=o(k^theta/log(k))",
+    "badSetAt(theta,k,n)=o(k^theta/log(k))"
+  ],
+  "parameter_window": {
+    "theta": "0<theta<1",
+    "c": "0<c<(1-theta)/3",
+    "margins": "c<a<b<(1-theta)/3, 1<Q, 3Qb<1-theta, 1<q, 2qb<1-theta/2"
   },
-  "adaptive_parameter_core": {
-    "mathematical_status": "kernel_checked_logarithmic_parameter_core_not_final_builder",
-    "window": "0<theta<1 and 0<c<(1-theta)/3",
-    "parameter_predicate": "ParametricLarge.AdaptiveFrontierParameters",
-    "parameter_equivalence": "For c>0, AdaptiveFrontierParameters theta c iff theta<1 and c<(1-theta)/3",
-    "definitions": [
-      "ParametricLarge.adaptiveLogU",
-      "ParametricLarge.adaptiveLogV",
-      "ParametricLarge.adaptiveLogZ",
-      "ParametricLarge.adaptiveLogT1",
-      "ParametricLarge.adaptiveLogT2",
-      "ParametricLarge.adaptiveLogLambda"
-    ],
-    "theorems": [
-      "ParametricLarge.large_card_raw_adaptive_at",
-      "ParametricLarge.adaptiveFrontierParameters_of_wide",
-      "ParametricLarge.adaptiveFrontierParameters_iff",
-      "ParametricLarge.adaptiveLogV_le_logU",
-      "ParametricLarge.adaptive_log_selection_budget",
-      "ParametricLarge.adaptive_parameter_certificate_wide"
-    ],
-    "proved_budgets": [
-      "log(V_r)<=log(U_r)",
-      "log(T1)<=-Q*loglog(k)",
-      "log(T2)<=-Q*loglog(k)",
-      "log(lambda)<=(theta/r)*log(k)+3Q*loglog(k)"
-    ],
-    "raw_konyagin_interface": "ParametricLarge.large_card_raw_adaptive_at kernel-checks the upstream estimate for arbitrary real lambda>=1 and r>=2, without balanced-scale or nr!<=k^(r+theta) assumptions.",
-    "remaining_glue": "A final 0<theta<1 ParametricRangeBuilder still requires lifting the logarithmic max selection to an actual positive-real lambda, constructing the least stopping order with its factorial inequalities, and proving the adaptive uniform third/additive-term asymptotics. No wider final divisor theorem is claimed."
+  "interpretation": {
+    "balanced_lower_endpoint": "The former theta>9/23 restriction is an artifact of balanced lambda and is removed by the adaptive construction.",
+    "bhp_corollary": "At theta=21/40 the theorem still gives every c<19/120; the unconditional BHP constant is not improved.",
+    "erdos451_status": "The Erdős 451 problem is not closed; this is a lower-bound theorem conditional on PrimeIntervalInput(theta), with BHP supplying theta=21/40."
   },
   "guard": {
     "wrapper": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
-    "unit": "openmath-task-20260826-184348-204220.scope",
+    "unit": "openmath-task-20260826-193041-222943.scope",
     "memory_high": "30G",
     "memory_max": "34G",
     "swap_max": "4G",
     "tasks_max": 512
   },
   "replay": {
-    "command": "cd formal && bash verify_guarded.sh",
+    "command": "cd formal && ./verify_guarded.sh",
     "exit_status": 0,
-    "ranges_wall_seconds": 88.55,
-    "ranges_peak_rss_kib": 6997116,
-    "whole_replay_peak_rss_kib": 6997116,
+    "ranges_wall_seconds": 94.89,
+    "ranges_peak_rss_kib": 7106780,
+    "whole_replay_peak_rss_kib": 7106780,
     "swap_count": 0,
     "logs": [
       "formal/logs/ranges-build.log",
       "formal/logs/frontier-build.log",
+      "formal/logs/interface-build.log",
       "formal/logs/final-sha256.txt"
     ]
   },
   "axioms": {
-    "ParametricLarge.parametric_frontier_wide": [
+    "ParametricLarge.parametric_frontier_adaptive": [
       "propext",
       "Classical.choice",
       "Quot.sound"
     ],
-    "ParametricLarge.balancedFourRangeParameters_iff": [
+    "ParametricLarge.parametricRangeBuilder_adaptive": [
       "propext",
       "Classical.choice",
       "Quot.sound"
     ],
-    "ParametricLarge.balancedFourRange_no_go_low": [
-      "propext",
-      "Classical.choice",
-      "Quot.sound"
-    ],
-    "ParametricLarge.balancedFourRange_no_go_high": [
-      "propext",
-      "Classical.choice",
-      "Quot.sound"
-    ],
-    "ParametricLarge.adaptiveFrontierParameters_iff": [
-      "propext",
-      "Classical.choice",
-      "Quot.sound"
-    ],
-    "ParametricLarge.large_card_raw_adaptive_at": [
-      "propext",
-      "Classical.choice",
-      "Quot.sound"
-    ],
-    "ParametricLarge.adaptive_log_selection_budget": [
-      "propext",
-      "Classical.choice",
-      "Quot.sound"
-    ],
-    "ParametricLarge.adaptive_parameter_certificate_wide": [
+    "ParametricLarge.case_large_adaptive_at": [
       "propext",
       "Classical.choice",
       "Quot.sound"
@@ -132,9 +100,9 @@
     "new_unexplained_axiom_present": false
   },
   "source_sha256": {
-    "formal/ParametricRanges.lean": "72dc11234659507a96650729a3c3026a00f170f66cb6259d8eb56678524e91a4",
+    "formal/ParametricRanges.lean": "f53b140146ab60348880a0d6c15cd8dafe756e62bb1a6701a197ce6a5ff6ea1c",
     "formal/ParametricInterface.lean": "1e26f0f1d2665e20ad2b5c7c6b7ebe93894e5ec712967104d74630376d451efe",
-    "formal/verify_inside_guard.sh": "2dbb4ed4e798c0ef7e42afc5b19f476660788445a056895cccd9cf31de720bb2",
+    "formal/verify_inside_guard.sh": "8b1bc088494b365a6651985bab53f75d14bcfc752b1e77bd6a07c6eb13f9ecaa",
     "formal/lakefile.toml": "2ab8618c84e5370963d53afe5e63736e8289edc3e471897564283aab06f6ad7c",
     "formal/lake-manifest.json": "4f88144c9db6bab6b1e0a7447a9e58bf4627b340fcc2fd9ef102a0925410cd0b"
   }

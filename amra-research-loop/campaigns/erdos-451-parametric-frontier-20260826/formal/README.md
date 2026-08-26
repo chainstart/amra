@@ -43,28 +43,32 @@ additive exponent is retained exactly as
 instead of the upstream coarse `(2-theta)/3`, which would unnecessarily
 require `theta>1/2`.
 
-The widest compiled theorem `ParametricLarge.parametric_frontier_wide` states:
-for every `9/23 < theta < 1`, every `0 < c < (1-theta)/3`, and every
-`PrimeIntervalInput theta`, all sufficiently large `k` and all integers
-`2k < n <= exp(c log^2(k)/loglog(k))` admit a prime divisor of `Pprod k n`
-strictly between `k` and `2k`.  It and the complete builder depend only on
-Lean's standard classical/propositional axioms, not on the fixed `bhp` axiom.
-The older `2/5 < theta < 3/5` theorem is retained as a compatibility
-corollary.
+The balanced theorem `ParametricLarge.parametric_frontier_wide` states this
+for `9/23 < theta < 1`; it is retained, together with the older
+`2/5 < theta < 3/5` theorem, as a compatibility result.  The adaptive theorem
+below is now the widest compiled result.  All three depend only on Lean's
+standard classical/propositional axioms, not on the fixed `bhp` axiom.
 
-The file now also contains a kernel-checked **adaptive unbalanced parameter
-core** on the full natural window
+The file now also contains a kernel-checked **complete adaptive unbalanced
+builder** on the full natural window
 
 ```text
 0 < theta < 1,    0 < c < (1-theta)/3.
 ```
 
-`AdaptiveFrontierParameters` proves exact feasibility of fixed `Q,a` with
-`1<Q`, `c<a`, and `3Qa<1-theta`.  The definitions `adaptiveLogU`,
-`adaptiveLogV`, and `adaptiveLogZ` encode the logarithms of the natural-proof
-scales `U_r`, `V_r`, and `max(nr!,V_r)`.  The theorem
-`adaptive_log_selection_budget` proves from the stopping and minimality
-inequalities that
+The actual scale is defined in Lean by
+
+```text
+U_r = k^(r+1) log(k)^(-Q(2r-1)),
+V_r = k^(r+theta) log(k)^(Q(r-1)),
+Z_r = max(n r!,V_r),
+lambda_r = (Z_r/(n r!))^(1/r).
+```
+
+Lean proves `lambda_r^r=Z_r/(n r!)`, `lambda_r>=1`, constructs the least
+stopping order with `n r!<=U_r`, and transports its preceding-order failure
+to the exact logarithmic lower bound.  `adaptive_actual_selection_budget`
+then proves
 
 ```text
 log V_r <= log U_r,
@@ -73,14 +77,24 @@ log T2 <= -Q loglog(k),
 log lambda <= (theta/r) log(k) + 3Q loglog(k).
 ```
 
-This removes `theta>9/23` from the kernel-checked parameter algebra.  It does
-not yet change the widest compiled final divisor theorem: the existing
-balanced wrapper hardcodes `lamLargeAt`, but
-`large_card_raw_adaptive_at` now separately exposes the upstream Konyagin
-estimate for arbitrary real `lambda>=1` and every `r>=2`.  Completing the
-adaptive final builder still requires lifting the logarithmic max selection
-to an actual positive real `lambda`, constructing the least stopping order,
-and proving the analytic third/additive-term asymptotics.
+The unified `r>=2` third-term bound and the additive-term estimate are proved
+eventually, with no bounded-order gap.  The selected scale is substituted
+exactly into the upstream arbitrary-real-`lambda` Konyagin theorem, yielding
+`adaptive_bad_set_asymptotic_of_budgets`.  The resulting
+`parametricRangeBuilder_adaptive` constructs all four ranges, and
+`parametric_frontier_adaptive` proves under `PrimeIntervalInput theta`:
+
+```text
+0 < theta < 1,  0 < c < (1-theta)/3
+----------------------------------------------------------
+eventually every 2k<n<=exp(c log^2(k)/loglog(k)) has
+a prime divisor p of Pprod(k,n) with k<p<2k.
+```
+
+Thus `9/23` is confirmed as an artifact of the balanced scale, not a lower
+endpoint of the larger adaptive old-proof architecture.  This does not
+increase the unconditional BHP value: `theta=21/40` still gives exactly every
+`c<19/120`.
 
 `balancedFourRangeParameters_iff` proves the exact feasibility certificate
 for this delimited balanced four-range method (assuming `c>0`): its parameter

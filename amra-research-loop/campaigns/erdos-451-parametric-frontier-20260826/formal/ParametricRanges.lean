@@ -1861,6 +1861,85 @@ lemma large_card_raw_adaptive_at (ϑ lam : ℝ)
         2 * (r : ℝ) * lam := by
   exact konyagin_application lam ϑ hlam hϑ0 hϑ1 n k r hkn hr2 hrle
 
+/-- Actual adaptive upper stopping scale
+`U_r=k^(r+1) log(k)^(-Q(2r-1))`. -/
+def adaptiveUAt (Q : ℝ) (k r : ℕ) : ℝ :=
+  (k : ℝ) ^ ((r : ℝ) + 1) *
+    (Real.log k) ^ (-Q * (2 * (r : ℝ) - 1))
+
+/-- Actual adaptive lower balancing scale
+`V_r=k^(r+theta) log(k)^(Q(r-1))`. -/
+def adaptiveVAt (ϑ Q : ℝ) (k r : ℕ) : ℝ :=
+  (k : ℝ) ^ ((r : ℝ) + ϑ) *
+    (Real.log k) ^ (Q * ((r : ℝ) - 1))
+
+/-- The selected powered numerator `Z=max(n r!,V_r)`. -/
+def adaptiveZAt (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ) : ℝ :=
+  max ((n : ℝ) * (Nat.factorial r : ℝ)) (adaptiveVAt ϑ Q k r)
+
+/-- The positive real adaptive Konyagin scale satisfying
+`lambda^r=Z/(n r!)`. -/
+def adaptiveLambdaAt (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ) : ℝ :=
+  (adaptiveZAt ϑ Q k n r /
+      ((n : ℝ) * (Nat.factorial r : ℝ))) ^ ((r : ℝ)⁻¹)
+
+def adaptiveT1At (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ) : ℝ :=
+  (adaptiveZAt ϑ Q k n r / (k : ℝ) ^ ((r : ℝ) + 1)) ^
+    ((2 * (r : ℝ) - 1)⁻¹)
+
+def adaptiveT2At (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ) : ℝ :=
+  ((k : ℝ) ^ ((r : ℝ) + ϑ) / adaptiveZAt ϑ Q k n r) ^
+    (((r : ℝ) - 1)⁻¹)
+
+def adaptiveT3At (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ) : ℝ :=
+  (((r : ℝ) + 1) * adaptiveLambdaAt ϑ Q k n r / (k : ℝ)) ^
+    ((2 * (r : ℝ))⁻¹)
+
+lemma adaptiveUAt_pos (Q : ℝ) (k r : ℕ) (hk : 1 < k) :
+    0 < adaptiveUAt Q k r := by
+  unfold adaptiveUAt
+  exact mul_pos (Real.rpow_pos_of_pos (by positivity) _)
+    (Real.rpow_pos_of_pos (Real.log_pos (by exact_mod_cast hk)) _)
+
+lemma adaptiveVAt_pos (ϑ Q : ℝ) (k r : ℕ) (hk : 1 < k) :
+    0 < adaptiveVAt ϑ Q k r := by
+  unfold adaptiveVAt
+  exact mul_pos (Real.rpow_pos_of_pos (by positivity) _)
+    (Real.rpow_pos_of_pos (Real.log_pos (by exact_mod_cast hk)) _)
+
+lemma adaptiveZAt_pos (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hk : 1 < k) : 0 < adaptiveZAt ϑ Q k n r := by
+  exact (adaptiveVAt_pos ϑ Q k r hk).trans_le (le_max_right _ _)
+
+lemma adaptiveLambdaAt_pow (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hk : 1 < k) (hn : 0 < n) (hr : 1 ≤ r) :
+    (adaptiveLambdaAt ϑ Q k n r) ^ r =
+      adaptiveZAt ϑ Q k n r /
+        ((n : ℝ) * (Nat.factorial r : ℝ)) := by
+  have hbase : 0 < adaptiveZAt ϑ Q k n r /
+      ((n : ℝ) * (Nat.factorial r : ℝ)) := by
+    exact div_pos (adaptiveZAt_pos ϑ Q k n r hk) (by positivity)
+  unfold adaptiveLambdaAt
+  rw [← Real.rpow_natCast, ← Real.rpow_mul hbase.le]
+  norm_num [show r ≠ 0 by omega]
+
+lemma adaptiveLambdaAt_ge_one (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hn : 0 < n) (hr : 1 ≤ r) :
+    1 ≤ adaptiveLambdaAt ϑ Q k n r := by
+  unfold adaptiveLambdaAt
+  refine Real.one_le_rpow ?_ (by positivity)
+  rw [one_le_div (by positivity)]
+  exact le_max_left _ _
+
+lemma adaptive_mass_mul_lambda_pow (ϑ Q : ℝ)
+    (k : ℕ) (n : ℤ) (r : ℕ) (hk : 1 < k) (hn : 0 < n)
+    (hr : 1 ≤ r) :
+    (n : ℝ) * (Nat.factorial r : ℝ) *
+        (adaptiveLambdaAt ϑ Q k n r) ^ r =
+      adaptiveZAt ϑ Q k n r := by
+  rw [adaptiveLambdaAt_pow ϑ Q k n r hk hn hr]
+  field_simp
+
 def adaptiveLogU (Q K M : ℝ) (r : ℕ) : ℝ :=
   ((r : ℝ) + 1) * K - Q * (2 * (r : ℝ) - 1) * M
 
@@ -1880,6 +1959,103 @@ def adaptiveLogT2 (ϑ Q K M logN : ℝ) (r : ℕ) : ℝ :=
 
 def adaptiveLogLambda (ϑ Q K M logN : ℝ) (r : ℕ) : ℝ :=
   (adaptiveLogZ ϑ Q K M logN r - logN) / (r : ℝ)
+
+lemma log_adaptiveUAt (Q : ℝ) (k r : ℕ) (hk : 1 < k) :
+    Real.log (adaptiveUAt Q k r) =
+      adaptiveLogU Q (Real.log k) (Real.log (Real.log k)) r := by
+  have hkR : (1 : ℝ) < (k : ℝ) := by exact_mod_cast hk
+  have hlog : 0 < Real.log (k : ℝ) := Real.log_pos hkR
+  unfold adaptiveUAt adaptiveLogU
+  rw [Real.log_mul (by positivity)
+      (ne_of_gt (Real.rpow_pos_of_pos hlog _)),
+    Real.log_rpow (by positivity),
+    Real.log_rpow hlog]
+  ring
+
+lemma log_adaptiveVAt (ϑ Q : ℝ) (k r : ℕ) (hk : 1 < k) :
+    Real.log (adaptiveVAt ϑ Q k r) =
+      adaptiveLogV ϑ Q (Real.log k) (Real.log (Real.log k)) r := by
+  have hkR : (1 : ℝ) < (k : ℝ) := by exact_mod_cast hk
+  have hlog : 0 < Real.log (k : ℝ) := Real.log_pos hkR
+  unfold adaptiveVAt adaptiveLogV
+  rw [Real.log_mul (by positivity)
+      (ne_of_gt (Real.rpow_pos_of_pos hlog _)),
+    Real.log_rpow (by positivity),
+    Real.log_rpow hlog]
+
+lemma log_adaptiveZAt (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hk : 1 < k) (hn : 0 < n) :
+    Real.log (adaptiveZAt ϑ Q k n r) =
+      adaptiveLogZ ϑ Q (Real.log k) (Real.log (Real.log k))
+        (Real.log ((n : ℝ) * (Nat.factorial r : ℝ))) r := by
+  have hN : 0 < (n : ℝ) * (Nat.factorial r : ℝ) := by positivity
+  have hV := adaptiveVAt_pos ϑ Q k r hk
+  by_cases hNV : (n : ℝ) * (Nat.factorial r : ℝ) ≤
+      adaptiveVAt ϑ Q k r
+  · have hlogNV : Real.log ((n : ℝ) * (Nat.factorial r : ℝ)) ≤
+        Real.log (adaptiveVAt ϑ Q k r) :=
+      (Real.log_le_log_iff hN hV).2 hNV
+    rw [adaptiveZAt, max_eq_right hNV, adaptiveLogZ,
+      max_eq_right (by simpa [log_adaptiveVAt ϑ Q k r hk] using hlogNV),
+      log_adaptiveVAt ϑ Q k r hk]
+  · have hVN : adaptiveVAt ϑ Q k r ≤
+        (n : ℝ) * (Nat.factorial r : ℝ) := le_of_not_ge hNV
+    have hlogVN : adaptiveLogV ϑ Q (Real.log k)
+          (Real.log (Real.log k)) r ≤
+        Real.log ((n : ℝ) * (Nat.factorial r : ℝ)) := by
+      rw [← log_adaptiveVAt ϑ Q k r hk]
+      exact (Real.log_le_log_iff hV hN).2 hVN
+    rw [adaptiveZAt, max_eq_left hVN, adaptiveLogZ, max_eq_left hlogVN]
+
+lemma log_adaptiveLambdaAt (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hk : 1 < k) (hn : 0 < n) :
+    Real.log (adaptiveLambdaAt ϑ Q k n r) =
+      adaptiveLogLambda ϑ Q (Real.log k) (Real.log (Real.log k))
+        (Real.log ((n : ℝ) * (Nat.factorial r : ℝ))) r := by
+  have hN : 0 < (n : ℝ) * (Nat.factorial r : ℝ) := by positivity
+  have hratio : 0 < adaptiveZAt ϑ Q k n r /
+      ((n : ℝ) * (Nat.factorial r : ℝ)) :=
+    div_pos (adaptiveZAt_pos ϑ Q k n r hk) hN
+  unfold adaptiveLambdaAt adaptiveLogLambda
+  rw [Real.log_rpow hratio,
+    Real.log_div (adaptiveZAt_pos ϑ Q k n r hk).ne' hN.ne',
+    log_adaptiveZAt ϑ Q k n r hk hn]
+  ring
+
+lemma log_adaptiveT1At (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hk : 1 < k) (hn : 0 < n) :
+    Real.log (adaptiveT1At ϑ Q k n r) =
+      adaptiveLogT1 ϑ Q (Real.log k) (Real.log (Real.log k))
+        (Real.log ((n : ℝ) * (Nat.factorial r : ℝ))) r := by
+  have hkpos : 0 < (k : ℝ) := by positivity
+  have hbase : 0 < adaptiveZAt ϑ Q k n r /
+      (k : ℝ) ^ ((r : ℝ) + 1) :=
+    div_pos (adaptiveZAt_pos ϑ Q k n r hk)
+      (Real.rpow_pos_of_pos hkpos _)
+  unfold adaptiveT1At adaptiveLogT1
+  rw [Real.log_rpow hbase,
+    Real.log_div (adaptiveZAt_pos ϑ Q k n r hk).ne'
+      (Real.rpow_pos_of_pos hkpos _).ne',
+    log_adaptiveZAt ϑ Q k n r hk hn,
+    Real.log_rpow hkpos]
+  ring
+
+lemma log_adaptiveT2At (ϑ Q : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hk : 1 < k) (hn : 0 < n) :
+    Real.log (adaptiveT2At ϑ Q k n r) =
+      adaptiveLogT2 ϑ Q (Real.log k) (Real.log (Real.log k))
+        (Real.log ((n : ℝ) * (Nat.factorial r : ℝ))) r := by
+  have hkpos : 0 < (k : ℝ) := by positivity
+  have hbase : 0 < (k : ℝ) ^ ((r : ℝ) + ϑ) /
+      adaptiveZAt ϑ Q k n r :=
+    div_pos (Real.rpow_pos_of_pos hkpos _)
+      (adaptiveZAt_pos ϑ Q k n r hk)
+  unfold adaptiveT2At adaptiveLogT2
+  rw [Real.log_rpow hbase,
+    Real.log_div (Real.rpow_pos_of_pos hkpos _).ne'
+      (adaptiveZAt_pos ϑ Q k n r hk).ne', Real.log_rpow hkpos,
+    log_adaptiveZAt ϑ Q k n r hk hn]
+  ring
 
 /-- The strict parameter system needed by the adaptive stopping rule.  Unlike
 the balanced package, it has no artificial `theta>9/23` field. -/
@@ -1999,6 +2175,801 @@ theorem adaptive_log_selection_budget
         field_simp
   exact ⟨hVU, hVZ, hZU, hT1, hT2, hlam⟩
 
+/-- Actual-real-scale form of `adaptive_log_selection_budget`.  It certifies
+the exact positive `lambda`, its powered mass identity, the two balanced
+Konyagin budgets, and the minimality upper bound used for the remaining
+terms. -/
+theorem adaptive_actual_selection_budget
+    (ϑ Q a : ℝ) (k : ℕ) (n : ℤ) (r : ℕ)
+    (hϑ0 : 0 < ϑ) (hQ : 0 ≤ Q) (hk : 1 < k)
+    (hlog1 : 1 ≤ Real.log k) (hn : 0 < n) (hr2 : 2 ≤ r)
+    (hrM : (r : ℝ) * Real.log (Real.log k) ≤ a * Real.log k)
+    (hmargin : 3 * Q * a < 1 - ϑ)
+    (hupper : (n : ℝ) * (Nat.factorial r : ℝ) ≤ adaptiveUAt Q k r)
+    (hlower : (r : ℝ) * Real.log k -
+        Q * (2 * (r : ℝ) - 3) * Real.log (Real.log k) ≤
+      Real.log ((n : ℝ) * (Nat.factorial r : ℝ))) :
+    adaptiveVAt ϑ Q k r ≤ adaptiveZAt ϑ Q k n r ∧
+    adaptiveZAt ϑ Q k n r ≤ adaptiveUAt Q k r ∧
+    1 ≤ adaptiveLambdaAt ϑ Q k n r ∧
+    (n : ℝ) * (Nat.factorial r : ℝ) *
+        (adaptiveLambdaAt ϑ Q k n r) ^ r = adaptiveZAt ϑ Q k n r ∧
+    adaptiveT1At ϑ Q k n r ≤ (Real.log k) ^ (-Q) ∧
+    adaptiveT2At ϑ Q k n r ≤ (Real.log k) ^ (-Q) ∧
+    adaptiveLambdaAt ϑ Q k n r ≤
+      (k : ℝ) ^ (ϑ / (r : ℝ)) * (Real.log k) ^ (3 * Q) := by
+  have hkR : (1 : ℝ) < (k : ℝ) := by exact_mod_cast hk
+  have hK : 0 < Real.log (k : ℝ) := Real.log_pos hkR
+  have hM : 0 ≤ Real.log (Real.log (k : ℝ)) := Real.log_nonneg hlog1
+  have hN : 0 < (n : ℝ) * (Nat.factorial r : ℝ) := by positivity
+  have hU : 0 < adaptiveUAt Q k r := adaptiveUAt_pos Q k r hk
+  have hV : 0 < adaptiveVAt ϑ Q k r := adaptiveVAt_pos ϑ Q k r hk
+  have hZ : 0 < adaptiveZAt ϑ Q k n r := adaptiveZAt_pos ϑ Q k n r hk
+  have hupperLog : Real.log ((n : ℝ) * (Nat.factorial r : ℝ)) ≤
+      adaptiveLogU Q (Real.log k) (Real.log (Real.log k)) r := by
+    rw [← log_adaptiveUAt Q k r hk]
+    exact (Real.log_le_log_iff hN hU).2 hupper
+  obtain ⟨hVUlog, _hVZlog, hZUlog, hT1log, hT2log, hlamlog⟩ :=
+    adaptive_log_selection_budget ϑ Q a (Real.log k)
+      (Real.log (Real.log k))
+      (Real.log ((n : ℝ) * (Nat.factorial r : ℝ))) r
+      hϑ0 hQ hK hM hr2 hrM hmargin hupperLog hlower
+  have hVU : adaptiveVAt ϑ Q k r ≤ adaptiveUAt Q k r := by
+    rw [← Real.log_le_log_iff hV hU, log_adaptiveVAt ϑ Q k r hk,
+      log_adaptiveUAt Q k r hk]
+    exact hVUlog
+  have hZU : adaptiveZAt ϑ Q k n r ≤ adaptiveUAt Q k r := by
+    rw [← Real.log_le_log_iff hZ hU,
+      log_adaptiveZAt ϑ Q k n r hk hn, log_adaptiveUAt Q k r hk]
+    exact hZUlog
+  have hT1pos : 0 < adaptiveT1At ϑ Q k n r := by
+    unfold adaptiveT1At
+    positivity
+  have hT2pos : 0 < adaptiveT2At ϑ Q k n r := by
+    unfold adaptiveT2At
+    positivity
+  have hlogpow : 0 < (Real.log k) ^ (-Q) :=
+    Real.rpow_pos_of_pos hK _
+  have hT1 : adaptiveT1At ϑ Q k n r ≤ (Real.log k) ^ (-Q) := by
+    rw [← Real.log_le_log_iff hT1pos hlogpow,
+      log_adaptiveT1At ϑ Q k n r hk hn, Real.log_rpow hK]
+    exact hT1log
+  have hT2 : adaptiveT2At ϑ Q k n r ≤ (Real.log k) ^ (-Q) := by
+    rw [← Real.log_le_log_iff hT2pos hlogpow,
+      log_adaptiveT2At ϑ Q k n r hk hn, Real.log_rpow hK]
+    exact hT2log
+  have hlampos : 0 < adaptiveLambdaAt ϑ Q k n r := by
+    unfold adaptiveLambdaAt
+    positivity
+  have hlamRhs : 0 < (k : ℝ) ^ (ϑ / (r : ℝ)) *
+      (Real.log k) ^ (3 * Q) := by positivity
+  have hlogRhs : Real.log ((k : ℝ) ^ (ϑ / (r : ℝ)) *
+        (Real.log k) ^ (3 * Q)) =
+      ϑ / (r : ℝ) * Real.log k + 3 * Q * Real.log (Real.log k) := by
+    rw [Real.log_mul (Real.rpow_pos_of_pos (by positivity) _).ne'
+        (Real.rpow_pos_of_pos hK _).ne',
+      Real.log_rpow (by positivity), Real.log_rpow hK]
+  have hlam : adaptiveLambdaAt ϑ Q k n r ≤
+      (k : ℝ) ^ (ϑ / (r : ℝ)) * (Real.log k) ^ (3 * Q) := by
+    rw [← Real.log_le_log_iff hlampos hlamRhs,
+      log_adaptiveLambdaAt ϑ Q k n r hk hn, hlogRhs]
+    exact hlamlog
+  exact ⟨le_max_right _ _, hZU,
+    adaptiveLambdaAt_ge_one ϑ Q k n r hn (by omega),
+    adaptive_mass_mul_lambda_pow ϑ Q k n r hk hn (by omega), hT1, hT2, hlam⟩
+
+/-- Pure least-order constructor for the actual stopping predicate
+`n r! <= U_r`.  The conclusion records both the selected upper inequality
+and strict failure at the preceding order. -/
+theorem exists_min_adaptive_stopping_order (Q : ℝ) (k : ℕ) (n : ℤ)
+    (R : ℕ)
+    (hR : (n : ℝ) * (Nat.factorial R : ℝ) ≤ adaptiveUAt Q k R)
+    (hsmall : ∀ j : ℕ, j < 2 →
+      adaptiveUAt Q k j < (n : ℝ) * (Nat.factorial j : ℝ)) :
+    ∃ r : ℕ,
+      2 ≤ r ∧ r ≤ R ∧
+      (n : ℝ) * (Nat.factorial r : ℝ) ≤ adaptiveUAt Q k r ∧
+      adaptiveUAt Q k (r - 1) <
+        (n : ℝ) * (Nat.factorial (r - 1) : ℝ) := by
+  let P : ℕ → Prop := fun j =>
+    (n : ℝ) * (Nat.factorial j : ℝ) ≤ adaptiveUAt Q k j
+  have hExists : ∃ j : ℕ, P j := ⟨R, hR⟩
+  let r : ℕ := Nat.find hExists
+  have hrle : r ≤ R := Nat.find_min' hExists hR
+  have hrspec : P r := Nat.find_spec hExists
+  have hr2 : 2 ≤ r := by
+    by_contra h
+    have hrlt : r < 2 := Nat.lt_of_not_ge h
+    exact (not_lt_of_ge hrspec) (hsmall r hrlt)
+  have hrpred : r - 1 < r := Nat.sub_lt (by omega) zero_lt_one
+  have hpredNot : ¬ P (r - 1) := Nat.find_min hExists hrpred
+  refine ⟨r, hr2, hrle, hrspec, ?_⟩
+  exact lt_of_not_ge hpredNot
+
+/-- Strict failure at the preceding stopping order implies exactly the lower
+logarithmic inequality consumed by `adaptive_actual_selection_budget`. -/
+lemma adaptive_preceding_failure_log_lower (Q : ℝ) (k : ℕ) (n : ℤ)
+    (r : ℕ) (hk : 1 < k) (hn : 0 < n) (hr2 : 2 ≤ r)
+    (hfail : adaptiveUAt Q k (r - 1) <
+      (n : ℝ) * (Nat.factorial (r - 1) : ℝ)) :
+    (r : ℝ) * Real.log k -
+        Q * (2 * (r : ℝ) - 3) * Real.log (Real.log k) ≤
+      Real.log ((n : ℝ) * (Nat.factorial r : ℝ)) := by
+  have hNpred : 0 < (n : ℝ) * (Nat.factorial (r - 1) : ℝ) := by
+    positivity
+  have hNr : 0 < (n : ℝ) * (Nat.factorial r : ℝ) := by positivity
+  have hfac : (Nat.factorial (r - 1) : ℝ) ≤
+      (Nat.factorial r : ℝ) := by
+    exact_mod_cast Nat.factorial_le (Nat.sub_le r 1)
+  have hNmono : (n : ℝ) * (Nat.factorial (r - 1) : ℝ) ≤
+      (n : ℝ) * (Nat.factorial r : ℝ) := by
+    exact mul_le_mul_of_nonneg_left hfac (by exact_mod_cast hn.le)
+  have hlogchain : Real.log (adaptiveUAt Q k (r - 1)) ≤
+      Real.log ((n : ℝ) * (Nat.factorial r : ℝ)) := by
+    exact (Real.log_le_log_iff (adaptiveUAt_pos Q k (r - 1) hk) hNr).2
+      (hfail.le.trans hNmono)
+  rw [log_adaptiveUAt Q k (r - 1) hk] at hlogchain
+  unfold adaptiveLogU at hlogchain
+  rw [Nat.cast_sub (by omega : 1 ≤ r)] at hlogchain
+  norm_num at hlogchain ⊢
+  convert hlogchain using 1 <;> ring
+
+/-- Uniform eventual domination of the adaptive additive envelope.  This is
+the analytic reason the selected scale works for every fixed `theta>0`:
+`r>=2` leaves the strict power gap `theta/2`, while `r<=log k` costs only one
+extra logarithm. -/
+lemma adaptive_additive_envelope_eventual (ϑ Q C : ℝ)
+    (hϑ0 : 0 < ϑ) (hC : 0 < C) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ r : ℕ,
+      2 ≤ r → (r : ℝ) ≤ Real.log k →
+      2 * (r : ℝ) *
+          ((k : ℝ) ^ (ϑ / (r : ℝ)) * (Real.log k) ^ (3 * Q)) ≤
+        C * (k : ℝ) ^ ϑ / Real.log k := by
+  obtain ⟨k₀, hk₀⟩ := Filter.eventually_atTop.mp
+    (poly_log_lt 2 (ϑ / 2) (3 * Q + 1) ϑ (by linarith)
+      C hC)
+  refine ⟨k₀ + 2, fun k hk r hr2 hrlog => ?_⟩
+  have hk₀' : k₀ ≤ k := by omega
+  have hkpos : 0 < (k : ℝ) := by norm_cast; omega
+  have hLpos : 0 < Real.log (k : ℝ) := Real.log_pos (by norm_cast; omega)
+  have hrR : (2 : ℝ) ≤ r := by exact_mod_cast hr2
+  have hexp : ϑ / (r : ℝ) ≤ ϑ / 2 := by
+    exact div_le_div_of_nonneg_left hϑ0.le (by norm_num) hrR
+  have hkpow : (k : ℝ) ^ (ϑ / (r : ℝ)) ≤
+      (k : ℝ) ^ (ϑ / 2) :=
+    Real.rpow_le_rpow_of_exponent_le (by norm_cast; omega) hexp
+  have hlogpow : 0 ≤ (Real.log k) ^ (3 * Q) :=
+    Real.rpow_nonneg hLpos.le _
+  have henv : 2 * (r : ℝ) *
+        ((k : ℝ) ^ (ϑ / (r : ℝ)) * (Real.log k) ^ (3 * Q)) ≤
+      2 * (k : ℝ) ^ (ϑ / 2) * (Real.log k) ^ (3 * Q + 1) := by
+    calc
+      2 * (r : ℝ) *
+          ((k : ℝ) ^ (ϑ / (r : ℝ)) * (Real.log k) ^ (3 * Q)) ≤
+          2 * Real.log k *
+            ((k : ℝ) ^ (ϑ / 2) * (Real.log k) ^ (3 * Q)) := by
+              gcongr
+      _ = 2 * (k : ℝ) ^ (ϑ / 2) *
+          (Real.log k) ^ (3 * Q + 1) := by
+            rw [Real.rpow_add hLpos]
+            norm_num
+            ring
+  exact henv.trans (hk₀ k hk₀')
+
+/-- The actual selected additive term inherits the uniform envelope. -/
+lemma adaptive_additive_term_eventual (ϑ Q C : ℝ)
+    (hϑ0 : 0 < ϑ) (hC : 0 < C) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ, ∀ r : ℕ,
+      2 ≤ r → (r : ℝ) ≤ Real.log k →
+      adaptiveLambdaAt ϑ Q k n r ≤
+        (k : ℝ) ^ (ϑ / (r : ℝ)) * (Real.log k) ^ (3 * Q) →
+      2 * (r : ℝ) * adaptiveLambdaAt ϑ Q k n r ≤
+        C * (k : ℝ) ^ ϑ / Real.log k := by
+  obtain ⟨k₀, hk₀⟩ := adaptive_additive_envelope_eventual ϑ Q C hϑ0 hC
+  refine ⟨k₀, fun k hk n r hr2 hrlog hlam => ?_⟩
+  exact (mul_le_mul_of_nonneg_left hlam (by positivity)).trans
+    (hk₀ k hk r hr2 hrlog)
+
+/-- A single pointwise logarithmic estimate for the third Konyagin term,
+valid uniformly at `r=2` and every larger stopping order. -/
+lemma adaptiveT3At_le_logpow (ϑ Q q : ℝ)
+    (k : ℕ) (n : ℤ) (r : ℕ)
+    (hϑ0 : 0 < ϑ) (hk : 1 < k) (hn : 0 < n) (hr2 : 2 ≤ r)
+    (hlog1 : 1 < Real.log k)
+    (hrplus : (r : ℝ) + 1 ≤ Real.log k)
+    (hlam : adaptiveLambdaAt ϑ Q k n r ≤
+      (k : ℝ) ^ (ϑ / (r : ℝ)) * (Real.log k) ^ (3 * Q))
+    (hmargin : (1 + 3 * Q) * Real.log (Real.log k) +
+        2 * q * (r : ℝ) * Real.log (Real.log k) ≤
+      (1 - ϑ / 2) * Real.log k) :
+    adaptiveT3At ϑ Q k n r ≤ (Real.log k) ^ (-q) := by
+  have hkpos : 0 < (k : ℝ) := by positivity
+  have hLpos : 0 < Real.log (k : ℝ) := by linarith
+  have hlampos : 0 < adaptiveLambdaAt ϑ Q k n r := by
+    unfold adaptiveLambdaAt
+    exact Real.rpow_pos_of_pos
+      (div_pos (adaptiveZAt_pos ϑ Q k n r hk) (by positivity)) _
+  have henvpos : 0 < (k : ℝ) ^ (ϑ / (r : ℝ)) *
+      (Real.log k) ^ (3 * Q) := by positivity
+  have hlogenv : Real.log ((k : ℝ) ^ (ϑ / (r : ℝ)) *
+        (Real.log k) ^ (3 * Q)) =
+      ϑ / (r : ℝ) * Real.log k + 3 * Q * Real.log (Real.log k) := by
+    rw [Real.log_mul (Real.rpow_pos_of_pos hkpos _).ne'
+        (Real.rpow_pos_of_pos hLpos _).ne',
+      Real.log_rpow hkpos, Real.log_rpow hLpos]
+  have hlamlog : Real.log (adaptiveLambdaAt ϑ Q k n r) ≤
+      ϑ / (r : ℝ) * Real.log k + 3 * Q * Real.log (Real.log k) := by
+    rw [← hlogenv]
+    exact (Real.log_le_log_iff hlampos henvpos).2 hlam
+  have hrpos : (0 : ℝ) < r := by positivity
+  have hrpluspos : 0 < (r : ℝ) + 1 := by positivity
+  have hlogr : Real.log ((r : ℝ) + 1) ≤ Real.log (Real.log k) := by
+    exact (Real.log_le_log_iff hrpluspos hLpos).2 hrplus
+  have htheta : ϑ / (r : ℝ) * Real.log k ≤ ϑ / 2 * Real.log k := by
+    have hrR : (2 : ℝ) ≤ r := by exact_mod_cast hr2
+    exact mul_le_mul_of_nonneg_right
+      (div_le_div_of_nonneg_left hϑ0.le (by norm_num) hrR) hLpos.le
+  have hbasepos : 0 < ((r : ℝ) + 1) *
+      adaptiveLambdaAt ϑ Q k n r / (k : ℝ) := by positivity
+  have hlogbase :
+      Real.log (((r : ℝ) + 1) * adaptiveLambdaAt ϑ Q k n r /
+        (k : ℝ)) ≤
+      -(1 - ϑ / 2) * Real.log k +
+        (1 + 3 * Q) * Real.log (Real.log k) := by
+    rw [Real.log_div (mul_pos hrpluspos hlampos).ne' hkpos.ne',
+      Real.log_mul hrpluspos.ne' hlampos.ne']
+    nlinarith
+  have hlogstrong :
+      Real.log (((r : ℝ) + 1) * adaptiveLambdaAt ϑ Q k n r /
+        (k : ℝ)) ≤
+      -2 * q * (r : ℝ) * Real.log (Real.log k) := by
+    nlinarith
+  have hT3pos : 0 < adaptiveT3At ϑ Q k n r := by
+    unfold adaptiveT3At
+    positivity
+  have hlogpowpos : 0 < (Real.log k) ^ (-q) := by positivity
+  rw [← Real.log_le_log_iff hT3pos hlogpowpos]
+  unfold adaptiveT3At
+  rw [Real.log_rpow hbasepos, Real.log_rpow hLpos]
+  have hinvnonneg : 0 ≤ (2 * (r : ℝ))⁻¹ := by positivity
+  calc
+    (2 * (r : ℝ))⁻¹ *
+        Real.log (((r : ℝ) + 1) * adaptiveLambdaAt ϑ Q k n r /
+          (k : ℝ)) ≤
+        (2 * (r : ℝ))⁻¹ *
+          (-2 * q * (r : ℝ) * Real.log (Real.log k)) :=
+      mul_le_mul_of_nonneg_left hlogstrong hinvnonneg
+    _ = -q * Real.log (Real.log k) := by field_simp
+
+/-- The strict fixed margin `2 q b < 1-theta/2` eventually absorbs the
+lower-order `(1+3Q) loglog(k)` loss uniformly for all `r` with
+`r loglog(k) <= b log(k)`. -/
+lemma adaptive_third_margin_eventual (ϑ Q q b : ℝ)
+    (hQ : 0 ≤ Q) (hq : 0 < q)
+    (hgap : 2 * q * b < 1 - ϑ / 2) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ r : ℕ,
+      (r : ℝ) * Real.log (Real.log k) ≤ b * Real.log k →
+      (1 + 3 * Q) * Real.log (Real.log k) +
+          2 * q * (r : ℝ) * Real.log (Real.log k) ≤
+        (1 - ϑ / 2) * Real.log k := by
+  let δ : ℝ := 1 - ϑ / 2 - 2 * q * b
+  have hδ : 0 < δ := by dsimp [δ]; linarith
+  have hratio := tendsto_log_div_loglog_atTop.eventually_ge_atTop
+    ((1 + 3 * Q) / δ)
+  have hM := (Real.tendsto_log_atTop.comp
+    (Real.tendsto_log_atTop.comp tendsto_natCast_atTop_atTop)).eventually_ge_atTop 1
+  obtain ⟨k₀, hk₀⟩ := Filter.eventually_atTop.mp (hratio.and hM)
+  refine ⟨k₀, fun k hk r hrM => ?_⟩
+  rcases hk₀ k hk with ⟨hX, hM1⟩
+  change (1 + 3 * Q) / δ ≤ Real.log k / Real.log (Real.log k) at hX
+  change 1 ≤ Real.log (Real.log k) at hM1
+  have hcoef : (1 + 3 * Q) * Real.log (Real.log k) ≤
+      δ * Real.log k := by
+    have hXM := mul_le_mul_of_nonneg_right hX (le_trans zero_le_one hM1)
+    have hcancel : (Real.log k / Real.log (Real.log k)) *
+        Real.log (Real.log k) = Real.log k := by
+      field_simp
+    calc
+      (1 + 3 * Q) * Real.log (Real.log k) =
+          δ * (((1 + 3 * Q) / δ) * Real.log (Real.log k)) := by
+            field_simp
+      _ ≤ δ * ((Real.log k / Real.log (Real.log k)) *
+          Real.log (Real.log k)) :=
+        mul_le_mul_of_nonneg_left hXM hδ.le
+      _ = δ * Real.log k := by rw [hcancel]
+  have hrterm : 2 * q * ((r : ℝ) * Real.log (Real.log k)) ≤
+      2 * q * (b * Real.log k) :=
+    mul_le_mul_of_nonneg_left hrM (by positivity)
+  dsimp [δ] at hcoef
+  nlinarith
+
+/-- Eventual third-term budget for the actual selected adaptive scale. -/
+lemma adaptiveT3At_eventual (ϑ Q q b : ℝ)
+    (hϑ0 : 0 < ϑ) (hQ : 0 ≤ Q) (hq : 0 < q)
+    (hgap : 2 * q * b < 1 - ϑ / 2) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ, ∀ r : ℕ,
+      0 < n → 2 ≤ r → 1 < Real.log k →
+      (r : ℝ) + 1 ≤ Real.log k →
+      (r : ℝ) * Real.log (Real.log k) ≤ b * Real.log k →
+      adaptiveLambdaAt ϑ Q k n r ≤
+        (k : ℝ) ^ (ϑ / (r : ℝ)) * (Real.log k) ^ (3 * Q) →
+      adaptiveT3At ϑ Q k n r ≤ (Real.log k) ^ (-q) := by
+  obtain ⟨k₀, hk₀⟩ := adaptive_third_margin_eventual ϑ Q q b hQ hq hgap
+  refine ⟨k₀ + 2, fun k hk n r hn hr2 hlog1 hrplus hrM hlam => ?_⟩
+  exact adaptiveT3At_le_logpow ϑ Q q k n r hϑ0 (by omega) hn hr2
+    hlog1 hrplus hlam (hk₀ k (by omega) r hrM)
+
+/-- Exact rewrite of the upstream arbitrary-`lambda` Konyagin estimate at
+the selected actual adaptive scale. -/
+lemma large_card_raw_adaptive_selected_at (ϑ Q : ℝ)
+    (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1)
+    (k : ℕ) (n : ℤ) (r : ℕ) (hkn : (k : ℤ) < n)
+    (hn : 0 < n) (hk : 1 < k) (hr2 : 2 ≤ r)
+    (hrle : (r : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - ϑ)) :
+    ((badSetAt ϑ k n).card : ℝ) <
+      c₆ * (k : ℝ) ^ ϑ *
+        (adaptiveT1At ϑ Q k n r + adaptiveT2At ϑ Q k n r +
+          adaptiveT3At ϑ Q k n r) +
+        2 * (r : ℝ) * adaptiveLambdaAt ϑ Q k n r := by
+  have hraw := large_card_raw_adaptive_at ϑ
+    (adaptiveLambdaAt ϑ Q k n r) hϑ0 hϑ1
+    (adaptiveLambdaAt_ge_one ϑ Q k n r hn (by omega))
+    k n r hkn hr2 hrle
+  rw [adaptive_mass_mul_lambda_pow ϑ Q k n r hk hn (by omega)] at hraw
+  simpa [adaptiveT1At, adaptiveT2At, adaptiveT3At,
+    ← Real.rpow_natCast] using hraw
+
+/-- The three non-additive selected terms are uniformly negligible once
+`Q>1` and `q>1`. -/
+lemma adaptive_three_terms_eventual (ϑ Q q C : ℝ)
+    (hQ : 1 < Q) (hq : 1 < q) (hC : 0 < C) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k →
+      c₆ * (k : ℝ) ^ ϑ *
+        (2 * (Real.log k) ^ (-Q) + (Real.log k) ^ (-q)) ≤
+      C * (k : ℝ) ^ ϑ / Real.log k := by
+  obtain ⟨k₁, hk₁⟩ := Filter.eventually_atTop.mp
+    (poly_log_lt_logpow (2 * c₆) ϑ (-Q) (by linarith)
+      (C / 2) (by linarith))
+  obtain ⟨k₂, hk₂⟩ := Filter.eventually_atTop.mp
+    (poly_log_lt_logpow c₆ ϑ (-q) (by linarith)
+      (C / 2) (by linarith))
+  refine ⟨max k₁ k₂, fun k hk => ?_⟩
+  have h₁ := hk₁ k (by omega)
+  have h₂ := hk₂ k (by omega)
+  calc
+    c₆ * (k : ℝ) ^ ϑ *
+        (2 * (Real.log k) ^ (-Q) + (Real.log k) ^ (-q)) =
+      (2 * c₆) * (k : ℝ) ^ ϑ * (Real.log k) ^ (-Q) +
+        c₆ * (k : ℝ) ^ ϑ * (Real.log k) ^ (-q) := by ring
+    _ ≤ C / 2 * (k : ℝ) ^ ϑ / Real.log k +
+        C / 2 * (k : ℝ) ^ ϑ / Real.log k := add_le_add h₁ h₂
+    _ = C * (k : ℝ) ^ ϑ / Real.log k := by ring
+
+/-- Analytic raw-to-small-count wrapper after the actual adaptive budgets
+have been constructed.  It has no lower endpoint restriction on `theta`. -/
+lemma adaptive_bad_set_asymptotic_of_budgets (ϑ Q q C : ℝ)
+    (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1) (hQ : 1 < Q)
+    (hq : 1 < q) (hC : 0 < C) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ, ∀ r : ℕ,
+      (k : ℤ) < n → 0 < n → 2 ≤ r →
+      (r : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - ϑ) →
+      (r : ℝ) ≤ Real.log k →
+      adaptiveT1At ϑ Q k n r ≤ (Real.log k) ^ (-Q) →
+      adaptiveT2At ϑ Q k n r ≤ (Real.log k) ^ (-Q) →
+      adaptiveT3At ϑ Q k n r ≤ (Real.log k) ^ (-q) →
+      adaptiveLambdaAt ϑ Q k n r ≤
+        (k : ℝ) ^ (ϑ / (r : ℝ)) * (Real.log k) ^ (3 * Q) →
+      ((badSetAt ϑ k n).card : ℝ) <
+        C * (k : ℝ) ^ ϑ / Real.log k := by
+  obtain ⟨k₁, hk₁⟩ := adaptive_three_terms_eventual ϑ Q q (C / 2)
+    hQ hq (by linarith)
+  obtain ⟨k₂, hk₂⟩ := adaptive_additive_term_eventual ϑ Q (C / 2)
+    hϑ0 (by linarith)
+  refine ⟨max k₁ k₂, fun k hk n r hkn hn hr2 hrle hrlog
+    hT1 hT2 hT3 hlam => ?_⟩
+  have hk1 : 1 < k := by
+    have hrR : (2 : ℝ) ≤ r := by exact_mod_cast hr2
+    have hlog2 : (2 : ℝ) ≤ Real.log k := hrR.trans hrlog
+    have hkR : (1 : ℝ) < k := by
+      by_contra h
+      have hk_le : (k : ℝ) ≤ 1 := le_of_not_gt h
+      have hlogle : Real.log (k : ℝ) ≤ 0 :=
+        Real.log_nonpos (by positivity) hk_le
+      linarith
+    exact_mod_cast hkR
+  have hraw := large_card_raw_adaptive_selected_at ϑ Q hϑ0 hϑ1 k n r
+    hkn hn hk1 hr2 hrle
+  have hbracket : adaptiveT1At ϑ Q k n r + adaptiveT2At ϑ Q k n r +
+      adaptiveT3At ϑ Q k n r ≤
+      2 * (Real.log k) ^ (-Q) + (Real.log k) ^ (-q) := by linarith
+  have hmain : c₆ * (k : ℝ) ^ ϑ *
+      (adaptiveT1At ϑ Q k n r + adaptiveT2At ϑ Q k n r +
+        adaptiveT3At ϑ Q k n r) ≤
+      C / 2 * (k : ℝ) ^ ϑ / Real.log k := by
+    have hc₆ : 0 ≤ c₆ := by
+      exact (show (256 : ℝ) ≤ c₆ by
+        unfold c₆ C₀_const B_const K_const c₉
+        norm_num).trans' (by norm_num)
+    exact (mul_le_mul_of_nonneg_left hbracket
+      (mul_nonneg hc₆ (Real.rpow_nonneg (Nat.cast_nonneg k) _))).trans
+      (hk₁ k (by omega))
+  have hadd := hk₂ k (by omega) n r hr2 hrlog hlam
+  calc
+    ((badSetAt ϑ k n).card : ℝ) <
+        c₆ * (k : ℝ) ^ ϑ *
+          (adaptiveT1At ϑ Q k n r + adaptiveT2At ϑ Q k n r +
+            adaptiveT3At ϑ Q k n r) +
+          2 * (r : ℝ) * adaptiveLambdaAt ϑ Q k n r := hraw
+    _ ≤ C / 2 * (k : ℝ) ^ ϑ / Real.log k +
+        C / 2 * (k : ℝ) ^ ϑ / Real.log k := add_le_add hmain hadd
+    _ = C * (k : ℝ) ^ ϑ / Real.log k := by ring
+
+/-- Direct logarithmic form of the preceding conversion, used to build the
+actual reference-order witness. -/
+lemma adaptive_power_le_U_of_margin (ϑ Q b : ℝ)
+    (k R : ℕ) (hk : 1 < k) (hlog1 : 1 ≤ Real.log k)
+    (hQ : 0 ≤ Q)
+    (hRM : (R : ℝ) * Real.log (Real.log k) ≤ b * Real.log k)
+    (hmargin : 2 * Q * b ≤ 1 - ϑ) :
+    (k : ℝ) ^ ((R : ℝ) + ϑ) ≤ adaptiveUAt Q k R := by
+  have hkpos : 0 < (k : ℝ) := by positivity
+  have hK : 0 < Real.log (k : ℝ) := Real.log_pos (by exact_mod_cast hk)
+  have hM : 0 ≤ Real.log (Real.log (k : ℝ)) := Real.log_nonneg hlog1
+  have hpenalty : Q * (2 * (R : ℝ) - 1) * Real.log (Real.log k) ≤
+      (1 - ϑ) * Real.log k := by
+    have hfirst : Q * (2 * (R : ℝ) - 1) * Real.log (Real.log k) ≤
+        2 * Q * ((R : ℝ) * Real.log (Real.log k)) := by
+      nlinarith [mul_nonneg hQ hM]
+    have hsecond : 2 * Q * ((R : ℝ) * Real.log (Real.log k)) ≤
+        2 * Q * (b * Real.log k) :=
+      mul_le_mul_of_nonneg_left hRM (by positivity)
+    have hthird : 2 * Q * b * Real.log k ≤
+        (1 - ϑ) * Real.log k :=
+      mul_le_mul_of_nonneg_right hmargin hK.le
+    nlinarith
+  rw [← Real.log_le_log_iff (Real.rpow_pos_of_pos hkpos _)
+    (adaptiveUAt_pos Q k R hk), Real.log_rpow hkpos,
+    log_adaptiveUAt Q k R hk]
+  unfold adaptiveLogU
+  nlinarith
+
+/-- The reference order `R=r0Param a k` eventually satisfies the actual
+adaptive stopping predicate. -/
+lemma r0Param_eventual_adaptive_admissible_at
+    (ϑ c a b Q : ℝ) (hϑ0 : 0 < ϑ) (ha : 0 < a)
+    (hca : c < a) (hab : a < b) (hQ : 0 ≤ Q)
+    (hmargin : 2 * Q * b ≤ 1 - ϑ) :
+    ∀ᶠ k : ℕ in Filter.atTop, ∀ n : ℤ, 0 < n →
+      (n : ℝ) ≤ Real.exp (c * (Real.log k) ^ 2 / Real.log (Real.log k)) →
+      (n : ℝ) * (Nat.factorial (r0Param a k) : ℝ) ≤
+        adaptiveUAt Q k (r0Param a k) := by
+  have hbase := r0Param_eventual_admissible_at ϑ c a b hϑ0 ha hca hab
+  have hsand := r0Param_sandwich a b ha hab
+  have hM := (Real.tendsto_log_atTop.comp
+    (Real.tendsto_log_atTop.comp tendsto_natCast_atTop_atTop)).eventually_ge_atTop 1
+  have hL := (Real.tendsto_log_atTop.comp
+    tendsto_natCast_atTop_atTop).eventually_ge_atTop 1
+  filter_upwards [hbase, hsand, hM, hL, Filter.eventually_gt_atTop 1]
+    with k hkbase hkR hkM hkL hk
+  change 1 ≤ Real.log (Real.log k) at hkM
+  intro n hn hupper
+  have hRM : (r0Param a k : ℝ) * Real.log (Real.log k) ≤
+      b * Real.log k := by
+    have hh := mul_le_mul_of_nonneg_right hkR.2.2 (le_trans zero_le_one hkM)
+    field_simp at hh ⊢
+    exact hh
+  exact (hkbase n hn hupper).trans
+    (adaptive_power_le_U_of_margin ϑ Q b k (r0Param a k) hk hkL hQ hRM hmargin)
+
+lemma adaptiveUAt_zero (Q : ℝ) (k : ℕ) :
+    adaptiveUAt Q k 0 = (k : ℝ) ^ (1 : ℝ) * (Real.log k) ^ Q := by
+  norm_num [adaptiveUAt]
+
+lemma adaptiveUAt_one (Q : ℝ) (k : ℕ) :
+    adaptiveUAt Q k 1 = (k : ℝ) ^ (2 : ℝ) * (Real.log k) ^ (-Q) := by
+  norm_num [adaptiveUAt]
+
+/-- The large-range lower endpoint excludes stopping orders zero and one for
+every fixed positive `theta`; no `9/23`-type restriction is used. -/
+lemma adaptive_small_orders_fail_eventual (ϑ Q : ℝ) (hϑ0 : 0 < ϑ) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+      (1 / 2) * (k : ℝ) ^ (2 + ϑ) < (n : ℝ) →
+      ∀ j : ℕ, j < 2 →
+        adaptiveUAt Q k j < (n : ℝ) * (Nat.factorial j : ℝ) := by
+  obtain ⟨k₀, hk₀⟩ := Filter.eventually_atTop.mp
+    (((poly_log_lt 1 1 Q (2 + ϑ) (by linarith)
+        (1 / 2) (by norm_num)).and
+      (poly_log_lt 1 2 (-Q) (2 + ϑ) (by linarith)
+        (1 / 2) (by norm_num))).and
+      ((Real.tendsto_log_atTop.comp tendsto_natCast_atTop_atTop).eventually_ge_atTop 1))
+  refine ⟨k₀ + 3, fun k hk n hlow j hj => ?_⟩
+  rcases hk₀ k (by omega) with ⟨⟨hzero, hone⟩, hL1⟩
+  change 1 ≤ Real.log (k : ℝ) at hL1
+  have hdiv : (1 / 2) * (k : ℝ) ^ (2 + ϑ) / Real.log k ≤
+      (1 / 2) * (k : ℝ) ^ (2 + ϑ) := by
+    exact div_le_self (by positivity) hL1
+  have hz : adaptiveUAt Q k 0 ≤
+      (1 / 2) * (k : ℝ) ^ (2 + ϑ) := by
+    rw [adaptiveUAt_zero]
+    have hz' : (k : ℝ) ^ (1 : ℝ) * (Real.log k) ^ Q ≤
+        (1 / 2) * (k : ℝ) ^ (2 + ϑ) / Real.log k := by
+      simpa using hzero
+    exact hz'.trans hdiv
+  have ho : adaptiveUAt Q k 1 ≤
+      (1 / 2) * (k : ℝ) ^ (2 + ϑ) := by
+    rw [adaptiveUAt_one]
+    have ho' : (k : ℝ) ^ (2 : ℝ) * (Real.log k) ^ (-Q) ≤
+        (1 / 2) * (k : ℝ) ^ (2 + ϑ) / Real.log k := by
+      simpa using hone
+    exact ho'.trans hdiv
+  have hjcases : j = 0 ∨ j = 1 := by omega
+  rcases hjcases with rfl | rfl
+  · norm_num
+    exact hz.trans_lt hlow
+  · norm_num
+    exact ho.trans_lt hlow
+
+/-- Generic reference-order bounds for the adaptive construction.  Unlike
+the balanced predecessor this requires no comparison `b<theta`. -/
+lemma r0Param_eventual_adaptive_bounds_at (ϑ a b : ℝ)
+    (hϑ1 : ϑ < 1) (ha : 0 < a) (hab : a < b) (hb1 : b < 1) :
+    ∀ᶠ k : ℕ in Filter.atTop,
+      1 ≤ r0Param a k ∧
+      (r0Param a k : ℝ) * Real.log (Real.log k) ≤ b * Real.log k ∧
+      (r0Param a k : ℝ) + 1 ≤ Real.log k ∧
+      (r0Param a k : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - ϑ) ∧
+      1 < Real.log k := by
+  have hb0 : 0 < b := ha.trans hab
+  have hsand := r0Param_sandwich a b ha hab
+  have hM := (Real.tendsto_log_atTop.comp
+    (Real.tendsto_log_atTop.comp tendsto_natCast_atTop_atTop)).eventually_ge_atTop 1
+  have hL := (Real.tendsto_log_atTop.comp tendsto_natCast_atTop_atTop).eventually_ge_atTop
+    (max 2 (1 / (1 - b)))
+  filter_upwards [hsand, hM, hL, eventually_log_le_half_rpow_at ϑ hϑ1]
+    with k hkR hkM hkL hkpow
+  change 1 ≤ Real.log (Real.log k) at hkM
+  change max 2 (1 / (1 - b)) ≤ Real.log k at hkL
+  have hMpos : 0 < Real.log (Real.log k) := lt_of_lt_of_le zero_lt_one hkM
+  have hKpos : 0 < Real.log k := by linarith [le_trans (le_max_left _ _) hkL]
+  have hXleK : Real.log k / Real.log (Real.log k) ≤ Real.log k := by
+    rw [div_le_iff₀ hMpos]
+    nlinarith
+  have hRM : (r0Param a k : ℝ) * Real.log (Real.log k) ≤
+      b * Real.log k := by
+    have hh := mul_le_mul_of_nonneg_right hkR.2.2 hMpos.le
+    field_simp at hh ⊢
+    exact hh
+  have hRleK : (r0Param a k : ℝ) ≤ Real.log k := by
+    calc
+      (r0Param a k : ℝ) ≤ b * (Real.log k / Real.log (Real.log k)) := by
+        convert hkR.2.2 using 1 <;> ring
+      _ ≤ Real.log k / Real.log (Real.log k) :=
+        mul_le_of_le_one_left (by positivity) hb1.le
+      _ ≤ Real.log k := hXleK
+  have hRplus : (r0Param a k : ℝ) + 1 ≤ Real.log k := by
+    have hbig : 1 / (1 - b) ≤ Real.log k :=
+      le_trans (le_max_right _ _) hkL
+    rw [div_le_iff₀ (sub_pos.mpr hb1)] at hbig
+    have hRbK : (r0Param a k : ℝ) ≤ b * Real.log k := by
+      calc
+        (r0Param a k : ℝ) ≤ b *
+            (Real.log k / Real.log (Real.log k)) := by
+          convert hkR.2.2 using 1 <;> ring
+        _ ≤ b * Real.log k :=
+          mul_le_mul_of_nonneg_left hXleK hb0.le
+    nlinarith
+  exact ⟨hkR.1, hRM, hRplus, hRleK.trans hkpow,
+    lt_of_lt_of_le (by norm_num) (le_trans (le_max_left _ _) hkL)⟩
+
+def AdaptiveAnalyticParameters (ϑ c : ℝ) : Prop :=
+  ∃ a b Q q : ℝ,
+    0 < a ∧ c < a ∧ a < b ∧ b < (1 - ϑ) / 3 ∧
+    1 < Q ∧ 3 * Q * b < 1 - ϑ ∧
+    1 < q ∧ 2 * q * b < 1 - ϑ / 2
+
+/-- Feasibility of all analytic adaptive margins on the full natural
+window. -/
+lemma adaptiveAnalyticParameters_of_wide (ϑ c : ℝ)
+    (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1) (hc : 0 < c)
+    (hcfront : c < (1 - ϑ) / 3) :
+    AdaptiveAnalyticParameters ϑ c := by
+  let f : ℝ := (1 - ϑ) / 3
+  let a : ℝ := (c + f) / 2
+  let b : ℝ := (a + f) / 2
+  have hf : 0 < f := by dsimp [f]; nlinarith
+  have hcf : c < f := by simpa [f] using hcfront
+  have ha : 0 < a := by dsimp [a]; nlinarith
+  have hca : c < a := by dsimp [a]; nlinarith
+  have haf : a < f := by dsimp [a]; nlinarith
+  have hab : a < b := by dsimp [b]; nlinarith
+  have hbf : b < f := by dsimp [b]; nlinarith
+  have hb : 0 < b := ha.trans hab
+  have hthree : 3 * b < 1 - ϑ := by
+    have : 3 * f = 1 - ϑ := by dsimp [f]; ring
+    nlinarith
+  have hQratio : 1 < (1 - ϑ) / (3 * b) := by
+    rw [lt_div_iff₀ (by positivity)]
+    simpa [mul_assoc] using hthree
+  obtain ⟨Q, hQ, hQu⟩ := exists_between hQratio
+  have hQmargin : 3 * Q * b < 1 - ϑ := by
+    have := (lt_div_iff₀ (by positivity : 0 < 3 * b)).1 hQu
+    nlinarith
+  have htwo : 2 * b < 1 - ϑ / 2 := by
+    have h2f : 2 * f < 1 - ϑ / 2 := by dsimp [f]; nlinarith
+    nlinarith
+  have hqratio : 1 < (1 - ϑ / 2) / (2 * b) := by
+    rw [lt_div_iff₀ (by positivity)]
+    simpa [mul_assoc] using htwo
+  obtain ⟨q, hq, hqu⟩ := exists_between hqratio
+  have hqmargin : 2 * q * b < 1 - ϑ / 2 := by
+    have := (lt_div_iff₀ (by positivity : 0 < 2 * b)).1 hqu
+    nlinarith
+  exact ⟨a, b, Q, q, ha, hca, hab, hbf, hQ, hQmargin, hq, hqmargin⟩
+
+def HasAdaptiveLargeCertificateAt (ϑ c Q q : ℝ) : Prop :=
+  ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+    (1 / 2) * (k : ℝ) ^ (2 + ϑ) < (n : ℝ) →
+    (n : ℝ) ≤ Real.exp (c * (Real.log k) ^ 2 / Real.log (Real.log k)) →
+    ∃ r : ℕ,
+      2 ≤ r ∧
+      (r : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - ϑ) ∧
+      (r : ℝ) ≤ Real.log k ∧
+      adaptiveT1At ϑ Q k n r ≤ (Real.log k) ^ (-Q) ∧
+      adaptiveT2At ϑ Q k n r ≤ (Real.log k) ^ (-Q) ∧
+      adaptiveT3At ϑ Q k n r ≤ (Real.log k) ^ (-q) ∧
+      adaptiveLambdaAt ϑ Q k n r ≤
+        (k : ℝ) ^ (ϑ / (r : ℝ)) * (Real.log k) ^ (3 * Q)
+
+/-- Full actual stopping/selection/budget certificate for the adaptive large
+range. -/
+lemma hasAdaptiveLargeCertificateAt_of_parameters
+    (ϑ c a b Q q : ℝ) (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1)
+    (ha : 0 < a) (hca : c < a) (hab : a < b)
+    (hbf : b < (1 - ϑ) / 3)
+    (hQ : 1 < Q) (hQmargin : 3 * Q * b < 1 - ϑ)
+    (hq : 1 < q) (hqmargin : 2 * q * b < 1 - ϑ / 2) :
+    HasAdaptiveLargeCertificateAt ϑ c Q q := by
+  have hb0 : 0 < b := ha.trans hab
+  have hb1 : b < 1 := by
+    have hf1 : (1 - ϑ) / 3 < 1 := by nlinarith
+    exact hbf.trans hf1
+  have h2Q : 2 * Q * b ≤ 1 - ϑ := by
+    have hQb : 0 < Q * b := mul_pos (lt_trans zero_lt_one hQ) hb0
+    nlinarith
+  obtain ⟨ke, he⟩ := Filter.eventually_atTop.mp
+    (r0Param_eventual_adaptive_admissible_at ϑ c a b Q hϑ0 ha hca hab
+      (show 0 ≤ Q by linarith [hQ]) h2Q)
+  obtain ⟨ks, hs⟩ := adaptive_small_orders_fail_eventual ϑ Q hϑ0
+  obtain ⟨kb, hb⟩ := Filter.eventually_atTop.mp
+    (r0Param_eventual_adaptive_bounds_at ϑ a b hϑ1 ha hab hb1)
+  obtain ⟨kt, ht⟩ := adaptiveT3At_eventual ϑ Q q b hϑ0
+    (show 0 ≤ Q by linarith [hQ])
+    (lt_trans zero_lt_one hq) hqmargin
+  refine ⟨max (max ke ks) (max kb kt), fun k hk n hlow hupper => ?_⟩
+  have hke : ke ≤ k := by omega
+  have hks : ks ≤ k := by omega
+  have hkb : kb ≤ k := by omega
+  have hkt : kt ≤ k := by omega
+  have hbounds := hb k hkb
+  have hk1 : 1 < k := by
+    have hRpos : (1 : ℝ) ≤ r0Param a k := by exact_mod_cast hbounds.1
+    have hlog2 : (2 : ℝ) ≤ Real.log k := by
+      linarith [hbounds.2.2.1]
+    have hkR : (1 : ℝ) < k := by
+      by_contra h
+      have hlogle : Real.log (k : ℝ) ≤ 0 :=
+        Real.log_nonpos (by positivity) (le_of_not_gt h)
+      linarith
+    exact_mod_cast hkR
+  have hn : 0 < n := by
+    have hpow : 0 ≤ (k : ℝ) ^ (2 + ϑ) := by positivity
+    have hnR : 0 < (n : ℝ) := lt_of_le_of_lt (by positivity) hlow
+    exact_mod_cast hnR
+  have hRgood := he k hke n hn hupper
+  have hsmall := hs k hks n hlow
+  obtain ⟨r, hr2, hrR, hstop, hprev⟩ :=
+    exists_min_adaptive_stopping_order Q k n (r0Param a k) hRgood hsmall
+  have hrcast : (r : ℝ) ≤ (r0Param a k : ℝ) := by exact_mod_cast hrR
+  have hMnonneg : 0 ≤ Real.log (Real.log k) := by
+    exact (Real.log_pos hbounds.2.2.2.2).le
+  have hrM : (r : ℝ) * Real.log (Real.log k) ≤ b * Real.log k :=
+    (mul_le_mul_of_nonneg_right hrcast hMnonneg).trans hbounds.2.1
+  have hrplus : (r : ℝ) + 1 ≤ Real.log k := by
+    have hrplus0 : (r : ℝ) + 1 ≤ (r0Param a k : ℝ) + 1 := by
+      linarith
+    exact hrplus0.trans hbounds.2.2.1
+  have hrle : (r : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (1 - ϑ) :=
+    hrcast.trans hbounds.2.2.2.1
+  have hrlog : (r : ℝ) ≤ Real.log k := by
+    linarith [hrplus]
+  have hlower := adaptive_preceding_failure_log_lower Q k n r hk1 hn hr2 hprev
+  obtain ⟨_hVZ, _hZU, _hlam1, _hmass, hT1, hT2, hlam⟩ :=
+    adaptive_actual_selection_budget ϑ Q b k n r hϑ0
+      (show 0 ≤ Q by linarith [hQ]) hk1
+      hbounds.2.2.2.2.le hn hr2 hrM hQmargin hstop hlower
+  have hT3 := ht k hkt n r hn hr2 hbounds.2.2.2.2 hrplus hrM hlam
+  exact ⟨r, hr2, hrle, hrlog, hT1, hT2, hT3, hlam⟩
+
+lemma case_large_adaptive_at (ϑ c Q q : ℝ)
+    (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1) (hQ : 1 < Q) (hq : 1 < q)
+    (hPI : PrimeIntervalInput ϑ)
+    (hcert : HasAdaptiveLargeCertificateAt ϑ c Q q) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+      (1 / 2) * (k : ℝ) ^ (2 + ϑ) < (n : ℝ) →
+      (n : ℝ) ≤ Real.exp (c * (Real.log k) ^ 2 / Real.log (Real.log k)) →
+      SourceIntervalConclusion ϑ k n := by
+  obtain ⟨C, hC, kp, hp⟩ := hPI
+  obtain ⟨ka, ha⟩ := adaptive_bad_set_asymptotic_of_budgets
+    ϑ Q q C hϑ0 hϑ1 hQ hq hC
+  obtain ⟨kc, hc⟩ := hcert
+  refine ⟨max (max kp ka) (max kc 2), fun k hk n hlow hhigh => ?_⟩
+  have hkp : kp ≤ k := by omega
+  have hka : ka ≤ k := by omega
+  have hkc : kc ≤ k := by omega
+  have hk2 : 2 ≤ k := by omega
+  have hk1 : 1 ≤ k := by omega
+  have hk1' : 1 < k := by omega
+  have hkR : (1 : ℝ) < (k : ℝ) := by exact_mod_cast hk1'
+  have hkpow : (k : ℝ) ≤ (1 / 2) * (k : ℝ) ^ (2 + ϑ) := by
+    have hpowe : (k : ℝ) ^ (2 + ϑ) =
+        (k : ℝ) ^ 2 * (k : ℝ) ^ ϑ := by
+      rw [show (2 + ϑ : ℝ) = (2 : ℕ) + ϑ by norm_num,
+        Real.rpow_add (by positivity), Real.rpow_natCast]
+    have hone : (1 : ℝ) ≤ (k : ℝ) ^ ϑ :=
+      Real.one_le_rpow hkR.le hϑ0.le
+    rw [hpowe]
+    have hk2R : (2 : ℝ) ≤ k := by exact_mod_cast hk2
+    nlinarith [mul_nonneg (sq_nonneg (k : ℝ))
+      (by linarith : (0 : ℝ) ≤ (k : ℝ) ^ ϑ - 1)]
+  have hknR : (k : ℝ) < (n : ℝ) := lt_of_le_of_lt hkpow hlow
+  have hkn : (k : ℤ) < n := by exact_mod_cast hknR
+  have hn : 0 < n := lt_trans (by exact_mod_cast hk1) hkn
+  obtain ⟨r, hr2, hrle, hrlog, hT1, hT2, hT3, hlam⟩ :=
+    hc k hkc n hlow hhigh
+  have hbad := ha k hka n r hkn hn hr2 hrle hrlog hT1 hT2 hT3 hlam
+  have hprime : C * (k : ℝ) ^ ϑ / Real.log k ≤
+      (primeCard (k : ℝ) ((k : ℝ) + (k : ℝ) ^ ϑ) : ℝ) := hp k hkp
+  exact konyagin_finish_at ϑ hϑ0.le k n hk1 C hprime hbad
+
+lemma adaptiveRangePackage_of_parameters
+    (ϑ c a b Q q : ℝ) (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1)
+    (ha : 0 < a) (hca : c < a) (hab : a < b)
+    (hbf : b < (1 - ϑ) / 3)
+    (hQ : 1 < Q) (hQmargin : 3 * Q * b < 1 - ϑ)
+    (hq : 1 < q) (hqmargin : 2 * q * b < 1 - ϑ / 2)
+    (hPI : PrimeIntervalInput ϑ) :
+    ParametricRangePackage ϑ c := by
+  refine ⟨ParametricSmall.case_small ϑ hϑ0 hϑ1 hPI,
+    ParametricMed.case_medium ϑ hϑ0 hϑ1 hPI,
+    ParametricML.case_mediumlarge ϑ hϑ0 hϑ1 hPI, ?_⟩
+  exact case_large_adaptive_at ϑ c Q q hϑ0 hϑ1 hQ hq hPI
+    (hasAdaptiveLargeCertificateAt_of_parameters ϑ c a b Q q hϑ0 hϑ1
+      ha hca hab hbf hQ hQmargin hq hqmargin)
+
+/-- Full adaptive builder on the natural exponent window. -/
+theorem parametricRangeBuilder_adaptive (ϑ c : ℝ)
+    (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1) (hc : 0 < c)
+    (hcfront : c < (1 - ϑ) / 3) :
+    ParametricRangeBuilder ϑ c := by
+  intro hPI
+  obtain ⟨a, b, Q, q, ha, hca, hab, hbf, hQ, hQmargin, hq, hqmargin⟩ :=
+    adaptiveAnalyticParameters_of_wide ϑ c hϑ0 hϑ1 hc hcfront
+  exact adaptiveRangePackage_of_parameters ϑ c a b Q q hϑ0 hϑ1 ha hca hab
+    hbf hQ hQmargin hq hqmargin hPI
+
+/-- Abstract-PI(theta) frontier theorem on the complete natural window
+`0<theta<1`. -/
+theorem parametric_frontier_adaptive (ϑ c : ℝ)
+    (hϑ0 : 0 < ϑ) (hϑ1 : ϑ < 1) (hc : 0 < c)
+    (hcfront : c < (1 - ϑ) / 3) (hPI : PrimeIntervalInput ϑ) :
+    ∃ k₀ : ℕ, ∀ k : ℕ, k₀ ≤ k → ∀ n : ℤ,
+      2 * (k : ℤ) < n →
+      (n : ℝ) ≤ Real.exp (c * (Real.log k) ^ 2 / Real.log (Real.log k)) →
+      ∃ p : ℕ, p.Prime ∧ (k : ℝ) < p ∧ (p : ℝ) < 2 * (k : ℝ) ∧
+        (p : ℤ) ∣ Pprod k n := by
+  exact main_of_rangePackage ϑ c hϑ1
+    (parametricRangeBuilder_adaptive ϑ c hϑ0 hϑ1 hc hcfront hPI)
+
 /-- Kernel-checked adaptive parameter certificate on the full natural theta
 window.  This theorem is deliberately a parameter result, not yet the final
 analytic `ParametricRangeBuilder`. -/
@@ -2088,6 +3059,25 @@ theorem parametric_frontier_complete (ϑ c : ℝ)
 #print axioms adaptiveFrontierParameters_iff
 #print axioms adaptiveLogV_le_logU
 #print axioms adaptive_log_selection_budget
+#print axioms adaptiveLambdaAt_pow
+#print axioms adaptiveLambdaAt_ge_one
+#print axioms adaptive_mass_mul_lambda_pow
+#print axioms adaptive_actual_selection_budget
+#print axioms exists_min_adaptive_stopping_order
+#print axioms adaptive_preceding_failure_log_lower
+#print axioms adaptive_additive_term_eventual
+#print axioms adaptiveT3At_eventual
+#print axioms large_card_raw_adaptive_selected_at
+#print axioms adaptive_bad_set_asymptotic_of_budgets
+#print axioms r0Param_eventual_adaptive_admissible_at
+#print axioms adaptive_small_orders_fail_eventual
+#print axioms r0Param_eventual_adaptive_bounds_at
+#print axioms adaptiveAnalyticParameters_of_wide
+#print axioms hasAdaptiveLargeCertificateAt_of_parameters
+#print axioms case_large_adaptive_at
+#print axioms adaptiveRangePackage_of_parameters
+#print axioms parametricRangeBuilder_adaptive
+#print axioms parametric_frontier_adaptive
 #print axioms adaptive_parameter_certificate_wide
 #print axioms parametricRangeBuilder_wide
 #print axioms parametric_frontier_wide

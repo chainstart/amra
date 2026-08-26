@@ -10,7 +10,7 @@
       "method": "Equalizing the first two Theorem 4.1 terms without an optimality certificate",
       "loss_step": "The source chooses lambda so the first two terms coincide but does not record their lambda-independent product.",
       "lost_information": "If A and B denote those terms, then A^(2r-1)*B^(r-1)=k^(theta-1). This identity both proves the balancing scale is exponent-optimal and imposes the barrier (3r-2)loglog(k)<=(1-theta)log(k).",
-      "consequence": "Non-balanced lambda cannot improve the leading frontier within a termwise Theorem 4.1 certificate."
+      "consequence": "The product identity still fixes the leading c<(1-theta)/3 barrier, but equalizing at the older stopping threshold was not endpoint-optimal: the adaptive max scale removes the artificial theta>9/23 restriction without changing c(theta)."
     },
     {
       "method": "Coarse third-term envelope k^(-1/(6r))",
@@ -26,10 +26,8 @@
     }
   ],
   "required_new_information": [
-    "A sharp asymptotic upper bound r<=(c+epsilon)log(k)/loglog(k) for the least r with n*r!<=k^(r+theta).",
-    "An exact minimax analysis of all lambda>=1 using A^(2r-1)B^(r-1)=k^(theta-1).",
-    "A separate audit of the third and additive terms at the sharpened r scale, including bounded r.",
-    "A precisely scoped no-go lemma distinguishing failure of this upper-bound certificate from a lower bound on the true bad-point count.",
-    "A blockwise argument showing which segmentations preserve the same exponent and an explicit statement of the correlated-block methods left open."
+    "To improve c beyond (1-theta)/3, information not present in the termwise nonnegative Theorem 4.1 certificate is required: cross-block cancellation, prime-location-adaptive sparse covers, a stronger local prime input, or a stronger direct estimate of the true bad set.",
+    "The adaptive scale and least stopping order now recover all information needed to remove the balanced theta>9/23 artifact; no further parameter-only glue remains in the PI(theta)-conditional attaining theorem.",
+    "The enlarged no-go must remain scoped to the location-blind deterministic-tail certificate class and cannot be promoted to a lower bound on the true bad-point count."
   ]
 }

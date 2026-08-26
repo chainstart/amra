@@ -2,11 +2,11 @@
 
 ## Compiled theorem
 
-`formal/ParametricRanges.lean` proves
-`ParametricLarge.parametric_frontier_wide`:
+`formal/ParametricRanges.lean` now proves the stronger
+`ParametricLarge.parametric_frontier_adaptive`:
 
 ```text
-9/23 < theta < 1
+0 < theta < 1
 0 < c < (1-theta)/3
 PrimeIntervalInput(theta)
 ----------------------------------------------------------
@@ -14,35 +14,43 @@ eventually, for every 2k < n <= exp(c log^2(k)/loglog(k)),
 some prime p with k < p < 2k divides Pprod(k,n).
 ```
 
-The companion theorem `parametricRangeBuilder_wide` constructs the exact
+The companion theorem `parametricRangeBuilder_adaptive` constructs the exact
 four-field `ParametricRangePackage theta c`.  Thus the conditional
 `PI(theta)` theorem previously exposed only as an interface is now fully
 formalized.
 
-The same file now separately kernel-checks the adaptive unbalanced parameter
-core for every
+The adaptive proof is an actual real-scale construction, not only a
+logarithmic parameter core.  For every
 
 ```text
 0 < theta < 1,  0 < c < (1-theta)/3.
 ```
 
-`adaptiveFrontierParameters_iff` proves exact feasibility of
-`1<Q`, `0<a`, `c<a`, `3Qa<1-theta`.  With `K=log k`, `M=loglog k`, and
-`logN=log(nr!)`, the definitions `adaptiveLogU`, `adaptiveLogV`, and
-`adaptiveLogZ=max(logN,adaptiveLogV)` encode the adaptive stopping scales.
-`adaptive_log_selection_budget` proves `V<=U`, both first-term logarithms at
-most `-QM`, and
+`adaptiveAnalyticParameters_of_wide` selects `c<a<b<(1-theta)/3`, `Q>1`,
+and `q>1` with `3Qb<1-theta` and `2qb<1-theta/2`.  Lean defines
+
+```text
+U_r=k^(r+1)log(k)^(-Q(2r-1)),
+V_r=k^(r+theta)log(k)^(Q(r-1)),
+Z_r=max(nr!,V_r),
+lambda_r=(Z_r/(nr!))^(1/r).
+```
+
+It proves `lambda_r^r=Z_r/(nr!)`, `lambda_r>=1`, constructs the least
+stopping order with `nr!<=U_r`, and derives
 
 ```text
 log(lambda) <= (theta/r) K + 3 Q M.
 ```
 
-This is a formal parameter theorem, not a new final divisor theorem.  The
-widest compiled `ParametricRangeBuilder` remains the balanced
-`9/23<theta<1` builder.  The new `large_card_raw_adaptive_at` does expose the
-upstream theorem at arbitrary real `lambda>=1` and `r>=2`; the remaining glue
-is the actual positive-real max scale, least stopping-order construction, and
-uniform third/additive-term asymptotics.
+`adaptiveT3At_eventual` handles the third term uniformly for every `r>=2`,
+while `adaptive_additive_term_eventual` proves the additive term is
+`o(k^theta/log k)`.  `large_card_raw_adaptive_selected_at` performs the exact
+substitution into the pinned upstream estimate, and
+`adaptive_bad_set_asymptotic_of_budgets` closes the analytic count.  The final
+large case, range package, builder, and divisor theorem are respectively
+`case_large_adaptive_at`, `adaptiveRangePackage_of_parameters`,
+`parametricRangeBuilder_adaptive`, and `parametric_frontier_adaptive`.
 
 ## Four range fields
 
@@ -52,7 +60,7 @@ uniform third/additive-term asymptotics.
    `(1/2) k^(2-theta) < n <= k^2/log^2(k)`;
 3. `ParametricML.case_mediumlarge`:
    `k^2/log^2(k) < n <= (1/2) k^(2+theta)`;
-4. `ParametricLarge.case_large_of_margin_certificate_at`:
+4. `ParametricLarge.case_large_adaptive_at`:
    `(1/2) k^(2+theta) < n <= exp(c log^2(k)/loglog(k))`.
 
 Each field first produces a prime in the actual source interval
@@ -113,13 +121,18 @@ BalancedFourRangeParameters(theta,c)
   iff 9/23 < theta < 1 and c < (1-theta)/3.
 ```
 
+This equivalence audits only the explicitly defined older **balanced**
+parameter subclass.  It is not a no-go for the adaptive architecture:
+`parametricRangeBuilder_adaptive` removes the `9/23` lower endpoint while
+retaining the same leading `c<(1-theta)/3` frontier.
+
 At the
 unconditional BHP input `theta=21/40`, it specializes to `c<19/120`.
 
 ## Axiom and resource audit
 
-All parameterized large lemmas, the adaptive parameter core, the complete
-balanced builder, and the final abstract theorem report exactly
+All parameterized large lemmas, the complete adaptive builder, and the final
+abstract theorem report exactly
 
 ```text
 [propext, Classical.choice, Quot.sound]
@@ -131,3 +144,9 @@ when separately instantiating `PrimeIntervalInput(21/40)`.
 Run `cd formal && bash verify_guarded.sh`.  It performs the complete replay
 inside the shared OpenMath memory slice, verifies exact axiom lists, rejects
 `sorryAx`, and writes SHA-256 hashes to `formal/logs/final-sha256.txt`.
+
+Final replay: guard unit
+`openmath-task-20260826-193041-222943.scope`, exit status `0`, range-build
+wall time `94.89s`, peak RSS `7,106,780 KiB`, and zero swap.  The verified
+`ParametricRanges.lean` SHA-256 is
+`f53b140146ab60348880a0d6c15cd8dafe756e62bb1a6701a197ce6a5ff6ea1c`.
