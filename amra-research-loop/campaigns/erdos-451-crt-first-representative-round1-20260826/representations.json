@@ -1,0 +1,94 @@
+{
+  "representations": [
+    {
+      "id": "R451-01",
+      "name": "CRT allowed boxes",
+      "family": "crt_geometry",
+      "new_information": "Retains the exact allowed residue set {0,k+1,...,p-1} for every p in (k,2k).",
+      "repairs_loss": "Separates exact full-period density from the location of the first representative.",
+      "first_test": "Compute density and first representatives for exact small instances and compare their logarithmic scales.",
+      "closure_interface": "Needs a deterministic prefix discrepancy bound at H=exp(O(k/log k))."
+    },
+    {
+      "id": "R451-02",
+      "name": "Covered-prefix dual",
+      "family": "covering_systems",
+      "new_information": "Writes n_k>H as a finite interval covered by the forbidden classes 1,...,k modulo each prime.",
+      "repairs_loss": "Makes the fixed initial translate, rather than a random translate, the central object.",
+      "first_test": "Extract minimal or low-overlap subcovers for exact small k and test whether a bounded multiplicity potential exists.",
+      "closure_interface": "An upper bound requires a dual obstruction showing the initial interval cannot be fully covered."
+    },
+    {
+      "id": "R451-03",
+      "name": "Exact pair-correlation kernel",
+      "family": "harmonic_analysis",
+      "new_information": "For each displacement h records the exact full-period joint survivor density J_k(h).",
+      "repairs_loss": "Detects clustering and repulsion hidden by the scalar density D_k.",
+      "first_test": "Compute J_k(h)/D_k^2 for |h|<=4k and locate zero or highly amplified modes.",
+      "closure_interface": "Must be upgraded from translation-average variance to the fixed prefix."
+    },
+    {
+      "id": "R451-04",
+      "name": "Fourier spectrum on Z/M_kZ",
+      "family": "harmonic_analysis",
+      "new_information": "Expands the survivor indicator into local interval Fourier coefficients and exposes every nonzero frequency.",
+      "repairs_loss": "Preserves high-order cross-prime phases discarded by independence heuristics.",
+      "first_test": "Bound or compute low-support characters and compare their prefix contribution with H D_k.",
+      "closure_interface": "Needs cancellation over a fixed interval shorter than every useful full CRT period."
+    },
+    {
+      "id": "R451-05",
+      "name": "Inclusion-exclusion support ledger",
+      "family": "sieve_theory",
+      "new_information": "Tracks how many primes can occur in a squarefree modulus d below the interval distribution level H.",
+      "repairs_loss": "Quantifies exactly why low-order sieve information misses the dense product D_k.",
+      "first_test": "Compare R=floor(log H/log k) with pi(2k)-pi(k) at conjectural H.",
+      "closure_interface": "A viable sieve must compress high-order constraints rather than enumerate their products."
+    },
+    {
+      "id": "R451-06",
+      "name": "Rational interval coverage",
+      "family": "diophantine_approximation",
+      "new_information": "A divisor jp in [n-k,n-1] is represented by a prime in ((n-k)/j,(n-1)/j).",
+      "repairs_loss": "Uses the dependence of the relevant prime interval on the quotient j instead of static CRT density.",
+      "first_test": "Replay the June 2026 lower-bound interface and identify the first quantitative constant loss.",
+      "closure_interface": "A stronger approximation lemma would improve the known lower-bound exponent or constant."
+    },
+    {
+      "id": "R451-07",
+      "name": "Konyagin polynomial encoding",
+      "family": "diophantine_approximation",
+      "new_information": "Encodes simultaneous absence of interval primes through a low-height integer polynomial relation among nearby rational approximants.",
+      "repairs_loss": "Couples many quotient intervals that a pointwise prime-gap estimate treats independently.",
+      "first_test": "Audit which degree, height and short-prime interval estimates create the factor 1/20.",
+      "closure_interface": "A strict improvement must lower one audited height or approximation loss without assuming an unproved prime-gap bound."
+    },
+    {
+      "id": "R451-08",
+      "name": "Entropy of congruence decisions",
+      "family": "entropy_probability",
+      "new_information": "Interprets each dense forbidden residue condition as roughly one bit of information and compares total constraint entropy with log H.",
+      "repairs_loss": "Explains the log 4 constant in the density while exposing the need for a deterministic source of pseudorandom bits.",
+      "first_test": "Check the entropy prediction against exact first representatives and correlation spikes.",
+      "closure_interface": "Requires a rigorous min-entropy statement for consecutive integers modulo the prime family."
+    },
+    {
+      "id": "R451-09",
+      "name": "Subset-product candidate generator",
+      "family": "constructive_algebra",
+      "new_information": "For primes deliberately dividing n, their constraints are satisfied at residue zero; remaining constraints see multiplicative subset products.",
+      "repairs_loss": "Turns existence of a small representative into an explicit finite constraint-satisfaction problem.",
+      "first_test": "Compare candidate entropy and integer size with the number of unsatisfied prime constraints.",
+      "closure_interface": "Needs a generator with at least k/log k effective bits but output magnitude exp(O(k/log k))."
+    },
+    {
+      "id": "R451-10",
+      "name": "Multiscale prefix blocks",
+      "family": "recursive_combinatorics",
+      "new_information": "Partitions the initial prefix into blocks on which quotient patterns floor(n/p) are stable.",
+      "repairs_loss": "Keeps location information while allowing local CRT or Fourier estimates inside each block.",
+      "first_test": "Measure whether boundary complexity contracts across dyadic H-scales.",
+      "closure_interface": "A recursion must lose o(k/log k) in the exponent across all blocks."
+    }
+  ]
+}

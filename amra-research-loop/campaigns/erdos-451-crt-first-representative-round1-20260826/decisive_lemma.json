@@ -1,0 +1,18 @@
+{
+  "statement": "Under the same short-prime-interval hypothesis and Theorem 4.1 used by van Doorn--Tang, their proof yields n_k>exp(c(log k)^2/log log k) for every fixed c<min((1-theta)/6,1/12); in particular c=1/16 is valid uniformly for theta in (2/5,3/5).",
+  "status": "proved",
+  "closes": [
+    "main_exponent_improved"
+  ],
+  "evidence": [
+    "evidence/constant_optimization_lemma.md",
+    "evidence/constant_optimization_audit.json",
+    "https://arxiv.org/abs/2606.19863"
+  ],
+  "dependency_gaps": [
+    "No independent natural-language reconstruction by a different reviewer has yet been completed.",
+    "The external Konyagin theorem and short-prime-interval theorem are reused exactly as in arXiv:2606.19863 rather than re-proved here.",
+    "A web search found no public version of the constant refinement, so publication priority remains uncertain.",
+    "The upper-bound/true-order half of Erdős #451 is untouched by this lemma."
+  ]
+}

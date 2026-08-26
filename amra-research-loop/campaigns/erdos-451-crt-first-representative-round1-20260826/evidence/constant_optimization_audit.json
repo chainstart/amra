@@ -1,0 +1,16 @@
+{
+  "schema_version": "erdos451.constant_optimization.audit.v1",
+  "status": "pass",
+  "explicit_c": "1/16",
+  "theta_interval": [
+    "2/5",
+    "3/5"
+  ],
+  "exact_margins": {
+    "first_two_errors": "1/40",
+    "third_error": "1/4",
+    "additive_lambda_r": "1/105"
+  },
+  "parametric_condition": "c < min((1-theta)/6, 1/12)",
+  "scope": "Checks the exact exponent comparisons after Theorem 4.1 of arXiv:2606.19863; the cited Konyagin and short-prime-interval inputs remain external dependencies."
+}
