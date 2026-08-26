@@ -1,0 +1,120 @@
+{
+  "schema_version": "erdos451.block_merge_kill_tests.v1",
+  "guard": {
+    "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/block_merge_kill_tests.py",
+    "unit": "openmath-task-20260826-151724-122166.scope",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "exit_status": 0
+  },
+  "candidates": {
+    "projection": "|proj_p(B cap J)| >= 2^{-b} min(p, |B cap J|)",
+    "conditional_discrepancy": "|#(B cap J cap I_p)-(d/p)#(B cap J)| <= p*2^b",
+    "collision_energy": "sum_a multiplicity(a)^2 <= N^2/p+2^b*N"
+  },
+  "cases": [
+    {
+      "k": 10,
+      "old_primes": [11, 13],
+      "external_prime": 17,
+      "old_period_Q": 143,
+      "joint_period_Qp": 2431,
+      "window_lengths": [17, 34, 143, 286, 572, 2431],
+      "worst_projection": {
+        "ratio": 0.9166666666666666,
+        "start": 1,
+        "length": 572,
+        "old_count": 12,
+        "projection_size": 11,
+        "residue_counts": [0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 2, 0, 1, 1, 1, 1]
+      },
+      "worst_conditional_discrepancy_C_equals_2": {
+        "normalized": 0.028546712802768166,
+        "start": 573,
+        "length": 572,
+        "old_count": 12,
+        "new_survivors": 3,
+        "p_times_absolute_conditional_discrepancy": 33,
+        "candidate_bound_p_squared_2_to_b": 1156
+      },
+      "worst_collision_energy_C_equals_2": {
+        "normalized_excess": 0.23529411764705882,
+        "start": 1,
+        "length": 17,
+        "old_count": 1,
+        "collision_energy": 1,
+        "pE_minus_N2": 16,
+        "candidate_allowance": 68
+      }
+    },
+    {
+      "k": 15,
+      "old_primes": [17, 19],
+      "external_prime": 23,
+      "old_period_Q": 323,
+      "joint_period_Qp": 7429,
+      "window_lengths": [23, 46, 323, 646, 1292, 7429],
+      "worst_projection": {
+        "ratio": 0.75,
+        "start": 0,
+        "length": 646,
+        "old_count": 16,
+        "projection_size": 12,
+        "residue_counts": [2, 2, 0, 1, 1, 0, 0, 0, 1, 2, 1, 0, 0, 0, 1, 1, 1, 2, 1, 0, 0, 0, 0]
+      },
+      "worst_conditional_discrepancy_C_equals_2": {
+        "normalized": 0.034026465028355386,
+        "start": 3060,
+        "length": 1292,
+        "old_count": 32,
+        "new_survivors": 8,
+        "p_times_absolute_conditional_discrepancy": 72,
+        "candidate_bound_p_squared_2_to_b": 2116
+      },
+      "worst_collision_energy_C_equals_2": {
+        "normalized_excess": 0.2391304347826087,
+        "start": 17,
+        "length": 23,
+        "old_count": 1,
+        "collision_energy": 1,
+        "pE_minus_N2": 22,
+        "candidate_allowance": 92
+      }
+    },
+    {
+      "k": 20,
+      "old_primes": [23, 29],
+      "external_prime": 31,
+      "old_period_Q": 667,
+      "joint_period_Qp": 20677,
+      "window_lengths": [31, 62, 667, 1334, 2668, 20677],
+      "worst_projection": {
+        "ratio": 0.7037037037037037,
+        "start": 1,
+        "length": 667,
+        "old_count": 27,
+        "projection_size": 19,
+        "residue_counts": [0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 1, 0, 0, 1, 2, 2, 2, 2, 1, 1, 0, 0, 0, 0]
+      },
+      "worst_conditional_discrepancy_C_equals_2": {
+        "normalized": 0.051768990634755464,
+        "start": 9339,
+        "length": 667,
+        "old_count": 27,
+        "new_survivors": 16,
+        "p_times_absolute_conditional_discrepancy": 199,
+        "candidate_bound_p_squared_2_to_b": 3844
+      },
+      "worst_collision_energy_C_equals_2": {
+        "normalized_excess": 0.24193548387096775,
+        "start": 23,
+        "length": 31,
+        "old_count": 1,
+        "collision_energy": 1,
+        "pE_minus_N2": 30,
+        "candidate_allowance": 124
+      }
+    }
+  ],
+  "interpretation": "The scan is exact for the listed starts and window lengths. No candidate was falsified there. Passing is finite falsification evidence only and is not a theorem or a phase gate."
+}

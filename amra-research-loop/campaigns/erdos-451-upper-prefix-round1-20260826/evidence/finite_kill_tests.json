@@ -1,0 +1,78 @@
+{
+  "schema_version": "erdos451.upper_finite_kill_tests.v1",
+  "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/finite_kill_tests.py",
+  "guard": {
+    "unit": "openmath-task-20260826-143739-111784.scope",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "swap_max": "4G",
+    "tasks_max": 512,
+    "exit_status": 0
+  },
+  "interpretation_boundary": [
+    "Every reported computation is exact and finite.",
+    "The tests refute only the named bridges; they do not prove an asymptotic upper bound.",
+    "No network data was used."
+  ],
+  "density_translation": {
+    "moduli": [5, 7, 11],
+    "widths": [2, 3, 5],
+    "period": 385,
+    "box_size_for_every_translation": 30,
+    "anchored_first_positive": 19,
+    "max_first_positive_over_local_translations": 26,
+    "maximizing_local_shifts": [1, 0, 4]
+  },
+  "translation_windows": {
+    "k": 20,
+    "primes": [23, 29, 31, 37],
+    "period": 765049,
+    "window_length": 100,
+    "nonempty_translated_windows": 241423,
+    "total_translated_windows": 765049,
+    "fixed_initial_start": 40,
+    "fixed_initial_survivor_count": 0,
+    "exact_first_survivor_after_2k": 550
+  },
+  "bonferroni": {
+    "comparator": "m independent forbidden events of probability 1/2",
+    "true_all_allowed_probability": "2^(-m)",
+    "exact_sign_statement": "For every m and every odd r<m, sum_{j=0}^r (-1)^j binom(m,j)2^(-j)<=0.",
+    "selected_exact_values": [
+      {"m": 8, "r": 3, "value": "-3"},
+      {"m": 12, "r": 5, "value": "-157/16"},
+      {"m": 20, "r": 5, "value": "-4571/16"},
+      {"m": 20, "r": 19, "value": "0"},
+      {"m": 30, "r": 29, "value": "0"}
+    ]
+  },
+  "symmetric_sign": {
+    "k": 7,
+    "n": 12,
+    "coordinates": [
+      {"p": 11, "width": 4, "residue": 1, "centered_residue": 1},
+      {"p": 13, "width": 6, "residue": 12, "centered_residue": -1}
+    ],
+    "n_is_one_sided_allowed": false,
+    "minus_n_is_one_sided_allowed": false
+  },
+  "absorption_phase": {
+    "k": 20,
+    "gap_cutoff": 10,
+    "absorbed_primes": [23, 29],
+    "absorber_Q": 667,
+    "remaining_p31": {
+      "width": 11,
+      "inverse_absorber_mod_p": 2,
+      "transformed_allowed_residues_for_multiplier": [0, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29],
+      "is_cyclic_unit_interval": false
+    }
+  },
+  "first_representative_quotient_summary": [
+    {"k": 10, "n": 220, "prime_count": 4, "distinct_quotients": 4},
+    {"k": 15, "n": 339, "prime_count": 4, "distinct_quotients": 4},
+    {"k": 20, "n": 550, "prime_count": 4, "distinct_quotients": 4},
+    {"k": 25, "n": 7653, "prime_count": 6, "distinct_quotients": 6},
+    {"k": 30, "n": 21235, "prime_count": 7, "distinct_quotients": 7}
+  ]
+}

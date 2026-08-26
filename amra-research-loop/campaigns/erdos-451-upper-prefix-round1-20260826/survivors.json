@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "U451-M05",
+    "U451-M08",
+    "U451-M10"
+  ],
+  "selection_rationale": "M05 is the only geometry-of-numbers route that explicitly preserves the required residue orthant after the k=7 mixed-sign counterexample killed symmetric orientation. M08 is the only retained dual route that uses the ordered aligned covering boundaries rather than translated-window averages. M10 isolates the common-endpoint structure absent from density and additive-energy arguments. They are genuinely different geometric, dual-compression, and additive routes. Each has an exact closure target exp(O(m log log k)); none is currently a theorem. M11 is not retained because exact absorption dilates the remaining unit intervals and invalidates its advertised handoff."
+}

@@ -1,0 +1,76 @@
+{
+  "representations": [
+    {
+      "id": "RPF-01",
+      "name": "Logarithmic exponent polytope",
+      "family": "asymptotic_scaling",
+      "new_information": "Records alpha=r*loglog(k)/log(k), c=log(n)*loglog(k)/log(k)^2, and the leading lambda exponent as simultaneous variables.",
+      "repairs_loss": "Separates leading log(k)^2/loglog(k) costs from lower-order log(r!) costs.",
+      "first_test": "Derive every Theorem 4.1 term as a linear or fractional inequality in alpha,c and the lambda exponent.",
+      "closure_interface": "The feasible polytope must give both an attainable c(theta) and a dual infeasibility certificate."
+    },
+    {
+      "id": "RPF-02",
+      "name": "A--B multiplicative invariant",
+      "family": "algebraic_duality",
+      "new_information": "Retains the exact lambda-independent identity A^(2r-1) B^(r-1)=k^(theta-1).",
+      "repairs_loss": "Turns the heuristic balancing of lambda into a primal--dual optimality certificate.",
+      "first_test": "Minimize max(A,B) and A+B over positive lambda and compare their k-exponents.",
+      "closure_interface": "Must prove non-balanced lambda cannot cross the same exponent threshold."
+    },
+    {
+      "id": "RPF-03",
+      "name": "Least admissible derivative order",
+      "family": "discrete_factorial_optimization",
+      "new_information": "Keeps the exact stopping rule n*r!<=k^(r+theta) and its failed predecessor.",
+      "repairs_loss": "Avoids charging log(r!) at the same scale as log n.",
+      "first_test": "Prove r<=(c+epsilon)log(k)/loglog(k) uniformly for n in the large range.",
+      "closure_interface": "The upper bound must coexist with r>=3 and Theorem 4.1's derivative constraint."
+    },
+    {
+      "id": "RPF-04",
+      "name": "Exact residual-term ledger",
+      "family": "asymptotic_scaling",
+      "new_information": "Tracks the third term and r*lambda using the failed predecessor inequality rather than a global coarse power.",
+      "repairs_loss": "Distinguishes genuine frontier constraints from harmless bounded-r and polylogarithmic factors.",
+      "first_test": "Maximize the exact exponent h_theta(r)=(2-theta-(1-theta)(2r-1)/(3r-2))/r for r>=3.",
+      "closure_interface": "Must show both residual terms are o(k^theta/log k) on the proposed full c-range."
+    },
+    {
+      "id": "RPF-05",
+      "name": "Comparable shifted prime blocks",
+      "family": "prime_block_geometry",
+      "new_information": "Represents each base x in [k,2k] with x asymptotic to k and a length comparable to k^theta.",
+      "repairs_loss": "Tests whether extra prime supply can outweigh repeated Konyagin errors.",
+      "first_test": "Normalize each block's prime count and A--B product and sum over finitely or polylogarithmically many blocks.",
+      "closure_interface": "An improvement requires a smaller average normalized error, not merely more blocks."
+    },
+    {
+      "id": "RPF-06",
+      "name": "Variable-length block exponent",
+      "family": "prime_block_geometry",
+      "new_information": "Uses a block length k^beta and the matching divisibility threshold k^(beta-1).",
+      "repairs_loss": "Exposes the tradeoff between prime availability and the Konyagin product exponent 1-beta.",
+      "first_test": "Optimize beta subject to a proved prime count at that scale.",
+      "closure_interface": "A better frontier requires beta<theta with a valid prime input or a theorem not based on independent block counts."
+    },
+    {
+      "id": "RPF-07",
+      "name": "Range-interface atlas",
+      "family": "range_compatibility",
+      "new_information": "Keeps the small, medium, medium-large and large n interfaces with their exact theta assumptions and output interval.",
+      "repairs_loss": "Prevents a large-n optimization from silently changing theta quantifiers or the final prime interval.",
+      "first_test": "Replay every source-paper range with symbolic theta and locate the strongest condition outside Section 6.",
+      "closure_interface": "Must finish first in (k,k+3k^theta) and only then embed this interval into (k,2k)."
+    },
+    {
+      "id": "RPF-08",
+      "name": "Termwise-certificate dual barrier",
+      "family": "certificate_complexity",
+      "new_information": "Defines the exact proof class: nonnegative blockwise Theorem 4.1 upper bounds followed by an asymptotic little-o comparison with short-interval prime counts.",
+      "repairs_loss": "Prevents a no-go result about a proof certificate from being misstated as a lower bound on the true bad set.",
+      "first_test": "Construct the dual inequalities r>=c log(k)/loglog(k) and (3r-2)loglog(k)<=(1-theta)log(k).",
+      "closure_interface": "The two inequalities should meet at the same c(theta) as the attaining construction."
+    }
+  ]
+}

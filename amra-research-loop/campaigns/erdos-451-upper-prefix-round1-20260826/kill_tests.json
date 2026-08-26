@@ -1,0 +1,49 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "U451-M01",
+      "outcome": "killed",
+      "evidence": "evidence/finite_kill_tests.json and evidence/bridge_falsification_and_survivors.md: CRT boxes with moduli (5,7,11), widths (2,3,5), and identical exact density 30/385 have first representatives 19 and 26 under different local translations. Density alone does not locate the initial representative."
+    },
+    {
+      "mechanism_id": "U451-M02",
+      "outcome": "killed",
+      "evidence": "evidence/finite_kill_tests.json: at actual k=20 and H=100, 241423 of 765049 translated windows are nonempty while the distinguished window (40,140] has zero survivors and the first survivor is 550."
+    },
+    {
+      "mechanism_id": "U451-M03",
+      "outcome": "killed",
+      "evidence": "evidence/bridge_falsification_and_survivors.md proves that for independent half-density constraints every proper odd Bonferroni polynomial is nonpositive, although the exact rare-event mass is 2^{-m}; finite exact rational values are replayed in evidence/finite_kill_tests.json."
+    },
+    {
+      "mechanism_id": "U451-M04",
+      "outcome": "killed",
+      "evidence": "evidence/finite_kill_tests.json: the actual k=7 system has n=12 with centered residues +1 mod 11 and -1 mod 13, both within the symmetric widths, but neither n nor -n is one-sided admissible."
+    },
+    {
+      "mechanism_id": "U451-M06",
+      "outcome": "killed",
+      "evidence": "evidence/bridge_falsification_and_survivors.md: the global h=1 Fourier character has full prime support, nonzero interval coefficient, and a prefix geometric sum at least 2H/pi for H<=P/2. High support does not imply a small pointwise prefix factor, so the proposed absolute support-ledger bound fails."
+    },
+    {
+      "mechanism_id": "U451-M07",
+      "outcome": "killed",
+      "evidence": "evidence/bridge_falsification_and_survivors.md: additive energy is invariant under the CRT translations in the exact M01 example, while the first representative changes. Energy without a new common-endpoint inequality cannot control the fixed prefix."
+    },
+    {
+      "mechanism_id": "U451-M09",
+      "outcome": "killed",
+      "evidence": "evidence/bridge_falsification_and_survivors.md: one coordinate floor(n/p) already creates at least floor(H/p) quotient states up to H, which is exp(epsilon*k-O(log k)) at H=exp(epsilon*k), contradicting the asserted exp(O(m)) total-state contraction."
+    },
+    {
+      "mechanism_id": "U451-M11",
+      "outcome": "killed",
+      "evidence": "evidence/finite_kill_tests.json: at k=20, absorbing 23 and 29 gives Q=667 and Q^{-1}=2 mod 31, turning the remaining width-11 interval into a non-interval step-2 residue set. The claimed anchored widened-box handoff is invalid."
+    },
+    {
+      "mechanism_id": "U451-M12",
+      "outcome": "killed",
+      "evidence": "evidence/bridge_falsification_and_survivors.md: recording even one exact quotient ceil(n/p) costs log n-O(log k), and exact first representatives for k=10,15,20,25,30 have no quotient collisions. With no derivation from shorter data, the proposed encoding is circular."
+    }
+  ]
+}

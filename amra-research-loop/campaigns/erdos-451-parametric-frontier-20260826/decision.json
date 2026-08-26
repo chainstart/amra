@@ -1,0 +1,13 @@
+{
+  "outcome": "promote",
+  "success_condition": "main_exponent_improved",
+  "reason": "The optimized least-order argument moves the source exponent constant from 1/20 to every c<19/120 at theta=21/40, proves the conditional frontier c*(theta)=(1-theta)/3 in the frozen theta range, and has passed blind natural reconstruction plus a guarded Lean proof of the full BHP corollary.",
+  "evidence": [
+    "evidence/parametric_frontier_proof.md",
+    "audit/independent_reconstruction.md",
+    "audit.json",
+    "evidence/lean_parametric_frontier.json",
+    "evidence/lean_theta_interface_audit.md",
+    "formal/verify_guarded.sh"
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "schema_version": "erdos451.successive_product_phase_summary.v1",
+  "guarded_runs": [
+    {
+      "purpose": "dense increasing-order scan for worst product phases",
+      "unit": "openmath-task-20260826-153546-126106.scope",
+      "memory_high": "30G",
+      "memory_max": "34G",
+      "rows": 43169,
+      "exit_status": 0
+    },
+    {
+      "purpose": "five-order comparison at the listed k values",
+      "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/successive_product_phase.py --summary-only --compact",
+      "unit": "openmath-task-20260826-154010-126954.scope",
+      "memory_high": "30G",
+      "memory_max": "34G",
+      "exit_status": 0
+    }
+  ],
+  "definitions": {
+    "phase_step": "s=Q_old mod p_new",
+    "centered_step": "delta=min(s,p-s)",
+    "full_discrepancy": "max over orbit starts and lengths of |# {0<=t<T: x+ts in [0,p-k)}-T(p-k)/p|",
+    "cumulative_proxy": "sum over merges log(1+full_discrepancy); this is diagnostic only and is not currently the loss of a proved block recursion"
+  },
+  "exact_worst_coherence_rows": [
+    {
+      "k": 10,
+      "order": "increasing",
+      "old_primes": [11, 13, 17],
+      "new_prime": 19,
+      "Q_mod_p": 18,
+      "centered_step": 1,
+      "allowed_width": 9,
+      "full_discrepancy_integer_scaled_by_p": 90,
+      "full_discrepancy": 4.7368421052631575,
+      "full_discrepancy_over_p": 0.24930747922437674,
+      "max_partial_quotient": 18
+    },
+    {
+      "k": 271,
+      "order": "increasing",
+      "new_prime": 487,
+      "merge_index_zero_based": 34,
+      "Q_mod_p": 1,
+      "centered_step": 1,
+      "allowed_width": 216,
+      "full_discrepancy_integer_scaled_by_p": 58536,
+      "full_discrepancy": 120.19712525667352,
+      "full_discrepancy_over_p": 0.2468113454962495,
+      "max_partial_quotient": 487
+    },
+    {
+      "k": 650,
+      "order": "increasing",
+      "new_prime": 1229,
+      "merge_index_zero_based": 82,
+      "Q_mod_p": 1,
+      "centered_step": 1,
+      "allowed_width": 579,
+      "full_discrepancy_integer_scaled_by_p": 376350,
+      "full_discrepancy": 306.2245728234337,
+      "full_discrepancy_over_p": 0.24916564102801764,
+      "max_partial_quotient": 1229
+    },
+    {
+      "k": 760,
+      "order": "increasing",
+      "new_prime": 1451,
+      "merge_index_zero_based": 95,
+      "Q_mod_p": 1450,
+      "centered_step": 1,
+      "allowed_width": 691,
+      "full_discrepancy_integer_scaled_by_p": 525160,
+      "full_discrepancy": 361.92970365265336,
+      "full_discrepancy_over_p": 0.24943466826509533,
+      "max_partial_quotient": 1450
+    },
+    {
+      "k": 1480,
+      "order": "increasing",
+      "new_prime": 2917,
+      "merge_index_zero_based": 188,
+      "Q_mod_p": 2916,
+      "centered_step": 1,
+      "allowed_width": 1437,
+      "full_discrepancy_integer_scaled_by_p": 2126760,
+      "full_discrepancy": 729.0915323962976,
+      "full_discrepancy_over_p": 0.24994567445879246,
+      "max_partial_quotient": 2916
+    }
+  ],
+  "centered_step_proxy_counterexample": {
+    "k": 271,
+    "order": "greedy_max_centered_step",
+    "new_prime": 347,
+    "merge_index_zero_based": 10,
+    "Q_mod_p": 173,
+    "centered_step": 173,
+    "maximum_possible_centered_step": 173,
+    "allowed_width": 76,
+    "continued_fraction_quotients": [2, 173],
+    "full_discrepancy_integer_scaled_by_p": 14896,
+    "full_discrepancy": 42.92795389048992,
+    "full_discrepancy_over_p": 0.12371168268152713,
+    "interpretation": "A maximally centered phase can still have a macroscopic interval discrepancy; centered residue alone loses the continued-fraction ordering."
+  },
+  "cumulative_full_discrepancy_log_proxy": [
+    {
+      "k": 650,
+      "prime_count": 93,
+      "increasing": 168.45642056946053,
+      "decreasing": 166.23179949556194,
+      "alternating_low_high": 164.10463031728327,
+      "greedy_max_centered_step": 197.26341243756562,
+      "greedy_min_full_discrepancy": 100.1845207813586
+    },
+    {
+      "k": 760,
+      "prime_count": 106,
+      "increasing": 193.12287422221954,
+      "decreasing": 193.0576146703241,
+      "alternating_low_high": 180.29225270708136,
+      "greedy_max_centered_step": 238.126019453488,
+      "greedy_min_full_discrepancy": 113.70570996223944
+    },
+    {
+      "k": 1000,
+      "prime_count": 135,
+      "increasing": 243.524586103104,
+      "decreasing": 257.3513702292565,
+      "alternating_low_high": 245.65284227128643,
+      "greedy_max_centered_step": 328.7810076633872,
+      "greedy_min_full_discrepancy": 144.29287840821672
+    },
+    {
+      "k": 1480,
+      "prime_count": 193,
+      "increasing": 366.9581580713042,
+      "decreasing": 368.9774326422052,
+      "alternating_low_high": 370.0598363041919,
+      "greedy_max_centered_step": 537.2724471347979,
+      "greedy_min_full_discrepancy": 213.33898681613334
+    }
+  ],
+  "interpretation": [
+    "Increasing order can contain an exactly worst-scale unit phase Q mod p=+-1 in genuine 451 instances; adjacent prime gaps do not prevent it.",
+    "Maximizing the centered residue is not a valid substitute for controlling the orbit discrepancy or continued fractions.",
+    "The oracle discrepancy-greedy order substantially lowers the finite cumulative proxy and is numerically compatible with O(m polylog(k)), but no ordering theorem proves this and no proved short-prefix merge has this proxy as its loss.",
+    "The experiment therefore neither proves nor refutes an asymptotic block-average lemma. It kills the phase-size-only bridge and isolates two separate missing theorems: an ordering bound and a many-seed short-prefix propagation bound."
+  ]
+}

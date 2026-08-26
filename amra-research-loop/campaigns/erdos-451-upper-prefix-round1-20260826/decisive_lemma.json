@@ -1,0 +1,30 @@
+{
+  "statement": "Proved recursive gap lemma: for pairwise coprime q_i and local allowed sets A_i of sizes d_i, the CRT product set A has forward covering radius W(A)<=min_sigma sum_{j=1}^m (q_{sigma(j)}-d_{sigma(j)}) product_{ell<j}q_{sigma(ell)}. For Erdos 451, increasing prime order yields n_k<2k+1+(k+1)P_k/p_max=(1/2+o(1))P_k=exp((1+o(1))k).",
+  "status": "proved",
+  "closes": [],
+  "evidence": [
+    "evidence/recursive_gap_lemma.md",
+    "evidence/recursive_gap_replay.json",
+    "evidence/survivor_deepening.md",
+    "evidence/bridge_falsification_and_survivors.md",
+    "evidence/finite_kill_tests.json",
+    "evidence/density_sensitive_block_merge.md",
+    "evidence/generic_block_merge_counterexamples.json",
+    "evidence/successive_product_phase_summary.json",
+    "evidence/random_subset_character_audit.md"
+  ],
+  "dependency_gaps": [
+    "The proved bound retains the full exp((1+o(1))k) scale and therefore satisfies none of the campaign promotion conditions.",
+    "The stronger density-scale CRT interval-box gap lemma G(A)<=q_max^B*C^m*Q/product d_i remains unproved; finite exhaustive and random searches are falsification evidence only.",
+    "Minkowski and Dirichlet bounds are symmetric and do not preserve the required coordinate orthant, as the exact k=7 mixed-sign example shows.",
+    "Density, translated moments, and additive energy do not control a distinguished or maximum gap without a new interval-product inequality.",
+    "The unconditional prefix agreement lemma controls exact coordinate collisions, not interval-membership collisions, and therefore does not imply the gap lemma.",
+    "A least-positive-representative theorem is insufficient because the 451 CRT box has trivial representatives in (k,2k]; an exp(o(k)) proof must bound the successor after 2k or the maximum cyclic gap.",
+    "The exact recursive loss is the last step Q_{m-1}(p_m-d_m), asymptotic to P_k/2; a new multi-seed pointwise incidence lemma is required to replace it.",
+    "The phase-blind short-window projection, conditional-discrepancy, and collision-energy candidates all have exact counterexamples already with one old aligned 451 prime; their loss must depend on block count and Q mod p coherence.",
+    "A proved one-prime phase-aware discrepancy lemma records the exact rational-rotation phase sum, but actual successive products can have Q mod p=+-1 and maximal-scale interval discrepancy.",
+    "The oracle discrepancy-greedy ordering has a favorable finite cumulative proxy, but no deterministic ordering theorem is proved and the orbit of one seed b+tQ does not control the many distinct old seeds inside a short prefix without first paying Q.",
+    "The exact random-subset Fourier coefficient is product_q(1+chi(q))/2; exponential mixing would follow from a uniform prime-character gap at moduli p asymptotic to k. Such an unconditional input is not certified here, GRH would be conditional, and even perfect phase mixing does not supply the separate many-seed fixed-prefix transfer.",
+    "The elementary bad-phase divisor-counting lemma only guarantees avoidance of hQ congruent to small a for an initial O(m/(HA)) range of stages and cannot control the middle and late merges."
+  ]
+}

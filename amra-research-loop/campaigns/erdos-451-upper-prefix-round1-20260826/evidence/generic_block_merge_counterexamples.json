@@ -1,0 +1,65 @@
+{
+  "schema_version": "erdos451.generic_block_merge_counterexamples.v1",
+  "guard": {
+    "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/generic_block_merge_search.py --max-q-exhaustive 2 --max-p-exhaustive 2 --max-p-structured 101 --max-k-451-aligned 100",
+    "unit": "openmath-task-20260826-152906-125361.scope",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "exit_status": 0,
+    "aligned_451_parameter_tuples_tested_until_all_three_found": 213740
+  },
+  "candidate_integer_forms": {
+    "P1": "2^b |proj_p X| >= min(p,N)",
+    "P2": "|p |X cap I|-dN| <= p^2 2^b for the external cyclic interval I of width d",
+    "P3": "p E_p(X) <= N^2+p 2^b N"
+  },
+  "exact_451_aligned_b_equals_1_counterexamples": {
+    "P1": {
+      "k": 18,
+      "old_prime_q": 29,
+      "external_prime_p": 31,
+      "old_width_q_minus_k": 11,
+      "external_width_p_minus_k": 13,
+      "block_count_t": 3,
+      "original_window_J_half_open": [19, 88],
+      "N": 33,
+      "projection_size": 15,
+      "integer_lhs_2_times_projection": 30,
+      "integer_rhs_min_p_N": 31
+    },
+    "P2": {
+      "k": 70,
+      "old_prime_q": 137,
+      "external_prime_p": 139,
+      "prime_gap_Delta": 2,
+      "old_width_q_minus_k": 67,
+      "external_width_p_minus_k": 69,
+      "block_count_t": 13,
+      "original_window_J_half_open": [71, 1782],
+      "N": 871,
+      "external_hits": 715,
+      "integer_lhs_abs_p_hits_minus_dN": 39286,
+      "integer_rhs_2p_squared": 38642
+    },
+    "P3": {
+      "k": 22,
+      "old_prime_q": 41,
+      "external_prime_p": 43,
+      "prime_gap_Delta": 2,
+      "old_width_q_minus_k": 19,
+      "external_width_p_minus_k": 21,
+      "block_count_t": 6,
+      "original_window_J_half_open": [23, 247],
+      "N": 114,
+      "collision_energy_E": 544,
+      "integer_lhs_pE": 23392,
+      "integer_rhs_N_squared_plus_2pN": 22800
+    }
+  },
+  "unrestricted_coprime_family": {
+    "description": "For q=p+1, old interval [0,s), and s consecutive q-blocks, the mod-p multiplicities are the triangular convolution of two length-s intervals.",
+    "consequence_P1": "Taking s about sqrt(p) makes projection/N about 2/s, so no bound with a fixed C^b in place of 2^b can hold for arbitrary coprime moduli.",
+    "consequence_P2_P3": "Taking s proportional to p makes the interval discrepancy and energy excess exceed the proposed fixed-C scales; the loss is coherent block phase, not a bad numerical constant."
+  },
+  "interpretation": "Each listed inequality is an exact strict violation. The examples kill only the stated phase-blind candidates. They do not refute a theorem that explicitly pays for window block count and q mod p coherence, nor the open aligned maximum-gap theorem."
+}

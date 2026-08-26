@@ -1,0 +1,35 @@
+{
+  "inherited_methods": [
+    {
+      "method": "Published Section 6 order bound r<=ceil(2c log(k)/loglog(k))",
+      "loss_step": "The existence proof for r compares k^r with both n and r! by spending a second copy of c*log(k)^2/loglog(k), although log(r!)=O(log k) when r=O(log(k)/loglog(k)).",
+      "lost_information": "The factorial contributes only lower order on the log(k)^2/loglog(k) scale, so the least admissible r is asymptotic to c*log(k)/loglog(k), not 2c*log(k)/loglog(k).",
+      "consequence": "The inherited 19/240 candidate is based on a factor-two loss and is not the parametric frontier."
+    },
+    {
+      "method": "Equalizing the first two Theorem 4.1 terms without an optimality certificate",
+      "loss_step": "The source chooses lambda so the first two terms coincide but does not record their lambda-independent product.",
+      "lost_information": "If A and B denote those terms, then A^(2r-1)*B^(r-1)=k^(theta-1). This identity both proves the balancing scale is exponent-optimal and imposes the barrier (3r-2)loglog(k)<=(1-theta)log(k).",
+      "consequence": "Non-balanced lambda cannot improve the leading frontier within a termwise Theorem 4.1 certificate."
+    },
+    {
+      "method": "Coarse third-term envelope k^(-1/(6r))",
+      "loss_step": "Minimality of r and the exact balanced lambda are replaced by lambda<k^((2-theta)/r), followed by multiple coarse exponent relaxations.",
+      "lost_information": "The third term has log-decay exponent asymptotic to 1/(2c), not merely 1/(12c), when r~c log(k)/loglog(k).",
+      "consequence": "The apparent constraint c<1/12 is artificial; throughout the source theta range the first-two-term barrier is reached before the third term becomes critical."
+    },
+    {
+      "method": "Finite or polylogarithmic comparable prime-block segmentation",
+      "loss_step": "Each block is bounded independently by the same nonnegative Theorem 4.1 right-hand side, after which the bounds are summed and compared only with blockwise short-interval prime counts.",
+      "lost_information": "No cancellation or cross-block correlation is retained, and every comparable block inherits the same A--B product barrier up to k^(o(1)) factors.",
+      "consequence": "Such segmentation changes constants or logarithmic factors but cannot improve the leading c(theta) frontier. This does not rule out a new multiblock theorem retaining correlations."
+    }
+  ],
+  "required_new_information": [
+    "A sharp asymptotic upper bound r<=(c+epsilon)log(k)/loglog(k) for the least r with n*r!<=k^(r+theta).",
+    "An exact minimax analysis of all lambda>=1 using A^(2r-1)B^(r-1)=k^(theta-1).",
+    "A separate audit of the third and additive terms at the sharpened r scale, including bounded r.",
+    "A precisely scoped no-go lemma distinguishing failure of this upper-bound certificate from a lower bound on the true bad-point count.",
+    "A blockwise argument showing which segmentations preserve the same exponent and an explicit statement of the correlated-block methods left open."
+  ]
+}

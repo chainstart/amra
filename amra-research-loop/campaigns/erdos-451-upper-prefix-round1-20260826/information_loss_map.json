@@ -1,0 +1,67 @@
+{
+  "inherited_methods": [
+    {
+      "method": "Full-period CRT density",
+      "loss_step": "Replace the distinguished set of integers 2k<n<=H by a uniformly chosen residue modulo P_k=product_{k<p<2k}p and retain only D_k=product(p-k)/p.",
+      "lost_information": "The order of residue classes and the location of the first allowed representative after 2k.",
+      "consequence": "Even an exact positive density only proves that an allowed class exists somewhere below P_k=exp((1+o(1))k); a translate of a CRT box of the same density can put its entire allowed set after an arbitrarily prescribed shorter prefix."
+    },
+    {
+      "method": "First or second moment over translated H-windows modulo P_k",
+      "loss_step": "Average the starting point x of (x,x+H] before asking about the single starting point x=2k.",
+      "lost_information": "Exceptional translates and, in particular, the initial translate defining n_k.",
+      "consequence": "A positive proportion of nonempty translates is compatible with the fixed initial translate being empty; no quantifier permits specializing an averaged existence statement to x=2k."
+    },
+    {
+      "method": "Uncompressed Bonferroni or combinatorial sieve on [1,H]",
+      "loss_step": "Use only intersections indexed by squarefree products d of interval primes with d<=H, the range where interval counts have useful distribution error.",
+      "lost_information": "All interaction orders above R=floor(log H/log k) among m=pi(2k)-pi(k) constraints.",
+      "consequence": "At H=exp(Ck/log k), R/m=O(1/log k); even at H=exp(epsilon*k), R/m is only epsilon+o(1). The omitted high-order constraints create the rare all-allowed event, so ordinary truncated inclusion-exclusion cannot recover it uniformly for every epsilon>0."
+    },
+    {
+      "method": "One-variable Lovasz local lemma",
+      "loss_step": "Model every forbidden congruence event as a function of the same uniformly chosen integer n.",
+      "lost_information": "There is no local resampling coordinate: every pair of events shares the sole random variable.",
+      "consequence": "The natural dependency graph is complete, so the symmetric local-lemma condition is exponentially worse than the desired density scale."
+    },
+    {
+      "method": "Symmetric simultaneous recurrence via Dirichlet or Minkowski",
+      "loss_step": "Replace the one-sided conditions n mod p in {0,-1,...,-(p-k-1)} by the symmetric inequalities ||n/p||<=(p-k)/p.",
+      "lost_information": "The independent sign of the small residue at every prime.",
+      "consequence": "The resulting short recurrence may have a small positive residue for some primes and a small negative residue for others; choosing n or -n flips all signs together and does not recover the one-sided CRT box."
+    },
+    {
+      "method": "Block CRT using all old solutions in a complete old period Q",
+      "loss_step": "Replace the candidate list inside the desired short prefix by all |B| representatives in an interval of length exactly the old modulus Q before projecting them to the next prime or block.",
+      "lost_information": "The sought subexponential prefix length; the projection may be large only because the argument has already paid the exponentially large period Q.",
+      "consequence": "The proved multi-seed Cauchy--Davenport bound is pointwise but costs (T+1)Q. Once the old density is below 1/p its projection lower bound collapses to one residue and the final merge again costs about Qk, asymptotic to P_k/2. A valid block recursion must control projections of candidates inside short prefixes, not complete periods."
+    },
+    {
+      "method": "Linear sumset projection of unreduced CRT idempotent sums",
+      "loss_step": "Project sum_i s_i e_i modulo a future prime before reducing that sum to its canonical representative modulo the old product Q.",
+      "lost_information": "The carry multiple tQ used in canonical reduction; modulo a future prime this carry is nonzero and depends on the entire offset vector.",
+      "consequence": "Cauchy--Davenport expansion of the unreduced sumset does not imply expansion of the actual short representatives. Keeping the unreduced sums retains linear structure but pays size O(mQ), again losing the target scale."
+    },
+    {
+      "method": "Successive-product phase or continued-fraction ledger",
+      "loss_step": "Replace the residues modulo the next prime of all distinct old solutions in a short prefix by the single orbit b+tQ of one seed under the old period Q.",
+      "lost_information": "The locations and phases of the many old seeds already present before one pays Q; the orbit discrepancy of Q mod p describes repeats of one seed, not their short-prefix projection.",
+      "consequence": "Even a favorable ordering bound for the rational-rotation discrepancy still moves by real increments tQ and retains the exponential old-period cost. Conversely actual increasing-order products can have Q mod p=+-1 and macroscopic discrepancy. A successful phase argument needs both an ordering inequality and a many-seed short-prefix propagation theorem."
+    },
+    {
+      "method": "Random predecessor subset product modulo the next prime",
+      "loss_step": "Average the proof order or the old-prime subset and retain only the multiplicative character law of Q_old mod p.",
+      "lost_information": "The fixed intermediate survivor set B_S cap J and the joint correlation between its representatives and the randomized subset product.",
+      "consequence": "The exact Fourier coefficient product_q(1+chi(q))/2 can mix under a strong prime-character gap, conditionally for example under GRH, but this only randomizes a period step. It cannot imply a point in the distinguished short prefix without a separate many-seed transfer theorem."
+    }
+  ],
+  "required_new_information": [
+    "A pointwise, not translation-averaged, certificate locating a member of the one-sided CRT box in the initial prefix.",
+    "A compressed high-order statistic that sees a positive proportion of the k/log k prime constraints without requiring their full product modulus.",
+    "A mechanism exploiting the common endpoint zero or the varying widths p-k, rather than treating the allowed residue subsets as arbitrary sets of the same density.",
+    "For any geometry-of-numbers route, an orthant-sensitive lattice bound whose dimension loss is exp(o(k)), together with a proof that it controls the positive n-coordinate.",
+    "For block recursion, a short-prefix projection or carry-control lemma showing that O(exp(block_size)) old candidates expand against the next CRT interval box without first enumerating a full old period.",
+    "For any phase-ordering route, a deterministic bound on the cumulative interval discrepancy of Q_old mod p_new together with a separate proof that this one-orbit ledger controls the many distinct seeds in the fixed short prefix.",
+    "For a random-subset route, an unconditional uniform multiplicative-character gap for prime candidates at modulus p asymptotic to k, or a replacement avoiding that analytic input; this still must be paired with the many-seed fixed-prefix transfer."
+  ]
+}

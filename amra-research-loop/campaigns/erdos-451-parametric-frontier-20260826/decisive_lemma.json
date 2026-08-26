@@ -1,0 +1,23 @@
+{
+  "statement": "Parametric attaining theorem and matching method barrier. If 2/5<theta<3/5 satisfies the source paper's short-prime count PI(theta), then for every fixed c<(1-theta)/3 and all sufficiently large k, every integer 2k<n<=exp(c(log k)^2/loglog k) has a prime divisor p in (k,k+3k^theta) of (n-k)...(n-1), hence p in (k,2k). With the Baker--Harman--Pintz value theta=21/40, this gives every c<19/120. Conversely, no termwise blockwise Theorem 4.1 little-o certificate as precisely defined in evidence/parametric_frontier_proof.md reaches c>=(1-theta)/3; this no-go is about that certificate class, not the true bad-point count or Erdős #451 as a whole.",
+  "status": "proved",
+  "closes": [
+    "main_exponent_improved",
+    "standalone_decisive_lemma"
+  ],
+  "evidence": [
+    "evidence/parametric_frontier_proof.md: author-verified natural proof of the attaining theorem and delimited no-go theorem.",
+    "evidence/frontier_falsification.md: exact lambda invariant, residual-term audit, and killed alternatives.",
+    "evidence/frontier_algebra_replay.json: guarded exact rational replay; script SHA-256 0259ba9f7d7a5eadd3cb496c74d7ca7e45ee416e6dd2a0b5c71516ad1332ef29.",
+    "evidence/theorem41_uniformity_audit.md: the pinned formal Theorem 4.1 uses one explicit c6 independent of growing r; upstream SHA-256 44e478bed8d756f271aaffd45af5fa4797fbee857aa780f7412275a521b84004.",
+    "audit/adversarial_self_audit.md: adversarial author audit, explicitly not independent.",
+    "audit/independent_reconstruction.md and audit.json: blind reconstruction, statement match, and dependency audit passed.",
+    "evidence/lean_parametric_frontier.json: guarded Lean proof of the full theta=21/40 theorem for every real 0<c<19/120.",
+    "evidence/lean_theta_interface_audit.md: guarded parameter-interface extraction and exact general-theta blocker."
+  ],
+  "dependency_gaps": [
+    "The abstract theta theorem assumes PI(theta); the theta=21/40 corollary imports the Baker--Harman--Pintz short-prime input exactly as the source paper does.",
+    "Lean formalizes the unconditional theta=21/40 attaining theorem and the general PI(theta) interface. The exact remaining obligation is ParametricRangeBuilder theta c, a replay of the four fixed-exponent source ranges from abstract PrimeIntervalInput theta; the full abstract theorem and delimited no-go theorem remain independently audited natural proofs.",
+    "Novelty and publication priority remain unchecked."
+  ]
+}

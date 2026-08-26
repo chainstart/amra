@@ -1,0 +1,158 @@
+{
+  "mechanisms": [
+    {
+      "id": "MPF-01",
+      "representation_id": "RPF-03",
+      "family": "discrete_order",
+      "decisive_claim": "The least r with n*r!<=k^(r+theta) satisfies r<=(c+epsilon)log(k)/loglog(k) uniformly up to n=exp(c log(k)^2/loglog(k)).",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Retain log(r!) exactly enough to test whether it is lower-order uniformly at the endpoint.",
+      "status": "proved",
+      "created_at": "2026-08-26T06:25:10+00:00",
+      "status_evidence": "evidence/frontier_falsification.md: sharpened least-order lemma with r<=(c+epsilon)log(k)/loglog(k).",
+      "updated_at": "2026-08-26T06:28:18+00:00"
+    },
+    {
+      "id": "MPF-02",
+      "representation_id": "RPF-02",
+      "family": "lambda_optimization",
+      "decisive_claim": "A deliberately non-balanced lambda makes both first Theorem 4.1 terms smaller in the leading exponent than the source balance.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Multiply the powered terms and solve the exact minimax problem over lambda.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:25:10+00:00",
+      "status_evidence": "evidence/frontier_falsification.md: exact A--B product invariant rules out a leading gain from non-balanced lambda.",
+      "updated_at": "2026-08-26T06:28:18+00:00"
+    },
+    {
+      "id": "MPF-03",
+      "representation_id": "RPF-02",
+      "family": "lambda_optimization",
+      "decisive_claim": "The source balanced lambda is exponent-optimal for fixed r and yields A=B=k^(-(1-theta)/(3r-2)).",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Verify lambda>=1 at the least r and recompute both substitutions exactly.",
+      "status": "proved",
+      "created_at": "2026-08-26T06:25:11+00:00",
+      "status_evidence": "evidence/frontier_falsification.md and evidence/frontier_algebra_replay.json: exact balanced substitution.",
+      "updated_at": "2026-08-26T06:28:18+00:00"
+    },
+    {
+      "id": "MPF-04",
+      "representation_id": "RPF-04",
+      "family": "residual_terms",
+      "decisive_claim": "The third Konyagin term imposes the genuine frontier c<1/12 after sharpening r.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Insert r~c log(k)/loglog(k) and the exact minimality bound for lambda instead of k^(-1/(6r)).",
+      "status": "killed",
+      "created_at": "2026-08-26T06:25:11+00:00",
+      "status_evidence": "evidence/frontier_falsification.md: exact third-term decay is log^(-1/(2c)+o(1)); 1/12 is coarse.",
+      "updated_at": "2026-08-26T06:28:18+00:00"
+    },
+    {
+      "id": "MPF-05",
+      "representation_id": "RPF-04",
+      "family": "residual_terms",
+      "decisive_claim": "The additive r*lambda term imposes a new c-dependent restriction inside 2/5<theta<3/5.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Maximize its exact k-exponent over all integer r>=3 and compare it to theta.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:25:11+00:00",
+      "status_evidence": "evidence/frontier_falsification.md: additive exponent decreases from r=3 and remains below theta in the frozen range.",
+      "updated_at": "2026-08-26T06:28:19+00:00"
+    },
+    {
+      "id": "MPF-06",
+      "representation_id": "RPF-01",
+      "family": "order_tradeoff",
+      "decisive_claim": "Taking r asymptotically larger than the least admissible value improves the third term enough to improve the overall c frontier.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Track how larger r changes the A--B minimax exponent and compare the two constraints.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:25:11+00:00",
+      "status_evidence": "evidence/frontier_falsification.md: larger r worsens the active A--B minimax exponent.",
+      "updated_at": "2026-08-26T06:28:19+00:00"
+    },
+    {
+      "id": "MPF-07",
+      "representation_id": "RPF-05",
+      "family": "block_segmentation",
+      "decisive_claim": "Summing finitely or polylogarithmically many comparable independent prime blocks improves the leading c(theta) frontier.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Normalize prime supply and Theorem 4.1 error per block; test whether the common A--B lower envelope cancels in the ratio.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:25:11+00:00",
+      "status_evidence": "evidence/frontier_falsification.md: independent comparable blocks scale error and prime supply equally.",
+      "updated_at": "2026-08-26T06:28:19+00:00"
+    },
+    {
+      "id": "MPF-08",
+      "representation_id": "RPF-06",
+      "family": "block_segmentation",
+      "decisive_claim": "Using a longer prime block beta>theta improves the leading c(theta) frontier.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Replace theta by beta in both the divisibility threshold and A--B product and optimize beta.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:25:12+00:00",
+      "status_evidence": "evidence/frontier_falsification.md: beta>theta changes the candidate frontier to the smaller (1-beta)/3.",
+      "updated_at": "2026-08-26T06:28:19+00:00"
+    },
+    {
+      "id": "MPF-09",
+      "representation_id": "RPF-06",
+      "family": "prime_input",
+      "decisive_claim": "The PI(theta) count can be subdivided into shorter beta<theta blocks with enough guaranteed primes to improve the frontier.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Check the quantifiers of PI(theta); construct distributions of the guaranteed primes concentrated in one subblock.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:25:12+00:00",
+      "status_evidence": "evidence/frontier_falsification.md: PI(theta) has no shorter-subblock count consequence.",
+      "updated_at": "2026-08-26T06:28:19+00:00"
+    },
+    {
+      "id": "MPF-10",
+      "representation_id": "RPF-07",
+      "family": "range_synthesis",
+      "decisive_claim": "For every 2/5<theta<3/5 satisfying PI(theta) and every c<(1-theta)/3, the full source range proof yields p in (k,k+3k^theta), hence in (k,2k) for large k.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Adversarially replay all four n ranges, lambda>=1, r constraints, bounded r, and the final interval embedding.",
+      "status": "proved",
+      "created_at": "2026-08-26T06:25:12+00:00",
+      "status_evidence": "evidence/parametric_frontier_proof.md, Theorem A; adversarial_self_audit.md. Author-verified natural proof, independent audit pending.",
+      "updated_at": "2026-08-26T06:32:47+00:00"
+    },
+    {
+      "id": "MPF-11",
+      "representation_id": "RPF-08",
+      "family": "certificate_duality",
+      "decisive_claim": "No proof in the delimited termwise blockwise Theorem 4.1 little-o certificate class can reach c>=(1-theta)/3.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Attempt non-balanced lambda, variable r, comparable multiblocks, and the equality endpoint; reject any argument that confuses a lower bound on the certificate with a lower bound on the true K.",
+      "status": "proved",
+      "created_at": "2026-08-26T06:25:12+00:00",
+      "status_evidence": "evidence/parametric_frontier_proof.md, Theorem B; adversarial_self_audit.md. Precisely limited to termwise blockwise little-o certificates.",
+      "updated_at": "2026-08-26T06:32:47+00:00"
+    }
+  ]
+}

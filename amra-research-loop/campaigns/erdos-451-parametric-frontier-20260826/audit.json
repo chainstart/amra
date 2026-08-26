@@ -1,0 +1,17 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex reviewer /root/erdos451_frontier_audit",
+    "evidence": [
+      "audit/independent_reconstruction.md: blind natural reconstruction completed and saved before author evidence was opened",
+      "Upstream ErdősProblem451.lean at commit 92a033fa99f0a53a3c16257c47e3d9e04dfc3f55, raw SHA-256 44e478bed8d756f271aaffd45af5fa4797fbee857aa780f7412275a521b84004",
+      "Guarded independent replay: openmath-task-20260826-144906-115238.scope"
+    ]
+  },
+  "statement_match": "passed",
+  "statement_match_details": "Exact match for fixed 2/5<theta<3/5, every fixed 0<c<(1-theta)/3, all sufficiently large integer k, every integer n in the full frozen range, the prime output first in (k,k+3k^theta), the BHP theta=21/40 corollary c<19/120, and the precisely delimited little-o certificate barrier at c>=(1-theta)/3. Equality is correctly a little-o no-go, not an unconditional exact-constant no-go.",
+  "dependency_check": "passed",
+  "dependency_check_details": "Sections 2, 3, 5, and 6 were independently replayed at natural-proof level. Theorem 4.1 matches upstream konyagin_application and has one fixed c6 independent of r; PI(theta) remains explicit, and the fixed 21/40 corollary imports BHP exactly as the source paper does. The full upstream Lean file was source-audited but not locally kernel-replayed under Lean 4.28.0.",
+  "novelty_check": "priority_uncertain",
+  "novelty_check_details": "No primary-literature novelty or priority search was performed. This audit makes no priority or publication claim."
+}

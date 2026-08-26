@@ -1,0 +1,94 @@
+{
+  "representations": [
+    {
+      "id": "U451-R01",
+      "name": "One-sided CRT box and successor after 2k",
+      "family": "crt_geometry",
+      "new_information": "Keeps the exact box A_p={0,-1,...,-(p-k-1)} and the order of its CRT image in [0,P_k).",
+      "repairs_loss": "Does not replace the initial prefix by a random translate or by scalar density.",
+      "first_test": "Enumerate exact small CRT boxes, their successor after 2k, maximum gap, and translated successors; compare with 1/D_k.",
+      "closure_interface": "An exp(o(k)) upper bound for the first CRT-box representative strictly after 2k closes the requested upper half; a bound for the least positive point does not, because the box has trivial points in (k,2k]."
+    },
+    {
+      "id": "U451-R02",
+      "name": "Forward simultaneous multiple windows",
+      "family": "diophantine_intervals",
+      "new_information": "Represents admissibility as the existence, for every p, of p|n+s_p with 0<=s_p<p-k.",
+      "repairs_loss": "Exposes the common left endpoint n and the prime-dependent one-sided window width.",
+      "first_test": "For exact first representatives, record offsets s_p and quotients (n+s_p)/p and test whether a low-complexity quotient law or shared factor explains them.",
+      "closure_interface": "A construction of simultaneous forward multiples with n<=exp(o(k)) proves the target directly."
+    },
+    {
+      "id": "U451-R03",
+      "name": "Orthant lattice",
+      "family": "geometry_of_numbers",
+      "new_information": "Embeds (n,s_p) in the lattice n+s_p=p a_p and retains the signs 0<=s_p<p-k as an orthant constraint.",
+      "repairs_loss": "Makes explicit the sign information erased by symmetric Dirichlet approximation.",
+      "first_test": "Find the shortest symmetric recurrence and shortest one-sided recurrence in exact small systems; measure their ratio and construct sign-obstruction examples.",
+      "closure_interface": "An orthant-sensitive lattice-point bound producing 2k<n<=exp(O(m log log k)) would imply exp(o(k)); merely producing a positive lattice point can return a trivial interval prime n<=2k."
+    },
+    {
+      "id": "U451-R04",
+      "name": "Local Fourier product with support ledger",
+      "family": "harmonic_analysis",
+      "new_information": "Factors the exact Fourier transform into interval coefficients while recording the number of active prime frequencies in every character.",
+      "repairs_loss": "Retains pointwise prefix phases rather than only pair correlations averaged over translations.",
+      "first_test": "Compute the exact Fourier prefix decomposition for small squarefree systems and separate low-support, high-support, and near-zero-frequency contributions.",
+      "closure_interface": "A pointwise error O(exp(O(m log log k))) below the main count H D_k would prove exp(o(k))."
+    },
+    {
+      "id": "U451-R05",
+      "name": "Block-CRT meet in the middle",
+      "family": "additive_combinatorics",
+      "new_information": "Groups primes into product moduli and studies the additive incidence that makes two block solutions combine to a small global CRT representative.",
+      "repairs_loss": "Preserves the actual representative during CRT composition instead of multiplying all block periods blindly.",
+      "first_test": "For small systems split primes in every balanced way and compare the minimum combined representative with block densities and additive energies.",
+      "closure_interface": "A two-block small-incidence theorem iterated over O(1/epsilon) blocks could yield exp(epsilon k)."
+    },
+    {
+      "id": "U451-R06",
+      "name": "Coverage-depth moment problem",
+      "family": "sieve_moments",
+      "new_information": "Uses C_k(n)=#{p:n mod p in [1,k]} and asks whether its truncated moments force mass at C_k=0.",
+      "repairs_loss": "Quantifies exactly which high-order correlations a lower-bound sieve would need.",
+      "first_test": "Solve the finite truncated moment linear program and evaluate Bonferroni polynomials on the independent half-density comparator.",
+      "closure_interface": "A low-degree polynomial minorant for 1_{C=0} with controllable CRT moment errors would prove a positive prefix count."
+    },
+    {
+      "id": "U451-R07",
+      "name": "Ordered covering-system dual",
+      "family": "covering_entropy",
+      "new_information": "Treats n_k>H as a cover of the fixed ordered interval (2k,H] by aligned length-k blocks modulo distinct primes.",
+      "repairs_loss": "Retains endpoints, run lengths, and the common phase 1 of every forbidden block.",
+      "first_test": "Extract exact covers for small k, compute indispensable witnesses and boundary transition counts, and compare with translated phases.",
+      "closure_interface": "A compression or dual certificate that every such cover has description length at least log H would bound the initial covered run."
+    },
+    {
+      "id": "U451-R08",
+      "name": "Quotient-stable multiscale blocks",
+      "family": "recursive_prefix",
+      "new_information": "Partitions n by the vectors floor(n/p), whose changes occur at actual prime multiples and therefore retain position.",
+      "repairs_loss": "Turns the initial prefix into a deterministic boundary recursion rather than a translation average.",
+      "first_test": "Compute block sizes and child-boundary counts over exact prefixes; kill contraction claims when exceptional boundary mass does not decrease.",
+      "closure_interface": "A recursion with exp(O(m log log k)) total boundary states would imply exp(o(k))."
+    },
+    {
+      "id": "U451-R09",
+      "name": "Common-endpoint monotone CRT sumset",
+      "family": "additive_combinatorics",
+      "new_information": "Writes the allowed CRT image as the sum of intervals along CRT idempotents, all anchored at residue zero, and distinguishes it from arbitrary equal-density subsets.",
+      "repairs_loss": "Preserves the aligned endpoint that generic density counterexamples destroy.",
+      "first_test": "Compute iterated sumsets, difference sets, longest monotone chains, maximum cyclic gaps, and the successor after 2k on small systems; reject least-positive surrogates because interval primes give trivial points below 2k.",
+      "closure_interface": "A successor-after-2k or maximum-gap theorem for anchored CRT interval sumsets would locate n_k; a least-positive-element theorem is insufficient."
+    },
+    {
+      "id": "U451-R10",
+      "name": "Near-k prime absorption plus widened boxes",
+      "family": "hybrid_construction",
+      "new_information": "Pays exp(delta) to make primes in (k,k+delta) divide n, leaving widths at least delta for all remaining constraints.",
+      "repairs_loss": "Separates the few narrow one-sided coordinates that dominate Fourier and lattice condition numbers.",
+      "first_test": "Optimize delta on exact systems and test whether the first representative among multiples of the absorbed-prime product falls by more than the absorption cost.",
+      "closure_interface": "With delta=k/log k, a widened-box first-representative bound (C log k)^m would be exp(o(k))."
+    }
+  ]
+}

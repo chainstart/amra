@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "U451-M01",
+      "representation_id": "U451-R01",
+      "family": "density_transfer",
+      "decisive_claim": "For the aligned one-sided CRT intervals, the least representative strictly after 2k is at most 2k plus a fixed polynomial in k times D_k^{-1}.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Compare exact aligned and independently translated interval boxes with identical widths; reject any proof step using only density or cardinality when a translated box delays the first point by an arbitrarily larger factor.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md and evidence/finite_kill_tests.json",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    },
+    {
+      "id": "U451-M02",
+      "representation_id": "U451-R01",
+      "family": "translation_moments",
+      "decisive_claim": "A positive first or second moment for a uniformly translated H-window implies that the initial window (2k,H] contains an allowed representative.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Exhibit a periodic set and an H for which most or some translated windows are nonempty but the translate starting at 2k is empty; write the failed quantifier specialization explicitly.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md and evidence/finite_kill_tests.json",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    },
+    {
+      "id": "U451-M03",
+      "representation_id": "U451-R06",
+      "family": "truncated_sieve",
+      "decisive_claim": "Bonferroni information through every squarefree modulus d<=H gives a positive lower bound for the all-allowed count for H=exp(epsilon*k), uniformly for every fixed epsilon>0.",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "On the independent half-density comparator, compute exact odd Bonferroni lower polynomials at degree floor(epsilon*m); reject if they remain nonpositive although the exact survivor mass is 2^{-m}.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md and evidence/finite_kill_tests.json",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    },
+    {
+      "id": "U451-M04",
+      "representation_id": "U451-R03",
+      "family": "orthant_geometry",
+      "decisive_claim": "A symmetric Dirichlet recurrence with |n mod p|<p-k can always be globally oriented to put every coordinate in the allowed negative half-box.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Search pairwise-coprime finite systems for a shortest symmetric recurrence with mixed residue signs and no choice between n and -n admissible; retain only if a sign-correction mechanism is supplied.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md and evidence/finite_kill_tests.json",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    },
+    {
+      "id": "U451-M05",
+      "representation_id": "U451-R03",
+      "family": "orthant_geometry",
+      "decisive_claim": "For the Erdos-451 lattice there is an orthant point 2k<n<=2k+k^O(1)*C^m*product_{k<p<2k} p/(p-k), with an absolute C.",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Enumerate exact one-sided and symmetric minima, test arbitrary coprime interval systems for skew-lattice counterexamples, and audit whether any proposed lattice theorem has a dimension factor larger than exp(O(m log log k)).",
+      "status": "surviving",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md: survives first falsification with an explicit closure gap",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    },
+    {
+      "id": "U451-M06",
+      "representation_id": "U451-R04",
+      "family": "pointwise_fourier",
+      "decisive_claim": "The nonzero Fourier contribution to the fixed prefix count is O(exp(O(m log log k))) uniformly in H, after narrow-prime absorption.",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Compute exact Fourier contributions on small CRT systems and isolate characters of support above log H/log k; kill the naive absolute-value proof if near-zero high-support characters contribute H times their coefficient mass.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md and evidence/finite_kill_tests.json",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    },
+    {
+      "id": "U451-M07",
+      "representation_id": "U451-R05",
+      "family": "block_crt",
+      "decisive_claim": "Two aligned CRT interval boxes on coprime block moduli have a combined representative at most exp(O(m))*max(Q_1,Q_2), controlled by their additive energy rather than Q_1 Q_2.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Enumerate all balanced splits in small systems, compare combined minima against energies, and search arbitrary anchored interval systems for pairs whose first combined representative is a fixed fraction of Q_1Q_2.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md and evidence/finite_kill_tests.json",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    },
+    {
+      "id": "U451-M08",
+      "representation_id": "U451-R07",
+      "family": "covering_entropy",
+      "decisive_claim": "Any cover of the initial interval by the aligned forbidden prime blocks has an injective boundary encoding using O(m log log k) bits, so its covered length is at most exp(O(m log log k)).",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Extract exact covering words and indispensable boundary witnesses; reject encodings that are noninjective or require recording one of k phases independently per prime.",
+      "status": "surviving",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md and evidence/density_sensitive_block_merge.md: the phase-blind entropy/projection candidates are killed, while a phase-aware covering interface is proved but leaves an ordering and many-seed propagation gap",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    },
+    {
+      "id": "U451-M09",
+      "representation_id": "U451-R08",
+      "family": "prefix_recursion",
+      "decisive_claim": "Quotient-stable block decomposition reduces unresolved boundary mass by a fixed factor at each scale with only exp(O(m)) states.",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Measure child boundary mass over exact prefixes and construct a scale where every parent produces as many unresolved boundary states as its length permits.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md and evidence/finite_kill_tests.json",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    },
+    {
+      "id": "U451-M10",
+      "representation_id": "U451-R09",
+      "family": "monotone_sumset",
+      "decisive_claim": "For the anchored CRT interval sumset A of the 451 widths, the successor of 2k is at most 2k+k^O(1)*C^m*P/|A| for an absolute C; equivalently it suffices to prove this upper bound for the distinguished gap containing 2k.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Exhaust small coprime moduli and widths, maximize the cyclic gap divided by P/|A|, include extreme narrow/wide mixtures, and test whether recursive, monotone-chain, or difference-set proofs lose a factor q_max at every merge or lose coordinatewise sign.",
+      "status": "surviving",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md and evidence/density_sensitive_block_merge.md: common-endpoint gap route survives, but fixed-C short-window projection, discrepancy, and energy bridges are exactly falsified",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    },
+    {
+      "id": "U451-M11",
+      "representation_id": "U451-R10",
+      "family": "absorption_hybrid",
+      "decisive_claim": "Absorbing every prime p<k+k/log k and applying a widened-box theorem to the rest yields n_k<=exp(O(k log log k/log k)).",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Separate the proved absorption cost from the unproved widened-box input; kill any argument that silently treats a symmetric recurrence or average translate as the needed one-sided first representative.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md and evidence/finite_kill_tests.json",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    },
+    {
+      "id": "U451-M12",
+      "representation_id": "U451-R02",
+      "family": "quotient_law",
+      "decisive_claim": "At the least admissible n, the quotients (n+s_p)/p occupy only exp(O(m)) structured patterns, one of which can be constructed below exp(O(m log log k)).",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Compute quotient vectors at exact first representatives and compare their number of changes, distinct values, and compressibility with random admissible CRT representatives; reject if the claimed law is merely the original congruence system re-encoded.",
+      "status": "killed",
+      "created_at": "2026-08-26T06:30:49+00:00",
+      "status_evidence": "evidence/bridge_falsification_and_survivors.md and evidence/finite_kill_tests.json",
+      "updated_at": "2026-08-26T06:40:55+00:00"
+    }
+  ]
+}

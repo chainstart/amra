@@ -1,0 +1,39 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "MPF-02",
+      "outcome": "killed",
+      "evidence": "evidence/frontier_falsification.md: A^(2r-1)B^(r-1)=k^(theta-1) for every lambda, and the balanced choice attains the exponent-optimal envelope."
+    },
+    {
+      "mechanism_id": "MPF-04",
+      "outcome": "killed",
+      "evidence": "evidence/frontier_falsification.md: the exact third term is log^(-1/(2c)+o(1)), so its barrier c=1/2 lies beyond the active first-two-term barrier."
+    },
+    {
+      "mechanism_id": "MPF-05",
+      "outcome": "killed",
+      "evidence": "evidence/frontier_falsification.md and evidence/frontier_algebra_replay.json: h_theta(r) decreases for r>=3 and h_theta(3)<theta throughout 2/5<theta<3/5."
+    },
+    {
+      "mechanism_id": "MPF-06",
+      "outcome": "killed",
+      "evidence": "evidence/frontier_falsification.md: increasing r strictly worsens the active A--B decay while the third term already has slack."
+    },
+    {
+      "mechanism_id": "MPF-07",
+      "outcome": "killed",
+      "evidence": "evidence/frontier_falsification.md: independent comparable block summation multiplies prime supply and the nonnegative normalized error by the same block count."
+    },
+    {
+      "mechanism_id": "MPF-08",
+      "outcome": "killed",
+      "evidence": "evidence/frontier_falsification.md: a k^beta block has frontier (1-beta)/3, which is smaller for beta>theta."
+    },
+    {
+      "mechanism_id": "MPF-09",
+      "outcome": "killed",
+      "evidence": "evidence/frontier_falsification.md: PI(theta) permits concentration in one shorter subblock and supplies no beta<theta blockwise count."
+    }
+  ]
+}
