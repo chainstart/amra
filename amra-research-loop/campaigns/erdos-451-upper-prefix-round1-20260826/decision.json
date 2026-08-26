@@ -1,6 +1,14 @@
 {
   "outcome": "undecided",
   "success_condition": "",
-  "reason": "",
-  "evidence": []
+  "reason": "The six-hour checkpoint produced an exact discrete-time Fejer bridge, exact removal of a width-one prime, and a sharply normalized weighted-prefix target. It did not prove the required joint CRT tail estimate, improve the known exponent, or satisfy any closure-contract promotion condition. M10 remains the only actively recommended route; the M05/A allocation is stopped without declaring its surviving one-block theorems false.",
+  "evidence": [
+    "evidence/six_hour_rounds_20260826_2205_to_20260827_0405.md",
+    "work/m10_round1/discrete_time_fejer_bridge_round3.md",
+    "evidence/m10_discrete_spectral_norm_ledger_round3.md",
+    "evidence/m10_discrete_positive_prefix_round3.md",
+    "evidence/m10_discrete_arc_dispersion_round3.md",
+    "audit/m10_discrete_time_fejer_bridge_cross_audit.md",
+    "audit/six_hour_rounds_final_scope_audit.md"
+  ]
 }

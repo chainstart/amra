@@ -1,0 +1,17 @@
+baseline_commit 56fc96c
+d79110a38dbbfc839c3ab2f94e04c6e16408d71e4e29deb19a317ea0ff2a50e7  evidence/m05_special_orthant_lattice_round1.md
+f4f7ad8b73565042399163a23d83ea1cb789eae890d5cde87c9fe5d3b89d7921  evidence/m05_orthant_lattice_round1_replay.txt
+5664d07baa111181aee6a0a621dac753d35304c307d16c18b4a17b4bf0a36163  work/m05_orthant_lattice_round1.py
+
+authoritative_guard_unit openmath-task-20260826-225805-327720.scope
+guard_limits high=30G max=34G swap=4G tasks=512
+exit_status 0
+peak_rss_kbytes 17920
+observed_swap 0
+
+static_checks trailing_whitespace=pass mechanisms_json_parse=pass
+campaign_validator exit=1 existing_error="decisive lemma must identify what it closes"
+validator_scope no_structured_artifact_was_modified_in_this_round
+
+correction_note the author theorem file was later corrected after cross-audit: Lemma 2.2 and Theorem 2.3 now state nonnegative integral H, and the mixed-sign argument chooses the coordinate minimizing s_j. The baseline digest above is retained for provenance.
+ef1248148a766a937e23cfee352d34ba8e2ea9a2e2feba981fdc706eec7b3b4e  evidence/m05_special_orthant_lattice_round1.md (current corrected digest at the 2026-08-27 03:00 HKT research freeze)

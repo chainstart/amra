@@ -44,6 +44,31 @@
       "mechanism_id": "U451-M12",
       "outcome": "killed",
       "evidence": "evidence/bridge_falsification_and_survivors.md: recording even one exact quotient ceil(n/p) costs log n-O(log k), and exact first representatives for k=10,15,20,25,30 have no quotient collisions. With no derivation from shorter data, the proposed encoding is circular."
+    },
+    {
+      "mechanism_id": "U451-M05",
+      "outcome": "scoped_no_go",
+      "evidence": "audit/m05_special_zonotope_linear_gate.md and audit/m05_high_support_A_shell_round3.md: generic symmetric Blichfeldt does not orient the residue signs; single-split transference has exact actual-block counterexamples; separated high-support A-shell Cauchy is exponentially too weak. These kill the named handoffs, not the proved one-block 6^q theorem or M05 itself."
+    },
+    {
+      "mechanism_id": "U451-M10",
+      "outcome": "scoped_no_go",
+      "evidence": "audit/m10_full_inhomogeneous_fejer_extension.md and evidence/m10_full_fejer_spectral_no_go_round3.md: the reconstruction-safe continuous full-system majorant has S>=2 whenever k+1 is prime, while the expanded-width repair can produce the real intersection (N,N+1) with no integer common time. This kills that continuous positive-majorant implementation, not the exact discrete bridge."
+    },
+    {
+      "mechanism_id": "U451-M10",
+      "outcome": "scoped_no_go",
+      "evidence": "evidence/m10_discrete_spectral_norm_ledger_round3.md: global L1, interval Cauchy/global L2, fixed or growing separated Holder, support-only larger sieve, and proper-subset complete-period conditioning all retain exp(Theta(k)) loss or an inadmissible omitted-coordinate main factor. None lower-bounds the actual coupled spectral sum."
+    },
+    {
+      "mechanism_id": "U451-M10",
+      "outcome": "falsified_specialization",
+      "evidence": "evidence/m10_discrete_positive_prefix_round3.md: exhaustive guarded testing of all 38 eligible systems with 10<=k<=50 and h<=10^9 found exact failures at k=23,25,26,31 for the literal B=0,C=2 positive-prefix specialization. The same evidence explicitly leaves polynomial enlargement and C>2 open."
+    },
+    {
+      "mechanism_id": "U451-M10",
+      "outcome": "finite_survivor_only",
+      "evidence": "audit/m05_high_support_A_shell_round3.md and evidence/m10_discrete_positive_prefix_round3.md: no C=2 failure occurred in 79 budgeted complete actual blocks for the one-sided Fejer diagnostic, and all 33 eligible B=0,C=5/2 discrete positive-prefix systems passed. These are finite falsifiers only and do not establish a uniform theorem."
     }
   ]
 }

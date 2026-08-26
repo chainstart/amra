@@ -197,6 +197,30 @@
       "loss_step": "Replace the joint signed sum c_chi*A_a(chi)*(S_X^P(chi))^2 by a pointwise norm for A_a, a coefficient-free multiplier L2 ledger, or an inverse filter that is assumed to recover the original endpoint at negligible cost.",
       "lost_information": "The correlation of the explicit interval coefficient and its chi(-Q_0) phase with the multiplier and complex character square. Multiplication by -Q_0 merely translates the multiplier measure and does not change its support, l1/l2 norms, spectral zeros, or inverse condition number.",
       "consequence": "A sparse multiplier has a high-support quadratic character trivial on both its support and -Q_0. More generally, every multiplier with subexponential support, value, and l1 budget retains exact-full-support energy at least (1-o(1))*product_p(p-2)/S; an inverse filter pays the reciprocal spectral loss. This kills universal damping and separated-energy recovery, but not a coefficient-aware signed shifted-endpoint theorem."
+    },
+    {
+      "method": "Continuous full-system Fejer majorization with reconstruction-safe widths",
+      "loss_step": "Forget the exact carry of each local residue and require positivity of one continuous common-time box spline with half-width d_i/2.",
+      "lost_information": "When d_i=1 the only compact frequency has local mass two. Positivity then forces the normalized majorant S to be at least two, exactly exhausting the strict covering margin.",
+      "consequence": "The method is uniformly impossible for every k with k+1 prime. Enlarging the half-width to (d_i+1)/2 does not repair it because positive real support can intersect in (N,N+1) without an integer common time. Exact integer-time convolution is required."
+    },
+    {
+      "method": "Separated norm control of the discrete Fejer spectrum",
+      "loss_step": "Replace the location of the product Fourier mass under the inverse-cofactor CRT bijection by only its global L1, L2, Holder moment, or local support sizes.",
+      "lost_information": "The same global frequency must simultaneously have favorable centered residues at every prime, and the Fejer pole sees that joint location rather than a marginal norm.",
+      "consequence": "Global L2 retains the square root of the full conductor exp(Theta(k)); higher separated moments and support-only larger sieve do not improve the exponent. A weighted centered-arc theorem must keep the full CRT frequency."
+    },
+    {
+      "method": "Subset period conditioning for the positive compact dual",
+      "loss_step": "Periodize a proper subset of triangular factors and bound all omitted coordinates by one.",
+      "lost_information": "Every omitted local factor supplies essential suppression in the short prefix.",
+      "consequence": "The main term is multiplied by L_(J^c)>3 for even one omitted coordinate; using all coordinates instead pays the boundary P/L_G=exp(Theta(k)). Complete-period conditioning cannot prove the factor-two prefix target."
+    },
+    {
+      "method": "Fixed-quotient prime counts after the exact support reparameterization",
+      "loss_step": "For N=gamma*ell, count primes separately in the intervals (2N+k)/(2q+1)<=p<=(2N-k)/(2q-1) and discard their normalized distance from the interval centers.",
+      "lost_information": "The dual weight is the product over every interval prime of a triangular factor depending on |N-qp|/(p-k+1). Separate prime counts do not retain this joint product.",
+      "consequence": "Adjacent quotient intervals have gaps 2k/(2q+1), of scale k^2/N; once N exceeds a fixed constant multiple of k^2, all active gaps are shorter than one. The construction is an exact reparameterization of the original multiple-free obstruction, not a middle-frequency estimate."
     }
   ],
   "required_new_information": [
@@ -216,6 +240,7 @@
     "In the unit-group reformulation, for fixed 0<eta<4/3 the outer unit sieve and all conductors f<=X^(4/3-eta) are now controlled at X=exp(gamma*k/log k). Prove a signed estimate for the remaining f>X^(4/3-eta) aggregate, equivalently the weighted high-support centered correlations sum_x product_{p in S}(1_{A_p^times}(x)-delta_p), while retaining the Q_0 phase. Pointwise Burgess, separated exact-support L2, affordable multiplicative walks, bounded-cumulant/parity reductions, fixed-generator multiplier pairings with absolute boundary cost, blockwise difference-energy handoffs, and positive conductor heat without a near-survivor theorem do not suffice. The sharpest current arithmetic form is the signed weighted missing-prime statistic lambda_{k,S}(P_S/gcd(P_S,D(Q_0ut))); a proof must cancel it beyond the vacuous shifted-factorial size ledger.",
     "For a Type-II continuation, retain the exact cancellation between the accessible divisor-error Mobius ledger and the full-order violation remainder T_R=sum_x binom(V(x)-1,R)1_{V(x)>R), at absolute error o(delta*N). Modulus distribution through Q_0*X^2 controls only O(m/log k) coordinates, every proper odd principal Bonferroni ledger is nonpositive because q_p>1/2, and a separate relative tail asymptotic must have exp(-(1+o(1))k/log k) precision. The required theorem must therefore be a genuinely combined Q_0-phase estimate, not another low-rank marginal or sign-dropped sieve bound.",
     "For fixed 0<eta<4/3 and X=exp(gamma*k/log k), prove as one signed sum that the full-modulus contribution of characters with primitive conductor f_chi>X^(4/3-eta), namely phi(P)^(-1) sum chi(-Q_0) product_p(sum_{j<=p-k-1} conjugate(chi_p(j))) (S_X^P(chi))^2, is o(delta*N). The modulus, conductor cutoff, endpoint coefficients, Q_0 phase, complex square, and absolute target norm are fixed. The already proved low-conductor theorem would then give F_X(0)>0 and n_k<=exp((2gamma+o(1))k/log k).",
-    "Only if signed multipliers are revisited: construct explicit real unit weights with sum a_g=1, log(sum|a_g|)=o(k/log k), and log(max g)=o(k), and prove the coefficient-aware joint high-conductor estimate sum_{f_chi>X^(4/3-eta)} c_chi*A_a(chi)*(S_X^P(chi))^2=o(delta*N) without separating its factors. Uniform character damping, multiplier-only L2, and stable inverse-filter estimates are now ruled out; absent such a joint theorem, return resources to the orthant or anchored-CRT gap survivors."
+    "Only if signed multipliers are revisited: construct explicit real unit weights with sum a_g=1, log(sum|a_g|)=o(k/log k), and log(max g)=o(k), and prove the coefficient-aware joint high-conductor estimate sum_{f_chi>X^(4/3-eta)} c_chi*A_a(chi)*(S_X^P(chi))^2=o(delta*N) without separating its factors. Uniform character damping, multiplier-only L2, and stable inverse-filter estimates are now ruled out; absent such a joint theorem, return resources to the orthant or anchored-CRT gap survivors.",
+    "For the active M10 route, prove the weighted centered-arc dispersion bound with at most fixed-exponential loss for gamma=1 and the one specific width-one dilation gamma=p_0. An equivalent stronger executable target is the additive compact-dual discrepancy Q_(h,gamma)<=h/L_G+K^m at reciprocal-density scale. The gamma=1 prefix |ell|<k is already controlled; the required new information is the full weighted joint distribution in the moving tail."
   ]
 }

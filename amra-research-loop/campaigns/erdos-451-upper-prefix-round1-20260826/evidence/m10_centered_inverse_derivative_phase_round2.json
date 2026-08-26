@@ -1,0 +1,59 @@
+{
+  "schema_version": "amra.finite_mathematical_evidence.v1",
+  "classification": "finite actual-block phase diagnostic only; no asymptotic distribution claim",
+  "parameters": {
+    "min_k": 200,
+    "max_k": 5000,
+    "step": 29,
+    "min_rank": 12,
+    "frequencies": 16,
+    "systems": 741,
+    "rank_range": [12, 230]
+  },
+  "uniform_centered_benchmarks": {
+    "mean_abs": 0.25,
+    "mean_square": 0.08333333333333333,
+    "small_fractions": {"0.01": 0.02, "0.05": 0.10, "0.1": 0.20}
+  },
+  "all_systems": {
+    "derivative_mean_abs": 0.25075182385101397,
+    "derivative_mean_square": 0.08358355849468005,
+    "inverse_mean_abs": 0.24925914847035394,
+    "inverse_mean_square": 0.08295661947869204,
+    "derivative_adjacent_correlation": -0.02857863474860668,
+    "inverse_adjacent_correlation": -0.03123156070551654,
+    "inverse_scaled_low_frequency_max_mean": 1.7986068954216106,
+    "inverse_scaled_low_frequency_max_observed": 2.9803813106208925
+  },
+  "rank_at_least_100": {
+    "systems": 182,
+    "rank_range": [101, 230],
+    "derivative_mean_abs": 0.2500942193438548,
+    "derivative_mean_square": 0.08323465853755935,
+    "inverse_mean_abs": 0.2477375867781022,
+    "inverse_mean_square": 0.08215837531640299,
+    "derivative_adjacent_correlation": -0.016098386860229914,
+    "inverse_adjacent_correlation": -0.007373867690318204,
+    "inverse_mean_small_fractions": {
+      "0.01": 0.02065847751406899,
+      "0.05": 0.10139236945977045,
+      "0.1": 0.2028104212424906
+    },
+    "inverse_star_discrepancy_mean": 0.0711680241331935,
+    "inverse_scaled_low_frequency_max_mean": 1.7993398589581973,
+    "inverse_scaled_low_frequency_max_observed": 2.7538991119820304
+  },
+  "exact_identities_checked": [
+    "F'(d_i) = (-1)^(q-1) P/p_i mod p_i",
+    "CRT lift = (-1)^(q-1) sum_i P/p_i mod P"
+  ],
+  "script": "work/m10_round1/centered_derivative_phase_scan.py",
+  "guard": {
+    "unit": "openmath-task-20260827-003136-352755.scope",
+    "exit_status": 0,
+    "wall_seconds": 0.48,
+    "max_rss_kib": 15200,
+    "swap_events": 0
+  },
+  "conclusion": "No high-rank systematic smallness or adjacent correlation was observed. Marginals are compatible with square-root-scale pseudorandomness, but exact discriminant and multiplicative update identities forbid an independence claim. Round 3 should test the joint A-averaged weighted correlation, not marginal phases."
+}

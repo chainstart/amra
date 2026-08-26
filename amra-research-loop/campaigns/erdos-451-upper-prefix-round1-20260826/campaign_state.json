@@ -5,7 +5,7 @@
   "title": "Fixed-prefix upper-bound attack for Erdos 451",
   "phase": "survivor_deepening",
   "created_at": "2026-08-26T06:17:07+00:00",
-  "updated_at": "2026-08-26T06:41:34+00:00",
+  "updated_at": "2026-08-26T19:00:00+00:00",
   "gates": {
     "min_representation_families": 4,
     "min_representations": 8,
@@ -54,6 +54,12 @@
       "event": "advanced",
       "from": "mechanism_falsification",
       "phase": "survivor_deepening"
+    },
+    {
+      "at": "2026-08-26T19:00:00+00:00",
+      "event": "six_hour_research_freeze",
+      "phase": "survivor_deepening",
+      "details": "Completed three guarded rounds from 2026-08-26 22:05 HKT. The exact discrete Fejer reduction and width-one fibre elimination are proved, but the weighted joint CRT tail remains open; no closure condition or public exponent changed."
     }
   ]
 }
