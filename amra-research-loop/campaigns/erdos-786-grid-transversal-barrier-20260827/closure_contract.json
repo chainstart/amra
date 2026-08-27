@@ -1,0 +1,62 @@
+{
+  "exact_statement": "Determine whether the complete family of squarefree K_(d-1,d) prime-grid relations inside H_N forces an alteration-robust transversal lower bound of order N exp(-(2+o(1)) sqrt(log N log log N)), with an explicit finite-parameter inequality and optimized all-N asymptotic. Prove support minimality, distinctness, height and high-tail bounds, and quantify the consequence for uniform adaptive prime-valuation classifiers followed by arbitrary global repair. Do not claim an o(N) upper bound, an infinite density-one construction, a solution of Erdos 786, or Tier-1 novelty without an independent literature audit.",
+  "source": "Derived from the audited K_(s+1,s) edge-prime circuit in erdos-786-distinct-factor-admission-20260824 and the global-alteration gap in erdos-786-square-root-query-barrier-20260827.",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume",
+    "one_more_isolated_K_grid_without_a_family_transversal_bound",
+    "a_packing_bound_that_ignores_overlap_between_grid_relations",
+    "an_asymptotic_claim_without_an_explicit_finite_parameter_inequality",
+    "a_lower_bound_only_for_a_frozen_local_classifier_without_arbitrary_global_repair",
+    "an_o_N_upper_bound_or_infinite_density_claim_not_proved_here",
+    "a_Tier_1_or_priority_claim_without_independent_literature_audit"
+  ],
+  "scope_notes": [
+    "Variant lock: H_N has vertex set {2,...,N}; an edge is the support of two disjoint Finsets of distinct integers with equal products and unequal cardinalities.",
+    "For an integer d>=3, use d-1 disjoint prime pools, a (d-1)-by-d grid, row products of d primes, and column products of d-1 primes. Every selected cell prime occurs once on each shore.",
+    "The family contains all injective row choices from the frozen prime pools. A valid theorem must treat the whole overlapping family, not a single circuit or a disjoint packing.",
+    "The finite target is a lower bound for every transversal of the grid subhypergraph in terms of the common pool size m and d; the optimized target then follows by a proved prime-supply estimate.",
+    "The asymptotic target is for every sufficiently large integer N. Logs are natural. The dimension may depend on N and must be stated explicitly.",
+    "The high-tail statement must give an explicit lower threshold for every row and column product, not merely N^{1-o(1)} prose.",
+    "The alteration consequence permits an arbitrary second-stage deletion set chosen after the local classifier output; only its cardinality is charged.",
+    "A lower bound on tau(H_N) does not supply the required o(N) upper bound. The result cannot close either the finite or infinite form of Erdos 786.",
+    "The predecessor campaigns are read-only. Their audited single K_(s+1,s) circuit and square-root local-query theorem may be cited, but their claims may not be silently widened.",
+    "Ordinary prime-number-theorem input may be used for prime supply. Priority and journal-tier judgments remain pending until the scoped theorem has been independently reconstructed and literature checked."
+  ],
+  "frozen_finite_interface": {
+    "dimension": "integer d>=3; r=d-1",
+    "prime_pools": "pairwise disjoint P_1,...,P_r of common size m, all primes in (x/2,x]",
+    "height_condition": "x^d<=N",
+    "row_vertices": "R_i=product_{j=1}^d p_(i,j)",
+    "column_vertices": "C_j=product_{i=1}^{d-1} p_(i,j)",
+    "target_inequality": "every transversal D of the complete grid family satisfies d*|D_col|/m^(d-1)+|D_row|/binom(m,d)>=1, hence |D|>=min(m^(d-1)/d,binom(m,d))",
+    "matching_upper_comparator": "deleting every possible column product gives a transversal of size m^(d-1)"
+  },
+  "frozen_asymptotic_interface": {
+    "dimension_choice": "d=floor(sqrt(log N/log log N)), adjusted to be at least 3",
+    "prime_scale": "x=N^(1/d)",
+    "pool_supply": "partition primes in (x/2,x] equally among d-1 pools",
+    "target": "log tau(H_N)>=log N-(2+o(1))*sqrt(log N*log log N)",
+    "tail": "all constructed vertices exceed min((x/2)^d,(x/2)^(d-1))=(x/2)^(d-1)"
+  },
+  "read_only_dependencies": [
+    {
+      "campaign": "../erdos-786-distinct-factor-admission-20260824",
+      "result": "support-minimal squarefree K_(s+1,s) edge-prime circuit and log-defect fractional cover"
+    },
+    {
+      "campaign": "../erdos-786-square-root-query-barrier-20260827",
+      "result": "single-path adaptive valuation-query barrier with global alteration explicitly left open"
+    }
+  ]
+}

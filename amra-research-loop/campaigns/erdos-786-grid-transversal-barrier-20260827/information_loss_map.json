@@ -1,0 +1,59 @@
+{
+  "inherited_methods": [
+    {
+      "method": "one support-minimal K_(s+1,s) edge-prime circuit",
+      "loss_step": "freeze one assignment of private edge primes and use it only as a counterexample to bounded-length rounding",
+      "lost_information": "the same prime pools support a highly overlapping family of all row injections whose joint hitting number can be much larger than one",
+      "consequence": "the predecessor circuit is repairable by one deletion and gives no global transversal lower bound"
+    },
+    {
+      "method": "disjoint packing of prime-labelled circuits",
+      "loss_step": "allocate a fresh prime set to every witness so that supports are visibly disjoint",
+      "lost_information": "reusing row pools creates m^(d-1) distinct column products from only (d-1)m primes and can amplify repair cost combinatorially",
+      "consequence": "fresh-label counting is bottlenecked by prime supply and gives a substantially smaller repair bound"
+    },
+    {
+      "method": "single zero-transcript path obstruction",
+      "loss_step": "after finding one retained relation, stop before measuring all relations inside the same zero class",
+      "lost_information": "a whole grid atlas can lie in that zero class and every second-stage repair must hit the atlas rather than one edge",
+      "consequence": "one arbitrary post-classification deletion defeats the earlier local witness"
+    },
+    {
+      "method": "fixed-dimensional complete bipartite grid",
+      "loss_step": "hold d fixed while N grows",
+      "lost_information": "the competing losses log N/d and d log log N can be balanced by allowing d to grow slowly with N",
+      "consequence": "one obtains only N^(1-1/d) up to logarithms instead of a logarithmically near-linear lower bound"
+    },
+    {
+      "method": "projective-plane stretched cluster",
+      "loss_step": "encode many intersecting relations through pointwise binary partitions and private prime blocks",
+      "lost_information": "for an unrestricted global lower bound, matching number one and a fixed top band are unnecessary; a complete grid atlas can trade those features for many more possible column products",
+      "consequence": "the proved cluster transversal grows only stretched-exponentially in sqrt(log N), far below the candidate grid-atlas bound"
+    },
+    {
+      "method": "generic random-grid union bound stated only asymptotically",
+      "loss_step": "replace the exact row and column marginals by independence heuristics",
+      "lost_information": "independence between grid vertices is unnecessary because a first-moment union bound uses only exact one-vertex marginals",
+      "consequence": "an unjustified independence claim would weaken or invalidate the finite transversal theorem"
+    }
+  ],
+  "required_new_information": [
+    "A complete-family definition using disjoint prime pools that makes every row and column product distinct and identifies the exact row and column vertex universes.",
+    "A support-minimality proof for each K_(d-1,d) relation using unique prime valuations and connectivity.",
+    "The exact finite random-grid inequality d|D_col|/m^(d-1)+|D_row|/binom(m,d)>=1 for every transversal, without assuming independence between columns.",
+    "A parameter check ensuring binom(m,d)>=m^(d-1)/d in the optimized regime, so the column term controls the stated lower bound.",
+    "A prime-number-theorem supply estimate uniform along x=N^(1/d(N)) with d(N)=floor(sqrt(log N/log log N)).",
+    "A complete logarithmic optimization proving the constant 2 in the subleading exponent and an explicit high-tail lower threshold.",
+    "A global alteration corollary that charges an arbitrary repair set after a retain-labelled zero transcript, plus a matching grid-specific upper comparator.",
+    "A scope comparison showing why the lower bound remains compatible with an o(N) transversal and does not settle Erdos 786."
+  ],
+  "candidate_budget": {
+    "prime_scale": "x=N^(1/d)",
+    "dyadic_prime_count": "pi(x)-pi(x/2)=(1+o(1))*x/(2 log x)",
+    "pool_size": "m=(1+o(1))*x/(2 log N) after division among d-1 pools",
+    "finite_cover": "tau(grid) is between min(m^(d-1)/d,binom(m,d)) and m^(d-1)",
+    "logarithmic_loss": "log N/d+(d-1)log(2 log N)+o(sqrt(log N log log N))",
+    "optimizer": "d asymptotic to sqrt(log N/log log N)",
+    "target_loss": "(2+o(1))*sqrt(log N log log N)"
+  }
+}

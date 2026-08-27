@@ -1,0 +1,44 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M786G-02",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786G-02-an-uncoloured-pool-loses-row-identity"
+    },
+    {
+      "mechanism_id": "M786G-03",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786G-03-connectivity-does-not-replace-private-cell-labels"
+    },
+    {
+      "mechanism_id": "M786G-05",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786G-05-grid-columns-are-not-independent"
+    },
+    {
+      "mechanism_id": "M786G-07",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786G-07-fixed-dimension-loses-a-power"
+    },
+    {
+      "mechanism_id": "M786G-09",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786G-09-the-column-term-does-not-always-control"
+    },
+    {
+      "mechanism_id": "M786G-11",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786G-11-Bertrand-does-not-supply-a-dense-pool"
+    },
+    {
+      "mechanism_id": "M786G-13",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786G-13-the-bound-does-not-exclude-all-sublinear-repair"
+    },
+    {
+      "mechanism_id": "M786G-14",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786G-14-proof-shape-does-not-establish-priority-or-tier"
+    }
+  ]
+}
