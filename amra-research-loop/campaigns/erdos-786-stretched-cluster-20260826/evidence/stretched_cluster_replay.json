@@ -1,0 +1,22 @@
+{
+  "partition_counts": [
+    {"available_unordered_nontrivial_bipartitions": 3, "covers_q_plus_one_lines": true, "q": 2, "r": 3},
+    {"available_unordered_nontrivial_bipartitions": 7, "covers_q_plus_one_lines": true, "q": 3, "r": 4},
+    {"available_unordered_nontrivial_bipartitions": 7, "covers_q_plus_one_lines": true, "q": 5, "r": 4},
+    {"available_unordered_nontrivial_bipartitions": 127, "covers_q_plus_one_lines": true, "q": 101, "r": 8},
+    {"available_unordered_nontrivial_bipartitions": 1023, "covers_q_plus_one_lines": true, "q": 1009, "r": 11}
+  ],
+  "projective_planes": [
+    {"line_size": 3, "lines": 7, "matching_number": 1, "pairwise_intersection_one": true, "points": 7, "q": 2, "transversal_number": 3},
+    {"line_size": 4, "lines": 13, "matching_number": 1, "pairwise_intersection_one": true, "points": 13, "q": 3, "transversal_number": 4},
+    {"line_size": 6, "lines": 31, "matching_number": 1, "pairwise_intersection_one": true, "points": 31, "q": 5, "transversal_number": 6}
+  ],
+  "quantitative_guards": [
+    {"K": 100000000, "all_N_stretched_guard": true, "floor_sqrt_over_100": 100, "private_bit_upper": 126048, "private_bits_below_K_over_4": true},
+    {"K": 10000000000, "all_N_stretched_guard": true, "floor_sqrt_over_100": 1000, "private_bit_upper": 12060048, "private_bits_below_K_over_4": true},
+    {"K": 1000000000000, "all_N_stretched_guard": true, "floor_sqrt_over_100": 10000, "private_bit_upper": 1200600048, "private_bits_below_K_over_4": true}
+  ],
+  "scope": "finite incidence replays and exact integer guards only; the all-parameter proof is STRETCHED_CLUSTER_THEOREM.md",
+  "source_sha256": "9a664db9f7500522688754ffffdbfcdad319cd3d35bc14f64a3eea61c8681773",
+  "status": "PASS"
+}

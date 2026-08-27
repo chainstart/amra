@@ -1,0 +1,58 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "audit_809 (non-author blind reconstruction)",
+    "evidence": [
+      "audit/blind_reconstruction.md",
+      "audit/independent_audit.md"
+    ],
+    "blind_artifact_sha256": "899a3bd6c01d85e178e696b5f343b49d1a6157c77622bf875ee48f81e9a0f097",
+    "protocol": "The blind reconstruction was written and hashed before author evidence and the verifier body were read."
+  },
+  "statement_match": "passed",
+  "statement_check": {
+    "status": "passed_at_standalone_scope",
+    "IR1": "For every eta_K>0 with K eta_K->infinity, the sparse path construction has s=ceil(4/min(eta_K,1))=o(K), nonnegative balanced padding, strict tail membership, distinct factors, and signed support minimality.",
+    "M786I-01": "passed for every moving o(N) hard lower-tail threshold",
+    "M786I-02": "passed for finite unions of nested thresholds only",
+    "M786I-03": "passed for affordable unaltered independent proportional rounding and probability-one coverage only",
+    "public_effect": "tau(H_N)=o(N), both density-one assertions, and original Erdos 786 remain open."
+  },
+  "dependency_check": "passed",
+  "dependency_check_details": {
+    "background": "Only unique factorization and Bertrand's postulate enter IR.1, with correct moving quantifiers.",
+    "predecessor": "The fractional-cover theorem motivates the affordable scale but is not used to prove the circuit.",
+    "open_survivors": [
+      "M786I-05",
+      "M786I-06",
+      "M786I-12"
+    ]
+  },
+  "novelty_check": "priority_uncertain",
+  "novelty_check_details": "No public search for the exact problem or solution was performed; no external priority claim is made.",
+  "machine_reproduced": {
+    "status": "passed",
+    "command": "python3 evidence/verify_integral_rounding_kills.py",
+    "verifier_sha256": "4eddf2345972162e722ad95f2bcde01982f2fc109bb679d835315faa48e0b0ad",
+    "result": "PASS",
+    "scope": "Finite corroboration only; the all-parameter proof is symbolic."
+  },
+  "promotion_decision": {
+    "outcome": "promote",
+    "success_condition": "standalone_decisive_lemma",
+    "reason": "IR.1 is a proved all-parameter moving thin-tail minimal-circuit theorem that exactly refutes the frozen hard-threshold and unaltered probability-one proportional-rounding mechanisms without claiming either density-one target.",
+    "forbidden_promotions": [
+      "global_interface_closed",
+      "main_exponent_improved",
+      "main_term_improved",
+      "original_problem_closed"
+    ],
+    "evidence": [
+      "audit/blind_reconstruction.md",
+      "audit/independent_audit.md",
+      "evidence/OBSTRUCTION_ANALYSIS.md",
+      "evidence/verify_integral_rounding_kills.py"
+    ]
+  },
+  "state_mutation": "None; campaign_state.json and decision.json were not edited."
+}

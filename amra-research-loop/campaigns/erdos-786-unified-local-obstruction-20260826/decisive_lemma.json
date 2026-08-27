@@ -1,0 +1,34 @@
+{
+  "statement": "Constant-width path and valuation-cylinder obstruction U.1--U.3. For every prime b and K>=32, with N=b^K and m=floor(K/16), there is a support-minimal unequal-cardinality equal-product relation on 2m+1 distinct integers wholly inside (N/b^18,N], with ordered path prime-incidence outside b and all edge primes above b^m. The relation avoids every controlled prime below b^m other than b. Consequently, if a lower-threshold plus complete valuation-cylinder deletion observes controlled primes P_K with sum_{p in P_K}1/p<=1-delta, omits b, and has total size o(N), then it misses an entire bad relation for all sufficiently large K. The same edge gives positive failure probability for every unaltered independent proportional deletion q_K(n)<=g_K w_N(n) with g_K=o(log N).",
+  "status": "proved",
+  "closes": [
+    "fixed-multiplicative-tail support-minimal path construction with logarithmic support",
+    "lower-threshold plus sparse controlled-prime valuation-cylinder deletion class",
+    "constant-width witness for probability-one failure of unaltered independent proportional rounding"
+  ],
+  "evidence": [
+    "evidence/OBSTRUCTION_ANALYSIS.md",
+    "evidence/REPRESENTATION_SEARCH.md",
+    "evidence/MECHANISM_FALSIFICATION.md",
+    "evidence/SURVIVOR_DEEPENING.md",
+    "evidence/VERIFICATION_RECEIPT.md",
+    "evidence/verify_constant_width_obstruction.py"
+  ],
+  "dependency_gaps": [
+    "The no-go theorem is limited to complete fibres of a frozen valuation vector with a positive-density zero fibre; it does not cover adaptive largest-prime, full-factorization, congruence, or residue-aware rules.",
+    "One path edge has transversal number one, so U.1 gives no lower bound on the full integral transversal number tau(H_N).",
+    "The result does not construct an o(N) transversal, a density-one admissible set, or an infinite coherent selection and does not solve Erdos 786.",
+    "The independent proportional-rounding corollary excludes no alteration or repair phase.",
+    "Independent reconstruction, statement/dependency review, and external novelty comparison have not been performed."
+  ],
+  "evidence_classification": {
+    "mathematical_status": "proved",
+    "evidence_strength": "author-verified natural proof with exact finite replay",
+    "scope": "standalone fixed-width obstruction for a precisely frozen valuation-cylinder class",
+    "public_problem": "open",
+    "machine_reproduced": "Python 3.12.3; python3 amra-research-loop/campaigns/erdos-786-unified-local-obstruction-20260826/evidence/verify_constant_width_obstruction.py; PASS",
+    "independent_reconstruction": "not_started",
+    "novelty_check": "not_started",
+    "publication_state": "private_campaign_note"
+  }
+}

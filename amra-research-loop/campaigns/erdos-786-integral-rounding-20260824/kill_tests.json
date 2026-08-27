@@ -1,0 +1,49 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M786I-01",
+      "outcome": "killed",
+      "evidence": "evidence/OBSTRUCTION_ANALYSIS.md Theorem IR.1 and evidence/MECHANISM_FALSIFICATION.md: every moving lower-tail threshold of o(N) cost leaves a minimal bad edge"
+    },
+    {
+      "mechanism_id": "M786I-02",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: finite nested thresholds equal their lowest threshold and reduce to M786I-01"
+    },
+    {
+      "mechanism_id": "M786I-03",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: IR.1 with eta_N=1/(2g_N) leaves one edge with strictly positive independent miss probability for every g_N=o(log N)"
+    },
+    {
+      "mechanism_id": "M786I-04",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md and evidence/verify_integral_rounding_kills.py: exact arithmetic circuit triangle"
+    },
+    {
+      "mechanism_id": "M786I-07",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: 2*3=6 transfers the lower-prime cofactor after top-fibre count balance"
+    },
+    {
+      "mechanism_id": "M786I-08",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: exact finite-cylinder Bernoulli model plus Fourier anti-concentration gives maximum active-degree atom o(1)"
+    },
+    {
+      "mechanism_id": "M786I-09",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md and evidence/verify_integral_rounding_kills.py: all-s K_(s+1,s) adjacent-degree relation"
+    },
+    {
+      "mechanism_id": "M786I-10",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: rank-one powers-of-two family has r disjoint bad Schur supports"
+    },
+    {
+      "mechanism_id": "M786I-11",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md and evidence/verify_integral_rounding_kills.py: balanced padded path circuit outside any fixed controlled prime set"
+    }
+  ]
+}

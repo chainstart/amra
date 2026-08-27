@@ -1,0 +1,47 @@
+{
+  "schema_version": "amra.new-problem-round-decision.v1",
+  "round_id": "new-problem-round-2026-08-25",
+  "decision_at": "2026-08-25T13:25:00+08:00",
+  "original_problems_closed": [],
+  "scoped_results": [
+    {
+      "problem_id": "erdos-885",
+      "claim": "The five differences 330, 870, 2445, 4155, 10482 have exactly three common positive integers N, namely 189000, 3992800, and 11282544.",
+      "proof_kind": "complete factor-pair enumeration from a difference-of-squares identity",
+      "evidence": "evidence/erdos_885_fixed_differences.json"
+    }
+  ],
+  "finite_exclusions": [
+    {
+      "problem_id": "erdos-885",
+      "claim": "No five positive integers N_i at most 100000 have five common factor differences.",
+      "evidence": "evidence/erdos_885_search_100000.json",
+      "universal_claim": false
+    }
+  ],
+  "routes_killed": [
+    {
+      "problem_id": "erdos-829",
+      "route": "independent Eisenstein prime assignments or unrestricted unitary-divisor counting",
+      "reason": "The resulting 2^omega(n) envelope exceeds every fixed power of log n along primorials."
+    },
+    {
+      "problem_id": "erdos-917",
+      "route": "unannotated regularity reduced graph followed by finite critical-colouring enumeration",
+      "reason": "Dirac's critical join becomes a bipartite graph after deleting only o(n^2) sparse cycle edges, so the reduction discards the full chromatic-critical signal."
+    }
+  ],
+  "dynamic_exclusions": [
+    {
+      "problem_id": "erdos-1112",
+      "reason": "A current public repository claims a complete paper-backed, sorry-free Lean resolution; route to independent audit before any new proof spend."
+    }
+  ],
+  "resource_guard": {
+    "all_formal_computations_guarded": true,
+    "unbounded_index_attempt_contained": true,
+    "terminated_guard_unit": "openmath-task-20260825-130646-28564.scope",
+    "replacement_peak_memory_bytes": 456278016
+  },
+  "next_portfolio_decision": "Do not continue these three as a long campaign yet. Resume #885 only from a new parametric family; resume #829 only from a square-discriminant coupling theorem; resume #917 only from annotated sparse-dense stability. Otherwise screen a fresh portfolio."
+}

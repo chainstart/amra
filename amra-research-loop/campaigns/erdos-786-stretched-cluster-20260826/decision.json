@@ -1,0 +1,12 @@
+{
+  "outcome": "promote",
+  "success_condition": "standalone_decisive_lemma",
+  "reason": "The independently reconstructed SC.1 theorem gives an all-N stretched-exponential transversal lower bound for connected support-minimal equal-defect clusters while preserving the distinct-Finset and one-point-intersection requirements. It is promoted only as a standalone decisive lemma and does not close either original Erdos 786 target.",
+  "evidence": [
+    "evidence/STRETCHED_CLUSTER_THEOREM.md",
+    "audit/independent_reconstruction.md",
+    "audit.json",
+    "evidence/stretched_cluster_replay.json",
+    "evidence/verify_stretched_cluster.py"
+  ]
+}

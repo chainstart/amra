@@ -1,0 +1,31 @@
+{
+  "exact_statement": "For the distinct-Finset version of Erdos 786, let H_N be the hypergraph on {2,...,N} whose edges are supports of disjoint finite subsets with equal products and unequal cardinalities. The original targets are tau(H_N)=o(N) and a coherent infinite density-one construction. In this round, strengthen GC.1 by proving that every sufficiently large N contains a connected family F_N of support-minimal bad relations, all in a fixed top band, with pairwise one-point intersections, matching number one, and transversal number at least 2^(sqrt(log_2 N)/200). Promotion of this scoped theorem counts only as a standalone decisive lemma unless either original target is also closed.",
+  "source": "P. Erdos, Problems and results on combinatorial number theory (1980), p.114, distinct-elements formulation; read-only predecessor amra-research-loop/campaigns/erdos-786-global-closure-round4-20260824",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume",
+    "the_existing_logarithmic_GC1_bound_without_quantitative_amplification",
+    "a_projective_plane_skeleton_without_an_arithmetic_embedding",
+    "a_finite_order_replay_without_an_all_N_reduction",
+    "a_large_transversal_number_without_support_minimality_or_distinct_Finset_validation",
+    "a_claim_that_the_scoped_cluster theorem proves tau_HN_is_o_N_or_density_one"
+  ],
+  "scope_notes": [
+    "Variant lock: every relation uses two disjoint finite sets of distinct positive integers; after cancellation coefficients lie in {-1,0,1}.",
+    "The fixed top band in the target is (N/64,N]. The factor 64 permits reduction from arbitrary N to the largest power of two at most N.",
+    "The quantitative target is uniform for every sufficiently large integer N, not only a sparse subsequence.",
+    "The predecessor GC.1 gives only tau>log_2 N on powers of two. This round must obtain a stretched-exponential lower bound while retaining pairwise one-point intersections, matching number one, equal normalized defect, and support minimality.",
+    "The scoped lower-bound theorem does not imply tau(H_N)=o(N), an upper bound on tau(H_N), or either density-one assertion.",
+    "Public search for an exact solution of Erdős 786 remains prohibited by the predecessor contract; only ordinary background results and priority checks for the final scoped theorem may be consulted after proof reconstruction."
+  ]
+}

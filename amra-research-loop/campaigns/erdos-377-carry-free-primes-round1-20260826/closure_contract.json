@@ -1,0 +1,24 @@
+{
+  "exact_statement": "Determine whether there is an absolute constant C such that, for every integer n>=1, sum over primes p<=n with p not dividing binomial(2n,n) of 1/p is at most C.",
+  "source": "https://www.erdosproblems.com/377",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "The target is a single absolute constant uniform in every integer n; density-one, average, or C log log n estimates do not close it.",
+    "Kummer/Legendre equivalences may be used, but every endpoint convention for p=2 and p^j>2n must be replayed exactly.",
+    "Finite maxima and CRT searches are falsifiers only; they cannot establish boundedness without an all-n scale argument.",
+    "All expensive enumeration and proof-search processes must run through /home/biostar/work/projects/openmath/bin/openmath-memory-guard."
+  ]
+}

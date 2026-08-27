@@ -1,0 +1,40 @@
+{
+  "exact_statement": "For every real epsilon>0, prove that there exists A subset N of natural density greater than 1-epsilon such that for all finite subsets S,T subset A, equality prod(S)=prod(T) implies |S|=|T|; and prove finite sets A_N subset {1,...,N} with |A_N|=(1-o(1))N and the same Finset product-cardinality property. Elements may not repeat within either product.",
+  "source": "/home/biostar/work/projects/amra/data/research_open/raw/formal_conjectures/FormalConjectures/ErdosProblems/786.lean",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "Variant lock: products are Finset products. Within each side every integer is used at most once. The two sides may overlap, and common factors may then be cancelled. No multiset or repeated-factor argument is admissible.",
+    "The repetitions-allowed version is excluded. In that stronger variant arbitrary integer coefficients occur in prime-exponent relations and a totally additive function can be invoked; that is a variant mismatch here, where coefficients after cancellation lie only in {-1,0,1}.",
+    "Write v(n)=(nu_p(n))_p. The exact property is: every finitely supported coefficient vector c in {-1,0,1} with support in A and sum_n c_n v(n)=0 must satisfy sum_n c_n=0. Finite optimum values without an all-N theorem or completeness reduction are non-success.",
+    "The empty Finset has product one, so 1 cannot belong to an admissible set. Likewise 0 cannot occur in any positive-density admissible set; the density assertions are unaffected by deleting {0,1}.",
+    "The infinite assertion implies the finite assertion by intersection with [1,N]. The converse is not automatic because independently optimized finite sets need not be nested and multiplicative relations can cross concatenated blocks.",
+    "For the infinite part, natural density means one limiting density delta exists and delta>1-epsilon. Upper density, logarithmic density, density along a subsequence, or a different A_N for each cutoff does not suffice.",
+    "For the finite part, [N] means {1,...,N}; one must construct A_N with |A_N|/N tending to one and the full Finset product-cardinality property for every N (modifying finitely many N is harmless).",
+    "A proof of only the known density-1/e Selfridge construction, a bounded-factor-length version, a bounded-prime-support version, a SAT optimum through fixed N, or a conditional admission lemma does not close either requested density-one statement.",
+    "Public search for an exact solution is prohibited. The frozen local Lean formalization and ordinary named background are permitted sources."
+  ],
+  "variant_lock": {
+    "allowed": "finite subsets / Finsets of distinct integers on each side",
+    "forbidden": "multisets, repeated use of an element on one side, or importing the totally additive-function obstruction for the repetitions-allowed problem",
+    "cancelled_relation_coefficients": "{-1,0,1}",
+    "formalization_predicate": "Set.IsMulCardSet"
+  },
+  "exact_subproblems": {
+    "infinite": "For every epsilon>0, construct A subset N with natural density delta>1-epsilon and the distinct-factor product-cardinality property.",
+    "finite": "Construct A_N subset [N] with |A_N|=(1-o(1))N and the same property.",
+    "one_way_interface": "The infinite construction implies the finite result by truncation."
+  }
+}

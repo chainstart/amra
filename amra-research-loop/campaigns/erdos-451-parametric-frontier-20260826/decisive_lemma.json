@@ -1,0 +1,41 @@
+{
+  "statement": "Kernel-checked adaptive final theorem: if 0<theta<1 satisfies PI(theta), then every fixed 0<c<(1-theta)/3 gives the stated prime divisor for all sufficiently large k and 2k<n<=exp(c(log k)^2/loglog k). The older balanced 9/23 endpoint is an artifact. For the explicitly named location-blind, termwise-nonnegative full-tail class, Lean proves the exact block invariant, cardinality tail, weighted extraction, finite endpoint no-go, and a finite source-family map: explicit common raw constants a,En,ED give C=-log(a), D=5/2+En+ED. Thus finite families cannot reach c>=(1-theta)/3 under these uniform raw comparisons and the summed nonnegative little-o ledger. The theorem does not assert that arbitrary shifted/regrouped sources possess those constants. Erdos 451 itself is not closed.",
+  "status": "proved",
+  "closes": [
+    "main_exponent_improved",
+    "standalone_decisive_lemma"
+  ],
+  "evidence": [
+    "evidence/parametric_frontier_proof.md: author-verified natural proof of the attaining theorem and delimited no-go theorem.",
+    "evidence/frontier_falsification.md: exact lambda invariant, residual-term audit, and killed alternatives.",
+    "evidence/frontier_algebra_replay.json: guarded exact rational replay; script SHA-256 0259ba9f7d7a5eadd3cb496c74d7ca7e45ee416e6dd2a0b5c71516ad1332ef29.",
+    "evidence/theorem41_uniformity_audit.md: the pinned formal Theorem 4.1 uses one explicit c6 independent of growing r; upstream SHA-256 44e478bed8d756f271aaffd45af5fa4797fbee857aa780f7412275a521b84004.",
+    "audit/adversarial_self_audit.md: adversarial author audit, explicitly not independent.",
+    "audit/independent_reconstruction.md and audit.json: blind reconstruction, statement match, and dependency audit passed.",
+    "evidence/lean_parametric_frontier.json: guarded Lean proof of the full theta=21/40 theorem for every real 0<c<19/120.",
+    "evidence/lean_theta_interface_audit.md: guarded parameter-interface extraction and exact general-theta blocker.",
+    "evidence/lean_parametric_ranges.md and evidence/lean_parametric_ranges.json: guarded Lean construction of the actual adaptive max scale, least stopping order, uniform analytic budgets, all four range fields, and the final PI(theta)-conditional theorem for every 0<theta<1.",
+    "formal/ParametricRanges.lean: kernel-checked locationBlind_first_two_log_invariant, W>=1 monotonicity, finite termwise block obstruction, candidate cardinality tail, interval-partition telescope, weighted extraction, arbitrary finite-family endpoint no-go, exact leading-certificate iff, and BHP 19/120 specialization.",
+    "audit/adaptive_actual_builder_cross_audit.md: separate same-model reconstruction from the actual real scales and least stopping order through the pinned raw estimate, four-range builder, final theorem, 9/23 leakage audit, and strict BHP specialization; explicitly not human peer review.",
+    "audit/adaptive_parameter_core_cross_audit.md: separate same-model cross-reconstruction of every adaptive definition and selection-budget inequality, source-hash and evidence-boundary check; explicitly not human peer review.",
+    "evidence/theta_endpoint_audit.md: range-by-range endpoint audit, resegmentation analysis, and exact scope of the 9/23 and 1 barriers.",
+    "evidence/adaptive_unbalanced_partition_frontier.md: author-verified adaptive attaining proof for 0<theta<1 and the enlarged, explicitly location-blind certificate barrier.",
+    "evidence/location_blind_subdivision_bridge.md: exact finite/growing subdivision class, cardinality tail, weighted extraction, endpoint separation, and minimal counterexamples without uniform C,D.",
+    "evidence/source_geometry_uniform_losses.md: kernel-checked finite window, safe-tail, endpoint/derivative, source-family, and explicit separation map with C=-log(a), D=5/2+En+ED.",
+    "audit/location_blind_subdivision_bridge_author_audit.md: adversarial author audit of the new extraction bridge; explicitly not independent.",
+    "audit/source_geometry_uniform_losses_author_audit.md: adversarial author reconstruction of the finite source map and exact remaining uniform-constant condition; explicitly not independent.",
+    "audit/source_geometry_uniform_losses_cross_audit_by_upper.md: independent same-model reconstruction of the finite source map, order-loss arithmetic, separation wrapper, quantifier scope, and frozen replay hashes; explicitly not human peer review.",
+    "audit/location_blind_subdivision_bridge_cross_audit.md: separate same-model reconstruction of the finite Lean bridge and conditional source-to-uniform-loss instantiation; explicitly not human peer review.",
+    "audit/adaptive_unbalanced_author_audit.md: adversarial author audit of source admissibility, endpoint estimates, PI cardinality-tail correction, and no-go scope; explicitly not independent.",
+    "audit/adaptive_unbalanced_cross_audit.md: separate same-model Codex reconstruction of the attaining chain and delimited cardinality-tail barrier; explicitly not human peer review or Lean evidence.",
+    "audit/location_blind_leading_obstruction_cross_audit.md: separate same-model reconstruction of the exact log invariant, finite endpoint-excess bound, leading-certificate equivalence, and delimited no-go scope; explicitly not human peer review.",
+    "evidence/adaptive_unbalanced_replay.json: guarded finite log-domain transcription replay; explicitly not theorem evidence.",
+    "evidence/lean_parametric_ranges_stage1.md and evidence/lean_parametric_ranges_stage1.json: archived guarded checkpoint for the earlier three-of-four builder stage."
+  ],
+  "dependency_gaps": [
+    "The abstract theta theorem assumes PI(theta); the theta=21/40 corollary imports the Baker--Harman--Pintz short-prime input exactly as the source paper does.",
+    "The complete adaptive four-range theorem is kernel-checked. For the enlarged no-go, the finite cardinality tail, partition telescope, weighted extraction, block algebra, endpoint contradiction, and source map from fixed raw a,En,ED to C=-log(a), D=5/2+En+ED are kernel-checked uniformly over arbitrary finite index sets. A broader shifted/regrouped source must separately prove that its raw constants are common to the family; the eventual K/loglog(k)^2 limit is not packaged as a Lean sequence theorem.",
+    "The no-go is confined to the named location-blind deterministic-tail class whose nonnegative Theorem 4.1 bounds are summed and required to be o(k^theta/log k). It does not cover sparse covers selected from actual prime locations, cross-block cancellation, stronger prime inputs, stronger exponential-sum estimates, or the true bad-set cardinality.",
+    "Novelty and publication priority remain unchecked."
+  ]
+}

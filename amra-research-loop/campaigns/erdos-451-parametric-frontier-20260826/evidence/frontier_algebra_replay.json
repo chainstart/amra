@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- python3 amra-research-loop/campaigns/erdos-451-parametric-frontier-20260826/work/verify_frontier.py",
+  "guard": {
+    "unit": "openmath-task-20260826-142606-109124.scope",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "swap_max": "4G",
+    "tasks_max": 512
+  },
+  "theta_bhp": "21/40",
+  "frontier": "19/120",
+  "old_coarse_candidate": "19/240",
+  "additive_exponent_at_r3": "53/140",
+  "additive_gap_to_theta": "41/280",
+  "third_term_frontier_gap_to_one_half": "41/120",
+  "artifact_sha256": {
+    "work/verify_frontier.py": "0259ba9f7d7a5eadd3cb496c74d7ca7e45ee416e6dd2a0b5c71516ad1332ef29",
+    "evidence/parametric_frontier_proof.md": "1397b2aa2420c56c78074ecf3844ad0c4c13d345e10171440b600df3f60d111d",
+    "evidence/frontier_falsification.md": "84df480cc41f83cd239d743c2af142a76f562b5cdc34174b0f714bcaa96efb30",
+    "evidence/theorem41_uniformity_audit.md": "0d8f008801b2387505420f3219f8a6c909641568a6b5edf3c12b652e025b8603"
+  },
+  "scope": "Exact rational algebra and finite monotonicity samples only. Universal claims rely on the natural proof in frontier_falsification.md and parametric_frontier_proof.md."
+}

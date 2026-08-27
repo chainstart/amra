@@ -1,0 +1,284 @@
+{
+  "compact_chart": {
+    "degrees": [
+      7,
+      4,
+      4,
+      0,
+      0,
+      6,
+      4,
+      3
+    ],
+    "negative_power_coefficients": 2163,
+    "sha256": "0e18b24f17c24b14feea6cb9f457db55621453529b3c8eddf89d3a7d8facb2ba",
+    "terms": 4366
+  },
+  "conclusion": "the internal B=s0 root curve and its B^3-versus-w^2 intersection have exact manifestly nonnegative Newton principals",
+  "coordinates": {
+    "D": "(1-tau)*(1-u)",
+    "E": "B*u*(tau-v)*(1-v)",
+    "root": "w=D*s0+E",
+    "weighted_blowup": "B=b^2, w=b^3*y, followed by division by b^6"
+  },
+  "coverage_change": 0,
+  "domain": "q3:RLP, q0-maximal projective compact chart; 0<=u,A,s0,B,v,tau<=1",
+  "first_newton_face": {
+    "degrees": [
+      7,
+      4,
+      2,
+      0,
+      0,
+      2,
+      4,
+      3
+    ],
+    "identity": "A^4*u^2*(1-tau)*(1-u)^3*((1-tau)*(1-u)*s0+B*u*(tau-v)*(1-v))^2",
+    "negative_power_coefficients": 60,
+    "pareto_B_s0": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "sha256": "b19c6e3ddd608c247a0746a914b76be683b30ce55584a997b8b1c0e0afe48b78",
+    "terms": 122
+  },
+  "gram_kill_test": {
+    "full_tridiagonal_determinant_negative": true,
+    "interpretation": "the displayed tridiagonal Gram is not globally PSD; this rejects that sufficient certificate only and is not a negative value of the quartic on its admissible w interval",
+    "lower_2x2_minor_positive": true,
+    "parameters_u_A_B_v_tau": [
+      "11/16",
+      "7/8",
+      "7/8",
+      "7/16",
+      "1/16"
+    ]
+  },
+  "reconstruction": {
+    "Delta_b_original_terms": 178,
+    "H1884": {
+      "degrees": [
+        4,
+        5,
+        4,
+        0,
+        0,
+        6,
+        4,
+        3
+      ],
+      "negative_coefficients": 900,
+      "sha256": "f680804eafab4019dfb825d87d6d8734e3a515348bbe9d1dce36da8a9c2b45d5",
+      "terms": 1884
+    },
+    "cleared_sha256": "e1f5bd60b4310285cf7a49c38d19078bb46bd95ec5051981797b8e0455b0863a",
+    "cleared_terms": 2098,
+    "core_sha256": "febcafd90bd79d6fdb9c5fa361778540d81dacb5ccb589acf194855ff418df16",
+    "core_terms": 786,
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "outer_gram_common_monomial": [
+      1,
+      0,
+      2,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "outer_gram_determinant_terms": 5802
+  },
+  "remaining_negative_page_chambers": 18,
+  "root_quartic": {
+    "C": "A*B*(1-tau*u)+(A+B)*(1-tau)*(1-u)",
+    "C_record": {
+      "degrees": [
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "negative_power_coefficients": 5,
+      "sha256": "f2b3d435a304297fad544b22ee1b1d0fd35cf2e96fc069dadd8c857d4c3e4605",
+      "terms": 10
+    },
+    "F23": {
+      "degrees": [
+        2,
+        1,
+        0,
+        0,
+        0,
+        2,
+        2,
+        1
+      ],
+      "negative_power_coefficients": 12,
+      "sha256": "f1f64d0a358a31d10eef25d04a87ce82520295a83d9fef59670e8dac11120b76",
+      "terms": 23
+    },
+    "H156": {
+      "degrees": [
+        3,
+        2,
+        0,
+        0,
+        0,
+        4,
+        4,
+        2
+      ],
+      "negative_power_coefficients": 75,
+      "sha256": "1a9d5ae91ffb250b5c42989c1f9e3be4890c1deda203b69d61136ec158d8e0a0",
+      "terms": 156
+    },
+    "degrees": [
+      11,
+      4,
+      4,
+      0,
+      0,
+      10,
+      12,
+      7
+    ],
+    "lower_minor_core": {
+      "degrees": [
+        9,
+        5,
+        0,
+        0,
+        0,
+        9,
+        8,
+        5
+      ],
+      "negative_power_coefficients": 3321,
+      "sha256": "178a6bc7254d330169f4793b381d36fb6948216122dc935f4f78dcaf07daac22",
+      "terms": 6633
+    },
+    "negative_power_coefficients": 15332,
+    "r3": "-2*C*(1-u)^2*F23*H156",
+    "r4": "(A+B)*C*(1-u)^2*F23^2",
+    "row_common_monomials": [
+      [
+        4,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0
+      ],
+      [
+        3,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "row_terms": [
+      12128,
+      8858,
+      5725,
+      3034,
+      924
+    ],
+    "sha256": "8e782abd4b9d1572aca1b88c8c333f72389fe35efb859b99086ac1c22eb17429",
+    "terms": 30669
+  },
+  "schema": "amra.opg1757.round7.rlp-root-newton-blowup.v1",
+  "scope": "the higher weighted orders are not certified; q3:RLP, the generic Delta_b sign, the marked-host theorem, and OPG-1757 remain open",
+  "weighted_newton_face": {
+    "blown_up_polynomial": {
+      "degrees": [
+        11,
+        4,
+        4,
+        0,
+        0,
+        18,
+        12,
+        7
+      ],
+      "negative_power_coefficients": 15332,
+      "sha256": "6e2ec0548499c6dbd73b41228e755013d4a026564ca97c9aedf837c01afbc872",
+      "terms": 30669
+    },
+    "degrees": [
+      11,
+      4,
+      2,
+      0,
+      0,
+      0,
+      4,
+      6
+    ],
+    "identity": "A^3*u^2*(1-tau)^5*(1-u)^7*(u^2*v^2*(1-tau)*(1-v)^2+A*y^2)",
+    "negative_power_coefficients": 108,
+    "sha256": "0acaf2b4a2ecadbe215156d9814a9089af82eb6983bbb7cd2519a5fe3c4129c8",
+    "terms": 216,
+    "weighted_support": [
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ]
+  }
+}

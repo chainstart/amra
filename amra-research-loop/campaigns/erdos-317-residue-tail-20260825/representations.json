@@ -1,0 +1,12 @@
+{
+  "representations": [
+    {"id":"R317-1","name":"ternary lcm lattice","family":"algebraic-reconstruction","new_information":"retains exact integer weights L_n/k and coefficient support","first_test":"compare symbolic congruence deductions with exact n<=30 enumeration"},
+    {"id":"R317-2","name":"highest prime-power layers","family":"valuation-filtration","new_information":"records exactly which coefficients survive modulo each maximal p-power","first_test":"derive the singleton layer rule and locate the first multi-index layer"},
+    {"id":"R317-3","name":"top-prime cofactor system","family":"common-structural-host","new_information":"couples all primes p in (n/2,n] through one factorisation L_n=M product(p)","first_test":"test whether two-prime cofactors force incompatible signs"},
+    {"id":"R317-4","name":"prime-power event timeline","family":"bounded-potential-ascent","new_information":"retains intervals on which L_n and each obstruction residue are unchanged","first_test":"compress certified n into event intervals and inspect uncovered transitions"},
+    {"id":"R317-5","name":"factorial complement at prime n","family":"algebraic-reconstruction","new_information":"embeds L_{p-1} into Wilson's product (p-1)!","first_test":"determine whether L_{p-1}=plus or minus 1 forces a bounded factorial quotient"},
+    {"id":"R317-6","name":"quadratic-character coupling","family":"harmonic-character","new_information":"retains Legendre symbols of all cofactor congruences simultaneously","first_test":"multiply character constraints and compare with quadratic reciprocity"},
+    {"id":"R317-7","name":"cofactor polynomial","family":"geometric-lift","new_information":"views product(P/p) as barycentric cofactor data of the top-prime set","first_test":"search for a polynomial identity whose values plus or minus 1 at all top primes are impossible"},
+    {"id":"R317-8","name":"signed-residue entropy","family":"rare-event-conditioning","new_information":"measures how exceptional simultaneous plus/minus-one cofactors should be without assuming independence","first_test":"separate a rigorous large-sieve inequality from an equidistribution heuristic"}
+  ]
+}

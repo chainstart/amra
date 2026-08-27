@@ -1,0 +1,12 @@
+{
+  "independent_reconstruction": {
+    "status": "not_performed",
+    "auditor": "",
+    "evidence": [
+      "Mechanical champion replays passed, but they are author-run checks and are not an independent audit."
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "incomplete_inverse_lemma_and_explicit_constants",
+  "novelty_check": "priority_uncertain"
+}

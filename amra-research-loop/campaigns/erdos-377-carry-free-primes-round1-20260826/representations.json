@@ -1,0 +1,94 @@
+{
+  "representations": [
+    {
+      "id": "R377-01",
+      "name": "Kummer carry-free digit automata",
+      "family": "digit_automata",
+      "new_information": "For each prime p, accepts exactly the integers whose base-p digits all lie in {0,...,(p-1)/2}.",
+      "repairs_loss": "Retains every digit restriction instead of replacing the exceptional-prime set by all primes.",
+      "first_test": "Replay against exact binomial valuations for dense n and every p<=n.",
+      "closure_interface": "Needs a pointwise bound on the reciprocal mass of automata simultaneously accepting one n."
+    },
+    {
+      "id": "R377-02",
+      "name": "Nested lower-half prime-power residues",
+      "family": "digit_automata",
+      "new_information": "Encodes carry freedom as n mod p^j < p^j/2 for every relevant j, making the nesting across powers explicit.",
+      "repairs_loss": "Prevents paying independently for the same prime at all of its powers.",
+      "first_test": "Search for the first p,j at which proposed single-level surrogates disagree with the full predicate.",
+      "closure_interface": "A unique-scale certificate must imply all nested conditions with summable loss."
+    },
+    {
+      "id": "R377-03",
+      "name": "Legendre floor-jump ledger",
+      "family": "valuation_intervals",
+      "new_information": "Writes v_p binomial(2n,n) as a sum of binary floor jumps indexed by p^j.",
+      "repairs_loss": "Identifies the exact scale at which divisibility first appears and keeps endpoint conventions exact.",
+      "first_test": "Cross-check the jump sum, digit predicate and direct integer binomial values on boundary-rich n.",
+      "closure_interface": "A proof may charge a nondividing prime to a missing jump, but only once."
+    },
+    {
+      "id": "R377-04",
+      "name": "Fixed-quotient prime intervals",
+      "family": "valuation_intervals",
+      "new_information": "For p^2>2n, partitions carry-free primes by q=floor(n/p) into exact intervals (n/(q+1/2),n/q].",
+      "repairs_loss": "Uses arithmetic interval length rather than the full Mertens mass of a large-prime band.",
+      "first_test": "Compare exact interval membership to digit tests and measure endpoint/short-interval errors.",
+      "closure_interface": "Must generalise recursively to prime powers without invoking unavailable uniform short-interval PNT."
+    },
+    {
+      "id": "R377-05",
+      "name": "Critical prime-power annuli",
+      "family": "multiscale_charging",
+      "new_information": "Assigns to p a distinguished power p^j near a chosen n-scale and records the lower and upper base-p blocks of n.",
+      "repairs_loss": "Offers one scale per prime and exposes how reciprocal prime mass distributes over exponent depths.",
+      "first_test": "Try sqrt(n), dyadic-log and adaptive annuli; reject any assignment whose scale charge grows on record n.",
+      "closure_interface": "Needs an O(1) total charge after summing all exponent depths."
+    },
+    {
+      "id": "R377-06",
+      "name": "Recursive digit-block decomposition",
+      "family": "multiscale_charging",
+      "new_information": "Splits n=a p^j+b with both blocks carry-free in base p and tracks contraction of the block sizes.",
+      "repairs_loss": "Retains the self-similar content behind the nested residues instead of treating levels as separate events.",
+      "first_test": "Measure whether candidate recurrences contract uniformly for primes near every power threshold.",
+      "closure_interface": "A recurrence must decrease n by a fixed scale while charging each prime only once."
+    },
+    {
+      "id": "R377-07",
+      "name": "Adversarial CRT acceptance boxes",
+      "family": "crt_geometry",
+      "new_information": "For a finite prime set, represents simultaneous carry freedom below a cutoff as a product of allowed residue boxes modulo their prime powers.",
+      "repairs_loss": "Shows exactly how far different bases really are independent at a fixed finite scale.",
+      "first_test": "Optimise n modulo the product to maximise reciprocal accepted-prime weight and test naive density products.",
+      "closure_interface": "Any incompatibility theorem must beat exact CRT constructions using the global bound n."
+    },
+    {
+      "id": "R377-08",
+      "name": "Fourier spectrum of lower-half residue sets",
+      "family": "crt_geometry",
+      "new_information": "Expands prime-power lower-half indicators into additive characters so simultaneous acceptance becomes a structured correlation sum.",
+      "repairs_loss": "Makes cross-prime correlations and boundary frequencies visible beyond pairwise independence heuristics.",
+      "first_test": "Compute low-modulus spectra and kill bounds whose nonzero-frequency contribution exceeds the claimed saving.",
+      "closure_interface": "Requires a pointwise correlation bound strong enough after summing reciprocal prime weights."
+    },
+    {
+      "id": "R377-09",
+      "name": "Reciprocal-prime measure and stopping time",
+      "family": "entropy_probability",
+      "new_information": "Samples a prime with mass proportional to 1/p and stops at its first relevant digit or scale obstruction.",
+      "repairs_loss": "Matches the public objective directly and converts unique scale assignment into a probability statement.",
+      "first_test": "Compute stopping-level distributions for record n and for CRT-designed adversaries.",
+      "closure_interface": "A uniform positive obstruction probability at every unresolved mass level would close the bound."
+    },
+    {
+      "id": "R377-10",
+      "name": "Mixed-base digit entropy",
+      "family": "entropy_probability",
+      "new_information": "Treats the same integer n as a codeword in many prime bases and records the entropy debt of keeping every digit in a half alphabet.",
+      "repairs_loss": "Targets the missing pointwise incompatibility between simultaneous carry-free descriptions.",
+      "first_test": "Compare entropy claims with exact CRT boxes, primorial-adjacent n and record holders of f(n).",
+      "closure_interface": "Must turn code-length conflict into a reciprocal-prime bound without averaging over n."
+    }
+  ]
+}

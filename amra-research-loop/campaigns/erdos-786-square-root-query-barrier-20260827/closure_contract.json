@@ -1,0 +1,53 @@
+{
+  "exact_statement": "Using a many-primes-in-one-dyadic-interval input, prove that for every prime b and fixed integer A>=4, all sufficiently large N=b^K contain a support-minimal unequal-cardinality equal-product path wholly in (N/b^6,N] that avoids every prescribed prime below b^(floor(K/2)-A). Deduce deterministic and shared-seed randomized adaptive valuation-query lower bounds for zero transcripts reaching to within a fixed factor of sqrt(N), with an exact density-sensitive success-probability inequality. Establish the square-root limitation of this path host. Do not claim global alteration bounds, a full transversal estimate, or resolution of Erdos 786.",
+  "source": "amra-research-loop/campaigns/erdos-786-adaptive-query-obstruction-20260827",
+  "success_conditions": [
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume",
+    "restatement_of_Q1_with_a_fixed_epsilon",
+    "a_prime-counting experiment_without_an_all-parameter_interval theorem",
+    "a_path_using_edge_primes_above_sqrt_N",
+    "a_query_bound_for_exact-label_or_per-integer-programs",
+    "a_global_alteration_or_full-transversal_claim",
+    "publication_rank_claimed_before_independent_audit"
+  ],
+  "scope_notes": [
+    "Variant lock: the relation uses disjoint Finsets of distinct integers with equal products and unequal cardinalities; support minimality is required.",
+    "The predecessor Q.1--Q.4 campaign is frozen at independent_audit and is read-only. This campaign must improve the observation cutoff from N^(1/2-epsilon) to a fixed multiplicative distance below sqrt(N).",
+    "The only new analytic dependency permitted is the standard consequence of the prime number theorem that (X,2X) contains asymptotic order X/log X primes. It is used solely to supply 2 floor(K/4) distinct edge labels when X grows exponentially in K.",
+    "The decision-tree model remains one uniform finite exact-valuation tree per K and shared random seed, with a terminating all-zero branch. Off-zero branches are unrestricted.",
+    "The randomized result must retain the exact finite bound Pr(transversal)<=E|D|/(L-t), not just an asymptotic slogan.",
+    "The square-root boundary is a statement about this path-incidence host: two incident edge primes both greater than sqrt(N) force their rough product above N.",
+    "No lower or upper bound on the complete tau(H_N), no global repair lower bound, and no solution of Erdos 786 may be inferred.",
+    "Public search for an exact solution remains prohibited; ordinary prime-distribution background may be source-grounded later."
+  ],
+  "frozen_parameters": {
+    "ambient": "N=b^K with b prime",
+    "constant": "fixed integer A>=4",
+    "prime_interval": "X=b^(floor(K/2)-A), edge primes chosen in (X,2X)",
+    "path": "s=floor(K/4), support size 2s+1",
+    "target_tail": "(N/b^6,N]",
+    "controlled_queries": "all zero-branch primes are different from b and smaller than X"
+  },
+  "frozen_probability_interface": {
+    "zero_population": "Z(T)=number of n<=N with zero valuation at every zero-branch prime",
+    "uniform_lower_bound": "L=essential infimum of Z(T_omega)",
+    "threshold": "0<=t<N/b^6",
+    "target": "Pr(D(T_omega) is a transversal)<=E|D(T_omega)|/(L-t) when L>t",
+    "positive_density_corollary": "sum 1/p<=1-delta implies L>=delta N"
+  },
+  "read_only_dependency": {
+    "campaign": "../erdos-786-adaptive-query-obstruction-20260827",
+    "proof_artifact": "evidence/SURVIVOR_DEEPENING.md",
+    "proof_sha256": "ed6d1d810ba78ca0a5050224d6ea22ea01d06f978838c8a642d6fe1047269a18",
+    "decisive_lemma_artifact": "decisive_lemma.json",
+    "decisive_lemma_sha256": "0d5fd0d16ea9dfb46eaef121a34a0f1d4a4aa08f20f57b5298bd8af70af97dcd",
+    "result": "Q.1--Q.4 near-square-root moving paths and adaptive shared-seed query obstruction"
+  }
+}

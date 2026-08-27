@@ -1,0 +1,93 @@
+{
+  "schema_version": "amra.discovery-portfolio.v1",
+  "portfolio_id": "new-problem-round3-2026-08-25",
+  "updated_at": "2026-08-25T17:12:00+08:00",
+  "max_active_deep_attacks": 3,
+  "outcome_semantics": {
+    "original_problem_closed": "The exact current public statement is completely proved or refuted.",
+    "new_bound_or_scoped_theorem": "A rigorous non-closing contribution exists, without a priority claim.",
+    "writing_package_ready": "An exposition package passed its own checks and never implies closure."
+  },
+  "targets": [
+    {
+      "problem_id": "erdos-317",
+      "title": "Signed harmonic sums at lcm spacing",
+      "opportunity_class": "FORMAL-READY",
+      "research_track": "scoped_theorem",
+      "scheduling_status": "frozen",
+      "resume_gate": "Provide a theorem using the exact lower-prime-power factor of L_n that excludes all CRT signed-unit classes for some top prime; another finite cutoff or arbitrary-multiplier argument is insufficient.",
+      "campaign": "../../campaigns/erdos-317-residue-tail-20260825",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": false,
+        "evidence": {
+          "decisive_lemma": "../../campaigns/erdos-317-residue-tail-20260825/decisive_lemma.json",
+          "proof_note": "../../campaigns/erdos-317-residue-tail-20260825/evidence/cofactor_no_go.md",
+          "guarded_replay": "../../campaigns/erdos-317-residue-tail-20260825/evidence/cofactor_route_test_100000.json",
+          "portfolio_replay": "evidence/adversarial_replay.json"
+        }
+      },
+      "deep_attack": {"active": false}
+    },
+    {
+      "problem_id": "erdos-354",
+      "title": "Completeness of two floor-dilation sequences",
+      "opportunity_class": "CONSTRUCTION",
+      "research_track": "scoped_theorem",
+      "scheduling_status": "frozen",
+      "resume_gate": "Prove a quantitative lift from finite-prefix coverage of every modulus to arbitrarily long consecutive integer subset-sum intervals, or an equivalent precompleteness theorem; more parameter sampling is insufficient.",
+      "campaign": "../../campaigns/erdos-354-floor-precomplete-20260825",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": false,
+        "evidence": {
+          "decisive_lemma": "../../campaigns/erdos-354-floor-precomplete-20260825/decisive_lemma.json",
+          "proof_note": "../../campaigns/erdos-354-floor-precomplete-20260825/evidence/carry_and_residue_lemmas.md",
+          "guarded_replay": "../../campaigns/erdos-354-floor-precomplete-20260825/evidence/carry_residue_replay.json",
+          "portfolio_replay": "evidence/adversarial_replay.json"
+        }
+      },
+      "deep_attack": {"active": false}
+    },
+    {
+      "problem_id": "erdos-25",
+      "title": "Logarithmic density under distinct forbidden moduli",
+      "opportunity_class": "FORMAL-READY",
+      "research_track": "scoped_theorem",
+      "scheduling_status": "frozen",
+      "resume_gate": "Control the onset transient of each conditional new residue class in the positive finite-stage-density regime, uniformly in its lcm mixing period; another summable or independent cohort is insufficient.",
+      "campaign": "../../campaigns/erdos-25-log-density-tail-20260825",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": false,
+        "evidence": {
+          "decisive_lemma": "../../campaigns/erdos-25-log-density-tail-20260825/decisive_lemma.json",
+          "proof_note": "../../campaigns/erdos-25-log-density-tail-20260825/evidence/zero_limit_and_coprime_theorem.md",
+          "guarded_replay": "../../campaigns/erdos-25-log-density-tail-20260825/evidence/coprime_density_replay.json",
+          "portfolio_replay": "evidence/adversarial_replay.json"
+        }
+      },
+      "deep_attack": {"active": false}
+    },
+    {
+      "problem_id": "erdos-538",
+      "title": "Bounded prime-multiple representations",
+      "opportunity_class": "FORMAL-READY",
+      "research_track": "audit",
+      "scheduling_status": "audit_only",
+      "outcomes": {
+        "original_problem_closed": null,
+        "new_bound_or_scoped_theorem": null,
+        "writing_package_ready": false,
+        "evidence": {
+          "dynamic_status": "evidence/erdos_538_dynamic_claim.md",
+          "external_claim": "https://www.erdosproblems.com/forum/thread/538/proof-claims"
+        }
+      },
+      "deep_attack": {"active": false}
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "scope": "finite numerical consistency check only; not theorem evidence",
+  "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m10_round1/fejer_bridge_check.py",
+  "guard": {
+    "unit": "openmath-task-20260827-010924-361242.scope",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "swap_max": "4G",
+    "tasks_max": 512,
+    "exit_status": 0,
+    "elapsed_seconds": 0.01,
+    "maximum_resident_set_kib": 11840,
+    "swaps": 0
+  },
+  "parameters": {
+    "primes": [5, 7],
+    "P": 35,
+    "b": 1.5,
+    "h": 3,
+    "carry_cutoff": 40
+  },
+  "results": {
+    "real_side_S": 5.9533607681755845,
+    "spectral_side_S": 5.953360768175583,
+    "parseval_abs_error": 1.7763568394002505e-15,
+    "omega_dft_max_abs_error": 1.167475353830439e-15,
+    "finite_carry_identity_max_abs_error": 4.440892098500626e-16,
+    "finite_exact_E": 4.536999810736442,
+    "finite_majorant_S": 5.850367197701737,
+    "majorant_minus_exact": 1.3133673869652949
+  }
+}

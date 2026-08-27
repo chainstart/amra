@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M25-1", "M25-2", "M25-3"],
+  "selection_rationale": "M25-1 isolates the only difficult positive-limit regime, M25-2 completely handles pairwise-coprime moduli, and M25-3 retains the conditional new-class mass needed in the dependent positive-limit case."
+}

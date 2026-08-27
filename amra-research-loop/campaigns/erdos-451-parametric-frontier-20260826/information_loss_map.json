@@ -1,0 +1,34 @@
+{
+  "inherited_methods": [
+    {
+      "method": "Published Section 6 order bound r<=ceil(2c log(k)/loglog(k))",
+      "loss_step": "The existence proof for r compares k^r with both n and r! by spending a second copy of c*log(k)^2/loglog(k), although log(r!)=O(log k) when r=O(log(k)/loglog(k)).",
+      "lost_information": "The factorial contributes only lower order on the log(k)^2/loglog(k) scale, so the least admissible r is asymptotic to c*log(k)/loglog(k), not 2c*log(k)/loglog(k).",
+      "consequence": "The inherited 19/240 candidate is based on a factor-two loss and is not the parametric frontier."
+    },
+    {
+      "method": "Equalizing the first two Theorem 4.1 terms without an optimality certificate",
+      "loss_step": "The source chooses lambda so the first two terms coincide but does not record their lambda-independent product.",
+      "lost_information": "If A and B denote those terms, then A^(2r-1)*B^(r-1)=k^(theta-1). This identity both proves the balancing scale is exponent-optimal and imposes the barrier (3r-2)loglog(k)<=(1-theta)log(k).",
+      "consequence": "The product identity still fixes the leading c<(1-theta)/3 barrier, but equalizing at the older stopping threshold was not endpoint-optimal: the adaptive max scale removes the artificial theta>9/23 restriction without changing c(theta)."
+    },
+    {
+      "method": "Coarse third-term envelope k^(-1/(6r))",
+      "loss_step": "Minimality of r and the exact balanced lambda are replaced by lambda<k^((2-theta)/r), followed by multiple coarse exponent relaxations.",
+      "lost_information": "The third term has log-decay exponent asymptotic to 1/(2c), not merely 1/(12c), when r~c log(k)/loglog(k).",
+      "consequence": "The apparent constraint c<1/12 is artificial; throughout the source theta range the first-two-term barrier is reached before the third term becomes critical."
+    },
+    {
+      "method": "Finite or polylogarithmic comparable prime-block segmentation",
+      "loss_step": "Each block is bounded independently by the same nonnegative Theorem 4.1 right-hand side, after which the bounds are summed and compared only with blockwise short-interval prime counts.",
+      "lost_information": "No cancellation or cross-block correlation is retained, and every comparable block inherits the same A--B product barrier up to k^(o(1)) factors.",
+            "consequence": "Such segmentation changes constants or logarithmic factors but cannot improve the leading c(theta) frontier in the explicit uniform source class. Lean checks the per-block invariant, PI tail, finite weighted extraction, endpoint contradiction, and the source map from common a,En,ED to C=-log(a), D=5/2+En+ED. It does not infer those common constants for arbitrary regroupings. This does not rule out a new multiblock theorem retaining correlations."
+    }
+  ],
+  "required_new_information": [
+    "To improve c beyond (1-theta)/3, information not present in the termwise nonnegative Theorem 4.1 certificate is required: cross-block cancellation, prime-location-adaptive sparse covers, a stronger local prime input, or a stronger direct estimate of the true bad set.",
+    "The adaptive scale and least stopping order now recover all information needed to remove the balanced theta>9/23 artifact; no further parameter-only glue remains in the PI(theta)-conditional attaining theorem.",
+    "The enlarged no-go must remain scoped to the location-blind deterministic-tail certificate class and cannot be promoted to a lower bound on the true bad-point count.",
+        "Any extension beyond the proved subdivision class must replace at least one indispensable input: fixed raw source factors a,En,ED (equivalently uniform safe/order losses), full deterministic-tail coverage, or termwise nonnegative summation. One-block algebraic counterexamples show that allowing the comparison losses to grow destroys the endpoint obstruction."
+  ]
+}

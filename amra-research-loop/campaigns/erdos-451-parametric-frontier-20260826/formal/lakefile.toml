@@ -1,0 +1,19 @@
+name = "erdos451_parametric_frontier"
+version = "0.1.0"
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "8f9d9cff6bd728b17a24e163c9402775d9e6a365"
+
+[[lean_lib]]
+name = "ErdosProblem451"
+
+[[lean_lib]]
+name = "FrontierLemmas"
+
+[[lean_lib]]
+name = "ParametricInterface"
+
+[[lean_lib]]
+name = "ParametricRanges"

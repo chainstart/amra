@@ -3,8 +3,10 @@
 ## 1. Scope
 
 This note records an exact structural reduction for one of the five remaining
-negative-page representatives.  It does **not** certify the sign of the
-representative and does not close an activity chamber.
+negative-page representatives.  The companion
+`RLP_ROOT_GRAM_CERTIFICATE.md` now certifies the singular local root box found
+here, but the complementary compact region remains open.  Consequently this
+note still does not close an activity chamber.
 
 For `q3<0`, use the usual Schur parameter
 
@@ -180,8 +182,14 @@ K24 = C1*r2-C2*H260^2.                                    (5.3)
 
 `K24` has 8,599 terms and a further common factor `B`.  Equations
 (5.1)--(5.3) replace the unstructured singular corner by three explicit
-Gram principal-minor questions.  The sign of `K24/B`, the upper `2 x 2`
-minor, and the full `3 x 3` determinant remain to be proved or falsified.
+Gram principal-minor questions.  The companion exact Bernstein certificate
+proves all three on
+
+```text
+0<=y<=1, 0<=a<=1/128, 0<=B<=1, 0<=v<=1/128, 0<=t<=1/32.
+```
+
+The region outside this local box remains to be proved or falsified.
 
 ## 6. Reproduction and consequence
 
@@ -189,7 +197,6 @@ Run the standard-library verifier with
 
 ```sh
 cd amra-research-loop/campaigns/opg-1757-transverse-lift-round7
-ulimit -v 2097152
 timeout 240s python3 evidence/verify_rlp_projective_corner_reduction.py
 ```
 

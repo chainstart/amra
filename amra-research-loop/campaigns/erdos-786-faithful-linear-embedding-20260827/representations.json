@@ -1,0 +1,60 @@
+{
+  "representations": [
+    {
+      "id": "R786F-01",
+      "name": "degree-coded point-private bipartitions",
+      "family": "valuation_coding",
+      "new_information": "Encodes all incidences at an arbitrary host vertex x with r=ceil(log_2(deg(x)+1))+1 private prime coordinates while keeping one shared point product.",
+      "first_test": "Count unordered nontrivial bipartitions and test whether one globally uniform r based on maximum degree suffices."
+    },
+    {
+      "id": "R786F-02",
+      "name": "bounded-dimensional exponent codes",
+      "family": "valuation_coding",
+      "new_information": "Tests whether a fixed number of primes with complementary exponents can replace logarithmic-size prime blocks.",
+      "first_test": "Lower-bound the exponent range required for Delta distinct incident-edge codes and compare it with the K-bit band budget."
+    },
+    {
+      "id": "R786F-03",
+      "name": "prime-valuation circuit matrix",
+      "family": "kernel_circuits",
+      "new_information": "Views every path relation as an integer-kernel vector of its prime-valuation matrix and exposes support minimality over all rational coefficients.",
+      "first_test": "Use one private prime from each path label to solve every kernel equation and determine the full kernel dimension."
+    },
+    {
+      "id": "R786F-04",
+      "name": "toric hypergraph encoding comparator",
+      "family": "kernel_circuits",
+      "new_information": "Compares the proposed arithmetic realization with known encodings of integer-matrix circuits by 0/1 hypergraph incidence matrices.",
+      "first_test": "Check whether the existing toric encoding theorem also supplies injective integer labels in one band and preserves host transversal and matching numbers."
+    },
+    {
+      "id": "R786F-05",
+      "name": "linear-hypergraph footprint realization",
+      "family": "incidence_fidelity",
+      "new_information": "Uses one- and two-block odd-prime footprints to preserve the complete pairwise edge-intersection pattern of any simple linear host.",
+      "first_test": "Enumerate every shared/private collision type and isolate exactly where linearity is needed."
+    },
+    {
+      "id": "R786F-06",
+      "name": "set-intersection graph representation comparator",
+      "family": "incidence_fidelity",
+      "new_information": "Tests whether classical set-intersection representations already imply the stronger relation-level arithmetic realization.",
+      "first_test": "Compare adjacency-only preservation with exact shared vertices, primitive equal-product circuits, and cover/matching preservation."
+    },
+    {
+      "id": "R786F-07",
+      "name": "variable-edge dyadic balancing flow",
+      "family": "padding_transfer",
+      "new_information": "Treats each edge independently with an explicit quotient-remainder decrement vector whose maximum is four whenever its size exceeds K.",
+      "first_test": "Display the vector, prove its sum and maximum, and verify equality of total two-adic exponents for every edge size m>K."
+    },
+    {
+      "id": "R786F-08",
+      "name": "small-edge and multi-prime padding comparators",
+      "family": "padding_transfer",
+      "new_information": "Tests whether the minimum-edge-size condition can be removed by a different distribution of scale corrections.",
+      "first_test": "For m<=K, optimize decrement capacities and determine whether fixed-band nonnegative exponents can be guaranteed under the same raw-value budget."
+    }
+  ]
+}

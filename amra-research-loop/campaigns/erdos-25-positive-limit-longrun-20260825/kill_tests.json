@@ -1,0 +1,10 @@
+{
+  "tests": [
+    {"mechanism_id":"M25L-2","test":"charge every layer by a universal constant times eventual density","outcome":"killed","evidence":"evidence/conditional_layers_and_transient_amplifier.md","reason":"the exact binary tower has amplification asymptotic to Q/(2 log Q)"},
+    {"mechanism_id":"M25L-4","test":"use a one-step lcm-age potential with no stored reserve","outcome":"killed","evidence":"evidence/positive_density_spike_search.json","reason":"a positive-density two-layer block spends at least 1.309 times its local eventual-density budget"},
+    {"mechanism_id":"M25L-7","test":"bound target-isolated CRT matching number from positive density","outcome":"killed","evidence":"evidence/longrun_findings.md","reason":"distinct prime moduli with residue zero give arbitrarily large pairwise target-isolated matchings over the full previous survivor"},
+    {"mechanism_id":"M25L-8","test":"concatenate finite blocks without a scale-preserving interface","outcome":"killed","evidence":"evidence/longrun_findings.md","reason":"every fixed block dilutes by 1/log x at later cutoffs and the search supplies no cross-block noninterference invariant"},
+    {"mechanism_id":"M25L-9","test":"charge a layer by density times one plus log(period/onset)","outcome":"killed","evidence":"evidence/conditional_layers_and_transient_amplifier.md","reason":"the binary tower has ratio Q/log Q while its log period/onset charge is only logarithmic"},
+    {"mechanism_id":"M25L-10","test":"charge lcm-cell entropy only once across nested layers","outcome":"killed","evidence":"evidence/longrun_findings.md","reason":"multiple onset layers reuse the same low-order sparse congruence cell, so a period-only entropy debit double counts its reserve"}
+  ]
+}

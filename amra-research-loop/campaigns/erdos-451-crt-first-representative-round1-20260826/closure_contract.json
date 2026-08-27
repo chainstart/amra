@@ -1,0 +1,25 @@
+{
+  "exact_statement": "Estimate n_k, the smallest integer n>2k such that the product (n-1)(n-2)...(n-k) has no prime factor p with k<p<2k.",
+  "source": "https://www.erdosproblems.com/451",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "For each prime p with k<p<2k the forbidden residues are exactly n mod p in {1,...,k}; the allowed set has p-k residues.",
+    "The exact periodic density product_{k<p<2k}(1-k/p) is not by itself an upper bound for the first allowed representative.",
+    "The June 2026 van Doorn--Tang theorem n_k>exp((log k)^2/(20 log log k)) is inherited literature, not a result of this campaign.",
+    "Finite values, average-over-shift non-emptiness, and heuristic Poisson laws do not estimate n_k for all sufficiently large k.",
+    "All expensive search and proof computation must run through /home/biostar/work/projects/openmath/bin/openmath-memory-guard with aggregate high=30G, max=34G, swap=4G and tasks=512."
+  ]
+}

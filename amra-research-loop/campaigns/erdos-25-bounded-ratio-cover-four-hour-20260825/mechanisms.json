@@ -1,0 +1,236 @@
+{
+  "mechanisms": [
+    {
+      "id": "M25Q-1",
+      "representation_id": "R25Q-1",
+      "family": "analytic-lift",
+      "decisive_claim": "If sum_j 1/d_j converges, the progression union has logarithmic density and is upper-log approximable by finite periodic unions.",
+      "would_close": [
+        "summable_reciprocal_subclass"
+      ],
+      "kill_test": "Bound the entire tail union by its reciprocal-modulus sum uniformly in the cutoff.",
+      "status": "proved",
+      "created_at": "2026-08-25T14:56:24+00:00",
+      "status_evidence": "evidence/tractable_tail_criteria.md: bounded ratio makes both reciprocal target and modulus tails summable, giving finite-periodic natural-density approximation",
+      "updated_at": "2026-08-25T15:25:28+00:00"
+    },
+    {
+      "id": "M25Q-2",
+      "representation_id": "R25Q-2",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "If d_j-r_j takes values in a fixed finite set, the union has logarithmic density.",
+      "would_close": [
+        "finite_offset_subclass"
+      ],
+      "kill_test": "Transform each fixed offset family to a shifted set of multiples and prove finite-union upper-log approximation.",
+      "status": "proved",
+      "created_at": "2026-08-25T14:56:24+00:00",
+      "status_evidence": "evidence/tractable_tail_criteria.md and preceding campaign evidence/affine_echo_multiples_theorem.md: fixed offsets are shifted sets of multiples and finite unions have upper-log periodic approximation",
+      "updated_at": "2026-08-25T15:25:28+00:00"
+    },
+    {
+      "id": "M25Q-3",
+      "representation_id": "R25Q-10",
+      "family": "rare-event-conditioning",
+      "decisive_claim": "For pairwise coprime d_j, every least-representative progression union has logarithmic density: finite density if the reciprocal sum converges and density one if it diverges.",
+      "would_close": [
+        "coprime_modulus_subclass"
+      ],
+      "kill_test": "Use exact CRT independence for finite complements and control the activation tail.",
+      "status": "proved",
+      "created_at": "2026-08-25T14:56:24+00:00",
+      "status_evidence": "evidence/tractable_tail_criteria.md and evidence/tail_criteria_replay.json: CRT product dichotomy; extended to finite-colourable gcd dependency graphs",
+      "updated_at": "2026-08-25T15:25:28+00:00"
+    },
+    {
+      "id": "M25Q-4",
+      "representation_id": "R25Q-4",
+      "family": "multiscale-analysis",
+      "decisive_claim": "For fixed C, every finite batch of newly uncovered targets has transient harmonic mass at most K(C) times the eventual new periodic density plus a summable boundary error.",
+      "would_close": [
+        "bounded_ratio_theorem"
+      ],
+      "kill_test": "Optimise exact finite systems for growth of the transient-to-new-density ratio at fixed C.",
+      "status": "killed",
+      "created_at": "2026-08-25T14:56:24+00:00",
+      "status_evidence": "evidence/finite_almost_packing_corollary.md and evidence/multiplication_table_obstruction_replay.json: annular r=d-1 batches are target-irredundant, satisfy C<2, yet their first N-echo union is an o(N^2) multiplication-table subset",
+      "updated_at": "2026-08-25T15:40:16+00:00"
+    },
+    {
+      "id": "M25Q-5",
+      "representation_id": "R25Q-2",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "Quantising d_j/r_j into finitely many slope bins changes the union by arbitrarily small upper logarithmic density.",
+      "would_close": [
+        "bounded_ratio_theorem"
+      ],
+      "kill_test": "Perturb a modulus by one while holding its least representative fixed and measure congruence disagreement.",
+      "status": "candidate",
+      "created_at": "2026-08-25T14:56:24+00:00"
+    },
+    {
+      "id": "M25Q-6",
+      "representation_id": "R25Q-3",
+      "family": "common-structural-host",
+      "decisive_claim": "A uniform pairwise-gcd second-moment bound alone forces logarithmic-density existence for the infinite union.",
+      "would_close": [
+        "bounded_ratio_theorem"
+      ],
+      "kill_test": "Construct finite CRT systems with identical first two intersection data but incompatible higher-order uncovered mass.",
+      "status": "killed",
+      "created_at": "2026-08-25T14:56:24+00:00",
+      "status_evidence": "evidence/finite_almost_packing_corollary.md, evidence/multiplication_table_obstruction_replay.json, and Gilboa--Pinchasi arXiv:1310.4348: uniform constant second-moment packing is false even in the exact target-irredundant bounded-ratio subclass",
+      "updated_at": "2026-08-25T15:40:16+00:00"
+    },
+    {
+      "id": "M25Q-7",
+      "representation_id": "R25Q-8",
+      "family": "quantifier-diagonalization",
+      "decisive_claim": "A fixed finite-rule non-affine schedule with certified positive inner density has signed logarithmic rises and drops bounded away from zero.",
+      "would_close": [
+        "original_problem_refuted"
+      ],
+      "kill_test": "Freeze rules after training and extend blindly over successively larger cutoffs, scoring only several most-recent signed cycles.",
+      "status": "surviving",
+      "created_at": "2026-08-25T14:56:24+00:00",
+      "status_evidence": "evidence/fixed_rule_blind_analysis.json: 16 of 24 frozen schedules have at least two rises and two drops entirely after training, but 15 of those 16 have negative post-training amplitude slopes and the four training-comparable floors retain only a 0.0615 median fraction; finite oscillation survives while a positive asymptotic lower bound is unsupported",
+      "updated_at": "2026-08-25T19:02:11+00:00"
+    },
+    {
+      "id": "M25Q-8",
+      "representation_id": "R25Q-8",
+      "family": "quantifier-diagonalization",
+      "decisive_claim": "Greedily attacking every available point in alternating multiplicative blocks yields a nonvanishing fixed-rule oscillation.",
+      "would_close": [
+        "original_problem_refuted"
+      ],
+      "kill_test": "Track attacked-cell saturation and the decay of recent recovery drops under fixed-rule extension.",
+      "status": "candidate",
+      "created_at": "2026-08-25T14:56:24+00:00"
+    },
+    {
+      "id": "M25Q-9",
+      "representation_id": "R25Q-6",
+      "family": "matching-certificates",
+      "decisive_claim": "There is a universal K(C) bounding total first-representative logarithmic charge by accumulated periodic density loss for every prefix.",
+      "would_close": [
+        "bounded_ratio_theorem"
+      ],
+      "kill_test": "Search exact high-overlap batches at fixed small C for an unbounded charge-to-density ratio.",
+      "status": "killed",
+      "created_at": "2026-08-25T14:56:25+00:00",
+      "status_evidence": "evidence/tractable_tail_criteria.md and evidence/tail_criteria_replay.json: exact prime-saturation counterexample to a universal linear first-representative-charge bound",
+      "updated_at": "2026-08-25T15:25:28+00:00"
+    },
+    {
+      "id": "M25Q-10",
+      "representation_id": "R25Q-7",
+      "family": "bounded-potential-ascent",
+      "decisive_claim": "A large full-history endpoint range is sufficient finite evidence for a nonvanishing infinite oscillation.",
+      "would_close": [
+        "counterexample_route"
+      ],
+      "kill_test": "Compare the range champion's most-recent signed rises and drops after fixed-cutoff extension.",
+      "status": "killed",
+      "created_at": "2026-08-25T14:56:25+00:00",
+      "status_evidence": "preceding campaign evidence/confined_champion_extension.json and current strict signed gate: full-history range can be monotone or supported only by early cycles and is not evidence of a nonzero limsup/liminf gap",
+      "updated_at": "2026-08-25T15:25:28+00:00"
+    },
+    {
+      "id": "M25Q-11",
+      "representation_id": "R25Q-9",
+      "family": "probabilistic-lift",
+      "decisive_claim": "Bounded echo delay yields a renewal dichotomy: reciprocal immigration is summable, or the attacked component saturates, leaving no recurrent intermediate-density tail.",
+      "would_close": [
+        "bounded_ratio_theorem"
+      ],
+      "kill_test": "Derive the claim without independence and stress it on gcd-confined self-similar schedules.",
+      "status": "candidate",
+      "created_at": "2026-08-25T14:56:25+00:00"
+    },
+    {
+      "id": "M25Q-12",
+      "representation_id": "R25Q-1",
+      "family": "analytic-lift",
+      "decisive_claim": "A countable union of affine echo charts has logarithmic density whenever the charts admit finite periodic approximants whose upper-log remainder bounds are summable.",
+      "would_close": [
+        "summable_affine_chart_subclass"
+      ],
+      "kill_test": "Prove a diagonal finite-periodic approximation with the sum of chart remainders controlling the global tail.",
+      "status": "proved",
+      "created_at": "2026-08-25T14:56:25+00:00",
+      "status_evidence": "evidence/tractable_tail_criteria.md: diagonal finite-periodic approximation, with the summable chart remainders controlling the union tail",
+      "updated_at": "2026-08-25T15:25:28+00:00"
+    },
+    {
+      "id": "M25Q-13",
+      "representation_id": "R25Q-3",
+      "family": "common-structural-host",
+      "decisive_claim": "At fixed C, target irredundancy and monotone r_j,d_j impose a uniform bound on later echo collision multiplicity.",
+      "would_close": [
+        "bounded_ratio_packing_route"
+      ],
+      "kill_test": "Construct an arbitrarily large irredundant family with r_j<d_j<=2r_j whose progressions share one later point.",
+      "status": "killed",
+      "created_at": "2026-08-25T15:25:02+00:00",
+      "status_evidence": "evidence/local_entropy_route.md and evidence/tail_criteria_replay.json: the lcm(1,...,2H)-1 construction gives H irredundant collisions for arbitrary H, verified at H=80",
+      "updated_at": "2026-08-25T15:25:02+00:00"
+    },
+    {
+      "id": "M25Q-14",
+      "representation_id": "R25Q-5",
+      "family": "self-enhancing-recursion",
+      "decisive_claim": "Affine confinement R_j=a+g r_j,D_j=g d_j preserves the same bounded-ratio constant and preserves logarithmic-density existence while placing the union in one positive-capacity cell.",
+      "would_close": [
+        "positive_inner_density_interface"
+      ],
+      "kill_test": "Check every order and ratio inequality and transfer lower and upper logarithmic densities through n maps to a+gn.",
+      "status": "proved",
+      "created_at": "2026-08-25T15:27:24+00:00",
+      "status_evidence": "evidence/confinement_equivalence.md: exact affine lift and O(sum 1/n^2) harmonic transfer; parity caveat for the earlier Erdos embedding retained",
+      "updated_at": "2026-08-25T15:27:24+00:00"
+    },
+    {
+      "id": "M25Q-15",
+      "representation_id": "R25Q-6",
+      "family": "matching-certificates",
+      "decisive_claim": "The Gilboa--Pinchasi n^epsilon almost-packing loss can be scheduled with scale-dependent epsilon and explicit constants to give a summable logarithmic tail bound at fixed C.",
+      "would_close": [
+        "bounded_ratio_theorem"
+      ],
+      "kill_test": "Extract explicit c(epsilon), optimise epsilon on each logarithmic scale, and test whether the resulting loss is summable rather than merely subpolynomial.",
+      "status": "surviving",
+      "created_at": "2026-08-25T15:34:43+00:00",
+      "status_evidence": "evidence/finite_almost_packing_corollary.md and evidence/literature_boundary.md: the finite n^epsilon loss is valid, but no scale-uniform explicit c(epsilon) or summable multiscale schedule was obtained",
+      "updated_at": "2026-08-25T19:02:11+00:00"
+    },
+    {
+      "id": "M25Q-16",
+      "representation_id": "R25Q-6",
+      "family": "matching-certificates",
+      "decisive_claim": "Any n bounded-ratio progressions activated in one target scale have first ell-echo union harmonic mass at least c(epsilon) min(n^(1-epsilon),ell)/(C R).",
+      "would_close": [
+        "finite_collision_interface"
+      ],
+      "kill_test": "Apply the asymmetric Gilboa--Pinchasi finite-union theorem and retain the exact endpoint and harmonic-weight losses.",
+      "status": "proved",
+      "created_at": "2026-08-25T15:36:26+00:00",
+      "status_evidence": "evidence/finite_almost_packing_corollary.md; external dependency arXiv:1310.4348 / DOI 10.1137/130941122",
+      "updated_at": "2026-08-25T15:36:26+00:00"
+    },
+    {
+      "id": "M25Q-17",
+      "representation_id": "R25Q-2",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "Every target-irredundant bounded-ratio batch with multiplication-table-scale collision has most of its progressions in finitely many affine offset charts, enabling the affine density theorem after a summable decomposition.",
+      "would_close": [
+        "bounded_ratio_theorem"
+      ],
+      "kill_test": "Search monotone non-affine offset staircases with at least sqrt(N) offsets and no majority chart for multiplication-table-scale first-echo unions.",
+      "status": "surviving",
+      "created_at": "2026-08-25T15:43:39+00:00",
+      "status_evidence": "evidence/nonaffine_annular_packing_comparison.json: two guarded seeds found finite non-affine champions at N=525 and N=507, but their union fractions were respectively 1.2288 and 1.3027 times the same-moduli fixed-offset comparator; exact replays passed and no multiplication-table-scale diffuse-chart batch was found",
+      "updated_at": "2026-08-25T19:02:11+00:00"
+    }
+  ]
+}

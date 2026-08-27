@@ -1,0 +1,15 @@
+{
+  "schema_version": "amra.erdos829.divisor-discriminant-audit.v1",
+  "root_bound": 1200,
+  "complete_for_n_at_most": 1728000000,
+  "distinct_represented_n": 633771,
+  "n_with_at_least_two_unordered_representations": 2037,
+  "maximum_unordered_representation_count": 3,
+  "all_reported_bijections_verified": true,
+  "first_maximal_example": {
+    "n": 87539319,
+    "pairs": [[167, 436], [228, 423], [255, 414]],
+    "factorization": {"3": 3, "7": 1, "31": 1, "67": 1, "223": 1}
+  },
+  "guard_unit": "openmath-task-20260825-131432-29346.scope"
+}

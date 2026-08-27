@@ -1,0 +1,61 @@
+{
+  "schema_version": "erdos451.affine_rank3_tensor_audit.summary.v1",
+  "source_sha256": "e63e62e435dc0864541839cca21c3c3237fc83508554e2a50c4f9a5ad0e9c4fc",
+  "guard_unit": "openmath-task-20260826-173416-175908.scope",
+  "guard_command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/affine_rank3_tensor_audit.py",
+  "execution": {
+    "exit_status": 0,
+    "maximum_resident_set_kbytes": 13280,
+    "observed_swaps": 0,
+    "elapsed_wall_clock": "0:12.14"
+  },
+  "independent_guarded_replay": {
+    "guard_unit": "openmath-task-20260826-173627-177259.scope",
+    "exit_status": 0,
+    "maximum_resident_set_kbytes": 13440,
+    "observed_swaps": 0,
+    "elapsed_wall_clock": "0:10.81",
+    "tested_systems": 336,
+    "result_agreement": "The replay reproduced ratio_to_k_to_5=1.700069 and ratio_to_k_times_maximum_pair=40.58820368380091 for k=22 and moduli 37,41,43."
+  },
+  "memory_limits": {
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "memory_swap_max": "4G"
+  },
+  "scope": {
+    "k_range": [8, 34],
+    "maximum_period": 1000000,
+    "tested_systems": 336,
+    "arithmetic": "Exact integer period sums and Fraction rational identities"
+  },
+  "constant_one_tensor_counterexample": {
+    "claimed_inequality_killed": "M_Q({p,q,r}) <= k * max_pair M_Q(pair)",
+    "k": 22,
+    "A": 2,
+    "Q": 276,
+    "moduli": [37, 41, 43],
+    "offsets": [15, 19, 21],
+    "period": 65231,
+    "scaled_rank_three_interval_correlation": 8761532,
+    "scaled_pair_interval_correlations": {
+      "37,41": 9812,
+      "37,43": 6750,
+      "41,43": 7406
+    },
+    "ratio_to_k_times_maximum_pair": 40.58820368380091,
+    "ratio_to_k_to_5": 1.700069387957852,
+    "local_combined_inverses": [1, 7, 1],
+    "local_modular_carries": [59, -209, 53],
+    "global_crt_carry": 61,
+    "global_carry_over_Q": "61/276"
+  },
+  "largest_ratio_to_k_times_minimum_pair": {
+    "k": 27,
+    "A": 2,
+    "Q": 406,
+    "moduli": [41, 47, 53],
+    "ratio": 76.97125826877499
+  },
+  "boundary": "The finite witness strictly kills only the displayed constant-one rank-two-to-rank-three handoff (and constants below its exact ratio). It is consistent with k^(r+D) C^r for fixed D>=2 and cannot prove an unbounded-rank block bound."
+}

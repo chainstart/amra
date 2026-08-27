@@ -1,0 +1,25 @@
+command:
+/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m10_round1/prime_gap_zero_band_check.py --max-n-per-k 100000 10000 20000 50000
+
+guard:
+unit=openmath-task-20260827-085919-423138.scope
+MemoryHigh=30G
+MemoryMax=34G
+MemorySwapMax=4G
+TasksMax=512
+
+source_sha256:
+761cd50f47a4c56103c0c21d61cad13336d3c5d5e576ca44d415d6bf477e6902  prime_gap_zero_band_check.py
+
+result:
+k=10000: checked=78583 band=[120000,198582] minimum_exact_endpoint_margin=1/27
+k=20000: checked=100000 band=[240000,552025] minimum_exact_endpoint_margin=1/37
+k=50000: checked=100000 band=[600000,2132655] minimum_exact_endpoint_margin=1/57
+total_checked_frequencies=278583
+maximum_resident_set_kib=27016
+swaps=0
+exit_status=0
+
+scope:
+Finite exact endpoint/indexing audit only.  The asymptotic zero-band theorem
+depends on the published Baker--Harman--Pintz short-interval theorem.

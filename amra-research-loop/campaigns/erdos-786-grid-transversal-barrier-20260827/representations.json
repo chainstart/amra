@@ -1,0 +1,95 @@
+{
+  "representations": [
+    {
+      "id": "R786G-01",
+      "name": "row-pool prime grid",
+      "family": "incidence-algebra",
+      "new_information": "uses one disjoint prime pool per row so row products, column products, and their ambient universes have unique factor signatures",
+      "first_test": "prove equality, pairwise distinctness, and support minimality for every injective (d-1)-by-d grid"
+    },
+    {
+      "id": "R786G-02",
+      "name": "single-pool grid comparator",
+      "family": "incidence-algebra",
+      "new_information": "removes row colours and tests whether subset products still identify which row generated a row vertex",
+      "first_test": "look for repeated row products or row-column universe overlap under two different grid assignments"
+    },
+    {
+      "id": "R786G-03",
+      "name": "connected valuation kernel",
+      "family": "incidence-algebra",
+      "new_information": "turns every subproduct equality into equal membership indicators across all edges of K_(d-1,d)",
+      "first_test": "solve the 0-1 valuation equations and check that only the empty and full selections occur"
+    },
+    {
+      "id": "R786G-04",
+      "name": "uniform random injected grid",
+      "family": "probabilistic-transversal",
+      "new_information": "exposes exact uniform marginals for each row product and each column product over the complete grid atlas",
+      "first_test": "derive the probability that a fixed deleted row or column product appears in a random grid"
+    },
+    {
+      "id": "R786G-05",
+      "name": "independent-vertex comparator",
+      "family": "probabilistic-transversal",
+      "new_information": "tests whether the row and column events may be multiplied as if they were independent",
+      "first_test": "compare two columns, which are sampled without replacement within every row"
+    },
+    {
+      "id": "R786G-06",
+      "name": "all-column deletion comparator",
+      "family": "probabilistic-transversal",
+      "new_information": "gives an explicit transversal for the grid subhypergraph with m^(d-1) vertices",
+      "first_test": "verify that every grid contains exactly d possible column products from the declared Cartesian universe"
+    },
+    {
+      "id": "R786G-07",
+      "name": "growing-d logarithmic budget",
+      "family": "asymptotic-optimization",
+      "new_information": "separates the losses log N/d and d log log N and permits d to grow with N",
+      "first_test": "optimize the explicit lower-bound logarithm at d asymptotic to sqrt(log N/log log N)"
+    },
+    {
+      "id": "R786G-08",
+      "name": "fixed-d comparator",
+      "family": "asymptotic-optimization",
+      "new_information": "records the N^(1-1/d) scale available without a moving dimension",
+      "first_test": "compare its logarithmic loss log N/d with the target sqrt(log N log log N)"
+    },
+    {
+      "id": "R786G-09",
+      "name": "row-binomial competition",
+      "family": "asymptotic-optimization",
+      "new_information": "keeps the second term binom(m,d) in the exact finite lower bound instead of assuming column deletions are always cheapest",
+      "first_test": "prove m>=d^(d-1) in the optimized regime before replacing the minimum by m^(d-1)/d"
+    },
+    {
+      "id": "R786G-10",
+      "name": "dyadic prime-pool reservoir",
+      "family": "prime-geometry",
+      "new_information": "uses all primes in (x/2,x] and partitions them among the rows while keeping every d-fold product at most N",
+      "first_test": "apply the prime number theorem along x=N^(1/d(N)) and lower-bound the common pool size"
+    },
+    {
+      "id": "R786G-11",
+      "name": "Bertrand-only reservoir comparator",
+      "family": "prime-geometry",
+      "new_information": "tests whether one-prime existence in a dyadic interval supplies the growing pools needed for the optimized atlas",
+      "first_test": "derive or fail to derive x/log x many primes in one interval from Bertrand alone"
+    },
+    {
+      "id": "R786G-12",
+      "name": "zero-transcript plus arbitrary repair",
+      "family": "alteration-interface",
+      "new_information": "places the complete atlas in one valuation-zero class and then charges any second-stage deletion that makes the output a transversal",
+      "first_test": "condition on a retain-labelled zero branch and apply the grid transversal inequality to the repair set"
+    },
+    {
+      "id": "R786G-13",
+      "name": "o(N)-budget boundary",
+      "family": "alteration-interface",
+      "new_information": "compares the near-linear-exponent lower bound with unrestricted sublinear budgets such as N/log N",
+      "first_test": "compute the ratio between N/log N and N exp(-2 sqrt(log N log log N))"
+    }
+  ]
+}

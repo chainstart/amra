@@ -1,0 +1,142 @@
+{
+  "schema_version": "amra.open-problem-screening.v1",
+  "screening_id": "new-problem-round-2026-08-25",
+  "screened_at": "2026-08-25T00:00:00+08:00",
+  "input": {
+    "ledger": "/home/biostar/work/projects/amra/artifacts/erdos_master_rotation/master_ledger.json",
+    "open_snapshot_count": 550,
+    "excluded_previous_rounds": [
+      "erdos-776",
+      "erdos-786",
+      "erdos-809",
+      "erdos-404",
+      "erdos-327"
+    ],
+    "past_papers_count_as_discovery": false
+  },
+  "score_semantics": "Relative admission score, not a probability of proof. Repetition and current-resolution gates override the numerical score.",
+  "weights": {
+    "closure_impact": 25,
+    "route_specificity": 25,
+    "searchability": 20,
+    "surviving_evidence": 20,
+    "status_confidence": 10
+  },
+  "budget": {
+    "total_agent_minutes": 180,
+    "screening_and_contracts": 15,
+    "erdos_885": 50,
+    "erdos_829": 45,
+    "erdos_917": 35,
+    "erdos_1112": 20,
+    "cross_check_and_packaging": 15,
+    "interpretation": "One bounded portfolio round in total; this does not invoke the OpenMath skill's eight-hour campaign protocol."
+  },
+  "resource_guard": {
+    "launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "required_for": "all proof searches, enumeration scripts, solvers, and formal builds",
+    "memory_high_gib": 30,
+    "memory_max_gib": 34,
+    "memory_swap_max_gib": 4,
+    "tasks_max": 512,
+    "fail_closed": true
+  },
+  "ranked_candidates": [
+    {
+      "rank": 1,
+      "problem_id": "erdos-885",
+      "score": 83,
+      "decision": "active_admission_attack",
+      "opportunity_class": "CONSTRUCTION",
+      "exact_target": "Construct five distinct positive integers N_i having at least five common factor differences, or rigorously show why the tested k=4 extension mechanism reaches a genuine Diophantine obstruction.",
+      "first_kill_test": "Search for a K_{5,5} in the exact square-offset incidence y^2-d^2=4N, independently verify every reported factor pair, and stop if the candidate-generation frontier grows without producing a reusable parametric invariant.",
+      "closure_scope": "A construction proves the previously unknown k=5 case, a genuine scoped theorem but not the all-k conjecture.",
+      "status_source": "https://www.erdosproblems.com/885"
+    },
+    {
+      "rank": 2,
+      "problem_id": "erdos-829",
+      "score": 82,
+      "decision": "active_admission_attack",
+      "opportunity_class": "FORMAL-READY",
+      "exact_target": "Factor the two-positive-cubes representation count through Eisenstein integers and determine exactly which prime-power choices remain after positivity and conjugation identifications.",
+      "first_kill_test": "Derive and test the local multiplicity formula on exhaustive small n and known taxicab numbers; freeze the route if it collapses to the unrestricted divisor function without a coupling condition strong enough for a polylogarithmic bound.",
+      "closure_scope": "A uniform polylogarithmic local-choice bound would close the public statement; a correct exact divisor-discriminant formula is scoped progress only.",
+      "status_source": "https://www.erdosproblems.com/829"
+    },
+    {
+      "rank": 3,
+      "problem_id": "erdos-917",
+      "score": 78,
+      "decision": "active_admission_attack",
+      "opportunity_class": "LIT-REDUCE",
+      "exact_target": "For edge-critical 6-chromatic graphs, reduce the desired f_6(n) <= (1/4+o(1))n^2 bound to an explicit finite family of stable witness-colouring configurations, or isolate the first non-finite structural bridge.",
+      "first_kill_test": "Write the exact edge-witness colouring lemma and test whether regularity reduction preserves enough edge-by-edge criticality. Stop if the reduced graph loses the witness data and no bounded annotation repairs it.",
+      "closure_scope": "A valid stability reduction plus finite classification would close the still-open k=6 asymptotic question.",
+      "status_source": "https://www.erdosproblems.com/917"
+    },
+    {
+      "rank": 4,
+      "problem_id": "erdos-1112",
+      "score": 74,
+      "decision": "rejected_resolution_claim_audit_only",
+      "opportunity_class": "FORMAL-READY",
+      "exact_target": "Determine exactly which parameters (d_1,d_2,k) inherit the known non-existence of r_3(2,3) under affine or padding transformations.",
+      "first_kill_test": "Audit the universal quantifier over every bounded-gap A. Freeze immediately if the transformation covers only a subclass of allowed A or if the shift of kA depends on A.",
+      "closure_scope": "A valid transfer settles additional parameter cases; a no-go theorem only closes this proposed route.",
+      "status_source": "https://www.erdosproblems.com/1112",
+      "dynamic_status_note": "An August 2026 public repository claims a paper-backed, sorry-free Lean proof of a complete dichotomy for the exact statement. It was not independently built in this round, but the claim is sufficient to stop fresh discovery and route the target to resolution audit."
+    },
+    {
+      "rank": 5,
+      "problem_id": "erdos-1063",
+      "score": 86,
+      "decision": "rejected_repeat_depth",
+      "reason": "The repository already contains several dedicated campaigns, including ten-hour rounds and independent QA; it is not a new target."
+    },
+    {
+      "rank": 6,
+      "problem_id": "erdos-301",
+      "score": 80,
+      "decision": "rejected_repeat_depth",
+      "reason": "The repository already contains multiple finite-hypergraph and fractional-certificate rounds; repeating them violates the new-problem objective."
+    },
+    {
+      "rank": 7,
+      "problem_id": "erdos-1039",
+      "score": 95,
+      "decision": "rejected_machine_checked_resolution",
+      "reason": "A fixed public Lean commit has already built locally without sorry/admit/custom axioms and the exact public scope has passed independent mathematical review."
+    },
+    {
+      "rank": 8,
+      "problem_id": "erdos-306",
+      "score": 88,
+      "decision": "rejected_resolution_audit_only",
+      "reason": "A sorry-free Lean solution claim and moderator screening appeared in June 2026; this belongs in resolution audit, not fresh proof discovery."
+    },
+    {
+      "rank": 9,
+      "problem_id": "erdos-413",
+      "score": 70,
+      "decision": "rejected_post_snapshot_known_progress",
+      "reason": "The second question was solved after the frozen snapshot; the remaining first question has no bounded new route stronger than reconstructing the known theorem."
+    },
+    {
+      "rank": 10,
+      "problem_id": "erdos-376",
+      "score": 62,
+      "decision": "rejected_deep_blackbox",
+      "reason": "The three-base Fourier correlation bottleneck has no short executable falsification gate and is poorly matched to this bounded round."
+    }
+  ],
+  "concurrency_control": {
+    "max_active_deep_attacks": 3,
+    "active_admission_attacks": [
+      "erdos-885",
+      "erdos-829",
+      "erdos-917"
+    ],
+    "reserve": []
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "outcome": "promote",
+  "success_condition": "standalone_decisive_lemma",
+  "reason": "Independent blind reconstruction verifies the all-parameter log-defect fractional transversal theorem: the complete bad-relation hypergraph has an explicit fractional cover of exact cost (N log N-log(N!))/log N-1=(1+o(1))N/log N. Promote only this scoped finite fractional-interface theorem and its audited supporting lemmas. The integral o(N) deletion theorem, the infinite natural-density construction, and the original Erdos #786 problem remain open.",
+  "evidence": [
+    "audit/blind_reconstruction.md",
+    "audit/independent_audit.md",
+    "audit.json",
+    "evidence/SURVIVOR_DEEPENING.md",
+    "evidence/verify_distinct_factor_obstructions.py"
+  ]
+}

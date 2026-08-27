@@ -1,0 +1,10 @@
+{
+  "round_id": "long-proof-round5-2026-08-25",
+  "outcome": "freeze_after_survivor_deepening",
+  "reason": "The round proved convergence for every coprime affine echo family and every finite affine mixture, but did not prove the bounded-ratio non-affine theorem or construct a fixed infinite schedule with nonvanishing two-sided logarithmic oscillation. Signed fixed-schedule drops decreased through 60 million indices. Independent audit was not available.",
+  "problem_id": "erdos-25",
+  "decisive_lemma": "Every union of affine echoes r+h(cr+b), gcd(b,c)=1, has logarithmic density by an exact Davenport--Erdos multiples-set transformation; finite unions retain periodic upper-log approximation.",
+  "resume_gate": "Prove that every increasing least-representative system r_j modulo d_j with r_j<d_j<=C r_j has logarithmic density for fixed C, or construct one fixed infinite positive-inner-density schedule whose signed normalised rises and recovery drops stay bounded away from zero. More finite endpoint ranges or monotone drift are insufficient.",
+  "original_problem_closed": false,
+  "promotion_condition_changed": false
+}

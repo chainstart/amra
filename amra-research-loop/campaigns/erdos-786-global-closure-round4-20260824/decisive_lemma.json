@@ -1,0 +1,44 @@
+{
+  "statement": "Global equal-defect cluster obstruction GC.1. For every sufficiently large integer K, with N=2^K, there is a connected family F_K of support-minimal distinct-Finset unequal-cardinality equal-product relations wholly in (N/32,N] such that all normalized defects equal -1, every two supports meet in exactly one integer, the disjoint packing number is nu(F_K)=1, and the transversal number is tau(F_K)=q+1>K=log_2 N for a prime K<q<2K. Hence no deterministic repair theorem can charge every realized arithmetic failure cluster by h(N)nu(F) with h(N)=o(log N), even when it retains complete signed valuation kernels, normalized defects, arbitrary petal choices, and global reuse inside the cluster.",
+  "status": "proved",
+  "closes": [
+    "constant repair per disjoint packed circuit after equal-defect circuit subtraction",
+    "o(log N) repair obtained only by normalized-defect stratification of a realized cluster",
+    "O(log log N) internal cluster-boundary coarea charged to realized matching number",
+    "randomized support-owner sets with expected O(log log N) distinct owners while covering every circuit in the realized cluster"
+  ],
+  "evidence": [
+    "evidence/ROUND4_CLUSTER_ALTERATION.md",
+    "evidence/verify_round4_cluster_alteration.py",
+    "evidence/ROUND4_FULL_RESIDUE_OWNER_FLOW.md",
+    "evidence/verify_round4_full_residue_owner_flow.py",
+    "evidence/ROUND4_MULTISCALE_POTENTIAL_FALSIFICATION.md",
+    "evidence/verify_round4_global_potential_kills.py",
+    "evidence/ROUND4_MULTIPLIER_COMPLETION_OBSTRUCTION.md",
+    "evidence/verify_round4_multiplier_completion.py",
+    "evidence/ROUND4_COHERENT_RECOURSE.md",
+    "evidence/verify_round4_coherent_recourse.py"
+  ],
+  "dependency_gaps": [
+    "GC.1 has tau(F_K)=Theta(log N) in one sparse cluster and gives no positive-density or full-H_N transversal lower bound.",
+    "M786G-03 may still charge a large cluster by its occurrence probability, fractional mass, or circuits external to the realized subfamily.",
+    "M786G-06 still needs a noncircular cluster-residue current and an energy dual strictly simpler than the original transversal constraints.",
+    "The original M786G-11 density-one/endpoint-recourse claim is killed. Its successor M786G-13 still needs a prefix-Carleson recourse estimate for the explicit periodic baseline B_Q={1} union QN; CR.1 proves only the conditional finite-to-infinite implication.",
+    "Neither tau(H_N)=o(N) nor a coherent infinite admissible set with natural density greater than 1-epsilon is proved.",
+    "Independent reconstruction, statement matching, and dependency checking passed for GC.1; publication priority remains uncertain."
+  ],
+  "supporting_results": {
+    "MC.1": "For disjoint finite P,Q of unequal sizes and products X!=Y, an admissible set containing P union Q must delete at least one of tX,tY for every sufficiently large t; any natural deletion density is therefore at least 1/(2 max(X,Y)). In particular no density-one admissible set exists. This kills guard-only coherence while leaving epsilon-dependent charged old-seed revision open.",
+    "CR.1": "Given a fixed baseline B of density beta, residual o(2^k) transversals with summable prefix-Carleson adjacent recourse yield an explicit full transversal of density beta and an admissible complement of density 1-beta. This is a conditional bridge; M786G-13 must prove the recourse premise for the periodic B_Q.",
+    "owner_no_go": "Two explicit full-residue owner rules are refuted respectively by a positive-density double-star owner family and by common-root long-path books with distinct boundary owners.",
+    "potential_no_go": "Narrow-scale paths, private branching trees, and high-occurrence minimal paths refute scale-only coarea, identical-state merge credit, and occurrence-cycle-rank repair reuse."
+  },
+  "evidence_classification": {
+    "mathematical_status": "proved",
+    "scope": "standalone all-parameter obstruction to specified global cluster, owner, potential, and coherence mechanisms",
+    "public_problem": "open",
+    "machine_reproduced": "Five executable guards check finite projective-plane incidence, owner identities, graph-product constructions, multiplier completions, and coherent recourse; universal quantifiers are proved symbolically.",
+    "independent_reconstruction": "passed for GC.1 and MC.1; CR.1 received a post-blind dependency and scope check",
+    "publication_state": "private_campaign_note"
+  }
+}

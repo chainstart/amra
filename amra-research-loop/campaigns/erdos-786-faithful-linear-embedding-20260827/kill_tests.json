@@ -1,0 +1,44 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M786F-02",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: complementary exponent pairs require a linear exponent range and do not meet the logarithmic-coordinate bit budget."
+    },
+    {
+      "mechanism_id": "M786F-03",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: reused prime blocks make distinct shared host labels collide."
+    },
+    {
+      "mechanism_id": "M786F-05",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: the toric hypergraph encoding theorem supplies neither bounded-band integer labels nor cover/matching preservation."
+    },
+    {
+      "mechanism_id": "M786F-07",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: adjacency-only set-intersection data does not determine shared hypergraph vertices or transversals."
+    },
+    {
+      "mechanism_id": "M786F-10",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: for m<=K the discrepancy bound gives no uniform constant decrement, and extra padding primes do not repair it."
+    },
+    {
+      "mechanism_id": "M786F-11",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: a repeated host pair can create identical two-block private footprints on different edges."
+    },
+    {
+      "mechanism_id": "M786F-12",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: two triangle edge-intersection graphs arise from hosts with transversal numbers one and two."
+    },
+    {
+      "mechanism_id": "M786F-13",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md: edge cloning either stays private and fails to enlarge shared incidence or changes intersection multiplicities."
+    }
+  ]
+}

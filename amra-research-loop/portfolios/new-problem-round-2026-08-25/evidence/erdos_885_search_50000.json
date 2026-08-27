@@ -1,0 +1,17 @@
+{
+  "candidate_four_keys_with_at_least_five_n": 0,
+  "complete_through_limit": true,
+  "completed_hash_buckets": 32,
+  "elapsed_seconds": 84.773,
+  "eligible_n_count": 18715,
+  "four_key_count": 33053822,
+  "four_key_memberships": 33055143,
+  "hash_bucket_count": 32,
+  "limit": 50000,
+  "max_factor_difference_degree": 50,
+  "schema_version": "amra.erdos885.k5-bounded-search.v1",
+  "solution": null,
+  "truncated_key_count": 0,
+  "guard_unit": "openmath-task-20260825-131004-28948.scope",
+  "memory_peak_bytes": 288047104
+}

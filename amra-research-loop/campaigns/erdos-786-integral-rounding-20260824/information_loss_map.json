@@ -1,0 +1,89 @@
+{
+  "inherited_methods": [
+    {
+      "method": "promoted log-defect fractional transversal",
+      "input": "w_N(n)=log(N/n)/log N and sum_(n in E)w_N(n)>=1 for every bad support",
+      "loss_step": "replace each arithmetic bad support by the single scalar inequality sum_E w_N>=1 and then apply a generic cover relaxation",
+      "lost_information": "prime-incidence overlap among different circuits and a canonical choice of an integer vertex",
+      "exact_loss": "LP feasibility records total defect on an edge but forgets arithmetic overlap among edges and supplies no integral vertex choice",
+      "consequence": "a generic integrality loss of order log N converts N/log N only to O(N), not o(N)",
+      "required_repair": "an arithmetic rounding loss o(log N), or a direct o(N) transversal"
+    },
+    {
+      "method": "hard threshold / high-tail rounding",
+      "input": "delete n<=N^(1-1/L), thereby eliminating relations whose larger shore has at most L elements",
+      "loss_step": "replace the sum of all edge defects by the maximum defect of one vertex",
+      "lost_information": "accumulation of arbitrarily many small vertex defects and the prime-incidence shape of their circuit",
+      "exact_loss": "it retains only the maximum individual defect and discards how arbitrarily many tiny defects sum to one",
+      "consequence": "balanced nonuniform 2-adic padding embeds support-minimal unbalanced circuits in every fixed power-thin tail",
+      "required_repair": "use prime-incidence or circuit overlap, not only w_N(n) or relation length"
+    },
+    {
+      "method": "independent or repeated-threshold randomized rounding",
+      "input": "sample vertices with probabilities proportional to w_N or take a finite union of global defect thresholds",
+      "loss_step": "control each edge separately and discard the joint arithmetic dependency graph before demanding simultaneous coverage",
+      "lost_information": "which failure events share valuation fibres and whether residual edges admit a globally chargeable repair",
+      "exact_loss": "each long tight circuit retains positive miss probability; threshold unions collapse to one pointwise cutoff, while the edge family has no proved usable dependency bound",
+      "consequence": "expectation and per-edge success do not yield a simultaneous transversal",
+      "required_repair": "dependent selection with an arithmetic witness map, resampling theorem with proved dependency control, or deterministic alteration charged globally"
+    },
+    {
+      "method": "largest-prime fibre peeling",
+      "input": "remove a y-smooth core and use valuation balance in fibres p>y",
+      "loss_step": "assign or charge a multi-large-prime integer in one fibre while forgetting its incidences in every other active prime fibre",
+      "lost_information": "cross-fibre congestion and the lower-prime residues carried by balanced top-fibre terms",
+      "exact_loss": "one integer can lie in several large-prime fibres, so a valuation equation balances incidences rather than term counts; naive endpoint charges can be repeated at many prime scales",
+      "consequence": "private-prime and uniform one-endpoint arguments do not bound total congestion",
+      "required_repair": "a canonical ownership/coarea rule with a proved o(log N) load, or a sharp obstruction to every rule in a frozen class"
+    },
+    {
+      "method": "rank- or dimension-only LP rounding",
+      "input": "round using rank of the prime-exponent matrix or maximum circuit size",
+      "loss_step": "compress the signed circuit family to one global rank or size statistic",
+      "lost_information": "local valuation support, circuit overlap, and the number of prime scales charging a fixed integer",
+      "exact_loss": "rank can be large on a single cheaply hit circuit and circuit size is unbounded; neither statistic measures overlap of deletion witnesses",
+      "consequence": "ordinary rank/size inequalities need not give o(N)",
+      "required_repair": "a weighted local rank, coarea, or fibre-depth invariant that pays each integer at few scales"
+    },
+    {
+      "method": "fixed-N exact ILP and dual inspection",
+      "input": "enumerate all bad supports and optimize at a bounded cutoff",
+      "loss_step": "discard the symbolic dependence on N after solving the finite incidence instance",
+      "lost_information": "uniform arithmetic structure and stabilization of witnesses across cutoffs",
+      "exact_loss": "the relation hypergraph and its dual witnesses change with N, and no finite motif-completeness theorem is available",
+      "consequence": "larger cutoffs cannot imply an asymptotic rounding theorem",
+      "required_repair": "extract and prove one symbolic all-parameter inequality or counterfamily"
+    },
+    {
+      "method": "exact-one selected-prime layer",
+      "input": "admit integers having valuation one at exactly one prime from a selected set",
+      "loss_step": "force every admitted integer into a private diagonal prime fibre",
+      "lost_information": "the possibility of safely reusing several prime fibres per integer",
+      "exact_loss": "diagonal prime fibres give an exact cardinality certificate but the cylinder density is at most 1/e",
+      "consequence": "private diagonalization cannot approach density one",
+      "required_repair": "permit reused prime fibres while retaining triangular or bounded-load control"
+    },
+    {
+      "method": "blockwise or cutoffwise gluing",
+      "input": "choose finite transversals independently and concatenate or diagonalize them",
+      "loss_step": "forget all multiplicative constraints between different cutoffs, blocks, or cylinders",
+      "lost_information": "cross-block relations, pointwise stabilization, and an actual density limit",
+      "exact_loss": "multiplicative relations cross blocks and finite decisions need not stabilize",
+      "consequence": "finite density-one, even if proved, does not automatically give one natural-density set",
+      "required_repair": "a hereditary/profinite rule with cross-cylinder isolation and an actual density limit"
+    }
+  ],
+  "required_new_information": [
+    "A vertex ownership or alteration rule exploiting the full prime-incidence pattern of each minimal {-1,0,1} circuit.",
+    "A proved global congestion bound o(log N) relative to the promoted log-defect mass.",
+    "A smooth-core recursion that accounts for integers having several large prime divisors without converting incidence balance into term balance illegally.",
+    "For the infinite target, stabilization of every fixed decision together with zero upper density of deletions and a cross-scale relation theorem.",
+    "For negative progress, an all-parameter circuit embedding or integrality-gap theorem against a precisely specified rounding class."
+  ],
+  "frozen_countermodel": {
+    "name": "balanced 2-adic padding of edge-prime circuits",
+    "statement": "For every positive sequence eta_K with K eta_K tending to infinity, every sufficiently large power N=2^K contains a support-minimal unequal-cardinality equal-product relation wholly in (N^(1-eta_K),N].",
+    "effect": "refutes every lower-power-tail threshold whose deletion cost is o(N), as well as finite nested repetitions of such thresholds",
+    "does_not_refute": "smooth-core deletion followed by full multi-prime ownership, or any rounding using more than pointwise defect"
+  }
+}

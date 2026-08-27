@@ -1,0 +1,26 @@
+{
+  "statement": "Carry-free reduction and tail theorem: for every prime p, p does not divide binomial(2n,n) exactly when every base-p digit of n is at most (p-1)/2, equivalently n mod p^j<p^j/2 for all j. The total reciprocal mass of all such primes p>sqrt(2n) is bounded by an absolute constant. The remaining p<=sqrt(2n) problem cannot be reduced to a single prime-power test, a summable exponent annulus, pairwise incompatibility, full-period CRT independence, a common smaller integer, or a local nonnegative Legendre-jump certificate. Any closing lemma must instead be a cutoff-aware quantitative rigidity theorem for a growing weighted family of prime bases, consistent with the EGRS infinite two-base construction.",
+  "status": "conditional",
+  "closes": [
+    "exact Kummer/Legendre all-parameter representation",
+    "absolute large-prime-tail bound for p>sqrt(2n)",
+    "ten explicit route-level mechanisms refuted or shown interface-incomplete",
+    "finite exact record computation through n=2000000000 with independent replay of the new record"
+  ],
+  "evidence": [
+    "evidence/exact_kummer_reduction.md",
+    "evidence/large_prime_tail_lemma.md",
+    "evidence/first_mechanism_falsification.md",
+    "evidence/exact_scan_audit.md",
+    "evidence/exact_carry_scan_2b.json",
+    "evidence/record_1293081501_independent_replay.json",
+    "evidence/literature_boundary.md"
+  ],
+  "dependency_gaps": [
+    "prove a pointwise many-base inequality for the reciprocal mass of carry-free primes p<=sqrt(2n)",
+    "retain cutoff discrepancy and phase cancellation rather than using full-period CRT independence or Fourier l1 tensorization",
+    "remain compatible with infinitely many common carry-free integers for every two fixed odd prime bases",
+    "avoid repeatedly charging a fixed small prime at arbitrarily many digit depths",
+    "convert the inequality to one absolute constant uniform in n"
+  ]
+}

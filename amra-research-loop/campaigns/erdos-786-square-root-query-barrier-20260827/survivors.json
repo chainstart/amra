@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M786S-01", "M786S-04", "M786S-07"],
+  "selection_rationale": "Nine of twelve mechanisms are killed, giving a 100% kill ratio among non-survivors. M786S-01 retains the dyadic prime-reservoir construction, M786S-04 retains the exact A>=4 padding budget, and M786S-07 retains the deterministic and shared-seed adaptive-query lift. The square-root barrier, density dependence, and exclusions for global repair and nonuniform per-input programs are preserved as scope boundaries rather than overclaimed conclusions."
+}

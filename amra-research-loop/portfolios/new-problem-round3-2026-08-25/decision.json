@@ -1,0 +1,52 @@
+{
+  "schema_version": "amra.new-problem-round-decision.v1",
+  "round_id": "new-problem-round3-2026-08-25",
+  "decision_at": "2026-08-25T17:12:00+08:00",
+  "original_problems_closed": [],
+  "scoped_results": [
+    {
+      "problem_id": "erdos-317",
+      "claim": "For arbitrary top primes and arbitrary prescribed signs, CRT always supplies a common coprime multiplier whose cofactors realise all signs; therefore any closing top-prime proof must use the exact lower-prime-power structure of L_n.",
+      "evidence": "../../campaigns/erdos-317-residue-tail-20260825/evidence/cofactor_no_go.md"
+    },
+    {
+      "problem_id": "erdos-354",
+      "claim": "The interleaved base-2 floor union is always a Sigma-sequence, and under irrational ratio a finite prefix covers every residue modulo every fixed q.",
+      "evidence": "../../campaigns/erdos-354-floor-precomplete-20260825/evidence/carry_and_residue_lemmas.md"
+    },
+    {
+      "problem_id": "erdos-25",
+      "claim": "Zero limiting finite-stage density forces logarithmic density zero, and pairwise-coprime moduli always have a logarithmic density by the CRT product and reciprocal-sum dichotomy.",
+      "evidence": "../../campaigns/erdos-25-log-density-tail-20260825/evidence/zero_limit_and_coprime_theorem.md"
+    }
+  ],
+  "dynamic_exclusions": [
+    {
+      "problem_id": "erdos-538",
+      "reason": "A current full proof and Lean formalisation claim requires resolution audit before any further discovery spend.",
+      "evidence": "evidence/erdos_538_dynamic_claim.md"
+    }
+  ],
+  "campaign_gate_results": {
+    "erdos-317": "advanced through survivor_deepening, then frozen",
+    "erdos-354": "advanced through survivor_deepening, then frozen",
+    "erdos-25": "advanced through survivor_deepening, then frozen",
+    "independent_audit": "not entered; no independent auditor was assigned, so no promotion was allowed"
+  },
+  "adversarial_replay": {
+    "passed": true,
+    "independence_scope": "computational cross-check only, not independent mathematical reconstruction",
+    "evidence": "evidence/adversarial_replay.json"
+  },
+  "resource_guard": {
+    "all_formal_computations_guarded": true,
+    "completed_guard_units": [
+      "openmath-task-20260825-170717-39248.scope",
+      "openmath-task-20260825-170717-39249.scope",
+      "openmath-task-20260825-170717-39250.scope",
+      "openmath-task-20260825-171244-39792.scope"
+    ],
+    "residual_tasks_after_round": 0
+  },
+  "next_portfolio_decision": "Do not continue #317 without an lcm-specific residue theorem, #354 without a quantitative residue-to-interval lift, or #25 without positive-limit onset control. Route #538 to independent resolution audit. Otherwise screen fresh targets."
+}

@@ -1,0 +1,49 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M786Q-02",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786Q-02-epsilon-K-divergence-alone-does-not-preserve-the-stated-tail"
+    },
+    {
+      "mechanism_id": "M786Q-03",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786Q-03-the-tail-constant-must-grow-when-epsilon-tends-to-zero"
+    },
+    {
+      "mechanism_id": "M786Q-04",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786Q-04-square-root-is-a-hard-barrier-for-the-path-rough-parts"
+    },
+    {
+      "mechanism_id": "M786Q-07",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786Q-07-no-density-free-expectation-charge"
+    },
+    {
+      "mechanism_id": "M786Q-08",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786Q-08-the-current-host-cannot-answer-zero-at-the-padding-prime"
+    },
+    {
+      "mechanism_id": "M786Q-09",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786Q-09-per-integer-programs-destroy-the-common-transcript"
+    },
+    {
+      "mechanism_id": "M786Q-10",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786Q-10-global-alteration-repairs-one-path-at-unit-cost"
+    },
+    {
+      "mechanism_id": "M786Q-11",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786Q-11-fresh-per-input-coins-do-not-condition-to-one-uniform-tree"
+    },
+    {
+      "mechanism_id": "M786Q-12",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786Q-12-a-transversal-allows-a-seedwise-witness-edge"
+    }
+  ]
+}

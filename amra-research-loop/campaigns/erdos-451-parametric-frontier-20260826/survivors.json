@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "MPF-01",
+    "MPF-10",
+    "MPF-11"
+  ],
+  "selection_rationale": "MPF-01 removes the inherited factor-two loss and is the essential order lemma. MPF-10 is the proposed quantified attaining theorem, while MPF-11 is its matching, carefully delimited certificate barrier. MPF-03 is a proved local ingredient but is subsumed by MPF-10/11 and is not counted as a fourth survivor. Seven of the eight non-surviving mechanisms are killed, meeting the 80% falsification gate."
+}

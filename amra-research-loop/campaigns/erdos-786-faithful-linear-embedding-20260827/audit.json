@@ -1,0 +1,14 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "Socrates (fresh independent reconstruction agent)",
+    "evidence": [
+      "audit/independent_reconstruction.md",
+      "evidence/FAITHFUL_LINEAR_EMBEDDING.md",
+      "evidence/faithful_embedding_replay.json"
+    ]
+  },
+  "statement_match": "passed",
+  "dependency_check": "passed",
+  "novelty_check": "priority_uncertain"
+}

@@ -1,0 +1,129 @@
+{
+  "schema_version": "amra.open-problem-screening.v1",
+  "screening_id": "new-problem-round2-2026-08-25",
+  "screened_at": "2026-08-25T15:20:00+08:00",
+  "input": {
+    "ledger": "/home/biostar/work/projects/amra/artifacts/erdos_master_rotation/master_ledger.json",
+    "excluded_previous_long_rounds": [
+      "erdos-301",
+      "erdos-327",
+      "erdos-404",
+      "erdos-776",
+      "erdos-786",
+      "erdos-809",
+      "erdos-829",
+      "erdos-885",
+      "erdos-917",
+      "erdos-1063"
+    ],
+    "past_papers_count_as_discovery": false,
+    "dynamic_status_checked_at": "2026-08-25"
+  },
+  "score_semantics": "Relative admission score, not a probability of proof. Exact-status, repetition, and first-kill gates override the score.",
+  "budget": {
+    "total_agent_minutes": 180,
+    "screening_and_contracts": 20,
+    "erdos_317": 45,
+    "erdos_538": 50,
+    "erdos_859": 45,
+    "independent_replay_and_packaging": 20,
+    "interpretation": "One bounded portfolio round. This deliberately does not invoke the OpenMath skill's minimum eight-hour CDC campaign protocol."
+  },
+  "resource_guard": {
+    "launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "required_for": "all proof searches, enumeration scripts, solvers, and formal builds",
+    "memory_high_gib": 30,
+    "memory_max_gib": 34,
+    "memory_swap_max_gib": 4,
+    "tasks_max": 512,
+    "fail_closed": true
+  },
+  "ranked_candidates": [
+    {
+      "rank": 1,
+      "problem_id": "erdos-538",
+      "score": 79,
+      "decision": "active_admission_attack",
+      "opportunity_class": "FORMAL-READY",
+      "exact_target": "For r=2 and a finite prime set P, solve the weighted extremal problem on the rank-two squarefree divisors pq: prove that admissibility is exactly triangle-freeness and identify an optimal complete bipartite support.",
+      "first_kill_test": "Verify the rank decomposition against the original representation condition, then exhaustively replay small prime supports. Freeze if prime powers or cross-rank representations invalidate the decomposition, or if weighted Zykov symmetrisation cannot preserve the objective.",
+      "closure_scope": "A complete proof is a scoped finite-support theorem and a rigorously corrected local inequality; it does not close the unrestricted problem.",
+      "status_source": "https://www.erdosproblems.com/538",
+      "status_checked": "OPEN on 2026-08-25"
+    },
+    {
+      "rank": 2,
+      "problem_id": "erdos-317",
+      "score": 75,
+      "decision": "active_admission_attack",
+      "opportunity_class": "CONSTRUCTION",
+      "exact_target": "For L_n=lcm(1,...,n), determine exact finite instances of sum delta_k L_n/k=1 with delta_k in {-1,0,1}, and test whether highest-prime-power congruences yield a reusable elimination rule.",
+      "first_kill_test": "Run exact integer solving with independently checked coefficient certificates. Stop the general route if satisfiable witnesses persist without a stable lift, or if solver time grows without a modular invariant.",
+      "closure_scope": "An infinite lift or eventual modular obstruction would settle the second question; isolated n-certificates are finite evidence only.",
+      "status_source": "https://www.erdosproblems.com/317",
+      "status_checked": "OPEN on 2026-08-25"
+    },
+    {
+      "rank": 3,
+      "problem_id": "erdos-859",
+      "score": 73,
+      "decision": "active_admission_attack",
+      "opportunity_class": "CONSTRUCTION",
+      "exact_target": "Compute exact densities d_t from the finite antichain of minimal lcm generators, then test whether prime, prime-power, and smooth subsequences expose a theorem-sized separation rather than a numerical fluctuation.",
+      "first_kill_test": "Use exact rational inclusion-exclusion with brute-period replay for small t. Freeze asymptotic inference if the lcm closure explodes before a symbolic subsequence mechanism appears.",
+      "closure_scope": "Two rigorously separated subsequences would refute the proposed asymptotic; exact finite densities and algorithms are scoped evidence only.",
+      "status_source": "https://www.erdosproblems.com/859",
+      "status_checked": "OPEN on 2026-08-25"
+    },
+    {
+      "rank": 4,
+      "problem_id": "erdos-389",
+      "score": 66,
+      "decision": "reserve",
+      "opportunity_class": "CONSTRUCTION",
+      "exact_target": "Audit the k=lcm(1,...,L) valuation route and isolate the first unabsorbed prime power.",
+      "first_kill_test": "Freeze if each correction introduces uncontrolled prime powers depending on the updated k.",
+      "status_source": "https://www.erdosproblems.com/389",
+      "status_checked": "OPEN on 2026-08-25"
+    },
+    {
+      "rank": 5,
+      "problem_id": "erdos-709",
+      "score": 65,
+      "decision": "rejected_weak_first_bridge",
+      "reason": "The proposed pairwise-lcm Hall lemma does not by itself control all subset sizes; the first bridge is weaker than the known square-root upper-bound scale."
+    },
+    {
+      "rank": 6,
+      "problem_id": "erdos-180",
+      "score": 58,
+      "decision": "rejected_corrected_variant",
+      "reason": "The literal statement already has the folklore star-matching counterexample; the remaining target is an incompletely frozen repaired problem."
+    },
+    {
+      "rank": 7,
+      "problem_id": "erdos-545",
+      "score": 55,
+      "decision": "rejected_corrected_variant",
+      "reason": "The literal statement has a small counterexample and the large-m replacement lacks an exact official quantifier contract."
+    },
+    {
+      "rank": 8,
+      "problem_id": "erdos-346",
+      "score": 54,
+      "decision": "rejected_theorem_strength_bridge",
+      "reason": "The sparse-deletion lemma is already essentially the missing structural content and lacks a bounded exact falsification domain."
+    }
+  ],
+  "concurrency_control": {
+    "max_active_deep_attacks": 3,
+    "active_admission_attacks": [
+      "erdos-317",
+      "erdos-538",
+      "erdos-859"
+    ],
+    "reserve": [
+      "erdos-389"
+    ]
+  }
+}

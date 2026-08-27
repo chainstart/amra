@@ -1,0 +1,27 @@
+{
+  "inherited_methods": [
+    {
+      "method": "finite singleton-prime certificates",
+      "loss_step": "replace the eventual quantifier by checking n up to a cutoff",
+      "lost_information": "uniform existence of a prime p in (n/2,n] with a forbidden L_n/p residue",
+      "consequence": "coverage through one million cannot prove the sufficiently-large-n statement"
+    },
+    {
+      "method": "independent highest-prime-power congruences",
+      "loss_step": "inspect each prime modulus separately",
+      "lost_information": "coupling between cofactor residues for all primes in the same top interval",
+      "consequence": "a locally allowed residue at every prime is not assembled into a contradiction"
+    },
+    {
+      "method": "generic ternary SMT search",
+      "loss_step": "encode all coefficients without exposing arithmetic provenance",
+      "lost_information": "which prime-power layer forces which coefficient",
+      "consequence": "the solver returns unknown from small n onward and yields no infinite transition"
+    }
+  ],
+  "required_new_information": [
+    "a uniform cofactor-residue theorem for primes in (n/2,n]",
+    "a simultaneous product or reciprocity invariant across several top primes",
+    "a symbolic obstruction stable when n crosses a prime power"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "inherited_methods": [
+    {
+      "method": "full-component alteration charged only by raw event overlap",
+      "loss_step": "replace a connected family of signed valuation kernels by the graph saying only which circuits share an integer",
+      "lost_information": "the shared integer, normalized cardinality defect, and whether subtracting two relations creates a new petal-only bad support",
+      "consequence": "the top-band star has exponential raw dependency degree although one shared deletion repairs the entire cluster"
+    },
+    {
+      "method": "one packed circuit followed by representatives selected inside that circuit",
+      "loss_step": "localize every circuit meeting the packed member to its intersection with the packed support",
+      "lost_information": "cheap petal vertices and deletions reusable across several interacting clusters",
+      "consequence": "the audited core-with-private-satellites family forces Omega(log N) internal representatives and destroys the required o(log N) loss"
+    },
+    {
+      "method": "largest-prime ownership based on top fibre and bounded residue summaries",
+      "loss_step": "discard the exact signed cofactor ratio and the lower-prime incidence component after assigning the largest prime",
+      "lost_information": "arbitrary coprime numerator and denominator support propagated through long prime-labelled paths",
+      "consequence": "no bounded fan, alphabet, depth, or local congestion estimate can imply o(log N) owner load"
+    },
+    {
+      "method": "local recursive potentials such as token count, active degree, forest rank, or peeled-prime depth",
+      "loss_step": "measure a single transition without charging the same residue as it moves through the rest of the connected component",
+      "lost_information": "global telescoping cancellation, component reuse, and scale at which the transferred residue finally terminates",
+      "consequence": "RR.1 carries an unchanged two-token obstruction through arbitrarily many increasing prime edges"
+    },
+    {
+      "method": "monotone finite-prefix stabilization",
+      "loss_step": "freeze decisions below a prime cutoff without budgeting completions by future larger primes",
+      "lost_information": "the revision set and its upper-density cost across all later scales",
+      "consequence": "RR.2 can complete arbitrary lower data into a new minimal bad relation using one later top prime"
+    },
+    {
+      "method": "finite transversals selected independently for each N",
+      "loss_step": "optimize each H_N separately and then pass to an unspecified subsequence",
+      "lost_information": "pointwise compatibility of admissions and convergence of deletion densities between cutoffs",
+      "consequence": "even a proved tau(H_N)=o(N) would not by itself construct the required infinite set with an actual natural-density limit"
+    }
+  ],
+  "required_new_information": [
+    "The exact signed relation kernel of every failure cluster, including normalized cardinality defect under circuit subtraction.",
+    "A cross-cluster charging object that may delete petal vertices and reuse one repair across several packed circuits.",
+    "A full top-prime/cofactor-residue flow state together with a genuinely simpler dual certificate for aggregate owner congestion.",
+    "A multiscale potential whose decrease telescopes over an entire connected propagation rather than one peeled prime.",
+    "A revision reserve with summable scale costs or zero upper density, sufficient to prove pointwise stabilization and an actual density limit.",
+    "An all-parameter obstruction whenever one of these global claims fails; a repeat of RR.1/RR.2 against an already closed local claim is non-progress."
+  ],
+  "frozen_adversarial_hosts": [
+    {
+      "name": "common-witness top-band star",
+      "tests": "cluster contraction must exploit the common deletion rather than raw dependency degree"
+    },
+    {
+      "name": "core with private satellite circuits",
+      "tests": "cross-cluster alteration must be allowed to leave the packed core and charge petal repairs globally"
+    },
+    {
+      "name": "increasing-prime rough path",
+      "tests": "owner flow and potential must tolerate unbounded residue-transfer depth at degree two"
+    },
+    {
+      "name": "universal double-star future completion",
+      "tests": "full residue data and a nonzero revision reserve are mandatory"
+    }
+  ]
+}

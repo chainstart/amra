@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M786U-01",
+    "M786U-07",
+    "M786U-09"
+  ],
+  "selection_rationale": "Seven of ten mechanisms are killed, giving a 100% kill ratio among non-survivors. M786U-01 retains the exact constant-width construction, M786U-07 retains only the frozen positive-density valuation-cylinder class, and M786U-09 retains the independent proportional-rounding corollary. The survivors share one arithmetic construction but make distinct geometric, deterministic-observation, and probabilistic conclusions. No survivor covers adaptive residue-aware ownership or proves an integral transversal lower bound."
+}

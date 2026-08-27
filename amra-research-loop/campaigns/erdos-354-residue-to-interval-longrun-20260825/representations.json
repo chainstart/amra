@@ -1,0 +1,12 @@
+{
+  "representations": [
+    {"id":"R354L-1","name":"height-marked residue automaton","family":"finite-automaton","new_information":"records the least and greatest representatives of every reachable residue","first_test":"measure whether representative diameter is subquadratic in q"},
+    {"id":"R354L-2","name":"maximum-gap dynamics","family":"bounded-potential-ascent","new_information":"retains the exact largest gap of each finite subset-sum set","first_test":"derive the update law after adjoining one floor-doubling coin"},
+    {"id":"R354L-3","name":"disjoint signed-unit forest","family":"common-structural-host","new_information":"records supports and separations of many unit relations","first_test":"test whether binary carry recurrence forces infinitely many disjoint unit relations"},
+    {"id":"R354L-4","name":"interval seed certificate","family":"matching-certificates","new_information":"pairs a concrete consecutive block with the later Sigma growth inequality","first_test":"formally replay the shortest observed seed and all propagation hypotheses"},
+    {"id":"R354L-5","name":"binary-cylinder adversary","family":"invisible-deformation","new_information":"keeps exact parameter cells whose arbitrary irrational tails share the tested prefix","first_test":"search for arbitrarily delayed interval seeds without asserting a universal conclusion"},
+    {"id":"R354L-6","name":"additive-energy profile","family":"multiscale-analysis","new_information":"measures collision and smoothing of subset sums at successive scales","first_test":"relate small doubling of a prefix sumset to a bounded maximum gap"},
+    {"id":"R354L-7","name":"residue lifting tree","family":"algebraic-reconstruction","new_information":"tracks compatible representatives from q to 2q instead of reproving coverage independently","first_test":"lift complete residue sets while bounding height increment"},
+    {"id":"R354L-8","name":"two-orbit carry synchronisation","family":"geometric-lift","new_information":"retains positions of useful disagreements between the two binary digit streams","first_test":"separate what irrational ratio forces from mere nonperiodicity"}
+  ]
+}

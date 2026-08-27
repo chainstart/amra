@@ -1,0 +1,214 @@
+{
+  "mechanisms": [
+    {
+      "id": "M25P-1",
+      "representation_id": "R25P-2",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "There are positive-density binary-reservoir blocks with arbitrarily large aggregate transient mass relative to their total eventual density loss.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Prove the construction for symbolic Q and R, including complement, CRT density, isolation, and asymptotic ratio.",
+      "status": "proved",
+      "created_at": "2026-08-25T12:21:11+00:00",
+      "status_evidence": "evidence/positive_background_amplifier.md; evidence/positive_background_amplifier_replay.json",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-2",
+      "representation_id": "R25P-3",
+      "family": "multiscale-analysis",
+      "decisive_claim": "Every target block contained in a fixed-ratio interval [X,cX] has vanishing absolute normalised logarithmic mass as X tends to infinity.",
+      "would_close": [
+        "bounded_window_obstruction"
+      ],
+      "kill_test": "Upper-bound it by the harmonic mass of all integers in the interval, uniformly in all congruence data.",
+      "status": "proved",
+      "created_at": "2026-08-25T12:21:11+00:00",
+      "status_evidence": "evidence/positive_background_amplifier.md: bounded-ratio absolute-capacity lemma",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-3",
+      "representation_id": "R25P-4",
+      "family": "matching-certificates",
+      "decisive_claim": "Concatenating bounded-ratio finite spike champions can force a nonvanishing oscillation.",
+      "would_close": [
+        "original_problem_refuted"
+      ],
+      "kill_test": "Apply exact logarithmic dilution at block endpoints and optimise arbitrary superexponential gaps.",
+      "status": "killed",
+      "created_at": "2026-08-25T12:21:11+00:00",
+      "status_evidence": "kill_tests.json and cited campaign evidence",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-4",
+      "representation_id": "R25P-1",
+      "family": "rare-event-conditioning",
+      "decisive_claim": "Unbounded relative amplification inside a periodic cell implies nonvanishing absolute logarithmic mass.",
+      "would_close": [
+        "original_problem_refuted"
+      ],
+      "kill_test": "Compare the amplifier with the total harmonic capacity of that cell over the same window.",
+      "status": "killed",
+      "created_at": "2026-08-25T12:21:11+00:00",
+      "status_evidence": "kill_tests.json and cited campaign evidence",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-5",
+      "representation_id": "R25P-5",
+      "family": "common-structural-host",
+      "decisive_claim": "A nested chain of increasingly sparse cells can preserve a fixed oscillation amplitude while its total density loss stays summable.",
+      "would_close": [
+        "original_problem_refuted"
+      ],
+      "kill_test": "Track absolute cell density and maximum harmonic capacity down every root-to-leaf path.",
+      "status": "killed",
+      "created_at": "2026-08-25T12:21:11+00:00",
+      "status_evidence": "kill_tests.json and cited campaign evidence",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-6",
+      "representation_id": "R25P-5",
+      "family": "common-structural-host",
+      "decisive_claim": "Disjoint sparse-cell antichains can collectively preserve fixed oscillation amplitude while paying summable density loss.",
+      "would_close": [
+        "original_problem_refuted"
+      ],
+      "kill_test": "Sum absolute periodic capacities across each antichain and compare with the available ambient density.",
+      "status": "killed",
+      "created_at": "2026-08-25T12:21:11+00:00",
+      "status_evidence": "kill_tests.json and cited campaign evidence",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-7",
+      "representation_id": "R25P-6",
+      "family": "bounded-potential-ascent",
+      "decisive_claim": "The density-loss measure e_i delta_{log n_i} satisfies a universal Carleson embedding inequality controlling every delayed harmonic tail.",
+      "would_close": [
+        "original_positive_limit_case"
+      ],
+      "kill_test": "Test candidate box constants against symbolic binary reservoirs and exact adversarial multiscale schedules.",
+      "status": "killed",
+      "created_at": "2026-08-25T12:21:11+00:00",
+      "status_evidence": "kill_tests.json and cited campaign evidence",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-8",
+      "representation_id": "R25P-9",
+      "family": "bounded-potential-ascent",
+      "decisive_claim": "LCM entropy can be charged once when a sparse cell is created and cannot be reused by later target-isolated layers.",
+      "would_close": [
+        "original_positive_limit_case"
+      ],
+      "kill_test": "Construct many later layers sharing the same rare old cell and measure entropy reuse versus additional density loss.",
+      "status": "killed",
+      "created_at": "2026-08-25T12:21:11+00:00",
+      "status_evidence": "kill_tests.json and cited campaign evidence",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-9",
+      "representation_id": "R25P-8",
+      "family": "analytic-lift",
+      "decisive_claim": "A uniform Abel-discrepancy estimate for disjoint conditional periodic layers follows from finite-stage density convergence alone.",
+      "would_close": [
+        "original_positive_limit_case"
+      ],
+      "kill_test": "Expose the period-dependent boundary term on exact CRT layers and test whether disjointness sums it.",
+      "status": "killed",
+      "created_at": "2026-08-25T12:21:11+00:00",
+      "status_evidence": "kill_tests.json and cited campaign evidence",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-10",
+      "representation_id": "R25P-10",
+      "family": "quantifier-diagonalization",
+      "decisive_claim": "A repeated scale-spanning target-isolated schedule exists with positive survivor density and nonvanishing normalised harmonic oscillation.",
+      "would_close": [
+        "original_problem_refuted"
+      ],
+      "kill_test": "Run guarded branch-and-bound and relaxed block recurrences, requiring exact scale span, isolation, and density-loss accounting.",
+      "status": "surviving",
+      "created_at": "2026-08-25T12:21:11+00:00",
+      "status_evidence": "evidence/confined_nonaffine_noaffine_search.json and evidence/confined_champion_extension.json: no nonvanishing infinite oscillation constructed; signed finite drops persist but decrease through 60 million indices",
+      "updated_at": "2026-08-25T14:24:53+00:00"
+    },
+    {
+      "id": "M25P-11",
+      "representation_id": "R25P-7",
+      "family": "geometric-lift",
+      "decisive_claim": "Pairwise target isolation alone supplies the missing cross-scale packing constraint.",
+      "would_close": [
+        "aggregate_spike_packing"
+      ],
+      "kill_test": "Build large antichains of moduli in one interval whose targets are pairwise isolated but whose absolute mass still dilutes.",
+      "status": "killed",
+      "created_at": "2026-08-25T12:21:11+00:00",
+      "status_evidence": "evidence/positive_background_amplifier.md: isolation without absolute scale span is insufficient",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-12",
+      "representation_id": "R25P-2",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "Every affine echo family union_r {r+h(cr+b)} with gcd(b,c)=1 has logarithmic density, via an exact transformation to a set of multiples.",
+      "would_close": [
+        "affine_sparse_cell_family"
+      ],
+      "kill_test": "Prove both directions of the affine divisibility map and transfer Davenport--Erdos density through the required residue progression.",
+      "status": "proved",
+      "created_at": "2026-08-25T12:39:56+00:00",
+      "status_evidence": "evidence/affine_echo_multiples_theorem.md; evidence/affine_echo_mapping_replay.json",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-13",
+      "representation_id": "R25P-5",
+      "family": "common-structural-host",
+      "decisive_claim": "The positive-density tail admits a periodic-cell tree in which fixed-capacity nodes reduce to affine echo/multiples families and the vanishing-capacity remainder is logarithmically negligible.",
+      "would_close": [
+        "original_positive_limit_case"
+      ],
+      "kill_test": "At one fixed old period, classify all conditional echo moduli by gcd and test whether non-affine charts have summable capacity or give a scale-spanning counterexample.",
+      "status": "killed",
+      "created_at": "2026-08-25T12:41:10+00:00",
+      "status_evidence": "evidence/nonaffine_echo_reduction.md: fixed cells admit nonsummable genuinely non-affine parameter families",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    },
+    {
+      "id": "M25P-14",
+      "representation_id": "R25P-3",
+      "family": "multiscale-analysis",
+      "decisive_claim": "For every fixed C, every union of progressions r_j modulo d_j with both sequences increasing and r_j<d_j<=C r_j has logarithmic density.",
+      "would_close": [
+        "nonaffine_fixed_cell_obstruction"
+      ],
+      "kill_test": "Use confined positive-density schedules to seek scale-stratified nonvanishing endpoint ranges, and test whether echoes force a logarithmic Cauchy criterion.",
+      "status": "surviving",
+      "created_at": "2026-08-25T13:04:57+00:00",
+      "status_evidence": "evidence/nonaffine_echo_reduction.md; evidence/confined_nonaffine_noaffine_analysis.json; evidence/confined_champion_extension.json",
+      "updated_at": "2026-08-25T14:24:53+00:00"
+    },
+    {
+      "id": "M25P-15",
+      "representation_id": "R25P-2",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "A finite union of individually convergent coprime affine echo families can nevertheless have no logarithmic density.",
+      "would_close": [
+        "original_problem_refuted"
+      ],
+      "kill_test": "Strengthen the affine theorem to upper-log periodic approximation and test stability under finite unions.",
+      "status": "killed",
+      "created_at": "2026-08-25T13:07:00+00:00",
+      "status_evidence": "evidence/affine_echo_multiples_theorem.md: finite-union corollary",
+      "updated_at": "2026-08-25T13:08:45+00:00"
+    }
+  ]
+}

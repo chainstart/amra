@@ -1,0 +1,41 @@
+M10 round 3 replay/check record
+Date: 2026-08-27 HKT
+
+Finite consistency replay:
+/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m10_round1/fejer_bridge_check.py
+unit=openmath-task-20260827-010924-361242.scope
+exit=0 elapsed=0.01s maxRSS=11840KiB swaps=0 memory.high=30G memory.max=34G swap.max=4G tasks.max=512
+parseval_abs_error=1.7763568394002505e-15
+omega_dft_max_abs_error=1.167475353830439e-15
+finite_carry_identity_max_abs_error=4.440892098500626e-16
+finite_majorant_minus_exact=1.3133673869652949
+
+Syntax check:
+/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- python3 -m py_compile amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m10_round1/fejer_bridge_check.py
+unit=openmath-task-20260827-010958-361505.scope exit=0
+Generated __pycache__ was removed after the check.
+
+JSON check:
+python3 -m json.tool amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/evidence/m10_fejer_bridge_check_round3.json
+exit=0
+
+Whitespace check:
+git diff --check
+exit=0
+
+AMRA validation:
+/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- python3 amra-research-loop/scripts/research_loop.py validate --campaign amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826
+unit=openmath-task-20260827-011023-361801.scope exit=1
+expected sole error: decisive lemma must identify what it closes
+
+Final repeat after author/audit stabilization:
+unit=openmath-task-20260827-011419-363169.scope exit=1
+same expected sole error
+
+Final SHA-256 before adding/updating this replay file:
+b0ed401d5d591e2e83b8e24dbfddabea8a93dbb2e47b4cb563d665ea8a213acd  work/m10_round1/high_support_joint_correlation_round3.md
+9488dbab638a77fd13a57796543fd20e2dbbfa66fa0fffce76370f188c8b55aa  work/m10_round1/fejer_bridge_check.py
+5722fec261b3610c921c2c7dfab83dbeb7c68b820d722ee915332416b2fe36e4  evidence/m10_high_support_fejer_bridge_round3.md
+a27b3226c2a79359ec34a8f07495d1a5a3a0be4e7f1e9f73fe67611fe5f0b3ef  evidence/m10_fejer_bridge_check_round3.json
+330493b8a5860a4b7585695fc0e1f38a75ff5aa733d706ea58d8c7b24857df35  audit/m10_high_support_joint_correlation_round3_author_audit.md
+3a4b100d80c2fd4eae1de8bb97135e3a824933df1e44bd2136bca5959bf875a3  audit/m10_periodized_bridge_lll_scan_audit.md

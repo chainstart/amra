@@ -1,0 +1,160 @@
+{
+  "mechanisms": [
+    {
+      "id": "M786-01",
+      "representation_id": "R786-01",
+      "family": "circuit-transversal",
+      "decisive_claim": "For some L(N)->infinity with L(N)=o(log N), the minimal unbalanced relation hypergraph induced on (N^(1-1/L),N] has an o(N)-vertex transversal, uniformly in N; deleting the lower tail and this transversal gives the finite density-one theorem.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Use prime-labelled unequal-shore incidence circuits to seek a positive-density family of almost disjoint minimal supports forcing a linear transversal.",
+      "status": "surviving",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:37+00:00"
+    },
+    {
+      "id": "M786-02",
+      "representation_id": "R786-05",
+      "family": "short-circuit-compression",
+      "decisive_claim": "Every bad relation inside the high tail contains a bad subrelation whose larger shore has at most L(N) elements.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Construct a minimal K_(s+1,s) edge-prime relation with s>L(N) and place it wholly above N^(1-1/L).",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:36+00:00"
+    },
+    {
+      "id": "M786-03",
+      "representation_id": "R786-03",
+      "family": "squarefree-circuit-exclusion",
+      "decisive_claim": "Restricting to squarefree integers makes every minimal exponent relation balanced, so deleting nonsquarefree integers suffices.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "The K_(s+1,s) edge-prime construction is squarefree on every vertex and has shore imbalance one.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:36+00:00"
+    },
+    {
+      "id": "M786-04",
+      "representation_id": "R786-02",
+      "family": "additive-separator",
+      "decisive_claim": "Every finite distinct-factor admissible set admits a rational totally additive function taking value one on all admitted integers.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Test the exact admissible set {2,4} against 2v(2)-v(4)=0.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:36+00:00"
+    },
+    {
+      "id": "M786-05",
+      "representation_id": "R786-11",
+      "family": "additive-level-density",
+      "decisive_claim": "For one growing finite selected-prime set P, the exact-one cylinder {n:sum_(p in P)nu_p(n)=1} retains the additive level-one certificate and its natural density can tend to one.",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Compute the cylinder density as product(1-1/p) sum(1/p) and optimize it over lambda=sum 1/p.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:36+00:00"
+    },
+    {
+      "id": "M786-06",
+      "representation_id": "R786-04",
+      "family": "auxiliary-amplification",
+      "decisive_claim": "A common linear dilation distinctifies any repeated unbalanced relation while preserving its product equality, so the repetitions-allowed obstruction transfers to the active variant.",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Track the common dilation parameter on the r- and s-factor shores and compare its homogeneous degrees.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:36+00:00"
+    },
+    {
+      "id": "M786-07",
+      "representation_id": "R786-04",
+      "family": "auxiliary-amplification",
+      "decisive_claim": "Natural density 1-o(1) forces all entries of a fixed nonlinear polarization pattern such as (2x)(2y)=4xy, uniformly at the scale needed for a distinct unbalanced relation.",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Use the finite high tail (N^(2/3),N], which has density one and deletes every possible output 4xy<=N together with its small inputs.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:36+00:00"
+    },
+    {
+      "id": "M786-08",
+      "representation_id": "R786-08",
+      "family": "private-prime-certification",
+      "decisive_claim": "All but o(N) integers in [N] can be assigned pairwise distinct prime divisors, and private-prime cancellation then proves admissibility.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Compare the required matching size (1-o(1))N with the pi(N) available prime vertices.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:36+00:00"
+    },
+    {
+      "id": "M786-09",
+      "representation_id": "R786-06",
+      "family": "largest-prime-peeling",
+      "decisive_claim": "After removing an o(N) smooth core, charge each minimal unbalanced circuit to a largest-prime fibre and select exposed endpoints with total cost at most O(log log N) times the explicit logarithmic fractional cover; this gives O(N log log N/log N)=o(N) deletions.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Compute exposure and congestion on K_(s+1,s), complete unequal-shore graphs, and circuits in which every large-prime fibre has degree two.",
+      "status": "surviving",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:37+00:00"
+    },
+    {
+      "id": "M786-10",
+      "representation_id": "R786-07",
+      "family": "bounded-dimension-obstruction",
+      "decisive_claim": "A fixed prime-exponent dimension alone bounds every distinct-factor admissible family by an absolute constant, independent of exponent height.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Use powers 2^(2^j), whose one-dimensional exponent vectors have unique subset sums for arbitrarily many j.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:36+00:00"
+    },
+    {
+      "id": "M786-11",
+      "representation_id": "R786-09",
+      "family": "exact-optimization",
+      "decisive_claim": "The minimal-relation ILP on the high tail has an explicit fractional cover of weight o(N) and a rank-sensitive rounding theorem with o(N) additive loss, uniformly over the unbounded circuit sizes.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Search exact small-N duals and prime-incidence circuit families for a linear integrality gap or unavoidable positive fractional mass.",
+      "status": "surviving",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:37+00:00"
+    },
+    {
+      "id": "M786-12",
+      "representation_id": "R786-12",
+      "family": "density-gluing",
+      "decisive_claim": "The union of independently admissible numerical blocks remains admissible, so finite near-optima can be concatenated directly into a natural-density set.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Take admissible blocks {2,3} and {6}; their union contains 2*3=6.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T12:34:37+00:00"
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+command: /home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m05_orthant_lattice_round1.py
+unit: openmath-task-20260826-223516-320669.scope
+guard: high=30G max=34G swap=4G tasks=512
+exit: 0
+
+exact k=7 m=2 P=143 det=143 ray_index=143 actual_apery=24 prod_d=24 symmetric_apery=77 orientable_symmetric=56 first_actual_gt_2k=21 first_symmetric_gt_2k=21
+exact k=10 m=4 P=46189 det=46189 ray_index=46189 actual_apery=189 prod_d=189 symmetric_apery=1105 orientable_symmetric=189 first_actual_gt_2k=220 first_symmetric_gt_2k=132
+exact k=15 m=4 P=215441 det=215441 ray_index=215441 actual_apery=896 prod_d=896 symmetric_apery=8505 orientable_symmetric=1694 first_actual_gt_2k=339 first_symmetric_gt_2k=135
+exact k=20 m=4 P=765049 det=765049 ray_index=765049 actual_apery=5049 prod_d=5049 symmetric_apery=58905 orientable_symmetric=11236 first_actual_gt_2k=550 first_symmetric_gt_2k=90
+ledger k=100 m=21 log_Dinv=31.541945050 log_half_ratio=1.192341669 half_ratio_bound=5.605170186 log_full_basis_barrier=65.543412037 barrier_over_k=0.655434120 log_m_to_m_over_k=0.954769162
+ledger k=1000 m=135 log_Dinv=190.615443172 log_half_ratio=0.408895918 half_ratio_bound=7.907755279 log_full_basis_barrier=524.675975402 barrier_over_k=0.524675975 log_m_to_m_over_k=0.852827538
+ledger k=10000 m=1033 log_Dinv=1443.807787173 log_half_ratio=0.447019096 half_ratio_bound=10.210340372 log_full_basis_barrier=5032.403045644 barrier_over_k=0.503240305 log_m_to_m_over_k=0.861305760
+ledger k=100000 m=8392 log_Dinv=11709.768626787 log_half_ratio=0.542740225 half_ratio_bound=12.512925465 log_full_basis_barrier=49625.789467371 barrier_over_k=0.496257895 log_m_to_m_over_k=0.875317752
+
+/usr/bin/time -v:
+User time (seconds): 0.64
+System time (seconds): 0.00
+Elapsed wall clock: 0.63 seconds
+Maximum resident set size (kbytes): 11840
+Major page faults: 0
+Minor page faults: 1504
+Swaps: 0
+Exit status: 0
+
+---
+
+authoritative final replay (includes exact CRT sign-family assertions)
+command: /home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m05_orthant_lattice_round1.py
+unit: openmath-task-20260826-225211-325889.scope
+guard: high=30G max=34G swap=4G tasks=512
+exit: 0
+
+exact k=7 m=2 P=143 det=143 ray_index=143 actual_apery=24 prod_d=24 symmetric_apery=77 orientable_symmetric=56 first_actual_gt_2k=21 first_symmetric_gt_2k=21 signed_through_first_actual=1 orientable_through_first_actual=1 oriented_above_through_first_actual=1 exact_mixed_sign_bad_family=2
+dyadic k=7 Delta=4 q=2 first_actual=21 H_plus_w=3561 loss_ratio=597.650350
+exact k=10 m=4 P=46189 det=46189 ray_index=46189 actual_apery=189 prod_d=189 symmetric_apery=1105 orientable_symmetric=189 first_actual_gt_2k=220 first_symmetric_gt_2k=132 signed_through_first_actual=4 orientable_through_first_actual=1 oriented_above_through_first_actual=1 exact_mixed_sign_bad_family=6
+dyadic k=10 Delta=1 q=1 first_actual=22 H_plus_w=880 loss_ratio=80.000000
+dyadic k=10 Delta=2 q=1 first_actual=24 H_plus_w=2080 loss_ratio=480.000000
+dyadic k=10 Delta=4 q=1 first_actual=28 H_plus_w=1815 loss_ratio=747.352941
+dyadic k=10 Delta=8 q=1 first_actual=30 H_plus_w=1741 loss_ratio=824.684211
+exact k=15 m=4 P=215441 det=215441 ray_index=215441 actual_apery=896 prod_d=896 symmetric_apery=8505 orientable_symmetric=1694 first_actual_gt_2k=339 first_symmetric_gt_2k=135 signed_through_first_actual=9 orientable_through_first_actual=1 oriented_above_through_first_actual=1 exact_mixed_sign_bad_family=14
+dyadic k=15 Delta=2 q=1 first_actual=33 H_plus_w=4080 loss_ratio=480.000000
+dyadic k=15 Delta=4 q=1 first_actual=35 H_plus_w=3041 loss_ratio=640.210526
+dyadic k=15 Delta=8 q=2 first_actual=45 H_plus_w=13071 loss_ratio=2194.830585
+exact k=20 m=4 P=765049 det=765049 ray_index=765049 actual_apery=5049 prod_d=5049 symmetric_apery=58905 orientable_symmetric=11236 first_actual_gt_2k=550 first_symmetric_gt_2k=90 signed_through_first_actual=35 orientable_through_first_actual=1 oriented_above_through_first_actual=1 exact_mixed_sign_bad_family=14
+dyadic k=20 Delta=2 q=1 first_actual=44 H_plus_w=7360 loss_ratio=960.000000
+dyadic k=20 Delta=8 q=2 first_actual=52 H_plus_w=23488 loss_ratio=2586.553949
+dyadic k=20 Delta=16 q=1 first_actual=58 H_plus_w=6322 loss_ratio=2904.702703
+ledger k=100 m=21 log_Dinv=31.541945050 log_half_ratio=1.192341669 half_ratio_bound=5.605170186 log_full_basis_barrier=65.543412037 barrier_over_k=0.655434120 log_m_to_m_over_k=0.954769162
+ledger k=1000 m=135 log_Dinv=190.615443172 log_half_ratio=0.408895918 half_ratio_bound=7.907755279 log_full_basis_barrier=524.675975402 barrier_over_k=0.524675975 log_m_to_m_over_k=0.852827538
+ledger k=10000 m=1033 log_Dinv=1443.807787173 log_half_ratio=0.447019096 half_ratio_bound=10.210340372 log_full_basis_barrier=5032.403045644 barrier_over_k=0.503240305 log_m_to_m_over_k=0.861305760
+ledger k=100000 m=8392 log_Dinv=11709.768626787 log_half_ratio=0.542740225 half_ratio_bound=12.512925465 log_full_basis_barrier=49625.789467371 barrier_over_k=0.496257895 log_m_to_m_over_k=0.875317752
+
+/usr/bin/time -v:
+User time (seconds): 0.71
+System time (seconds): 0.00
+Elapsed wall clock: 0.72 seconds
+Maximum resident set size (kbytes): 18080
+Major page faults: 4
+Minor page faults: 3106
+Swaps: 0
+Exit status: 0
+
+---
+
+intermediate replay after dyadic-block and orientation diagnostics
+command: /home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m05_orthant_lattice_round1.py
+unit: openmath-task-20260826-224153-322583.scope
+guard: high=30G max=34G swap=4G tasks=512
+exit: 0
+
+exact k=7 m=2 P=143 det=143 ray_index=143 actual_apery=24 prod_d=24 symmetric_apery=77 orientable_symmetric=56 first_actual_gt_2k=21 first_symmetric_gt_2k=21 signed_through_first_actual=1 orientable_through_first_actual=1 oriented_above_through_first_actual=1
+dyadic k=7 Delta=4 q=2 first_actual=21 H_plus_w=3561 loss_ratio=597.650350
+exact k=10 m=4 P=46189 det=46189 ray_index=46189 actual_apery=189 prod_d=189 symmetric_apery=1105 orientable_symmetric=189 first_actual_gt_2k=220 first_symmetric_gt_2k=132 signed_through_first_actual=4 orientable_through_first_actual=1 oriented_above_through_first_actual=1
+dyadic k=10 Delta=1 q=1 first_actual=22 H_plus_w=880 loss_ratio=80.000000
+dyadic k=10 Delta=2 q=1 first_actual=24 H_plus_w=2080 loss_ratio=480.000000
+dyadic k=10 Delta=4 q=1 first_actual=28 H_plus_w=1815 loss_ratio=747.352941
+dyadic k=10 Delta=8 q=1 first_actual=30 H_plus_w=1741 loss_ratio=824.684211
+exact k=15 m=4 P=215441 det=215441 ray_index=215441 actual_apery=896 prod_d=896 symmetric_apery=8505 orientable_symmetric=1694 first_actual_gt_2k=339 first_symmetric_gt_2k=135 signed_through_first_actual=9 orientable_through_first_actual=1 oriented_above_through_first_actual=1
+dyadic k=15 Delta=2 q=1 first_actual=33 H_plus_w=4080 loss_ratio=480.000000
+dyadic k=15 Delta=4 q=1 first_actual=35 H_plus_w=3041 loss_ratio=640.210526
+dyadic k=15 Delta=8 q=2 first_actual=45 H_plus_w=13071 loss_ratio=2194.830585
+exact k=20 m=4 P=765049 det=765049 ray_index=765049 actual_apery=5049 prod_d=5049 symmetric_apery=58905 orientable_symmetric=11236 first_actual_gt_2k=550 first_symmetric_gt_2k=90 signed_through_first_actual=35 orientable_through_first_actual=1 oriented_above_through_first_actual=1
+dyadic k=20 Delta=2 q=1 first_actual=44 H_plus_w=7360 loss_ratio=960.000000
+dyadic k=20 Delta=8 q=2 first_actual=52 H_plus_w=23488 loss_ratio=2586.553949
+dyadic k=20 Delta=16 q=1 first_actual=58 H_plus_w=6322 loss_ratio=2904.702703
+ledger k=100 m=21 log_Dinv=31.541945050 log_half_ratio=1.192341669 half_ratio_bound=5.605170186 log_full_basis_barrier=65.543412037 barrier_over_k=0.655434120 log_m_to_m_over_k=0.954769162
+ledger k=1000 m=135 log_Dinv=190.615443172 log_half_ratio=0.408895918 half_ratio_bound=7.907755279 log_full_basis_barrier=524.675975402 barrier_over_k=0.524675975 log_m_to_m_over_k=0.852827538
+ledger k=10000 m=1033 log_Dinv=1443.807787173 log_half_ratio=0.447019096 half_ratio_bound=10.210340372 log_full_basis_barrier=5032.403045644 barrier_over_k=0.503240305 log_m_to_m_over_k=0.861305760
+ledger k=100000 m=8392 log_Dinv=11709.768626787 log_half_ratio=0.542740225 half_ratio_bound=12.512925465 log_full_basis_barrier=49625.789467371 barrier_over_k=0.496257895 log_m_to_m_over_k=0.875317752
+
+/usr/bin/time -v:
+User time (seconds): 0.74
+System time (seconds): 0.02
+Elapsed wall clock: 0.73 seconds
+Maximum resident set size (kbytes): 17920
+Major page faults: 0
+Minor page faults: 3075
+Swaps: 0
+Exit status: 0
+
+---
+
+authoritative final replay after full signed-box count assertions
+command: /home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m05_orthant_lattice_round1.py
+unit: openmath-task-20260826-225805-327720.scope
+guard: high=30G max=34G swap=4G tasks=512
+exit: 0
+
+exact k=7 m=2 P=143 det=143 ray_index=143 actual_apery=24 prod_d=24 symmetric_apery=77 orientable_symmetric=56 signed_box=77 orientable_count_bound=696 first_actual_gt_2k=21 first_symmetric_gt_2k=21 signed_through_first_actual=1 orientable_through_first_actual=1 oriented_above_through_first_actual=1 exact_mixed_sign_bad_family=2
+dyadic k=7 Delta=4 q=2 first_actual=21 H_plus_w=3561 loss_ratio=597.650350
+exact k=10 m=4 P=46189 det=46189 ray_index=46189 actual_apery=189 prod_d=189 symmetric_apery=1105 orientable_symmetric=189 signed_box=1105 orientable_count_bound=7749 first_actual_gt_2k=220 first_symmetric_gt_2k=132 signed_through_first_actual=4 orientable_through_first_actual=1 oriented_above_through_first_actual=1 exact_mixed_sign_bad_family=6
+dyadic k=10 Delta=1 q=1 first_actual=22 H_plus_w=880 loss_ratio=80.000000
+dyadic k=10 Delta=2 q=1 first_actual=24 H_plus_w=2080 loss_ratio=480.000000
+dyadic k=10 Delta=4 q=1 first_actual=28 H_plus_w=1815 loss_ratio=747.352941
+dyadic k=10 Delta=8 q=1 first_actual=30 H_plus_w=1741 loss_ratio=824.684211
+exact k=15 m=4 P=215441 det=215441 ray_index=215441 actual_apery=896 prod_d=896 symmetric_apery=8505 orientable_symmetric=1694 signed_box=8505 orientable_count_bound=54656 first_actual_gt_2k=339 first_symmetric_gt_2k=135 signed_through_first_actual=9 orientable_through_first_actual=1 oriented_above_through_first_actual=1 exact_mixed_sign_bad_family=14
+dyadic k=15 Delta=2 q=1 first_actual=33 H_plus_w=4080 loss_ratio=480.000000
+dyadic k=15 Delta=4 q=1 first_actual=35 H_plus_w=3041 loss_ratio=640.210526
+dyadic k=15 Delta=8 q=2 first_actual=45 H_plus_w=13071 loss_ratio=2194.830585
+exact k=20 m=4 P=765049 det=765049 ray_index=765049 actual_apery=5049 prod_d=5049 symmetric_apery=58905 orientable_symmetric=11236 signed_box=58905 orientable_count_bound=408969 first_actual_gt_2k=550 first_symmetric_gt_2k=90 signed_through_first_actual=35 orientable_through_first_actual=1 oriented_above_through_first_actual=1 exact_mixed_sign_bad_family=14
+dyadic k=20 Delta=2 q=1 first_actual=44 H_plus_w=7360 loss_ratio=960.000000
+dyadic k=20 Delta=8 q=2 first_actual=52 H_plus_w=23488 loss_ratio=2586.553949
+dyadic k=20 Delta=16 q=1 first_actual=58 H_plus_w=6322 loss_ratio=2904.702703
+ledger k=100 m=21 log_Dinv=31.541945050 log_half_ratio=1.192341669 half_ratio_bound=5.605170186 log_full_basis_barrier=65.543412037 barrier_over_k=0.655434120 log_m_to_m_over_k=0.954769162
+ledger k=1000 m=135 log_Dinv=190.615443172 log_half_ratio=0.408895918 half_ratio_bound=7.907755279 log_full_basis_barrier=524.675975402 barrier_over_k=0.524675975 log_m_to_m_over_k=0.852827538
+ledger k=10000 m=1033 log_Dinv=1443.807787173 log_half_ratio=0.447019096 half_ratio_bound=10.210340372 log_full_basis_barrier=5032.403045644 barrier_over_k=0.503240305 log_m_to_m_over_k=0.861305760
+ledger k=100000 m=8392 log_Dinv=11709.768626787 log_half_ratio=0.542740225 half_ratio_bound=12.512925465 log_full_basis_barrier=49625.789467371 barrier_over_k=0.496257895 log_m_to_m_over_k=0.875317752
+
+/usr/bin/time -v:
+User time (seconds): 0.73
+System time (seconds): 0.00
+Elapsed wall clock: 0.73 seconds
+Maximum resident set size (kbytes): 17920
+Major page faults: 3
+Minor page faults: 3099
+Swaps: 0
+Exit status: 0

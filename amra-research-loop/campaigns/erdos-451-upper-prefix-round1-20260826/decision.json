@@ -1,0 +1,17 @@
+{
+  "outcome": "undecided",
+  "success_condition": "",
+  "reason": "The six-hour checkpoint produced an exact discrete-time Fejer bridge, exact removal of a width-one prime, and a sharply normalized weighted-prefix target. The final sprint used Baker--Harman--Pintz to prove polynomial quotient-gap zero bands through k^(59/40)/4 for gamma=1 and k^(59/40)/(4p_0) for the width-one dilation. It still did not prove the subexponential joint CRT tail estimate, improve the known exponent, or satisfy any closure-contract promotion condition. M10 remains mathematically surviving, but this was the final allocated sprint; M05/A remains stopped.",
+  "evidence": [
+    "evidence/m10_prime_gap_zero_band_final_round.md",
+    "audit/m10_prime_gap_zero_band_author_audit.md",
+    "evidence/m10_prime_gap_zero_band_replay.txt",
+    "evidence/six_hour_rounds_20260826_2205_to_20260827_0405.md",
+    "work/m10_round1/discrete_time_fejer_bridge_round3.md",
+    "evidence/m10_discrete_spectral_norm_ledger_round3.md",
+    "evidence/m10_discrete_positive_prefix_round3.md",
+    "evidence/m10_discrete_arc_dispersion_round3.md",
+    "audit/m10_discrete_time_fejer_bridge_cross_audit.md",
+    "audit/six_hour_rounds_final_scope_audit.md"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "statement": "For every prescribed binary depth there are positive alpha,beta with irrational ratio whose displayed base-2 floor terms have no two consecutive subset sums. Conversely, if a disjoint prefix supplies height-marked representatives q h_r+r for every residue and a disjoint tail supplies q times a quotient interval at least max(h_r)-min(h_r) long, their union contains an explicit consecutive integer interval.",
+  "status": "proved",
+  "closes": [
+    "the parameter-independent finite-prefix route",
+    "the exact sufficient interface from modular representatives to an integer interval"
+  ],
+  "evidence": [
+    "evidence/arbitrary_delay_lemma.md",
+    "evidence/residue_core_bridge.md",
+    "evidence/longrun_replay.json"
+  ],
+  "dependency_gaps": [
+    "No theorem forces arbitrarily long disjoint q-multiple quotient cores along every irrational-ratio carry path.",
+    "Sparse carry blocks defeat every tested single-modulus single-split strategy by exponential finite margins.",
+    "The gamma in (1,2) variant still lacks the integral binary recurrence."
+  ]
+}

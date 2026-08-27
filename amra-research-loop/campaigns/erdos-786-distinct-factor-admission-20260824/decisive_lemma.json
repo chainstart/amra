@@ -1,0 +1,34 @@
+{
+  "statement": "Log-defect fractional transversal theorem. For every N>=2, let H_N be the hypergraph on {2,...,N} whose edges are supports of disjoint finite subsets S,T with equal products and unequal cardinalities. Then w_N(n)=log(N/n)/log N is a fractional vertex cover of H_N, and its total weight is (N log N-log(N!))/log N-1=(1+o(1))N/log N. Consequently the complete fractional relaxation of the finite distinct-factor deletion problem already has o(N) cost; the unresolved step is a structured integral rounding with o(log N) loss, followed separately by a coherent natural-density construction for the infinite part.",
+  "status": "proved",
+  "closes": [
+    "the full all-circuit fractional relaxation of the finite deletion interface at o(N) cost",
+    "the bounded-length high-tail subproblem by threshold rounding",
+    "the exact source of the remaining finite obstruction: integrality and prime-incidence structure rather than LP feasibility"
+  ],
+  "evidence": [
+    "evidence/SURVIVOR_DEEPENING.md",
+    "evidence/OBSTRUCTION_ANALYSIS.md",
+    "evidence/verify_distinct_factor_obstructions.py"
+  ],
+  "dependency_gaps": [
+    "Prove an integral transversal bound tau(H_N)<=g(N) sum_n w_N(n) with g(N)=o(log N); general hypergraph rounding does not suffice.",
+    "For the largest-prime route, prove an endpoint ownership/coarea theorem with O(log log N) congestion after removing the smooth core.",
+    "For the ILP route, prove a rank-sensitive rounding theorem uniform in circuit length and N; fixed-N optima are non-success.",
+    "Turn finite decisions into one natural-density set by a coherent stabilizing rounding, or give a separate periodic/profinite construction with cross-cylinder control.",
+    "Do not use totally additive-function arguments requiring repeated factors; all coefficients must remain in {-1,0,1}.",
+    "Independent reconstruction, dependency checking, statement matching, and novelty audit have not started and must be performed by a non-author."
+  ],
+  "proved_supporting_results": {
+    "high_tail": "Deleting n<=N^(1-1/L) removes o(N) vertices for L=o(log N) and eliminates every bad relation whose larger shore has at most L elements.",
+    "long_minimal_circuits": "For every s>=2, K_(s+1,s) with distinct edge primes yields a minimal squarefree (s+1)-versus-s relation, ruling out bounded-circuit and squarefree shortcuts.",
+    "finite_ilp": "At fixed N, admissibility is exactly independence in the minimal bad-support hypergraph; this is complete finitely but has no asymptotic completeness claim."
+  },
+  "evidence_classification": {
+    "statement_match": "The theorem is exact for Finset products and all N, but it closes only the fractional finite interface, not either public density-one assertion.",
+    "mathematical_status": "proved",
+    "machine_reproduced": "verify_distinct_factor_obstructions.py replays every minimal bad support through N=18 and the symbolic obstruction atlas; the all-N proof is the logarithmic identity.",
+    "independent_reconstruction": "not_started",
+    "publication_state": "private_campaign_note"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M786G-01",
+      "outcome": "killed",
+      "evidence": "evidence/ROUND4_CLUSTER_ALTERATION.md: the equal-defect projective-plane cluster has internal packing number one but transversal q+1>log_2 N, so no O(1)-per-packed-circuit subtraction repair exists"
+    },
+    {
+      "mechanism_id": "M786G-02",
+      "outcome": "killed",
+      "evidence": "evidence/ROUND4_CLUSTER_ALTERATION.md: every projective-plane circuit has normalized defect -1 and pairwise subtraction has defect zero, yet the single defect stratum needs q+1>log_2 N repairs"
+    },
+    {
+      "mechanism_id": "M786G-04",
+      "outcome": "killed",
+      "evidence": "evidence/ROUND4_CLUSTER_ALTERATION.md: optimal petal-aware repair inside the realized cluster is q+1>log_2 N at packing number one, contradicting an O(log log N) internal boundary coarea charge"
+    },
+    {
+      "mechanism_id": "M786G-05",
+      "outcome": "killed",
+      "evidence": "evidence/ROUND4_FULL_RESIDUE_OWNER_FLOW.md Proposition 2.1: the explicit full-ratio O_top owner selects every odd squarefree n in (N/2,N] with Omega(n)>=3, a positive-density owner set, although all displayed circuits share the hitter 2"
+    },
+    {
+      "mechanism_id": "M786G-07",
+      "outcome": "killed",
+      "evidence": "evidence/ROUND4_CLUSTER_ALTERATION.md after equation (15): every realized randomized support-owner set covering the projective-plane cluster is a transversal and hence has at least q+1>log_2 N distinct owners, not O(log log N)"
+    },
+    {
+      "mechanism_id": "M786G-08",
+      "outcome": "killed",
+      "evidence": "evidence/ROUND4_MULTISCALE_POTENTIAL_FALSIFICATION.md section 2: a support-minimal path has Theta(log N) successive transfers with every active prime in one dyadic scale, forcing either Theta(log N) initial mass or a nondecreasing transition"
+    },
+    {
+      "mechanism_id": "M786G-09",
+      "outcome": "killed",
+      "evidence": "evidence/ROUND4_MULTISCALE_POTENTIAL_FALSIFICATION.md section 3: a bounded-degree private-prime branching tree has Theta(log N) splits into unique cofactor states and no later identical-state merge"
+    },
+    {
+      "mechanism_id": "M786G-10",
+      "outcome": "killed",
+      "evidence": "evidence/ROUND4_MULTISCALE_POTENTIAL_FALSIFICATION.md section 4: d private primes per path edge give cycle rank (d-1)(m-1) while support minimality forbids every proper bad circuit elimination, so occurrence cycle rank alone gives no repair reuse"
+    },
+    {
+      "mechanism_id": "M786G-11",
+      "outcome": "killed",
+      "evidence": "evidence/ROUND4_COHERENT_RECOURSE.md CR.0 and CR.2: MC.1 forbids every density-one admissible set, and endpoint-only summable recourse can toggle every fixed decision infinitely often while its permanent reserve has density one"
+    },
+    {
+      "mechanism_id": "M786G-12",
+      "outcome": "killed",
+      "evidence": "evidence/ROUND4_MULTIPLIER_COMPLETION_OBSTRUCTION.md MC.1: any permanently admitted unequal-size seed P,Q generates the full matching family {t prod(P),t prod(Q)}, which costs positive density to hit in future guards unless an old seed element is revised"
+    }
+  ]
+}

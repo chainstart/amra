@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R776G-01-prefix-suffix-word",
+      "name": "Separated Macaulay prefix and residual suffix",
+      "family": "canonical_word_dynamics",
+      "new_information": "Retains the maximal canonical prefix shared by two adjacent defect states and shadows only the separated lower-rank suffix; this is precisely the overlap information discarded by subadditivity.",
+      "first_test": "Prove the exact prefix-cancellation identity for every legal concatenated canonical word, then identify the first V and rank where the V and V+1 orbits fail to share the required prefix."
+    },
+    {
+      "id": "R776G-02-carry-odometer",
+      "name": "Rank-six carry odometer",
+      "family": "canonical_word_dynamics",
+      "new_information": "Encodes the six-canonical word of W_6 by its upper indices, carry walls, and top-index excursions instead of by the scalar W_6 alone.",
+      "first_test": "Search exact adjacent states for a top index exceeding ceil(log_2 V)+13; a bounded scan is used only to locate counterexamples."
+    },
+    {
+      "id": "R776G-03-colex-missing-set",
+      "name": "Colex initial segment with a protected missing 8-set",
+      "family": "set_family_geometry",
+      "new_information": "Realizes D_8<binom(V-11,8) as the existence of a concrete missing set after iterated lower shadows, preserving incidence and overlap that an integer defect forgets.",
+      "first_test": "Attempt to propagate one canonical missing set backward through every tax insertion; reject if the proposed witness is only a restatement of the numerical cap."
+    },
+    {
+      "id": "R776G-04-overlap-hypergraph",
+      "name": "Shadow-overlap incidence hypergraph",
+      "family": "set_family_geometry",
+      "new_information": "Records which independently inserted V-taxes generate the same lower-shadow sets, making the recompression credit an explicit overlap term rather than an assumed cancellation.",
+      "first_test": "At V=40 compute the first two isolated shadow families and demand an injection from their overlap credit into the 2,581,865-unit overspend of the second tax."
+    },
+    {
+      "id": "R776G-05-adjacent-margin",
+      "name": "Adjacent residual-margin dynamics",
+      "family": "parameter_coupling",
+      "new_information": "Uses M(V)=binom(V-13,6)-W_6(V), so the universal inequality reduces to the exact one-step suffix loss W_6(V+1)-W_6(V)<binom(V-13,5) plus one base case.",
+      "first_test": "Independently reconstruct adjacent exact orbits and falsify the one-step inequality at its first V; do not infer it from a finite cutoff."
+    },
+    {
+      "id": "R776G-06-normalized-capacity",
+      "name": "Normalized residual capacity",
+      "family": "parameter_coupling",
+      "new_information": "Tracks rho(V)=W_6(V)/binom(V-13,6), allowing cap growth to absorb small positive W_6 jumps that invalidate scalar monotonicity.",
+      "first_test": "Cross-multiply exactly at adjacent parameters and kill on the first increase; separately test whether the proposed proof adds information beyond the adjacent-margin inequality."
+    },
+    {
+      "id": "R776G-07-reverse-galois-capacity",
+      "name": "Reverse Galois capacity ledger",
+      "family": "dual_capacity",
+      "new_information": "Tracks the available binomial capacity backward from rank 8 while retaining the lower canonical suffix, so temporary crossings of the two-binomial P_q barrier are allowed.",
+      "first_test": "Replay V=288 and reject any capacity recurrence that forbids the exact D_16=P_16+67 excursion."
+    },
+    {
+      "id": "R776G-08-hilbert-defect",
+      "name": "Squarefree Hilbert-defect sequence",
+      "family": "dual_capacity",
+      "new_information": "Interprets the canonical shadow orbit as an O-sequence/Hilbert-function defect and exposes which inequalities use only rankwise dimension and which retain multiplication-map structure.",
+      "first_test": "Test whether a proposed log-concavity or persistence inequality survives the exact V=288 sign change relative to P_q; kill any theorem that only renames the Macaulay bound."
+    },
+    {
+      "id": "R776G-09-dyadic-carry-blocks",
+      "name": "Dyadic blocks of canonical carry walls",
+      "family": "multiscale_carry",
+      "new_information": "Groups parameters V in [2^j,2^(j+1)) and charges a new rank-six top index only when the defect orbit crosses an explicit binomial wall, potentially yielding logarithmic carry height.",
+      "first_test": "For each observed top-index increase, verify the claimed doubling prerequisite exactly; one violation kills the proposed charging rule."
+    },
+    {
+      "id": "R776G-10-threshold-boundary",
+      "name": "Full threshold boundary ledger",
+      "family": "public_threshold_geometry",
+      "new_information": "Keeps the all-V rank-eight entry, the inherited rank-eight-to-rank-two implication, the r-to-(V,n) construction map, and the independent lower obstruction as separate interfaces.",
+      "first_test": "Assume the all-V rank-eight entry and list every remaining quantified dependency; reject any claim that it alone determines n_0(r) or even yields an upper term without the parameter replay."
+    }
+  ]
+}

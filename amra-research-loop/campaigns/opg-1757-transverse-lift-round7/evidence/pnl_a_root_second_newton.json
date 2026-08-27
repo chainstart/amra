@@ -1,0 +1,378 @@
+{
+  "a_max_radial_chart": {
+    "accumulation": "r=zeta=H/a=0, (delta1/a,delta2/a,e/a)=(1,1,1), s/a=2/3",
+    "coordinates": "a=r; the other five h-boundary deviations are r times ratios in [0,1]",
+    "polynomial": {
+      "degrees": [
+        20,
+        4,
+        4,
+        0,
+        6,
+        5,
+        2,
+        6
+      ],
+      "negative_power_coefficients": 29914,
+      "sha256": "e33459bb90c297dac3f44fd334293345f96a776d708d77f937be315383490876",
+      "terms": 59892
+    }
+  },
+  "conclusion": "the below-side zeta-, r-, and Hbar-maximal charts and the above-side zeta-, r-, Hbar-, B-, and d-maximal charts are exactly Bernstein-nonnegative, with every stored nonzero control strictly positive",
+  "coverage_change": 0,
+  "domain": "the negative moving-root branch inside the h-dominant c-maximal PNL chart",
+  "reconstruction": {
+    "deletion_forests": 128,
+    "endpoint_connected_forests": 58,
+    "negative_root_polynomial": {
+      "degrees": [
+        9,
+        4,
+        4,
+        0,
+        6,
+        5,
+        2,
+        6
+      ],
+      "negative_power_coefficients": 29914,
+      "sha256": "c8eb9954de0d5402b7942e9cc9bfdcb6e3942efddcc67674ae8d92866737d896",
+      "terms": 59892
+    }
+  },
+  "schema": "amra.opg1757.round7.pnl-a-root-second-newton.v2",
+  "scope": "the below-side A-, B-, C-, and d-maximal charts, the above-side A- and C-maximal charts, the rest of the first a-max chart, the other first-level negative-root directions, the positive-root branch, q3:PNL, and OPG-1757 are not claimed",
+  "second_newton_coordinates": "A=1-delta1/a, B=1-delta2/a, E=1-e/a; split S=s/a at 2/3 and blow up (r,zeta,A,H/a,B,E,|S-2/3|)^2",
+  "sides": {
+    "above": {
+      "centered_polynomial": {
+        "degrees": [
+          20,
+          4,
+          4,
+          0,
+          6,
+          5,
+          2,
+          6
+        ],
+        "negative_power_coefficients": 105400,
+        "sha256": "99cfbf5160488a95d875497fe9148aae2f85dae2438fb4cd9e7f19ee029d0ed5",
+        "terms": 212156
+      },
+      "closed_maximum_charts": {
+        "B": {
+          "bernstein_maximum": "5467500",
+          "bernstein_minimum_nonzero": "6561/44935",
+          "bernstein_nonzero": 3363080,
+          "bernstein_sha256": "10f4ea92306c02bbb3b6b9af0ddaf75f3ca1708caf5c2870131559244dcf84bc",
+          "bernstein_total": 3472875,
+          "bernstein_zero": 109795,
+          "control_slots": [
+            5,
+            0,
+            2,
+            1,
+            4,
+            6,
+            7
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              20,
+              4,
+              4,
+              0,
+              6,
+              44,
+              2,
+              6
+            ],
+            "negative_power_coefficients": 105400,
+            "sha256": "c8e4c43683aa1bd6719ea01a24aabfceed67000f7394f9e422246e50abdd4337",
+            "terms": 212156
+          }
+        },
+        "Hbar": {
+          "bernstein_maximum": "5467500",
+          "bernstein_minimum_nonzero": "616/1763",
+          "bernstein_nonzero": 2885610,
+          "bernstein_sha256": "12d42b142c5c793bea0eecfcd86dac4a1781edc04880db8d85848e5bc20d2f50",
+          "bernstein_total": 2976750,
+          "bernstein_zero": 91140,
+          "control_slots": [
+            4,
+            0,
+            2,
+            1,
+            5,
+            6,
+            7
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              20,
+              4,
+              4,
+              0,
+              44,
+              5,
+              2,
+              6
+            ],
+            "negative_power_coefficients": 105400,
+            "sha256": "c80602ac4e99f71763c0574e2c354af4f4aea24eaf27391c45d7e7ebd24b1e29",
+            "terms": 212156
+          }
+        },
+        "d": {
+          "bernstein_maximum": "5467500",
+          "bernstein_minimum_nonzero": "6561/44935",
+          "bernstein_nonzero": 2877600,
+          "bernstein_sha256": "8d0f3f1b1eadcbfcac24456e937b51c31ca84afeadc0bda3772eb80839794654",
+          "bernstein_total": 2976750,
+          "bernstein_zero": 99150,
+          "control_slots": [
+            7,
+            0,
+            2,
+            1,
+            4,
+            5,
+            6
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              20,
+              4,
+              4,
+              0,
+              6,
+              5,
+              2,
+              44
+            ],
+            "negative_power_coefficients": 105400,
+            "sha256": "146044d1d81fd8ae0b388f71f0e10906c2175d090d76948b020205e5d02f9457",
+            "terms": 212156
+          }
+        },
+        "r": {
+          "bernstein_maximum": "4100625",
+          "bernstein_minimum_nonzero": "1782/12341",
+          "bernstein_nonzero": 952560,
+          "bernstein_sha256": "48e0c9d4819a446da1246f0e8482409d32ba0493f89c8695fd048c8a96533aa9",
+          "bernstein_total": 992250,
+          "bernstein_zero": 39690,
+          "control_slots": [
+            0,
+            2,
+            1,
+            4,
+            5,
+            6,
+            7
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              44,
+              4,
+              4,
+              0,
+              6,
+              5,
+              2,
+              6
+            ],
+            "negative_power_coefficients": 105400,
+            "sha256": "b424ffe5d5ee3528a6634d4ff2c5a7cbcc6226f3c2344c1051223ad4261e129e",
+            "terms": 212156
+          }
+        },
+        "zeta": {
+          "bernstein_maximum": "5467500",
+          "bernstein_minimum_nonzero": "2662/12341",
+          "bernstein_nonzero": 4154514,
+          "bernstein_sha256": "5fd44a4695d86b6d71ddca050087a153e6d58dc4ee418d69cfacbd9c4415bb38",
+          "bernstein_total": 4167450,
+          "bernstein_zero": 12936,
+          "control_slots": [
+            2,
+            0,
+            1,
+            4,
+            5,
+            6,
+            7
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              20,
+              4,
+              44,
+              0,
+              6,
+              5,
+              2,
+              6
+            ],
+            "negative_power_coefficients": 105400,
+            "sha256": "9d64f3409f817dbbe4460cadabc63dc1a9f6d69eeb683f5c9914feacc07c73d7",
+            "terms": 212156
+          }
+        }
+      },
+      "s_ratio_interval": "[2/3,1]",
+      "second_newton_face": {
+        "degrees": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "identity": "352836*zeta^2",
+        "negative_power_coefficients": 0,
+        "sha256": "290e9538ec4ed799e5ab3b7267f1bab9d36641976c1b7a9451fb2a977cb52e2a",
+        "terms": 1
+      },
+      "second_newton_order": 2
+    },
+    "below": {
+      "centered_polynomial": {
+        "degrees": [
+          20,
+          4,
+          4,
+          0,
+          6,
+          5,
+          2,
+          6
+        ],
+        "negative_power_coefficients": 105870,
+        "sha256": "bb27cc415caba57130abd5ff540d6e3e06c34c15dee30b16c04619ad9205a9ac",
+        "terms": 212156
+      },
+      "closed_maximum_charts": {
+        "Hbar": {
+          "bernstein_maximum": "1843968",
+          "bernstein_minimum_nonzero": "81/152779",
+          "bernstein_nonzero": 2857800,
+          "bernstein_sha256": "1b446d96360c21e68a43cf1a4b6832d6d44cf23949d266317f8f20ac1b427169",
+          "bernstein_total": 2976750,
+          "bernstein_zero": 118950,
+          "control_slots": [
+            4,
+            0,
+            2,
+            1,
+            5,
+            6,
+            7
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              20,
+              4,
+              4,
+              0,
+              44,
+              5,
+              2,
+              6
+            ],
+            "negative_power_coefficients": 105870,
+            "sha256": "6392d4c90fae4b7fc5a4a722c6ab03b329a420afc2c0a9a336c5d5c97ab30f7b",
+            "terms": 212156
+          }
+        },
+        "r": {
+          "bernstein_maximum": "1382976",
+          "bernstein_minimum_nonzero": "13122/4790071",
+          "bernstein_nonzero": 943110,
+          "bernstein_sha256": "0850b4040dd3320c04c76b350859d94d4bf0a3d5400991507b78cafee0525fd9",
+          "bernstein_total": 992250,
+          "bernstein_zero": 49140,
+          "control_slots": [
+            0,
+            2,
+            1,
+            4,
+            5,
+            6,
+            7
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              44,
+              4,
+              4,
+              0,
+              6,
+              5,
+              2,
+              6
+            ],
+            "negative_power_coefficients": 105870,
+            "sha256": "777c2b286f925581d5b8ef37b827d9de5005659ae098f69d102cf684fe339fab",
+            "terms": 212156
+          }
+        },
+        "zeta": {
+          "bernstein_maximum": "1843968",
+          "bernstein_minimum_nonzero": "729/2444464",
+          "bernstein_nonzero": 4114824,
+          "bernstein_sha256": "0ce856b96face2e42a3f430b431caee76f0c14d6bdb772191d54dc4dd3d4ddfe",
+          "bernstein_total": 4167450,
+          "bernstein_zero": 52626,
+          "control_slots": [
+            2,
+            0,
+            1,
+            4,
+            5,
+            6,
+            7
+          ],
+          "radial_polynomial": {
+            "degrees": [
+              20,
+              4,
+              44,
+              0,
+              6,
+              5,
+              2,
+              6
+            ],
+            "negative_power_coefficients": 105870,
+            "sha256": "76a2e2ff1c8cbfe2ac679aaf413752d25513d4b3d70f05228e04e5ee0b7d5f37",
+            "terms": 212156
+          }
+        }
+      },
+      "s_ratio_interval": "[0,2/3]",
+      "second_newton_face": {
+        "degrees": [
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "identity": "352836*zeta^2",
+        "negative_power_coefficients": 0,
+        "sha256": "290e9538ec4ed799e5ab3b7267f1bab9d36641976c1b7a9451fb2a977cb52e2a",
+        "terms": 1
+      },
+      "second_newton_order": 2
+    }
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M354-1", "M354-2", "M354-3"],
+  "selection_rationale": "M354-1 and M354-3 are proved universal interfaces. M354-2 retains the exact missing bounded-coefficient bridge from modular coverage to consecutive integer subset sums."
+}

@@ -1,0 +1,299 @@
+{
+  "best_aggregate_by_minimum_previous_density": {
+    "0.01": {
+      "block": {
+        "aggregate_amplification_lower_bound": 1.3089754450407356,
+        "certificate_logic": "Targets lie in the previous survivor and are pairwise excluded from every other selected class; union density is at most the sum of individual densities.",
+        "cutoff": 113,
+        "harmonic_target_mass_denominator": 9379,
+        "harmonic_target_mass_numerator": 196,
+        "layer_count": 2,
+        "layers": [
+          {
+            "compatible_previous_residues": 38220,
+            "eventual_density_denominator": 464757,
+            "eventual_density_numerator": 910,
+            "first_active_survivor": 83,
+            "individual_amplification": 1.3925093457278033,
+            "mixing_period": 19519794,
+            "modulus": 79,
+            "residue": 4
+          },
+          {
+            "compatible_previous_residues": 38220,
+            "eventual_density_denominator": 641247,
+            "eventual_density_numerator": 910,
+            "first_active_survivor": 113,
+            "individual_amplification": 1.3191199202025083,
+            "mixing_period": 26932374,
+            "modulus": 109,
+            "residue": 4
+          }
+        ],
+        "normalised_harmonic_target_mass": 0.0044205703222589465,
+        "sum_eventual_density_denominator": 50658513,
+        "sum_eventual_density_numerator": 171080
+      },
+      "previous_stage": {
+        "density_denominator": 5883,
+        "density_numerator": 910,
+        "moduli": [
+          2,
+          3,
+          6,
+          37,
+          53,
+          63,
+          74
+        ],
+        "period": 247086,
+        "residues": [
+          0,
+          0,
+          1,
+          29,
+          2,
+          55,
+          45
+        ],
+        "survivor_count": 38220,
+        "survivor_sha256": "4c54ab82623927c33981b27fa145c6793caf81b2d6d6c143d6544dcb6c10b36c"
+      }
+    },
+    "0.05": {
+      "block": {
+        "aggregate_amplification_lower_bound": 1.3089754450407356,
+        "certificate_logic": "Targets lie in the previous survivor and are pairwise excluded from every other selected class; union density is at most the sum of individual densities.",
+        "cutoff": 113,
+        "harmonic_target_mass_denominator": 9379,
+        "harmonic_target_mass_numerator": 196,
+        "layer_count": 2,
+        "layers": [
+          {
+            "compatible_previous_residues": 38220,
+            "eventual_density_denominator": 464757,
+            "eventual_density_numerator": 910,
+            "first_active_survivor": 83,
+            "individual_amplification": 1.3925093457278033,
+            "mixing_period": 19519794,
+            "modulus": 79,
+            "residue": 4
+          },
+          {
+            "compatible_previous_residues": 38220,
+            "eventual_density_denominator": 641247,
+            "eventual_density_numerator": 910,
+            "first_active_survivor": 113,
+            "individual_amplification": 1.3191199202025083,
+            "mixing_period": 26932374,
+            "modulus": 109,
+            "residue": 4
+          }
+        ],
+        "normalised_harmonic_target_mass": 0.0044205703222589465,
+        "sum_eventual_density_denominator": 50658513,
+        "sum_eventual_density_numerator": 171080
+      },
+      "previous_stage": {
+        "density_denominator": 5883,
+        "density_numerator": 910,
+        "moduli": [
+          2,
+          3,
+          6,
+          37,
+          53,
+          63,
+          74
+        ],
+        "period": 247086,
+        "residues": [
+          0,
+          0,
+          1,
+          29,
+          2,
+          55,
+          45
+        ],
+        "survivor_count": 38220,
+        "survivor_sha256": "4c54ab82623927c33981b27fa145c6793caf81b2d6d6c143d6544dcb6c10b36c"
+      }
+    },
+    "0.1": {
+      "block": {
+        "aggregate_amplification_lower_bound": 1.3089754450407356,
+        "certificate_logic": "Targets lie in the previous survivor and are pairwise excluded from every other selected class; union density is at most the sum of individual densities.",
+        "cutoff": 113,
+        "harmonic_target_mass_denominator": 9379,
+        "harmonic_target_mass_numerator": 196,
+        "layer_count": 2,
+        "layers": [
+          {
+            "compatible_previous_residues": 38220,
+            "eventual_density_denominator": 464757,
+            "eventual_density_numerator": 910,
+            "first_active_survivor": 83,
+            "individual_amplification": 1.3925093457278033,
+            "mixing_period": 19519794,
+            "modulus": 79,
+            "residue": 4
+          },
+          {
+            "compatible_previous_residues": 38220,
+            "eventual_density_denominator": 641247,
+            "eventual_density_numerator": 910,
+            "first_active_survivor": 113,
+            "individual_amplification": 1.3191199202025083,
+            "mixing_period": 26932374,
+            "modulus": 109,
+            "residue": 4
+          }
+        ],
+        "normalised_harmonic_target_mass": 0.0044205703222589465,
+        "sum_eventual_density_denominator": 50658513,
+        "sum_eventual_density_numerator": 171080
+      },
+      "previous_stage": {
+        "density_denominator": 5883,
+        "density_numerator": 910,
+        "moduli": [
+          2,
+          3,
+          6,
+          37,
+          53,
+          63,
+          74
+        ],
+        "period": 247086,
+        "residues": [
+          0,
+          0,
+          1,
+          29,
+          2,
+          55,
+          45
+        ],
+        "survivor_count": 38220,
+        "survivor_sha256": "4c54ab82623927c33981b27fa145c6793caf81b2d6d6c143d6544dcb6c10b36c"
+      }
+    },
+    "0.25": {
+      "block": {
+        "aggregate_amplification_lower_bound": 1.2209785952144057,
+        "certificate_logic": "Targets lie in the previous survivor and are pairwise excluded from every other selected class; union density is at most the sum of individual densities.",
+        "cutoff": 187,
+        "harmonic_target_mass_denominator": 23749,
+        "harmonic_target_mass_numerator": 314,
+        "layer_count": 2,
+        "layers": [
+          {
+            "compatible_previous_residues": 4896,
+            "eventual_density_denominator": 10925,
+            "eventual_density_numerator": 12,
+            "first_active_survivor": 127,
+            "individual_amplification": 1.4798427564126972,
+            "mixing_period": 4457400,
+            "modulus": 115,
+            "residue": 12
+          },
+          {
+            "compatible_previous_residues": 2448,
+            "eventual_density_denominator": 6175,
+            "eventual_density_numerator": 6,
+            "first_active_survivor": 187,
+            "individual_amplification": 1.0520838823067356,
+            "mixing_period": 2519400,
+            "modulus": 130,
+            "residue": 57
+          }
+        ],
+        "normalised_harmonic_target_mass": 0.002527496616743779,
+        "sum_eventual_density_denominator": 142025,
+        "sum_eventual_density_numerator": 294
+      },
+      "previous_stage": {
+        "density_denominator": 8075,
+        "density_numerator": 2724,
+        "moduli": [
+          3,
+          4,
+          12,
+          15,
+          19,
+          24,
+          25,
+          68
+        ],
+        "period": 193800,
+        "residues": [
+          2,
+          1,
+          10,
+          12,
+          5,
+          13,
+          7,
+          6
+        ],
+        "survivor_count": 65376,
+        "survivor_sha256": "3acc3d1f7867cc194fdfa6e9ce08834829edd3b1381101e07f1c3b9bd5c198bc"
+      }
+    }
+  },
+  "best_individual": {
+    "layer": {
+      "compatible_previous_residues": 1449,
+      "eventual_density_denominator": 7260,
+      "eventual_density_numerator": 7,
+      "first_active_survivor": 132,
+      "individual_amplification": 1.6091463429630601,
+      "mixing_period": 1502820,
+      "modulus": 121,
+      "residue": 11
+    },
+    "previous_stage": {
+      "density_denominator": 5940,
+      "density_numerator": 1643,
+      "moduli": [
+        3,
+        4,
+        5,
+        12,
+        20,
+        33,
+        36,
+        54,
+        69
+      ],
+      "period": 136620,
+      "residues": [
+        1,
+        2,
+        3,
+        3,
+        5,
+        11,
+        25,
+        26,
+        58
+      ],
+      "survivor_count": 37789,
+      "survivor_sha256": "f3f4ecc3cb44f6b0d9cc10f356b1360ae89a76830436a1870f13a9b83eb3e1d1"
+    }
+  },
+  "candidates_tested": 390240,
+  "elapsed_seconds": 601.5298310200014,
+  "guard_required": true,
+  "interpretation_limit": "Finite aggregate certificates test transient amplification; they do not create an infinite logarithmic-density counterexample.",
+  "pairwise_isolated_blocks": 542,
+  "period_cap": 250000,
+  "requested_seconds": 2700,
+  "schema_version": "erdos-25.positive-density-spikes.v1",
+  "seed": 250825,
+  "stages": 542,
+  "started_unix": 1787655799.1125152,
+  "status": "redirected_to_asymptotic_moduli"
+}

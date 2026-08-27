@@ -1,0 +1,89 @@
+{
+  "schema_version": "erdos451.inverse_binomial_block_spectrum.summary.v1",
+  "source_sha256": "84fe064942177d1daa6c2f8e9248c1ad58a55d50d3d246a93e8a67e60f014a67",
+  "guard_unit": "openmath-task-20260826-164713-152427.scope",
+  "guard_command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/inverse_binomial_block_spectrum.py",
+  "execution": {
+    "exit_status": 0,
+    "maximum_resident_set_kbytes": 13600,
+    "observed_swaps": 0,
+    "elapsed_wall_clock": "0:00.61"
+  },
+  "memory_limits": {
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "memory_swap_max": "4G"
+  },
+  "exact_assertions_checked": [
+    "Q mod (k+b) = (-1)^A binom(b-1,A)",
+    "P_block/p mod (k+b) = (-1)^(r-1) F_block'(b)",
+    "Q(P_block/p) mod p = (-1)^(A+r-1) binom(b-1,A) F_block'(b)"
+  ],
+  "k_10000_A_117_blocks": [
+    {
+      "b_range": [117, 234],
+      "rank": 12,
+      "reciprocal_density_log": 49.24654415542153,
+      "best_scanned_global_frequency": 397,
+      "best_log_abs_normalized_coefficient": -47.256781423661224,
+      "bad_low_dual_phase_pairs": 1,
+      "bad_low_dual_phase_primes": 1
+    },
+    {
+      "b_range": [234, 468],
+      "rank": 27,
+      "reciprocal_density_log": 92.38788155092148,
+      "best_scanned_global_frequency": 92,
+      "best_log_abs_normalized_coefficient": -136.35418636543972,
+      "bad_low_dual_phase_pairs": 1,
+      "bad_low_dual_phase_primes": 1
+    },
+    {
+      "b_range": [468, 936],
+      "rank": 46,
+      "reciprocal_density_log": 126.17138815340226,
+      "best_scanned_global_frequency": 141,
+      "best_log_abs_normalized_coefficient": -271.6325855283032,
+      "bad_low_dual_phase_pairs": 0,
+      "bad_low_dual_phase_primes": 0
+    },
+    {
+      "b_range": [936, 1872],
+      "rank": 96,
+      "reciprocal_density_log": 203.18558028374778,
+      "best_scanned_global_frequency": 232,
+      "best_log_abs_normalized_coefficient": -649.1855581899753,
+      "bad_low_dual_phase_pairs": 0,
+      "bad_low_dual_phase_primes": 0
+    },
+    {
+      "b_range": [1872, 3744],
+      "rank": 202,
+      "reciprocal_density_log": 310.9211868184218,
+      "best_scanned_global_frequency": 185,
+      "best_log_abs_normalized_coefficient": -1554.9613715606122,
+      "bad_low_dual_phase_pairs": 0,
+      "bad_low_dual_phase_primes": 0
+    },
+    {
+      "b_range": [3744, 7488],
+      "rank": 386,
+      "reciprocal_density_log": 401.2948044216298,
+      "best_scanned_global_frequency": 261,
+      "best_log_abs_normalized_coefficient": -3243.6244824366977,
+      "bad_low_dual_phase_pairs": 0,
+      "bad_low_dual_phase_primes": 0
+    },
+    {
+      "b_range": [7488, 10000],
+      "rank": 251,
+      "reciprocal_density_log": 192.09940744945703,
+      "best_scanned_global_frequency": 252,
+      "best_log_abs_normalized_coefficient": -2224.0931599749138,
+      "bad_low_dual_phase_pairs": 0,
+      "bad_low_dual_phase_primes": 0
+    }
+  ],
+  "frequency_scan_limit": 512,
+  "boundary": "The modular identities are exact; Fourier magnitudes use floating point. The scan omits exponentially many frequencies, and the proved small-vector near-resonance lemma guarantees unscanned near-pole frequencies. No finite pattern is promoted."
+}

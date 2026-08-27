@@ -1,0 +1,93 @@
+{
+  "interpretation": "A scale-uniform quadratic one-generation packing bound is false even for target-irredundant r=d-1 batches with C<2.",
+  "largest_union_sha256": "6fcab45a2dea324ad162e82b9ed35905c8712694013e0711ccdeecd364693489",
+  "proved_asymptotic_dependency": "The distinct fraction tends to zero by the Erdos multiplication-table theorem; Kevin Ford, Annals of Mathematics 168 (2008), DOI 10.4007/annals.2008.168.367.",
+  "rows": [
+    {
+      "N": 64,
+      "all_targets_irredundant": true,
+      "distinct_fraction": 0.647705078125,
+      "distinct_union_points": 2653,
+      "incidences": 4096,
+      "maximum_step": 128,
+      "maximum_step_to_target_ratio": 1.015625,
+      "maximum_target": 127,
+      "minimum_step": 65,
+      "minimum_target": 64,
+      "progressions": 64,
+      "terms_per_progression": 64
+    },
+    {
+      "N": 128,
+      "all_targets_irredundant": true,
+      "distinct_fraction": 0.60919189453125,
+      "distinct_union_points": 9981,
+      "incidences": 16384,
+      "maximum_step": 256,
+      "maximum_step_to_target_ratio": 1.0078125,
+      "maximum_target": 255,
+      "minimum_step": 129,
+      "minimum_target": 128,
+      "progressions": 128,
+      "terms_per_progression": 128
+    },
+    {
+      "N": 256,
+      "all_targets_irredundant": true,
+      "distinct_fraction": 0.5841522216796875,
+      "distinct_union_points": 38283,
+      "incidences": 65536,
+      "maximum_step": 512,
+      "maximum_step_to_target_ratio": 1.00390625,
+      "maximum_target": 511,
+      "minimum_step": 257,
+      "minimum_target": 256,
+      "progressions": 256,
+      "terms_per_progression": 256
+    },
+    {
+      "N": 512,
+      "all_targets_irredundant": true,
+      "distinct_fraction": 0.5588111877441406,
+      "distinct_union_points": 146489,
+      "incidences": 262144,
+      "maximum_step": 1024,
+      "maximum_step_to_target_ratio": 1.001953125,
+      "maximum_target": 1023,
+      "minimum_step": 513,
+      "minimum_target": 512,
+      "progressions": 512,
+      "terms_per_progression": 512
+    },
+    {
+      "N": 1024,
+      "all_targets_irredundant": true,
+      "distinct_fraction": 0.5392751693725586,
+      "distinct_union_points": 565471,
+      "incidences": 1048576,
+      "maximum_step": 2048,
+      "maximum_step_to_target_ratio": 1.0009765625,
+      "maximum_target": 2047,
+      "minimum_step": 1025,
+      "minimum_target": 1024,
+      "progressions": 1024,
+      "terms_per_progression": 1024
+    },
+    {
+      "N": 2048,
+      "all_targets_irredundant": true,
+      "distinct_fraction": 0.5228471755981445,
+      "distinct_union_points": 2192980,
+      "incidences": 4194304,
+      "maximum_step": 4096,
+      "maximum_step_to_target_ratio": 1.00048828125,
+      "maximum_target": 4095,
+      "minimum_step": 2049,
+      "minimum_target": 2048,
+      "progressions": 2048,
+      "terms_per_progression": 2048
+    }
+  ],
+  "schema_version": "erdos-25.multiplication-table-obstruction.v1",
+  "status": "passed"
+}

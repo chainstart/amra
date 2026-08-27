@@ -1,0 +1,124 @@
+{
+  "mechanisms": [
+    {
+      "id": "M776G-01-adjacent-suffix-loss",
+      "representation_id": "R776G-05-adjacent-margin",
+      "family": "overlap_aware_induction",
+      "decisive_claim": "For every integer V>=40, W_6(V+1)-W_6(V)<binom(V-13,5), where W_6 is the residual in the exact shortened zero-seed orbit.",
+      "would_close": ["the all-V rank-eight entry after the exact V=40 base case", "a route-global interface, conditional on inherited construction replay"],
+      "kill_test": "Compute exact adjacent canonical orbits and kill at the least V with jump at least binom(V-13,5); absent a counterexample, require a common-prefix suffix theorem valid across every carry wall.",
+      "status": "surviving",
+      "status_evidence": "evidence/HIGH_RANK_ONE_SIDED_BRIDGE.md proves the noncircular fixed-depth reduction. Round 2 freezes local capacity=>one-Lipschitz. Round 3 refutes fixed Delta B2 bounds but retains actual LTJ. Round 4 proves diagonal domination and kills every propagated-loss estimate depending only on gap magnitude. Round 5 proves an exact nonlinear adjoint budget ladder, then refutes its fixed-rank five, six, and seven subroutes at actual walls V=1435, V=845, and V=186. M01 remains conditional and surviving only through rank-three/rank-four suffix control, a joint multirank carry invariant, or equivalent actual plateau-position data."
+    },
+    {
+      "id": "M776G-02-logarithmic-carry-height",
+      "representation_id": "R776G-09-dyadic-carry-blocks",
+      "family": "multiscale_carry",
+      "decisive_claim": "For every integer V>=40, either W_6(V)<=0 (immediate rank-eight success), or the largest upper index in its nonempty six-canonical expansion is at most ceil(log_2 V)+13.",
+      "would_close": ["the all-V rank-eight entry after a separate elementary comparison of binomial capacities"],
+      "kill_test": "Kill at the least exact V whose six-canonical top exceeds ceil(log_2 V)+13; otherwise require an injection from each top-index increase to a distinct dyadic parameter scale.",
+      "status": "killed",
+      "status_evidence": "Round-3 non-author blind audit passed the all-parameter actual-orbit countermechanism in evidence/ROUND3_MULTISCALE_CARRY.md: W_6(V)>=V for every V>=40, so V=2^m with m>=21 has six-canonical top greater than ceil(log_2 V)+13. See audit/round3_multiscale_blind.md and audit/round3_multiscale_audit.md."
+    },
+    {
+      "id": "M776G-03-two-binomial-invariant",
+      "representation_id": "R776G-07-reverse-galois-capacity",
+      "family": "rankwise_barriers",
+      "decisive_claim": "For fixed V, once D_q<=binom(V-12,q)+binom(V-13,q-1), the same inequality holds at every lower rank down to 8.",
+      "would_close": ["the rank-eight entry from the inherited successful rank-18 gate"],
+      "kill_test": "Replay V=288 exactly and kill if a lower rank crosses the proposed barrier.",
+      "status": "killed",
+      "status_evidence": "Exact counterexample in evidence/verify_rank8_obstructions.py: at V=288, D18-P18=-2924809 but D16-P16=67."
+    },
+    {
+      "id": "M776G-04-independent-tax-budget",
+      "representation_id": "R776G-04-overlap-hypergraph",
+      "family": "tax_decomposition",
+      "decisive_claim": "The isolated lower-shadow contribution of every tax after the first fits independently inside the rank-six residual capacity.",
+      "would_close": ["the rank-eight entry by summing isolated tax shadows"],
+      "kill_test": "At V=40 compare the second isolated tax contribution with binom(27,6).",
+      "status": "killed",
+      "status_evidence": "Exact V=40 counterexample in evidence/verify_rank8_obstructions.py: the second isolated tax shadows to 2877875, exceeding the entire residual cap 296010."
+    },
+    {
+      "id": "M776G-05-blind-adjacent-subadditivity",
+      "representation_id": "R776G-05-adjacent-margin",
+      "family": "parameter_coupling",
+      "decisive_claim": "Shadowing the full V-to-V+1 orbit difference independently, without prefix cancellation, is bounded by the increment of the rank-eight target cap.",
+      "would_close": ["the all-V rank-eight entry by induction on V"],
+      "kill_test": "At V=40 shadow even the minimal initial increment and compare it with binom(V-11,7).",
+      "status": "killed",
+      "status_evidence": "Exact V=40 counterexample in evidence/verify_rank8_obstructions.py: the blind rank-eight majorizer is 5476185 versus permitted increment 1560780."
+    },
+    {
+      "id": "M776G-06-W6-nonincreasing",
+      "representation_id": "R776G-06-normalized-capacity",
+      "family": "scalar_monotonicity",
+      "decisive_claim": "W_6(V+1)<=W_6(V) for every V>=40.",
+      "would_close": ["the all-V residual cap from the V=40 base case and increasing capacity"],
+      "kill_test": "Kill at the least exact positive adjacent W_6 jump.",
+      "status": "killed",
+      "status_evidence": "Exact counterexample in evidence/verify_rank8_obstructions.py: W6(51)-W6(50)=2>0."
+    },
+    {
+      "id": "M776G-07-W6-nondecreasing",
+      "representation_id": "R776G-02-carry-odometer",
+      "family": "scalar_monotonicity",
+      "decisive_claim": "W_6(V+1)>=W_6(V) for every V>=40, so its canonical word evolves only by forward carries.",
+      "would_close": ["a one-direction carry classification for the residual word"],
+      "kill_test": "Kill at the least exact negative adjacent W_6 jump.",
+      "status": "killed",
+      "status_evidence": "Exact counterexample in evidence/verify_rank8_obstructions.py: W6(41)-W6(40)=-8905<0."
+    },
+    {
+      "id": "M776G-08-fixed-affine-rank6-word",
+      "representation_id": "R776G-02-carry-odometer",
+      "family": "canonical_templates",
+      "decisive_claim": "There is one fixed affine six-canonical word template, with no cell changes, representing W_6(V) for every V>=40.",
+      "would_close": ["the all-V rank-eight entry by a single symbolic binomial comparison"],
+      "kill_test": "Compare the exact canonical words at V=40 and V=41 and kill if their length or offset pattern cannot share one affine cell.",
+      "status": "killed",
+      "status_evidence": "Exact canonical words in evidence/verify_rank8_obstructions.py change length from six terms at V=42 to five at V=43, excluding one fixed affine cell."
+    },
+    {
+      "id": "M776G-09-protected-missing-set-alone",
+      "representation_id": "R776G-03-colex-missing-set",
+      "family": "set_family_witnesses",
+      "decisive_claim": "Naming the last 8-set omitted by the colex initial segment supplies a new inductive witness for D_8<binom(V-11,8), without any additional shadow-overlap inequality.",
+      "would_close": ["the rank-eight entry by a protected set witness"],
+      "kill_test": "Translate the witness condition back to colex rank and kill it as circular if it is exactly D_8<binom(V-11,8) with no preserved preimage invariant.",
+      "status": "killed",
+      "status_evidence": "Exact identity in evidence/verify_rank8_obstructions.py: target minus two-term baseline equals binom(V-13,6); without a preimage invariant, the named omitted set is precisely the original gate."
+    },
+    {
+      "id": "M776G-10-normalized-ratio-from-order",
+      "representation_id": "R776G-06-normalized-capacity",
+      "family": "rankwise_barriers",
+      "decisive_claim": "Macaulay order preservation alone implies W_6(V+1)/binom(V-12,6)<=W_6(V)/binom(V-13,6) for every V>=40.",
+      "would_close": ["the all-V rank-eight entry from the base normalized ratio"],
+      "kill_test": "Demand a theorem deriving the cross-multiplied inequality from x<=y under KK; kill if scaling the canonical suffix across adjacent V is an unstated additional hypothesis.",
+      "status": "killed",
+      "status_evidence": "Exact abstract counterexample in evidence/verify_rank8_obstructions.py: x=1<=y=2 but 2/376740>1/296010. Scalar order alone cannot imply normalized decay; the actual W6 ratio remains unrefuted."
+    },
+    {
+      "id": "M776G-11-hilbert-log-concavity",
+      "representation_id": "R776G-08-hilbert-defect",
+      "family": "algebraic_shape",
+      "decisive_claim": "The defect relative to P_q has one fixed sign below its first successful rank by log-concavity of the corresponding squarefree Hilbert function.",
+      "would_close": ["propagation of the rank-18 gate to rank 8"],
+      "kill_test": "At V=288 compare the exact signs of D_18-P_18 and D_16-P_16.",
+      "status": "killed",
+      "status_evidence": "Exact V=288 sign reversal in evidence/verify_rank8_obstructions.py: D18-P18<0 while D16-P16=67>0."
+    },
+    {
+      "id": "M776G-12-rank8-equals-exact-threshold",
+      "representation_id": "R776G-10-threshold-boundary",
+      "family": "public_threshold_composition",
+      "decisive_claim": "The all-V rank-eight entry by itself determines the exact public threshold n_0(r).",
+      "would_close": ["the original Erdős #776 statement"],
+      "kill_test": "List the lower-bound minimality, small-r, all-larger-n, and r-to-(V,n) dependencies absent from the rank-eight statement; any absent dependency kills the implication.",
+      "status": "killed",
+      "status_evidence": "closure_contract.json and evidence/RANK8_OBSTRUCTION_ANALYSIS.md exhibit independent missing lower-bound, small-r, all-larger-n, and parameter-map obligations; rank-eight entry alone cannot determine n0(r)."
+    }
+  ]
+}

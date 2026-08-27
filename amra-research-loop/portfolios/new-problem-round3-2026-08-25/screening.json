@@ -1,0 +1,85 @@
+{
+  "schema_version": "amra.open-problem-screening.v1",
+  "screening_id": "new-problem-round3-2026-08-25",
+  "screened_at": "2026-08-25T16:55:00+08:00",
+  "budget": {
+    "total_agent_minutes": 180,
+    "status_contracts_and_screening": 20,
+    "erdos_317": 45,
+    "erdos_354": 50,
+    "erdos_25": 45,
+    "audit_and_packaging": 20,
+    "interpretation": "A capped portfolio allowance, not a requirement to burn time after a decisive kill or freeze gate. The eight-hour OpenMath CDC skill is not invoked."
+  },
+  "resource_guard": {
+    "launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "memory_high_gib": 30,
+    "memory_max_gib": 34,
+    "memory_swap_max_gib": 4,
+    "tasks_max": 512,
+    "fail_closed": true
+  },
+  "ranked_candidates": [
+    {
+      "rank": 1,
+      "problem_id": "erdos-317",
+      "decision": "admitted_theory_only",
+      "score": 78,
+      "exact_target": "Determine whether the singleton-top-prime obstruction can be made uniform by using the exact lower-prime-power factor of L_n rather than another finite cutoff.",
+      "first_kill_test": "Assume arbitrary top primes and an arbitrary common multiplier; if CRT realises every signed-unit pattern, kill every route that forgets the multiplier's lcm provenance.",
+      "status_source": "https://www.erdosproblems.com/317",
+      "status_checked": "OPEN with zero proof claims on 2026-08-25"
+    },
+    {
+      "rank": 2,
+      "problem_id": "erdos-354",
+      "decision": "admitted_new_target",
+      "score": 76,
+      "exact_target": "Use the exact binary carry recurrence to separate eventual Sigma growth, modular coverage, and the missing precomplete interval seed.",
+      "first_kill_test": "Disprove any inference from irrational ratio to dense doubling orbit; retain only identities valid for every binary digit path.",
+      "status_source": "https://www.erdosproblems.com/354",
+      "status_checked": "OPEN with zero proof claims on 2026-08-25"
+    },
+    {
+      "rank": 3,
+      "problem_id": "erdos-25",
+      "decision": "admitted_new_target",
+      "score": 72,
+      "exact_target": "Reduce the problem to the positive finite-stage density regime and close at least one genuinely nonsingleton modulus cohort.",
+      "first_kill_test": "Test whether pairwise-coprime CRT products plus the reciprocal-sum dichotomy give a complete scoped theorem; reject pairwise Bonferroni as a universal bridge if extremal overlap models disagree.",
+      "status_source": "https://www.erdosproblems.com/25",
+      "status_checked": "OPEN with zero proof claims on 2026-08-25"
+    },
+    {
+      "rank": 4,
+      "problem_id": "erdos-538",
+      "decision": "dynamic_exclusion_resolution_audit_only",
+      "score": 0,
+      "reason": "The official forum lists a full proof claim submitted 2026-07-15 with an external paper and Lean package, claiming the optimal Theta_r(log N/loglog N) order. Discovery spend stops pending independent build and mathematical audit.",
+      "status_source": "https://www.erdosproblems.com/forum/thread/538/proof-claims"
+    },
+    {
+      "rank": 5,
+      "problem_id": "erdos-267",
+      "decision": "rejected_dynamic_claim_and_deep_lcm_gap",
+      "reason": "The official page has a proof claim and the remaining c<2 route requires a theorem-sized Fibonacci-lcm estimate."
+    },
+    {
+      "rank": 6,
+      "problem_id": "erdos-279",
+      "decision": "rejected_nonlocal_compatibility",
+      "reason": "Finite-interval LLL choices do not retain compatibility across all intervals, so the first bridge is not bounded."
+    },
+    {
+      "rank": 7,
+      "problem_id": "erdos-425",
+      "decision": "rejected_deep_multiscale_bridge",
+      "reason": "Short-cycle extremal estimates do not yet sum across largest-prime-factor scales at the target exponent."
+    }
+  ],
+  "concurrency_control": {
+    "max_active_deep_attacks": 3,
+    "admitted": ["erdos-317", "erdos-354", "erdos-25"],
+    "dynamic_audit_only": ["erdos-538"]
+  }
+}

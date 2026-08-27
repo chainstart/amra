@@ -1,0 +1,88 @@
+{
+  "representations": [
+    {
+      "id": "R786Q-01",
+      "name": "two-parameter roughness-padding budget",
+      "family": "geometric-scaling",
+      "new_information": "separates the starting rough-prime exponent 1/2-epsilon from the path-length fraction epsilon/4",
+      "first_test": "prove rough parts use at most (1-epsilon)K exponent units while shore balancing costs O(1/epsilon)"
+    },
+    {
+      "id": "R786Q-02",
+      "name": "moving epsilon reserve comparator",
+      "family": "geometric-scaling",
+      "new_information": "tracks the ratio between the epsilon K padding reserve and the 1/epsilon balancing loss",
+      "first_test": "test epsilon K tending to infinity against the sharper necessary reserve epsilon^2 K tending to infinity"
+    },
+    {
+      "id": "R786Q-03",
+      "name": "square-root rough-prime barrier",
+      "family": "geometric-scaling",
+      "new_information": "compares internal products of two edge primes with the ambient bound N",
+      "first_test": "start both incident edge primes above N^(1/2) and check whether any internal path vertex can remain at most N"
+    },
+    {
+      "id": "R786Q-04",
+      "name": "all-zero adaptive query transcript",
+      "family": "decision-transcripts",
+      "new_information": "retains only primes actually queried after repeated valuation-zero answers and ignores arbitrary off-zero branches",
+      "first_test": "show every integer coprime to the transcript primes reaches one common terminal leaf"
+    },
+    {
+      "id": "R786Q-05",
+      "name": "transcript cylinder population",
+      "family": "decision-transcripts",
+      "new_information": "associates a finite input population to one adaptive transcript rather than to a global fixed valuation vector",
+      "first_test": "lower-bound the zero transcript by N(1-sum 1/p) using only its seedwise queried primes"
+    },
+    {
+      "id": "R786Q-06",
+      "name": "shared-seed mixture of deterministic trees",
+      "family": "randomized-mixtures",
+      "new_information": "conditions on one seed so the adversarial bad relation may depend on the realized uniform classifier",
+      "first_test": "prove that every successful seed must label its own zero transcript deleted"
+    },
+    {
+      "id": "R786Q-07",
+      "name": "zero-leaf cost indicator",
+      "family": "randomized-mixtures",
+      "new_information": "charges at least delta N-t deletions to the event that the seedwise zero leaf is deleted",
+      "first_test": "take expectations and derive the exact success-probability bound without independence"
+    },
+    {
+      "id": "R786Q-08",
+      "name": "dense zero-transcript sieve comparator",
+      "family": "density-boundaries",
+      "new_information": "allows the queried-prime reciprocal mass to diverge so the all-zero population can have density tending to zero",
+      "first_test": "delete the complete zero transcript and compare its cost with o(N)"
+    },
+    {
+      "id": "R786Q-09",
+      "name": "padding-prime observation comparator",
+      "family": "density-boundaries",
+      "new_information": "lets the zero transcript query the prime used for unequal-shore exponent balancing",
+      "first_test": "check whether constructed vertices have zero valuation at the padding prime"
+    },
+    {
+      "id": "R786Q-10",
+      "name": "per-integer program comparator",
+      "family": "scope-boundaries",
+      "new_information": "allows a different hard-coded query tree for every integer and thereby encodes exact labels",
+      "first_test": "make each program delete one prescribed path vertex and test whether a common zero transcript remains"
+    },
+    {
+      "id": "R786Q-11",
+      "name": "inter-vertex alteration state",
+      "family": "scope-boundaries",
+      "new_information": "lets later classifications depend on earlier sampled values or on a discovered bad support",
+      "first_test": "repair the seedwise missed path by one post-classification owner deletion"
+    },
+    {
+      "id": "R786Q-12",
+      "name": "independent per-query randomness comparator",
+      "family": "scope-boundaries",
+      "new_information": "uses fresh random choices separately for different input integers instead of one shared deterministic tree after conditioning",
+      "first_test": "check whether one seedwise controlled-prime set can still be extracted for every vertex simultaneously"
+    }
+  ]
+}

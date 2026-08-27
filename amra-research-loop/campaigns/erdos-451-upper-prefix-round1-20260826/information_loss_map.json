@@ -1,0 +1,246 @@
+{
+  "inherited_methods": [
+    {
+      "method": "Full-period CRT density",
+      "loss_step": "Replace the distinguished set of integers 2k<n<=H by a uniformly chosen residue modulo P_k=product_{k<p<2k}p and retain only D_k=product(p-k)/p.",
+      "lost_information": "The order of residue classes and the location of the first allowed representative after 2k.",
+      "consequence": "Even an exact positive density only proves that an allowed class exists somewhere below P_k=exp((1+o(1))k); a translate of a CRT box of the same density can put its entire allowed set after an arbitrarily prescribed shorter prefix."
+    },
+    {
+      "method": "First or second moment over translated H-windows modulo P_k",
+      "loss_step": "Average the starting point x of (x,x+H] before asking about the single starting point x=2k.",
+      "lost_information": "Exceptional translates and, in particular, the initial translate defining n_k.",
+      "consequence": "A positive proportion of nonempty translates is compatible with the fixed initial translate being empty; no quantifier permits specializing an averaged existence statement to x=2k."
+    },
+    {
+      "method": "Uncompressed Bonferroni or combinatorial sieve on [1,H]",
+      "loss_step": "Use only intersections indexed by squarefree products d of interval primes with d<=H, the range where interval counts have useful distribution error.",
+      "lost_information": "All interaction orders above R=floor(log H/log k) among m=pi(2k)-pi(k) constraints.",
+      "consequence": "At H=exp(Ck/log k), R/m=O(1/log k); even at H=exp(epsilon*k), R/m is only epsilon+o(1). The omitted high-order constraints create the rare all-allowed event, so ordinary truncated inclusion-exclusion cannot recover it uniformly for every epsilon>0."
+    },
+    {
+      "method": "One-variable Lovasz local lemma",
+      "loss_step": "Model every forbidden congruence event as a function of the same uniformly chosen integer n.",
+      "lost_information": "There is no local resampling coordinate: every pair of events shares the sole random variable.",
+      "consequence": "The natural dependency graph is complete, so the symmetric local-lemma condition is exponentially worse than the desired density scale."
+    },
+    {
+      "method": "Symmetric simultaneous recurrence via Dirichlet or Minkowski",
+      "loss_step": "Replace the one-sided conditions n mod p in {0,-1,...,-(p-k-1)} by the symmetric inequalities ||n/p||<=(p-k)/p.",
+      "lost_information": "The independent sign of the small residue at every prime.",
+      "consequence": "The resulting short recurrence may have a small positive residue for some primes and a small negative residue for others; choosing n or -n flips all signs together and does not recover the one-sided CRT box."
+    },
+    {
+      "method": "Block CRT using all old solutions in a complete old period Q",
+      "loss_step": "Replace the candidate list inside the desired short prefix by all |B| representatives in an interval of length exactly the old modulus Q before projecting them to the next prime or block.",
+      "lost_information": "The sought subexponential prefix length; the projection may be large only because the argument has already paid the exponentially large period Q.",
+      "consequence": "The proved multi-seed Cauchy--Davenport bound is pointwise but costs (T+1)Q. Once the old density is below 1/p its projection lower bound collapses to one residue and the final merge again costs about Qk, asymptotic to P_k/2. A valid block recursion must control projections of candidates inside short prefixes, not complete periods."
+    },
+    {
+      "method": "Linear sumset projection of unreduced CRT idempotent sums",
+      "loss_step": "Project sum_i s_i e_i modulo a future prime before reducing that sum to its canonical representative modulo the old product Q.",
+      "lost_information": "The carry multiple tQ used in canonical reduction; modulo a future prime this carry is nonzero and depends on the entire offset vector.",
+      "consequence": "Cauchy--Davenport expansion of the unreduced sumset does not imply expansion of the actual short representatives. Keeping the unreduced sums retains linear structure but pays size O(mQ), again losing the target scale."
+    },
+    {
+      "method": "Successive-product phase or continued-fraction ledger",
+      "loss_step": "Replace the residues modulo the next prime of all distinct old solutions in a short prefix by the single orbit b+tQ of one seed under the old period Q.",
+      "lost_information": "The locations and phases of the many old seeds already present before one pays Q; the orbit discrepancy of Q mod p describes repeats of one seed, not their short-prefix projection.",
+      "consequence": "Even a favorable ordering bound for the rational-rotation discrepancy still moves by real increments tQ and retains the exponential old-period cost. Conversely actual increasing-order products can have Q mod p=+-1 and macroscopic discrepancy. A successful phase argument needs both an ordering inequality and a many-seed short-prefix propagation theorem."
+    },
+    {
+      "method": "Random predecessor subset product modulo the next prime",
+      "loss_step": "Average the proof order or the old-prime subset and retain only the multiplicative character law of Q_old mod p.",
+      "lost_information": "The fixed intermediate survivor set B_S cap J and the joint correlation between its representatives and the randomized subset product.",
+      "consequence": "The exact Fourier coefficient product_q(1+chi(q))/2 can mix under a strong prime-character gap, conditionally for example under GRH, but this only randomizes a period step. It cannot imply a point in the distinguished short prefix without a separate many-seed transfer theorem."
+    },
+    {
+      "method": "Pair-collision and absolute additive-energy ledger for X=B_S cap J",
+      "loss_step": "Retain only exact congruence collisions x congruent y mod p, or only the absolute squares of the Fourier coefficients at h/p.",
+      "lost_information": "The phases of different Fourier modes and the common endpoint of the length-k forbidden blocks.",
+      "consequence": "The exact pair ledger is vacuous once H>k. The additive large sieve improves this only to N=O(H log k/k), which can contradict at most O(log k) prior half-density losses rather than Theta(k/log k) losses."
+    },
+    {
+      "method": "Absolute boundary variation of the old CRT indicator",
+      "loss_step": "Bound the discrepancy against the next cyclic interval separately on every connected component of B_S cap J and add absolute values.",
+      "lost_information": "The relative phase of consecutive old blocks; aligned blocks can have errors of the same sign for a long run.",
+      "consequence": "The valid variation bound pays order |S|H/k boundary changes, overwhelming the rare main term. Any useful boundary theorem must exploit signed phase cancellation rather than component count alone."
+    },
+    {
+      "method": "Start-equals-width quotient intervals",
+      "loss_step": "Rewrite p=k+a and n=2k+t, then organize admissible primes by q=floor(t/p).",
+      "lost_information": "None at the algebraic level; the resulting prime-free gaps are exactly a reindexing of the original multiple-free interval.",
+      "consequence": "The gaps have length k/(q+2), but prime-gap upper bounds obstruct small t instead of constructing t; at subexponential t their lengths fall below one. A simultaneous prime-free-gap construction would be essentially the missing theorem."
+    },
+    {
+      "method": "Narrow-prime absorption followed by phase-blind dilated-AP bounds",
+      "loss_step": "After setting n=Q_A t, replace c_p=Q_A^{-1} mod p by an arbitrary unit at every remaining prime.",
+      "lost_information": "For Q_A=binom(k+A,A), the exact correlation Q_A=(-1)^A binom(p-k-1,A) mod p and its degree-A finite-difference structure.",
+      "consequence": "Arbitrary dilates can enlarge cyclic gaps and no tested absorber dominates. The correlated inverse-binomial structure must be retained, but its current low-phase divisor bound misses the natural discrepancy scale."
+    },
+    {
+      "method": "Phase-aware additive large sieve over a dyadic offset block",
+      "loss_step": "Sum squared Fourier samples over all nonzero local frequencies and use only Farey separation.",
+      "lost_information": "Multiplication by the canonical Q is a permutation of each complete local frequency set, so both the inverse-binomial phase and the signs of the block discrepancies disappear from the norm.",
+      "consequence": "The resulting true lemma works only while the fixed-prefix survivor density exceeds about k log k/B^2 and stops before the exponential-density regime."
+    },
+    {
+      "method": "Formal finite differencing of the one-frequency binomial phase",
+      "loss_step": "Treat R_A(b)=(-1)^A binom(b-1,A) as a degree-A polynomial while simultaneously reducing at the moving modulus p=k+b.",
+      "lost_information": "Modulo k+b, hR_A(b)-a is exactly the fixed integer hQ-a; the apparent finite-difference variation collapses.",
+      "consequence": "The divisor union bound cannot be improved without new information on prime divisors of hQ-a. For coupled frequencies the missing structure instead includes the block cofactor F_B'(b)."
+    },
+    {
+      "method": "Absolute Fourier splitting by character support",
+      "loss_step": "Assume that a character with many nonzero local coordinates must be separated from the fixed-prefix Dirichlet-kernel pole.",
+      "lost_information": "CRT pigeonholing produces nonzero global frequencies within P_B/(L+1)^r of zero with every local coordinate at most L, independently of the canonical multiplier.",
+      "consequence": "High support alone does not suppress near resonances. Only a signed cancellation theorem involving the exact inverse-binomial Vandermonde coefficients could use the favorable finite spectrum."
+    },
+    {
+      "method": "Generic admissible-lattice or positive-orthant dispersion",
+      "loss_step": "Apply a theorem depending only on dimension and determinant to the affine CRT lattice.",
+      "lost_information": "The lattice has coordinate-zero sublattices, and the target requires all residue coordinates in the same one-sided orthant.",
+      "consequence": "Standard admissibility fails, symmetric Minkowski permits mixed signs, and a generic m^{O(m)} loss costs exp(Theta(k)); the required special theorem may lose only C^m or polylog(k)^m."
+    },
+    {
+      "method": "Conjugate-pair cancellation a versus -a",
+      "loss_step": "Pair each Fourier character only with its complex conjugate and expect the real parts to cancel on the distinguished interval.",
+      "lost_information": "Adjacent moduli create a long positive carry-coherent run after all conjugate pairs have already been combined.",
+      "consequence": "The proved two-prime lower bound is Omega(k^4/(q-p)) for macroscopic offsets; the exact (137,139) system reaches 0.9575905039566847 k^4/2. Pairing conjugates alone cannot establish the signed full-support bound."
+    },
+    {
+      "method": "Recursive multiplication of rank-two prime-gap bounds",
+      "loss_step": "Treat pair correlation estimates as independent block factors and multiply their rational-rotation discrepancy costs.",
+      "lost_information": "All pairs act on the same interval, so their signs do not tensorize; moreover the exact cost depends on the full continued fraction of q/(q-p), not only the gap size.",
+      "consequence": "Even an optimistic adjacent-gap ledger pays sum log(1+k/Delta_i)=Theta(r log k) at logarithmic gaps, reaching Theta(k). A far-pair matching with polylogarithmic Euclidean costs is an unproved additional theorem."
+    },
+    {
+      "method": "Scalar inverse-binomial CRT carry compression",
+      "loss_step": "Use the exact divided-difference identity to replace the vector of local modular inverses u_i(ell) and carries m_i(ell) by the single global carry nu(ell).",
+      "lost_information": "The individual local phases entering each signed interval kernel K_i(h_i(ell)); the scalar carry identity controls only one weighted sum of those phases.",
+      "consequence": "The rank-three identity is an exact algebraic reparameterization but gives no discrepancy inequality. In the exact affine (37,41,43) example all identities hold while the triple interval norm is 40.588 times k times the largest pair norm."
+    },
+    {
+      "method": "Low-frequency divisor counting after canonical absorption",
+      "loss_step": "From a centered transported resonance a=<QL>_P, retain only the divisibility P | QL-a and bound prime divisors of the integers QL-a separately for |a|<=R.",
+      "lost_information": "The joint signed Fourier contribution of all exceptional supports and the way the exceptional set changes if its primes are multiplied into the absorber; for large supports the Vandermonde product L can itself have exponential logarithmic size.",
+      "consequence": "The method proves an exp(o(k)) rank ledger when log|L|=o(k) and an affordable exceptional-prime count only for R=o(log^2(k)/loglog(k)). A fixed-D block estimate needs polynomial radius k^(r-D), so divisor counting alone does not close the affine route."
+    },
+    {
+      "method": "Free-multiplier avoidance of known bounded-cluster characters",
+      "loss_step": "Choose one u<=exp(o(k)) so that each explicitly listed bounded-diameter cluster character u*Q_0*L_S is far from zero modulo its own product P_S.",
+      "lost_information": "All other Fourier characters of those supports, clusters beyond the slowly growing rank/diameter cutoff, arbitrary Vandermonde patterns, and cancellation between the exponentially many supports.",
+      "consequence": "Exact union counting removes every fixed-rank Maynard character at the desired polynomial scale while preserving the absorber budget and local inverses. This prevents that known obstruction from refuting the free-multiplier route, but it is not a full-support or fixed-prefix theorem."
+    },
+    {
+      "method": "Unweighted bilinear averaging over the free multiplier and prefix variable",
+      "loss_step": "Replace selection of one multiplier u and one fixed-prefix point t by the separate conductor-wise bounds for B_M(a)=sum_{u<=U,t<=H} e_M(aut), then take triangle or Cauchy--Schwarz independently of the interval Fourier coefficient beta_S(a).",
+      "lost_information": "The signed correlation between the exact inverse-binomial/Vandermonde coefficient beta_S(a) and the same global phase a in the bilinear kernel. The product map also overweights zero when nonunit multipliers are retained.",
+      "consequence": "The average is exactly a divisor-weighted rewrite on s<=UH. If M>=12UH, the real character a=1 has |B_M(1)|>=cos(pi/6)UH, so large conductor gives no pointwise additive mixing. At the full 451 modulus, separated global L2 costs exp(Theta(k)) relative to the zero character and the high-support triangle ledger costs at least exp(Omega(k loglog(k)/log(k))). Passing to unit-group multiplicative characters repairs the zero bias and diagonalizes ut, but low conductors retain an outer unit-sieve weight and full conductors lie beyond Burgess; only a signed coefficient--kernel or weighted multiplicative-character estimate can survive."
+    },
+    {
+      "method": "Primitive-conductor character bounds followed by absolute coefficient entropy",
+      "loss_step": "Apply Polya--Vinogradov or one fixed Burgess moment to each inducing primitive character in the exact outer-sieve Mobius sum, then sum local interval coefficients and supports in absolute value.",
+      "lost_information": "The phase chi(-Q_0) in the local interval coefficient and its joint sign with both sieved character sums. Every absolute local moment erases this phase.",
+      "consequence": "For fixed 0<eta<4/3, the outer sieve itself costs only exp(o(k/log k)) and the method rigorously closes all f<=X^(4/3-eta) at X=exp(gamma*k/log k). But the true bulk coefficient L1 entropy is f^(1/2+o(1)); after it is included, the Burgess threshold is log f/log X<4nu/(nu^2+nu+1), maximized by nu=1 at 4/3. Absolute pointwise conductor splitting cannot reach the high-conductor slice."
+    },
+    {
+      "method": "Exact-support Hilbert-space duality or multiplicative-walk mixing",
+      "loss_step": "Separate the exact-support coefficient L2 norm from the character-kernel L2 norm, possibly after replacing interval multipliers by a short random walk generated by primes below k.",
+      "lost_information": "The signed pairing between coefficients and kernels. At exact full support, character orthogonality retains a diagonal factor product_p(p-2)=exp((1+o(1))k) even though every multiplier value and the number of multiplier words are subexponential.",
+      "consequence": "The separated exact-full-support ledger loses exp((1/2+o(1))k). A small-prime walk needs at least P^(1-o(1)) word weight, forcing L log k>=(1-o(1))k and destroying the exp(o(k)) multiplier budget. The no-go does not exclude a signed high-order centered-correlation theorem."
+    },
+    {
+      "method": "Bounded-order cumulant or violation-parity closure",
+      "loss_step": "Replace the high-support centered correlations by all correlations through a bounded order, or retain only the parity of the number of violated prime coordinates.",
+      "lost_information": "The highest-order centered product and its coordinate-dependent magnitudes. Uniform even- and odd-parity halves of a product cube have identical proper marginals and proper centered correlations but opposite full centered products and different inclusion of the all-allowed vertex.",
+      "consequence": "Generic cluster truncation and parity alone cannot certify an all-allowed point. A surviving result must use the special 451 product multiset and the full weighted centered correlation, not only generic low cumulants."
+    },
+    {
+      "method": "Fixed small-unit pairing or generator-only spectral walk",
+      "loss_step": "Use complete-group covariance under finitely many multipliers and assume their averaging operator contracts every high-support multiplicative character, then transfer the contraction to the positive product prefix by an absolute boundary estimate.",
+      "lost_information": "A list of s<m unit generators has a quadratic character of support at least (m-s)/2 on which every generator has eigenvalue one. Moreover an affordable positive dilation changes any measure on [1,T] by total variation at least log(g)/log(gT), independently of its local covariance.",
+      "consequence": "No s=o(m) generator-only uniform spectral gap exists, and the positive-prefix boundary is polynomially larger than the exp(-Theta(k/log k)) survivor density. This does not lower-bound the actual signed error because the resonant interval coefficient may vanish and a signed boundary telescoping could in principle cancel."
+    },
+    {
+      "method": "Dyadic conditional cumulants followed by product difference energy",
+      "loss_step": "Condition on earlier prime blocks, estimate all proper supports in the next block, and hand the full-order centered remainder to a coefficient-free equality/difference-energy norm and a separate coefficient norm.",
+      "lost_information": "The sign alignment between the Q_0-dependent interval coefficient and the exact-support character kernel. On 3k/2<p<2k, distinct affordable products can match only block primes whose product divides a difference of size exp(o(k)), while identical products retain the full diagonal product of p-2.",
+      "consequence": "The exact block diagonal lemma forces a separated Cauchy--Schwarz ledger exp((1/4+o(1))k) above the density scale, even after arbitrary earlier conditioning. Proper-support estimates and product difference energy alone cannot absorb the full-order remainder; direct signed coefficient--kernel cancellation is still necessary."
+    },
+    {
+      "method": "Positive conductor heat flow followed by endpoint specialization",
+      "loss_step": "Multiply every character by f_chi^(-sigma), use the resulting positive noise-smoothed product count at sigma>0, and infer an exact survivor at sigma=0 without separately controlling near-survivors.",
+      "lost_information": "Positive coordinate noise can resample one violated prime into the allowed interval. The exact physical transform weights a point with violation set V by product_{p in V} r_p(sigma), where r_p<=sigma log(2k), so it is positive even when the original fixed product multiset has no survivor.",
+      "consequence": "Using only the forced existence of one violation, principal-scale positivity can distinguish the endpoint only when sigma log k=O(delta). At that resolution f^(-sigma)=1-o(1) uniformly through the full conductor P. Any Tauberian repair must add weighted bounds for products with exactly v violations; conductor damping and positivity alone do not close the high-support slice."
+    },
+    {
+      "method": "Size-only use of the triangular shifted-divisor encoding",
+      "loss_step": "Encode the allowed primes by D(Q_0ut)=product_{j<k} gcd(Q_0ut+j, product_{p>k+j}p), then use only that D divides the shifted factorial and compare integer sizes.",
+      "lost_information": "The parity and varying weights of the missing-prime set E=P/D, together with how these sets correlate over the actual product multiset. The shifted factorial has logarithmic capacity O(k^2/log k), whereas log P is only Theta(k).",
+      "consequence": "The resulting bound omega(D)=O(k^2/log^2 k) exceeds the total Theta(k/log k) available primes and cannot force even one violation. The exact divisor/carry identity is useful only if supplemented by signed cancellation for lambda_k(E) or a strong near-survivor count."
+    },
+    {
+      "method": "Optimal Type-II divisor distribution followed by truncated Bonferroni",
+      "loss_step": "Control every allowed-divisor count N_d through the optimistic modulus level Q_0*X^2, convert these marginals to failure intersections, and discard the full-rank Bonferroni remainder by its positive sign.",
+      "lost_information": "The cancellation between the low-rank alternating ledger and the actual violation-tail statistic sum_x binom(V(x)-1,R) 1_{V(x)>R}. At X=exp(gamma*k/log k), the product level sees only O(k/log^2 k) primes, while all Theta(k/log k) local failure probabilities exceed one half.",
+      "consequence": "Even perfect distribution through every accessible modulus gives a nonpositive odd Bonferroni principal ledger. The independent tail is at least N*product_p q_p, which exceeds the survivor scale delta*N by exp((1+o(1))k/log k); estimating it separately requires exponential relative precision. This kills the truncated Type-II handoff, not a signed Q_0-phase coupling of the tail with the divisor errors."
+    },
+    {
+      "method": "Proper-degree one-sided polynomial or compact-contour reconstruction of the violation endpoint",
+      "loss_step": "Replace the exact product-multiset distribution by its proper coordinate marginals, its derivative jet of order less than m at z=1, or a uniformly bounded analytic norm on a disc |1-z|<=r<1.",
+      "lost_information": "The top multilinear interaction delta*product_p(1-2J_p), equivalently the coefficient delta*(1-z)^m, and its arithmetic realization through the full-modulus Q_0-phased character sum.",
+      "consequence": "Every proper-degree multilinear pointwise one-sided certificate has nonpositive expectation under the actual principal probabilities q_p>=delta_p. Two nonnegative rational laws have identical all proper marginals but endpoint masses 0 and 2*delta. Universal contour evaluation has norm at least r^(-m), so subexponential conditioning forces r=1-o(1). These results kill distribution-free low-degree/Krawtchouk and compact-contour handoffs, but not the actual signed full-modulus arithmetic interaction."
+    },
+    {
+      "method": "Affordable signed multiplier followed by uniform high-conductor damping, separated energy, or stable inverse recovery",
+      "loss_step": "Replace the joint signed sum c_chi*A_a(chi)*(S_X^P(chi))^2 by a pointwise norm for A_a, a coefficient-free multiplier L2 ledger, or an inverse filter that is assumed to recover the original endpoint at negligible cost.",
+      "lost_information": "The correlation of the explicit interval coefficient and its chi(-Q_0) phase with the multiplier and complex character square. Multiplication by -Q_0 merely translates the multiplier measure and does not change its support, l1/l2 norms, spectral zeros, or inverse condition number.",
+      "consequence": "A sparse multiplier has a high-support quadratic character trivial on both its support and -Q_0. More generally, every multiplier with subexponential support, value, and l1 budget retains exact-full-support energy at least (1-o(1))*product_p(p-2)/S; an inverse filter pays the reciprocal spectral loss. This kills universal damping and separated-energy recovery, but not a coefficient-aware signed shifted-endpoint theorem."
+    },
+    {
+      "method": "Continuous full-system Fejer majorization with reconstruction-safe widths",
+      "loss_step": "Forget the exact carry of each local residue and require positivity of one continuous common-time box spline with half-width d_i/2.",
+      "lost_information": "When d_i=1 the only compact frequency has local mass two. Positivity then forces the normalized majorant S to be at least two, exactly exhausting the strict covering margin.",
+      "consequence": "The method is uniformly impossible for every k with k+1 prime. Enlarging the half-width to (d_i+1)/2 does not repair it because positive real support can intersect in (N,N+1) without an integer common time. Exact integer-time convolution is required."
+    },
+    {
+      "method": "Separated norm control of the discrete Fejer spectrum",
+      "loss_step": "Replace the location of the product Fourier mass under the inverse-cofactor CRT bijection by only its global L1, L2, Holder moment, or local support sizes.",
+      "lost_information": "The same global frequency must simultaneously have favorable centered residues at every prime, and the Fejer pole sees that joint location rather than a marginal norm.",
+      "consequence": "Global L2 retains the square root of the full conductor exp(Theta(k)); higher separated moments and support-only larger sieve do not improve the exponent. A weighted centered-arc theorem must keep the full CRT frequency."
+    },
+    {
+      "method": "Subset period conditioning for the positive compact dual",
+      "loss_step": "Periodize a proper subset of triangular factors and bound all omitted coordinates by one.",
+      "lost_information": "Every omitted local factor supplies essential suppression in the short prefix.",
+      "consequence": "The main term is multiplied by L_(J^c)>3 for even one omitted coordinate; using all coordinates instead pays the boundary P/L_G=exp(Theta(k)). Complete-period conditioning cannot prove the factor-two prefix target."
+    },
+    {
+      "method": "Fixed-quotient prime counts after the exact support reparameterization",
+      "loss_step": "For N=gamma*ell, count primes separately in the intervals (2N+k)/(2q+1)<=p<=(2N-k)/(2q-1) and discard their normalized distance from the interval centers.",
+      "lost_information": "The dual weight is the product over every interval prime of a triangular factor depending on |N-qp|/(p-k+1). Separate prime counts do not retain this joint product.",
+      "consequence": "The Baker--Harman--Pintz x^(21/40) short-interval theorem now proves that the product vanishes for 12k<=N<=k^(59/40)/4. This yields affordable polynomial prefixes for both required dilations. Above that scale the same uniform maximum-gap input no longer forces a prime into a quotient gap; once N exceeds a fixed constant multiple of k^2 all active gaps are shorter than one. Separate fixed-q counts still lose the triangular joint product."
+    }
+  ],
+  "required_new_information": [
+    "A pointwise, not translation-averaged, certificate locating a member of the one-sided CRT box in the initial prefix.",
+    "A compressed high-order statistic that sees a positive proportion of the k/log k prime constraints without requiring their full product modulus.",
+    "A mechanism exploiting the common endpoint zero or the varying widths p-k, rather than treating the allowed residue subsets as arbitrary sets of the same density.",
+    "For any geometry-of-numbers route, an orthant-sensitive lattice bound whose dimension loss is exp(o(k)), together with a proof that it controls the positive n-coordinate.",
+    "For block recursion, a short-prefix projection or carry-control lemma showing that O(exp(block_size)) old candidates expand against the next CRT interval box without first enumerating a full old period.",
+    "For any phase-ordering route, a deterministic bound on the cumulative interval discrepancy of Q_old mod p_new together with a separate proof that this one-orbit ledger controls the many distinct seeds in the fixed short prefix.",
+    "For a random-subset route, an unconditional uniform multiplicative-character gap for prime candidates at modulus p asymptotic to k, or a replacement avoiding that analytic input; this still must be paired with the many-seed fixed-prefix transfer.",
+    "For the canonical absorption route, a pointwise correlated inverse-binomial gap theorem for c_p=((-1)^A binom(p-k-1,A))^{-1}, with total loss at most exp(O(m log log k)) times the reciprocal-density scale.",
+    "At dyadic-block resolution, a signed support-stratified discrepancy estimate for the affine CRT lattice whose full-support local frequencies are a(-1)^(A+r-1)(binom(b-1,A)F_B'(b))^{-1}, while coordinate-zero supports are charged only polylogarithmically.",
+    "In the common-start coordinate, exploit cancellation between different Fourier supports or control the entire combined counting function globally. The former target |C_S(J)|<=k^D C^|S| product k/(p-k) with one fixed D is refuted by bounded-cluster resonances and must not be used as the recursive interface.",
+    "For the affine route, control the joint carry word ell maps to (u_1(ell),...,u_r(ell),nu(ell)) in the signed global-frequency sum with at most k^D(log k)^(Cr) loss per dyadic block; the scalar carry identity alone is insufficient.",
+    "After using the free multiplier to remove every slowly bounded-rank cluster character, prove a signed estimate for all remaining Fourier characters and supports. The multiplier union bound has only O_R(k) named obstructions and cannot be extended naively to exponentially many arbitrary supports.",
+    "For the combined count sum_{u<=U,t<=H} F(ut), retain the joint sign of beta_S(a)B_{P_S}(a). Exact conductor reduction, complete periods, and the multiplicative-energy second moment do not suffice after beta and B are separated; the required bridge must beat the genuine a=1 short-rectangle pole while exploiting its particular interval coefficient.",
+    "In the unit-group reformulation, for fixed 0<eta<4/3 the outer unit sieve and all conductors f<=X^(4/3-eta) are now controlled at X=exp(gamma*k/log k). Prove a signed estimate for the remaining f>X^(4/3-eta) aggregate, equivalently the weighted high-support centered correlations sum_x product_{p in S}(1_{A_p^times}(x)-delta_p), while retaining the Q_0 phase. Pointwise Burgess, separated exact-support L2, affordable multiplicative walks, bounded-cumulant/parity reductions, fixed-generator multiplier pairings with absolute boundary cost, blockwise difference-energy handoffs, and positive conductor heat without a near-survivor theorem do not suffice. The sharpest current arithmetic form is the signed weighted missing-prime statistic lambda_{k,S}(P_S/gcd(P_S,D(Q_0ut))); a proof must cancel it beyond the vacuous shifted-factorial size ledger.",
+    "For a Type-II continuation, retain the exact cancellation between the accessible divisor-error Mobius ledger and the full-order violation remainder T_R=sum_x binom(V(x)-1,R)1_{V(x)>R), at absolute error o(delta*N). Modulus distribution through Q_0*X^2 controls only O(m/log k) coordinates, every proper odd principal Bonferroni ledger is nonpositive because q_p>1/2, and a separate relative tail asymptotic must have exp(-(1+o(1))k/log k) precision. The required theorem must therefore be a genuinely combined Q_0-phase estimate, not another low-rank marginal or sign-dropped sieve bound.",
+    "For fixed 0<eta<4/3 and X=exp(gamma*k/log k), prove as one signed sum that the full-modulus contribution of characters with primitive conductor f_chi>X^(4/3-eta), namely phi(P)^(-1) sum chi(-Q_0) product_p(sum_{j<=p-k-1} conjugate(chi_p(j))) (S_X^P(chi))^2, is o(delta*N). The modulus, conductor cutoff, endpoint coefficients, Q_0 phase, complex square, and absolute target norm are fixed. The already proved low-conductor theorem would then give F_X(0)>0 and n_k<=exp((2gamma+o(1))k/log k).",
+    "Only if signed multipliers are revisited: construct explicit real unit weights with sum a_g=1, log(sum|a_g|)=o(k/log k), and log(max g)=o(k), and prove the coefficient-aware joint high-conductor estimate sum_{f_chi>X^(4/3-eta)} c_chi*A_a(chi)*(S_X^P(chi))^2=o(delta*N) without separating its factors. Uniform character damping, multiplier-only L2, and stable inverse-filter estimates are now ruled out; absent such a joint theorem, return resources to the orthant or anchored-CRT gap survivors.",
+    "For the active M10 route, prove the weighted centered-arc dispersion bound with at most fixed-exponential loss for gamma=1 and the one specific width-one dilation gamma=p_0. An equivalent stronger executable target is the additive compact-dual discrepancy Q_(h,gamma)<=h/L_G+K^m at reciprocal-density scale. Uniform prime gaps now control gamma=1 through k^(59/40)/4 and gamma=p_0 through k^(59/40)/(4p_0); the required new information is the full weighted joint distribution beyond these polynomial zero bands and up to the subexponential density window."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": "amra.erdos317-singleton-prime-certificate.v1",
+  "claim": "For every integer n in the certified range, no coefficients delta_1,...,delta_n in {-1,0,1} satisfy sum delta_k*lcm(1,...,n)/k = 1.",
+  "proof_rule": "For the listed prime p with n/2 < p <= n, only k=p has maximal p-adic valuation. Modulo p, delta_p*(L_n/p)=1, but the required delta_p residue is neither 1 nor -1.",
+  "coverage_start": 5,
+  "coverage_end": 1000000,
+  "uncovered": [],
+  "coverage_complete": true,
+  "interval_count": 78731,
+  "intervals_sha256": "be2f7fc12cde2162df858acb792d4bdd9d3e7db4bb456a3ff281fd596aa2bce6",
+  "resource_guard": {
+    "required_slice": "openmath.slice",
+    "observed_cgroup": "0::/user.slice/user-1000.slice/user@1000.service/openmath.slice/openmath-task-20260825-153333-35016.scope",
+    "inside_openmath_slice": true
+  },
+  "elapsed_seconds": 272.67278975599766,
+  "pid": 35016
+}

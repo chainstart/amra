@@ -1,0 +1,54 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M25P-3",
+      "outcome": "killed",
+      "evidence": "evidence/positive_background_amplifier.md: every bounded-ratio block has absolute normalised harmonic capacity O(1/log X), so separated copies of the same finite champion dilute"
+    },
+    {
+      "mechanism_id": "M25P-4",
+      "outcome": "killed",
+      "evidence": "evidence/positive_background_amplifier.md: with R=Q the relative ratio diverges but the absolute normalised target mass tends to zero"
+    },
+    {
+      "mechanism_id": "M25P-5",
+      "outcome": "killed",
+      "evidence": "evidence/echo_mapping_and_capacity.md: activity inside a strictly shrinking nested cell is bounded by that cell's harmonic capacity, which tends to zero"
+    },
+    {
+      "mechanism_id": "M25P-6",
+      "outcome": "killed",
+      "evidence": "evidence/echo_mapping_and_capacity.md: fresh pairwise-disjoint cells have summable densities, hence their individual capacities tend to zero"
+    },
+    {
+      "mechanism_id": "M25P-7",
+      "outcome": "killed",
+      "evidence": "evidence/positive_background_amplifier.md and evidence/positive_background_amplifier_replay.json: a single positive-density Carleson box has unbounded transient mass divided by its density-loss measure"
+    },
+    {
+      "mechanism_id": "M25P-8",
+      "outcome": "killed",
+      "evidence": "evidence/positive_background_amplifier.md: R layers reuse the same rare old Q-cell and its lcm entropy while aggregate relative amplification grows without bound"
+    },
+    {
+      "mechanism_id": "M25P-9",
+      "outcome": "killed",
+      "evidence": "evidence/positive_background_amplifier.md: finite-stage density bounded below by 1/2 does not control the pre-mixing Abel boundary term uniformly"
+    },
+    {
+      "mechanism_id": "M25P-11",
+      "outcome": "killed",
+      "evidence": "evidence/positive_background_amplifier.md: arbitrarily large blocks have pairwise target isolation but their absolute bounded-window mass still tends to zero"
+    },
+    {
+      "mechanism_id": "M25P-13",
+      "outcome": "killed",
+      "evidence": "evidence/nonaffine_echo_reduction.md: one fixed positive-capacity Q-cell admits arbitrary increasing non-affine echo steps in a bounded ratio range, so it does not reduce layerwise to finitely many affine charts with a summable parameter tail"
+    },
+    {
+      "mechanism_id": "M25P-15",
+      "outcome": "killed",
+      "evidence": "evidence/affine_echo_multiples_theorem.md: upper-log periodic approximation is stable under finite unions, so every finite affine mixture has logarithmic density"
+    }
+  ]
+}

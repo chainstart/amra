@@ -1,0 +1,12 @@
+{
+  "outcome": "promote",
+  "success_condition": "standalone_decisive_lemma",
+  "reason": "The complete proof and independent reconstruction establish a faithful bounded-integer realization theorem for every finite simple linear hypergraph satisfying the stated edge-size, prime-supply, and bit-budget hypotheses. The theorem exactly preserves intersections, matching number, and transversal number and produces primitive valuation circuits. It is promoted only as this standalone scoped theorem; priority remains uncertain and the full density-one problem is not closed.",
+  "evidence": [
+    "decisive_lemma.json",
+    "evidence/FAITHFUL_LINEAR_EMBEDDING.md",
+    "evidence/verify_faithful_embedding.py",
+    "evidence/faithful_embedding_replay.json",
+    "audit/independent_reconstruction.md"
+  ]
+}

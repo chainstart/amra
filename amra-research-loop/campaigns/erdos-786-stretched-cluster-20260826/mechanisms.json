@@ -1,0 +1,187 @@
+{
+  "mechanisms": [
+    {
+      "id": "M786S-01",
+      "representation_id": "R786S-01",
+      "family": "valuation_coding",
+      "decisive_claim": "Use r=ceil(log_2(q+2))+1 point-private primes and distinct nontrivial bipartitions to encode all q+1 incident lines with fixed point product and edge-private valuations.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Verify the bipartition count, factor distinctness, and O((log q)^2) point bit cost.",
+      "status": "proved",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md: exact bipartition count and factor-separation proof",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-02",
+      "representation_id": "R786S-02",
+      "family": "valuation_coding",
+      "decisive_claim": "Encode q+1 incidences by complementary exponent pairs on two point-private primes and obtain a smaller arithmetic host.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Minimize the exponent range needed for q distinct fixed-product pairs and compare q log q with K.",
+      "status": "killed",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md: exponent range at least q and Omega(q log q) bit cost",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-03",
+      "representation_id": "R786S-01",
+      "family": "valuation_coding",
+      "decisive_claim": "Reuse the same private-prime block at multiple projective points while varying only partitions.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Place two reused points on their unique common line and test edge-private valuation propagation and global vertex distinctness.",
+      "status": "killed",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md: reused blocks collide on the unique common line",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-04",
+      "representation_id": "R786S-03",
+      "family": "incidence_geometry",
+      "decisive_claim": "Take q between 2^(floor(sqrt(K)/100)) and twice that value and arithmetically realize every projective line as a minimal equal-defect circuit in (2^K/32,2^K].",
+      "would_close": [
+        "standalone_decisive_lemma",
+        "main_exponent_improved"
+      ],
+      "kill_test": "Check prime supply, bit budget, padding, distinctness, minimality, and tau=q+1 for all sufficiently large K.",
+      "status": "surviving",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/OBSTRUCTION_ANALYSIS.md and evidence/MECHANISM_FALSIFICATION.md: stretched projective-plane arithmetic host survives all first tests",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-05",
+      "representation_id": "R786S-04",
+      "family": "incidence_geometry",
+      "decisive_claim": "Replace the projective plane by an affine plane or a large partial plane to reduce arithmetic coding cost while retaining nu=1 and tau growing with q.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Test parallel lines and deleted line classes for disjoint supports and exact blocking number.",
+      "status": "killed",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md: affine parallel classes force matching number greater than one",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-06",
+      "representation_id": "R786S-04",
+      "family": "incidence_geometry",
+      "decisive_claim": "Use a symmetric block design with larger covering number than a projective plane at the same point degree.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Derive the Fisher-type parameter constraints and test whether pairwise block intersection and a certified arithmetic embedding coexist.",
+      "status": "killed",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md: exact one-point symmetric design reduces to projective-plane parameters",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-07",
+      "representation_id": "R786S-05",
+      "family": "analytic_budget",
+      "decisive_claim": "Allocate every point-private prime below q^6 and prove that the point and private-vertex odd parts consume O((log q)^2) bits.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Use the prime number theorem to compare pi(q^6) with (q^2+q+1)r and derive explicit large-K padding inequalities.",
+      "status": "surviving",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/OBSTRUCTION_ANALYSIS.md: q^6 prime supply and quadratic-logarithmic bit budget survive",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-08",
+      "representation_id": "R786S-06",
+      "family": "analytic_budget",
+      "decisive_claim": "Replace prime blocks by pairwise-coprime smooth composite labels to improve q beyond exp(c sqrt K).",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Count required globally separating prime divisors and optimize the maximum logarithmic label size.",
+      "status": "killed",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md: composite labels do not reduce private-prime count or size",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-09",
+      "representation_id": "R786S-05",
+      "family": "analytic_budget",
+      "decisive_claim": "Choose q=N^delta while retaining the subset-partition code and fixed-band embedding.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Insert log q=Theta(K) into the point odd-part budget O((log q)^2) and test nonnegative padding exponents.",
+      "status": "killed",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md: polynomial q creates quadratic-in-K point bit cost",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-10",
+      "representation_id": "R786S-07",
+      "family": "padding_flow",
+      "decisive_claim": "Balance the common power-of-two discrepancy across the q+2 private vertices of each line with maximum decrement four.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Prove 0<Delta<K+3(q+1)<4(q+2) once q>K and check the strict N/32 band.",
+      "status": "proved",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md: Delta bound and maximum decrement four proved",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-11",
+      "representation_id": "R786S-08",
+      "family": "padding_flow",
+      "decisive_claim": "Use several padding primes to support q polynomial in N despite the point odd-part budget.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Separate padding freedom from the unchanged q-dependent point product and test whether any negative exponent is avoided.",
+      "status": "killed",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md: padding cannot shrink an oversized raw odd part",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-12",
+      "representation_id": "R786S-09",
+      "family": "scale_transfer",
+      "decisive_claim": "Embed the power-of-two construction at 2^floor(log_2 N) into H_N and retain the target band and stretched-exponential bound for every large N.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Prove the band inclusion and floor inequalities with explicit constants.",
+      "status": "surviving",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md: dyadic band and monotonicity route survives",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    },
+    {
+      "id": "M786S-13",
+      "representation_id": "R786S-10",
+      "family": "scale_transfer",
+      "decisive_claim": "Pack many disjoint projective-plane clusters to obtain a larger theorem while preserving the frozen single connected cluster properties.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Compute the matching number and pairwise intersection pattern of the union.",
+      "status": "killed",
+      "created_at": "2026-08-26T08:23:53+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md: cluster union violates matching-one and pairwise-intersection target",
+      "updated_at": "2026-08-26T08:25:19+00:00"
+    }
+  ]
+}

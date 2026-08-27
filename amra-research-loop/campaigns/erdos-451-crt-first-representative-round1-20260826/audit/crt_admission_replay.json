@@ -1,0 +1,68 @@
+{
+  "schema_version": "erdos451.crt_admission.audit.v1",
+  "status": "pass",
+  "input_sha256": "0d28ab77ae3e7b7ca0f43a5553f04c92ad5843a0f533022ce5398a2b7787fe5b",
+  "checks": [
+    {
+      "k": 20,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    },
+    {
+      "k": 25,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    },
+    {
+      "k": 30,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    },
+    {
+      "k": 35,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    },
+    {
+      "k": 40,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    },
+    {
+      "k": 45,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    },
+    {
+      "k": 50,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    },
+    {
+      "k": 55,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    },
+    {
+      "k": 60,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    },
+    {
+      "k": 65,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    },
+    {
+      "k": 70,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    },
+    {
+      "k": 75,
+      "predicate_replayed": true,
+      "boundary_replay": 10000
+    }
+  ],
+  "scope": "Predicate, density, candidate boundary, and support arithmetic only; no asymptotic estimate is certified."
+}

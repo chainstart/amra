@@ -1,0 +1,49 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M786R-01",
+      "outcome": "killed",
+      "evidence": "evidence/OBSTRUCTION_ANALYSIS.md RR.1 and evidence/MECHANISM_FALSIFICATION.md: fixed L and active degree two admit arbitrary support"
+    },
+    {
+      "mechanism_id": "M786R-02",
+      "outcome": "killed",
+      "evidence": "RR.1 is a support-minimal bad active-incidence tree with cycle rank zero"
+    },
+    {
+      "mechanism_id": "M786R-03",
+      "outcome": "killed",
+      "evidence": "RR.1 unique edge-prime equations prove no proper bad subrelation at arbitrary path diameter"
+    },
+    {
+      "mechanism_id": "M786R-05",
+      "outcome": "killed",
+      "evidence": "RR.2 has top fibre size two and arbitrary numerator/denominator prime-support sizes"
+    },
+    {
+      "mechanism_id": "M786R-06",
+      "outcome": "killed",
+      "evidence": "increasing edge labels on RR.1 force arbitrarily many successive residue transfers at fixed L and active degree two"
+    },
+    {
+      "mechanism_id": "M786R-07",
+      "outcome": "killed",
+      "evidence": "RR.2 exposes coprime X,Y but remains one connected support-minimal double-star relation"
+    },
+    {
+      "mechanism_id": "M786R-09",
+      "outcome": "killed",
+      "evidence": "RR.1 is bad with active cycle rank zero"
+    },
+    {
+      "mechanism_id": "M786R-10",
+      "outcome": "killed",
+      "evidence": "RR.1 top strip replaces two tokens by two nontrivial cofactor tokens and propagates to the next edge"
+    },
+    {
+      "mechanism_id": "M786R-11",
+      "outcome": "killed",
+      "evidence": "RR.2 completes an admissible lower prime set by one later prime and two later composites into a minimal bad relation"
+    }
+  ]
+}

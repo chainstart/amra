@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "Exact layer reduction and transient amplifiers are proved, but the positive-limit case needs a cross-scale packing bound for repeated sparse congruence cells. Resume only with that bound or an infinite oscillating construction; another finite local amplifier is insufficient.",
+  "evidence": [
+    "evidence/longrun_findings.md"
+  ]
+}

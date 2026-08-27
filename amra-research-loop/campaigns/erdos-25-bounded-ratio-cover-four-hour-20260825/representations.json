@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R25Q-1",
+      "name": "tail periodic-defect measure",
+      "family": "analytic-lift",
+      "new_information": "measures the upper-log mass left after a finite periodic subunion rather than only its density increment",
+      "first_test": "prove the summable-reciprocal and summable-chart criteria exactly"
+    },
+    {
+      "id": "R25Q-2",
+      "name": "offset-slope parameter space",
+      "family": "algebraic-reconstruction",
+      "new_information": "writes d_j=r_j+s_j and tracks whether infinitely many offsets can be compressed into finitely or summably many affine charts",
+      "first_test": "test finite offset sets and attempted slope quantisation"
+    },
+    {
+      "id": "R25Q-3",
+      "name": "CRT dependency hypergraph",
+      "family": "common-structural-host",
+      "new_information": "records all gcd compatibility intersections, not merely pairwise target isolation",
+      "first_test": "separate pairwise-coprime, nested, and highly dependent modulus families"
+    },
+    {
+      "id": "R25Q-4",
+      "name": "bounded echo-horizon flow",
+      "family": "multiscale-analysis",
+      "new_information": "uses d_j<=C r_j to place every first echo before (C+1)r_j and follows its descendants across logarithmic windows",
+      "first_test": "seek a fixed-C charge from transient mass to later periodic mass"
+    },
+    {
+      "id": "R25Q-5",
+      "name": "quotient cell recursion",
+      "family": "self-enhancing-recursion",
+      "new_information": "divides a confined residue cell by its common gcd and exposes a smaller least-representative system of the same type",
+      "first_test": "check whether repeated confinement forces vanishing capacity or a stable self-similar obstruction"
+    },
+    {
+      "id": "R25Q-6",
+      "name": "packing cost dual certificate",
+      "family": "matching-certificates",
+      "new_information": "pairs finite transient targets with the eventual new density they force after overlaps",
+      "first_test": "search for a constant K(C) or an explicit finite family with unbounded cost ratio"
+    },
+    {
+      "id": "R25Q-7",
+      "name": "recent signed recurrence certificate",
+      "family": "bounded-potential-ascent",
+      "new_information": "scores the minimum of several most-recent rises and drops, with age and scale penalties",
+      "first_test": "rerank fixed schedules and reject historical-range champions"
+    },
+    {
+      "id": "R25Q-8",
+      "name": "fixed infinite rule grammar",
+      "family": "quantifier-diagonalization",
+      "new_information": "encodes schedules by a finite deterministic rule that is held fixed under every cutoff extension",
+      "first_test": "evolve rule parameters only on training prefixes, freeze them, then extend blindly"
+    },
+    {
+      "id": "R25Q-9",
+      "name": "coverage-state renewal process",
+      "family": "probabilistic-lift",
+      "new_information": "views activation as immigration and echoes as bounded-delay renewals in logarithmic time",
+      "first_test": "derive a tightness dichotomy between summable immigration and saturation"
+    },
+    {
+      "id": "R25Q-10",
+      "name": "coprime independence comparator",
+      "family": "rare-event-conditioning",
+      "new_information": "uses exact CRT independence as the nearest tractable divergent-reciprocal model",
+      "first_test": "prove the complete convergent/divergent dichotomy for pairwise coprime moduli"
+    }
+  ]
+}

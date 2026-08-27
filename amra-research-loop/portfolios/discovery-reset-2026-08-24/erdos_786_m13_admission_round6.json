@@ -1,0 +1,24 @@
+{
+  "schema_version": "amra.mechanism-admission.v1",
+  "recorded_at": "2026-08-25T10:24:58+08:00",
+  "problem_id": "erdos-786-distinct",
+  "predecessor_campaign_id": "erdos-786-global-closure-round4-20260824",
+  "mechanism_id": "M786G-13",
+  "outcome": "not_admitted",
+  "checks": {
+    "explicit_periodic_baseline": "pass",
+    "explicit_noncircular_transversal_selector": "fail",
+    "proved_sublinear_size_for_selected_transversals": "fail",
+    "claimed_prefix_carleson_rate": "fail",
+    "executable_first_kill_test": "blocked_without_selector"
+  },
+  "rejected_placeholders": {
+    "arbitrary_or_lexicographically_optimal_transversal": "Repackages the finite transversal problem and supplies no recourse estimate.",
+    "nested_transversals": "Assumes a stronger coherent choice that is not constructed.",
+    "minimum_change_optimum": "Builds the desired recourse objective into the selector without proving a summable bound.",
+    "preexisting_infinite_transversal": "Circularly assumes the object the finite-to-infinite bridge is meant to construct."
+  },
+  "retained_result": "CR.1 remains a valid conditional finite-to-infinite theorem for any externally supplied sequence satisfying its hypotheses.",
+  "scope": "This is an admission failure for a new successor campaign, not a refutation of M786G-13 and not a solution or disproof of Erdos #786.",
+  "next_gate": "Reconsider M786G-13 only after an explicit arithmetic selector for T_k, an all-parameter recourse-rate conjecture, and a finite executable falsifier are all specified."
+}

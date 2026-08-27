@@ -1,0 +1,62 @@
+{
+  "schema_version": "amra.erdos786.independent-audit.v1",
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "/root/erdos_327, author-swapped independent auditor, 2026-08-24",
+    "protocol": "Blind reconstruction was written and hashed before author evidence or verifier source was opened.",
+    "blind_sha256": "b73a8c3717dfa7693d927ca0f290b43eddd4d8e03d7fbf5ac8c8c14174b22ac0",
+    "evidence": [
+      "audit/blind_reconstruction.md",
+      "audit/independent_audit.md"
+    ]
+  },
+  "statement_match": "passed",
+  "statement_match_details": {
+    "decisive_lemma": "The all-N fractional-cover statement, Finset variant, vertex range {2,...,N}, exact total, and Stirling asymptotic all match the proof.",
+    "exceptional_elements": "1 is excluded by {1} versus the empty Finset; 0 is incompatible with any other admitted element and hence with positive density.",
+    "finite_boundary": "The local Lean source uses Set.Icc 1 (N+1), whereas the prose and closure contract use [N]; this off-by-one is asymptotically harmless and does not enter the standalone lemma.",
+    "scope": "The decisive lemma closes only fractional feasibility. It does not prove an integral o(N) deletion or an infinite natural-density construction."
+  },
+  "dependency_check": "passed",
+  "dependency_check_details": {
+    "proved": [
+      "Disjointization preserves the equal product and cardinality imbalance while counting each support element once.",
+      "w_N(n)=log(N/n)/log N covers every unequal-cardinality equal-product support for every N>=2.",
+      "The total weight is exactly (N log N-log(N!))/log N-1 and is asymptotic to N/log N.",
+      "The strict high tail eliminates all relations whose larger shore has size at most L, with o(N) deletion for L=o(log N).",
+      "The K_(s+1,s) edge-prime construction is distinct, squarefree, and support-minimal for all s>=2 via the signed coefficient equations c_x+c_y=0.",
+      "At each fixed N, admissibility is exactly hypergraph independence and the binary transversal ILP is complete."
+    ],
+    "open": [
+      "An integral transversal of size o(N), equivalently a structured rounding loss o(log N) or another integral mechanism.",
+      "A coherent infinite set having a genuine natural density greater than 1-epsilon and controlling cross-scale relations."
+    ],
+    "author_exposition_repairs": [
+      "The universal K_(s+1,s) minimality proof must use arbitrary signed coefficients, not only original-left versus original-right subproducts.",
+      "The finite verifier replays one maximizing witness at each cutoff, not every maximizing set."
+    ]
+  },
+  "novelty_check": "priority_uncertain",
+  "novelty_check_details": "No public exact-solution search was performed under the campaign restriction. A targeted local repository search found no earlier duplicate outside this campaign, but that is not a primary-literature priority check.",
+  "mathematical_status": "proved",
+  "machine_reproduced": {
+    "status": "passed",
+    "author_verifier_command": "python3 evidence/verify_distinct_factor_obstructions.py",
+    "author_verifier_sha256": "54e089a1f37b0b1332b1de738318900744f4837f6f62ff4b8a8e3355e0724996",
+    "author_verifier_scope": "PASS through N=18 and K-circuits through s=6; finite replay only.",
+    "independent_finite_check": "A separately written direct subset-product versus hypergraph-independence comparison passed for every 2<=N<=12.",
+    "campaign_validate": "passed: valid=true, errors=[]",
+    "unit_tests": "passed: 5 tests, OK"
+  },
+  "promotion_recommendation": "promote",
+  "success_condition": "standalone_decisive_lemma",
+  "promotion_scope": {
+    "promote": "The explicit all-circuit fractional transversal with cost (1+o(1))N/log N, plus its exact bounded-length and long-minimal-circuit supporting results.",
+    "exclude": [
+      "original_problem_closed",
+      "finite integral density-one assertion",
+      "infinite natural-density assertion",
+      "main-term or main-exponent improvement for the public problem"
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "mechanism_ids": ["M317-2", "M317-5"],
+  "selection_rationale": "Only mechanisms retaining the arithmetic identity of the lower-prime-power product survived. M317-2 is the exact uniform residue bridge; M317-5 is its prime-endpoint Wilson-complement restriction."
+}

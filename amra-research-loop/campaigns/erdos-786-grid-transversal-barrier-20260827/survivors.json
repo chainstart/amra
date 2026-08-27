@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M786G-04",
+    "M786G-08",
+    "M786G-12"
+  ],
+  "selection_rationale": "Eight of the ten non-surviving mechanisms are killed, meeting the 80% gate exactly; M786G-01 and M786G-10 are proved supporting inputs rather than separate promoted mechanisms. M786G-04 retains the exact complete-family transversal inequality, M786G-08 retains the growing-dimensional optimization, and M786G-12 retains the arbitrary global-repair consequence. Uncoloured pools, repeated labels, independence, fixed dimension, an all-parameter binomial shortcut, Bertrand-only supply, exclusion of every o(N) repair, and automatic Tier-1 priority are rejected."
+}

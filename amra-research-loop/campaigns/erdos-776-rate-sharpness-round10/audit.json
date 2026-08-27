@@ -6,5 +6,15 @@
   },
   "statement_match": "unchecked",
   "dependency_check": "unchecked",
-  "novelty_check": "unchecked"
+  "novelty_check": "unchecked",
+  "partial_audit": {
+    "status": "preflight_complete",
+    "evidence": [
+      "audit/DEPENDENCY_AND_NOVELTY_PREFLIGHT.md"
+    ],
+    "scoped_statement_match": "passed",
+    "author_chain_dependency_replay": "passed",
+    "external_novelty": "priority_uncertain",
+    "blocking_gate": "blind independent reconstruction by a reviewer who has not read the author proof"
+  }
 }

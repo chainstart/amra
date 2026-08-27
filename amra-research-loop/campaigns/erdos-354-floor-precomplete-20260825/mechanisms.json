@@ -1,0 +1,144 @@
+{
+  "mechanisms": [
+    {
+      "id": "M354-1",
+      "representation_id": "R354-2",
+      "family": "bounded-potential-ascent",
+      "decisive_claim": "The interleaved union of the two floor sequences is always a Sigma-sequence.",
+      "would_close": [
+        "global interface to completeness via precompleteness"
+      ],
+      "kill_test": "Prove an explicit uniform bound on each next-term deficit for arbitrary positive alpha,beta.",
+      "status": "proved",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/carry_and_residue_lemmas.md: Lemma 1",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M354-2",
+      "representation_id": "R354-3",
+      "family": "common-structural-host",
+      "decisive_claim": "Irrational alpha/beta forces a finite signed subset relation equal to 1.",
+      "would_close": [
+        "precompleteness interface"
+      ],
+      "kill_test": "Construct long binary-prefix cells without a unit relation and determine whether an infinite path survives.",
+      "status": "surviving",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/carry_and_residue_lemmas.md: unit-relation route remains open",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M354-3",
+      "representation_id": "R354-4",
+      "family": "finite-automaton",
+      "decisive_claim": "For every modulus q, a finite prefix has all subset-sum residues modulo q, uniformly along every irrational digit path.",
+      "would_close": [
+        "precompleteness interface"
+      ],
+      "kill_test": "Search adversarial digit paths and distinguish gcd-one from full residue coverage.",
+      "status": "proved",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/carry_and_residue_lemmas.md: Lemma 2",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M354-4",
+      "representation_id": "R354-3",
+      "family": "common-structural-host",
+      "decisive_claim": "One pair of consecutive subset sums self-replicates into arbitrarily long consecutive blocks under later doubling scales.",
+      "would_close": [
+        "precompleteness interface"
+      ],
+      "kill_test": "Write the exact replication recurrence including floor carry errors; kill on a two-step obstruction.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/carry_and_residue_lemmas.md: killed transfers and exact remaining gap",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M354-5",
+      "representation_id": "R354-6",
+      "family": "matching-certificates",
+      "decisive_claim": "A finite interval seed longer than the carry-defect bound propagates to completeness.",
+      "would_close": [
+        "global interface"
+      ],
+      "kill_test": "Prove the interval-overlap induction with exact prefix and ordering quantifiers.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/carry_and_residue_lemmas.md: killed transfers and exact remaining gap",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M354-6",
+      "representation_id": "R354-5",
+      "family": "geometric-lift",
+      "decisive_claim": "Irrational ratio makes the joint doubling orbit visit a carry pattern that creates a unit signed relation.",
+      "would_close": [
+        "precompleteness interface"
+      ],
+      "kill_test": "Check whether irrational ratio implies orbit density; construct non-dense irrational orbits if not.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/carry_and_residue_lemmas.md: killed transfers and exact remaining gap",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M354-7",
+      "representation_id": "R354-7",
+      "family": "invisible-deformation",
+      "decisive_claim": "Completeness of the ceiling pair transfers to the floor pair through bounded per-term perturbation.",
+      "would_close": [
+        "original problem for base 2"
+      ],
+      "kill_test": "Track cumulative perturbations on arbitrary subset size and seek an unbounded drift countermodel.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/carry_and_residue_lemmas.md: killed transfers and exact remaining gap",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M354-8",
+      "representation_id": "R354-1",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "The combined positive carry counts of two irrationally related sequences have bounded gaps that force interval seeds.",
+      "would_close": [
+        "precompleteness interface"
+      ],
+      "kill_test": "Construct binary digit sequences with arbitrarily long simultaneous zero or one runs while preserving irrational ratio.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/carry_and_residue_lemmas.md: killed transfers and exact remaining gap",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M354-9",
+      "representation_id": "R354-8",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "For every gamma in (1,2), a gamma-expansion carry automaton supplies the same precomplete seed mechanism.",
+      "would_close": [
+        "gamma variant"
+      ],
+      "kill_test": "Identify a finite-state recurrence; kill if the nonintegral scaling needs unbounded state.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/carry_and_residue_lemmas.md: killed transfers and exact remaining gap",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    },
+    {
+      "id": "M354-10",
+      "representation_id": "R354-6",
+      "family": "matching-certificates",
+      "decisive_claim": "Every parameter pair can be shifted by deleting finitely many initial terms into a floor-cell whose subset sums contain a long seed interval.",
+      "would_close": [
+        "original base-2 problem"
+      ],
+      "kill_test": "Audit the direction of the subsequence implication and search parameter cells excluded by all known seed regions.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:03:01+00:00",
+      "status_evidence": "evidence/carry_and_residue_lemmas.md: killed transfers and exact remaining gap",
+      "updated_at": "2026-08-25T09:08:19+00:00"
+    }
+  ]
+}

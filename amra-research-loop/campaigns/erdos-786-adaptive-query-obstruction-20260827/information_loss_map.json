@@ -1,0 +1,50 @@
+{
+  "inherited_methods": [
+    {
+      "method": "U.2 static valuation-cylinder deletion",
+      "loss_step": "freeze one global controlled-prime vector and require deletion membership to be constant on every complete vector fibre",
+      "lost_information": "an adaptive tree may query different primes after nonzero answers while every input avoiding the primes on the zero branch still follows one common leaf",
+      "consequence": "U.2 does not cover adaptive queries even when only one positive-density branch matters"
+    },
+    {
+      "method": "U.1 fixed roughness cutoff b^floor(K/16)",
+      "loss_step": "choose support length floor(K/16) before balancing the starting prime scale against the padding exponent",
+      "lost_information": "the edge-prime start can rise to N^(1/2-epsilon) if the path length is reduced to order epsilon K",
+      "consequence": "the existing statement only excludes observations of primes below N^(1/16)"
+    },
+    {
+      "method": "deterministic positive-density leaf argument",
+      "loss_step": "conclude only that an o(N) deterministic deletion cannot label the zero leaf as deleted",
+      "lost_information": "for a randomized tree, the event that the zero leaf is deleted incurs at least delta N-t cost for that seed",
+      "consequence": "expectation can bound the full success probability without independence between vertex decisions"
+    },
+    {
+      "method": "independent proportional rounding obstruction",
+      "loss_step": "multiply individual survival probabilities on one preselected relation",
+      "lost_information": "shared randomness may correlate all vertex decisions, and the missed relation may depend on the realized seed",
+      "consequence": "independence is unnecessarily restrictive but cannot simply be dropped without a seedwise adversarial construction"
+    },
+    {
+      "method": "informal randomized local-rule no-go",
+      "loss_step": "ignore the population of the seed-dependent all-zero leaf and the possibility that it is itself o(N)",
+      "lost_information": "a dense queried-prime set can make the zero branch cheap to delete",
+      "consequence": "a uniform density or reciprocal-sum condition is necessary for any expectation-to-success bound"
+    }
+  ],
+  "required_new_information": [
+    "A coupled parameter choice u_K=floor((1/2-epsilon_K)K) and s_K=floor(epsilon_K K/4) that leaves nonnegative padding after an O(1/epsilon_K) balancing decrement.",
+    "A seedwise zero-branch lemma showing that all integers avoiding only the primes queried along repeated zero answers reach the same terminal leaf, regardless of off-zero queries.",
+    "An exact lower bound delta N-t_K on the deletion cost whenever the zero leaf is labelled deleted.",
+    "A quantitative implication success implies zero-leaf deletion, followed by Pr(success)<=E|D|/(delta N-t_K).",
+    "Explicit failure boundaries for nonterminating zero branches, inclusion of the padding prime, dense zero branches, exact-label queries, and global inter-vertex alteration."
+  ],
+  "candidate_budget": {
+    "roughness_exponent": "u_K=floor((1/2-epsilon_K)K)",
+    "path_parameter": "s_K=floor(epsilon_K K/4)",
+    "largest_rough_part": "strictly below b^(2u_K+4s_K)<=b^((1-epsilon_K)K)",
+    "initial_padding_reserve": "at least epsilon_K K exponent units",
+    "balancing_decrement": "at most D_K=ceil(8/epsilon_K+1) for sufficiently large K",
+    "nonnegativity_condition": "epsilon_K^2 K tends to infinity",
+    "tail": "strictly above N/b^(D_K+1)"
+  }
+}

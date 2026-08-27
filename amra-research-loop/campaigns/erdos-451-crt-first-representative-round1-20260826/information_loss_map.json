@@ -1,0 +1,34 @@
+{
+  "inherited_methods": [
+    {
+      "method": "Exact CRT density over the full period M_k=product_{k<p<2k} p",
+      "loss_step": "Replace the ordered prefix (2k,H] by a uniformly random residue modulo M_k.",
+      "lost_information": "The location of the first allowed residue and the possibility of a long initial covered interval.",
+      "consequence": "Predicts scale exp((log 4+o(1))k/log k) but proves neither an upper nor a lower bound for n_k."
+    },
+    {
+      "method": "Bonferroni or fundamental-lemma sieve on the interval [1,H]",
+      "loss_step": "Truncate inclusion-exclusion to products of primes not exceeding the distribution level H.",
+      "lost_information": "Almost all interaction orders among about k/log k dense half-residue constraints.",
+      "consequence": "At H=exp(Ck/log k), only O(k/log^2 k) constraints fit in a modulus, a vanishing fraction of the constraints that create the exponentially small density."
+    },
+    {
+      "method": "Second moment over translations of a length-H window modulo M_k",
+      "loss_step": "Average the starting point of the window before asking about the fixed initial window beginning at 2k.",
+      "lost_information": "Exceptional translates, including precisely the translate defining n_k.",
+      "consequence": "Can show that typical windows contain allowed residues while leaving the first representative uncontrolled."
+    },
+    {
+      "method": "Prime-in-short-interval coverage for each n",
+      "loss_step": "Treat the rational intervals ((n-k)/j,(n-1)/j) independently and use only a uniform prime-gap theorem.",
+      "lost_information": "Correlations among the many denominators j and Diophantine approximation of n/j.",
+      "consequence": "Gives polynomial or subexponential lower bounds but does not approach the conjectured exp(Theta(k/log k)) scale without a Konyagin-type amplification."
+    }
+  ],
+  "required_new_information": [
+    "A deterministic certificate that transfers full-period CRT density to the specific initial prefix without assuming translation genericity.",
+    "A high-order correlation or pseudorandomness statement that sees a positive fraction of the k/log k congruence constraints while using moduli below exp(O(k/log k)).",
+    "For lower bounds, a quantitatively stronger simultaneous rational-approximation obstruction than the June 2026 Konyagin-type argument.",
+    "An exact finite adversary map separating valid density evidence from invalid least-representative inference."
+  ]
+}

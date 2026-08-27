@@ -1,0 +1,18 @@
+{
+  "statement": "The genuinely new delayed deletion is exactly the corresponding full periodic increment truncated at its modulus. Individual transient harmonic mass cannot be charged by a universal constant times eventual density: an explicit power-of-two tower has amplification asymptotic to Q/(2 log Q), and finite positive-density backgrounds can also overspend their local eventual-density budget.",
+  "status": "proved",
+  "closes": [
+    "the exact reduction to disjoint truncated periodic layers",
+    "all layerwise universal-constant charging arguments"
+  ],
+  "evidence": [
+    "evidence/conditional_layers_and_transient_amplifier.md",
+    "evidence/positive_density_spike_search.json",
+    "evidence/longrun_replay.json"
+  ],
+  "dependency_gaps": [
+    "Finite local overshoot may still be absorbed by an aggregate cross-scale potential.",
+    "No bound controls repeated target-isolated packing into the same low-density congruence cell.",
+    "No infinite block construction with nonvanishing logarithmic oscillation was obtained."
+  ]
+}

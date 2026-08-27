@@ -1,0 +1,11 @@
+{
+  "tests": [
+    {"mechanism_id":"M25-4","test":"transfer profinite convergence without onset control","outcome":"killed","evidence":"evidence/zero_limit_and_coprime_theorem.md","reason":"the compact model erases infinitely many delayed initial representatives and supplies no uniform logarithmic discrepancy"},
+    {"mechanism_id":"M25-5","test":"analyse the proposed lcm-versus-next-onset hypothesis","outcome":"killed","evidence":"evidence/zero_limit_and_coprime_theorem.md","reason":"the stated superlacunary condition already forces reciprocal summability, so it adds no nonsummable case"},
+    {"mechanism_id":"M25-6","test":"bound each dyadic block using only distinctness","outcome":"killed","evidence":"evidence/zero_limit_and_coprime_theorem.md","reason":"the raw reciprocal mass of all distinct moduli in (M,2M] stays of constant order"},
+    {"mechanism_id":"M25-7","test":"seek one overlap inequality valid for coprime and nested extremisers","outcome":"killed","evidence":"evidence/zero_limit_and_coprime_theorem.md","reason":"coprime blocks minimise intersections while common-factor clusters maximise them; no proposed inequality improves both"},
+    {"mechanism_id":"M25-8","test":"limit nearly disjoint classes by block entropy","outcome":"killed","evidence":"evidence/zero_limit_and_coprime_theorem.md","reason":"the route has no proved entropy quantity linked to harmonic mass after conditioning"},
+    {"mechanism_id":"M25-9","test":"bound transient mass by eventual conditional density","outcome":"killed","evidence":"evidence/zero_limit_and_coprime_theorem.md","reason":"a new periodic class can have an lcm-scale initial discrepancy unrelated to its tiny eventual increment"},
+    {"mechanism_id":"M25-10","test":"derive a Cauchy bound from bounded lcm-time ratios","outcome":"killed","evidence":"evidence/zero_limit_and_coprime_theorem.md","reason":"bounded ratios do not control the conditional mass added at each stage"}
+  ]
+}

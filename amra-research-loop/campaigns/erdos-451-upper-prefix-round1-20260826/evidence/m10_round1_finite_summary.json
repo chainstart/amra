@@ -1,0 +1,77 @@
+{
+  "status": "finite_exact_only",
+  "pair_scan": {
+    "guard_unit": "openmath-task-20260826-223103-319131.scope",
+    "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m10_round1/anchored_pair_gap_scan.py",
+    "exit_status": 0,
+    "wall_seconds": 4.39,
+    "max_rss_kib": 82424,
+    "swaps": 0,
+    "rows": [
+      {"k": 100, "q": 179, "p": 181, "gap": 2070, "gap_density_ratio": 408.83761844501373, "distinguished_distance": 82},
+      {"k": 200, "q": 311, "p": 313, "gap": 14196, "gap_density_ratio": 1829.2062911560154, "distinguished_distance": 114},
+      {"k": 400, "q": 641, "p": 643, "gap": 51681, "gap_density_ratio": 7343.197722745613, "distinguished_distance": 244},
+      {"k": 800, "q": 1301, "p": 1303, "gap": 195951, "gap_density_ratio": 29129.396215674464, "distinguished_distance": 504},
+      {"k": 1200, "q": 1871, "p": 1873, "gap": 497016, "gap_density_ratio": 64046.64567999559, "distinguished_distance": 674},
+      {"k": 1600, "q": 2549, "p": 2551, "gap": 832575, "gap_density_ratio": 115555.28188854778, "distinguished_distance": 952},
+      {"k": 2000, "q": 3119, "p": 3121, "gap": 1377480, "gap_density_ratio": 177505.51775410067, "distinguished_distance": 1122}
+    ]
+  },
+  "full_successor_scan": {
+    "guard_unit": "openmath-task-20260826-223107-319183.scope",
+    "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m10_round1/anchored_full_successor_scan.py",
+    "exit_status": 0,
+    "wall_seconds": 4.37,
+    "max_rss_kib": 32124,
+    "swaps": 0,
+    "limit": 10000000,
+    "rows": [
+      {"k": 20, "prime_count": 4, "successor_n": 550, "distance_after_s_equals_k_minus_1": 510, "distance_density_ratio": 3.3657844138087896},
+      {"k": 30, "prime_count": 7, "successor_n": 21235, "distance_after_s_equals_k_minus_1": 21175, "distance_density_ratio": 0.8087062181121686},
+      {"k": 50, "prime_count": 10, "successor_n": 771892, "distance_after_s_equals_k_minus_1": 771792, "distance_density_ratio": 0.8805347996249581},
+      {"k": 80, "prime_count": 15, "successor_n": null},
+      {"k": 100, "prime_count": 21, "successor_n": null},
+      {"k": 150, "prime_count": 27, "successor_n": null},
+      {"k": 200, "prime_count": 32, "successor_n": null},
+      {"k": 300, "prime_count": 47, "successor_n": null},
+      {"k": 400, "prime_count": 61, "successor_n": null},
+      {"k": 600, "prime_count": 87, "successor_n": null},
+      {"k": 800, "prime_count": 112, "successor_n": null},
+      {"k": 1000, "prime_count": 135, "successor_n": null}
+    ]
+  },
+  "syndetic_product_test": {
+    "guard_unit": "openmath-task-20260826-223112-319202.scope",
+    "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m10_round1/syndetic_product_kill.py",
+    "exit_status": 0,
+    "wall_seconds": 0.28,
+    "max_rss_kib": 11520,
+    "swaps": 0,
+    "arbitrary_set_witness": {"q": 2, "r": 5, "A": [0], "B": [0, 2], "gap_A": 2, "gap_B": 3, "intersection_gap": 8},
+    "anchored_interval_systems_tested": 27900,
+    "anchored_interval_witness": null
+  },
+  "fan_lemma_check": {
+    "guard_unit": "openmath-task-20260826-225201-325863.scope",
+    "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/m10_round1/fan_lemma_check.py",
+    "exit_status": 0,
+    "wall_seconds": 0.63,
+    "max_rss_kib": 11200,
+    "swaps": 0,
+    "classification": "finite_diagnostic_only",
+    "fan_systems": 8854,
+    "common_quotient_rows": 31486,
+    "one_coordinate_merge_rows": 7865,
+    "two_coordinate_merge_rows": 66,
+    "script_sha256": "4349eab28d62a1510437b17d86746450740691fc5c3ac0468cdf57abea93a8cc"
+  },
+  "aborted_exploration": {
+    "guard_unit": "openmath-task-20260826-222759-318304.scope",
+    "reason": "The first anchored exhaustive range was deliberately terminated when it exceeded the finite-test scope; no output from it is used."
+  },
+  "script_sha256": {
+    "anchored_full_successor_scan.py": "a5a5b1b15d8b2a04888e8ab16077a466802c2497d322988ee80486d1d8d06225",
+    "anchored_pair_gap_scan.py": "fe432135e7648bfdf70407f9d854ff5e4d5474c3f35adead4fc70e6d18e9e959",
+    "syndetic_product_kill.py": "77c0e247e26bea7ddfe88da0587e5b593ccefb76426b411ff49c45dd92808f3f"
+  }
+}

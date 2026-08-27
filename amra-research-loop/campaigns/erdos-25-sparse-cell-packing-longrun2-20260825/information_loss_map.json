@@ -1,0 +1,40 @@
+{
+  "inherited_methods": [
+    {
+      "method": "finite-stage density telescoping",
+      "loss_step": "replace each disjoint periodic increment U_i by its density e_i before applying the onset truncation at n_i",
+      "lost_information": "the first active representatives and the number of multiplicative scales over which U_i has not mixed",
+      "consequence": "summability of e_i does not by itself imply logarithmic tightness of D_i"
+    },
+    {
+      "method": "single sparse-cell amplification",
+      "loss_step": "normalise transient mass by its exceptionally small eventual density rather than by the ambient log x",
+      "lost_information": "the absolute logarithmic capacity of the sparse cell",
+      "consequence": "an unbounded relative amplifier may still contribute o(1) to normalised logarithmic density"
+    },
+    {
+      "method": "finite block concatenation",
+      "loss_step": "place a block inside one bounded multiplicative interval and then send the cutoff to later blocks",
+      "lost_information": "dilution by log x and the need for a block to occupy a nonvanishing fraction of logarithmic time",
+      "consequence": "finite target isolation does not create an infinite oscillation"
+    },
+    {
+      "method": "unconditioned dyadic union bounds",
+      "loss_step": "bound each onset band separately without using disjointness of the U_i or low-order cell reuse",
+      "lost_information": "whether the same periodic capacity is charged repeatedly across scales",
+      "consequence": "the bound can pay O(1) once per scale and is not summable"
+    },
+    {
+      "method": "profinite convergence",
+      "loss_step": "project away the archimedean age variable log(x/n_i)",
+      "lost_information": "how long each cylinder has been active relative to the current cutoff",
+      "consequence": "measure convergence of finite-stage complements does not imply logarithmic equidistribution"
+    }
+  ],
+  "required_new_information": [
+    "an exact absolute-capacity bound for one sparse congruence cell over a logarithmic window",
+    "a cross-scale accounting rule showing whether cell capacity can be reused without paying finite-stage density loss",
+    "a scale-preserving construction or a tightness lemma whose error is uniform over growing lcm periods",
+    "explicit separation of relative amplification, absolute harmonic mass, and normalised logarithmic mass"
+  ]
+}

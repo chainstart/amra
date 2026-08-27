@@ -1,0 +1,15 @@
+{
+  "crt_trials_replayed": 6,
+  "finite_record_replayed": 1293081501,
+  "not_certified": [
+    "boundedness for every n",
+    "maximality beyond 2000000000",
+    "the unaudited 2010 three-prime preprint",
+    "novelty or publication priority of the finite record"
+  ],
+  "random_kummer_legendre_pairs": 50000,
+  "random_seed": 37720260826,
+  "schema_version": "amra.erdos377.blind-replay.v1",
+  "statement_scope": "finite and reduction claims only",
+  "status": "passed"
+}

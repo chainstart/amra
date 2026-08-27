@@ -1,0 +1,12 @@
+{
+  "schema_version": "amra.erdos377.record-replay.v1",
+  "n": 1293081501,
+  "method": "Independent direct Legendre valuation for every sieved prime p<=n; no interval difference array",
+  "accepted_prime_count": 39480473,
+  "reciprocal_sum_kahan": 1.1805025577649198,
+  "prime_sum_mod_2_64": 28831169901021829,
+  "scan_reciprocal_sum": 1.1805025577703219,
+  "absolute_float_difference": 5.4021e-12,
+  "verified": true,
+  "epistemic_status": "independent replay of one finite record; not a proof of maximality or boundedness"
+}

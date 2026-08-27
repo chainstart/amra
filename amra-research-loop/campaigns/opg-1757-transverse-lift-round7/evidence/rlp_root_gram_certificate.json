@@ -1,0 +1,130 @@
+{
+  "D4_bernstein": {
+    "B_row_sha256": [
+      "a4bd7b65204c57b270d4d04a8788a7452489b6af2acd4b6dcaab3cf530e5a0e8",
+      "8f9880e6de7c29d3d1dfceadf05d1570781c05cf1f85feef86155e87d6c592c0",
+      "ea0f83ba0480bc82d752517b437e21b919f2f6727ff993580d9a1ddd1d98a222",
+      "3cdc0d54a8c5585f013425392eabff14baa38021ae4732d8899e5928791961a0",
+      "8a490b0f9e1af8e39a7aca18db6a1e20dd99cffd1150fde71f251b15633e73bc",
+      "41ad30133c689b8afad55a28ff28d4824307fd483111307d8a3db2f9cf3ad37d",
+      "51d853ab41b07f3563e7970e41138ac4f335514d44ce242d4898ba994e5d693c",
+      "397137a16b35baacfb53eb946f6e03755d45e9cf7319d953a8369f9f358376c3",
+      "10b211d43bfee326693398116877cdabf4b4491c3e1b703b933854ea76e5a119",
+      "e9c8de493a297cc6b8adcca8e236c3047beb9371e15e32810193e4fbdd35941d",
+      "9f3f628cd552c8a66a18a2aff1b675cc3bd1ebf007d44f8147c5ea28e03540d3",
+      "6d4ad77c50d7ca6411bb88db4506aca95bf59866447351b6dba0a6dfe72d5eeb",
+      "9d2b4ce115947771442e3ce1d3662bf65c0b1980e80aac713baad25f5264db17",
+      "3a52584b8310dd519918e1bf3276c36871d0016e14d939c0c2219f9fbdce3e30",
+      "13ceb040f3480edcef9fc559aa7b3fda2182ff661c8274a5e18142cdd17f74ca",
+      "137dae8dc6adae55f302da5934bd65db901219bc50ceac3f3b18b909c68e8bdb"
+    ],
+    "combined_row_sha256": "a67b71d9eb45d916cd832016834eaffe30b9bb3b46bb3142a245769fb1d57e52",
+    "controls": 3615840,
+    "maximum_control_bit_length": 1018,
+    "negative_controls": 0,
+    "positive_controls": 3602880,
+    "tensor_shape_y_a_v_t_B": [
+      27,
+      10,
+      31,
+      27,
+      16
+    ],
+    "zero_controls": 12960
+  },
+  "D4_power_convolution": {
+    "R0_times_Kbar": {
+      "carry_upper_bound_bits": [
+        39,
+        39,
+        39,
+        39
+      ],
+      "carry_upper_bounds": [
+        533642317290,
+        533642317290,
+        533642317290,
+        533642317290
+      ],
+      "component_maxima": [
+        141908484,
+        143766882,
+        141904954,
+        139665778
+      ]
+    },
+    "R1_square": {
+      "carry_upper_bound_bits": [
+        41,
+        41,
+        41
+      ],
+      "carry_upper_bounds": [
+        1596932635204,
+        1596932635204,
+        1596932635204
+      ],
+      "component_maxima": [
+        566582856,
+        569158392,
+        586447536
+      ]
+    },
+    "maximum_power_coefficient": 1221821256,
+    "minimum_power_coefficient": -1263602640,
+    "power_tensor_sha256_le_i64": "ce411cab1010f925b58a484d63eb1ff4e70a76b895dbbccc1e8c23f8cf53e70b"
+  },
+  "Kbar_bernstein": {
+    "bernstein_sha256": "c00eecdb62d3a5a775e34d421dd10af7fac0eb9f1a73ec6a06efdc17f976aabc",
+    "controls": 108864,
+    "degrees_y_a_v_t_B": [
+      11,
+      5,
+      13,
+      11,
+      8
+    ],
+    "maximum": "1459145100043192474054456876421178764975/1361129467683753853853498429727072845824",
+    "minimum_nonzero": "4195872914689/4398046511104",
+    "negative_controls": 0,
+    "positive_controls": 108864,
+    "power_sha256": "e851b946099e4d6314c5c7ecda93095343c9fa8f7af293dc6c6d8745de0c0af3",
+    "power_terms": 8599,
+    "zero_controls": 0
+  },
+  "R0_bernstein": {
+    "bernstein_sha256": "9e5940aec396a41fb98e114e07d106f699e31c411f3abbc875275020584a8042",
+    "controls": 184320,
+    "degrees_y_a_v_t_B": [
+      15,
+      4,
+      17,
+      15,
+      7
+    ],
+    "maximum": "1089/1024",
+    "minimum_nonzero": "2048383/4672924418048",
+    "negative_controls": 0,
+    "positive_controls": 182400,
+    "power_sha256": "6854fed45787e239c68a332feb2af01ae49335f702a21ec83632719df17c5995",
+    "power_terms": 16469,
+    "zero_controls": 1920
+  },
+  "conclusion": "the tridiagonal root Gram is positive semidefinite throughout the stated local box, so the normalized q0-chart polynomial is nonnegative there for every real w",
+  "coverage_change": 0,
+  "domain": {
+    "box": "0<=y<=1, 0<=a<=1/128, 0<=B<=1, 0<=v<=1/128, 0<=t<=1/32",
+    "chart": "q0-maximal small-direction blow-up x=B*v*t*y",
+    "root_coordinate": "w=(1+t*y)*(1+t*v*y)*z-(t^2*v*y^2+2*t*v*y+v^2*y-2*v*y+v+y)"
+  },
+  "kernel_identity": {
+    "D4": "4*R0*Kbar-(1-a+B)*R1^2",
+    "four_times_gram_determinant": "y^2*B^4*v^2*C2*F4^2*D4",
+    "lower_minor": "4*y^2*B^3*v^2*C2*F4^2*Kbar",
+    "r0": "B*R0",
+    "r1": "B*R1"
+  },
+  "remaining_negative_page_chambers": 18,
+  "schema": "amra.opg1757.round7.rlp-root-gram-certificate.v1",
+  "scope": "this closes the exact small-direction singular box only; the complementary compact projective region, the full q3:RLP chamber, the generic Delta_b sign, and OPG-1757 remain open"
+}

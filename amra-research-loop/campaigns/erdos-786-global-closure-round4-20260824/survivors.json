@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M786G-03",
+    "M786G-06",
+    "M786G-13"
+  ],
+  "selection_rationale": "Ten of thirteen mechanisms are killed, a 100% kill ratio among non-survivors. M786G-03 retains probability-weighted or external-cluster arithmetic charging; the projective-plane obstruction kills every deterministic repair bound charged only to the realized cluster's internal packing, but does not kill this external/probabilistic route. M786G-06 survives only after adjoining full cluster geometry and normalized defect to the conserved full-residue divisor current; both explicit residue-only owner rules are killed, and any dual equivalent to the original transversal is forbidden. The original M786G-11 is killed because it incorrectly demanded a density-one admitted limit and used endpoint-only recourse. Its non-equivalent successor M786G-13 freezes the explicit periodic baseline B_Q={1} union QN and asks for a prefix-Carleson recourse theorem on the residual hypergraph; CR.1 proves that this exact missing estimate would give density 1-1/Q. The three survivors are respectively probabilistic/primal-dual, analytic owner-flow, and coherent finite-to-infinite mechanisms."
+}

@@ -1,0 +1,186 @@
+{
+  "mechanisms": [
+    {
+      "id": "M786F-01",
+      "representation_id": "R786F-01",
+      "family": "valuation_coding",
+      "decisive_claim": "Distinct nontrivial bipartitions of r private primes encode every incidence at every host vertex with fixed shared point product.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Verify the bipartition count and global prime budget for arbitrary maximum degree.",
+      "status": "proved",
+      "created_at": "2026-08-27T06:35:24+00:00",
+      "status_evidence": "evidence/FAITHFUL_LINEAR_EMBEDDING.md Sections 1-2 and evidence/faithful_embedding_replay.json",
+      "updated_at": "2026-08-27T06:42:00+00:00"
+    },
+    {
+      "id": "M786F-02",
+      "representation_id": "R786F-02",
+      "family": "valuation_coding",
+      "decisive_claim": "Two private primes with complementary exponent pairs encode all incident edges within the same asymptotic bit budget.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Prove the minimum exponent range for Delta distinct pairs and compare its bit cost with logarithmic block coding.",
+      "status": "killed",
+      "created_at": "2026-08-27T06:35:24+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md M786F-02",
+      "updated_at": "2026-08-27T06:42:00+00:00"
+    },
+    {
+      "id": "M786F-03",
+      "representation_id": "R786F-01",
+      "family": "valuation_coding",
+      "decisive_claim": "Prime blocks may be reused at nonadjacent host vertices without compromising global injectivity.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Test two reused blocks that occur in private vertices on different host edges.",
+      "status": "killed",
+      "created_at": "2026-08-27T06:35:24+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md M786F-03",
+      "updated_at": "2026-08-27T06:42:00+00:00"
+    },
+    {
+      "id": "M786F-04",
+      "representation_id": "R786F-03",
+      "family": "kernel_circuits",
+      "decisive_claim": "Every constructed alternating equal-product relation is a primitive circuit of its complete prime-valuation matrix.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Solve the rational kernel using one private prime row per path edge and verify the primitive integral generator.",
+      "status": "proved",
+      "created_at": "2026-08-27T06:35:24+00:00",
+      "status_evidence": "evidence/FAITHFUL_LINEAR_EMBEDDING.md Section 3 and finite path-prime propagation replay",
+      "updated_at": "2026-08-27T06:42:00+00:00"
+    },
+    {
+      "id": "M786F-05",
+      "representation_id": "R786F-04",
+      "family": "kernel_circuits",
+      "decisive_claim": "The published toric hypergraph encoding theorem directly supplies the required bounded-band arithmetic labeling and cover-number preservation.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Compare the stated outputs of the toric encoding theorem with the frozen arithmetic, scale, and transversal requirements.",
+      "status": "killed",
+      "created_at": "2026-08-27T06:35:24+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md M786F-05",
+      "updated_at": "2026-08-27T06:42:00+00:00"
+    },
+    {
+      "id": "M786F-06",
+      "representation_id": "R786F-05",
+      "family": "incidence_fidelity",
+      "decisive_claim": "Linearity alone makes the prime-block footprints preserve every pairwise edge intersection exactly, while private vertices remain edge-unique.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Check all shared-shared, shared-private, endpoint-endpoint, endpoint-internal, and internal-internal collision cases.",
+      "status": "proved",
+      "created_at": "2026-08-27T06:35:25+00:00",
+      "status_evidence": "evidence/FAITHFUL_LINEAR_EMBEDDING.md Section 4 and exact-intersection replay",
+      "updated_at": "2026-08-27T06:42:00+00:00"
+    },
+    {
+      "id": "M786F-07",
+      "representation_id": "R786F-06",
+      "family": "incidence_fidelity",
+      "decisive_claim": "Classical graph set-intersection representations alone preserve the host hypergraph transversal number after arithmetic conversion.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Test whether graph adjacency data determines shared host vertices and hypergraph transversals.",
+      "status": "killed",
+      "created_at": "2026-08-27T06:35:25+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md M786F-07",
+      "updated_at": "2026-08-27T06:42:00+00:00"
+    },
+    {
+      "id": "M786F-08",
+      "representation_id": "R786F-05",
+      "family": "incidence_fidelity",
+      "decisive_claim": "Replacing every edge-private arithmetic vertex by a shared host vertex from the same edge proves exact equality of transversal numbers.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Prove both inequalities and test replacements when several private choices map to the same host vertex.",
+      "status": "proved",
+      "created_at": "2026-08-27T06:35:25+00:00",
+      "status_evidence": "evidence/FAITHFUL_LINEAR_EMBEDDING.md Section 4 and preserved-tau replay",
+      "updated_at": "2026-08-27T06:42:00+00:00"
+    },
+    {
+      "id": "M786F-09",
+      "representation_id": "R786F-07",
+      "family": "padding_transfer",
+      "decisive_claim": "For every edge size m>K, an explicit quotient-remainder decrement vector has sum Delta, maximum four, and balances the two-adic exponents exactly.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Derive the ceiling-discrepancy interval and display the exponent-sum identity after decrements.",
+      "status": "proved",
+      "created_at": "2026-08-27T06:35:25+00:00",
+      "status_evidence": "evidence/FAITHFUL_LINEAR_EMBEDDING.md Section 2 and decrement-vector replay",
+      "updated_at": "2026-08-27T06:42:01+00:00"
+    },
+    {
+      "id": "M786F-10",
+      "representation_id": "R786F-08",
+      "family": "padding_transfer",
+      "decisive_claim": "Several padding primes remove the minimum edge size m>K without strengthening the raw-value budget.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Test capacity for m<=K and determine whether all padding exponents remain nonnegative in a fixed band.",
+      "status": "killed",
+      "created_at": "2026-08-27T06:35:25+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md M786F-10",
+      "updated_at": "2026-08-27T06:42:01+00:00"
+    },
+    {
+      "id": "M786F-11",
+      "representation_id": "R786F-05",
+      "family": "incidence_fidelity",
+      "decisive_claim": "The same two-block footprint construction preserves exact intersections for arbitrary non-linear host hypergraphs without modification.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Place one vertex pair in two distinct host edges and compare their internal private footprints.",
+      "status": "killed",
+      "created_at": "2026-08-27T06:36:20+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md M786F-11",
+      "updated_at": "2026-08-27T06:42:01+00:00"
+    },
+    {
+      "id": "M786F-12",
+      "representation_id": "R786F-06",
+      "family": "incidence_fidelity",
+      "decisive_claim": "Preserving only the edge-intersection graph is sufficient to preserve the host transversal number.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Compare hypergraphs with the same edge-intersection graph but different shared-vertex multiplicities and cover numbers.",
+      "status": "killed",
+      "created_at": "2026-08-27T06:36:20+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md M786F-12",
+      "updated_at": "2026-08-27T06:42:01+00:00"
+    },
+    {
+      "id": "M786F-13",
+      "representation_id": "R786F-08",
+      "family": "padding_transfer",
+      "decisive_claim": "Cloning vertices inside every short edge until its size exceeds K preserves simplicity, linearity, matching number, and transversal number and therefore removes the minimum-edge-size hypothesis.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Check whether cloned vertices create extra shared intersections or change minimum covers.",
+      "status": "killed",
+      "created_at": "2026-08-27T06:36:20+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md M786F-13",
+      "updated_at": "2026-08-27T06:42:01+00:00"
+    }
+  ]
+}

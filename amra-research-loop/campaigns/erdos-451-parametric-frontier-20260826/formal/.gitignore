@@ -1,0 +1,7 @@
+.lake/
+ErdosProblem451.lean
+*.olean
+*.ilean
+*.trace
+logs/
+.generated/

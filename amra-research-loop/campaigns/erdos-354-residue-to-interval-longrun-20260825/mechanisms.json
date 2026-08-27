@@ -1,0 +1,158 @@
+{
+  "mechanisms": [
+    {
+      "id": "M354L-1",
+      "representation_id": "R354L-1",
+      "family": "finite-automaton",
+      "decisive_claim": "A polynomial height bound for complete residue representatives forces a growing consecutive subset-sum interval.",
+      "would_close": [
+        "base-2 residue-to-interval interface"
+      ],
+      "kill_test": "Derive the integer lifting step with explicit height and gap constants; kill if arbitrary representative spacing survives.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/residue_core_bridge.md: representative height requires an additional disjoint q-multiple core",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M354L-2",
+      "representation_id": "R354L-2",
+      "family": "bounded-potential-ascent",
+      "decisive_claim": "The maximum subset-sum gap of the interleaved pair eventually decreases to one.",
+      "would_close": [
+        "base-2 precompleteness"
+      ],
+      "kill_test": "Compute exact gap updates on adversarial binary cylinders and identify a monotone potential.",
+      "status": "surviving",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/longrun_findings.md: eventual gap contraction remains equivalent to the unresolved sparse-tail problem",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M354L-3",
+      "representation_id": "R354L-3",
+      "family": "common-structural-host",
+      "decisive_claim": "Irrational ratio forces infinitely many support-disjoint signed subset relations equal to one.",
+      "would_close": [
+        "repeatable unit-step interface"
+      ],
+      "kill_test": "Construct long digit cylinders without a new disjoint unit relation or prove a recurrence forcing one.",
+      "status": "surviving",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/arbitrary_delay_lemma.md: bounded-gap supply is false, but eventual disjoint unit relations remain open",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M354L-4",
+      "representation_id": "R354L-4",
+      "family": "matching-certificates",
+      "decisive_claim": "A bounded number of disjoint unit relations plus the Sigma bound yields arbitrarily long intervals.",
+      "would_close": [
+        "base-2 global interface"
+      ],
+      "kill_test": "Prove support-disjoint translation and overlap induction with exact ordering.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/residue_core_bridge.md: a bounded number of unit relations gives no arbitrarily growing disjoint core",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M354L-5",
+      "representation_id": "R354L-5",
+      "family": "invisible-deformation",
+      "decisive_claim": "There is a universal binary-prefix depth at which every admissible parameter cylinder has a fixed-size interval seed.",
+      "would_close": [
+        "uniform finite seed lemma"
+      ],
+      "kill_test": "Use exact beam and random search for cylinders delaying each target interval length.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/arbitrary_delay_lemma.md: interval seeds can be delayed beyond every universal prefix depth",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M354L-6",
+      "representation_id": "R354L-6",
+      "family": "multiscale-analysis",
+      "decisive_claim": "High subset-sum collision at one scale forces gap contraction at the next binary scale.",
+      "would_close": [
+        "base-2 precompleteness"
+      ],
+      "kill_test": "Search exact prefixes with high energy and persistent gaps; require a quantitative inverse theorem.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/interval_delay_search.json: a high-density exact subset-sum bitset can retain a modular no-adjacency obstruction",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M354L-7",
+      "representation_id": "R354L-7",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "Residue coverage can be lifted from q to 2q while increasing representative height by O(q).",
+      "would_close": [
+        "quantitative residue coverage"
+      ],
+      "kill_test": "Track parity-separated representatives and kill on superlinear forced displacement.",
+      "status": "surviving",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/longrun_findings.md: finite displacement pressure is severe, but an eventual q-to-2q lift remains unrefuted",
+      "updated_at": "2026-08-25T12:01:16+00:00"
+    },
+    {
+      "id": "M354L-8",
+      "representation_id": "R354L-8",
+      "family": "geometric-lift",
+      "decisive_claim": "Irrational alpha/beta forces useful binary digit disagreements with bounded gaps.",
+      "would_close": [
+        "uniform carry synchronisation"
+      ],
+      "kill_test": "Construct irrational-ratio digit streams with arbitrarily long identical blocks.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/arbitrary_delay_lemma.md: irrational ratio permits arbitrarily long prescribed common carry blocks",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M354L-9",
+      "representation_id": "R354L-2",
+      "family": "bounded-potential-ascent",
+      "decisive_claim": "The combined mass of the other floor sequence uniformly pays every accumulated carry-created gap.",
+      "would_close": [
+        "base-2 interval growth"
+      ],
+      "kill_test": "Derive a gap-sensitive rather than total-mass inequality and search badly unbalanced alpha,beta.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/arbitrary_delay_lemma.md: exponentially large combined mass coexists with a persistent mod-5 no-adjacency obstruction",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M354L-10",
+      "representation_id": "R354L-7",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "A compatible tower of bounded-height residue representatives converges to an integer interval certificate.",
+      "would_close": [
+        "base-2 residue-to-interval interface"
+      ],
+      "kill_test": "Audit compactness: kill if boundedness depends on q or loses distinct-use supports.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/residue_core_bridge.md: compatible residues without disjoint support and uniform quotient height do not compactify to an interval",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M354L-11",
+      "representation_id": "R354L-4",
+      "family": "matching-certificates",
+      "decisive_claim": "Disjoint residue representatives with quotient-height spread H and a disjoint q-multiple quotient interval of length at least H produce an explicit consecutive integer interval.",
+      "would_close": [
+        "standalone residue-to-interval bridge"
+      ],
+      "kill_test": "Reconstruct every integer in the claimed interval with disjoint supports and exact endpoints.",
+      "status": "proved",
+      "created_at": "2026-08-25T11:54:35+00:00",
+      "status_evidence": "evidence/residue_core_bridge.md; evidence/longrun_replay.json",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "schema_version": "amra.finite_mathematical_evidence.v1",
+  "scope": "finite exact coefficient-box falsification only; not an asymptotic theorem",
+  "target_support": "R_h(z) at h=k^2*6^q*density^(-1)",
+  "script": "work/m10_round1/actual_block_dual_budget_search.py",
+  "algorithm_certificate": {
+    "method": "split coefficients into two halves; for every pair of exact L1 buckets, binary-search the closest opposite numerator; take prefix minima",
+    "cross_check": "rank-4 max_coeff=4 frontier identical to brute force",
+    "guard_units": [
+      "openmath-task-20260826-235056-341387.scope",
+      "openmath-task-20260826-235056-341407.scope"
+    ],
+    "exit_status": 0
+  },
+  "systems": [
+    {
+      "k": 168,
+      "scale": 16,
+      "offsets": [23, 25, 29, 31],
+      "rank": 4,
+      "max_coefficient": 16,
+      "coefficient_vectors_covered": 1185920,
+      "best_vector": [-1, 2, -2, 1],
+      "support": 4,
+      "first_nonzero_moment": 3,
+      "h_phase": 6793.088328094018,
+      "transverse": 0.230817797151443,
+      "R_over_q": 1698.3297864727922,
+      "guard": {
+        "unit": "openmath-task-20260826-234912-340720.scope",
+        "exit_status": 0,
+        "wall_seconds": 0.77,
+        "max_rss_kib": 13440,
+        "swap_events": 0
+      }
+    },
+    {
+      "k": 58,
+      "scale": 32,
+      "offsets": [39, 43, 45, 49, 51, 55],
+      "rank": 6,
+      "max_coefficient": 45,
+      "coefficient_vectors_covered": 567869252040,
+      "best_vector": [-8, 10, 4, 0, -7, 1],
+      "support": 5,
+      "first_nonzero_moment": 1,
+      "h_phase": 6.476386166110614,
+      "transverse": 4.547526714012886,
+      "R_over_q": 1.8373188133539164,
+      "alternative_q_score": 1.079397694351769,
+      "alternative_support_score": 1.2952772332221227,
+      "guard": {
+        "unit": "openmath-task-20260826-235131-341628.scope",
+        "exit_status": 0,
+        "wall_seconds": 48.09,
+        "max_rss_kib": 268640,
+        "swap_events": 0
+      }
+    },
+    {
+      "k": 116,
+      "scale": 32,
+      "offsets": [33, 35, 41, 47, 51, 57, 63],
+      "rank": 7,
+      "max_coefficient": 20,
+      "coefficient_vectors_covered": 194754273880,
+      "best_vector": [-8, 13, -5, 8, -7, -11, 10],
+      "support": 7,
+      "first_nonzero_moment": 1,
+      "h_phase": 38.66492097547908,
+      "transverse": 5.922190140220682,
+      "R_over_q": 6.369587302242823,
+      "alternative_q_score": 5.523560139354154,
+      "alternative_support_score": 5.523560139354154,
+      "guard": {
+        "unit": "openmath-task-20260826-235302-342002.scope",
+        "exit_status": 0,
+        "wall_seconds": 9.19,
+        "max_rss_kib": 557072,
+        "swap_events": 0
+      }
+    },
+    {
+      "k": 176,
+      "scale": 64,
+      "offsets": [65, 75, 81, 87, 93, 95, 101, 105, 107, 117],
+      "rank": 10,
+      "max_coefficient": 2,
+      "coefficient_vectors_covered": 9765624,
+      "best_vector": [0, -1, 1, -2, 2, 2, 0, -2, 0, 0],
+      "support": 6,
+      "first_nonzero_moment": 1,
+      "h_phase": 394969519.58117074,
+      "transverse": 1.1784821840629818,
+      "R_over_q": 39496952.07596529,
+      "guard": {
+        "unit": "openmath-task-20260826-234936-340962.scope",
+        "exit_status": 0,
+        "wall_seconds": 11.22,
+        "max_rss_kib": 13280,
+        "swap_events": 0
+      }
+    }
+  ],
+  "actual_gap_hyperplane_certificate": {
+    "k": 168,
+    "primes": [191, 193, 197, 199],
+    "widths": [23, 25, 29, 31],
+    "period": 1445140189,
+    "allowed_residue_count": 516925,
+    "max_cyclic_gap": 4327275,
+    "dual_vector": [-1, 2, -2, 1],
+    "A": -96,
+    "support_R_exact": "541272603/1445140189",
+    "center_phase_distance_exact": "719009335/1445140189",
+    "strict_certificate": true,
+    "script": "work/m10_round1/actual_gap_dual_certificate.py",
+    "guard": {
+      "unit": "openmath-task-20260827-000337-344292.scope",
+      "exit_status": 0,
+      "wall_seconds": 0.34,
+      "max_rss_kib": 73876,
+      "swap_events": 0
+    }
+  },
+  "single_hyperplane_transference_counterexample": {
+    "classification": "finite exact counterexample to the single-split certificate; not to multi-facet linear flatness",
+    "k": 15,
+    "scale": 8,
+    "primes": [23, 29],
+    "period": 667,
+    "actual_max_gap": 62,
+    "located_closed_halfwidth": 27,
+    "exhaustive_coefficient_bound": 5,
+    "vectors_checked": 120,
+    "outside_box_transverse_lower": "7/10",
+    "best_vector": [-1, 1],
+    "best_support_R": "344/667",
+    "best_phase_distance": "297/667",
+    "best_margin": "-47/667",
+    "single_hyperplane_certificate_exists": false,
+    "blocks_tested": 126,
+    "split_failures": 63,
+    "largest_observed_minimum_R_over_rank_among_failures": {
+      "k": 39,
+      "primes": [47, 53],
+      "value": "646/2491"
+    },
+    "script": "work/m10_round1/special_zonotope_split_search.py",
+    "guard": {
+      "unit": "openmath-task-20260827-002141-349572.scope",
+      "exit_status": 0,
+      "wall_seconds": 15.24,
+      "max_rss_kib": 48040,
+      "swap_events": 0
+    }
+  },
+  "conclusion": "No finite counterexample to a multi-facet linear special-zonotope threshold. Exact full-moment Vandermonde height does not control the moment-order-one minima. A true rank-two 451 block rigorously refutes the stronger single-hyperplane/split transference claim."
+}

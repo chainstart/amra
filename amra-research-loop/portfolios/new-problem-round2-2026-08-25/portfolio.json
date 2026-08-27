@@ -1,0 +1,139 @@
+{
+  "schema_version": "amra.discovery-portfolio.v1",
+  "portfolio_id": "new-problem-round2-2026-08-25",
+  "updated_at": "2026-08-25T15:44:00+08:00",
+  "max_active_deep_attacks": 3,
+  "outcome_semantics": {
+    "original_problem_closed": "The exact current public statement is completely proved or refuted.",
+    "new_bound_or_scoped_theorem": "A rigorous contribution exists but does not close the public statement.",
+    "writing_package_ready": "A downstream exposition package has passed its own checks; this never implies closure."
+  },
+  "targets": [
+    {
+      "problem_id": "erdos-538",
+      "title": "Bounded prime-multiple representations",
+      "opportunity_class": "FORMAL-READY",
+      "research_track": "scoped_theorem",
+      "scheduling_status": "frozen",
+      "resume_gate": "Supply a proved inequality that controls nonsquarefree prime-power fibres or couples three or more squarefree ranks; extending the finite prime list is insufficient.",
+      "closure_contract": "Prove the exact r=2 finite squarefree-support rank-two extremal theorem, including equivalence to weighted triangle-free graphs and a complete-bipartite optimiser.",
+      "proof_dag": [
+        "representation-rank decomposition",
+        "rank-two triangle-free equivalence",
+        "weighted Zykov symmetrisation",
+        "independent exhaustive replay"
+      ],
+      "closing_lemma": "Every positive vertex-product-weighted triangle-free graph has a complete bipartite graph on the same vertices with at least as much edge weight.",
+      "verifier": "work/verify_538_squarefree.py",
+      "domain_expert": {
+        "status": "root-assigned",
+        "next_action": "Audit repeated-prime m and the termination invariant in weighted symmetrisation."
+      },
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": false,
+        "evidence": {
+          "theorem": "evidence/erdos_538_squarefree_theorem.md",
+          "finite_replay": "evidence/erdos_538_squarefree_rank2.json",
+          "adversarial_replay": "evidence/adversarial_replay.json",
+          "verifier": "work/verify_538_squarefree.py"
+        }
+      },
+      "deep_attack": {
+        "active": false
+      }
+    },
+    {
+      "problem_id": "erdos-317",
+      "title": "Signed harmonic sums at the lcm lattice spacing",
+      "opportunity_class": "CONSTRUCTION",
+      "research_track": "scoped_theorem",
+      "scheduling_status": "frozen",
+      "resume_gate": "Prove that every sufficiently large n has a prime p in (n/2,n] with L_n/p not congruent to plus or minus 1 modulo p, or provide a different symbolic obstruction; a larger finite cutoff is insufficient.",
+      "closure_contract": "Find and independently verify exact finite witnesses or unsatisfiable instances for sum delta_k L_n/k=1, then accept a general claim only with an explicit infinite lift or eventual obstruction.",
+      "proof_dag": [
+        "exact coefficient construction",
+        "SMT certificate extraction",
+        "direct integer replay",
+        "modular pattern audit"
+      ],
+      "closing_lemma": "A stable lift or modular elimination rule valid for an infinite tail of n.",
+      "verifier": "work/search_317_signed_lcm.py",
+      "domain_expert": {
+        "status": "root-assigned",
+        "next_action": "Reject any finite SAT/UNSAT pattern that lacks a symbolic transition in n."
+      },
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": false,
+        "evidence": {
+          "lemma_and_scope": "evidence/erdos_317_modular_certificate.md",
+          "million_range_certificate": "evidence/erdos_317_singleton_prime_1000000.json",
+          "exact_search_2_24": "evidence/erdos_317_signed_lcm_2_24.json",
+          "exact_search_25_28": "evidence/erdos_317_signed_lcm_25_28.json",
+          "exact_search_29_30": "evidence/erdos_317_signed_lcm_29_30.json",
+          "adversarial_replay": "evidence/adversarial_replay.json",
+          "verifier": "work/certify_317_singleton_prime.py"
+        }
+      },
+      "deep_attack": {
+        "active": false
+      }
+    },
+    {
+      "problem_id": "erdos-859",
+      "title": "Density of divisor-subset-sum representability",
+      "opportunity_class": "CONSTRUCTION",
+      "research_track": "scoped_theorem",
+      "scheduling_status": "frozen",
+      "resume_gate": "Give a symbolic description of the minimal lcm generators on an infinite subsequence, or a proved compression below the generic lcm-closure explosion; raising the 2,000,000-term cap is insufficient.",
+      "closure_contract": "Compute exact d_t through minimal lcm generators and promote no asymptotic statement without a symbolic subsequence proof.",
+      "proof_dag": [
+        "subset-sum lcm states",
+        "minimal divisibility antichain",
+        "collapsed exact inclusion-exclusion",
+        "small-period independent replay",
+        "subsequence mechanism audit"
+      ],
+      "closing_lemma": "A rigorously proved separation between two infinite subsequences, or a uniform asymptotic estimate.",
+      "verifier": "work/compute_859_density.py",
+      "domain_expert": {
+        "status": "root-assigned",
+        "next_action": "Treat all finite exponent plots as diagnostics, never as universal evidence."
+      },
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": true,
+        "writing_package_ready": false,
+        "evidence": {
+          "route_audit": "evidence/erdos_859_route_audit.md",
+          "exact_density_table": "evidence/erdos_859_density_toward_80.json",
+          "adversarial_replay": "evidence/adversarial_replay.json",
+          "verifier": "work/compute_859_density.py"
+        }
+      },
+      "deep_attack": {
+        "active": false
+      }
+    },
+    {
+      "problem_id": "erdos-389",
+      "title": "Adjacent block product divisibility",
+      "opportunity_class": "CONSTRUCTION",
+      "research_track": "discovery",
+      "scheduling_status": "candidate",
+      "resume_gate": "One admitted target must hit its first kill gate with at least 25 minutes unspent, and the lcm iteration must have a monotone termination measure.",
+      "outcomes": {
+        "original_problem_closed": false,
+        "new_bound_or_scoped_theorem": false,
+        "writing_package_ready": false,
+        "evidence": {}
+      },
+      "deep_attack": {
+        "active": false
+      }
+    }
+  ]
+}

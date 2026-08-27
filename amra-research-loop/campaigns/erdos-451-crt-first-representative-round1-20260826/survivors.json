@@ -1,0 +1,7 @@
+{
+  "mechanism_ids": [
+    "M451-08",
+    "M451-09"
+  ],
+  "selection_rationale": "M451-08 now has a replayable Lean kernel certificate for the 1/16 lower-bound constant and a formal bridge to the public prime interval (k,2k); it advances to independent audit but is not yet promotion-ready because no different reviewer has reconstructed it. M451-09 remains the only upper-bound route that retains the distinguished prefix; it is speculative and has not crossed the decisive-lemma gate. M451-07 remains an unpromoted candidate because no multivariate Konyagin gain was established."
+}

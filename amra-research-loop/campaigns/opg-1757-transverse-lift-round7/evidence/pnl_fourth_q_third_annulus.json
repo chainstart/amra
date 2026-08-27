@@ -1,0 +1,110 @@
+{
+  "base_chart_sha256": "2e44871e941553ecdaefad9a3750b5e1c1505f3d76bf5fb7ec5a70828a423c25",
+  "boxes": {
+    "y_lower_b_lower": {
+      "bernstein_maximum": "62810213289641541494105380450414487517691963875451438015660110643200",
+      "bernstein_minimum_nonzero": "2141530632485625792181398562011605521956101964218746653779165184000/29",
+      "bernstein_nonzero": 6451830,
+      "bernstein_sha256": "05f42d9a1ee0b95dc90983356ccee942637232aee36b4189894d0e331ab1d815",
+      "bernstein_total": 6451830,
+      "bernstein_zero": 0,
+      "control_slots": [
+        "t",
+        "s",
+        "Hbar",
+        "u",
+        "v",
+        "d"
+      ],
+      "parameterization": "y=s/2, b=u/2",
+      "polynomial": {
+        "degrees": [
+          56,
+          0,
+          6,
+          0,
+          6,
+          10,
+          29,
+          6
+        ],
+        "negative_power_coefficients": 764932,
+        "sha256": "6a6cd82516fe465f5d9fc6516a9788a825d8b03735d228a608dfca452b98b914",
+        "terms": 1534984
+      }
+    },
+    "y_lower_b_upper": {
+      "bernstein_maximum": "255949159449501967230049624407476760547594763206736013871703654400000",
+      "bernstein_minimum_nonzero": "25189422410264330721793603209921788388419977438674721511634370560",
+      "bernstein_nonzero": 6412728,
+      "bernstein_sha256": "ddf0e712b4b337902975fb26af4c4eb934d9b287e6c5b0ff082080a0c6ca38a3",
+      "bernstein_total": 6451830,
+      "bernstein_zero": 39102,
+      "control_slots": [
+        "t",
+        "s",
+        "Hbar",
+        "u",
+        "v",
+        "d"
+      ],
+      "parameterization": "y=s/2, b=(1+u)/2",
+      "polynomial": {
+        "degrees": [
+          56,
+          0,
+          6,
+          0,
+          6,
+          10,
+          29,
+          6
+        ],
+        "negative_power_coefficients": 770994,
+        "sha256": "59e602c641332c568d55b2c371547c7b4c77742780e9ea40778349d8d50b0748",
+        "terms": 1546459
+      }
+    },
+    "y_upper": {
+      "bernstein_maximum": "249950351024904264873095336335426523972260510944078138546585600000",
+      "bernstein_minimum_nonzero": "288719599266701373796636857000180088121689690664617072647995392/225",
+      "bernstein_nonzero": 6342903,
+      "bernstein_sha256": "9defb225132dc7e996438824ee6457fa44ebaf3f3baee3c99b970d5b4689426e",
+      "bernstein_total": 6451830,
+      "bernstein_zero": 108927,
+      "control_slots": [
+        "t",
+        "s",
+        "Hbar",
+        "b",
+        "v",
+        "d"
+      ],
+      "parameterization": "y=(1+s)/2",
+      "polynomial": {
+        "degrees": [
+          56,
+          0,
+          6,
+          0,
+          6,
+          10,
+          29,
+          6
+        ],
+        "negative_power_coefficients": 771637,
+        "sha256": "b4a97c1dc52fc481814173d5a3e3cfa455e89403a19beb9f96c50048d6ffdf4f",
+        "terms": 1548355
+      }
+    }
+  },
+  "conclusion": "the complete third dyadic annulus 1/8<=q<=1/4 is exactly Bernstein-nonnegative; together with pnl_a_boundary_third_newton.json this certifies the full q>=1/8 region of the q-maximal fourth chart",
+  "coverage_change": 0,
+  "domain": "the q-maximal fourth-Newton chart inside the below-root v-maximal third chart",
+  "partition": "y>=1/2, or y<=1/2 split at b=1/2",
+  "q_interval": "[1/8,1/4]",
+  "q_parameterization": "q=(1+t)/8 with 0<=t<=1; clear by the positive factor 8^56",
+  "schema": "amra.opg1757.round7.pnl-fourth-q-third-annulus.v1",
+  "scope": "the q<1/8 region, the v-maximal fourth chart, the other transverse directions, q3:PNL, and OPG-1757 are not claimed",
+  "strictly_positive_nonzero_controls": 19207461
+}

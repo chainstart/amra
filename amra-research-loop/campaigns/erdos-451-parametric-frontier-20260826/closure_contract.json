@@ -1,0 +1,23 @@
+{
+  "exact_statement": "Let theta lie in the source paper's verified applicability range 2/5<theta<3/5 and assume the explicit prime input PI(theta): there are C>0 and x0 such that every real/integer base x>=x0 has at least C*x^theta/log(x) primes in (x,x+x^theta), in the precise integer-base form needed by Sections 2--6. Determine the supremum c_*(theta) for which the van Doorn--Tang proof based on its Theorem 4.1, allowing arbitrary admissible derivative order r>=2, scale lambda>=1, a finite or polylogarithmic segmentation into comparable prime blocks, and all source-paper range splits, proves: for each fixed 0<c<c_*(theta), all sufficiently large integers k and every integer n with 2k<n<=exp(c*(log k)^2/log log k) have a prime p in (k,k+3*k^theta) dividing (n-k)...(n-1). Prove the theta,c theorem and a no-go theorem only for that precisely delimited certificate class. Then state theta=21/40 as the unconditional Baker--Harman--Pintz corollary and use k+3*k^theta<2k for large k to recover p in (k,2k). Any extension outside 2/5<theta<3/5 requires a separate audit of every range and is not part of the frozen target.",
+  "source": "W. van Doorn and Q. Tang, Consecutive integers free of certain prime factors, arXiv:2606.19863v1, especially Theorem 4.1 and Section 6",
+  "success_conditions": [
+    "main_exponent_improved",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume",
+    "an_improved_fixed_constant_without_a_quantified_frontier",
+    "a_no_go_claim_for_methods_not_explicitly_covered",
+    "a_prime_output_only_in_k_to_2k_without_first_proving_the_source_paper_k_to_k_plus_3k_theta_interval"
+  ],
+  "scope_notes": [
+    "The abstract theorem is conditional on PI(theta); only theta=21/40 is discharged by the source paper's Baker--Harman--Pintz input.",
+    "The no-go conclusion concerns certificates obtained by inserting Theorem 4.1 upper bounds blockwise and comparing their nonnegative right-hand sides with prime counts. It is not a lower bound on the true bad-point count K and not an impossibility theorem for Erdős #451.",
+    "The campaign must optimize r and lambda rather than inherit the source paper's coarse r<=2c log(k)/loglog(k) estimate."
+  ]
+}

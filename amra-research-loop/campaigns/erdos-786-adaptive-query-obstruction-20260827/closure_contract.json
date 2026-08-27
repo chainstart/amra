@@ -1,0 +1,59 @@
+{
+  "exact_statement": "Prove a parameterized support-minimal unequal-cardinality equal-product path relation that avoids every prescribed prime below N^(1/2-epsilon) while remaining in a multiplicative tail of width depending only on epsilon, and determine whether it rules out deterministic and randomized per-integer deletion classifiers implemented by adaptive prime-valuation decision trees whose all-zero branch has positive-density input. Any randomized theorem must give an explicit success-probability bound from expected deletion cost. It must not claim a result for global alteration, arbitrary exact-label rules, the full transversal number, or Erdos 786.",
+  "source": "amra-research-loop/campaigns/erdos-786-unified-local-obstruction-20260826",
+  "success_conditions": [
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume",
+    "restatement_of_the_static_valuation_cylinder_theorem",
+    "a_decision_tree_defined_after_the_counterexample_is_chosen",
+    "a_randomized_statement_without_an_explicit_success_probability_bound",
+    "a_finite_seed_or_finite_K_experiment",
+    "a_claim_about_global_alteration_or_inter_vertex_feedback",
+    "a_claim_about_dense_zero_branches_without_a_positive_density_hypothesis",
+    "an_integral_transversal_bound_from_one_query_branch"
+  ],
+  "scope_notes": [
+    "Variant lock: relations use two disjoint Finsets of distinct positive integers with equal products and unequal cardinalities; cancelled coefficients are in {-1,0,1}.",
+    "The predecessor U.1--U.3 campaign is frozen at independent_audit and is a read-only dependency. This successor may strengthen its geometric parameter range but may not alter its evidence.",
+    "A deterministic classifier applies one finite rooted decision tree to every integer above a declared lower threshold. An internal node may query the exact valuation nu_p(n), and the next query may depend on previous answers. The all-zero branch must terminate.",
+    "A randomized classifier first draws a shared seed and then applies the corresponding deterministic tree to every integer. Off-zero branches and their queried primes are unrestricted; only the all-zero branch is constrained.",
+    "The model excludes a different hard-coded tree for every integer, exact integer-label queries, decisions using previously classified integers, global repair/alteration, and a post hoc choice of the tree after seeing the adversarial relation.",
+    "The geometric theorem may use a sequence epsilon_K only with epsilon_K^2 K tending to infinity. A fixed epsilon gives a fixed multiplicative tail and controlled primes up to N^(1/2-epsilon).",
+    "A randomized no-go conclusion must be quantitative: the probability of returning a transversal is bounded in terms of expected deletion cost and the population of the all-zero branch.",
+    "No conclusion about tau(H_N), an o(N) transversal, the infinite density problem, or Erdos 786 is permitted.",
+    "Public search for an exact solution of Erdos 786 remains prohibited. Ordinary named background such as Bertrand's postulate and elementary union/expectation bounds is allowed."
+  ],
+  "variant_lock": {
+    "vertices": "distinct integers in {2,...,N}",
+    "relation": "disjoint finite shores with equal products and unequal cardinalities",
+    "minimality": "no proper nonempty signed subrelation on the displayed support",
+    "forbidden": "multisets, repetitions, approximate identities, or arbitrary integer coefficients"
+  },
+  "frozen_geometric_target": {
+    "parameters": "N=b^K, 0<epsilon_K<1/2, u_K=floor((1/2-epsilon_K)K), s_K=floor(epsilon_K K/4), epsilon_K^2 K -> infinity",
+    "controlled_primes": "every prescribed prime is different from b and smaller than b^u_K",
+    "tail": "all relation vertices exceed N/b^(D_K+1), where D_K=ceil(8/epsilon_K+1)",
+    "support": "2s_K+1 distinct vertices with ordered path prime incidence outside b"
+  },
+  "frozen_query_model": {
+    "tree": "one finite exact-prime-valuation decision tree per K and random seed, applied uniformly to all n above t_K",
+    "zero_branch": "P_(K,omega) is the set of primes queried after repeated valuation-zero answers; b is absent, max P<b^u_K, and sum_(p in P)1/p<=1-delta",
+    "threshold": "t_K=o(N/b^(D_K+1))",
+    "cost": "mu_K=E|D_(K,omega)|",
+    "target_bound": "Pr(D_(K,omega) is a transversal of H_N)<=mu_K/(delta N-t_K) whenever the denominator is positive"
+  },
+  "read_only_dependency": {
+    "campaign": "../erdos-786-unified-local-obstruction-20260826",
+    "proof_artifact": "evidence/SURVIVOR_DEEPENING.md",
+    "proof_sha256": "5970e263ca452701580a7b501dee1c1cf8c388c896a8675b3d018de79c93ca64",
+    "decisive_lemma_artifact": "decisive_lemma.json",
+    "decisive_lemma_sha256": "54680d495a239db788b3b66ee674c0c96b19f2119ec824cc6a2db809778a1992",
+    "result": "U.1--U.3 constant-width path and static valuation-cylinder obstruction"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "statement": "Moving thin-tail minimal-circuit theorem IR.1. For every positive sequence eta_K with K eta_K tending to infinity, every sufficiently large power N=2^K has a support-minimal unequal-cardinality equal-product relation of distinct integers entirely inside (N^(1-eta_K),N]. Consequently every hard lower-tail threshold whose deletion cost is o(N), every finite union of nested such thresholds, and every unaltered independent rounding q_N(n)<=g_N w_N(n) with g_N=o(log N) fails in its stated universal or probability-one form.",
+  "status": "proved",
+  "closes": [
+    "the complete moving hard-threshold class with o(N) lower-tail deletion",
+    "finite nested log-defect threshold unions",
+    "probability-one coverage by affordable independent proportional rounding without alteration"
+  ],
+  "evidence": [
+    "evidence/OBSTRUCTION_ANALYSIS.md",
+    "evidence/MECHANISM_FALSIFICATION.md",
+    "evidence/SURVIVOR_DEEPENING.md",
+    "evidence/verify_integral_rounding_kills.py"
+  ],
+  "dependency_gaps": [
+    "IR.1 does not lower-bound the full integral transversal number; each constructed circuit is hit by one deletion.",
+    "M786I-05 needs an arithmetic dependency-compression/alteration theorem with loss g(N)=o(log N).",
+    "M786I-06 needs a noncircular largest-prime/cofactor owner and an all-N congestion bound g(N)=o(log N).",
+    "M786I-12 needs a bounded recursive residue-token potential and, separately, a stabilization plus zero-upper-density theorem for infinite coherence.",
+    "The finite integral density-one and infinite natural-density assertions remain open and no closure of original Erdos 786 is claimed.",
+    "Independent reconstruction, dependency checking, statement matching, and novelty review have not begun and must be done by a non-author."
+  ],
+  "supporting_results": {
+    "rough_host": "After a suitable slow smooth/rough split and square-large-prime deletion, every residual integer has a nonempty squarefree active-prime set of size at most L.",
+    "active_incidence": "Every residual product relation balances each active-prime incidence and therefore the sum of active degrees across the shores.",
+    "rank_no_go": "Global exponent rank alone cannot control integral hitting: a rank-one powers-of-two family has arbitrarily large transversal lower bound on that subinstance.",
+    "fixed_signature_no_go": "Any fixed finite valuation signature has a zero cell containing a balanced-padded minimal circuit when all construction primes are chosen outside the controlled set."
+  },
+  "evidence_classification": {
+    "mathematical_status": "proved",
+    "scope": "standalone all-parameter obstruction to specified rounding mechanisms only",
+    "public_problem": "open",
+    "machine_reproduced": "verify_integral_rounding_kills.py checks exact instantiated identities, thin-tail inequalities, and small support minimality; the universal proof is symbolic",
+    "independent_reconstruction": "not_started",
+    "publication_state": "private_campaign_note"
+  }
+}

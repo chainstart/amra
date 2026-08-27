@@ -1,0 +1,59 @@
+{
+  "inherited_methods": [
+    {
+      "method": "totally additive function for repetitions-allowed products",
+      "loss_step": "replace Finset occurrence differences in {-1,0,1} by arbitrary integer multiplicities",
+      "lost_information": "the same integer cannot be used twice on one side in the active variant",
+      "consequence": "the linear-functional characterization applies to the excluded repeated-factor problem but not here; {2,4} is an exact mismatch witness"
+    },
+    {
+      "method": "Selfridge exact-one selected-prime layer",
+      "loss_step": "compress the whole exponent vector to one additive count and require that count to equal one",
+      "lost_information": "distinctness could permit nonlinear circuit control outside a single additive hyperplane",
+      "consequence": "the entire mechanism has density at most 1/e by lambda exp(-lambda)<=1/e"
+    },
+    {
+      "method": "high-tail magnitude cutoff",
+      "loss_step": "verify only relations whose larger side has at most L factors",
+      "lost_information": "minimal unbalanced circuits can have arbitrarily many distinct squarefree factors",
+      "consequence": "K_(s+1,s) edge-prime products give a minimal (s+1)-versus-s relation inside every fixed high-tail cutoff once s is large"
+    },
+    {
+      "method": "common-dilation auxiliary amplification",
+      "loss_step": "multiply every occurrence in a repeated relation by the same free parameter",
+      "lost_information": "an unbalanced relation has different homogeneous degrees on its two sides",
+      "consequence": "the common parameter appears to powers r and s and destroys equality; nonlinear repair lies on a sparse set not forced by natural density"
+    },
+    {
+      "method": "bounded-dimensional linear dependence",
+      "loss_step": "use an arbitrary rational or integer kernel vector as though it were a {-1,0,1} circuit",
+      "lost_information": "coefficient size and per-element distinctness",
+      "consequence": "linear rank deficiency alone does not produce a forbidden Finset relation"
+    },
+    {
+      "method": "private largest-prime ownership",
+      "loss_step": "assign a different certifying prime to every admitted integer",
+      "lost_information": "only pi(N)=o(N) prime labels are available up to N",
+      "consequence": "private labels cannot certify a density-one subset; reused prime fibres need a new peeling theorem"
+    },
+    {
+      "method": "fixed-N SAT or ILP optimization",
+      "loss_step": "stop after enumerating the finite minimal-relation hypergraph",
+      "lost_information": "uniform structure as N grows and relations between separately optimized blocks",
+      "consequence": "finite optima are exact kill tests only and do not imply either density statement"
+    },
+    {
+      "method": "concatenate near-optimal finite sets",
+      "loss_step": "treat local admissibility in disjoint numerical intervals as hereditary across their union",
+      "lost_information": "multiplicative relations can use factors from several blocks",
+      "consequence": "finite part ii does not automatically yield a natural-density set for part i"
+    }
+  ],
+  "required_new_information": [
+    "A deletion or admission theorem controlling every minimal {-1,0,1} unbalanced exponent circuit, including arbitrarily long squarefree K_(s+1,s) circuits, with total deletion o(N).",
+    "Or an ordered largest-prime-fibre peeling rule that exposes an endpoint of every minimal unbalanced circuit and proves bounded total congestion.",
+    "For any auxiliary-element amplification, an all-scale supply theorem showing that a density-one candidate must contain the nonlinear auxiliary pattern.",
+    "For SAT/ILP, a symbolic completeness theorem reducing all large-N obstructions to a bounded family; raw optimum values do not count.",
+    "A separate natural-density gluing theorem if the finite construction is pursued first."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "amra.new-problem-round3-replay.v1",
+  "claim_scope": "adversarial computational replay, not independent mathematical reconstruction",
+  "erdos_317": {
+    "crt_sign_patterns_replayed": 28,
+    "largest_prime_counterinstances_through": 100000,
+    "largest_prime_allowed_count": 37
+  },
+  "erdos_354": {
+    "samples_replayed": 3,
+    "carry_depth": 28,
+    "moduli_replayed_through": 64
+  },
+  "erdos_25": {
+    "all_residue_assignments_replayed": 30,
+    "moduli": [
+      2,
+      3,
+      5
+    ],
+    "exact_density": "4/15"
+  },
+  "campaign_states": {
+    "erdos-317-residue-tail-20260825": "frozen",
+    "erdos-354-floor-precomplete-20260825": "frozen",
+    "erdos-25-log-density-tail-20260825": "frozen"
+  },
+  "resource_guard": {
+    "observed_cgroup": "0::/user.slice/user-1000.slice/user@1000.service/openmath.slice/openmath-task-20260825-171244-39792.scope",
+    "inside_openmath_slice": true
+  },
+  "pid": 39792
+}

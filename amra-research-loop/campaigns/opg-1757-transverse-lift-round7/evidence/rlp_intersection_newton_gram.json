@@ -1,0 +1,65 @@
+{
+  "conclusion": "the common degree-four Newton face at A=B=0 is nonnegative for every real z",
+  "coordinates": "A=1-a; the second corner is A=B=0",
+  "corner": {
+    "AB_total_degree_range": [
+      4,
+      9
+    ],
+    "sha256": "bb7a4fdc3c7bcd2c32c1697e148b495a48eb21052e85ccb0a7bc39a1a7598e7b",
+    "terms": 1743
+  },
+  "coverage_change": 0,
+  "degree_four_face": {
+    "H": {
+      "negative_power_coefficients": 46,
+      "sha256": "58b699ccc0771b5753205d03bb33a4c46dd435c27c11c88498c6066bed0569a5",
+      "terms": 114
+    },
+    "L": "A*(1+t*v)+B*t*v",
+    "L_sha256": "ad46a75821bbeda844372e0b19ef020f0f4c3462ec2759d0c7725493b2d95ead",
+    "factorization": "L*H(z)",
+    "negative_power_coefficients": 79,
+    "sha256": "0ad452d374428b4c5459c6c2bc57f8a5a1d5cab087b432b66da9a79a874d3f14",
+    "terms": 201
+  },
+  "domain": "the q0-maximal small-direction normalized form on y=1 (x=B*v*t), with 0<=A,B,z,v,t<=1",
+  "intersection": {
+    "negative_power_coefficients": 1800,
+    "sha256": "23302d49a042f1391a7cf11f89141f0b1bd8779225b53ab8114110fc94450c99",
+    "terms": 3618
+  },
+  "quadratic_gram": {
+    "H": "h0+h1*z+h2*z^2",
+    "S": "A*(1-v+v^2+2*t*v+t^2*v)+B*t*v*(t+v)",
+    "S_sha256": "1292c18b601cdb52244ed07c81b26f4289a26a8492e7b2d989145aa360bf935d",
+    "determinant": "A*B*(1-v)^2*(A*(1+v)+B*v)*L*S^2",
+    "determinant_record": {
+      "negative_power_coefficients": 49,
+      "sha256": "52f300e7b61f833d7e08b29c78fb68d54ea07b47fdda1d71b92c64b948abbb19",
+      "terms": 133
+    },
+    "h0": "(A+B)*S^2",
+    "rows": [
+      {
+        "negative_power_coefficients": 8,
+        "sha256": "f38c32211bda9d68f3c39da3367eff182542014184f4dff9bd63c51dbe127806",
+        "terms": 40
+      },
+      {
+        "negative_power_coefficients": 36,
+        "sha256": "8cf496ad26d1af1fc369ec818bb2b6acf7e43b882819529065bea032482cee14",
+        "terms": 38
+      },
+      {
+        "negative_power_coefficients": 2,
+        "sha256": "8cd0c3062fe0c0ac1def9e7cfd630cf8393529ce22a18ed8cf9366a9cd097c15",
+        "terms": 36
+      }
+    ],
+    "sign": "the 2x2 monomial Gram of H is positive semidefinite on the closed box, by the displayed h0 and determinant identities plus continuity on h0=0"
+  },
+  "remaining_negative_page_chambers": 18,
+  "schema": "amra.opg1757.round7.rlp-intersection-newton-gram.v1",
+  "scope": "this certifies the Newton principal only; higher AB-degree terms, the full q3:RLP chamber, the generic Delta_b sign, and OPG-1757 remain open"
+}

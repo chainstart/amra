@@ -1,0 +1,71 @@
+{
+  "schema_version": "amra.lean-replay.v1",
+  "recorded_at": "2026-08-26T13:34:41+08:00",
+  "result": "passed",
+  "mathematical_status": "proved_with_named_bhp_dependency",
+  "command": "./formal/verify_guarded.sh",
+  "resource_guard": {
+    "executable": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "final_replay_unit": "openmath-task-20260826-132819-103748.scope",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "memory_swap_max": "4G",
+    "tasks_max": 512
+  },
+  "environment": {
+    "lean": "v4.28.0",
+    "mathlib_commit": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+    "mathlib_tag": "v4.28.0"
+  },
+  "upstream": {
+    "repository": "https://github.com/Woett/ChatGPT-s-note-on-Erdos451",
+    "commit": "92a033fa99f0a53a3c16257c47e3d9e04dfc3f55",
+    "source_sha256": "44e478bed8d756f271aaffd45af5fa4797fbee857aa780f7412275a521b84004",
+    "theorem": "main_theorem",
+    "axioms": [
+      "bhp",
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "elapsed_wall_seconds": 159.15,
+    "maximum_resident_kib": 7830580,
+    "swaps": 0,
+    "exit_status": 0
+  },
+  "patched": {
+    "source_sha256": "501b105cd48a6dfe24e4cb061b54c1a7c24f5cb1ec41d9a1ab95c619c3bc57a4",
+    "patch_sha256": "65bb2d1eccb534bf7318009d49553b76582de5612da5c2bdb20be51a4a2592ec",
+    "theorems": [
+      "main_theorem_c16",
+      "main_theorem_c16_two_k"
+    ],
+    "axioms": [
+      "bhp",
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "contains_sorry_axiom": false,
+    "elapsed_wall_seconds": 162.80,
+    "maximum_resident_kib": 7856592,
+    "swaps": 0,
+    "exit_status": 0
+  },
+  "formal_statement": "For all sufficiently large natural k and every integer n with 2k<n and n<=exp((log k)^2/(16 log(log k))), there is a natural prime p with k<p<2k dividing Pprod k n.",
+  "proof_changes": [
+    "Use r0=ceil(log k/(8 log(log k))) instead of denominator 10.",
+    "Replace the first large-range logarithmic decay exponent -19/14 by -38/35, which remains strictly below -1.",
+    "Separate the exceptional minimal exponent r=3 and retain its k^(-1/18) saving; keep the existing log^(-10/9) envelope for r>=4.",
+    "Formalize the eventual containment (k,k+3k^(21/40)) subset (k,2k)."
+  ],
+  "failed_checks_retained": [
+    "The naive uniform reuse of log^(-10/9) for all r>=3 fails after changing 1/20 to 1/16; the r=3 branch must retain its power saving.",
+    "Lean error-recovery runs containing sorryAx exited nonzero and are not certificates."
+  ],
+  "scope_limits": [
+    "The Lean proof treats Baker-Harman-Pintz as the named axiom bhp, exactly as upstream.",
+    "The certificate improves a lower-bound exponent constant; it does not determine the main term or close the upper-bound side of Erdős problem 451.",
+    "Kernel checking is exact formal evidence, but the same session authored the patch, so AMRA independent natural-language reconstruction is still pending."
+  ]
+}

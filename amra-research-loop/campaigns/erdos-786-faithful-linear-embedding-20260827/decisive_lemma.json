@@ -1,0 +1,19 @@
+{
+  "statement": "Let G=(X,E) be a finite simple linear hypergraph with X equal to the union of its nonempty edges and maximum degree D, and let r=ceil(log_2(D+1))+1. Suppose that integers K>=1 and B>=3 satisfy min_e |e|>K, pi(B)-1>=r|X|, and 2r log_2 B+5<=K. Then G has a faithful realization by unequal-cardinality equal-product relations in (2^K/32,2^K]: one primitive valuation circuit per edge, exact pairwise support intersections, isomorphic edge-intersection graph, and exactly preserved matching and transversal numbers.",
+  "status": "proved",
+  "closes": [
+    "global_interface_closed",
+    "standalone_decisive_lemma"
+  ],
+  "evidence": [
+    "evidence/FAITHFUL_LINEAR_EMBEDDING.md",
+    "evidence/verify_faithful_embedding.py",
+    "evidence/faithful_embedding_replay.json",
+    "evidence/MECHANISM_FALSIFICATION.md"
+  ],
+  "dependency_gaps": [
+    "The construction still requires a simple linear host, minimum edge size greater than K, and the explicit prime/bit budget.",
+    "The theorem preserves a selected host family and does not bound the full equal-product hypergraph or settle the infinite density-one problem.",
+    "Priority beyond the verified toric-circuit, set-intersection, and multiplicative-Sidon comparisons remains non-exhaustive pending broader specialist review."
+  ]
+}

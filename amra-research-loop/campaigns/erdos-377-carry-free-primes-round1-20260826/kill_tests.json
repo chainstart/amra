@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {"mechanism_id":"M377-01","outcome":"killed","test":"n=11,p=3 top-power versus lower-power residue","evidence":"evidence/first_mechanism_falsification.md#M377-01--killed-exactly","scope":"Refutes replacement of all powers by the largest power."},
+    {"mechanism_id":"M377-02","outcome":"killed","test":"n=3^K at arbitrarily high critical exponents","evidence":"evidence/first_mechanism_falsification.md#M377-02--killed-in-its-summable-annulus-form","scope":"Refutes any summable majorant depending only on annulus index; prime-aware charging is not refuted."},
+    {"mechanism_id":"M377-03","outcome":"survived","test":"Chebyshev partial summation above sqrt(2n)","evidence":"evidence/large_prime_tail_lemma.md","scope":"Proves only the large-prime tail."},
+    {"mechanism_id":"M377-04","outcome":"killed","test":"common contraction replay at n=3250,m<=sqrt(n)","evidence":"evidence/first_mechanism_falsification.md#M377-04--killed-in-its-common-contraction-form","scope":"Kills the single-child max recurrence; multi-child averaging is different."},
+    {"mechanism_id":"M377-05","outcome":"killed","test":"exact CRT full period and prefix 113","evidence":"evidence/exact_carry_scan_250m.json#crt_prefix_test","scope":"Kills every-prefix product domination, not exact full-period independence."},
+    {"mechanism_id":"M377-06","outcome":"killed","test":"effective accepted-modulus product at n=3250","evidence":"evidence/crt_adversary_search.json","scope":"Kills an O(n) modulus-product constraint."},
+    {"mechanism_id":"M377-07","outcome":"survived","test":"CRT discrepancy and exact finite record replay","evidence":"evidence/first_mechanism_falsification.md#M377-07--surviving-admission-mechanism","scope":"Only a cutoff-aware cross-prime Fourier inequality remains possible; none is proved."},
+    {"mechanism_id":"M377-08","outcome":"killed","test":"persistent p=3 mass for n=3^K","evidence":"evidence/first_mechanism_falsification.md#M377-08--killed-in-its-fixed-decay-form","scope":"Kills fixed loss at every level; one-time prime stopping remains possible."},
+    {"mechanism_id":"M377-09","outcome":"killed","test":"overlapping mixed-base cylinders under CRT","evidence":"evidence/first_mechanism_falsification.md#M377-09--killed-for-the-proposed-natural-cylinders","scope":"Kills the natural Kraft inference without an explicit disjointification."},
+    {"mechanism_id":"M377-10","outcome":"killed","test":"all Legendre jumps vanish on every accepted prime","evidence":"evidence/first_mechanism_falsification.md#M377-10--killed-as-a-local-nonnegative-jump-certificate","scope":"Kills local nonnegative jump charging; cross-prime sieve interactions are different."},
+    {"mechanism_id":"M377-11","outcome":"killed","test":"incompatible first upper blocks and m=53,...,57 replay","evidence":"evidence/first_mechanism_falsification.md#M377-11--killed-in-its-common-contraction-form","scope":"Kills a common contracted subproblem."},
+    {"mechanism_id":"M377-12","outcome":"killed","test":"complete hybrid loss ledger","evidence":"evidence/first_mechanism_falsification.md#M377-12--killed-as-a-closure-mechanism-in-this-round","scope":"The stated hybrid leaves all p<=sqrt(2n) unpaid; a new quantitative bridge is a new mechanism."}
+  ]
+}

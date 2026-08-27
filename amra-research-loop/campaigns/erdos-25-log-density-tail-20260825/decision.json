@@ -1,0 +1,8 @@
+{
+  "outcome": "freeze",
+  "success_condition": "",
+  "reason": "The zero-limit and pairwise-coprime regimes are proved. The remaining positive-limit dependent regime needs uniform control of conditional onset transients, and no surviving mechanism supplies it.",
+  "evidence": [
+    "evidence/zero_limit_and_coprime_theorem.md"
+  ]
+}

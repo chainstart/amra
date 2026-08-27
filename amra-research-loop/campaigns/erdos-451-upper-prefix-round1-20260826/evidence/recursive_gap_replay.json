@@ -1,0 +1,47 @@
+{
+  "schema_version": "erdos451.recursive_gap_replay.v1",
+  "command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/verify_recursive_gap.py",
+  "guard": {
+    "unit": "openmath-task-20260826-150849-120127.scope",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "swap_max": "4G",
+    "tasks_max": 512,
+    "exit_status": 0
+  },
+  "arbitrary_subset_replay": {
+    "moduli": [3, 5, 7],
+    "arbitrary_local_subset_systems_tested": 27559,
+    "all_covering_radius_inequalities_passed": true,
+    "all_sorted_orders_attained_minimum_rhs": true,
+    "equality_cases": 1656,
+    "maximum_actual_over_best_rhs": 1.0
+  },
+  "erdos451_rows": [
+    {
+      "k": 10,
+      "primes": [11, 13, 17, 19],
+      "period": 46189,
+      "actual_covering_radius": 714,
+      "recursive_rhs": 25860,
+      "inequality_passed": true
+    },
+    {
+      "k": 15,
+      "primes": [17, 19, 23, 29],
+      "period": 215441,
+      "actual_covering_radius": 1613,
+      "recursive_rhs": 116550,
+      "inequality_passed": true
+    },
+    {
+      "k": 20,
+      "primes": [23, 29, 31, 37],
+      "period": 765049,
+      "actual_covering_radius": 894,
+      "recursive_rhs": 427360,
+      "inequality_passed": true
+    }
+  ],
+  "interpretation": "Exact finite replay and sorting check; evidence/recursive_gap_lemma.md contains the universal natural-language proof."
+}

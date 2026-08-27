@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M786S-04",
+    "M786S-07",
+    "M786S-12"
+  ],
+  "selection_rationale": "M786S-04 is the arithmetic projective-plane construction at stretched-exponential order, M786S-07 supplies the missing prime/bit budget, and M786S-12 converts the power-of-two host into the frozen all-N theorem. M786S-01 and M786S-10 are proved supporting lemmas absorbed into M786S-04 rather than separate survivors."
+}

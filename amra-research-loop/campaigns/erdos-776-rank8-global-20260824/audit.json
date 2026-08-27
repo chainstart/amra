@@ -1,0 +1,170 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "audit_809",
+    "evidence": [
+      "audit/blind_reconstruction.md",
+      "audit/independent_audit.md"
+    ],
+    "blind_artifact_sha256": "afba4e82c2eb7d9d45700767824cfc9ba9c18d5f0df823f8d742dfd3200109d6",
+    "protocol": "The blind reconstruction was frozen before reading campaign evidence, verifier, kill_tests.json, or the pre-existing audit.json.",
+    "result": "Independently reconstructed the exact canonical separator and prefix identity, KK one-sided carry bound, b_14 through b_6 recursion, V=125 induction join, rank-8 cap equivalence, and the missing public-threshold interfaces."
+  },
+  "statement_match": "passed_with_conditional_status",
+  "statement_check": {
+    "status": "conditional",
+    "result": "The high-rank H1--H2 statement has exact all-V quantifiers and would close the local rank-8 entry, but H1--H2 are supported only by the finite V<=500 falsifier scan and remain unproved.",
+    "prefix_cancellation": {
+      "status": "proved",
+      "quantifiers": "q>s>=1, legal canonical prefix, nonnegative suffix, and every suffix upper index strictly below the last prefix upper index",
+      "numeric_separator": "0<=x<binom(a_(s+1),s)",
+      "scope": "The lemma cancels an already-proved common prefix; it does not prove adjacent states share one and cannot assume the rank-6 target separator."
+    },
+    "one_sided_bridge": {
+      "status": "proved_conditional_implication",
+      "constant_recursion": "b_14=1 and b_(r-1)=1+r*b_r for 7<=r<=14",
+      "constants": {
+        "14": 1,
+        "13": 15,
+        "12": 196,
+        "11": 2353,
+        "10": 25884,
+        "9": 258841,
+        "8": 2329570,
+        "7": 18636561,
+        "6": 130455928
+      },
+      "analytic_join": "At V=125, b_6=130455928<binom(112,5)=134153712 by 3697784; the finite base includes V=125 and H1--H2 at V>=125 control the first transition 125->126.",
+      "off_by_one": "passed"
+    },
+    "all_V_rank8": "open/conditional",
+    "public_scope": "The original exact n_0(r), any main-term improvement, and the all-larger-n construction remain unproved."
+  },
+  "dependency_check": "passed_with_open_public_interfaces",
+  "dependency_check_details": {
+    "rank8_to_rank2": "The inherited R004 theorem D8<binom(V-11,8) => D2<=binom(V-9,2) for all V>=40 was replayed successfully; its analytic V>=1000 and exhaustive 40<=V<=999 split is exact.",
+    "direct_engine_crosscheck": "The campaign compressed-run orbit agreed with an independent direct canonical recurrence at every V=40..150 and every stored rank.",
+    "missing_public_interfaces": [
+      "complete integer r,n to V parameter map with all parity and finite ranges",
+      "construction for every n above the proposed threshold, not a subsequence",
+      "matching sharp lower-bound minimality",
+      "certified r=2, r=3, and r>=4 reconciliation"
+    ],
+    "contract_domain_note": "The contract says the public problem's domain and its notes imply r>=2 via r=2, r=3, and r>=4; the domain should be explicit before any original_problem_closed claim.",
+    "circularity_check": "passed: H1 stops at rank 7, and the descent to W6 never assumes the rank-6 separator."
+  },
+  "scope_defects": [
+    {
+      "item": "rank-one shadow proof wording",
+      "severity": "nonfatal",
+      "finding": "The inequality KK_1(x+h)-KK_1(x)<=KK_1(h) is true, but two nonempty 1-uniform families do not have disjoint 0-shadows; replace exact shadow-size additivity by an at-most bound or check r=1 separately. The bridge uses only r>=7."
+    },
+    {
+      "item": "M776G-02 zero branch",
+      "severity": "nonfatal_definition_gap",
+      "finding": "When W6(V)=0 the canonical word has no largest upper index. The survivor should declare W6<=0 immediate success and impose the top-index bound only when W6>0."
+    }
+  ],
+  "survivor_kill_check": {
+    "status": "passed_with_minor_zero_branch_repair",
+    "survivors": {
+      "M776G-01-adjacent-suffix-loss": "honestly conditional, noncircular, and not falsified",
+      "M776G-02-logarithmic-carry-height": "honestly finite-supported and not falsified; zero branch needs explicit definition repair"
+    },
+    "kills": "The exact counterexamples for M03--M08 and M11 replayed at their stated scopes; M09, M10, and M12 are correctly limited to circularity or missing-implication kills rather than broader theorem refutations.",
+    "kill_ratio": "10/10 non-survivors at the stated proposal scopes; no killed mechanism is used to claim the public theorem."
+  },
+  "novelty_check": "priority_uncertain",
+  "novelty_check_details": {
+    "search_scope": "No public search for an exact solution to Erdos #776 was performed.",
+    "assessment": "The prefix and conditional carry bridge are independently verified, but no exhaustive priority determination was attempted.",
+    "publication_state": "private_note"
+  },
+  "machine_reproduced": {
+    "environment": "Python 3.12.3",
+    "status": "PASS_at_stated_scopes",
+    "commands": [
+      "python3 evidence/verify_rank8_obstructions.py",
+      "python3 /home/biostar/work/projects/amra/artifacts/erdos_master_rotation/R004/core_776_635/776/verify_rank8_five_term_barrier.py",
+      "independent direct-canonical recurrence comparison for every V=40..150",
+      "python3 scripts/research_loop.py validate --campaign campaigns/erdos-776-rank8-global-20260824",
+      "python3 -m unittest discover -s tests -p 'test_*.py'"
+    ],
+    "results": {
+      "campaign_verifier": "PASS; 92242 prefix cases, 82008 carry cases, all exact route kills, 86-point induction base, and 461-point finite survivor scan",
+      "inherited_tail_verifier": "PASS; exact symbolic tail plus exhaustive V=40..999 dependency check",
+      "direct_recurrence": "compressed-run and direct canonical engines agree for V=40..150",
+      "campaign_validate": "valid=true with no errors",
+      "repository_tests": "5 tests passed"
+    },
+    "hashes": {
+      "campaign_verifier_sha256": "633fdbce20f78e5341f9683b977d7515ae5173cee423132654e694e33590fc2a",
+      "inherited_verifier_sha256": "144514997d0c44b82700222c4ae31a2c74c0d4112a4f05539ac2128d792ff0a6",
+      "prefix_note_sha256": "ed3012e9384784609429b2b3a3d3624fd17ad7ba09e5f663b8d25948b68f9713",
+      "bridge_note_sha256": "e9f58002366ddb5df1fcdf56d26ec837ac37c957ca8460ce3a4e58951c77b66a"
+    },
+    "scope": "Finite H1--H2 and carry-height scans are falsifier evidence only and do not prove the decisive all-parameter clauses."
+  },
+  "independent_audit_gate": {
+    "content_status": "complete",
+    "requirements": [
+      "blind reconstruction",
+      "statement and quantifier check",
+      "dependency check",
+      "novelty classification",
+      "promotion recommendation"
+    ],
+    "state_note": "Per audit-only scope, campaign_state.json and decision.json remain unchanged at survivor_deepening/undecided."
+  },
+  "promotion_decision": {
+    "outcome": "continue",
+    "success_condition": "none",
+    "classification": "correct conditional local bridge with two concrete unfalsified survivors; no standalone or global promotion",
+    "reason": "Continue at survivor deepening because the noncircular high-rank and logarithmic-carry mechanisms remain concrete and unfalsified, while the decisive H1--H2 lemma is still conditional and supports no AMRA promotion.",
+    "forbidden_promotions": [
+      "original_problem_closed",
+      "global_interface_closed",
+      "main_term_improved",
+      "main_exponent_improved",
+      "standalone_decisive_lemma"
+    ],
+    "next_required_action": "Prove or refute H1--H2 for all V>=125, or prove/refute the logarithmic top-index theorem for W6>0; no larger finite scan changes the gate.",
+    "evidence": [
+      "audit/blind_reconstruction.md",
+      "audit/independent_audit.md",
+      "evidence/PREFIX_CANCELLATION_LEMMA.md",
+      "evidence/HIGH_RANK_ONE_SIDED_BRIDGE.md",
+      "evidence/verify_rank8_obstructions.py"
+    ]
+  },
+  "round4_ltj_audit": {
+    "status": "passed_at_scoped_status",
+    "blind_reconstruction": {
+      "status": "passed",
+      "auditor": "pre-crash non-author blind reconstruction",
+      "evidence": [
+        "audit/round4_ltj_blind.md",
+        "audit/round4_ltj_blind.sha256",
+        "audit/round4_ltj_audit.md"
+      ],
+      "blind_sha256": "f5be6adda2dba8f5521292ce5dff93891b09e61df1b60eba1e4cc86bb0690df7"
+    },
+    "statement_match": "passed_with_open_ltj",
+    "dependency_check": "passed",
+    "mathematical_status": {
+      "actual_diagonal_domination": "proved",
+      "gap_only_propagated_loss": "refuted",
+      "ltj_threshold_equivalence": "proved",
+      "actual_ltj": "open",
+      "public_problem": "open"
+    },
+    "machine_reproduced": {
+      "status": "passed_at_stated_scope",
+      "command": "python3 evidence/verify_round4_ltj_diagonal_loss.py",
+      "guard": "OpenMath systemd memory guard: MemoryHigh=30G, MemoryMax=34G, MemorySwapMax=4G",
+      "source_sha256": "99855d134b004f06e1696cf11cf7648f2b54717b3be39d4fa6a60aae0e3f1c4b"
+    },
+    "promotion_recommendation": "continue_survivor_deepening",
+    "next_required_action": "Prove or refute an actual-orbit canonical plateau-position or effective suffix-separator estimate strong enough for the exact LTJ threshold; gap magnitude and larger finite scans are closed."
+  }
+}

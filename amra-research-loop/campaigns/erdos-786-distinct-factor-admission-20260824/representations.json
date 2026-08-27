@@ -1,0 +1,88 @@
+{
+  "representations": [
+    {
+      "id": "R786-01",
+      "name": "signed prime-exponent circuit hypergraph",
+      "family": "algebraic-circuits",
+      "new_information": "keeps the exact {-1,0,1} coefficient restriction, the support of each minimal unbalanced relation, and the cardinality imbalance as a signed circuit label",
+      "first_test": "generate every minimal bad support through N=18 and compare it with the repeated-factor integer-kernel circuits"
+    },
+    {
+      "id": "R786-02",
+      "name": "affine lift by the cardinality coordinate",
+      "family": "algebraic-circuits",
+      "new_information": "compares subset sums of v(n) and (v(n),1), so the defect is exactly a projection collision between different 0/1 Hamming layers rather than arbitrary linear dependence",
+      "first_test": "use {2,4} and long bipartite edge-prime circuits to reject any lift that silently allows coefficients outside {-1,0,1}"
+    },
+    {
+      "id": "R786-03",
+      "name": "prime-labelled bipartite incidence realization",
+      "family": "auxiliary-amplification",
+      "new_information": "realizes squarefree product relations as connected bipartite incidence graphs whose edge primes certify equality and whose shore imbalance records the forbidden cardinality difference",
+      "first_test": "construct K_(s+1,s) for arbitrary s and verify equality, distinctness, minimality, and high-tail placement symbolically"
+    },
+    {
+      "id": "R786-04",
+      "name": "nonlinear auxiliary-element supply hypergraph",
+      "family": "auxiliary-amplification",
+      "new_information": "separates a formal polarization identity from the density theorem needed to place all auxiliary multiples or products inside one candidate set",
+      "first_test": "test (2x)(2y)=4xy against high-tail density-one finite sets and measure which sparse auxiliary locus can be deleted for free"
+    },
+    {
+      "id": "R786-05",
+      "name": "logarithmic high-tail filtration",
+      "family": "scale-and-dimension",
+      "new_information": "converts a cardinality imbalance into a strict product-size gap for all relations up to a moving length L(N), while recording exactly where long circuits escape",
+      "first_test": "prove the N^(1-1/L) cutoff lemma and insert K_(s+1,s) circuits with s>=L"
+    },
+    {
+      "id": "R786-06",
+      "name": "large-prime fibre peeling",
+      "family": "arithmetic-peeling",
+      "new_information": "orders primes above a smoothness cutoff, retains their exact incidence and exponents in a minimal circuit, and exposes prime fibres that must balance across the two shores",
+      "first_test": "split at y=N^(1/L), remove the y-smooth core, and classify how K_(s+1,s) circuits defeat naive private-prime peeling"
+    },
+    {
+      "id": "R786-07",
+      "name": "bounded-prime-dimension lattice obstruction",
+      "family": "scale-and-dimension",
+      "new_information": "tracks exponent height as well as prime dimension, distinguishing rational dependence from a forbidden binary affine collision",
+      "first_test": "compare one-dimensional superincreasing exponent sets with dense lattice boxes before claiming a dimension-only bound"
+    },
+    {
+      "id": "R786-08",
+      "name": "private-prime matching and Hall deficiency",
+      "family": "arithmetic-peeling",
+      "new_information": "records whether admitted integers can receive distinct prime certificates and localizes the exact deficiency when prime labels must be reused",
+      "first_test": "apply Hall counting on [N] and reject any density-one claim that assigns at most one integer to each of pi(N) primes"
+    },
+    {
+      "id": "R786-09",
+      "name": "minimal-relation hitting-set ILP",
+      "family": "exact-optimization",
+      "new_information": "gives a complete fixed-N formulation with one binary admission variable per integer and one inequality per inclusion-minimal bad support",
+      "first_test": "enumerate exact subset products and reproduce maximum admissible sizes through N=18 with an independent predicate replay"
+    },
+    {
+      "id": "R786-10",
+      "name": "SAT motif extraction and symbolic completeness",
+      "family": "exact-optimization",
+      "new_information": "stores prime-incidence isomorphism types, shore imbalance, circuit length, and scale so finite certificates can be tested for a genuine all-N completeness theorem",
+      "first_test": "ask whether every minimal bad support contains a bounded motif; use arbitrary K_(s+1,s) and unequal-shore incidence graphs as adversarial families"
+    },
+    {
+      "id": "R786-11",
+      "name": "periodic/profinite cylinder admission",
+      "family": "density-gluing",
+      "new_information": "builds genuine natural-density sets from finitely many valuation conditions and makes the loss of cross-cylinder product relations explicit",
+      "first_test": "compute the exact density of additive level cylinders and prove the 1/e ceiling before adding any moving modulus"
+    },
+    {
+      "id": "R786-12",
+      "name": "finite-block gluing with multiplicative markers",
+      "family": "density-gluing",
+      "new_information": "separates within-block admissibility from cross-block relations and measures the density price of marker primes intended to isolate blocks",
+      "first_test": "replay individually admissible {2,3} and {6}, whose union is bad, then quantify the loss from assigning private marker primes"
+    }
+  ]
+}

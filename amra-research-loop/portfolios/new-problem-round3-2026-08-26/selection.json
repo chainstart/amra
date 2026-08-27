@@ -1,0 +1,46 @@
+{
+  "schema_version": "amra.new-problem-selection.v1",
+  "selected_problem": "erdos-451",
+  "selected_campaign": "../../campaigns/erdos-451-crt-first-representative-round1-20260826",
+  "selection_policy": "Select by verified open status, repository novelty, executable falsifier, and a named non-restatement bridge; do not allocate a long round merely because a problem is fresh.",
+  "candidates": [
+    {
+      "problem_id": "erdos-451",
+      "status": "selected",
+      "reason": "Still open after a June 2026 AI-originated, human-rewritten and Lean-supported superpolynomial lower bound; has an exact CRT evaluator and a precise density-to-first-representative obstruction."
+    },
+    {
+      "problem_id": "erdos-684",
+      "status": "deferred_recent_progress",
+      "reason": "The page remains open, but a March 2026 internal-model proof already gives f(n)<<log^2 n and the problem has heavy current external activity; it is not a clean new target."
+    },
+    {
+      "problem_id": "erdos-319",
+      "status": "deferred_verifier_gap",
+      "reason": "The minimal zero-sum condition has no scalable bounded completeness checker once meet-in-the-middle enumeration fails."
+    },
+    {
+      "problem_id": "erdos-374",
+      "status": "deferred_quantifier_coupling",
+      "reason": "Positive-density membership requires constructing one six-term square relation while excluding every shorter relation, with no short global certificate currently available."
+    },
+    {
+      "problem_id": "erdos-963",
+      "status": "rejected_repository_duplicate",
+      "reason": "The repository already contains multiple exact small-rank campaigns and a repaired public asymptotic argument."
+    },
+    {
+      "problem_id": "erdos-934",
+      "status": "rejected_repository_duplicate",
+      "reason": "The repository already contains strict counterexamples to an earlier t=3 route and several independently audited structural subtheorems."
+    }
+  ],
+  "status_sources": [
+    "https://www.erdosproblems.com/451",
+    "https://arxiv.org/abs/2606.19863",
+    "https://www.erdosproblems.com/684",
+    "https://arxiv.org/abs/2603.29961",
+    "https://www.erdosproblems.com/319",
+    "https://www.erdosproblems.com/374"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "amra.new-problem-round-decision.v1",
+  "round_id": "new-problem-round2-2026-08-25",
+  "decision_at": "2026-08-25T15:44:00+08:00",
+  "original_problems_closed": [],
+  "scoped_results": [
+    {
+      "problem_id": "erdos-538",
+      "claim": "For r=2 on any fixed finite squarefree prime support P, the maximum reciprocal weight of the rank-two layer equals max_X (sum_{p in X} 1/p)(sum_{p in P minus X} 1/p), and a complete bipartite support is optimal.",
+      "proof_kind": "complete weighted Zykov symmetrisation after an exact representation-to-triangle-free reduction",
+      "evidence": "evidence/erdos_538_squarefree_theorem.md"
+    },
+    {
+      "problem_id": "erdos-317",
+      "claim": "For every 5 <= n <= 1000000, no coefficients delta_k in {-1,0,1} satisfy sum delta_k*lcm(1,...,n)/k = plus or minus 1.",
+      "proof_kind": "singleton-prime modular lemma plus complete guarded finite certificate; exact ternary enumeration independently covers n <= 30",
+      "evidence": "evidence/erdos_317_modular_certificate.md"
+    },
+    {
+      "problem_id": "erdos-859",
+      "claim": "The exact rational densities d_t are computed for every 1 <= t <= 66 from the minimal lcm-generator antichain and collapsed inclusion-exclusion.",
+      "proof_kind": "exact integer and rational computation, with full-period replay through t=12 and independent generator replay through t=15",
+      "evidence": "evidence/erdos_859_density_toward_80.json"
+    }
+  ],
+  "routes_killed": [
+    {
+      "problem_id": "erdos-317",
+      "route": "generic SMT search with a fixed per-instance timeout",
+      "reason": "It returned unknown from n=15 onward. Exact meet-in-the-middle and the singleton-prime lemma replaced it; a larger blind solver cutoff is not justified."
+    },
+    {
+      "problem_id": "erdos-859",
+      "route": "unstructured exact inclusion-exclusion with a larger lcm-closure cap",
+      "reason": "The collapsed closure crossed 2000000 live terms at t=67 without producing an infinite-subsequence mechanism."
+    }
+  ],
+  "reserve_decision": {
+    "problem_id": "erdos-389",
+    "activated": false,
+    "reason": "The proposed lcm correction iteration still lacks a monotone termination measure, so its explicit reserve gate did not pass."
+  },
+  "adversarial_replay": {
+    "evidence": "evidence/adversarial_replay.json",
+    "checks": [
+      "independent #317 modular replay through n=10000",
+      "all 1024 rank-two graphs on five vertices against all 243 exponent vectors for #538",
+      "independent distinct-part generator reconstruction through t=15 for #859"
+    ],
+    "passed": true
+  },
+  "resource_guard": {
+    "all_formal_computations_guarded": true,
+    "memory_high_gib": 30,
+    "memory_max_gib": 34,
+    "memory_swap_max_gib": 4,
+    "tasks_max": 512,
+    "completed_guard_units": [
+      "openmath-task-20260825-152154-33879.scope",
+      "openmath-task-20260825-152508-34187.scope",
+      "openmath-task-20260825-152531-34275.scope",
+      "openmath-task-20260825-152553-34329.scope",
+      "openmath-task-20260825-153333-35016.scope",
+      "openmath-task-20260825-153403-35163.scope",
+      "openmath-task-20260825-154308-36053.scope"
+    ],
+    "deliberately_stopped_guard_unit": "openmath-task-20260825-152207-33903.scope",
+    "stop_reason": "generic SMT route hit consecutive 20-second unknown results",
+    "observed_round_memory_current_max_bytes": 383131648,
+    "residual_tasks_after_round": 0
+  },
+  "next_portfolio_decision": "Do not spend another computation-only round on #859 or #317. A later theory round may give one slot to the #317 singleton-prime residue bridge and one to extending #538 beyond the squarefree rank-two layer; otherwise admit fresh targets."
+}

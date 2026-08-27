@@ -1,0 +1,49 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M451-01",
+      "outcome": "killed",
+      "evidence": "evidence/crt_and_sieve_falsification.md: full-period density has no deterministic first-representative implication."
+    },
+    {
+      "mechanism_id": "M451-02",
+      "outcome": "killed",
+      "evidence": "evidence/crt_and_sieve_falsification.md: the translation average has the wrong starting-point quantifier."
+    },
+    {
+      "mechanism_id": "M451-03",
+      "outcome": "killed",
+      "evidence": "evidence/crt_admission_scan.json: short pair correlations are mostly zero and still average over translations; they do not bound the distinguished gap."
+    },
+    {
+      "mechanism_id": "M451-04",
+      "outcome": "killed",
+      "evidence": "evidence/crt_admission_scan.json: at conjectural H, uncompressed squarefree moduli see an asymptotically vanishing O(1/log k) fraction of constraints."
+    },
+    {
+      "mechanism_id": "M451-05",
+      "outcome": "killed",
+      "evidence": "evidence/crt_and_sieve_falsification.md: subset products of t interval primes have log-size t log k, so subexponential output magnitude supplies too few decisions."
+    },
+    {
+      "mechanism_id": "M451-06",
+      "outcome": "killed",
+      "evidence": "evidence/crt_and_sieve_falsification.md: the proposed bounded fractional weighting only certifies average coverage and retains no fixed-prefix witness."
+    },
+    {
+      "mechanism_id": "M451-10",
+      "outcome": "killed",
+      "evidence": "evidence/crt_and_sieve_falsification.md: every bad event is a function of the same scalar random integer, so the natural dependency graph is complete."
+    },
+    {
+      "mechanism_id": "M451-11",
+      "outcome": "killed",
+      "evidence": "evidence/crt_and_sieve_falsification.md: the classical large-sieve substitution supplies no positive lower bound for survivors under dense removed residue sets."
+    },
+    {
+      "mechanism_id": "M451-12",
+      "outcome": "killed",
+      "evidence": "audit/crt_admission_replay.json explicitly limits the exact scan to finite predicate evidence and contains no all-k reduction."
+    }
+  ]
+}

@@ -1,0 +1,180 @@
+{
+  "checks": [
+    {
+      "Q": 4,
+      "amplification": 1.4682809781992878,
+      "density_denominator": 20,
+      "density_numerator": 1,
+      "first_active": 7,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 8,
+      "amplification": 1.7724929907305043,
+      "density_denominator": 72,
+      "density_numerator": 1,
+      "first_active": 15,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 16,
+      "amplification": 2.555103739736445,
+      "density_denominator": 272,
+      "density_numerator": 1,
+      "first_active": 31,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 32,
+      "amplification": 4.045705937374515,
+      "density_denominator": 1056,
+      "density_numerator": 1,
+      "first_active": 63,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 64,
+      "amplification": 6.761899350125569,
+      "density_denominator": 4160,
+      "density_numerator": 1,
+      "first_active": 127,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 128,
+      "amplification": 11.685591318436254,
+      "density_denominator": 16512,
+      "density_numerator": 1,
+      "first_active": 255,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 256,
+      "amplification": 20.64525936894742,
+      "density_denominator": 65792,
+      "density_numerator": 1,
+      "first_active": 511,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 512,
+      "amplification": 37.04652291192886,
+      "density_denominator": 262656,
+      "density_numerator": 1,
+      "first_active": 1023,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 1024,
+      "amplification": 67.25361805242017,
+      "density_denominator": 1049600,
+      "density_numerator": 1,
+      "first_active": 2047,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 2048,
+      "amplification": 123.20378396445695,
+      "density_denominator": 4196352,
+      "density_numerator": 1,
+      "first_active": 4095,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 4096,
+      "amplification": 227.3662800840849,
+      "density_denominator": 16781312,
+      "density_numerator": 1,
+      "first_active": 8191,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 8192,
+      "amplification": 422.1712964489108,
+      "density_denominator": 67117056,
+      "density_numerator": 1,
+      "first_active": 16383,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 16384,
+      "amplification": 787.9783015036649,
+      "density_denominator": 268451840,
+      "density_numerator": 1,
+      "first_active": 32767,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 32768,
+      "amplification": 1477.389381930498,
+      "density_denominator": 1073774592,
+      "density_numerator": 1,
+      "first_active": 65535,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 65536,
+      "amplification": 2780.9025728582337,
+      "density_denominator": 4295032832,
+      "density_numerator": 1,
+      "first_active": 131071,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 131072,
+      "amplification": 5252.754062966927,
+      "density_denominator": 17180000256,
+      "density_numerator": 1,
+      "first_active": 262143,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 262144,
+      "amplification": 9952.528095229654,
+      "density_denominator": 68719738880,
+      "density_numerator": 1,
+      "first_active": 524287,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 524288,
+      "amplification": 18909.747841915494,
+      "density_denominator": 274878431232,
+      "density_numerator": 1,
+      "first_active": 1048575,
+      "kind": "power_tower"
+    },
+    {
+      "Q": 1048576,
+      "amplification": 36018.51449512542,
+      "density_denominator": 1099512676352,
+      "density_numerator": 1,
+      "first_active": 2097151,
+      "kind": "power_tower"
+    },
+    {
+      "aggregate_amplification_lower_bound": 1.3089754450407356,
+      "cutoff": 113,
+      "document": "positive_density_spike_search.json",
+      "layer_count": 2,
+      "previous_density": 0.15468298487166413
+    },
+    {
+      "aggregate_amplification_lower_bound": 0.9461322824540656,
+      "cutoff": 10463,
+      "document": "asymptotic_positive_density_spike_search.json",
+      "layer_count": 2,
+      "previous_density": 0.11581569115815692
+    },
+    {
+      "aggregate_amplification_lower_bound": 0.9083362214223808,
+      "cutoff": 135751,
+      "document": "asymptotic_offset_100000_spike_search.json",
+      "layer_count": 2,
+      "previous_density": 0.3409090909090909
+    }
+  ],
+  "schema_version": "erdos-25.longrun-replay.v1",
+  "scope": "Mechanical replay only; not an independent mathematical audit.",
+  "status": "passed"
+}

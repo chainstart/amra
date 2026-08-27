@@ -1,0 +1,60 @@
+{
+  "schema_version": "amra.long-proof-execution.v1",
+  "round_id": "long-proof-round5-2026-08-25",
+  "guard": {
+    "path": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "memory_high_bytes": 32212254720,
+    "memory_max_bytes": 36507222016,
+    "swap_max_bytes": 4294967296,
+    "tasks_max": 512,
+    "final_running_task_scopes": 0,
+    "final_slice_tasks_current": 0
+  },
+  "target": {
+    "problem_id": "erdos-25",
+    "campaign": "../../campaigns/erdos-25-sparse-cell-packing-longrun2-20260825",
+    "segments": [
+      {
+        "name": "affine_echo_search",
+        "status": "redirected_after_exact_theorem",
+        "guarded_seconds": 600.1476266649988,
+        "trials": 95102,
+        "comparable_configurations": 20745,
+        "exact_indices": 11218928843
+      },
+      {
+        "name": "unrestricted_nonaffine_echo_search",
+        "status": "redirected_to_positive_inner_density",
+        "guarded_seconds": 600.0469548609981,
+        "trials": 27369,
+        "comparable_configurations": 5695,
+        "exact_indices": 864960257
+      },
+      {
+        "name": "positive_inner_density_mixed_policy_search",
+        "status": "redirected_to_nonaffine_policies_only",
+        "guarded_seconds": 1800.2425264159974,
+        "trials": 293001,
+        "comparable_configurations": 61585,
+        "exact_indices": 13595739665
+      },
+      {
+        "name": "positive_inner_density_nonaffine_only_search",
+        "status": "completed",
+        "guarded_seconds": 3000.0130739329907,
+        "trials": 514692,
+        "comparable_configurations": 109477,
+        "exact_indices": 24113365558
+      }
+    ],
+    "total_guarded_productive_seconds_before_replay": 6000.450181874975,
+    "total_guarded_productive_minutes_before_replay": 100.00750303124958,
+    "total_trials": 930164,
+    "total_comparable_configurations": 197502,
+    "total_exact_indices": 49792994323,
+    "fixed_schedule_extension_max_index": 60000000,
+    "outcome": "affine_family_proved_nonaffine_bounded_ratio_case_survives",
+    "original_problem_closed": false
+  },
+  "audit_status": "mechanical_replay_passed_independent_audit_not_started"
+}

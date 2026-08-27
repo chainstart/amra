@@ -1,0 +1,24 @@
+{
+  "exact_statement": "For every integer r>=2 and N>=1, let A range over subsets of {1,...,N} such that, for every integer m, there are at most r ordered pairs (p,a) with p prime, a in A, and m=pa. Determine the best possible upper bound, as a function of r and N, for S(A)=sum_{a in A} 1/a.",
+  "source": "https://www.erdosproblems.com/538",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "The official problem is open-ended: promotion requires a uniform all-N bound, a matching asymptotic order, or a standalone all-parameter lemma that changes the best known interface.",
+    "The admission round focuses first on r=2, where the exact forbidden triples are g{pq,pr,qr} for distinct primes p,q,r and positive integer g.",
+    "Erdos' recorded double-counting upper bound is O(r log N/log log N). A finite optimum, fitted exponent, or bounded-prime pattern does not improve that bound.",
+    "All computational searches must use /home/biostar/work/projects/openmath/bin/openmath-memory-guard."
+  ]
+}

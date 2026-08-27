@@ -1,0 +1,33 @@
+{
+  "inherited_methods": [
+    {
+      "method": "finite-stage density telescoping",
+      "loss_step": "replace a conditional class by its eventual periodic density",
+      "lost_information": "where the first compatible representatives occur after its onset",
+      "consequence": "small density increments can have much larger finite logarithmic spikes"
+    },
+    {
+      "method": "pointwise transient bound by density",
+      "loss_step": "ignore the lcm period of previous exclusions",
+      "lost_information": "a compatible point can arrive before the periodic class has mixed once",
+      "consequence": "no universal constant times conditional-density bound is available"
+    },
+    {
+      "method": "tail union bound by reciprocal moduli",
+      "loss_step": "discard all CRT overlap among forbidden classes",
+      "lost_information": "the positive limiting finite-stage complement density",
+      "consequence": "the estimate can diverge in exactly the unresolved regime"
+    },
+    {
+      "method": "profinite martingale limit",
+      "loss_step": "erase the archimedean thresholds n_i",
+      "lost_information": "the age of each cylinder relative to the harmonic cutoff",
+      "consequence": "measure convergence does not give uniform logarithmic equidistribution"
+    }
+  ],
+  "required_new_information": [
+    "an aggregate rather than pointwise bound on simultaneous onset spikes",
+    "a potential coupling conditional density, lcm period, and first active representative",
+    "either a block construction with nonvanishing logarithmic oscillation or a tightness theorem ruling it out"
+  ]
+}

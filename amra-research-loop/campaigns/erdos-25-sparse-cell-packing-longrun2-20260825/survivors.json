@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M25P-10",
+    "M25P-12",
+    "M25P-14"
+  ],
+  "selection_rationale": "M25P-12 is the proved algebraic foundation closing every finite affine mixture. M25P-14 is the sharp remaining proof target for bounded-ratio least-representative progressions. M25P-10 retains the logically opposite route: a counterexample must be genuinely non-affine, scale-spanning, positive in absolute logarithmic mass, and compatible with a positive inner finite-stage density."
+}

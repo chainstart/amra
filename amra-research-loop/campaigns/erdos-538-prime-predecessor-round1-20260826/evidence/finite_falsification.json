@@ -1,0 +1,199 @@
+{
+  "budget_seconds": 1800,
+  "completed_runs": 4,
+  "compression_witness": {
+    "after": [
+      6,
+      10,
+      15
+    ],
+    "after_is_admissible": false,
+    "before": [
+      10,
+      15,
+      30
+    ],
+    "before_is_admissible": true,
+    "conclusion": "M538-01 is false: a weight-increasing coordinate down-shift can create a forbidden triple.",
+    "created_edge": [
+      6,
+      10,
+      15
+    ],
+    "harmonic_weight_after": 0.3333333333333333,
+    "harmonic_weight_before": 0.2,
+    "shift": "30 -> 6 (delete the prime coordinate 5)"
+  },
+  "elapsed_seconds": 1.947,
+  "epistemic_status": "finite falsification only; no completeness reduction",
+  "runs": [
+    {
+      "depth": 1,
+      "edges": 8,
+      "elapsed_seconds": 0.002,
+      "kind": "lattice",
+      "label": "squarefree-first-4",
+      "max_selected_support": 4,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "mip_gap": 0.0,
+      "nodes": 1,
+      "objective": 2.5809523809523807,
+      "primes": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "selected_count": 12,
+      "selected_exponent_ge2_mass": 0.0,
+      "selected_layer_count": {
+        "0": 1,
+        "1": 4,
+        "2": 4,
+        "3": 2,
+        "4": 1
+      },
+      "selected_layer_mass": {
+        "0": 1.0,
+        "1": 1.1761904761904762,
+        "2": 0.34285714285714286,
+        "3": 0.05714285714285714,
+        "4": 0.004761904761904762
+      },
+      "status": 0,
+      "success": true,
+      "vertices": 16
+    },
+    {
+      "depth": 1,
+      "edges": 40,
+      "elapsed_seconds": 0.0026,
+      "kind": "lattice",
+      "label": "squarefree-first-5",
+      "max_selected_support": 5,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "mip_gap": 0.0,
+      "nodes": 1,
+      "objective": 2.7515151515151515,
+      "primes": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "selected_count": 19,
+      "selected_exponent_ge2_mass": 0.0,
+      "selected_layer_count": {
+        "0": 1,
+        "1": 5,
+        "2": 6,
+        "3": 4,
+        "4": 2,
+        "5": 1
+      },
+      "selected_layer_mass": {
+        "0": 1.0,
+        "1": 1.267099567099567,
+        "2": 0.40129870129870127,
+        "3": 0.0748917748917749,
+        "4": 0.007792207792207793,
+        "5": 0.0004329004329004329
+      },
+      "status": 0,
+      "success": true,
+      "vertices": 32
+    },
+    {
+      "depth": 1,
+      "edges": 160,
+      "elapsed_seconds": 0.1028,
+      "kind": "lattice",
+      "label": "squarefree-first-6",
+      "max_selected_support": 6,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "mip_gap": 0.0,
+      "nodes": 24,
+      "objective": 2.8997668997669,
+      "primes": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13
+      ],
+      "selected_count": 33,
+      "selected_exponent_ge2_mass": 0.0,
+      "selected_layer_count": {
+        "0": 1,
+        "1": 6,
+        "2": 9,
+        "3": 8,
+        "4": 6,
+        "5": 2,
+        "6": 1
+      },
+      "selected_layer_mass": {
+        "0": 1.0,
+        "1": 1.344022644022644,
+        "2": 0.4515817515817515,
+        "3": 0.09194139194139195,
+        "4": 0.01138861138861139,
+        "5": 0.0007992007992007992,
+        "6": 3.33000333000333e-05
+      },
+      "status": 0,
+      "success": true,
+      "vertices": 64
+    },
+    {
+      "depth": 1,
+      "edges": 560,
+      "elapsed_seconds": 1.8235,
+      "kind": "lattice",
+      "label": "squarefree-first-7",
+      "max_selected_support": 7,
+      "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+      "mip_gap": 0.0,
+      "nodes": 1233,
+      "objective": 3.0185030655618887,
+      "primes": [
+        2,
+        3,
+        5,
+        7,
+        11,
+        13,
+        17
+      ],
+      "selected_count": 57,
+      "selected_exponent_ge2_mass": 0.0,
+      "selected_layer_count": {
+        "0": 1,
+        "1": 7,
+        "2": 12,
+        "3": 15,
+        "4": 12,
+        "5": 7,
+        "6": 2,
+        "7": 1
+      },
+      "selected_layer_mass": {
+        "0": 1.0,
+        "1": 1.4028461734344086,
+        "2": 0.49199428022957425,
+        "3": 0.10763550175314882,
+        "4": 0.01474603827545004,
+        "5": 0.0012203482791718085,
+        "6": 5.876476464711759e-05,
+        "7": 1.958825488237253e-06
+      },
+      "status": 0,
+      "success": true,
+      "vertices": 128
+    }
+  ],
+  "schema_version": "amra.erdos538.finite-falsification.v1",
+  "started_unix": 1787709950.8826058
+}

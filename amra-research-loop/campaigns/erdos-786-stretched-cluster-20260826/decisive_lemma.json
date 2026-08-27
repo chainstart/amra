@@ -1,0 +1,17 @@
+{
+  "statement": "Stretched-cluster theorem SC.1. For every sufficiently large integer N, the distinct-Finset bad-relation hypergraph H_N contains a connected family F_N of support-minimal unequal-cardinality equal-product relations, all vertices in (N/64,N], such that every two supports meet in exactly one integer, every normalized defect is -1, nu(F_N)=1, and tau(F_N)>2^(sqrt(log_2 N)/200).",
+  "status": "proved",
+  "closes": [
+    "standalone_decisive_lemma"
+  ],
+  "evidence": [
+    "evidence/STRETCHED_CLUSTER_THEOREM.md: complete all-N natural proof with quantitative prime allocation, padding, minimality, and exact transversal calculation.",
+    "evidence/MECHANISM_FALSIFICATION.md: supporting encoding and padding lemmas plus eight killed alternatives.",
+    "evidence/verify_stretched_cluster.py and evidence/stretched_cluster_replay.json: finite incidence and exact integer guard replay; no finite-to-asymptotic inference."
+  ],
+  "dependency_gaps": [
+    "The prime allocation uses the ordinary asymptotic prime number theorem, and the projective plane uses the standard construction over the prime field of order q.",
+    "Primary-literature priority checking remains pending; the independent reconstruction passed with priority left explicitly uncertain.",
+    "SC.1 is a lower-bound construction for a scoped subfamily; it does not prove tau(H_N)=o(N) or either density-one assertion."
+  ]
+}

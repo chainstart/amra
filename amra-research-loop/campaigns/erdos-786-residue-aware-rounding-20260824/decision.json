@@ -1,0 +1,16 @@
+{
+  "outcome": "promote",
+  "success_condition": "standalone_decisive_lemma",
+  "reason": "Independent blind reconstruction verifies RR.1 and RR.2 as all-parameter support-minimal counterfamilies to the nine precisely frozen local residue-aware mechanisms, and verifies RR.3 as a supporting full-prime-occurrence complexity theorem. Promote only this scoped obstruction package. It neither proves tau(H_N)=o(N) nor constructs a coherent infinite natural-density-one set; Erdos 786 remains open and M786R-04, M786R-08, and M786R-12 remain live.",
+  "evidence": [
+    "audit/blind_reconstruction.md",
+    "audit/independent_audit.md",
+    "audit/round3_alteration_audit.md",
+    "audit.json",
+    "evidence/INDEPENDENT_ARITHMETIC_ALTERATION.md",
+    "evidence/OBSTRUCTION_ANALYSIS.md",
+    "evidence/MECHANISM_FALSIFICATION.md",
+    "evidence/SURVIVOR_DEEPENING.md",
+    "evidence/verify_residue_aware_kills.py"
+  ]
+}

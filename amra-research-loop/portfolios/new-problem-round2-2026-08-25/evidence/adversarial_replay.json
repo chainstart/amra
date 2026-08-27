@@ -1,0 +1,40 @@
+{
+  "schema_version": "amra.new-problem-round2-audit.v1",
+  "resource_guard": {
+    "observed_cgroup": "0::/user.slice/user-1000.slice/user@1000.service/openmath.slice/openmath-task-20260825-154308-36053.scope",
+    "inside_openmath_slice": true
+  },
+  "erdos_317": {
+    "mitm_exact_range": [
+      2,
+      30
+    ],
+    "mitm_sat_exactly": [
+      2,
+      3,
+      4
+    ],
+    "independent_modular_replay_range": [
+      5,
+      10000
+    ],
+    "uncovered": []
+  },
+  "erdos_538": {
+    "all_graphs_checked_on_vertices": 5,
+    "graph_count": 1024,
+    "exponent_vectors_per_graph": 243,
+    "triangle_free_equivalence": true,
+    "weighted_optimum_matches_cut_through_vertices": 6
+  },
+  "erdos_859": {
+    "independent_generator_replay_range": [
+      1,
+      15
+    ],
+    "production_exact_through": 66,
+    "production_stop_reason": "collapsed inclusion-exclusion exceeded closure cap 2000000",
+    "all_checks_passed": true
+  },
+  "pid": 36053
+}

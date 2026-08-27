@@ -1,0 +1,33 @@
+{
+  "inherited_methods": [
+    {
+      "method": "eventual coin-size inequality",
+      "loss_step": "deduce completeness from c_{j+1} <= 1 + sum_{i<=j} c_i without a seed interval",
+      "lost_information": "which consecutive residues are already attained by a finite prefix",
+      "consequence": "persistent modular holes such as those of 2,3,6,12,... remain possible"
+    },
+    {
+      "method": "tail gcd equals one",
+      "loss_step": "replace bounded signed subset coefficients by unrestricted Bezout coefficients",
+      "lost_information": "distinct-use and coefficient-size constraints",
+      "consequence": "gcd one does not imply precompleteness"
+    },
+    {
+      "method": "transfer from the ceiling-function proof",
+      "loss_step": "replace floor carries by ceiling carries",
+      "lost_information": "the sign of the accumulated binary digit defect",
+      "consequence": "for floors, a_{n+1}-sum_{i<=n}a_i grows by the count of positive binary carries instead of staying bounded above"
+    },
+    {
+      "method": "finite sampling of irrational parameters",
+      "loss_step": "freeze finitely many binary digit cells",
+      "lost_information": "arbitrarily late common prefixes and all irrational ratios",
+      "consequence": "no finite grid can establish the universal statement"
+    }
+  ],
+  "required_new_information": [
+    "a bounded-coefficient certificate for consecutive subset sums",
+    "a precompleteness mechanism forced by irrational binary digit disagreement",
+    "an interval-growth invariant that retains floor carry signs"
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "mechanisms": [
+    {
+      "id": "M451-01",
+      "representation_id": "R451-01",
+      "family": "crt_prefix",
+      "decisive_claim": "The exact density D_k forces an allowed representative below C/D_k for an absolute C.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Compare exact first representatives with D_k and construct generic CRT systems of the same local densities having arbitrarily delayed first representatives.",
+      "status": "killed",
+      "created_at": "2026-08-26T04:24:59+00:00",
+      "status_evidence": "evidence/crt_and_sieve_falsification.md",
+      "updated_at": "2026-08-26T04:30:47+00:00"
+    },
+    {
+      "id": "M451-02",
+      "representation_id": "R451-03",
+      "family": "moment_methods",
+      "decisive_claim": "A Paley-Zygmund bound for a random translated H-window implies the fixed initial window (2k,H] is nonempty.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Write the quantifiers of the translation average and exhibit an exceptional empty translate despite a positive average nonempty probability.",
+      "status": "killed",
+      "created_at": "2026-08-26T04:24:59+00:00",
+      "status_evidence": "evidence/crt_and_sieve_falsification.md",
+      "updated_at": "2026-08-26T04:30:47+00:00"
+    },
+    {
+      "id": "M451-03",
+      "representation_id": "R451-03",
+      "family": "moment_methods",
+      "decisive_claim": "Control of all pair correlations J_k(h) for h<=H bounds the maximum survivor gap by O(1/D_k).",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Test periodic binary sets with the same density and pair-correlation envelope but a distinguished long gap; audit the missing fixed-shift step.",
+      "status": "killed",
+      "created_at": "2026-08-26T04:24:59+00:00",
+      "status_evidence": "evidence/crt_and_sieve_falsification.md",
+      "updated_at": "2026-08-26T04:30:47+00:00"
+    },
+    {
+      "id": "M451-04",
+      "representation_id": "R451-05",
+      "family": "sieve_support",
+      "decisive_claim": "Ordinary inclusion-exclusion using every modulus d<=H recovers the product density D_k when H=exp(Ck/log k).",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Compare the maximum support size log H/log k with the number of prime constraints and quantify the unresolved dense binomial tail.",
+      "status": "killed",
+      "created_at": "2026-08-26T04:24:59+00:00",
+      "status_evidence": "evidence/crt_and_sieve_falsification.md",
+      "updated_at": "2026-08-26T04:30:47+00:00"
+    },
+    {
+      "id": "M451-05",
+      "representation_id": "R451-09",
+      "family": "constructive_entropy",
+      "decisive_claim": "Products of a sublinear number of selected primes in (k,2k) supply enough candidates to satisfy every remaining congruence while staying exp(O(k/log k)).",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Compare candidate entropy log binomial(m,t), output magnitude t log k, and the roughly m-t surviving one-bit constraints.",
+      "status": "killed",
+      "created_at": "2026-08-26T04:24:59+00:00",
+      "status_evidence": "evidence/crt_and_sieve_falsification.md",
+      "updated_at": "2026-08-26T04:30:48+00:00"
+    },
+    {
+      "id": "M451-06",
+      "representation_id": "R451-02",
+      "family": "covering_duality",
+      "decisive_claim": "A bounded-overlap dual weighting of the forbidden congruence classes proves that their union cannot cover the initial interval beyond C/D_k.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Solve the exact fractional cover on small instances and reject weights whose normalization uses translation average rather than the initial prefix.",
+      "status": "killed",
+      "created_at": "2026-08-26T04:24:59+00:00",
+      "status_evidence": "evidence/crt_and_sieve_falsification.md",
+      "updated_at": "2026-08-26T04:30:48+00:00"
+    },
+    {
+      "id": "M451-07",
+      "representation_id": "R451-07",
+      "family": "konyagin_amplification",
+      "decisive_claim": "Replacing a single short prime interval by several coupled intervals in the Konyagin encoding strictly improves the constant 1/20 in the exponent of the known lower bound.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Audit height, degree and prime-interval losses from arXiv:2606.19863 and test whether extra intervals increase polynomial height faster than the gained prime supply.",
+      "status": "candidate",
+      "created_at": "2026-08-26T04:24:59+00:00"
+    },
+    {
+      "id": "M451-08",
+      "representation_id": "R451-06",
+      "family": "konyagin_amplification",
+      "decisive_claim": "Optimising the admissible short-prime exponent theta in the existing proof improves the exponent constant without new prime-gap input.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Symbolically retain theta through every inequality and identify whether the published theta=21/40 already saturates a competing constraint.",
+      "status": "proved",
+      "created_at": "2026-08-26T04:24:59+00:00",
+      "status_evidence": "evidence/lean_c16_certificate.md and evidence/lean_c16_replay.json: exact Lean kernel certificate for denominator 16, including the r=3 power-saving repair and the bridge to p in (k,2k)",
+      "updated_at": "2026-08-26T05:34:41+00:00"
+    },
+    {
+      "id": "M451-09",
+      "representation_id": "R451-10",
+      "family": "recursive_prefix",
+      "decisive_claim": "Quotient-stable block decomposition contracts the fixed-prefix discrepancy while losing o(k/log k) in the exponent.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Compute boundary counts on successive H-scales and kill if the accumulated exceptional blocks have exponential cost comparable to D_k^{-1}.",
+      "status": "surviving",
+      "created_at": "2026-08-26T04:24:59+00:00",
+      "status_evidence": "evidence/crt_and_sieve_falsification.md",
+      "updated_at": "2026-08-26T04:30:48+00:00"
+    },
+    {
+      "id": "M451-10",
+      "representation_id": "R451-08",
+      "family": "entropy_probability",
+      "decisive_claim": "The Lovasz local lemma applied to a random integer in [1,H] overcomes the dense congruence constraints at H=exp(O(k/log k)).",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Build the event dependency graph; kill if every event depends on every other through the single random variable n.",
+      "status": "killed",
+      "created_at": "2026-08-26T04:24:59+00:00",
+      "status_evidence": "evidence/crt_and_sieve_falsification.md",
+      "updated_at": "2026-08-26T04:30:48+00:00"
+    },
+    {
+      "id": "M451-11",
+      "representation_id": "R451-04",
+      "family": "harmonic_sieve",
+      "decisive_claim": "A classical large-sieve inequality for the allowed residue sets gives a positive survivor count at H=exp(O(k/log k)).",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Insert the total removed-residue mass and compare the large-sieve denominator with H; kill if the inequality only produces an upper bound or has negative denominator.",
+      "status": "killed",
+      "created_at": "2026-08-26T04:24:59+00:00",
+      "status_evidence": "evidence/crt_and_sieve_falsification.md",
+      "updated_at": "2026-08-26T04:30:48+00:00"
+    },
+    {
+      "id": "M451-12",
+      "representation_id": "R451-01",
+      "family": "finite_extrapolation",
+      "decisive_claim": "Agreement of exact n_k values with the density scale through a large finite cutoff certifies n_k=exp((log 4+o(1))k/log k).",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Check whether the computation includes a proved reduction from all k to the finite range; kill on absence of such a reduction.",
+      "status": "killed",
+      "created_at": "2026-08-26T04:24:59+00:00",
+      "status_evidence": "evidence/crt_and_sieve_falsification.md",
+      "updated_at": "2026-08-26T04:30:48+00:00"
+    }
+  ]
+}

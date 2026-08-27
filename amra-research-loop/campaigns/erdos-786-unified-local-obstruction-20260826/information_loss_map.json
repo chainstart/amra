@@ -1,0 +1,47 @@
+{
+  "inherited_methods": [
+    {
+      "method": "IR.1 moving power-thin path construction",
+      "loss_step": "bound the 2s-th edge prime by repeated Bertrand growth and then impose s=o(K) so that every unpadded odd part is b^o(K)",
+      "lost_information": "only a fixed positive fraction of the K base-b exponent is needed for the odd edge labels; one need not make that fraction tend to zero",
+      "consequence": "the published estimate reaches (N^(1-eta_K),N] only when K eta_K tends to infinity and does not enter a fixed multiplicative tail"
+    },
+    {
+      "method": "RR.1 fixed-L rough path construction",
+      "loss_step": "hold the support parameter s fixed while sending K to infinity, because the goal was only arbitrary depth at fixed roughness",
+      "lost_information": "the exact exponent budget remains positive when s grows linearly with K at a sufficiently small constant rate",
+      "consequence": "RR.1 gives arbitrarily long paths in a power tail but does not quantify logarithmic support inside a constant-width tail"
+    },
+    {
+      "method": "hard or finitely nested lower thresholds",
+      "loss_step": "retain only the cutoff scale and discard every prime-valuation signature above it",
+      "lost_information": "whether a complete positive-density zero-signature fibre is necessarily retained by an o(N) cylinder deletion",
+      "consequence": "IR.1 refutes thresholds but does not state a single theorem covering threshold deletion combined with finite or sparse prime observations"
+    },
+    {
+      "method": "finite controlled-prime signature guard",
+      "loss_step": "instantiate one path avoiding a fixed finite prime set without coupling this avoidance to the tail-width estimate",
+      "lost_information": "edge primes may be chosen above a growing roughness cutoff while the padding prime remains outside the frozen controlled set",
+      "consequence": "the finite guard is not an all-parameter obstruction to growing valuation-cylinder rules"
+    },
+    {
+      "method": "informal phrase 'finite local information rounding'",
+      "loss_step": "treat thresholds, prime valuations, adaptive largest-prime residues, graph neighborhoods, and arbitrary vertex labels as one class",
+      "lost_information": "these models have different distinguishing power and no common positive-density fibre",
+      "consequence": "a theorem stated for all such local rules would be unsupported and could approach the unresolved full transversal problem"
+    }
+  ],
+  "required_new_information": [
+    "A simultaneous choice s=Theta(K) for which the edge-prime size, initial padding exponent, balancing decrement, distinctness, and support minimality are all uniform in K.",
+    "An explicit fixed tail constant and an explicit roughness cutoff that also excludes every frozen controlled prime.",
+    "A positive-density estimate for the all-zero controlled-valuation fibre under a quantitative sparse-prime hypothesis.",
+    "A frozen cylinder-rule definition strong enough to combine thresholds and valuation observations but narrow enough not to cover adaptive residue-aware rounding.",
+    "A finite verifier that checks exact identities and inequalities without being used as the proof of the universal statement."
+  ],
+  "candidate_bottleneck": {
+    "parameter_choice": "m=floor(K/16), support size 2m+1, roughness cutoff y=b^m",
+    "prime_budget": "Bertrand iteration should give each edge prime below 2^(2m)b^m and each odd/rough vertex product below b^(6m)",
+    "balancing_budget": "the one-vertex shore imbalance gives total exponent discrepancy below K+m and maximum distributed decrement at most 18",
+    "expected_tail": "every padded vertex should lie in (b^K/b^19,b^K]"
+  }
+}

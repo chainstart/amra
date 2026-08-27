@@ -1,0 +1,173 @@
+{
+  "mechanisms": [
+    {
+      "id": "M786G-01",
+      "representation_id": "R786G-01",
+      "family": "grid-incidence",
+      "decisive_claim": "Every injected row-pool K_(d-1,d) grid is a support-minimal squarefree unequal-cardinality equal-product relation on distinct integers at most N.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Use unique prime valuations to verify shore equality, all cross-type distinctions, and the connected 0-1 subrelation kernel.",
+      "status": "proved",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-02",
+      "representation_id": "R786G-02",
+      "family": "grid-incidence",
+      "decisive_claim": "Disjoint row prime pools are unnecessary because an uncoloured single pool preserves the same row-universe counting and unique row identities.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Exchange the d selected primes between two rows and test whether the same row product has multiple row identities in the counting argument.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-03",
+      "representation_id": "R786G-03",
+      "family": "grid-incidence",
+      "decisive_claim": "Connectivity alone proves support minimality even if cell labels are reused on two different graph edges.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Reuse a label and inspect whether its single valuation equation still forces equality of the two individual endpoint indicators.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-04",
+      "representation_id": "R786G-04",
+      "family": "transversal-probability",
+      "decisive_claim": "Every transversal D of the complete grid atlas satisfies d|D_col|/m^(d-1)+|D_row|/binom(m,d)>=1 by exact marginals and a union bound.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Sample ordered row injections uniformly, compute each marginal exactly, and test the strict reverse inequality by positive avoidance probability.",
+      "status": "surviving",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-05",
+      "representation_id": "R786G-05",
+      "family": "transversal-probability",
+      "decisive_claim": "The products appearing at different columns of a random injected grid are mutually independent.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Condition on one prime used in a row and check that it cannot reappear in another column of that row.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-07",
+      "representation_id": "R786G-08",
+      "family": "asymptotic-optimization",
+      "decisive_claim": "One fixed dimension d proves the target subleading loss (2+o(1)) sqrt(log N log log N).",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Compute the fixed loss log N/d and compare it with sqrt(log N log log N).",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-08",
+      "representation_id": "R786G-07",
+      "family": "asymptotic-optimization",
+      "decisive_claim": "With d=floor(sqrt(log N/log log N)), the finite grid lower bound has logarithm log N-(2+o(1)) sqrt(log N log log N).",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Retain all floor errors, prime-pool losses, the factor 1/d, and the competing row-binomial term in a complete logarithmic calculation.",
+      "status": "surviving",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-09",
+      "representation_id": "R786G-09",
+      "family": "asymptotic-optimization",
+      "decisive_claim": "The inequality binom(m,d)>=m^(d-1)/d holds for every m>=d>=3.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Evaluate d=m=3 and compare binom(3,3) with 3^2/3.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-10",
+      "representation_id": "R786G-10",
+      "family": "prime-supply",
+      "decisive_claim": "The prime number theorem supplies m=(1+o(1))N^(1/d)/(2 log N) primes per row pool uniformly along the optimized dimension sequence.",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Set x=N^(1/d), prove x tends to infinity, apply pi(x)-pi(x/2) asymptotics, divide by d-1, and simplify d log x=log N.",
+      "status": "proved",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-11",
+      "representation_id": "R786G-11",
+      "family": "prime-supply",
+      "decisive_claim": "Bertrand's postulate alone certifies the asymptotic pool size x/(2 log N) in the single interval (x/2,x].",
+      "would_close": [
+        "main_exponent_improved"
+      ],
+      "kill_test": "Separate existence of one prime from a lower bound of asymptotic order x/log x in one fixed interval.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-12",
+      "representation_id": "R786G-12",
+      "family": "global-alteration",
+      "decisive_claim": "If a uniform adaptive valuation classifier retains its finite all-zero transcript while querying only primes below x/2, then any arbitrary global repair producing a transversal must delete at least the grid-atlas lower bound.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Place every grid vertex in the zero class and apply the complete-family transversal inequality directly to the post-classification repair.",
+      "status": "surviving",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-13",
+      "representation_id": "R786G-13",
+      "family": "scope-boundaries",
+      "decisive_claim": "The grid lower bound rules out every global repair of size o(N), and therefore settles the finite form of Erdos 786 negatively.",
+      "would_close": [
+        "original_problem_closed"
+      ],
+      "kill_test": "Compare the proved scale with the admissible o(N) budget N/log N and recall that the original finite target is an upper-bound construction.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    },
+    {
+      "id": "M786G-14",
+      "representation_id": "R786G-07",
+      "family": "scope-boundaries",
+      "decisive_claim": "An elementary-looking proof and an improved exponent automatically establish literature priority and Tier-1 publication quality.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Require independent reconstruction, a primary-source literature search, and comparison with known multiplicative Sidon and cover-free grid results.",
+      "status": "killed",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-27T00:59:23+00:00"
+    }
+  ]
+}

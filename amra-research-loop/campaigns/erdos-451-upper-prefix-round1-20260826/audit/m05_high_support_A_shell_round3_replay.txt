@@ -1,0 +1,106 @@
+M05 high-support A-shell / Fejer bridge Round 3 replay
+Date: 2026-08-27
+Guard: /home/biostar/work/projects/openmath/bin/openmath-memory-guard
+Limits printed on every run: high=30G max=34G swap=4G tasks=512
+
+Final source hashes
+134fbd027460316b67a2823763703a7b5bafae3fb265a79c2865339d2cfaba0f  work/m10_cross_audit/round3_weighted_A_shell.py
+8074528e9362d402e52ea21d6267dacf9c719ac7b1dd0d194479c2dae4fe7b25  work/m10_cross_audit/round3_periodized_rescue_check.py
+e52e271c611b84083281fdf4a786b8024d827c63034fad71b18af735f5c139c7  work/m10_cross_audit/round3_periodized_actual_subblocks.py
+fa682d21396d281eb5af041307cd15aaafa227a58610cb08446f39f5a094e220  work/m10_cross_audit/round3_full_block_c2_driver.py
+f521a4c9fafbb1dc703c9dd4b8cae98787741ccf4cda42811a9e3dfacbd9ed2b  work/m10_round1/periodized_bridge_exact_interval_scan.cpp
+
+1. Baseline weighted A-shell replay
+unit=openmath-task-20260827-005217-357300.scope
+command: guard -- /usr/bin/time -v python3 work/m10_cross_audit/round3_weighted_A_shell.py --min-k 300 --max-k 3000 --step 137 --min-rank 8 --max-systems 24 --a-cap 30000 --aggregate-only
+exit=0 wall=11.90s max_RSS=20160KiB swap=0
+result: 24 actual systems, ranks 8..128; zero-prefix histogram 142353/904/3 for lengths 0/1/2; max actual log normalized joint=2.5116418954; max actual log scanned positive-A total=-26.3206852739.
+
+2. Expanded weighted A-shell replays
+common arguments: --min-k 500 --max-k 10000 --step 331 --min-rank 10 --max-systems 36 --a-cap 100000 --aggregate-only
+
+unit=openmath-task-20260827-005427-357817.scope
+parameters: L=2 C=6
+exit=0 wall=2:17.67 max_RSS=20640KiB swap=0
+result: ranks 11..427; max log normalized joint=0.7872103140; max log scanned total=-37.2281029554.
+
+unit=openmath-task-20260827-005907-358679.scope
+parameters: L=4 C=6
+exit=0 wall=2:17.92 max_RSS=20800KiB swap=0
+result: max log normalized joint=-14.8424704494; max log scanned total=-49.4743775787.
+
+unit=openmath-task-20260827-010130-359284.scope
+parameters: L=6 C=6
+exit=0 wall=2:17.68 max_RSS=20960KiB swap=0
+result: max log normalized joint=-11.7805029541; max log scanned total=-44.2218324005.
+
+unit=openmath-task-20260827-010354-359798.scope
+parameters: L=2 C=3
+exit=0 wall=2:22.80 max_RSS=21120KiB swap=0
+result: max log normalized joint=0.7872103140; max log scanned total=-37.2280883692.
+
+3. Exact small periodized-majorant identity check
+unit=openmath-task-20260827-005840-358513.scope
+command: guard -- /usr/bin/time -v python3 work/m10_cross_audit/round3_periodized_rescue_check.py
+exit=0 wall=0.03s max_RSS=12000KiB swap=0
+result: p=(11,13), b=3/2, h=5 gives S=30316/2025 and the |z_i|<=30 partial H_nonzero=10.7563802918 <= S-1; the second pairwise-coprime q=3 identity check also passed.
+
+4. Exact-h actual-prime subblock replay
+unit=openmath-task-20260827-011912-364319.scope
+command: guard -- /usr/bin/time -v python3 work/m10_cross_audit/round3_periodized_actual_subblocks.py --min-k 50 --max-k 100 --step 10 --word-cap 1000000
+exit=0 wall=2:05.81 max_RSS=231168KiB swap=0
+result: 238 exhaustive feasible subblocks (q3/q4/q5=166/71/1); all have some grid C<=1.15 with S<2; worst first crossing is k=60, p=(101,103,107,109), C=1.15, S=1.9612850627.  The h floor used integer c_num arithmetic.
+
+5. Exact centered witness
+unit=openmath-task-20260827-004700-356096.scope
+exit=0
+result: p=(787,797,809,811,821,823,827,829), P=190636239282683486702929, z=(135,-367,122,289,131,-367,-207,264), A=1032, moments (0,0,-3552,-5457792,...), gcd(P,A)=1.
+
+6. Exact complete-block interval scan
+
+Current GMP source compile:
+unit=openmath-task-20260827-013217-367726.scope
+command: guard -- /usr/bin/time -v g++ -O3 -std=c++20 work/m10_round1/periodized_bridge_exact_interval_scan.cpp -lgmpxx -lgmp -o /tmp/m10_periodized_bridge_exact_interval_scan_gmp
+exit=0 wall=0.53s max_RSS=143348KiB swap=0
+
+Independent current-source high-rank replay:
+unit=openmath-task-20260827-013231-367839.scope
+command: guard -- /usr/bin/time -v /tmp/m10_periodized_bridge_exact_interval_scan_gmp 118 64 2
+exit=0 wall=49.88s max_RSS=4160KiB swap=0
+result: q=9, h=12334817690, admitted positive H=235338, support histogram {5:3,6:68,7:1910,8:29491,9:203866}, S=1.02254945109853566<2.
+
+Independent rational-C replay:
+unit=openmath-task-20260827-013227-367818.scope
+command: guard -- /usr/bin/time -v /tmp/m10_periodized_bridge_exact_interval_scan_gmp 100 64 13 10
+exit=0 wall=0.15s max_RSS=4160KiB swap=0
+result: q=8, h=43382037, S=1.18983273801320401<2.
+
+Independent old integer-source C=1 reproductions (membership formulas are unchanged in the current source):
+units=openmath-task-20260827-013026-366962.scope, ...366966.scope, ...366984.scope, ...366998.scope
+all exit=0, max_RSS=3840KiB, swap=0
+results: (k,Delta,q,S)=(57,32,7,2.9280872682434733),(100,64,8,3.9894955943280097),(118,64,9,7.7425891098776068),(117,64,10,15.477197745402882).
+
+Independent old integer-source C=2 high-rank reproductions:
+unit=openmath-task-20260827-012911-366564.scope q7 exit=0 wall=0.42s max_RSS=3840KiB swap=0 S=1.01081301567826716
+unit=openmath-task-20260827-012915-366634.scope q8 exit=0 wall=4.41s max_RSS=3840KiB swap=0 S=1.00287079575292596
+unit=openmath-task-20260827-012925-366749.scope q9 exit=0 wall=43.15s max_RSS=3840KiB swap=0 S=1.02254945109853566
+unit=openmath-task-20260827-012513-365665.scope q10 exit=0 wall=3:29.38 max_RSS=3680KiB swap=0 S=1.00670072065829089; h=62148874980, admitted_total=821677, positive support histogram {6:2,7:169,8:4129,9:56436,10:350102}.  This prior fixed-width numerator is below 2^127 and the GMP membership formula is unchanged.
+
+Budgeted complete-block C=2 scans:
+unit=openmath-task-20260827-012824-366263.scope: 22 cases, q3..q5, sum h=29615344, no failures, exit0 wall0.15s max_RSS=13120KiB swap0.
+unit=openmath-task-20260827-012840-366322.scope: 17 cases, q3..q6, sum h=99990527, no failures, exit0 wall0.40s max_RSS=13280KiB swap0.
+Candidate inventory unit=openmath-task-20260827-012906-366477.scope, exit0 wall0.06s max_RSS=13760KiB swap0; minimum h by ranks q7/q8/q9/q10 was 130492902/1361454343/12334817690/62148874980.
+Final GMP budget scan unit=openmath-task-20260827-013746-368887.scope: 79 cases in 30<=k<=1000, q3..q7, h<=1e9, sum h=9999918860; all 12 eligible q7 blocks in this box were scanned, no failures; exit0 wall38.47s max_RSS=13280KiB swap0.  Largest S by q3..q7 was 1.013508381/1.018958666/1.025601345/1.028138643/1.010813016.
+
+Discarded development attempts
+- units 004212 and 004318 exited 1 because proposed synthetic offset families had no admissible coprime/F'-unit realization; families were replaced by step-210 systems.
+- unit 004417 exited 1 on a float overflow in log(P/A); fixed to log(P)-log(A).
+- unit 010912 was an exploratory k<=250 scan stopped by SIGINT after 9:30.96 (max_RSS=239968KiB, swap=0).  It used a float C^q floor and is not evidence.  The final unit 011912 replaced it with exact integer h and an explicitly narrower range.
+- unit openmath-task-20260827-013054-367170.scope failed because an intermediate author patch requested an unavailable Boost header.  The final GMP source and successful guarded compile unit 013217 supersede it.
+
+All numerical scans are finite falsification diagnostics.  None is used as an asymptotic theorem or as a proof of S<2.
+
+Static syntax freeze
+unit=openmath-task-20260827-013532-368303.scope
+command: guarded py_compile of all four Round3 Python sources
+exit=0 wall=0.03s max_RSS=14720KiB swap=0

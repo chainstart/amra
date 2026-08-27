@@ -1,0 +1,109 @@
+{
+  "schema_version": "amra.parallel-proof-run.v1",
+  "run_id": "global-survivors-776-786-2026-08-24",
+  "created_at": "2026-08-24T22:20:00+08:00",
+  "updated_at": "2026-08-25T00:14:19+08:00",
+  "status": "checkpointed_after_crash_recovery",
+  "strategy": "one_actual_orbit_route_plus_two_isolated_global_rounding_routes",
+  "supersedes_checkpoint": "parallel_proof_run_round3.json",
+  "resource_allocation": {
+    "erdos-776": 0.4,
+    "erdos-786-distinct": 0.6,
+    "erdos-327": 0.0
+  },
+  "research_protocols": [
+    "/home/biostar/work/projects/openmath/.agents/skills/open-math-research/SKILL.md",
+    "/home/biostar/work/projects/amra/amra-research-loop/SKILL.md"
+  ],
+  "time_policy": {
+    "minimum_research_hours_per_problem_before_portfolio_return": 8,
+    "first_checkpoint_is_not_a_stop_condition": true,
+    "finite_cutoff_policy": "Finite computation may falsify or guard a symbolic proof but never supplies an all-parameter conclusion by extrapolation.",
+    "blocked_route_reopen_rule": "A killed route may reopen only with a materially new invariant, global compression, or compatible construction.",
+    "promotion_rule": "Require exact statement match and a non-author blind reconstruction before promotion. A theorem-equivalent global hitting statement is not progress without a new proof mechanism."
+  },
+  "processes": [
+    {
+      "process_id": "P776-LTJ",
+      "problem_id": "erdos-776",
+      "campaign_id": "erdos-776-rank8-global-20260824",
+      "role": "actual_orbit_diagonal_carry",
+      "status": "continued_round5_survivor_deepening",
+      "allocation": 0.4,
+      "exact_task": "Determine exact n_0(r); the immediate route target is the all-V shortened zero-seed rank-8 entry through H2.",
+      "route": "Prove or refute the actual leading-top jump condition (Delta B2)_+<=a(B2), or prove a strictly sufficient accumulated diagonal carry-loss inequality.",
+      "success_gate": "An all-parameter actual-orbit theorem closing H2, or an all-parameter obstruction that forces a genuinely different construction.",
+      "non_success": "A larger scan, another fixed Delta B2 bound, endpoint-only inference, or an equivalent restatement of H2."
+    },
+    {
+      "process_id": "P786-ALTER",
+      "problem_id": "erdos-786-distinct",
+      "campaign_id": "erdos-786-global-closure-round4-20260824",
+      "predecessor_campaign_id": "erdos-786-residue-aware-rounding-20260824",
+      "role": "cross_cluster_arithmetic_alteration",
+      "status": "completed_scoped_promotion_original_open",
+      "allocation": 0.35,
+      "variant_lock": "Finite sets of distinct positive integers; cancelled coefficients in {-1,0,1}.",
+      "exact_task": "Prove tau(H_N)=o(N) for the full bad-support hypergraph.",
+      "route": "Use circuit subtraction, normalized cardinality defect, petal reuse, and cluster-level primal-dual charging across complete failure clusters.",
+      "success_gate": "An all-N o(log N)-loss rounding theorem or an all-parameter obstruction to one precisely frozen cross-cluster claim.",
+      "non_success": "Raw max-degree LLL, representatives chosen independently inside each packed circuit, or an optimum cluster hitting set that restates tau(H_N)."
+    },
+    {
+      "process_id": "P786-GLOBAL",
+      "problem_id": "erdos-786-distinct",
+      "campaign_id": "erdos-786-global-closure-round4-20260824",
+      "role": "full_residue_owner_and_coherent_potential",
+      "status": "completed_scoped_promotion_original_open",
+      "allocation": 0.25,
+      "variant_lock": "Finite sets of distinct positive integers; the infinite target requires an actual natural-density limit.",
+      "exact_task": "Prove an o(log N) full-residue owner-flow bound and a compatible zero-density deletion rule, or rigorously refute the frozen mechanisms.",
+      "route": "Compare full-residue divisor-current ownership, within-scale global potentials, and dyadic recourse/reserve constructions.",
+      "success_gate": "An all-parameter owner or potential theorem changing the finite main term, an exact finite-to-infinite compatibility theorem with a constructive hypothesis, or a decisive all-parameter obstruction.",
+      "non_success": "Bounded residue/depth/fan, scale occupancy alone, occurrence cycle rank alone, or monotone prefix safety without revision accounting."
+    }
+  ],
+  "frozen_watchlist": {
+    "erdos-327": "Reopen only with a bounded-Q mechanism not quantitatively equivalent to the fan-clock aggregate.",
+    "erdos-404": "Reopen only with a materially new all-K fibre-cube or carry-language mechanism.",
+    "erdos-809": "Reopen only with an endpoint-safe all-weight compatibility mechanism."
+  },
+  "round_checkpoint": {
+    "recorded_at": "2026-08-25T00:14:19+08:00",
+    "recovered_crash_session": "01a03240-4751-7fb0-bd36-616c1a628d17",
+    "resource_guard": {
+      "launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+      "slice": "openmath.slice",
+      "memory_high": "30G",
+      "memory_max": "34G",
+      "memory_swap_max": "4G",
+      "tasks_max": 512,
+      "policy": "All proof verifiers, scans, phase transitions, and tests in the recovered run were executed inside guarded transient scopes."
+    },
+    "erdos_776": {
+      "campaign_phase": "survivor_deepening",
+      "round_4": "Independent unblinding passed the exact diagonal-loss recurrence and the gap-only plateau obstruction; LTJ remains open.",
+      "round_5": "The exact adjoint suffix-budget ladder was proved conditionally. Actual walls refute its fixed-rank five, six, and seven subroutes; rank-three/rank-four or joint multirank suffix control remains.",
+      "promotion": "none"
+    },
+    "erdos_786_distinct": {
+      "campaign_phase": "promotion",
+      "success_condition": "standalone_decisive_lemma",
+      "basis": "GC.1 only",
+      "public_problem": "open",
+      "forbidden_promotions": [
+        "global_interface_closed",
+        "main_term_improved",
+        "main_exponent_improved",
+        "original_problem_closed"
+      ]
+    },
+    "validation": {
+      "campaigns_valid": true,
+      "package_tests": "5 passed",
+      "round_4_verifiers": "all passed",
+      "round_5_verifier": "passed with exact actual counterexamples retained as negative evidence"
+    },
+    "next_action": "Continue Erdos 776 only with rank-three/rank-four or joint multirank actual suffix information. Any further Erdos 786 work must start a successor campaign from M786G-03, M786G-06, or M786G-13; the promoted round-four campaign is terminal."
+  }
+}

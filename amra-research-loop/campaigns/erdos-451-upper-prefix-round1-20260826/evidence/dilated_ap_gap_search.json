@@ -1,0 +1,44 @@
+{
+  "schema_version": "erdos451.dilated_ap_gap_search.summary.v1",
+  "guard_unit": "openmath-task-20260826-162101-140489.scope",
+  "guard_command": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard -- /usr/bin/time -v python3 amra-research-loop/campaigns/erdos-451-upper-prefix-round1-20260826/work/dilated_ap_gap_search.py",
+  "execution": {
+    "exit_status": 0,
+    "maximum_resident_set_kbytes": 12480,
+    "observed_swaps": 0,
+    "elapsed_wall_clock": "0:14.62"
+  },
+  "memory_limits": {
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "memory_swap_max": "4G"
+  },
+  "exhaustive_three_moduli": {
+    "moduli": [5, 7, 11],
+    "tested_systems": 32400,
+    "scope": "every 2<=d<q and every nonzero anchored AP step",
+    "maximum": {
+      "widths": [4, 3, 6],
+      "steps": [1, 3, 4],
+      "period": 385,
+      "allowed_count": 72,
+      "largest_cyclic_gap": 34,
+      "gap_over_density_scale": 6.358441558441558
+    }
+  },
+  "fixed_balanced_four_moduli": {
+    "moduli": [5, 7, 11, 13],
+    "widths": [3, 4, 6, 7],
+    "tested_systems": 2880,
+    "unit_step_baseline": {
+      "largest_cyclic_gap": 41,
+      "gap_over_density_scale": 4.128671328671329
+    },
+    "maximum": {
+      "steps": [1, 2, 5, 5],
+      "largest_cyclic_gap": 85,
+      "gap_over_density_scale": 8.55944055944056
+    }
+  },
+  "boundary": "Exact finite falsification only. These maxima neither prove nor disprove a fixed-base asymptotic gap theorem."
+}

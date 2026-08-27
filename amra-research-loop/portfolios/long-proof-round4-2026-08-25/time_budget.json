@@ -1,0 +1,14 @@
+{
+  "schema_version": "amra.long-proof-round.v1",
+  "round_id": "long-proof-round4-2026-08-25",
+  "created_at": "2026-08-25T17:30:00+08:00",
+  "guard": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+  "guard_limits": {"memory_high_gib": 30, "memory_max_gib": 34, "swap_max_gib": 4, "tasks_max": 512},
+  "checkpoint_minutes": 30,
+  "targets": [
+    {"problem_id":"erdos-354","campaign":"../../campaigns/erdos-354-residue-to-interval-longrun-20260825","minimum_productive_minutes":75,"target_productive_minutes":90},
+    {"problem_id":"erdos-25","campaign":"../../campaigns/erdos-25-positive-limit-longrun-20260825","minimum_productive_minutes":40,"target_productive_minutes":50}
+  ],
+  "audit_packaging_minutes": 15,
+  "early_stop_conditions": ["complete_proof_or_refutation","existing_solution_verified","resource_safety_event","rigorous_no_go_for_all_admitted_mechanisms"]
+}

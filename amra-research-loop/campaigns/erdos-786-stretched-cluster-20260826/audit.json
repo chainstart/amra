@@ -1,0 +1,17 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "independent Codex reviewer /root/erdos786_stretched_audit",
+    "evidence": [
+      "audit/independent_reconstruction.md: blind reconstruction was frozen at SHA-256 88d1f1279fbb95e6ffbc5da5c619432a0b0b8d2c92df24c44ca1b74eee0a6ef6 before author evidence was opened",
+      "Post-blind comparison found the SC.1 statement, construction, constants, dependencies, distinct-Finset scope, minimality, and all-N transfer correct",
+      "Independent bounded replay of evidence/verify_stretched_cluster.py returned PASS with source SHA-256 9a664db9f7500522688754ffffdbfcdad319cd3d35bc14f64a3eea61c8681773"
+    ]
+  },
+  "statement_match": "passed",
+  "statement_match_details": "SC.1 matches the frozen distinct-Finset statement for every sufficiently large N, the strict band (N/64,N], connected support-minimal relations, pairwise one-point intersections, normalized defect -1, matching number one, and transversal number strictly above 2^(sqrt(log_2 N)/200). It does not claim either original Erdos 786 target.",
+  "dependency_check": "passed",
+  "dependency_check_details": "The proof uses only Bertrand's postulate, the standard projective plane over a prime field, and a weak prime-number-theorem lower bound. Product equality, prime allocation, padding, distinctness, valuation minimality, exact transversal number, and the all-N reduction were independently reconstructed.",
+  "novelty_check": "priority_uncertain",
+  "novelty_check_details": "No primary-literature priority search was performed. The result may be promoted only as the scoped standalone theorem established here, with no priority or original-problem closure claim."
+}

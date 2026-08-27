@@ -1,0 +1,152 @@
+M10 round-1 same-model cross-audit replay
+Date: 2026-08-26--27
+
+Scope
+-----
+Every accepted exact search was run through
+/home/biostar/work/projects/openmath/bin/openmath-memory-guard with the shared
+high=30G, max=34G, swap=4G, tasks=512 policy. Searches are finite diagnostics;
+the symbolic proofs in the companion audit do not depend on them.
+
+Accepted runs
+-------------
+
+1. Unit openmath-task-20260826-234024-338668.scope
+   command: verify_m10_round1.py --max-k 260 --point-cap 2000000 --skip-two-by-two
+   result: exit 0; wall 32.85 s; peak RSS 18,776 KiB; swap 0
+   checked: 732 pair cases at k<=45 and 7,137 actual width-one/dyadic systems
+   then-largest narrow witness: k=222, (223) with (239,251), ratio 5496/4525.
+
+2. Unit openmath-task-20260826-234108-338824.scope
+   command: verify_m10_round1.py --max-k 140 --point-cap 250000 --skip-width-one
+   result: exit 0; wall 84.48 s; peak RSS 35,160 KiB; swap 0
+   checked: 5,393 actual 2+2 dyadic merges
+   largest ratio: k=88, (89,97) with (131,173), 2.481244064577398.
+
+3. Unit openmath-task-20260826-234724-340260.scope
+   command: width_one_growth.py --max-k 5000 --neighbors 7 --point-cap 200000 --structural-max-u 80
+   result: exit 0; wall 3.02 s; peak RSS 14,080 KiB; swap 0
+   checked: 7,030 actual-prime width-one/dyadic systems; 37 strict violations
+   largest: k=3040, p=3041, pair=(3061,3079), ordinary gap 517289,
+            pullback gap 3679323, ratio 7.112702957147746
+   general-coprime diagnostic: k=2u^2 family through u=80; ratio decayed.
+
+4. Unit openmath-task-20260826-235104-341452.scope
+   command: width_one_growth.py --max-k 20000 --neighbors 7 --point-cap 200000 --structural-max-u 100
+   result: exit 0; wall 16.14 s; guard policy 30G/34G/4G/tasks512
+   checked: 24,012 actual-prime width-one/dyadic systems; 96 violations
+   largest: k=17098, p=17099, pair=(17137,17159), ordinary gap 13315411,
+            pullback gap 120644930, ratio 9.060548713066385
+   strict scope: actual 451 primes. The separate composite family is only a
+                 general-coprime diagnostic and its distortion decayed.
+
+5. Unit openmath-task-20260826-235748-343013.scope
+   command: all_fibres_interlace.py --max-k 140 --point-cap 250000 --left-size 2
+   result: exit 0; wall 79.74 s; guard policy 30G/34G/4G/tasks512
+   checked: 5,393 actual 2+2 systems; 1,486 failures of the stronger
+            G(A intersection B)<=G(A)G(Q^{-1}B) candidate
+   largest fibre-product factor: 5.472385428907168 at k=130
+   largest direct factor: 2.481244064577398 at k=88.
+
+6. Unit openmath-task-20260826-235932-343352.scope
+   command: all_fibres_interlace.py --max-k 100 --point-cap 400000 --left-size 3
+   result: exit 0; wall 60.00 s; guard policy 30G/34G/4G/tasks512
+   checked: 1,259 actual 3+2 systems; 414 failures of the stronger candidate
+   largest fibre-product factor: 9.386349939734833 at k=75
+   largest direct factor: 1.1254295532646048 at k=22.
+
+7. Unit openmath-task-20260827-000255-344181.scope
+   command: all_fibres_interlace.py --max-k 200 --point-cap 250000 --left-size 2
+   result: exit 0; wall 268.20 s; guard policy 30G/34G/4G/tasks512
+   checked: 12,175 actual 2+2 systems; 3,667 failures of the stronger candidate
+   largest fibre-product factor: 8.327715056980626 at k=197
+   largest direct factor: still 2.481244064577398 at k=88.
+
+8. Units openmath-task-20260827-000913-345892.scope and
+   openmath-task-20260827-000919-345943.scope
+   command: exact phase_record evaluation for the k=197 and k=75 witnesses
+   result: both exit 0; negligible wall time; guard policy 30G/34G/4G/tasks512
+   k=197: L=29, 28/28 distinct phases, collision energy 28, exact count 0,
+          density main term 57.23737133377752.
+   k=75: L=1, 343 distinct phases among 448, energy 658, exact count 0,
+         density main term 26.156578544452383.
+
+9. Unit openmath-task-20260827-001355-347403.scope
+   command: verify_phase_identities.py
+   result: exit 0; wall 0.22 s; guard policy 30G/34G/4G/tasks512
+   checked: 8,628 arbitrary-subset coprime systems, 75,787 phase rows, and
+            164,320 centered short-window threshold cases; all passed.
+
+10. Unit openmath-task-20260827-001430-347605.scope
+    command: all_fibres_interlace.py --max-k 100 --point-cap 300000 --left-size 2 --right-size 3
+    result: exit 0; wall 30.00 s; guard policy 30G/34G/4G/tasks512
+    checked: 544 actual 2+3 systems; 213 failures of the stronger fibre
+             product candidate; largest direct factor 0.540940170940171.
+
+11. Unit openmath-task-20260827-002051-349360.scope
+    command: all_fibres_interlace.py --max-k 100 --point-cap 300000 --left-size 1 --right-size 3
+    result: exit 0; wall 136.95 s; guard policy 30G/34G/4G/tasks512
+    checked: 2,276 actual 1+3 systems; largest direct factor
+             0.800941492938803. This is an actual-prime finite diagnostic,
+             but the old coordinate is not required to have width one.
+
+Finite attempts excluded from the evidence
+------------------------------------------
+
+* openmath-task-20260826-230455-329487.scope: exit 1, syntax failure.
+* openmath-task-20260826-230506-329592.scope: interrupted after 11m30s,
+  exit 130, peak RSS 180,288 KiB, swap 0.
+* openmath-task-20260826-231744-332022.scope: interrupted after 10m07s,
+  exit 130, peak RSS 203,108 KiB, swap 0.
+* openmath-task-20260826-232950-336043.scope: interrupted after 10m07s,
+  exit 130, peak RSS 31,884 KiB, swap 0; no output used.
+* openmath-task-20260827-001516-347784.scope: the larger 1+3 scan through
+  k<=300 was deliberately interrupted after about 210 s, exit 130; no
+  partial output was produced or used.
+
+Source hashes
+-------------
+
+verify_m10_round1.py
+773f109cb19f1cc9d0309d344ac955475816ad0c30203bea43152aede5e29512
+
+width_one_growth.py
+050400d7b4d8bfa7bbe8acff84e597c07d5d0fb0a354a326632368c603aeae52
+
+all_fibres_interlace.py
+2428468fabdd6943728c9d9c6070141ad23015fea094a6f249bbb5e9a8436d72
+
+verify_phase_identities.py
+afb19424e347f3eac1f68aa0bc71e39b35b64588767c23d657199c698f80f61c
+
+Audited author inputs (read-only)
+---------------------------------
+
+m10_anchored_successor_round1_checkpoint.md
+9d9a3d09a9dfab705a38f896d60bc7c488920b1ea43609acb86e045fc6be8923
+
+m10_common_endpoint_fan_lemma.md
+e16341eec53e02d38db80c4003bfa8f0460db4c30e67f8f1085cec1aec621032
+
+Round-1 author script hashes at the frozen audit baseline:
+
+anchored_block_submultiplicativity_search.py
+8e20bd915c86ea948d8eb985a418807c20a6562064162ff528e80089b82b60a2
+
+anchored_full_successor_scan.py
+a5a5b1b15d8b2a04888e8ab16077a466802c2497d322988ee80486d1d8d06225
+
+anchored_pair_gap_scan.py
+fe432135e7648bfdf70407f9d854ff5e4d5474c3f35adead4fc70e6d18e9e959
+
+fan_lemma_check.py
+4349eab28d62a1510437b17d86746450740691fc5c3ac0468cdf57abea93a8cc
+
+high_support_vandermonde_search.py
+797fd803e9d4f3d6b44cb4ead1aa2f4b1544f283a689f6e3c21338faf2b1b2bc
+
+m05_single_block_gap_scan.py
+88e2fbfd150d354dae1d2d454e6ffe48f46bb91a01d0d49a44c9817f2e548cad
+
+syndetic_product_kill.py
+77c0e247e26bea7ddfe88da0587e5b593ccefb76426b411ff49c45dd92808f3f

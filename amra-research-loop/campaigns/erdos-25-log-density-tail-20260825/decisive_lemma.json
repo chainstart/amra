@@ -1,0 +1,17 @@
+{
+  "statement": "If the decreasing finite-stage complement densities tend to zero, the infinite complement has logarithmic density zero. Consequently the full problem holds whenever the moduli are pairwise coprime: CRT gives a product density, with the divergent reciprocal branch handled by the zero-limit lemma and the convergent branch by a uniform tail union bound.",
+  "status": "proved",
+  "closes": [
+    "the entire zero finite-stage-density regime",
+    "the pairwise-coprime modulus cohort"
+  ],
+  "evidence": [
+    "evidence/zero_limit_and_coprime_theorem.md",
+    "evidence/coprime_density_replay.json"
+  ],
+  "dependency_gaps": [
+    "The general case with a positive finite-stage density limit remains.",
+    "Conditional new-class asymptotic densities do not yet control their lcm-scale onset transients.",
+    "No higher-order CRT overlap inequality closes the dependent case."
+  ]
+}

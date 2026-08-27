@@ -1,0 +1,20 @@
+{
+  "statement": "Grid-transversal theorems G.1--G.3. For d>=3 and d-1 disjoint prime pools of size m, the complete family of injected K_(d-1,d) row-column product relations is support-minimal and satisfies the exact marginal inequality |D_row|/binom(m,d)+d|D_col|/m^(d-1)>=1 for every transversal. If delta*m>=2d(d-1) and m>2^d*d!*delta^(-d), its transversal number lies between (1-delta)m^(d-1) and m^(d-1). With d=floor(sqrt(log N/log log N)), primes in (N^(1/d)/2,N^(1/d)], and delta=(log N)^(-1/4), this embeds in H_N and gives log tau(H_N)>=log N-(2+o(1))sqrt(log N log log N), with all vertices above N^(1-1/d)/2^(d-1). The same bound charges arbitrary global repair and yields Pr(random D is a transversal)<=E|D|/T for the explicit finite threshold T.",
+  "status": "proved",
+  "closes": [
+    "main_exponent_improved",
+    "global_interface_closed",
+    "standalone_decisive_lemma"
+  ],
+  "evidence": [
+    "evidence/SURVIVOR_DEEPENING.md",
+    "evidence/MECHANISM_FALSIFICATION.md",
+    "evidence/verify_grid_transversal.py"
+  ],
+  "dependency_gaps": [
+    "The all-N arithmetic embedding uses the ordinary prime number theorem in the form pi(x)-pi(x/2)=(1+o(1))x/(2 log x).",
+    "Independent blind reconstruction has not yet been performed; the author-side finite replay is not independent verification.",
+    "A scoped author-side search found no matching theorem, but priority remains uncertain. The 1980 primary source attributes a stronger negative result to Ruzsa for wording that appears to use distinct subsets, while the 2026 maintained problem record treats that attribution as a likely variant conflation and the distinct-elements question as open.",
+    "The theorem is a lower bound of size o(N). It neither constructs an o(N) transversal nor proves an infinite density-one admissible set."
+  ]
+}

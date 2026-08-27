@@ -1,0 +1,144 @@
+{
+  "mechanisms": [
+    {
+      "id": "M25L-1",
+      "representation_id": "R25L-1",
+      "family": "martingale-filtration",
+      "decisive_claim": "The genuinely new deletion layer is exactly the un-delayed periodic increment truncated at its own modulus.",
+      "would_close": [
+        "exact positive-limit reformulation"
+      ],
+      "kill_test": "Verify the identity pointwise using strict increase of the moduli.",
+      "status": "proved",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/conditional_layers_and_transient_amplifier.md: exact pointwise identity",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M25L-2",
+      "representation_id": "R25L-2",
+      "family": "rare-event-conditioning",
+      "decisive_claim": "Every conditional layer has transient logarithmic mass bounded by a universal constant times its eventual density.",
+      "would_close": [
+        "positive-limit tightness"
+      ],
+      "kill_test": "Build nested CRT complements with the first compatible active point before one mixing period.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/conditional_layers_and_transient_amplifier.md: Q/(2 log Q) pointwise amplifier",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M25L-3",
+      "representation_id": "R25L-3",
+      "family": "common-structural-host",
+      "decisive_claim": "Although individual amplification is unbounded, simultaneous amplified layers have summable total harmonic mass.",
+      "would_close": [
+        "original positive-limit case"
+      ],
+      "kill_test": "Search exact finite blocks maximising aggregate spike mass under distinct increasing moduli.",
+      "status": "surviving",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/longrun_findings.md: aggregate cross-scale summability is the unresolved core",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M25L-4",
+      "representation_id": "R25L-4",
+      "family": "bounded-potential-ascent",
+      "decisive_claim": "An lcm-age potential telescopes the aggregate difference between transient and eventual conditional masses.",
+      "would_close": [
+        "original positive-limit case"
+      ],
+      "kill_test": "Derive the one-step potential change and test nested-period adversaries.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/positive_density_spike_search.json: positive-density finite blocks exceed their local eventual-density budget",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M25L-5",
+      "representation_id": "R25L-5",
+      "family": "multiscale-analysis",
+      "decisive_claim": "The positive density budget makes fresh deletion mass in each dyadic cutoff scale tend to zero uniformly.",
+      "would_close": [
+        "logarithmic Cauchy criterion"
+      ],
+      "kill_test": "Optimise onset blocks with constant density budget but separated scales.",
+      "status": "surviving",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/longrun_findings.md: finite local overshoot kills an unconditioned local bound, but asymptotic dyadic fresh-mass decay remains unrefuted",
+      "updated_at": "2026-08-25T12:01:16+00:00"
+    },
+    {
+      "id": "M25L-6",
+      "representation_id": "R25L-6",
+      "family": "algebraic-reconstruction",
+      "decisive_claim": "A nested power-of-two tower gives unbounded pointwise transient amplification relative to conditional density.",
+      "would_close": [
+        "standalone obstruction lemma"
+      ],
+      "kill_test": "Prove the exact complement residue, intersection density, first active point, and asymptotic ratio.",
+      "status": "proved",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/conditional_layers_and_transient_amplifier.md; evidence/longrun_replay.json",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M25L-7",
+      "representation_id": "R25L-7",
+      "family": "geometric-lift",
+      "decisive_claim": "Positive limiting complement density bounds the matching number of the CRT incidence hypergraph near every cutoff.",
+      "would_close": [
+        "aggregate spike packing"
+      ],
+      "kill_test": "Construct compatible high-degree stars while retaining positive complement density.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/longrun_findings.md: arbitrarily many prime-modulus onset targets form pairwise isolated matchings over the full previous survivor",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M25L-8",
+      "representation_id": "R25L-8",
+      "family": "matching-certificates",
+      "decisive_claim": "Finite transient blocks can be concatenated to force a nonvanishing logarithmic-density oscillation.",
+      "would_close": [
+        "refutation of the public statement"
+      ],
+      "kill_test": "Replay two cutoffs exactly and account for dilution by all earlier integers.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:12+00:00",
+      "status_evidence": "evidence/longrun_findings.md: finite target blocks dilute at later logarithmic cutoffs and no scale-preserving concatenation interface survived",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M25L-9",
+      "representation_id": "R25L-2",
+      "family": "rare-event-conditioning",
+      "decisive_claim": "The harmonic spike of a layer is controlled by its density times one plus log of period over onset.",
+      "would_close": [
+        "weighted positive-limit tightness"
+      ],
+      "kill_test": "Test the exact binary tower and search mixed CRT systems for a larger factor.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:13+00:00",
+      "status_evidence": "evidence/conditional_layers_and_transient_amplifier.md: the binary tower exceeds any logarithmic period/onset charge",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    },
+    {
+      "id": "M25L-10",
+      "representation_id": "R25L-4",
+      "family": "bounded-potential-ascent",
+      "decisive_claim": "Finite total conditional density loss plus an entropy bound on period growth implies transient tightness.",
+      "would_close": [
+        "original positive-limit case"
+      ],
+      "kill_test": "Identify whether period entropy can be charged more than once across nested layers.",
+      "status": "killed",
+      "created_at": "2026-08-25T09:28:13+00:00",
+      "status_evidence": "evidence/longrun_findings.md: the same lcm-cell entropy can be reused by multiple onset layers, so the proposed one-charge potential fails",
+      "updated_at": "2026-08-25T11:54:35+00:00"
+    }
+  ]
+}

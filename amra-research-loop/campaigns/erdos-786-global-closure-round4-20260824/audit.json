@@ -1,0 +1,88 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "/root/erdos_327, independent of the GC.1 and MC.1 author",
+    "protocol": "Read only closure_contract.json and the then-current decisive_lemma.json before writing and hashing the blind reconstruction; author evidence and verifiers were opened only afterwards.",
+    "blind_scope": "The frozen SHA covers GC.1 and the then-current MC.1 only. CR.1 was added after the freeze and received an ordinary post-blind dependency/scope check, not a blind reconstruction.",
+    "blind_sha256": "3983d10db6203074c58fbbe592801657c41f34ac01f19869512a24bbc298f195",
+    "evidence": [
+      "audit/blind_reconstruction.md",
+      "audit/blind_reconstruction.sha256",
+      "audit/independent_audit.md"
+    ]
+  },
+  "statement_match": "passed",
+  "statement_match_details": {
+    "GC.1": "For every sufficiently large K, a prime K<q<2K and an arithmetic PG(2,q) line cluster in H_(2^K) have exact normalized defect -1, strict band (N/32,N], pairwise singleton intersections, nu=1, and tau=q+1>K.",
+    "MC.1": "The multiplier completion has the exact sufficiently-large-t collision cutoff and forces natural deletion density at least 1/(2 max(X,Y)); the proof also extends harmlessly when exactly one finite seed is empty.",
+    "CR.1": "Conditionally on residual o(2^k) transversals with summable all-prefix Carleson recourse relative to a fixed density-beta baseline, the explicit entry/revision reserve is a full transversal of density beta. No such arithmetic recourse family is constructed.",
+    "variant": "All shores are disjoint Finsets of distinct positive integers; support minimality excludes every proper {-1,0,1} signed kernel, not only subrelations in the displayed orientation.",
+    "randomized_scope": "The tau lower bound applies to every realized owner set that actually covers all circuits; an uncovered or uncharged post-alteration interpretation is not claimed refuted."
+  },
+  "dependency_check": "passed",
+  "dependency_check_details": {
+    "prime_budget": "O(q^2 log q)=O(K^2 log K) odd primes can be selected below K^6, while each point or private raw value uses primes from at most two O(log q)-sized blocks and therefore has o(K) bits.",
+    "padding": "The exact imbalance is Delta_L=K-C_L+2m with -m<C_L<m+1 and m=q+1>K, hence 0<Delta_L<4(m+1); even decrement is at most four and the final band is strictly (N/32,N].",
+    "minimality": "A private odd prime on each path edge forces alternating coefficients along the connected path; only zero and the full signed relation occur.",
+    "intersections": "Distinct point-prime blocks, distinct unordered bipartitions at each incidence, and unique factorisation exclude every private/private and private/point collision across lines.",
+    "incidence": "PG(2,q) gives pairwise line intersection one; mixed point/private hitting sets of size at most q cover fewer than q^2+q+1 circuits, while one projective line gives a q+1 cover.",
+    "CR.1": "Every T_m lies in the entry-or-revision union; geometric convolution controls entry mass, the all-prefix recourse hypothesis gives an l1-tail bound for revisions, and a factor-two dyadic comparison yields full natural density. The periodic-baseline premise M786G-13 remains open.",
+    "standard_inputs": [
+      "Bertrand's postulate",
+      "the finite-field projective plane of prime order q",
+      "the elementary lower bound pi(X) >> X/log X",
+      "unique factorisation"
+    ]
+  },
+  "post_blind_supporting_check": {
+    "CR.1": {
+      "status": "passed_as_conditional_bridge",
+      "protocol": "Ordinary statement/dependency/scope audit after the blind SHA was frozen; excluded from blind reconstruction and promotion basis.",
+      "does_not_prove": [
+        "the M786G-13 prefix-Carleson recourse premise",
+        "tau(H_N)=o(N)",
+        "an infinite admissible set of density greater than 1-epsilon"
+      ]
+    }
+  },
+  "novelty_check": "priority_uncertain",
+  "novelty_check_details": "No public search for an exact Erdos 786 solution or benchmark was performed under the open-math restriction. The theorem is independently proved, but no publication-priority claim is made.",
+  "mathematical_status": "proved",
+  "machine_reproduced": {
+    "status": "passed_at_stated_finite_scope",
+    "commands": [
+      "python3 evidence/verify_round4_cluster_alteration.py",
+      "python3 evidence/verify_round4_multiplier_completion.py",
+      "python3 evidence/verify_round4_full_residue_owner_flow.py",
+      "python3 evidence/verify_round4_global_potential_kills.py",
+      "python3 evidence/verify_round4_coherent_recourse.py"
+    ],
+    "hashes": {
+      "cluster_verifier": "4ff19f5c30ad0ef4907420b46e66b246146c3a67c8ce4db513186b9db2d206e5",
+      "multiplier_verifier": "6b8668abaed4d943fe2984a1f7f743fa6e7479786b47cb323bca19ae06e891e2",
+      "coherent_recourse_evidence": "59409960398586a22d84c7020c7dc3ddb61264d753a29f564bcaa343f435d1c8",
+      "coherent_recourse_verifier": "78675a65e0d64831f44eb0cc1aed64e98fd76fe7aa66ce32100cdae53c28074c"
+    },
+    "scope": "Finite guards corroborate incidence, exact tau/nu, multiplier products, owner identities, and graph-product constructions; universal GC.1 and MC.1 follow from the independently audited symbolic proofs, not finite extrapolation."
+  },
+  "promotion_recommendation": {
+    "decision": "promote",
+    "success_condition": "standalone_decisive_lemma",
+    "basis": "GC.1 only",
+    "reason": "GC.1 is a proved all-parameter obstruction to every deterministic o(log N)-per-matching repair of a realized equal-defect arithmetic cluster, including globally reusable petal choices. MC.1 is a supporting guard-only coherence obstruction and CR.1 is a post-blind conditional bridge; neither is part of the promotion basis.",
+    "forbidden_outcomes": [
+      "global_interface_closed",
+      "main_term_improved",
+      "main_exponent_improved",
+      "original_problem_closed"
+    ],
+    "open": [
+      "probability- or fractional-mass-weighted external cluster charging",
+      "noncircular full-cluster divisor-current energy",
+      "the M786G-13 prefix-Carleson recourse premise for the explicit periodic baseline",
+      "tau(H_N)=o(N)",
+      "the coherent infinite natural-density-one target",
+      "the original distinct-Finset Erdos 786 problem"
+    ]
+  }
+}

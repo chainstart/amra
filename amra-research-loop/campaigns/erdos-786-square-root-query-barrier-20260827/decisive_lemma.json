@@ -1,0 +1,38 @@
+{
+  "statement": "Square-root-scale path and adaptive-query barrier S.1--S.4. For every prime b and fixed integer A>=4, all sufficiently large N=b^K contain a support-minimal unequal-cardinality equal-product path on 2 floor(K/4)+1 distinct integers wholly inside (N/b^6,N]. Its edge primes lie in (X,2X), X=b^(floor(K/2)-A), so it avoids every prescribed prime below X. For every uniform adaptive exact-valuation decision tree whose terminating all-zero branch omits b and queries only primes below X, either the output is not a transversal or it deletes at least Z(T)-t integers. For a shared-seed randomized mixture, Pr(output is a transversal)<=E|D|/(L-t), where L is the essential infimum of the seedwise zero-transcript populations. If the zero-branch reciprocal prime mass is at most 1-delta, expected o(N) deletion has success probability o(1). The cutoff is optimal up to a fixed factor for this path host, because two incident labels above sqrt(N) already have product greater than N.",
+  "status": "proved",
+  "closes": [
+    "fixed-width support-minimal path avoidance to a fixed multiplicative distance below sqrt(N)",
+    "deterministic uniform adaptive valuation-query trees at the square-root-scale zero transcript",
+    "shared-seed randomized mixtures with an exact density-sensitive success-probability bound",
+    "the square-root geometric limitation of the degree-two edge-prime path host"
+  ],
+  "evidence": [
+    "evidence/OBSTRUCTION_ANALYSIS.md",
+    "evidence/REPRESENTATION_SEARCH.md",
+    "evidence/MECHANISM_FALSIFICATION.md",
+    "evidence/SURVIVOR_DEEPENING.md",
+    "evidence/VERIFICATION_RECEIPT.md",
+    "evidence/verify_square_root_query_barrier.py"
+  ],
+  "dependency_gaps": [
+    "The dyadic prime-reservoir step uses the standard prime-number-theorem consequence pi(2X)-pi(X)~X/log X; an independent auditor must source-check this dependency and its asymptotic use.",
+    "The decision program must be uniform across inputs after conditioning on one shared seed. Exact-label access, nonuniform per-integer programs, and private per-input query randomness are outside scope.",
+    "The all-zero branch must terminate, omit the padding prime, and query only primes below X. Off-zero branches are unrestricted.",
+    "The o(N)-cost corollary requires a positive-density zero transcript; the exact L-dependent bound remains valid without that corollary.",
+    "No global alteration is excluded, and one displayed witness path can be repaired by one additional deletion.",
+    "No full transversal bound, density-one construction, infinite coherence theorem, or solution of Erdos 786 is proved.",
+    "Independent reconstruction and external novelty comparison have not been performed."
+  ],
+  "evidence_classification": {
+    "mathematical_status": "proved",
+    "evidence_strength": "author-verified all-parameter natural proof with a named prime-number-theorem dependency and exact finite replay",
+    "scope": "standalone square-root-scale obstruction for uniform adaptive valuation-query classifiers and shared-seed randomized mixtures",
+    "public_problem": "open",
+    "machine_reproduced": "Python 3.12.3; python3 amra-research-loop/campaigns/erdos-786-square-root-query-barrier-20260827/evidence/verify_square_root_query_barrier.py; PASS",
+    "independent_reconstruction": "not_started",
+    "dependency_check": "prime-number-theorem source check pending",
+    "novelty_check": "not_started",
+    "publication_state": "private_campaign_note"
+  }
+}

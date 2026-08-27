@@ -1,0 +1,26 @@
+{
+  "exact_statement": "For each positive integer k, let n_k be the least integer n>2k such that for every prime p with k<p<2k one has n mod p in {0,k+1,...,p-1}. Prove: for every real epsilon>0 there is k_0(epsilon) such that for every integer k>=k_0(epsilon), n_k<exp(epsilon*k). The stronger target is an absolute C and k_1 such that n_k<=exp(C*k/log k) for every k>=k_1.",
+  "source": "https://www.erdosproblems.com/451 and repository-cached van Doorn--Tang arXiv:2606.19863",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": [
+    "The residue statement is exactly equivalent to requiring that (n-k)(n-k+1)...(n-1) have no prime divisor p with k<p<2k: such a p divides the product exactly when n mod p is one of 1,...,k.",
+    "Equivalently, for every p in (k,2k) there must be an offset s_p with 0<=s_p<p-k and p divides n+s_p. This forward-multiple formulation retains the distinguished initial prefix.",
+    "The primary required target in this campaign is the still-unproved exp(o(k)) upper bound. Finite verification, a typical-translate theorem, full-period density, or a conditional CRT first-representative assertion does not count.",
+    "The heuristic product density is D_k=product_{k<p<2k}(p-k)/p, so -log D_k is asymptotic to (log 4)k/log k; this predicts but does not prove the stronger exp(O(k/log k)) target.",
+    "No public-network search for a solution to Erdős #451 is permitted. Repository-cached primary material and standard named background may be used.",
+    "All potentially expensive finite searches run through /home/biostar/work/projects/openmath/bin/openmath-memory-guard and share its 34 GiB hard cap."
+  ]
+}

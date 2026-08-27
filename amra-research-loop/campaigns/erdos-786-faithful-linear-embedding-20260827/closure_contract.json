@@ -1,0 +1,19 @@
+{
+  "exact_statement": "Let G=(X,E) be a finite simple linear hypergraph with X equal to the union of its nonempty edges and maximum degree D, and put r=ceil(log_2(D+1))+1. For integers K>=1 and B>=3 satisfying min_e |e|>K, pi(B)-1>=r|X|, and 2r log_2 B+5<=K, construct in (2^K/32,2^K] one unequal-cardinality equal-product relation per edge so that each relation is a primitive circuit of its full prime-valuation matrix and pairwise support intersections, the edge-intersection graph, the matching number, and the transversal number agree exactly with G.",
+  "source": "Successor research to chainstart/amra commit 02473d2161bc4c2814e48d07c30535037e835a98, erdos-786-stretched-cluster-20260826",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume"
+  ],
+  "scope_notes": []
+}

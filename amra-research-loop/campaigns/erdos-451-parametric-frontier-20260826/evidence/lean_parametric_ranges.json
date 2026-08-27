@@ -1,0 +1,212 @@
+{
+  "mathematical_status": "complete_adaptive_four_range_builder_formalized",
+  "machine_reproduced": true,
+  "theorem": "ParametricLarge.parametric_frontier_adaptive",
+  "statement": "For every real theta,c with 0<theta<1 and 0<c<(1-theta)/3, PrimeIntervalInput(theta) implies that for all sufficiently large natural k and every integer n with 2k<n<=exp(c*log(k)^2/log(log(k))), there is a prime p with k<p<2k dividing Pprod k n.",
+  "builder": "ParametricLarge.parametricRangeBuilder_adaptive",
+  "large_case": "ParametricLarge.case_large_adaptive_at",
+  "range_package": "ParametricLarge.adaptiveRangePackage_of_parameters",
+  "compatibility_theorems": [
+    "ParametricLarge.parametric_frontier_wide",
+    "ParametricLarge.parametric_frontier_complete"
+  ],
+  "adaptive_chain": [
+    "adaptiveUAt/adaptiveVAt/adaptiveZAt/adaptiveLambdaAt",
+    "adaptiveLambdaAt_pow",
+    "adaptiveLambdaAt_ge_one",
+    "adaptive_mass_mul_lambda_pow",
+    "locationBlind_first_two_log_invariant",
+    "locationBlind_first_two_invariant_ge_delta_of_W_ge_one",
+    "locationBlind_termwise_block_budget_obstruction",
+    "adaptive_first_two_log_invariant",
+    "adaptive_first_two_budget_obstruction",
+    "locationBlind_endpoint_excess_budget",
+    "locationBlind_endpoint_termwise_no_go_of_excess",
+    "candidate_cardinality_tail",
+    "candidate_half_mass_tail",
+    "interval_partition_length_sum",
+    "exists_weighted_cost_le",
+        "locationBlindSubdivision_exists_good_block",
+        "locationBlindTermwiseSubdivision_endpoint_no_go",
+        "sourceLogRatio_bounds_of_window",
+        "sourceRpowWindow_log_bounds",
+        "sourceSafeTailLog_with_W",
+        "sourceDerivativeLogLower_of_scale",
+        "sourceOrderLoss_of_log_comparisons",
+        "sourceFiniteSeparation_of_scale_bounds",
+        "sourceGeometrySubdivision_to_locationBlind",
+        "sourceGeometrySubdivision_endpoint_no_go_of_scale_bounds",
+        "locationBlindTermwiseLeadingCertificate_iff",
+    "locationBlindTermwiseLeadingCertificate_no_go",
+    "locationBlindTermwiseLeadingCertificate_no_go_bhp",
+    "exists_min_adaptive_stopping_order",
+    "adaptive_preceding_failure_log_lower",
+    "adaptive_actual_selection_budget",
+    "adaptive_additive_term_eventual",
+    "adaptiveT3At_eventual",
+    "large_card_raw_adaptive_selected_at",
+    "adaptive_bad_set_asymptotic_of_budgets",
+    "r0Param_eventual_adaptive_admissible_at",
+    "adaptive_small_orders_fail_eventual",
+    "r0Param_eventual_adaptive_bounds_at",
+    "adaptiveAnalyticParameters_of_wide",
+    "hasAdaptiveLargeCertificateAt_of_parameters",
+    "case_large_adaptive_at",
+    "adaptiveRangePackage_of_parameters",
+    "parametricRangeBuilder_adaptive",
+    "parametric_frontier_adaptive"
+  ],
+  "actual_scale": {
+    "U_r": "k^(r+1)*log(k)^(-Q*(2r-1))",
+    "V_r": "k^(r+theta)*log(k)^(Q*(r-1))",
+    "Z_r": "max(n*r!,V_r)",
+    "lambda_r": "(Z_r/(n*r!))^(1/r)",
+    "stopping_rule": "least r with n*r!<=U_r"
+  },
+  "proved_budgets": [
+    "T1<=log(k)^(-Q)",
+    "T2<=log(k)^(-Q)",
+    "lambda<=k^(theta/r)*log(k)^(3Q)",
+    "T3<=log(k)^(-q) uniformly for r>=2",
+    "2*r*lambda=o(k^theta/log(k))",
+    "badSetAt(theta,k,n)=o(k^theta/log(k))"
+  ],
+  "parameter_window": {
+    "theta": "0<theta<1",
+    "c": "0<c<(1-theta)/3",
+    "margins": "c<a<b<(1-theta)/3, 1<Q, 3Qb<1-theta, 1<q, 2qb<1-theta/2"
+  },
+  "scoped_obstruction": {
+    "class": "LocationBlindTermwiseLeadingCertificate(theta,c): there exist rho,alpha,beta with rho>0, rho>=c, alpha>1, beta>1, and (2alpha+beta)rho<=1-theta.",
+    "exact_block_invariant": "(2r-1)log(T1)+(r-1)log(T2)=log(delta)+4log(W), for every r>=2 and arbitrary derivative factor and unbalanced lambda.",
+    "W_monotonicity": "W>=1 makes the invariant no smaller than log(delta).",
+    "finite_safe_tail_budget": "If log(delta W^4)>=-(1-theta)K-M-C and the separate budgets are log(T1)<=-alpha M, log(T2)<=-beta M, then ((2r-1)alpha+(r-1)beta)M<=(1-theta)K+M+C.",
+    "endpoint_excess_budget": "At c>=(1-theta)/3, if rM>=cK-DM and both logs are <=-M-q, then (3r-2)q<=(3D+3)M+C; the strict reverse inequality kernel-refutes simultaneous budgets. This finite form covers effective log-powers tending to 1 once the natural proof supplies q->infinity.",
+    "subdivision_class": "LocationBlindTermwiseSubdivisionAt is an arbitrary nonempty finite positive-weight full-tail family, with one common safe-tail loss C, one common conditional order loss D, and a summed nonnegative first-two ledger H*exp(-M-q).",
+    "finite_extraction": "candidate_cardinality_tail and candidate_half_mass_tail check the PI counting step; interval_partition_length_sum checks full-tail weights; locationBlindSubdivision_exists_good_block selects one block with both log terms <=-M-q, without any family-cardinality bound.",
+        "finite_subdivision_no_go": "At c>=(1-theta)/3, fixed-scale separation ((3D+3)M+C)M < (3cK-(3D+2)M)q rules out LocationBlindTermwiseSubdivisionAt. The statement is uniform in the finite index set and therefore applies pointwise to block counts growing arbitrarily with k.",
+        "finite_source_geometry": "SourceGeometrySubdivisionAt explicitly requires common a>0, En>=0 and ED>=0, x in [k,k+k^theta], r<=(1/2)k^(1-theta), a*k^(theta-1)/log(k)<=delta, endpoint scale >=exp(c*log(k)^2/loglog(k)-En), and derivative scale >=exp(-ED)*endpoint*factorial/x^(r+1). Lean maps it to LocationBlindTermwiseSubdivisionAt with C=-log(a) and D=5/2+En+ED.",
+        "finite_source_endpoint_wrapper": "For q>=1, cK>=0, (3D+2)M<=cK and ((3D+3)M+C)M<2cK, sourceGeometrySubdivision_endpoint_no_go_of_scale_bounds rules out the explicit source certificate at c>=(1-theta)/3.",
+        "leading_frontier": "For c>0, LocationBlindTermwiseLeadingCertificate(theta,c) iff c<(1-theta)/3.",
+    "endpoint": "The class is impossible for c>=(1-theta)/3; at theta=21/40 it is impossible for c>=19/120.",
+        "formalization_boundary": "Lean checks the finite PI cardinality tail, partition telescope, weighted extraction, exact block algebra, finite subdivision endpoint no-go, and the source-geometry map from explicit common raw constants a,En,ED to C=-log(a), D=5/2+En+ED. It does not infer common constants for arbitrary shifted/regrouped sources from unquantified asymptotic notation, nor package K/loglog(k)^2->infinity as a Lean sequence theorem. This is not a no-go for Erdos 451 or for all methods."
+  },
+  "interpretation": {
+    "balanced_lower_endpoint": "The former theta>9/23 restriction is an artifact of balanced lambda and is removed by the adaptive construction.",
+    "bhp_corollary": "At theta=21/40 the theorem still gives every c<19/120; the unconditional BHP constant is not improved.",
+    "erdos451_status": "The Erdős 451 problem is not closed; this is a lower-bound theorem conditional on PrimeIntervalInput(theta), with BHP supplying theta=21/40."
+  },
+  "guard": {
+    "wrapper": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+        "unit": "openmath-task-20260826-213317-292367.scope",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "swap_max": "4G",
+    "tasks_max": 512
+  },
+  "replay": {
+    "command": "cd formal && ./verify_guarded.sh",
+    "exit_status": 0,
+        "ranges_wall_seconds": 113.75,
+        "ranges_build_cached": false,
+        "ranges_peak_rss_kib": 7075568,
+        "whole_replay_peak_rss_kib": 7075568,
+    "swap_count": 0,
+    "fresh_ranges_build": {
+            "unit": "openmath-task-20260826-213317-292367.scope",
+            "wall_seconds": 113.75,
+            "peak_rss_kib": 7075568,
+            "swap_count": 0,
+            "log": "formal/logs/source-geometry-final-replay.log"
+    },
+    "logs": [
+      "formal/logs/ranges-build.log",
+      "formal/logs/frontier-build.log",
+      "formal/logs/interface-build.log",
+            "formal/logs/source-geometry-final-replay.log",
+      "formal/logs/final-sha256.txt"
+    ]
+  },
+  "axioms": {
+    "ParametricLarge.parametric_frontier_adaptive": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.parametricRangeBuilder_adaptive": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.case_large_adaptive_at": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.locationBlindTermwiseLeadingCertificate_no_go": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.locationBlindTermwiseLeadingCertificate_no_go_bhp": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.locationBlind_endpoint_termwise_no_go_of_excess": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.candidate_cardinality_tail": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.candidate_half_mass_tail": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.interval_partition_length_sum": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.exists_weighted_cost_le": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "ParametricLarge.locationBlindSubdivision_exists_good_block": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+        "ParametricLarge.locationBlindTermwiseSubdivision_endpoint_no_go": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+        ],
+        "ParametricLarge.sourceGeometrySubdivision_to_locationBlind": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+        ],
+        "ParametricLarge.sourceGeometrySubdivision_endpoint_no_go_of_scale_bounds": [
+            "propext",
+            "Classical.choice",
+            "Quot.sound"
+        ],
+    "sorryAx_present": false,
+    "bhp_present_in_parametric_theorem": false,
+    "new_unexplained_axiom_present": false
+  },
+  "source_sha256": {
+        "formal/ParametricRanges.lean": "8793c3a76f46ce7e4985e7619bb53eb91ce481391ac52bce343dfc9232f4f7b5",
+    "formal/ParametricInterface.lean": "1e26f0f1d2665e20ad2b5c7c6b7ebe93894e5ec712967104d74630376d451efe",
+        "formal/verify_inside_guard.sh": "7013bf9d3f86cf75daa19ba401f3596a775d477f8601c680f75e7d0516c6c38c",
+    "formal/lakefile.toml": "2ab8618c84e5370963d53afe5e63736e8289edc3e471897564283aab06f6ad7c",
+    "formal/lake-manifest.json": "4f88144c9db6bab6b1e0a7447a9e58bf4627b340fcc2fd9ef102a0925410cd0b"
+  }
+}
