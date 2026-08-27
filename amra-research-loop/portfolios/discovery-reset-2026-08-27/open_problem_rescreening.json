@@ -1,0 +1,120 @@
+{
+  "schema_version": "amra.open-problem-rescreening.v1",
+  "screening_id": "amra-open-problems-2026-08-27",
+  "screened_at": "2026-08-27",
+  "input": {
+    "ledger": "/home/biostar/work/projects/amra/artifacts/erdos_master_rotation/master_ledger.json",
+    "exclude_prior_campaigns": true,
+    "exclude_public_solution_claims_from_discovery": true,
+    "formal_attack_started": false
+  },
+  "score_semantics": "Relative admission score, not probability of proof.",
+  "weights": {
+    "closure_impact": 25,
+    "route_specificity": 25,
+    "searchability": 20,
+    "surviving_evidence": 20,
+    "status_confidence": 10
+  },
+  "guard_policy": {
+    "launcher": "/home/biostar/work/projects/openmath/bin/openmath-memory-guard",
+    "memory_high": "30G",
+    "memory_max": "34G",
+    "memory_swap_max": "4G",
+    "tasks_max": 512,
+    "required_for_expensive_search": true
+  },
+  "admission_candidates": [
+    {
+      "rank": 1,
+      "problem_id": "erdos-273",
+      "score": 89,
+      "status": "open",
+      "official_url": "https://www.erdosproblems.com/273",
+      "exact_target": "Construct a distinct-modulus covering system in which every modulus is p-1 for a prime p>=5.",
+      "closure_scope": "A verified finite witness closes the full public existence problem.",
+      "route": "Parity split followed by CRT-layered exact-cover search; verify any candidate independently over one exact lcm period.",
+      "first_kill_test": "Run a two-hour guarded search beginning with the 18 moduli p-1 for 5<=p<=71; require either a verified cover, a reusable conflict core, or a recursive construction mechanism.",
+      "nonimplication": "Failure within any bounded prime range does not disprove the problem.",
+      "preflight": {
+        "first_prime_bound_with_reciprocal_sum_at_least_one": 71,
+        "moduli_count": 18,
+        "reciprocal_sum": 1.0134601967248145,
+        "lcm": 480720240,
+        "single_period_bitset_mib": 57.306318283081055
+      }
+    },
+    {
+      "rank": 2,
+      "problem_id": "erdos-436",
+      "score": 75,
+      "status": "open_partial",
+      "official_url": "https://www.erdosproblems.com/436",
+      "exact_target": "Prove Lambda(5,3)<infinity, the first unresolved odd-k case.",
+      "closure_scope": "Closes the k=5 subproblem, not the all-odd-k statement or the growth-rate questions.",
+      "route": "Search for a finite Z/5Z multiplicative-character forcing certificate and translate UNSAT into explicit multiplicative identities.",
+      "first_kill_test": "Within two guarded hours, either obtain a proof-replayable UNSAT certificate, or extract and prove a scalable avoidance template showing that pure complete multiplicativity is insufficient.",
+      "nonimplication": "SAT assignments are abstract completely multiplicative character patterns and do not by themselves construct counterexample primes.",
+      "preflight": {
+        "encoding": "one Z/5Z variable per rational prime; forbid three consecutive zero labels",
+        "sat_through_R": 480,
+        "R_960_status": "unknown_after_20_seconds"
+      }
+    },
+    {
+      "rank": 3,
+      "problem_id": "erdos-374",
+      "score": 73,
+      "status": "open",
+      "official_url": "https://www.erdosproblems.com/374",
+      "exact_target": "Prove |D_6 intersect [1,n]| is bounded below by a positive constant times n.",
+      "closure_scope": "Closes the highlighted D_6 positive-density question, not all requested growth orders for D_3 through D_6.",
+      "route": "Classify shortest zero sums among factorial parity vectors, then search for a positive-density congruence family with a six-term construction and a uniform exclusion of shorter relations.",
+      "first_kill_test": "Within two guarded hours, independently reproduce F(527)=6, classify through at least m=20000, and require a stable parameter family before admission to a long proof round.",
+      "nonimplication": "Observed positive density or many six-term witnesses in a finite range does not prove positive lower density."
+    }
+  ],
+  "reserves": [
+    {
+      "problem_id": "erdos-124",
+      "score": 68,
+      "reason": "The finite seed-interval route is concrete, but the remaining tail-powers statement is actively being worked on publicly and the general seed bridge is still missing."
+    },
+    {
+      "problem_id": "erdos-348",
+      "score": 64,
+      "reason": "The (2,3) construction admits finite-state exploration, but its universal deletion interface is long and the public page lists an active worker."
+    }
+  ],
+  "audit_only": [
+    {
+      "problem_id": "erdos-1039",
+      "reason": "A public proof claim, human correctness signal, and Lean attempt create high duplication risk; keep only as an independent verification lane."
+    }
+  ],
+  "rejected_for_this_rotation": [
+    {
+      "problem_id": "erdos-319",
+      "reason": "The current route does not yet yield even a fixed positive-proportion exclusion, so the first gap is theorem-scale rather than a decisive short gate."
+    },
+    {
+      "problem_id": "erdos-278",
+      "reason": "The searchable forest-divisibility case would be a subclass theorem and does not close the general maximum-density question."
+    },
+    {
+      "problem_id": "erdos-709",
+      "reason": "The target is an open-ended asymptotic bound problem with no short finite-to-global bridge."
+    }
+  ],
+  "dispatch": {
+    "next_problem": "erdos-273",
+    "wall_clock_seconds": 7200,
+    "sequence": [
+      "erdos-273",
+      "erdos-436",
+      "erdos-374"
+    ],
+    "parallel_long_attacks": false,
+    "promotion_rule": "Start an OpenMath formal proof campaign only after the two-hour admission gate yields a witness, a proof-replayable certificate, or a precise structural lemma that survives independent falsification."
+  }
+}
