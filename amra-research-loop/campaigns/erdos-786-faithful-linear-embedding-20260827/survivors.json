@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M786F-04",
+    "M786F-06",
+    "M786F-09"
+  ],
+  "selection_rationale": "These three mechanisms isolate the new proof interfaces: primitive valuation circuits, exact incidence preservation for linear hosts, and variable-edge fixed-band padding. The separately proved degree code and transversal replacement lemma are elementary dependencies of this combined route."
+}

@@ -1,0 +1,50 @@
+{
+  "arithmetic_nu": 1,
+  "arithmetic_tau": 2,
+  "host_nu": 1,
+  "host_tau": 2,
+  "parameters": {
+    "B": 10000,
+    "K": 128,
+    "block_size": 3,
+    "edge_count": 3,
+    "edge_size": 129,
+    "maximum_degree": 2,
+    "vertex_count": 384
+  },
+  "relations": [
+    {
+      "delta": 387,
+      "edge_size": 129,
+      "maximum_decrement": 3,
+      "support_size": 259
+    },
+    {
+      "delta": 384,
+      "edge_size": 129,
+      "maximum_decrement": 3,
+      "support_size": 259
+    },
+    {
+      "delta": 386,
+      "edge_size": 129,
+      "maximum_decrement": 3,
+      "support_size": 259
+    }
+  ],
+  "schema_version": "amra.faithful_linear_embedding_replay.v1",
+  "scope": "Finite replay only; the all-parameter theorem is proved in FAITHFUL_LINEAR_EMBEDDING.md.",
+  "script_sha256": "a6e5c14bd9763614726fae7cf3cee5031dfaa23096b605bbd10eb6a2e2aeb901",
+  "status": "PASS",
+  "verified": {
+    "bit_budget": true,
+    "distinct_shores": true,
+    "equal_products": true,
+    "exact_intersections": true,
+    "fixed_band": true,
+    "matching_number_preserved": true,
+    "path_prime_propagation": true,
+    "prime_budget": true,
+    "transversal_number_preserved": true
+  }
+}
