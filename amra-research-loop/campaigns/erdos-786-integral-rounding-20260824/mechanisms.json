@@ -1,0 +1,173 @@
+{
+  "mechanisms": [
+    {
+      "id": "M786I-01",
+      "representation_id": "R786I-01",
+      "family": "weighted-threshold",
+      "decisive_claim": "There is a sequence delta_N>0 with delta_N log N tending to infinity such that deleting exactly n<=N^(1-delta_N) hits every bad support.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Use balanced nonuniform 2-adic padding to place a support-minimal unequal relation wholly above N^(1-delta_N) along arbitrarily large constructed cutoffs.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:50+00:00"
+    },
+    {
+      "id": "M786I-02",
+      "representation_id": "R786I-01",
+      "family": "weighted-threshold",
+      "decisive_claim": "A finite union of nested global log-defect threshold deletions of total size o(N) is a transversal of H_N.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "A finite union of nested lower-tail thresholds equals the lowest threshold; apply the balanced-padding thin-tail family beyond it.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:50+00:00"
+    },
+    {
+      "id": "M786I-03",
+      "representation_id": "R786I-06",
+      "family": "independent-randomization",
+      "decisive_claim": "Independent deletion with every probability strictly below one but proportional to the promoted weight produces a transversal with probability one without alteration.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "For any fixed minimal bad support on which every deletion probability is below one, the event that no support vertex is deleted has strictly positive probability.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:50+00:00"
+    },
+    {
+      "id": "M786I-04",
+      "representation_id": "R786I-11",
+      "family": "generic-alteration",
+      "decisive_claim": "Choose a maximal vertex-disjoint family of residual bad supports and delete one arbitrary representative from each; this always hits every residual support.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Use the arithmetic circuit triangle {2,3,6}, {5,6,30}, {2,5,10}: a maximal disjoint family can contain one edge and an arbitrary representative can miss both other edges.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:50+00:00"
+    },
+    {
+      "id": "M786I-05",
+      "representation_id": "R786I-06",
+      "family": "arithmetic-resampling",
+      "decisive_claim": "After smooth-core and short-circuit removal, bad-event dependencies admit a weighted resampling or alteration scheme whose total expected deletion is O(log log N) times the log-defect mass.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Compute the exact dependency load on overlapping graph-circuit books and reject unless an all-N witness compression bounds every resampling neighborhood.",
+      "status": "surviving",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:51+00:00"
+    },
+    {
+      "id": "M786I-06",
+      "representation_id": "R786I-04",
+      "family": "prime-fibre-ownership",
+      "decisive_claim": "Every residual minimal circuit after smooth-core removal has a canonical largest-prime endpoint owner, and every integer owns circuits at only O(log log N) total charged weight.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Construct multi-scale reused-prime circuit books and calculate owner congestion; the claim survives only with the lower-prime residue state included.",
+      "status": "surviving",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:51+00:00"
+    },
+    {
+      "id": "M786I-07",
+      "representation_id": "R786I-04",
+      "family": "prime-fibre-triangularity",
+      "decisive_claim": "Fibring each rough integer by its largest active prime makes valuation balance triangular, so fibre cardinality differences vanish one prime at a time without carrying cofactors.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "The relation 2*3=6 has largest-prime fibre 3 balanced in count but transfers a factor 2 into the lower fibre, invalidating residue-free triangular elimination.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:51+00:00"
+    },
+    {
+      "id": "M786I-08",
+      "representation_id": "R786I-03",
+      "family": "active-degree-strata",
+      "decisive_claim": "One active-prime cardinality stratum contains 1-o(1) of the rough squarefree integers and is admissible by summing valuation equations.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Use Poisson-binomial anti-concentration on growing finite prime cylinders: when active reciprocal mass tends to infinity and individual probabilities vanish, the largest single count atom is o(1).",
+      "status": "killed",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:51+00:00"
+    },
+    {
+      "id": "M786I-09",
+      "representation_id": "R786I-03",
+      "family": "active-degree-strata",
+      "decisive_claim": "A union of consecutive active-prime degree strata is certified by total active incidence and can approach density one.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "K_(s+1,s) with its edge primes active gives an unequal relation whose vertices lie exactly in the adjacent degree strata s and s+1.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:51+00:00"
+    },
+    {
+      "id": "M786I-10",
+      "representation_id": "R786I-08",
+      "family": "global-rank-rounding",
+      "decisive_claim": "For every prime-exponent instance, the minimum transversal of unbalanced distinct-coefficient circuits is at most a universal constant times exponent-matrix rank.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "On {2^1,...,2^(6r)}, rank is one but r vertex-disjoint relations 2^(3j+1)*2^(3j+2)=2^(6j+3) force transversal number at least r.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:51+00:00"
+    },
+    {
+      "id": "M786I-11",
+      "representation_id": "R786I-09",
+      "family": "finite-cylinder-coherence",
+      "decisive_claim": "A rule depending on valuations at only a fixed finite prime set can admit the full zero-signature cylinder and remain distinct-factor admissible.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "Choose all edge and padding primes outside the controlled set; balanced padding embeds a support-minimal bad relation entirely in the zero-signature cylinder.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:51+00:00"
+    },
+    {
+      "id": "M786I-12",
+      "representation_id": "R786I-12",
+      "family": "recursive-token-balance",
+      "decisive_claim": "A largest-prime factor-tree recursion that carries lower-prime residue tokens has a bounded potential and yields either an o(log N) ownership load or a stabilizing zero-density deletion rule.",
+      "would_close": [
+        "main_term_improved",
+        "global_interface_closed"
+      ],
+      "kill_test": "Write exact two- and three-level token recurrences on edge-prime circuits with common padding and refute any potential that grows linearly in depth or circuit support.",
+      "status": "surviving",
+      "created_at": "2026-08-24T13:15:06+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:19:51+00:00"
+    }
+  ]
+}

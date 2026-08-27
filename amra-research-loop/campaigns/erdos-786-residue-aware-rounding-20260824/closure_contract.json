@@ -1,0 +1,60 @@
+{
+  "exact_statement": "For the distinct-Finset Erdős 786 hypergraph H_N on {2,...,N}, prove tau(H_N)=o(N), and for every epsilon>0 construct by a coherent compatible rule an infinite admissible set whose natural-density limit exists and is greater than 1-epsilon. Compare arithmetic alteration/dependency compression, largest-prime ownership carrying the full cofactor residue, and recursive residue-token potentials with coherent stabilization. An all-parameter decisive theorem or countermechanism against a precisely frozen member of these families may qualify only as a scoped standalone promotion and does not replace either public density-one target.",
+  "source": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-786-distinct-factor-admission-20260824; /home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-786-integral-rounding-20260824",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume",
+    "hard_or_nested_log_defect_threshold",
+    "unaltered_independent_sampling",
+    "residue_free_largest_prime_peeling",
+    "fixed_prime_or_finite_state_cylinder",
+    "fixed_N_ILP_or_larger_cutoff",
+    "generic_hypergraph_rounding_without_o(log_N)_loss",
+    "bounded_depth_recursion_without_a_uniform_depth_theorem"
+  ],
+  "scope_notes": [
+    "Variant lock: products are Finset products. After cancelling shore overlap, coefficients lie in {-1,0,1}; no integer repeats on one shore and the repetitions-allowed additive-function variant is excluded.",
+    "The finite primary target is tau(H_N)=o(N) for the full bad-support hypergraph on {2,...,N}. This is the finite density-one distinct-factor assertion after deleting the forced element 1.",
+    "The infinite target requires, for every epsilon>0, one admissible set with an actual natural-density limit greater than 1-epsilon. Unrelated finite transversals, upper density, logarithmic density, or endpoint density do not suffice.",
+    "Read-only audited input F786: w_N(n)=log(N/n)/log N is a fractional cover of exact total (N log N-log(N!))/log N-1=(1+o(1))N/log N.",
+    "Read-only audited input IR.1: every moving o(N)-cost lower-power tail on N=2^K contains a support-minimal bad relation; finite nested thresholds and unaltered affordable independent proportional rounding are blocked.",
+    "This campaign must retain cofactor residue whenever it peels a prime. The relation 2*3=6 forbids residue-free triangularity.",
+    "The three required independent mechanism families are arithmetic alteration/dependency compression, largest-prime ownership with cofactor residue, and recursive residue-token potential with coherent stabilization.",
+    "A claimed recursive improvement must exhibit a target-specific potential or amortized load. Merely encoding the original signed relation in a token state is circular.",
+    "Public search for an exact solution to Erdos 786 is prohibited. Ordinary background results with exact hypotheses are permitted."
+  ],
+  "variant_lock": {
+    "allowed": "two finite subsets of distinct positive integers, overlap cancelled",
+    "forbidden": "multiplicity within a shore or arbitrary integer coefficients",
+    "cancelled_coefficients": "{-1,0,1}",
+    "exceptional_elements": "1 is forced out; 0 is incompatible with positive density"
+  },
+  "read_only_dependencies": [
+    {
+      "campaign": "../erdos-786-distinct-factor-admission-20260824",
+      "result": "audited log-defect fractional transversal",
+      "status": "promotion/standalone_decisive_lemma"
+    },
+    {
+      "campaign": "../erdos-786-integral-rounding-20260824",
+      "result": "audited moving thin-tail obstruction IR.1",
+      "status": "promotion/standalone_decisive_lemma"
+    }
+  ],
+  "exact_subproblems": {
+    "finite": "Construct an integral transversal D_N of all bad supports with |D_N|=o(N).",
+    "alteration": "Compress/resample arithmetic bad events so that the total alteration cost is o(log N) times the promoted fractional mass.",
+    "ownership": "Define a noncircular largest-prime plus cofactor-residue owner with o(log N) aggregate load.",
+    "recursion": "Prove a residue-token potential decreases or amortizes over all depths; for the infinite part also prove compatible stabilization and zero upper density of deletions."
+  }
+}

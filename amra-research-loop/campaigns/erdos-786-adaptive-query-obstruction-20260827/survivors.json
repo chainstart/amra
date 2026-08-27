@@ -1,0 +1,8 @@
+{
+  "mechanism_ids": [
+    "M786Q-01",
+    "M786Q-05",
+    "M786Q-06"
+  ],
+  "selection_rationale": "Nine of twelve mechanisms are killed, a 100% kill ratio among non-survivors. M786Q-01 retains the near-square-root parameterized path construction under the exact epsilon_K^2 K reserve condition. M786Q-05 retains deterministic adaptive query trees using only their finite positive-density zero branch. M786Q-06 retains shared-seed randomized mixtures and the exact expectation-to-success bound. Fixed tail width for vanishing epsilon, observations beyond sqrt(N), dense or padding-prime zero branches, per-integer programs, fresh unshared query randomness, and global alteration are outside the surviving scope."
+}

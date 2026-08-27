@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M786S-01",
+      "representation_id": "R786S-01",
+      "family": "prime-interval-geometry",
+      "decisive_claim": "For fixed prime b and integer A>=4, the interval (X,2X), X=b^(floor(K/2)-A), contains enough primes for a path with s=floor(K/4), and balanced b-adic padding places its support-minimal unequal relation entirely in (N/b^6,N] while avoiding every prime below X.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Use prime interval abundance, exact rough-part height, five-unit balancing, and path-kernel minimality for all sufficiently large K.",
+      "status": "surviving",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    },
+    {
+      "id": "M786S-02",
+      "representation_id": "R786S-02",
+      "family": "prime-distribution",
+      "decisive_claim": "Repeated Bertrand postulate alone proves that one fixed interval (X,2X) contains at least K/2 primes for all sufficiently large exponential X.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Inspect the logical content of Bertrand, which guarantees existence of one prime but no linear-in-K count in the same interval.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    },
+    {
+      "id": "M786S-03",
+      "representation_id": "R786S-04",
+      "family": "padding-geometry",
+      "decisive_claim": "The same worst-case proof gives the tail (N/b^6,N] for A=3.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Compare the guaranteed reserve 2A-2=4 with the possible five-unit decrement.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    },
+    {
+      "id": "M786S-04",
+      "representation_id": "R786S-03",
+      "family": "padding-geometry",
+      "decisive_claim": "For A>=4, evenly distributing the shore discrepancy always uses at most five exponent decrements per left vertex and leaves all padded exponents nonnegative.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Write K=4s+r, bound Delta<5s+r, and subtract five from the reserve 2A-2.",
+      "status": "surviving",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    },
+    {
+      "id": "M786S-05",
+      "representation_id": "R786S-06",
+      "family": "incidence-boundary",
+      "decisive_claim": "The same degree-two path host works with every edge prime strictly greater than sqrt(N).",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Multiply the two incident edge primes at an internal vertex before padding.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    },
+    {
+      "id": "M786S-06",
+      "representation_id": "R786S-05",
+      "family": "incidence-boundary",
+      "decisive_claim": "Connectedness of the edge-prime path is unnecessary for support minimality.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Disconnect the incidence graph and use one component to form a proper signed subrelation whenever its shore imbalance is nonzero.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    },
+    {
+      "id": "M786S-07",
+      "representation_id": "R786S-07",
+      "family": "adaptive-query",
+      "decisive_claim": "The square-root-scale path lifts the deterministic zero-transcript dichotomy and the shared-seed bound Pr(transversal)<=E|D|/(L-t) for uniform adaptive valuation-query trees whose zero branch queries primes below X.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Condition seedwise, construct a relation in every retain-labelled zero transcript, and charge at least L-t deletions on every successful seed.",
+      "status": "surviving",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    },
+    {
+      "id": "M786S-08",
+      "representation_id": "R786S-09",
+      "family": "adaptive-query",
+      "decisive_claim": "Every prime appearing anywhere in the decision tree must be below X for the zero-transcript obstruction to apply.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Put an arbitrarily large prime only on a nonzero branch and verify that zero-transcript inputs never query it.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    },
+    {
+      "id": "M786S-09",
+      "representation_id": "R786S-10",
+      "family": "density-boundaries",
+      "decisive_claim": "Expected o(N) deletion implies o(1) success even when the essential zero-transcript population L is o(N).",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Compare the exact ratio E|D|/(L-t) when E|D| is asymptotically larger than L.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    },
+    {
+      "id": "M786S-10",
+      "representation_id": "R786S-11",
+      "family": "scope-boundaries",
+      "decisive_claim": "The square-root query theorem also rules out a global repair phase of expected o(N) size.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Repair the one seedwise missed path by deleting one selected vertex.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    },
+    {
+      "id": "M786S-11",
+      "representation_id": "R786S-12",
+      "family": "scope-boundaries",
+      "decisive_claim": "Conditioning on private per-input coins yields one uniform deterministic tree covered by the shared-seed theorem.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Check that the conditioned programs remain indexed by the input integer and have no common zero transcript.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    },
+    {
+      "id": "M786S-12",
+      "representation_id": "R786S-01",
+      "family": "prime-distribution",
+      "decisive_claim": "A finite verification of many primes in several intervals is sufficient to promote the all-parameter square-root-scale theorem.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Remove the prime number theorem dependency and test whether finite intervals imply the claim for every sufficiently large K.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:22:01+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:22:50+00:00"
+    }
+  ]
+}

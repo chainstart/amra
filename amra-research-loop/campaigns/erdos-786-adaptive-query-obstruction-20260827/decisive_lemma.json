@@ -1,0 +1,35 @@
+{
+  "statement": "Near-square-root adaptive-query obstruction Q.1--Q.4. If 0<epsilon_K<1/2 and epsilon_K^2 K tends to infinity, then for N=b^K there is a support-minimal unequal-cardinality equal-product path on 2 floor(epsilon_K K/4)+1 distinct integers above N/b^(D_K+1), D_K=ceil(8/epsilon_K+1), avoiding every prescribed prime below N^(1/2-epsilon_K) other than the padding prime b. For any uniform adaptive exact-valuation decision tree whose finite all-zero transcript queries only such primes, either its deletion is not a transversal or it deletes at least Z(T)-t vertices, where Z(T) is the zero-transcript population and t is the lower threshold. For a shared-seed randomized mixture, Pr(output is a transversal)<=E|D|/(L-t), where L is the essential infimum of the seedwise zero-transcript populations. If every zero transcript has reciprocal prime mass at most 1-delta, then L>=delta N and expected o(N) deletion has success probability o(1) for fixed epsilon.",
+  "status": "proved",
+  "closes": [
+    "parameterized rough-path avoidance up to every fixed sub-square-root prime scale N^(1/2-epsilon)",
+    "deterministic uniform adaptive exact-valuation query trees with a finite controlled zero transcript",
+    "shared-seed randomized mixtures of such trees with an explicit expectation-to-success inequality"
+  ],
+  "evidence": [
+    "evidence/OBSTRUCTION_ANALYSIS.md",
+    "evidence/REPRESENTATION_SEARCH.md",
+    "evidence/MECHANISM_FALSIFICATION.md",
+    "evidence/SURVIVOR_DEEPENING.md",
+    "evidence/VERIFICATION_RECEIPT.md",
+    "evidence/verify_adaptive_query_obstruction.py"
+  ],
+  "dependency_gaps": [
+    "The query program must be uniform across input integers after conditioning on one shared seed; exact-label programs and fresh private per-input query randomness are not covered.",
+    "The all-zero transcript must terminate, omit the padding prime, and query only primes below the geometric cutoff. The square-root barrier is intrinsic to this path host.",
+    "The probability bound is density-sensitive. Expected o(N) cost forces o(1) success only when the seedwise zero-transcript population is Omega(N), for example under the stated reciprocal-mass condition.",
+    "No global post-classification alteration or repair is excluded; a missed path can be hit by one subsequent deletion.",
+    "The theorem gives neither a useful bound on the full transversal number nor an o(N) transversal, an infinite density-one set, or a solution of Erdos 786.",
+    "Independent reconstruction, dependency audit, and external novelty comparison have not been performed."
+  ],
+  "evidence_classification": {
+    "mathematical_status": "proved",
+    "evidence_strength": "author-verified all-parameter natural proof with exact finite replay",
+    "scope": "standalone near-square-root obstruction for uniform adaptive valuation-query classifiers and shared-seed randomized mixtures",
+    "public_problem": "open",
+    "machine_reproduced": "Python 3.12.3; python3 amra-research-loop/campaigns/erdos-786-adaptive-query-obstruction-20260827/evidence/verify_adaptive_query_obstruction.py; PASS",
+    "independent_reconstruction": "not_started",
+    "novelty_check": "not_started",
+    "publication_state": "private_campaign_note"
+  }
+}

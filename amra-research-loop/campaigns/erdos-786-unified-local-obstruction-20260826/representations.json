@@ -1,0 +1,74 @@
+{
+  "representations": [
+    {
+      "id": "R786U-01",
+      "name": "base-b exponent budget polytope",
+      "family": "exponent-geometry",
+      "new_information": "keeps separately the rough-part exponent, the initial one-digit rounding loss, and the shore-balancing decrement",
+      "first_test": "set s=floor(K/16) and verify all three budgets leave a K-independent multiplicative tail"
+    },
+    {
+      "id": "R786U-02",
+      "name": "aggressive half-logarithmic path scaling",
+      "family": "exponent-geometry",
+      "new_information": "tests whether s near K/2 can reduce the balancing decrement to three units",
+      "first_test": "use only repeated Bertrand intervals and check whether two incident edge primes still fit below b^(K-3)"
+    },
+    {
+      "id": "R786U-03",
+      "name": "signed edge-prime kernel of a connected path",
+      "family": "prime-incidence",
+      "new_information": "represents every possible signed subrelation by equations z_u+z_v=0 on path edges",
+      "first_test": "prove connectivity forces the coefficient vector to be zero or a scalar multiple of the full bipartition vector"
+    },
+    {
+      "id": "R786U-04",
+      "name": "regular bipartite incidence comparator",
+      "family": "prime-incidence",
+      "new_information": "tests whether equal local degrees could make all vertices indistinguishable while retaining unequal shore sizes",
+      "first_test": "compare degree sums on the two shores of a regular bipartite graph"
+    },
+    {
+      "id": "R786U-05",
+      "name": "valuation-cylinder partition",
+      "family": "observation-cylinders",
+      "new_information": "freezes exactly what a prime-local rule sees: the full valuation vector on a declared controlled set",
+      "first_test": "identify a complete positive-density fibre that an o(N) union of fibres cannot delete"
+    },
+    {
+      "id": "R786U-06",
+      "name": "sparse-prime zero-signature density",
+      "family": "observation-cylinders",
+      "new_information": "uses a reciprocal-sum bound to retain a positive fraction of integers coprime to all controlled primes",
+      "first_test": "apply the union bound to prove at least delta N integers have zero signature"
+    },
+    {
+      "id": "R786U-07",
+      "name": "growing dense-prime comparator",
+      "family": "observation-cylinders",
+      "new_information": "separates sparse controlled observations from a sieve whose zero fibre itself has zero density",
+      "first_test": "test the claimed no-go theorem when the controlled set contains all primes up to a growing cutoff"
+    },
+    {
+      "id": "R786U-08",
+      "name": "independent proportional deletion law",
+      "family": "probabilistic-rounding",
+      "new_information": "converts constant tail width into a uniform O(1/K) upper bound for every log-defect weight on the path",
+      "first_test": "bound every deletion marginal under q(n)<=g_K w_N(n), g_K=o(K), and compute the positive probability that the full path survives"
+    },
+    {
+      "id": "R786U-09",
+      "name": "adaptive residue-aware comparator",
+      "family": "scope-comparators",
+      "new_information": "allows the rule to inspect edge primes, exact cofactors, and global relation context rather than a frozen valuation cylinder",
+      "first_test": "check whether one path can force such a rule to choose many global owners rather than one vertex"
+    },
+    {
+      "id": "R786U-10",
+      "name": "transversal packing comparator",
+      "family": "scope-comparators",
+      "new_information": "distinguishes a hard single edge from a family with a proved large hitting number",
+      "first_test": "compute the transversal number of the one-edge path hypergraph before inferring any integral lower bound"
+    }
+  ]
+}

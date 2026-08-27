@@ -1,0 +1,67 @@
+{
+  "tests": [
+    {
+      "id": "KT786-02-long-minimal-circuit",
+      "mechanism_id": "M786-02",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786-02-no-short-circuit-compression",
+      "scope": "all s via connected K_(s+1,s) edge-prime relations; finite verifier replays s<=6"
+    },
+    {
+      "id": "KT786-03-squarefree-unbalanced",
+      "mechanism_id": "M786-03",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786-03-squarefree-is-not-enough",
+      "scope": "all-parameter 0/1 prime-exponent counterfamily"
+    },
+    {
+      "id": "KT786-04-finset-additive-mismatch",
+      "mechanism_id": "M786-04",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786-04-additive-separator-is-a-repeated-variant-theorem",
+      "scope": "exact admissible set {2,4}; refutes necessity of a totally additive level-one separator"
+    },
+    {
+      "id": "KT786-05-one-level-density-ceiling",
+      "mechanism_id": "M786-05",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786-05-the-exact-one-density-ceiling",
+      "scope": "every finite selected-prime set P; density at most 1/e"
+    },
+    {
+      "id": "KT786-06-dilation-degree",
+      "mechanism_id": "M786-06",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786-06-common-dilation-has-the-wrong-degree",
+      "scope": "common linear dilation of any r-versus-s relation with r!=s"
+    },
+    {
+      "id": "KT786-07-high-tail-avoids-polarization",
+      "mechanism_id": "M786-07",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786-07-density-does-not-supply-nonlinear-auxiliary-loci",
+      "scope": "kills a density-only supply inference for two-versus-one nonlinear patterns"
+    },
+    {
+      "id": "KT786-08-private-prime-capacity",
+      "mechanism_id": "M786-08",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786-08-private-primes-have-sublinear-capacity",
+      "scope": "injective prime ownership certifies at most pi(N)=o(N) integers"
+    },
+    {
+      "id": "KT786-10-one-dimensional-superincreasing",
+      "mechanism_id": "M786-10",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786-10-dimension-without-height-is-insufficient",
+      "scope": "arbitrarily large admissible families in one exponent dimension"
+    },
+    {
+      "id": "KT786-12-bad-block-union",
+      "mechanism_id": "M786-12",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786-12-admissible-blocks-do-not-concatenate",
+      "scope": "marker-free gluing; {2,3} and {6} are individually admissible but their union is not"
+    }
+  ]
+}

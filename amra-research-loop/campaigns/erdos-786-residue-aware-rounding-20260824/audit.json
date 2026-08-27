@@ -1,0 +1,58 @@
+{
+  "independent_reconstruction": {
+    "status": "passed",
+    "auditor": "erdos_404 (non-author blind reconstruction)",
+    "evidence": [
+      "audit/blind_reconstruction.md",
+      "audit/independent_audit.md"
+    ],
+    "blind_artifact_sha256": "42fdb0992bdc06127731842d44d98a2f77eae462f61e87be491201e3a4aed9f7",
+    "protocol": "The blind reconstruction was written and hashed after reading only closure_contract.json and decisive_lemma.json, before the author evidence and verifier were opened."
+  },
+  "statement_match": "passed",
+  "statement_check": {
+    "status": "passed_at_standalone_scope",
+    "RR1": "For every fixed L>=3 and s>=L, the increasingly prime-labelled path has nonnegative balanced padding for sufficiently large K, lies strictly in the claimed rough high tail, is squarefree at active primes with degree at most two, and is signed-support-minimal.",
+    "RR2": "For all nonempty disjoint prime sets A,B of unequal sizes and every new largest prime p, the double-star shores are distinct Finsets, support-minimal, and transfer a coprime cofactor ratio of arbitrary numerator and denominator support.",
+    "RR3": "Every full prime-occurrence matching of a minimal bad relation is connected; minimum Omega at least d gives cycle rank at least (d/2-1)|support|+d/2+1, and Turan--Kubilius permits d tending to infinity after o(N) deletion.",
+    "public_effect": "The finite integral transversal, the coherent infinite natural-density construction, and original Erdos 786 remain open."
+  },
+  "dependency_check": "passed",
+  "dependency_check_details": {
+    "background": "RR.1 uses Bertrand prime intervals, unique factorization, and ceiling estimates; RR.2 uses unique factorization; RR.3 uses full occurrence matching and the standard Turan--Kubilius estimate for Omega.",
+    "predecessors": "The promoted fractional cover and IR.1 set the campaign interface but are not needed to prove RR.1--RR.3.",
+    "open_survivors": [
+      "M786R-04",
+      "M786R-08",
+      "M786R-12"
+    ]
+  },
+  "novelty_check": "priority_uncertain",
+  "novelty_check_details": "No public search for the exact problem or solution was performed; no external priority claim is made.",
+  "machine_reproduced": {
+    "status": "passed",
+    "command": "python3 evidence/verify_residue_aware_kills.py",
+    "verifier_sha256": "6000976780a71927fdf38a0ceb2d085c19ad4b12344c886cb284bc0166a30828",
+    "result": "PASS",
+    "scope": "Finite corroboration for RR.1 and RR.2 only; all-parameter RR.1--RR.3 proofs are symbolic."
+  },
+  "promotion_decision": {
+    "outcome": "promote",
+    "success_condition": "standalone_decisive_lemma",
+    "reason": "RR.1 and RR.2 are proved all-parameter counterfamilies against the frozen local residue-aware mechanisms, and RR.3 is a proved full-occurrence complexity lemma. None claims the public density-one targets.",
+    "forbidden_promotions": [
+      "global_interface_closed",
+      "main_exponent_improved",
+      "main_term_improved",
+      "original_problem_closed"
+    ],
+    "evidence": [
+      "audit/blind_reconstruction.md",
+      "audit/independent_audit.md",
+      "evidence/OBSTRUCTION_ANALYSIS.md",
+      "evidence/SURVIVOR_DEEPENING.md",
+      "evidence/verify_residue_aware_kills.py"
+    ]
+  },
+  "state_mutation": "None; campaign_state.json and decision.json were not edited."
+}

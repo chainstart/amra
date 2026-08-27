@@ -1,0 +1,88 @@
+{
+  "representations": [
+    {
+      "id": "R786I-01",
+      "name": "log-defect coarea filtration",
+      "family": "weighted-analytic",
+      "new_information": "retains the entire distribution of w_N across an edge rather than only its total or maximum",
+      "first_test": "embed balanced-padded minimal circuits below every positive defect cutoff and determine which coarea rules collapse to a hard threshold"
+    },
+    {
+      "id": "R786I-02",
+      "name": "signed prime-incidence circuit matrix",
+      "family": "algebraic-circuit",
+      "new_information": "keeps every valuation row and the {-1,0,1} circuit orientation, including reused primes and support minimality",
+      "first_test": "derive arbitrary signed minimality of graph edge-prime circuits and test whether a circuit cocircuit can canonically expose one vertex"
+    },
+    {
+      "id": "R786I-03",
+      "name": "active-prime hyperedges and cardinality strata",
+      "family": "incidence-combinatorial",
+      "new_information": "represents each squarefree-above-y integer by the set of its active primes and records its active degree",
+      "first_test": "check exact single-degree admissibility, then attack unions of adjacent degrees with K_(s+1,s) circuits"
+    },
+    {
+      "id": "R786I-04",
+      "name": "largest-prime fibre DAG with residue state",
+      "family": "recursive-arithmetic",
+      "new_information": "orders active primes while retaining the lower-prime cofactor left after a top valuation balance",
+      "first_test": "quantify how a balanced top fibre transfers a multiplicative residue to lower fibres and search for a bounded ownership load"
+    },
+    {
+      "id": "R786I-05",
+      "name": "Buchstab smooth-rough recursion",
+      "family": "analytic-number-theory",
+      "new_information": "separates the negligible smooth core, repeated-large-prime exception, and squarefree active-prime incidence by a movable y=N^(1/L)",
+      "first_test": "prove the exact exceptional-set cost and identify a recursion whose congestion is sublogarithmic rather than merely restating incidence balance"
+    },
+    {
+      "id": "R786I-06",
+      "name": "arithmetic failure-event dependency graph",
+      "family": "probabilistic-rounding",
+      "new_information": "retains which bad circuits share actual integers or valuation fibres under randomized deletion",
+      "first_test": "bound or refute the weighted dependency neighborhood after truncating the smooth core and short circuits"
+    },
+    {
+      "id": "R786I-07",
+      "name": "exponential-clock witness ownership",
+      "family": "probabilistic-rounding",
+      "new_information": "assigns each circuit to a random minimum vertex and exposes the exact probability/load with which one integer owns some circuit",
+      "first_test": "compute ownership on padded edge-prime circuits, overlapping bicircuit books, and multi-scale prime fibres"
+    },
+    {
+      "id": "R786I-08",
+      "name": "local rank and coarea of valuation support",
+      "family": "linear-algebraic",
+      "new_information": "replaces global exponent rank by rank accumulated across prime scales and charges only rank increments",
+      "first_test": "contrast rank-one powers-of-two Schur triples with high-rank single edge-prime circuits and locate a weight-compatible local rank"
+    },
+    {
+      "id": "R786I-09",
+      "name": "profinite cylinder with stabilizing deletion states",
+      "family": "coherent-dynamical",
+      "new_information": "tracks decisions as the controlled prime set grows and makes cross-cylinder relations explicit",
+      "first_test": "prove or refute stabilization and zero upper-density deletion for a finite-state prime exposure rule"
+    },
+    {
+      "id": "R786I-10",
+      "name": "ordered greedy certificate DAG",
+      "family": "algorithmic-extremal",
+      "new_information": "records a concrete witness relation whenever a descending or largest-prime greedy rule rejects an integer",
+      "first_test": "seek an injective or bounded-load map from rejection certificates to log-defect mass and test it on circuit books"
+    },
+    {
+      "id": "R786I-11",
+      "name": "multiplicative energy primal-dual packing",
+      "family": "extremal-duality",
+      "new_information": "pairs a transversal candidate with packings of minimal bad circuits to test whether any proposed loss is sharp",
+      "first_test": "construct disjoint and highly overlapping padded circuits and compare integral hitting cost with fractional defect mass"
+    },
+    {
+      "id": "R786I-12",
+      "name": "canonical factor tree and recursive token balance",
+      "family": "recursive-arithmetic",
+      "new_information": "factors each rough integer by its largest active prime and carries balanced-cardinality tokens with their cofactors instead of discarding residues",
+      "first_test": "write the exact recursion for a two-level active-prime relation and test whether token states grow or admit a bounded potential"
+    }
+  ]
+}

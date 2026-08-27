@@ -1,0 +1,53 @@
+{
+  "inherited_methods": [
+    {
+      "method": "audited fractional cover plus generic dependent rounding",
+      "loss_step": "replace the prime-labelled intersection pattern of bad events by edge weights and an abstract dependency graph",
+      "lost_information": "whether shared valuation rows compress whole clusters or instead propagate one cofactor residue through them",
+      "consequence": "generic set-cover or LLL losses are not proved o(log N), so the N/log N fractional mass does not become o(N) integrally"
+    },
+    {
+      "method": "largest-prime owner after smooth-core deletion",
+      "loss_step": "balance the top-prime incidence counts and then discard the signed products of the stripped cofactors",
+      "lost_information": "an arbitrary rational residue that continues to couple lower-prime fibres",
+      "consequence": "2*3=6 already refutes residue-free triangularity; retaining the full residue risks re-encoding the original relation"
+    },
+    {
+      "method": "recursive residue-token peeling",
+      "loss_step": "declare the state smaller because its largest prime was stripped, without measuring support propagation across other tokens",
+      "lost_information": "global component diameter, fan size, and whether the same imbalance simply moves to the next prime",
+      "consequence": "ordered active-prime paths can have arbitrary length even when every integer has active degree at most two"
+    },
+    {
+      "method": "bounded local active-incidence analysis",
+      "loss_step": "compress a circuit to maximum active degree, cycle rank, bounded radius, or a finite residue signature",
+      "lost_information": "connected-tree support length and arbitrary products carried by the two endpoints of a peeled prime",
+      "consequence": "tree and low-degree comparators can themselves be support-minimal unequal relations"
+    },
+    {
+      "method": "coherent prime-prefix stabilization",
+      "loss_step": "freeze lower-prime decisions before accounting for relations created by a later larger prime",
+      "lost_information": "cross-scale completion of any two lower products by a new balanced top-prime pair",
+      "consequence": "monotone no-revision stabilization needs a reserved deletion or isolation mechanism, not just pointwise convergence"
+    }
+  ],
+  "required_new_information": [
+    "For alteration: a full-component arithmetic witness compression with total repair cost o(log N) times the audited fractional mass.",
+    "For ownership: a top-prime plus complete cofactor-residue owner whose aggregate load is o(log N), including long active-incidence trees.",
+    "For recursion: a potential that decreases under global residue propagation rather than under a single prime removal only.",
+    "For coherence: a reserve or revision scheme that controls future larger-prime completions and proves an actual natural-density limit.",
+    "For negative progress: an all-parameter rough high-tail circuit or universal residue extension against a precisely frozen local/depth claim."
+  ],
+  "new_adversarial_hosts": [
+    {
+      "name": "rough ordered path circuit",
+      "description": "A connected odd path with distinct increasing primes p>N^(1/L) on its edges, balanced nonuniform 2-adic padding, active degree at most two, and arbitrary support length inside the strict high tail.",
+      "tests": "bounded depth, forest safety, active-degree compression, and residue propagation"
+    },
+    {
+      "name": "universal double-star residue extension",
+      "description": "For disjoint prime sets A,B and a new top prime p, the shores A union {p prod B} and B union {p prod A} form a minimal relation; stripping p transfers the arbitrary residue prod B/prod A.",
+      "tests": "bounded residue alphabet, cofactor-gcd splitting, and monotone prime-prefix stabilization"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "outcome": "promote",
+  "success_condition": "standalone_decisive_lemma",
+  "reason": "Independent blind reconstruction verifies IR.1 for every moving width eta_K with K eta_K tending to infinity. Promote only the resulting all-parameter obstruction to o(N)-cost lower-power thresholds, finite nested thresholds, and unaltered probability-one independent proportional rounding. This does not bound the full integral transversal number, prove either density-one assertion, or close Erdos #786; the residue-aware M786I-05, M786I-06, and M786I-12 routes remain open.",
+  "evidence": [
+    "audit/blind_reconstruction.md",
+    "audit/independent_audit.md",
+    "audit.json",
+    "evidence/OBSTRUCTION_ANALYSIS.md",
+    "evidence/MECHANISM_FALSIFICATION.md",
+    "evidence/verify_integral_rounding_kills.py"
+  ]
+}

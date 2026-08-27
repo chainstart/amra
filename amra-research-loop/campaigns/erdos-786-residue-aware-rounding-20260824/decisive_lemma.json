@@ -1,0 +1,45 @@
+{
+  "statement": "Residue-complexity obstruction package RR.1--RR.2. RR.1: for every L>=3 and s>=L, arbitrarily large N contain a support-minimal distinct-Finset unequal relation wholly in (N^(1-1/L),N], squarefree on primes p>N^(1/L), with maximum active degree two and active-incidence graph an increasingly prime-labelled path of length 2s; largest-prime residue transfer can therefore have arbitrary depth at fixed L and active degree. RR.2: for all unequal r,s>=1, disjoint prime sets A,B and a prime p>max(A union B), the double-star shores A union {p prod B} and B union {p prod A} form a support-minimal bad relation; the balanced top p-fibre transfers a coprime cofactor residue with arbitrary numerator and denominator prime supports.",
+  "status": "proved",
+  "closes": [
+    "bounded-support and bounded-radius alteration from fixed roughness and active degree",
+    "forest safety and active-cycle-rank potentials",
+    "bounded residue-transfer depth from fixed roughness and active degree",
+    "bounded cofactor-residue complexity from top-fibre size",
+    "coprime-cofactor splitting",
+    "strict residue-token-count descent",
+    "no-reserve future safety of finite lower-prime decisions"
+  ],
+  "evidence": [
+    "audit/blind_reconstruction.md",
+    "audit/independent_audit.md",
+    "audit/round3_alteration_audit.md",
+    "audit.json",
+    "evidence/INDEPENDENT_ARITHMETIC_ALTERATION.md",
+    "evidence/OBSTRUCTION_ANALYSIS.md",
+    "evidence/MECHANISM_FALSIFICATION.md",
+    "evidence/SURVIVOR_DEEPENING.md",
+    "evidence/verify_residue_aware_kills.py"
+  ],
+  "dependency_gaps": [
+    "RR.1--RR.2 do not lower-bound the full transversal number; each individual circuit costs one deletion.",
+    "M786R-04 needs a full-occurrence cluster-compression alteration proving loss g(N)=o(log N).",
+    "M786R-08 needs a noncircular full-residue owner and an all-N distinct-owner congestion bound g(N)=o(log N).",
+    "M786R-12 needs a global telescoping potential and, for the infinite target, a summable revision or zero-upper-density reserve theorem.",
+    "Neither tau(H_N)=o(N) nor the coherent infinite natural-density construction is proved; both remain mandatory public targets.",
+    "External priority is uncertain because public search for an exact solution to Erdos 786 is prohibited in this campaign."
+  ],
+  "proved_supporting_result": {
+    "RR.3": "For a minimal bad relation all of whose terms have Omega(n)>=d, every matched full prime-occurrence multigraph is connected and has cycle rank at least (d/2-1)|E|+d/2+1. Turan--Kubilius permits d tending to infinity after deleting o(N) low-Omega integers.",
+    "alteration_A": "An independently audited top-band circuit star forces g(N)=Omega(log N) for the raw variable-overlap symmetric maximum-degree LLL; common-witness cluster contraction is not refuted.",
+    "alteration_B": "An independently audited core-with-private-satellites family forces Omega(log N) representatives when each packed circuit selects representatives independently inside itself; cross-cluster alteration is not refuted."
+  },
+  "evidence_classification": {
+    "mathematical_status": "proved",
+    "scope": "standalone all-parameter obstruction to specified local residue-aware mechanisms",
+    "public_problem": "open",
+    "machine_reproduced": "verify_residue_aware_kills.py checks exact instantiated identities and small minimality; universal proofs are symbolic",
+    "independent_reconstruction": "RR.1--RR.3 passed by erdos_404 at standalone_decisive_lemma scope (blind SHA-256 42fdb0992bdc06127731842d44d98a2f77eae462f61e87be491201e3a4aed9f7); alteration A--B passed independently by erdos_327 (audit SHA-256 19a285dedcd9e9eaf644de1c58d82f88567289007956e9c18ec49982796020c8)",
+    "publication_state": "private_campaign_note"
+  }
+}

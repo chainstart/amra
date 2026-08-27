@@ -1,0 +1,88 @@
+{
+  "representations": [
+    {
+      "id": "R786R-01",
+      "name": "arithmetic bad-event cluster hypergraph",
+      "family": "alteration-dependency",
+      "new_information": "retains intersections through both shared integers and shared active-prime valuation rows",
+      "first_test": "measure complete event clusters on rough path circuits and circuit books rather than assuming bounded event size or degree"
+    },
+    {
+      "id": "R786R-02",
+      "name": "polymer boundary alteration",
+      "family": "alteration-dependency",
+      "new_information": "treats a connected active-incidence component as one repair polymer with an exposed boundary",
+      "first_test": "test whether forests are automatically safe or whether a minimal path polymer has arbitrary diameter"
+    },
+    {
+      "id": "R786R-03",
+      "name": "fractional witness compression by prime rows",
+      "family": "alteration-dependency",
+      "new_information": "charges a repair to the log-defect mass of valuation rows shared by its whole failure cluster",
+      "first_test": "seek an all-N inequality making total cluster charge o(log N) times sum w_N and test it on ordered paths"
+    },
+    {
+      "id": "R786R-04",
+      "name": "ordered largest-prime rational residue",
+      "family": "residue-ownership",
+      "new_information": "stores the exact signed cofactor ratio transferred when the top-prime incidence counts balance",
+      "first_test": "apply the universal double-star extension and quantify residue fan size, height, and subsequent prime depth"
+    },
+    {
+      "id": "R786R-05",
+      "name": "owner-load flow network",
+      "family": "residue-ownership",
+      "new_information": "routes each minimal circuit through a top-prime/cofactor state to an owner vertex and records shared owner congestion",
+      "first_test": "formulate a noncircular owner map and test its load on long ordered paths and overlapping double stars"
+    },
+    {
+      "id": "R786R-06",
+      "name": "cofactor gcd and divisor-lattice split",
+      "family": "residue-ownership",
+      "new_information": "retains coprimality and divisor containment of top endpoint cofactors instead of only their sizes",
+      "first_test": "check whether coprime top cofactors actually split the global lower relation in the double-star gadget"
+    },
+    {
+      "id": "R786R-07",
+      "name": "signed residue-token factor forest",
+      "family": "recursive-potential",
+      "new_information": "replaces a peeled incidence by two signed cofactor tokens while retaining their links to all lower primes",
+      "first_test": "write the exact token transition along an increasingly labelled active-prime path and test token-count decrease"
+    },
+    {
+      "id": "R786R-08",
+      "name": "component diameter treewidth and cycle-rank state",
+      "family": "recursive-potential",
+      "new_information": "separates local degree from global forest diameter and cyclic complexity",
+      "first_test": "use RR.1 to decide which of degree, cycle rank, treewidth, diameter, or support can be a strictly decreasing potential"
+    },
+    {
+      "id": "R786R-09",
+      "name": "multiscale residue coarea potential",
+      "family": "recursive-potential",
+      "new_information": "integrates decreases in cofactor height, active-prime scale, component support, and log-defect rather than counting peel steps",
+      "first_test": "derive a telescoping inequality on an ordered path or exhibit a path whose charge repeats at every edge"
+    },
+    {
+      "id": "R786R-10",
+      "name": "growing prime-prefix reserve process",
+      "family": "coherent-stabilization",
+      "new_information": "allows future large primes to force revisions paid from an explicit sparse reserve",
+      "first_test": "apply the double-star future extension to quantify the reserve required before a lower decision can stabilize"
+    },
+    {
+      "id": "R786R-11",
+      "name": "profinite revision martingale",
+      "family": "coherent-stabilization",
+      "new_information": "tracks conditional deletion density and pointwise decision changes as controlled prime cylinders grow",
+      "first_test": "prove summability of revision probabilities and zero upper density, or construct non-summable double-star completions"
+    },
+    {
+      "id": "R786R-12",
+      "name": "rough circuit primal packing",
+      "family": "adversarial-extremal",
+      "new_information": "packs or overlaps path and double-star circuits to test whether a proposed owner or alteration cost is truly global",
+      "first_test": "compare disjoint paths, shared-boundary path books, and common-top-prime double stars against each candidate charge"
+    }
+  ]
+}

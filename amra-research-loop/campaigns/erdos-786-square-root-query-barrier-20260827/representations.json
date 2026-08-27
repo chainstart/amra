@@ -1,0 +1,88 @@
+{
+  "representations": [
+    {
+      "id": "R786S-01",
+      "name": "dyadic prime reservoir",
+      "family": "prime-distribution",
+      "new_information": "uses the full population of primes in (X,2X) instead of one prime per expanding Bertrand interval",
+      "first_test": "show pi(2X)-pi(X)>2 floor(K/4) for X=b^(floor(K/2)-A) and all sufficiently large K"
+    },
+    {
+      "id": "R786S-02",
+      "name": "Bertrand-only reservoir comparator",
+      "family": "prime-distribution",
+      "new_information": "tests whether one-prime existence alone can certify linearly many labels without expanding the interval",
+      "first_test": "derive a lower bound for the number of primes in one fixed dyadic interval from Bertrand alone"
+    },
+    {
+      "id": "R786S-03",
+      "name": "constant-reserve exponent budget",
+      "family": "padding-geometry",
+      "new_information": "converts q_i<4X^2 into a K-independent reserve of at least 2A-2 base-b exponents",
+      "first_test": "compare this reserve with the five-unit balancing decrement at s=floor(K/4)"
+    },
+    {
+      "id": "R786S-04",
+      "name": "A=3 boundary comparator",
+      "family": "padding-geometry",
+      "new_information": "tests whether the same worst-case constants still guarantee nonnegative padding one factor closer to sqrt(N)",
+      "first_test": "subtract the maximum five-unit decrement from the four-unit guaranteed reserve"
+    },
+    {
+      "id": "R786S-05",
+      "name": "connected edge-prime path kernel",
+      "family": "incidence-algebra",
+      "new_information": "represents every signed subrelation by z_(i-1)+z_i=0 along a connected path",
+      "first_test": "prove that only the zero vector and full alternating vector survive"
+    },
+    {
+      "id": "R786S-06",
+      "name": "square-root internal-product comparator",
+      "family": "incidence-algebra",
+      "new_information": "measures the minimum rough value at an internal degree-two vertex",
+      "first_test": "multiply two edge labels greater than sqrt(N)"
+    },
+    {
+      "id": "R786S-07",
+      "name": "seedwise zero-query transcript",
+      "family": "query-algorithms",
+      "new_information": "retains only the primes queried after repeated zero valuations and allows arbitrary off-zero behavior",
+      "first_test": "embed the square-root-scale path entirely in one retain-labelled zero transcript"
+    },
+    {
+      "id": "R786S-08",
+      "name": "shared-seed expectation charge",
+      "family": "query-algorithms",
+      "new_information": "charges zero-leaf deletion population seedwise and then averages without vertex independence",
+      "first_test": "replay the exact inequality Pr(success)<=E|D|/(L-t) with the new cutoff"
+    },
+    {
+      "id": "R786S-09",
+      "name": "all-branch query union comparator",
+      "family": "query-algorithms",
+      "new_information": "tracks every prime appearing anywhere in the tree instead of only the realized zero branch",
+      "first_test": "place arbitrarily large primes on unreachable nonzero branches and test whether they affect the witness"
+    },
+    {
+      "id": "R786S-10",
+      "name": "zero-population density boundary",
+      "family": "scope-boundaries",
+      "new_information": "separates the exact L-dependent inequality from its positive-density o(N) corollary",
+      "first_test": "let L=o(N) and determine whether expected o(N) cost still implies vanishing success"
+    },
+    {
+      "id": "R786S-11",
+      "name": "global repair comparator",
+      "family": "scope-boundaries",
+      "new_information": "adds one post-classification deletion chosen after a missed path is discovered",
+      "first_test": "hit the displayed path at unit cost"
+    },
+    {
+      "id": "R786S-12",
+      "name": "per-input randomized program comparator",
+      "family": "scope-boundaries",
+      "new_information": "uses a separate program or fresh private coins for every integer",
+      "first_test": "check whether conditioning produces one uniform zero transcript"
+    }
+  ]
+}

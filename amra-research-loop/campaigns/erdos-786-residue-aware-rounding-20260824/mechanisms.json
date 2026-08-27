@@ -1,0 +1,173 @@
+{
+  "mechanisms": [
+    {
+      "id": "M786R-01",
+      "representation_id": "R786R-01",
+      "family": "alteration-local-complexity",
+      "decisive_claim": "After the rough high-tail reduction, the support size of every minimal bad event is bounded by a function only of L and maximum active degree, so event neighborhoods admit a sublogarithmic generic compression.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "RR.1 has fixed L, maximum active degree two, and arbitrarily large support-minimal path events.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:49:37+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    },
+    {
+      "id": "M786R-02",
+      "representation_id": "R786R-02",
+      "family": "alteration-polymer",
+      "decisive_claim": "Every residual bad active-incidence component has positive cycle rank, so deleting a sparse feedback set removes every failure polymer.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "RR.1 is a support-minimal bad component whose active-incidence graph is a tree path.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:49:37+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    },
+    {
+      "id": "M786R-03",
+      "representation_id": "R786R-02",
+      "family": "alteration-polymer",
+      "decisive_claim": "Every residual bad active-incidence tree contains a proper bad subrelation within a uniformly bounded radius, reducing alteration to bounded local witnesses.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "RR.1 is support-minimal and has arbitrarily large path diameter at fixed L and active degree two.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:49:37+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    },
+    {
+      "id": "M786R-04",
+      "representation_id": "R786R-03",
+      "family": "alteration-full-component",
+      "decisive_claim": "A dependent alteration defined on complete connected prime-incidence components has total repair cost g(N) sum_n w_N(n)+o(N) for some g(N)=o(log N), uniformly over rough paths, fans, and their overlaps.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Compute exact repair charge on disjoint and shared-boundary RR.1 path books; reject unless a symbolic cluster compression bounds every all-N overlap.",
+      "status": "surviving",
+      "created_at": "2026-08-24T13:49:37+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    },
+    {
+      "id": "M786R-05",
+      "representation_id": "R786R-04",
+      "family": "residue-owner-local",
+      "decisive_claim": "The prime support and factor complexity of the cofactor residue after a balanced top-prime fibre are bounded by a function of the top-fibre cardinality.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "RR.2 always has top-fibre cardinality two but transfers prod(B)/prod(A) with arbitrarily large independent numerator and denominator prime supports.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:49:37+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    },
+    {
+      "id": "M786R-06",
+      "representation_id": "R786R-04",
+      "family": "residue-owner-depth",
+      "decisive_claim": "For fixed roughness parameter L and bounded maximum active degree, successive largest-prime residue transfers terminate after a bounded number of steps independent of circuit support.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Order RR.1 edge primes increasingly along an arbitrarily long path at fixed L and active degree two.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:49:38+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    },
+    {
+      "id": "M786R-07",
+      "representation_id": "R786R-06",
+      "family": "residue-owner-factorization",
+      "decisive_claim": "If the two cofactors exposed at the top prime are coprime, their lower-prime states split into independent components and cannot carry the original imbalance jointly.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "In RR.2 the exposed cofactors X and Y are coprime, yet the lower singleton terms connect them into one support-minimal double-star relation.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:49:38+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    },
+    {
+      "id": "M786R-08",
+      "representation_id": "R786R-05",
+      "family": "residue-owner-global",
+      "decisive_claim": "There is a noncircular owner map using the full ordered top-prime and cofactor residue state whose distinct owners have total cost g(N) sum_n w_N(n)+o(N), with g(N)=o(log N).",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "Evaluate owner flow and reused-owner congestion on arbitrarily long RR.1 paths and overlapping RR.2 double-star books.",
+      "status": "surviving",
+      "created_at": "2026-08-24T13:49:38+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    },
+    {
+      "id": "M786R-09",
+      "representation_id": "R786R-08",
+      "family": "recursive-local-potential",
+      "decisive_claim": "Every residual bad token state has positive active-incidence cycle rank, and each largest-prime transition strictly decreases this potential.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "RR.1 starts as a bad support-minimal tree with cycle rank zero.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:49:38+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    },
+    {
+      "id": "M786R-10",
+      "representation_id": "R786R-07",
+      "family": "recursive-local-potential",
+      "decisive_claim": "Replacing a balanced top-prime pair by its two signed cofactors strictly decreases the number of residue tokens at every recursive step.",
+      "would_close": [
+        "main_term_improved"
+      ],
+      "kill_test": "On RR.1, stripping the largest path-edge prime replaces its two incident integers by two nontrivial cofactors, preserving token count while transferring the state to the next edge.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:49:38+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    },
+    {
+      "id": "M786R-11",
+      "representation_id": "R786R-10",
+      "family": "coherent-monotone-prefix",
+      "decisive_claim": "A lower-prime admission decision that is safe at one finite prime prefix can be frozen forever without reserving future deletions, because later larger primes cannot create a new cross-prefix bad relation.",
+      "would_close": [
+        "global_interface_closed"
+      ],
+      "kill_test": "RR.2 completes arbitrary unequal lower prime sets A,B by one later prime p into the minimal relation A union {p prod B} versus B union {p prod A}.",
+      "status": "killed",
+      "created_at": "2026-08-24T13:49:38+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    },
+    {
+      "id": "M786R-12",
+      "representation_id": "R786R-09",
+      "family": "recursive-global-potential",
+      "decisive_claim": "A global multiscale potential combining cofactor height, component support, log-defect, and a summable revision reserve yields o(log N) finite load and compatible zero-upper-density infinite deletions.",
+      "would_close": [
+        "main_term_improved",
+        "global_interface_closed"
+      ],
+      "kill_test": "Demand a telescoping all-N inequality on RR.1 paths of arbitrary length and RR.2 future extensions; reject any potential whose decrease is only one per peeled prime or whose revisions are not summable.",
+      "status": "surviving",
+      "created_at": "2026-08-24T13:49:38+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-24T13:52:27+00:00"
+    }
+  ]
+}

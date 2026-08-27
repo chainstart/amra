@@ -1,0 +1,49 @@
+{
+  "inherited_methods": [
+    {
+      "method": "Q.1 sequential Bertrand edge-prime selection",
+      "loss_step": "obtain each new edge prime only below twice the preceding prime and accumulate a factor 2^(2s) across the path",
+      "lost_information": "one dyadic interval near an exponentially large X already contains far more than K primes",
+      "consequence": "path length is restricted to order epsilon K and the tail loss grows like 1/epsilon"
+    },
+    {
+      "method": "moving N^(1/2-epsilon) controlled-prime cutoff",
+      "loss_step": "reserve an epsilon K exponent margin before choosing the number of edge primes",
+      "lost_information": "batch selection in (X,2X) makes rough-part height essentially independent of the number O(K) of chosen labels",
+      "consequence": "the earlier theorem cannot reach a constant factor below sqrt(N) with a fixed tail constant"
+    },
+    {
+      "method": "generic prime-existence input",
+      "loss_step": "use only existence of one prime in each dyadic interval",
+      "lost_information": "the quantitative count pi(2X)-pi(X) is asymptotic to X/log X and dominates K for exponential X",
+      "consequence": "the prime supply rather than the arithmetic relation appears to be the bottleneck"
+    },
+    {
+      "method": "Q.2--Q.4 adaptive zero-transcript dichotomy",
+      "loss_step": "feed it the weaker Q.1 geometric cutoff",
+      "lost_information": "the deterministic and randomized probability arguments are cutoff-agnostic once a zero-transcript-avoiding relation exists",
+      "consequence": "a stronger geometric host should lift the whole query theorem without changing its probability proof"
+    },
+    {
+      "method": "informal extension beyond square root",
+      "loss_step": "ignore that every internal path vertex contains two rough edge labels",
+      "lost_information": "their product alone exceeds N when both labels exceed sqrt(N)",
+      "consequence": "sqrt(N) is a hard boundary for this degree-two path representation"
+    }
+  ],
+  "required_new_information": [
+    "A precise prime-interval supply statement giving at least 2 floor(K/4) primes in (X,2X) for X=b^(floor(K/2)-A) and all sufficiently large K.",
+    "An exact rough-part bound q_i<4X^2 and conversion into at least 2A-2 initial padding exponent units.",
+    "A K-uniform shore-balancing bound of at most five decrements per left vertex for s=floor(K/4).",
+    "A seedwise adaptive query theorem using the new X cutoff and fixed threshold N/b^6.",
+    "A scope proof that edge labels strictly above sqrt(N) are impossible for internal vertices of this host."
+  ],
+  "candidate_budget": {
+    "prime_supply": "pi(2X)-pi(X) asymptotic to X/log X, while X is exponential in K",
+    "rough_parts": "q_i<(2X)^2<=b^(K-2A+2)",
+    "padding_reserve": "e_i^0>=2A-2",
+    "balancing": "Delta<K+s and s=floor(K/4), so max decrement<=5",
+    "nonnegative": "A>=4 gives 2A-2-5>=1",
+    "tail": "initial values exceed N/b and final values exceed N/b^6"
+  }
+}

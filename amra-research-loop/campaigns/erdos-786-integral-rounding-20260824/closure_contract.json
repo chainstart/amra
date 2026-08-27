@@ -1,0 +1,50 @@
+{
+  "exact_statement": "For the distinct-Finset version of Erdos 786, let H_N be the hypergraph on {2,...,N} whose edges are supports of disjoint finite subsets S,T with equal products and unequal cardinalities. Prove tau(H_N)=o(N), preferably by converting the audited fractional cover w_N(n)=log(N/n)/log N into an integral transversal; and investigate whether one coherent rule yields an infinite admissible set of natural density greater than 1-epsilon for every epsilon>0. An all-parameter theorem exposing a sharp obstruction to a frozen rounding mechanism may count only as a standalone decisive lemma, not as closure of either density-one assertion.",
+  "source": "/home/biostar/work/projects/amra/amra-research-loop/campaigns/erdos-786-distinct-factor-admission-20260824",
+  "success_conditions": [
+    "global_interface_closed",
+    "main_exponent_improved",
+    "main_term_improved",
+    "original_problem_closed",
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume",
+    "generic_set_cover_rounding_with_loss_not_proved_to_be_o(log N)",
+    "a_larger_fixed_cutoff",
+    "restatement_of_fractional_feasibility",
+    "bounded_relation_length_only",
+    "independently_optimized_noncoherent_finite_sets"
+  ],
+  "scope_notes": [
+    "Variant lock: products are over Finsets, so each integer occurs at most once on either shore. Overlap between shores must be cancelled; coefficients after cancellation lie in {-1,0,1}. Repetitions-allowed additive-function arguments are excluded.",
+    "The finite target is exact: H_N has vertex set {2,...,N}; tau(H_N)=o(N) is equivalent to a distinct-factor admissible subset of [N] of size N-o(N), after deleting 1.",
+    "The promoted predecessor theorem is a read-only dependency: w_N(n)=log(N/n)/log N is a fractional cover of every bad support and has total weight (1+o(1))N/log N. It supplies feasibility, not integral rounding.",
+    "A rounding theorem must exploit arithmetic circuit structure. A generic approximation depending on log|E(H_N)|, maximum edge size, or a fixed cutoff is non-success unless its proved total loss is o(log N).",
+    "An all-parameter obstruction must refute a precisely frozen rounding/ownership/coarea mechanism or prove a sharp integrality-gap family. Isolated examples or finite experiments do not count.",
+    "The infinite part requires one set with an actual natural-density limit greater than 1-epsilon. Upper/logarithmic density, density along a subsequence, or unrelated finite optimizers are insufficient.",
+    "One coherent selection/deletion rule may address both parts, but proving tau(H_N)=o(N) alone settles only the finite distinct-Finset subproblem.",
+    "The predecessor campaign erdos-786-distinct-factor-admission-20260824 is immutable and may be cited only through its promoted proof and independent audit.",
+    "Public search for a solution to Erdos 786 is prohibited. Ordinary named background theorems may be used with exact hypotheses."
+  ],
+  "variant_lock": {
+    "allowed": "finite subsets / Finsets of distinct positive integers on each shore",
+    "forbidden": "multisets, repetition on a shore, or arbitrary integer coefficients",
+    "cancelled_coefficients": "{-1,0,1}",
+    "exceptional_elements": "delete 1; 0 is excluded from positive-density admissible sets"
+  },
+  "read_only_dependency": {
+    "campaign": "../erdos-786-distinct-factor-admission-20260824",
+    "theorem": "For every N>=2, w_N(n)=log(N/n)/log N is a fractional transversal of H_N of exact total (N log N-log(N!))/log N-1=(1+o(1))N/log N.",
+    "audit": "../erdos-786-distinct-factor-admission-20260824/audit/independent_audit.md"
+  },
+  "exact_subproblems": {
+    "finite": "Prove tau(H_N)=o(N) for the full unbounded-length bad-relation hypergraph.",
+    "rounding": "Give a uniform arithmetic rounding/ownership rule whose integral cost is o(N), or an all-parameter theorem refuting one precisely frozen such rule.",
+    "infinite": "For every epsilon>0 construct one distinct-Finset admissible A subset N with natural density greater than 1-epsilon; this needs coherence beyond independently optimized finite transversals."
+  }
+}

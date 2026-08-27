@@ -1,0 +1,55 @@
+{
+  "exact_statement": "Let b be a prime. Prove an all-parameter support-minimal unequal-cardinality equal-product relation on distinct integers inside a fixed multiplicative tail (b^K/C_b,b^K], with logarithmic support and an ordered path prime-incidence graph, and use it to determine whether every o(N) deletion rule built from a lower threshold and sparse bounded prime-valuation observations must fail to hit some bad support. Any theorem must state the observation model exactly and must not claim tau(H_N)=o(N), an integral lower bound, or resolution of Erdos 786.",
+  "source": "amra-research-loop/campaigns/erdos-786-integral-rounding-20260824; amra-research-loop/campaigns/erdos-786-residue-aware-rounding-20260824",
+  "success_conditions": [
+    "standalone_decisive_lemma"
+  ],
+  "non_success_conditions": [
+    "additional_local_branch",
+    "finite_verification_only",
+    "conditional_bridge",
+    "another_normal_form",
+    "file_or_test_volume",
+    "a_counterexample_for_one_fixed_N",
+    "a_power_tail_N_to_the_1_minus_eta_with_eta_log_N_tending_to_infinity",
+    "an_observation_model_defined_only_after_seeing_the_counterexample",
+    "a_no_go_statement_for_arbitrary_local_or_residue_aware_rounding",
+    "an_integral_transversal_lower_bound_from_one_minimal_relation"
+  ],
+  "scope_notes": [
+    "Variant lock: the two shores are disjoint Finsets of distinct positive integers; after cancellation every coefficient is in {-1,0,1}.",
+    "The fixed-width target is uniform in every sufficiently large exponent K for N=b^K. The multiplicative constant may be absolute or may depend only on b, but not on K, the controlled-prime set, or the relation.",
+    "The controlled valuation observation must be frozen before the counterexample is chosen. A permitted growing controlled-prime set P_K must omit b, lie below the declared roughness cutoff, and have a quantitative positive-density zero-signature cell.",
+    "A valuation-cylinder rule means that outside a lower threshold, deletion membership is constant on every vector (nu_p(n))_{p in P_K}; the theorem may refute this class only and must not be summarized as refuting every local, adaptive, largest-prime, or residue-aware rule.",
+    "The desired corollary is subsequence-valid at N=b^K and is enough to refute a rule claimed to work for every sufficiently large N. It does not imply a lower bound on tau(H_N).",
+    "The previous IR.1 and RR.1--RR.3 campaigns are read-only inputs identified below by file hashes. This campaign may strengthen or combine their scoped obstruction interfaces but may not rewrite their artifacts.",
+    "Public search for a solution of Erdos 786 is prohibited by the predecessor closure contracts. Ordinary named background such as Bertrand's postulate and elementary density estimates is allowed."
+  ],
+  "variant_lock": {
+    "vertices": "distinct integers in {2,...,N}",
+    "relation": "disjoint finite shores with equal products and unequal cardinalities",
+    "minimality": "no proper nonempty signed subrelation on the displayed support",
+    "forbidden": "multisets, repeated vertices, arbitrary integer coefficients, or equality only after asymptotic approximation"
+  },
+  "frozen_observation_model": {
+    "cutoff": "t_K=o(b^K)",
+    "controlled_primes": "P_K is finite, b is not in P_K, max(P_K)<b^floor(K/16), and sum_{p in P_K} 1/p <= 1-delta for one fixed delta>0",
+    "signature": "sigma_K(n)=(nu_p(n))_{p in P_K}",
+    "cylinder_rule": "outside [1,t_K], deletion is membership in a set A_K of complete sigma_K fibres",
+    "success_to_refute": "the resulting deletion is o(N) and meets every bad support for every sufficiently large N"
+  },
+  "read_only_dependencies": [
+    {
+      "campaign": "../erdos-786-integral-rounding-20260824",
+      "artifact": "evidence/OBSTRUCTION_ANALYSIS.md",
+      "sha256": "f77e8a97e7c04a20762f66ce21544dd1acecf0f2c41133fee2d9f219affb8ae1",
+      "result": "IR.1 moving power-thin support-minimal path relation"
+    },
+    {
+      "campaign": "../erdos-786-residue-aware-rounding-20260824",
+      "artifact": "evidence/OBSTRUCTION_ANALYSIS.md",
+      "sha256": "bfd87ac964f823fd8e64e1d188260d7c7bfa741d5888dd641451a8c91dcdd6ea",
+      "result": "RR.1 ordered rough path and RR.2 universal residue extension"
+    }
+  ]
+}

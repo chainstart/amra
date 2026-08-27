@@ -1,0 +1,144 @@
+{
+  "mechanisms": [
+    {
+      "id": "M786U-01",
+      "representation_id": "R786U-01",
+      "family": "geometric-construction",
+      "decisive_claim": "For every prime b and all sufficiently large K, with m=floor(K/16), there is a support-minimal bad path relation of 2m+1 distinct P_K-coprime integers in (b^K/b^19,b^K], uniformly for controlled primes below b^m and different from b.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Derive exact Bertrand, ceiling-error, decrement, nonnegativity, distinctness, and support-minimality inequalities for every sufficiently large K.",
+      "status": "surviving",
+      "created_at": "2026-08-26T15:27:08+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T15:29:02+00:00"
+    },
+    {
+      "id": "M786U-02",
+      "representation_id": "R786U-02",
+      "family": "geometric-construction",
+      "decisive_claim": "The same fixed-width theorem follows with s=floor(K/2) and tail constant b^4 using repeated Bertrand intervals alone.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Apply the worst-case Bertrand bound to the largest product of two edge primes and compare its base-b exponent with K.",
+      "status": "killed",
+      "created_at": "2026-08-26T15:27:08+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T15:29:02+00:00"
+    },
+    {
+      "id": "M786U-03",
+      "representation_id": "R786U-03",
+      "family": "incidence-symmetry",
+      "decisive_claim": "The path relation can be padded so that every vertex has the same valuation at the padding prime b, making the full controlled signature identical even when b is observed.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Sum the b-valuations on the two unequal shores under the assumption that every vertex has one common value.",
+      "status": "killed",
+      "created_at": "2026-08-26T15:27:08+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T15:29:02+00:00"
+    },
+    {
+      "id": "M786U-04",
+      "representation_id": "R786U-04",
+      "family": "incidence-symmetry",
+      "decisive_claim": "A connected regular bipartite edge-prime graph can have unequal part sizes and gives a locally indistinguishable support-minimal bad relation.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Equate the number of edges counted from the two parts of a positive-degree regular bipartite graph.",
+      "status": "killed",
+      "created_at": "2026-08-26T15:27:08+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T15:29:02+00:00"
+    },
+    {
+      "id": "M786U-05",
+      "representation_id": "R786U-05",
+      "family": "valuation-cylinders",
+      "decisive_claim": "The zero controlled-valuation fibre can be used even when the padding prime b belongs to the controlled set.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Inspect the positive b-adic padding exponents of the constructed vertices and compare with the zero signature.",
+      "status": "killed",
+      "created_at": "2026-08-26T15:27:08+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T15:29:02+00:00"
+    },
+    {
+      "id": "M786U-06",
+      "representation_id": "R786U-07",
+      "family": "valuation-cylinders",
+      "decisive_claim": "For every growing controlled-prime set below b^m, any o(N) union of valuation fibres must retain the all-zero fibre.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Take increasingly many small primes and test whether the count of integers avoiding all of them remains a positive fraction of N.",
+      "status": "killed",
+      "created_at": "2026-08-26T15:27:08+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T15:29:02+00:00"
+    },
+    {
+      "id": "M786U-07",
+      "representation_id": "R786U-06",
+      "family": "valuation-cylinders",
+      "decisive_claim": "If sum over controlled primes of 1/p is at most 1-delta, then every o(N) lower-threshold plus complete valuation-cylinder deletion misses a support-minimal bad relation for N=b^K along all sufficiently large K.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Prove a delta N lower bound for the zero fibre, force that fibre to be retained, and place every constructed vertex above the o(N) cutoff with zero signature.",
+      "status": "surviving",
+      "created_at": "2026-08-26T15:27:08+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T15:29:02+00:00"
+    },
+    {
+      "id": "M786U-08",
+      "representation_id": "R786U-09",
+      "family": "adaptive-local-rules",
+      "decisive_claim": "One constant-width path relation refutes every adaptive local or residue-aware owner rule with o(N) total deletion cost.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Allow the rule to select one distinguished vertex of this single relation and check whether any global lower bound follows.",
+      "status": "killed",
+      "created_at": "2026-08-26T15:27:08+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T15:29:02+00:00"
+    },
+    {
+      "id": "M786U-09",
+      "representation_id": "R786U-08",
+      "family": "probabilistic-rounding",
+      "decisive_claim": "For independent deletion with q_K(n)<=g_K log(N/n)/log N and g_K=o(log N), no unaltered sample is a transversal almost surely for every sufficiently large N.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Use the constant-width path to bound all q_K(n)<1 and show its vertices jointly survive with strictly positive probability.",
+      "status": "surviving",
+      "created_at": "2026-08-26T15:27:08+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T15:29:02+00:00"
+    },
+    {
+      "id": "M786U-10",
+      "representation_id": "R786U-10",
+      "family": "global-transversal",
+      "decisive_claim": "The logarithmic support size of one constant-width minimal relation implies tau(H_N) is at least a positive multiple of log N.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Compute the hitting number of a hypergraph containing only the displayed edge and determine what additional packing would be required.",
+      "status": "killed",
+      "created_at": "2026-08-26T15:27:08+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T15:29:02+00:00"
+    }
+  ]
+}

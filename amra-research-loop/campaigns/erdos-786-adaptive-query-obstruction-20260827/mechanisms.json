@@ -1,0 +1,172 @@
+{
+  "mechanisms": [
+    {
+      "id": "M786Q-01",
+      "representation_id": "R786Q-01",
+      "family": "geometric-scaling",
+      "decisive_claim": "For every prime b and every sequence 0<epsilon_K<1/2 with epsilon_K^2 K tending to infinity, there is a support-minimal bad path on 2 floor(epsilon_K K/4)+1 vertices above N/b^(D_K+1), D_K=ceil(8/epsilon_K+1), avoiding every prescribed prime below b^floor((1/2-epsilon_K)K).",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Prove exact Bertrand, exponent-reserve, balancing, distinctness, and minimality bounds uniformly for the moving parameter.",
+      "status": "surviving",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    },
+    {
+      "id": "M786Q-02",
+      "representation_id": "R786Q-02",
+      "family": "geometric-scaling",
+      "decisive_claim": "The same parameterized construction works under the weaker hypothesis epsilon_K K tending to infinity.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Take epsilon_K comparable to K^(-1/2) and compare the epsilon_K K padding reserve with the order 1/epsilon_K balancing decrement.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    },
+    {
+      "id": "M786Q-03",
+      "representation_id": "R786Q-02",
+      "family": "geometric-scaling",
+      "decisive_claim": "The moving-epsilon construction stays in one fixed multiplicative tail independent of epsilon_K even when epsilon_K tends to zero.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Lower-bound the maximum balancing decrement when s_K is order epsilon_K K and epsilon_K tends to zero.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    },
+    {
+      "id": "M786Q-04",
+      "representation_id": "R786Q-03",
+      "family": "geometric-scaling",
+      "decisive_claim": "The path host can avoid every controlled prime up to N^(1/2+eta) for fixed eta>0 while all vertices remain at most N.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Inspect an internal vertex incident to two edge primes both exceeding N^(1/2+eta).",
+      "status": "killed",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    },
+    {
+      "id": "M786Q-05",
+      "representation_id": "R786Q-04",
+      "family": "adaptive-deterministic",
+      "decisive_claim": "Every o(N) deterministic uniform valuation-query tree whose finite all-zero branch omits b, queries primes below N^(1/2-epsilon), and has reciprocal mass at most 1-delta misses a support-minimal bad relation for all sufficiently large N=b^K.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Force the zero leaf to retain by its delta N-t population, then construct a bad path avoiding exactly the primes on that adaptive branch.",
+      "status": "surviving",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    },
+    {
+      "id": "M786Q-06",
+      "representation_id": "R786Q-07",
+      "family": "randomized-shared-seed",
+      "decisive_claim": "For a shared-seed randomized uniform valuation-query tree satisfying the same seedwise zero-branch hypotheses, Pr(the output deletion is a transversal)<=E|D|/(delta N-t); hence expected o(N) cost has success probability o(1).",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Condition on the seed, prove success implies zero-leaf deletion, charge delta N-t vertices on that event, and take expectations.",
+      "status": "surviving",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    },
+    {
+      "id": "M786Q-07",
+      "representation_id": "R786Q-08",
+      "family": "density-boundaries",
+      "decisive_claim": "The randomized success bound remains valid with no uniform lower bound on the seedwise all-zero population.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Use zero branches querying growing initial prime sets whose coprime density tends to zero and delete that complete branch at o(N) cost.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    },
+    {
+      "id": "M786Q-08",
+      "representation_id": "R786Q-09",
+      "family": "density-boundaries",
+      "decisive_claim": "The zero-branch theorem remains valid when the padding prime b is queried and receives valuation zero.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Use b-adic product balance on unequal shores and inspect the positive, nonconstant padding valuations in the path construction.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    },
+    {
+      "id": "M786Q-09",
+      "representation_id": "R786Q-10",
+      "family": "scope-boundaries",
+      "decisive_claim": "The same no-go theorem holds when every integer is classified by its own hard-coded valuation-query program.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Encode an exact target label into each program and delete one chosen vertex of every displayed path without a common zero transcript.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    },
+    {
+      "id": "M786Q-10",
+      "representation_id": "R786Q-11",
+      "family": "scope-boundaries",
+      "decisive_claim": "The zero-branch expectation bound also rules out a global post-classification alteration that may inspect missed bad supports.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "After a seedwise zero branch retains the constructed path, delete one of its vertices as a repair and test whether the original population charge applies.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    },
+    {
+      "id": "M786Q-11",
+      "representation_id": "R786Q-12",
+      "family": "scope-boundaries",
+      "decisive_claim": "Conditioning converts fresh independent query randomness for every input integer into one common deterministic tree covered by the shared-seed theorem.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Condition on all per-input coins and check whether the resulting classifier is one uniform program or a different hard-coded program for each integer.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    },
+    {
+      "id": "M786Q-12",
+      "representation_id": "R786Q-06",
+      "family": "randomized-shared-seed",
+      "decisive_claim": "A seedwise adversarial relation is invalid because the bad support must be chosen before the random seed is sampled.",
+      "would_close": [
+        "standalone_decisive_lemma"
+      ],
+      "kill_test": "Use the definition of a transversal, which must meet all hypergraph edges for each realized deletion set, and test whether an edge may witness failure after the set is fixed.",
+      "status": "killed",
+      "created_at": "2026-08-26T16:11:16+00:00",
+      "status_evidence": "evidence/MECHANISM_FALSIFICATION.md",
+      "updated_at": "2026-08-26T16:13:11+00:00"
+    }
+  ]
+}

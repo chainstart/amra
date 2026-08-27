@@ -1,0 +1,39 @@
+{
+  "tests": [
+    {
+      "mechanism_id": "M786U-02",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786U-02-half-logarithmic-scaling-is-not-certified-by-Bertrand-alone"
+    },
+    {
+      "mechanism_id": "M786U-03",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786U-03-the-padding-prime-cannot-have-one-common-valuation"
+    },
+    {
+      "mechanism_id": "M786U-04",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786U-04-positive-regularity-forces-equal-shore-sizes"
+    },
+    {
+      "mechanism_id": "M786U-05",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786U-05-the-padding-prime-must-be-outside-the-zero-signature"
+    },
+    {
+      "mechanism_id": "M786U-06",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786U-06-dense-growing-prime-sets-have-a-vanishing-zero-fibre"
+    },
+    {
+      "mechanism_id": "M786U-08",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786U-08-one-edge-does-not-refute-adaptive-global-owners"
+    },
+    {
+      "mechanism_id": "M786U-10",
+      "outcome": "killed",
+      "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786U-10-support-size-is-not-a-transversal-lower-bound"
+    }
+  ]
+}

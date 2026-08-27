@@ -1,0 +1,13 @@
+{
+  "tests": [
+    {"mechanism_id": "M786S-02", "outcome": "killed", "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786S-02-Bertrand-does-not-count-a-fixed-dyadic-reservoir"},
+    {"mechanism_id": "M786S-03", "outcome": "killed", "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786S-03-A-equals-3-fails-the-frozen-worst-case-budget"},
+    {"mechanism_id": "M786S-05", "outcome": "killed", "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786S-05-two-super-square-root-labels-exceed-N"},
+    {"mechanism_id": "M786S-06", "outcome": "killed", "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786S-06-disconnection-creates-a-proper-bad-component"},
+    {"mechanism_id": "M786S-08", "outcome": "killed", "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786S-08-off-zero-query-primes-are-irrelevant"},
+    {"mechanism_id": "M786S-09", "outcome": "killed", "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786S-09-o-of-N-cost-is-not-small-relative-to-an-o-of-N-zero-population"},
+    {"mechanism_id": "M786S-10", "outcome": "killed", "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786S-10-one-global-repair-hits-one-witness-path"},
+    {"mechanism_id": "M786S-11", "outcome": "killed", "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786S-11-private-coins-condition-to-nonuniform-programs"},
+    {"mechanism_id": "M786S-12", "outcome": "killed", "evidence": "evidence/MECHANISM_FALSIFICATION.md#M786S-12-finite-prime-counts-do-not-supply-an-asymptotic-theorem"}
+  ]
+}
