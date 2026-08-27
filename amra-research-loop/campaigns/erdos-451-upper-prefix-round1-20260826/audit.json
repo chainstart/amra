@@ -16,6 +16,7 @@
       "audit/m10_round1_cross_audit_by_m05.md",
       "audit/m10_discrete_time_fejer_bridge_cross_audit.md",
       "audit/m10_discrete_spectral_norm_ledger_author_audit.md",
+      "audit/m10_prime_gap_zero_band_author_audit.md",
       "audit/six_hour_rounds_final_scope_audit.md"
     ]
   }

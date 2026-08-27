@@ -5,7 +5,7 @@
   "title": "Fixed-prefix upper-bound attack for Erdos 451",
   "phase": "survivor_deepening",
   "created_at": "2026-08-26T06:17:07+00:00",
-  "updated_at": "2026-08-26T19:00:00+00:00",
+  "updated_at": "2026-08-27T00:54:00+00:00",
   "gates": {
     "min_representation_families": 4,
     "min_representations": 8,
@@ -60,6 +60,12 @@
       "event": "six_hour_research_freeze",
       "phase": "survivor_deepening",
       "details": "Completed three guarded rounds from 2026-08-26 22:05 HKT. The exact discrete Fejer reduction and width-one fibre elimination are proved, but the weighted joint CRT tail remains open; no closure condition or public exponent changed."
+    },
+    {
+      "at": "2026-08-27T00:54:00+00:00",
+      "event": "final_tail_sprint_freeze",
+      "phase": "survivor_deepening",
+      "details": "The final guarded M10 sprint proved, using Baker--Harman--Pintz, a quotient-gap zero band through k^(59/40)/4 for gamma=1 and k^(59/40)/(4p_0) for the width-one dilation. The remaining density-scale weighted tail is still open; no closure condition or public exponent changed."
     }
   ]
 }

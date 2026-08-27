@@ -1,8 +1,11 @@
 {
-  "statement": "Conditional discrete weighted-prefix lemma. For the balanced local triangular probabilities on the actual Erdos-451 residue intervals, let L_G be the product AM-GM mass and Q_{h,gamma}=sum_{|ell|<h}(1-|ell|/h) product_i phi_i(gamma ell), with gamma=1, or with gamma=p_0 after exact elimination of the width-one prime p_0=k+1. Prove uniformly at the reciprocal-density window that Q_{h,gamma}<=h/L_G+K^m for an absolute K (equivalently, prove the sufficient weighted centered-arc discrepancy at fixed-exponential loss). Then one fixed C>2K and a polynomial factor k^B give the exact discrete spectral inequality and hence n_k=exp(o(k)). The discrete bridge and the width-one elimination are proved; this joint tail bound is not.",
+  "statement": "Conditional discrete weighted-prefix lemma. For the balanced local triangular probabilities on the actual Erdos-451 residue intervals, let L_G be the product AM-GM mass and Q_{h,gamma}=sum_{|ell|<h}(1-|ell|/h) product_i phi_i(gamma ell), with gamma=1, or with gamma=p_0 after exact elimination of the width-one prime p_0=k+1. Prove uniformly at the reciprocal-density window that Q_{h,gamma}<=h/L_G+K^m for an absolute K (equivalently, prove the sufficient weighted centered-arc discrepancy at fixed-exponential loss). Then one fixed C>2K and a polynomial factor k^B give the exact discrete spectral inequality and hence n_k=exp(o(k)). The discrete bridge and width-one elimination are proved. The final sprint also proves polynomial zero bands through k^(59/40)/4 for gamma=1 and k^(59/40)/(4p_0) for gamma=p_0 using Baker--Harman--Pintz; the subexponentially longer joint tail is not proved.",
   "status": "conditional",
   "closes": [],
   "evidence": [
+    "evidence/m10_prime_gap_zero_band_final_round.md",
+    "audit/m10_prime_gap_zero_band_author_audit.md",
+    "evidence/m10_prime_gap_zero_band_replay.txt",
     "evidence/six_hour_rounds_20260826_2205_to_20260827_0405.md",
     "work/m10_round1/discrete_time_fejer_bridge_round3.md",
     "evidence/m10_discrete_spectral_norm_ledger_round3.md",
@@ -105,7 +108,7 @@
     "The exact discrete bridge repairs both defects. If k+1 is prime, summing that frequency fibre with h=p_0 H reduces the problem exactly to one specific dilation gamma=p_0 on the remaining primes, at only polynomial physical-window cost.",
     "Global L1, global L2, every fixed or growing separated Holder ledger, support-only larger sieve, and proper-subset complete-period conditioning lose exp(Theta(k)) or a forbidden relative factor. These are scoped method no-goes, not lower bounds on the true coupled sum.",
     "For the positive compact dual, every fixed exponential base C<2 is impossible even with a polynomial factor. The literal B=0,C=2 specialization has four exact finite failures for 10<=k<=50; all 33 eligible B=0,C=5/2 systems passed, but this is finite evidence only.",
-    "For gamma=1, the entire dual prefix |ell|<k is now controlled: |ell|<k/2 contributes O(k/m)=O(log k), while k/2<=|ell|<k has identically zero product. This does not control the exponentially longer |ell|>=k tail and does not transfer to gamma=p_0.",
+    "The Baker--Harman--Pintz short-interval theorem now gives a polynomial zero band: after an O(k) transition cost, gamma=1 is controlled through k^(59/40)/4; after O(1) initial cost, the specific gamma=p_0 dilation is controlled through k^(59/40)/(4p_0). These are affordable additive prefixes but do not control the subexponentially longer density-scale tail.",
     "The exact support quotient intervals leave gaps of length 2k/(2q+1), which are of scale k^2/N for N=gamma ell. Once N exceeds a fixed constant multiple of k^2, all active gaps are shorter than one; fixed-q prime counting is therefore an exact reparameterization of the original multiple-free obstruction and loses the triangular distance product.",
     "The campaign remains in survivor_deepening with closes=[] because the weighted joint tail theorem is open. Same-model cross-audits passed the exact reductions, but no independent promotion audit or novelty check has started."
   ]
